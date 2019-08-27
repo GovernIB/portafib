@@ -39,6 +39,9 @@ public class RestFirmaUtils<K extends ApisIBKeyValue> extends RestUtilsErrorMana
 
   @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
   protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
+  
+  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
 
 
   /**

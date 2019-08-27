@@ -962,6 +962,10 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     }
 
     // Custodia
+    jpa.setCustodiaInfo(null);
+    jpa.setCustodiaInfoID(null);
+    /* XYZ ZZZ ZZZ Es suposa que en el CreateFull de PeticioDeFirmaLogica 
+     * ja fara el que toqui.
     {
       CustodiaInfoJPA custodiaInfoJPA = getPoliticaCustodiaDeConfig(usrapp, entitatJPA);
       if (custodiaInfoJPA == null) {
@@ -973,6 +977,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
         jpa.setCustodiaInfo(custodiaCloned);
       }
     }
+    */
 
     // Metadades
     List<FirmaAsyncSimpleMetadata> metadades = signatureRequest.getMetadadaList();

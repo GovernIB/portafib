@@ -1,6 +1,8 @@
 package es.caib.portafib.ws.v1.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
@@ -25,6 +27,7 @@ import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
 import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 import es.caib.portafib.ws.v1.utils.PassarelaConversion;
 
@@ -114,9 +117,15 @@ public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarela
     
     
     //String baseUrl =LogicUtils.getUrlBase(perfilDeFirma);
+    
+    final int origenPeticioDeFirma = ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_PASSARELA_WEB;
+    // Tots valdran TD99
+    final Map<String,Long> tipusDocumentalBySignID = new HashMap<String, Long>();
+
 
     return passarelaDeFirmaWebEjb.startTransaction(
-        pss, userapp.getEntitatID(), fullView, userapp, pcf.perfilDeFirma, pcf.configBySignID);
+        pss, userapp.getEntitatID(), fullView, userapp, pcf.perfilDeFirma,
+        pcf.configBySignID,tipusDocumentalBySignID,  origenPeticioDeFirma);
   }
 
   @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })

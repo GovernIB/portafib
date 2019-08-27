@@ -249,7 +249,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
         
         final int posTaulaDeFirmes = pfis.getSignaturesTableLocation();
 
-        final IPortaFIBDataSource adaptat = new FileDataSource( getFitxerAdaptatPath(signaturesSetID, pfis.getSignID()));
+        final IPortaFIBDataSource adaptat = new FileDataSource(getFitxerAdaptatPath(signaturesSetID, pfis.getSignID()));
         
         final IPortaFIBDataSource signature = new FileDataSource(status.getSignedData());
 

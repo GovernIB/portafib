@@ -34,6 +34,7 @@ import es.caib.portafib.jpa.validator.PeticioDeFirmaBeanValidator;
 import es.caib.portafib.logic.events.FirmaEventList;
 import es.caib.portafib.logic.events.FirmaEventManagerLocal;
 import es.caib.portafib.logic.utils.AttachedFile;
+import es.caib.portafib.logic.utils.CustodiaForStartPeticioDeFirma;
 import es.caib.portafib.logic.utils.EmailInfo;
 import es.caib.portafib.logic.utils.EmailUtil;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
@@ -41,7 +42,6 @@ import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
-import es.caib.portafib.logic.utils.StampCustodiaInfo;
 import es.caib.portafib.logic.utils.StampTaulaDeFirmes;
 import es.caib.portafib.logic.utils.ValidacioCompletaRequest;
 import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
@@ -91,13 +91,13 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
-import org.fundaciobit.genapp.common.i18n.I18NCommonDateTimeFormat;
 import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NFieldError;
@@ -116,12 +116,8 @@ import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.plugins.documentcustody.api.CustodyException;
-import org.fundaciobit.plugins.documentcustody.api.DocumentCustody;
 import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 import org.fundaciobit.plugins.documentcustody.api.NotSupportedCustodyException;
-import org.fundaciobit.plugins.documentcustody.api.SignatureCustody;
-import org.fundaciobit.pluginsib.barcode.IBarcodePlugin;
-import org.fundaciobit.pluginsib.core.utils.PluginsManager;
 import org.hibernate.Hibernate;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
@@ -129,9 +125,9 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+
 import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -147,7 +143,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
@@ -155,8 +150,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
- * @author anadal
+ * 
+ * @author anadal(u80067)
  *
  */
 @Stateless(name = "PeticioDeFirmaLogicaEJB")
@@ -428,8 +423,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     // ======= Check de Custòdia ==========
     {
-      CustodiaInfo ci = custodiaInfoLogicaEjb.getAllowedCustodyInfo(peticioDeFirma, entitatJPA,
-          usuariAplicacio, usuariEntitat);
+      CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodyInfoOnCreatePeticio(peticioDeFirma, entitatJPA,
+          usuariEntitat, usuariAplicacio);
 
       if (ci == null) {
         peticioDeFirma.setCustodiaInfoID(null);
@@ -684,8 +679,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     // estat NO_INICIAT o si esta PAUSAT !!!!
 
     File dstPDF = null;
-    String custodyID = null;
-    IDocumentCustodyPlugin plugin = null;
+    CustodiaForStartPeticioDeFirma custodiaForStartPeticioDeFirma = null;
     int currentState = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
     try {
 
@@ -707,96 +701,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         // Reserva de ID de custodia
         CustodiaInfo custodiaInfo = null;
         if (peticioDeFirma.getCustodiaInfoID() != null) {
-          
           custodiaInfo = peticioDeFirma.getCustodiaInfo();
-          
-          //custodiaInfo = custodiaInfoLogicaEjb.findByPrimaryKey(peticioDeFirma
-          //    .getCustodiaInfoID());
-          if (custodiaInfo.isCustodiar()) {
-            plugin = pluginDeCustodiaLogicaEjb.getInstanceByPluginID(custodiaInfo
-                .getPluginID());
-
-            log.info(" BLOC FIRMES ORIGINAL = "
-                + peticioDeFirma.getFluxDeFirmes().getBlocDeFirmess().size());
-
-            // CustodyParameter conté la peticio de Firma en Format XML
-            // la còpia es fa per evitar modificacions de la instància interna
-            Map<String, Object> parameters = getAdditionalParametersForDocumentCustody(
-                peticioDeFirma, null, custodiaInfo);
-            
-            // XYZ ZZZ ZZZ Llevar tot aquest bloc o posar-ho en DEBUG
-            /*
-            {
-              long pluginID = custodiaInfo.getPluginID();
-              String plantilla = pluginDeCustodiaLogicaEjb.executeQueryOne(PluginFields.PROPERTIESADMIN, PluginFields.PLUGINID.equal(pluginID));
-              
-              Properties prop = new Properties();
-              prop.load(new StringReader(plantilla));
-  
-              Set<Object> keys = prop.keySet();
-              
-              
-              log.info("getSolicitantUsuariEntitat1 => " + peticioDeFirma.getSolicitantUsuariEntitat1());
-              log.info("getSolicitantUsuariEntitat1.getUsuariPersona() => " + peticioDeFirma.getSolicitantUsuariEntitat1().getUsuariPersona());
-              log.info("getSolicitantUsuariEntitat1.getUsuariPersona().getNif() => " + peticioDeFirma.getSolicitantUsuariEntitat1().getUsuariPersona().getNif());
-              
-              log.info("\n\n ================== PLANTILLA CUSTODIA\n\n" + plantilla + "\n\n\n");
-              
-              StringBuffer res = new StringBuffer();
-              
-              for(Object key : keys) {
-                
-                String value = prop.getProperty((String)key);
-                
-                if (value.contains("firma.") || value.contains("peticio.custodiaInfo.custodiaDocumentID")) {
-                  res.append(key).append(" => **NM**]").append(value).append("[\n");
-                } else {
-                  String tmp = org.fundaciobit.pluginsib.utils.templateengine.TemplateEngine.processExpressionLanguage(value, parameters);
-                  res.append(key).append(" => ]").append(tmp).append("[\n");
-                }
-                
-              }
-
-              log.info("\n\n ================== PARAMETRES PLUGIN CUSTODIA\n\n" + res.toString() + "\n\n\n");
-            }
-            */
-
-            // PUNT IMPORTANT => RESERVA DE l'ID DE CUSTODIA
-            custodyID = plugin.reserveCustodyID(parameters);
-
-
-            // TODO Check custodyID != null
-            custodiaInfo.setCustodiaDocumentID(custodyID);
-            String url = plugin.getOriginalFileUrl(custodyID, parameters);
-            custodiaInfo.setUrlFitxerCustodiat(url);
-
-            custodiaInfo.setTitolPeticio(peticioDeFirma.getTitol());
-            custodiaInfo.setDataCustodia(new Timestamp(new Date().getTime()));
-
-            // PORTAFIB2: Nous camps de CustodyInfo #280
-            custodiaInfo.setCsv(plugin.getCsv(custodyID, parameters));
-            custodiaInfo.setCsvGenerationDefinition(plugin.getCsvGenerationDefinition(custodyID, parameters));
-            custodiaInfo.setCsvValidationWeb(plugin.getCsvValidationWeb(custodyID, parameters));
-            custodiaInfo.setOriginalFileDirectUrl(plugin.getOriginalFileUrl(custodyID, parameters));
-            custodiaInfo.setPrintableFileDirectUrl(plugin.getPrintableFileUrl(custodyID, parameters));
-            custodiaInfo.setEniFileDirectUrl(plugin.getEniFileUrl(custodyID, parameters));
-            
-            if (log.isDebugEnabled()) {
-              log.debug("custodiaInfo.CsvGenerationDefinition => " +  custodiaInfo.getCsvGenerationDefinition());
-              log.debug("custodiaInfo.getCsvValidationWeb => " +  custodiaInfo.getCsvValidationWeb());
-              log.debug("custodiaInfo.setOriginalFileDirectUrl => " +  custodiaInfo.getOriginalFileDirectUrl());
-              log.debug("custodiaInfo.setPrintableFileDirectUrl => " +  custodiaInfo.getPrintableFileDirectUrl());
-              log.debug("custodiaInfo.setEniFileDirectUrl => " +  custodiaInfo.getEniFileDirectUrl());
-            }
-
-            custodiaInfo.setExpedientArxiuId(null);
-            custodiaInfo.setDocumentArxiuId(null);
-
-            custodiaInfo = custodiaInfoLogicaEjb.update(custodiaInfo);
-          } else {
-            custodiaInfo = null;
-          }
         }
+        
+        custodiaForStartPeticioDeFirma = custodiaInfoLogicaEjb.custodiaCommonActionsOnStartPeticioDeFirma(
+            peticioDeFirma, custodiaInfo);
 
         // Numero de firmes total
         Set<BlocDeFirmesJPA> blocs = flux.getBlocDeFirmess();
@@ -821,7 +730,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
           case ConstantsV2.TIPUSFIRMA_PADES:
             fitxerFinalAFirmarID = thingsToDoInPADES(peticioDeFirma, numFirmes, custodiaInfo,
-                plugin);
+                custodiaForStartPeticioDeFirma);
             dstPDF = FileSystemManager.getFile(fitxerFinalAFirmarID);
           break;
 
@@ -903,10 +812,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         }
       }
 
-      if (ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT != currentState && custodyID != null
-          && plugin != null) {
+      if (ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT != currentState 
+          && custodiaForStartPeticioDeFirma != null) {
         try {
-          plugin.deleteCustody(custodyID);
+          custodiaForStartPeticioDeFirma.plugin.deleteCustody(custodiaForStartPeticioDeFirma.custodyID);
         } catch (Throwable e) {
           log.error(
               "Error desconegut intentant esborrar el document de custodia: " + e.getMessage(),
@@ -926,42 +835,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
   }
 
-  @Override
-  public Map<String, Object> getAdditionalParametersForDocumentCustody(
-      PeticioDeFirmaJPA peticioDeFirma, FirmaJPA firma, CustodiaInfo custodiaInfo) throws I18NException {
 
-    Map<String, Object> additionParameters = new HashMap<String, Object>();
-
-    if (custodiaInfo != null) {
-      String params = custodiaInfo.getCustodiaPluginParameters();
-      if (params != null && params.trim().length() != 0) {
-        // Afegir propietats a additionParameters
-        Properties prop = new Properties();
-        try {
-          prop.load(new StringReader(params));
-        } catch (IOException e1) {
-          log.error(e1.getMessage(), e1);
-        }
-        for (Entry<Object, Object> e : prop.entrySet()) {
-          additionParameters.put(e.getKey().toString(), e.getValue());
-        }
-      }
-    }
-
-    //PeticioDeFirmaJPA pclone = new PeticioDeFirmaJPA(PeticioDeFirmaJPA.copyJPA(peticioDeFirma));
-    additionParameters.put("peticio", peticioDeFirma);
-    
-    if (firma != null) {
-      //FirmaJPA fclone = new FirmaJPA(FirmaJPA.copyJPA(firma));
-      additionParameters.put("firma", firma);
-    }
-
-    return additionParameters;
-  }
+ 
 
   private long thingsToDoInPADES(PeticioDeFirmaJPA peticioDeFirma, int numFirmes,
-      CustodiaInfo custodiaInfo, IDocumentCustodyPlugin plugin) throws Exception,
-      I18NException, I18NValidationException {
+      CustodiaInfo custodiaInfo, 
+      CustodiaForStartPeticioDeFirma custodiaForStartPeticioDeFirma)
+          throws Exception, I18NException, I18NValidationException {
 
     // Attachments
     Set<AnnexJPA> annexesAttached = new HashSet<AnnexJPA>();
@@ -1071,51 +951,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           descLabel, desc, titolLabel, titol, logoSegell);
     }
 
-    // Custodia
-    es.caib.portafib.logic.utils.StampCustodiaInfo custodiaInfoStamp = null;
-    if (custodiaInfo != null) {
-
-      /**
-       * Missatge de custòdia a mostrar en el document. {0} = URL {1} = custodiaID {2} =
-       * custodiaPluginClassID {3} = data amb hora {4} = Special Value
-       */
-
-      String data = new I18NCommonDateTimeFormat(locale).format(new Date());
-
-      Map<String, Object> additionParameters = getAdditionalParametersForDocumentCustody(
-          peticioDeFirma, null, custodiaInfo);
-
-      String custodyID = custodiaInfo.getCustodiaDocumentID();
-      Object[] arguments = new Object[] { custodiaInfo.getUrlFitxerCustodiat(), custodyID,
-          custodiaInfo.getPluginID(), // TODO Posar NOM del Plugin
-          data, plugin.getSpecialValue(custodyID, additionParameters) };
-
-      Properties prop = new Properties();
-      prop.load(new StringReader(custodiaInfo.getMissatge()));
-
-      String msg = prop.getProperty(locale.getLanguage());
-
-      if (msg == null) {
-        throw new I18NException("custodiainfo.missatge.error.format", locale.getLanguage());
-      }
-
-      String missatge = MessageFormat.format(msg, arguments);
-
-      String barcodeText = MessageFormat.format(custodiaInfo.getCodiBarresText(), arguments);
-
-      String javaName = custodiaInfo.getCodiBarresID();
-
-      IBarcodePlugin barcode = (IBarcodePlugin) PluginsManager
-          .instancePluginByClassName(javaName);
-      if (barcode == null) {
-        throw new I18NException("plugin.donotinstantiate", javaName);
-      }
-
-      custodiaInfoStamp = new StampCustodiaInfo(
-          (int) custodiaInfo.getMissatgePosicioPaginaID(), missatge, barcode, barcodeText,
-          custodiaInfo.getPagines());
-
-    }
+    // Custodia *
+    es.caib.portafib.logic.utils.StampCustodiaInfo custodiaInfoStamp;
+    custodiaInfoStamp = custodiaInfoLogicaEjb.custodiaPAdESActionsOnStartPeticioDeFirma(
+        peticioDeFirma, custodiaInfo, custodiaForStartPeticioDeFirma, locale);
 
     // Crear nou fitxer amb taula de firmes i adjunts
     File srcPDF = FileSystemManager.getFile(peticioDeFirma.getFitxerAFirmarID());
@@ -1166,6 +1005,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     }
 
   }
+
+  
 
   // Ficar a l'api
   protected File getLogoOfPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma) throws I18NException {
@@ -1999,23 +1840,17 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
         IDocumentCustodyPlugin plugin;
         plugin = pluginDeCustodiaLogicaEjb.getInstanceByPluginID(custInfo.getPluginID());
-        /*
-         * String pluginClass = custInfo.getCustodiaPluginClassID();
-         * 
-         * IDocumentCustodyPlugin plugin =
-         * PortaFIBPluginsManager.getDocumentCustodyPluginByClassName(pluginClass);
-         * 
-         * if (plugin == null) { throw new I18NException("plugin.donotinstantiate",
-         * pluginClass); }
-         */
-        try {
-          plugin.deleteCustody(custInfo.getCustodiaDocumentID());
-        } catch (NotSupportedCustodyException e) {
-          // TODO Avisar Administrador
-          e.printStackTrace();
-        } catch (CustodyException e) {
-          // TODO Avisar Administrador
-          e.printStackTrace();
+
+        if (custInfo.getCustodiaDocumentID() != null) {
+          try {
+            plugin.deleteCustody(custInfo.getCustodiaDocumentID());
+          } catch (NotSupportedCustodyException e) {
+            // TODO Avisar Administrador
+            log.error("Error esborrant custodia amb ID " + custInfo.getCustodiaDocumentID(), e);
+          } catch (CustodyException e) {
+            // TODO Avisar Administrador
+            log.error("Error esborrant custodia amb ID " + custInfo.getCustodiaDocumentID(), e);
+          }
         }
 
         // Esorram informacio de custòdia
@@ -2221,7 +2056,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
 
       // (a) Validar nova firma si es correcte
-      int tipusFirma = peticioDeFirma.getTipusFirmaID();
 
       IPortaFIBDataSource documentDetached;
       {
@@ -2446,71 +2280,19 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       // 9.- PeticióFinalitzada:
       // 9.1.- PeticióFinalitzada: Custodia
-      if (peticioFinalitzada && peticioDeFirma.getCustodiaInfoID() != null) {
+      if (peticioFinalitzada) {
+        if (peticioDeFirma.getCustodiaInfoID() != null) {
 
-        CustodiaInfo custInfo = custodiaInfoLogicaEjb.findByPrimaryKey(peticioDeFirma
+          CustodiaInfo custInfo = custodiaInfoLogicaEjb.findByPrimaryKey(peticioDeFirma
             .getCustodiaInfoID());
-        if (custInfo != null && custInfo.isCustodiar() && signatureFile != null) {
+          
 
-          IDocumentCustodyPlugin plugin = pluginDeCustodiaLogicaEjb
-              .getInstanceByPluginID(custInfo.getPluginID());
-
-          custInfo.setDataCustodia(new Timestamp(new Date().getTime()));
-          custodiaInfoLogicaEjb.update(custInfo);
-
-          Map<String, Object> additionParameters = getAdditionalParametersForDocumentCustody(
-              peticioDeFirma, firma,  custInfo);
-
-          // Si la firma es DETACHED (o sigui EXPLICID) s'ha de definir DocumentCustody
-          DocumentCustody dc = null;
-          if (tipusFirma != ConstantsV2.TIPUSFIRMA_PADES
-              && peticioDeFirma.getModeDeFirma() == ConstantsV2.SIGN_MODE_EXPLICIT) {
-
-            FitxerJPA fitxerAFirmar = peticioDeFirma.getFitxerAFirmar();
-
-            dc = new DocumentCustody();
-            dc.setData(FileSystemManager.getFileContent(fitxerAFirmar.getFitxerID()));
-            dc.setLength(dc.getData().length);
-            dc.setMime(dc.getMime());
-            dc.setName(dc.getName());
-
-          }
-
-          switch (tipusFirma) {
-            case ConstantsV2.TIPUSFIRMA_PADES: {
-              SignatureCustody sc = new SignatureCustody();
-              sc.setName(peticioDeFirma.getFitxerAFirmar().getNom());
-              sc.setData(FileSystemManager.getFileContent(fileID));
-              sc.setSignatureType(SignatureCustody.PADES_SIGNATURE);
-              sc.setMime(PdfUtils.MIME_TYPE_PDF);
-              plugin.saveAll(custInfo.getCustodiaDocumentID(), additionParameters, null, sc,
-                  null);
-            }
-            break;
-            case ConstantsV2.TIPUSFIRMA_XADES: {
-              SignatureCustody sc = new SignatureCustody();
-              sc.setName(peticioDeFirma.getFitxerAFirmar().getNom());
-              sc.setData(FileSystemManager.getFileContent(fileID));
-              sc.setSignatureType(SignatureCustody.XADES_SIGNATURE);
-              sc.setMime(MIME_TYPE_XML);
-              plugin.saveAll(custInfo.getCustodiaDocumentID(), additionParameters, dc, sc,
-                  null);
-            }
-            break;
-            case ConstantsV2.TIPUSFIRMA_CADES: {
-              SignatureCustody sc = new SignatureCustody();
-              sc.setName(peticioDeFirma.getFitxerAFirmar().getNom());
-              sc.setData(FileSystemManager.getFileContent(fileID));
-              sc.setSignatureType(SignatureCustody.CADES_SIGNATURE);
-              sc.setMime(MIME_TYPE_BINARY);
-              plugin.saveAll(custInfo.getCustodiaDocumentID(), additionParameters, dc, sc,
-                  null);
-            }
-            break;
-            default:
-              throw new Exception("Tipus de Firma " + tipusFirma + " no suportada !!!!");
-          }
-
+          IPortaFIBDataSource fitxerAFirmar = new FitxerIdDataSource(peticioDeFirma.getFitxerAFirmarID());
+          
+          String fitxerAFirmarNom = peticioDeFirma.getFitxerAFirmar().getNom();
+          
+          custodiaInfoLogicaEjb.custodiaThingToDoOnFinishPeticioDeFirma(fitxerAFirmarNom,
+              fitxerAFirmar, signatureFile, peticioDeFirma, firma, custInfo);
         }
 
       }
@@ -2614,6 +2396,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
     }
   }
+
 
   @Override
   public void cleanOriginalFilesOfPeticioDeFirma(Long peticioDeFirmaID) throws I18NException {
@@ -3084,9 +2867,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // Esborrar Notificacions
       notificacioWsEjb.delete(NotificacioWSFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
-      // TODO Esborrar Bitacoles ????
-      // bitacolaEjb.delete(BitacolaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
-
       peticio.setAvisWeb(false);
  
       // Esborrar Fitxers Firmats, AnnexosFirmats i Estats de Firma
@@ -3482,12 +3262,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         } else {
 
           // Cas 4: Ara hi ha custodia default i la petició també en tenia
-
           if (custodiaInfo_Entitat_Allowed.isEditable()) {
             // Feim una còpia de l'actual
             cloneCustodiaInfo(peticio, custodiaInfo_Peticio_Current, false);
             // Per si s'ha canviat el plugin de CustodyInfo de l'entitat
-            peticio.getCustodiaInfo().setPluginID(custodiaInfo_Entitat_Allowed.getPluginID());
+            //peticio.getCustodiaInfo().setPluginID(custodiaInfo_Entitat_Allowed.getPluginID());
           } else {
             // Feim una copia de la plantilla de l'entitat
             cloneCustodiaInfo(peticio, custodiaInfo_Entitat_Allowed, false);
@@ -4100,8 +3879,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             UsuariEntitatFields.CARREC.isNull() )) == 1;
   }
 
-  
-public CustodiaInfo addCustodiaInfoToPeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA) throws I18NException, I18NValidationException {
+  @Override
+  public CustodiaInfo addCustodiaInfoToPeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA) throws I18NException, I18NValidationException {
 
     
     
@@ -4139,12 +3918,12 @@ public CustodiaInfo addCustodiaInfoToPeticioDeFirma(long peticioDeFirmaID, Entit
         constructDefaultCustodiaInfo(peticio.getTitol(), entitatID, usuariEntitatID,
          peticio.getSolicitantUsuariAplicacioID(), peticio.getIdiomaID()));
          */
-   CustodiaInfo ci = custodiaInfoLogicaEjb.getAllowedCustodyInfo(peticio, entitatJPA);
+   CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodyInfoOnAddCustodyToPeticio(peticio, entitatJPA);
    
    
    
    if (ci == null) {
-     log.info("XYZ ZZZ  addCustodiaInfoToPeticioDeFirma:: getAllowedCustodyInfo() == null");
+     log.info("XYZ ZZZ  addCustodiaInfoToPeticioDeFirma:: searchDefaultCustodyInfo() == null");
      return null;
    }
 

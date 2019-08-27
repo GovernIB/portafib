@@ -319,9 +319,10 @@ public class ApiFirmaEnServidorSimpleTester {
     
     int signNumber = 1;
     String languageSign = "ca";
+    long tipusDocumentalID = 99; // =TD99
 
     FirmaSimpleFileInfoSignature fileInfoSignature = new FirmaSimpleFileInfoSignature(
-        fileToSign, signID, name, reason, location, signNumber, languageSign);
+        fileToSign, signID, name, reason, location, signNumber, languageSign, tipusDocumentalID);
 
     String languageUI = "ca";
     // Es la configuració del Servidor (deixam el valor per defecte)

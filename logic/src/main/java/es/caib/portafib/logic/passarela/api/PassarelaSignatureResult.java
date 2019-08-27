@@ -18,11 +18,6 @@ public class PassarelaSignatureResult extends PassarelaSignatureStatus {
   
   protected PassarelaValidationInfo validationInfo;
 
-
-  public PassarelaSignatureResult() {
-    super();
-  }
-
   public PassarelaSignatureResult(String signID, int status, String errorMessage,
       String errorStackTrace, FitxerBean signedFile, PassarelaCustodyInfo custodyInfo,
       PassarelaValidationInfo validationInfo) {

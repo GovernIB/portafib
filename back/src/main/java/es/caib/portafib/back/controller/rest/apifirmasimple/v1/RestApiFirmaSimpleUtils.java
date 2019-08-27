@@ -4,7 +4,6 @@ import es.caib.portafib.back.controller.rest.RestFirmaUtils;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.passarela.PassarelaKeyValue;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
@@ -19,10 +18,8 @@ import es.caib.portafib.logic.passarela.api.PassarelaValidationInfo;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.model.bean.FitxerBean;
-import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
-import es.caib.portafib.model.fields.CodiBarresFields;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.IOUtils;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
@@ -308,6 +305,8 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
       {
         PassarelaCustodyInfo pci = psr.getCustodyInfo();
 
+        log.info(" XYZ ZZZ ZZZ  convertPassarelaSignatureResult2FirmaSimpleSignatureResult => " + pci);
+        
         if (pci != null) {
           custody = new FirmaSimpleCustodyInfo(pci.getCustodyFileID(),
               pci.getCustodyFileCSV(), pci.getCustodyFileCSVValidationWeb(),
@@ -575,13 +574,8 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
         final boolean useTimeStamp = getUseTimestampOfConfig(usuariAplicacioID, config,
             entitatJPA);
 
-        // TODO #165 De la configuracio de usr-app s'ha obtenir un
-        // "CustodiaInfoBean custodiaInfo" i convertir-lo a
-        // secureVerificationCodeStampInfo
-        final PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo;
-
-        secureVerificationCodeStampInfo = getCustodiaOfUsuari(loginInfo.getUsuariAplicacio(),
-            entitatJPA);
+        // Això ja es farà a PassarelaDeFirmaWebEJB
+        final PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo = null;
 
         fileInfoSignatureArray[i] = new PassarelaFileInfoSignature(fileToSign, prevSign,
             signID, name, reason, location, signerEmail, signNumber, languageSign,
@@ -649,8 +643,6 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
       PassarelaSignaturesSet pss = new PassarelaSignaturesSet(transactionID,
           expiryDate.getTime(), commonInfoSignature, fileInfoSignatureArray);
       return pss;
-    } catch (I18NValidationException ve) {
-      throw ve;
     } catch (I18NException i18ne) {
       throw i18ne;
     } catch (Exception e) {
@@ -703,105 +695,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
     }
   }
 
-  public PassarelaSecureVerificationCodeStampInfo getCustodiaOfUsuari(
-      final UsuariAplicacioJPA usuariAplicacio, // final UsuariAplicacioConfiguracio config,
-      EntitatJPA entitatJPA) throws I18NException, I18NValidationException {
-    final PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo;
-
-    CustodiaInfo custodiaInfo = custodiaInfoLogicaEjb.getCustodiaUA(usuariAplicacio, null,
-        "Passarela Custòdia", entitatJPA);
-
-    if (custodiaInfo == null) {
-      return null;
-    }
-
-    secureVerificationCodeStampInfo = new PassarelaSecureVerificationCodeStampInfo();
-
-    secureVerificationCodeStampInfo.setBarCodePosition((int) custodiaInfo
-        .getCodiBarresPosicioPaginaID());
-    secureVerificationCodeStampInfo.setBarCodeText(custodiaInfo.getCodiBarresText());
-
-    String codiBarresID = custodiaInfo.getCodiBarresID();
-
-    String codiBarresNom = codiBarresEjb.executeQueryOne(CodiBarresFields.NOM,
-        CodiBarresFields.CODIBARRESID.equal(codiBarresID));
-
-    if (codiBarresNom == null) {
-      // TODO Traduir XYZ ZZZ
-      String msg = "No s'ha trobat cap plugin de Codi de Barres amb nom " + codiBarresNom;
-      throw new I18NException("error.unknown", msg);
-    }
-
-    secureVerificationCodeStampInfo.setBarCodeType(codiBarresNom);
-
-    long messagePosition = custodiaInfo.getMissatgePosicioPaginaID();
-    secureVerificationCodeStampInfo.setMessagePosition((int) messagePosition);
-    secureVerificationCodeStampInfo.setMessage(custodiaInfo.getMissatge());
-    secureVerificationCodeStampInfo.setPages(custodiaInfo.getPagines());
-
-    /*
-     * XYZ ZZZ #165 { // CustodiaInfoBean custodiaInfo = config.getCustodiaInfoID() int
-     * politicaCustodia = usuariAplicacio.getPoliticaCustodia(); boolean obtenirDeEntitat =
-     * false; if (politicaCustodia ==
-     * ConstantsV2.POLITICA_CUSTODIA_POLITICA_DE_CUSTODIA_DEFINIDA_EN_ENTITAT) {
-     * obtenirDeEntitat = true; politicaCustodia = entitatJPA.getPoliticaCustodia(); }
-     * 
-     * switch (politicaCustodia) {
-     * 
-     * case ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE: secureVerificationCodeStampInfo = null;
-     * break; case ConstantsV2.POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT: // XYZ ZZZ Traduir
-     * #165 throw new I18NException("genapp.comodi",
-     * "Politica de Custodia no suportada per PortaFIB (Usuari aplicació " +
-     * usuariAplicacio.getUsuariAplicacioID() + ")");
-     * 
-     * case
-     * ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_ENTITAT_PER_DEFECTE_ACTIU:
-     * case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO: long
-     * custodiaInfoID = entitatJPA.getCustodiaInfoID(); if (obtenirDeEntitat) { custodiaInfoID
-     * = entitatJPA.getCustodiaInfoID(); } else { custodiaInfoID =
-     * usuariAplicacio.getCustodiaInfoID(); }
-     * 
-     * CustodiaInfo custodiaInfo = custodiaInfoEjb.findByPrimaryKey(custodiaInfoID);
-     * 
-     * secureVerificationCodeStampInfo = new PassarelaSecureVerificationCodeStampInfo();
-     * 
-     * secureVerificationCodeStampInfo.setBarCodePosition((int) custodiaInfo
-     * .getCodiBarresPosicioPaginaID());
-     * secureVerificationCodeStampInfo.setBarCodeText(custodiaInfo.getCodiBarresText());
-     * 
-     * String codiBarresID = custodiaInfo.getCodiBarresID();
-     * 
-     * String codiBarresNom = codiBarresEjb.executeQueryOne(CodiBarresFields.NOM,
-     * CodiBarresFields.CODIBARRESID.equal(codiBarresID));
-     * 
-     * if (codiBarresNom == null) { // TODO Traduir XYZ ZZZ String msg =
-     * "No s'ha trobat cap plugin de Codi de Barres amb nom " + codiBarresNom; throw new
-     * I18NException("error.unknown", msg); }
-     * 
-     * secureVerificationCodeStampInfo.setBarCodeType(codiBarresNom);
-     * 
-     * long messagePosition = custodiaInfo.getMissatgePosicioPaginaID();
-     * secureVerificationCodeStampInfo.setMessagePosition((int) messagePosition);
-     * secureVerificationCodeStampInfo.setMessage(custodiaInfo.getMissatge());
-     * secureVerificationCodeStampInfo.setPages(custodiaInfo.getPagines()); break;
-     * 
-     * case
-     * ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_ENTITAT_PER_DEFECTE_NO_ACTIU:
-     * secureVerificationCodeStampInfo = null; break;
-     * 
-     * case ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL: throw new
-     * I18NException("genapp.comodi", "Politica de Custodia no suportada per API FIRMA SIMPLE "
-     * + "(Usuari aplicació " + usuariAplicacio.getUsuariAplicacioID() + ")");
-     * 
-     * default: // XYZ ZZZ Traduir throw new I18NException("genapp.comodi",
-     * "Politica de Custòdia desconeguda (" + politicaCustodia + ") en usuari aplicació " +
-     * usuariAplicacio.getUsuariAplicacioID()); }
-     * 
-     * }
-     */
-
-    return secureVerificationCodeStampInfo;
-  }
+ 
 
   protected PerfilDeFirma getPerfilDeFirma(FirmaSimpleCommonInfo commonInfo,
       final boolean esFirmaEnServidor) throws I18NException {

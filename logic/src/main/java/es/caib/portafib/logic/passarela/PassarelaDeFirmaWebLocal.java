@@ -35,7 +35,9 @@ public interface PassarelaDeFirmaWebLocal extends AbstractPassarelaDeFirmaLocal 
   public String startTransaction(PassarelaSignaturesSet signaturesSet, String entitatID,
       boolean fullView, UsuariAplicacioJPA usuariAplicacio,
       PerfilDeFirma perfilDeFirma,
-      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID)
+      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID,
+      Map<String,Long> tipusDocumentalBySignID,
+      int origenPeticioDeFirma)
       throws I18NException, I18NValidationException;
 
   public PassarelaSignatureStatus getStatusTransaction(String transactionID)

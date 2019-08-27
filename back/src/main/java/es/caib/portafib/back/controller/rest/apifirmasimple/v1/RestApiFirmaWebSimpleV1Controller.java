@@ -4,6 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaWebSimple;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleDocumentTypeInformation;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
@@ -16,6 +17,8 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactio
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import org.fundaciobit.genapp.common.query.Where;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.TipusDocumentJPA;
+import es.caib.portafib.jpa.TraduccioMapJPA;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWebInternalUse;
@@ -38,6 +43,9 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.model.entity.PerfilDeFirma;
+import es.caib.portafib.model.entity.TipusDocument;
+import es.caib.portafib.model.fields.TipusDocumentFields;
+import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 import javax.ejb.EJB;
@@ -306,6 +314,98 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
     }
 
   }
+  
+  
+  
+
+  @RequestMapping(value = "/" + ApiFirmaWebSimple.AVAILABLETYPESOFDOCUMENTS, method = RequestMethod.POST)
+  @ResponseBody
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public ResponseEntity<?> getAvailableTypesOfDocuments(HttpServletRequest request,
+      @RequestBody String languageUI) {
+
+    String error = autenticate(request);
+    if (error != null) {
+      return generateServerError(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    // Check de commonInfo
+    if (languageUI == null || languageUI.trim().length() == 0) {
+      // XYZ ZZZ TRA
+      return generateServerError("El parametre d'entrada languageUI no pot ser null o buit.");
+    }
+
+    try {
+
+      LoginInfo loginInfo = commonChecks();
+
+      // Checks usuari aplicacio
+      log.info(" XYZ ZZZ ZZZ Usuari-APP = " + loginInfo.getUsuariAplicacio());
+
+      UsuariAplicacioJPA ua = loginInfo.getUsuariAplicacio();
+
+      String userapp = ua.getUsuariAplicacioID();
+
+      Where whereTD = Where.OR(TipusDocumentFields.USUARIAPLICACIOID.equal(userapp),
+          TipusDocumentFields.USUARIAPLICACIOID.isNull());
+
+      List<TipusDocument> list = tipusDocumentEjb.select(whereTD, new OrderBy(
+          TipusDocumentFields.TIPUSDOCUMENTID));
+
+      /*
+       * 
+       * if (idioma == null || idioma.trim().length() != 2) { idioma = ua.getIdiomaID(); } else
+       * { long count = idiomaEjb.count(Where.AND(IdiomaFields.IDIOMAID.equal(idioma),
+       * IdiomaFields.SUPORTAT.equal(true))); if (count == 0) { idioma = ua.getIdiomaID(); } }
+       */
+
+      List<FirmaSimpleDocumentTypeInformation> tipus = new ArrayList<FirmaSimpleDocumentTypeInformation>();
+      for (TipusDocument td : list) {
+
+        TraduccioMapJPA tramap;
+        tramap = ((TipusDocumentJPA) td).getNom().getTraduccio(languageUI);
+        if (tramap == null) {
+          tramap = ((TipusDocumentJPA) td).getNom().getTraduccio(
+              Configuracio.getDefaultLanguage());
+        }
+
+        long id = td.getTipusDocumentID();
+        String nom = tramap.getValor();
+        long id_base = td.getTipusDocumentBaseID();
+        tipus.add(new FirmaSimpleDocumentTypeInformation(id, nom, id_base));
+      }
+
+      HttpHeaders headers = addAccessControllAllowOrigin();
+
+      ResponseEntity<List<FirmaSimpleDocumentTypeInformation>> res;
+      res = new ResponseEntity<List<FirmaSimpleDocumentTypeInformation>>(tipus, headers,
+          HttpStatus.OK);
+
+      return res;
+
+    } catch (I18NException i18ne) {
+
+      String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+
+      return generateServerError(msg);
+
+    } catch (Throwable th) {
+
+      // XYZ ZZZ TRA
+      String msg = "Error desconegut cridant a getTypesOfDocumentsAvailable: "
+          + th.getMessage();
+
+      log.error(msg, th);
+
+      return generateServerError(msg, th);
+    }
+
+  }
+  
+  
+  
+  
 
   @RequestMapping(value = "/" + ApiFirmaWebSimple.STARTTRANSACTION, method = RequestMethod.POST)
   @ResponseBody
@@ -412,9 +512,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
       log.info(" XYZ ZZZ PERFILFIRMA FIRMA WEB = " + perfilDeFirma.getCodi());
       
       Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = new HashMap<String, UsuariAplicacioConfiguracioJPA>();
-
-      
-      
+      Map<String,Long> tipusDocumentalBySignID = new HashMap<String, Long>();
+      String signID;
       for (FirmaSimpleFileInfoSignature firmaSimpleFileInfoSignature : fileInfoSignatureArray) {
 
         UsuariAplicacioConfiguracioJPA config;
@@ -422,10 +521,12 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
             usuariAplicacioID, perfilDeFirma,
             new FirmaSimpleSignDocumentRequest(commonInfo, firmaSimpleFileInfoSignature));
         
-        configBySignID.put(firmaSimpleFileInfoSignature.getSignID(), config);
+        signID = firmaSimpleFileInfoSignature.getSignID();
+        configBySignID.put(signID, config);
         
-        log.info(" XYZ ZZZ CONFIG => " + config.getNom());
-        
+        final Long tipusDocumentID = firmaSimpleFileInfoSignature.getDocumentType();
+        // EN l'EJB ja miramen els valors null
+        tipusDocumentalBySignID.put(signID, tipusDocumentID);
       }
 
       
@@ -499,11 +600,12 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
       // CRIDAR A START TRANSACION
       final boolean fullView = FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN
           .equals(startTransactionRequest.getView());
-      
      
+      final int origenPeticioDeFirma = ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1;
 
-      String redirectUrl = passarelaDeFirmaWebEjb.startTransaction(pss, entitatID, fullView,
-          usuariAplicacio, perfilDeFirma, configBySignID);
+      String redirectUrl = passarelaDeFirmaWebEjb.startTransaction(pss, entitatID,
+          fullView, usuariAplicacio, perfilDeFirma, configBySignID,
+          tipusDocumentalBySignID, origenPeticioDeFirma);
 
       HttpHeaders headers = addAccessControllAllowOrigin();
       ResponseEntity<?> re = new ResponseEntity<String>(redirectUrl, headers, HttpStatus.OK);
@@ -704,7 +806,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
           .getSignaturesSetFullByTransactionID(transactionID);
       PassarelaFileInfoSignature infoSign = null;
       ValidacioCompletaResponse infoValidacio = null;
-      
+
       for (PassarelaFileInfoSignature pfis : pss.getSignaturesSet()
           .getFileInfoSignatureArray()) {
 

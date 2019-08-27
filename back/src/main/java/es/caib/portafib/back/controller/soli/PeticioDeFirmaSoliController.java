@@ -61,6 +61,7 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -93,6 +94,7 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -128,7 +130,6 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
   
   public static final String SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES = 
        "SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES";
-  
 
   @EJB(mappedName = "portafib/AnnexLogicaEJB/local")
   protected AnnexLogicaLocal annexLogicaEjb;
@@ -490,6 +491,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       throws Exception, I18NException {
 
     CustodiaInfo custodiaInfo;
+    
     try {
       custodiaInfo = peticioDeFirmaLogicaEjb.addCustodiaInfoToPeticioDeFirma(peticioDeFirmaID, LoginInfo.getInstance().getEntitat());
     } catch (I18NException e) {
@@ -503,12 +505,18 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       log.error("Error intentant afegir custòdia a peticio: " + msg);
       return llistat(request, response);
     }
-    
+
     if (custodiaInfo == null) {
-      // TODO  traduir i passar a LOGICA
+      // XYZ ZZZ TRA TODO  traduir i passar a LOGICA
       // No s'ha definit el plugin de custodia
-      HtmlUtils.saveMessageError(request, "No s´ha definit el plugin de custodia");
+      HtmlUtils.saveMessageError(request, "La política de custòdia no té assignada"
+          + " cap Plantilla de Custòdia. Consulti amb l´Administrador.");
       return llistat(request, response);
+    }
+
+    String redirectOnModify = request.getParameter("redirectOnCustody");
+    if (redirectOnModify != null) {
+      request.getSession().setAttribute("redirectOnCustody", redirectOnModify);
     }
 
     return "redirect:" + getCustodiaContext()
@@ -1626,6 +1634,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
           }
           
           // Cada petició depen d'un usuari-aplicacio amb una politica de custodia diferent
+          // Es cercarà la politica dins del buble per cada Usr App.
           politicaCustodia = null;
           
         }
@@ -1776,14 +1785,14 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
             Integer pc = politicaCustodia;
 
-            /// XYZ ZZZ Falta Cache temporal de politiques !!!
+            /// XYZ ZZZ Falta Cache temporal de politiques per usuari Aplicacio!!!
             if (pc == null) {
               pc = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(
                   peticioDeFirma.getSolicitantUsuariAplicacioID(),
                   LoginInfo.getInstance().getEntitat());
             }
 
-            if (pc != null) {
+            if (pc != null && pc != ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE) {
                /* CREAR CUSTODIA */
               filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
                   "/img/custodia.png", "custodia.crear",  
@@ -1899,9 +1908,6 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     filterForm.setVisibleMultipleSelection(false);
     
     final int size = list.size();
-    
-    System.out.println("\n\n XYZ ZZZ NOINICIAT  " + size + " | " + noIniciat);
-    
     
     final boolean noIniciatMultiple = (size == noIniciat && size != 0);
     
