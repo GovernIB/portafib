@@ -2,11 +2,8 @@ package es.caib.portafib.back.controller.aden;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
@@ -31,14 +28,16 @@ import es.caib.portafib.back.form.webdb.CustodiaInfoFilterForm;
 import es.caib.portafib.back.form.webdb.CustodiaInfoForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.CustodiaInfoJPA;
+import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.model.entity.CustodiaInfo;
+import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
- * @author anadal
+ * @author anadal(u80067)
  *
  */
 @Controller
@@ -48,6 +47,9 @@ public class PlantillaCustodiaAdenController extends CustodiaInfoController {
   
   @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  
+  @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
+  protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
 
   @Override
   public String getTileForm() {
@@ -111,35 +113,15 @@ public class PlantillaCustodiaAdenController extends CustodiaInfoController {
         .getCustodiaInfoForm(_jpa, __isView, request, mav);
     if (custodiaInfoForm.isNou()) {
 
+      String entitatID = LoginInfo.getInstance().getEntitatID();
+      
       CustodiaInfoJPA custodiaInfo = custodiaInfoForm.getCustodiaInfo();
       // Valors per defecte
 
-      custodiaInfo.setEntitatID(LoginInfo.getInstance().getEntitatID());
-      custodiaInfo.setEditable(true);
+      custodiaInfo = custodiaInfoLogicaEjb.defaultValuesForCustodiaInfo(entitatID, custodiaInfo);
 
-      custodiaInfo.setPagines("*");
-      custodiaInfo.setCodiBarresPosicioPaginaID(ConstantsV2.POSICIO_PAGINA_ESQUERRA);
-      custodiaInfo.setCodiBarresText("{0}");
-      custodiaInfo.setCodiBarresID(ConstantsV2.BARCODE_PDF417_PLUGIN);
 
-      custodiaInfo.setMissatgePosicioPaginaID(ConstantsV2.POSICIO_PAGINA_ESQUERRA);
-
-      Properties prop = new Properties();
-      prop.put("ca", "Document custodiat amb el sistema {2}. Identificador {1}. Data:{3} URL de validació:{0}. Valor especial: {4}");
-      prop.put("es", "Documento custodiado con el sistema {2}. Identificador = {1}. URL de validación = {0}. Fecha Custodia:{3}. Valor especial: {4}");
       
-      StringWriter sw = new StringWriter();
-      try {
-        prop.store(sw, "");
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
-      custodiaInfo.setMissatge(sw.toString());
-
-      custodiaInfo.setCustodiar(true);
-
-      custodiaInfo.setDataCustodia(new Timestamp(new Date().getTime()));
-
       //String custodiaPluginClass = custodiaPlugin.getClass().getCanonicalName();
       //custodiaInfo.setCustodiaPluginClassID(custodiaPluginClass);
 
@@ -147,6 +129,14 @@ public class PlantillaCustodiaAdenController extends CustodiaInfoController {
     
     addHelp(custodiaInfoForm);
 
+    custodiaInfoForm.addHiddenField(CustodiaInfoFields.CSV);
+    custodiaInfoForm.addHiddenField(CustodiaInfoFields.CSVGENERATIONDEFINITION);
+    custodiaInfoForm.addHiddenField(CustodiaInfoFields.CSVVALIDATIONWEB);
+    custodiaInfoForm.addHiddenField(CustodiaInfoFields.ENIFILEDIRECTURL);
+    custodiaInfoForm.addHiddenField(CustodiaInfoFields.ORIGINALFILEDIRECTURL);
+    custodiaInfoForm.addHiddenField(CustodiaInfoFields.PRINTABLEFILEDIRECTURL);
+    custodiaInfoForm.addHiddenField(CustodiaInfoFields.URLFITXERCUSTODIAT);
+    
     custodiaInfoForm.addHiddenField(USUARIAPLICACIOID);
     custodiaInfoForm.addHiddenField(USUARIENTITATID);
     custodiaInfoForm.addHiddenField(CUSTODIADOCUMENTID);
@@ -162,6 +152,8 @@ public class PlantillaCustodiaAdenController extends CustodiaInfoController {
     return custodiaInfoForm;
 
   }
+
+ 
 
   public static void addHelp(CustodiaInfoForm custodiaInfoForm) {
     custodiaInfoForm.addHelpToField(MISSATGE,

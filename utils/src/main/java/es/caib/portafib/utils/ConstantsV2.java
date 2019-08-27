@@ -472,6 +472,8 @@ public interface ConstantsV2 {
   // ----------  Origen Peticio de Firma #281 ---------------
   // ========================================================
 
+  // XYZ ZZZ Quan s'elimini PASSARELA aquesta també s'ha d'esborrar 
+  public static final int  ORIGEN_PETICIO_DE_FIRMA_API_PASSARELA_WEB=-1;
   public static final int  ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB=0;
   public static final int  ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1=1;
   public static final int  ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2=2;

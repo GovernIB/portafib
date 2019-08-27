@@ -86,9 +86,10 @@ public class ApiFirmaWebSimpleTester {
 
         int signNumber = 1;
         String languageSign = "ca";
+        long tipusDocumentalID = 99; // =TD99
 
         fileInfoSignature = new FirmaSimpleFileInfoSignature(fileToSign, signID, name, reason,
-            location, signNumber, languageSign);
+            location, signNumber, languageSign, tipusDocumentalID);
 
         filesToSign[i] = fileInfoSignature;
       }
@@ -119,7 +120,7 @@ public class ApiFirmaWebSimpleTester {
         api.addFileToSign(new FirmaSimpleAddFileToSignRequest(transactionID, filesToSign[i]));
       }
 
-      int port = 1989;
+      int port = 1989 + (int)(Math.random() * 100.0);
       final String returnUrl = "http://localhost:" + port + "/returnurl/" + transactionID;
       final String view = FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN;
 

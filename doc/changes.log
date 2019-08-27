@@ -3,6 +3,8 @@
 PortaFIB 2.0.1
 ==============
 
+2019-08-26 Donar suport a les Polítiques de Custodia restants de la Issue 165 #244
+
 2019-08-08 Mostrar estat en les Propietats per Entitat, Propietats Globals i Propietats de Sistema PortaFIB #318
 
 2019-08-07 Check de Modificació de doc. Firmat: Eliminar Codi Deprecated i eliminar càlculs innecessaris #308
@@ -13,9 +15,9 @@ PortaFIB 2.0.1
 
 2019-07-26  Camp "Configuració de Firma" no ha de sortir en Petició de Firma #303 
 
-2019-07-24 Canviar sistema de validacio de document original modificat durant les firmes #300 
+2019-07-24 Canviar sistema de validació de document original modificat durant les firmes #300 
 
-2019-06-27 Nous camps a Firma i a Peticio de Firma #281 
+2019-06-27 Nous camps a Firma i a Petició de Firma #281 
 
 2019-06-25 Documentar API firma Simple per Signatures Asíncrones #273 
 
@@ -28,11 +30,11 @@ PortaFIB 2.0.0
 
 2019-06-18 API firma Simple per Signatures Asíncrones #224 
 
-2019-06-07 Millorar Interficie de Estadistiques #258
+2019-06-07 Millorar Interfície de Estadístiques #258
 
-2019-06-04 Afegir Politica custodia a Entitat, Usuari-Entitat i usuari- Aplicació #165 
+2019-06-04 Afegir Política custodia a Entitat, Usuari-Entitat i usuari- Aplicació #165 
 
-2019-05-29 Reviure la Bitacola de PortaFIB #223
+2019-05-29 Reviure la Bitàcola de PortaFIB #223
 
 2019-05-27 No funciona Vista Completa si el nom del fitxer conté cometes simples #210
 
@@ -54,7 +56,7 @@ PortaFIB 2.0.0
 
 2019-04-24 Error en la opció modificar dades entitat #255
 
-2019-04-05 Nova gestió de Politiques de Custòdia
+2019-04-05 Nova gestió de Polítiques de Custòdia
 
 2019-03-21 Motiu de la firma a nivell Firma #163 
 

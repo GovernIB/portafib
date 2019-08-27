@@ -162,7 +162,7 @@ public class GestioEntitatAdminController extends EntitatController implements C
   public EntitatFilterForm getEntitatFilterForm(Integer pagina, ModelAndView mav,
 		    HttpServletRequest request) throws I18NException {
 	    EntitatFilterForm entitatFilterForm = super.getEntitatFilterForm(pagina, mav, request);
-	    
+
 		/**
 		 * Cuando un FilterForm es nuevo?
 		 * Cuando se crea la sesión.
@@ -195,6 +195,7 @@ public class GestioEntitatAdminController extends EntitatController implements C
           null);
 			entitatFilterForm.addAdditionalButtonForEachItem(additionalButton);
 			
+			entitatFilterForm.setAttachedAdditionalJspCode(true);
 
 		}
 	    return entitatFilterForm;
@@ -350,19 +351,21 @@ public class GestioEntitatAdminController extends EntitatController implements C
     
     
     final int[] myArray;
-    String base = "usuarientitat.politicacustodia.";
+    final String base;
     
     switch(politicaCustodia) {
     
       case POLITICA_CUSTODIA_ENTITAT: 
          myArray = ConstantsPortaFIB.POLITICA_CUSTODIA_ENTITAT;
-         base += "entitat.";
+         base = "usuarientitat.politicacustodia.entitat.";
       break;
       case POLITICA_CUSTODIA_USUARI_ENTITAT:
         myArray = ConstantsPortaFIB.POLITICA_CUSTODIA_USUARI_ENTITAT;
+        base = "usuarientitat.politicacustodia.";
       break;
       case POLITICA_CUSTODIA_USUARI_APLICACIO:
         myArray = ConstantsPortaFIB.POLITICA_CUSTODIA_USUARI_APLICACIO;
+        base = "usuarientitat.politicacustodia.";
       break;
       
       default:

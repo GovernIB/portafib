@@ -3,6 +3,8 @@ package es.caib.portafib.logic.passarela;
 import java.util.HashMap;
 import java.util.Map;
 
+import es.caib.portafib.jpa.CustodiaInfoJPA;
+import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
@@ -11,7 +13,7 @@ import es.caib.portafib.model.entity.PerfilDeFirma;
 
 /**
  * 
- * @author anadal
+ * @author anadal(u80067)
  *
  */
 public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStatus {
@@ -32,6 +34,10 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
 
   protected final Map<String, UsuariAplicacioConfiguracioJPA> configBySignID;
 
+  protected final Map<String, CustodiaInfoJPA> custodiaBySignID;
+  
+  protected final Map<String, PeticioDeFirmaJPA> peticioFirmaBySignID;
+
   protected final Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignatureID = new HashMap<String, PassarelaSignatureStatusWebInternalUse>();
 
   /**
@@ -40,7 +46,10 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
   public PassarelaSignaturesSetWebInternalUse(String entitatID,
       int[] originalNumberOfSignsArray, boolean fullView,
       PassarelaSignaturesSet signaturesSet, String applicationID, String baseUrl,
-      PerfilDeFirma perfilDeFirma, Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) {
+      PerfilDeFirma perfilDeFirma,
+      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID,
+      Map<String, CustodiaInfoJPA> custodiaBySignID,
+      Map<String, PeticioDeFirmaJPA> peticioFirmaBySignID) {
     super();
     this.originalNumberOfSignsArray = originalNumberOfSignsArray;
     this.signaturesSet = signaturesSet;
@@ -50,6 +59,8 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
     this.baseUrl = baseUrl;
     this.perfilDeFirma = perfilDeFirma;
     this.configBySignID = configBySignID;
+    this.custodiaBySignID = custodiaBySignID;
+    this.peticioFirmaBySignID = peticioFirmaBySignID;
 
     PassarelaFileInfoSignature[] files = this.signaturesSet.getFileInfoSignatureArray();
 
@@ -101,6 +112,14 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
 
   public Map<String, UsuariAplicacioConfiguracioJPA> getConfigBySignID() {
     return configBySignID;
+  }
+
+  public Map<String, CustodiaInfoJPA> getCustodiaBySignID() {
+    return custodiaBySignID;
+  }
+
+  public Map<String, PeticioDeFirmaJPA> getPeticioFirmaBySignID() {
+    return peticioFirmaBySignID;
   }
 
 }

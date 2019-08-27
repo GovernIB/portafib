@@ -5,6 +5,7 @@ import java.util.List;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleDocumentTypeInformation;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
@@ -13,7 +14,7 @@ import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 
 /**
  * 
- * @author anadal
+ * @author anadal(u80067)
  *
  */
 public interface ApiFirmaWebSimple {
@@ -33,6 +34,8 @@ public interface ApiFirmaWebSimple {
   public static final String CLOSETRANSACTION = "closeTransaction";
 
   public static final String AVAILABLEPROFILES = "getAvailableProfiles";
+  
+  public static final String AVAILABLETYPESOFDOCUMENTS = "getAvailableTypesOfDocuments";
 
   /**
    * 
@@ -94,5 +97,14 @@ public interface ApiFirmaWebSimple {
    * @throws Exception
    */
   public List<FirmaSimpleAvailableProfile> getAvailableProfiles(String languageUI) throws AbstractApisIBException;
+
+  // -------------------------------------------------------------------
+  // -------------------------------------------------------------------
+  // -----------------------| Tipus de Document |-----------------------
+  // -------------------------------------------------------------------
+  // -------------------------------------------------------------------
+
+  public List<FirmaSimpleDocumentTypeInformation> getAvailableTypesOfDocuments(
+      String languageUI) throws AbstractApisIBException;
 
 }

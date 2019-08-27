@@ -202,10 +202,12 @@ public class AutoFirmaController {
         String nomFitxer = cmf.getOriginalFilename();
 
         FirmaSimpleFile fileToSign = new FirmaSimpleFile(nomFitxer, mimeTypeFitxer, dataFitxer);
+        
+        long tipusDocumentalID = 99; // =TD99
 
         FirmaSimpleFileInfoSignature fileInfoSignature = new FirmaSimpleFileInfoSignature(
             fileToSign, signID, fileToSign.getNom(), reason, location, 
-            signNumber, langDoc);
+            signNumber, langDoc, tipusDocumentalID);
 
         fileInfoSignatureList.add(fileInfoSignature);
 

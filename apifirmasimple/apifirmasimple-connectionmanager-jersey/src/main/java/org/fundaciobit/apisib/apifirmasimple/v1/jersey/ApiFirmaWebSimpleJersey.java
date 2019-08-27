@@ -6,6 +6,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaWebSimple;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleDocumentTypeInformation;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleError;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
@@ -172,6 +173,20 @@ public class ApiFirmaWebSimpleJersey extends
   @Override
   protected Class<FirmaSimpleError> getErrorClass() {
     return FirmaSimpleError.class;
+  }
+
+  @Override
+  public List<FirmaSimpleDocumentTypeInformation> getAvailableTypesOfDocuments(
+      String languageUI) throws AbstractApisIBException {
+
+    ClientResponse response = commonCall(languageUI, AVAILABLETYPESOFDOCUMENTS);
+
+    List<FirmaSimpleDocumentTypeInformation> result = response
+        .getEntity(new GenericType<List<FirmaSimpleDocumentTypeInformation>>() {
+        });
+
+    return result;
+
   }
 
 }

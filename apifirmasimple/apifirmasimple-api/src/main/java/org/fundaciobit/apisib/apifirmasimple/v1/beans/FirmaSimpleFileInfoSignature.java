@@ -6,10 +6,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
 /**
- *
- * @author anadal
+ * 
+ * @author anadal(u80067)
  *
  */
 @XmlRootElement
@@ -45,6 +44,8 @@ public class FirmaSimpleFileInfoSignature {
 
   protected String procedimentNom;
 
+  protected Long documentType;
+
   protected List<FirmaSimpleKeyValue> additionalInformation = null;
 
   /**
@@ -64,9 +65,8 @@ public class FirmaSimpleFileInfoSignature {
    * @param signNumber
    * @param languageSign
    */
-  public FirmaSimpleFileInfoSignature(FirmaSimpleFile fileToSign,
-      String signID, String name, String reason, String location,
-      int signNumber, String languageSign) {
+  public FirmaSimpleFileInfoSignature(FirmaSimpleFile fileToSign, String signID, String name,
+      String reason, String location, int signNumber, String languageSign, Long documentType) {
     super();
     this.fileToSign = fileToSign;
     this.signID = signID;
@@ -75,6 +75,7 @@ public class FirmaSimpleFileInfoSignature {
     this.location = location;
     this.signNumber = signNumber;
     this.languageSign = languageSign;
+    this.documentType = documentType;
   }
 
   /**
@@ -91,9 +92,9 @@ public class FirmaSimpleFileInfoSignature {
    * @param additionalInformation
    */
   public FirmaSimpleFileInfoSignature(FirmaSimpleFile fileToSign,
-      FirmaSimpleFile previusSignatureDetachedFile, String signID, String name,
-      String reason, String location, String signerEmail, int signNumber,
-      String languageSign, List<FirmaSimpleKeyValue> additionalInformation) {
+      FirmaSimpleFile previusSignatureDetachedFile, String signID, String name, String reason,
+      String location, String signerEmail, int signNumber, String languageSign,
+      List<FirmaSimpleKeyValue> additionalInformation) {
     super();
     this.fileToSign = fileToSign;
     this.previusSignatureDetachedFile = previusSignatureDetachedFile;
@@ -166,8 +167,7 @@ public class FirmaSimpleFileInfoSignature {
     return previusSignatureDetachedFile;
   }
 
-  public void setPreviusSignatureDetachedFile(
-      FirmaSimpleFile previusSignatureDetachedFile) {
+  public void setPreviusSignatureDetachedFile(FirmaSimpleFile previusSignatureDetachedFile) {
     this.previusSignatureDetachedFile = previusSignatureDetachedFile;
   }
 
@@ -175,8 +175,7 @@ public class FirmaSimpleFileInfoSignature {
     return additionalInformation;
   }
 
-  public void setAdditionalInformation(
-      List<FirmaSimpleKeyValue> additionalInformation) {
+  public void setAdditionalInformation(List<FirmaSimpleKeyValue> additionalInformation) {
     this.additionalInformation = additionalInformation;
   }
 
@@ -218,6 +217,14 @@ public class FirmaSimpleFileInfoSignature {
 
   public void setProcedimentNom(String procedimentNom) {
     this.procedimentNom = procedimentNom;
+  }
+
+  public Long getDocumentType() {
+    return documentType;
+  }
+
+  public void setDocumentType(Long documentType) {
+    this.documentType = documentType;
   }
 
 }
