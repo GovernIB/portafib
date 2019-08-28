@@ -91,7 +91,6 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
-
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -125,7 +124,6 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -2439,6 +2437,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       fitxerLogicaEjb.deleteFull(fitxerAfirmarID);
     }
 
+    String usuariEntitat = currentUsuariEntitatADEN(peticioDeFirma.getUsuariAplicacio().getEntitatID());
+    bitacolaLogicaEjb.createBitacola("Neteja fitxers originals", peticioDeFirmaID, usuariEntitat, null);
   }
 
   @Override
@@ -2458,6 +2458,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // ----- FER NETEJA DEL FITXER ADAPTAT I FIRMES INTERMITGES
       FirmaJPA firmaJPA = getLastSignOfPeticioDeFirma(peticioDeFirmaID);
       ferNetejaPeticioFinalitzadaRebutjada(peticioDeFirma, firmaJPA);
+
+      String usuariEntitat = currentUsuariEntitatADEN(peticioDeFirma.getUsuariAplicacio().getEntitatID());
+      bitacolaLogicaEjb.createBitacola("Neteja fitxers adaptats", peticioDeFirmaID, usuariEntitat, null);
 
     } else {
       // Les peticions no iniciades no es poden netejar
