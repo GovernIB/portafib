@@ -2923,12 +2923,12 @@ import java.util.Set;
       // Estats Finals d'un EstatDeFirma
       Map<Long, String> traduccions = new HashMap<Long, String>();
 
-      traduccions.put(TIPUSESTATDEFIRMAFINAL_VALIDAT, "tipusestatdefirmafinal.VALIDAT");
-      traduccions.put(TIPUSESTATDEFIRMAFINAL_INVALIDAT, "tipusestatdefirmafinal.INVALIDAT");
-      traduccions.put(TIPUSESTATDEFIRMAFINAL_FIRMAT, "tipusestatdefirmafinal.FIRMAT");
-      traduccions.put(TIPUSESTATDEFIRMAFINAL_REBUTJAT, "tipusestatdefirmafinal.REBUTJAT");
-      traduccions.put(TIPUSESTATDEFIRMAFINAL_DESCARTAT, "tipusestatdefirmafinal.DESCARTAT");
-      traduccions.put(TIPUSESTATDEFIRMAFINAL_ACCEPTAT, "tipusestatdefirmafinal.ACCEPTAT");
+      traduccions.put(TIPUSESTATDEFIRMAFINAL_VALIDAT, "tipusestatdefirmafinal.0");
+      traduccions.put(TIPUSESTATDEFIRMAFINAL_INVALIDAT, "tipusestatdefirmafinal.1");
+      traduccions.put(TIPUSESTATDEFIRMAFINAL_FIRMAT, "tipusestatdefirmafinal.2");
+      traduccions.put(TIPUSESTATDEFIRMAFINAL_REBUTJAT, "tipusestatdefirmafinal.3");
+      traduccions.put(TIPUSESTATDEFIRMAFINAL_DESCARTAT, "tipusestatdefirmafinal.4");
+      traduccions.put(TIPUSESTATDEFIRMAFINAL_ACCEPTAT, "tipusestatdefirmafinal.5");
       traduccions.put(null, "pendent");
 
       mav.addObject("traduccions", traduccions);
