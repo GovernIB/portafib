@@ -2,7 +2,6 @@ package es.caib.portafib.back.controller.aden;
 
 
 import es.caib.portafib.back.controller.common.SearchJSONController;
-import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
 import es.caib.portafib.back.form.AturarPeticionsDeFirmaFilterForm;
 import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
@@ -10,25 +9,22 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.ejb.FirmaLocal;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
-import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -37,18 +33,18 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import java.util.Set;
 
 /**
  * 
- * @author anadal
+ * @author anadal(u80067)
  *
  */
 @Controller
 @RequestMapping(value = "/aden/aturarpeticions")
 @SessionAttributes(types = { AturarPeticionsDeFirmaFilterForm.class })
-public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaAdenController {
+public class PeticionsDeFirmaDeDestinatariAdenController extends AbstractPeticioDeFirmaAdenController {
   
   public static final String USUARI_ENTITAT_ID_HOLDER =
         "AturarPeticionsDeFirmaController_USUARI_ENTITAT_ID_HOLDER";
@@ -178,19 +174,22 @@ public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaAden
     
    
     Where w = Where.AND(
-        // Peticions actives o pausades
+        
         peticio.PETICIODEFIRMAID().isNotNull(),
+        /*
+         Peticions actives o pausades
         peticio.TIPUSESTATPETICIODEFIRMAID().in(new Integer[]{
             ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES,
             ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
            }),
+           */
         // Associam al usuariEntitatID
-        firmaQueryPath.USUARIENTITAT().USUARIENTITATID().equal(usuariEntitatID),
+        firmaQueryPath.USUARIENTITAT().USUARIENTITATID().equal(usuariEntitatID)
         
         // D'un bloc no finalitzat
-        firmaQueryPath.BLOCDEFIRMES().DATAFINALITZACIO().isNull(),
+        //firmaQueryPath.BLOCDEFIRMES().DATAFINALITZACIO().isNull(),
         // D'una firma no finalitzada
-        FirmaFields.TIPUSESTATDEFIRMAFINALID.isNull()
+        //FirmaFields.TIPUSESTATDEFIRMAFINALID.isNull()
     );
     
     
@@ -235,10 +234,12 @@ public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaAden
         // "=" Significa que no es traduirà, s'imprimirà directament a la pàgina web
 
         
+        peticioDeFirmaFilterForm.setDeleteSelectedButtonVisible(false);
         peticioDeFirmaFilterForm.setDeleteButtonVisible(false);
         peticioDeFirmaFilterForm.setEditButtonVisible(false);
         peticioDeFirmaFilterForm.setAddButtonVisible(false);
-        peticioDeFirmaFilterForm.setVisibleMultipleSelection(false);
+        
+
         
         // Ocultam tots els camps
         for(Field<?> f: PeticioDeFirmaFields.ALL_PETICIODEFIRMA_FIELDS) {
@@ -248,72 +249,40 @@ public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaAden
         Set<Field<?>> list = peticioDeFirmaFilterForm.getHiddenFields();
         list.remove(PeticioDeFirmaFields.PETICIODEFIRMAID);
         list.remove(PeticioDeFirmaFields.TITOL);
-        list.remove(PeticioDeFirmaFields.DESCRIPCIO);
+        list.remove(PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID);
         list.remove(PeticioDeFirmaFields.DATACADUCITAT);
         list.remove(PeticioDeFirmaFields.DATASOLICITUD);
         
-        
-        // Agrupacio
-        //peticioDeFirmaFilterForm.setGroupByFields(new ArrayList<Field<?>>());
-        
-        
-        
-        peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-            "icon-remove", "rebutjar",  getContextWeb() + "/rebutjar/{0}",
-            "btn-danger"));
 
-        String bitacolaLink =
-                BitacolaPeticioAdenController.CONTEXT_WEB + "/peticio/{0}?returnPath=/aden/aturarpeticions/list";
         peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-                "icon-cog", "peticiodefirma.bitacola",
-                bitacolaLink, "btn-info"));
+            "icon-list-alt", "veuredetalls",
+            getContextWeb() + "/view/{0}", "btn-info"));
 
         AbstractPeticioDeFirmaAdenController.cleanFiltersAndGroups(peticioDeFirmaFilterForm);
-
+        
+        
+        peticioDeFirmaFilterForm.setGroupBy(TIPUSESTATPETICIODEFIRMAID.javaName); // =  tipusEstatPeticioDeFirmaID
+        peticioDeFirmaFilterForm.setGroupValue(String.valueOf(TIPUSESTATPETICIODEFIRMA_ENPROCES));
         
       }
       return peticioDeFirmaFilterForm;
   }
   
-  /*
-  @PostConstruct
-  public void init() {
-    if (log.isDebugEnabled()) {
-      log.debug(" Entra dins init() de " + getClass().getName());
-    }
+  @Override
+  public boolean mostrarBotoRebuig() {
+    return true;
   }
-  */
   
-  
-  @RequestMapping(value = "/rebutjar/{peticioDeFirmaID}")
-  public ModelAndView rebutjar(HttpServletRequest request,
-      HttpServletResponse response, @PathVariable Long peticioDeFirmaID) throws I18NException {
-    
-    
-    try {
-      // TODO ha d'anar a la part de lògica
-      PeticioDeFirmaJPA peticioDeFirma = peticioDeFirmaLogicaEjb.findByPrimaryKeyFull(peticioDeFirmaID);
-      if (peticioDeFirma == null) {
-        // Error
-        new PeticioDeFirmaController().createMessageError(request, "error.notfound", null);
-      } else {
-      
-        String motiuDeRebuig = I18NUtils.tradueix(
-            "aturarpeticionsdefirma.motiurebuig",
-            Utils.getNom(LoginInfo.getInstance().getUsuariPersona()));
-      
-        peticioDeFirmaLogicaEjb.rebutjarADEN(peticioDeFirma,
-            LoginInfo.getInstance().getUsuariEntitatID(),  motiuDeRebuig);
-
-      }
-
-    } catch(I18NException i18ne) {
-      HtmlUtils.saveMessageError(request, I18NUtils.getMessage(i18ne));
-    }
-
-    return llistatPaginat(request, response, null);
+  @Override
+  public boolean mostrarBotoBitacola() {
+    return true;
   }
-
+  
+  @Override
+  public boolean mostrarSolicitant() {
+    return true;
+  }
+ 
   @Override
   protected boolean showUsuariEntitat() {
     return true;
@@ -321,6 +290,11 @@ public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaAden
 
   @Override
   protected boolean showUsuariAplicacio() {
+    return true;
+  }
+
+  @Override
+  protected boolean mostrarBotoEsborrar() {
     return true;
   }
 

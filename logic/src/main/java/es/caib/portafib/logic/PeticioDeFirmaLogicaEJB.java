@@ -1762,6 +1762,17 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       if (pf == null) {
         return files;
       }
+      
+      int estatP = pf.getTipusEstatPeticioDeFirmaID();
+      if (estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
+          || estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
+        // OK
+        // URGENT XYZ ZZZ TRA
+        throw new I18NException("genapp.comodi",
+            "La petició titulada " + pf.getTitol()
+            + " NO ha d'estar pausada o en procés per poder-la esborrar");
+      }
+      
 
       // Check si l'usuari entitat o aplicació té permis per esborrar
       // Si és PFI_ADMIN se li permet
@@ -2644,6 +2655,17 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   @Override
   public void rebutjarADEN(PeticioDeFirmaJPA peticioDeFirma, String usuariEntitatAden,
       String motiuDeRebuig) throws I18NException {
+    
+    int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
+    if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
+        || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
+      // OK
+    } else {
+      // URGENT XYZ ZZZ TRA
+      throw new I18NException("genapp.comodi", "La petició titulada "
+      + peticioDeFirma.getTitol() 
+      + " ha d'estar pausada o en procés per poder-la rebutjar");
+    }
 
     EstatDeFirmaQueryPath efqp = new EstatDeFirmaQueryPath();
 
@@ -2671,7 +2693,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       events.peticio_rebutjada(peticioDeFirma, null);
 
-      bitacolaLogicaEjb.createBitacola("Petició rebutjada",
+      bitacolaLogicaEjb.createBitacola("Petició rebutjada: " + motiuDeRebuig,
               peticioDeFirma.getPeticioDeFirmaID(),
               usuariEntitatAden, null);
 
@@ -2712,6 +2734,18 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   @Override
   public void rebutjar(EstatDeFirma estatDeFirma, Firma firma,
       PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig) throws I18NException {
+    
+    int estatP = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
+    if (estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
+        || estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
+      // OK
+    } else {
+      // URGENT XYZ ZZZ TRA
+      throw new I18NException("genapp.comodi",
+          "La petició titulada " + peticioDeFirma.getTitol()
+          + " ha d'estar pausada o en procés per poder-la rebutjar");
+    }
+    
 
     if (motiuDeRebuig == null || motiuDeRebuig.trim().length() == 0) {
       throw new I18NException("estatdefirma.motiu.buit", new I18NArgumentCode(

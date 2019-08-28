@@ -9,16 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.Select;
-import org.fundaciobit.genapp.common.query.SelectConstant;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
@@ -33,29 +29,24 @@ import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
-import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
-import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
-import es.caib.portafib.model.fields.UsuariAplicacioFields;
-import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
-import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
- * @author anadal
+ * @author anadal(u80067)
  *
  */
 @Controller
 @RequestMapping(value = "/aden/peticio/netejaesborrat")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFirmaAdenController implements ConstantsV2 {
+public class PeticioDeFirmaNetejarEsborrarAdenController extends AbstractPeticioDeFirmaAdenController  {
 
-  public static final int SOLICITANT = 0;
+  
 
   public static final int NETEJA_ADAPTAT = 1;
 
@@ -69,10 +60,6 @@ public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFi
     return "peticionsDeFirmaNetejarEsborrarList";
   }
 
-  /*
-   * @Override public String getTileForm() { return
-   * "peticioDeFirmaNetejarEsborrarForm"; }
-   */
 
   @Override
   public String getSessionAttributeFilterForm() {
@@ -186,29 +173,6 @@ public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFi
        * "/view/{0}", "btn-info"));
        */
 
-      peticioDeFirmaFilterForm.addAdditionalButton(new AdditionalButton(
-          "icon-trash icon-white", "genapp.delete",
-          "javascript:submitTo('peticioDeFirmaFilterForm'," + " '" + request.getContextPath()
-              + getContextWeb() + "/esborrarSeleccionades');", "btn-danger"));
-
-      peticioDeFirmaFilterForm.addAdditionalButton(new AdditionalButton(
-          "icon-fire icon-white", "peticiodefirma.netejaesborrat.netejaroriginal",
-          "javascript:submitTo('peticioDeFirmaFilterForm'," + " '" + request.getContextPath()
-              + getContextWeb() + "/netejarOriginal');", "btn-danger"));
-
-      peticioDeFirmaFilterForm.addAdditionalButton(new AdditionalButton(
-          "icon-share icon-white", "peticiodefirma.netejaesborrat.netejaradaptat",
-          "javascript:submitTo('peticioDeFirmaFilterForm'," + " '" + request.getContextPath()
-              + getContextWeb() + "/netejarAdaptat');", "btn-warning"));
-
-      AdditionalField<Long, String> adfield0 = new AdditionalField<Long, String>();
-      adfield0.setCodeName("ROLE_SOLI");
-      adfield0.setPosition(SOLICITANT);
-      adfield0.setEscapeXml(false);
-      // Els valors s'ompliran al mètode postList()
-      adfield0.setValueMap(new HashMap<Long, String>());
-
-      peticioDeFirmaFilterForm.addAdditionalField(adfield0);
 
       AdditionalField<Long, String> adfield1 = new AdditionalField<Long, String>();
       adfield1.setCodeName("=<i class=\"icon-share\"></i>");
@@ -232,61 +196,8 @@ public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFi
     return peticioDeFirmaFilterForm;
   }
 
-  @PostConstruct
-  public void init() {
-    if (log.isDebugEnabled()) {
-      log.debug(" Entra dins init() de " + getClass().getName());
-    }
 
-    // Configura com es mostra l'usuari aplicació
-    usuariAplicacioRefList = new UsuariAplicacioRefList(usuariAplicacioRefList);
-    usuariAplicacioRefList
-        .setSelects(new Select<?>[] { UsuariAplicacioFields.USUARIAPLICACIOID.select });
-    usuariAplicacioRefList.setSeparator("");
 
-    // Configura com es mostra l'usuari entitat
-    this.usuariEntitatRefList = new UsuariEntitatRefList(usuariEntitatRefList);
-
-    UsuariPersonaQueryPath personaQueryPath = new UsuariEntitatQueryPath().USUARIPERSONA();
-    usuariEntitatRefList.setSelects(new Select<?>[] { personaQueryPath.LLINATGES().select,
-        new SelectConstant(", "), personaQueryPath.NOM().select });
-    usuariEntitatRefList.setSeparator("");
-
-  }
-
-  @RequestMapping(value = "/esborrarSeleccionades", method = RequestMethod.POST)
-  public String deleteSelected(HttpServletRequest request, HttpServletResponse response,
-      @ModelAttribute PeticioDeFirmaFilterForm filterForm) throws Exception {
-
-    String[] seleccionats = filterForm.getSelectedItems();
-
-    if (seleccionats == null || seleccionats.length == 0) {
-
-      HtmlUtils.saveMessageWarning(request,
-          I18NUtils.tradueix("peticiodefirma.capseleccionat"));
-
-    } else {
-      Set<Long> fitxersAEliminar;
-      for (int i = 0; i < seleccionats.length; i++) {
-        try {
-          Long peticioDeFirmaID = stringToPK(seleccionats[i]);
-          {
-            String usuariEntitatID = LoginInfo.getInstance().getUsuariEntitatID();
-            fitxersAEliminar =  peticioDeFirmaLogicaEjb.
-                deleteFullUsingUsuariEntitat(peticioDeFirmaID, usuariEntitatID);
-            FileSystemManager.eliminarArxius(fitxersAEliminar);
-          }
-        } catch (I18NException i18ne) {
-          String missatge = I18NUtils.getMessage(i18ne);
-          HtmlUtils.saveMessageError(request, missatge);
-          log.error(missatge, i18ne);
-        }
-      }
-    }
-
-    String redirect = getRedirectWhenDelete(request, null, null);
-    return redirect;
-  }
 
   @RequestMapping(value = "/netejarOriginal", method = RequestMethod.POST)
   public String netejarOriginals(HttpServletRequest request, HttpServletResponse response,
@@ -353,7 +264,25 @@ public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFi
   @Override
   public void postList(HttpServletRequest request, ModelAndView mav,
       PeticioDeFirmaFilterForm filterForm, List<PeticioDeFirma> list) throws I18NException {
+    
+    super.postList(request, mav, filterForm, list);
+    
+    
+    // En el pare es fa un esborrat de tots el botons addicionals,
+    // per això cada vegada les hem de tornar a afegir 
 
+    filterForm.addAdditionalButton(new AdditionalButton(
+        "icon-fire icon-white", "peticiodefirma.netejaesborrat.netejaroriginal",
+        "javascript:submitTo('peticioDeFirmaFilterForm'," + " '" + request.getContextPath()
+            + getContextWeb() + "/netejarOriginal');", "btn-danger"));
+
+    filterForm.addAdditionalButton(new AdditionalButton(
+        "icon-share icon-white", "peticiodefirma.netejaesborrat.netejaradaptat",
+        "javascript:submitTo('peticioDeFirmaFilterForm'," + " '" + request.getContextPath()
+            + getContextWeb() + "/netejarAdaptat');", "btn-warning"));
+
+    
+    // Afegir contingut a columnes
     Map<Long, String> mapAdaptat;
     mapAdaptat = (Map<Long, String>) filterForm.getAdditionalField(NETEJA_ADAPTAT)
         .getValueMap();
@@ -364,43 +293,10 @@ public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFi
         .getValueMap();
     mapOriginal.clear();
 
-    Map<Long, String> mapSoli;
-    mapSoli = (Map<Long, String>) filterForm.getAdditionalField(SOLICITANT).getValueMap();
-    mapSoli.clear();
-
+    
     Long key;
-
-    Map<String, String> mapWeb = filterForm.getMapOfUsuariEntitatForSolicitantUsuariEntitat1ID();
-    Map<String, String> mapApp = filterForm.getMapOfUsuariAplicacioForSolicitantUsuariAplicacioID();
-
     for (PeticioDeFirma peticio : list) {
       key = peticio.getPeticioDeFirmaID();
-      
-      // Nous camps de Peticio de Firma #281
-      switch (peticio.getOrigenPeticioDeFirma()) {
-        case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
-          mapSoli.put(key, "<small><b>WEB:</b> " + mapWeb.get(peticio.getSolicitantUsuariEntitat1ID())
-              + "</small>");
-        break;
-
-        case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
-          mapSoli.put(key, "<small><b>WS_V1:</b> " + mapApp.get(peticio.getSolicitantUsuariAplicacioID())
-              + "</small>");
-        break;
-        
-        case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
-          mapSoli.put(key, "<small><b>ASYNC_SIMPLE_V2:</b> " + mapApp.get(peticio.getSolicitantUsuariAplicacioID())
-              + "</small>");
-        break;
-          
-        default:
-         // XYZ ZZZ TRA
-         HtmlUtils.saveMessageError(request, "No hi ha codi per el PostList de les Peticions de Firma amb Origen " + 
-            I18NUtils.tradueix("origenpeticiodefirma." + peticio.getOrigenPeticioDeFirma()));
-      }
-      
-
-
       if (peticio.getFitxerAFirmarID() != null) {
 
         mapOriginal.put(key, "<i class=\"icon-fire\"></i>");
@@ -421,5 +317,26 @@ public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFi
   protected boolean showUsuariAplicacio() {
     return true;
   }
+  
+  @Override
+  public boolean mostrarSolicitant() {
+    return true;
+  }
+
+  @Override
+  protected boolean mostrarBotoRebuig() {
+    return false;
+  }
+
+  @Override
+  protected boolean mostrarBotoBitacola() {
+    return true;
+  }
+
+  @Override
+  protected boolean mostrarBotoEsborrar() {
+    return true;
+  }
+  
 
 }

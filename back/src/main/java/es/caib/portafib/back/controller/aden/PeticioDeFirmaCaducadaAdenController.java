@@ -32,13 +32,13 @@ import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
- * @author anadal
+ * @author anadal(u80067)
  *
  */
 @Controller
 @RequestMapping(value = "/aden/peticionscaducades")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-public class LlistatPeticionsCaducadesController extends AbstractPeticioDeFirmaAdenController {
+public class PeticioDeFirmaCaducadaAdenController extends AbstractPeticioDeFirmaAdenController {
 
   @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
@@ -89,27 +89,27 @@ public class LlistatPeticionsCaducadesController extends AbstractPeticioDeFirmaA
   public boolean isActiveFormView() {
     return true;
   }
-  
 
   @Override
   public boolean isActiveDelete() {
     return false;
   }
-  
+
   @Override
   public PeticioDeFirmaFilterForm getPeticioDeFirmaFilterForm(Integer pagina, ModelAndView mav,
       HttpServletRequest request) throws I18NException {
       PeticioDeFirmaFilterForm peticioDeFirmaFilterForm;
       peticioDeFirmaFilterForm = super.getPeticioDeFirmaFilterForm(pagina, mav, request);
       if(peticioDeFirmaFilterForm.isNou()) {
-        
+
         peticioDeFirmaFilterForm.setTitleCode("peticionscaducades.llistat");
-        
+
+        peticioDeFirmaFilterForm.setDeleteSelectedButtonVisible(false);
         peticioDeFirmaFilterForm.setDeleteButtonVisible(false);
         peticioDeFirmaFilterForm.setEditButtonVisible(false);
         peticioDeFirmaFilterForm.setAddButtonVisible(false);
-        peticioDeFirmaFilterForm.setVisibleMultipleSelection(false);
-        
+        peticioDeFirmaFilterForm.setVisibleMultipleSelection(true);
+
         // Ocultam tots els camps
         Set<Field<?>> hiddenFields =  peticioDeFirmaFilterForm.getHiddenFields();
         hiddenFields.addAll(Arrays.asList(ALL_PETICIODEFIRMA_FIELDS));
@@ -153,10 +153,6 @@ public class LlistatPeticionsCaducadesController extends AbstractPeticioDeFirmaA
             getContextWeb() + "/view/{0}",
                 "btn-info"));
 
-        String bitacolaLink = BitacolaPeticioAdenController.CONTEXT_WEB + "/peticio/{0}?returnPath=/aden/peticionscaducades/list";
-        peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-cog", "peticiodefirma.bitacola",
-                bitacolaLink, "btn-info"));
-
         AbstractPeticioDeFirmaAdenController.cleanFiltersAndGroups(peticioDeFirmaFilterForm);
 
         
@@ -187,7 +183,26 @@ public class LlistatPeticionsCaducadesController extends AbstractPeticioDeFirmaA
   protected boolean showUsuariAplicacio() {
     return true;
   }
-  
 
+  @Override
+  public boolean mostrarBotoRebuig() {
+    return true;
+  }
+
+  @Override
+  public boolean mostrarBotoBitacola() {
+    return true;
+  }
+
+  @Override
+  public boolean mostrarSolicitant() {
+    return true;
+  }
+
+  @Override
+  protected boolean mostrarBotoEsborrar() {    
+    return true;
+  }
+  
   
 }

@@ -228,7 +228,7 @@
         datasolicitud timestamp,
         descripcio varchar2(255 char),
         descripciotipusdocument varchar2(255 char),
-        fitxerafirmarid number(19,0) not null,
+        fitxerafirmarid number(19,0),
         fitxeradaptatid number(19,0),
         fluxdefirmesid number(19,0) not null,
         idiomaid varchar2(5 char) not null,

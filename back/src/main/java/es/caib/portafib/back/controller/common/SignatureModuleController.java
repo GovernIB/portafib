@@ -698,35 +698,12 @@ public class SignatureModuleController extends HttpServlet {
     return mav;
   }
 
-  /*
-  public static String getAbsolutePortaFIBBaseForSignatureModule(HttpServletRequest request) {
-    String absoluteURL = PropietatGlobalUtil.getSignatureModuleAbsoluteURL();
-    if (absoluteURL==null || absoluteURL.trim().isEmpty()) {
-      final String scheme = request.getScheme();
-      final int port = request.getServerPort();
-      if ( (scheme.toLowerCase().equals("http") && port == 80 )
-          ||  (scheme.toLowerCase().equals("https") && port == 443 ) ) {
-        return request.getScheme() + "://" + request.getServerName() 
-            +  request.getContextPath();
-      } else {
-        return request.getScheme() + "://" + request.getServerName() + ":" +
-          + request.getServerPort() +  request.getContextPath();
-      }
-    } else {
-      return absoluteURL;
-    }
-  }
-  */
 
   
   public static String getRelativePortaFIBBase(HttpServletRequest request) {
     return request.getContextPath();
   }
 
-
-//  protected static String  getAbsoluteControllerBase(HttpServletRequest request, String webContext) {
-//    return getAbsolutePortaFIBBaseForSignatureModule(request) + webContext;
-//  }
   
   public static String  getRelativeControllerBase(HttpServletRequest request, String webContext) {
     return   getRelativePortaFIBBase(request) + webContext;
@@ -735,8 +712,7 @@ public class SignatureModuleController extends HttpServlet {
 
   protected static String getAbsoluteRequestPluginBasePath(String baseUrl, 
       String webContext, String signaturesSetID, int signatureIndex) {
-    
-    //String base = getAbsoluteControllerBase(request, webContext);
+
     String base = baseUrl + webContext;
     return getRequestPluginBasePath(base, signaturesSetID, signatureIndex);
   }

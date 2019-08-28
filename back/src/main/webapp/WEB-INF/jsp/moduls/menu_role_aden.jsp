@@ -107,7 +107,7 @@ static {
 
   mapping.put(PERFIL_DE_FIRMA, PerfilDeFirmaAdenController.CONTEXT_WEB + "/list");
 
-  mapping.put("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/aden/plantilla/list/1");
+  mapping.put("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/aden/plantilla/list");
 
   mapping.put("notificaciows.llistat", "/aden/notificaciows/list");
 

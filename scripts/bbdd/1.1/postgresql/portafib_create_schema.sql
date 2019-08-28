@@ -458,7 +458,7 @@ CREATE TABLE pfi_peticiodefirma (
     datafinal timestamp without time zone,
     datasolicitud timestamp without time zone,
     tipusdocumentid bigint NOT NULL,
-    fitxerafirmarid bigint NOT NULL,
+    fitxerafirmarid bigint,
     fitxeradaptatid bigint,
     titol character varying(255) NOT NULL,
     descripcio character varying(255) DEFAULT NULL::character varying,
