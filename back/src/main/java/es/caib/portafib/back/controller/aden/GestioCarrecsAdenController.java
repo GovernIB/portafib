@@ -18,17 +18,13 @@ import es.caib.portafib.ejb.UsuariEntitatFavoritLocal;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
-import es.caib.portafib.model.entity.*;
+import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.utils.ConstantsV2;
-
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.genapp.common.web.HtmlUtils;
-import org.fundaciobit.genapp.common.web.form.AdditionalButton;
-import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.GroupByItem;
 import org.fundaciobit.genapp.common.query.OrderBy;
@@ -36,6 +32,9 @@ import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.SelectConstant;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -53,8 +52,9 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created 28/05/13 11:51
@@ -390,6 +390,9 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
     // XYZ ZZZ  usuariEntitatForm.addHiddenField(POTCUSTODIAR);
     usuariEntitatForm.addHiddenField(POLITICACUSTODIA);
     usuariEntitatForm.addHiddenField(POLITICADEPLUGINFIRMAWEB);
+
+    // Ocultar la plantilla de custòdia #324
+    usuariEntitatForm.addHiddenField(CUSTODIAINFOID);
 
     // Camps de només lectura
     usuariEntitatForm.addReadOnlyField(USUARIENTITATID);
