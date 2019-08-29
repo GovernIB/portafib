@@ -1,63 +1,6 @@
 package es.caib.portafib.ws.v1;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.Principal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.annotation.Resource;
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RunAs;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.jws.WebMethod;
-import javax.jws.WebResult;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
-
-import org.apache.cxf.binding.soap.SoapFault;
-import org.fundaciobit.genapp.common.StringKeyValue;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.genapp.common.query.LongField;
-import org.fundaciobit.genapp.common.query.OrderBy;
-import org.fundaciobit.genapp.common.query.OrderType;
-import org.fundaciobit.genapp.common.query.SelectConstant;
-import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
-import org.fundaciobit.genapp.common.query.StringField;
-import org.fundaciobit.genapp.common.query.Where;
-import org.jboss.wsf.spi.annotation.WebContext;
-import org.jboss.wsf.spi.annotation.TransportGuarantee;
-
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import es.caib.portafib.jpa.AnnexFirmatJPA;
 import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;
@@ -74,11 +17,11 @@ import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FitxerLogicaLocal;
-import es.caib.portafib.logic.WebServicesMethodsLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.TipusDocumentLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
+import es.caib.portafib.logic.WebServicesMethodsLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PortafirmasIndraUtils;
@@ -98,20 +41,22 @@ import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
-import es.indra.portafirmasws.cws.Cws;
-import es.indra.portafirmasws.cws.Application;
-import es.indra.portafirmasws.cws.DeleteRequest;
-import es.indra.portafirmasws.cws.DeleteResponse;
 import es.indra.portafirmasws.cws.Annex;
 import es.indra.portafirmasws.cws.Annexes;
+import es.indra.portafirmasws.cws.Application;
 import es.indra.portafirmasws.cws.ArchiveMetadata;
 import es.indra.portafirmasws.cws.ArchiveMetadatas;
 import es.indra.portafirmasws.cws.ArchiveOptions;
 import es.indra.portafirmasws.cws.Certificate;
+import es.indra.portafirmasws.cws.ConditionEnum;
+import es.indra.portafirmasws.cws.CriteriaEnum;
+import es.indra.portafirmasws.cws.Cws;
 import es.indra.portafirmasws.cws.Delegate;
 import es.indra.portafirmasws.cws.Delegates;
+import es.indra.portafirmasws.cws.DeleteRequest;
 import es.indra.portafirmasws.cws.DeleteRequestDocument;
 import es.indra.portafirmasws.cws.DeleteRequestDocuments;
+import es.indra.portafirmasws.cws.DeleteResponse;
 import es.indra.portafirmasws.cws.DeleteResponseDocument;
 import es.indra.portafirmasws.cws.DeleteResponseDocuments;
 import es.indra.portafirmasws.cws.DestinationLocators;
@@ -137,6 +82,7 @@ import es.indra.portafirmasws.cws.ListResponseDocument;
 import es.indra.portafirmasws.cws.ListResponseDocuments;
 import es.indra.portafirmasws.cws.ListServerSignersRequest;
 import es.indra.portafirmasws.cws.ListServerSignersResponse;
+import es.indra.portafirmasws.cws.ListTypeRequest;
 import es.indra.portafirmasws.cws.ListTypeResponse;
 import es.indra.portafirmasws.cws.ModeTypeEnum;
 import es.indra.portafirmasws.cws.PendingDocuments;
@@ -144,7 +90,6 @@ import es.indra.portafirmasws.cws.PendingResult;
 import es.indra.portafirmasws.cws.ProfileEnum;
 import es.indra.portafirmasws.cws.Rejection;
 import es.indra.portafirmasws.cws.Result;
-import es.indra.portafirmasws.cws.ListTypeRequest;
 import es.indra.portafirmasws.cws.SearchCriterias;
 import es.indra.portafirmasws.cws.SearchRequest;
 import es.indra.portafirmasws.cws.SearchResponse;
@@ -165,16 +110,67 @@ import es.indra.portafirmasws.cws.TypeDocuments;
 import es.indra.portafirmasws.cws.TypeEnum;
 import es.indra.portafirmasws.cws.UpdateRequest;
 import es.indra.portafirmasws.cws.UploadRequest;
-import es.indra.portafirmasws.cws.CriteriaEnum;
-import es.indra.portafirmasws.cws.ConditionEnum;
 import es.indra.portafirmasws.cws.UploadRequestDocument;
 import es.indra.portafirmasws.cws.UploadResponse;
 import es.indra.portafirmasws.cws.UploadResponseDocument;
 import es.indra.portafirmasws.cws.UploadStep;
-
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
-
+import org.apache.cxf.binding.soap.SoapFault;
 import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.StringKeyValue;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+import org.fundaciobit.genapp.common.query.LongField;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import org.fundaciobit.genapp.common.query.OrderType;
+import org.fundaciobit.genapp.common.query.SelectConstant;
+import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
+import org.fundaciobit.genapp.common.query.StringField;
+import org.fundaciobit.genapp.common.query.Where;
+import org.jboss.wsf.spi.annotation.TransportGuarantee;
+import org.jboss.wsf.spi.annotation.WebContext;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.annotation.Resource;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RunAs;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.jws.WebMethod;
+import javax.jws.WebResult;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.Principal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 
 /**
@@ -218,22 +214,22 @@ public class PortafirmasIndraImpl implements Cws, Constants {
   @EJB(mappedName = "portafib/TipusDocumentLogicaEJB/local")
   protected TipusDocumentLogicaLocal tipusDocumentLogicaEjb;
 
-  @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
+  @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local", beanName = "UsuariEntitatLogicaEJB")
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-  @EJB(mappedName = "portafib/RoleUsuariEntitatEJB/local")
+  @EJB(mappedName = "portafib/RoleUsuariEntitatEJB/local", beanName = "RoleUsuariEntitatEJB")
   protected es.caib.portafib.ejb.RoleUsuariEntitatLocal roleUsuariEntitatEjb;
 
   @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
   protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
   
-  @EJB(mappedName = "portafib/TipusDocumentEJB/local")
+  @EJB(mappedName = "portafib/TipusDocumentEJB/local", beanName = "TipusDocumentEJB")
   protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
   
   @EJB(mappedName = "portafib/WebServicesMethodsEJB/local")
   protected WebServicesMethodsLocal webServicesMethodsEjb;
   
-  @EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local")
+  @EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local", beanName = "PeticioDeFirmaLogicaEJB")
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
   
   @EJB(mappedName = "portafib/FitxerLogicaEJB/local")
@@ -356,30 +352,30 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     return usuariAplicacio;
   }
 
-  public static SoapFault createFaultNoAutenticat() {
+  public SoapFault createFaultNoAutenticat() {
     return createFault(1, "Aplicación no autorizada");
   }
 
-  public static SoapFault createFaultErrorGeneral(Throwable th) {
+  public SoapFault createFaultErrorGeneral(Throwable th) {
     return createFault(99, "Error general de los servicios web de portafirmas: "
         + th.getClass().getName());
   }
   
-  public static SoapFault createFaultErrorGeneral(String msg) {
+  public SoapFault createFaultErrorGeneral(String msg) {
     return createFault(99, "Error general de los servicios web de portafirmas: "
         + msg);
   }
   
-  public static SoapFault createFaultNullPointer() {
+  public SoapFault createFaultNullPointer() {
     return  createFault(99, "Error general de los servicios" +
     		" web de portafirmas: java.lang.NullPointerException");
   }
 
-  private static SoapFault createFault(int code, String msg) {
+  private SoapFault createFault(int code, String msg) {
     SoapFault sf;
     sf = new SoapFault(code + ": " + msg, new javax.xml.namespace.QName(String.valueOf(code)));
     return sf;
-  };
+  }
   
   
   
@@ -728,7 +724,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       // Cerca per filtre
       SearchCriterias searchCriterias = deleteRequest.getSearchCriterias();
       
-      Where filtre = getFilter(docIDs, searchCriterias, operationName);
+      Where filtre = getFilter(docIDs, searchCriterias, operationName, usuariAplicacio.getUsuariAplicacioID());
       
       List<Long> listIDs = webServicesMethodsEjb.deletePeticionsDeFirma(filtre,
           usuariAplicacio.getUsuariAplicacioID());
@@ -809,7 +805,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       SearchCriterias searchCriterias = listRequest.getSearchCriterias();
       String operationName = "ListDocuments";
       
-      Where filtre = getFilter(docIDs, searchCriterias, operationName);
+      Where filtre = getFilter(docIDs, searchCriterias, operationName, usuariAplicacio.getUsuariAplicacioID());
 
       List<PeticioDeFirmaJPA> peticions = peticioDeFirmaLogicaEjb.selectFull(filtre);
       
@@ -845,7 +841,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
   }
 
   private Where getFilter(List<Long> docIDs, SearchCriterias searchCriterias,
-      String operationName) throws I18NException {
+      String operationName, String userid) throws I18NException {
     Where filtre = getFilterFromSearchCriterias(searchCriterias, operationName);
 
     if (docIDs == null && filtre == null) {
@@ -863,8 +859,10 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     
     // Eliminar les peticions d'usuari-entitat via web
     Where excludeWebRequests = PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID.isNull();
-    
-    filtre = Where.AND(filtre, whereDoc, excludeWebRequests);
+
+    Where userAppIsOwner = PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.equal(userid);
+
+    filtre = Where.AND(filtre, whereDoc, excludeWebRequests, userAppIsOwner);
     return filtre;
   }
 
@@ -2439,8 +2437,14 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     attributes.setDateLimit(toXML(peticioDeFirma.getDataCaducitat()) );
     
     attributes.setDescription(peticioDeFirma.getDescripcio());
-    
-    attributes.setExtension(getExtensioDeDocument(peticioDeFirma.getFitxerAFirmar().getNom()));
+
+    FitxerJPA fitxerAFirmar = peticioDeFirma.getFitxerAFirmar();
+
+    if (fitxerAFirmar != null) {
+      attributes.setExtension(getExtensioDeDocument(fitxerAFirmar.getNom()));
+    } else {
+      attributes.setExtension("");
+    }
     
     // Això és informació que es retorna quan el document es retornat (downloadDocument)
     attributes.setExternalData(peticioDeFirma.getInformacioAddicional());
@@ -2460,9 +2464,15 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     
     // Indica si el document ja està signat i es volen afegir més signatures.    
     // Tiquet #129
-    final int numberSignatures = PdfUtils.getNumberOfSignaturesInPDF(
-        FileSystemManager.getFile(peticioDeFirma.getFitxerAFirmarID()));
-    attributes.setIsFileSign( numberSignatures == 0? false : true);
+    if (fitxerAFirmar != null) {
+      final int numberSignatures = PdfUtils.getNumberOfSignaturesInPDF(
+            FileSystemManager.getFile(peticioDeFirma.getFitxerAFirmarID()));
+      attributes.setIsFileSign(numberSignatures == 0 ? false : true);
+    } else {
+      //TODO Si el fitxer s'ha depurat la única manera de saber-ho seria mirar el getLastSignOfPeticioDeFirma i
+      // mirar si el darrer fitxer firmat té més signatures que el numFirmaDocument
+      attributes.setIsFileSign(false);
+    }
 
     attributes.setNumberAnnexes(peticioDeFirma.getAnnexs().size());
     
