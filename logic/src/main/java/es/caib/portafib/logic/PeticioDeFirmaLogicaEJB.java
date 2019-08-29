@@ -597,7 +597,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     initialize_Flux_Annexos_Custody(peticioDeFirma);
 
     initializeUsuaris(peticioDeFirma);
-
+    Hibernate.initialize(peticioDeFirma.getTipusDocument());
     Hibernate.initialize(peticioDeFirma.getMetadadas());
   }
 
@@ -658,7 +658,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   @Override
   public void start(Long peticioDeFirmaID, boolean wakeupTimer) throws I18NException {
 
-    PeticioDeFirmaJPA peticioDeFirma = findByPrimaryKeyForCustody(peticioDeFirmaID);
+    PeticioDeFirmaJPA peticioDeFirma = findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
 
     if (peticioDeFirma == null) {
       // No s´ha trobat cap {0} amb {1} igual a {2}
