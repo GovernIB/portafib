@@ -175,10 +175,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       EntitatJPA entitatJPA = entitatEjb.findByPrimaryKey(entitatID);
       CustodiaInfo custodiaInfo = custodiaInfoLogicaEjb.getCustodiaUA(usuariAplicacio, null,
           nom, entitatJPA);
-      
-      log.info("\n\n XYZ ZZZ ZZZ getCustodiaUA ==> " + custodiaInfo); 
-      
-      
+
       CustodiaForStartPeticioDeFirma custStartInfo = null;
       PassarelaSecureVerificationCodeStampInfo psvcs = null;
       Map<String, PeticioDeFirmaJPA> peticioDeFirmaBySignID = new HashMap<String, PeticioDeFirmaJPA>();
@@ -218,8 +215,9 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
           
           cust = (CustodiaInfoJPA)custodiaInfoLogicaEjb.create(cust);
           
-          
-          log.info("\n\n XYZ ZZZ ZZZ Creada custodia per SIGID[" + signID + "] ==> " + cust); 
+          if (log.isDebugEnabled()) {
+            log.debug("\n\nCreada custodia per SIGID[" + signID + "] ==> " + cust);
+          }
           custodiaBySignID.put(signID, cust);
           
           

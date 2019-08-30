@@ -25,6 +25,7 @@ import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 import es.caib.portafib.ws.v1.utils.AuthenticatedBaseV1WsImpl;
 import es.caib.portafib.ws.v1.utils.JPAConversion;
+
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
@@ -38,11 +39,14 @@ import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.WebServiceContext;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;

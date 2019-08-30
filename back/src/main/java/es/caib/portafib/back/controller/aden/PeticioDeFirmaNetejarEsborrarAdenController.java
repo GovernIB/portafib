@@ -337,6 +337,13 @@ public class PeticioDeFirmaNetejarEsborrarAdenController extends AbstractPeticio
   protected boolean mostrarBotoEsborrar() {
     return true;
   }
+
+
+  @Override
+  protected boolean ferRebuigQuanEsborra() {
+    // Les peticions només són acabades bé o rebutjades
+    return false;
+  }
   
 
 }

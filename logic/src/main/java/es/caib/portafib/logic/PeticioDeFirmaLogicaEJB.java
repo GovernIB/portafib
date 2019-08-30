@@ -1761,15 +1761,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         return files;
       }
       
-      int estatP = pf.getTipusEstatPeticioDeFirmaID();
-      if (estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
-          || estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
-        // OK
-        // URGENT XYZ ZZZ TRA
-        throw new I18NException("genapp.comodi",
-            "La petició titulada " + pf.getTitol()
-            + " NO ha d'estar pausada o en procés per poder-la esborrar");
-      }
+//      int estatP = pf.getTipusEstatPeticioDeFirmaID();
+//      if (estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
+//          || estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
+//        // OK
+//        // URGENT XYZ ZZZ TRA
+//        throw new I18NException("genapp.comodi",
+//            "La petició titulada " + pf.getTitol()
+//            + " NO ha d'estar pausada o en procés per poder-la esborrar");
+//      }
       
 
       // Check si l'usuari entitat o aplicació té permis per esborrar
@@ -2664,10 +2664,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
       // OK
     } else {
-      // URGENT XYZ ZZZ TRA
-      throw new I18NException("genapp.comodi", "La petició titulada "
-      + peticioDeFirma.getTitol() 
-      + " ha d'estar pausada o en procés per poder-la rebutjar");
+      // La petició titulada {0} ha d'estar pausada o en procés per poder-la rebutjar
+      throw new I18NException("peticiodefirma.error.rebutjar.estarenmarxa",
+          peticioDeFirma.getTitol());
     }
 
     EstatDeFirmaQueryPath efqp = new EstatDeFirmaQueryPath();
@@ -2743,10 +2742,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         || estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
       // OK
     } else {
-      // URGENT XYZ ZZZ TRA
-      throw new I18NException("genapp.comodi",
-          "La petició titulada " + peticioDeFirma.getTitol()
-          + " ha d'estar pausada o en procés per poder-la rebutjar");
+      // La petició titulada {0} ha d'estar pausada o en procés per poder-la rebutjar
+      throw new I18NException("peticiodefirma.error.rebutjar.estarenmarxa",
+          peticioDeFirma.getTitol());
     }
     
 
@@ -2826,7 +2824,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       this.update(peticioDeFirma);
       events.peticio_rebutjada(peticioDeFirma, estatDeFirma);
 
-      bitacolaLogicaEjb.createBitacola("Petició rebutjada",
+      bitacolaLogicaEjb.createBitacola("Petició rebutjada: " + motiuDeRebuig,
               peticioDeFirmaID,
               getActingUsuariEntitat(estatDeFirma), null);
 

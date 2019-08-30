@@ -247,8 +247,6 @@ public class CustodiaInfoSoliController extends CustodiaInfoController implement
         }
       }
 
-      log.info("XYZ ZZZ ZZZ getCustodiaInfoForm():: politicaDeFirma => " + politicaDeCustodia);
-
       if (politicaDeCustodia == null) {
         // No Permetre
         custodiaInfoForm.setDeleteButtonVisible(true);

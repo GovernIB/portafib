@@ -237,7 +237,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       LoginInfo loginInfo = commonChecks();
 
       // Checks usuari aplicacio
-      log.info(" XYZ ZZZ ZZZ Usuari-APP = " + loginInfo.getUsuariAplicacio());
+      if (log.isDebugEnabled()) {
+        log.info("Usuari-APP = " + loginInfo.getUsuariAplicacio());
+      }
 
       UsuariAplicacioJPA ua = loginInfo.getUsuariAplicacio();
 
@@ -953,20 +955,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     // Custodia
     jpa.setCustodiaInfo(null);
     jpa.setCustodiaInfoID(null);
-    /* XYZ ZZZ ZZZ Es suposa que en el CreateFull de PeticioDeFirmaLogica 
-     * ja fara el que toqui.
-    {
-      CustodiaInfoJPA custodiaInfoJPA = getPoliticaCustodiaDeConfig(usrapp, entitatJPA);
-      if (custodiaInfoJPA == null) {
-        jpa.setCustodiaInfo(null);
-        jpa.setCustodiaInfoID(null);
-      } else {
-        CustodiaInfoJPA custodiaCloned = CustodiaInfoJPA.toJPA(custodiaInfoJPA);
-        custodiaCloned.setCustodiaInfoID(0);
-        jpa.setCustodiaInfo(custodiaCloned);
-      }
-    }
-    */
+
 
     // Metadades
     List<FirmaAsyncSimpleMetadata> metadades = signatureRequest.getMetadadaList();
@@ -1274,13 +1263,11 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       final UsuariAplicacioJPA usuariAplicacio, EntitatJPA entitatJPA) throws I18NException {
 
     int politica = usuariAplicacio.getPoliticaCustodia();
-    log.info("XYZ ZZZ ZZZ   POLITICA CUSTODIA CONFIG ==>  " + politica);
     // Falten casos de #165
 
     switch (politica) {
       case ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE:
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU:
-        log.info("XYZ ZZZ ZZZ   POLITICA USRAPP  XXXXXXXXXXX");
         return null;
 
       case ConstantsV2.POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT:
@@ -1293,8 +1280,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
         throw new I18NException("genapp.comodi", msg);
 
       case ConstantsV2.POLITICA_CUSTODIA_POLITICA_DE_CUSTODIA_DEFINIDA_EN_ENTITAT:
-        log.info("XYZ ZZZ ZZZ   POLITICA USRAPP => Entitat  EEEEEEE");
-      // continuam
+        // continuam
       break;
     }
 
@@ -1304,14 +1290,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     switch (politica) {
       case ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE:
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU:
-        log.info("XYZ ZZZ ZZZ   POLITICA Entitat  XXXXXXXXXXX");
-
         return null;
 
       case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO:
-
-        log.info("XYZ ZZZ ZZZ   POLITICA Entitat  YYYYYYYYYYYYYY");
-
         Long infoCust = entitatJPA.getCustodiaInfoID();
 
         CustodiaInfoJPA custodia = custodiaInfoLogicaEjb.findByPrimaryKey(infoCust);

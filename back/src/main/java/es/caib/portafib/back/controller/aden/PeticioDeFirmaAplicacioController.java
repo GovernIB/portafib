@@ -1,23 +1,35 @@
 package es.caib.portafib.back.controller.aden;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.controller.soli.PeticioDeFirmaSoliController;
+import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.AnnexFilterForm;
 import es.caib.portafib.back.form.webdb.AnnexForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Utils;
+import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -122,6 +134,125 @@ public class PeticioDeFirmaAplicacioController extends PeticioDeFirmaSoliControl
         throw new I18NException("genapp.comodi", "getOrigenPeticioDeFirma = "
             + getOrigenPeticioDeFirma() + " desconegut");
     }
+  }
+  
+  
+  
+  
+  
+  
+
+
+  @RequestMapping(value = "/rebutjar/{peticioDeFirmaID}")
+  public String rebutjar(HttpServletRequest request, HttpServletResponse response,
+      @PathVariable Long peticioDeFirmaID) throws I18NException {
+
+    rebutjar(request, peticioDeFirmaID);
+
+    return getRedirectWhenDelete(request, peticioDeFirmaID, null);
+  }
+
+
+
+  @RequestMapping(value = "/rebutjarSeleccionades", method = RequestMethod.POST)
+  public String rebutjarSeleccionades(HttpServletRequest request,
+      HttpServletResponse response, @ModelAttribute PeticioDeFirmaFilterForm filterForm) {
+
+    String[] seleccionats = filterForm.getSelectedItems();
+
+    if (seleccionats != null && seleccionats.length != 0) {
+      for (int i = 0; i < seleccionats.length; i++) {
+        rebutjar(request, Long.parseLong(seleccionats[i]));
+      }
+    }
+
+    return getRedirectWhenDelete(request, null, null);
+  }
+
+
+  protected PeticioDeFirmaJPA rebutjar(HttpServletRequest request, Long peticioDeFirmaID) {
+    try {
+      // TODO ha d'anar a la part de lògica
+      PeticioDeFirmaJPA peticioDeFirma = peticioDeFirmaLogicaEjb
+          .findByPrimaryKeyFull(peticioDeFirmaID);
+      if (peticioDeFirma == null) {
+        // Error
+        new PeticioDeFirmaController().createMessageError(request, "error.notfound", null);
+      } else {
+        
+        String motiuDeRebuig2 = request.getParameter("motiuRebuig");
+
+        String motiuDeRebuig = I18NUtils.tradueix("aturarpeticionsdefirma.motiurebuig",
+            Utils.getNom(LoginInfo.getInstance().getUsuariPersona()), motiuDeRebuig2);
+
+
+        peticioDeFirmaLogicaEjb.rebutjarADEN(peticioDeFirma, LoginInfo.getInstance()
+            .getUsuariEntitatID(), motiuDeRebuig);
+
+      }
+      
+      return peticioDeFirma;
+
+    } catch (I18NException i18ne) {
+      HtmlUtils.saveMessageError(request, I18NUtils.getMessage(i18ne));
+      return null;
+    }
+    
+   
+  }
+  
+  
+  
+  @Override
+  public void postList(HttpServletRequest request, ModelAndView mav,
+      PeticioDeFirmaFilterForm filterForm, List<PeticioDeFirma> list) throws I18NException {
+
+    super.postList(request, mav, filterForm, list);
+
+    switch (getOrigenPeticioDeFirma()) {
+
+      case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+      break;
+
+      case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+      case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+      // REBUTJAR
+      {
+
+        boolean mostrarBotoGlobal = false;
+
+        Long key;
+        int estat;
+        for (PeticioDeFirma peticio : list) {
+          key = peticio.getPeticioDeFirmaID();
+          estat = peticio.getTipusEstatPeticioDeFirmaID();
+          if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES
+              || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
+            mostrarBotoGlobal = true;
+            filterForm.addAdditionalButtonByPK(key, new AdditionalButton("icon-remove",
+                "rebutjar", "javascript:rebutjar(" + key + ");", "btn-warning"));
+          }
+        }
+
+        if (mostrarBotoGlobal) {
+          filterForm.addAdditionalButton(new AdditionalButton("icon-remove",
+              "rebutjarseleccionats", "javascript:rebutjarseleccionades();", "btn-warning"));
+
+          filterForm.setAttachedAdditionalJspCode(true);
+          filterForm.setVisibleMultipleSelection(true);
+
+        }
+
+      }
+      break;
+
+      default:
+        // XYZ ZZZ TRA
+        throw new I18NException("genapp.comodi", "No hi ha codi per gestionar "
+            + "el PostList en PeticioDeFirmaAplicacioController amb Origen "
+            + I18NUtils.tradueix("origenpeticiodefirma." + getOrigenPeticioDeFirma()));
+
+    } // Final Switch
   }
 
 }

@@ -304,9 +304,6 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
       FirmaSimpleCustodyInfo custody = null;
       {
         PassarelaCustodyInfo pci = psr.getCustodyInfo();
-
-        log.info(" XYZ ZZZ ZZZ  convertPassarelaSignatureResult2FirmaSimpleSignatureResult => " + pci);
-        
         if (pci != null) {
           custody = new FirmaSimpleCustodyInfo(pci.getCustodyFileID(),
               pci.getCustodyFileCSV(), pci.getCustodyFileCSVValidationWeb(),

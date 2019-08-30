@@ -530,9 +530,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       
       case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
         return CustodiaInfoSoliController.SOLI_CUSTODIA_CONTEXT ;
-      
 
-      
       case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
       case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
         return CustodiaInfoAdenController.ADEN_CUSTODIA_CONTEXT;
@@ -1362,15 +1360,13 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
       // Ocultar boto de crear
       peticioDeFirmaFilterForm.setAddButtonVisible(false);
-      
-
 
       // Ordre inicial
       //BooleanField avisWeb = new PeticioDeFirmaQueryPath().PETICIODEFIRMAUSUARIENTITAT().AVISWEB();
-      
+
       OrderBy[] ordre;
       switch (getOrigenPeticioDeFirma()) {
-        
+
         case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
           ordre = new OrderBy[] {
               // TODO
@@ -1380,9 +1376,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
               new OrderBy(DATASOLICITUD, OrderType.DESC),
           };
           break;
-        
 
-        
         case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
         case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
           ordre = new OrderBy[] {
@@ -1391,20 +1385,19 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
               new OrderBy(DATASOLICITUD, OrderType.DESC),
           };
         break;
-          
+
         default:
-         // XYZ ZZZ TRA
-          throw new I18NException("genapp.comodi"," No hi ha codi per gestionar l'ordre de les Peticions de Firma amb Origen " + 
+           // XYZ ZZZ TRA
+          throw new I18NException("genapp.comodi","No hi ha codi per gestionar l'ordre de"
+              + " les Peticions de Firma amb Origen " + 
             I18NUtils.tradueix("origenpeticiodefirma." + getOrigenPeticioDeFirma()));
       }
-      
+
       peticioDeFirmaFilterForm.setDefaultOrderBy(ordre);
       peticioDeFirmaFilterForm.setActionsRenderer(EstatDeFirmaFilterForm.ACTIONS_RENDERER_DROPDOWN_BUTTON);
 
     }
-    
-   
-    
+
     return peticioDeFirmaFilterForm;
   }
 

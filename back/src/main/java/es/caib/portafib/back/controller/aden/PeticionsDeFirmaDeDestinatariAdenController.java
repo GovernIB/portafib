@@ -298,4 +298,9 @@ public class PeticionsDeFirmaDeDestinatariAdenController extends AbstractPeticio
     return true;
   }
 
+  @Override
+  protected boolean ferRebuigQuanEsborra() {
+    return false;
+  }
+
 }

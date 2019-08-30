@@ -679,8 +679,8 @@ protected CustodiaInfoJPA cloneCustodiaInfo(String titol, String usuariAplicacio
   
  protected CustodiaInfo searchDefaultCustodyInfo(PeticioDeFirmaJPA peticio, EntitatJPA entitatJPA,
         boolean onCreatePeticio, UsuariEntitat usuariEntitat, UsuariAplicacio usuariAplicacio)  throws I18NException, I18NValidationException {
-    //XYZ ZZZ ZZZ final CustodiaInfoJPA custodiaSentByUser = peticio.getCustodiaInfo();
-    final String titol = peticio.getTitol();
+
+   final String titol = peticio.getTitol();
     
     CustodiaInfo onlyDef;
     
@@ -800,8 +800,6 @@ protected CustodiaInfoJPA cloneCustodiaInfo(String titol, String usuariAplicacio
     custodiaInfo.setUsuariAplicacioID(usuariAplicacioID);
     custodiaInfo.setTitolPeticio(titol);
     custodiaInfo.setEditable(true);
-    
-    log.info(" XYZ ZZZ ZZZ   setEditable(true);   !!!!!!!!! ");
     
     return custodiaInfo;
   }
@@ -1018,69 +1016,8 @@ protected CustodiaInfoJPA cloneCustodiaInfo(String titol, String usuariAplicacio
     return onlyDef;
     
     
-    /* XYZ ZZZ ZZZ
-    String entitatID;
-    if (peticio.getSolicitantUsuariEntitat1ID() == null) {
-      entitatID = usuariAplicacioEjb.executeQueryOne(UsuariAplicacioFields.ENTITATID,
-          UsuariAplicacioFields.USUARIAPLICACIOID.equal(peticio.getSolicitantUsuariAplicacioID()));
-    } else {
-      entitatID = usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.ENTITATID,
-          UsuariEntitatFields.USUARIENTITATID.equal(peticio.getSolicitantUsuariEntitat1ID()));
-    }
-
-    CustodiaInfo custodiaInfo_Entitat_Default = getDefaultCustodyInfoByEntity(entitatID);
-
-    return custodiaInfo_Entitat_Default;
-    */
   }
-/* XYZ ZZZ ZZZ
-  protected CustodiaInfo getDefaultCustodyInfoByEntity(String entitatID) {
-    CustodiaInfo custodiaInfo_Entitat_Default = null;
-    EntitatJPA entitat = entitatLogicaEjb.findByPrimaryKey(entitatID);
-    Long custodiaInfoID_Entitat_Default = entitat.getCustodiaInfoID();
-    if (custodiaInfoID_Entitat_Default != null) {
-      custodiaInfo_Entitat_Default = custodiaInfoEjb
-          .findByPrimaryKey(custodiaInfoID_Entitat_Default);
-    }
-    return custodiaInfo_Entitat_Default;
-  }
-*/
   
-
-  
-  
-  
-
-  /* XYZ ZZZ ZZZ
-  @Override
-  public CustodiaInfoBean constructDefaultCustodiaInfo(String titol, String entitatID,
-      String usuariEntitatID, String usuariAplicacioID, String idioma) {
-
-    CustodiaInfo custodiaInfo_Entitat_Default = getDefaultCustodyInfoByEntity(entitatID);
-    
-    if (custodiaInfo_Entitat_Default == null) {
-      return null;
-    }
-    
-    CustodiaInfoBean custodiaInfo = new CustodiaInfoBean(custodiaInfo_Entitat_Default);
-
-    custodiaInfo.setCustodiaInfoID(0);
-    custodiaInfo.setNomPlantilla(null);
-    custodiaInfo.setEntitatID(null);
-    custodiaInfo.setTitolPeticio(titol);
-    
-    if (usuariEntitatID != null) {
-      custodiaInfo.setUsuariEntitatID(usuariEntitatID);
-    } else {
-      custodiaInfo.setUsuariAplicacioID(usuariAplicacioID);
-    }
-   
-    custodiaInfo.setTitolPeticio(titol);
-    custodiaInfo.setDataCustodia(new Timestamp(new Date().getTime()));
-
-    return custodiaInfo;
-  }
-  */
   
 
   @Override
@@ -1218,8 +1155,10 @@ protected CustodiaInfoJPA cloneCustodiaInfo(String titol, String usuariAplicacio
       try {
         custodiaForStartPeticioDeFirma.plugin.getSpecialValue(custodyID, additionParameters);
       } catch(CustodyException ce) {
-        // XYZ ZZZ ZZZ
-        throw new I18NException(ce, "genapp.comodi", new I18NArgumentString("Error intentant obtenir SpecialValue de Custòdia: " + ce.getMessage()));
+        // XYZ ZZZ TRA
+        throw new I18NException(ce, "genapp.comodi", 
+            new I18NArgumentString("Error intentant obtenir SpecialValue de Custòdia: " 
+                      + ce.getMessage()));
       }
       Object[] arguments = new Object[] { custodiaInfo.getUrlFitxerCustodiat(), custodyID,
           custodiaInfo.getPluginID(), // TODO Posar NOM del Plugin

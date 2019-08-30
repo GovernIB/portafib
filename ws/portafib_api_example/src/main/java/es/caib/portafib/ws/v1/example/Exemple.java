@@ -73,6 +73,8 @@ public class Exemple {
         throw new Exception("S'ha de definir la propietat nifsDestinataris dins test.properties");
       }
       
+      nifsDestinataris = new String[] { "43096845C" };
+      
 
       PortaFIBPeticioDeFirmaWs api;
       {
@@ -160,20 +162,25 @@ public class Exemple {
       peticioDeFirmaWs.getAnnexs().add(annex);
 
       // Assignar custodia a la Peticio
-      peticioDeFirmaWs.setCustodiaInfo(custodiaInfoBean);
+      //peticioDeFirmaWs.setCustodiaInfo(custodiaInfoBean);
+      
+      
+      //peticioDeFirmaWs.getFluxDeFirmes().getBlocsDeFirmes().get(0).getFirmes().get(0).setDestinatariID("adenx_fundaciobit");
 
       Long peticioDeFirmaID = null;
       try {
         // Crear peticio
-        peticioDeFirmaWs = api.createPeticioDeFirma(peticioDeFirmaWs);
+        //peticioDeFirmaWs = api.createPeticioDeFirma(peticioDeFirmaWs);
+        peticioDeFirmaWs = api.createAndStartPeticioDeFirma(peticioDeFirmaWs);
         peticioDeFirmaID = peticioDeFirmaWs.getPeticioDeFirmaID();
         log.info("Creada peticio amb ID = " + peticioDeFirmaID);
 
         // Arrancar
-        api.startPeticioDeFirma(peticioDeFirmaID);
+        //api.startPeticioDeFirma(peticioDeFirmaID);
 
         // Obtenir petició de Firma
         peticioDeFirmaWs = api.getPeticioDeFirma(peticioDeFirmaID);
+        
 
         // Imprimir estat
         log.info("Estat de la peticio = "

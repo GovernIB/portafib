@@ -206,7 +206,9 @@ public class PropietatGlobalAdminController extends PropietatGlobalController {
 
     }
 
-    log.info("XYZ ZZZ ZZZ propietats SIZE => " + propietats.size());
+    if (log.isDebugEnabled()) {
+      log.debug("propietats SIZE => " + propietats.size());
+    }
 
     for (PropietatGlobal pg : list) {
 

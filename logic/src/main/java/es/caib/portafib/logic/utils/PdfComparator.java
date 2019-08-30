@@ -214,9 +214,7 @@ public class PdfComparator implements ConstantsV2 {
               return true;
             }
           } catch (IOException e) {
-            // XYZ ZZZ ZZZ log.error("Error comparat contingut d'adjunts " + e.getMessage(),
-            // e);
-            System.err.println("Error comparat contingut d'adjunts " + e.getMessage());
+            log.error("Error comparat contingut d'adjunts " + e.getMessage(),e);
             return false;
           }
         }

@@ -137,7 +137,7 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
   
   protected abstract boolean mostrarBotoEsborrar();
   
-  
+  protected abstract boolean ferRebuigQuanEsborra();
 
   protected static void cleanFiltersAndGroups(PeticioDeFirmaFilterForm peticioDeFirmaFilterForm) {
 
@@ -156,25 +156,21 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
 
   }
   
-  
 
-  
-  
   @RequestMapping(value = "/rebutjar/{peticioDeFirmaID}")
-  public ModelAndView rebutjar(HttpServletRequest request, HttpServletResponse response,
+  public String rebutjar(HttpServletRequest request, HttpServletResponse response,
       @PathVariable Long peticioDeFirmaID) throws I18NException {
 
     rebutjar(request, peticioDeFirmaID);
 
-    return llistatPaginat(request, response, null);
+    return getRedirectWhenDelete(request, peticioDeFirmaID, null);
   }
 
 
 
   @RequestMapping(value = "/rebutjarSeleccionades", method = RequestMethod.POST)
-  public ModelAndView rebutjarSeleccionades(HttpServletRequest request,
-      HttpServletResponse response, @ModelAttribute PeticioDeFirmaFilterForm filterForm)
-      throws I18NException {
+  public String rebutjarSeleccionades(HttpServletRequest request,
+      HttpServletResponse response, @ModelAttribute PeticioDeFirmaFilterForm filterForm) {
 
     String[] seleccionats = filterForm.getSelectedItems();
 
@@ -184,11 +180,11 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
       }
     }
 
-    return llistatPaginat(request, response, null);
+    return getRedirectWhenDelete(request, null, null);
   }
 
 
-  protected void rebutjar(HttpServletRequest request, Long peticioDeFirmaID) {
+  protected PeticioDeFirmaJPA rebutjar(HttpServletRequest request, Long peticioDeFirmaID) {
     try {
       // TODO ha d'anar a la part de lògica
       PeticioDeFirmaJPA peticioDeFirma = peticioDeFirmaLogicaEjb
@@ -208,9 +204,12 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
             .getUsuariEntitatID(), motiuDeRebuig);
 
       }
+      
+      return peticioDeFirma;
 
     } catch (I18NException i18ne) {
       HtmlUtils.saveMessageError(request, I18NUtils.getMessage(i18ne));
+      return null;
     }
   }
   
@@ -219,11 +218,14 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
   @RequestMapping(value = "/esborrar/{peticioDeFirmaID}")
   public String esborrar(HttpServletRequest request, HttpServletResponse response,
       @PathVariable Long peticioDeFirmaID) throws I18NException {
+    
+    if (ferRebuigQuanEsborra()) {
+      rebutjar(request, peticioDeFirmaID);
+    }
 
     esborrar(request, peticioDeFirmaID);
 
-    String redirect = getRedirectWhenDelete(request, null, null);
-    return redirect;
+    return  getRedirectWhenDelete(request, null, null);
   }
   
   
@@ -242,15 +244,23 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
 
     } else {
       
+      if (ferRebuigQuanEsborra()) {
+        for (int i = 0; i < seleccionats.length; i++) {
+          Long peticioDeFirmaID = stringToPK(seleccionats[i]);
+          rebutjar(request, peticioDeFirmaID);
+          Thread.sleep(100);
+        }
+        Thread.sleep(1000);
+      }
+      
+      
       for (int i = 0; i < seleccionats.length; i++) {
         Long peticioDeFirmaID = stringToPK(seleccionats[i]);
-        
         esborrar(request, peticioDeFirmaID);
       }
     }
 
-    String redirect = getRedirectWhenDelete(request, null, null);
-    return redirect;
+    return getRedirectWhenDelete(request, null, null);
   }
 
 
@@ -321,7 +331,7 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
       campsFiltre.add(DATASOLICITUD);
       campsFiltre.add(DATAFINAL);
       campsFiltre.add(DATACADUCITAT);
-      
+
       if (showUsuariAplicacio) {
         campsFiltre.add(SOLICITANTUSUARIAPLICACIOID);
       }
@@ -418,17 +428,17 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
 
       } else {
         // Esborrar Boto Global
-        AdditionalButton abToDelete = null;
-        for (AdditionalButton ab : filterForm.getAdditionalButtons()) {
-          if ("rebutjarseleccionats".equals(ab.getCodeText())) {
-            abToDelete = ab;
-            break;
-          }
-        }
-
-        if (abToDelete != null) {
-          filterForm.getAdditionalButtons().remove(abToDelete);
-        }
+//        AdditionalButton abToDelete = null;
+//        for (AdditionalButton ab : filterForm.getAdditionalButtons()) {
+//          if ("rebutjarseleccionats".equals(ab.getCodeText())) {
+//            abToDelete = ab;
+//            break;
+//          }
+//        }
+//
+//        if (abToDelete != null) {
+//          filterForm.getAdditionalButtons().remove(abToDelete);
+//        }
 
         // Esborrar seleccio multiple
 
@@ -442,49 +452,63 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
     if (mostrarBotoEsborrar()) {
 
       boolean mostrarBotoGlobal = false;
-
+      
+      List<Integer> estatsEnQueNoEsPotEsborrar = new ArrayList<Integer>();
+      if (ferRebuigQuanEsborra()) {
+        // En tots els casos mostrar el Boto d'Esborrar
+        } else {
+        // En Proces i Pausat No mostrar boto d'esborrat
+        estatsEnQueNoEsPotEsborrar.add(ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES);
+        estatsEnQueNoEsPotEsborrar.add(ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT);
+      }
+      
       Long key;
       int estat;
       for (PeticioDeFirma peticio : list) {
         key = peticio.getPeticioDeFirmaID();
         estat = peticio.getTipusEstatPeticioDeFirmaID();
-        if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES
-            || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
-          // NO ESBORRAR
+        
+        if (estatsEnQueNoEsPotEsborrar.contains(new Integer(estat))) {
+          // NO BOTO ESBORRAR
         } else {
           mostrarBotoGlobal = true;
+          
+          String js1 = "rebutjarEsborrar(" + key + ");";
+          String js2 = "openModal('" + getContextWeb() + "/esborrar/" + key + "','show');";
+          
           filterForm.addAdditionalButtonByPK(key, new AdditionalButton(
               "icon-trash icon-white", "genapp.delete",              
-              "javascript:openModal('" + getContextWeb() + "/esborrar" + "/" + key + "','show');",
-              //getContextWeb() + "/esborrar" + "/" + key,
+              "javascript:" +  (ferRebuigQuanEsborra()?js1:js2),
               "btn-danger"));
         }
       }
 
       if (mostrarBotoGlobal) {
+        
+        String js1 = "rebutjarEsborrarSeleccionades();";
+        String js2 = "openModalSubmit('" + request.getContextPath() + getContextWeb() + "/esborrarSeleccionades','show', 'peticioDeFirma');";
+            
         filterForm.addAdditionalButton(new AdditionalButton("icon-trash icon-white",
             "genapp.delete.selected", 
-            
-            "javascript:openModalSubmit('" + request.getContextPath() + getContextWeb() + "/esborrarSeleccionades','show','peticioDeFirmaFilterForm');",
-            
+            "javascript:" + (ferRebuigQuanEsborra()?js1:js2),
             // "javascript:submitTo('peticioDeFirmaFilterForm'," + " '" + request.getContextPath() + getContextWeb() + "/esborrarSeleccionades');",
             "btn-danger"));
 
         visibleMultipleSelection = true;
 
       } else {
-        // Esborrar Boto Global
-        AdditionalButton abToDelete = null;
-        for (AdditionalButton ab : filterForm.getAdditionalButtons()) {
-          if ("genapp.delete.selected".equals(ab.getCodeText())) {
-            abToDelete = ab;
-            break;
-          }
-        }
-
-        if (abToDelete != null) {
-          filterForm.getAdditionalButtons().remove(abToDelete);
-        }
+//        // Esborrar Boto Global
+//        AdditionalButton abToDelete = null;
+//        for (AdditionalButton ab : filterForm.getAdditionalButtons()) {
+//          if ("genapp.delete.selected".equals(ab.getCodeText())) {
+//            abToDelete = ab;
+//            break;
+//          }
+//        }
+//
+//        if (abToDelete != null) {
+//          filterForm.getAdditionalButtons().remove(abToDelete);
+//        }
       }
 
     }
