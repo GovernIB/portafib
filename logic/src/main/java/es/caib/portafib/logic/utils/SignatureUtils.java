@@ -490,7 +490,7 @@ public class SignatureUtils {
     }
 
     if (motiuDeFirma == null) {
-      // Firma {0} ({1}) per delegació de {2} ({3}). Motiu: {4}
+      // Firma {0} ({1}) per substitució de {2} ({3}). Motiu: {4}
       motiuDeFirma = I18NLogicUtils.tradueix(new Locale(lang), "motiudelegacio");
     }
 

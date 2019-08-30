@@ -3,7 +3,6 @@ package es.caib.portafib.back.controller.dest;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-
 import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.back.controller.webdb.ColaboracioDelegacioController;
@@ -44,7 +43,6 @@ import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
-
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -80,7 +78,6 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -444,6 +441,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     if (esDelegat()) {
       // Oculta revisor
       colaboracioDelegacioForm.addHiddenField(REVISOR);
+      // Afegir ajuda a Motiu #213
+      colaboracioDelegacioForm.addHelpToField(MOTIU, I18NUtils.tradueix("motiudelegacio.info"));
     } else {
       // Mostra ajuda per revisor
       colaboracioDelegacioForm.addHelpToField(REVISOR, I18NUtils.tradueix("colaboracio.revisor.info"));

@@ -1491,7 +1491,7 @@ import java.util.Set;
           }
         } else {
           // Delegat
-          // Firma {0} (NIF {1}) per delegació de {2} (NIF {3}).Motiu: {4}
+          // Firma {0} (NIF {1}) per substitució de {2} (NIF {3}).Motiu: {4}
           // (ID={5})
           ColaboracioDelegacio colaDele = colaboracioDelegacioEjb.findByPrimaryKey(colaDeleID);
 
