@@ -6,12 +6,11 @@ http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
          version="3.0">
     <assembly-descriptor>
 
-        <!--
+        <!-- Log de les cridades a PeticioDeFirmaLogicaEJB ja que és l'EJB més crític #220 -->
         <interceptor-binding>
-            <ejb-name>*</ejb-name>
+            <ejb-name>PeticioDeFirmaLogicaEJB</ejb-name>
             <interceptor-class>es.caib.portafib.logic.interceptors.LogInterceptor</interceptor-class>
         </interceptor-binding>
-        -->
 
     </assembly-descriptor>
 </ejb-jar>
