@@ -9,7 +9,6 @@ import es.caib.portafib.back.controller.webdb.AnnexController;
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.AnnexFilterForm;
 import es.caib.portafib.back.form.webdb.AnnexForm;
-import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
@@ -1394,7 +1393,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       }
 
       peticioDeFirmaFilterForm.setDefaultOrderBy(ordre);
-      peticioDeFirmaFilterForm.setActionsRenderer(EstatDeFirmaFilterForm.ACTIONS_RENDERER_DROPDOWN_BUTTON);
+      peticioDeFirmaFilterForm.setActionsRenderer(PeticioDeFirmaFilterForm.ACTIONS_RENDERER_DROPDOWN_BUTTON);
 
     }
 
