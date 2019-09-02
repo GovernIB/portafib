@@ -249,6 +249,7 @@ public class PeticionsDeFirmaDeDestinatariAdenController extends AbstractPeticio
         Set<Field<?>> list = peticioDeFirmaFilterForm.getHiddenFields();
         list.remove(PeticioDeFirmaFields.PETICIODEFIRMAID);
         list.remove(PeticioDeFirmaFields.TITOL);
+        list.remove(PeticioDeFirmaFields.REMITENTNOM);
         list.remove(PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID);
         list.remove(PeticioDeFirmaFields.DATACADUCITAT);
         list.remove(PeticioDeFirmaFields.DATASOLICITUD);

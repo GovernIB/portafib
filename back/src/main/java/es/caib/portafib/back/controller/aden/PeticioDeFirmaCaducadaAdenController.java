@@ -124,6 +124,7 @@ public class PeticioDeFirmaCaducadaAdenController extends AbstractPeticioDeFirma
         hiddenFields.remove(PeticioDeFirmaFields.PETICIODEFIRMAID);
         hiddenFields.remove(PeticioDeFirmaFields.TITOL);
         hiddenFields.remove(PeticioDeFirmaFields.DESCRIPCIO);
+        hiddenFields.remove(PeticioDeFirmaFields.REMITENTNOM);
         hiddenFields.remove(PeticioDeFirmaFields.DATACADUCITAT);
         hiddenFields.remove(PeticioDeFirmaFields.DATASOLICITUD);
 

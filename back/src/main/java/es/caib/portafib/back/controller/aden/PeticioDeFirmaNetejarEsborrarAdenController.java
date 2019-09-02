@@ -129,6 +129,7 @@ public class PeticioDeFirmaNetejarEsborrarAdenController extends AbstractPeticio
       hiddenFields.remove(PeticioDeFirmaFields.TITOL);
       // hiddenFields.remove(PeticioDeFirmaFields.DATASOLICITUD);
       hiddenFields.remove(PeticioDeFirmaFields.DATAFINAL);
+      hiddenFields.remove(PeticioDeFirmaFields.REMITENTNOM);
       // hiddenFields.remove(PeticioDeFirmaFields.USUARIENTITATID);
       // hiddenFields.remove(PeticioDeFirmaFields.USUARIAPLICACIOID);
       hiddenFields.remove(PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID);
@@ -139,6 +140,7 @@ public class PeticioDeFirmaNetejarEsborrarAdenController extends AbstractPeticio
   
         // filterByFields.add(PeticioDeFirmaFields.PETICIODEFIRMAID);
         filterByFields.add(PeticioDeFirmaFields.TITOL);
+        filterByFields.add(PeticioDeFirmaFields.REMITENTNOM);
         // filterByFields.add(PeticioDeFirmaFields.DATASOLICITUD);
         filterByFields.add(PeticioDeFirmaFields.DATAFINAL);
         // filterByFields.add(PeticioDeFirmaFields.USUARIENTITATID);

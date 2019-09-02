@@ -328,6 +328,7 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
       campsFiltre.add(TITOL);
       campsFiltre.add(DESCRIPCIO);
       campsFiltre.add(MOTIU);
+      campsFiltre.add(REMITENTNOM);
       campsFiltre.add(DATASOLICITUD);
       campsFiltre.add(DATAFINAL);
       campsFiltre.add(DATACADUCITAT);
