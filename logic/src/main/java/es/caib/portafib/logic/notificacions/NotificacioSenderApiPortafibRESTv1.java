@@ -29,14 +29,12 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
 
       // ENVIAR A SERVEI REST
       if (log.isDebugEnabled()) {
-         log.info("");
          log.info("--------------------");
-         log.info("Enviada notificacio amb id " + notificacioInfo.getIdObjectSent()
-               + " a l´usuari-aplicacio " + ua.getUsuariAplicacioID()
+         log.info("Enviant notificacio amb id " + notificacioInfo.getIdObjectSent()
+               + " a l'usuari-aplicacio " + ua.getUsuariAplicacioID()
                + " al servei REST ] "  + ua.getCallbackURL() + " (Versio "
                + ua.getCallbackVersio() + ")");
          log.info("--------------------");
-         log.info("");
       }
 
       String endPoint = ua.getCallbackURL();
@@ -48,6 +46,8 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
       String json = null;
       try {
          Client client = Client.create();
+         client.setConnectTimeout(CONNECTION_TIMEOUT);
+         client.setReadTimeout(RECEIVE_TIMEOUT);
 
          WebResource webResource = client.resource(endPoint);
 

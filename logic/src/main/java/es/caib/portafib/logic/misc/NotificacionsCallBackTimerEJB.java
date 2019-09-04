@@ -177,20 +177,26 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
 
       if (wakeUp && ( (lastFullExecution + notificacionsTimeLapse) > now)) {
 
+        // Comentat perquè el codi evita notificacions inmediates quan s'acaba de produir un event
+        // quan potser el sistema pot no estar fent res, i ha d'esperar la propera execució
+        /*
         if (lastExecution + 30000 > now) {
           log.warn("executeTask: Fa manco de 30 segons de la darrera execució. " +
                 "Com que això es un execució forçada llavors no executarem res.");
           return;
-        }
+        }*/
 
         log.info("executeTask: Només executam les Notificacions amb dataError==null");
 
       } else {
+
         Timestamp nowX = new Timestamp(now - notificacionsTimeLapse);
         whereDataError = Where.OR(whereDataError, NotificacioWSFields.DATAERROR.lessThan(nowX));
         log.info("executeTask: Execució completa");
         lastFullExecution = now;
+
       }
+
       lastExecution = now;
 
 
@@ -210,37 +216,36 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         return;
       }
 
-      // Temps màxim notificant, la meitat del temps programat, o com a màxim en qualsevol cas 1 minut
-      final long maxTempsNotificant = Math.min(notificacionsTimeLapse / 2, 60000);
-      long sleepTime = 2000L;
+      // Temps màxim notificant, la meitat del temps programat, o com a màxim en qualsevol cas 2 minuts
+      final long maxTempsNotificant = Math.min(notificacionsTimeLapse / 2, 120000);
+      long sleepTime = 1000L;
       long estimatedProcessTime = 500L;
       int maximSeleccionats = (int) (maxTempsNotificant / (sleepTime + estimatedProcessTime));
 
 
-      long order = notificacionsPendents / maximSeleccionats;
+      long ordreMagnitud = notificacionsPendents / maximSeleccionats;
 
-      if (order < 2) { // Si queden entre 0 i 48 notificacions
+      if (ordreMagnitud < 2) {
 
-        // Treurem 24 notificacions
-        log.info("executeTask: Velocitat de notificació normal ");
+        log.info("executeTask: Velocitat de notificació normal "); // 40 x minut
 
-      } else if (order < 4) {// Si queden entre 48 i 96 notificacions, pujam el ritme.
+      } else if (ordreMagnitud < 4) {
 
-        sleepTime /= 2; // Treurem 40 notificacions
+        sleepTime /= 2;
         maximSeleccionats = (int) (maxTempsNotificant / (sleepTime + estimatedProcessTime));
-        log.info("executeTask: Velocitat de notificació +");
+        log.info("executeTask: Velocitat de notificació +"); // 60 x minut
 
-      } else if (order < 6) { // Si queden més de 96 notificacions i manco que 144
+      } else if (ordreMagnitud < 6) {
 
-        sleepTime /= 8; // Treurem 80 notificacions
+        sleepTime /= 10;
         maximSeleccionats = (int) (maxTempsNotificant / (sleepTime + estimatedProcessTime));
-        log.info("executeTask: Velocitat de notificació ++");
+        log.info("executeTask: Velocitat de notificació ++"); // 100 x minut
 
-      } else { // Si queden més de 144 notificacions
+      } else {
 
-        sleepTime /= 20; // Treurem 100 notificacions
+        sleepTime = 0;
         maximSeleccionats = (int) (maxTempsNotificant / (sleepTime + estimatedProcessTime));
-        log.info("executeTask: Velocitat de notificació +++");
+        log.info("executeTask: Velocitat de notificació +++"); // 120 x minut
       }
 
       List<NotificacioWS> notificacions = notificacioEjb.select(where, 0, maximSeleccionats,
@@ -266,8 +271,9 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
                 + e.getMessage(), e);
         }
 
-
-        Thread.sleep(sleepTime);
+        if (sleepTime > 0L) {
+          Thread.sleep(sleepTime);
+        }
 
         // Estarem fent feina com a màxim la meitat del temps programat, o com a màxim 1 minut. per no saturar el servidor
         if ((System.currentTimeMillis() - now) > maxTempsNotificant) {
