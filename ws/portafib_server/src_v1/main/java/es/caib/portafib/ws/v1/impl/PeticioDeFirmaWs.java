@@ -94,7 +94,7 @@ public class PeticioDeFirmaWs extends PeticioDeFirmaBean {
             new DataHandlerDataSource(jpa.getFitxerAFirmar().getData()),
           fitxersCreats, PeticioDeFirmaFields.FITXERAFIRMARID);
       jpa.setFitxerAFirmarID(f==null? null : f.getFitxerID());
-      jpa.setFitxerAFirmar(null);
+      jpa.setFitxerAFirmar(f);
     }
     // Fitxer
     if (peticioDeFirmaWs.getFitxerAdaptat() != null) {
@@ -102,7 +102,7 @@ public class PeticioDeFirmaWs extends PeticioDeFirmaBean {
             new DataHandlerDataSource(jpa.getFitxerAdaptat().getData()),
           fitxersCreats, PeticioDeFirmaFields.FITXERADAPTATID);
       jpa.setFitxerAdaptatID(f==null? 0 : f.getFitxerID());
-      jpa.setFitxerAdaptat(null);
+      jpa.setFitxerAdaptat(f);
     }
     // Fitxer
     if (peticioDeFirmaWs.getLogoSegell() != null) {
@@ -110,7 +110,7 @@ public class PeticioDeFirmaWs extends PeticioDeFirmaBean {
             new DataHandlerDataSource(jpa.getLogoSegell().getData()),
           fitxersCreats, PeticioDeFirmaFields.LOGOSEGELLID);
       jpa.setLogoSegellID(f == null? 0 : f.getFitxerID());
-      jpa.setLogoSegell(null);
+      jpa.setLogoSegell(f);
     }
     
     // Custodia

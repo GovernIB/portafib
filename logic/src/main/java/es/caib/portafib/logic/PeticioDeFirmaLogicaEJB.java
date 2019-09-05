@@ -608,14 +608,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         .findByPrimaryKeyFullForNextSign(peticioDeFirma.getFluxDeFirmesID()));
 
     Hibernate.initialize(peticioDeFirma.getAnnexs());
-
-    for (AnnexJPA annex : peticioDeFirma.getAnnexs()) {
-      Hibernate.initialize(annex);
-      if (annex.getFitxerID() != 0 && annex.getFitxer() == null) {
-        annex.setFitxer(fitxerLogicaEjb.findByPrimaryKey((Long)annex.getFitxerID()));
-      }
-    }
-
     Hibernate.initialize(peticioDeFirma.getCustodiaInfo());
   }
 
