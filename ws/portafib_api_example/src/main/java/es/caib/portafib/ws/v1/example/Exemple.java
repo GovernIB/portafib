@@ -1,18 +1,6 @@
 package es.caib.portafib.ws.v1.example;
 
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.xml.ws.BindingProvider;
-
-import org.apache.log4j.Logger;
-
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.api.v1.AnnexBean;
 import es.caib.portafib.ws.api.v1.CustodiaInfoBean;
@@ -27,6 +15,16 @@ import es.caib.portafib.ws.api.v1.WsValidationException;
 import es.caib.portafib.ws.api.v1.utils.I18NUtils;
 import es.caib.portafib.ws.api.v1.utils.PeticioDeFirmaUtils;
 import es.caib.portafib.ws.api.v1.utils.WsClientUtils;
+import org.apache.log4j.Logger;
+
+import javax.xml.ws.BindingProvider;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * 
@@ -72,9 +70,6 @@ public class Exemple {
       if (nifsDestinataris == null) {
         throw new Exception("S'ha de definir la propietat nifsDestinataris dins test.properties");
       }
-      
-      nifsDestinataris = new String[] { "43096845C" };
-      
 
       PortaFIBPeticioDeFirmaWs api;
       {
@@ -138,7 +133,7 @@ public class Exemple {
             "annex.txt", "text/plain", true, true);
       } else {
         annex = PeticioDeFirmaUtils.constructAnnexBeanFromFile(
-            new File(getFitxerAAnnexar()), Constants.PDF_MIME_TYPE, true, true);
+            new File(getFitxerAAnnexar()), "text/plain", true, true);
       }
 
       // Fitxer a Firmar
