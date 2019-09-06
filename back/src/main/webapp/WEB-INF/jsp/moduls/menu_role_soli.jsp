@@ -15,30 +15,17 @@ public static final String[] menu = {
     "peticiodefirma.crear", // Realitzar petició de firma via Web o WebServices
     "peticioFirmaMassiva.titol",
     "",
-    //"peticioDeFirma.peticioDeFirma.plural", // Peticions de Firma
-    //"",
     
     "peticiodefirma.activa.plural",
     "peticiodefirma.firmada.plural",
     "peticiodefirma.rebutjada.plural",
-    /*
-    "descarregardocumentfirmat", // Descarregar document firmat    
-    "cancelarpeticiofirma", // Cancel·lar Petició de Firma 
-    "eliminarpeticiofirma", // Eliminar Petició de Firma 
-    */
+
     "",
     "custodiaInfo.custodiaInfo.plural",
     "",
-    /*
-    "llistartipusdocuments", // Llistar Tipus de Documents 
-    "",
-    */    
+ 
     "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", // Modificar Plantilla de Flux de Firma    
-    /*
-    "crearplantillafluxfirmes", // Crear Plantilla de Flux de Firma    
-    "modificarplantillafluxfirmes", // Modificar Plantilla de Flux de Firma    
-    "eliminarplantillafluxfirmes", // Eliminar Plantilla de Flux de Firma
-    */
+
 }; 
 
 public static final Map<String, String> mapping;
@@ -47,7 +34,7 @@ public static final Map<String, String> mapping;
 static {
   //Mapping to existent path
   mapping = new HashMap<String, String>();
-  mapping.put("peticiodefirma.crear", ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA + "/selectflux");
+  mapping.put("peticiodefirma.crear", ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/selectflux");
   
   mapping.put("peticioFirmaMassiva.titol", PeticioFirmaMassivaController.CONTEXTWEB);
 

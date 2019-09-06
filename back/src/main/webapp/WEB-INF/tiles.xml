@@ -226,7 +226,7 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariEntitatForm.jsp" />
     </definition>
     
-    <definition name="aturarPeticionsDeFirma" extends="role_aden">
+    <definition name="PeticionsDeFirmaDeDestinatari" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
     </definition>  
     
@@ -255,11 +255,11 @@
     
     <definition name="peticioDeFirmaAplicacioForm" extends="role_aden">
         <put-attribute name="titol" value="peticioDeFirma.peticioDeFirma" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/soli/peticioDeFirmaForm.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaForm.jsp" />
     </definition>
 
     <definition name="peticioDeFirmaAplicacioList" extends="role_aden">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/soli/peticioDeFirmaList.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
     </definition>
 
     <definition name="custodiaInfoForm_aden" extends="role_aden">
@@ -396,6 +396,15 @@
     
     <definition name="bitacolaListAden" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/bitacolaList.jsp" />
+    </definition>
+    
+    <definition name="annexFormAden" extends="role_aden">
+        <put-attribute name="titol" value="annex.annex" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/annexForm.jsp" />
+    </definition>
+    
+    <definition name="annexListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/annexList.jsp" />
     </definition>
 
 
@@ -680,12 +689,12 @@
    
     <definition name="peticioDeFirmaForm" extends="role_soli">
         <put-attribute name="titol" value="peticioDeFirma.peticioDeFirma" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/soli/peticioDeFirmaForm.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaForm.jsp" />
     </definition>
     
 
     <definition name="peticioDeFirmaList" extends="role_soli">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/soli/peticioDeFirmaList.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
     </definition>
 
 
@@ -708,7 +717,14 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/soli/peticioFirmaMassivaForm.jsp" />
     </definition>
     
+    <definition name="annexFormSoli" extends="role_soli">
+        <put-attribute name="titol" value="annex.annex" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/annexForm.jsp" />
+    </definition>
     
+    <definition name="annexListSoli" extends="role_soli">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/annexList.jsp" />
+    </definition>
 
 
 <!-- ==== GENAPP MARK START -->

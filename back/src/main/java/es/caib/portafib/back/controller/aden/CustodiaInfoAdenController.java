@@ -10,8 +10,8 @@ import es.caib.portafib.back.form.webdb.CustodiaInfoForm;
 
 /**
  * 
- * @author anadal
- * 
+ * @author anadal(u80067)
+ *
  */
 @Controller
 @RequestMapping(value = CustodiaInfoAdenController.ADEN_CUSTODIA_CONTEXT)
@@ -20,8 +20,11 @@ public class CustodiaInfoAdenController extends CustodiaInfoSoliController {
 
   public static final String ADEN_CUSTODIA_CONTEXT = "/aden/peticio/custodiainfo";
 
+  /**
+   * 
+   */
   @Override
-  public boolean isUsuariEntitat() {
+  public boolean isSolicitantWeb() {
     return false;
   }
 }

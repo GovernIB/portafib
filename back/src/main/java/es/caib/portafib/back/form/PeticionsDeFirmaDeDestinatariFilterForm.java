@@ -5,12 +5,12 @@ import org.springframework.stereotype.Component;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 
 /**
- *   
- * @author anadal
+ * 
+ * @author anadal(u80067)
  *
  */
 @Component
-public class AturarPeticionsDeFirmaFilterForm extends PeticioDeFirmaFilterForm {
+public class PeticionsDeFirmaDeDestinatariFilterForm extends PeticioDeFirmaFilterForm {
   
   /**
    * Usuari del que volem revisar les firmes actives de peticions de firmes.
@@ -19,10 +19,10 @@ public class AturarPeticionsDeFirmaFilterForm extends PeticioDeFirmaFilterForm {
   // TODO Guardar usuariEntitatID dins la sessió enlloc de fer un nou form !!!
   private String usuariEntitatID; 
 
-  public AturarPeticionsDeFirmaFilterForm() {    
+  public PeticionsDeFirmaDeDestinatariFilterForm() {    
   }
   
-  public AturarPeticionsDeFirmaFilterForm(PeticioDeFirmaFilterForm ffff) {
+  public PeticionsDeFirmaDeDestinatariFilterForm(PeticioDeFirmaFilterForm ffff) {
     super(ffff);
   }
 

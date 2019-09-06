@@ -223,7 +223,7 @@ public class GestioUsuarisDeGrupController extends GrupEntitatUsuariEntitatContr
 
       // TODO Arreglar missatges
       HtmlUtils.saveMessageError(request, 
-          I18NUtils.tradueix("aturarpeticionsdefirma.nif.error.nifsenseusuarisentitat",
+          I18NUtils.tradueix("peticionsdefirma.destinatari.nif.error.nifsenseusuarisentitat",
               usuariEntitatID));
 
     } else {

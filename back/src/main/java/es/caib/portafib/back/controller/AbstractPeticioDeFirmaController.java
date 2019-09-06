@@ -34,7 +34,7 @@ import es.caib.portafib.utils.ConstantsV2;
  */
 public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaController {
 
-  @EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local")
+  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
 
   @Autowired
@@ -53,7 +53,7 @@ public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaCon
     fitxers = peticioDeFirmaLogicaEjb.deleteFullUsingUsuariEntitat(
         peticioDeFirma.getPeticioDeFirmaID(), LoginInfo.getInstance().getUsuariEntitatID());
 
-    borrarFitxers(fitxers);
+    borrarFitxers(fitxers); 
   }
 
   // #166

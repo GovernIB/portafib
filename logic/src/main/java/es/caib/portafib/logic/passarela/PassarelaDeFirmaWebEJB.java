@@ -610,12 +610,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
     StatusSignaturesSet sss = ss.getStatusSignaturesSet();
 
-    //StatusSignaturesSet statusFinal = null;
-
-    //Map<String, File> fitxersFirmatsBySignID2 = new HashMap<String, File>();
-    
-    
-
     PassarelaSignaturesSetWebInternalUse ssf;
     ssf = getSignaturesSetFullByTransactionID(transactionID);
     if (ssf == null) {

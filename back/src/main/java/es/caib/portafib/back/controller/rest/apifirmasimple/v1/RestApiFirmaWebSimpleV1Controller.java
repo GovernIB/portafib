@@ -341,7 +341,9 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
       LoginInfo loginInfo = commonChecks();
 
       // Checks usuari aplicacio
-      log.info(" XYZ ZZZ ZZZ Usuari-APP = " + loginInfo.getUsuariAplicacio());
+      if (log.isDebugEnabled()) {
+        log.debug("getAvailableTypesOfDocuments ==> Usuari-APP = " + loginInfo.getUsuariAplicacio());
+      }
 
       UsuariAplicacioJPA ua = loginInfo.getUsuariAplicacio();
 

@@ -39,8 +39,11 @@ final String[] menu1 = {
     "",
     "validaciodefirmes.gestio", // /aden/validaciofirmes
     "",
+    "peticiodefirma.totes.consultar.llistar", // Consulta Peticions de Firma
+    "peticiodefirma.totes.gestionar.llistar", // Gestionar Peticions de Firma
+    "",
     "peticionscaducades.llistat", // Llistar peticions de firma caducades
-    "aturarpeticionsdefirma",
+    "peticionsdefirma.destinatari",
     "peticiodefirma.netejaesborrat",
     "",
     "estadistica.estadistica.plural",
@@ -56,8 +59,8 @@ final String[] menu2 = {
     CONFIGURACIO_DE_FIRMA,    
     "",
     "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural",
-    "peticiodefirma.wsv1.llistar", // Peticions de Firma API PortaFIB WS v1
-    "peticiodefirma.asyncsimple.llistar", // Peticions de Firma API Firma Async Simple v2
+    // XYZ ZZZ ZZZ Configuracio.isCAIB()? "" : 
+    "peticiodefirma.usrapp.llistar", // Peticions de Firma d'Usuaris-Aplicacio
     "custodiaInfo.custodiaInfo.plural",
     "notificaciows.llistat"
 };
@@ -99,7 +102,7 @@ static {
   mapping.put("revisor.gestio", "/aden/revisor/selecciousuari");
 
   mapping.put("peticionscaducades.llistat", "/aden/peticionscaducades/list");
-  mapping.put("aturarpeticionsdefirma", "/aden/aturarpeticions/selecciousuari");
+  mapping.put("peticionsdefirma.destinatari", "/aden/peticionsdedestinatari/selecciousuari");
 
   mapping.put("usuariaplicacio.gestio", "/aden/usuariAplicacio/list");
 
@@ -111,9 +114,11 @@ static {
 
   mapping.put("notificaciows.llistat", "/aden/notificaciows/list");
 
-  mapping.put("peticiodefirma.wsv1.llistar", ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA + "/list");
+  mapping.put("peticiodefirma.usrapp.llistar", ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_USRAPP + "/list");
 
-  mapping.put("peticiodefirma.asyncsimple.llistar", ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_ASYNC_SIMPLE + "/list");
+  mapping.put("peticiodefirma.totes.consultar.llistar", ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_TOTES_CONSULTAR + "/list");
+  
+  mapping.put("peticiodefirma.totes.gestionar.llistar", ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_TOTES_GESTIONAR + "/list");
 
   mapping.put("custodiaInfo.custodiaInfo.plural", "/aden/peticio/custodiainfo/list");
 

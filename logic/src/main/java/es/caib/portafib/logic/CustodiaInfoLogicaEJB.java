@@ -419,9 +419,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
     
 
   }
-  
-  
-  
+
   /**
    * 
    * @param usuariEntitat
@@ -435,8 +433,9 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
       throw new I18NException("genapp.comodi", "Usuari Entitat val null");
     }
 
-    int politicaCustodia = usuariEntitat.getPoliticaCustodia();
-
+    int politicaCustodia;
+    politicaCustodia = usuariEntitat.getPoliticaCustodia();
+    
     final String name = "usuari-entitat";
 
     return internalGetPoliticaDeCustodiaIDFinal(entitatJPA, politicaCustodia, name);
@@ -1321,7 +1320,7 @@ protected CustodiaInfoJPA cloneCustodiaInfo(String titol, String usuariAplicacio
           }
           break;
           default:
-            // XYZ ZZZ ZZZ
+            // XYZ ZZZ TRA
             throw new I18NException("genapp.comodi",
                 "Tipus de Firma " + tipusFirma + " no suportada en el procés de Custòdia !!!!");
         }

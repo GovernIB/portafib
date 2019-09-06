@@ -45,6 +45,8 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
       I18NValidationException;
 
   public List<PeticioDeFirmaJPA> selectFull(Where where) throws I18NException;
+  
+  public Set<Long> deleteFullUsingAdministradorEntitat(Long peticioDeFirmaID, String usuariEntitatID, String motiuEsborrat) throws I18NException;
 
   public Set<Long> deleteFullUsingUsuariEntitat(Long peticioDeFirmaID, String usuariEntitatID)
       throws I18NException;

@@ -777,7 +777,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
           // La darrera firma està en el primer lloc
           FirmaJPA firma = firmes.get(0);
-          log.info("XYZ ZZZ ZZZ NUMERO DE FIRMA ES " + firma.getNumFirmaDocument() );
+          if (log.isDebugEnabled()) {
+            log.debug("NUMERO DE FIRMA ES " + firma.getNumFirmaDocument() );
+          }
           eniPerfilFirma = firma.getPerfilDeFirma();
 
           validationInfo = new FirmaAsyncSimpleValidationInfo(

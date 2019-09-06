@@ -1734,14 +1734,27 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     }
   }
 
+  
+  @Override
+  public Set<Long> deleteFullUsingAdministradorEntitat(Long peticioDeFirmaID, String usuariEntitatID,
+      String motiuEsborrat) throws I18NException {
+    if (motiuEsborrat == null || motiuEsborrat.trim().length() == 0) {
+      throw new I18NException("genapp.comodi", "Com a Administrador d'Entitat no pot esborrar "
+          + "la petició amb ID " + peticioDeFirmaID + " sinó defineix un motiu.");
+    }
+    return deleteFull(peticioDeFirmaID,usuariEntitatID, true, null);
+  }
+  
+  
+  
   @Override
   public Set<Long> deleteFullUsingUsuariEntitat(Long peticioDeFirmaID, String usuariEntitatID) throws I18NException {
-    return deleteFull(peticioDeFirmaID,usuariEntitatID, true);
+    return deleteFull(peticioDeFirmaID,usuariEntitatID, true,  null);
   }
 
   @Override
   public Set<Long> deleteFullUsingUsuariAplicacio(Long peticioDeFirmaID, String usuariAplicacioID) throws I18NException {
-    return deleteFull(peticioDeFirmaID,usuariAplicacioID, false);
+    return deleteFull(peticioDeFirmaID,usuariAplicacioID, false,  null);
   }
 
   /**
@@ -1750,7 +1763,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * @return List of filesID deleted
    */
 
-  private Set<Long> deleteFull(Long peticioDeFirmaID, String username, boolean isUsuariEntitat)
+  private Set<Long> deleteFull(Long peticioDeFirmaID, String username, 
+      boolean isUsuariEntitat,  String motiuEsborrat)
       throws I18NException {
     Set<Long> files = new HashSet<Long>();
 
@@ -1777,10 +1791,17 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       
       if (!context.isCallerInRole(PFI_ADMIN)) {
         if (isUsuariEntitat) {
-          if (!username.equals(pf.getSolicitantUsuariEntitat1ID())) {
-            // L'usuari {0} no té permisos per esborrar la petició de firma titulada {1}
-            throw new I18NException("peticiodefirma.error.nopermisdeborrar", username,
-                pf.getTitol());
+          
+          if (motiuEsborrat == null) {
+            // Solicitant Web
+            if (!username.equals(pf.getSolicitantUsuariEntitat1ID())) {
+              // L'usuari {0} no té permisos per esborrar la petició de firma titulada {1}
+              throw new I18NException("peticiodefirma.error.nopermisdeborrar", username,
+                  pf.getTitol());
+            }
+          } else {
+            // Administrador d'entitat
+            
           }
         } else {
           if (!username.equals(pf.getSolicitantUsuariAplicacioID())) {
@@ -1818,9 +1839,18 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // Esborrar Peticio de Firma
       delete(pf); // peticioDeFirmaID);
 
-      bitacolaLogicaEjb.createBitacola("Petició esborrada", pf.getPeticioDeFirmaID(),
-                getActingUsuariEntitat(pf),
-                pf.getSolicitantUsuariAplicacioID());
+      if (isUsuariEntitat) {
+         if (motiuEsborrat == null) {
+           bitacolaLogicaEjb.createBitacola("Petició esborrada per l'Usuari Entitat propietari de la Petició",
+               pf.getPeticioDeFirmaID(), getActingUsuariEntitat(pf), pf.getSolicitantUsuariAplicacioID());
+         } else {
+           bitacolaLogicaEjb.createBitacola("Petició esborrada per un Administrador d'Entitat",
+               pf.getPeticioDeFirmaID(), username, null);
+         }
+      } else {
+         bitacolaLogicaEjb.createBitacola("Petició esborrada per Usuari-Aplicació",
+           pf.getPeticioDeFirmaID(), null, pf.getSolicitantUsuariAplicacioID());
+      }
 
       // Esborrar flux de firmes
       Long fluxID = pf.getFluxDeFirmesID();

@@ -149,10 +149,9 @@ public interface ConstantsV2 {
   
 
   // Contextes WEB per enllaços dels mails.
-  public static final String CONTEXT_SOLI_PETICIOFIRMA = "/soli/firma/peticio";
-  public static final String CONTEXT_SOLI_PETICIOFIRMA_ACTIVA = CONTEXT_SOLI_PETICIOFIRMA + "Activa";
-  public static final String CONTEXT_SOLI_PETICIOFIRMA_FIRMADA = CONTEXT_SOLI_PETICIOFIRMA + "Firmada";
-  public static final String CONTEXT_SOLI_PETICIOFIRMA_REBUTJADA = CONTEXT_SOLI_PETICIOFIRMA + "Rebutjada";
+  public static final String CONTEXT_SOLI_PETICIOFIRMA_ACTIVA = "/soli/firma/peticioActiva";
+  public static final String CONTEXT_SOLI_PETICIOFIRMA_FIRMADA = "/soli/firma/peticioFirmada";
+  public static final String CONTEXT_SOLI_PETICIOFIRMA_REBUTJADA = "/soli/firma/peticioRebutjada";
 
   public static final String CONTEXT_DEST_ESTATFIRMA = "/dest/estatDeFirma";  
   public static final String CONTEXT_DEST_ESTATFIRMA_PENDENT = CONTEXT_DEST_ESTATFIRMA + "Pendent";
@@ -175,10 +174,11 @@ public interface ConstantsV2 {
   public static final String CONTEXT_REVI_ESTATFIRMA_PENDENT = CONTEXT_REVI_ESTATFIRMA + "Pendent";
   public static final String CONTEXT_REVI_ESTATFIRMA_ACCEPTADA = CONTEXT_REVI_ESTATFIRMA + "Acceptada";
   public static final String CONTEXT_REVI_ESTATFIRMA_REBUTJAT = CONTEXT_REVI_ESTATFIRMA + "Rebutjada";
-  
 
-  public static final String CONTEXT_ADEN_PETICIOFIRMA = "/aden/peticiofirmaaplicacio";
-  public static final String CONTEXT_ADEN_PETICIOFIRMA_ASYNC_SIMPLE = "/aden/peticiofirmaasyncsimple";
+  public static final String CONTEXT_ADEN_PETICIOFIRMA_USRAPP = "/aden/peticiofirmaaplicacio";
+  public static final String CONTEXT_ADEN_PETICIOFIRMA_TOTES_CONSULTAR = "/aden/peticiofirmatotesconsultar";
+  public static final String CONTEXT_ADEN_PETICIOFIRMA_TOTES_GESTIONAR = "/aden/peticiofirmatotesgestionar";
+ 
   
   public static final String CONTEXT_ADEN_NOTIFICACIONSWS = "/aden/notificaciows";
 

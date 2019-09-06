@@ -1,20 +1,16 @@
 package es.caib.portafib.back.controller.aden;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.Field;
+
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
@@ -31,9 +27,7 @@ import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.model.entity.PeticioDeFirma;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
-import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -44,22 +38,27 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/aden/peticio/netejaesborrat")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-public class PeticioDeFirmaNetejarEsborrarAdenController extends AbstractPeticioDeFirmaAdenController  {
-
-  
+public class PeticioDeFirmaNetejarEsborrarAdenController extends
+  AbstractPeticioDeFirmaAdenController {
 
   public static final int NETEJA_ADAPTAT = 1;
 
   public static final int NETEJA_ORIGINAL = 2;
 
-  @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
-  protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
+  @Override
+  public TipusSolicitant getTipusSolicitant() {
+    return TipusSolicitant.SOLICITANT_TOTS;
+  }
+
+  @Override
+  public boolean addCreateButton() {
+    return false;
+  }
 
   @Override
   public String getTileList() {
     return "peticionsDeFirmaNetejarEsborrarList";
   }
-
 
   @Override
   public String getSessionAttributeFilterForm() {
@@ -81,26 +80,6 @@ public class PeticioDeFirmaNetejarEsborrarAdenController extends AbstractPeticio
   }
 
   @Override
-  public boolean isActiveFormNew() {
-    return false;
-  }
-
-  @Override
-  public boolean isActiveFormEdit() {
-    return false;
-  }
-
-  @Override
-  public boolean isActiveFormView() {
-    return false;
-  }
-
-  @Override
-  public boolean isActiveDelete() {
-    return false;
-  }
-
-  @Override
   public PeticioDeFirmaFilterForm getPeticioDeFirmaFilterForm(Integer pagina,
       ModelAndView mav, HttpServletRequest request) throws I18NException {
     PeticioDeFirmaFilterForm peticioDeFirmaFilterForm;
@@ -115,49 +94,6 @@ public class PeticioDeFirmaNetejarEsborrarAdenController extends AbstractPeticio
 
       peticioDeFirmaFilterForm.setSubTitleCode("peticiodefirma.netejaesborrat.subtitle");
 
-      peticioDeFirmaFilterForm.setDeleteSelectedButtonVisible(false);
-      peticioDeFirmaFilterForm.setEditButtonVisible(false);
-      peticioDeFirmaFilterForm.setDeleteButtonVisible(false);
-      peticioDeFirmaFilterForm.setAddButtonVisible(false);
-
-      // Ocultam tots els camps
-      Set<Field<?>> hiddenFields = peticioDeFirmaFilterForm.getHiddenFields();
-      hiddenFields.addAll(Arrays.asList(ALL_PETICIODEFIRMA_FIELDS));
-
-      // Mostram els següents camps...
-      hiddenFields.remove(PeticioDeFirmaFields.PETICIODEFIRMAID);
-      hiddenFields.remove(PeticioDeFirmaFields.TITOL);
-      // hiddenFields.remove(PeticioDeFirmaFields.DATASOLICITUD);
-      hiddenFields.remove(PeticioDeFirmaFields.DATAFINAL);
-      // hiddenFields.remove(PeticioDeFirmaFields.USUARIENTITATID);
-      // hiddenFields.remove(PeticioDeFirmaFields.USUARIAPLICACIOID);
-      hiddenFields.remove(PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID);
-
-      if (!Configuracio.isCAIB()) {
-        // Cerca
-        List<Field<?>> filterByFields = new ArrayList<Field<?>>();
-  
-        // filterByFields.add(PeticioDeFirmaFields.PETICIODEFIRMAID);
-        filterByFields.add(PeticioDeFirmaFields.TITOL);
-        // filterByFields.add(PeticioDeFirmaFields.DATASOLICITUD);
-        filterByFields.add(PeticioDeFirmaFields.DATAFINAL);
-        // filterByFields.add(PeticioDeFirmaFields.USUARIENTITATID);
-        // filterByFields.add(PeticioDeFirmaFields.USUARIAPLICACIOID);
-  
-        peticioDeFirmaFilterForm.setFilterByFields(filterByFields);
-  
-        // Agrupacio
-      
-        peticioDeFirmaFilterForm.addGroupByField(DATAFINAL);
-        peticioDeFirmaFilterForm.addGroupByField(DATASOLICITUD);
-        peticioDeFirmaFilterForm.addGroupByField(SOLICITANTUSUARIAPLICACIOID);
-        peticioDeFirmaFilterForm.addGroupByField(SOLICITANTUSUARIENTITAT1ID);
-        peticioDeFirmaFilterForm.addGroupByField(TIPUSESTATPETICIODEFIRMAID);
-      }
-      
-      AbstractPeticioDeFirmaAdenController.cleanFiltersAndGroups(peticioDeFirmaFilterForm);
-      
-
       // Per defecte seleccionam les anteriors a un mes
       peticioDeFirmaFilterForm.setDataFinalFins(new Timestamp(Calendar.getInstance()
           .getTimeInMillis() - 31556952000L / 12));
@@ -165,14 +101,6 @@ public class PeticioDeFirmaNetejarEsborrarAdenController extends AbstractPeticio
       // ordenar mes antigues primer
       peticioDeFirmaFilterForm.setOrderBy(DATAFINAL.fullName);
       peticioDeFirmaFilterForm.setOrderAsc(true);
-
-      /*
-       * Si es torna a activar s'ha de donar d'alta en tiles (descomentar)
-       * peticioDeFirmaFilterForm.addAdditionalButtonForEachItem( new
-       * AdditionalButton("icon-list-alt", "veuredetalls", getContextWeb() +
-       * "/view/{0}", "btn-info"));
-       */
-
 
       AdditionalField<Long, String> adfield1 = new AdditionalField<Long, String>();
       adfield1.setCodeName("=<i class=\"icon-share\"></i>");
@@ -195,9 +123,6 @@ public class PeticioDeFirmaNetejarEsborrarAdenController extends AbstractPeticio
     }
     return peticioDeFirmaFilterForm;
   }
-
-
-
 
   @RequestMapping(value = "/netejarOriginal", method = RequestMethod.POST)
   public String netejarOriginals(HttpServletRequest request, HttpServletResponse response,
@@ -264,24 +189,22 @@ public class PeticioDeFirmaNetejarEsborrarAdenController extends AbstractPeticio
   @Override
   public void postList(HttpServletRequest request, ModelAndView mav,
       PeticioDeFirmaFilterForm filterForm, List<PeticioDeFirma> list) throws I18NException {
-    
-    super.postList(request, mav, filterForm, list);
-    
-    
-    // En el pare es fa un esborrat de tots el botons addicionals,
-    // per això cada vegada les hem de tornar a afegir 
 
-    filterForm.addAdditionalButton(new AdditionalButton(
-        "icon-fire icon-white", "peticiodefirma.netejaesborrat.netejaroriginal",
+    super.postList(request, mav, filterForm, list);
+
+    // En el pare es fa un esborrat de tots el botons addicionals,
+    // per això cada vegada les hem de tornar a afegir
+
+    filterForm.addAdditionalButton(new AdditionalButton("icon-fire icon-white",
+        "peticiodefirma.netejaesborrat.netejaroriginal",
         "javascript:submitTo('peticioDeFirmaFilterForm'," + " '" + request.getContextPath()
             + getContextWeb() + "/netejarOriginal');", "btn-danger"));
 
-    filterForm.addAdditionalButton(new AdditionalButton(
-        "icon-share icon-white", "peticiodefirma.netejaesborrat.netejaradaptat",
+    filterForm.addAdditionalButton(new AdditionalButton("icon-share icon-white",
+        "peticiodefirma.netejaesborrat.netejaradaptat",
         "javascript:submitTo('peticioDeFirmaFilterForm'," + " '" + request.getContextPath()
             + getContextWeb() + "/netejarAdaptat');", "btn-warning"));
 
-    
     // Afegir contingut a columnes
     Map<Long, String> mapAdaptat;
     mapAdaptat = (Map<Long, String>) filterForm.getAdditionalField(NETEJA_ADAPTAT)
@@ -293,7 +216,6 @@ public class PeticioDeFirmaNetejarEsborrarAdenController extends AbstractPeticio
         .getValueMap();
     mapOriginal.clear();
 
-    
     Long key;
     for (PeticioDeFirma peticio : list) {
       key = peticio.getPeticioDeFirmaID();
@@ -309,41 +231,8 @@ public class PeticioDeFirmaNetejarEsborrarAdenController extends AbstractPeticio
   }
 
   @Override
-  protected boolean showUsuariEntitat() {
-    return true;
-  }
-
-  @Override
-  protected boolean showUsuariAplicacio() {
-    return true;
-  }
-  
-  @Override
-  public boolean mostrarSolicitant() {
-    return true;
-  }
-
-  @Override
-  protected boolean mostrarBotoRebuig() {
+  public boolean isNomesConsulta() {
     return false;
   }
-
-  @Override
-  protected boolean mostrarBotoBitacola() {
-    return true;
-  }
-
-  @Override
-  protected boolean mostrarBotoEsborrar() {
-    return true;
-  }
-
-
-  @Override
-  protected boolean ferRebuigQuanEsborra() {
-    // Les peticions només són acabades bé o rebutjades
-    return false;
-  }
-  
 
 }

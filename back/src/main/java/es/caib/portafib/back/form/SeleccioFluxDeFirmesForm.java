@@ -37,6 +37,8 @@ public class SeleccioFluxDeFirmesForm extends SeleccioUsuariForm {
 
   String usuariAplicacioID;
 
+  int origenPeticioDeFirma;
+
   String contexte;
 
   /**
@@ -134,6 +136,14 @@ public class SeleccioFluxDeFirmesForm extends SeleccioUsuariForm {
 
   public void setContexte(String contexte) {
     this.contexte = contexte;
+  }
+
+  public int getOrigenPeticioDeFirma() {
+    return origenPeticioDeFirma;
+  }
+
+  public void setOrigenPeticioDeFirma(int origenPeticioDeFirma) {
+    this.origenPeticioDeFirma = origenPeticioDeFirma;
   }
 
 }

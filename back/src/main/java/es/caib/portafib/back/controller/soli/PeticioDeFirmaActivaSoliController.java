@@ -41,16 +41,9 @@ public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliContro
     
     
     Where fill;
-    if (getOrigenPeticioDeFirma() == ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB) {
-      // Seleccionar les peticions actives més les que tenen avis web a true
-      fill = Where.OR(enprogres_pausades_noiniciades,
-          AVISWEB.equal(true));
-      
-      
-    } else {
-      // Seleccionam només les peticions actives
-      fill = enprogres_pausades_noiniciades;
-    }
+    // Seleccionar les peticions actives més les que tenen avis web a true
+    fill = Where.OR(enprogres_pausades_noiniciades,
+        AVISWEB.equal(true));
     return Where.AND(pare, fill);
 
   }

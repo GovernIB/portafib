@@ -220,7 +220,7 @@ public class AuthenticationSuccessListener implements
         }
       }
       
-      /*
+      /*   NO ESBORRAR !!!!
       if (usuariPersona == null) {
 
         // =======================================================

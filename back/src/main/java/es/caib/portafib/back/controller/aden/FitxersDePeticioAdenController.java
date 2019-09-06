@@ -53,6 +53,8 @@ import java.util.Map;
 public class FitxersDePeticioAdenController extends FitxerController {
 
     public static final String CONTEXT_WEB = "/aden/fitxerspeticio";
+    
+    public static final String SESSION_BACK_URL = "SESSION_BACK_URL";
 
     public static final int COLUMN_NOUFITXERID = -3;
     public static final int COLUMN_ORIGEN = -2;
@@ -329,7 +331,11 @@ public class FitxersDePeticioAdenController extends FitxerController {
     @RequestMapping(value = "/tornar", method = RequestMethod.GET)
     public ModelAndView tornar(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().removeAttribute(SESSION_PETICIOID);
-        String url = PeticioDeFirmaAplicacioController.CONTEXT_ADEN_PETICIOFIRMA + "/list";
+        
+        String url = (String)request.getSession().getAttribute(SESSION_BACK_URL);
+        
+        request.getSession().removeAttribute(SESSION_BACK_URL);
+        
         return new ModelAndView(new RedirectView(url, true));
     }
 
