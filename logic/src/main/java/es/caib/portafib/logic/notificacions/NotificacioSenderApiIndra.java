@@ -25,17 +25,17 @@ import es.indra.www.portafirmasmcgdws.mcgdws.MCGDws;
 import es.indra.www.portafirmasmcgdws.mcgdws.MCGDwsService;
 import es.indra.www.portafirmasmcgdws.mcgdws.Rejection;
 import es.indra.www.portafirmasmcgdws.mcgdws.Signer;
-import org.apache.commons.io.IOUtils;
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.transport.http.HTTPConduit;
+import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.pluginsib.core.utils.XTrustProvider;
 
 import javax.xml.ws.BindingProvider;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.math.BigInteger;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
@@ -91,14 +91,22 @@ public class NotificacioSenderApiIndra implements NotificacioSender {
             XTrustProvider.install();
          }
 
-         //URL wsdlLocation = MCGDwsService.class.getResource("/wsdl/PortafirmasCallBack.wsdl");
-         URL wsdlLocation = new URL(endPoint + "?wsdl");
+         // Per optimització empram la copia local del WSDL. A testApi si que carregam l'WSDL de l'endpoint
+         //URL wsdlLocation = new URL(endPoint + "?wsdl");
+         URL wsdlLocation = MCGDwsService.class.getResource("/wsdl/PortafirmasCallBack.wsdl");
+
          MCGDwsService service = new MCGDwsService(wsdlLocation);
          MCGDws api = service.getMCGDWS();
+
+         Client client = ClientProxy.getClient(api);
+         HTTPConduit http = (HTTPConduit) client.getConduit();
+         HTTPClientPolicy httpClientPolicy = new HTTPClientPolicy();
+         httpClientPolicy.setConnectionTimeout(CONNECTION_TIMEOUT);
+         httpClientPolicy.setReceiveTimeout(RECEIVE_TIMEOUT);
+         http.setClient(httpClientPolicy);
+
          Map<String, Object> reqContext = ((BindingProvider) api).getRequestContext();
          reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
-
-         reqContext.put("com.sun.xml.ws.request.timeout", 3 * 60 * 1000);
 
          cbresp = api.callback(cbRequest);
 
@@ -143,29 +151,18 @@ public class NotificacioSenderApiIndra implements NotificacioSender {
 
    @Override
    public void testApi(UsuariAplicacio usuariAplicacio) throws Exception {
-      // Recupera Versió
 
-      String urlStr = usuariAplicacio.getCallbackURL();
-      urlStr = urlStr + "?wsdl";
 
-      URL url = new URL(urlStr);
-      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-      conn.setRequestMethod("GET");
-      conn.setRequestProperty("Accept", "application/json");
+      URL wsdlLocation = new URL(usuariAplicacio.getCallbackURL() + "?wsdl");
 
-      if (conn.getResponseCode() != 200) {
-         throw new Exception("Failed : HTTP error code : " + conn.getResponseCode());
-      }
-
-      BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-
-      String output = IOUtils.toString(br);
+      /* Intentarà recupear l'WSDL i generar el servei, si falla és o bé perquè no respon l'WSDL o bé
+         perquè el WSDL retornat no es correspon amb el del servei
+       */
+      MCGDwsService service = new MCGDwsService(wsdlLocation);
+      service.getMCGDWS();
 
       log.info("Testing OK. API Callback Indra. Usuari aplicació "
-            + usuariAplicacio.getUsuariAplicacioID() + " amb URL " + urlStr
-            + ". Cridada a ?wsdl amb resultat " + output.substring(0, Math.min(40, output.length())));
-
-      conn.disconnect();
+            + usuariAplicacio.getUsuariAplicacioID() + " amb URL " + wsdlLocation);
    }
 
 
@@ -202,22 +199,17 @@ public class NotificacioSenderApiIndra implements NotificacioSender {
          }
 
          signer.setCertificate(certificate);
-
          signer.setDate(XMLGregorianCalendarConverter.asXMLGregorianCalendar(fe.getEstatDeFirmaDataFi()));
 
          if (fe.getEstatDeFirmaColaboracioDelegacioID() != null) {
 
             Delegate delegate = new Delegate();
-
             delegate.setId(extractAdministrationID(fe.getEstatDeFirmaColaboracioDelegacioDestinatariID()));
-
             signer.setDelegate(delegate);
          }
 
          FirmaLogicaLocal firmaEjb = EjbManager.getFirmaLogicaEJB();
-
          Firma firma = firmaEjb.findByPrimaryKey(fe.getFirmaID());
-
          signer.setId(extractAdministrationID(firma.getDestinatariID()));
       }
 
@@ -228,8 +220,7 @@ public class NotificacioSenderApiIndra implements NotificacioSender {
          }
 
          Rejection rejection = new Rejection();
-
-         /**
+         /*
           * Pere Joseph : Els codis de rebuig són codis que es donen d'alta des de l'administrador
           * del portasignatures i es relacionen amb els tipus de documents d'aquest.
           * Per defecte hi han dos o tres codis de rebuig: "Otros", "Rechazado por
@@ -246,7 +237,6 @@ public class NotificacioSenderApiIndra implements NotificacioSender {
       }
 
       Attributes attributes = new Attributes();
-
       attributes.setDateLastUpdate(XMLGregorianCalendarConverter.asXMLGregorianCalendar(fe.getDateEvent()));
 
       if (log.isDebugEnabled()) {
@@ -265,7 +255,6 @@ public class NotificacioSenderApiIndra implements NotificacioSender {
       document.setSigner(signer);
 
       Application application = new Application();
-
       application.setDocument(document);
       // Identificador de l'usuari aplicacio.
       /** Pere Joseph:  És un integer perquè internament els identificadors
@@ -274,7 +263,6 @@ public class NotificacioSenderApiIndra implements NotificacioSender {
       application.setId(ua.getUsuariAplicacioID().hashCode());
 
       CallbackRequest cbRequest = new CallbackRequest();
-
       cbRequest.setVersion("1.0");
       cbRequest.setApplication(application);
       return cbRequest;
@@ -282,9 +270,7 @@ public class NotificacioSenderApiIndra implements NotificacioSender {
 
    private String extractAdministrationID(String usuariEntitatID) throws I18NException {
       // Cridar a API per extreure el NIF de l'usuari persona
-
       UsuariEntitatLogicaLocal usuariEntitatLogicaEJB =  EjbManager.getUsuariEntitatLogicaEJB();
-
       UsuariEntitatQueryPath ueqp = new UsuariEntitatQueryPath();
 
       String nif = usuariEntitatLogicaEJB.executeQueryOne(ueqp.USUARIPERSONA().NIF(),

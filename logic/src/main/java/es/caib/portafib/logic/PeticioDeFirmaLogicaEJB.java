@@ -569,9 +569,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     }
 
     initializeUsuaris(peticioDeFirma);
-
     Hibernate.initialize(peticioDeFirma.getCustodiaInfo());
-    
     Hibernate.initialize(peticioDeFirma.getTipusDocument());
     
     return peticioDeFirma;
@@ -610,7 +608,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         .findByPrimaryKeyFullForNextSign(peticioDeFirma.getFluxDeFirmesID()));
 
     Hibernate.initialize(peticioDeFirma.getAnnexs());
-
     Hibernate.initialize(peticioDeFirma.getCustodiaInfo());
   }
 

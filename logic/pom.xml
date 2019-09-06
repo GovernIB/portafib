@@ -166,6 +166,13 @@
       <version>1.1</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-client</artifactId>
+      <version>4.1.1.Final</version>
+      <scope>provided</scope>
+    </dependency>
+
     <!-- CallBack REST v1 -->
     <dependency>
       <groupId>com.sun.jersey</groupId>

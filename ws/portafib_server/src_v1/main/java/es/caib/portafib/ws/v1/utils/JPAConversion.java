@@ -43,7 +43,7 @@ public class JPAConversion {
              new DataHandlerDataSource(jpa.getLogoSegell().getData()),
            fitxersCreats, UsuariAplicacioFields.LOGOSEGELLID);
        jpa.setLogoSegellID(f.getFitxerID());
-       jpa.setLogoSegell(null);
+       jpa.setLogoSegell(f);
      }
 
      return jpa;
@@ -81,7 +81,7 @@ public class JPAConversion {
              new DataHandlerDataSource(jpa.getLogoSegell().getData()),
            fitxersCreats, UsuariEntitatFields.LOGOSEGELLID);
        jpa.setLogoSegellID(f.getFitxerID());
-       jpa.setLogoSegell(null);
+       jpa.setLogoSegell(f);
      }
 
      return jpa;
@@ -119,7 +119,7 @@ public class JPAConversion {
              new DataHandlerDataSource(jpa.getRubrica().getData()),
            fitxersCreats, UsuariPersonaFields.RUBRICAID);
        jpa.setRubricaID(f.getFitxerID());
-       jpa.setRubrica(null);
+       jpa.setRubrica(f);
      }
 
      return jpa;
@@ -154,7 +154,7 @@ public class JPAConversion {
              new DataHandlerDataSource(jpa.getFitxer().getData()),
            fitxersCreats, AnnexFields.FITXERID);
        jpa.setFitxerID(f.getFitxerID());
-       jpa.setFitxer(null);
+       jpa.setFitxer(f);
      }
 
      return jpa;
@@ -204,7 +204,7 @@ public class JPAConversion {
             new DataHandlerDataSource(jpa.getFitxerFirmat().getData()),
           fitxersCreats, AnnexFields.FITXERID);
       jpa.setFitxerFirmatID(f.getFitxerID());
-      jpa.setFitxerFirmat(null);
+      jpa.setFitxerFirmat(f);
     }
 
     return jpa;

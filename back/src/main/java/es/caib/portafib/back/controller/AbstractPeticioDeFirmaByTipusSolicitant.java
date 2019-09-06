@@ -1380,6 +1380,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
       peticioDeFirmaFilterForm.addGroupByField(INFORMACIOADDICIONALAVALUABLE);
       peticioDeFirmaFilterForm.addGroupByField(EXPEDIENTCODI);
       peticioDeFirmaFilterForm.addGroupByField(PROCEDIMENTCODI);
+      peticioDeFirmaFilterForm.addGroupByField(REMITENTNOM);
 
       switch (getTipusSolicitant()) {
         case SOLICITANT_WEB:
