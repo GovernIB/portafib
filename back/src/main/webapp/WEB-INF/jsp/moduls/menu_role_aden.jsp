@@ -1,3 +1,7 @@
+<%@page import="es.caib.portafib.logic.utils.PropietatGlobalUtil"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="es.caib.portafib.back.utils.MenuItem"%>
 <%@page import="es.caib.portafib.utils.ConstantsV2"%>
 <%@page import="es.caib.portafib.back.controller.aden.PerfilDeFirmaAdenController"%>
 <%@page import="es.caib.portafib.model.fields.PerfilDeFirmaFields"
@@ -14,139 +18,85 @@
   <h5><fmt:message key="ROLE_ADEN.menu" /></h5>
 <%!
 
-final String[] menu1 = {
-    "entitat.modificar", // Modificació de les dades d'una Entitat
-    "propietatglobal.entitat.gestio",
-    "tipusdocument.gestio", // Gestió Tipus de Documents
-    "",
-    "usuaripersona.alta",    
-    "usuaripersona.modificar",
-    "usuarientitat.gestio",
-    "",
-    "carrec.gestio",
-    "colaboradordecarrec.plural",
-    "solicitant.gestio",
-    "revisor.gestio",
-    "grups.gestio",
-    "",
-    "moduldefirmaenservidor.gestio",
-    "",
-    "moduldefirma.gestio",
-    "modulDeFirmaPerTipusDeDocument.short", // /aden/modulfirmatipusdoc
-    "",
-    "segelldetemps.gestio",
-    "plantillacustodia.gestio", // "/aden/plantillacustodia"
-    "",
-    "validaciodefirmes.gestio", // /aden/validaciofirmes
-    "",
-    "peticiodefirma.totes.consultar.llistar", // Consulta Peticions de Firma
-    "peticiodefirma.totes.gestionar.llistar", // Gestionar Peticions de Firma
-    "",
-    "peticionscaducades.llistat", // Llistar peticions de firma caducades
-    "peticionsdefirma.destinatari",
-    "peticiodefirma.netejaesborrat",
-    "",
-    "estadistica.estadistica.plural",
-    "bitacola.menu"
-};
-
-public static final String CONFIGURACIO_DE_FIRMA = UsuariAplicacioConfiguracioFields._TABLE_MODEL + "." + UsuariAplicacioConfiguracioFields._TABLE_MODEL + ".plural";
-public static final String PERFIL_DE_FIRMA = PerfilDeFirmaFields._TABLE_MODEL + "." + PerfilDeFirmaFields._TABLE_MODEL + ".plural";
-
-final String[] menu2 = {
-    "usuariaplicacio.gestio", // Alta d'Usuari-Aplicació"}  
-    PERFIL_DE_FIRMA,
-    CONFIGURACIO_DE_FIRMA,    
-    "",
-    "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural",
-    // XYZ ZZZ ZZZ Configuracio.isCAIB()? "" : 
-    "peticiodefirma.usrapp.llistar", // Peticions de Firma d'Usuaris-Aplicacio
-    "custodiaInfo.custodiaInfo.plural",
-    "notificaciows.llistat"
-};
-
-
-
-public static final Map<String, String> mapping;
+private static final List<List<MenuItem>> menus  = new ArrayList<List<MenuItem>>();
 
 
 static {
-  //Mapping to existent path
-  mapping = new HashMap<String, String>();
   
-  mapping.put("entitat.modificar", "/aden/entitat/" + LoginInfo.getInstance().getEntitatID() + "/edit" );
-
-  mapping.put("usuaripersona.alta", "/aden/usuariPersona/alta");
-  mapping.put("usuaripersona.modificar", "/aden/usuariPersona/modificar");
-
-  mapping.put("usuarientitat.gestio", "/aden/usuariEntitat/selecciousuari");
-
-  mapping.put("carrec.gestio", "/aden/carrec/list");
-  mapping.put("colaboradordecarrec.plural", "/aden/colaboradordecarrec/list");
+  List<MenuItem> menu1;
+  List<MenuItem> menu2;
   
-  mapping.put("tipusdocument.gestio", "/aden/gestiotipusdoc/list");
-
-  mapping.put("moduldefirmaenservidor.gestio", "/aden/moduldefirmaenservidor/list");
+  boolean compactar= PropietatGlobalUtil.compactMenuOptionsOfAdEn();
   
-  mapping.put("moduldefirma.gestio", "/aden/modulDeFirma/list");
-  mapping.put("segelldetemps.gestio", "/aden/segelldetemps/list");
-  mapping.put("plantillacustodia.gestio", "/aden/plantillacustodia/list");
+  menu1 = new ArrayList<MenuItem>();
+  menu1.add(MenuItem.retallaDarrerPath("entitat.modificar", "/aden/entitat/current"));
+  menu1.add(MenuItem.retallaDarrerPath("propietatglobal.entitat.gestio", "/aden/propietatglobal/list"));
+  menu1.add(MenuItem.retallaDarrerPath("tipusdocument.gestio", "/aden/gestiotipusdoc/list"));
+  menu1.add(null);
+  menu1.add(MenuItem.retallaDarrerPath("usuaripersona.alta", "/aden/usuariPersona/alta"));
+  menu1.add(MenuItem.retallaDarrerPath("usuaripersona.modificar", "/aden/usuariPersona/modificar"));
+  menu1.add(MenuItem.retallaDarrerPath("usuarientitat.gestio", "/aden/usuariEntitat/selecciousuari"));
+  menu1.add(null);
+  menu1.add(MenuItem.retallaDarrerPath("carrec.gestio", "/aden/carrec/list"));
+  menu1.add(MenuItem.retallaDarrerPath("colaboradordecarrec.plural", "/aden/colaboradordecarrec/list"));
+  menu1.add(MenuItem.retallaDarrerPath("solicitant.gestio", "/aden/solicitant/selecciousuari"));
+  menu1.add(MenuItem.retallaDarrerPath("revisor.gestio", "/aden/revisor/selecciousuari"));
+  menu1.add(MenuItem.retallaDarrerPath("grups.gestio", "/aden/grup/list"));
+  menu1.add(null);
+  menu1.add(MenuItem.retallaDarrerPath("moduldefirmaenservidor.gestio", "/aden/moduldefirmaenservidor/list"));
+  menu1.add(null);
+  menu1.add(MenuItem.retallaDarrerPath("moduldefirma.gestio", "/aden/modulDeFirma/list"));
+  menu1.add(MenuItem.retallaDarrerPath("modulDeFirmaPerTipusDeDocument.short", "/aden/modulfirmatipusdoc/list"));
+  menu1.add(null);
+  menu1.add(MenuItem.retallaDarrerPath("segelldetemps.gestio", "/aden/segelldetemps/list"));
+  menu1.add(MenuItem.retallaDarrerPath("plantillacustodia.gestio", "/aden/plantillacustodia/list"));
+  menu1.add(null);
+  menu1.add(MenuItem.retallaDarrerPath("validaciodefirmes.gestio", "/aden/validaciofirmes/list"));
+  menu1.add(null);
+  menu1.add(MenuItem.retallaDarrerPath("peticiodefirma.totes.consultar.llistar", "/aden/peticiofirmatotesconsultar/list"));
+  menu1.add(MenuItem.retallaDarrerPath("peticiodefirma.totes.gestionar.llistar", "/aden/peticiofirmatotesgestionar/list"));
+  if (compactar) {
+    // No mostrar
+  } else {
+    menu1.add(null);
+    menu1.add(MenuItem.retallaDarrerPath("peticionscaducades.llistat", "/aden/peticionscaducades/list"));
+    menu1.add(MenuItem.retallaDarrerPath("peticiodefirma.netejaesborrat", "/aden/peticio/netejaesborrat/list"));
+  }
+  menu1.add(MenuItem.retallaDarrerPath("peticionsdefirma.destinatari", "/aden/peticionsdedestinatari/selecciousuari"));
+  menu1.add(null);
+  menu1.add(MenuItem.retallaDarrerPath("estadistica.estadistica.plural", "/aden/estadistica/search"));
+  menu1.add(MenuItem.retallaDarrerPath("bitacola.menu", "/aden/bitacola/list"));
+
+
+  final String CONFIGURACIO_DE_FIRMA = UsuariAplicacioConfiguracioFields._TABLE_MODEL + "." + UsuariAplicacioConfiguracioFields._TABLE_MODEL + ".plural";
+  final String PERFIL_DE_FIRMA = PerfilDeFirmaFields._TABLE_MODEL + "." + PerfilDeFirmaFields._TABLE_MODEL + ".plural";
   
-  mapping.put("modulDeFirmaPerTipusDeDocument.short", "/aden/modulfirmatipusdoc/list");
-  
-  mapping.put("validaciodefirmes.gestio", "/aden/validaciofirmes/list");
+  menu2 = new ArrayList<MenuItem>();
+  menu2.add(MenuItem.retallaDarrerPath("usuariaplicacio.gestio", "/aden/usuariAplicacio/list"));
+  menu2.add(MenuItem.retallaDarrerPath(PERFIL_DE_FIRMA, "/aden/perfildefirma/list"));
+  menu2.add(MenuItem.retallaDarrerPath( CONFIGURACIO_DE_FIRMA, "/aden/configdefirma/list"));
 
-  mapping.put("grups.gestio", "/aden/grup/list");
-  
-  mapping.put("solicitant.gestio", "/aden/solicitant/selecciousuari");
-  mapping.put("revisor.gestio", "/aden/revisor/selecciousuari");
+  menu2.add(null);
+  menu2.add(MenuItem.retallaDarrerPath("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/aden/plantilla/list"));
+  if (compactar) {
+    // No mostrar 
+  } else {
+    menu2.add(MenuItem.retallaDarrerPath("peticiodefirma.usrapp.llistar", "/aden/peticiofirmaaplicacio/list"));
+  }
+  menu2.add(MenuItem.retallaDarrerPath("custodiaInfo.custodiaInfo.plural", "/aden/peticio/custodiainfo/list"));
+  menu2.add(MenuItem.retallaDarrerPath("notificaciows.llistat", "/aden/notificaciows/list"));
 
-  mapping.put("peticionscaducades.llistat", "/aden/peticionscaducades/list");
-  mapping.put("peticionsdefirma.destinatari", "/aden/peticionsdedestinatari/selecciousuari");
-
-  mapping.put("usuariaplicacio.gestio", "/aden/usuariAplicacio/list");
-
-  mapping.put(CONFIGURACIO_DE_FIRMA, ConfiguracioDeFirmaAdenController.CONTEXT_WEB + "/list");
-
-  mapping.put(PERFIL_DE_FIRMA, PerfilDeFirmaAdenController.CONTEXT_WEB + "/list");
-
-  mapping.put("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/aden/plantilla/list");
-
-  mapping.put("notificaciows.llistat", "/aden/notificaciows/list");
-
-  mapping.put("peticiodefirma.usrapp.llistar", ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_USRAPP + "/list");
-
-  mapping.put("peticiodefirma.totes.consultar.llistar", ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_TOTES_CONSULTAR + "/list");
-  
-  mapping.put("peticiodefirma.totes.gestionar.llistar", ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_TOTES_GESTIONAR + "/list");
-
-  mapping.put("custodiaInfo.custodiaInfo.plural", "/aden/peticio/custodiainfo/list");
-
-  mapping.put("propietatglobal.entitat.gestio", "/aden/propietatglobal/list");
-
-  mapping.put("peticiodefirma.netejaesborrat", "/aden/peticio/netejaesborrat/list");
-
-  mapping.put("estadistica.estadistica.plural", "/aden/estadistica/search");
-
-  mapping.put("bitacola.menu", "/aden/bitacola/list");
+  menus.add(menu1);
+  menus.add(menu2);
 }
 
 %><%
 
-session.setAttribute("mapping", mapping);
-
-
-final String[][] menus  = { menu1 , menu2 };
-
-
 int count = 0;
 
-for(String[] menu : menus) {
-
+for(List<MenuItem> menu : menus) {
   session.setAttribute("menu", menu);
-
 %>
-  
   <ul class="tree" style="margin: 3px; padding: 0px;">
     <c:forEach var="item" items="${menu}" >
 
@@ -154,18 +104,12 @@ for(String[] menu : menus) {
     <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
     </c:if>
     <c:if test="${not empty item }">
-      <fmt:message var="traduccio" key="${item}" />
-      
-      <c:if test="${empty mapping[item]}">
-        <c:set var="theurl" value="/aden/${item}"/>
-      </c:if>
-      <c:if test="${not (empty mapping[item])}">
-        <c:set var="theurl" value="${mapping[item]}"/>
-      </c:if>
-      
+      <fmt:message var="traduccio" key="${item.label}" />
+      <c:set var="theurl" value="${item.url}"/>
+      <c:set var="theurlbase" value="${item.urlbase}"/>
       <li style="list-style-type: disc; list-style-position: inside;">
         <a href="<c:url value="${theurl}"/>">
-          <span style="${(fn:contains(urlActual, theurl))? "font-weight: bold;" : ""} ${(fn:endsWith(traduccio, '(*)'))? "color: red;" : ""}">${traduccio}</span>
+          <span style="${(fn:contains(urlActual, theurlbase))? "font-weight: bold;" : ""} ${(fn:endsWith(traduccio, '(*)'))? "color: red;" : ""}">${traduccio}</span>
         </a>
       </li>
     </c:if>

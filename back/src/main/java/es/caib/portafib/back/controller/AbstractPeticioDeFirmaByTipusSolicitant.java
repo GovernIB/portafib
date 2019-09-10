@@ -121,6 +121,17 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
    * Columna Solicitant
    */
   public static final int SOLICITANT = 0;
+  
+  /**
+   * Columna Netejar Fitxers Adaptats
+   */
+  public static final int NETEJA_ADAPTAT = 1;
+
+  
+  /**
+   * Columna Netejar Fitxers Originals
+   */
+  public static final int NETEJA_ORIGINAL = 2;
 
   public enum TipusSolicitant {
     SOLICITANT_WEB, SOLICITANT_APLICACIO, SOLICITANT_TOTS
@@ -1253,6 +1264,86 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
   
       
   }
+  
+  
+  /**
+   * Només per AdEN
+   * @param request
+   * @param response
+   * @param filterForm
+   * @return
+   * @throws Exception
+   */
+  @RequestMapping(value = "/netejarOriginal", method = RequestMethod.POST)
+  public String netejarOriginals(HttpServletRequest request, HttpServletResponse response,
+      @ModelAttribute PeticioDeFirmaFilterForm filterForm) throws Exception {
+
+    String[] seleccionats = filterForm.getSelectedItems();
+
+    if (seleccionats == null || seleccionats.length == 0) {
+
+      HtmlUtils.saveMessageWarning(request,
+          I18NUtils.tradueix("peticiodefirma.capseleccionat"));
+
+    } else {
+      for (int i = 0; i < seleccionats.length; i++) {
+        try {
+          Long peticioDeFirmaID = stringToPK(seleccionats[i]);
+
+          peticioDeFirmaLogicaEjb.cleanOriginalFilesOfPeticioDeFirma(peticioDeFirmaID);
+
+        } catch (I18NException i18ne) {
+          String missatge = I18NUtils.getMessage(i18ne);
+          HtmlUtils.saveMessageError(request, missatge);
+          log.error(missatge, i18ne);
+        }
+      }
+    }
+
+    String redirect = getRedirectWhenDelete(request, null, null);
+    return redirect;
+
+  }
+
+  /**
+   * Només per AdEN
+   * @param request
+   * @param response
+   * @param filterForm
+   * @return
+   * @throws Exception
+   */
+  @RequestMapping(value = "/netejarAdaptat", method = RequestMethod.POST)
+  public String netejarAdaptats(HttpServletRequest request, HttpServletResponse response,
+      @ModelAttribute PeticioDeFirmaFilterForm filterForm) throws Exception {
+
+    String[] seleccionats = filterForm.getSelectedItems();
+
+    if (seleccionats == null || seleccionats.length == 0) {
+
+      HtmlUtils.saveMessageWarning(request,
+          I18NUtils.tradueix("peticiodefirma.capseleccionat"));
+
+    } else {
+      for (int i = 0; i < seleccionats.length; i++) {
+        try {
+          Long peticioDeFirmaID = stringToPK(seleccionats[i]);
+
+          peticioDeFirmaLogicaEjb.cleanAdaptatFileOfPeticioDeFirma(peticioDeFirmaID);
+
+        } catch (I18NException i18ne) {
+          String missatge = I18NUtils.getMessage(i18ne);
+          HtmlUtils.saveMessageError(request, missatge);
+          log.error(missatge, i18ne);
+        }
+      }
+    }
+
+    String redirect = getRedirectWhenDelete(request, null, null);
+    return redirect;
+
+  }
+  
 
 
 
@@ -2053,6 +2144,9 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
     int marcarRevisatCount = 0;
     boolean mostrarBotoGlobalRebutjar = false;
 
+    Map<Long, String> mapAdaptat = new HashMap<Long, String>();
+    Map<Long, String> mapOriginal = new HashMap<Long, String>();
+
     for (PeticioDeFirma pf : list) {
 
       PeticioDeFirmaJPA peticioDeFirma = (PeticioDeFirmaJPA) pf;
@@ -2102,6 +2196,19 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
       }
 
       filterForm.addAdditionalInfoForActionsRendererByPK(peticioDeFirmaID, botomenu);
+      
+      /* NETEJA DE FITXERS ORIGINALS i ADAPTATS */
+      if (tipusSolicitant != TipusSolicitant.SOLICITANT_WEB && 
+          ((estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT)
+               || (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT))) {
+          // Afegir contingut a columna        
+          if (peticioDeFirma.getFitxerAFirmarID() != null) {
+            mapOriginal.put(peticioDeFirmaID, "<i class=\"icon-fire\"></i>");
+            if (peticioDeFirma.getFitxerAdaptatID() != null) {
+              mapAdaptat.put(peticioDeFirmaID, "<i class=\"icon-share\"></i>");              
+            }
+          }
+      }
 
       if (avisweb) {
         marcarRevisatCount++;
@@ -2346,6 +2453,9 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
     // ------------- BOTONS SUPERIORS -------------
     // --------------------------------------------
     
+    
+   
+    
     filterForm.getAdditionalButtons().clear();
 
     filterForm.setVisibleMultipleSelection(false);
@@ -2363,9 +2473,14 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
     final boolean reiniciable = (size == reiniciableCount && size != 0);
 
     final boolean marcarRevisat = (marcarRevisatCount > 1);
+    
+    final boolean fitxersOriginals = (mapOriginal.size() != 0);
+    
+    final boolean fitxersAdaptats = (mapAdaptat.size() != 0);
 
     if (deleteMultiple || pausarMultiple || marcarRevisat || downloadMassiu
-        || noIniciatMultiple || reiniciable || mostrarBotoGlobalRebutjar) {
+        || noIniciatMultiple || reiniciable || mostrarBotoGlobalRebutjar
+        || fitxersOriginals  || fitxersAdaptats) {
 
       filterForm.setVisibleMultipleSelection(true);
 
@@ -2421,6 +2536,54 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
         filterForm.addAdditionalButton(new AdditionalButton("icon-play icon-white", "iniciar",
             "javascript:submitTo('peticioDeFirmaFilterForm','" + request.getContextPath()
                 + getContextWeb() + "/iniciarseleccionats')", "btn-success"));
+      }
+      
+      
+      // FITXERS ADAPTATS I ORIGINALS 
+      if (fitxersOriginals  || fitxersAdaptats) {
+        HtmlUtils.saveMessageInfo(request,
+          I18NUtils.tradueix("peticiodefirma.netejaesborrat.ajuda"));
+      }
+
+
+      // En el pare es fa un esborrat de tots el botons addicionals,
+      // per això cada vegada les hem de tornar a afegir
+      if (fitxersOriginals) {
+        if (!isNomesConsulta()) {
+          filterForm.addAdditionalButton(new AdditionalButton("icon-fire icon-white",
+            "peticiodefirma.netejaesborrat.netejaroriginal",
+            "javascript:submitTo('peticioDeFirmaFilterForm'," + " '" + request.getContextPath()
+              + getContextWeb() + "/netejarOriginal');", "btn-danger"));
+        }
+        
+        AdditionalField<Long, String> adfield2 = new AdditionalField<Long, String>();
+        adfield2.setCodeName("=<i class=\"icon-fire\"></i>");
+        adfield2.setPosition(NETEJA_ORIGINAL);
+        adfield2.setEscapeXml(false);
+        adfield2.setValueMap(mapOriginal);
+
+        filterForm.addAdditionalField(adfield2);
+      } else {
+        filterForm.getAdditionalFields().remove(NETEJA_ORIGINAL);
+      }
+
+      if (fitxersAdaptats) {
+        if (!isNomesConsulta()) {
+          filterForm.addAdditionalButton(new AdditionalButton("icon-share icon-white",
+            "peticiodefirma.netejaesborrat.netejaradaptat",
+            "javascript:submitTo('peticioDeFirmaFilterForm'," + " '" + request.getContextPath()
+              + getContextWeb() + "/netejarAdaptat');", "btn-warning"));
+        }
+        
+        AdditionalField<Long, String> adfield1 = new AdditionalField<Long, String>();
+        adfield1.setCodeName("=<i class=\"icon-share\"></i>");
+        adfield1.setPosition(NETEJA_ADAPTAT);
+        adfield1.setEscapeXml(false);
+        adfield1.setValueMap(mapAdaptat);
+
+        filterForm.addAdditionalField(adfield1);
+      } else {
+        filterForm.getAdditionalFields().remove(NETEJA_ADAPTAT);
       }
 
     }

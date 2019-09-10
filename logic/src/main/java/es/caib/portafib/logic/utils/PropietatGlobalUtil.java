@@ -22,6 +22,22 @@ public class PropietatGlobalUtil implements ConstantsV2 {
       + "avisosfirmespendents.diesabans";
 
   /**
+    es.caib.portafib.compactmenuoptionsofaden
+    Nou a la versió 2.0.1 Opcional. Per defecte false. Per entorn CAIB sempre val true.
+    En entorn NO CAIB si val true indica que varies opcions del menú d’Administrador 
+    d’Entitat associades a Llistat de Peticions de Firma no es mostraran.
+  */
+  public static boolean compactMenuOptionsOfAdEn() {
+    if (Configuracio.isCAIB()) {
+      return true;
+    }
+    final String partialname = "compactmenuoptionsofaden";
+    Boolean val = getBoolean(partialname);
+    return (val == null) ? false : val;
+  }
+  
+  
+  /**
    * @return Si val true indica que les validacions per tipus XAdes i CAdes s'han de fer si o
    *         si, i en el cas de no haver-hi validador, llavors llançar un error. Si val false i
    *         no hi ha validador per algun tipus de xequeig (validador de firma, de nif firmant

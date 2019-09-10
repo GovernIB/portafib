@@ -2446,7 +2446,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     }
 
     // L'únic estat en que es pot fer neteja d'originals és l'estat Firmat
-    if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() != ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
+    int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID(); 
+    if (estat != ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
       // Les peticions no iniciades no es poden netejar
       throw new I18NException("peticiodefirma.error.neteja.nofirmat",
           peticioDeFirma.getTitol() + "(" + peticioDeFirma.getPeticioDeFirmaID() + ")");
@@ -2489,7 +2490,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       return;
     }
 
-    // L'únic estat en que es pot fer neteja d'originals és l'estat Firmat
+    // L'únic estat en que es pot fer neteja d'adaptats és l'estat Firmat o Rebutjat
     int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
     if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT
         || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT) {
