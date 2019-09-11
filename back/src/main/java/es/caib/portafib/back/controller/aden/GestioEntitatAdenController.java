@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
-import es.caib.portafib.back.form.webdb.EntitatFilterForm;
 import es.caib.portafib.back.form.webdb.EntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;

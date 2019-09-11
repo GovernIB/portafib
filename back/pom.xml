@@ -52,7 +52,7 @@
     <dependency>
       <artifactId>portafib-revisordefirma-rest-api</artifactId>
       <groupId>es.caib.portafib</groupId>
-      <version>2.0.1</version>
+      <version>1.0</version>
     </dependency>
 
 
