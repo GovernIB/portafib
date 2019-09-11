@@ -12,5 +12,13 @@ http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
             <interceptor-class>es.caib.portafib.logic.interceptors.LogInterceptor</interceptor-class>
         </interceptor-binding>
 
+        <application-exception>
+            <exception-class>org.fundaciobit.genapp.common.i18n.I18NException</exception-class>
+        </application-exception>
+
+        <application-exception>
+            <exception-class>org.fundaciobit.genapp.common.i18n.I18NValidationException</exception-class>
+        </application-exception>
+
     </assembly-descriptor>
 </ejb-jar>
