@@ -8509,10 +8509,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <void index="13"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>retornfitxerid</string> 
+               <string>retornfitxerid</string>
               </void> 
               <void property="name"> 
-               <string>pfi_plugcrida_fitxer_retor_fk</string> 
+               <string>pfi_plugcrida_fitxer_retor_fk</string>
               </void> 
               <void property="table"> 
                <string>pfi_plugincridada</string> 
@@ -8522,10 +8522,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <void index="14"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>parametresfitxerid</string> 
+               <string>parametresfitxerid</string>
               </void> 
               <void property="name"> 
-               <string>pfi_plugcrida_fitxer_param_fk</string> 
+               <string>pfi_plugcrida_fitxer_param_fk</string>
               </void> 
               <void property="table"> 
                <string>pfi_plugincridada</string> 
@@ -10638,26 +10638,6 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="filter"> 
            <boolean>true</boolean> 
           </void> 
-          <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
-            <void index="0"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>peticiodefirmaid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_notifica_petifirma_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_peticiodefirma</string> 
-              </void> 
-              <void property="type"> 
-               <int>1</int> 
-              </void> 
-             </object> 
-            </void> 
-           </array> 
-          </void> 
           <void property="index"> 
            <string>pfi_notifica_peticioid_fk_i</string> 
           </void> 
@@ -10691,21 +10671,8 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
           <void property="webFieldInfo"> 
            <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="foreignKey"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>peticiodefirmaid</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_peticiodefirma</string> 
-              </void> 
-              <void property="type"> 
-               <int>1</int> 
-              </void> 
-             </object> 
-            </void> 
             <void property="webtype"> 
-             <int>3</int> 
+             <int>14</int> 
             </void> 
            </object> 
           </void> 
@@ -12717,7 +12684,7 @@ opcional incluso cuando se genera una firma EPES.</string>
            <int>0</int> 
           </void> 
           <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="3"> 
+           <array class="org.fundaciobit.genapp.ForeignKey" length="2"> 
             <void index="0"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
@@ -12741,19 +12708,6 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
               <void property="table"> 
                <string>pfi_metadada</string> 
-              </void> 
-             </object> 
-            </void> 
-            <void index="2"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>peticiodefirmaid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_notifica_petifirma_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_notificacio</string> 
               </void> 
              </object> 
             </void> 
@@ -15542,10 +15496,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <void index="1"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>pluginvalidacertificatid</string> 
+               <string>pluginvalidacertificatid</string>
               </void> 
               <void property="name"> 
-               <string>pfi_entitat_plugin_cert_fk</string> 
+               <string>pfi_entitat_plugin_cert_fk</string>
               </void> 
               <void property="table"> 
                <string>pfi_entitat</string> 
@@ -15555,10 +15509,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <void index="2"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>pluginid</string> 
+               <string>pluginid</string>
               </void> 
               <void property="name"> 
-               <string>pfi_entitat_plugin_fk</string> 
+               <string>pfi_entitat_plugin_fk</string>
               </void> 
               <void property="table"> 
                <string>pfi_entitat</string> 
@@ -15568,10 +15522,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <void index="3"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>pluginvalidafirmesid</string> 
+               <string>pluginvalidafirmesid</string>
               </void> 
               <void property="name"> 
-               <string>pfi_entitat_plugin_vafi_fk</string> 
+               <string>pfi_entitat_plugin_vafi_fk</string>
               </void> 
               <void property="table"> 
                <string>pfi_entitat</string> 
@@ -20506,10 +20460,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <void index="6"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>motiudelegacioid</string> 
+               <string>motiudelegacioid</string>
               </void> 
               <void property="name"> 
-               <string>pfi_confapp_traduccio_moti_fk</string> 
+               <string>pfi_confapp_traduccio_moti_fk</string>
               </void> 
               <void property="table"> 
                <string>pfi_usuariaplicacioconfig</string> 
@@ -20519,10 +20473,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <void index="7"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>firmatperformatid</string> 
+               <string>firmatperformatid</string>
               </void> 
               <void property="name"> 
-               <string>pfi_confapp_traduccio_firm_fk</string> 
+               <string>pfi_confapp_traduccio_firm_fk</string>
               </void> 
               <void property="table"> 
                <string>pfi_usuariaplicacioconfig</string> 

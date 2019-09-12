@@ -1,17 +1,14 @@
 package es.caib.portafib.back.validator.webdb;
 
+import es.caib.portafib.back.form.webdb.NotificacioWSForm;
+import es.caib.portafib.jpa.validator.NotificacioWSValidator;
+import es.caib.portafib.model.fields.NotificacioWSFields;
 import org.apache.log4j.Logger;
-
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
-import es.caib.portafib.model.fields.*;
-
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.NotificacioWSValidator;
-
-import es.caib.portafib.back.form.webdb.NotificacioWSForm;
 
 
 /**
@@ -28,9 +25,6 @@ public class NotificacioWSWebValidator  implements Validator, NotificacioWSField
   // EJB's
   @javax.ejb.EJB(mappedName = "portafib/NotificacioWSEJB/local")
   protected es.caib.portafib.ejb.NotificacioWSLocal notificacioWSEjb;
-
-  @javax.ejb.EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
-  protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
 
   @javax.ejb.EJB(mappedName = "portafib/TipusNotificacioEJB/local")
   protected es.caib.portafib.ejb.TipusNotificacioLocal tipusNotificacioEjb;
@@ -63,7 +57,7 @@ public class NotificacioWSWebValidator  implements Validator, NotificacioWSField
     WebValidationResult<Object> wvr, boolean isNou) {
 
     validator.validate(wvr, target,
-      isNou, notificacioWSEjb, peticioDeFirmaEjb, tipusNotificacioEjb);
+      isNou, notificacioWSEjb, tipusNotificacioEjb);
 
   } // Final de metode
 

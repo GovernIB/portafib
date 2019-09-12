@@ -31,10 +31,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.PETICIODEFIRMAID)}">
           <td>
-          <c:set var="tmp">${notificacioWS.peticioDeFirmaID}</c:set>
-          <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfPeticioDeFirmaForPeticioDeFirmaID[tmp]}
-          </c:if>
+          ${notificacioWS.peticioDeFirmaID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.TIPUSNOTIFICACIOID)}">

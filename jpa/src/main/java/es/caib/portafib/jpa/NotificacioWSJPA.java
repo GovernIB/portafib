@@ -1,19 +1,21 @@
 
 package es.caib.portafib.jpa;
-import es.caib.portafib.model.entity.*;
-import javax.persistence.Table;
+
+import es.caib.portafib.model.entity.NotificacioWS;
+import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Index;
+
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Entity;
-import javax.persistence.GenerationType;
-import org.hibernate.annotations.Index;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import org.hibernate.annotations.ForeignKey;
-import javax.persistence.GeneratedValue;
+import javax.persistence.Table;
 
 
 @Entity
@@ -200,21 +202,6 @@ private static final long serialVersionUID = 1184441005L;
     return __result;
   }
 
-// IMP Field:peticiodefirmaid | Table: pfi_peticiodefirma | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_notifica_petifirma_fk")
-	@JoinColumn(name = "peticiodefirmaid", referencedColumnName ="peticioDeFirmaID", nullable = false, insertable=false, updatable=false)
-	private PeticioDeFirmaJPA peticioDeFirma;
-
-	public PeticioDeFirmaJPA getPeticioDeFirma() {
-    return this.peticioDeFirma;
-  }
-
-	public  void setPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma) {
-    this.peticioDeFirma = peticioDeFirma;
-  }
-
 // IMP Field:tipusnotificacioid | Table: pfi_tipusnotificacio | Type: 1  
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -275,10 +262,6 @@ private static final long serialVersionUID = 1184441005L;
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
     // Copia de beans complexes (IMP)
-    if(!"PeticioDeFirmaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma()) ) ) {
-      __tmp.setPeticioDeFirma(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma(), __alreadyCopied,"NotificacioWSJPA"));
-    }
     if(!"TipusNotificacioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusNotificacio) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusNotificacio()) ) ) {
       __tmp.setTipusNotificacio(TipusNotificacioJPA.copyJPA(__jpa.getTipusNotificacio(), __alreadyCopied,"NotificacioWSJPA"));

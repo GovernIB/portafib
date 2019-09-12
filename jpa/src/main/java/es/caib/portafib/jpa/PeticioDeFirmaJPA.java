@@ -1,22 +1,24 @@
 
 package es.caib.portafib.jpa;
-import es.caib.portafib.model.entity.*;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.GenerationType;
-import org.hibernate.annotations.Index;
+
+import es.caib.portafib.model.entity.PeticioDeFirma;
 import org.hibernate.annotations.ForeignKey;
-import java.util.HashSet;
-import javax.persistence.OneToMany;
+import org.hibernate.annotations.Index;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import java.util.Set;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -676,19 +678,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 	}
 
 
-// EXP  Field:peticiodefirmaid | Table: pfi_notificacio | Type: 0  
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "peticioDeFirma")
-	private Set<NotificacioWSJPA> notificacioWSs = new HashSet<NotificacioWSJPA>(0);
-	public  Set<NotificacioWSJPA> getNotificacioWSs() {
-    return this.notificacioWSs;
-  }
-
-	public void setNotificacioWSs(Set<NotificacioWSJPA> notificacioWSs) {
-	  this.notificacioWSs = notificacioWSs;
-	}
-
-
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -967,10 +956,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
-    if(!"NotificacioWSJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.notificacioWSs) || org.hibernate.Hibernate.isInitialized(__jpa.getNotificacioWSs())) ) {
-      __tmp.setNotificacioWSs(NotificacioWSJPA.copyJPA(__jpa.getNotificacioWSs(), __alreadyCopied,"PeticioDeFirmaJPA"));
-    }
     if(!"AnnexJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.annexs) || org.hibernate.Hibernate.isInitialized(__jpa.getAnnexs())) ) {
       __tmp.setAnnexs(AnnexJPA.copyJPA(__jpa.getAnnexs(), __alreadyCopied,"PeticioDeFirmaJPA"));

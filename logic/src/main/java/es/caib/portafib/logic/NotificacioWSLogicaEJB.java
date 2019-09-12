@@ -8,7 +8,6 @@ import es.caib.portafib.logic.utils.NotificacioInfo;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.NotificacioWS;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.hibernate.Hibernate;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.ejb.EJB;
@@ -28,19 +27,7 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB
   
   @EJB(mappedName = NotificacionsCallBackTimerLocal.JNDI_NAME) // "portafib/BlocDeFirmesLogicaEJB/local")
   private NotificacionsCallBackTimerLocal notifCallback;
-  
-  @Override
-  public NotificacioWSJPA findByPrimaryKeyForNotificacioQueue(long notificacioID) {
-    NotificacioWSJPA n = (NotificacioWSJPA)findByPrimaryKey(notificacioID);
-    if (n == null) {
-      return null;
-    }
-    Hibernate.initialize(n.getPeticioDeFirma());
-    Hibernate.initialize(n.getPeticioDeFirma().getUsuariAplicacio());
-    return n;
-  }
-  
-  
+
   /**
    * 
    * @param firmaEvent

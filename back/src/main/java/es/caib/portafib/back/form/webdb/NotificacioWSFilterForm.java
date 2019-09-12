@@ -1,17 +1,15 @@
 
 package es.caib.portafib.back.form.webdb;
 
+import es.caib.portafib.back.form.PortaFIBBaseFilterForm;
+import es.caib.portafib.model.fields.NotificacioWSFields;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.stereotype.Component;
-
-import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.OrderBy;
-import es.caib.portafib.back.form.PortaFIBBaseFilterForm;
-
-import es.caib.portafib.model.fields.NotificacioWSFields;
 
 /**
  *  ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! 
@@ -218,7 +216,6 @@ public class NotificacioWSFilterForm extends PortaFIBBaseFilterForm implements N
     this.dataErrorFins = __toClone.dataErrorFins;
     this.reintentsDesde = __toClone.reintentsDesde;
     this.reintentsFins = __toClone.reintentsFins;
-    this.mapOfPeticioDeFirmaForPeticioDeFirmaID = __toClone.mapOfPeticioDeFirmaForPeticioDeFirmaID;
     this.mapOfTipusNotificacioForTipusNotificacioID = __toClone.mapOfTipusNotificacioForTipusNotificacioID;
   }
   
@@ -254,18 +251,6 @@ public class NotificacioWSFilterForm extends PortaFIBBaseFilterForm implements N
    // -----------------------
    // Maps de referencies.
    // -----------------------
-  private Map<String, String> mapOfPeticioDeFirmaForPeticioDeFirmaID;
-
-  public Map<String, String> getMapOfPeticioDeFirmaForPeticioDeFirmaID() {
-    return this.mapOfPeticioDeFirmaForPeticioDeFirmaID;
-  }
-
-  public void setMapOfPeticioDeFirmaForPeticioDeFirmaID(Map<String, String> mapOfPeticioDeFirmaForPeticioDeFirmaID) {
-    this.mapOfPeticioDeFirmaForPeticioDeFirmaID = mapOfPeticioDeFirmaForPeticioDeFirmaID;
-  }
-
-
-
   private Map<String, String> mapOfTipusNotificacioForTipusNotificacioID;
 
   public Map<String, String> getMapOfTipusNotificacioForTipusNotificacioID() {

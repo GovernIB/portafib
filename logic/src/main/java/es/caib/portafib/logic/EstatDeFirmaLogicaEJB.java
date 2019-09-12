@@ -1,36 +1,24 @@
 package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.BlocDeFirmesLocal;
-import es.caib.portafib.ejb.FirmaLocal;
 import es.caib.portafib.ejb.EstatDeFirmaEJB;
+import es.caib.portafib.ejb.FirmaLocal;
 import es.caib.portafib.ejb.PeticioDeFirmaLocal;
 import es.caib.portafib.jpa.EstatDeFirmaJPA;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.model.entity.BlocDeFirmes;
-import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.EstatDeFirma;
+import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.BlocDeFirmesFields;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.NotificacioWSFields;
-import es.caib.portafib.model.fields.NotificacioWSQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.utils.ConstantsV2;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.LongField;
 import org.fundaciobit.genapp.common.query.OrderBy;
@@ -39,6 +27,15 @@ import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.hibernate.Hibernate;
 import org.jboss.ejb3.annotation.SecurityDomain;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 
@@ -50,16 +47,16 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   implements EstatDeFirmaLogicaLocal, ConstantsV2 {
 
-  @EJB(mappedName = "portafib/FirmaEJB/local")
+  @EJB(mappedName = "portafib/FirmaEJB/local", beanName = "FirmaEJB")
   private FirmaLocal firmaEjb;
 
-  @EJB(mappedName = "portafib/BlocDeFirmesEJB/local")
+  @EJB(mappedName = "portafib/BlocDeFirmesEJB/local", beanName = "BlocDeFirmesEJB")
   private BlocDeFirmesLocal blocDeFirmesEjb;
 
-  @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
+  @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local", beanName = "PeticioDeFirmaEJB")
   protected PeticioDeFirmaLocal peticioDeFirmaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.NotificacioWSLocal.JNDI_NAME)
+  @EJB(mappedName = es.caib.portafib.ejb.NotificacioWSLocal.JNDI_NAME, beanName = "NotificacioWSEJB")
   protected es.caib.portafib.ejb.NotificacioWSLocal notificacioWSEjb;
 
   @Override
@@ -110,16 +107,9 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     
     // new PeticioDeFirmaQueryPath().FLUXDEFIRMES().
     LongField field = new FirmaQueryPath().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA().PETICIODEFIRMAID();
-    
-    Set<Long> idsPeticioDeFirma = new HashSet<Long>();
-    
-    for (Long firmaid : firmes) {
-      Long idPeticio = firmaEjb.executeQueryOne(field, FirmaFields.FIRMAID.equal(firmaid));
-      if (idPeticio == null) {
-        log.error(" Error cercan l'id de Peticio de la firma amb id " + firmaid, new Exception());
-      }
-      idsPeticioDeFirma.add(idPeticio);
-    }
+
+    List<Long> idsPeticioList = firmaEjb.executeQuery(field, FirmaFields.FIRMAID.in(firmes));
+    Set<Long> idsPeticioDeFirma = new HashSet<Long>(idsPeticioList);
 
     return idsPeticioDeFirma;
   }
@@ -265,19 +255,20 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
         Where w2 = NotificacioWSFields.REINTENTS.greaterThan(5);
         Where w3 = NotificacioWSFields.BLOQUEJADA.equal(false);
 
+        /*
         PeticioDeFirmaQueryPath pfQP = new NotificacioWSQueryPath().PETICIODEFIRMA();
-        
         Where w4 = pfQP.SOLICITANTUSUARIAPLICACIOID().isNotNull();
-        
         Where w5 = pfQP.USUARIAPLICACIO().ENTITATID().equal(entitatID);
-        
-        //NotificacioWSFields.PETICIODEFIRMAID
-        
-        //Long count = notificacioWSEjb.count(Where.AND(w1,w2,w3,w4,w5));
-        
-        // NotificacioWSFields.PETICIODEFIRMAID
-        List<Long> peticioIDs = notificacioWSEjb.executeQuery(NotificacioWSFields.PETICIODEFIRMAID, Where.AND(w1,w2,w3,w4,w5));
-        
+         */
+        Where w4 = PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.isNotNull();
+        Where w5 = new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID);
+        SubQuery<PeticioDeFirma, Long> subQuery = peticioDeFirmaEjb.getSubQuery(PeticioDeFirmaFields.PETICIODEFIRMAID, Where.AND(w4, w5));
+
+        Where w45 = NotificacioWSFields.PETICIODEFIRMAID.in(subQuery);
+
+        //List<Long> peticioIDs = notificacioWSEjb.executeQuery(NotificacioWSFields.PETICIODEFIRMAID, Where.AND(w1,w2,w3,w4,w5));
+        List<Long> peticioIDs = notificacioWSEjb.executeQuery(NotificacioWSFields.PETICIODEFIRMAID, Where.AND(w1,w2,w3,w45));
+
         if (peticioIDs != null && peticioIDs.size() != 0) {
           avisos.put(rol, peticioIDs);
         }

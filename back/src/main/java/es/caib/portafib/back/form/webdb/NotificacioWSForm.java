@@ -1,9 +1,10 @@
 package es.caib.portafib.back.form.webdb;
 
-import java.util.List;
-import org.fundaciobit.genapp.common.StringKeyValue;
 import es.caib.portafib.back.form.PortaFIBBaseForm;
 import es.caib.portafib.jpa.NotificacioWSJPA;
+import org.fundaciobit.genapp.common.StringKeyValue;
+
+import java.util.List;
 
 /**
  *  ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! 
@@ -19,7 +20,6 @@ public class NotificacioWSForm extends PortaFIBBaseForm {
   public NotificacioWSForm(NotificacioWSForm __toClone) {
     super(__toClone);
       this.notificacioWS = __toClone.notificacioWS;
-    this.listOfPeticioDeFirmaForPeticioDeFirmaID = __toClone.listOfPeticioDeFirmaForPeticioDeFirmaID;
     this.listOfTipusNotificacioForTipusNotificacioID = __toClone.listOfTipusNotificacioForTipusNotificacioID;
   }
   
@@ -36,18 +36,6 @@ public class NotificacioWSForm extends PortaFIBBaseForm {
   }
   
   
-  private List<StringKeyValue> listOfPeticioDeFirmaForPeticioDeFirmaID;
-
-  public List<StringKeyValue> getListOfPeticioDeFirmaForPeticioDeFirmaID() {
-    return this.listOfPeticioDeFirmaForPeticioDeFirmaID;
-  }
-
-  public void setListOfPeticioDeFirmaForPeticioDeFirmaID(List<StringKeyValue> listOfPeticioDeFirmaForPeticioDeFirmaID) {
-    this.listOfPeticioDeFirmaForPeticioDeFirmaID = listOfPeticioDeFirmaForPeticioDeFirmaID;
-  }
-
-
-
   private List<StringKeyValue> listOfTipusNotificacioForTipusNotificacioID;
 
   public List<StringKeyValue> getListOfTipusNotificacioForTipusNotificacioID() {

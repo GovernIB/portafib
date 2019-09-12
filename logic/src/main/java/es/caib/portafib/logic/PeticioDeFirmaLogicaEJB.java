@@ -6,7 +6,6 @@ import es.caib.portafib.ejb.ColaboracioDelegacioLocal;
 import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.ejb.EstadisticaLocal;
 import es.caib.portafib.ejb.IdiomaLocal;
-import es.caib.portafib.ejb.NotificacioWSLocal;
 import es.caib.portafib.ejb.PeticioDeFirmaEJB;
 import es.caib.portafib.ejb.PropietatGlobalLocal;
 import es.caib.portafib.ejb.RevisorDeFirmaLocal;
@@ -78,7 +77,6 @@ import es.caib.portafib.model.fields.EstatDeFirmaQueryPath;
 import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.MetadadaFields;
-import es.caib.portafib.model.fields.NotificacioWSFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.PropietatGlobalFields;
@@ -165,9 +163,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
   @EJB(mappedName = FitxerLogicaLocal.JNDI_NAME)
   private FitxerLogicaLocal fitxerLogicaEjb;
-
-  @EJB(mappedName = NotificacioWSLocal.JNDI_NAME, beanName = "NotificacioWSEJB")
-  protected NotificacioWSLocal notificacioWsEjb;
 
   @EJB(mappedName = "portafib/FirmaEventManagerEJB/local")
   private FirmaEventManagerLocal firmaEventManagerEjb;
@@ -1815,7 +1810,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
 
       // Esborrar Notificacions
-      notificacioWsEjb.delete(NotificacioWSFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
+      //notificacioWsEjb.delete(NotificacioWSFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
       // Esborrar Bitacola
       //bitacolaEjb.delete(BitacolaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
@@ -2927,7 +2922,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       peticio.setMotiuDeRebuig(null);
 
       // Esborrar Notificacions
-      notificacioWsEjb.delete(NotificacioWSFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
+      //notificacioWsEjb.delete(NotificacioWSFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
       peticio.setAvisWeb(false);
  
@@ -3234,10 +3229,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         FitxerJPA fitxerClonat = cloneFitxer(fitxers, peticioOrig.getLogoSegell());
         peticio.setLogoSegellID(fitxerClonat.getFitxerID());
         peticio.setLogoSegell(fitxerClonat);
-      }
-
-      if (peticio.getNotificacioWSs() != null) {
-        peticio.getNotificacioWSs().clear();
       }
 
       peticio.setAvisWeb(false);

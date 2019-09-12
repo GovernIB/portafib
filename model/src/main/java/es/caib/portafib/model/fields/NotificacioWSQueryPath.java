@@ -1,6 +1,12 @@
 
 package es.caib.portafib.model.fields;
-import org.fundaciobit.genapp.common.query.*;
+
+import org.fundaciobit.genapp.common.query.BooleanField;
+import org.fundaciobit.genapp.common.query.IntegerField;
+import org.fundaciobit.genapp.common.query.LongField;
+import org.fundaciobit.genapp.common.query.QueryPath;
+import org.fundaciobit.genapp.common.query.StringField;
+import org.fundaciobit.genapp.common.query.TimestampField;
 
 public class NotificacioWSQueryPath extends org.fundaciobit.genapp.common.query.QueryPath {
 
@@ -59,14 +65,6 @@ public class NotificacioWSQueryPath extends org.fundaciobit.genapp.common.query.
         : this.parentQueryPath.getQueryPath());
   }
 
-
-  public PeticioDeFirmaQueryPath PETICIODEFIRMA() {
-    return new PeticioDeFirmaQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return NotificacioWSQueryPath.this.getQueryPath() + "peticioDeFirma" + ".";
-      }
-    });
-  }
 
   public TipusNotificacioQueryPath TIPUSNOTIFICACIO() {
     return new TipusNotificacioQueryPath(new QueryPath() {

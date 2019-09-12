@@ -1,21 +1,34 @@
 package es.caib.portafib.back.controller.webdb;
 
+import es.caib.portafib.back.form.webdb.NotificacioWSFilterForm;
+import es.caib.portafib.back.form.webdb.NotificacioWSForm;
+import es.caib.portafib.back.form.webdb.NotificacioWSRefList;
+import es.caib.portafib.back.form.webdb.TipusNotificacioRefList;
+import es.caib.portafib.back.validator.webdb.NotificacioWSWebValidator;
+import es.caib.portafib.jpa.NotificacioWSJPA;
+import es.caib.portafib.model.entity.NotificacioWS;
+import es.caib.portafib.model.fields.NotificacioWSFields;
+import es.caib.portafib.model.fields.TipusNotificacioFields;
 import org.fundaciobit.genapp.common.StringKeyValue;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.GroupByItem;
+import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.utils.Utils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.GroupByItem;
-import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.web.validation.ValidationWebUtils;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -24,19 +37,9 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
-
-import es.caib.portafib.back.form.webdb.*;
-import es.caib.portafib.back.form.webdb.NotificacioWSForm;
-
-import es.caib.portafib.back.validator.webdb.NotificacioWSWebValidator;
-
-import es.caib.portafib.jpa.NotificacioWSJPA;
-import es.caib.portafib.model.entity.NotificacioWS;
-import es.caib.portafib.model.fields.*;
 
 /**
  * Controller per gestionar un NotificacioWS
@@ -58,10 +61,6 @@ public class NotificacioWSController
 
   @Autowired
   protected NotificacioWSRefList notificacioWSRefList;
-
-  // References 
-  @Autowired
-  protected PeticioDeFirmaRefList peticioDeFirmaRefList;
 
   // References 
   @Autowired
@@ -187,16 +186,6 @@ public class NotificacioWSController
     Map<String, String> _tmp;
     List<StringKeyValue> _listSKV;
 
-    // Field peticioDeFirmaID
-    {
-      _listSKV = getReferenceListForPeticioDeFirmaID(request, mav, filterForm, list, groupByItemsMap, null);
-      _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfPeticioDeFirmaForPeticioDeFirmaID(_tmp);
-      if (filterForm.getGroupByFields().contains(PETICIODEFIRMAID)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, PETICIODEFIRMAID, false);
-      };
-    }
-
     // Field tipusNotificacioID
     {
       _listSKV = getReferenceListForTipusNotificacioID(request, mav, filterForm, list, groupByItemsMap, null);
@@ -225,7 +214,6 @@ public class NotificacioWSController
 
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
-    __mapping.put(PETICIODEFIRMAID, filterForm.getMapOfPeticioDeFirmaForPeticioDeFirmaID());
     __mapping.put(TIPUSNOTIFICACIOID, filterForm.getMapOfTipusNotificacioForTipusNotificacioID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
@@ -274,13 +262,6 @@ public class NotificacioWSController
 
   public void fillReferencesForForm(NotificacioWSForm notificacioWSForm,
     HttpServletRequest request, ModelAndView mav) throws I18NException {
-    // Comprovam si ja esta definida la llista
-    if (notificacioWSForm.getListOfPeticioDeFirmaForPeticioDeFirmaID() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForPeticioDeFirmaID(request, mav, notificacioWSForm, null);
-
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      notificacioWSForm.setListOfPeticioDeFirmaForPeticioDeFirmaID(_listSKV);
-    }
     // Comprovam si ja esta definida la llista
     if (notificacioWSForm.getListOfTipusNotificacioForTipusNotificacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusNotificacioID(request, mav, notificacioWSForm, null);
@@ -586,45 +567,6 @@ public java.lang.Long stringToPK(String value) {
 
   public boolean isActiveFormView() {
     return isActiveFormEdit();
-  }
-
-
-  public List<StringKeyValue> getReferenceListForPeticioDeFirmaID(HttpServletRequest request,
-       ModelAndView mav, NotificacioWSForm notificacioWSForm, Where where)  throws I18NException {
-    if (notificacioWSForm.isHiddenField(PETICIODEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
-    }
-    Where _where = null;
-    if (notificacioWSForm.isReadOnlyField(PETICIODEFIRMAID)) {
-      _where = PeticioDeFirmaFields.PETICIODEFIRMAID.equal(notificacioWSForm.getNotificacioWS().getPeticioDeFirmaID());
-    }
-    return getReferenceListForPeticioDeFirmaID(request, mav, Where.AND(where, _where));
-  }
-
-
-  public List<StringKeyValue> getReferenceListForPeticioDeFirmaID(HttpServletRequest request,
-       ModelAndView mav, NotificacioWSFilterForm notificacioWSFilterForm,
-       List<NotificacioWS> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (notificacioWSFilterForm.isHiddenField(PETICIODEFIRMAID)
-      && !notificacioWSFilterForm.isGroupByField(PETICIODEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
-    }
-    Where _w = null;
-    if (!_groupByItemsMap.containsKey(PETICIODEFIRMAID)) {
-      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
-      for (NotificacioWS _item : list) {
-        _pkList.add(_item.getPeticioDeFirmaID());
-        }
-        _w = PeticioDeFirmaFields.PETICIODEFIRMAID.in(_pkList);
-      }
-    return getReferenceListForPeticioDeFirmaID(request, mav, Where.AND(where,_w));
-  }
-
-
-  public List<StringKeyValue> getReferenceListForPeticioDeFirmaID(HttpServletRequest request,
-       ModelAndView mav, Where where)  throws I18NException {
-    return peticioDeFirmaRefList.getReferenceList(PeticioDeFirmaFields.PETICIODEFIRMAID, where );
   }
 
 

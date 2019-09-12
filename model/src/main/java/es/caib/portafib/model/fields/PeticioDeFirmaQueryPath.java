@@ -1,6 +1,13 @@
 
 package es.caib.portafib.model.fields;
-import org.fundaciobit.genapp.common.query.*;
+
+import org.fundaciobit.genapp.common.query.BooleanField;
+import org.fundaciobit.genapp.common.query.DoubleField;
+import org.fundaciobit.genapp.common.query.IntegerField;
+import org.fundaciobit.genapp.common.query.LongField;
+import org.fundaciobit.genapp.common.query.QueryPath;
+import org.fundaciobit.genapp.common.query.StringField;
+import org.fundaciobit.genapp.common.query.TimestampField;
 
 public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query.QueryPath {
 
@@ -207,20 +214,6 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new MetadadaQueryPath(new QueryPath() {
       public String getQueryPath() {
           return PeticioDeFirmaQueryPath.this.getQueryPath() + "metadadas" + ".";
-      }
-    });
-  }
-*/
-
-/* L'ús d'aquest camp (OneToMany) llança una exception:
- [Illegal attempt to dereference a collection]
-
- // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
-
-  public NotificacioWSQueryPath NOTIFICACIOWSS() {
-    return new NotificacioWSQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return PeticioDeFirmaQueryPath.this.getQueryPath() + "notificacioWSs" + ".";
       }
     });
   }

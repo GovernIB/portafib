@@ -1,12 +1,9 @@
 package es.caib.portafib.jpa.validator;
 
-import org.apache.log4j.Logger;
-
-import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.NotificacioWSFields;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.TipusNotificacioFields;
-
+import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
 
 
@@ -28,7 +25,6 @@ public class NotificacioWSValidator<T> implements NotificacioWSFields {
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
     ,es.caib.portafib.model.dao.INotificacioWSManager __notificacioWSManager
-    ,es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager
     ,es.caib.portafib.model.dao.ITipusNotificacioManager __tipusNotificacioManager) {
 
     // Valors Not Null
@@ -81,18 +77,6 @@ public class NotificacioWSValidator<T> implements NotificacioWSFields {
     }
 
     // Fields with References to Other tables 
-    if (__vr.getFieldErrorCount(PETICIODEFIRMAID) == 0) {
-      java.lang.Long __peticiodefirmaid = (java.lang.Long)__vr.getFieldValue(__target__,PETICIODEFIRMAID);
-      Long __count_ = null;
-      try { __count_ = __peticioDeFirmaManager.count(PeticioDeFirmaFields.PETICIODEFIRMAID.equal(__peticiodefirmaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(PETICIODEFIRMAID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("peticioDeFirma.peticioDeFirma"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("peticioDeFirma.peticioDeFirmaID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__peticiodefirmaid)));
-      }
-    }
-
     if (__vr.getFieldErrorCount(TIPUSNOTIFICACIOID) == 0) {
       java.lang.Long __tipusnotificacioid = (java.lang.Long)__vr.getFieldValue(__target__,TIPUSNOTIFICACIOID);
       Long __count_ = null;

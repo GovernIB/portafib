@@ -3,30 +3,24 @@ package es.caib.portafib.back.controller.aden;
 import es.caib.portafib.back.controller.webdb.NotificacioWSController;
 import es.caib.portafib.back.form.webdb.NotificacioWSFilterForm;
 import es.caib.portafib.back.form.webdb.NotificacioWSForm;
-import es.caib.portafib.back.form.webdb.PeticioDeFirmaRefList;
-import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.ejb.PeticioDeFirmaLocal;
 import es.caib.portafib.jpa.NotificacioWSJPA;
 import es.caib.portafib.logic.NotificacioWSLogicaLocal;
+import es.caib.portafib.logic.utils.NotificacioInfo;
 import es.caib.portafib.model.entity.NotificacioWS;
 import es.caib.portafib.model.entity.UsuariAplicacio;
-import es.caib.portafib.model.fields.NotificacioWSQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
-import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.GroupByItem;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
-import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,13 +29,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,13 +49,6 @@ import java.util.Map;
 @SessionAttributes(types = { NotificacioWSForm.class, NotificacioWSFilterForm.class })
 public class GestioNotificacionsWSController extends NotificacioWSController {
 
-  public static final Field<?> USUARIAPLICAIOID = new NotificacioWSQueryPath()
-      .PETICIODEFIRMA().USUARIAPLICACIO().USUARIAPLICACIOID();
-
-  // References
-  @Autowired
-  protected UsuariAplicacioRefList usuariAplicacioRefList;
-
   @EJB(mappedName = NotificacioWSLogicaLocal.JNDI_NAME)
   protected NotificacioWSLogicaLocal notificacioLogicaEjb;
   
@@ -70,6 +57,8 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
   @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
+
+  private static final int COLUMN_USUARIAPLICACIO = 1;
 
   @Override
   public boolean isActiveFormNew() {
@@ -86,23 +75,8 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
     return true;
   }
 
-  @PostConstruct
-  public void init() {
-    this.peticioDeFirmaRefList = new PeticioDeFirmaRefList(this.peticioDeFirmaRefList);
-    this.peticioDeFirmaRefList
-        .setSelects(new Select<?>[] { PeticioDeFirmaFields.TITOL.select });
-
-    this.usuariAplicacioRefList = new UsuariAplicacioRefList(this.usuariAplicacioRefList);
-    this.usuariAplicacioRefList
-        .setSelects(new Select<?>[] { UsuariAplicacioFields.USUARIAPLICACIOID.select });
-  }
-  
-  
-  
   // TODO XYZ ZZZ S'ha d'emprar el DateFormatter de GenApp 
   public static final SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-  
-  
 
   @Override
   public NotificacioWSFilterForm getNotificacioWSFilterForm(Integer pagina, ModelAndView mav,
@@ -123,8 +97,6 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       notificacioFilterForm.addGroupByField(TIPUSNOTIFICACIOID);
       notificacioFilterForm.addGroupByField(BLOQUEJADA);
       notificacioFilterForm.addGroupByField(DATACREACIO);
-      // Filtre d'un camp que pertanyt a una taula externa
-      notificacioFilterForm.addGroupByField(USUARIAPLICAIOID);
 
       notificacioFilterForm.addFilterByField(DESCRIPCIO);
       notificacioFilterForm.addFilterByField(ERROR);
@@ -150,7 +122,13 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       notificacioFilterForm.setDeleteSelectedButtonVisible(false);
       notificacioFilterForm.setVisibleMultipleSelection(false);
 
-
+      {
+        AdditionalField<String,String> additionalField = new AdditionalField<String,String>();
+        additionalField.setCodeName("usuariAplicacio.usuariAplicacio");
+        additionalField.setPosition(COLUMN_USUARIAPLICACIO);
+        additionalField.setValueMap(new HashMap<String, String>());
+        notificacioFilterForm.addAdditionalField(additionalField);
+      }
     }
 
    
@@ -200,6 +178,9 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       return;
     }
 
+    Map<Long, String> uaMap = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_USUARIAPLICACIO).getValueMap();
+    uaMap.clear();
+
     int count = 0;
     int[] counts = new int[4];
     Arrays.fill(counts, 0);
@@ -208,6 +189,9 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
     boolean mostrarBotonsGlobals = true;
     for (NotificacioWS notificacio : list) {
       count++;
+
+      NotificacioInfo info = NotificacioInfo.readNotificacioInfo(notificacio.getDescripcio());
+      uaMap.put(notificacio.getNotificacioID(), info.getFirmaEvent().getDestinatariUsuariAplicacioID());
 
       action = getStatus(notificacio);
 
@@ -369,12 +353,6 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
     }
 
     return SHOW_ACTION_NONE;
-  }
-
-  @Override
-  public NotificacioWSJPA findByPrimaryKey(HttpServletRequest request,
-      java.lang.Long notificacioID) throws I18NException {
-    return notificacioLogicaEjb.findByPrimaryKeyForNotificacioQueue(notificacioID);
   }
 
   @Override
@@ -542,28 +520,4 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
     return "redirect:" + getContextWeb() + "/list/";
   }
-  
-
-  @Override
-  public Map<Field<?>, GroupByItem> fillReferencesForList(NotificacioWSFilterForm filterForm,
-      HttpServletRequest request, ModelAndView mav, List<NotificacioWS> list,
-      List<GroupByItem> groupItems) throws I18NException {
-
-    Map<Field<?>, GroupByItem> groupByItemsMap = super.fillReferencesForList(filterForm,
-        request, mav, list, groupItems);
-
-    Map<String, String> _tmp;
-    List<StringKeyValue> _listSKV;
-
-    // Field USUARIAPLICAIOID
-    _listSKV = this.usuariAplicacioRefList.getReferenceList(
-        UsuariAplicacioFields.USUARIAPLICACIOID, null);
-    _tmp = org.fundaciobit.genapp.common.utils.Utils.listToMap(_listSKV);
-    groupByItemsMap.get(USUARIAPLICAIOID).setCodeLabel(
-        UsuariAplicacioFields._TABLE_TRANSLATION);
-    fillValuesToGroupByItems(_tmp, groupByItemsMap, USUARIAPLICAIOID, false);
-
-    return groupByItemsMap;
-  }
-
 }

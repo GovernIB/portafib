@@ -13,18 +13,9 @@
              </label>
             </td>
             <td>
-          <form:errors path="notificacioWS.peticioDeFirmaID" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)}" >
-          <form:hidden path="notificacioWS.peticioDeFirmaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.notificacioWS.peticioDeFirmaID,__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID)}"  />
-          </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)}" >
-          <form:select id="notificacioWS_peticioDeFirmaID"  onchange="if(typeof onChangePeticioDeFirmaID == 'function') {  onChangePeticioDeFirmaID(this); };"  cssClass="input-xxlarge" path="notificacioWS.peticioDeFirmaID">
-            <c:forEach items="${__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
-            </c:forEach>
-          </form:select>
-          </c:if>
+            <form:errors path="notificacioWS.peticioDeFirmaID" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? 'input-mini uneditable-input' : 'input-mini'}"   path="notificacioWS.peticioDeFirmaID"   />
+
            </td>
         </tr>
         </c:if>
