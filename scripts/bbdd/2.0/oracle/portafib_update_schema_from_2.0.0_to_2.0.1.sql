@@ -6,21 +6,21 @@
 --  ----------------------------------------------
 
 ALTER TABLE pfi_firma
-  ADD COLUMN checkadministrationidofsigner NUMBER(1,0);
+  ADD checkadministrationidofsigner NUMBER(1,0);
 ALTER TABLE pfi_firma
-  ADD COLUMN checkdocumentmodifications NUMBER(1,0);
+  ADD checkdocumentmodifications NUMBER(1,0);
 ALTER TABLE pfi_firma
-  ADD COLUMN checkvalidationsignature NUMBER(1,0);
+  ADD checkvalidationsignature NUMBER(1,0);
 ALTER TABLE pfi_firma
-  ADD COLUMN perfildefirma varchar2(50);
+  ADD perfildefirma varchar2(50);
   
   
   
 ALTER TABLE pfi_peticiodefirma
-  ADD COLUMN origenpeticiodefirma NUMBER(10,0) NOT NULL DEFAULT 0;
+  ADD origenpeticiodefirma NUMBER(10,0) DEFAULT 0 NOT NULL;
 
 ALTER TABLE pfi_peticiodefirma
-  ADD COLUMN configuraciodefirmaid NUMBER(19,0);
+  ADD configuraciodefirmaid NUMBER(19,0);
 ALTER TABLE pfi_peticiodefirma
   ADD CONSTRAINT pfi_petifirma_confapp_fk FOREIGN KEY (configuraciodefirmaid) REFERENCES pfi_usuariaplicacioconfig (usuariaplicacioconfigid);
 create index pfi_petifirma_conffirma_fk_i on pfi_peticiodefirma (configuraciodefirmaid);
@@ -31,21 +31,21 @@ create index pfi_petifirma_conffirma_fk_i on pfi_peticiodefirma (configuraciodef
 --  ---------------------------------
 
 ALTER TABLE pfi_custodiainfo
-  ADD COLUMN csv varchar2(500);
+  ADD csv varchar2(500);
 ALTER TABLE pfi_custodiainfo
-  ADD COLUMN csvgenerationdefinition varchar2(500);
+  ADD csvgenerationdefinition varchar2(500);
 ALTER TABLE pfi_custodiainfo
-  ADD COLUMN csvvalidationweb varchar2(500);
+  ADD csvvalidationweb varchar2(500);
 ALTER TABLE pfi_custodiainfo
-  ADD COLUMN originalfiledirecturl varchar2(500);
+  ADD originalfiledirecturl varchar2(500);
 ALTER TABLE pfi_custodiainfo
-  ADD COLUMN printablefiledirecturl varchar2(500);
+  ADD printablefiledirecturl varchar2(500);
 ALTER TABLE pfi_custodiainfo
-  ADD COLUMN enifiledirecturl varchar2(500);
+  ADD enifiledirecturl varchar2(500);
 ALTER TABLE pfi_custodiainfo
-  ADD COLUMN expedientid varchar2(250);
+  ADD expedientid varchar2(250);
 ALTER TABLE pfi_custodiainfo
-  ADD COLUMN documentid varchar2(250);
+  ADD documentid varchar2(250);
 COMMENT ON COLUMN pfi_custodiainfo.expedientid IS 'Futura compatibilitat amb Plugin Arxiu';
 COMMENT ON COLUMN pfi_custodiainfo.documentid IS 'Futura compatibilitat amb Plugin Arxiu';
 
