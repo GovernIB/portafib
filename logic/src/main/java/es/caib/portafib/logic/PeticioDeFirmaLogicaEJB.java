@@ -2311,8 +2311,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // les passes anteriors
       // 8.- Guardar Fitxer en Sistema de Fitxers
       //FileSystemManager.sobreescriureFitxer(signatureFile, fitxer.getFitxerID());
-      LogicUtils.sobreescriureFitxerChecked(signatureFile, fitxer.getFitxerID());
       fileID = fitxer.getFitxerID();
+      signatureFile = LogicUtils.sobreescriureFitxerChecked(signatureFile, fileID);
 
       // 9.- PeticióFinalitzada:
       // 9.1.- PeticióFinalitzada: Custodia
@@ -2321,10 +2321,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
           CustodiaInfo custInfo = custodiaInfoLogicaEjb.findByPrimaryKey(peticioDeFirma
             .getCustodiaInfoID());
-          
 
           IPortaFIBDataSource fitxerAFirmar = new FitxerIdDataSource(peticioDeFirma.getFitxerAFirmarID());
-          
+
           String fitxerAFirmarNom = peticioDeFirma.getFitxerAFirmar().getNom();
           
           custodiaInfoLogicaEjb.custodiaThingToDoOnFinishPeticioDeFirma(fitxerAFirmarNom,
