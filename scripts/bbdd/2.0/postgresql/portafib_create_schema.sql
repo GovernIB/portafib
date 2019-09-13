@@ -77,17 +77,25 @@ SET default_with_oids = false;
         codibarresid varchar(255) not null,
         codibarresposiciopaginaid int8 not null,
         codibarrestext varchar(255) not null,
+        csv varchar(500),
+        csvgenerationdefinition varchar(500),
+        csvvalidationweb varchar(500),
         custodiapluginid varchar(255),
         custodiapluginparametres varchar(3000),
         custodiar bool not null,
         datacustodia timestamp,
+        documentid varchar(250),
         editable bool not null,
+        enifiledirecturl varchar(500),
         entitatid varchar(50),
+        expedientid varchar(250),
         missatge varchar(3000) not null,
         missatgeposiciopaginaid int8 not null,
         nomplantilla varchar(255),
+        originalfiledirecturl varchar(500),
         pagines varchar(255) not null,
         pluginid int8 not null,
+        printablefiledirecturl varchar(500),
         titolpeticio varchar(255),
         urlfitxercustodiat varchar(500),
         usuariaplicacioid varchar(101),
@@ -171,6 +179,9 @@ SET default_with_oids = false;
         caixa_pagina int4 not null,
         caixa_x int4,
         caixa_y int4,
+        checkadministrationidofsigner bool,
+        checkdocumentmodifications bool,
+        checkvalidationsignature bool,
         destinatariid varchar(101) not null,
         emissorcertificat varchar(1000),
         fitxerfirmatid int8,
@@ -181,6 +192,7 @@ SET default_with_oids = false;
         numfirmadocument int4,
         numeroseriecertificat numeric(19, 2),
         obligatori bool not null,
+        perfildefirma varchar(50),
         tipusestatdefirmafinalid int8,
         primary key (firmaid)
     );
@@ -286,6 +298,7 @@ SET default_with_oids = false;
         peticiodefirmaid int8 not null,
         algorismedefirmaid int4 not null,
         avisweb bool not null,
+        configuraciodefirmaid int8,
         custodiainfoid int8,
         datacaducitat timestamp not null,
         datafinal timestamp,
@@ -306,6 +319,7 @@ SET default_with_oids = false;
         modedefirma bool not null,
         motiu varchar(255) not null,
         motiuderebuig varchar(255),
+        origenpeticiodefirma int4 not null,
         posiciotaulafirmesid int4 not null,
         prioritatid int4 not null,
         procedimentcodi varchar(255),
@@ -497,7 +511,6 @@ SET default_with_oids = false;
         filtrecertificats text,
         firmatperformatid int8,
         htmlperllistarpluginsfirmaweb text,
-        logincertificateid int8,
         modedefirma bool not null,
         motiudelegacioid int8,
         nom varchar(255) not null,
@@ -516,10 +529,10 @@ SET default_with_oids = false;
         upgradesignformat int4,
         usenfirmaapisimpleservidor bool not null,
         usenfirmaapisimpleweb bool not null,
+        usenfirmaws2 bool not null,
         usenfirmapassarelaservidor bool not null,
         usenfirmapassarelaweb bool not null,
         usenfirmaws1 bool not null,
-        usenfirmaws2 bool not null,
         usenfirmaweb bool not null,
         uspoliticadefirma int4 not null,
         validarcertificat bool,
@@ -586,14 +599,14 @@ SET default_with_oids = false;
 
     create index pfi_annex_fitxerid_fk_i on pfi_annex (fitxerid);
 
-    alter table pfi_annex 
-        add constraint pfi_annex_petifirma_fk 
-        foreign key (peticiodefirmaid) 
+    alter table pfi_annex
+        add constraint pfi_annex_petifirma_fk
+        foreign key (peticiodefirmaid)
         references pfi_peticiodefirma;
 
-    alter table pfi_annex 
-        add constraint pfi_annex_fitxer_fk 
-        foreign key (fitxerid) 
+    alter table pfi_annex
+        add constraint pfi_annex_fitxer_fk
+        foreign key (fitxerid)
         references pfi_fitxer;
 
     create index pfi_annexfirmat_fitxerid_fk_i on pfi_annexfirmat (fitxerid);
@@ -604,19 +617,19 @@ SET default_with_oids = false;
 
     create index pfi_annexfirmat_firmaid_fk_i on pfi_annexfirmat (firmaid);
 
-    alter table pfi_annexfirmat 
-        add constraint pfi_anexfirmat_annex_fk 
-        foreign key (annexid) 
+    alter table pfi_annexfirmat
+        add constraint pfi_anexfirmat_annex_fk
+        foreign key (annexid)
         references pfi_annex;
 
-    alter table pfi_annexfirmat 
-        add constraint pfi_anexfirmat_fitxer_fk 
-        foreign key (fitxerid) 
+    alter table pfi_annexfirmat
+        add constraint pfi_anexfirmat_fitxer_fk
+        foreign key (fitxerid)
         references pfi_fitxer;
 
-    alter table pfi_annexfirmat 
-        add constraint pfi_anexfirmat_firma_fk 
-        foreign key (firmaid) 
+    alter table pfi_annexfirmat
+        add constraint pfi_anexfirmat_firma_fk
+        foreign key (firmaid)
         references pfi_firma;
 
     create index pfi_bitacola_pk_i on pfi_bitacola (bitacolaid);
@@ -629,9 +642,9 @@ SET default_with_oids = false;
 
     create index pfi_blocdefirmes_pk_i on pfi_blocdefirmes (blocdefirmesid);
 
-    alter table pfi_blocdefirmes 
-        add constraint pfi_blocfirmes_fluxfirmes_fk 
-        foreign key (fluxdefirmesid) 
+    alter table pfi_blocdefirmes
+        add constraint pfi_blocfirmes_fluxfirmes_fk
+        foreign key (fluxdefirmesid)
         references pfi_fluxdefirmes;
 
     create index pfi_codibarres_pk_i on pfi_codibarres (codibarresid);
@@ -644,19 +657,19 @@ SET default_with_oids = false;
 
     create index pfi_colabdeleg_coldelid_fk_i on pfi_colaboraciodelegacio (colaboradordelegatid);
 
-    alter table pfi_colaboraciodelegacio 
-        add constraint pfi_colabdeleg_usrentitat_d_fk 
-        foreign key (destinatariid) 
+    alter table pfi_colaboraciodelegacio
+        add constraint pfi_colabdeleg_usrentitat_d_fk
+        foreign key (destinatariid)
         references pfi_usuarientitat;
 
-    alter table pfi_colaboraciodelegacio 
-        add constraint pfi_colabdeleg_usrentitat_c_fk 
-        foreign key (colaboradordelegatid) 
+    alter table pfi_colaboraciodelegacio
+        add constraint pfi_colabdeleg_usrentitat_c_fk
+        foreign key (colaboradordelegatid)
         references pfi_usuarientitat;
 
-    alter table pfi_colaboraciodelegacio 
-        add constraint pfi_colabdeleg_fitxer_fk 
-        foreign key (fitxerautoritzacioid) 
+    alter table pfi_colaboraciodelegacio
+        add constraint pfi_colabdeleg_fitxer_fk
+        foreign key (fitxerautoritzacioid)
         references pfi_fitxer;
 
     create index pfi_custodia_codbarrpos_fk_i on pfi_custodiainfo (codibarresposiciopaginaid);
@@ -675,29 +688,29 @@ SET default_with_oids = false;
 
     create index pfi_custodia_entitatid_fk_i on pfi_custodiainfo (entitatid);
 
-    alter table pfi_custodiainfo 
-        add constraint pfi_custodia_usrentitat_fk 
-        foreign key (usuarientitatid) 
+    alter table pfi_custodiainfo
+        add constraint pfi_custodia_usrentitat_fk
+        foreign key (usuarientitatid)
         references pfi_usuarientitat;
 
-    alter table pfi_custodiainfo 
-        add constraint pfi_custodia_entitat_fk 
-        foreign key (entitatid) 
+    alter table pfi_custodiainfo
+        add constraint pfi_custodia_entitat_fk
+        foreign key (entitatid)
         references pfi_entitat;
 
-    alter table pfi_custodiainfo 
-        add constraint pfi_custodia_plugin_fk 
-        foreign key (pluginid) 
+    alter table pfi_custodiainfo
+        add constraint pfi_custodia_plugin_fk
+        foreign key (pluginid)
         references pfi_plugin;
 
-    alter table pfi_custodiainfo 
-        add constraint pfi_custodia_codibarres_fk 
-        foreign key (codibarresid) 
+    alter table pfi_custodiainfo
+        add constraint pfi_custodia_codibarres_fk
+        foreign key (codibarresid)
         references pfi_codibarres;
 
-    alter table pfi_custodiainfo 
-        add constraint pfi_custodia_usrapp_fk 
-        foreign key (usuariaplicacioid) 
+    alter table pfi_custodiainfo
+        add constraint pfi_custodia_usrapp_fk
+        foreign key (usuariaplicacioid)
         references pfi_usuariaplicacio;
 
     create index pfi_entitat_motiudele_fk_i on pfi_entitat (motiudelegacioid);
@@ -730,78 +743,78 @@ SET default_with_oids = false;
 
     create index pfi_entitat_logowebid_fk_i on pfi_entitat (logowebid);
 
-    alter table pfi_entitat 
-        add constraint pfi_entitat_traduccio_firm_fk 
-        foreign key (firmatperformatid) 
+    alter table pfi_entitat
+        add constraint pfi_entitat_traduccio_firm_fk
+        foreign key (firmatperformatid)
         references pfi_traduccio;
 
-    alter table pfi_entitat 
-        add constraint pfi_entitat_fitxer_lope_fk 
-        foreign key (logowebpeuid) 
+    alter table pfi_entitat
+        add constraint pfi_entitat_fitxer_lope_fk
+        foreign key (logowebpeuid)
         references pfi_fitxer;
 
-    alter table pfi_entitat 
-        add constraint pfi_entitat_plugin_vafi_fk 
-        foreign key (pluginvalidafirmesid) 
+    alter table pfi_entitat
+        add constraint pfi_entitat_plugin_vafi_fk
+        foreign key (pluginvalidafirmesid)
         references pfi_plugin;
 
-    alter table pfi_entitat 
-        add constraint pfi_entitat_fitxer_lose_fk 
-        foreign key (logosegellid) 
+    alter table pfi_entitat
+        add constraint pfi_entitat_fitxer_lose_fk
+        foreign key (logosegellid)
         references pfi_fitxer;
 
-    alter table pfi_entitat 
-        add constraint pfi_entitat_fitxer_loca_fk 
-        foreign key (logowebid) 
+    alter table pfi_entitat
+        add constraint pfi_entitat_fitxer_loca_fk
+        foreign key (logowebid)
         references pfi_fitxer;
 
-    alter table pfi_entitat 
-        add constraint pfi_entitat_fitxer_icon_fk 
-        foreign key (faviconid) 
+    alter table pfi_entitat
+        add constraint pfi_entitat_fitxer_icon_fk
+        foreign key (faviconid)
         references pfi_fitxer;
 
-    alter table pfi_entitat 
-        add constraint pfi_entitat_usrapp_fk 
-        foreign key (usuariaplicacioid) 
+    alter table pfi_entitat
+        add constraint pfi_entitat_usrapp_fk
+        foreign key (usuariaplicacioid)
         references pfi_usuariaplicacio;
 
-    alter table pfi_entitat 
-        add constraint pfi_entitat_traduccio_moti_fk 
-        foreign key (motiudelegacioid) 
+    alter table pfi_entitat
+        add constraint pfi_entitat_traduccio_moti_fk
+        foreign key (motiudelegacioid)
         references pfi_traduccio;
 
-    alter table pfi_entitat 
-        add constraint pfi_entitat_plugin_cert_fk 
-        foreign key (pluginvalidacertificatid) 
+    alter table pfi_entitat
+        add constraint pfi_entitat_plugin_cert_fk
+        foreign key (pluginvalidacertificatid)
         references pfi_plugin;
 
-    alter table pfi_entitat 
-        add constraint pfi_entitat_fitxer_pdfd_fk 
-        foreign key (pdfautoritzaciodelegacioid) 
+    alter table pfi_entitat
+        add constraint pfi_entitat_fitxer_pdfd_fk
+        foreign key (pdfautoritzaciodelegacioid)
         references pfi_fitxer;
 
-    alter table pfi_entitat 
-        add constraint pfi_entitat_plugin_fk 
-        foreign key (pluginid) 
+    alter table pfi_entitat
+        add constraint pfi_entitat_plugin_fk
+        foreign key (pluginid)
         references pfi_plugin;
 
-    alter table pfi_entitat 
-        add constraint pfi_entitat_plugin_rubr_fk 
-        foreign key (pluginrubricaid) 
+    alter table pfi_entitat
+        add constraint pfi_entitat_plugin_rubr_fk
+        foreign key (pluginrubricaid)
         references pfi_plugin;
 
-    alter table pfi_entitat 
-        add constraint pfi_entitat_custodia_fk 
-        foreign key (custodiainfoid) 
+    alter table pfi_entitat
+        add constraint pfi_entitat_custodia_fk
+        foreign key (custodiainfoid)
         references pfi_custodiainfo;
 
     create index pfi_estadistica_pk_i on pfi_estadistica (estadisticaid);
 
     create index pfi_estadistica_entitatid_fk_i on pfi_estadistica (entitatid);
 
-    alter table pfi_estadistica 
-        add constraint pfi_estadis_entitat_fk 
-        foreign key (entitatid) 
+    alter table pfi_estadistica
+        add constraint pfi_estadis_entitat_fk
+        foreign key (entitatid)
         references pfi_entitat;
 
     create index pfi_estatdefirma_firmaid_fk_i on pfi_estatdefirma (firmaid);
@@ -816,19 +829,19 @@ SET default_with_oids = false;
 
     create index pfi_estatfirma_estatid_fk_i on pfi_estatdefirma (tipusestatdefirmafinalid);
 
-    alter table pfi_estatdefirma 
-        add constraint pfi_estatfirma_usrentitat_fk 
-        foreign key (usuarientitatid) 
+    alter table pfi_estatdefirma
+        add constraint pfi_estatfirma_usrentitat_fk
+        foreign key (usuarientitatid)
         references pfi_usuarientitat;
 
-    alter table pfi_estatdefirma 
-        add constraint pfi_estatfirma_colabdeleg_fk 
-        foreign key (colaboraciodelegacioid) 
+    alter table pfi_estatdefirma
+        add constraint pfi_estatfirma_colabdeleg_fk
+        foreign key (colaboraciodelegacioid)
         references pfi_colaboraciodelegacio;
 
-    alter table pfi_estatdefirma 
-        add constraint pfi_estatfirma_firma_fk 
-        foreign key (firmaid) 
+    alter table pfi_estatdefirma
+        add constraint pfi_estatfirma_firma_fk
+        foreign key (firmaid)
         references pfi_firma;
 
     create index pfi_firma_blocdefirmaid_fk_i on pfi_firma (blocdefirmaid);
@@ -841,19 +854,19 @@ SET default_with_oids = false;
 
     create index pfi_firma_destinatariid_fk_i on pfi_firma (destinatariid);
 
-    alter table pfi_firma 
-        add constraint pfi_firma_fitxer_fk 
-        foreign key (fitxerfirmatid) 
+    alter table pfi_firma
+        add constraint pfi_firma_fitxer_fk
+        foreign key (fitxerfirmatid)
         references pfi_fitxer;
 
-    alter table pfi_firma 
-        add constraint pfi_firma_usrentitat_fk 
-        foreign key (destinatariid) 
+    alter table pfi_firma
+        add constraint pfi_firma_usrentitat_fk
+        foreign key (destinatariid)
         references pfi_usuarientitat;
 
-    alter table pfi_firma 
-        add constraint pfi_firma_blocfirmes_fk 
-        foreign key (blocdefirmaid) 
+    alter table pfi_firma
+        add constraint pfi_firma_blocfirmes_fk
+        foreign key (blocdefirmaid)
         references pfi_blocdefirmes;
 
     create index pfi_fitxer_pk_i on pfi_fitxer (fitxerid);
@@ -864,9 +877,9 @@ SET default_with_oids = false;
 
     create index pfi_grupentitat_pk_i on pfi_grupentitat (grupentitatid);
 
-    alter table pfi_grupentitat 
-        add constraint pfi_grupentita_entitat_fk 
-        foreign key (entitatid) 
+    alter table pfi_grupentitat
+        add constraint pfi_grupentita_entitat_fk
+        foreign key (entitatid)
         references pfi_entitat;
 
     create index pfi_grupusrent_usrentid_fk_i on pfi_grupentitatusuarientitat (usuarientitatid);
@@ -875,14 +888,14 @@ SET default_with_oids = false;
 
     create index pfi_grupusrent_pk_i on pfi_grupentitatusuarientitat (grupentitatusuarientitatid);
 
-    alter table pfi_grupentitatusuarientitat 
-        add constraint pfi_grupusrent_usrentitat_fk 
-        foreign key (usuarientitatid) 
+    alter table pfi_grupentitatusuarientitat
+        add constraint pfi_grupusrent_usrentitat_fk
+        foreign key (usuarientitatid)
         references pfi_usuarientitat;
 
-    alter table pfi_grupentitatusuarientitat 
-        add constraint pfi_grupusrent_grupentita_fk 
-        foreign key (grupentitatid) 
+    alter table pfi_grupentitatusuarientitat
+        add constraint pfi_grupusrent_grupentita_fk
+        foreign key (grupentitatid)
         references pfi_grupentitat;
 
     create index pfi_idioma_pk_i on pfi_idioma (idiomaid);
@@ -893,9 +906,9 @@ SET default_with_oids = false;
 
     create index pfi_metadada_pk_i on pfi_metadada (metadadaid);
 
-    alter table pfi_metadada 
-        add constraint pfi_metadada_petifirma_fk 
-        foreign key (peticiodefirmaid) 
+    alter table pfi_metadada
+        add constraint pfi_metadada_petifirma_fk
+        foreign key (peticiodefirmaid)
         references pfi_peticiodefirma;
 
     create index pfi_mofitido_modfirma_fk_i on pfi_modulfirmapertipusdoc (pluginid);
@@ -904,14 +917,14 @@ SET default_with_oids = false;
 
     create index pfi_mofitido_tipusdoc_fk_i on pfi_modulfirmapertipusdoc (tipusdocumentid);
 
-    alter table pfi_modulfirmapertipusdoc 
-        add constraint pfi_mofitido_tipusdoc_fk 
-        foreign key (tipusdocumentid) 
+    alter table pfi_modulfirmapertipusdoc
+        add constraint pfi_mofitido_tipusdoc_fk
+        foreign key (tipusdocumentid)
         references pfi_tipusdocument;
 
-    alter table pfi_modulfirmapertipusdoc 
-        add constraint pfi_mofitido_plugin_fk 
-        foreign key (pluginid) 
+    alter table pfi_modulfirmapertipusdoc
+        add constraint pfi_mofitido_plugin_fk
+        foreign key (pluginid)
         references pfi_plugin;
 
     create index pfi_notifica_peticioid_fk_i on pfi_notificacio (peticiodefirmaid);
@@ -920,14 +933,9 @@ SET default_with_oids = false;
 
     create index pfi_notifica_tiponotiid_fk_i on pfi_notificacio (tipusnotificacioid);
 
-    alter table pfi_notificacio 
-        add constraint pfi_notifica_petifirma_fk 
-        foreign key (peticiodefirmaid) 
-        references pfi_peticiodefirma;
-
-    alter table pfi_notificacio 
-        add constraint pfi_notifica_tipnotific_fk 
-        foreign key (tipusnotificacioid) 
+    alter table pfi_notificacio
+        add constraint pfi_notifica_tipnotific_fk
+        foreign key (tipusnotificacioid)
         references pfi_tipusnotificacio;
 
     create index pfi_perfilsperusrapp_pk_i on pfi_perfilsperusrapp (perfilsperusrappid);
@@ -936,14 +944,14 @@ SET default_with_oids = false;
 
     create index pfi_perfilsua_perfilid_fk_i on pfi_perfilsperusrapp (usuariaplicacioperfilid);
 
-    alter table pfi_perfilsperusrapp 
-        add constraint pfi_perfilsua_perfilapp_p_fk 
-        foreign key (usuariaplicacioperfilid) 
+    alter table pfi_perfilsperusrapp
+        add constraint pfi_perfilsua_perfilapp_p_fk
+        foreign key (usuariaplicacioperfilid)
         references pfi_usuariaplicacioperfil;
 
-    alter table pfi_perfilsperusrapp 
-        add constraint pfi_perfilsua_usrapp_usr_fk 
-        foreign key (usuariaplicacioid) 
+    alter table pfi_perfilsperusrapp
+        add constraint pfi_perfilsua_usrapp_usr_fk
+        foreign key (usuariaplicacioid)
         references pfi_usuariaplicacio;
 
     create index pfi_permisgrpl_fluxid_fk_i on pfi_permisgrupplantilla (fluxdefirmesid);
@@ -952,14 +960,14 @@ SET default_with_oids = false;
 
     create index pfi_permisgrupplantilla_pk_i on pfi_permisgrupplantilla (permisgrupplantillaid);
 
-    alter table pfi_permisgrupplantilla 
-        add constraint pfi_permisgrpl_grupentita_fk 
-        foreign key (grupentitatid) 
+    alter table pfi_permisgrupplantilla
+        add constraint pfi_permisgrpl_grupentita_fk
+        foreign key (grupentitatid)
         references pfi_grupentitat;
 
-    alter table pfi_permisgrupplantilla 
-        add constraint pfi_permisgrpl_plantiflfi_fk 
-        foreign key (fluxdefirmesid) 
+    alter table pfi_permisgrupplantilla
+        add constraint pfi_permisgrpl_plantiflfi_fk
+        foreign key (fluxdefirmesid)
         references pfi_plantillafluxdefirmes;
 
     create index pfi_permisuspl_usrentid_fk_i on pfi_permisusuariplantilla (usuarientitatid);
@@ -968,14 +976,14 @@ SET default_with_oids = false;
 
     create index pfi_permisusuariplantilla_pk_i on pfi_permisusuariplantilla (permisusuariplantillaid);
 
-    alter table pfi_permisusuariplantilla 
-        add constraint pfi_permisuspl_usrentitat_fk 
-        foreign key (usuarientitatid) 
+    alter table pfi_permisusuariplantilla
+        add constraint pfi_permisuspl_usrentitat_fk
+        foreign key (usuarientitatid)
         references pfi_usuarientitat;
 
-    alter table pfi_permisusuariplantilla 
-        add constraint pfi_permisuspl_plantiflfi_fk 
-        foreign key (fluxdefirmesid) 
+    alter table pfi_permisusuariplantilla
+        add constraint pfi_permisuspl_plantiflfi_fk
+        foreign key (fluxdefirmesid)
         references pfi_plantillafluxdefirmes;
 
     create index pfi_petifirma_solipers3_fk_i on pfi_peticiodefirma (solicitantpersona3id);
@@ -989,6 +997,8 @@ SET default_with_oids = false;
     create index pfi_petifirma_logosegid_fk_i on pfi_peticiodefirma (logosegellid);
 
     create index pfi_petifirma_usrentiid_fk_i on pfi_peticiodefirma (usuarientitatid);
+
+    create index pfi_petifirma_conffirma_fk_i on pfi_peticiodefirma (configuraciodefirmaid);
 
     create index pfi_petifirma_prioritatid_fk_i on pfi_peticiodefirma (prioritatid);
 
@@ -1012,64 +1022,69 @@ SET default_with_oids = false;
 
     create index pfi_petifirma_tipofirmid_fk_i on pfi_peticiodefirma (tipusfirmaid);
 
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_usrentitat_fk 
-        foreign key (usuarientitatid) 
+    alter table pfi_peticiodefirma
+        add constraint pfi_petifirma_usrentitat_2_fk
+        foreign key (solicitantpersona2id)
         references pfi_usuarientitat;
 
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_usrentitat_3_fk 
-        foreign key (solicitantpersona3id) 
-        references pfi_usuarientitat;
-
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_fitxer_ada_fk 
-        foreign key (fitxeradaptatid) 
+    alter table pfi_peticiodefirma
+        add constraint pfi_petifirma_fitxer_log_fk
+        foreign key (logosegellid)
         references pfi_fitxer;
 
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_usrentitat_2_fk 
-        foreign key (solicitantpersona2id) 
-        references pfi_usuarientitat;
-
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_tipusdoc_fk 
-        foreign key (tipusdocumentid) 
-        references pfi_tipusdocument;
-
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_fitxer_log_fk 
-        foreign key (logosegellid) 
-        references pfi_fitxer;
-
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_fitxer_ori_fk 
-        foreign key (firmaoriginaldetachedid) 
-        references pfi_fitxer;
-
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_fluxfirmes_fk 
-        foreign key (fluxdefirmesid) 
-        references pfi_fluxdefirmes;
-
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_fitxer_fir_fk 
-        foreign key (fitxerafirmarid) 
-        references pfi_fitxer;
-
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_idioma_fk 
-        foreign key (idiomaid) 
-        references pfi_idioma;
-
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_usrapp_fk 
-        foreign key (usuariaplicacioid) 
+    alter table pfi_peticiodefirma
+        add constraint pfi_petifirma_usrapp_fk
+        foreign key (usuariaplicacioid)
         references pfi_usuariaplicacio;
 
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_custodia_fk 
-        foreign key (custodiainfoid) 
+    alter table pfi_peticiodefirma
+        add constraint pfi_petifirma_usrentitat_fk
+        foreign key (usuarientitatid)
+        references pfi_usuarientitat;
+
+    alter table pfi_peticiodefirma
+        add constraint pfi_petifirma_fitxer_ada_fk
+        foreign key (fitxeradaptatid)
+        references pfi_fitxer;
+
+    alter table pfi_peticiodefirma
+        add constraint pfi_petifirma_usrentitat_3_fk
+        foreign key (solicitantpersona3id)
+        references pfi_usuarientitat;
+
+    alter table pfi_peticiodefirma
+        add constraint pfi_petifirma_confapp_fk
+        foreign key (configuraciodefirmaid)
+        references pfi_usuariaplicacioconfig;
+
+    alter table pfi_peticiodefirma
+        add constraint pfi_petifirma_tipusdoc_fk
+        foreign key (tipusdocumentid)
+        references pfi_tipusdocument;
+
+    alter table pfi_peticiodefirma
+        add constraint pfi_petifirma_fitxer_ori_fk
+        foreign key (firmaoriginaldetachedid)
+        references pfi_fitxer;
+
+    alter table pfi_peticiodefirma
+        add constraint pfi_petifirma_fitxer_fir_fk
+        foreign key (fitxerafirmarid)
+        references pfi_fitxer;
+
+    alter table pfi_peticiodefirma
+        add constraint pfi_petifirma_fluxfirmes_fk
+        foreign key (fluxdefirmesid)
+        references pfi_fluxdefirmes;
+
+    alter table pfi_peticiodefirma
+        add constraint pfi_petifirma_idioma_fk
+        foreign key (idiomaid)
+        references pfi_idioma;
+
+    alter table pfi_peticiodefirma
+        add constraint pfi_petifirma_custodia_fk
+        foreign key (custodiainfoid)
         references pfi_custodiainfo;
 
     create index pfi_plantiflfi_usrappid_fk_i on pfi_plantillafluxdefirmes (usuariaplicacioid);
@@ -1078,14 +1093,14 @@ SET default_with_oids = false;
 
     create index pfi_plantillafluxdefirmes_pk_i on pfi_plantillafluxdefirmes (fluxdefirmesid);
 
-    alter table pfi_plantillafluxdefirmes 
-        add constraint pfi_plantiflfi_usrentitat_fk 
-        foreign key (usuarientitatid) 
+    alter table pfi_plantillafluxdefirmes
+        add constraint pfi_plantiflfi_usrentitat_fk
+        foreign key (usuarientitatid)
         references pfi_usuarientitat;
 
-    alter table pfi_plantillafluxdefirmes 
-        add constraint pfi_plantiflfi_usrapp_fk 
-        foreign key (usuariaplicacioid) 
+    alter table pfi_plantillafluxdefirmes
+        add constraint pfi_plantiflfi_usrapp_fk
+        foreign key (usuariaplicacioid)
         references pfi_usuariaplicacio;
 
     create index pfi_plugin_nomid_fk_i on pfi_plugin (nomid);
@@ -1096,19 +1111,19 @@ SET default_with_oids = false;
 
     create index pfi_plugin_entitatid_fk_i on pfi_plugin (entitatid);
 
-    alter table pfi_plugin 
-        add constraint pfi_plugin_entitat_fk 
-        foreign key (entitatid) 
+    alter table pfi_plugin
+        add constraint pfi_plugin_entitat_fk
+        foreign key (entitatid)
         references pfi_entitat;
 
-    alter table pfi_plugin 
-        add constraint pfi_plugin_traduccio_nom_fk 
-        foreign key (nomid) 
+    alter table pfi_plugin
+        add constraint pfi_plugin_traduccio_nom_fk
+        foreign key (nomid)
         references pfi_traduccio;
 
-    alter table pfi_plugin 
-        add constraint pfi_plugin_traduccio_desc_fk 
-        foreign key (descripciocurtaid) 
+    alter table pfi_plugin
+        add constraint pfi_plugin_traduccio_desc_fk
+        foreign key (descripciocurtaid)
         references pfi_traduccio;
 
     create index pfi_plugcrida_retorfitxer_fk_i on pfi_plugincridada (retornfitxerid);
@@ -1121,24 +1136,24 @@ SET default_with_oids = false;
 
     create index pfi_plugcrida_entitatid_fk_i on pfi_plugincridada (entitatid);
 
-    alter table pfi_plugincridada 
-        add constraint pfi_plugcrida_fitxer_retor_fk 
-        foreign key (retornfitxerid) 
+    alter table pfi_plugincridada
+        add constraint pfi_plugcrida_fitxer_retor_fk
+        foreign key (retornfitxerid)
         references pfi_fitxer;
 
-    alter table pfi_plugincridada 
-        add constraint pfi_plugcrida_entitat_fk 
-        foreign key (entitatid) 
+    alter table pfi_plugincridada
+        add constraint pfi_plugcrida_entitat_fk
+        foreign key (entitatid)
         references pfi_entitat;
 
-    alter table pfi_plugincridada 
-        add constraint pfi_plugcrida_fitxer_param_fk 
-        foreign key (parametresfitxerid) 
+    alter table pfi_plugincridada
+        add constraint pfi_plugcrida_fitxer_param_fk
+        foreign key (parametresfitxerid)
         references pfi_fitxer;
 
-    alter table pfi_plugincridada 
-        add constraint pfi_plugcrida_plugin_fk 
-        foreign key (pluginid) 
+    alter table pfi_plugincridada
+        add constraint pfi_plugcrida_plugin_fk
+        foreign key (pluginid)
         references pfi_plugin;
 
     create index pfi_pfwpua_usrappid_fk_i on pfi_pluginfirmawebperusrapp (usuariaplicacioid);
@@ -1147,14 +1162,14 @@ SET default_with_oids = false;
 
     create index pfi_pfwpua_plugin_fk_i on pfi_pluginfirmawebperusrapp (pluginfirmawebid);
 
-    alter table pfi_pluginfirmawebperusrapp 
-        add constraint pfi_pfwpua_plugin_fk 
-        foreign key (pluginfirmawebid) 
+    alter table pfi_pluginfirmawebperusrapp
+        add constraint pfi_pfwpua_plugin_fk
+        foreign key (pluginfirmawebid)
         references pfi_plugin;
 
-    alter table pfi_pluginfirmawebperusrapp 
-        add constraint pfi_pfwpua_usrapp_fk 
-        foreign key (usuariaplicacioid) 
+    alter table pfi_pluginfirmawebperusrapp
+        add constraint pfi_pfwpua_usrapp_fk
+        foreign key (usuariaplicacioid)
         references pfi_usuariaplicacio;
 
     create index pfi_pfwpue_plugin_fk_i on pfi_pluginfirmawebperusrent (pluginfirmawebid);
@@ -1163,23 +1178,23 @@ SET default_with_oids = false;
 
     create index pfi_pfwpue_pk_i on pfi_pluginfirmawebperusrent (pluginfirmawebperusrentid);
 
-    alter table pfi_pluginfirmawebperusrent 
-        add constraint pfi_pfwpue_usrentitat_fk 
-        foreign key (usuarientitatid) 
+    alter table pfi_pluginfirmawebperusrent
+        add constraint pfi_pfwpue_usrentitat_fk
+        foreign key (usuarientitatid)
         references pfi_usuarientitat;
 
-    alter table pfi_pluginfirmawebperusrent 
-        add constraint pfi_pfwpue_plugin_fk 
-        foreign key (pluginfirmawebid) 
+    alter table pfi_pluginfirmawebperusrent
+        add constraint pfi_pfwpue_plugin_fk
+        foreign key (pluginfirmawebid)
         references pfi_plugin;
 
     create index pfi_propietat_entitatid_fk_i on pfi_propietatglobal (entitatid);
 
     create index pfi_propietatglobal_pk_i on pfi_propietatglobal (propietatglobalid);
 
-    alter table pfi_propietatglobal 
-        add constraint pfi_propietat_entitat_fk 
-        foreign key (entitatid) 
+    alter table pfi_propietatglobal
+        add constraint pfi_propietat_entitat_fk
+        foreign key (entitatid)
         references pfi_entitat;
 
     create index pfi_rebreavis_usrentid_fk_i on pfi_rebreavis (usuarientitatid);
@@ -1188,14 +1203,14 @@ SET default_with_oids = false;
 
     create index pfi_rebreavis_pk_i on pfi_rebreavis (id);
 
-    alter table pfi_rebreavis 
-        add constraint pfi_rebreavis_usrentitat_fk 
-        foreign key (usuarientitatid) 
+    alter table pfi_rebreavis
+        add constraint pfi_rebreavis_usrentitat_fk
+        foreign key (usuarientitatid)
         references pfi_usuarientitat;
 
-    alter table pfi_rebreavis 
-        add constraint pfi_rebreavis_tipnotific_fk 
-        foreign key (tipusnotificacioid) 
+    alter table pfi_rebreavis
+        add constraint pfi_rebreavis_tipnotific_fk
+        foreign key (tipusnotificacioid)
         references pfi_tipusnotificacio;
 
     create index pfi_revisordefirma_pk_i on pfi_revisordefirma (revisordefirmaid);
@@ -1204,14 +1219,14 @@ SET default_with_oids = false;
 
     create index pfi_revfirma_usrentitat_fk_i on pfi_revisordefirma (usuarientitatid);
 
-    alter table pfi_revisordefirma 
-        add constraint pfi_revfirma_usrentitat_fk 
-        foreign key (usuarientitatid) 
+    alter table pfi_revisordefirma
+        add constraint pfi_revfirma_usrentitat_fk
+        foreign key (usuarientitatid)
         references pfi_usuarientitat;
 
-    alter table pfi_revisordefirma 
-        add constraint pfi_revfirma_firma_fk 
-        foreign key (firmaid) 
+    alter table pfi_revisordefirma
+        add constraint pfi_revfirma_firma_fk
+        foreign key (firmaid)
         references pfi_firma;
 
     create index pfi_role_pk_i on pfi_role (roleid);
@@ -1222,14 +1237,14 @@ SET default_with_oids = false;
 
     create index pfi_roleusrapp_roleid_fk_i on pfi_roleusuariaplicacio (roleid);
 
-    alter table pfi_roleusuariaplicacio 
-        add constraint pfi_roleusrapp_role_fk 
-        foreign key (roleid) 
+    alter table pfi_roleusuariaplicacio
+        add constraint pfi_roleusrapp_role_fk
+        foreign key (roleid)
         references pfi_role;
 
-    alter table pfi_roleusuariaplicacio 
-        add constraint pfi_roleusrapp_usrapp_fk 
-        foreign key (usuariaplicacioid) 
+    alter table pfi_roleusuariaplicacio
+        add constraint pfi_roleusrapp_usrapp_fk
+        foreign key (usuariaplicacioid)
         references pfi_usuariaplicacio;
 
     create index pfi_roleusrent_usrentid_fk_i on pfi_roleusuarientitat (usuarientitatid);
@@ -1238,14 +1253,14 @@ SET default_with_oids = false;
 
     create index pfi_roleusuarientitat_pk_i on pfi_roleusuarientitat (id);
 
-    alter table pfi_roleusuarientitat 
-        add constraint pfi_roleusrent_usrentitat_fk 
-        foreign key (usuarientitatid) 
+    alter table pfi_roleusuarientitat
+        add constraint pfi_roleusrent_usrentitat_fk
+        foreign key (usuarientitatid)
         references pfi_usuarientitat;
 
-    alter table pfi_roleusuarientitat 
-        add constraint pfi_roleusrent_role_fk 
-        foreign key (roleid) 
+    alter table pfi_roleusuarientitat
+        add constraint pfi_roleusrent_role_fk
+        foreign key (roleid)
         references pfi_role;
 
     create index pfi_tipusdocument_nom_fk_i on pfi_tipusdocument (nom);
@@ -1254,14 +1269,14 @@ SET default_with_oids = false;
 
     create index pfi_tipusdocument_pk_i on pfi_tipusdocument (tipusdocumentid);
 
-    alter table pfi_tipusdocument 
-        add constraint pfi_tipusdoc_traduccio_fk 
-        foreign key (nom) 
+    alter table pfi_tipusdocument
+        add constraint pfi_tipusdoc_traduccio_fk
+        foreign key (nom)
         references pfi_traduccio;
 
-    alter table pfi_tipusdocument 
-        add constraint pfi_tipusdoc_usrapp_fk 
-        foreign key (usuariaplicacioid) 
+    alter table pfi_tipusdocument
+        add constraint pfi_tipusdoc_usrapp_fk
+        foreign key (usuariaplicacioid)
         references pfi_usuariaplicacio;
 
     create index pfi_tipusdoccd_coldelid_fk_i on pfi_tipusdocumentcoladele (colaboraciodelegacioid);
@@ -1270,23 +1285,23 @@ SET default_with_oids = false;
 
     create index pfi_tipusdocumentcoladele_pk_i on pfi_tipusdocumentcoladele (id);
 
-    alter table pfi_tipusdocumentcoladele 
-        add constraint pfi_tipusdoccd_tipusdoc_fk 
-        foreign key (tipusdocumentid) 
+    alter table pfi_tipusdocumentcoladele
+        add constraint pfi_tipusdoccd_tipusdoc_fk
+        foreign key (tipusdocumentid)
         references pfi_tipusdocument;
 
-    alter table pfi_tipusdocumentcoladele 
-        add constraint pfi_tipusdoccd_colabdeleg_fk 
-        foreign key (colaboraciodelegacioid) 
+    alter table pfi_tipusdocumentcoladele
+        add constraint pfi_tipusdoccd_colabdeleg_fk
+        foreign key (colaboraciodelegacioid)
         references pfi_colaboraciodelegacio;
 
     create index pfi_tipusnotificacio_pk_i on pfi_tipusnotificacio (tipusnotificacioid);
 
     create index pfi_traduccio_pk_i on pfi_traduccio (traduccioid);
 
-    alter table pfi_traducciomap 
-        add constraint pfi_traducmap_traduccio_fk 
-        foreign key (traducciomapid) 
+    alter table pfi_traducciomap
+        add constraint pfi_traducmap_traduccio_fk
+        foreign key (traducciomapid)
         references pfi_traduccio;
 
     create index pfi_usrapp_entitatid_fk_i on pfi_usuariaplicacio (entitatid);
@@ -1299,24 +1314,24 @@ SET default_with_oids = false;
 
     create index pfi_usrapp_logosegellid_fk_i on pfi_usuariaplicacio (logosegellid);
 
-    alter table pfi_usuariaplicacio 
-        add constraint pfi_usrapp_entitat_fk 
-        foreign key (entitatid) 
+    alter table pfi_usuariaplicacio
+        add constraint pfi_usrapp_entitat_fk
+        foreign key (entitatid)
         references pfi_entitat;
 
-    alter table pfi_usuariaplicacio 
-        add constraint pfi_usrapp_fitxer_fk 
-        foreign key (logosegellid) 
+    alter table pfi_usuariaplicacio
+        add constraint pfi_usrapp_fitxer_fk
+        foreign key (logosegellid)
         references pfi_fitxer;
 
-    alter table pfi_usuariaplicacio 
-        add constraint pfi_usrapp_idioma_fk 
-        foreign key (idiomaid) 
+    alter table pfi_usuariaplicacio
+        add constraint pfi_usrapp_idioma_fk
+        foreign key (idiomaid)
         references pfi_idioma;
 
-    alter table pfi_usuariaplicacio 
-        add constraint pfi_usrapp_custodia_fk 
-        foreign key (custodiainfoid) 
+    alter table pfi_usuariaplicacio
+        add constraint pfi_usrapp_custodia_fk
+        foreign key (custodiainfoid)
         references pfi_custodiainfo;
 
     create index pfi_confapp_motiudele_fk_i on pfi_usuariaplicacioconfig (motiudelegacioid);
@@ -1329,38 +1344,31 @@ SET default_with_oids = false;
 
     create index pfi_confapp_tipusfirma_fk_i on pfi_usuariaplicacioconfig (tipusfirmaid);
 
-    create index pfi_confapp_logincert_fk_i on pfi_usuariaplicacioconfig (logincertificateid);
-
     create index pfi_confapp_firmatper_fk_i on pfi_usuariaplicacioconfig (firmatperformatid);
 
     create index pfi_confapp_firmaserv_fk_i on pfi_usuariaplicacioconfig (pluginfirmaservidorid);
 
     create index pfi_confapp_entitatid_fk_i on pfi_usuariaplicacioconfig (entitatid);
 
-    alter table pfi_usuariaplicacioconfig 
-        add constraint pfi_confapp_traduccio_moti_fk 
-        foreign key (motiudelegacioid) 
+    alter table pfi_usuariaplicacioconfig
+        add constraint pfi_confapp_traduccio_moti_fk
+        foreign key (motiudelegacioid)
         references pfi_traduccio;
 
-    alter table pfi_usuariaplicacioconfig 
-        add constraint pfi_confapp_traduccio_firm_fk 
-        foreign key (firmatperformatid) 
+    alter table pfi_usuariaplicacioconfig
+        add constraint pfi_confapp_traduccio_firm_fk
+        foreign key (firmatperformatid)
         references pfi_traduccio;
 
-    alter table pfi_usuariaplicacioconfig 
-        add constraint pfi_confapp_entitat_ent_fk 
-        foreign key (entitatid) 
+    alter table pfi_usuariaplicacioconfig
+        add constraint pfi_confapp_entitat_ent_fk
+        foreign key (entitatid)
         references pfi_entitat;
 
-    alter table pfi_usuariaplicacioconfig 
-        add constraint pfi_confapp_plugin_fsrv_fk 
-        foreign key (pluginfirmaservidorid) 
+    alter table pfi_usuariaplicacioconfig
+        add constraint pfi_confapp_plugin_fsrv_fk
+        foreign key (pluginfirmaservidorid)
         references pfi_plugin;
-
-    alter table pfi_usuariaplicacioconfig 
-        add constraint pfi_confapp_fitxer_cert_fk 
-        foreign key (logincertificateid) 
-        references pfi_fitxer;
 
     alter table pfi_usuariaplicacioconfig 
         add constraint pfi_confapp_plugin_seg_fk 
