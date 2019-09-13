@@ -1,12 +1,6 @@
 
 package es.caib.portafib.model.fields;
-
-import org.fundaciobit.genapp.common.query.BigIntegerField;
-import org.fundaciobit.genapp.common.query.BooleanField;
-import org.fundaciobit.genapp.common.query.IntegerField;
-import org.fundaciobit.genapp.common.query.LongField;
-import org.fundaciobit.genapp.common.query.QueryPath;
-import org.fundaciobit.genapp.common.query.StringField;
+import org.fundaciobit.genapp.common.query.*;
 
 public class FirmaQueryPath extends org.fundaciobit.genapp.common.query.QueryPath {
 

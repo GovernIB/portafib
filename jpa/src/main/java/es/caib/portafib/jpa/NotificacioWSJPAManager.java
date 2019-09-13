@@ -1,16 +1,14 @@
 
 package es.caib.portafib.jpa;
-
-import es.caib.portafib.model.dao.INotificacioWSManager;
-import es.caib.portafib.model.entity.NotificacioWS;
-import es.caib.portafib.model.fields.NotificacioWSFields;
-import org.fundaciobit.genapp.common.events.ModificationManager;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.TableName;
-
+import java.util.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
+import es.caib.portafib.model.entity.*;
+import es.caib.portafib.model.fields.*;
+import es.caib.portafib.model.dao.*;
+import org.fundaciobit.genapp.common.query.TableName;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class NotificacioWSJPAManager

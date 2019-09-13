@@ -1,11 +1,6 @@
 
 package es.caib.portafib.model.fields;
-
-import org.fundaciobit.genapp.common.query.BooleanField;
-import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.IntegerField;
-import org.fundaciobit.genapp.common.query.LongField;
-import org.fundaciobit.genapp.common.query.StringField;
+import org.fundaciobit.genapp.common.query.*;
 public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable {
 
   public static final String _TABLE_SQL = "pfi_usuariaplicacioconfig";

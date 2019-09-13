@@ -11079,6 +11079,9 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="digits"> 
            <int>0</int> 
           </void> 
+          <void property="groupBy"> 
+           <boolean>true</boolean> 
+          </void> 
           <void property="javaName"> 
            <string>usuariaplicacioid</string> 
           </void> 

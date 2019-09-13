@@ -7,19 +7,14 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.ejb.PeticioDeFirmaLocal;
 import es.caib.portafib.jpa.NotificacioWSJPA;
 import es.caib.portafib.logic.NotificacioWSLogicaLocal;
-import es.caib.portafib.logic.utils.NotificacioInfo;
 import es.caib.portafib.model.entity.NotificacioWS;
-import es.caib.portafib.model.entity.UsuariAplicacio;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
-import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
-import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,9 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 
@@ -57,8 +50,6 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
   @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
-
-  private static final int COLUMN_USUARIAPLICACIO = 1;
 
   @Override
   public boolean isActiveFormNew() {
@@ -121,17 +112,7 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       notificacioFilterForm.setDeleteButtonVisible(false);
       notificacioFilterForm.setDeleteSelectedButtonVisible(false);
       notificacioFilterForm.setVisibleMultipleSelection(false);
-
-      {
-        AdditionalField<String,String> additionalField = new AdditionalField<String,String>();
-        additionalField.setCodeName("usuariAplicacio.usuariAplicacio");
-        additionalField.setPosition(COLUMN_USUARIAPLICACIO);
-        additionalField.setValueMap(new HashMap<String, String>());
-        notificacioFilterForm.addAdditionalField(additionalField);
-      }
     }
-
-   
 
     notificacioFilterForm.getAdditionalButtons().clear();
     
@@ -178,9 +159,6 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       return;
     }
 
-    Map<Long, String> uaMap = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_USUARIAPLICACIO).getValueMap();
-    uaMap.clear();
-
     int count = 0;
     int[] counts = new int[4];
     Arrays.fill(counts, 0);
@@ -189,9 +167,6 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
     boolean mostrarBotonsGlobals = true;
     for (NotificacioWS notificacio : list) {
       count++;
-
-      NotificacioInfo info = NotificacioInfo.readNotificacioInfo(notificacio.getDescripcio());
-      uaMap.put(notificacio.getNotificacioID(), info.getFirmaEvent().getDestinatariUsuariAplicacioID());
 
       action = getStatus(notificacio);
 
@@ -357,18 +332,13 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-    // usuari APP de la meva entitat
-    SubQuery<UsuariAplicacio, String> subQueryUserApp;
-    subQueryUserApp = usuariAplicacioEjb.getSubQuery(UsuariAplicacioFields.USUARIAPLICACIOID,
-        UsuariAplicacioFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()));
-
-    // Peticions dels usuarisapp
-    Where w1 = PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.in(subQueryUserApp);
-    Where w2 = null; // PeticioDeFirmaFields.PETICIODEFIRMAID.notIn(
-    // peticioDeFirmaUsuariEntitatEjb.getSubQuery(PeticioDeFirmaUsuariEntitatFields.PETICIODEFIRMAID,null));
-
-    return PETICIODEFIRMAID.in(peticioDeFirmaEjb.getSubQuery(
-        PeticioDeFirmaFields.PETICIODEFIRMAID, Where.AND(w1, w2)));
+    // Seleccionar notificacions dels usuari aplicació de l'entitat del ADEN
+    return USUARIAPLICACIOID.in(
+            usuariAplicacioEjb.getSubQuery(
+                  UsuariAplicacioFields.USUARIAPLICACIOID,
+                  UsuariAplicacioFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID())
+            )
+    );
   }
 
   @Override

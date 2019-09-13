@@ -1,15 +1,17 @@
 
 package es.caib.portafib.back.form.webdb;
 
-import es.caib.portafib.back.form.PortaFIBBaseFilterForm;
-import es.caib.portafib.model.fields.NotificacioWSFields;
-import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.OrderBy;
-import org.springframework.stereotype.Component;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.stereotype.Component;
+
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import es.caib.portafib.back.form.PortaFIBBaseFilterForm;
+
+import es.caib.portafib.model.fields.NotificacioWSFields;
 
 /**
  *  ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! 
@@ -240,7 +242,7 @@ public class NotificacioWSFilterForm extends PortaFIBBaseFilterForm implements N
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATACREACIO ,DATAENVIAMENT ,BLOQUEJADA }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATACREACIO ,DATAENVIAMENT ,BLOQUEJADA ,USUARIAPLICACIOID }));
   }
 
 

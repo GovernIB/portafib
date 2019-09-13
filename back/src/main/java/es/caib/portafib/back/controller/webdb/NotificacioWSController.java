@@ -1,34 +1,21 @@
 package es.caib.portafib.back.controller.webdb;
 
-import es.caib.portafib.back.form.webdb.NotificacioWSFilterForm;
-import es.caib.portafib.back.form.webdb.NotificacioWSForm;
-import es.caib.portafib.back.form.webdb.NotificacioWSRefList;
-import es.caib.portafib.back.form.webdb.TipusNotificacioRefList;
-import es.caib.portafib.back.validator.webdb.NotificacioWSWebValidator;
-import es.caib.portafib.jpa.NotificacioWSJPA;
-import es.caib.portafib.model.entity.NotificacioWS;
-import es.caib.portafib.model.fields.NotificacioWSFields;
-import es.caib.portafib.model.fields.TipusNotificacioFields;
 import org.fundaciobit.genapp.common.StringKeyValue;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.GroupByItem;
-import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.utils.Utils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.GroupByItem;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.web.validation.ValidationWebUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -37,9 +24,19 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
+
+import es.caib.portafib.back.form.webdb.*;
+import es.caib.portafib.back.form.webdb.NotificacioWSForm;
+
+import es.caib.portafib.back.validator.webdb.NotificacioWSWebValidator;
+
+import es.caib.portafib.jpa.NotificacioWSJPA;
+import es.caib.portafib.model.entity.NotificacioWS;
+import es.caib.portafib.model.fields.*;
 
 /**
  * Controller per gestionar un NotificacioWS

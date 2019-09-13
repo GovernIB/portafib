@@ -1,15 +1,17 @@
 
 package es.caib.portafib.back.form.webdb;
 
-import es.caib.portafib.back.form.PortaFIBBaseFilterForm;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.OrderBy;
-import org.springframework.stereotype.Component;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.stereotype.Component;
+
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import es.caib.portafib.back.form.PortaFIBBaseFilterForm;
+
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 
 /**
  *  ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! 

@@ -1,14 +1,17 @@
 package es.caib.portafib.back.validator.webdb;
 
-import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
-import es.caib.portafib.jpa.validator.PeticioDeFirmaValidator;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import org.apache.log4j.Logger;
+
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
+import es.caib.portafib.model.fields.*;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import es.caib.portafib.jpa.validator.PeticioDeFirmaValidator;
+
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 
 
 /**

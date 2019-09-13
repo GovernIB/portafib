@@ -1,6 +1,6 @@
 package es.caib.portafib.model.dao;
 
-import es.caib.portafib.model.entity.Firma;
+import es.caib.portafib.model.entity.*;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
 

@@ -1,9 +1,11 @@
 package es.caib.portafib.jpa.validator;
 
+import org.apache.log4j.Logger;
+
+import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.NotificacioWSFields;
 import es.caib.portafib.model.fields.TipusNotificacioFields;
-import org.apache.log4j.Logger;
-import org.fundaciobit.genapp.common.query.Field;
+
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
 
 

@@ -1,8 +1,6 @@
 
 package es.caib.portafib.model.fields;
-
-import org.fundaciobit.genapp.common.query.LongField;
-import org.fundaciobit.genapp.common.query.QueryPath;
+import org.fundaciobit.genapp.common.query.*;
 
 public class TraduccioQueryPath extends org.fundaciobit.genapp.common.query.QueryPath {
 
