@@ -1,6 +1,11 @@
 
 package es.caib.portafib.model.fields;
-import org.fundaciobit.genapp.common.query.*;
+
+import org.fundaciobit.genapp.common.query.BooleanField;
+import org.fundaciobit.genapp.common.query.IntegerField;
+import org.fundaciobit.genapp.common.query.LongField;
+import org.fundaciobit.genapp.common.query.QueryPath;
+import org.fundaciobit.genapp.common.query.StringField;
 
 public class PluginQueryPath extends org.fundaciobit.genapp.common.query.QueryPath {
 

@@ -1,11 +1,12 @@
 package es.caib.portafib.jpa.validator;
 
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
-import java.util.List;
-import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.validation.AbstractBeanValidator;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+
+import java.util.List;
 
 /**
  *  ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! 

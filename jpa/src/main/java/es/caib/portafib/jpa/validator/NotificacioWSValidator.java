@@ -44,6 +44,10 @@ public class NotificacioWSValidator<T> implements NotificacioWSFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(REINTENTS)));
 
+    __vr.rejectIfEmptyOrWhitespace(__target__,USUARIAPLICACIOID, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIAPLICACIOID)));
+
     // Check size
     if (__vr.getFieldErrorCount(DESCRIPCIO) == 0) {
       java.lang.String __descripcio = (java.lang.String)__vr.getFieldValue(__target__,DESCRIPCIO);
@@ -58,6 +62,14 @@ public class NotificacioWSValidator<T> implements NotificacioWSFields {
       if (__error!= null && __error.length() > 2147483647) {
         __vr.rejectValue(ERROR, "genapp.validation.sizeexceeds",
             new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ERROR)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(2147483647)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
+      java.lang.String __usuariaplicacioid = (java.lang.String)__vr.getFieldValue(__target__,USUARIAPLICACIOID);
+      if (__usuariaplicacioid!= null && __usuariaplicacioid.length() > 101) {
+        __vr.rejectValue(USUARIAPLICACIOID, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIAPLICACIOID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(101)));
       }
     }
     

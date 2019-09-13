@@ -20,6 +20,7 @@ private static final long serialVersionUID = -1937251554L;
 	java.lang.String error;
 	java.sql.Timestamp dataError;
 	int reintents;
+	java.lang.String usuariaplicacioid;
 
 
   /** Constructor Buit */
@@ -27,7 +28,7 @@ private static final long serialVersionUID = -1937251554L;
   }
 
   /** Constructor amb tots els camps  */
-  public NotificacioWSBean(long notificacioID , long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents) {
+  public NotificacioWSBean(long notificacioID , long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents , java.lang.String usuariaplicacioid) {
     this.notificacioID=notificacioID;
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.tipusNotificacioID=tipusNotificacioID;
@@ -38,9 +39,10 @@ private static final long serialVersionUID = -1937251554L;
     this.error=error;
     this.dataError=dataError;
     this.reintents=reintents;
+    this.usuariaplicacioid=usuariaplicacioid;
 }
   /** Constructor sense valors autoincrementals */
-  public NotificacioWSBean(long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents) {
+  public NotificacioWSBean(long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents , java.lang.String usuariaplicacioid) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.tipusNotificacioID=tipusNotificacioID;
     this.dataCreacio=dataCreacio;
@@ -50,14 +52,16 @@ private static final long serialVersionUID = -1937251554L;
     this.error=error;
     this.dataError=dataError;
     this.reintents=reintents;
+    this.usuariaplicacioid=usuariaplicacioid;
 }
   /** Constructor dels valors Not Null */
-  public NotificacioWSBean(long notificacioID , long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , int reintents) {
+  public NotificacioWSBean(long notificacioID , long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , int reintents , java.lang.String usuariaplicacioid) {
     this.notificacioID=notificacioID;
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.tipusNotificacioID=tipusNotificacioID;
     this.dataCreacio=dataCreacio;
     this.reintents=reintents;
+    this.usuariaplicacioid=usuariaplicacioid;
 }
   public NotificacioWSBean(NotificacioWS __bean) {
     this.setNotificacioID(__bean.getNotificacioID());
@@ -70,6 +74,7 @@ private static final long serialVersionUID = -1937251554L;
     this.setError(__bean.getError());
     this.setDataError(__bean.getDataError());
     this.setReintents(__bean.getReintents());
+    this.setUsuariaplicacioid(__bean.getUsuariaplicacioid());
 	}
 
 	public long getNotificacioID() {
@@ -142,6 +147,13 @@ private static final long serialVersionUID = -1937251554L;
 		this.reintents = _reintents_;
 	};
 
+	public java.lang.String getUsuariaplicacioid() {
+		return(usuariaplicacioid);
+	};
+	public void setUsuariaplicacioid(java.lang.String _usuariaplicacioid_) {
+		this.usuariaplicacioid = _usuariaplicacioid_;
+	};
+
 
 
   // ======================================
@@ -159,6 +171,7 @@ private static final long serialVersionUID = -1937251554L;
     __tmp.setError(__bean.getError());
     __tmp.setDataError(__bean.getDataError());
     __tmp.setReintents(__bean.getReintents());
+    __tmp.setUsuariaplicacioid(__bean.getUsuariaplicacioid());
 		return __tmp;
 	}
 

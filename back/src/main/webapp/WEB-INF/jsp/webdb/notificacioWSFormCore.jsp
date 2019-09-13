@@ -248,3 +248,21 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,NotificacioWSFields.USUARIAPLICACIOID)}">
+        <tr id="notificacioWS_usuariaplicacioid_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.USUARIAPLICACIOID])?'notificacioWS.usuariaplicacioid':__theForm.labels[NotificacioWSFields.USUARIAPLICACIOID]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[NotificacioWSFields.USUARIAPLICACIOID]}">
+              <i class="icon-info-sign" title="${__theForm.help[NotificacioWSFields.USUARIAPLICACIOID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="notificacioWS.usuariaplicacioid" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="101" path="notificacioWS.usuariaplicacioid"   />
+
+           </td>
+        </tr>
+        </c:if>
+        

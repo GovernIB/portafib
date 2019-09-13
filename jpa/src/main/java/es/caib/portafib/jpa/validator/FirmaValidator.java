@@ -1,12 +1,10 @@
 package es.caib.portafib.jpa.validator;
 
-import org.apache.log4j.Logger;
-
-import org.fundaciobit.genapp.common.query.Field;
-import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.BlocDeFirmesFields;
+import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
-
+import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
 
 

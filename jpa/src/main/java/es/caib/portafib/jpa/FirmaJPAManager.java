@@ -1,14 +1,16 @@
 
 package es.caib.portafib.jpa;
-import java.util.*;
+
+import es.caib.portafib.model.dao.IFirmaManager;
+import es.caib.portafib.model.entity.Firma;
+import es.caib.portafib.model.fields.FirmaFields;
+import org.fundaciobit.genapp.common.events.ModificationManager;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.TableName;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import es.caib.portafib.model.entity.*;
-import es.caib.portafib.model.fields.*;
-import es.caib.portafib.model.dao.*;
-import org.fundaciobit.genapp.common.query.TableName;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.events.ModificationManager;
+import java.util.List;
 
 
 public class FirmaJPAManager

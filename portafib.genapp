@@ -10579,7 +10579,7 @@ opcional incluso cuando se genera una firma EPES.</string>
     <void index="18"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="10"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="11"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -11069,6 +11069,48 @@ opcional incluso cuando se genera una firma EPES.</string>
            <object class="org.fundaciobit.genapp.WebFieldInfo"> 
             <void property="webtype"> 
              <int>14</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="10"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>usuariaplicacioid</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.String</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>usuariaplicacioid</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>usuariaplicacioid</string> 
+           </void> 
+          </void> 
+          <void property="notNullable"> 
+           <boolean>true</boolean> 
+          </void> 
+          <void property="size"> 
+           <int>101</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>usuariaplicacioid</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>12</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>1</int> 
             </void> 
            </object> 
           </void> 

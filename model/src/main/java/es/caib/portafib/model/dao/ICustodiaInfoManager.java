@@ -1,6 +1,6 @@
 package es.caib.portafib.model.dao;
 
-import es.caib.portafib.model.entity.*;
+import es.caib.portafib.model.entity.CustodiaInfo;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
 

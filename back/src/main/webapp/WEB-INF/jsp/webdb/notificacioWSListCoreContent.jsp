@@ -73,6 +73,11 @@
           ${notificacioWS.reintents}
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.USUARIAPLICACIOID)}">
+          <td>
+          ${notificacioWS.usuariaplicacioid}
+          </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

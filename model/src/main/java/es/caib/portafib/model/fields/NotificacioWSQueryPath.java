@@ -57,6 +57,10 @@ public class NotificacioWSQueryPath extends org.fundaciobit.genapp.common.query.
     return new IntegerField(getQueryPath(), NotificacioWSFields.REINTENTS);
   }
 
+  public StringField USUARIAPLICACIOID() {
+    return new StringField(getQueryPath(), NotificacioWSFields.USUARIAPLICACIOID);
+  }
+
 
 
   @Override

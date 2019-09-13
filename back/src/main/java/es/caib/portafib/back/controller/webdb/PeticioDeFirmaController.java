@@ -1,21 +1,49 @@
 package es.caib.portafib.back.controller.webdb;
 
+import es.caib.portafib.back.form.webdb.CustodiaInfoRefList;
+import es.caib.portafib.back.form.webdb.FluxDeFirmesRefList;
+import es.caib.portafib.back.form.webdb.IdiomaRefList;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaRefList;
+import es.caib.portafib.back.form.webdb.TipusDocumentRefList;
+import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioRefList;
+import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
+import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
+import es.caib.portafib.back.validator.webdb.PeticioDeFirmaWebValidator;
+import es.caib.portafib.jpa.FitxerJPA;
+import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.model.entity.Fitxer;
+import es.caib.portafib.model.entity.PeticioDeFirma;
+import es.caib.portafib.model.fields.CustodiaInfoFields;
+import es.caib.portafib.model.fields.FluxDeFirmesFields;
+import es.caib.portafib.model.fields.IdiomaFields;
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
+import es.caib.portafib.model.fields.TipusDocumentFields;
+import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
+import es.caib.portafib.model.fields.UsuariAplicacioFields;
+import es.caib.portafib.model.fields.UsuariEntitatFields;
 import org.fundaciobit.genapp.common.StringKeyValue;
-import org.fundaciobit.genapp.common.utils.Utils;
-import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.GroupByItem;
-import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.GroupByItem;
+import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.utils.Utils;
+import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.web.validation.ValidationWebUtils;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -24,22 +52,9 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
-
-import es.caib.portafib.back.form.webdb.*;
-import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
-
-import es.caib.portafib.back.validator.webdb.PeticioDeFirmaWebValidator;
-
-import es.caib.portafib.model.entity.Fitxer;
-import es.caib.portafib.jpa.FitxerJPA;
-import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-import es.caib.portafib.model.entity.PeticioDeFirma;
-import es.caib.portafib.model.fields.*;
 
 /**
  * Controller per gestionar un PeticioDeFirma

@@ -1,6 +1,12 @@
 
 package es.caib.portafib.model.fields;
-import org.fundaciobit.genapp.common.query.*;
+
+import org.fundaciobit.genapp.common.query.BooleanField;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.IntegerField;
+import org.fundaciobit.genapp.common.query.LongField;
+import org.fundaciobit.genapp.common.query.StringField;
+import org.fundaciobit.genapp.common.query.TimestampField;
 public interface NotificacioWSFields extends java.io.Serializable {
 
   public static final String _TABLE_SQL = "pfi_notificacio";
@@ -22,6 +28,7 @@ public interface NotificacioWSFields extends java.io.Serializable {
 	 public static final StringField ERROR = new StringField(_TABLE_MODEL, "error", "error");
 	 public static final TimestampField DATAERROR = new TimestampField(_TABLE_MODEL, "dataError", "dataerror");
 	 public static final IntegerField REINTENTS = new IntegerField(_TABLE_MODEL, "reintents", "reintents");
+	 public static final StringField USUARIAPLICACIOID = new StringField(_TABLE_MODEL, "usuariaplicacioid", "usuariaplicacioid");
 
 
   public static final Field<?>[] ALL_NOTIFICACIOWS_FIELDS = {
@@ -34,7 +41,8 @@ public interface NotificacioWSFields extends java.io.Serializable {
     BLOQUEJADA,
     ERROR,
     DATAERROR,
-    REINTENTS
+    REINTENTS,
+    USUARIAPLICACIOID
   };
 
 

@@ -1,27 +1,29 @@
 
 package es.caib.portafib.jpa;
-import es.caib.portafib.model.entity.*;
-import javax.persistence.Table;
-import javax.persistence.Column;
+
+import es.caib.portafib.model.entity.Traduccio;
 import org.hibernate.annotations.Cascade;
-import javax.persistence.SequenceGenerator;
-import java.util.Map;
-import javax.persistence.Id;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.LazyCollection;
-import javax.persistence.GenerationType;
-import org.hibernate.annotations.Index;
-import javax.persistence.JoinTable;
+import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import java.util.HashMap;
 import java.util.HashSet;
-import javax.persistence.OneToMany;
-import javax.persistence.Entity;
-import org.hibernate.annotations.CollectionOfElements;
+import java.util.Map;
 import java.util.Set;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.GeneratedValue;
 
 
 @Entity
