@@ -32,8 +32,8 @@ public interface NotificacioWS extends org.fundaciobit.genapp.common.IGenAppEnti
 	public int getReintents();
 	public void setReintents(int _reintents_);
 
-	public java.lang.String getUsuariaplicacioid();
-	public void setUsuariaplicacioid(java.lang.String _usuariaplicacioid_);
+	public java.lang.String getUsuariAplicacioID();
+	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_);
 
 
 

@@ -11083,7 +11083,7 @@ opcional incluso cuando se genera una firma EPES.</string>
            <boolean>true</boolean> 
           </void> 
           <void property="javaName"> 
-           <string>usuariaplicacioid</string> 
+           <string>usuariAplicacioID</string> 
           </void> 
           <void property="javaType"> 
            <class>java.lang.String</class> 

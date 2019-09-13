@@ -41,6 +41,7 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB
     notificacio.setDataCreacio(new Timestamp(System.currentTimeMillis()));
     notificacio.setPeticioDeFirmaID(firmaEvent.getPeticioDeFirmaID());
     notificacio.setTipusNotificacioID(firmaEvent.getEventID());
+    notificacio.setUsuariAplicacioID(firmaEvent.getDestinatariUsuariAplicacioID());
     notificacio = create(notificacio);
     
     NotificacioInfo notifInfo = new NotificacioInfo(System.nanoTime(), firmaEvent, notificacio.getNotificacioID());

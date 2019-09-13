@@ -307,12 +307,12 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,NotificacioWSFields.USUARIAPLICACIOID)}">
             <%-- FILTRE STRING --%>
             <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-              <fmt:message key="notificacioWS.usuariaplicacioid" var="usuariaplicacioid" />
-              <fmt:message key="genapp.form.searchby" var="cercaperusuariaplicacioid" >                
-                 <fmt:param value="${usuariaplicacioid}"/>
+              <fmt:message key="notificacioWS.usuariAplicacioID" var="usuariAplicacioID" />
+              <fmt:message key="genapp.form.searchby" var="cercaperusuariAplicacioID" >                
+                 <fmt:param value="${usuariAplicacioID}"/>
               </fmt:message>
-              <span class="add-on"><c:out value="${usuariaplicacioid}" />:</span>
-              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariaplicacioid}" path="usuariaplicacioid" />
+              <span class="add-on"><c:out value="${usuariAplicacioID}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariAplicacioID}" path="usuariAplicacioID" />
             </div>
 
 

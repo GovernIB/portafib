@@ -197,14 +197,14 @@ public class NotificacioWSFilterForm extends PortaFIBBaseFilterForm implements N
   }
 
 
-  private java.lang.String usuariaplicacioid;
+  private java.lang.String usuariAplicacioID;
 
-  public java.lang.String getUsuariaplicacioid() {
-    return this.usuariaplicacioid;
+  public java.lang.String getUsuariAplicacioID() {
+    return this.usuariAplicacioID;
   }
 
-  public void setUsuariaplicacioid(java.lang.String usuariaplicacioid) {
-    this.usuariaplicacioid = usuariaplicacioid;
+  public void setUsuariAplicacioID(java.lang.String usuariAplicacioID) {
+    this.usuariAplicacioID = usuariAplicacioID;
   }
 
 
@@ -229,7 +229,7 @@ public class NotificacioWSFilterForm extends PortaFIBBaseFilterForm implements N
     this.dataErrorFins = __toClone.dataErrorFins;
     this.reintentsDesde = __toClone.reintentsDesde;
     this.reintentsFins = __toClone.reintentsFins;
-    this.usuariaplicacioid = __toClone.usuariaplicacioid;
+    this.usuariAplicacioID = __toClone.usuariAplicacioID;
     this.mapOfTipusNotificacioForTipusNotificacioID = __toClone.mapOfTipusNotificacioForTipusNotificacioID;
   }
   

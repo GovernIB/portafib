@@ -20,7 +20,7 @@ private static final long serialVersionUID = -1937251554L;
 	java.lang.String error;
 	java.sql.Timestamp dataError;
 	int reintents;
-	java.lang.String usuariaplicacioid;
+	java.lang.String usuariAplicacioID;
 
 
   /** Constructor Buit */
@@ -28,7 +28,7 @@ private static final long serialVersionUID = -1937251554L;
   }
 
   /** Constructor amb tots els camps  */
-  public NotificacioWSBean(long notificacioID , long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents , java.lang.String usuariaplicacioid) {
+  public NotificacioWSBean(long notificacioID , long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents , java.lang.String usuariAplicacioID) {
     this.notificacioID=notificacioID;
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.tipusNotificacioID=tipusNotificacioID;
@@ -39,10 +39,10 @@ private static final long serialVersionUID = -1937251554L;
     this.error=error;
     this.dataError=dataError;
     this.reintents=reintents;
-    this.usuariaplicacioid=usuariaplicacioid;
+    this.usuariAplicacioID=usuariAplicacioID;
 }
   /** Constructor sense valors autoincrementals */
-  public NotificacioWSBean(long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents , java.lang.String usuariaplicacioid) {
+  public NotificacioWSBean(long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents , java.lang.String usuariAplicacioID) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.tipusNotificacioID=tipusNotificacioID;
     this.dataCreacio=dataCreacio;
@@ -52,16 +52,16 @@ private static final long serialVersionUID = -1937251554L;
     this.error=error;
     this.dataError=dataError;
     this.reintents=reintents;
-    this.usuariaplicacioid=usuariaplicacioid;
+    this.usuariAplicacioID=usuariAplicacioID;
 }
   /** Constructor dels valors Not Null */
-  public NotificacioWSBean(long notificacioID , long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , int reintents , java.lang.String usuariaplicacioid) {
+  public NotificacioWSBean(long notificacioID , long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , int reintents , java.lang.String usuariAplicacioID) {
     this.notificacioID=notificacioID;
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.tipusNotificacioID=tipusNotificacioID;
     this.dataCreacio=dataCreacio;
     this.reintents=reintents;
-    this.usuariaplicacioid=usuariaplicacioid;
+    this.usuariAplicacioID=usuariAplicacioID;
 }
   public NotificacioWSBean(NotificacioWS __bean) {
     this.setNotificacioID(__bean.getNotificacioID());
@@ -74,7 +74,7 @@ private static final long serialVersionUID = -1937251554L;
     this.setError(__bean.getError());
     this.setDataError(__bean.getDataError());
     this.setReintents(__bean.getReintents());
-    this.setUsuariaplicacioid(__bean.getUsuariaplicacioid());
+    this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
 	}
 
 	public long getNotificacioID() {
@@ -147,11 +147,11 @@ private static final long serialVersionUID = -1937251554L;
 		this.reintents = _reintents_;
 	};
 
-	public java.lang.String getUsuariaplicacioid() {
-		return(usuariaplicacioid);
+	public java.lang.String getUsuariAplicacioID() {
+		return(usuariAplicacioID);
 	};
-	public void setUsuariaplicacioid(java.lang.String _usuariaplicacioid_) {
-		this.usuariaplicacioid = _usuariaplicacioid_;
+	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_) {
+		this.usuariAplicacioID = _usuariAplicacioID_;
 	};
 
 
@@ -171,7 +171,7 @@ private static final long serialVersionUID = -1937251554L;
     __tmp.setError(__bean.getError());
     __tmp.setDataError(__bean.getDataError());
     __tmp.setReintents(__bean.getReintents());
-    __tmp.setUsuariaplicacioid(__bean.getUsuariaplicacioid());
+    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
 		return __tmp;
 	}
 
