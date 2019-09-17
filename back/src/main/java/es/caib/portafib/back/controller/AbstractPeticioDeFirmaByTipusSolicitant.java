@@ -492,7 +492,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
         usuariAplicacioID);
 
     request.getSession().setAttribute(SESSION_FLUX_DE_FIRMES_ORIGEN_PETICIO_DE_FIRMA,
-        usuariAplicacioID);
+        origenPeticioDeFirma);
 
     return "redirect:" + getContextWeb() + "/new";
 
