@@ -34,6 +34,8 @@
     <sec:intercept-url pattern="/common/rest/apiexternalsignature/v1/**" access="permitAll"/>    
     <sec:intercept-url pattern="/common/rest/revisordefirma/**" access="permitAll"/>
 
+    <sec:intercept-url pattern="/common/rest/apifirmaasyncsimple/v2/**" access="permitAll"/>
+
     <sec:intercept-url pattern="/common/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
 
     <sec:intercept-url pattern="/soli/**" access="hasRole('ROLE_SOLI')"/>
