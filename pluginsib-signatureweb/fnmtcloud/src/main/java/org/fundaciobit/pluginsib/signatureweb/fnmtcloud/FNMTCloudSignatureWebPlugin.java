@@ -42,6 +42,7 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,11 +51,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -749,7 +752,7 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
   private static final String FIRMAR_PRE_PAGE = "firmarpre";
 
   private void firmarPre(String absolutePluginRequestPath, String relativePluginRequestPath,
-      HttpServletRequest request2, HttpServletResponse response,
+      HttpServletRequest request, HttpServletResponse response,
       SignaturesSetWeb signaturesSet, Locale locale) {
 
     //final String signaturesSetID = signaturesSet.getSignaturesSetID();
@@ -834,7 +837,7 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
               //httpResponse = this.createPDFSignatureProcess(accessToken, fileInfo, callBackURL, debug);
               
               redireccionURL = executeSignatureProcess(accessToken, documentType,
-                  httpResponse, request2, response);
+                  httpResponse, request, response);
             }
          
 
@@ -846,7 +849,7 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
           // <option value="xml">XML</option>
 
           // TODO XYZ ZZZ Falta CADes, Xades, ...
-          // TODO Traduir
+          // TODO Traduir XYZ ZZZ TRA
           String msg = "Tipus de Firma amb ID " + fileInfo.getSignType()
               + " no esta suportat pel plugin `" + this.getName(locale) + "`";
 
@@ -870,7 +873,34 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
         log.debug("firmarPre:: redireccionURL = " + redireccionURL);
       }
 
-      response.sendRedirect(redireccionURL);
+      //response.sendRedirect(redireccionURL);
+      
+      // MUNTAR PAGINA PER OBRIR FNMT EN UNA NOVA PANTALLLA
+      response.setCharacterEncoding("utf-8");
+      response.setContentType("text/html");
+      PrintWriter out = response.getWriter();
+
+      out.println("<html>" + "\n" + "<head>" + "\n" + "<script type=\"text/javascript\">" + "\n");
+
+      {
+        out.println(
+              "    var insideIframe = window.top !== window.self;" + "\n"
+            + "    if(insideIframe){" + "\n" 
+            + "       window.top.location.href='" + redireccionURL + "';\n"
+            + "    } else {" + "\n"
+            + "       document.location.href = '" + redireccionURL + "';" + "\n"
+            + "    };" + "\n");
+      }
+
+      out.println("</script>" + "\n" + "</head><body>" + "\n" + "<br/><center>" + "\n" + "<h1>"
+          + getTraduccio("introduircontrasenya", locale) + "</h1><br/>" + "\n" + "<img src=\""
+          + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\" />" + "\n"
+          + "<br/><input id=\"clickMe\" type=\"button\" value=\"clickme\" onclick=\"xyz();\" />"
+          + "\n" + "</center>" + "\n" + "</body>" + "\n" + "</html>");
+
+      out.flush();
+      
+      
 
     } catch (Exception e) {
       // TODO XYZ FILTRAR ERRORS CLOUD FNMT. Veure documentacio
@@ -1146,18 +1176,38 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
         if (status.equals("canceled")) {
           cancel(request2, response, signaturesSet);
         } else {
-          //response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-          //    "Unable to sign document: received status " + status);
-          // XYZ ZZZ
+          
+          // STATUS
+          log.warn("STATUS => " + status);
+          
+          // HEADER
+          log.warn("HEADER: ");
+          Enumeration<String> headerNames = request2.getHeaderNames();
+          while(headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            log.warn("     Header Name - " + headerName + ", Value - " + request2.getHeader(headerName));
+          }
+          
+          // PARAMETERS
+          log.warn("PARAMETERS:");
           Map<Object, Object> map = request2.getParameterMap();
           
           for(Object key : map.keySet()) {
             
             Object values = map.get(key);
             
-            log.info("Parameter[" +key  + "] = " + Arrays.toString((Object[])values));
+            log.warn("    - Parameter[" +key  + "] = " + Arrays.toString((Object[])values));
             
           }
+          
+          // CONTENT
+          String line = null;
+          BufferedReader reader = request2.getReader();
+          StringBuffer str = new StringBuffer();
+          while ((line = reader.readLine()) != null){
+              str.append(line);
+          }
+          log.warn("\nCONTENT:\n================\n" + str.toString()+ "\n================\n");
 
           
           String errorMsg = "Unable to sign document: received status " + status + "(Expected: 'finished' or 'canceled')";

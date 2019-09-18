@@ -1144,10 +1144,7 @@ protected CustodiaInfoJPA cloneCustodiaInfo(String titol, String usuariAplicacio
 
       Map<String, Object> additionParameters = getAdditionalParametersForDocumentCustody(
           peticioDeFirma, null, custodiaInfo);
-      
-      
-      
-      
+
 
       final String custodyID = custodiaInfo.getCustodiaDocumentID();
       final String specialValue = null;
