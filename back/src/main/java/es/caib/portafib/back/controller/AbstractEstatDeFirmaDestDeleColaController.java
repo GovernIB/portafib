@@ -638,7 +638,7 @@ import java.util.Set;
     
 
     @RequestMapping(value = "/firmarseleccionats", method = RequestMethod.POST)
-    public ModelAndView firmarSeleccionats(HttpServletRequest request,
+    public ModelAndView firmarSeleccionats(HttpServletRequest request, HttpServletResponse response,
         @ModelAttribute EstatDeFirmaFilterForm filterForm,
         @RequestParam("url_user") String baseUrlFull) throws I18NException {
 
@@ -791,7 +791,7 @@ import java.util.Set;
         // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
         String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
 
-        final String urlFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
+        final String urlFinal = response.encodeURL(relativeControllerBase + "/finalFirma/" + signaturesSetID);
 
         FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[fileInfoFullArray.size()];
         int[] originalNumberOfSignsArray = new int[fileInfoFullArray.size()];
@@ -813,7 +813,7 @@ import java.util.Set;
 
         
         final String view = "PluginDeFirmaContenidor_" + getRole();
-        ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
+        ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);
         
         
         // Només quan #peticions > 3 activar thread
@@ -1097,7 +1097,7 @@ import java.util.Set;
       
       log.info(" XYZ ZZZ relativeControllerBase = " + relativeControllerBase);
       
-      final String urlFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
+      final String urlFinal = response.encodeURL(relativeControllerBase + "/finalFirma/" + signaturesSetID);
 
       PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(
           signaturesSetID, caducitat.getTime(), commonInfoSignature,
@@ -1107,7 +1107,7 @@ import java.util.Set;
       signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
       final String view = "PluginDeFirmaContenidor_AutoFirma";
-      ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
+      ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);
 
       return mav;
     }

@@ -126,8 +126,8 @@ public class PassarelaDeFirmaController {
 
       String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(
           request, PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH);
-      final String urlFinal = relativeControllerBase
-          + PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "/" + signaturesSetID;
+      final String urlFinal = response.encodeURL(relativeControllerBase
+          + PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "/" + signaturesSetID);
 
       PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
           caducitat, ss.getCommonInfoSignature(), ss.getFileInfoSignatureArray(),
@@ -146,7 +146,7 @@ public class PassarelaDeFirmaController {
 
       final String view = "PluginDeFirmaContenidor_Passarela";
 
-      ModelAndView mav = SignatureModuleController.startPublicSignatureProcess(request, view,
+      ModelAndView mav = SignatureModuleController.startPublicSignatureProcess(request, response, view,
           signaturesSet);
 
       LoginInfo loginInfo = null;

@@ -306,7 +306,7 @@ public class AutoFirmaController extends FitxerController
     caducitat.add(Calendar.MINUTE, 10);
     
     String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, CONTEXTWEB);
-    final String urlFinal = relativeControllerBase + "/final/" + signaturesSetID;
+    final String urlFinal = response.encodeURL(relativeControllerBase + "/final/" + signaturesSetID);
     
     log.info(" XYZ ZZZ relativeControllerBase => " + relativeControllerBase);
     
@@ -325,7 +325,7 @@ public class AutoFirmaController extends FitxerController
 
     
     final String view = "PluginDeFirmaContenidor_AutoFirma";
-    ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
+    ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);
     
     return mav;
     
