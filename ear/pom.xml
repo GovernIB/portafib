@@ -389,13 +389,25 @@
       <!--  Provoca errors: java.lang.ClassCastException: org.apache.xml.security.transforms.implementations.TransformC14NExclusive cannot be cast to org.apache.xml.security.transforms.TransformSpi
       Utilitzarem la versió que incorpora JBOSS
       -->      
-      <!--
+      
+      
       <dependency>
         <groupId>org.apache.santuario</groupId>
         <artifactId>xmlsec</artifactId>
         <version>1.5.5-jboss-5</version>
+        <!-- <version>1.5.1</version> -->
+        <!-- <version>1.4.6</version> -->
       </dependency>
-      -->
+      
+      
+      <dependency>
+        <groupId>org.apache.santuario</groupId>
+        <artifactId>xmlsec</artifactId>
+        <!--<version>1.5.5-jboss-5</version> -->
+        <!-- <version>1.5.1</version> -->
+        <version>1.4.6</version>
+      </dependency>
+   
       
 
 
@@ -774,6 +786,34 @@
     </filters>
 
     <plugins>
+    
+      <plugin>
+          <!-- Aquest canvi es per que no es carregui abans el JXADES incrustat dins de integra-1.3.1-->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <executions>
+              <execution>
+                  <phase>prepare-package</phase>
+                  <goals>
+                      <goal>copy</goal>
+                  </goals>
+                  <configuration>
+                      <artifactItems>
+                          <artifactItem>
+                              <groupId>net.java.xades</groupId>
+                              <artifactId>jxades</artifactId>
+                              <version>0.1.5</version>                              
+                              <type>jar</type>
+                              <outputDirectory>${project.build.directory}/portafib/lib</outputDirectory>
+                              <destFileName>ajxades-0.1.5.jar</destFileName>
+                          </artifactItem>
+                      </artifactItems>
+                  </configuration>
+              </execution>
+          </executions>
+      </plugin>
+    
+    
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -796,9 +836,9 @@
           </archive>
 
           <defaultLibBundleDir>lib</defaultLibBundleDir>
-          <!--
+          
           <packagingExcludes>lib/axis-jaxrpc-1.4.jar</packagingExcludes>
-          -->
+          
           <jboss>
             <version>5</version>
             <loader-repository>es.caib.portafib:loader=portafib.ear</loader-repository>
