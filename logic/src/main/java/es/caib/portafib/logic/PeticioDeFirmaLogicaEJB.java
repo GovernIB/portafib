@@ -1734,7 +1734,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       throw new I18NException("genapp.comodi", "Com a Administrador d'Entitat no pot esborrar "
           + "la petició amb ID " + peticioDeFirmaID + " sinó defineix un motiu.");
     }
-    return deleteFull(peticioDeFirmaID,usuariEntitatID, true, null);
+    return deleteFull(peticioDeFirmaID,usuariEntitatID, true, motiuEsborrat);
   }
   
   

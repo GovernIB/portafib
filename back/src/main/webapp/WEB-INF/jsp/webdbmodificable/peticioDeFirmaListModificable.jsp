@@ -102,7 +102,7 @@
     
     if (reason != null) {      
       document.getElementById("motiuRebuig").value=reason;
-      openModal('<c:url value="${contexte}/esborrar/"/>' + peticioID ,'show');
+      openModalSubmit('<c:url value="${contexte}/esborrar/"/>' + peticioID ,'show', 'peticioDeFirmaFilterForm');
     }
   }
 
@@ -112,7 +112,7 @@
     
     if (reason != null) {      
       document.getElementById("motiuRebuig").value=reason;
-      openModalSubmit('<c:url value="${contexte}/esborrarSeleccionades/"/>','show','peticioDeFirmaFilterForm');
+      openModalSubmit('<c:url value="${contexte}/esborrarSeleccionades"/>','show','peticioDeFirmaFilterForm');
     }
   }
 
@@ -122,7 +122,7 @@
     
     if (reason != null) {      
       document.getElementById("motiuRebuig").value=reason;
-      openModal('<c:url value="${contexte}/esborrar/"/>' + peticioID ,'show');
+      openModalSubmit('<c:url value="${contexte}/esborrar/"/>' + peticioID ,'show', 'peticioDeFirmaFilterForm');
     }
   }
 
@@ -132,7 +132,7 @@
     
     if (reason != null) {      
       document.getElementById("motiuRebuig").value=reason;
-      openModalSubmit('<c:url value="${contexte}/esborrarambmotiuSeleccionades/"/>','show','peticioDeFirmaFilterForm');
+      openModalSubmit('<c:url value="${contexte}/esborrarSeleccionades"/>','show','peticioDeFirmaFilterForm');
     }
   }
   

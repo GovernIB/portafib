@@ -1220,7 +1220,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
   protected void delete(HttpServletRequest request, Long peticioDeFirmaID)
       throws Exception, I18NException {
     
-    PeticioDeFirma peticioDeFirma = peticioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirmaID);
+    PeticioDeFirma peticioDeFirma = peticioDeFirmaLogicaEjb.findByPrimaryKeyFull(peticioDeFirmaID);
     
     // Validar que no sigui NULL
     if (peticioDeFirma == null) { 
