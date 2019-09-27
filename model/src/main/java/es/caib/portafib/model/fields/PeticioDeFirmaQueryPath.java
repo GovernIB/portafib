@@ -47,10 +47,6 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new StringField(getQueryPath(), PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT);
   }
 
-  public IntegerField POSICIOTAULAFIRMESID() {
-    return new IntegerField(getQueryPath(), PeticioDeFirmaFields.POSICIOTAULAFIRMESID);
-  }
-
   public TimestampField DATASOLICITUD() {
     return new TimestampField(getQueryPath(), PeticioDeFirmaFields.DATASOLICITUD);
   }
@@ -77,6 +73,10 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
 
   public BooleanField MODEDEFIRMA() {
     return new BooleanField(getQueryPath(), PeticioDeFirmaFields.MODEDEFIRMA);
+  }
+
+  public IntegerField POSICIOTAULAFIRMESID() {
+    return new IntegerField(getQueryPath(), PeticioDeFirmaFields.POSICIOTAULAFIRMESID);
   }
 
   public IntegerField TIPUSESTATPETICIODEFIRMAID() {
@@ -207,20 +207,6 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new MetadadaQueryPath(new QueryPath() {
       public String getQueryPath() {
           return PeticioDeFirmaQueryPath.this.getQueryPath() + "metadadas" + ".";
-      }
-    });
-  }
-*/
-
-/* L'ús d'aquest camp (OneToMany) llança una exception:
- [Illegal attempt to dereference a collection]
-
- // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
-
-  public NotificacioWSQueryPath NOTIFICACIOWSS() {
-    return new NotificacioWSQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return PeticioDeFirmaQueryPath.this.getQueryPath() + "notificacioWSs" + ".";
       }
     });
   }

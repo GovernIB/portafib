@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,12 @@ public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaCon
     borrarFitxers(fitxers); 
   }
 
-  // #166
+   @Override
+   public PeticioDeFirmaJPA update(HttpServletRequest request, PeticioDeFirmaJPA peticioDeFirma) throws Exception, I18NException, I18NValidationException {
+      return peticioDeFirmaLogicaEjb.updateFull(peticioDeFirma);
+   }
+
+   // #166
   @Override
   public List<StringKeyValue> getReferenceListForPosicioTaulaFirmesID(
       HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {

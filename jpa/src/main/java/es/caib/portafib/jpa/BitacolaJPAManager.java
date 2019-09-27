@@ -66,8 +66,8 @@ public class BitacolaJPAManager
 		return list.toArray(new Bitacola[list.size()]);
 	};
 
-	public synchronized Bitacola create( java.sql.Timestamp _data_, java.lang.String _descripcio_, long _peticioDeFirmaID_, java.lang.String _usuariEntitatID_, java.lang.String _usuariAplicacioID_) throws I18NException {
-		BitacolaJPA __bean =  new BitacolaJPA(_data_,_descripcio_,_peticioDeFirmaID_,_usuariEntitatID_,_usuariAplicacioID_);
+	public synchronized Bitacola create( java.lang.String _entitatid_, java.lang.String _usuariid_, java.sql.Timestamp _data_, int _tipusObjecte_, java.lang.String _objecteid_, int _tipusOperacio_, java.lang.String _descripcio_, java.lang.String _objecteSerialitzat_) throws I18NException {
+		BitacolaJPA __bean =  new BitacolaJPA(_entitatid_,_usuariid_,_data_,_tipusObjecte_,_objecteid_,_tipusOperacio_,_descripcio_,_objecteSerialitzat_);
 		return create(__bean);
 	}
 

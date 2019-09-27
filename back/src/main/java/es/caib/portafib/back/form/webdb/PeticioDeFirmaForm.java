@@ -37,10 +37,10 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
     super(__toClone);
       this.peticioDeFirma = __toClone.peticioDeFirma;
     this.listOfTipusDocumentForTipusDocumentID = __toClone.listOfTipusDocumentForTipusDocumentID;
-    this.listOfValuesForPosicioTaulaFirmesID = __toClone.listOfValuesForPosicioTaulaFirmesID;
     this.listOfValuesForTipusOperacioFirma = __toClone.listOfValuesForTipusOperacioFirma;
     this.listOfValuesForTipusFirmaID = __toClone.listOfValuesForTipusFirmaID;
     this.listOfValuesForAlgorismeDeFirmaID = __toClone.listOfValuesForAlgorismeDeFirmaID;
+    this.listOfValuesForPosicioTaulaFirmesID = __toClone.listOfValuesForPosicioTaulaFirmesID;
     this.listOfValuesForTipusEstatPeticioDeFirmaID = __toClone.listOfValuesForTipusEstatPeticioDeFirmaID;
     this.listOfIdiomaForIdiomaID = __toClone.listOfIdiomaForIdiomaID;
     this.listOfValuesForPrioritatID = __toClone.listOfValuesForPrioritatID;
@@ -135,18 +135,6 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfValuesForPosicioTaulaFirmesID;
-
-  public List<StringKeyValue> getListOfValuesForPosicioTaulaFirmesID() {
-    return this.listOfValuesForPosicioTaulaFirmesID;
-  }
-
-  public void setListOfValuesForPosicioTaulaFirmesID(List<StringKeyValue> listOfValuesForPosicioTaulaFirmesID) {
-    this.listOfValuesForPosicioTaulaFirmesID = listOfValuesForPosicioTaulaFirmesID;
-  }
-
-
-
   private List<StringKeyValue> listOfValuesForTipusOperacioFirma;
 
   public List<StringKeyValue> getListOfValuesForTipusOperacioFirma() {
@@ -179,6 +167,18 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
 
   public void setListOfValuesForAlgorismeDeFirmaID(List<StringKeyValue> listOfValuesForAlgorismeDeFirmaID) {
     this.listOfValuesForAlgorismeDeFirmaID = listOfValuesForAlgorismeDeFirmaID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForPosicioTaulaFirmesID;
+
+  public List<StringKeyValue> getListOfValuesForPosicioTaulaFirmesID() {
+    return this.listOfValuesForPosicioTaulaFirmesID;
+  }
+
+  public void setListOfValuesForPosicioTaulaFirmesID(List<StringKeyValue> listOfValuesForPosicioTaulaFirmesID) {
+    this.listOfValuesForPosicioTaulaFirmesID = listOfValuesForPosicioTaulaFirmesID;
   }
 
 

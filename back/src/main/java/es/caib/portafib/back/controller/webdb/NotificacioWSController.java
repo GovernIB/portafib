@@ -61,10 +61,6 @@ public class NotificacioWSController
 
   // References 
   @Autowired
-  protected PeticioDeFirmaRefList peticioDeFirmaRefList;
-
-  // References 
-  @Autowired
   protected TipusNotificacioRefList tipusNotificacioRefList;
 
   /**
@@ -187,16 +183,6 @@ public class NotificacioWSController
     Map<String, String> _tmp;
     List<StringKeyValue> _listSKV;
 
-    // Field peticioDeFirmaID
-    {
-      _listSKV = getReferenceListForPeticioDeFirmaID(request, mav, filterForm, list, groupByItemsMap, null);
-      _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfPeticioDeFirmaForPeticioDeFirmaID(_tmp);
-      if (filterForm.getGroupByFields().contains(PETICIODEFIRMAID)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, PETICIODEFIRMAID, false);
-      };
-    }
-
     // Field tipusNotificacioID
     {
       _listSKV = getReferenceListForTipusNotificacioID(request, mav, filterForm, list, groupByItemsMap, null);
@@ -225,7 +211,6 @@ public class NotificacioWSController
 
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
-    __mapping.put(PETICIODEFIRMAID, filterForm.getMapOfPeticioDeFirmaForPeticioDeFirmaID());
     __mapping.put(TIPUSNOTIFICACIOID, filterForm.getMapOfTipusNotificacioForTipusNotificacioID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
@@ -274,13 +259,6 @@ public class NotificacioWSController
 
   public void fillReferencesForForm(NotificacioWSForm notificacioWSForm,
     HttpServletRequest request, ModelAndView mav) throws I18NException {
-    // Comprovam si ja esta definida la llista
-    if (notificacioWSForm.getListOfPeticioDeFirmaForPeticioDeFirmaID() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForPeticioDeFirmaID(request, mav, notificacioWSForm, null);
-
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      notificacioWSForm.setListOfPeticioDeFirmaForPeticioDeFirmaID(_listSKV);
-    }
     // Comprovam si ja esta definida la llista
     if (notificacioWSForm.getListOfTipusNotificacioForTipusNotificacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusNotificacioID(request, mav, notificacioWSForm, null);
@@ -586,45 +564,6 @@ public java.lang.Long stringToPK(String value) {
 
   public boolean isActiveFormView() {
     return isActiveFormEdit();
-  }
-
-
-  public List<StringKeyValue> getReferenceListForPeticioDeFirmaID(HttpServletRequest request,
-       ModelAndView mav, NotificacioWSForm notificacioWSForm, Where where)  throws I18NException {
-    if (notificacioWSForm.isHiddenField(PETICIODEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
-    }
-    Where _where = null;
-    if (notificacioWSForm.isReadOnlyField(PETICIODEFIRMAID)) {
-      _where = PeticioDeFirmaFields.PETICIODEFIRMAID.equal(notificacioWSForm.getNotificacioWS().getPeticioDeFirmaID());
-    }
-    return getReferenceListForPeticioDeFirmaID(request, mav, Where.AND(where, _where));
-  }
-
-
-  public List<StringKeyValue> getReferenceListForPeticioDeFirmaID(HttpServletRequest request,
-       ModelAndView mav, NotificacioWSFilterForm notificacioWSFilterForm,
-       List<NotificacioWS> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (notificacioWSFilterForm.isHiddenField(PETICIODEFIRMAID)
-      && !notificacioWSFilterForm.isGroupByField(PETICIODEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
-    }
-    Where _w = null;
-    if (!_groupByItemsMap.containsKey(PETICIODEFIRMAID)) {
-      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
-      for (NotificacioWS _item : list) {
-        _pkList.add(_item.getPeticioDeFirmaID());
-        }
-        _w = PeticioDeFirmaFields.PETICIODEFIRMAID.in(_pkList);
-      }
-    return getReferenceListForPeticioDeFirmaID(request, mav, Where.AND(where,_w));
-  }
-
-
-  public List<StringKeyValue> getReferenceListForPeticioDeFirmaID(HttpServletRequest request,
-       ModelAndView mav, Where where)  throws I18NException {
-    return peticioDeFirmaRefList.getReferenceList(PeticioDeFirmaFields.PETICIODEFIRMAID, where );
   }
 
 

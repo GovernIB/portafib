@@ -22,6 +22,7 @@ public interface NotificacioWSFields extends java.io.Serializable {
 	 public static final StringField ERROR = new StringField(_TABLE_MODEL, "error", "error");
 	 public static final TimestampField DATAERROR = new TimestampField(_TABLE_MODEL, "dataError", "dataerror");
 	 public static final IntegerField REINTENTS = new IntegerField(_TABLE_MODEL, "reintents", "reintents");
+	 public static final StringField USUARIAPLICACIOID = new StringField(_TABLE_MODEL, "usuariAplicacioID", "usuariaplicacioid");
 
 
   public static final Field<?>[] ALL_NOTIFICACIOWS_FIELDS = {
@@ -34,7 +35,8 @@ public interface NotificacioWSFields extends java.io.Serializable {
     BLOQUEJADA,
     ERROR,
     DATAERROR,
-    REINTENTS
+    REINTENTS,
+    USUARIAPLICACIOID
   };
 
 

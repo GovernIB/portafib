@@ -138,24 +138,6 @@
 
 
         </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}">
-            <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
-              <span class="add-on"><fmt:message key="peticioDeFirma.posicioTaulaFirmesID" />:</span>
-
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
-              
-              <form:input cssClass="input-append input-small" path="posicioTaulaFirmesIDDesde" />
-
-
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
-
-              <form:input cssClass="input-append input-small search-query" path="posicioTaulaFirmesIDFins" />
-
-            </div>
-
-
-        </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.DATASOLICITUD)}">
             <%-- FILTRE DATE --%>
             <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
@@ -343,6 +325,24 @@
               <span class="add-on"><fmt:message key="genapp.to" /></span>
 
               <form:input cssClass="input-append input-small search-query" path="algorismeDeFirmaIDFins" />
+
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="peticioDeFirma.posicioTaulaFirmesID" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="posicioTaulaFirmesIDDesde" />
+
+
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+
+              <form:input cssClass="input-append input-small search-query" path="posicioTaulaFirmesIDFins" />
 
             </div>
 

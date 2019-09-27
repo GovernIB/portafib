@@ -13,18 +13,9 @@
              </label>
             </td>
             <td>
-          <form:errors path="notificacioWS.peticioDeFirmaID" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)}" >
-          <form:hidden path="notificacioWS.peticioDeFirmaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.notificacioWS.peticioDeFirmaID,__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID)}"  />
-          </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)}" >
-          <form:select id="notificacioWS_peticioDeFirmaID"  onchange="if(typeof onChangePeticioDeFirmaID == 'function') {  onChangePeticioDeFirmaID(this); };"  cssClass="input-xxlarge" path="notificacioWS.peticioDeFirmaID">
-            <c:forEach items="${__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
-            </c:forEach>
-          </form:select>
-          </c:if>
+            <form:errors path="notificacioWS.peticioDeFirmaID" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? 'input-mini uneditable-input' : 'input-mini'}"   path="notificacioWS.peticioDeFirmaID"   />
+
            </td>
         </tr>
         </c:if>
@@ -252,6 +243,24 @@
             <td>
             <form:errors path="notificacioWS.reintents" cssClass="errorField alert alert-error" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? 'input-mini uneditable-input' : 'input-mini'}"   path="notificacioWS.reintents"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,NotificacioWSFields.USUARIAPLICACIOID)}">
+        <tr id="notificacioWS_usuariAplicacioID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.USUARIAPLICACIOID])?'notificacioWS.usuariAplicacioID':__theForm.labels[NotificacioWSFields.USUARIAPLICACIOID]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[NotificacioWSFields.USUARIAPLICACIOID]}">
+              <i class="icon-info-sign" title="${__theForm.help[NotificacioWSFields.USUARIAPLICACIOID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="notificacioWS.usuariAplicacioID" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="101" path="notificacioWS.usuariAplicacioID"   />
 
            </td>
         </tr>

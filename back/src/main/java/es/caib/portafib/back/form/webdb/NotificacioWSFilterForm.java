@@ -197,6 +197,17 @@ public class NotificacioWSFilterForm extends PortaFIBBaseFilterForm implements N
   }
 
 
+  private java.lang.String usuariAplicacioID;
+
+  public java.lang.String getUsuariAplicacioID() {
+    return this.usuariAplicacioID;
+  }
+
+  public void setUsuariAplicacioID(java.lang.String usuariAplicacioID) {
+    this.usuariAplicacioID = usuariAplicacioID;
+  }
+
+
   public NotificacioWSFilterForm() {
   }
   
@@ -218,7 +229,7 @@ public class NotificacioWSFilterForm extends PortaFIBBaseFilterForm implements N
     this.dataErrorFins = __toClone.dataErrorFins;
     this.reintentsDesde = __toClone.reintentsDesde;
     this.reintentsFins = __toClone.reintentsFins;
-    this.mapOfPeticioDeFirmaForPeticioDeFirmaID = __toClone.mapOfPeticioDeFirmaForPeticioDeFirmaID;
+    this.usuariAplicacioID = __toClone.usuariAplicacioID;
     this.mapOfTipusNotificacioForTipusNotificacioID = __toClone.mapOfTipusNotificacioForTipusNotificacioID;
   }
   
@@ -231,7 +242,7 @@ public class NotificacioWSFilterForm extends PortaFIBBaseFilterForm implements N
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATACREACIO ,DATAENVIAMENT ,BLOQUEJADA }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATACREACIO ,DATAENVIAMENT ,BLOQUEJADA ,USUARIAPLICACIOID }));
   }
 
 
@@ -254,18 +265,6 @@ public class NotificacioWSFilterForm extends PortaFIBBaseFilterForm implements N
    // -----------------------
    // Maps de referencies.
    // -----------------------
-  private Map<String, String> mapOfPeticioDeFirmaForPeticioDeFirmaID;
-
-  public Map<String, String> getMapOfPeticioDeFirmaForPeticioDeFirmaID() {
-    return this.mapOfPeticioDeFirmaForPeticioDeFirmaID;
-  }
-
-  public void setMapOfPeticioDeFirmaForPeticioDeFirmaID(Map<String, String> mapOfPeticioDeFirmaForPeticioDeFirmaID) {
-    this.mapOfPeticioDeFirmaForPeticioDeFirmaID = mapOfPeticioDeFirmaForPeticioDeFirmaID;
-  }
-
-
-
   private Map<String, String> mapOfTipusNotificacioForTipusNotificacioID;
 
   public Map<String, String> getMapOfTipusNotificacioForTipusNotificacioID() {

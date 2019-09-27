@@ -19,7 +19,6 @@ public class NotificacioWSForm extends PortaFIBBaseForm {
   public NotificacioWSForm(NotificacioWSForm __toClone) {
     super(__toClone);
       this.notificacioWS = __toClone.notificacioWS;
-    this.listOfPeticioDeFirmaForPeticioDeFirmaID = __toClone.listOfPeticioDeFirmaForPeticioDeFirmaID;
     this.listOfTipusNotificacioForTipusNotificacioID = __toClone.listOfTipusNotificacioForTipusNotificacioID;
   }
   
@@ -36,18 +35,6 @@ public class NotificacioWSForm extends PortaFIBBaseForm {
   }
   
   
-  private List<StringKeyValue> listOfPeticioDeFirmaForPeticioDeFirmaID;
-
-  public List<StringKeyValue> getListOfPeticioDeFirmaForPeticioDeFirmaID() {
-    return this.listOfPeticioDeFirmaForPeticioDeFirmaID;
-  }
-
-  public void setListOfPeticioDeFirmaForPeticioDeFirmaID(List<StringKeyValue> listOfPeticioDeFirmaForPeticioDeFirmaID) {
-    this.listOfPeticioDeFirmaForPeticioDeFirmaID = listOfPeticioDeFirmaForPeticioDeFirmaID;
-  }
-
-
-
   private List<StringKeyValue> listOfTipusNotificacioForTipusNotificacioID;
 
   public List<StringKeyValue> getListOfTipusNotificacioForTipusNotificacioID() {

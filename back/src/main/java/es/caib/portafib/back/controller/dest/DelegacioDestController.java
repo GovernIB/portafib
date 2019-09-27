@@ -1296,7 +1296,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     
     // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
     String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
-    final String urlFirmaFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
+    final String urlFirmaFinal = response.encodeURL(relativeControllerBase + "/finalFirma/" + signaturesSetID);
 
     // Sabem que no té cap firma 
     final int[] originalNumberOfSignsArray = new int[] {0};
@@ -1316,7 +1316,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
 
     final String view = "PluginDeFirmaContenidor_ROLE_DEST";
-    ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
+    ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);
 
     return mav;
   }

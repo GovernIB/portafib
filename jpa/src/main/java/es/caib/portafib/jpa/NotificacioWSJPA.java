@@ -63,6 +63,9 @@ private static final long serialVersionUID = 1184441005L;
 	@Column(name="reintents",nullable = false,length = 10)
 	int reintents;
 
+	@Column(name="usuariaplicacioid",nullable = false,length = 101)
+	java.lang.String usuariAplicacioID;
+
 
 
   /** Constructor Buit */
@@ -70,7 +73,7 @@ private static final long serialVersionUID = 1184441005L;
   }
 
   /** Constructor amb tots els camps  */
-  public NotificacioWSJPA(long notificacioID , long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents) {
+  public NotificacioWSJPA(long notificacioID , long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents , java.lang.String usuariAplicacioID) {
     this.notificacioID=notificacioID;
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.tipusNotificacioID=tipusNotificacioID;
@@ -81,9 +84,10 @@ private static final long serialVersionUID = 1184441005L;
     this.error=error;
     this.dataError=dataError;
     this.reintents=reintents;
+    this.usuariAplicacioID=usuariAplicacioID;
 }
   /** Constructor sense valors autoincrementals */
-  public NotificacioWSJPA(long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents) {
+  public NotificacioWSJPA(long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents , java.lang.String usuariAplicacioID) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.tipusNotificacioID=tipusNotificacioID;
     this.dataCreacio=dataCreacio;
@@ -93,14 +97,16 @@ private static final long serialVersionUID = 1184441005L;
     this.error=error;
     this.dataError=dataError;
     this.reintents=reintents;
+    this.usuariAplicacioID=usuariAplicacioID;
 }
   /** Constructor dels valors Not Null */
-  public NotificacioWSJPA(long notificacioID , long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , int reintents) {
+  public NotificacioWSJPA(long notificacioID , long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , int reintents , java.lang.String usuariAplicacioID) {
     this.notificacioID=notificacioID;
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.tipusNotificacioID=tipusNotificacioID;
     this.dataCreacio=dataCreacio;
     this.reintents=reintents;
+    this.usuariAplicacioID=usuariAplicacioID;
 }
   public NotificacioWSJPA(NotificacioWS __bean) {
     this.setNotificacioID(__bean.getNotificacioID());
@@ -113,6 +119,7 @@ private static final long serialVersionUID = 1184441005L;
     this.setError(__bean.getError());
     this.setDataError(__bean.getDataError());
     this.setReintents(__bean.getReintents());
+    this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
 	}
 
 	public long getNotificacioID() {
@@ -185,6 +192,13 @@ private static final long serialVersionUID = 1184441005L;
 		this.reintents = _reintents_;
 	};
 
+	public java.lang.String getUsuariAplicacioID() {
+		return(usuariAplicacioID);
+	};
+	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_) {
+		this.usuariAplicacioID = _usuariAplicacioID_;
+	};
+
 
 
   @Override
@@ -198,21 +212,6 @@ private static final long serialVersionUID = 1184441005L;
       __result = false;
     }
     return __result;
-  }
-
-// IMP Field:peticiodefirmaid | Table: pfi_peticiodefirma | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_notifica_petifirma_fk")
-	@JoinColumn(name = "peticiodefirmaid", referencedColumnName ="peticioDeFirmaID", nullable = false, insertable=false, updatable=false)
-	private PeticioDeFirmaJPA peticioDeFirma;
-
-	public PeticioDeFirmaJPA getPeticioDeFirma() {
-    return this.peticioDeFirma;
-  }
-
-	public  void setPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma) {
-    this.peticioDeFirma = peticioDeFirma;
   }
 
 // IMP Field:tipusnotificacioid | Table: pfi_tipusnotificacio | Type: 1  
@@ -245,6 +244,7 @@ private static final long serialVersionUID = 1184441005L;
     __tmp.setError(__bean.getError());
     __tmp.setDataError(__bean.getDataError());
     __tmp.setReintents(__bean.getReintents());
+    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
 		return __tmp;
 	}
 
@@ -275,10 +275,6 @@ private static final long serialVersionUID = 1184441005L;
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
     // Copia de beans complexes (IMP)
-    if(!"PeticioDeFirmaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma()) ) ) {
-      __tmp.setPeticioDeFirma(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma(), __alreadyCopied,"NotificacioWSJPA"));
-    }
     if(!"TipusNotificacioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusNotificacio) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusNotificacio()) ) ) {
       __tmp.setTipusNotificacio(TipusNotificacioJPA.copyJPA(__jpa.getTipusNotificacio(), __alreadyCopied,"NotificacioWSJPA"));

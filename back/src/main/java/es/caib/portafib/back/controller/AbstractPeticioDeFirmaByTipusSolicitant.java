@@ -1215,7 +1215,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
   protected void delete(HttpServletRequest request, Long peticioDeFirmaID)
       throws Exception, I18NException {
     
-    PeticioDeFirma peticioDeFirma = peticioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirmaID);
+    PeticioDeFirma peticioDeFirma = peticioDeFirmaLogicaEjb.findByPrimaryKeyFull(peticioDeFirmaID);
     
     // Validar que no sigui NULL
     if (peticioDeFirma == null) { 
@@ -1400,12 +1400,14 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
         // Error
         new PeticioDeFirmaController().createMessageError(request, "error.notfound", null);
       } else {
-
+        /*
+        La bitàcola ja recull que és un administrador i el seu login.
         String motiuDeRebuig = I18NUtils.tradueix("peticionsdefirma.destinatari.motiurebuig",
             Utils.getNom(LoginInfo.getInstance().getUsuariPersona()), motiuDeRebuig2);
+         */
 
         peticioDeFirmaLogicaEjb.rebutjarADEN(peticioDeFirma, LoginInfo.getInstance()
-            .getUsuariEntitatID(), motiuDeRebuig);
+            .getUsuariEntitatID(), motiuDeRebuig2);
 
       }
 

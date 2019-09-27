@@ -5,6 +5,7 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import org.hibernate.annotations.Index;
@@ -27,22 +28,30 @@ private static final long serialVersionUID = 1492894118L;
 	@Column(name="bitacolaid",nullable = false,length = 19)
 	long bitacolaID;
 
+	@Column(name="entitatid",nullable = false,length = 50)
+	java.lang.String entitatid;
+
+	@Column(name="usuariid",nullable = false,length = 101)
+	java.lang.String usuariid;
+
 	@Column(name="data",nullable = false,length = 29,precision = 6)
 	java.sql.Timestamp data;
 
-	@Column(name="descripcio",nullable = false,length = 255)
+	@Column(name="tipusobjecte",nullable = false,length = 10)
+	int tipusObjecte;
+
+	@Column(name="objecteid",nullable = false,length = 50)
+	java.lang.String objecteid;
+
+	@Column(name="tipusoperacio",nullable = false,length = 10)
+	int tipusOperacio;
+
+	@Column(name="descripcio",length = 255)
 	java.lang.String descripcio;
 
-	@Index(name="pfi_bitacola_peticid_fk_i")
-	@Column(name="peticiodefirmaid",nullable = false,length = 19)
-	long peticioDeFirmaID;
-
-	@Index(name="pfi_bitacola_usrentid_fk_i")
-	@Column(name="usuarientitatid",length = 101)
-	java.lang.String usuariEntitatID;
-
-	@Column(name="usuariaplicacioid",length = 101)
-	java.lang.String usuariAplicacioID;
+	@Column(name="objecteserialitzat",length = 2147483647)
+  @Lob
+	java.lang.String objecteSerialitzat;
 
 
 
@@ -51,36 +60,48 @@ private static final long serialVersionUID = 1492894118L;
   }
 
   /** Constructor amb tots els camps  */
-  public BitacolaJPA(long bitacolaID , java.sql.Timestamp data , java.lang.String descripcio , long peticioDeFirmaID , java.lang.String usuariEntitatID , java.lang.String usuariAplicacioID) {
+  public BitacolaJPA(long bitacolaID , java.lang.String entitatid , java.lang.String usuariid , java.sql.Timestamp data , int tipusObjecte , java.lang.String objecteid , int tipusOperacio , java.lang.String descripcio , java.lang.String objecteSerialitzat) {
     this.bitacolaID=bitacolaID;
+    this.entitatid=entitatid;
+    this.usuariid=usuariid;
     this.data=data;
+    this.tipusObjecte=tipusObjecte;
+    this.objecteid=objecteid;
+    this.tipusOperacio=tipusOperacio;
     this.descripcio=descripcio;
-    this.peticioDeFirmaID=peticioDeFirmaID;
-    this.usuariEntitatID=usuariEntitatID;
-    this.usuariAplicacioID=usuariAplicacioID;
+    this.objecteSerialitzat=objecteSerialitzat;
 }
   /** Constructor sense valors autoincrementals */
-  public BitacolaJPA(java.sql.Timestamp data , java.lang.String descripcio , long peticioDeFirmaID , java.lang.String usuariEntitatID , java.lang.String usuariAplicacioID) {
+  public BitacolaJPA(java.lang.String entitatid , java.lang.String usuariid , java.sql.Timestamp data , int tipusObjecte , java.lang.String objecteid , int tipusOperacio , java.lang.String descripcio , java.lang.String objecteSerialitzat) {
+    this.entitatid=entitatid;
+    this.usuariid=usuariid;
     this.data=data;
+    this.tipusObjecte=tipusObjecte;
+    this.objecteid=objecteid;
+    this.tipusOperacio=tipusOperacio;
     this.descripcio=descripcio;
-    this.peticioDeFirmaID=peticioDeFirmaID;
-    this.usuariEntitatID=usuariEntitatID;
-    this.usuariAplicacioID=usuariAplicacioID;
+    this.objecteSerialitzat=objecteSerialitzat;
 }
   /** Constructor dels valors Not Null */
-  public BitacolaJPA(long bitacolaID , java.sql.Timestamp data , java.lang.String descripcio , long peticioDeFirmaID) {
+  public BitacolaJPA(long bitacolaID , java.lang.String entitatid , java.lang.String usuariid , java.sql.Timestamp data , int tipusObjecte , java.lang.String objecteid , int tipusOperacio) {
     this.bitacolaID=bitacolaID;
+    this.entitatid=entitatid;
+    this.usuariid=usuariid;
     this.data=data;
-    this.descripcio=descripcio;
-    this.peticioDeFirmaID=peticioDeFirmaID;
+    this.tipusObjecte=tipusObjecte;
+    this.objecteid=objecteid;
+    this.tipusOperacio=tipusOperacio;
 }
   public BitacolaJPA(Bitacola __bean) {
     this.setBitacolaID(__bean.getBitacolaID());
+    this.setEntitatid(__bean.getEntitatid());
+    this.setUsuariid(__bean.getUsuariid());
     this.setData(__bean.getData());
+    this.setTipusObjecte(__bean.getTipusObjecte());
+    this.setObjecteid(__bean.getObjecteid());
+    this.setTipusOperacio(__bean.getTipusOperacio());
     this.setDescripcio(__bean.getDescripcio());
-    this.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
-    this.setUsuariEntitatID(__bean.getUsuariEntitatID());
-    this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
+    this.setObjecteSerialitzat(__bean.getObjecteSerialitzat());
 	}
 
 	public long getBitacolaID() {
@@ -90,11 +111,46 @@ private static final long serialVersionUID = 1492894118L;
 		this.bitacolaID = _bitacolaID_;
 	};
 
+	public java.lang.String getEntitatid() {
+		return(entitatid);
+	};
+	public void setEntitatid(java.lang.String _entitatid_) {
+		this.entitatid = _entitatid_;
+	};
+
+	public java.lang.String getUsuariid() {
+		return(usuariid);
+	};
+	public void setUsuariid(java.lang.String _usuariid_) {
+		this.usuariid = _usuariid_;
+	};
+
 	public java.sql.Timestamp getData() {
 		return(data);
 	};
 	public void setData(java.sql.Timestamp _data_) {
 		this.data = _data_;
+	};
+
+	public int getTipusObjecte() {
+		return(tipusObjecte);
+	};
+	public void setTipusObjecte(int _tipusObjecte_) {
+		this.tipusObjecte = _tipusObjecte_;
+	};
+
+	public java.lang.String getObjecteid() {
+		return(objecteid);
+	};
+	public void setObjecteid(java.lang.String _objecteid_) {
+		this.objecteid = _objecteid_;
+	};
+
+	public int getTipusOperacio() {
+		return(tipusOperacio);
+	};
+	public void setTipusOperacio(int _tipusOperacio_) {
+		this.tipusOperacio = _tipusOperacio_;
 	};
 
 	public java.lang.String getDescripcio() {
@@ -104,25 +160,11 @@ private static final long serialVersionUID = 1492894118L;
 		this.descripcio = _descripcio_;
 	};
 
-	public long getPeticioDeFirmaID() {
-		return(peticioDeFirmaID);
+	public java.lang.String getObjecteSerialitzat() {
+		return(objecteSerialitzat);
 	};
-	public void setPeticioDeFirmaID(long _peticioDeFirmaID_) {
-		this.peticioDeFirmaID = _peticioDeFirmaID_;
-	};
-
-	public java.lang.String getUsuariEntitatID() {
-		return(usuariEntitatID);
-	};
-	public void setUsuariEntitatID(java.lang.String _usuariEntitatID_) {
-		this.usuariEntitatID = _usuariEntitatID_;
-	};
-
-	public java.lang.String getUsuariAplicacioID() {
-		return(usuariAplicacioID);
-	};
-	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_) {
-		this.usuariAplicacioID = _usuariAplicacioID_;
+	public void setObjecteSerialitzat(java.lang.String _objecteSerialitzat_) {
+		this.objecteSerialitzat = _objecteSerialitzat_;
 	};
 
 
@@ -146,11 +188,14 @@ private static final long serialVersionUID = 1492894118L;
     if (__bean == null) { return null;}
     BitacolaJPA __tmp = new BitacolaJPA();
     __tmp.setBitacolaID(__bean.getBitacolaID());
+    __tmp.setEntitatid(__bean.getEntitatid());
+    __tmp.setUsuariid(__bean.getUsuariid());
     __tmp.setData(__bean.getData());
+    __tmp.setTipusObjecte(__bean.getTipusObjecte());
+    __tmp.setObjecteid(__bean.getObjecteid());
+    __tmp.setTipusOperacio(__bean.getTipusOperacio());
     __tmp.setDescripcio(__bean.getDescripcio());
-    __tmp.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
-    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
-    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
+    __tmp.setObjecteSerialitzat(__bean.getObjecteSerialitzat());
 		return __tmp;
 	}
 

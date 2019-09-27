@@ -8,7 +8,6 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 
-import javax.annotation.security.RunAs;
 import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
@@ -25,7 +24,6 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  */
 @Stateless(name = "WebServicesMethodsEJB")
 @SecurityDomain("seycon")
-@RunAs("PFI_USER")
 public class WebServicesMethodsEJB extends PeticioDeFirmaLogicaEJB implements
     WebServicesMethodsLocal {
 
@@ -36,7 +34,7 @@ public class WebServicesMethodsEJB extends PeticioDeFirmaLogicaEJB implements
    */
   @Override
   public PeticioDeFirmaJPA createAndStartPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma)
-      throws Exception, I18NException, I18NValidationException {
+      throws I18NException, I18NValidationException {
 
     // Nous camps a Firma i a Peticio de Firma #281
     UsuariAplicacioConfiguracio config;
@@ -54,7 +52,7 @@ public class WebServicesMethodsEJB extends PeticioDeFirmaLogicaEJB implements
 
   @Override
   public List<Long> deletePeticionsDeFirma(Where filtre, String usuariAplicacioID)
-      throws Exception, I18NException {
+      throws I18NException {
 
     List<Long> list = /* peticioDeFirmaLogicaEjb. */executeQuery(
         PeticioDeFirmaFields.PETICIODEFIRMAID, filtre);

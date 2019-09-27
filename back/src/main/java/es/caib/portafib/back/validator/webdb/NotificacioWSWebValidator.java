@@ -29,9 +29,6 @@ public class NotificacioWSWebValidator  implements Validator, NotificacioWSField
   @javax.ejb.EJB(mappedName = "portafib/NotificacioWSEJB/local")
   protected es.caib.portafib.ejb.NotificacioWSLocal notificacioWSEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
-  protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
-
   @javax.ejb.EJB(mappedName = "portafib/TipusNotificacioEJB/local")
   protected es.caib.portafib.ejb.TipusNotificacioLocal tipusNotificacioEjb;
 
@@ -63,7 +60,7 @@ public class NotificacioWSWebValidator  implements Validator, NotificacioWSField
     WebValidationResult<Object> wvr, boolean isNou) {
 
     validator.validate(wvr, target,
-      isNou, notificacioWSEjb, peticioDeFirmaEjb, tipusNotificacioEjb);
+      isNou, notificacioWSEjb, tipusNotificacioEjb);
 
   } // Final de metode
 

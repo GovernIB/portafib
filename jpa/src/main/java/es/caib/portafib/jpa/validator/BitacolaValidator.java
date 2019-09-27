@@ -28,19 +28,55 @@ public class BitacolaValidator<T> implements BitacolaFields {
     ,es.caib.portafib.model.dao.IBitacolaManager __bitacolaManager) {
 
     // Valors Not Null
+    __vr.rejectIfEmptyOrWhitespace(__target__,ENTITATID, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ENTITATID)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,USUARIID, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIID)));
+
     __vr.rejectIfEmptyOrWhitespace(__target__,DATA, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(DATA)));
 
-    __vr.rejectIfEmptyOrWhitespace(__target__,DESCRIPCIO, 
+    __vr.rejectIfEmptyOrWhitespace(__target__,TIPUSOBJECTE, 
         "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(DESCRIPCIO)));
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUSOBJECTE)));
 
-    __vr.rejectIfEmptyOrWhitespace(__target__,PETICIODEFIRMAID, 
+    __vr.rejectIfEmptyOrWhitespace(__target__,OBJECTEID, 
         "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PETICIODEFIRMAID)));
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(OBJECTEID)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,TIPUSOPERACIO, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUSOPERACIO)));
 
     // Check size
+    if (__vr.getFieldErrorCount(ENTITATID) == 0) {
+      java.lang.String __entitatid = (java.lang.String)__vr.getFieldValue(__target__,ENTITATID);
+      if (__entitatid!= null && __entitatid.length() > 50) {
+        __vr.rejectValue(ENTITATID, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ENTITATID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(50)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(USUARIID) == 0) {
+      java.lang.String __usuariid = (java.lang.String)__vr.getFieldValue(__target__,USUARIID);
+      if (__usuariid!= null && __usuariid.length() > 101) {
+        __vr.rejectValue(USUARIID, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(101)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(OBJECTEID) == 0) {
+      java.lang.String __objecteid = (java.lang.String)__vr.getFieldValue(__target__,OBJECTEID);
+      if (__objecteid!= null && __objecteid.length() > 50) {
+        __vr.rejectValue(OBJECTEID, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(OBJECTEID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(50)));
+      }
+    }
+    
     if (__vr.getFieldErrorCount(DESCRIPCIO) == 0) {
       java.lang.String __descripcio = (java.lang.String)__vr.getFieldValue(__target__,DESCRIPCIO);
       if (__descripcio!= null && __descripcio.length() > 255) {
@@ -49,19 +85,11 @@ public class BitacolaValidator<T> implements BitacolaFields {
       }
     }
     
-    if (__vr.getFieldErrorCount(USUARIENTITATID) == 0) {
-      java.lang.String __usuarientitatid = (java.lang.String)__vr.getFieldValue(__target__,USUARIENTITATID);
-      if (__usuarientitatid!= null && __usuarientitatid.length() > 101) {
-        __vr.rejectValue(USUARIENTITATID, "genapp.validation.sizeexceeds",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIENTITATID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(101)));
-      }
-    }
-    
-    if (__vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
-      java.lang.String __usuariaplicacioid = (java.lang.String)__vr.getFieldValue(__target__,USUARIAPLICACIOID);
-      if (__usuariaplicacioid!= null && __usuariaplicacioid.length() > 101) {
-        __vr.rejectValue(USUARIAPLICACIOID, "genapp.validation.sizeexceeds",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIAPLICACIOID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(101)));
+    if (__vr.getFieldErrorCount(OBJECTESERIALITZAT) == 0) {
+      java.lang.String __objecteserialitzat = (java.lang.String)__vr.getFieldValue(__target__,OBJECTESERIALITZAT);
+      if (__objecteserialitzat!= null && __objecteserialitzat.length() > 2147483647) {
+        __vr.rejectValue(OBJECTESERIALITZAT, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(OBJECTESERIALITZAT)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(2147483647)));
       }
     }
     

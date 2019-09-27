@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.NotificacioWSFields;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.TipusNotificacioFields;
 
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
@@ -28,7 +27,6 @@ public class NotificacioWSValidator<T> implements NotificacioWSFields {
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
     ,es.caib.portafib.model.dao.INotificacioWSManager __notificacioWSManager
-    ,es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager
     ,es.caib.portafib.model.dao.ITipusNotificacioManager __tipusNotificacioManager) {
 
     // Valors Not Null
@@ -48,6 +46,10 @@ public class NotificacioWSValidator<T> implements NotificacioWSFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(REINTENTS)));
 
+    __vr.rejectIfEmptyOrWhitespace(__target__,USUARIAPLICACIOID, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIAPLICACIOID)));
+
     // Check size
     if (__vr.getFieldErrorCount(DESCRIPCIO) == 0) {
       java.lang.String __descripcio = (java.lang.String)__vr.getFieldValue(__target__,DESCRIPCIO);
@@ -62,6 +64,14 @@ public class NotificacioWSValidator<T> implements NotificacioWSFields {
       if (__error!= null && __error.length() > 2147483647) {
         __vr.rejectValue(ERROR, "genapp.validation.sizeexceeds",
             new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ERROR)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(2147483647)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
+      java.lang.String __usuariaplicacioid = (java.lang.String)__vr.getFieldValue(__target__,USUARIAPLICACIOID);
+      if (__usuariaplicacioid!= null && __usuariaplicacioid.length() > 101) {
+        __vr.rejectValue(USUARIAPLICACIOID, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIAPLICACIOID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(101)));
       }
     }
     
@@ -81,18 +91,6 @@ public class NotificacioWSValidator<T> implements NotificacioWSFields {
     }
 
     // Fields with References to Other tables 
-    if (__vr.getFieldErrorCount(PETICIODEFIRMAID) == 0) {
-      java.lang.Long __peticiodefirmaid = (java.lang.Long)__vr.getFieldValue(__target__,PETICIODEFIRMAID);
-      Long __count_ = null;
-      try { __count_ = __peticioDeFirmaManager.count(PeticioDeFirmaFields.PETICIODEFIRMAID.equal(__peticiodefirmaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(PETICIODEFIRMAID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("peticioDeFirma.peticioDeFirma"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("peticioDeFirma.peticioDeFirmaID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__peticiodefirmaid)));
-      }
-    }
-
     if (__vr.getFieldErrorCount(TIPUSNOTIFICACIOID) == 0) {
       java.lang.Long __tipusnotificacioid = (java.lang.Long)__vr.getFieldValue(__target__,TIPUSNOTIFICACIOID);
       Long __count_ = null;

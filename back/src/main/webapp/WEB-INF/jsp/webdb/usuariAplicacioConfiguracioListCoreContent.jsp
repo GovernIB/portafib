@@ -108,7 +108,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MODEDEFIRMA)}">
           <td>
-            <fmt:message key="modefirma.${usuariAplicacioConfiguracio.modeDeFirma}" />          </td>
+            <fmt:message key="modedefirma.${usuariAplicacioConfiguracio.modeDeFirma}" />          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA)}">
           <td>

@@ -220,16 +220,6 @@ public class PeticioDeFirmaController
       };
     }
 
-    // Field posicioTaulaFirmesID
-    {
-      _listSKV = getReferenceListForPosicioTaulaFirmesID(request, mav, filterForm, list, groupByItemsMap, null);
-      _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfValuesForPosicioTaulaFirmesID(_tmp);
-      if (filterForm.getGroupByFields().contains(POSICIOTAULAFIRMESID)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, POSICIOTAULAFIRMESID, false);
-      };
-    }
-
     // Field tipusOperacioFirma
     {
       _listSKV = getReferenceListForTipusOperacioFirma(request, mav, filterForm, list, groupByItemsMap, null);
@@ -262,6 +252,16 @@ public class PeticioDeFirmaController
 
 
       fillValuesToGroupByItemsBoolean("modedefirma", groupByItemsMap, MODEDEFIRMA);
+
+    // Field posicioTaulaFirmesID
+    {
+      _listSKV = getReferenceListForPosicioTaulaFirmesID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForPosicioTaulaFirmesID(_tmp);
+      if (filterForm.getGroupByFields().contains(POSICIOTAULAFIRMESID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, POSICIOTAULAFIRMESID, false);
+      };
+    }
 
     // Field tipusEstatPeticioDeFirmaID
     {
@@ -395,10 +395,10 @@ public class PeticioDeFirmaController
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
     __mapping.put(TIPUSDOCUMENTID, filterForm.getMapOfTipusDocumentForTipusDocumentID());
-    __mapping.put(POSICIOTAULAFIRMESID, filterForm.getMapOfValuesForPosicioTaulaFirmesID());
     __mapping.put(TIPUSOPERACIOFIRMA, filterForm.getMapOfValuesForTipusOperacioFirma());
     __mapping.put(TIPUSFIRMAID, filterForm.getMapOfValuesForTipusFirmaID());
     __mapping.put(ALGORISMEDEFIRMAID, filterForm.getMapOfValuesForAlgorismeDeFirmaID());
+    __mapping.put(POSICIOTAULAFIRMESID, filterForm.getMapOfValuesForPosicioTaulaFirmesID());
     __mapping.put(TIPUSESTATPETICIODEFIRMAID, filterForm.getMapOfValuesForTipusEstatPeticioDeFirmaID());
     __mapping.put(IDIOMAID, filterForm.getMapOfIdiomaForIdiomaID());
     __mapping.put(PRIORITATID, filterForm.getMapOfValuesForPrioritatID());
@@ -465,13 +465,6 @@ public class PeticioDeFirmaController
       peticioDeFirmaForm.setListOfTipusDocumentForTipusDocumentID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (peticioDeFirmaForm.getListOfValuesForPosicioTaulaFirmesID() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForPosicioTaulaFirmesID(request, mav, peticioDeFirmaForm, null);
-
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      peticioDeFirmaForm.setListOfValuesForPosicioTaulaFirmesID(_listSKV);
-    }
-    // Comprovam si ja esta definida la llista
     if (peticioDeFirmaForm.getListOfValuesForTipusOperacioFirma() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusOperacioFirma(request, mav, peticioDeFirmaForm, null);
 
@@ -491,6 +484,13 @@ public class PeticioDeFirmaController
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
       peticioDeFirmaForm.setListOfValuesForAlgorismeDeFirmaID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (peticioDeFirmaForm.getListOfValuesForPosicioTaulaFirmesID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPosicioTaulaFirmesID(request, mav, peticioDeFirmaForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      peticioDeFirmaForm.setListOfValuesForPosicioTaulaFirmesID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (peticioDeFirmaForm.getListOfValuesForTipusEstatPeticioDeFirmaID() == null) {
@@ -976,38 +976,6 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public List<StringKeyValue> getReferenceListForPosicioTaulaFirmesID(HttpServletRequest request,
-       ModelAndView mav, PeticioDeFirmaForm peticioDeFirmaForm, Where where)  throws I18NException {
-    if (peticioDeFirmaForm.isHiddenField(POSICIOTAULAFIRMESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
-    }
-    return getReferenceListForPosicioTaulaFirmesID(request, mav, where);
-  }
-
-
-  public List<StringKeyValue> getReferenceListForPosicioTaulaFirmesID(HttpServletRequest request,
-       ModelAndView mav, PeticioDeFirmaFilterForm peticioDeFirmaFilterForm,
-       List<PeticioDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (peticioDeFirmaFilterForm.isHiddenField(POSICIOTAULAFIRMESID)
-      && !peticioDeFirmaFilterForm.isGroupByField(POSICIOTAULAFIRMESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
-    }
-    Where _w = null;
-    return getReferenceListForPosicioTaulaFirmesID(request, mav, Where.AND(where,_w));
-  }
-
-
-  public List<StringKeyValue> getReferenceListForPosicioTaulaFirmesID(HttpServletRequest request,
-       ModelAndView mav, Where where)  throws I18NException {
-    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-    __tmp.add(new StringKeyValue("0" , "0"));
-    __tmp.add(new StringKeyValue("1" , "1"));
-    __tmp.add(new StringKeyValue("-1" , "-1"));
-    __tmp.add(new StringKeyValue("2" , "2"));
-    return __tmp;
-  }
-
-
   public List<StringKeyValue> getReferenceListForTipusOperacioFirma(HttpServletRequest request,
        ModelAndView mav, PeticioDeFirmaForm peticioDeFirmaForm, Where where)  throws I18NException {
     if (peticioDeFirmaForm.isHiddenField(TIPUSOPERACIOFIRMA)) {
@@ -1099,6 +1067,38 @@ public java.lang.Long stringToPK(String value) {
     __tmp.add(new StringKeyValue("1" , "1"));
     __tmp.add(new StringKeyValue("2" , "2"));
     __tmp.add(new StringKeyValue("3" , "3"));
+    return __tmp;
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPosicioTaulaFirmesID(HttpServletRequest request,
+       ModelAndView mav, PeticioDeFirmaForm peticioDeFirmaForm, Where where)  throws I18NException {
+    if (peticioDeFirmaForm.isHiddenField(POSICIOTAULAFIRMESID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForPosicioTaulaFirmesID(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPosicioTaulaFirmesID(HttpServletRequest request,
+       ModelAndView mav, PeticioDeFirmaFilterForm peticioDeFirmaFilterForm,
+       List<PeticioDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (peticioDeFirmaFilterForm.isHiddenField(POSICIOTAULAFIRMESID)
+      && !peticioDeFirmaFilterForm.isGroupByField(POSICIOTAULAFIRMESID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForPosicioTaulaFirmesID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPosicioTaulaFirmesID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("-1" , "-1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
     return __tmp;
   }
 

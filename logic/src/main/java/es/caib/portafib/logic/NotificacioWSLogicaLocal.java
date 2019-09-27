@@ -4,10 +4,9 @@ import es.caib.portafib.ejb.NotificacioWSLocal;
 import es.caib.portafib.jpa.NotificacioWSJPA;
 import es.caib.portafib.logic.events.FirmaEvent;
 import es.caib.portafib.logic.utils.NotificacioInfo;
+import org.fundaciobit.genapp.common.i18n.I18NException;
 
 import javax.ejb.Local;
-
-import org.fundaciobit.genapp.common.i18n.I18NException;
 
 
 /**
@@ -19,8 +18,6 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 public interface NotificacioWSLogicaLocal extends NotificacioWSLocal {
   
   public static final String JNDI_NAME = "portafib/NotificacioLogicaEJB/local";
-
-  public NotificacioWSJPA findByPrimaryKeyForNotificacioQueue(long notificacioID);
 
   public NotificacioInfo createFullFromFirmaEvent(FirmaEvent firmaEvent) throws I18NException;
 

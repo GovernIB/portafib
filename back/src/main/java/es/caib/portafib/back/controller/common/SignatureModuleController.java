@@ -285,7 +285,7 @@ public class SignatureModuleController extends HttpServlet {
         absoluteControllerBase, signaturesSetID, -1);
 
     
-    String newFinalUrl = absoluteControllerBase + "/final/" + URLEncoder.encode(signaturesSetID, "UTF-8");
+    String newFinalUrl = response.encodeURL(absoluteControllerBase + "/final/" + URLEncoder.encode(signaturesSetID, "UTF-8"));
 
     // Substituim l'altre final URL pel NOU
     signaturesSet.setUrlFinal(newFinalUrl);
@@ -378,8 +378,7 @@ public class SignatureModuleController extends HttpServlet {
    * 
    * @param request
    * @param response
-   * @param pluginID
-   * @param signatureID
+   * @param signaturesSetID
    * @param signatureIndex
    * @param query
    * @param isPost
@@ -659,18 +658,21 @@ public class SignatureModuleController extends HttpServlet {
    * @return
    * @throws I18NException
    */
-  public static ModelAndView startPrivateSignatureProcess(HttpServletRequest request,
+  public static ModelAndView startPrivateSignatureProcess(
+        HttpServletRequest request, HttpServletResponse response,
        String view, PortaFIBSignaturesSet signaturesSet) throws I18NException {
-    return startSignatureProcess(request, view, signaturesSet, false);
+    return startSignatureProcess(request, response, view, signaturesSet, false);
   }
 
 
-  public static ModelAndView startPublicSignatureProcess(HttpServletRequest request,
+  public static ModelAndView startPublicSignatureProcess(
+        HttpServletRequest request, HttpServletResponse response,
       String view, PortaFIBSignaturesSet signaturesSet) throws I18NException {
-    return startSignatureProcess(request, view, signaturesSet, true);
+    return startSignatureProcess(request, response, view, signaturesSet, true);
   }
   
-  private static ModelAndView startSignatureProcess(HttpServletRequest request,
+  private static ModelAndView startSignatureProcess(
+        HttpServletRequest request, HttpServletResponse response,
       String view, PortaFIBSignaturesSet signaturesSet, boolean isPublic) throws I18NException {
 
     final String baseUrl = signaturesSet.getUrlBase();
@@ -688,8 +690,8 @@ public class SignatureModuleController extends HttpServlet {
 
     String context = isPublic? PUBLIC_CONTEXTWEB : PRIVATE_CONTEXTWEB;
     
-    final String urlToSelectPluginPagePage = baseUrl + context// == getAbsoluteControllerBase(request, context)
-        + "/selectsignmodule/" + signaturesSetID;
+    final String urlToSelectPluginPagePage =
+          response.encodeURL(baseUrl + context + "/selectsignmodule/" + signaturesSetID);
 
     ModelAndView mav = new ModelAndView(view);
     mav.addObject("signaturesSetID", signaturesSetID);

@@ -256,7 +256,7 @@ public class UsuariAplicacioConfiguracioController
     }
 
 
-      fillValuesToGroupByItemsBoolean("modefirma", groupByItemsMap, MODEDEFIRMA);
+      fillValuesToGroupByItemsBoolean("modedefirma", groupByItemsMap, MODEDEFIRMA);
 
     // Field usPoliticaDeFirma
     {

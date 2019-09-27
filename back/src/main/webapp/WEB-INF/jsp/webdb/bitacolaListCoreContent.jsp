@@ -29,27 +29,48 @@
           ${bitacola.bitacolaID}
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.ENTITATID)}">
+          <td>
+          ${bitacola.entitatid}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.USUARIID)}">
+          <td>
+          ${bitacola.usuariid}
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.DATA)}">
           <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${bitacola.data}" /></td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.TIPUSOBJECTE)}">
+          <td>
+          <c:set var="tmp">${bitacola.tipusObjecte}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForTipusObjecte[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.OBJECTEID)}">
+          <td>
+          ${bitacola.objecteid}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.TIPUSOPERACIO)}">
+          <td>
+          <c:set var="tmp">${bitacola.tipusOperacio}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForTipusOperacio[tmp]}
+          </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.DESCRIPCIO)}">
           <td>
           ${bitacola.descripcio}
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.PETICIODEFIRMAID)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.OBJECTESERIALITZAT)}">
           <td>
-          ${bitacola.peticioDeFirmaID}
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.USUARIENTITATID)}">
-          <td>
-          ${bitacola.usuariEntitatID}
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.USUARIAPLICACIOID)}">
-          <td>
-          ${bitacola.usuariAplicacioID}
+          ${bitacola.objecteSerialitzat}
           </td>
         </c:if>
 

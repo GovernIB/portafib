@@ -13,20 +13,26 @@ public interface BitacolaFields extends java.io.Serializable {
 
 
 	 public static final LongField BITACOLAID = new LongField(_TABLE_MODEL, "bitacolaID", "bitacolaid");  // PK
+	 public static final StringField ENTITATID = new StringField(_TABLE_MODEL, "entitatid", "entitatid");
+	 public static final StringField USUARIID = new StringField(_TABLE_MODEL, "usuariid", "usuariid");
 	 public static final TimestampField DATA = new TimestampField(_TABLE_MODEL, "data", "data");
+	 public static final IntegerField TIPUSOBJECTE = new IntegerField(_TABLE_MODEL, "tipusObjecte", "tipusobjecte");
+	 public static final StringField OBJECTEID = new StringField(_TABLE_MODEL, "objecteid", "objecteid");
+	 public static final IntegerField TIPUSOPERACIO = new IntegerField(_TABLE_MODEL, "tipusOperacio", "tipusoperacio");
 	 public static final StringField DESCRIPCIO = new StringField(_TABLE_MODEL, "descripcio", "descripcio");
-	 public static final LongField PETICIODEFIRMAID = new LongField(_TABLE_MODEL, "peticioDeFirmaID", "peticiodefirmaid");
-	 public static final StringField USUARIENTITATID = new StringField(_TABLE_MODEL, "usuariEntitatID", "usuarientitatid");
-	 public static final StringField USUARIAPLICACIOID = new StringField(_TABLE_MODEL, "usuariAplicacioID", "usuariaplicacioid");
+	 public static final StringField OBJECTESERIALITZAT = new StringField(_TABLE_MODEL, "objecteSerialitzat", "objecteserialitzat");
 
 
   public static final Field<?>[] ALL_BITACOLA_FIELDS = {
     BITACOLAID,
+    ENTITATID,
+    USUARIID,
     DATA,
+    TIPUSOBJECTE,
+    OBJECTEID,
+    TIPUSOPERACIO,
     DESCRIPCIO,
-    PETICIODEFIRMAID,
-    USUARIENTITATID,
-    USUARIAPLICACIOID
+    OBJECTESERIALITZAT
   };
 
 

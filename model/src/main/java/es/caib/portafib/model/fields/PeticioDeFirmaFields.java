@@ -21,7 +21,6 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
 	 public static final LongField FITXERADAPTATID = new LongField(_TABLE_MODEL, "fitxerAdaptatID", "fitxeradaptatid");
 	 public static final LongField TIPUSDOCUMENTID = new LongField(_TABLE_MODEL, "tipusDocumentID", "tipusdocumentid");
 	 public static final StringField DESCRIPCIOTIPUSDOCUMENT = new StringField(_TABLE_MODEL, "descripcioTipusDocument", "descripciotipusdocument");
-	 public static final IntegerField POSICIOTAULAFIRMESID = new IntegerField(_TABLE_MODEL, "posicioTaulaFirmesID", "posiciotaulafirmesid");
 	 public static final TimestampField DATASOLICITUD = new TimestampField(_TABLE_MODEL, "dataSolicitud", "datasolicitud");
 	 public static final TimestampField DATAFINAL = new TimestampField(_TABLE_MODEL, "dataFinal", "datafinal");
 	 public static final TimestampField DATACADUCITAT = new TimestampField(_TABLE_MODEL, "dataCaducitat", "datacaducitat");
@@ -29,6 +28,7 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
 	 public static final IntegerField TIPUSFIRMAID = new IntegerField(_TABLE_MODEL, "tipusFirmaID", "tipusfirmaid");
 	 public static final IntegerField ALGORISMEDEFIRMAID = new IntegerField(_TABLE_MODEL, "algorismeDeFirmaID", "algorismedefirmaid");
 	 public static final BooleanField MODEDEFIRMA = new BooleanField(_TABLE_MODEL, "modeDeFirma", "modedefirma");
+	 public static final IntegerField POSICIOTAULAFIRMESID = new IntegerField(_TABLE_MODEL, "posicioTaulaFirmesID", "posiciotaulafirmesid");
 	 public static final IntegerField TIPUSESTATPETICIODEFIRMAID = new IntegerField(_TABLE_MODEL, "tipusEstatPeticioDeFirmaID", "tipusestatpeticiodefirmaid");
 	 public static final StringField MOTIUDEREBUIG = new StringField(_TABLE_MODEL, "motiuDeRebuig", "motiuderebuig");
 	 public static final StringField IDIOMAID = new StringField(_TABLE_MODEL, "idiomaID", "idiomaid");
@@ -65,7 +65,6 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
     FITXERADAPTATID,
     TIPUSDOCUMENTID,
     DESCRIPCIOTIPUSDOCUMENT,
-    POSICIOTAULAFIRMESID,
     DATASOLICITUD,
     DATAFINAL,
     DATACADUCITAT,
@@ -73,6 +72,7 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
     TIPUSFIRMAID,
     ALGORISMEDEFIRMAID,
     MODEDEFIRMA,
+    POSICIOTAULAFIRMESID,
     TIPUSESTATPETICIODEFIRMAID,
     MOTIUDEREBUIG,
     IDIOMAID,

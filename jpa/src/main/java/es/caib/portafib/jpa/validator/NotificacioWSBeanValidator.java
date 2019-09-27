@@ -19,8 +19,6 @@ public class NotificacioWSBeanValidator
   // EJB's
   protected final es.caib.portafib.model.dao.INotificacioWSManager __notificacioWSManager;
 
-  protected final es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager;
-
   protected final es.caib.portafib.model.dao.ITipusNotificacioManager __tipusNotificacioManager;
 
 
@@ -28,20 +26,16 @@ public class NotificacioWSBeanValidator
 
 
   public NotificacioWSBeanValidator(es.caib.portafib.model.dao.INotificacioWSManager __notificacioWSManager,
-     es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager,
      es.caib.portafib.model.dao.ITipusNotificacioManager __tipusNotificacioManager) { 
     this.__notificacioWSManager = __notificacioWSManager;
-    this.__peticioDeFirmaManager = __peticioDeFirmaManager;
     this.__tipusNotificacioManager = __tipusNotificacioManager;
     _validator = new NotificacioWSValidator<NotificacioWSJPA>();
   }
 
   public NotificacioWSBeanValidator(NotificacioWSValidator<NotificacioWSJPA> _validator,
      es.caib.portafib.model.dao.INotificacioWSManager __notificacioWSManager,
-     es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager,
      es.caib.portafib.model.dao.ITipusNotificacioManager __tipusNotificacioManager) {
     this.__notificacioWSManager = __notificacioWSManager;
-    this.__peticioDeFirmaManager = __peticioDeFirmaManager;
     this.__tipusNotificacioManager = __tipusNotificacioManager;
     this._validator = _validator;
   }
@@ -49,7 +43,7 @@ public class NotificacioWSBeanValidator
   @Override
   public List<I18NFieldError> validate(NotificacioWSJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<NotificacioWSJPA> _bvr_ = new BeanValidatorResult<NotificacioWSJPA>();
-    _validator.validate(_bvr_, target, isNou, __notificacioWSManager, __peticioDeFirmaManager, __tipusNotificacioManager);
+    _validator.validate(_bvr_, target, isNou, __notificacioWSManager, __tipusNotificacioManager);
     return _bvr_.getErrors();
   }
 }

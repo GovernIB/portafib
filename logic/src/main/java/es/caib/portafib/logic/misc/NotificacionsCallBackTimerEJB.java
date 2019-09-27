@@ -38,10 +38,23 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Semaphore;
 
+import static es.caib.portafib.utils.ConstantsV2.BITACOLA_OP_NOTIFICAR_ENPROCES;
+import static es.caib.portafib.utils.ConstantsV2.BITACOLA_OP_NOTIFICAR_FINALITZADA;
+import static es.caib.portafib.utils.ConstantsV2.BITACOLA_OP_NOTIFICAR_FIRMA_PARCIAL;
+import static es.caib.portafib.utils.ConstantsV2.BITACOLA_OP_NOTIFICAR_INVALIDADA;
+import static es.caib.portafib.utils.ConstantsV2.BITACOLA_OP_NOTIFICAR_PAUSADA;
+import static es.caib.portafib.utils.ConstantsV2.BITACOLA_OP_NOTIFICAR_REBUTJADA;
+import static es.caib.portafib.utils.ConstantsV2.BITACOLA_TIPUS_PETICIO;
+import static es.caib.portafib.utils.ConstantsV2.NOTIFICACIOAVIS_FIRMA_PARCIAL;
+import static es.caib.portafib.utils.ConstantsV2.NOTIFICACIOAVIS_INVALIDAT;
+import static es.caib.portafib.utils.ConstantsV2.NOTIFICACIOAVIS_PETICIO_EN_PROCES;
+import static es.caib.portafib.utils.ConstantsV2.NOTIFICACIOAVIS_PETICIO_FIRMADA;
+import static es.caib.portafib.utils.ConstantsV2.NOTIFICACIOAVIS_PETICIO_PAUSADA;
+import static es.caib.portafib.utils.ConstantsV2.NOTIFICACIOAVIS_PETICIO_REBUTJADA;
+
 /**
  * 
  * @author anadal
- *
  */
 @Stateless(name = "NotificacionsCallBackTimerEJB")
 @SecurityDomain("seycon")
@@ -79,7 +92,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
     stopScheduler();
     long timelapse = PropietatGlobalUtil.getNotificacionsTimeLapse();
     Timer timer = timerService.createTimer(timelapse, timelapse, "normal");
-    log.info("startScheduler: Primer enviament serà " + timer.getNextTimeout());
+    log.info("startScheduler: Proper enviament programat serà " + timer.getNextTimeout());
     nextExecution = timer.getNextTimeout().getTime();
   }
 
@@ -93,20 +106,25 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
     if (!semaphore.tryAcquire()) {
       log.warn("wakeUp: El notificador ja està treballant ara. No feim res.");
       return;
-    } else {
+    }
+
+    try {
+      Collection<Timer> timers = timerService.getTimers();
+      for (Timer timer : timers) {
+        if (isWakeUpTimer(timer)) {
+          log.info("wakeUp: Ja hi ha un wakeUp programat. No feim res.");
+          return;
+        }
+      }
+
+      log.info("wakeUp: Reprogamam els timers");
+      startScheduler();
+      Timer timer = timerService.createTimer(2000, "wakeUp");
+      log.info("wakeUp: Programat wakeUp per " + timer.getNextTimeout());
+
+    } finally {
       semaphore.release();
     }
-
-    Collection<Timer> timers = timerService.getTimers();
-    for (Timer timer : timers) {
-      if (isWakeUpTimer(timer)) {
-        log.info("wakeUp: Ja hi ha un wakeUp programat. No feim res.");
-        return;
-      }
-    }
-
-    Timer timer = timerService.createTimer(2000, "wakeUp");
-    log.info("wakeUp: Programat wakeUp per " + timer.getNextTimeout());
   }
 
   private boolean isWakeUpTimer(Timer timer) {
@@ -176,15 +194,6 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       Where whereDataError = NotificacioWSFields.DATAERROR.isNull();
 
       if (wakeUp && ( (lastFullExecution + notificacionsTimeLapse) > now)) {
-
-        // Comentat perquè el codi evita notificacions inmediates quan s'acaba de produir un event
-        // quan potser el sistema pot no estar fent res, i ha d'esperar la propera execució
-        /*
-        if (lastExecution + 30000 > now) {
-          log.warn("executeTask: Fa manco de 30 segons de la darrera execució. " +
-                "Com que això es un execució forçada llavors no executarem res.");
-          return;
-        }*/
 
         log.info("executeTask: Només executam les Notificacions amb dataError==null");
 
@@ -321,11 +330,39 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
           sender.sendNotificacio(notificacioInfo, usuariAplicacio);
         }
 
-        String messageCode = "notificacioavis.bitacola." + notificacioInfo.getFirmaEvent().getEventID();
-        String message = I18NLogicUtils.tradueix(new Locale(Configuracio.getDefaultLanguage()), messageCode);
-        bitacolaLogicaEjb.createBitacola(message, notificacioInfo.getFirmaEvent().getPeticioDeFirmaID(),
-              null, usuariAplicacioID);
+        int operacio = -1;
+        switch ((int)notificacioInfo.getFirmaEvent().getEventID()) {
+          case (int) NOTIFICACIOAVIS_PETICIO_EN_PROCES:
+            operacio = BITACOLA_OP_NOTIFICAR_ENPROCES;
+            break;
+          case (int) NOTIFICACIOAVIS_PETICIO_PAUSADA:
+            operacio = BITACOLA_OP_NOTIFICAR_PAUSADA;
+            break;
+          case (int) NOTIFICACIOAVIS_PETICIO_REBUTJADA:
+            operacio = BITACOLA_OP_NOTIFICAR_REBUTJADA;
+            break;
+          case (int) NOTIFICACIOAVIS_FIRMA_PARCIAL:
+            operacio = BITACOLA_OP_NOTIFICAR_FIRMA_PARCIAL;
+            break;
+          case (int) NOTIFICACIOAVIS_PETICIO_FIRMADA:
+            operacio = BITACOLA_OP_NOTIFICAR_FINALITZADA;
+            break;
+          case (int) NOTIFICACIOAVIS_INVALIDAT:
+            operacio = BITACOLA_OP_NOTIFICAR_INVALIDADA;
+            break;
+          default:
+            log.warn("EventID desconegut: " + notificacioInfo.getFirmaEvent().getEventID());
+        }
 
+        if (operacio != -1) {
+          bitacolaLogicaEjb.createBitacola(
+                  usuariAplicacio.getEntitatID(),
+                  notificacioJPA.getPeticioDeFirmaID(),
+                  BITACOLA_TIPUS_PETICIO,
+                  operacio,
+                  "Notificat Usuari-Aplicació: " + usuariAplicacio.getUsuariAplicacioID(),
+                  notificacioInfo.getFirmaEvent());
+        }
       }
 
       notificacioEjb.delete(notificacioJPA);
@@ -342,7 +379,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         msgError = th.getMessage();
       }
 
-      log.error("processNotificacio: Error en la notificacio amb ID=" + notificacioJPA.getNotificacioID() + ": " + msgError); // ,
+      log.error("processNotificacio: Error en la notificacio amb ID=" + notificacioJPA.getNotificacioID(), th); // ,
 
       String fullError = msgError
             + "\n--------------------------------------------\n"

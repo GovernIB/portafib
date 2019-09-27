@@ -51,6 +51,10 @@ public class NotificacioWSQueryPath extends org.fundaciobit.genapp.common.query.
     return new IntegerField(getQueryPath(), NotificacioWSFields.REINTENTS);
   }
 
+  public StringField USUARIAPLICACIOID() {
+    return new StringField(getQueryPath(), NotificacioWSFields.USUARIAPLICACIOID);
+  }
+
 
 
   @Override
@@ -59,14 +63,6 @@ public class NotificacioWSQueryPath extends org.fundaciobit.genapp.common.query.
         : this.parentQueryPath.getQueryPath());
   }
 
-
-  public PeticioDeFirmaQueryPath PETICIODEFIRMA() {
-    return new PeticioDeFirmaQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return NotificacioWSQueryPath.this.getQueryPath() + "peticioDeFirma" + ".";
-      }
-    });
-  }
 
   public TipusNotificacioQueryPath TIPUSNOTIFICACIO() {
     return new TipusNotificacioQueryPath(new QueryPath() {

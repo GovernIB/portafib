@@ -322,12 +322,12 @@
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MODEDEFIRMA)}" >
               <form:select cssClass="input-medium" onchange="if(typeof onChangeModeDeFirma == 'function') {  onChangeModeDeFirma(this); };"  path="usuariAplicacioConfiguracio.modeDeFirma">
-                <form:option value="true" ><fmt:message key="modefirma.true" /></form:option>
-                <form:option value="false" ><fmt:message key="modefirma.false" /></form:option>
+                <form:option value="true" ><fmt:message key="modedefirma.true" /></form:option>
+                <form:option value="false" ><fmt:message key="modedefirma.false" /></form:option>
               </form:select>
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MODEDEFIRMA)}" >
-                <fmt:message key="modefirma.${__theForm.usuariAplicacioConfiguracio.modeDeFirma}" />
+                <fmt:message key="modedefirma.${__theForm.usuariAplicacioConfiguracio.modeDeFirma}" />
           </c:if>
            </td>
         </tr>

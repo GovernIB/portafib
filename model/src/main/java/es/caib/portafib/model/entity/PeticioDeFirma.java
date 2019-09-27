@@ -29,9 +29,6 @@ public interface PeticioDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 	public java.lang.String getDescripcioTipusDocument();
 	public void setDescripcioTipusDocument(java.lang.String _descripcioTipusDocument_);
 
-	public int getPosicioTaulaFirmesID();
-	public void setPosicioTaulaFirmesID(int _posicioTaulaFirmesID_);
-
 	public java.sql.Timestamp getDataSolicitud();
 	public void setDataSolicitud(java.sql.Timestamp _dataSolicitud_);
 
@@ -52,6 +49,9 @@ public interface PeticioDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 
 	public java.lang.Boolean getModeDeFirma();
 	public void setModeDeFirma(java.lang.Boolean _modeDeFirma_);
+
+	public int getPosicioTaulaFirmesID();
+	public void setPosicioTaulaFirmesID(int _posicioTaulaFirmesID_);
 
 	public int getTipusEstatPeticioDeFirmaID();
 	public void setTipusEstatPeticioDeFirmaID(int _tipusEstatPeticioDeFirmaID_);
