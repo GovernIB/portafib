@@ -7,6 +7,7 @@ import es.caib.portafib.back.controller.aden.ConfiguracioDeFirmaAdenController;
 import es.caib.portafib.back.controller.aden.PerfilDeFirmaAdenController;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
+import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -85,8 +86,7 @@ public class MenuItem {
       "usuariaplicacio.gestio", // Alta d'Usuari-Aplicació"}
       PERFIL_DE_FIRMA, CONFIGURACIO_DE_FIRMA, "",
       "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural",
-      // XYZ ZZZ ZZZ Configuracio.isCAIB()? "" :
-      "peticiodefirma.usrapp.llistar", // Peticions de Firma d'Usuaris-Aplicacio
+      Configuracio.isCAIB()? "" :  "peticiodefirma.usrapp.llistar", // Peticions de Firma d'Usuaris-Aplicacio
       "custodiaInfo.custodiaInfo.plural", "notificaciows.llistat" };
 
   public static final Map<String, String> mapping;

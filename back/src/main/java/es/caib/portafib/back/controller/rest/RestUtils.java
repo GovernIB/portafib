@@ -157,7 +157,7 @@ public class RestUtils {
 
         seyconAuthorities = new ArrayList<GrantedAuthority>();
         for (String rol : roles) {
-          log.info(" XYZ ZZZ ZZZ ROLE => " + rol);
+          log.info(" REST::ROLE => " + rol);
           seyconAuthorities.add(new SimpleGrantedAuthority(rol));
         }
 

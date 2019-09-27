@@ -3,14 +3,19 @@ package es.caib.portafib.logic;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.security.PdfPKCS7;
+
 import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfComparator;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.ValidacioCompletaRequest;
 import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
+import es.caib.portafib.logic.utils.ValidationsCAdES;
+import es.caib.portafib.logic.utils.ValidationsXAdES;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.utils.ConstantsV2;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
@@ -25,8 +30,11 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.Security;
 import java.security.cert.X509Certificate;
@@ -34,8 +42,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
+ * 
+ * @author anadal(u80067)
  *
- * @author anadal
  */
 @Stateless(name = "ValidacioCompletaFirmaLogicaEJB")
 @SecurityDomain("seycon")
@@ -120,6 +129,13 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
           validacioRequest.getEntitatID(), signType, validacioRequest.getSignatureData(),
           documentDetached, validacioRequest.getLanguageUI());
       
+      if (validateSignatureResponse == null) {
+        // XYZ ZZZ TRA
+        throw new I18NException("genapp.comodi",
+            "Per aquesta transacció es requereix validació de la firma "
+            + "però no s'ha definit cap Plugin de Validació.");
+      }
+
       perfilDeFirma = validateSignatureResponse.getSignProfile();
 
       SignatureDetailInfo[] sdi = validateSignatureResponse.getSignatureDetailInfo();
@@ -174,57 +190,112 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
     X509Certificate certificateLastSign = null;
     if (validacioRequest.isCheckCanviatDocFirmat()) {
 
-      if (validacioRequest.getSignTypeID() == ConstantsV2.TIPUSFIRMA_PADES) {
+      switch(validacioRequest.getSignTypeID()) {
         
-
-        File tmpDir = new File(FileSystemManager.getFilesPath(), "COMPAREPDF");
-        tmpDir.mkdirs();
         
-        int posTaulaDeFirmes = validacioRequest.getPosTaulaDeFirmes();
-        
-        PdfComparator.compare(validacioRequest.getAdaptedData(),
-            validacioRequest.getSignatureData(), tmpDir, posTaulaDeFirmes);
-        
-        checkDocumentModifications = true;
-
-        /*
-        X509Certificate cert;
-
-        cert = checkCanviatDocFirmatPDF(validacioRequest.getOriginalData(),
-            validacioRequest.getFitxersByNumFirma(), validacioRequest.getSignatureData(),
-            validacioRequest.getNumFirmaPortaFIB(), validacioRequest.getNumFirmesOriginals());
-
-        if (nifFirmant == null) {
-          nifFirmant = CertificateUtils.getDNI(cert);
+        case ConstantsV2.TIPUSFIRMA_PADES:
+        {
+          File tmpDir = new File(FileSystemManager.getFilesPath(), "COMPAREPDF");
+          tmpDir.mkdirs();
+          
+          int posTaulaDeFirmes = validacioRequest.getPosTaulaDeFirmes();
+          
+          PdfComparator.compare(validacioRequest.getAdaptedData(),
+              validacioRequest.getSignatureData(), tmpDir, posTaulaDeFirmes);
+          
+          checkDocumentModifications = true;
         }
-
-        if (numeroSerieCertificat == null) {
-          numeroSerieCertificat = cert.getSerialNumber();
-        }
-
-        if (emissorCertificat == null) {
-          emissorCertificat = cert.getIssuerDN().getName();
-        }
-
-        if (subjectCertificat == null) {
-          subjectCertificat = cert.getSubjectDN().getName();
-        }
-
-        certificateLastSign = cert;
-
+        break;
         
-        */
+        // XAdES => #333 
+        case ConstantsV2.TIPUSFIRMA_XADES:
+          
+          // Si és attached llavors validam
+          if (validacioRequest.getSignMode() == ConstantsV2.SIGN_MODE_IMPLICIT) {
 
-      } else {
-        String msg = "No esta implementat el xequeig de modificacio de fitxer signat"
-            + " amb tipus de firma " + validacioRequest.getSignTypeID()
-            + "(TIPUSFIRMA_XADES=1, TIPUSFIRMA_CADES=2, TIPUSFIRMA_SMIME=3)."
-            + " Consulti amb l'administrador de PortaFIb el valor de la propietat es.caib.portafib.strictvalidation";
-        if (PropietatGlobalUtil.isStrictValidation()) {
-          // XYZ ZZZ TRA
-          throw new I18NException("genapp.comodi", msg);
-        } else {
-          checkDocumentModifications = false;
+            IPortaFIBDataSource originalBo = validacioRequest.getAdaptedData();
+
+            
+            byte[] documentOriginal;
+            {
+              InputStream is = validacioRequest.getSignatureData().getInputStream();
+              try {
+                documentOriginal = ValidationsXAdES.getOriginalDocumentOfXadesAttachedSignature(is);
+              } finally {
+                try { is.close(); } catch (Exception e2) { }
+              }
+            }
+
+            try {
+              InputStream is = originalBo.getInputStream();
+              boolean isEquals = IOUtils.contentEquals(is, new ByteArrayInputStream(documentOriginal));
+              is.close();
+              if (isEquals) {
+                checkDocumentModifications = true;
+              } else {
+                // XYZ ZZZ TRA
+                throw new I18NException("genapp.comodi", 
+                    "Pareix ser que el document adjunt en la firna XAdES Attached NO es"
+                    + " igual al document original enviat");                
+              }
+            } catch (IOException e) {
+              throw new I18NException("genapp.comodi",
+                  "Error llegint el document adjunt en la firna XAdES Attached o el document "
+                  + "original enviat");
+            }
+          } else {
+            checkDocumentModifications = true;
+          }
+        break;
+        
+        // CAdES => #334 
+        case ConstantsV2.TIPUSFIRMA_CADES:
+          
+          // Si és attached llavors validam
+          if (validacioRequest.getSignMode() == ConstantsV2.SIGN_MODE_IMPLICIT) {
+
+            IPortaFIBDataSource originalBo = validacioRequest.getAdaptedData();
+
+            InputStream is = validacioRequest.getSignatureData().getInputStream();
+            byte[] documentOriginal = ValidationsCAdES.getOriginalDocumentOfCadesAttachedSignature(is);
+            try { is.close(); } catch (IOException e1) {}
+
+            try {
+              is = originalBo.getInputStream();
+              boolean isEquals = IOUtils.contentEquals(is, new ByteArrayInputStream(documentOriginal));
+              try { is.close(); } catch (IOException e1) {}
+              if (isEquals) {
+                log.debug("Pareix ser que el document adjunt en la firna CAdES Attached es igual al document original enviat");
+                checkDocumentModifications = true;
+              } else {
+                // XYZ ZZZ TRA
+                throw new I18NException("genapp.comodi", "Pareix ser que el document adjunt en la firna CAdES Attached NO es"
+                    + " igual al document original enviat");
+              }
+            } catch (IOException e) {
+              throw new I18NException("genapp.comodi",
+                  "Error llegint el document adjunt en la firna CAdES Attached o el document "
+                  + "original enviat");
+            }
+          } else {
+            checkDocumentModifications = true;
+          }
+        break;
+        
+        
+        
+        default:
+        {
+          String msg = "No esta implementat el xequeig de modificacio de fitxer signat"
+              + " amb tipus de firma " + validacioRequest.getSignTypeID()
+              + "(TIPUSFIRMA_PADES=0, TIPUSFIRMA_XADES=1, TIPUSFIRMA_CADES=2, TIPUSFIRMA_SMIME=3)."
+              + " Consulti amb l'administrador de PortaFIB el valor de la propietat es.caib.portafib.strictvalidation";
+          if (PropietatGlobalUtil.isStrictValidation()) {
+            // XYZ ZZZ TRA
+            throw new I18NException("genapp.comodi", msg);
+          } else {
+            checkDocumentModifications = false;
+          }
         }
       }
 
@@ -300,55 +371,91 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
       } else {
 
-        if (validacioRequest.getSignTypeID() == ConstantsV2.TIPUSFIRMA_PADES) {
+        if (nifFirmant == null) {
+          switch (validacioRequest.getSignTypeID()) {
 
-          if (nifFirmant == null) {
+            case ConstantsV2.TIPUSFIRMA_PADES:
 
-            X509Certificate cert = getLastCertificateOfSignedPdf(
-                validacioRequest.getSignatureData(), validacioRequest.getNumFirmaPortaFIB(),
-                validacioRequest.getNumFirmesOriginals());
-
-            //if (certificateLastSign != null) {
+              X509Certificate cert = getLastCertificateOfSignedPdf(
+                  validacioRequest.getSignatureData(), validacioRequest.getNumFirmaPortaFIB(),
+                  validacioRequest.getNumFirmesOriginals());
               certificateLastSign = cert;
-            //}
 
-            nifFirmant = CertificateUtils.getDNI(cert);
+            break;
 
-            if (numeroSerieCertificat == null) {
-              numeroSerieCertificat = cert.getSerialNumber();
+            
+            case ConstantsV2.TIPUSFIRMA_CADES: {
+
+              byte[] document = null;
+              if (validacioRequest.getSignMode() == ConstantsV2.SIGN_MODE_EXPLICIT) {
+                IPortaFIBDataSource originalBo = validacioRequest.getAdaptedData();
+                document = originalBo.getByteArray();
+              }
+
+              InputStream eSignature = validacioRequest.getSignatureData().getInputStream();
+              X509Certificate[] certs;
+              try {
+                 certs = ValidationsCAdES.getCertificatesOfCadesSignature(eSignature, document);
+              } finally {
+                try { eSignature.close(); } catch (IOException e1) {}
+              }
+              certificateLastSign = certs[0]; // És el primer o darrer ????
             }
+            break;
 
-            if (emissorCertificat == null) {
-              emissorCertificat = cert.getIssuerDN().getName();
+            case ConstantsV2.TIPUSFIRMA_XADES: {
+              InputStream eSignature = validacioRequest.getSignatureData().getInputStream();
+
+              X509Certificate[] certs;
+              try {
+                certs = ValidationsXAdES.getCertificatesOfXadesSignature(eSignature);
+              } finally {
+                try { eSignature.close(); } catch (IOException e1) {}
+              }
+              certificateLastSign = certs[0]; // És el primer o darrer ????
             }
+            break;
 
-            if (subjectCertificat == null) {
-              subjectCertificat = cert.getSubjectDN().getName();
+            default: {
+              String msg = "No esta implementat la comprovació de que qui ha signat és el mateix que l'esperat"
+                  + " pel tipus de firma "
+                  + validacioRequest.getSignTypeID()
+                  + "(TIPUSFIRMA_XADES=1, TIPUSFIRMA_CADES=2, TIPUSFIRMA_SMIME=3). "
+                  + " Consulti amb l'administrador de PortaFIB el valor de la propietat es.caib.portafib.strictvalidation";
+              if (PropietatGlobalUtil.isStrictValidation()) {
+
+                // XYZ ZZZ TRA
+                throw new I18NException("genapp.comodi", msg);
+              } else {
+                log.warn(msg, new Exception());
+                checkAdministrationIDOfSigner = false;
+              }
             }
-
-          }
-
-          log.info("XYZ ZZZ nifFirmant: " + nifFirmant);
-          log.info("XYZ ZZZ getNifEsperat(): " + validacioRequest.getNifEsperat());
-
-          LogicUtils.checkExpectedNif(nifFirmant, validacioRequest.getNifEsperat());
-          checkAdministrationIDOfSigner = true;
-
-        } else {
-          String msg = "No esta implementat la comprovació de que qui ha signat és el mateix que l'esperat"
-              + " pel tipus de firma "
-              + validacioRequest.getSignTypeID()
-              + "(TIPUSFIRMA_XADES=1, TIPUSFIRMA_CADES=2, TIPUSFIRMA_SMIME=3). "
-              + " Consulti amb l'administrador de PortaFIB el valor de la propietat es.caib.portafib.strictvalidation";
-          if (PropietatGlobalUtil.isStrictValidation()) {
-
-            // XYZ ZZZ TRA
-            throw new I18NException("genapp.comodi", msg);
-          } else {
-            log.warn(msg, new Exception());
-            checkAdministrationIDOfSigner = false;
           }
         }
+
+        if (nifFirmant == null) {
+          nifFirmant = CertificateUtils.getDNI(certificateLastSign);
+
+          if (numeroSerieCertificat == null) {
+            numeroSerieCertificat = certificateLastSign.getSerialNumber();
+          }
+
+          if (emissorCertificat == null) {
+            emissorCertificat = certificateLastSign.getIssuerDN().getName();
+          }
+
+          if (subjectCertificat == null) {
+            subjectCertificat = certificateLastSign.getSubjectDN().getName();
+          }
+        }
+
+        log.info("XYZ ZZZ nifFirmant: " + nifFirmant);
+        log.info("XYZ ZZZ getNifEsperat(): " + validacioRequest.getNifEsperat());
+
+        LogicUtils.checkExpectedNif(nifFirmant, validacioRequest.getNifEsperat());
+        checkAdministrationIDOfSigner = true;
+
       }
 
     }
@@ -372,7 +479,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         checkValidationSignature, validateSignatureResponse, numeroSerieCertificat,
         emissorCertificat, subjectCertificat, certificateLastSign, perfilDeFirma);
 
-    //System.gc();
+    // System.gc();
 
     return resposta;
   }

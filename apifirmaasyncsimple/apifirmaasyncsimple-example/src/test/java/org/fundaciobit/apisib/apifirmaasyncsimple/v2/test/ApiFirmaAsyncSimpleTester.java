@@ -287,7 +287,20 @@ public class ApiFirmaAsyncSimpleTester {
 
           byte[] data = firma.getData();
           log.info("Tamany del fitxer: " + data.length);
-          File fitxerFirmat = new File("signed_" + firma.getNom());
+          
+          String postFix;
+          String signType = info.getSignType(); 
+          if (FirmaAsyncSimpleSignedFileInfo.SIGN_TYPE_PADES.equals(signType)) {
+              postFix = "_signed.pdf"; 
+          } else if (FirmaAsyncSimpleSignedFileInfo.SIGN_TYPE_CADES.equals(signType)) {
+            postFix = "_signed.csig";
+          } else if (FirmaAsyncSimpleSignedFileInfo.SIGN_TYPE_XADES.equals(signType)) {
+            postFix = "_signed.xsig";
+          } else {
+            postFix = "_signed.unknown_extension_for_sign_type_" + signType;
+          }
+
+          File fitxerFirmat = new File(firma.getNom() + postFix);
           FileOutputStream fos = new FileOutputStream(fitxerFirmat);
           fos.write(data);
           fos.flush();

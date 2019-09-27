@@ -892,11 +892,11 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
             + "    };" + "\n");
       }
 
-      out.println("</script>" + "\n" + "</head><body>" + "\n" + "<br/><center>" + "\n" + "<h1>"
+      out.println("</script>" + "\n" + "</head><body>" + "\n" /* + "<br/><center>" + "\n" + "<h1>" 
           + getTraduccio("introduircontrasenya", locale) + "</h1><br/>" + "\n" + "<img src=\""
           + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\" />" + "\n"
           + "<br/><input id=\"clickMe\" type=\"button\" value=\"clickme\" onclick=\"xyz();\" />"
-          + "\n" + "</center>" + "\n" + "</body>" + "\n" + "</html>");
+          + "\n" + "</center>" */ +  "\n" + "</body>" + "\n" + "</html>");
 
       out.flush();
       

@@ -13,7 +13,8 @@ import es.caib.portafib.versio.Versio;
 
 /**
  * 
- * @author anadal
+ * @author anadal(u80067)
+ * @author areus
  *
  */
 public class LogicUtils {
@@ -82,11 +83,49 @@ public class LogicUtils {
       throw new Exception(msg);
     }
 
-    // Revisam que el directori destí existeixi
+//    {
+//      FileInputStream is = null;
+//
+//      try {
+//        is = new FileInputStream(src);
+//        FileChannel channel = is.getChannel();
+//
+//        int count = 0;
+//        do {
+//          try {
+//            channel.tryLock();
+//            log.info("\n\n XYZ ZZZ ZZZ channel.tryLock()[" + count + "] => OK OK \n\n");
+//
+//          } catch (Exception e) {
+//            log.error(" XYZ ZZZ ZZZ  Error en channel.tryLock() [" + count + "] => "
+//                + e.getMessage(), e);
+//          }
+//
+//          count++;
+//          Thread.sleep(1000);
+//        } while (count < 10);
+//      } finally {
+//        try {
+//          if (is != null) {
+//            is.close();
+//          }
+//          if (is != null) {
+//            is.close();
+//          }
+//        } catch (Exception e) {
+//          // TODO: handle exception
+//        }
+//
+//      }
+//    }
+    
+
+    // Movem el fitxer
     final long srcLength = src.length();
     File dest = FileSystemManager.sobreescriureFitxer(src, fitxerID);
     if (!dest.exists()) {
-      String msg = "El fitxer resultant [" + dest.getAbsolutePath() + "] no existeix";  
+      String msg = "El fitxer resultant [" + dest.getAbsolutePath() 
+          + "] no existeix. (Fitxer origen " + src.getAbsolutePath() + ")";  
       log.error(msg);
       throw new Exception(msg);
     }
@@ -108,6 +147,5 @@ public class LogicUtils {
 
     return dest;
   }
-  
-  
+
 }

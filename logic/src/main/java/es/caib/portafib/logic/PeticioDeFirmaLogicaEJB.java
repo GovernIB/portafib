@@ -50,6 +50,7 @@ import es.caib.portafib.logic.utils.datasource.FitxerIdDataSource;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.logic.validator.PeticioDeFirmaLogicValidator;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
+import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Annex;
 import es.caib.portafib.model.entity.AnnexFirmat;
 import es.caib.portafib.model.entity.BlocDeFirmes;
@@ -91,6 +92,7 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -124,8 +126,11 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -396,7 +401,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         // Peticio via UsrApp
         // #186
         if (PropietatGlobalUtil.isDisabledSignaturesTable()) {
-          peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA); // = 0
+          peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
         }
 
         usuariEntitatID = null;
@@ -703,40 +708,52 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             peticioDeFirma, custodiaInfo);
 
         // Numero de firmes total
-        Set<BlocDeFirmesJPA> blocs = flux.getBlocDeFirmess();
-        int numFirmes = 0;
-        for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
-          numFirmes = numFirmes + blocDeFirmesJPA.getMinimDeFirmes();
-        }
-
-        if (numFirmes > ConstantsV2.MAX_FIRMES_PER_TAULA) {
-          // TODO TRADUIR per quan es passin els missatges a Logica
-          throw new Exception("Una peticio de firma pot tenir com a màxim "
-              + ConstantsV2.MAX_FIRMES_PER_TAULA + " firmes obligatories.");
-        }
+        
 
         // Posar ROLE DEST als firmants del flux de firmes
         checkUsersOfFlux(flux);
 
-        Long fitxerFinalAFirmarID;
+        FitxerJPA fitxerFinalAFirmar;
         int tipusFirma = peticioDeFirma.getTipusFirmaID();
 
         switch (tipusFirma) {
 
           case ConstantsV2.TIPUSFIRMA_PADES:
-            fitxerFinalAFirmarID = thingsToDoInPADES(peticioDeFirma, numFirmes, custodiaInfo,
+            
+            Set<BlocDeFirmesJPA> blocs = flux.getBlocDeFirmess();
+            int numFirmes = 0;
+            for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
+              numFirmes = numFirmes + blocDeFirmesJPA.getMinimDeFirmes();
+            }
+
+            if (numFirmes > ConstantsV2.MAX_FIRMES_PER_TAULA) {
+              // TODO TRADUIR per quan es passin els missatges a Logica
+              throw new Exception("Una peticio de firma pot tenir com a màxim "
+                  + ConstantsV2.MAX_FIRMES_PER_TAULA + " firmes obligatories.");
+            }
+            
+            
+            fitxerFinalAFirmar = thingsToDoInPADESWhenStartsPeticioDeFirma(peticioDeFirma, numFirmes, custodiaInfo,
                 custodiaForStartPeticioDeFirma);
-            dstPDF = FileSystemManager.getFile(fitxerFinalAFirmarID);
+            
           break;
 
-          // TODO
+          
           case ConstantsV2.TIPUSFIRMA_XADES:
           case ConstantsV2.TIPUSFIRMA_CADES:
+            // #294 i #333
+            fitxerFinalAFirmar = thingsToDoInXADESorCADESWhenStartsPeticioDeFirma(peticioDeFirma);
+          break;
+            
           default:
-            throw new Exception("Tipus de Firma no suportada !!!!");
+            throw new I18NException("genapp.comodi", "Tipus de Firma " + tipusFirma
+                + " no suportada en PeticioDeFirmaLogicaEJB.start() !!!!");
         }
 
+        long fitxerFinalAFirmarID = fitxerFinalAFirmar.getFitxerID();
+        
         peticioDeFirma.setFitxerAdaptatID(fitxerFinalAFirmarID);
+        dstPDF = FileSystemManager.getFile(fitxerFinalAFirmarID);
 
         esInici = true;
 
@@ -830,10 +847,68 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
   }
 
+  /**
+   * 
+   * @param peticioDeFirma
+   * @throws I18NException
+   */
+  private  FitxerJPA thingsToDoInXADESorCADESWhenStartsPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma) 
+      throws I18NException, I18NValidationException  {
+    
+    peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
+    
+    
+    Set<AnnexJPA> annexesOrig = peticioDeFirma.getAnnexs();
+    // annexLogicaEjb.select(AnnexFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
+
+    for (AnnexJPA annexJPA : annexesOrig) {
+      // CHECK Nmés acceptam firmar/adjuntar o no_firmar/no_adjuntar
+      boolean isFirmar = annexJPA.isFirmar();
+      boolean isAdjuntar= annexJPA.isAdjuntar();
+      if (!isFirmar && !isAdjuntar) {
+        // OK
+      } else {
+        // Qualsevol altre combinació per XAdES/CADES no es suporta
+        // XYZ ZZZ TRA
+        throw new I18NException("genapp.comodi", 
+            "Combinació de flags no suportada en firmes CAdES/XAdES en l'annexe " 
+            + annexJPA.getFitxer().getNom() + "( isFirmar = " + isFirmar
+            + " | isAdjuntar = " + isAdjuntar + ")");
+      }
+        
+    }
+    
+    
+     
+    // Copiar Original a Adaptat
+    // XYZ ZZZ ZZZ Optimitzar: veure si podem deixar l'original i 
+    // per on s'utilitzi Adaptat fer que si és XADES/CADES es miri l'original. 
+    Set<Long> fitxersCreats = new HashSet<Long>();
+    
+    FitxerJPA fitxerAdaptat = new FitxerJPA(FitxerBean.toBean(peticioDeFirma.getFitxerAFirmar()));
+    fitxerAdaptat.setFitxerID(0);
+    fitxerAdaptat = fitxerLogicaEjb.createFitxerField(
+        fitxerAdaptat, 
+        new FitxerIdDataSource(peticioDeFirma.getFitxerAFirmarID()),
+        fitxersCreats, FITXERADAPTATID);
+
+    return fitxerAdaptat;
+  }
+
 
  
-
-  private long thingsToDoInPADES(PeticioDeFirmaJPA peticioDeFirma, int numFirmes,
+  /**
+   * 
+   * @param peticioDeFirma
+   * @param numFirmes
+   * @param custodiaInfo
+   * @param custodiaForStartPeticioDeFirma
+   * @return
+   * @throws Exception
+   * @throws I18NException
+   * @throws I18NValidationException
+   */
+  private FitxerJPA thingsToDoInPADESWhenStartsPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma, int numFirmes,
       CustodiaInfo custodiaInfo, 
       CustodiaForStartPeticioDeFirma custodiaForStartPeticioDeFirma)
           throws Exception, I18NException, I18NValidationException {
@@ -845,9 +920,25 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // annexLogicaEjb.select(AnnexFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
       for (AnnexJPA annexJPA : annexesOrig) {
-        if (annexJPA.isAdjuntar()) {
+        // CHECK Nmés acceptam firmar/adjuntar o no_firmar/no_adjuntar
+        boolean isFirmar = annexJPA.isFirmar();
+        boolean isAdjuntar= annexJPA.isAdjuntar();
+        if (isFirmar && isAdjuntar) {
+          // OK
           annexesAttached.add(annexJPA);
+        } else {
+          if (!isFirmar && !isAdjuntar) {
+            // OK
+          } else {
+            // Qualsevol altre combinació per PAdES no es suporta
+            // 
+            throw new I18NException("genapp.comodi", "Combinació de flags no suportada en firmes PAdES en l'annexe " 
+                + annexJPA.getFitxer().getNom() + "( isFirmar = " + isFirmar
+                + " | isAdjuntar = " + isAdjuntar + ")");
+          }
+          
         }
+
       }
     }
     List<AttachedFile> attachments = null;
@@ -917,6 +1008,84 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     log.debug(" Idioma Petició: " + idioma);
 
     Locale locale = new Locale(idioma);
+    
+    
+    
+    // TRANSFORMAR DOCUMENT A PDF
+    {
+      
+      long fitxerID = peticioDeFirma.getFitxerAFirmarID();
+      FitxerJPA fitxer = peticioDeFirma.getFitxerAFirmar();
+
+      if (fitxerID != 0) {
+
+        File file = FileSystemManager.getFile(fitxerID);
+        //File fileTmp = FileSystemManager.getTmpFile(fitxerID);
+
+        // En aquest moment el fitxer pujat es troba en [ID] si la peticio de firma
+        // és nova o en [ID].tmp si la petició existeix i s'esta actualitzant. En
+        // aquest darrer cas esta en tmp ja que encara no s'ha guardat la peticio
+        // i no es vol sobreescriure el fitxer original fins que es guardi la peticio.
+        // Just després de guardar la petició es moura el fitxer [ID].tmp a [ID]
+        // si estam en mode actualització.
+        File fileToConvert = file; //peticioDeFirmaForm.isNou() ? file : fileTmp;
+
+        // TODO PASSAR A DEBUG
+        log.info(" FILE ORIG = " + file.getAbsolutePath() + "\t" + file.exists() + "\t"
+            + file.length() + "\t" + new Date(file.lastModified()));
+        //log.info(" FILE TEMP = " + fileTmp.getAbsolutePath() + "\t" + fileTmp.exists() + "\t"
+        //    + fileTmp.length() + "\t" + new Date(fileTmp.lastModified()));
+
+        Fitxer fileToConvertInfo = new FitxerBean();
+        fileToConvertInfo.setMime(fitxer.getMime());
+        fileToConvertInfo.setNom(fitxer.getNom());
+        fileToConvertInfo.setTamany(fileToConvert.length());
+
+        try {
+          Fitxer fitxerConvertit = PdfUtils.convertToPDF(fileToConvert, fileToConvertInfo);
+
+          if (fitxerConvertit == fileToConvertInfo) {
+            // Es un PDF. No feim res.
+          } else {
+            // No és un PDF, ho substituim pel fitxer convertit
+            Fitxer fileInfo = peticioDeFirma.getFitxerAFirmar();
+            fileInfo.setMime(fitxerConvertit.getMime());
+            fileInfo.setNom(fitxerConvertit.getNom());
+            fileInfo.setTamany(fitxerConvertit.getTamany());
+            // Actualitzam BBDD
+            fitxerLogicaEjb.update(fileInfo);
+
+            // Actualitzam Sistema de Fitxers
+            try {
+              InputStream is = fitxerConvertit.getData().getInputStream();
+              FileOutputStream fos = new FileOutputStream(fileToConvert);
+              FileSystemManager.copy(is, fos);
+              fos.flush();
+              fos.close();
+            } catch (Exception e) {
+              log.error(e.getMessage(), e);
+              // XYZ ZZZ TRA
+              throw new I18NException("error.unknown",
+                  "Error substituint fitxer original per fitxer original convertiti a pdf:"
+                      + e.getMessage());
+            }
+
+            // TODO PASSAR A DEBUG
+            log.info(" FILE CONV = " + fileToConvert.getAbsolutePath() + "\t"
+                + fileToConvert.exists() + "\t" + fileToConvert.length() + "\t"
+                + new Date(fileToConvert.lastModified()));
+          }
+        } catch (I18NException e) {
+          throw e;
+        } catch (Exception e) {
+          String error = e.getMessage();
+          log.error("Error convertint document a pdf: " + error, e);
+          throw new I18NException("formatfitxer.conversio.error", error);
+        }
+      }
+    }
+    
+    
 
     // ==== TAULA DE FIRMES
     final int posicio = (int) peticioDeFirma.getPosicioTaulaFirmesID();
@@ -953,7 +1122,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     // Crear nou fitxer amb taula de firmes i adjunts
     File srcPDF = FileSystemManager.getFile(peticioDeFirma.getFitxerAFirmarID());
-    File dstPDF = File.createTempFile("peticio_temp_", ".pdf", FileSystemManager.getFilesPath());
+    File dstPDF;
+    dstPDF = File.createTempFile("peticio_temp_", ".pdf", FileSystemManager.getFilesPath());
+    
     try {
 
       Long maxSize = PdfUtils.selectMin(maxSizeEntitat,
@@ -988,7 +1159,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         log.info("Guardat fitxer amb taula i adjunts a " + dstPDF.getAbsolutePath());
       }
 
-      return fitxerFinalAFirmarID;
+      return f;
     } catch (Exception e) {
       if (dstPDF != null && dstPDF.exists()) {
         if (!dstPDF.delete()) {
@@ -2043,7 +2214,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   @Override
-  public void nouFitxerFirmat(File signatureFile, Long estatDeFirmaID, Long peticioDeFirmaID,
+  public void nouFitxerFirmat(File signatureFile2, Long estatDeFirmaID, Long peticioDeFirmaID,
       String token, int numFirmaPortaFIB, int numFirmesOriginals) throws I18NException {
 
     Long fileID = null;
@@ -2105,7 +2276,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       IPortaFIBDataSource signature = null;
       try {
-        signature = new FileDataSource(signatureFile);
+        signature = new FileDataSource(signatureFile2);
       } catch (Exception e1) {
         // XYZ ZZZ Falta traduir missatge
         String msg = "No s'ha pogut llegir el fitxer de Firma per la validació: "
@@ -2122,8 +2293,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma.getUsuariEntitatID()));
 
       Entitat entitat = entitatEjb.findByPrimaryKey(entitatID);
-
-      
 
       boolean validarFitxerFirma;
       boolean checkCanviatDocFirmat;
@@ -2212,7 +2381,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // XYZ FALTA NOM DE FITXER ORIGINAL
       fitxer.setNom("PeticioFirma_" + peticioDeFirmaID + "."
           + validacioResponse.getExtension());
-      fitxer.setTamany(signatureFile.length());
+      fitxer.setTamany(signatureFile2.length());
 
       fitxer = fitxerLogicaEjb.createFull(fitxer);
 
@@ -2311,8 +2480,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // les passes anteriors
       // 8.- Guardar Fitxer en Sistema de Fitxers
       //FileSystemManager.sobreescriureFitxer(signatureFile, fitxer.getFitxerID());
+
       fileID = fitxer.getFitxerID();
-      signatureFile = LogicUtils.sobreescriureFitxerChecked(signatureFile, fileID);
+      signatureFile2 = LogicUtils.sobreescriureFitxerChecked(signatureFile2, fileID);
 
       // 9.- PeticióFinalitzada:
       // 9.1.- PeticióFinalitzada: Custodia
@@ -2327,7 +2497,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           String fitxerAFirmarNom = peticioDeFirma.getFitxerAFirmar().getNom();
           
           custodiaInfoLogicaEjb.custodiaThingToDoOnFinishPeticioDeFirma(fitxerAFirmarNom,
-              fitxerAFirmar, signatureFile, peticioDeFirma, firma, custInfo);
+              fitxerAFirmar, signatureFile2, peticioDeFirma, firma, custInfo);
         }
 
       }

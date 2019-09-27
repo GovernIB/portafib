@@ -84,6 +84,13 @@ public class PluginValidacioFirmesLogicaEJB extends
       log.error(msg, e1);
       throw new I18NException("genapp.comodi", msg);
     }
+    
+    
+    log.info("\n\nXYZ ZZZ ZZZ Signature bytes[] => " + signature.length);
+    
+    log.info("\nXYZ ZZZ ZZZ DocumentDetached bytes[] => " + ((documentDetached == null)? "NULL" : (""  +documentDetached.length)) + "\n\n");
+    
+    
 
     ValidateSignatureResponse vsresp = internalValidateSignature(pluginValidateSignatureID,
         signType, signature, documentDetached, languageUI);

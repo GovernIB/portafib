@@ -9,6 +9,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetSignatureRes
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignedFileInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaWebSimpleJersey;
@@ -243,11 +244,24 @@ public class ApiFirmaWebSimpleTester {
                   signID));
           FirmaSimpleFile fsf = fssr.getSignedFile();
 
-          final String outFile = signID + "_" + fsf.getNom();
+          String postFix;
+          String signType = fssr.getSignedFileInfo().getSignType(); 
+          if (FirmaSimpleSignedFileInfo.SIGN_TYPE_PADES.equals(signType)) {
+              postFix = "_signed.pdf"; 
+          } else if (FirmaSimpleSignedFileInfo.SIGN_TYPE_CADES.equals(signType)) {
+            postFix = "_signed.csig";
+          } else if (FirmaSimpleSignedFileInfo.SIGN_TYPE_XADES.equals(signType)) {
+            postFix = "_signed.xsig";
+          } else {
+            postFix = "_signed.unknown_extension_for_sign_type_" + signType;
+          }
+          
+          final String outFile = signID + "_" + fsf.getNom() + postFix;
 
           FileOutputStream fos = new FileOutputStream(outFile);
           fos.write(fsf.getData());
           fos.flush();
+          fos.close();
 
           System.out.println("  RESULT: Fitxer signat guardat en '" + outFile + "'");
           //System.gc();

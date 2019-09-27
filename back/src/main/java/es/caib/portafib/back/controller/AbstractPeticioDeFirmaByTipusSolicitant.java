@@ -4,16 +4,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,7 +47,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -78,8 +74,7 @@ import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
-import es.caib.portafib.logic.utils.PdfUtils;
-import es.caib.portafib.model.bean.FitxerBean;
+
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.Fitxer;
@@ -116,7 +111,7 @@ import es.caib.portafib.utils.ConstantsV2;
  */
 public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
     AbstractPeticioDeFirmaController implements ConstantsV2 {
-  
+
   /**
    * Columna Solicitant
    */
@@ -1246,7 +1241,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
       // motiuRebuig == motiuEsborrat
       String motiuEsborrat = request.getParameter("motiuRebuig");
       
-      log.info("XYZ ZZZ ZZZ Motiu Rebuig _=]" + motiuEsborrat + "[");
+      log.info(" Motiu Rebuig _=]" + motiuEsborrat + "[");
       
 
       int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
@@ -1648,7 +1643,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
       peticioDeFirma.setDataCaducitat(new Timestamp(cal.getTimeInMillis()));
 
       peticioDeFirma.setIdiomaID(loginInfo.getUsuariPersona().getIdiomaID());
-      peticioDeFirma.setTipusFirmaID(ConstantsV2.TIPUSFIRMA_PADES); // PADES
+      
 
       // LoginInfo li = LoginInfo.getInstance();
 
@@ -1679,9 +1674,15 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
       peticioDeFirmaForm.addHiddenField(FLUXDEFIRMESID);
 
       int tipusFirma = peticioDeFirma.getTipusFirmaID();
+      
+     
 
       switch (tipusFirma) {
+        
         case ConstantsV2.TIPUSFIRMA_PADES:
+        break;
+        case ConstantsV2.TIPUSFIRMA_XADES:
+        case ConstantsV2.TIPUSFIRMA_CADES:
         break;
 
         default:
@@ -1693,6 +1694,8 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
 
         switch (tipusFirma) {
           case ConstantsV2.TIPUSFIRMA_PADES:
+          case ConstantsV2.TIPUSFIRMA_XADES:
+          case ConstantsV2.TIPUSFIRMA_CADES:
           break;
 
           default:
@@ -1700,6 +1703,24 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
                 + tipusFirma);
         }
 
+      } else {
+        
+        switch (tipusFirma) {
+
+          case ConstantsV2.TIPUSFIRMA_PADES:
+            peticioDeFirmaForm.addHiddenField(MODEDEFIRMA);
+          break;
+
+          case ConstantsV2.TIPUSFIRMA_XADES:
+          case ConstantsV2.TIPUSFIRMA_CADES:
+            peticioDeFirmaForm.addHiddenField(POSICIOTAULAFIRMESID);
+          break;
+
+          default:
+            throw new I18NException("error.unknown", "Tipus de Firma no suportada "
+                + tipusFirma);
+        }
+        
       }
 
     }
@@ -1833,9 +1854,14 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
     peticioDeFirmaForm.addHiddenField(TIPUSOPERACIOFIRMA);
     peticioDeFirma.setTipusOperacioFirma(ConstantsV2.TIPUS_OPERACIO_FIRMA_FIRMAR);
 
-    peticioDeFirmaForm.addHiddenField(TIPUSFIRMAID);
+    // #305 i #294
+    //peticioDeFirmaForm.addHiddenField(TIPUSFIRMAID);
+    //peticioDeFirmaForm.addHiddenField(MODEDEFIRMA);
+    
+    
+    
     peticioDeFirmaForm.addHiddenField(ALGORISMEDEFIRMAID);
-    peticioDeFirmaForm.addHiddenField(MODEDEFIRMA);
+    
 
     peticioDeFirmaForm.addHiddenField(SOLICITANTUSUARIENTITAT1ID);
     peticioDeFirmaForm.addHiddenField(SOLICITANTUSUARIENTITAT2ID);
@@ -1911,21 +1937,6 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
 
   }
 
-  // #199
-  @Override
-  public List<StringKeyValue> getReferenceListForTipusFirmaID(HttpServletRequest request,
-      ModelAndView mav, PeticioDeFirmaForm peticioDeFirmaForm, Where where)
-      throws I18NException {
-
-    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-
-    for (int tipus : TIPUSFIRMA_SUPPORTED) {
-      __tmp.add(new StringKeyValue(String.valueOf(tipus), I18NUtils.tradueix("tipusfirma."
-          + tipus)));
-    }
-    return __tmp;
-
-  }
 
   @Override
   public List<StringKeyValue> getReferenceListForIdiomaID(HttpServletRequest request,
@@ -2651,7 +2662,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
   @Override
   public void preValidate(HttpServletRequest request, PeticioDeFirmaForm peticioDeFirmaForm,
       BindingResult result) throws I18NException {
-
+/* XYZ ZZZ ZZZ
     // Si s'actualitza però no es canvia el fitxer llavors no feim res.
     CommonsMultipartFile multiPartFitxerAFirmar = peticioDeFirmaForm.getFitxerAFirmarID();
 
@@ -2727,7 +2738,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
         result.rejectValue(get(FITXERAFIRMARID), "formatfitxer.conversio.error", error);
       }
     }
-
+*/
   }
 
   @Override

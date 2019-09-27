@@ -56,7 +56,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
       //tester.testGetAvailableProfiles();
 
-      //tester.testSignatureServerPAdES();
+      tester.testSignatureServerPAdES();
 
       //tester.testSignatureServerCAdES();
 
@@ -68,9 +68,9 @@ public class ApiFirmaEnServidorSimpleTester {
 
       //tester.testUpgradeSignaturePAdES();
 
-      tester.testUpgradeSignatureXAdESOfBinary();
+      //tester.testUpgradeSignatureXAdESOfBinary();
 
-      tester.testUpgradeSignatureXAdESOfXML();
+      //tester.testUpgradeSignatureXAdESOfXML();
 
       //tester.testUpgradeSignatureCAdES();
 
@@ -194,7 +194,8 @@ public class ApiFirmaEnServidorSimpleTester {
     }
 
     FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
-
+    
+    System.out.println(" PERFIL => " + perfil);
     internalSignDocument(api, perfil, fileToSign);
   }
 

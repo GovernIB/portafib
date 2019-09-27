@@ -110,6 +110,12 @@ public class FitxerLogicaEJB extends FitxerEJB implements FitxerLogicaLocal {
     if (fitxer == null) {
       return null;
     }
+    
+    if (fitxer.getFitxerID() != 0) {
+      // XYZ ZZZ TRA
+      throw new I18NException("genapp.comodi", "L'ID d'un fitxer que s'ha "
+          + "de crear de nou ha de ser 0 i aquest val " + fitxer.getFitxerID());
+    }
 
     File tmp = null;
     try {
@@ -134,7 +140,7 @@ public class FitxerLogicaEJB extends FitxerEJB implements FitxerLogicaLocal {
 
     log.info("Tamany de fitxer rebut = "+ tmp.length() );
     fitxer.setTamany(tmp.length());
-
+    
     try {
       fitxer = createFull(fitxer);
     } catch (I18NValidationException e) {

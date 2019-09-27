@@ -197,7 +197,7 @@ public interface ConstantsV2 {
   public static final int TIPUSFIRMA_SMIME = 3;
   
   
-  public static final int[] TIPUSFIRMA_SUPPORTED = { TIPUSFIRMA_PADES }; 
+  public static final int[] TIPUSFIRMA_SUPPORTED = { TIPUSFIRMA_PADES, TIPUSFIRMA_XADES, TIPUSFIRMA_CADES }; 
   
 
   public static final int DOC_PDF = 0;

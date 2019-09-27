@@ -110,7 +110,7 @@ public class PdfComparator implements ConstantsV2 {
       signats = null;
     }
 
-    // 2 XYZ ZZZ Falta revisar Annexos que s'hagin mantingut
+    // XYZ ZZZ Falta revisar Annexos que s'hagin mantingut
     List<AttachedFile> adaptatAdjunts = null;
     List<AttachedFile> firmatsAdjunts = null;
     try {
@@ -254,8 +254,7 @@ public class PdfComparator implements ConstantsV2 {
   protected static void clean(File file) {
     if (file != null) {
       if (!file.delete()) {
-        // XYZ ZZZ ZZZ log.warn()
-        System.err.println("No s'ha pogut esborrar el fitxer " + file.getAbsolutePath());
+        log.warn("No s'ha pogut esborrar el fitxer " + file.getAbsolutePath());
         file.deleteOnExit();
       }
     }

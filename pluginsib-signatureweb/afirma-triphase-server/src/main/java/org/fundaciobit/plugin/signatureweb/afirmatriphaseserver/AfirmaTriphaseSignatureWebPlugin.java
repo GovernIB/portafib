@@ -1,7 +1,9 @@
 package org.fundaciobit.plugin.signatureweb.afirmatriphaseserver;
 
 import com.handinteractive.mobile.UAgentInfo;
+
 import es.gob.afirma.core.misc.AOUtil;
+//import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.signers.batch.server.BatchPostsigner;
 import es.gob.afirma.signers.batch.server.BatchPresigner;
 import es.gob.afirma.signers.tsp.pkcs7.CMSTimestamper;
@@ -11,6 +13,7 @@ import es.gob.afirma.signfolder.server.proxy.RetrieveService;
 import es.gob.afirma.signfolder.server.proxy.StorageService;
 import es.gob.afirma.triphase.server.SignatureService;
 import es.gob.afirma.triphase.server.document.DocumentManager;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signresult.Signs;
@@ -35,6 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -790,11 +794,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       // ByteArrayOutputStream baos;
       // p.store(baos, "UTF-8");
       
-      if (debug) {
-        log.info("============ PROPERTIES @FIRMA AUTOFIRMA[" + i + "] ================\n"
-          + configPropertiesStr[i]);
+      // XYZ ZZZ ZZZ
+      //if (debug) 
+      {
+        log.info("\n\n XYZ ZZZ ZZZ ============ PROPERTIES @FIRMA AUTOFIRMA[" + i + "] ================\n"
+          + configPropertiesStr[i] + "\n\n");
       }
-
     }
 
     if (countNulls == fisArray.length) {
@@ -818,10 +823,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
         final FileInfoSignature fis = fisArray[i];  
 
-        final String format = configProperties[i].getProperty(FORMAT);
 
-        //var extraParams = MiniApplet.getBase64FromText(document.getElementById("params").value);
-        String extraParamsB64 = encodeB64(configPropertiesStr[i]);
 
         // D:/dades/dades/CarpetesPersonals/Programacio/portafib-1.1-jboss-5.1.0.GA/server/default/deployautofirma/autofirma.war/dst_batch/document_firmat.pdf");
 
@@ -912,10 +914,17 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         
         final String signatureFullID = configProperties[i].getProperty(SIGNATUREID);
       
+        final String formatBatch = configProperties[i].getProperty(FORMAT_BATCH);
+        
+        configProperties[i].remove(FORMAT_BATCH);
+        
+        //var extraParams = MiniApplet.getBase64FromText(document.getElementById("params").value);
+        String extraParamsB64 = encodeB64(configPropertiesStr[i]);
+        
         batch.append(
            "  <singlesign Id=\"" + signatureFullID + "\">\r\n" + //$NON-NLS-1$
             "    <datasource>file://" + src +  "</datasource>\r\n" + //$NON-NLS-1$
-            "    <format>"  + format + "</format>\r\n" + 
+            "    <format>"  + formatBatch + "</format>\r\n" + 
             "    <suboperation>sign</suboperation>\r\n" + 
             "    <extraparams>" + extraParamsB64 + "</extraparams>\r\n" + 
             "    <signsaver>\r\n" + //$NON-NLS-1$
@@ -1239,10 +1248,10 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       
 
       
-      String format = configProperties[i].getProperty(FORMAT);
+      String format = configProperties[i].getProperty(FORMAT_BATCH);
       format = format + "tri";
       
-      configProperties[i].setProperty(FORMAT, format);
+      configProperties[i].setProperty(FORMAT_SIGN, format);
       
       configProperties[i].remove(SIGNATUREID);
       
@@ -1328,12 +1337,14 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           
           final String algorithm = configProperties[j].getProperty(ALGORITHM);
           
-          final String format = configProperties[j].getProperty(FORMAT);
+          final String formatBatch = configProperties[j].getProperty(FORMAT_BATCH);
+          
+          //final String format = configProperties[j].getProperty(FORMAT_SIGN);
           
           javascriptCode2.append(
               "      case " + j + ":\n" 
             + "        MiniApplet.sign('" + encodeSignatureItemID(signaturesSetID, j) + "',"
-            + "          '" + algorithm + "', '" + format + "',"
+            + "          '" + algorithm + "', '" + formatBatch + "',"
             + "          '" + StringEscapeUtils.escapeJavaScript(configPropertiesStr[j]) + "',\n"
             + "          showResultCallback, showErrorCallback);\n"
             + "      break;\n");
@@ -1517,14 +1528,18 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   
 
   protected String encodeB64(final String config) {
+      // XYZ ZZZ ZZZ
       final boolean urlSafe=true;
       return org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.Base64.encode(config.getBytes(), urlSafe);
+      //return org.fundaciobit.pluginsib.core.utils.Base64.encode(config);
   }
   
   
   public static final String ALGORITHM = "algorithm";
   
-  public static final String FORMAT = "format";
+  public static final String FORMAT_BATCH = "formatbatch";
+  
+  public static final String FORMAT_SIGN = "format";
   
   public static final String SIGNATUREID = "SignatureId";
 
@@ -1578,11 +1593,18 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     policy = MiniAppletUtils.convertPolicy(fis, configProperties);
 
     final String signType = fis.getSignType();
-    String format;
+    
+    final String formatSign;
+    final String formatBatch;
+    
+    
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-      format = "PAdES";
 
       MiniAppletUtils.convertPAdES(fis, configProperties, policy);
+      
+      formatSign = "PAdES";
+      formatBatch = "PAdES";
+      
       
       if (fis.getPdfVisibleSignature() != null 
           && fis.getSignaturesTableLocation() != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT ) {
@@ -1647,13 +1669,22 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
 
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
-      format = "XAdES";
+      
+      // AOSignConstants.SIGN_FORMAT_XADES_ENVELOPED)
+      // AOSignConstants.SIGN_FORMAT_XADES_EXTERNALLY_DETACHED)
 
       MiniAppletUtils.convertXAdES(fis, configProperties);
+      
+
+      formatBatch = "XAdES";
+      formatSign = configProperties.getProperty(FORMAT_SIGN);
 
     } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
         || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
-      format = "CAdES";
+
+      formatBatch = "CAdES";
+      formatSign = "CAdES";
+      
         
       MiniAppletUtils.convertCAdES(fis, configProperties);
       
@@ -1673,7 +1704,15 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       return null;
     }
 
-    configProperties.put(FORMAT, format);
+    
+    configProperties.put(FORMAT_BATCH, formatBatch);
+    configProperties.put(FORMAT_SIGN, formatSign);
+    
+    
+    log.info(" XYZ ZZZ ZZZ FORMAT generat dins MINIAPPLET UTILS: " + configProperties.getProperty(FORMAT_BATCH) );
+    log.info(" XYZ ZZZ ZZZ FORMAT generat dins AFIRMATRIPHASE: " + configProperties.getProperty(FORMAT_SIGN) );
+    
+
 
     // SIGNATURE ID
     configProperties.put(SIGNATUREID, encodeSignatureItemID(signaturesSetID, index));
@@ -2914,23 +2953,28 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           mimeType = "application/octet-stream";
         }
 
-        FileInputStream fis = new FileInputStream(fisig.getFileToSign());
-
-        SMIMEInputStream smis =  new SMIMEInputStream(data, fis , mimeType);
-
-        FileOutputStream baos = new FileOutputStream(firmat);
-        FileUtils.copy(smis, baos);
-
-        smis.close();
+        FileInputStream fis = null;
+        try {
+          fis = new FileInputStream(fisig.getFileToSign());
+          SMIMEInputStream smis =  new SMIMEInputStream(data, fis , mimeType);
+  
+          fos = new FileOutputStream(firmat);
+          FileUtils.copy(smis, fos);
+          smis.close();
+          fos.flush();
+        } finally {
+          if (fis != null) {
+            try { fis.close(); } catch (Exception e) { }
+          }
+        }
         fis.close();
-        baos.close();
+                    
         
       } else {
 
         fos = new FileOutputStream(firmat);
         fos.write(data);
-        fos.flush();
-        fos.close();
+        fos.flush();        
       }
 
       status.setSignedData(firmat);
@@ -2947,6 +2991,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     } catch (final IOException e) {
       log.error("Error al guardar les dades en el fitxer '" + firmat.getAbsolutePath() 
           + "': " + e.getMessage(), e); 
+      
+      throw e;
+    } finally {
       if (fos != null) {
         try {
           fos.close();
@@ -2954,7 +3001,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           log.warn("Error al guardar les dades en el fitxer: " + firmat.getAbsolutePath());
         }
       }
-      throw e;
     }
     return firmat;
   }
@@ -2980,12 +3026,10 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     
     if (retornDirecte == true) {
       return null;
+    } else {
+      byte[] data = FileUtils.readFromFile(dataInicial);
+      return checkSMIMEiSegellatDeTemps(data, signaturesSetID, signatureIndex, ss, fisig, status);
     }
-    
-    
-    byte[] data = FileUtils.readFromFile(dataInicial);
-    
-    return checkSMIMEiSegellatDeTemps(data, signaturesSetID, signatureIndex, ss, fisig, status);
     
 
   }

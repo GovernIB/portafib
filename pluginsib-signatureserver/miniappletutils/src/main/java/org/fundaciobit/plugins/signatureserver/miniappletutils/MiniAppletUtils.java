@@ -211,7 +211,17 @@ public class MiniAppletUtils {
     
   }
   
-  
+  /** Identificador de la firma XAdES Internally Detached. */
+  public static final String SIGN_FORMAT_XADES_DETACHED = "XAdES Detached"; //$NON-NLS-1$
+
+  /** Identificador de la firma XAdES Externally Detached. */
+  public static final String SIGN_FORMAT_XADES_EXTERNALLY_DETACHED = "XAdES Externally Detached"; //$NON-NLS-1$
+
+  /** Identificador de la firma XAdES Enveloped. */
+  public static final String SIGN_FORMAT_XADES_ENVELOPED = "XAdES Enveloped"; //$NON-NLS-1$
+
+  /** Identificador de la firma XAdES Enveloping. */
+  public static final String SIGN_FORMAT_XADES_ENVELOPING = "XAdES Enveloping"; //$NON-NLS-1$
 
   public static void convertXAdES(FileInfoSignature fileInfo, Properties miniAppletProperties) {
     // En xades no te sentit el camp 'mode'
@@ -225,9 +235,7 @@ public class MiniAppletUtils {
      *       - true  -> Incluye el nodo KeyName dentro de KeyInfo de XAdES.
      *       - false -> No incluye el nodo KeyName dentro de KeyInfo
      */
-    //miniAppletProperties.setProperty("addKeyInfoKeyValue", "true");
-    //miniAppletProperties.setProperty("addKeyInfoKeyName", "true");
-    
+
     //log.info("XADES MODE=> fileInfo.getSignMode() = " + fileInfo.getSignMode());
     if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT) {
       /*
@@ -235,18 +243,23 @@ public class MiniAppletUtils {
        * firmados. El uso de este valor podría generar firmas de gran tamaño.
        */      
       // Attach de les Dades originals al xml
-      //log.info("XADES IMPLICIT => ATACH !!!!!!");
-      miniAppletProperties.setProperty("format", "XAdES Enveloping");
+
+      miniAppletProperties.setProperty("format", SIGN_FORMAT_XADES_ENVELOPING);
      
     } else {
       /*
        * explicit La firma resultante no incluirá los datos firmados. Si no se
        * indica el parámetro mode se configura automáticamente este
        * comportamiento.
-       */      
+       */
       // les Dades originals NO s'inclouen al xml
-      //log.info("XADES IMPLICIT => DETACH !!!!!!");
-      miniAppletProperties.setProperty("format", "XAdES Detached");
+
+      
+      // genera un Firma Xades Detached Implicit. Si volem una Firma Xades Detached Explicit
+      // llavors hem de descomentar la següent linia
+      //miniAppletProperties.setProperty("mode", "explicit");
+
+      miniAppletProperties.setProperty("format", SIGN_FORMAT_XADES_DETACHED);
     }
     
     final String mime = fileInfo.getMimeType();

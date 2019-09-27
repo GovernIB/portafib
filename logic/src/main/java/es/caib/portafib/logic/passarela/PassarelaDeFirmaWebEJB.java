@@ -180,9 +180,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       PassarelaSecureVerificationCodeStampInfo psvcs = null;
       Map<String, PeticioDeFirmaJPA> peticioDeFirmaBySignID = new HashMap<String, PeticioDeFirmaJPA>();
 
-      
-      
-      
       if (custodiaInfo != null) {
         psvcs = getCustodiaOfUsuariAplicacio(custodiaInfo, usuariAplicacio, entitatJPA);
       }
@@ -231,7 +228,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
           
           PeticioDeFirmaJPA peticioDeFirma = convertPassarelaFileInfoSignature2PeticioDeFirma(
               titol, origenPeticioDeFirma, tipusDocumentID,
-              usuariAplicacio, pfis, cust, config);
+              usuariAplicacio, pfis, cust, config, entitatJPA);
           peticioDeFirmaBySignID.put(signID, peticioDeFirma);
 
           // Peticio de Firma
@@ -297,7 +294,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
   protected PeticioDeFirmaJPA convertPassarelaFileInfoSignature2PeticioDeFirma(
       String titol,int origenPeticioDeFirma,  long tipusDocumentID,
       UsuariAplicacioJPA usuariAplicacio, PassarelaFileInfoSignature pfis,     
-      CustodiaInfo custodiaInfo, UsuariAplicacioConfiguracioJPA config) throws I18NException {
+      CustodiaInfo custodiaInfo, UsuariAplicacioConfiguracioJPA config,
+      EntitatJPA entitatJPA) throws I18NException {
     
     // XYZ ZZZ ZZZ 
     
@@ -315,31 +313,41 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     java.sql.Timestamp dataCaducitat = new Timestamp(System.currentTimeMillis() + 10*60*1000);
     int tipusOperacioFirma = pfis.getSignOperation();
     int tipusFirmaID = SignatureUtils.convertApiSignTypeToPortafibSignType(pfis.getSignType());
-    int algorismeDeFirmaID  = config.getAlgorismeDeFirmaID();
-    java.lang.Boolean modeDeFirma = SignatureUtils.convertApiSignMode2PortafibSignMode(pfis.getSignMode());
+    
+    int algorismeDeFirmaID;
+    {
+       Integer algo = config.getAlgorismeDeFirmaID();
+       if (algo == null) {
+         // Cercar Entitat
+         algorismeDeFirmaID = entitatJPA.getAlgorismeDeFirmaID();
+       } else {
+         algorismeDeFirmaID = algo;
+       }
+    }
+    Boolean modeDeFirma = SignatureUtils.convertApiSignMode2PortafibSignMode(pfis.getSignMode());
     int tipusEstatPeticioDeFirmaID = ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES;
-    java.lang.String motiuDeRebuig = null;
-    java.lang.String idiomaID = pfis.getLanguageSign();
+    String motiuDeRebuig = null;
+    String idiomaID = pfis.getLanguageSign();
     int prioritatID = 5;
     long fluxDeFirmesID = 0;
-    java.lang.String solicitantUsuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
-    java.lang.String remitentNom = null;
-    java.lang.String remitentDescripcio = null;
+    String solicitantUsuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
+    String remitentNom = null;
+    String remitentDescripcio = null;
     
-    java.lang.String expedientCodi = pfis.getExpedientCodi();
-    java.lang.String expedientNom = pfis.getExpedientNom();
-    java.lang.String expedientUrl = pfis.getExpedientUrl();
+    String expedientCodi = pfis.getExpedientCodi();
+    String expedientNom = pfis.getExpedientNom();
+    String expedientUrl = pfis.getExpedientUrl();
     
-    java.lang.String procedimentCodi = pfis.getProcedimentCodi();
-    java.lang.String procedimentNom = pfis.getProcedimentNom();
-    java.lang.String informacioAddicional = null;
-    java.lang.Double informacioAddicionalAvaluable = null;
-    // XYZ ZZZ ZZZ llegir-ho de URSAPP 
-    java.lang.Long logoSegellID = null;
-    java.lang.Long custodiaInfoID = 666L;
-    java.lang.String solicitantUsuariEntitat1ID = null;
-    java.lang.String solicitantUsuariEntitat2ID = null;
-    java.lang.String solicitantUsuariEntitat3ID = null;
+    String procedimentCodi = pfis.getProcedimentCodi();
+    String procedimentNom = pfis.getProcedimentNom();
+    String informacioAddicional = null;
+    Double informacioAddicionalAvaluable = null;
+    // XYZ ZZZ ZZZ llegir-ho de URSAPP
+    Long logoSegellID = null;
+    Long custodiaInfoID = 666L;
+    String solicitantUsuariEntitat1ID = null;
+    String solicitantUsuariEntitat2ID = null;
+    String solicitantUsuariEntitat3ID = null;
     boolean avisWeb = false;
     // XYZ ZZZ ZZZ
     boolean segellatDeTemps = false;

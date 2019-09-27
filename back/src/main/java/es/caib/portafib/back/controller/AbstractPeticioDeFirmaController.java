@@ -73,6 +73,8 @@ public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaCon
 
   // #199
   public static List<StringKeyValue> staticGetReferenceListForTipusFirmaID() {
+    
+    /*
     List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
 
     __tmp.add(new StringKeyValue(String.valueOf(ConstantsV2.TIPUSFIRMA_PADES), "PAdES"));
@@ -80,6 +82,17 @@ public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaCon
     __tmp.add(new StringKeyValue(String.valueOf(ConstantsV2.TIPUSFIRMA_CADES), "CAdES"));
     __tmp.add(new StringKeyValue(String.valueOf(ConstantsV2.TIPUSFIRMA_SMIME), "SMIME"));
     return __tmp;
+    */
+    
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+
+    for (int tipus : ConstantsV2.TIPUSFIRMA_SUPPORTED) {
+      __tmp.add(new StringKeyValue(String.valueOf(tipus), I18NUtils.tradueix("tipusfirma."
+          + tipus)));
+    }
+    return __tmp;
+    
+    
   }
   
   //#199
