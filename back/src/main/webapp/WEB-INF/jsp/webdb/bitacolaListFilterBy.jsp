@@ -68,6 +68,32 @@
 
 
         </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.ENTITATID)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="bitacola.entitatid" var="entitatid" />
+              <fmt:message key="genapp.form.searchby" var="cercaperentitatid" >                
+                 <fmt:param value="${entitatid}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${entitatid}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperentitatid}" path="entitatid" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.USUARIID)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="bitacola.usuariid" var="usuariid" />
+              <fmt:message key="genapp.form.searchby" var="cercaperusuariid" >                
+                 <fmt:param value="${usuariid}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${usuariid}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariid}" path="usuariid" />
+            </div>
+
+
+        </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.DATA)}">
             <%-- FILTRE DATE --%>
             <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
@@ -114,6 +140,55 @@
 
     
         </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.TIPUSOBJECTE)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="bitacola.tipusObjecte" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="tipusObjecteDesde" />
+
+
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+
+              <form:input cssClass="input-append input-small search-query" path="tipusObjecteFins" />
+
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.OBJECTEID)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="bitacola.objecteid" var="objecteid" />
+              <fmt:message key="genapp.form.searchby" var="cercaperobjecteid" >                
+                 <fmt:param value="${objecteid}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${objecteid}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperobjecteid}" path="objecteid" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.TIPUSOPERACIO)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="bitacola.tipusOperacio" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="tipusOperacioDesde" />
+
+
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+
+              <form:input cssClass="input-append input-small search-query" path="tipusOperacioFins" />
+
+            </div>
+
+
+        </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.DESCRIPCIO)}">
             <%-- FILTRE STRING --%>
             <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
@@ -127,46 +202,15 @@
 
 
         </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.PETICIODEFIRMAID)}">
-            <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
-              <span class="add-on"><fmt:message key="bitacola.peticioDeFirmaID" />:</span>
-
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
-              
-              <form:input cssClass="input-append input-small" path="peticioDeFirmaIDDesde" />
-
-
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
-
-              <form:input cssClass="input-append input-small search-query" path="peticioDeFirmaIDFins" />
-
-            </div>
-
-
-        </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.USUARIENTITATID)}">
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.OBJECTESERIALITZAT)}">
             <%-- FILTRE STRING --%>
             <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-              <fmt:message key="bitacola.usuariEntitatID" var="usuariEntitatID" />
-              <fmt:message key="genapp.form.searchby" var="cercaperusuariEntitatID" >                
-                 <fmt:param value="${usuariEntitatID}"/>
+              <fmt:message key="bitacola.objecteSerialitzat" var="objecteSerialitzat" />
+              <fmt:message key="genapp.form.searchby" var="cercaperobjecteSerialitzat" >                
+                 <fmt:param value="${objecteSerialitzat}"/>
               </fmt:message>
-              <span class="add-on"><c:out value="${usuariEntitatID}" />:</span>
-              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariEntitatID}" path="usuariEntitatID" />
-            </div>
-
-
-        </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.USUARIAPLICACIOID)}">
-            <%-- FILTRE STRING --%>
-            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-              <fmt:message key="bitacola.usuariAplicacioID" var="usuariAplicacioID" />
-              <fmt:message key="genapp.form.searchby" var="cercaperusuariAplicacioID" >                
-                 <fmt:param value="${usuariAplicacioID}"/>
-              </fmt:message>
-              <span class="add-on"><c:out value="${usuariAplicacioID}" />:</span>
-              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariAplicacioID}" path="usuariAplicacioID" />
+              <span class="add-on"><c:out value="${objecteSerialitzat}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperobjecteSerialitzat}" path="objecteSerialitzat" />
             </div>
 
 

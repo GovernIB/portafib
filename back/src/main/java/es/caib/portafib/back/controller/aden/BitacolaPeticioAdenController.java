@@ -46,11 +46,9 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping(value = BitacolaPeticioAdenController.CONTEXT_WEB)
 @SessionAttributes(types = {BitacolaForm.class, BitacolaFilterForm.class })
-public class BitacolaPeticioAdenController extends BitacolaController {
+public class BitacolaPeticioAdenController extends AbstractBitacolaAdenController {
 
     public static final String CONTEXT_WEB = "/aden/bitacolapeticio";
-
-    public static final int COLUMN_PERSONA = 1;
 
     public static final String SESSION_PETICIOID = "bitacolapeticio_peticioID";
     public static final String SESSION_RETURNPATH = "bitacolapeticio_returnPath";
@@ -59,22 +57,7 @@ public class BitacolaPeticioAdenController extends BitacolaController {
     protected UsuariEntitatLocal usuariEntitatEjb;
 
     @Override
-    public boolean isActiveFormNew() {
-        return false;
-    }
-
-    @Override
-    public boolean isActiveFormEdit() {
-        return false;
-    }
-
-    @Override
     public boolean isActiveDelete() {
-        return false;
-    }
-
-    @Override
-    public boolean isActiveFormView() {
         return false;
     }
 
@@ -100,36 +83,22 @@ public class BitacolaPeticioAdenController extends BitacolaController {
             bitacolaFilterForm.setVisibleMultipleSelection(false);
             bitacolaFilterForm.setVisibleFilterBy(false);
             bitacolaFilterForm.setVisibleGroupBy(false);
-            bitacolaFilterForm.setAddButtonVisible(false);
             bitacolaFilterForm.setDeleteSelectedButtonVisible(false);
             bitacolaFilterForm.setDeleteButtonVisible(false);
-            bitacolaFilterForm.setEditButtonVisible(false);
 
             bitacolaFilterForm.setGroupByFields(new ArrayList<Field<?>>());
-            List<Field<?>> filterByFields = new ArrayList<Field<?>>(bitacolaFilterForm.getDefaultFilterByFields());
-            filterByFields.remove(BitacolaFields.USUARIAPLICACIOID);
-            bitacolaFilterForm.setFilterByFields(filterByFields);
+            bitacolaFilterForm.setFilterByFields(new ArrayList<Field<?>>());
 
             bitacolaFilterForm.setItemsPerPage(-1);
             bitacolaFilterForm.setAttachedAdditionalJspCode(true);
-            bitacolaFilterForm.setAttachedAdditionalJspCode(true);
 
-            bitacolaFilterForm.addHiddenField(BitacolaFields.BITACOLAID);
-            bitacolaFilterForm.addHiddenField(BitacolaFields.PETICIODEFIRMAID);
-            bitacolaFilterForm.addHiddenField(BitacolaFields.USUARIENTITATID);
-
-            {
-                AdditionalField<Long, String> personaField = new AdditionalField<Long, String>();
-                personaField.setCodeName(BitacolaFields.USUARIENTITATID.fullName);
-                personaField.setPosition(COLUMN_PERSONA);
-                personaField.setValueMap(new HashMap<Long, String>());
-                bitacolaFilterForm.addAdditionalField(personaField);
-            }
+            bitacolaFilterForm.addHiddenField(BitacolaFields.TIPUSOBJECTE);
+            bitacolaFilterForm.addHiddenField(BitacolaFields.OBJECTEID);
+            bitacolaFilterForm.addHiddenField(BitacolaFields.OBJECTESERIALITZAT);
 
             bitacolaFilterForm.addAdditionalButton(
                     new AdditionalButton("icon-arrow-left icon-white", "tornar",
                             CONTEXT_WEB + "/tornar", "btn-primary"));
-
 
         }
 
@@ -155,46 +124,12 @@ public class BitacolaPeticioAdenController extends BitacolaController {
     }
 
     @Override
-    public void postList(HttpServletRequest request, ModelAndView mav, BitacolaFilterForm filterForm, List<Bitacola> list) throws I18NException {
-        super.postList(request, mav, filterForm, list);
-
-        Map<Long, String> mapPersona = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PERSONA).getValueMap();
-        mapPersona.clear();
-
-        // CONSULTA NOMS DELS USUARIS
-        UsuariEntitatQueryPath ueqp = new UsuariEntitatQueryPath();
-        StringField usuarientitatidField = UsuariEntitatFields.USUARIENTITATID;
-        SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(
-                usuarientitatidField.select,
-                ueqp.USUARIPERSONA().NOM().select,
-                ueqp.USUARIPERSONA().LLINATGES().select,
-                ueqp.USUARIPERSONA().NIF().select);
-
-        Set<String> usuarisEntitatID = new HashSet<String>();
-        for (Bitacola bitacola: list) {
-            String usuariEntitatID = bitacola.getUsuariEntitatID();
-            if (usuariEntitatID != null) {
-                usuarisEntitatID.add(usuariEntitatID);
-            }
-        }
-
-        List<StringKeyValue> nomsUsuaris = usuariEntitatEjb.executeQuery(smskv, usuarientitatidField.in(usuarisEntitatID));
-        Map<String, String> mapUsuaris = Utils.listToMap(nomsUsuaris);
-
-        for (Bitacola bitacola: list) {
-            if (bitacola.getUsuariEntitatID() != null) {
-                String nomUsuari = mapUsuaris.get(bitacola.getUsuariEntitatID());
-                int index = nomUsuari.lastIndexOf(' ');
-                String nomComplet = nomUsuari.substring(0, index +1) + " (" + nomUsuari.substring(index + 1) + ")";
-                mapPersona.put(bitacola.getBitacolaID(), nomComplet);
-            }
-        }
-    }
-
-    @Override
     public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
+        Where superWhere = super.getAdditionalCondition(request);
         Long peticioID = (Long) request.getSession().getAttribute(SESSION_PETICIOID);
-        return BitacolaFields.PETICIODEFIRMAID.equal(peticioID);
+        Where idpeticio = BitacolaFields.OBJECTEID.equal(String.valueOf(peticioID));
+        Where tipuspeticio = BitacolaFields.TIPUSOBJECTE.equal(ConstantsV2.BITACOLA_TIPUS_PETICIO);
+        return Where.AND(superWhere, idpeticio, tipuspeticio);
     }
 
     @RequestMapping(value = "/peticio/{peticioID}", method = RequestMethod.GET)

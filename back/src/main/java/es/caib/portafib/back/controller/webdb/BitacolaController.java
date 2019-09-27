@@ -1,5 +1,7 @@
 package es.caib.portafib.back.controller.webdb;
 
+import org.fundaciobit.genapp.common.StringKeyValue;
+import org.fundaciobit.genapp.common.utils.Utils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.GroupByItem;
@@ -174,6 +176,29 @@ public class BitacolaController
       groupByItemsMap.put(groupByItem.getField(),groupByItem);
     }
 
+    Map<String, String> _tmp;
+    List<StringKeyValue> _listSKV;
+
+    // Field tipusObjecte
+    {
+      _listSKV = getReferenceListForTipusObjecte(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForTipusObjecte(_tmp);
+      if (filterForm.getGroupByFields().contains(TIPUSOBJECTE)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, TIPUSOBJECTE, false);
+      };
+    }
+
+    // Field tipusOperacio
+    {
+      _listSKV = getReferenceListForTipusOperacio(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForTipusOperacio(_tmp);
+      if (filterForm.getGroupByFields().contains(TIPUSOPERACIO)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, TIPUSOPERACIO, false);
+      };
+    }
+
 
     return groupByItemsMap;
   }
@@ -189,6 +214,8 @@ public class BitacolaController
 
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
+    __mapping.put(TIPUSOBJECTE, filterForm.getMapOfValuesForTipusObjecte());
+    __mapping.put(TIPUSOPERACIO, filterForm.getMapOfValuesForTipusOperacio());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -236,6 +263,20 @@ public class BitacolaController
 
   public void fillReferencesForForm(BitacolaForm bitacolaForm,
     HttpServletRequest request, ModelAndView mav) throws I18NException {
+    // Comprovam si ja esta definida la llista
+    if (bitacolaForm.getListOfValuesForTipusObjecte() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForTipusObjecte(request, mav, bitacolaForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      bitacolaForm.setListOfValuesForTipusObjecte(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (bitacolaForm.getListOfValuesForTipusOperacio() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForTipusOperacio(request, mav, bitacolaForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      bitacolaForm.setListOfValuesForTipusOperacio(_listSKV);
+    }
     
   }
 
@@ -534,6 +575,80 @@ public java.lang.Long stringToPK(String value) {
 
   public boolean isActiveFormView() {
     return isActiveFormEdit();
+  }
+
+
+  public List<StringKeyValue> getReferenceListForTipusObjecte(HttpServletRequest request,
+       ModelAndView mav, BitacolaForm bitacolaForm, Where where)  throws I18NException {
+    if (bitacolaForm.isHiddenField(TIPUSOBJECTE)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForTipusObjecte(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForTipusObjecte(HttpServletRequest request,
+       ModelAndView mav, BitacolaFilterForm bitacolaFilterForm,
+       List<Bitacola> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (bitacolaFilterForm.isHiddenField(TIPUSOBJECTE)
+      && !bitacolaFilterForm.isGroupByField(TIPUSOBJECTE)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForTipusObjecte(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForTipusObjecte(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    return __tmp;
+  }
+
+
+  public List<StringKeyValue> getReferenceListForTipusOperacio(HttpServletRequest request,
+       ModelAndView mav, BitacolaForm bitacolaForm, Where where)  throws I18NException {
+    if (bitacolaForm.isHiddenField(TIPUSOPERACIO)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForTipusOperacio(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForTipusOperacio(HttpServletRequest request,
+       ModelAndView mav, BitacolaFilterForm bitacolaFilterForm,
+       List<Bitacola> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (bitacolaFilterForm.isHiddenField(TIPUSOPERACIO)
+      && !bitacolaFilterForm.isGroupByField(TIPUSOPERACIO)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForTipusOperacio(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForTipusOperacio(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    __tmp.add(new StringKeyValue("11" , "11"));
+    __tmp.add(new StringKeyValue("12" , "12"));
+    __tmp.add(new StringKeyValue("13" , "13"));
+    __tmp.add(new StringKeyValue("21" , "21"));
+    __tmp.add(new StringKeyValue("22" , "22"));
+    __tmp.add(new StringKeyValue("23" , "23"));
+    __tmp.add(new StringKeyValue("24" , "24"));
+    __tmp.add(new StringKeyValue("31" , "31"));
+    __tmp.add(new StringKeyValue("32" , "32"));
+    __tmp.add(new StringKeyValue("33" , "33"));
+    __tmp.add(new StringKeyValue("34" , "34"));
+    __tmp.add(new StringKeyValue("35" , "35"));
+    __tmp.add(new StringKeyValue("36" , "36"));
+    return __tmp;
   }
 
 

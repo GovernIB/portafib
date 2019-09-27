@@ -15,24 +15,36 @@ public class BitacolaQueryPath extends org.fundaciobit.genapp.common.query.Query
     return new LongField(getQueryPath(), BitacolaFields.BITACOLAID);
   }
 
+  public StringField ENTITATID() {
+    return new StringField(getQueryPath(), BitacolaFields.ENTITATID);
+  }
+
+  public StringField USUARIID() {
+    return new StringField(getQueryPath(), BitacolaFields.USUARIID);
+  }
+
   public TimestampField DATA() {
     return new TimestampField(getQueryPath(), BitacolaFields.DATA);
+  }
+
+  public IntegerField TIPUSOBJECTE() {
+    return new IntegerField(getQueryPath(), BitacolaFields.TIPUSOBJECTE);
+  }
+
+  public StringField OBJECTEID() {
+    return new StringField(getQueryPath(), BitacolaFields.OBJECTEID);
+  }
+
+  public IntegerField TIPUSOPERACIO() {
+    return new IntegerField(getQueryPath(), BitacolaFields.TIPUSOPERACIO);
   }
 
   public StringField DESCRIPCIO() {
     return new StringField(getQueryPath(), BitacolaFields.DESCRIPCIO);
   }
 
-  public LongField PETICIODEFIRMAID() {
-    return new LongField(getQueryPath(), BitacolaFields.PETICIODEFIRMAID);
-  }
-
-  public StringField USUARIENTITATID() {
-    return new StringField(getQueryPath(), BitacolaFields.USUARIENTITATID);
-  }
-
-  public StringField USUARIAPLICACIOID() {
-    return new StringField(getQueryPath(), BitacolaFields.USUARIAPLICACIOID);
+  public StringField OBJECTESERIALITZAT() {
+    return new StringField(getQueryPath(), BitacolaFields.OBJECTESERIALITZAT);
   }
 
 

@@ -78,14 +78,6 @@
           ${peticioDeFirma.descripcioTipusDocument}
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}">
-          <td>
-          <c:set var="tmp">${peticioDeFirma.posicioTaulaFirmesID}</c:set>
-          <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfValuesForPosicioTaulaFirmesID[tmp]}
-          </c:if>
-          </td>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.DATASOLICITUD)}">
           <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${peticioDeFirma.dataSolicitud}" /></td>
         </c:if>
@@ -122,6 +114,14 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.MODEDEFIRMA)}">
           <td>
             <fmt:message key="modedefirma.${peticioDeFirma.modeDeFirma}" />          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}">
+          <td>
+          <c:set var="tmp">${peticioDeFirma.posicioTaulaFirmesID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForPosicioTaulaFirmesID[tmp]}
+          </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID)}">
           <td>

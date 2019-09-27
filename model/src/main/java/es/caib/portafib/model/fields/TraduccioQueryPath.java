@@ -99,10 +99,10 @@ public class TraduccioQueryPath extends org.fundaciobit.genapp.common.query.Quer
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public UsuariAplicacioConfiguracioQueryPath USUARIAPLICACIOCONFIGURACIO_MOTIUDELEGACIOIDS() {
+  public UsuariAplicacioConfiguracioQueryPath USUARIAPLICACIOCONFIGURACIO_FIRMATPERFORMATIDS() {
     return new UsuariAplicacioConfiguracioQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return TraduccioQueryPath.this.getQueryPath() + "usuariAplicacioConfiguracio_motiudelegacioids" + ".";
+          return TraduccioQueryPath.this.getQueryPath() + "usuariAplicacioConfiguracio_firmatperformatids" + ".";
       }
     });
   }
@@ -113,10 +113,10 @@ public class TraduccioQueryPath extends org.fundaciobit.genapp.common.query.Quer
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public UsuariAplicacioConfiguracioQueryPath USUARIAPLICACIOCONFIGURACIO_FIRMATPERFORMATIDS() {
+  public UsuariAplicacioConfiguracioQueryPath USUARIAPLICACIOCONFIGURACIO_MOTIUDELEGACIOIDS() {
     return new UsuariAplicacioConfiguracioQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return TraduccioQueryPath.this.getQueryPath() + "usuariAplicacioConfiguracio_firmatperformatids" + ".";
+          return TraduccioQueryPath.this.getQueryPath() + "usuariAplicacioConfiguracio_motiudelegacioids" + ".";
       }
     });
   }

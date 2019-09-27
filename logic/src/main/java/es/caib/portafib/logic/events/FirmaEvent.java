@@ -16,11 +16,14 @@ import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.utils.ConstantsV2;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * 
  * @author anadal
  *
  */
+@XmlRootElement
 public class FirmaEvent implements Cloneable, Serializable {
   
   public static final int PRIORITAT_ALTA = 8;

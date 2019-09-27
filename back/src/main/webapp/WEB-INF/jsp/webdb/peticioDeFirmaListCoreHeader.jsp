@@ -39,9 +39,6 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT)}">
         <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}">
-        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}</th>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.DATASOLICITUD)}">
         <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.DATASOLICITUD)}</th>
         </c:if>
@@ -62,6 +59,9 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.MODEDEFIRMA)}">
         <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.MODEDEFIRMA)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID)}">
         <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID)}</th>

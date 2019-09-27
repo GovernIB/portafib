@@ -1405,12 +1405,14 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
         // Error
         new PeticioDeFirmaController().createMessageError(request, "error.notfound", null);
       } else {
-
+        /*
+        La bitàcola ja recull que és un administrador i el seu login.
         String motiuDeRebuig = I18NUtils.tradueix("peticionsdefirma.destinatari.motiurebuig",
             Utils.getNom(LoginInfo.getInstance().getUsuariPersona()), motiuDeRebuig2);
+         */
 
         peticioDeFirmaLogicaEjb.rebutjarADEN(peticioDeFirma, LoginInfo.getInstance()
-            .getUsuariEntitatID(), motiuDeRebuig);
+            .getUsuariEntitatID(), motiuDeRebuig2);
 
       }
 

@@ -3,6 +3,7 @@ package es.caib.portafib.back.form.webdb;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -42,6 +43,28 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
   }
 
 
+  private java.lang.String entitatid;
+
+  public java.lang.String getEntitatid() {
+    return this.entitatid;
+  }
+
+  public void setEntitatid(java.lang.String entitatid) {
+    this.entitatid = entitatid;
+  }
+
+
+  private java.lang.String usuariid;
+
+  public java.lang.String getUsuariid() {
+    return this.usuariid;
+  }
+
+  public void setUsuariid(java.lang.String usuariid) {
+    this.usuariid = usuariid;
+  }
+
+
   private java.sql.Timestamp dataDesde;
 
   public java.sql.Timestamp getDataDesde() {
@@ -64,6 +87,61 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
   }
 
 
+  private java.lang.Integer tipusObjecteDesde;
+
+  public java.lang.Integer getTipusObjecteDesde() {
+    return this.tipusObjecteDesde;
+  }
+
+  public void setTipusObjecteDesde(java.lang.Integer tipusObjecteDesde) {
+    this.tipusObjecteDesde = tipusObjecteDesde;
+  }
+
+
+  private java.lang.Integer tipusObjecteFins;
+
+  public java.lang.Integer getTipusObjecteFins() {
+    return this.tipusObjecteFins;
+  }
+
+  public void setTipusObjecteFins(java.lang.Integer tipusObjecteFins) {
+    this.tipusObjecteFins = tipusObjecteFins;
+  }
+
+
+  private java.lang.String objecteid;
+
+  public java.lang.String getObjecteid() {
+    return this.objecteid;
+  }
+
+  public void setObjecteid(java.lang.String objecteid) {
+    this.objecteid = objecteid;
+  }
+
+
+  private java.lang.Integer tipusOperacioDesde;
+
+  public java.lang.Integer getTipusOperacioDesde() {
+    return this.tipusOperacioDesde;
+  }
+
+  public void setTipusOperacioDesde(java.lang.Integer tipusOperacioDesde) {
+    this.tipusOperacioDesde = tipusOperacioDesde;
+  }
+
+
+  private java.lang.Integer tipusOperacioFins;
+
+  public java.lang.Integer getTipusOperacioFins() {
+    return this.tipusOperacioFins;
+  }
+
+  public void setTipusOperacioFins(java.lang.Integer tipusOperacioFins) {
+    this.tipusOperacioFins = tipusOperacioFins;
+  }
+
+
   private java.lang.String descripcio;
 
   public java.lang.String getDescripcio() {
@@ -75,47 +153,14 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
   }
 
 
-  private java.lang.Long peticioDeFirmaIDDesde;
+  private java.lang.String objecteSerialitzat;
 
-  public java.lang.Long getPeticioDeFirmaIDDesde() {
-    return this.peticioDeFirmaIDDesde;
+  public java.lang.String getObjecteSerialitzat() {
+    return this.objecteSerialitzat;
   }
 
-  public void setPeticioDeFirmaIDDesde(java.lang.Long peticioDeFirmaIDDesde) {
-    this.peticioDeFirmaIDDesde = peticioDeFirmaIDDesde;
-  }
-
-
-  private java.lang.Long peticioDeFirmaIDFins;
-
-  public java.lang.Long getPeticioDeFirmaIDFins() {
-    return this.peticioDeFirmaIDFins;
-  }
-
-  public void setPeticioDeFirmaIDFins(java.lang.Long peticioDeFirmaIDFins) {
-    this.peticioDeFirmaIDFins = peticioDeFirmaIDFins;
-  }
-
-
-  private java.lang.String usuariEntitatID;
-
-  public java.lang.String getUsuariEntitatID() {
-    return this.usuariEntitatID;
-  }
-
-  public void setUsuariEntitatID(java.lang.String usuariEntitatID) {
-    this.usuariEntitatID = usuariEntitatID;
-  }
-
-
-  private java.lang.String usuariAplicacioID;
-
-  public java.lang.String getUsuariAplicacioID() {
-    return this.usuariAplicacioID;
-  }
-
-  public void setUsuariAplicacioID(java.lang.String usuariAplicacioID) {
-    this.usuariAplicacioID = usuariAplicacioID;
+  public void setObjecteSerialitzat(java.lang.String objecteSerialitzat) {
+    this.objecteSerialitzat = objecteSerialitzat;
   }
 
 
@@ -126,25 +171,31 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
     super(__toClone);
     this.bitacolaIDDesde = __toClone.bitacolaIDDesde;
     this.bitacolaIDFins = __toClone.bitacolaIDFins;
+    this.entitatid = __toClone.entitatid;
+    this.usuariid = __toClone.usuariid;
     this.dataDesde = __toClone.dataDesde;
     this.dataFins = __toClone.dataFins;
+    this.tipusObjecteDesde = __toClone.tipusObjecteDesde;
+    this.tipusObjecteFins = __toClone.tipusObjecteFins;
+    this.objecteid = __toClone.objecteid;
+    this.tipusOperacioDesde = __toClone.tipusOperacioDesde;
+    this.tipusOperacioFins = __toClone.tipusOperacioFins;
     this.descripcio = __toClone.descripcio;
-    this.peticioDeFirmaIDDesde = __toClone.peticioDeFirmaIDDesde;
-    this.peticioDeFirmaIDFins = __toClone.peticioDeFirmaIDFins;
-    this.usuariEntitatID = __toClone.usuariEntitatID;
-    this.usuariAplicacioID = __toClone.usuariAplicacioID;
+    this.objecteSerialitzat = __toClone.objecteSerialitzat;
+    this.mapOfValuesForTipusObjecte = __toClone.mapOfValuesForTipusObjecte;
+    this.mapOfValuesForTipusOperacio = __toClone.mapOfValuesForTipusOperacio;
   }
   
   /* ========= UTILS ========== */
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATA ,DESCRIPCIO ,USUARIAPLICACIOID }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { USUARIID ,DATA ,OBJECTEID ,TIPUSOPERACIO ,DESCRIPCIO }));
   }
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATA }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATA ,TIPUSOBJECTE ,TIPUSOPERACIO }));
   }
 
 
@@ -167,6 +218,30 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
    // -----------------------
    // Maps de referencies.
    // -----------------------
+  private Map<String, String> mapOfValuesForTipusObjecte;
+
+  public Map<String, String> getMapOfValuesForTipusObjecte() {
+    return this.mapOfValuesForTipusObjecte;
+  }
+
+  public void setMapOfValuesForTipusObjecte(Map<String, String> mapOfValuesForTipusObjecte) {
+    this.mapOfValuesForTipusObjecte = mapOfValuesForTipusObjecte;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForTipusOperacio;
+
+  public Map<String, String> getMapOfValuesForTipusOperacio() {
+    return this.mapOfValuesForTipusOperacio;
+  }
+
+  public void setMapOfValuesForTipusOperacio(Map<String, String> mapOfValuesForTipusOperacio) {
+    this.mapOfValuesForTipusOperacio = mapOfValuesForTipusOperacio;
+  }
+
+
+
 
    // --------------------------------
    // Camps traduibles de referencies.

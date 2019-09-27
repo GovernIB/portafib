@@ -227,10 +227,10 @@ public class FitxerQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public PluginCridadaQueryPath PLUGINCRIDADA_RETORNFITXERIDS() {
+  public PluginCridadaQueryPath PLUGINCRIDADA_PARAMETRESFITXERIDS() {
     return new PluginCridadaQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return FitxerQueryPath.this.getQueryPath() + "pluginCridada_retornfitxerids" + ".";
+          return FitxerQueryPath.this.getQueryPath() + "pluginCridada_parametresfitxerids" + ".";
       }
     });
   }
@@ -241,10 +241,10 @@ public class FitxerQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public PluginCridadaQueryPath PLUGINCRIDADA_PARAMETRESFITXERIDS() {
+  public PluginCridadaQueryPath PLUGINCRIDADA_RETORNFITXERIDS() {
     return new PluginCridadaQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return FitxerQueryPath.this.getQueryPath() + "pluginCridada_parametresfitxerids" + ".";
+          return FitxerQueryPath.this.getQueryPath() + "pluginCridada_retornfitxerids" + ".";
       }
     });
   }

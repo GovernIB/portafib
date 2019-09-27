@@ -1394,8 +1394,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
     PeticioDeFirmaJPA peticio = new PeticioDeFirmaJPA(peticioDeFirmaID, titol, descripcio,
         motiu, fitxerAFirmarID, firmaOriginalDetachedID, fitxerAdaptatID, tipusDocumentID,
-        descripcioTipusDocument, posicioTaulaFirmesID, dataSolicitud, dataFinal,
-        dataCaducitat, tipusOperacioFirma, tipusFirmaID, algorismeDeFirmaID, modeDeFirma,
+        descripcioTipusDocument, dataSolicitud, dataFinal, dataCaducitat, tipusOperacioFirma,
+        tipusFirmaID, algorismeDeFirmaID, modeDeFirma, posicioTaulaFirmesID,
         tipusEstatPeticioDeFirmaID, motiuDeRebuig, idiomaID, prioritatID, fluxDeFirmesID,
         solicitantUsuariAplicacioID, remitentNom, remitentDescripcio, expedientCodi,
         expedientNom, expedientUrl, procedimentCodi, procedimentNom, informacioAddicional,

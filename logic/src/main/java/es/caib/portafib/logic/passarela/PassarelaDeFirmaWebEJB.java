@@ -346,7 +346,14 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     
     long configuracioDeFirmaID = config.getUsuariAplicacioConfigID(); 
     
-    PeticioDeFirmaJPA peticio = new PeticioDeFirmaJPA(peticioDeFirmaID, titol, descripcio, motiu, fitxerAFirmarID, firmaOriginalDetachedID, fitxerAdaptatID, tipusDocumentID, descripcioTipusDocument, posicioTaulaFirmesID, dataSolicitud, dataFinal, dataCaducitat, tipusOperacioFirma, tipusFirmaID, algorismeDeFirmaID, modeDeFirma, tipusEstatPeticioDeFirmaID, motiuDeRebuig, idiomaID, prioritatID, fluxDeFirmesID, solicitantUsuariAplicacioID, remitentNom, remitentDescripcio, expedientCodi, expedientNom, expedientUrl, procedimentCodi, procedimentNom, informacioAddicional, informacioAddicionalAvaluable, logoSegellID, custodiaInfoID, solicitantUsuariEntitat1ID, solicitantUsuariEntitat2ID, solicitantUsuariEntitat3ID, avisWeb, segellatDeTemps, origenPeticioDeFirma, configuracioDeFirmaID);
+    PeticioDeFirmaJPA peticio = new PeticioDeFirmaJPA(peticioDeFirmaID, titol, descripcio, motiu, fitxerAFirmarID,
+          firmaOriginalDetachedID, fitxerAdaptatID, tipusDocumentID, descripcioTipusDocument, dataSolicitud, dataFinal,
+          dataCaducitat, tipusOperacioFirma, tipusFirmaID, algorismeDeFirmaID, modeDeFirma, posicioTaulaFirmesID,
+          tipusEstatPeticioDeFirmaID, motiuDeRebuig, idiomaID, prioritatID, fluxDeFirmesID, solicitantUsuariAplicacioID,
+          remitentNom, remitentDescripcio, expedientCodi, expedientNom, expedientUrl, procedimentCodi, procedimentNom,
+          informacioAddicional, informacioAddicionalAvaluable, logoSegellID, custodiaInfoID, solicitantUsuariEntitat1ID,
+          solicitantUsuariEntitat2ID, solicitantUsuariEntitat3ID, avisWeb, segellatDeTemps, origenPeticioDeFirma,
+          configuracioDeFirmaID);
     
     return peticio;
   }

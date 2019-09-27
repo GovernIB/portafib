@@ -64,10 +64,6 @@ private static final long serialVersionUID = -940591816L;
 	@Column(name="descripciotipusdocument",length = 255)
 	java.lang.String descripcioTipusDocument;
 
-  /** Indica la posicio de taula de firmes així com si es vol emprar o no. Valors: SENSETAULA = 0; PRIMERAPAGINA = 1; DARRERAPAGINA = -1;DEFINIT_EN_FIRMA(RUBRICA)=2 */
-	@Column(name="posiciotaulafirmesid",nullable = false,length = 19)
-	int posicioTaulaFirmesID;
-
 	@Column(name="datasolicitud",length = 29,precision = 6)
 	java.sql.Timestamp dataSolicitud;
 
@@ -93,6 +89,10 @@ private static final long serialVersionUID = -940591816L;
 
 	@Column(name="modedefirma",nullable = false,length = 1)
 	java.lang.Boolean modeDeFirma;
+
+  /** Indica la posicio de taula de firmes així com si es vol emprar o no. Valors: SENSETAULA = 0; PRIMERAPAGINA = 1; DARRERAPAGINA = -1;DEFINIT_EN_FIRMA(RUBRICA)=2 */
+	@Column(name="posiciotaulafirmesid",nullable = false,length = 19)
+	int posicioTaulaFirmesID;
 
 	@Index(name="pfi_petifirma_estatid_fk_i")
 	@Column(name="tipusestatpeticiodefirmaid",nullable = false,length = 19)
@@ -188,7 +188,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
   }
 
   /** Constructor amb tots els camps  */
-  public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentNom , java.lang.String informacioAddicional , java.lang.Double informacioAddicionalAvaluable , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String solicitantUsuariEntitat1ID , java.lang.String solicitantUsuariEntitat2ID , java.lang.String solicitantUsuariEntitat3ID , boolean avisWeb , boolean segellatDeTemps , int origenPeticioDeFirma , java.lang.Long configuracioDeFirmaID) {
+  public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int posicioTaulaFirmesID , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentNom , java.lang.String informacioAddicional , java.lang.Double informacioAddicionalAvaluable , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String solicitantUsuariEntitat1ID , java.lang.String solicitantUsuariEntitat2ID , java.lang.String solicitantUsuariEntitat3ID , boolean avisWeb , boolean segellatDeTemps , int origenPeticioDeFirma , java.lang.Long configuracioDeFirmaID) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.titol=titol;
     this.descripcio=descripcio;
@@ -198,7 +198,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.fitxerAdaptatID=fitxerAdaptatID;
     this.tipusDocumentID=tipusDocumentID;
     this.descripcioTipusDocument=descripcioTipusDocument;
-    this.posicioTaulaFirmesID=posicioTaulaFirmesID;
     this.dataSolicitud=dataSolicitud;
     this.dataFinal=dataFinal;
     this.dataCaducitat=dataCaducitat;
@@ -206,6 +205,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.tipusFirmaID=tipusFirmaID;
     this.algorismeDeFirmaID=algorismeDeFirmaID;
     this.modeDeFirma=modeDeFirma;
+    this.posicioTaulaFirmesID=posicioTaulaFirmesID;
     this.tipusEstatPeticioDeFirmaID=tipusEstatPeticioDeFirmaID;
     this.motiuDeRebuig=motiuDeRebuig;
     this.idiomaID=idiomaID;
@@ -232,7 +232,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.configuracioDeFirmaID=configuracioDeFirmaID;
 }
   /** Constructor sense valors autoincrementals */
-  public PeticioDeFirmaJPA(java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentNom , java.lang.String informacioAddicional , java.lang.Double informacioAddicionalAvaluable , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String solicitantUsuariEntitat1ID , java.lang.String solicitantUsuariEntitat2ID , java.lang.String solicitantUsuariEntitat3ID , boolean avisWeb , boolean segellatDeTemps , int origenPeticioDeFirma , java.lang.Long configuracioDeFirmaID) {
+  public PeticioDeFirmaJPA(java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int posicioTaulaFirmesID , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentNom , java.lang.String informacioAddicional , java.lang.Double informacioAddicionalAvaluable , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String solicitantUsuariEntitat1ID , java.lang.String solicitantUsuariEntitat2ID , java.lang.String solicitantUsuariEntitat3ID , boolean avisWeb , boolean segellatDeTemps , int origenPeticioDeFirma , java.lang.Long configuracioDeFirmaID) {
     this.titol=titol;
     this.descripcio=descripcio;
     this.motiu=motiu;
@@ -241,7 +241,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.fitxerAdaptatID=fitxerAdaptatID;
     this.tipusDocumentID=tipusDocumentID;
     this.descripcioTipusDocument=descripcioTipusDocument;
-    this.posicioTaulaFirmesID=posicioTaulaFirmesID;
     this.dataSolicitud=dataSolicitud;
     this.dataFinal=dataFinal;
     this.dataCaducitat=dataCaducitat;
@@ -249,6 +248,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.tipusFirmaID=tipusFirmaID;
     this.algorismeDeFirmaID=algorismeDeFirmaID;
     this.modeDeFirma=modeDeFirma;
+    this.posicioTaulaFirmesID=posicioTaulaFirmesID;
     this.tipusEstatPeticioDeFirmaID=tipusEstatPeticioDeFirmaID;
     this.motiuDeRebuig=motiuDeRebuig;
     this.idiomaID=idiomaID;
@@ -275,17 +275,17 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.configuracioDeFirmaID=configuracioDeFirmaID;
 }
   /** Constructor dels valors Not Null */
-  public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String motiu , long tipusDocumentID , int posicioTaulaFirmesID , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , boolean avisWeb , boolean segellatDeTemps , int origenPeticioDeFirma) {
+  public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String motiu , long tipusDocumentID , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int posicioTaulaFirmesID , int tipusEstatPeticioDeFirmaID , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , boolean avisWeb , boolean segellatDeTemps , int origenPeticioDeFirma) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.titol=titol;
     this.motiu=motiu;
     this.tipusDocumentID=tipusDocumentID;
-    this.posicioTaulaFirmesID=posicioTaulaFirmesID;
     this.dataCaducitat=dataCaducitat;
     this.tipusOperacioFirma=tipusOperacioFirma;
     this.tipusFirmaID=tipusFirmaID;
     this.algorismeDeFirmaID=algorismeDeFirmaID;
     this.modeDeFirma=modeDeFirma;
+    this.posicioTaulaFirmesID=posicioTaulaFirmesID;
     this.tipusEstatPeticioDeFirmaID=tipusEstatPeticioDeFirmaID;
     this.idiomaID=idiomaID;
     this.prioritatID=prioritatID;
@@ -306,7 +306,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.setFitxerAdaptatID(__bean.getFitxerAdaptatID());
     this.setTipusDocumentID(__bean.getTipusDocumentID());
     this.setDescripcioTipusDocument(__bean.getDescripcioTipusDocument());
-    this.setPosicioTaulaFirmesID(__bean.getPosicioTaulaFirmesID());
     this.setDataSolicitud(__bean.getDataSolicitud());
     this.setDataFinal(__bean.getDataFinal());
     this.setDataCaducitat(__bean.getDataCaducitat());
@@ -314,6 +313,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.setTipusFirmaID(__bean.getTipusFirmaID());
     this.setAlgorismeDeFirmaID(__bean.getAlgorismeDeFirmaID());
     this.setModeDeFirma(__bean.getModeDeFirma());
+    this.setPosicioTaulaFirmesID(__bean.getPosicioTaulaFirmesID());
     this.setTipusEstatPeticioDeFirmaID(__bean.getTipusEstatPeticioDeFirmaID());
     this.setMotiuDeRebuig(__bean.getMotiuDeRebuig());
     this.setIdiomaID(__bean.getIdiomaID());
@@ -411,13 +411,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 		this.descripcioTipusDocument = _descripcioTipusDocument_;
 	};
 
-	public int getPosicioTaulaFirmesID() {
-		return(posicioTaulaFirmesID);
-	};
-	public void setPosicioTaulaFirmesID(int _posicioTaulaFirmesID_) {
-		this.posicioTaulaFirmesID = _posicioTaulaFirmesID_;
-	};
-
 	public java.sql.Timestamp getDataSolicitud() {
 		return(dataSolicitud);
 	};
@@ -465,6 +458,13 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 	};
 	public void setModeDeFirma(java.lang.Boolean _modeDeFirma_) {
 		this.modeDeFirma = _modeDeFirma_;
+	};
+
+	public int getPosicioTaulaFirmesID() {
+		return(posicioTaulaFirmesID);
+	};
+	public void setPosicioTaulaFirmesID(int _posicioTaulaFirmesID_) {
+		this.posicioTaulaFirmesID = _posicioTaulaFirmesID_;
 	};
 
 	public int getTipusEstatPeticioDeFirmaID() {
@@ -885,7 +885,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     __tmp.setFitxerAdaptatID(__bean.getFitxerAdaptatID());
     __tmp.setTipusDocumentID(__bean.getTipusDocumentID());
     __tmp.setDescripcioTipusDocument(__bean.getDescripcioTipusDocument());
-    __tmp.setPosicioTaulaFirmesID(__bean.getPosicioTaulaFirmesID());
     __tmp.setDataSolicitud(__bean.getDataSolicitud());
     __tmp.setDataFinal(__bean.getDataFinal());
     __tmp.setDataCaducitat(__bean.getDataCaducitat());
@@ -893,6 +892,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     __tmp.setTipusFirmaID(__bean.getTipusFirmaID());
     __tmp.setAlgorismeDeFirmaID(__bean.getAlgorismeDeFirmaID());
     __tmp.setModeDeFirma(__bean.getModeDeFirma());
+    __tmp.setPosicioTaulaFirmesID(__bean.getPosicioTaulaFirmesID());
     __tmp.setTipusEstatPeticioDeFirmaID(__bean.getTipusEstatPeticioDeFirmaID());
     __tmp.setMotiuDeRebuig(__bean.getMotiuDeRebuig());
     __tmp.setIdiomaID(__bean.getIdiomaID());

@@ -236,33 +236,6 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}">
-        <tr id="peticioDeFirma_posicioTaulaFirmesID_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.POSICIOTAULAFIRMESID])?'peticioDeFirma.posicioTaulaFirmesID':__theForm.labels[PeticioDeFirmaFields.POSICIOTAULAFIRMESID]}" /> &nbsp;(*)
-              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.POSICIOTAULAFIRMESID]}">
-              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.POSICIOTAULAFIRMESID]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-          <form:errors path="peticioDeFirma.posicioTaulaFirmesID" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}" >
-          <form:hidden path="peticioDeFirma.posicioTaulaFirmesID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.posicioTaulaFirmesID,__theForm.listOfValuesForPosicioTaulaFirmesID)}"  />
-          </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}" >
-          <form:select id="peticioDeFirma_posicioTaulaFirmesID"  onchange="if(typeof onChangePosicioTaulaFirmesID == 'function') {  onChangePosicioTaulaFirmesID(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.posicioTaulaFirmesID">
-            <c:forEach items="${__theForm.listOfValuesForPosicioTaulaFirmesID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
-            </c:forEach>
-          </form:select>
-          </c:if>
-           </td>
-        </tr>
-        </c:if>
-        
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.DATASOLICITUD)}">
         <tr id="peticioDeFirma_dataSolicitud_rowid">
           <td>
@@ -471,6 +444,33 @@
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MODEDEFIRMA)}" >
                 <fmt:message key="modedefirma.${__theForm.peticioDeFirma.modeDeFirma}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}">
+        <tr id="peticioDeFirma_posicioTaulaFirmesID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.POSICIOTAULAFIRMESID])?'peticioDeFirma.posicioTaulaFirmesID':__theForm.labels[PeticioDeFirmaFields.POSICIOTAULAFIRMESID]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.POSICIOTAULAFIRMESID]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.POSICIOTAULAFIRMESID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="peticioDeFirma.posicioTaulaFirmesID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}" >
+          <form:hidden path="peticioDeFirma.posicioTaulaFirmesID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.posicioTaulaFirmesID,__theForm.listOfValuesForPosicioTaulaFirmesID)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}" >
+          <form:select id="peticioDeFirma_posicioTaulaFirmesID"  onchange="if(typeof onChangePosicioTaulaFirmesID == 'function') {  onChangePosicioTaulaFirmesID(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.posicioTaulaFirmesID">
+            <c:forEach items="${__theForm.listOfValuesForPosicioTaulaFirmesID}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
           </c:if>
            </td>
         </tr>

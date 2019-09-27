@@ -13,8 +13,30 @@ import javax.ejb.Local;
 @Local
 public interface BitacolaLogicaLocal extends BitacolaLocal {
 
-  public static final String JNDI_NAME = "portafib/BitacolaLogicaEJB/local";
+  String JNDI_NAME = "portafib/BitacolaLogicaEJB/local";
 
-  public BitacolaJPA createBitacola(String descripcio, Long peticioID, String usuariEntitat, String usuariAplicacio);
+  BitacolaJPA createBitacola(String entitatid, String objecteid, int tipusobjecte,
+                                    int tipusoperacio);
+
+  BitacolaJPA createBitacola(String entitatid, String objecteid, int tipusobjecte,
+                                    int tipusoperacio, String descripcio);
+
+  BitacolaJPA createBitacola(String entitatid, String objecteid, int tipusobjecte,
+                                    int tipusoperacio, Object objecte);
+
+  BitacolaJPA createBitacola(String entitatid, String objecteid, int tipusobjecte,
+                                    int tipusoperacio, String descripcio, Object objecte);
+
+  BitacolaJPA createBitacola(String entitatid, long objecteid, int tipusobjecte,
+                                    int tipusoperacio);
+
+  BitacolaJPA createBitacola(String entitatid, long objecteid, int tipusobjecte,
+                                    int tipusoperacio, String descripcio);
+
+  BitacolaJPA createBitacola(String entitatid, long objecteid, int tipusobjecte,
+                                    int tipusoperacio, Object objecte);
+
+  BitacolaJPA createBitacola(String entitatid, long objecteid, int tipusobjecte,
+                                    int tipusoperacio, String descripcio, Object objecte);
 }
 
