@@ -50,6 +50,7 @@ import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.logic.validator.PeticioDeFirmaLogicValidator;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
 import es.caib.portafib.model.bean.PeticioDeFirmaBean;
+import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Annex;
 import es.caib.portafib.model.entity.AnnexFirmat;
 import es.caib.portafib.model.entity.BlocDeFirmes;
@@ -85,7 +86,6 @@ import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields;
-import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.Configuracio;
@@ -124,7 +124,9 @@ import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -708,17 +710,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             peticioDeFirma, custodiaInfo);
 
         // Numero de firmes total
-        Set<BlocDeFirmesJPA> blocs = flux.getBlocDeFirmess();
-        int numFirmes = 0;
-        for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
-          numFirmes = numFirmes + blocDeFirmesJPA.getMinimDeFirmes();
-        }
-
-        if (numFirmes > ConstantsV2.MAX_FIRMES_PER_TAULA) {
-          // TODO TRADUIR per quan es passin els missatges a Logica
-          throw new Exception("Una peticio de firma pot tenir com a màxim "
-              + ConstantsV2.MAX_FIRMES_PER_TAULA + " firmes obligatories.");
-        }
+        
 
         // Posar ROLE DEST als firmants del flux de firmes
         checkUsersOfFlux(flux);
@@ -745,7 +737,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             
             fitxerFinalAFirmar = thingsToDoInPADESWhenStartsPeticioDeFirma(peticioDeFirma, numFirmes, custodiaInfo,
                 custodiaForStartPeticioDeFirma);
-            dstPDF = FileSystemManager.getFile(fitxerFinalAFirmarID);
+
           break;
 
           // TODO
@@ -909,7 +901,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
  
 
-  private long thingsToDoInPADES(PeticioDeFirmaJPA peticioDeFirma, int numFirmes,
+  private FitxerJPA thingsToDoInPADESWhenStartsPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma, int numFirmes,
       CustodiaInfo custodiaInfo, 
       CustodiaForStartPeticioDeFirma custodiaForStartPeticioDeFirma)
           throws Exception, I18NException, I18NValidationException {

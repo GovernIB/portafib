@@ -56,7 +56,7 @@ public class JAXBUtil {
    /* Poc elegant, però atès que no tenim control sobre les classes del model, l'única manera d'assignar-lis
     un root element, i fer les adaptaciosn que calguin és així.
     */
-   private static JAXBElement getJAXBElement(Object objecte) {
+   private static JAXBElement<?> getJAXBElement(Object objecte) {
       if (objecte instanceof FirmaEvent) {
          return new JAXBElement<FirmaEvent>(
                new QName("firmaEvent"), FirmaEvent.class, (FirmaEvent) objecte);

@@ -1,32 +1,17 @@
 package es.caib.portafib.back.controller.aden;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import es.caib.portafib.back.controller.webdb.BitacolaController;
 import es.caib.portafib.back.form.webdb.BitacolaFilterForm;
 import es.caib.portafib.back.form.webdb.BitacolaForm;
 import es.caib.portafib.ejb.UsuariEntitatLocal;
-import es.caib.portafib.model.entity.Bitacola;
 import es.caib.portafib.model.fields.BitacolaFields;
-import es.caib.portafib.model.fields.UsuariEntitatFields;
-import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.ConstantsV2;
 
-import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
-import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.genapp.common.utils.Utils;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
-import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
