@@ -280,38 +280,6 @@ public class AuthenticationSuccessListener implements
               + " està autenticat però no s'ha donat d'alta en PortaFIB");
         }
         
-        
-        if (!Configuracio.isCAIB()) {
-          
-          log.info(" XYZ ZZZ ZZZ  CONF NO CAIB");
-          
-          Set<RoleUsuariAplicacioJPA> roles = usuariAplicacio.getRoleUsuariAplicacios();
-          
-          log.info(" XYZ ZZZ ZZZ  ROLES => " + roles.size());
-          
-          seyconAuthorities = new ArrayList<GrantedAuthority>(seyconAuthorities);
-
-          for (RoleUsuariAplicacioJPA rolUsrApp: roles) {
-            
-            String rol = rolUsrApp.getRoleID();
-           
-            //if (isDebug) { 
-              log.info("Rol SEYCON : " + rol);
-            //}
-            if (ConstantsV2.PFI_USER.equals(rol)) {
-              containsRoleUser = true;
-            }
-            if (ConstantsV2.PFI_ADMIN.equals(rol)) {
-              containsRoleAdmin = true;
-            }
-            
-            seyconAuthorities.add(new SimpleGrantedAuthority(rol));
-          }
-        }
-        
-        
-        
-        
         EntitatJPA entitat = usuariAplicacio.getEntitat();
         if (entitat != null) {
           // Check deshabilitada

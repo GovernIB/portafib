@@ -28,11 +28,12 @@ public class UsuariAplicacioBeanLogicValidator extends UsuariAplicacioBeanValida
          __custodiaInfoManager,__entitatManager, __idiomaManager, __usuariAplicacioManager);
 
    }
-  
-  public List<I18NFieldError> validate(UsuariAplicacioJPA target, boolean isNou, String entitatID) throws I18NException {
+
+   @Override
+  public List<I18NFieldError> validate(UsuariAplicacioJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<UsuariAplicacioJPA> _bvr_ = new BeanValidatorResult<UsuariAplicacioJPA>();
     
-    ((UsuariAplicacioLogicValidator<UsuariAplicacioJPA>)_validator).validate(_bvr_, target, isNou, __custodiaInfoManager, __entitatManager, __idiomaManager, __usuariAplicacioManager, entitatID);
+    _validator.validate(_bvr_, target, isNou, __custodiaInfoManager, __entitatManager, __idiomaManager, __usuariAplicacioManager);
     
     return _bvr_.getErrors();
   }

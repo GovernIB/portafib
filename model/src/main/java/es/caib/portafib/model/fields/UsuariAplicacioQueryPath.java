@@ -15,10 +15,6 @@ public class UsuariAplicacioQueryPath extends org.fundaciobit.genapp.common.quer
     return new StringField(getQueryPath(), UsuariAplicacioFields.USUARIAPLICACIOID);
   }
 
-  public StringField CONTRASENYA() {
-    return new StringField(getQueryPath(), UsuariAplicacioFields.CONTRASENYA);
-  }
-
   public StringField ENTITATID() {
     return new StringField(getQueryPath(), UsuariAplicacioFields.ENTITATID);
   }
@@ -151,20 +147,6 @@ public class UsuariAplicacioQueryPath extends org.fundaciobit.genapp.common.quer
     return new PluginFirmaWebPerUsuariAplicacioQueryPath(new QueryPath() {
       public String getQueryPath() {
           return UsuariAplicacioQueryPath.this.getQueryPath() + "pluginFirmaWebPerUsuariAplicacios" + ".";
-      }
-    });
-  }
-*/
-
-/* L'ús d'aquest camp (OneToMany) llança una exception:
- [Illegal attempt to dereference a collection]
-
- // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
-
-  public RoleUsuariAplicacioQueryPath ROLEUSUARIAPLICACIOS() {
-    return new RoleUsuariAplicacioQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return UsuariAplicacioQueryPath.this.getQueryPath() + "roleUsuariAplicacios" + ".";
       }
     });
   }

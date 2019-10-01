@@ -90,14 +90,6 @@ public class UsuariAplicacioValidator<T> implements UsuariAplicacioFields {
       }
     }
 
-    if (__vr.getFieldErrorCount(CONTRASENYA) == 0) {
-      java.lang.String __contrasenya = (java.lang.String)__vr.getFieldValue(__target__,CONTRASENYA);
-      if (__contrasenya!= null && __contrasenya.length() > 50) {
-        __vr.rejectValue(CONTRASENYA, "genapp.validation.sizeexceeds",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(CONTRASENYA)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(50)));
-      }
-    }
-    
     if (__vr.getFieldErrorCount(ENTITATID) == 0) {
       java.lang.String __entitatid = (java.lang.String)__vr.getFieldValue(__target__,ENTITATID);
       if (__entitatid!= null && __entitatid.length() > 50) {

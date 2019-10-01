@@ -36,7 +36,6 @@ public interface IPortaFIBDaoManagers {
 	public IRebreAvisManager getRebreAvisManager();
 	public IRevisorDeFirmaManager getRevisorDeFirmaManager();
 	public IRoleManager getRoleManager();
-	public IRoleUsuariAplicacioManager getRoleUsuariAplicacioManager();
 	public IRoleUsuariEntitatManager getRoleUsuariEntitatManager();
 	public ITipusDocumentManager getTipusDocumentManager();
 	public ITipusDocumentColaboracioDelegacioManager getTipusDocumentColaboracioDelegacioManager();

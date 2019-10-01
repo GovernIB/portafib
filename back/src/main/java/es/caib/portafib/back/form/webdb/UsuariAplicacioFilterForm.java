@@ -32,17 +32,6 @@ public class UsuariAplicacioFilterForm extends PortaFIBBaseFilterForm implements
   }
 
 
-  private java.lang.String contrasenya;
-
-  public java.lang.String getContrasenya() {
-    return this.contrasenya;
-  }
-
-  public void setContrasenya(java.lang.String contrasenya) {
-    this.contrasenya = contrasenya;
-  }
-
-
   private java.lang.String entitatID;
 
   public java.lang.String getEntitatID() {
@@ -192,7 +181,6 @@ public class UsuariAplicacioFilterForm extends PortaFIBBaseFilterForm implements
   public UsuariAplicacioFilterForm(UsuariAplicacioFilterForm __toClone) {
     super(__toClone);
     this.usuariAplicacioID = __toClone.usuariAplicacioID;
-    this.contrasenya = __toClone.contrasenya;
     this.entitatID = __toClone.entitatID;
     this.emailAdmin = __toClone.emailAdmin;
     this.callbackVersioDesde = __toClone.callbackVersioDesde;

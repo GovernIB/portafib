@@ -1060,16 +1060,6 @@
     </definition>
 
 
-    <definition name="roleUsuariAplicacioFormWebDB" extends="webdb">
-        <put-attribute name="titol" value="roleUsuariAplicacio.roleUsuariAplicacio" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariAplicacioForm.jsp" />
-    </definition>
-    
-    <definition name="roleUsuariAplicacioListWebDB" extends="webdb">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariAplicacioList.jsp" />
-    </definition>
-
-
     <definition name="roleUsuariEntitatFormWebDB" extends="webdb">
         <put-attribute name="titol" value="roleUsuariEntitat.roleUsuariEntitat" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariEntitatForm.jsp" />

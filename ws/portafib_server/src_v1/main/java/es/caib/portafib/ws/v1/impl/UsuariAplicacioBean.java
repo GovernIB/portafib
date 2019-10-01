@@ -9,12 +9,13 @@ import es.caib.portafib.model.entity.UsuariAplicacio;
  * i el constructor a partir del Objecte del Model
  * 
  * @author anadal
- *
+ * @author areus
  */
 public class UsuariAplicacioBean  {
 
 
 	java.lang.String usuariAplicacioID;// PK
+	/** Portafib ja no emmagatzema contrasenyes d'usuaris, però és manté per no modificar l'API */
 	java.lang.String contrasenya;
 	java.lang.String entitatID;
 	java.lang.String emailAdmin;
@@ -57,7 +58,8 @@ public class UsuariAplicacioBean  {
 }
   public UsuariAplicacioBean(UsuariAplicacio __bean) {
     this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
-    this.setContrasenya(__bean.getContrasenya());
+    // Portafib ja no emmagatzema contraesnyes d'ususaris.
+    this.setContrasenya(null);
     this.setEntitatID(__bean.getEntitatID());
     this.setEmailAdmin(__bean.getEmailAdmin());
     this.setCallbackVersio(__bean.getCallbackVersio());
@@ -156,7 +158,8 @@ public class UsuariAplicacioBean  {
     if (__bean == null) { return null;}
     UsuariAplicacioBean __tmp = new UsuariAplicacioBean();
     __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
-    __tmp.setContrasenya(__bean.getContrasenya());
+    // Portafib ja no emmagatzema contraesnyes d'ususaris.
+    __tmp.setContrasenya(null);
     __tmp.setEntitatID(__bean.getEntitatID());
     __tmp.setEmailAdmin(__bean.getEmailAdmin());
     __tmp.setCallbackVersio(__bean.getCallbackVersio());

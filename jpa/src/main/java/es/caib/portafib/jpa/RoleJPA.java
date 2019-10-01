@@ -98,19 +98,6 @@ private static final long serialVersionUID = -1253450907L;
     return __result;
   }
 
-// EXP  Field:roleid | Table: pfi_roleusuariaplicacio | Type: 0  
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
-	private Set<RoleUsuariAplicacioJPA> roleUsuariAplicacios = new HashSet<RoleUsuariAplicacioJPA>(0);
-	public  Set<RoleUsuariAplicacioJPA> getRoleUsuariAplicacios() {
-    return this.roleUsuariAplicacios;
-  }
-
-	public void setRoleUsuariAplicacios(Set<RoleUsuariAplicacioJPA> roleUsuariAplicacios) {
-	  this.roleUsuariAplicacios = roleUsuariAplicacios;
-	}
-
-
 // EXP  Field:roleid | Table: pfi_roleusuarientitat | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
@@ -164,10 +151,6 @@ private static final long serialVersionUID = -1253450907L;
     if(!"RoleUsuariEntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.roleUsuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getRoleUsuariEntitats())) ) {
       __tmp.setRoleUsuariEntitats(RoleUsuariEntitatJPA.copyJPA(__jpa.getRoleUsuariEntitats(), __alreadyCopied,"RoleJPA"));
-    }
-    if(!"RoleUsuariAplicacioJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.roleUsuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getRoleUsuariAplicacios())) ) {
-      __tmp.setRoleUsuariAplicacios(RoleUsuariAplicacioJPA.copyJPA(__jpa.getRoleUsuariAplicacios(), __alreadyCopied,"RoleJPA"));
     }
     // Copia de beans complexes (IMP)
 

@@ -1,6 +1,5 @@
 package es.caib.portafib.ws.v1.impl;
 
-import es.caib.portafib.ejb.UsuariEntitatLocal;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.FitxerLogicaLocal;
@@ -32,9 +31,10 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 
+ * Servei web per la gestió d'usuaris aplicació. Les operacoions amb roles ja no estan disponibles i llancen una
+ * UnsupportedOperationException.
  * @author anadal
- * 
+ * @author areus
  */
 @SecurityDomain(Constants.SECURITY_DOMAIN)
 @Stateless(name = PortaFIBUsuariAplicacioWsImpl.NAME + "Ejb")
@@ -54,9 +54,6 @@ public class PortaFIBUsuariAplicacioWsImpl extends AuthenticatedBaseV1WsImpl
   public static final String NAME = "PortaFIBUsuariAplicacio";
 
   public static final String NAME_WS = NAME + "Ws";
-
-  @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME)
-  protected UsuariEntitatLocal usuariEntitatEjb;
 
   @EJB(mappedName = "portafib/UsuariAplicacioLogicaEJB/local")
   protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
@@ -166,25 +163,25 @@ public class PortaFIBUsuariAplicacioWsImpl extends AuthenticatedBaseV1WsImpl
   @RolesAllowed({ PFI_ADMIN })
   @WebMethod
   public boolean addRolUserToUsuariAplicacio(@WebParam(name = "usuariAplicacioID") String usuariAplicacioID) throws WsI18NException, Throwable {
-    return usuariAplicacioLogicaEjb.afegirRolUser(usuariAplicacioID);
+    throw new UnsupportedOperationException();
   }
 
   @RolesAllowed({ PFI_ADMIN })
   @WebMethod
   public boolean removeRolUserToUsuariAplicacio(@WebParam(name = "usuariAplicacioID") String usuariAplicacioID) throws WsI18NException, Throwable {
-    return usuariAplicacioLogicaEjb.eliminarRolUser(usuariAplicacioID);
+    throw new UnsupportedOperationException();
   }
 
   @RolesAllowed(PFI_ADMIN)
   @WebMethod
   public boolean addRolAdminToUsuariAplicacio(@WebParam(name = "usuariAplicacioID") String usuariAplicacioID) throws WsI18NException, Throwable {
-    return usuariAplicacioLogicaEjb.afegirRolAdmin(usuariAplicacioID);
+    throw new UnsupportedOperationException();
   }
 
   @RolesAllowed(PFI_ADMIN)
   @WebMethod
   public boolean removeRolAdminToUsuariAplicacio(@WebParam(name = "usuariAplicacioID") String usuariAplicacioID) throws WsI18NException, Throwable {
-    return usuariAplicacioLogicaEjb.eliminarRolAdmin(usuariAplicacioID);
+    throw new UnsupportedOperationException();
   }
 
 }

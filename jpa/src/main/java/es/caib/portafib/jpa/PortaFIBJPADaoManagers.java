@@ -39,7 +39,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
    private final RebreAvisJPAManager pfi_rebreavis;
    private final RevisorDeFirmaJPAManager pfi_revisordefirma;
    private final RoleJPAManager pfi_role;
-   private final RoleUsuariAplicacioJPAManager pfi_roleusuariaplicacio;
    private final RoleUsuariEntitatJPAManager pfi_roleusuarientitat;
    private final TipusDocumentJPAManager pfi_tipusdocument;
    private final TipusDocumentColaboracioDelegacioJPAManager pfi_tipusdocumentcoladele;
@@ -85,7 +84,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
     this.pfi_rebreavis = new RebreAvisJPAManager(__em);
     this.pfi_revisordefirma = new RevisorDeFirmaJPAManager(__em);
     this.pfi_role = new RoleJPAManager(__em);
-    this.pfi_roleusuariaplicacio = new RoleUsuariAplicacioJPAManager(__em);
     this.pfi_roleusuarientitat = new RoleUsuariEntitatJPAManager(__em);
     this.pfi_tipusdocument = new TipusDocumentJPAManager(__em);
     this.pfi_tipusdocumentcoladele = new TipusDocumentColaboracioDelegacioJPAManager(__em);
@@ -228,10 +226,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
 
 	public IRoleManager getRoleManager() {
 	  return this.pfi_role;
-	};
-
-	public IRoleUsuariAplicacioManager getRoleUsuariAplicacioManager() {
-	  return this.pfi_roleusuariaplicacio;
 	};
 
 	public IRoleUsuariEntitatManager getRoleUsuariEntitatManager() {

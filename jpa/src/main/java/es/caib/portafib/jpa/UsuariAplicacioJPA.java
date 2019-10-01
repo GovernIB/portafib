@@ -31,9 +31,6 @@ private static final long serialVersionUID = -360699331L;
 	@Column(name="usuariaplicacioid",nullable = false,length = 101)
 	java.lang.String usuariAplicacioID;
 
-	@Column(name="contrasenya",length = 50)
-	java.lang.String contrasenya;
-
   /** Només pot ser null en el cas de definir l'usuari aplicació emprat per realitzar peticions dels usuaris-persona */
 	@Index(name="pfi_usrapp_entitatid_fk_i")
 	@Column(name="entitatid",nullable = false,length = 50)
@@ -84,9 +81,8 @@ private static final long serialVersionUID = -360699331L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String contrasenya , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , int politicaDePluginFirmaWeb , int politicaCustodia , java.lang.Long custodiaInfoID) {
+  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , int politicaDePluginFirmaWeb , int politicaCustodia , java.lang.Long custodiaInfoID) {
     this.usuariAplicacioID=usuariAplicacioID;
-    this.contrasenya=contrasenya;
     this.entitatID=entitatID;
     this.emailAdmin=emailAdmin;
     this.callbackVersio=callbackVersio;
@@ -113,7 +109,6 @@ private static final long serialVersionUID = -360699331L;
 }
   public UsuariAplicacioJPA(UsuariAplicacio __bean) {
     this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
-    this.setContrasenya(__bean.getContrasenya());
     this.setEntitatID(__bean.getEntitatID());
     this.setEmailAdmin(__bean.getEmailAdmin());
     this.setCallbackVersio(__bean.getCallbackVersio());
@@ -134,13 +129,6 @@ private static final long serialVersionUID = -360699331L;
 	};
 	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_) {
 		this.usuariAplicacioID = _usuariAplicacioID_;
-	};
-
-	public java.lang.String getContrasenya() {
-		return(contrasenya);
-	};
-	public void setContrasenya(java.lang.String _contrasenya_) {
-		this.contrasenya = _contrasenya_;
 	};
 
 	public java.lang.String getEntitatID() {
@@ -318,19 +306,6 @@ private static final long serialVersionUID = -360699331L;
 	}
 
 
-// EXP  Field:usuariaplicacioid | Table: pfi_roleusuariaplicacio | Type: 0  
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariAplicacio")
-	private Set<RoleUsuariAplicacioJPA> roleUsuariAplicacios = new HashSet<RoleUsuariAplicacioJPA>(0);
-	public  Set<RoleUsuariAplicacioJPA> getRoleUsuariAplicacios() {
-    return this.roleUsuariAplicacios;
-  }
-
-	public void setRoleUsuariAplicacios(Set<RoleUsuariAplicacioJPA> roleUsuariAplicacios) {
-	  this.roleUsuariAplicacios = roleUsuariAplicacios;
-	}
-
-
 // EXP  Field:usuariaplicacioid | Table: pfi_tipusdocument | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariAplicacio")
@@ -410,7 +385,6 @@ private static final long serialVersionUID = -360699331L;
     if (__bean == null) { return null;}
     UsuariAplicacioJPA __tmp = new UsuariAplicacioJPA();
     __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
-    __tmp.setContrasenya(__bean.getContrasenya());
     __tmp.setEntitatID(__bean.getEntitatID());
     __tmp.setEmailAdmin(__bean.getEmailAdmin());
     __tmp.setCallbackVersio(__bean.getCallbackVersio());
@@ -480,10 +454,6 @@ private static final long serialVersionUID = -360699331L;
     if(!"PerfilsPerUsuariAplicacioJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.perfilsPerUsuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getPerfilsPerUsuariAplicacios())) ) {
       __tmp.setPerfilsPerUsuariAplicacios(PerfilsPerUsuariAplicacioJPA.copyJPA(__jpa.getPerfilsPerUsuariAplicacios(), __alreadyCopied,"UsuariAplicacioJPA"));
-    }
-    if(!"RoleUsuariAplicacioJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.roleUsuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getRoleUsuariAplicacios())) ) {
-      __tmp.setRoleUsuariAplicacios(RoleUsuariAplicacioJPA.copyJPA(__jpa.getRoleUsuariAplicacios(), __alreadyCopied,"UsuariAplicacioJPA"));
     }
     // Copia de beans complexes (IMP)
     if(!"EntitatJPA".equals(origenJPA) && 

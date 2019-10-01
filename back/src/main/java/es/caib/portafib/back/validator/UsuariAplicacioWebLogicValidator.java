@@ -25,8 +25,7 @@ public class UsuariAplicacioWebLogicValidator extends UsuariAplicacioWebValidato
       WebValidationResult<Object> wvr, boolean isNou) {
     
     validatorLogic.validate(wvr, target,
-        isNou, custodiaInfoEjb, entitatEjb, idiomaEjb, usuariAplicacioEjb,
-        LoginInfo.getInstance().getEntitatID());
+        isNou, custodiaInfoEjb, entitatEjb, idiomaEjb, usuariAplicacioEjb);
 
   } // Final de mètode
   

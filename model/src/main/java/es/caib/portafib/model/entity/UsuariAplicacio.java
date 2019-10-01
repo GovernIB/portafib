@@ -5,9 +5,6 @@ public interface UsuariAplicacio extends org.fundaciobit.genapp.common.IGenAppEn
 	public java.lang.String getUsuariAplicacioID();
 	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_);
 
-	public java.lang.String getContrasenya();
-	public void setContrasenya(java.lang.String _contrasenya_);
-
 	public java.lang.String getEntitatID();
 	public void setEntitatID(java.lang.String _entitatID_);
 

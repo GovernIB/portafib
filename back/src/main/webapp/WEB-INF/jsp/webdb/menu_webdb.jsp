@@ -616,25 +616,6 @@
       </ul>
     </li>
 
-    <%-- RoleUsuariAplicacio --%>
-    <li>
-      <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'roleUsuariAplicacio/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'roleUsuariAplicacio/')? "font-weight: bold;" : ""}"><fmt:message key="roleUsuariAplicacio.roleUsuariAplicacio"/></span></a>
-      <ul class="${fn:contains(url, 'roleUsuariAplicacio/')? "branch in" : "branch"}">
-        <li style="list-style-type: disc; list-style-position: inside;" ><a href="<c:url value="/webdb/roleUsuariAplicacio/new"/>" ><span style="${(fn:contains(url, 'roleUsuariAplicacio/') && fn:contains(url, '/new'))? "font-weight: bold;" : ""}" >
-       <fmt:message var="entityname" key="roleUsuariAplicacio.roleUsuariAplicacio"/>
-       <fmt:message key="genapp.createtitle" >
-         <fmt:param value="${entityname}"/>
-       </fmt:message>
-       </span></a></li>
-        <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/webdb/roleUsuariAplicacio/list/1"/>" ><span style="${(fn:contains(url, 'roleUsuariAplicacio/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" >
-        <fmt:message key="genapp.listtitle" >
-         <fmt:param value="${entityname}"/>
-       </fmt:message>
-        </span></a>
-        </li>
-      </ul>
-    </li>
-
     <%-- RoleUsuariEntitat --%>
     <li>
       <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'roleUsuariEntitat/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'roleUsuariEntitat/')? "font-weight: bold;" : ""}"><fmt:message key="roleUsuariEntitat.roleUsuariEntitat"/></span></a>
