@@ -2,8 +2,6 @@ package es.caib.portafib.logic.validator;
 
 import org.fundaciobit.pluginsib.userinformation.IUserInformationPlugin;
 import org.fundaciobit.pluginsib.userinformation.UserInfo;
-import org.fundaciobit.genapp.common.i18n.I18NArgument;
-import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NTranslation;
@@ -11,7 +9,6 @@ import org.fundaciobit.genapp.common.validation.IValidatorResult;
 
 import es.caib.portafib.jpa.validator.UsuariAplicacioValidator;
 import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
-import es.caib.portafib.utils.Configuracio;
 
 /**
  * Validació d'usuari aplicació. Afegeix a les validacions generades, la comprovació que l'usuari existeix al sistema
