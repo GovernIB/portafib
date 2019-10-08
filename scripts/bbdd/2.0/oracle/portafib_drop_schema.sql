@@ -65,8 +65,6 @@
 
     drop table pfi_role cascade constraints;
 
-    drop table pfi_roleusuariaplicacio cascade constraints;
-
     drop table pfi_roleusuarientitat cascade constraints;
 
     drop table pfi_tipusdocument cascade constraints;
