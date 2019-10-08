@@ -19,6 +19,15 @@ PROFILE=PROFILE_PADES
 # NIFs separats per comes
 nifsDestinataris=123456789C
 
+#nifsDestinataris=usuariextern, 123456789C
+
+usuariextern.name=Inotna
+usuariextern.surnames=Ladan Rasanneb
+usuariextern.administrationid=123456789C
+usuariextern.email=externaluserl@gmail.com
+usuariextern.language=ca
+
+
 # Revisor (s'afegirà a cada firma)
 # nifRevisor=123456789C
 
