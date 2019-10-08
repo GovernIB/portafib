@@ -677,6 +677,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
               String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
     }
 
+    int tipusFirmaID = peticioDeFirma.getTipusFirmaID();
+    if (tipusFirmaID == ConstantsV2.TIPUSFIRMA_XADES || tipusFirmaID == ConstantsV2.TIPUSFIRMA_CADES) {
+      final Set<BlocDeFirmesJPA> blocs = peticioDeFirma.getFluxDeFirmes().getBlocDeFirmess();
+      if (blocs.size() > 1 || blocs.iterator().next().getMinimDeFirmes() > 1) {
+        throw new I18NException("peticiodefirma.tipusdefirma.nomesdeunafirma");
+      }
+    }
+
     // TODO S'ha de diferenciar entre Iniciar si esta en
     // estat NO_INICIAT o si esta PAUSAT !!!!
 
