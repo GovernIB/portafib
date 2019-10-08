@@ -66,8 +66,6 @@ public class SignatureModuleController extends HttpServlet {
      @PathVariable("signaturesSetID") String signaturesSetID) throws Exception, I18NException {
 
     PortaFIBSignaturesSet signaturesSet = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
-    
-    
 
     // TODO CHECK signature Set
 

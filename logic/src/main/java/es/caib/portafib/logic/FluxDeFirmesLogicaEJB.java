@@ -415,7 +415,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
       ordre = count * 10;
       if (blocDeFirmesJPA.getOrdre() != ordre) {
         blocDeFirmesJPA.setOrdre(ordre);
-        blocDeFirmesLogicaEjb.update(blocDeFirmesJPA);
+        blocDeFirmesLogicaEjb.updateUnautenticated(blocDeFirmesJPA);
       }
       count++;
     }

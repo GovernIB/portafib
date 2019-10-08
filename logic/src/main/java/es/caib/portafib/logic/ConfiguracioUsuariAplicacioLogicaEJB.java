@@ -218,6 +218,12 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
      */
     return perfilDeFirma;
   }
+  
+  @Override
+  public UsuariAplicacioConfiguracioJPA findByPrimaryKeyUnauthorized(Long _ID_) {
+    return super.findByPrimaryKey(_ID_);
+  }
+  
 
   protected PerfilDeFirma getPerfilDeFirmaByCodi(String codiPerfil) throws I18NException {
     PerfilDeFirma perfilDeFirma;

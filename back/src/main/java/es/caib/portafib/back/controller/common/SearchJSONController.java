@@ -237,7 +237,42 @@ public class SearchJSONController {
     pw.flush();
   }
   
-  
+  /**
+   * Filtre usuaris-entitat intern de l'entitat actual. Exclou els usuaris-externs
+   * @param request
+   * @param response
+   * @throws Exception
+   */
+  @RequestMapping(value = "/usuarientitatintern", method = RequestMethod.POST)
+  public void usuarientitatintern(HttpServletRequest request, HttpServletResponse response
+     ) throws Exception {
+
+    
+    String queryFull = request.getParameter("query");
+    
+    final UsuariPersonaQueryPath personaQueryPath = new UsuariEntitatQueryPath().USUARIPERSONA();
+ 
+    
+    
+    Where additionalWhere = Where.AND(
+        new UsuariEntitatQueryPath().USUARIPERSONA().USUARIINTERN().equal(true),
+        UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
+        UsuariEntitatFields.CARREC.isNull(),
+        UsuariEntitatFields.ACTIU.equal(true)
+        );
+    
+    StringField keyField = UsuariEntitatFields.USUARIENTITATID;
+    
+    String json = genericSearch(queryFull, personaQueryPath, usuariEntitatLogicaEjb,
+        additionalWhere, keyField, usuariEntitatRefList);
+    
+    
+    PrintWriter pw= response.getWriter();
+    
+    pw.write(json);
+    pw.flush();
+    
+  }
   
   /**
    * Filtre usuaris-entitat de l'entitat actual.

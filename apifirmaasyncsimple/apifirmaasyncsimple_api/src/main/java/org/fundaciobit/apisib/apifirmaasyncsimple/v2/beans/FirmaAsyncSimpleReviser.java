@@ -12,27 +12,23 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class FirmaAsyncSimpleReviser {
+public class FirmaAsyncSimpleReviser extends FirmaAsyncSimplePerson {
 
-  protected FirmaAsyncSimplePerson reviser;
   protected boolean required;
 
   public FirmaAsyncSimpleReviser() {
     super();
   }
 
-  public FirmaAsyncSimpleReviser(FirmaAsyncSimplePerson reviser, boolean required) {
-    super();
-    this.reviser = reviser;
+  public FirmaAsyncSimpleReviser(FirmaAsyncSimplePerson persona, boolean required) {
+    this(persona.getPositionInTheCompany(), persona.getAdministrationID(), persona
+        .getUsername(), persona.getIntermediateServerUsername(), required);
+  }
+
+  public FirmaAsyncSimpleReviser(String positionInTheCompany, String administrationID,
+      String username, String intermediateServerUsername, boolean required) {
+    super(positionInTheCompany, administrationID, username, intermediateServerUsername);
     this.required = required;
-  }
-
-  public FirmaAsyncSimplePerson getReviser() {
-    return reviser;
-  }
-
-  public void setReviser(FirmaAsyncSimplePerson reviser) {
-    this.reviser = reviser;
   }
 
   public boolean isRequired() {

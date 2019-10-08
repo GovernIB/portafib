@@ -9,6 +9,7 @@ import es.caib.portafib.jpa.validator.FirmaValidator;
 import es.caib.portafib.logic.validator.FirmaLogicValidator;
 import es.caib.portafib.model.entity.BlocDeFirmes;
 import es.caib.portafib.model.entity.Firma;
+
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.hibernate.Hibernate;
@@ -16,6 +17,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,8 +32,8 @@ public class BlocDeFirmesLogicaEJB extends BlocDeFirmesEJB
   implements BlocDeFirmesLogicaLocal {
 
 
-  @EJB(mappedName = "portafib/FirmaLogicaEJB/local")
-  private FirmaLogicaLocal firmaLogicaEjb;
+  @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
+  protected FirmaLogicaLocal firmaLogicaEjb;
   
   @EJB(mappedName = "portafib/UsuariEntitatEJB/local", beanName = "UsuariEntitatEJB")
   private UsuariEntitatLocal usuariEntitatEjb;
@@ -92,7 +94,15 @@ public class BlocDeFirmesLogicaEJB extends BlocDeFirmesEJB
 
     return files;
   }
+
+  @Override
+  public BlocDeFirmesJPA findByPrimaryKeyUnauthenticated(Long _ID_) {
+    return (BlocDeFirmesJPA)super.findByPrimaryKey(_ID_);
+  }
   
-  
+  @Override
+  public BlocDeFirmes updateUnautenticated(BlocDeFirmes instance) throws I18NException {
+     return super.update(instance);
+  }
   
 }

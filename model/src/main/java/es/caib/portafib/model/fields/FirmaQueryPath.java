@@ -99,6 +99,30 @@ public class FirmaQueryPath extends org.fundaciobit.genapp.common.query.QueryPat
     return new StringField(getQueryPath(), FirmaFields.PERFILDEFIRMA);
   }
 
+  public StringField USUARIEXTERNNOM() {
+    return new StringField(getQueryPath(), FirmaFields.USUARIEXTERNNOM);
+  }
+
+  public StringField USUARIEXTERNLLINATGES() {
+    return new StringField(getQueryPath(), FirmaFields.USUARIEXTERNLLINATGES);
+  }
+
+  public StringField USUARIEXTERNEMAIL() {
+    return new StringField(getQueryPath(), FirmaFields.USUARIEXTERNEMAIL);
+  }
+
+  public StringField USUARIEXTERNIDIOMA() {
+    return new StringField(getQueryPath(), FirmaFields.USUARIEXTERNIDIOMA);
+  }
+
+  public StringField USUARIEXTERNTOKEN() {
+    return new StringField(getQueryPath(), FirmaFields.USUARIEXTERNTOKEN);
+  }
+
+  public IntegerField USUARIEXTERNNIVELLSEGURETAT() {
+    return new IntegerField(getQueryPath(), FirmaFields.USUARIEXTERNNIVELLSEGURETAT);
+  }
+
 
 
   @Override

@@ -14,6 +14,7 @@ import javax.security.auth.login.LoginException;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 import org.fundaciobit.pluginsib.userinformation.IUserInformationPlugin;
 import org.fundaciobit.pluginsib.userinformation.RolesInfo;
@@ -133,7 +134,11 @@ public class BaseCertLoginModule extends org.jboss.security.auth.spi.BaseCertLog
           log.info(" Feim el Login emprant el DNI " + dni);
           List<UsuariPersona> usuaris;
           try {
-            usuaris = usuariPersonaEjb.select(NIF.equal(dni));
+            Where w = Where.AND(
+                NIF.equal(dni),
+                USUARIINTERN.equal(true)
+                );
+            usuaris = usuariPersonaEjb.select(w);
           } catch (Exception e) {
             log.error(e);
             throw new LoginException("No puc accedir a la informació de l'usuari amb dni "

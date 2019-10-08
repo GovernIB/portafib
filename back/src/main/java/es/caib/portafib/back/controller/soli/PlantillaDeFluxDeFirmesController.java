@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -123,7 +124,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected UsuariAplicacioLocal usuariAplicacioEjb;
 
-  @EJB(mappedName = "portafib/FirmaLogicaEJB/local")
+  @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
   protected FirmaLogicaLocal firmaLogicaEjb;
 
   @EJB(mappedName = "portafib/FluxDeFirmesLogicaEJB/local")
@@ -1011,7 +1012,23 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       firma.setDestinatariID(usuariEntitat.getUsuariEntitatID());
       firma.setUsuariEntitat(usuariEntitat);
       firma.setObligatori(true);
-  
+      
+      UsuariPersona up = usuariEntitat.getUsuariPersona();
+      
+      if (!up.isUsuariIntern()) {
+        // Usuari Extern
+        firma.setUsuariExternEmail(up.getEmail());
+        firma.setUsuariExternIdioma(up.getIdiomaID());
+        firma.setUsuariExternLlinatges(up.getLlinatges());
+        firma.setUsuariExternNivellSeguretat(ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_TOKEN);
+        firma.setUsuariExternNom(up.getNom());
+        
+        // XYZ ZZZ ZZZ Verificar que token és uúnic sino generar-ne un de nou
+        // Utilitzar sincronized 
+        firma.setUsuariExternToken(UUID.randomUUID().toString());
+
+      }
+
       firma = (FirmaJPA) firmaLogicaEjb.create(firma);
   
       if (bloc.getMinimDeFirmes() == bloc.getFirmas().size()) {

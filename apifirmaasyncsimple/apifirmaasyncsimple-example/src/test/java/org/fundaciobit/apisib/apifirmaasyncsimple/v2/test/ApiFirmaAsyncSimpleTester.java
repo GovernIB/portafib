@@ -13,6 +13,7 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.ApiFirmaAsyncSimple;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleAnnex;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleAvailableProfile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleDocumentTypeInformation;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleExternalSigner;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleFile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleKeyValue;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleMetadata;
@@ -27,6 +28,7 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSigna
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignedFile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignedFileInfo;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSigner;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.jersey.ApiFirmaAsyncSimpleJersey;
 import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 import org.fundaciobit.apisib.core.exceptions.ApisIBClientException;
@@ -133,9 +135,16 @@ public class ApiFirmaAsyncSimpleTester {
         if (nif == null || nif.trim().length() == 0) {
           throw new Exception("Un dels NIFs dels destinataris està buit o val null");
         }
-
-        FirmaAsyncSimplePerson personToSign = new FirmaAsyncSimplePerson();
-        personToSign.setAdministrationID(nif);
+        
+        FirmaAsyncSimpleSigner personToSign;
+        if ("usuariextern".equals(nif)) {
+          FirmaAsyncSimpleExternalSigner externalSigner = getExternalSigner();
+          personToSign = new FirmaAsyncSimpleSigner();
+          personToSign.setExternalSigner(externalSigner);
+        } else {
+          personToSign = new FirmaAsyncSimpleSigner();
+          personToSign.setAdministrationID(nif);
+        }
 
         List<FirmaAsyncSimpleSignature> signers = new ArrayList<FirmaAsyncSimpleSignature>();
         boolean required = true;
@@ -378,6 +387,20 @@ public class ApiFirmaAsyncSimpleTester {
     }
     return tmp.split(",");
   }
+  
+  protected FirmaAsyncSimpleExternalSigner getExternalSigner() {
+
+    FirmaAsyncSimpleExternalSigner es = new FirmaAsyncSimpleExternalSigner();
+    es.setAdministrationId(testProperties.getProperty("usuariextern.administrationid"));
+    es.setEmail(testProperties.getProperty("usuariextern.email"));
+    es.setLanguage(testProperties.getProperty("usuariextern.language"));
+    es.setName(testProperties.getProperty("usuariextern.name"));
+    es.setSecurityLevel(FirmaAsyncSimpleExternalSigner.SECURITY_LEVEL_TOKEN);
+    es.setSurnames(testProperties.getProperty("usuariextern.surnames"));
+
+    return es;
+  }
+  
 
   protected String getNifRevisor() {
 

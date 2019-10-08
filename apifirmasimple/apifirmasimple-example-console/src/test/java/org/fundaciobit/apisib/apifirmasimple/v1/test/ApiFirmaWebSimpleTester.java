@@ -14,7 +14,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactio
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaWebSimpleJersey;
 
-import java.awt.*;
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -309,14 +309,13 @@ public class ApiFirmaWebSimpleTester {
     }
 
     serverSocket.close();
-
   }
 
   protected static ApiFirmaWebSimple getApiFirmaWebSimple(Properties prop) throws Exception {
-
+    // En entorns CAIB això ha de valer false
+    final boolean ignoreServerCertificates = true;
     return new ApiFirmaWebSimpleJersey(prop.getProperty("endpoint"),
-        prop.getProperty("username"), prop.getProperty("password"));
-
+        prop.getProperty("username"), prop.getProperty("password"), ignoreServerCertificates);
   }
 
 }

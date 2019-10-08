@@ -153,18 +153,23 @@ public class UsuariPersonaValidator<T> implements UsuariPersonaFields {
       // Fitxers 
       // ====== Check Unique MULTIPLES - NOU =======
 
-      // Check Unique - no PK
-      if (__vr.getFieldErrorCount(NIF) == 0) {
+      // Check Unique MULTIPLE for (nif, usuariintern)
+      if (__vr.getFieldErrorCount(NIF) == 0 && __vr.getFieldErrorCount(USUARIINTERN) == 0) {
         java.lang.String __nif = (java.lang.String)__vr.getFieldValue(__target__,NIF);
+        java.lang.Boolean __usuariintern = (java.lang.Boolean)__vr.getFieldValue(__target__,USUARIINTERN);
         Long __count_ = null;
-        try { __count_ = __usuariPersonaManager.count(org.fundaciobit.genapp.common.query.Where.AND(NIF.equal(__nif))); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        try { __count_ = __usuariPersonaManager.count(org.fundaciobit.genapp.common.query.Where.AND(NIF.equal(__nif), USUARIINTERN.equal(__usuariintern))); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
         if (__count_ == null || __count_ != 0) {        
             __vr.rejectValue(NIF, "genapp.validation.unique",
                 new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__nif)),
                      new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(NIF)));
+            __vr.rejectValue(USUARIINTERN, "genapp.validation.unique",
+                new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__usuariintern)),
+                     new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIINTERN)));
         }
       }
 
+      // Check Unique - no PK
       // Check Unique - PK no AutoIncrement amb UNA SOLA PK 
       if (__vr.getFieldErrorCount(USUARIPERSONAID) == 0) {
         java.lang.String __usuaripersonaid = (java.lang.String)__vr.getFieldValue(__target__,USUARIPERSONAID);
@@ -182,19 +187,24 @@ public class UsuariPersonaValidator<T> implements UsuariPersonaFields {
 
       // ====== Check Unique MULTIPLES - EDIT  =======
 
-      // Check Unique - no PK
-      if (__vr.getFieldErrorCount(NIF) == 0 && __vr.getFieldErrorCount(USUARIPERSONAID) == 0) {
+      // Check Unique MULTIPLE for (nif, usuariintern)
+      if (__vr.getFieldErrorCount(NIF) == 0 && __vr.getFieldErrorCount(USUARIINTERN) == 0 && __vr.getFieldErrorCount(USUARIPERSONAID) == 0) {
         java.lang.String __nif = (java.lang.String)__vr.getFieldValue(__target__,NIF);
+        java.lang.Boolean __usuariintern = (java.lang.Boolean)__vr.getFieldValue(__target__,USUARIINTERN);
         java.lang.String __usuaripersonaid = (java.lang.String)__vr.getFieldValue(__target__,USUARIPERSONAID);
         Long __count_ = null;
-        try { __count_ = __usuariPersonaManager.count(org.fundaciobit.genapp.common.query.Where.AND(NIF.equal(__nif), USUARIPERSONAID.notEqual(__usuaripersonaid))); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        try { __count_ = __usuariPersonaManager.count(org.fundaciobit.genapp.common.query.Where.AND(NIF.equal(__nif), USUARIINTERN.equal(__usuariintern), USUARIPERSONAID.notEqual(__usuaripersonaid))); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
         if (__count_ == null || __count_ != 0) {        
             __vr.rejectValue(NIF, "genapp.validation.unique",
                 new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__nif)),
                      new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(NIF)));
+            __vr.rejectValue(USUARIINTERN, "genapp.validation.unique",
+                new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__usuariintern)),
+                     new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIINTERN)));
         }
       }
 
+      // Check Unique - no PK
     }
 
     // Fields with References to Other tables 

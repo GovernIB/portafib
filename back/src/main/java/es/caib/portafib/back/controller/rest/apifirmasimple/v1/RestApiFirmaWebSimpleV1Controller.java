@@ -90,7 +90,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
   public ResponseEntity<?> getTransactionID(HttpServletRequest request,
       @RequestBody FirmaSimpleCommonInfo commonInfo) {
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
@@ -164,7 +164,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
   public ResponseEntity<?> addFileToSign(HttpServletRequest request,
       @RequestBody FirmaSimpleAddFileToSignRequest holder) {
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
@@ -215,7 +215,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
       LoginInfo loginInfo = LoginInfo.getInstance();
 
-      log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
+      //log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
 
       // Checks Globals
       if (loginInfo.getUsuariEntitat() != null) {
@@ -223,7 +223,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
       }
 
       // Checks usuari aplicacio
-      log.info(" XYZ ZZZ Usuari-APP = " + loginInfo.getUsuariAplicacio());
+      //log.info(" XYZ ZZZ Usuari-APP = " + loginInfo.getUsuariAplicacio());
 
       // EntitatJPA entitatJPA = loginInfo.getEntitat();
 
@@ -325,7 +325,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
   public ResponseEntity<?> getAvailableTypesOfDocuments(HttpServletRequest request,
       @RequestBody String languageUI) {
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
@@ -416,7 +416,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
   public ResponseEntity<?> startTransaction(HttpServletRequest request,
       @RequestBody FirmaSimpleStartTransactionRequest startTransactionRequest) {
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
@@ -653,7 +653,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
       log.info(" XYZ ZZZ ENTRA A getTransactionStatus => " + transactionID);
 
-      String error = autenticate(request);
+      String error = autenticateUsrApp(request);
       if (error != null) {
         return generateServerError(error, HttpStatus.UNAUTHORIZED);
       }
@@ -778,7 +778,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
     log.info(" XYZ ZZZ getSignaturesResult => ENTRA");
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
@@ -857,7 +857,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
     log.info(" XYZ ZZZ closeTransaction => ENTRA");
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       try {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, error);

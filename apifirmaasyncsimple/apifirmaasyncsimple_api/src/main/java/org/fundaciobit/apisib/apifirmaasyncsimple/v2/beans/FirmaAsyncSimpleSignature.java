@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * 
+ *
  * @author anadal(u80067)
  *
  */
@@ -15,11 +15,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FirmaAsyncSimpleSignature {
 
-  protected FirmaAsyncSimplePerson personToSign;
+  protected FirmaAsyncSimpleSigner signer;
   protected boolean required;
-  
   protected String reason;
-
   protected int minimumNumberOfRevisers; // Revisors;
   protected List<FirmaAsyncSimpleReviser> revisers;
 
@@ -27,22 +25,22 @@ public class FirmaAsyncSimpleSignature {
     super();
   }
 
-  public FirmaAsyncSimpleSignature(FirmaAsyncSimplePerson personToSign, boolean required,
+  public FirmaAsyncSimpleSignature(FirmaAsyncSimpleSigner signer, boolean required,
       String reason, int minimumNumberOfRevisers, List<FirmaAsyncSimpleReviser> revisers) {
     super();
-    this.personToSign = personToSign;
+    this.signer = signer;
     this.required = required;
     this.reason = reason;
     this.minimumNumberOfRevisers = minimumNumberOfRevisers;
     this.revisers = revisers;
   }
 
-  public FirmaAsyncSimplePerson getPersonToSign() {
-    return personToSign;
+  public FirmaAsyncSimpleSigner getSigner() {
+    return signer;
   }
 
-  public void setPersonToSign(FirmaAsyncSimplePerson personToSign) {
-    this.personToSign = personToSign;
+  public void setSigner(FirmaAsyncSimpleSigner signer) {
+    this.signer = signer;
   }
 
   public boolean isRequired() {

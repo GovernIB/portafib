@@ -27,6 +27,19 @@
         <put-attribute name="contingut" value="base.contingutbuit"  />       
         <put-attribute name="peu" value="base.peu" />
     </definition>
+    
+    <!--   -->
+    <definition name="base.definition.cap_contingut_peu" template="/WEB-INF/jsp/layout/cap_contingut_peu_layout.jsp"  preparer="basePreparer" >
+        <put-attribute name="cap" value="base.cap" />
+        <put-attribute name="contingut" value="base.contingutbuit"  />       
+        <put-attribute name="peu" value="base.peu" />
+    </definition>
+    
+    <definition name="base.definition.cap_contingut_peu_sense_preparer" template="/WEB-INF/jsp/layout/cap_contingut_peu_layout.jsp" >
+        <put-attribute name="cap" value="base.cap" />
+        <put-attribute name="contingut" value="base.contingutbuit"  />       
+        <put-attribute name="peu" value="base.peu" />
+    </definition>
 
     <!--  ===========  PRINCIPAL ================== -->
 
@@ -84,7 +97,7 @@
         <put-attribute name="titol" value="SignatureWebContainer" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor.jsp" />
     </definition>
-    
+
     <!--  Generic de Firma (passarela, autofirma, firma dest. i firma delegat) -->
     <definition name="PluginFirmaSeleccio" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp" >
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_seleccio.jsp" />
@@ -113,7 +126,30 @@
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/seleccioUsuariForm.jsp" />
     </definition>
+
+    <definition name="externaluser_wait" extends="base.definition.cap_contingut_peu">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/wait.jsp" />
+    </definition>
     
+    <definition name="externaluser_final" extends="base.definition.cap_contingut_peu">
+        <put-attribute name="titol" value="FINAL USUARI EXTERN" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/usuariextern_final.jsp" />
+    </definition>
+
+    <definition name="externaluser_showerror" extends="base.definition.cap_contingut_peu_sense_preparer">
+        <put-attribute name="titol" value="ERROR USUARI EXTERN" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/usuariextern_error.jsp" />
+    </definition>
+
+    <definition name="externaluser_estatFirmaFullView"  extends="base.definition.cap_contingut_peu">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/estatFirmaFullView.jsp" />
+    </definition>
+    
+    <definition name="PluginDeFirmaContenidor_UsuariExtern" extends="base.definition.cap_contingut_peu">
+        <put-attribute name="titol" value="SignatureWebContainer" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor.jsp" />
+    </definition>
+
 
     <!--  ===========  WEBDB ================== -->
     

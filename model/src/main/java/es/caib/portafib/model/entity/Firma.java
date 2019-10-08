@@ -68,6 +68,24 @@ public interface Firma extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public java.lang.String getPerfilDeFirma();
 	public void setPerfilDeFirma(java.lang.String _perfilDeFirma_);
 
+	public java.lang.String getUsuariExternNom();
+	public void setUsuariExternNom(java.lang.String _usuariExternNom_);
+
+	public java.lang.String getUsuariExternLlinatges();
+	public void setUsuariExternLlinatges(java.lang.String _usuariExternLlinatges_);
+
+	public java.lang.String getUsuariExternEmail();
+	public void setUsuariExternEmail(java.lang.String _usuariExternEmail_);
+
+	public java.lang.String getUsuariExternIdioma();
+	public void setUsuariExternIdioma(java.lang.String _usuariExternIdioma_);
+
+	public java.lang.String getUsuariExternToken();
+	public void setUsuariExternToken(java.lang.String _usuariExternToken_);
+
+	public java.lang.Integer getUsuariExternNivellSeguretat();
+	public void setUsuariExternNivellSeguretat(java.lang.Integer _usuariExternNivellSeguretat_);
+
   // Fitxer
   public <F extends Fitxer> F getFitxerFirmat();
 

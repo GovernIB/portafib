@@ -236,7 +236,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl imple
     UsuariEntitatJPA ue;
     FitxerJPA.enableEncryptedFileIDGeneration();
     try {
-      ue = usuariEntitatLogicaEjb.findUsuariEntitatByNif(entitatID, administrationID);
+      ue = usuariEntitatLogicaEjb.findUsuariEntitatInternByNif(entitatID, administrationID);
     } finally {
       FitxerJPA.disableEncryptedFileIDGeneration();
     }

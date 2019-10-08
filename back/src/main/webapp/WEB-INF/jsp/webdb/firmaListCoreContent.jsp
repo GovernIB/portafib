@@ -151,6 +151,39 @@
           ${firma.perfilDeFirma}
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNNOM)}">
+          <td>
+          ${firma.usuariExternNom}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNLLINATGES)}">
+          <td>
+          ${firma.usuariExternLlinatges}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNEMAIL)}">
+          <td>
+          ${firma.usuariExternEmail}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNIDIOMA)}">
+          <td>
+          ${firma.usuariExternIdioma}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNTOKEN)}">
+          <td>
+          ${firma.usuariExternToken}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNNIVELLSEGURETAT)}">
+          <td>
+          <c:set var="tmp">${firma.usuariExternNivellSeguretat}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForUsuariExternNivellSeguretat[tmp]}
+          </c:if>
+          </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

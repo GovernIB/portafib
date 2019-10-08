@@ -176,7 +176,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
 
     log.info(" XYZ ZZZ eNTRA A upgradeSignature => signature: " + signature);
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
@@ -383,7 +383,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
 
     log.info(" XYZ ZZZ eNTRA A signDocuments => simpleSignature: " + simpleSignature);
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }

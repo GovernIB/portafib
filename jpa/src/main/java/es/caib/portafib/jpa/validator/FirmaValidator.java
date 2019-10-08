@@ -97,6 +97,46 @@ public class FirmaValidator<T> implements FirmaFields {
       }
     }
     
+    if (__vr.getFieldErrorCount(USUARIEXTERNNOM) == 0) {
+      java.lang.String __usuariexternnom = (java.lang.String)__vr.getFieldValue(__target__,USUARIEXTERNNOM);
+      if (__usuariexternnom!= null && __usuariexternnom.length() > 100) {
+        __vr.rejectValue(USUARIEXTERNNOM, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIEXTERNNOM)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(100)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(USUARIEXTERNLLINATGES) == 0) {
+      java.lang.String __usuariexternllinatges = (java.lang.String)__vr.getFieldValue(__target__,USUARIEXTERNLLINATGES);
+      if (__usuariexternllinatges!= null && __usuariexternllinatges.length() > 255) {
+        __vr.rejectValue(USUARIEXTERNLLINATGES, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIEXTERNLLINATGES)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(USUARIEXTERNEMAIL) == 0) {
+      java.lang.String __usuariexternemail = (java.lang.String)__vr.getFieldValue(__target__,USUARIEXTERNEMAIL);
+      if (__usuariexternemail!= null && __usuariexternemail.length() > 255) {
+        __vr.rejectValue(USUARIEXTERNEMAIL, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIEXTERNEMAIL)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(USUARIEXTERNIDIOMA) == 0) {
+      java.lang.String __usuariexternidioma = (java.lang.String)__vr.getFieldValue(__target__,USUARIEXTERNIDIOMA);
+      if (__usuariexternidioma!= null && __usuariexternidioma.length() > 2) {
+        __vr.rejectValue(USUARIEXTERNIDIOMA, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIEXTERNIDIOMA)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(2)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(USUARIEXTERNTOKEN) == 0) {
+      java.lang.String __usuariexterntoken = (java.lang.String)__vr.getFieldValue(__target__,USUARIEXTERNTOKEN);
+      if (__usuariexterntoken!= null && __usuariexterntoken.length() > 255) {
+        __vr.rejectValue(USUARIEXTERNTOKEN, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIEXTERNTOKEN)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+      }
+    }
+    
     if (__isNou__) { // Creació
       // ================ CREATION
       // Fitxers 

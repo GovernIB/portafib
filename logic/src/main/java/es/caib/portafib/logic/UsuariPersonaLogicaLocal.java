@@ -20,7 +20,7 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 @Local
 public interface UsuariPersonaLogicaLocal extends UsuariPersonaLocal {
   
-  String JNDI_NAME = "portafib/UsuariPersonaLogicaEJB/local";
+  public static String JNDI_NAME = "portafib/UsuariPersonaLogicaEJB/local";
 
   public UsuariPersonaJPA findByPrimaryKeyFull(String paramString);
 
@@ -38,5 +38,7 @@ public interface UsuariPersonaLogicaLocal extends UsuariPersonaLocal {
   
   public UsuariPersonaJPA getUsuariPersonaIDByUsernameOrAdministrationID(String usernameOrAdministrationID)
       throws I18NException;
+
+  public Set<String>  getRolesOfLoggedUser() throws I18NException;
 
 }

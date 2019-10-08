@@ -6,6 +6,7 @@ import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.utils.Constants;
+
 import org.apache.log4j.Logger;
 import org.fundaciobit.pluginsib.core.utils.Base64;
 import org.jboss.web.tomcat.security.login.WebAuthentication;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.User;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
+
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,7 +47,7 @@ public class RestUtils {
     return headers;
   }
 
-  protected String autenticate(HttpServletRequest request) {
+  protected String autenticateUsrApp(HttpServletRequest request) {
 
     try {
       String authHeader = request.getHeader(javax.ws.rs.core.HttpHeaders.AUTHORIZATION);
@@ -79,60 +81,16 @@ public class RestUtils {
       String username = credentials.substring(0, p).trim();
       String password = credentials.substring(p + 1).trim();
 
-      log.info("XYZ ZZZ autenticate::username: |" + username + "|");
-      // log.info("XYZ ZZZ autenticate::password: |" + password + "|");
-      log.info("XYZ ZZZ autenticate:: PRE AUTENTICATE " + request.getUserPrincipal());
-
+      
       boolean autenticat;
       
       Set<String> roles = new HashSet<String>();
-
-      // L'autenticació següent ens permet comprovarl l'usuari i recuperar el seus rols, però no l'emmagatzema
-      // internament i per tant les cridades a altres capes (EJB) no mantenen l'autenticació.
-      try {
-        LoginContext lc = new LoginContext(Constants.SECURITY_DOMAIN,
-            new PassiveCallbackHandler(username, password));
-        lc.login();
-
-        Set<Principal> principalsCred = lc.getSubject().getPrincipals();
-        if (principalsCred == null ||principalsCred.isEmpty()) {
-          log.warn(" getPrincipals() == BUIT");
-        } else {
-          for (Principal object : principalsCred) {
-            log.debug(" getPrincipals() == " + object.getName() + "(" + object.getClass() + ")");
-            if ("Roles".equals(object.getName())
-                && object instanceof org.jboss.security.SimpleGroup) {
-              org.jboss.security.SimpleGroup sg = (org.jboss.security.SimpleGroup)object;
-              //iterable
-              Enumeration<Principal> enumPrinc = sg.members();
-              while(enumPrinc.hasMoreElements()) {
-                Principal rol = enumPrinc.nextElement();
-                log.debug("           ROL: " + rol.getName());
-                roles.add(rol.getName());
-              }
-            }
-          }
-        }
-        autenticat = true;
-      } catch (LoginException le) {
-        // Authentication failed.
-        log.error("CAIB3 Login ERROR" + le.getMessage());
-        autenticat = false;
-      }
-
-      // Amb l'autenticació addicional següent, no podem recuperar els rols, però les credencials es mantenen per
-      // les capes internes.
-      if (autenticat) {
-        WebAuthentication pwl = new WebAuthentication();
-        autenticat = pwl.login(username, password);
-      }
-
-      log.info("XYZ ZZZ autenticate:: POST AUTENTICATE " + request.getUserPrincipal()
-          + " [ autenticat => " + autenticat + "]");
+      
+      autenticat = authenticateUsernamePassword(request, username, password, roles, log);
 
       if (autenticat) {
 
-        log.info(" XYZ ZZZ autenticate::  LOGIN OK OK  OK  OK  OK OK ");
+        log.debug(" XYZ ZZZ autenticate::  LOGIN OK OK  OK  OK  OK OK ");
 
         UsuariAplicacioLogicaLocal usuariAplicacioEjb = null;
         try {
@@ -200,6 +158,60 @@ public class RestUtils {
       return msg;
     }
 
+  }
+
+  public static boolean authenticateUsernamePassword(HttpServletRequest request, String username,
+      String password, Set<String> roles, Logger log) {
+    boolean autenticat;
+    //log.info("XYZ ZZZ autenticate::username: |" + username + "|");
+    // log.info("XYZ ZZZ autenticate::password: |" + password + "|");
+    //log.info("XYZ ZZZ autenticate:: PRE AUTENTICATE " + request.getUserPrincipal());
+
+    // L'autenticació següent ens permet comprovarl l'usuari i recuperar el seus rols, però no l'emmagatzema
+    // internament i per tant les cridades a altres capes (EJB) no mantenen l'autenticació.
+    try {
+      LoginContext lc = new LoginContext(Constants.SECURITY_DOMAIN,
+          new PassiveCallbackHandler(username, password));
+      lc.login();
+
+      Set<Principal> principalsCred = lc.getSubject().getPrincipals();
+      if (principalsCred == null ||principalsCred.isEmpty()) {
+        log.warn(" getPrincipals() == BUIT");
+      } else {
+        for (Principal object : principalsCred) {
+          log.debug(" getPrincipals() == " + object.getName() + "(" + object.getClass() + ")");
+          if ("Roles".equals(object.getName())
+              && object instanceof org.jboss.security.SimpleGroup) {
+            org.jboss.security.SimpleGroup sg = (org.jboss.security.SimpleGroup)object;
+            //iterable
+            Enumeration<Principal> enumPrinc = sg.members();
+            while(enumPrinc.hasMoreElements()) {
+              Principal rol = enumPrinc.nextElement();
+              log.debug("           ROL: " + rol.getName());
+              roles.add(rol.getName());
+            }
+          }
+        }
+      }
+      
+     
+      autenticat = true;
+    } catch (LoginException le) {
+      // Authentication failed.
+      log.error("Login ERROR: " + le.getMessage(), le);
+      autenticat = false;
+    }
+
+    // Amb l'autenticació addicional següent, no podem recuperar els rols, però les credencials es mantenen per
+    // les capes internes.
+    if (autenticat) {
+      WebAuthentication pwl = new WebAuthentication();
+      autenticat = pwl.login(username, password);
+    }
+
+    //log.info("XYZ ZZZ autenticate:: POST AUTENTICATE " + request.getUserPrincipal()
+    //    + " [ autenticat => " + autenticat + "]");
+    return autenticat;
   }
 
 }

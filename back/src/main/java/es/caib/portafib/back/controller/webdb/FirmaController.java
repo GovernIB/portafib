@@ -235,6 +235,16 @@ public class FirmaController
 
       fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, CHECKVALIDATIONSIGNATURE);
 
+    // Field usuariExternNivellSeguretat
+    {
+      _listSKV = getReferenceListForUsuariExternNivellSeguretat(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForUsuariExternNivellSeguretat(_tmp);
+      if (filterForm.getGroupByFields().contains(USUARIEXTERNNIVELLSEGURETAT)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, USUARIEXTERNNIVELLSEGURETAT, false);
+      };
+    }
+
 
     return groupByItemsMap;
   }
@@ -253,6 +263,7 @@ public class FirmaController
     __mapping.put(DESTINATARIID, filterForm.getMapOfUsuariEntitatForDestinatariID());
     __mapping.put(BLOCDEFIRMAID, filterForm.getMapOfBlocDeFirmesForBlocDeFirmaID());
     __mapping.put(TIPUSESTATDEFIRMAFINALID, filterForm.getMapOfValuesForTipusEstatDeFirmaFinalID());
+    __mapping.put(USUARIEXTERNNIVELLSEGURETAT, filterForm.getMapOfValuesForUsuariExternNivellSeguretat());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -320,6 +331,13 @@ public class FirmaController
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
       firmaForm.setListOfValuesForTipusEstatDeFirmaFinalID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (firmaForm.getListOfValuesForUsuariExternNivellSeguretat() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForUsuariExternNivellSeguretat(request, mav, firmaForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      firmaForm.setListOfValuesForUsuariExternNivellSeguretat(_listSKV);
     }
     
   }
@@ -761,6 +779,37 @@ public java.lang.Long stringToPK(String value) {
     __tmp.add(new StringKeyValue("2" , "2"));
     __tmp.add(new StringKeyValue("3" , "3"));
     __tmp.add(new StringKeyValue("4" , "4"));
+    return __tmp;
+  }
+
+
+  public List<StringKeyValue> getReferenceListForUsuariExternNivellSeguretat(HttpServletRequest request,
+       ModelAndView mav, FirmaForm firmaForm, Where where)  throws I18NException {
+    if (firmaForm.isHiddenField(USUARIEXTERNNIVELLSEGURETAT)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForUsuariExternNivellSeguretat(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForUsuariExternNivellSeguretat(HttpServletRequest request,
+       ModelAndView mav, FirmaFilterForm firmaFilterForm,
+       List<Firma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (firmaFilterForm.isHiddenField(USUARIEXTERNNIVELLSEGURETAT)
+      && !firmaFilterForm.isGroupByField(USUARIEXTERNNIVELLSEGURETAT)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForUsuariExternNivellSeguretat(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForUsuariExternNivellSeguretat(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
     return __tmp;
   }
 

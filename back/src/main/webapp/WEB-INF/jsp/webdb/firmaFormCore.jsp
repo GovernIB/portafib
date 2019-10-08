@@ -465,3 +465,122 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.USUARIEXTERNNOM)}">
+        <tr id="firma_usuariExternNom_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.USUARIEXTERNNOM])?'firma.usuariExternNom':__theForm.labels[FirmaFields.USUARIEXTERNNOM]}" />
+              <c:if test="${not empty __theForm.help[FirmaFields.USUARIEXTERNNOM]}">
+              <i class="icon-info-sign" title="${__theForm.help[FirmaFields.USUARIEXTERNNOM]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="firma.usuariExternNom" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNNOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNNOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="100" path="firma.usuariExternNom"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.USUARIEXTERNLLINATGES)}">
+        <tr id="firma_usuariExternLlinatges_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.USUARIEXTERNLLINATGES])?'firma.usuariExternLlinatges':__theForm.labels[FirmaFields.USUARIEXTERNLLINATGES]}" />
+              <c:if test="${not empty __theForm.help[FirmaFields.USUARIEXTERNLLINATGES]}">
+              <i class="icon-info-sign" title="${__theForm.help[FirmaFields.USUARIEXTERNLLINATGES]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="firma.usuariExternLlinatges" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNLLINATGES)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNLLINATGES)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="firma.usuariExternLlinatges"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.USUARIEXTERNEMAIL)}">
+        <tr id="firma_usuariExternEmail_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.USUARIEXTERNEMAIL])?'firma.usuariExternEmail':__theForm.labels[FirmaFields.USUARIEXTERNEMAIL]}" />
+              <c:if test="${not empty __theForm.help[FirmaFields.USUARIEXTERNEMAIL]}">
+              <i class="icon-info-sign" title="${__theForm.help[FirmaFields.USUARIEXTERNEMAIL]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="firma.usuariExternEmail" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNEMAIL)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNEMAIL)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="firma.usuariExternEmail"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.USUARIEXTERNIDIOMA)}">
+        <tr id="firma_usuariExternIdioma_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.USUARIEXTERNIDIOMA])?'firma.usuariExternIdioma':__theForm.labels[FirmaFields.USUARIEXTERNIDIOMA]}" />
+              <c:if test="${not empty __theForm.help[FirmaFields.USUARIEXTERNIDIOMA]}">
+              <i class="icon-info-sign" title="${__theForm.help[FirmaFields.USUARIEXTERNIDIOMA]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="firma.usuariExternIdioma" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNIDIOMA)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNIDIOMA)? 'input-mini uneditable-input' : 'input-mini'}"  maxlength="2" path="firma.usuariExternIdioma"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.USUARIEXTERNTOKEN)}">
+        <tr id="firma_usuariExternToken_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.USUARIEXTERNTOKEN])?'firma.usuariExternToken':__theForm.labels[FirmaFields.USUARIEXTERNTOKEN]}" />
+              <c:if test="${not empty __theForm.help[FirmaFields.USUARIEXTERNTOKEN]}">
+              <i class="icon-info-sign" title="${__theForm.help[FirmaFields.USUARIEXTERNTOKEN]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="firma.usuariExternToken" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNTOKEN)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNTOKEN)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="firma.usuariExternToken"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.USUARIEXTERNNIVELLSEGURETAT)}">
+        <tr id="firma_usuariExternNivellSeguretat_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.USUARIEXTERNNIVELLSEGURETAT])?'firma.usuariExternNivellSeguretat':__theForm.labels[FirmaFields.USUARIEXTERNNIVELLSEGURETAT]}" />
+              <c:if test="${not empty __theForm.help[FirmaFields.USUARIEXTERNNIVELLSEGURETAT]}">
+              <i class="icon-info-sign" title="${__theForm.help[FirmaFields.USUARIEXTERNNIVELLSEGURETAT]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="firma.usuariExternNivellSeguretat" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNNIVELLSEGURETAT)}" >
+          <form:hidden path="firma.usuariExternNivellSeguretat"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.firma.usuariExternNivellSeguretat,__theForm.listOfValuesForUsuariExternNivellSeguretat)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNNIVELLSEGURETAT)}" >
+          <form:select id="firma_usuariExternNivellSeguretat"  onchange="if(typeof onChangeUsuariExternNivellSeguretat == 'function') {  onChangeUsuariExternNivellSeguretat(this); };"  cssClass="input-xxlarge" path="firma.usuariExternNivellSeguretat">
+          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
+          <form:option value="" ></form:option>
+            <c:forEach items="${__theForm.listOfValuesForUsuariExternNivellSeguretat}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        

@@ -24,7 +24,6 @@
     <module>ws</module>
     <module>scripts</module>
     <module>testjpa</module>
-
     <module>logic</module>
     <module>back</module>
     <module>ear</module>

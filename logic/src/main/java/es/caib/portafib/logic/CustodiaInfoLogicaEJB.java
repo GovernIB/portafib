@@ -1345,6 +1345,12 @@ protected CustodiaInfoJPA cloneCustodiaInfo(String titol, String usuariAplicacio
     }
   }
 
+
+  @Override
+  public CustodiaInfoJPA findByPrimaryKeyUnathorized(Long _ID_) {
+    return (CustodiaInfoJPA)super.findByPrimaryKey(_ID_);
+  }
+  
   
 
   /**
