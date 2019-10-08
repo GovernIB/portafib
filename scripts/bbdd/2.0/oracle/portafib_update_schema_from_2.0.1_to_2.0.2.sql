@@ -41,7 +41,7 @@ UPDATE pfi_bitacola
             (select entitatid from pfi_usuarientitat where usuarientitatid = pfi_bitacola.usuarientitatid)
         WHERE usuarientitatid is not null;
 
--- Actualitzar login amb l'id d'usuari aplicació, o l'usuaripersonaid del usuarientitat.
+-- Actualitzar usuariid amb l'id d'usuari aplicació, o l'usuaripersonaid del usuarientitat.
 UPDATE pfi_bitacola
         SET usuariid = usuariaplicacioid
         WHERE usuariaplicacioid is not null;
@@ -50,7 +50,7 @@ UPDATE pfi_bitacola
             (select usuaripersonaid from pfi_usuarientitat where usuarientitatid = pfi_bitacola.usuarientitatid)
         WHERE usuarientitatid is not null;
 
--- Intentar mapejar segons la descripció el tipus d'operació
+-- Mapejar segons la descripció el tipus d'operació
 UPDATE pfi_bitacola SET tipusoperacio = 1 WHERE descripcio = 'Petició creada';
 UPDATE pfi_bitacola SET tipusoperacio = 2 WHERE descripcio = 'Petició actualitzada';
 UPDATE pfi_bitacola SET tipusoperacio = 3 WHERE descripcio like 'Petició esborrada%';
@@ -78,10 +78,32 @@ ALTER TABLE pfi_bitacola MODIFY (entitatid NOT NULL);
 ALTER TABLE pfi_bitacola MODIFY (usuariid NOT NULL);
 ALTER TABLE pfi_bitacola MODIFY (tipusoperacio NOT NULL);
 
--- Esborrar columnes que ja no s'usen
+-- Esborrar columnes que ja no s'empren
 ALTER TABLE pfi_bitacola DROP COLUMN peticiodefirmaid;
 ALTER TABLE pfi_bitacola DROP COLUMN usuarientitatid;
 ALTER TABLE pfi_bitacola DROP COLUMN usuariaplicacioid;
 
 -- Descripció ja no és una columna obligatoria
 ALTER TABLE pfi_bitacola MODIFY (descripcio NULL);
+
+--
+--  Fer que els usuaris aplicació s'autentiquin a traves de JBoss i no emprant contrasenya de BBDD #277
+--
+
+-- ALERTA! ALETRA! ALERTA!
+--
+-- En entorns "NO CAIB", que emprin l'autenticació d'usuaris aplicació mitjançant PortaFIB en primer lloc
+-- caldrà exportar les dades de contrasenyes i roles al sistema d'autenticació emprant les següents selects.
+
+-- Exporta usuaris i contrasenyes
+-- SELECT usuariaplicacioid, contrasenya FROM pfi_usuariaplicacio;
+-- Exporta roles d'usuari
+-- SELECT usuariaplicacioid, roleid FROM pfi_roleusuariaplicacio;
+
+-- Si s'empren les taules auxiliars de SEYCON per mantenir els noms d'usuaris les comandes per insertar serien:
+-- INSERT INTO sc_wl_usuari SET usu_codi = <id usuariaplicacio>, usu_pass = <contrasenya>
+-- INSERT INTO sc_wl_usugru SET ugr_codusu = <id usuariaplicacio>, ugr_codgru = <id role>
+
+ALTER TABLE pfi_usuariaplicacio DROP COLUMN contrasenya;
+
+DROP TABLE pfi_roleusuariaplicacio;
