@@ -102,8 +102,8 @@ ALTER TABLE pfi_bitacola ALTER COLUMN descripcio DROP NOT NULL;
 -- SELECT usuariaplicacioid, roleid FROM pfi_roleusuariaplicacio;
 
 -- Si s'empren les taules auxiliars de SEYCON per mantenir els noms d'usuaris les comandes per insertar serien:
--- INSERT INTO sc_wl_usuari SET usu_codi = <id usuariaplicacio>, usu_pass = <contrasenya>
--- INSERT INTO sc_wl_usugru SET ugr_codusu = <id usuariaplicacio>, ugr_codgru = <id role>
+-- INSERT INTO sc_wl_usuari(usu_codi,usu_pass) VALUES(<id usuariaplicacio>,<contrasenya>);
+-- INSERT INTO sc_wl_usugru(ugr_codusu, ugr_codgru) VALUES(<id usuariaplicacio>,<id role>);
 
 ALTER TABLE pfi_usuariaplicacio
   DROP COLUMN contrasenya;
