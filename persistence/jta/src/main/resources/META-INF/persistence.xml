@@ -42,7 +42,6 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 		<class>es.caib.portafib.jpa.RebreAvisJPA</class>
 		<class>es.caib.portafib.jpa.RevisorDeFirmaJPA</class>
 		<class>es.caib.portafib.jpa.RoleJPA</class>
-		<class>es.caib.portafib.jpa.RoleUsuariAplicacioJPA</class>
 		<class>es.caib.portafib.jpa.RoleUsuariEntitatJPA</class>
 		<class>es.caib.portafib.jpa.TipusDocumentJPA</class>
 		<class>es.caib.portafib.jpa.TipusDocumentColaboracioDelegacioJPA</class>

@@ -15,9 +15,6 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.USUARIAPLICACIOID)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioFields.USUARIAPLICACIOID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.CONTRASENYA)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioFields.CONTRASENYA)}</th>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.ENTITATID)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioFields.ENTITATID)}</th>
         </c:if>

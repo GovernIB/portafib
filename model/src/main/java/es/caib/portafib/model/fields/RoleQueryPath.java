@@ -37,20 +37,6 @@ public class RoleQueryPath extends org.fundaciobit.genapp.common.query.QueryPath
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public RoleUsuariAplicacioQueryPath ROLEUSUARIAPLICACIOS() {
-    return new RoleUsuariAplicacioQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return RoleQueryPath.this.getQueryPath() + "roleUsuariAplicacios" + ".";
-      }
-    });
-  }
-*/
-
-/* L'ús d'aquest camp (OneToMany) llança una exception:
- [Illegal attempt to dereference a collection]
-
- // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
-
   public RoleUsuariEntitatQueryPath ROLEUSUARIENTITATS() {
     return new RoleUsuariEntitatQueryPath(new QueryPath() {
       public String getQueryPath() {

@@ -34,14 +34,6 @@ public interface UsuariAplicacioLogicaLocal extends UsuariAplicacioLocal {
   public UsuariAplicacioJPA createFull(UsuariAplicacioJPA _usuariAplicacio_, String entitatID)
       throws I18NException, I18NValidationException;
 
-  public boolean afegirRolAdmin(String usuariAplicacioID) throws I18NException, Exception;
-
-  public boolean eliminarRolAdmin(String usuariAplicacioID) throws I18NException, Exception;
-
-  public boolean afegirRolUser(String usuariAplicacioID) throws I18NException, Exception;
-
-  public boolean eliminarRolUser(String usuariAplicacioID) throws I18NException, Exception;
-  
   public UsuariAplicacioJPA checkBasicUsuariAplicacioID(String usuariAplicacioID)  throws I18NException;
 
 }

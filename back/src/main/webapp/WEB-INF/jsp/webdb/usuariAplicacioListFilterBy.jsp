@@ -63,19 +63,6 @@
 
 
         </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.CONTRASENYA)}">
-            <%-- FILTRE STRING --%>
-            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-              <fmt:message key="usuariAplicacio.contrasenya" var="contrasenya" />
-              <fmt:message key="genapp.form.searchby" var="cercapercontrasenya" >                
-                 <fmt:param value="${contrasenya}"/>
-              </fmt:message>
-              <span class="add-on"><c:out value="${contrasenya}" />:</span>
-              <form:input cssClass="search-query input-medium" placeholder="${cercapercontrasenya}" path="contrasenya" />
-            </div>
-
-
-        </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.ENTITATID)}">
             <%-- FILTRE STRING --%>
             <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">

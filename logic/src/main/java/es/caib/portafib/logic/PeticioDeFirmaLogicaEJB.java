@@ -679,6 +679,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
               String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
     }
 
+    int tipusFirmaID = peticioDeFirma.getTipusFirmaID();
+    if (tipusFirmaID == ConstantsV2.TIPUSFIRMA_XADES || tipusFirmaID == ConstantsV2.TIPUSFIRMA_CADES) {
+      final Set<BlocDeFirmesJPA> blocs = peticioDeFirma.getFluxDeFirmes().getBlocDeFirmess();
+      if (blocs.size() > 1 || blocs.iterator().next().getMinimDeFirmes() > 1) {
+        throw new I18NException("peticiodefirma.tipusdefirma.nomesdeunafirma");
+      }
+    }
+
     // TODO S'ha de diferenciar entre Iniciar si esta en
     // estat NO_INICIAT o si esta PAUSAT !!!!
 
@@ -2379,18 +2387,31 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       boolean validarFitxerFirma;
       boolean checkCanviatDocFirmat;
       boolean comprovarNifFirma;
-      
+      Long confFirmaId = peticioDeFirma.getConfiguracioDeFirmaID();
+
       switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
 
         case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
-          validarFitxerFirma = entitat.getPluginValidaFirmesID() == null ? false : true;
+          validarFitxerFirma = entitat.getPluginValidaFirmesID() != null;
           checkCanviatDocFirmat = entitat.isCheckCanviatDocFirmat();
           comprovarNifFirma = entitat.isComprovarNifFirma();
-        break;
+          break;
 
         case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+          if (confFirmaId == null) {
+            validarFitxerFirma = entitat.getPluginValidaFirmesID() != null;
+            checkCanviatDocFirmat = entitat.isCheckCanviatDocFirmat();
+            comprovarNifFirma = entitat.isComprovarNifFirma();
+          } else {
+            UsuariAplicacioConfiguracio configuracio = configuracioDeFirmaLogicaEjb.findByPrimaryKey(confFirmaId);
+
+            validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb, entitatID);
+            checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio, entitatEjb, entitatID);
+            comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb, entitatID);
+          }
+          break;
+
         case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
-          Long confFirmaId = peticioDeFirma.getConfiguracioDeFirmaID();
           if (confFirmaId == null) {
             // XYZ ZZZ TRA 
             throw new I18NException("genapp.comodi", "La petició " + peticioDeFirmaID 
@@ -2405,7 +2426,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio, entitatEjb, entitatID);
           comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb, entitatID);
 
-        break;
+          break;
         
         case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1:
           // XYZ ZZZ TRA 

@@ -29,11 +29,6 @@
           ${usuariAplicacio.usuariAplicacioID}
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.CONTRASENYA)}">
-          <td>
-          ${usuariAplicacio.contrasenya}
-          </td>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.ENTITATID)}">
           <td>
           <c:set var="tmp">${usuariAplicacio.entitatID}</c:set>

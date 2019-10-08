@@ -16,7 +16,6 @@ import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.misc.NotificacionsCallBackTimerLocal;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.PerfilsPerUsuariAplicacio;
-import es.caib.portafib.model.entity.RoleUsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
@@ -63,6 +62,7 @@ import java.util.Set;
  *
  * @author mgonzalez
  * @author anadal
+ * @author areus
  */
 @Controller
 @RequestMapping(value = GestioUsuariAplicacioAdenController.GESTIO_USUARI_APLICACIO_CONTEXTWEB)
@@ -73,13 +73,8 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
 
   protected static final int PERFILS = 1;
 
-  protected static final int PERMISOS = 2;
-
   @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
   protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
-
-  @EJB(mappedName = es.caib.portafib.ejb.RoleUsuariAplicacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.RoleUsuariAplicacioLocal roleUsuariAplicacioEjb;
 
   @EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal perfilsPerUsuariAplicacioEjb;
@@ -95,7 +90,8 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
 
   /**
    * Indica si es admin o aden
-   * 
+   * TODO: Té sentit que GestioUsuariAplicacioAdminController extengui d'aquí només per dir isAdmin false? Sembla que
+   * seria més lògic, eliminar les consultes a isAdmin i fer override dels mètodes que calgui.
    * @return
    */
   protected boolean isAdmin() {
@@ -149,10 +145,6 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       usuariAplicacioForm.getUsuariAplicacio().setEmailAdmin(Utils.getLoggedUserEmail());
 
       UsuariAplicacioJPA aplicacio = usuariAplicacioForm.getUsuariAplicacio();
-      if (!Configuracio.isCAIB()) {
-        String prefix = LoginInfo.getInstance().getEntitatID() + "_";
-        aplicacio.setUsuariAplicacioID(prefix);
-      }
       aplicacio.setCallbackVersio(1);
       aplicacio.setIdiomaID(Configuracio.getDefaultLanguage());
       aplicacio.setActiu(true);
@@ -172,18 +164,6 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
 
     // Ocultam camps
     usuariAplicacioForm.addHiddenField(ENTITATID);
-
-    if (Configuracio.isCAIB()) {
-      usuariAplicacioForm.addHiddenField(CONTRASENYA);
-      /*
-       * HtmlUtils.saveMessageInfo(request, missatge)
-       * 
-       * usuariAplicacioForm.addHelpToField(CONTRASENYA,
-       * I18NUtils.tradueix("usuariaplicacio.gestioseycon"));
-       * //usuariAplicacioForm.getUsuariAplicacio(). //
-       * setContrasenya(I18NUtils.tradueix("usuariaplicacio.gestioseycon"));
-       */
-    }
 
     if (usuariAplicacioForm.getUsuariAplicacio().isActiu()) {
       usuariAplicacioForm.addAdditionalButton(new AdditionalButton("icon-ban-circle",
@@ -273,42 +253,6 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
           "btn-info"));
       
       usuariAplicacioFilterForm.setActionsRenderer(UsuariAplicacioConfiguracioFilterForm.ACTIONS_RENDERER_DROPDOWN_BUTTON);
-
-      /*
-       * Map<String,String> map = new HashMap<String, String>(); map.put("anadal", "ROL 1");
-       * map.put("anadalapp", "ROL 2"); map.put("caibapp", "ROL 3");
-       * map.put("fundaciobit_hola", "ROL 4"); map.put("sonespases_app", "ROL 5");
-       * 
-       * 
-       * AdditionalField<String,String> adfield = new AdditionalField<String,String>();
-       * adfield.setCodeName("signant"); adfield.setPosition(-2);
-       * adfield.setValueField(USUARIAPLICACIOID); adfield.setValueMap(map);
-       * 
-       * AdditionalField<String,String> adfield2 = new AdditionalField<String,String>();
-       * adfield2.setCodeName("descripcio"); adfield2.setPosition(-3);
-       * 
-       * StringField sf = new UsuariAplicacioQueryPath().IDIOMA().NOM();
-       * log.info(" DDDDDDDDDDDDDDDD = " + sf.fullName); adfield2.setValueField(sf);
-       * 
-       * 
-       * AdditionalField<String,String> adfield3 = new AdditionalField<String,String>();
-       * adfield3.setCodeName("estatdefirma.motiu.rebuig"); adfield3.setPosition(-1);
-       * adfield3.setValueMap(map);
-       * 
-       * usuariAplicacioFilterForm.addAdditionalField(adfield);
-       * usuariAplicacioFilterForm.addAdditionalField(adfield2);
-       * usuariAplicacioFilterForm.addAdditionalField(adfield3);
-       */
-      if (!Configuracio.isCAIB()) {
-        AdditionalField<String, String> adfield4 = new AdditionalField<String, String>();
-        adfield4.setCodeName("permisos");
-        adfield4.setPosition(PERMISOS);
-        adfield4.setEscapeXml(false);
-        // Els valors s'ompliran al mètode postList()
-        adfield4.setValueMap(new HashMap<String, String>());
-
-        usuariAplicacioFilterForm.addAdditionalField(adfield4);
-      }
 
       if (isAdmin()) {
         usuariAplicacioFilterForm.setDeleteButtonVisible(false);
@@ -429,45 +373,6 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       usuariAplicacioIds.add(usuariAplicacio.getUsuariAplicacioID());
     }
 
-    // ROLES
-    if (!Configuracio.isCAIB()) {
-
-      List<RoleUsuariAplicacio> rols;
-      rols = roleUsuariAplicacioEjb.select(USUARIAPLICACIOID.in(usuariAplicacioIds));
-
-      Map<String, String> map;
-      map = (Map<String, String>) filterForm.getAdditionalField(PERMISOS).getValueMap();
-      map.clear();
-      String key, value;
-      for (RoleUsuariAplicacio roleUsuariAplicacio : rols) {
-        key = roleUsuariAplicacio.getUsuariAplicacioID();
-        value = map.get(key);
-        if (value == null) {
-          map.put(key, roleUsuariAplicacio.getRoleID());
-        } else {
-          map.put(key, value + "<br/>" + roleUsuariAplicacio.getRoleID());
-        }
-      }
-
-      filterForm.getAdditionalButtonsByPK().clear();
-
-      final String suffix = isAdmin() ? "admin" : "user";
-      final String rol = isAdmin() ? ConstantsV2.PFI_ADMIN : ConstantsV2.PFI_USER;
-
-      for (String id : usuariAplicacioIds) {
-        String roles = map.get(id);
-        if (roles == null || roles.trim().isEmpty() || roles.indexOf(rol) == -1) {
-          filterForm.addAdditionalButtonByPK(id, new AdditionalButton("icon-plus-sign",
-              "usuariaplicacio.addrol" + suffix,
-              getContextWeb() + "/addrol" + suffix + "/{0}", "btn-success"));
-        } else {
-          filterForm.addAdditionalButtonByPK(id, new AdditionalButton("icon-minus-sign",
-              "usuariaplicacio.removerol" + suffix, getContextWeb() + "/removerol" + suffix
-                  + "/{0}", "btn-warning"));
-        }
-      }
-    }
-
     // PERFILS
     if (!isAdmin()){
       Map<String, String> map;
@@ -545,89 +450,6 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
     request.getSession().setAttribute(
         PerfilsDeUsuariAplicacioAdenController.SESSION_USUARIAPLICACIOID, usuariAplicacioID);
     return "redirect:" + PerfilsDeUsuariAplicacioAdenController.CONTEXT_WEB + "/new";
-  }
-
-  @RequestMapping(value = "/addroluser/{usuariAplicacioID}", method = RequestMethod.GET)
-  public String afegirRolUsuari(@PathVariable("usuariAplicacioID") String usuariAplicacioID,
-      HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-    gestionaRolUsuari(usuariAplicacioID, request, true);
-
-    return "redirect:" + getContextWeb() + "/list";
-  }
-
-  @RequestMapping(value = "/removeroluser/{usuariAplicacioID}", method = RequestMethod.GET)
-  public String eliminarRolUsuari(@PathVariable("usuariAplicacioID") String usuariAplicacioID,
-      HttpServletRequest request, HttpServletResponse response) throws Exception {
-    gestionaRolUsuari(usuariAplicacioID, request, false);
-
-    return "redirect:" + getContextWeb() + "/list";
-  }
-
-  private void gestionaRolUsuari(String usuariAplicacioID, HttpServletRequest request,
-      boolean afegir) {
-    try {
-      boolean cacheBorrada;
-      if (afegir) {
-        cacheBorrada = usuariAplicacioLogicaEjb.afegirRolUser(usuariAplicacioID);
-      } else {
-        cacheBorrada = usuariAplicacioLogicaEjb.eliminarRolUser(usuariAplicacioID);
-      }
-      if (!cacheBorrada) {
-        String msg = I18NUtils.tradueix("usuariaplicacio.noborradacache");
-        HtmlUtils.saveMessageWarning(request, msg);
-      }
-    } catch (I18NException i18ne) {
-      String msg = I18NUtils.getMessage(i18ne);
-      log.error(msg, i18ne);
-      HtmlUtils.saveMessageError(request, msg);
-    } catch (Exception e) {
-      String msg = I18NUtils.tradueix("error.unknown", e.getMessage());
-      log.error(msg, e);
-      HtmlUtils.saveMessageError(request, msg);
-    }
-  }
-
-  @RequestMapping(value = "/addroladmin/{usuariAplicacioID}", method = RequestMethod.GET)
-  public String afegirRolAdmin(@PathVariable("usuariAplicacioID") String usuariAplicacioID,
-      HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-    gestionaRolAdmin(usuariAplicacioID, request, true);
-
-    return "redirect:" + getContextWeb() + "/list";
-  }
-
-  @RequestMapping(value = "/removeroladmin/{usuariAplicacioID}", method = RequestMethod.GET)
-  public String eliminarRolAdmin(@PathVariable("usuariAplicacioID") String usuariAplicacioID,
-      HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-    gestionaRolAdmin(usuariAplicacioID, request, false);
-
-    return "redirect:" + getContextWeb() + "/list";
-  }
-
-  private void gestionaRolAdmin(String usuariAplicacioID, HttpServletRequest request,
-      boolean afegir) {
-    try {
-      boolean cacheBorrada;
-      if (afegir) {
-        cacheBorrada = usuariAplicacioLogicaEjb.afegirRolAdmin(usuariAplicacioID);
-      } else {
-        cacheBorrada = usuariAplicacioLogicaEjb.eliminarRolAdmin(usuariAplicacioID);
-      }
-      if (!cacheBorrada) {
-        String msg = I18NUtils.tradueix("usuariaplicacio.noborradacache");
-        HtmlUtils.saveMessageWarning(request, msg);
-      }
-    } catch (I18NException i18ne) {
-      String msg = I18NUtils.getMessage(i18ne);
-      log.error(msg, i18ne);
-      HtmlUtils.saveMessageError(request, msg);
-    } catch (Exception e) {
-      String msg = I18NUtils.tradueix("error.unknown", e.getMessage());
-      log.error(msg, e);
-      HtmlUtils.saveMessageError(request, msg);
-    }
   }
 
   @Override
@@ -712,7 +534,6 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
     return super.getReferenceListForCustodiaInfoID(request, mav, configuracioForm, where2);
   }
   
-  
   /**
    * #165
    */
@@ -720,9 +541,8 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
   public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
       ModelAndView mav, Where where) throws I18NException {
 
-
-
-    return GestioEntitatAdminController.staticGetReferenceListForPoliticaCustodia(POLITICA_CUSTODIA.POLITICA_CUSTODIA_USUARI_APLICACIO);
+    return GestioEntitatAdminController
+          .staticGetReferenceListForPoliticaCustodia(POLITICA_CUSTODIA.POLITICA_CUSTODIA_USUARI_APLICACIO);
   }
   
 

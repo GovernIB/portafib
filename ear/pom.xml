@@ -380,6 +380,11 @@
             <artifactId>xmlsec</artifactId>
           </exclusion>
 
+          <exclusion>
+            <groupId>com.sun.xml.security</groupId>
+            <artifactId>xml-security-impl</artifactId>
+          </exclusion>
+
         </exclusions>
       </dependency>
       
@@ -388,28 +393,14 @@
           
       <!--  Provoca errors: java.lang.ClassCastException: org.apache.xml.security.transforms.implementations.TransformC14NExclusive cannot be cast to org.apache.xml.security.transforms.TransformSpi
       Utilitzarem la versió que incorpora JBOSS
-      -->      
-      
-      
+      -->
+      <!--
       <dependency>
         <groupId>org.apache.santuario</groupId>
         <artifactId>xmlsec</artifactId>
         <version>1.5.5-jboss-5</version>
-        <!-- <version>1.5.1</version> -->
-        <!-- <version>1.4.6</version> -->
       </dependency>
-      
-      
-      <dependency>
-        <groupId>org.apache.santuario</groupId>
-        <artifactId>xmlsec</artifactId>
-        <!--<version>1.5.5-jboss-5</version> -->
-        <!-- <version>1.5.1</version> -->
-        <version>1.4.6</version>
-      </dependency>
-   
-      
-
+      -->
 
       <!-- ====================================== -->
       <!-- ===  PLUGINS DE SEGELLAT DE TEMPS  === -->
@@ -485,7 +476,11 @@
             <groupId>org.apache.santuario</groupId>
             <artifactId>xmlsec</artifactId>
           </exclusion>
-          
+
+          <exclusion>
+            <groupId>com.sun.xml.security</groupId>
+            <artifactId>xml-security-impl</artifactId>
+          </exclusion>
         </exclusions> 
       </dependency>
   

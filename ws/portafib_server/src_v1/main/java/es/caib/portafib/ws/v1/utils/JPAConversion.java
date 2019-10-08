@@ -53,7 +53,8 @@ public class JPAConversion {
     if (__bean == null) { return null;}
     UsuariAplicacioJPA __tmp = new UsuariAplicacioJPA();
     __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
-    __tmp.setContrasenya(__bean.getContrasenya());
+    // Portafib ja no emmagatzema contrasenyes. Ignoram le valor.
+    //__tmp.setContrasenya(__bean.getContrasenya());
     __tmp.setEntitatID(__bean.getEntitatID());
     __tmp.setEmailAdmin(__bean.getEmailAdmin());
     __tmp.setCallbackVersio(__bean.getCallbackVersio());

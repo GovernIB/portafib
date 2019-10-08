@@ -87,6 +87,30 @@ ALTER TABLE pfi_bitacola DROP COLUMN usuariaplicacioid;
 ALTER TABLE pfi_bitacola ALTER COLUMN descripcio DROP NOT NULL;
 
 
+--
+--  Fer que els usuaris aplicació s'autentiquin a traves de JBoss i no emprant contrasenya de BBDD #277
+--
+
+-- ALERTA! ALETRA! ALERTA!
+--
+-- En entorns "NO CAIB", que emprin l'autenticació d'usuaris aplicació mitjançant PortaFIB en primer lloc
+-- caldrà exportar les dades de contrasenyes i roles al sistema d'autenticació emprant les següents selects.
+
+-- Exporta usuaris i contrasenyes
+-- SELECT usuariaplicacioid, contrasenya FROM pfi_usuariaplicacio;
+-- Exporta roles d'usuari
+-- SELECT usuariaplicacioid, roleid FROM pfi_roleusuariaplicacio;
+
+-- Si s'empren les taules auxiliars de SEYCON per mantenir els noms d'usuaris les comandes per insertar serien:
+-- INSERT INTO sc_wl_usuari SET usu_codi = <id usuariaplicacio>, usu_pass = <contrasenya>
+-- INSERT INTO sc_wl_usugru SET ugr_codusu = <id usuariaplicacio>, ugr_codgru = <id role>
+
+ALTER TABLE pfi_usuariaplicacio
+  DROP COLUMN contrasenya;
+
+DROP TABLE pfi_roleusuariaplicacio;
+
+
 -- ----------------------------------------------
 -- 01/09/2019 Usuaris externs puguin firmar #162 
 -- ----------------------------------------------
@@ -108,3 +132,4 @@ ALTER TABLE pfi_firma
   ADD COLUMN extern_token character varying(255);
 ALTER TABLE pfi_firma
   ADD COLUMN extern_nivellseguretat integer;
+

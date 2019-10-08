@@ -20,24 +20,6 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.CONTRASENYA)}">
-        <tr id="usuariAplicacio_contrasenya_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CONTRASENYA])?'usuariAplicacio.contrasenya':__theForm.labels[UsuariAplicacioFields.CONTRASENYA]}" />
-              <c:if test="${not empty __theForm.help[UsuariAplicacioFields.CONTRASENYA]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioFields.CONTRASENYA]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-            <form:errors path="usuariAplicacio.contrasenya" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CONTRASENYA)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CONTRASENYA)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="usuariAplicacio.contrasenya"   />
-
-           </td>
-        </tr>
-        </c:if>
-        
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.ENTITATID)}">
         <tr id="usuariAplicacio_entitatID_rowid">
           <td>

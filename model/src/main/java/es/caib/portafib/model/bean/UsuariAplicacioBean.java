@@ -11,7 +11,6 @@ public class UsuariAplicacioBean implements UsuariAplicacio {
 private static final long serialVersionUID = 1703005582L;
 
 	java.lang.String usuariAplicacioID;// PK
-	java.lang.String contrasenya;
 	java.lang.String entitatID;
 	java.lang.String emailAdmin;
 	int callbackVersio;
@@ -30,9 +29,8 @@ private static final long serialVersionUID = 1703005582L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String contrasenya , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , int politicaDePluginFirmaWeb , int politicaCustodia , java.lang.Long custodiaInfoID) {
+  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , int politicaDePluginFirmaWeb , int politicaCustodia , java.lang.Long custodiaInfoID) {
     this.usuariAplicacioID=usuariAplicacioID;
-    this.contrasenya=contrasenya;
     this.entitatID=entitatID;
     this.emailAdmin=emailAdmin;
     this.callbackVersio=callbackVersio;
@@ -59,7 +57,6 @@ private static final long serialVersionUID = 1703005582L;
 }
   public UsuariAplicacioBean(UsuariAplicacio __bean) {
     this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
-    this.setContrasenya(__bean.getContrasenya());
     this.setEntitatID(__bean.getEntitatID());
     this.setEmailAdmin(__bean.getEmailAdmin());
     this.setCallbackVersio(__bean.getCallbackVersio());
@@ -80,13 +77,6 @@ private static final long serialVersionUID = 1703005582L;
 	};
 	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_) {
 		this.usuariAplicacioID = _usuariAplicacioID_;
-	};
-
-	public java.lang.String getContrasenya() {
-		return(contrasenya);
-	};
-	public void setContrasenya(java.lang.String _contrasenya_) {
-		this.contrasenya = _contrasenya_;
 	};
 
 	public java.lang.String getEntitatID() {
@@ -174,7 +164,6 @@ private static final long serialVersionUID = 1703005582L;
     if (__bean == null) { return null;}
     UsuariAplicacioBean __tmp = new UsuariAplicacioBean();
     __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
-    __tmp.setContrasenya(__bean.getContrasenya());
     __tmp.setEntitatID(__bean.getEntitatID());
     __tmp.setEmailAdmin(__bean.getEmailAdmin());
     __tmp.setCallbackVersio(__bean.getCallbackVersio());

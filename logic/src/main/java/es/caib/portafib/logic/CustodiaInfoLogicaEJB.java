@@ -2,6 +2,7 @@ package es.caib.portafib.logic;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.sql.Timestamp;
@@ -72,14 +73,14 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
    implements CustodiaInfoLogicaLocal, ConstantsV2 {
 
 
-  @EJB(mappedName = EntitatLocal.JNDI_NAME)
+  @EJB(mappedName = EntitatLocal.JNDI_NAME, beanName = "EntitatEJB")
   protected EntitatLocal entitatEjb;
   
   
-  @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME)
+  @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME, beanName = "UsuariAplicacioEJB")
   protected UsuariAplicacioLocal usuariAplicacioEjb;
   
-  @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME)
+  @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME, beanName = "UsuariEntitatEJB")
   protected UsuariEntitatLocal usuariEntitatEjb;
   
   @EJB(mappedName = es.caib.portafib.ejb.CodiBarresLocal.JNDI_NAME)
@@ -88,7 +89,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
   @EJB(mappedName = PluginDeCustodiaLogicaLocal.JNDI_NAME)
   private PluginDeCustodiaLogicaLocal pluginDeCustodiaLogicaEjb;
   
-  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
+  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME, beanName = "PeticioDeFirmaEJB")
   protected PeticioDeFirmaLocal peticioDeFirmaEjb;
 
   @Override
@@ -1257,7 +1258,9 @@ protected CustodiaInfoJPA cloneCustodiaInfo(String titol, String usuariAplicacio
         
         dc = new DocumentCustody();
         try {
-          dc.setData(org.fundaciobit.pluginsib.core.utils.FileUtils.toByteArray(fitxerAFirmar.getInputStream()));
+          InputStream inputStream = fitxerAFirmar.getInputStream();
+          dc.setData(org.fundaciobit.pluginsib.core.utils.FileUtils.toByteArray(inputStream));
+          inputStream.close();
         } catch (Exception e) {
           // XYZ ZZZ TRA
           String msg = "Error desconegut llegint el fitxer original per custodiar: " + e.getMessage();

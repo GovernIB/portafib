@@ -4,7 +4,6 @@ import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
-import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.validator.webdb.UsuariAplicacioWebValidator;
 import es.caib.portafib.logic.validator.UsuariAplicacioLogicValidator;
 
@@ -25,8 +24,7 @@ public class UsuariAplicacioWebLogicValidator extends UsuariAplicacioWebValidato
       WebValidationResult<Object> wvr, boolean isNou) {
     
     validatorLogic.validate(wvr, target,
-        isNou, custodiaInfoEjb, entitatEjb, idiomaEjb, usuariAplicacioEjb,
-        LoginInfo.getInstance().getEntitatID());
+        isNou, custodiaInfoEjb, entitatEjb, idiomaEjb, usuariAplicacioEjb);
 
   } // Final de mètode
   

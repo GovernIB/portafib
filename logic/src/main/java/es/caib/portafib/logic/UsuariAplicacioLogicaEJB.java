@@ -4,7 +4,6 @@ import es.caib.portafib.ejb.CustodiaInfoLocal;
 import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.ejb.IdiomaLocal;
 import es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal;
-import es.caib.portafib.ejb.RoleUsuariAplicacioLocal;
 import es.caib.portafib.ejb.TipusDocumentLocal;
 import es.caib.portafib.ejb.UsuariAplicacioEJB;
 import es.caib.portafib.ejb.UsuariAplicacioLocal;
@@ -15,12 +14,9 @@ import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
-import es.caib.portafib.model.fields.RoleUsuariAplicacioFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
-import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
-import es.caib.portafib.utils.RoleUsuariAplicacioEnum;
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
@@ -34,14 +30,9 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerFactory;
-import javax.management.ObjectName;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -67,10 +58,7 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
 
   @EJB(mappedName = PlantillaFluxDeFirmesLocal.JNDI_NAME, beanName = "PlantillaFluxDeFirmesEJB")
   protected PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;
-  
-  @EJB(mappedName = RoleUsuariAplicacioLocal.JNDI_NAME)
-  protected RoleUsuariAplicacioLocal roleUsuariAplicacioEjb;
-  
+
   @EJB(mappedName = TipusDocumentLocal.JNDI_NAME, beanName = "TipusDocumentEJB")
   protected TipusDocumentLocal tipusDocumentEjb;
 
@@ -95,7 +83,7 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
     uabv = new UsuariAplicacioBeanLogicValidator(custodiaInfoEjb, entitatEjb, idiomaEjb, this);
     
     final boolean isNou = true;
-    List<I18NFieldError> fieldErrors = uabv.validate(_usuariAplicacio_, isNou, entitatID);
+    List<I18NFieldError> fieldErrors = uabv.validate(_usuariAplicacio_, isNou);
     
     if (!fieldErrors.isEmpty()) {
       throw new I18NValidationException(fieldErrors);
@@ -103,100 +91,8 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
 
     _usuariAplicacio_ = (UsuariAplicacioJPA)create(_usuariAplicacio_);
     
-    roleUsuariAplicacioEjb.create(ConstantsV2.PFI_USER, _usuariAplicacio_.getUsuariAplicacioID() );
-    
     return _usuariAplicacio_;
   }
-  
-  
-  @Override
-  @RolesAllowed({ConstantsV2.PFI_ADMIN})
-  public boolean afegirRolAdmin(String usuariAplicacioID)
-    throws I18NException ,Exception {
-
-    if (log.isDebugEnabled()) {
-      log.info(" ----- Cridant a EJB::afegirRolAdmin()");
-
-      if (ctx.isCallerInRole(ConstantsV2.PFI_ADMIN)) {
-        log.info("          * Te rol: PFI_ADMIN");     
-      }
-      if (ctx.isCallerInRole(ConstantsV2.PFI_USER)) {
-        log.info("          * Te rol: PFI_USER");     
-      }
-    }
-
-    return afegirRol(usuariAplicacioID, RoleUsuariAplicacioEnum.PFI_ADMIN);
-  }
-  
-  @Override
-  @RolesAllowed({ConstantsV2.PFI_ADMIN, ConstantsV2.PFI_USER})
-  public boolean afegirRolUser(String usuariAplicacioID)
-    throws I18NException ,Exception {
-    return afegirRol(usuariAplicacioID, RoleUsuariAplicacioEnum.PFI_USER);
-  }
-  
-  
-  private boolean afegirRol(String usuariAplicacioID, RoleUsuariAplicacioEnum rol)
-    throws I18NException ,Exception {
-    checkBasicUsuariAplicacioID(usuariAplicacioID);
-    
-    if (Configuracio.isCAIB()) {
-      // TODO Consultar plugin de Info per si té el rol "rol"
-      return true;
-    }
-    
-    Long count = roleUsuariAplicacioEjb.count(
-        Where.AND(
-            RoleUsuariAplicacioFields.ROLEID.equal(rol.toString()),
-            RoleUsuariAplicacioFields.USUARIAPLICACIOID.equal(usuariAplicacioID)
-            ));
-    if (count == 0) {
-      roleUsuariAplicacioEjb.create(rol.toString(), usuariAplicacioID);
-      return flushAuthenticationCache(usuariAplicacioID);
-    } else {
-      return true;
-    }
-    
-  }
-
-  @Override
-  @RolesAllowed({ConstantsV2.PFI_ADMIN})
-  public boolean eliminarRolAdmin(String usuariAplicacioID)
-    throws I18NException ,Exception {
-    return eliminarRol(usuariAplicacioID, RoleUsuariAplicacioEnum.PFI_ADMIN);
-  }
-
-  @Override
-  @RolesAllowed({ConstantsV2.PFI_ADMIN, ConstantsV2.PFI_USER})
-  public boolean eliminarRolUser(String usuariAplicacioID)
-    throws I18NException ,Exception {
-    return eliminarRol(usuariAplicacioID, RoleUsuariAplicacioEnum.PFI_USER);
-  }
-    
-    
-  private boolean eliminarRol(String usuariAplicacioID, RoleUsuariAplicacioEnum rol)
-    throws I18NException ,Exception {
-    checkBasicUsuariAplicacioID(usuariAplicacioID);
-    
-    if (Configuracio.isCAIB()) {
-      // TODO Consultar plugin de Info per si NO té el rol "rol"
-      return true;
-    }
-   
-    Where where  = Where.AND(
-        RoleUsuariAplicacioFields.ROLEID.equal(rol.toString()),
-        RoleUsuariAplicacioFields.USUARIAPLICACIOID.equal(usuariAplicacioID)
-        );
-    
-    Long count = roleUsuariAplicacioEjb.count(where);
-    if (count != 0) {
-      roleUsuariAplicacioEjb.delete(where);
-      return flushAuthenticationCache(usuariAplicacioID);
-    } else {
-      return true;
-    }
-  }
-
   
   /**
    * 
@@ -210,11 +106,8 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
   public static UsuariAplicacioJPA findByPrimaryKeyFull(
       UsuariAplicacioLocal usuariAplicacioEjb, String _usuariAplicacioID_) {
 
-    UsuariAplicacioJPA uaJPA;
-    uaJPA = (UsuariAplicacioJPA) usuariAplicacioEjb.findByPrimaryKey(_usuariAplicacioID_);
-    
+    UsuariAplicacioJPA uaJPA = usuariAplicacioEjb.findByPrimaryKey(_usuariAplicacioID_);
     if (uaJPA != null) {
-      Hibernate.initialize(uaJPA.getRoleUsuariAplicacios());
       Hibernate.initialize(uaJPA.getEntitat());
     }
 
@@ -384,11 +277,7 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
       fitxers.addAll(fluxDeFirmesLogicaEjb.deleteFull(plantillaID));  
     }
 
-    // (4) Esborrar Roles
-    roleUsuariAplicacioEjb.delete(
-        RoleUsuariAplicacioFields.USUARIAPLICACIOID.equal(usuariAplicacioID));
-    
-    // (5) Esborrar usuari    
+    // (4) Esborrar usuari
     if (usuariAplicacioJPA.getLogoSegellID() != null) {
       fitxers.add(usuariAplicacioJPA.getLogoSegellID());
     }
@@ -429,77 +318,4 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
     }
     
   }
-  
-  
-  /**
-   *  Aquest mètode serveix per eliminar els roles d'un usuari seycon
-   *  (usuari persona o usuari applicacio) guardats en la cache del sistema
-   *  de seguretat, forçant al jboss a tornar a recarregar els roles del
-   *  LoginModule (BBDD, LDAP, ...)
-   */
-  public boolean flushAuthenticationCache(String userName) {
-    try {
-    ObjectName jaasSecurityManager = new ObjectName("jboss.security:service=JaasSecurityManager");
-  
-    Principal user = new SimplePrincipal(userName);
-    
-    Object[] params = { "seycon", user};
-    
-    String[] signature = { "java.lang.String", "java.security.Principal"};
-    
-    MBeanServer server = MBeanServerFactory.findMBeanServer(null).get(0);
-    
-    server.invoke(jaasSecurityManager, "flushAuthenticationCache", params, signature);
-    
-    return true;
-    } catch(Exception e) {
-       log.error(e.getMessage(), e);
-       return false;
-    }
-  }
-  
-  public class SimplePrincipal implements Principal, java.io.Serializable
-{
-   static final long serialVersionUID = 7701951188631723261L;
-   private String name;
-
-   public SimplePrincipal(String name)
-   {
-      this.name = name;
-   }
-
-   /**
-    * Compare this SimplePrincipal's name against another Principal
-    * @return true if name equals another.getName();
-    */
-   public boolean equals(Object another)
-   {
-      if (!(another instanceof Principal))
-         return false;
-      String anotherName = ((Principal) another).getName();
-      boolean equals = false;
-      if (name == null)
-         equals = anotherName == null;
-      else
-         equals = name.equals(anotherName);
-      return equals;
-   }
-
-   public int hashCode()
-   {
-      return (name == null ? 0 : name.hashCode());
-   }
-
-   public String toString()
-   {
-      return name;
-   }
-
-   public String getName()
-   {
-      return name;
-   }
-} 
-  
-  
 }

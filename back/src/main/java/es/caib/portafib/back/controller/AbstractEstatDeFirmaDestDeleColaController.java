@@ -2309,15 +2309,15 @@ import java.util.Set;
            int[] valors=infoColaboradorsByEstat.get(estatDeFirmaId);
            StringBuffer str = new StringBuffer();
            if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2] != 0) {
-             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.VALIDAT") 
+             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.0")
                  + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2]  + "/" + valors[0] + "</small><br/>\n");
            }
            if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT+ 2] != 0) {
-             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.INVALIDAT")
+             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.1")
                  + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT+ 2] + "/" + valors[0] + "</small><br/>\n");
            }
            if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] != 0) {           
-             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.DESCARTAT")
+             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.4")
                  + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT+ 2] + "/" + valors[0] + "</small><br/>\n");
            }
            if(valors[1] != 0) {
@@ -2385,11 +2385,11 @@ import java.util.Set;
           
            
            if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] != 0) {
-             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.VALIDAT") 
+             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.0")
                  + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2]  + "/" + valors[0] + "</small><br/>\n");
            }
            if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT+ 2] != 0) {
-             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.INVALIDAT")
+             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.1")
                  + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT+ 2] + "/" + valors[0] + "</small><br/>\n");
            }
            if(valors[1] != 0) {

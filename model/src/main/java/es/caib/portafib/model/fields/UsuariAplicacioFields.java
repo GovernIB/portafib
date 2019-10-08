@@ -13,7 +13,6 @@ public interface UsuariAplicacioFields extends java.io.Serializable {
 
 
 	 public static final StringField USUARIAPLICACIOID = new StringField(_TABLE_MODEL, "usuariAplicacioID", "usuariaplicacioid");  // PK
-	 public static final StringField CONTRASENYA = new StringField(_TABLE_MODEL, "contrasenya", "contrasenya");
 	 public static final StringField ENTITATID = new StringField(_TABLE_MODEL, "entitatID", "entitatid");
 	 public static final StringField EMAILADMIN = new StringField(_TABLE_MODEL, "emailAdmin", "emailadmin");
 	 public static final IntegerField CALLBACKVERSIO = new IntegerField(_TABLE_MODEL, "callbackVersio", "callbackversio");
@@ -29,7 +28,6 @@ public interface UsuariAplicacioFields extends java.io.Serializable {
 
   public static final Field<?>[] ALL_USUARIAPLICACIO_FIELDS = {
     USUARIAPLICACIOID,
-    CONTRASENYA,
     ENTITATID,
     EMAILADMIN,
     CALLBACKVERSIO,
