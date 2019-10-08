@@ -17,10 +17,13 @@
     create table pfi_bitacola (
         bitacolaid number(19,0) not null,
         data timestamp not null,
-        descripcio varchar2(255 char) not null,
-        peticiodefirmaid number(19,0) not null,
-        usuariaplicacioid varchar2(101 char),
-        usuarientitatid varchar2(101 char)
+        descripcio varchar2(255 char),
+        entitatid varchar2(50 char) not null,
+        objecteserialitzat clob,
+        objecteid varchar2(50 char) not null,
+        tipusobjecte number(10,0) not null,
+        tipusoperacio number(10,0) not null,
+        usuariid varchar2(101 char) not null
     );
 
     create table pfi_blocdefirmes (
@@ -169,7 +172,13 @@
         numeroseriecertificat number,
         obligatori number(1,0) not null,
         perfildefirma varchar2(50 char),
-        tipusestatdefirmafinalid number(19,0)
+        tipusestatdefirmafinalid number(19,0),
+        extern_email varchar2(255 char),
+        extern_idioma varchar2(2 char),
+        extern_llinatges varchar2(255 char),
+        extern_nivellseguretat number(10,0),
+        extern_nom varchar2(100 char),
+        extern_token varchar2(255 char)
     );
 
     create table pfi_fitxer (
@@ -231,7 +240,8 @@
         error clob,
         peticiodefirmaid number(19,0) not null,
         reintents number(10,0) not null,
-        tipusnotificacioid number(19,0) not null
+        tipusnotificacioid number(19,0) not null,
+        usuariaplicacioid varchar2(101 char) not null
     );
 
     create table pfi_perfilsperusrapp (
@@ -376,12 +386,6 @@
         nom varchar2(50 char) not null
     );
 
-    create table pfi_roleusuariaplicacio (
-        id number(19,0) not null,
-        roleid varchar2(50 char) not null,
-        usuariaplicacioid varchar2(50 char) not null
-    );
-
     create table pfi_roleusuarientitat (
         id number(19,0) not null,
         roleid varchar2(50 char) not null,
@@ -424,7 +428,6 @@
         actiu number(1,0) not null,
         callbackurl varchar2(400 char) not null,
         callbackversio number(10,0) not null,
-        contrasenya varchar2(50 char),
         custodiainfoid number(19,0),
         descripcio varchar2(255 char),
         emailadmin varchar2(100 char) not null,
@@ -531,8 +534,6 @@
     create index pfi_annexfirmat_pk_i on pfi_annexfirmat (annexfirmatid);
     create index pfi_annexfirmat_firmaid_fk_i on pfi_annexfirmat (firmaid);
     create index pfi_bitacola_pk_i on pfi_bitacola (bitacolaid);
-    create index pfi_bitacola_usrentid_fk_i on pfi_bitacola (usuarientitatid);
-    create index pfi_bitacola_peticid_fk_i on pfi_bitacola (peticiodefirmaid);
     create index pfi_blocfirmes_fluxid_fk_i on pfi_blocdefirmes (fluxdefirmesid);
     create index pfi_blocdefirmes_pk_i on pfi_blocdefirmes (blocdefirmesid);
     create index pfi_codibarres_pk_i on pfi_codibarres (codibarresid);
@@ -549,20 +550,20 @@
     create index pfi_custodia_codibarid_fk_i on pfi_custodiainfo (codibarresid);
     create index pfi_custodia_entitatid_fk_i on pfi_custodiainfo (entitatid);
     create index pfi_entitat_motiudele_fk_i on pfi_entitat (motiudelegacioid);
-    create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
     create index pfi_entitat_pk_i on pfi_entitat (entitatid);
-    create index pfi_entitat_pluginvalfir_fk_i on pfi_entitat (pluginvalidafirmesid);
     create index pfi_entitat_pluginvalcer_fk_i on pfi_entitat (pluginvalidacertificatid);
     create index pfi_entitat_pluginrubri_fk_i on pfi_entitat (pluginrubricaid);
-    create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
-    create index pfi_entitat_segelltemps_fk_i on pfi_entitat (pluginid);
     create index pfi_entitat_pdfautoriid_fk_i on pfi_entitat (pdfautoritzaciodelegacioid);
-    create index pfi_entitat_logowebpeuid_fk_i on pfi_entitat (logowebpeuid);
-    create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
     create index pfi_entitat_usrappid_fk_i on pfi_entitat (usuariaplicacioid);
-    create index pfi_entitat_logowebid_fk_i on pfi_entitat (logowebid);
     create index pfi_entitat_firmatper_fk_i on pfi_entitat (firmatperformatid);
     create index pfi_entitat_faviconid_fk_i on pfi_entitat (faviconid);
+    create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
+    create index pfi_entitat_pluginvalfir_fk_i on pfi_entitat (pluginvalidafirmesid);
+    create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
+    create index pfi_entitat_segelltemps_fk_i on pfi_entitat (pluginid);
+    create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
+    create index pfi_entitat_logowebpeuid_fk_i on pfi_entitat (logowebpeuid);
+    create index pfi_entitat_logowebid_fk_i on pfi_entitat (logowebid);
     create index pfi_estadistica_pk_i on pfi_estadistica (estadisticaid);
     create index pfi_estadistica_entitatid_fk_i on pfi_estadistica (entitatid);
     create index pfi_estatdefirma_firmaid_fk_i on pfi_estatdefirma (firmaid);
@@ -647,9 +648,6 @@
     create index pfi_revfirma_firmaid_fk_i on pfi_revisordefirma (firmaid);
     create index pfi_revfirma_usrentitat_fk_i on pfi_revisordefirma (usuarientitatid);
     create index pfi_role_pk_i on pfi_role (roleid);
-    create index pfi_roleusuariaplicacio_pk_i on pfi_roleusuariaplicacio (id);
-    create index pfi_roleusrapp_usrappid_fk_i on pfi_roleusuariaplicacio (usuariaplicacioid);
-    create index pfi_roleusrapp_roleid_fk_i on pfi_roleusuariaplicacio (roleid);
     create index pfi_roleusrent_usrentid_fk_i on pfi_roleusuarientitat (usuarientitatid);
     create index pfi_roleusrent_roleid_fk_i on pfi_roleusuarientitat (roleid);
     create index pfi_roleusuarientitat_pk_i on pfi_roleusuarientitat (id);
@@ -759,8 +757,6 @@
 
     alter table pfi_role add constraint pfi_role_pk primary key (roleid);
 
-    alter table pfi_roleusuariaplicacio add constraint pfi_roleusuariaplicacio_pk primary key (id);
-
     alter table pfi_roleusuarientitat add constraint pfi_roleusuarientitat_pk primary key (id);
 
     alter table pfi_tipusdocument add constraint pfi_tipusdocument_pk primary key (tipusdocumentid);
@@ -789,479 +785,469 @@
 
  -- INICI FK's
 
-    alter table pfi_annex
-        add constraint pfi_annex_petifirma_fk
-        foreign key (peticiodefirmaid)
+    alter table pfi_annex 
+        add constraint pfi_annex_petifirma_fk 
+        foreign key (peticiodefirmaid) 
         references pfi_peticiodefirma;
 
-    alter table pfi_annex
-        add constraint pfi_annex_fitxer_fk
-        foreign key (fitxerid)
+    alter table pfi_annex 
+        add constraint pfi_annex_fitxer_fk 
+        foreign key (fitxerid) 
         references pfi_fitxer;
 
-    alter table pfi_annexfirmat
-        add constraint pfi_anexfirmat_annex_fk
-        foreign key (annexid)
+    alter table pfi_annexfirmat 
+        add constraint pfi_anexfirmat_annex_fk 
+        foreign key (annexid) 
         references pfi_annex;
 
-    alter table pfi_annexfirmat
-        add constraint pfi_anexfirmat_fitxer_fk
-        foreign key (fitxerid)
+    alter table pfi_annexfirmat 
+        add constraint pfi_anexfirmat_fitxer_fk 
+        foreign key (fitxerid) 
         references pfi_fitxer;
 
-    alter table pfi_annexfirmat
-        add constraint pfi_anexfirmat_firma_fk
-        foreign key (firmaid)
+    alter table pfi_annexfirmat 
+        add constraint pfi_anexfirmat_firma_fk 
+        foreign key (firmaid) 
         references pfi_firma;
 
-    alter table pfi_blocdefirmes
-        add constraint pfi_blocfirmes_fluxfirmes_fk
-        foreign key (fluxdefirmesid)
+    alter table pfi_blocdefirmes 
+        add constraint pfi_blocfirmes_fluxfirmes_fk 
+        foreign key (fluxdefirmesid) 
         references pfi_fluxdefirmes;
 
-    alter table pfi_colaboraciodelegacio
-        add constraint pfi_colabdeleg_usrentitat_d_fk
-        foreign key (destinatariid)
+    alter table pfi_colaboraciodelegacio 
+        add constraint pfi_colabdeleg_usrentitat_d_fk 
+        foreign key (destinatariid) 
         references pfi_usuarientitat;
 
-    alter table pfi_colaboraciodelegacio
-        add constraint pfi_colabdeleg_usrentitat_c_fk
-        foreign key (colaboradordelegatid)
+    alter table pfi_colaboraciodelegacio 
+        add constraint pfi_colabdeleg_usrentitat_c_fk 
+        foreign key (colaboradordelegatid) 
         references pfi_usuarientitat;
 
-    alter table pfi_colaboraciodelegacio
-        add constraint pfi_colabdeleg_fitxer_fk
-        foreign key (fitxerautoritzacioid)
+    alter table pfi_colaboraciodelegacio 
+        add constraint pfi_colabdeleg_fitxer_fk 
+        foreign key (fitxerautoritzacioid) 
         references pfi_fitxer;
 
-    alter table pfi_custodiainfo
-        add constraint pfi_custodia_usrentitat_fk
-        foreign key (usuarientitatid)
+    alter table pfi_custodiainfo 
+        add constraint pfi_custodia_usrentitat_fk 
+        foreign key (usuarientitatid) 
         references pfi_usuarientitat;
 
-    alter table pfi_custodiainfo
-        add constraint pfi_custodia_entitat_fk
-        foreign key (entitatid)
+    alter table pfi_custodiainfo 
+        add constraint pfi_custodia_entitat_fk 
+        foreign key (entitatid) 
         references pfi_entitat;
 
-    alter table pfi_custodiainfo
-        add constraint pfi_custodia_plugin_fk
-        foreign key (pluginid)
+    alter table pfi_custodiainfo 
+        add constraint pfi_custodia_plugin_fk 
+        foreign key (pluginid) 
         references pfi_plugin;
 
-    alter table pfi_custodiainfo
-        add constraint pfi_custodia_codibarres_fk
-        foreign key (codibarresid)
+    alter table pfi_custodiainfo 
+        add constraint pfi_custodia_codibarres_fk 
+        foreign key (codibarresid) 
         references pfi_codibarres;
 
-    alter table pfi_custodiainfo
-        add constraint pfi_custodia_usrapp_fk
-        foreign key (usuariaplicacioid)
+    alter table pfi_custodiainfo 
+        add constraint pfi_custodia_usrapp_fk 
+        foreign key (usuariaplicacioid) 
         references pfi_usuariaplicacio;
 
-    alter table pfi_entitat
-        add constraint pfi_entitat_traduccio_firm_fk
-        foreign key (firmatperformatid)
+    alter table pfi_entitat 
+        add constraint pfi_entitat_traduccio_firm_fk 
+        foreign key (firmatperformatid) 
         references pfi_traduccio;
 
-    alter table pfi_entitat
-        add constraint pfi_entitat_fitxer_lope_fk
-        foreign key (logowebpeuid)
+    alter table pfi_entitat 
+        add constraint pfi_entitat_fitxer_lope_fk 
+        foreign key (logowebpeuid) 
         references pfi_fitxer;
 
-    alter table pfi_entitat
-        add constraint pfi_entitat_plugin_vafi_fk
-        foreign key (pluginvalidafirmesid)
+    alter table pfi_entitat 
+        add constraint pfi_entitat_plugin_vafi_fk 
+        foreign key (pluginvalidafirmesid) 
         references pfi_plugin;
 
-    alter table pfi_entitat
-        add constraint pfi_entitat_fitxer_lose_fk
-        foreign key (logosegellid)
+    alter table pfi_entitat 
+        add constraint pfi_entitat_fitxer_lose_fk 
+        foreign key (logosegellid) 
         references pfi_fitxer;
 
-    alter table pfi_entitat
-        add constraint pfi_entitat_fitxer_loca_fk
-        foreign key (logowebid)
+    alter table pfi_entitat 
+        add constraint pfi_entitat_fitxer_loca_fk 
+        foreign key (logowebid) 
         references pfi_fitxer;
 
-    alter table pfi_entitat
-        add constraint pfi_entitat_fitxer_icon_fk
-        foreign key (faviconid)
+    alter table pfi_entitat 
+        add constraint pfi_entitat_fitxer_icon_fk 
+        foreign key (faviconid) 
         references pfi_fitxer;
 
-    alter table pfi_entitat
-        add constraint pfi_entitat_usrapp_fk
-        foreign key (usuariaplicacioid)
+    alter table pfi_entitat 
+        add constraint pfi_entitat_usrapp_fk 
+        foreign key (usuariaplicacioid) 
         references pfi_usuariaplicacio;
 
-    alter table pfi_entitat
-        add constraint pfi_entitat_traduccio_moti_fk
-        foreign key (motiudelegacioid)
+    alter table pfi_entitat 
+        add constraint pfi_entitat_traduccio_moti_fk 
+        foreign key (motiudelegacioid) 
         references pfi_traduccio;
 
-    alter table pfi_entitat
-        add constraint pfi_entitat_plugin_cert_fk
-        foreign key (pluginvalidacertificatid)
+    alter table pfi_entitat 
+        add constraint pfi_entitat_plugin_cert_fk 
+        foreign key (pluginvalidacertificatid) 
         references pfi_plugin;
 
-    alter table pfi_entitat
-        add constraint pfi_entitat_fitxer_pdfd_fk
-        foreign key (pdfautoritzaciodelegacioid)
+    alter table pfi_entitat 
+        add constraint pfi_entitat_fitxer_pdfd_fk 
+        foreign key (pdfautoritzaciodelegacioid) 
         references pfi_fitxer;
 
-    alter table pfi_entitat
-        add constraint pfi_entitat_plugin_fk
-        foreign key (pluginid)
+    alter table pfi_entitat 
+        add constraint pfi_entitat_plugin_fk 
+        foreign key (pluginid) 
         references pfi_plugin;
 
-    alter table pfi_entitat
-        add constraint pfi_entitat_plugin_rubr_fk
-        foreign key (pluginrubricaid)
+    alter table pfi_entitat 
+        add constraint pfi_entitat_plugin_rubr_fk 
+        foreign key (pluginrubricaid) 
         references pfi_plugin;
 
-    alter table pfi_entitat
-        add constraint pfi_entitat_custodia_fk
-        foreign key (custodiainfoid)
+    alter table pfi_entitat 
+        add constraint pfi_entitat_custodia_fk 
+        foreign key (custodiainfoid) 
         references pfi_custodiainfo;
 
-    alter table pfi_estadistica
-        add constraint pfi_estadis_entitat_fk
-        foreign key (entitatid)
+    alter table pfi_estadistica 
+        add constraint pfi_estadis_entitat_fk 
+        foreign key (entitatid) 
         references pfi_entitat;
 
-    alter table pfi_estatdefirma
-        add constraint pfi_estatfirma_usrentitat_fk
-        foreign key (usuarientitatid)
+    alter table pfi_estatdefirma 
+        add constraint pfi_estatfirma_usrentitat_fk 
+        foreign key (usuarientitatid) 
         references pfi_usuarientitat;
 
-    alter table pfi_estatdefirma
-        add constraint pfi_estatfirma_colabdeleg_fk
-        foreign key (colaboraciodelegacioid)
+    alter table pfi_estatdefirma 
+        add constraint pfi_estatfirma_colabdeleg_fk 
+        foreign key (colaboraciodelegacioid) 
         references pfi_colaboraciodelegacio;
 
-    alter table pfi_estatdefirma
-        add constraint pfi_estatfirma_firma_fk
-        foreign key (firmaid)
+    alter table pfi_estatdefirma 
+        add constraint pfi_estatfirma_firma_fk 
+        foreign key (firmaid) 
         references pfi_firma;
 
-    alter table pfi_firma
-        add constraint pfi_firma_fitxer_fk
-        foreign key (fitxerfirmatid)
+    alter table pfi_firma 
+        add constraint pfi_firma_fitxer_fk 
+        foreign key (fitxerfirmatid) 
         references pfi_fitxer;
 
-    alter table pfi_firma
-        add constraint pfi_firma_usrentitat_fk
-        foreign key (destinatariid)
+    alter table pfi_firma 
+        add constraint pfi_firma_usrentitat_fk 
+        foreign key (destinatariid) 
         references pfi_usuarientitat;
 
-    alter table pfi_firma
-        add constraint pfi_firma_blocfirmes_fk
-        foreign key (blocdefirmaid)
+    alter table pfi_firma 
+        add constraint pfi_firma_blocfirmes_fk 
+        foreign key (blocdefirmaid) 
         references pfi_blocdefirmes;
 
-    alter table pfi_grupentitat
-        add constraint pfi_grupentita_entitat_fk
-        foreign key (entitatid)
+    alter table pfi_grupentitat 
+        add constraint pfi_grupentita_entitat_fk 
+        foreign key (entitatid) 
         references pfi_entitat;
 
-    alter table pfi_grupentitatusuarientitat
-        add constraint pfi_grupusrent_usrentitat_fk
-        foreign key (usuarientitatid)
+    alter table pfi_grupentitatusuarientitat 
+        add constraint pfi_grupusrent_usrentitat_fk 
+        foreign key (usuarientitatid) 
         references pfi_usuarientitat;
 
-    alter table pfi_grupentitatusuarientitat
-        add constraint pfi_grupusrent_grupentita_fk
-        foreign key (grupentitatid)
+    alter table pfi_grupentitatusuarientitat 
+        add constraint pfi_grupusrent_grupentita_fk 
+        foreign key (grupentitatid) 
         references pfi_grupentitat;
 
-    alter table pfi_metadada
-        add constraint pfi_metadada_petifirma_fk
-        foreign key (peticiodefirmaid)
+    alter table pfi_metadada 
+        add constraint pfi_metadada_petifirma_fk 
+        foreign key (peticiodefirmaid) 
         references pfi_peticiodefirma;
 
-    alter table pfi_modulfirmapertipusdoc
-        add constraint pfi_mofitido_tipusdoc_fk
-        foreign key (tipusdocumentid)
+    alter table pfi_modulfirmapertipusdoc 
+        add constraint pfi_mofitido_tipusdoc_fk 
+        foreign key (tipusdocumentid) 
         references pfi_tipusdocument;
 
-    alter table pfi_modulfirmapertipusdoc
-        add constraint pfi_mofitido_plugin_fk
-        foreign key (pluginid)
+    alter table pfi_modulfirmapertipusdoc 
+        add constraint pfi_mofitido_plugin_fk 
+        foreign key (pluginid) 
         references pfi_plugin;
 
-    alter table pfi_notificacio
-        add constraint pfi_notifica_tipnotific_fk
-        foreign key (tipusnotificacioid)
+    alter table pfi_notificacio 
+        add constraint pfi_notifica_tipnotific_fk 
+        foreign key (tipusnotificacioid) 
         references pfi_tipusnotificacio;
 
-    alter table pfi_perfilsperusrapp
-        add constraint pfi_perfilsua_perfilapp_p_fk
-        foreign key (usuariaplicacioperfilid)
+    alter table pfi_perfilsperusrapp 
+        add constraint pfi_perfilsua_perfilapp_p_fk 
+        foreign key (usuariaplicacioperfilid) 
         references pfi_usuariaplicacioperfil;
 
-    alter table pfi_perfilsperusrapp
-        add constraint pfi_perfilsua_usrapp_usr_fk
-        foreign key (usuariaplicacioid)
+    alter table pfi_perfilsperusrapp 
+        add constraint pfi_perfilsua_usrapp_usr_fk 
+        foreign key (usuariaplicacioid) 
         references pfi_usuariaplicacio;
 
-    alter table pfi_permisgrupplantilla
-        add constraint pfi_permisgrpl_grupentita_fk
-        foreign key (grupentitatid)
+    alter table pfi_permisgrupplantilla 
+        add constraint pfi_permisgrpl_grupentita_fk 
+        foreign key (grupentitatid) 
         references pfi_grupentitat;
 
-    alter table pfi_permisgrupplantilla
-        add constraint pfi_permisgrpl_plantiflfi_fk
-        foreign key (fluxdefirmesid)
+    alter table pfi_permisgrupplantilla 
+        add constraint pfi_permisgrpl_plantiflfi_fk 
+        foreign key (fluxdefirmesid) 
         references pfi_plantillafluxdefirmes;
 
-    alter table pfi_permisusuariplantilla
-        add constraint pfi_permisuspl_usrentitat_fk
-        foreign key (usuarientitatid)
+    alter table pfi_permisusuariplantilla 
+        add constraint pfi_permisuspl_usrentitat_fk 
+        foreign key (usuarientitatid) 
         references pfi_usuarientitat;
 
-    alter table pfi_permisusuariplantilla
-        add constraint pfi_permisuspl_plantiflfi_fk
-        foreign key (fluxdefirmesid)
+    alter table pfi_permisusuariplantilla 
+        add constraint pfi_permisuspl_plantiflfi_fk 
+        foreign key (fluxdefirmesid) 
         references pfi_plantillafluxdefirmes;
 
-    alter table pfi_peticiodefirma
-        add constraint pfi_petifirma_usrentitat_2_fk
-        foreign key (solicitantpersona2id)
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_usrentitat_2_fk 
+        foreign key (solicitantpersona2id) 
         references pfi_usuarientitat;
 
-    alter table pfi_peticiodefirma
-        add constraint pfi_petifirma_fitxer_log_fk
-        foreign key (logosegellid)
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_fitxer_log_fk 
+        foreign key (logosegellid) 
         references pfi_fitxer;
 
-    alter table pfi_peticiodefirma
-        add constraint pfi_petifirma_usrapp_fk
-        foreign key (usuariaplicacioid)
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_usrapp_fk 
+        foreign key (usuariaplicacioid) 
         references pfi_usuariaplicacio;
 
-    alter table pfi_peticiodefirma
-        add constraint pfi_petifirma_usrentitat_fk
-        foreign key (usuarientitatid)
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_usrentitat_fk 
+        foreign key (usuarientitatid) 
         references pfi_usuarientitat;
 
-    alter table pfi_peticiodefirma
-        add constraint pfi_petifirma_fitxer_ada_fk
-        foreign key (fitxeradaptatid)
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_fitxer_ada_fk 
+        foreign key (fitxeradaptatid) 
         references pfi_fitxer;
 
-    alter table pfi_peticiodefirma
-        add constraint pfi_petifirma_usrentitat_3_fk
-        foreign key (solicitantpersona3id)
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_usrentitat_3_fk 
+        foreign key (solicitantpersona3id) 
         references pfi_usuarientitat;
 
-    alter table pfi_peticiodefirma
-        add constraint pfi_petifirma_confapp_fk
-        foreign key (configuraciodefirmaid)
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_confapp_fk 
+        foreign key (configuraciodefirmaid) 
         references pfi_usuariaplicacioconfig;
 
-    alter table pfi_peticiodefirma
-        add constraint pfi_petifirma_tipusdoc_fk
-        foreign key (tipusdocumentid)
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_tipusdoc_fk 
+        foreign key (tipusdocumentid) 
         references pfi_tipusdocument;
 
-    alter table pfi_peticiodefirma
-        add constraint pfi_petifirma_fitxer_ori_fk
-        foreign key (firmaoriginaldetachedid)
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_fitxer_ori_fk 
+        foreign key (firmaoriginaldetachedid) 
         references pfi_fitxer;
 
-    alter table pfi_peticiodefirma
-        add constraint pfi_petifirma_fitxer_fir_fk
-        foreign key (fitxerafirmarid)
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_fitxer_fir_fk 
+        foreign key (fitxerafirmarid) 
         references pfi_fitxer;
 
-    alter table pfi_peticiodefirma
-        add constraint pfi_petifirma_fluxfirmes_fk
-        foreign key (fluxdefirmesid)
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_fluxfirmes_fk 
+        foreign key (fluxdefirmesid) 
         references pfi_fluxdefirmes;
 
-    alter table pfi_peticiodefirma
-        add constraint pfi_petifirma_idioma_fk
-        foreign key (idiomaid)
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_idioma_fk 
+        foreign key (idiomaid) 
         references pfi_idioma;
 
-    alter table pfi_peticiodefirma
-        add constraint pfi_petifirma_custodia_fk
-        foreign key (custodiainfoid)
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_custodia_fk 
+        foreign key (custodiainfoid) 
         references pfi_custodiainfo;
 
-    alter table pfi_plantillafluxdefirmes
-        add constraint pfi_plantiflfi_usrentitat_fk
-        foreign key (usuarientitatid)
+    alter table pfi_plantillafluxdefirmes 
+        add constraint pfi_plantiflfi_usrentitat_fk 
+        foreign key (usuarientitatid) 
         references pfi_usuarientitat;
 
-    alter table pfi_plantillafluxdefirmes
-        add constraint pfi_plantiflfi_usrapp_fk
-        foreign key (usuariaplicacioid)
+    alter table pfi_plantillafluxdefirmes 
+        add constraint pfi_plantiflfi_usrapp_fk 
+        foreign key (usuariaplicacioid) 
         references pfi_usuariaplicacio;
 
-    alter table pfi_plugin
-        add constraint pfi_plugin_entitat_fk
-        foreign key (entitatid)
+    alter table pfi_plugin 
+        add constraint pfi_plugin_entitat_fk 
+        foreign key (entitatid) 
         references pfi_entitat;
 
-    alter table pfi_plugin
-        add constraint pfi_plugin_traduccio_nom_fk
-        foreign key (nomid)
+    alter table pfi_plugin 
+        add constraint pfi_plugin_traduccio_nom_fk 
+        foreign key (nomid) 
         references pfi_traduccio;
 
-    alter table pfi_plugin
-        add constraint pfi_plugin_traduccio_desc_fk
-        foreign key (descripciocurtaid)
+    alter table pfi_plugin 
+        add constraint pfi_plugin_traduccio_desc_fk 
+        foreign key (descripciocurtaid) 
         references pfi_traduccio;
 
-    alter table pfi_plugincridada
-        add constraint pfi_plugcrida_fitxer_retor_fk
-        foreign key (retornfitxerid)
+    alter table pfi_plugincridada 
+        add constraint pfi_plugcrida_fitxer_retor_fk 
+        foreign key (retornfitxerid) 
         references pfi_fitxer;
 
-    alter table pfi_plugincridada
-        add constraint pfi_plugcrida_entitat_fk
-        foreign key (entitatid)
+    alter table pfi_plugincridada 
+        add constraint pfi_plugcrida_entitat_fk 
+        foreign key (entitatid) 
         references pfi_entitat;
 
-    alter table pfi_plugincridada
-        add constraint pfi_plugcrida_fitxer_param_fk
-        foreign key (parametresfitxerid)
+    alter table pfi_plugincridada 
+        add constraint pfi_plugcrida_fitxer_param_fk 
+        foreign key (parametresfitxerid) 
         references pfi_fitxer;
 
-    alter table pfi_plugincridada
-        add constraint pfi_plugcrida_plugin_fk
-        foreign key (pluginid)
+    alter table pfi_plugincridada 
+        add constraint pfi_plugcrida_plugin_fk 
+        foreign key (pluginid) 
         references pfi_plugin;
 
-    alter table pfi_pluginfirmawebperusrapp
-        add constraint pfi_pfwpua_plugin_fk
-        foreign key (pluginfirmawebid)
+    alter table pfi_pluginfirmawebperusrapp 
+        add constraint pfi_pfwpua_plugin_fk 
+        foreign key (pluginfirmawebid) 
         references pfi_plugin;
 
-    alter table pfi_pluginfirmawebperusrapp
-        add constraint pfi_pfwpua_usrapp_fk
-        foreign key (usuariaplicacioid)
+    alter table pfi_pluginfirmawebperusrapp 
+        add constraint pfi_pfwpua_usrapp_fk 
+        foreign key (usuariaplicacioid) 
         references pfi_usuariaplicacio;
 
-    alter table pfi_pluginfirmawebperusrent
-        add constraint pfi_pfwpue_usrentitat_fk
-        foreign key (usuarientitatid)
+    alter table pfi_pluginfirmawebperusrent 
+        add constraint pfi_pfwpue_usrentitat_fk 
+        foreign key (usuarientitatid) 
         references pfi_usuarientitat;
 
-    alter table pfi_pluginfirmawebperusrent
-        add constraint pfi_pfwpue_plugin_fk
-        foreign key (pluginfirmawebid)
+    alter table pfi_pluginfirmawebperusrent 
+        add constraint pfi_pfwpue_plugin_fk 
+        foreign key (pluginfirmawebid) 
         references pfi_plugin;
 
-    alter table pfi_propietatglobal
-        add constraint pfi_propietat_entitat_fk
-        foreign key (entitatid)
+    alter table pfi_propietatglobal 
+        add constraint pfi_propietat_entitat_fk 
+        foreign key (entitatid) 
         references pfi_entitat;
 
-    alter table pfi_rebreavis
-        add constraint pfi_rebreavis_usrentitat_fk
-        foreign key (usuarientitatid)
+    alter table pfi_rebreavis 
+        add constraint pfi_rebreavis_usrentitat_fk 
+        foreign key (usuarientitatid) 
         references pfi_usuarientitat;
 
-    alter table pfi_rebreavis
-        add constraint pfi_rebreavis_tipnotific_fk
-        foreign key (tipusnotificacioid)
+    alter table pfi_rebreavis 
+        add constraint pfi_rebreavis_tipnotific_fk 
+        foreign key (tipusnotificacioid) 
         references pfi_tipusnotificacio;
 
-    alter table pfi_revisordefirma
-        add constraint pfi_revfirma_usrentitat_fk
-        foreign key (usuarientitatid)
+    alter table pfi_revisordefirma 
+        add constraint pfi_revfirma_usrentitat_fk 
+        foreign key (usuarientitatid) 
         references pfi_usuarientitat;
 
-    alter table pfi_revisordefirma
-        add constraint pfi_revfirma_firma_fk
-        foreign key (firmaid)
+    alter table pfi_revisordefirma 
+        add constraint pfi_revfirma_firma_fk 
+        foreign key (firmaid) 
         references pfi_firma;
 
-    alter table pfi_roleusuariaplicacio
-        add constraint pfi_roleusrapp_role_fk
-        foreign key (roleid)
-        references pfi_role;
-
-    alter table pfi_roleusuariaplicacio
-        add constraint pfi_roleusrapp_usrapp_fk
-        foreign key (usuariaplicacioid)
-        references pfi_usuariaplicacio;
-
-    alter table pfi_roleusuarientitat
-        add constraint pfi_roleusrent_usrentitat_fk
-        foreign key (usuarientitatid)
+    alter table pfi_roleusuarientitat 
+        add constraint pfi_roleusrent_usrentitat_fk 
+        foreign key (usuarientitatid) 
         references pfi_usuarientitat;
 
-    alter table pfi_roleusuarientitat
-        add constraint pfi_roleusrent_role_fk
-        foreign key (roleid)
+    alter table pfi_roleusuarientitat 
+        add constraint pfi_roleusrent_role_fk 
+        foreign key (roleid) 
         references pfi_role;
 
-    alter table pfi_tipusdocument
-        add constraint pfi_tipusdoc_traduccio_fk
-        foreign key (nom)
+    alter table pfi_tipusdocument 
+        add constraint pfi_tipusdoc_traduccio_fk 
+        foreign key (nom) 
         references pfi_traduccio;
 
-    alter table pfi_tipusdocument
-        add constraint pfi_tipusdoc_usrapp_fk
-        foreign key (usuariaplicacioid)
+    alter table pfi_tipusdocument 
+        add constraint pfi_tipusdoc_usrapp_fk 
+        foreign key (usuariaplicacioid) 
         references pfi_usuariaplicacio;
 
-    alter table pfi_tipusdocumentcoladele
-        add constraint pfi_tipusdoccd_tipusdoc_fk
-        foreign key (tipusdocumentid)
+    alter table pfi_tipusdocumentcoladele 
+        add constraint pfi_tipusdoccd_tipusdoc_fk 
+        foreign key (tipusdocumentid) 
         references pfi_tipusdocument;
 
-    alter table pfi_tipusdocumentcoladele
-        add constraint pfi_tipusdoccd_colabdeleg_fk
-        foreign key (colaboraciodelegacioid)
+    alter table pfi_tipusdocumentcoladele 
+        add constraint pfi_tipusdoccd_colabdeleg_fk 
+        foreign key (colaboraciodelegacioid) 
         references pfi_colaboraciodelegacio;
 
-    alter table pfi_traducciomap
-        add constraint pfi_traducmap_traduccio_fk
-        foreign key (traducciomapid)
+    alter table pfi_traducciomap 
+        add constraint pfi_traducmap_traduccio_fk 
+        foreign key (traducciomapid) 
         references pfi_traduccio;
 
-    alter table pfi_usuariaplicacio
-        add constraint pfi_usrapp_entitat_fk
-        foreign key (entitatid)
+    alter table pfi_usuariaplicacio 
+        add constraint pfi_usrapp_entitat_fk 
+        foreign key (entitatid) 
         references pfi_entitat;
 
-    alter table pfi_usuariaplicacio
-        add constraint pfi_usrapp_fitxer_fk
-        foreign key (logosegellid)
+    alter table pfi_usuariaplicacio 
+        add constraint pfi_usrapp_fitxer_fk 
+        foreign key (logosegellid) 
         references pfi_fitxer;
 
-    alter table pfi_usuariaplicacio
-        add constraint pfi_usrapp_idioma_fk
-        foreign key (idiomaid)
+    alter table pfi_usuariaplicacio 
+        add constraint pfi_usrapp_idioma_fk 
+        foreign key (idiomaid) 
         references pfi_idioma;
 
-    alter table pfi_usuariaplicacio
-        add constraint pfi_usrapp_custodia_fk
-        foreign key (custodiainfoid)
+    alter table pfi_usuariaplicacio 
+        add constraint pfi_usrapp_custodia_fk 
+        foreign key (custodiainfoid) 
         references pfi_custodiainfo;
 
-    alter table pfi_usuariaplicacioconfig
-        add constraint pfi_confapp_traduccio_moti_fk
-        foreign key (motiudelegacioid)
+    alter table pfi_usuariaplicacioconfig 
+        add constraint pfi_confapp_traduccio_moti_fk 
+        foreign key (motiudelegacioid) 
         references pfi_traduccio;
 
-    alter table pfi_usuariaplicacioconfig
-        add constraint pfi_confapp_traduccio_firm_fk
-        foreign key (firmatperformatid)
+    alter table pfi_usuariaplicacioconfig 
+        add constraint pfi_confapp_traduccio_firm_fk 
+        foreign key (firmatperformatid) 
         references pfi_traduccio;
 
-    alter table pfi_usuariaplicacioconfig
-        add constraint pfi_confapp_entitat_ent_fk
-        foreign key (entitatid)
+    alter table pfi_usuariaplicacioconfig 
+        add constraint pfi_confapp_entitat_ent_fk 
+        foreign key (entitatid) 
         references pfi_entitat;
 
-    alter table pfi_usuariaplicacioconfig
-        add constraint pfi_confapp_plugin_fsrv_fk
-        foreign key (pluginfirmaservidorid)
+    alter table pfi_usuariaplicacioconfig 
+        add constraint pfi_confapp_plugin_fsrv_fk 
+        foreign key (pluginfirmaservidorid) 
         references pfi_plugin;
 
     alter table pfi_usuariaplicacioconfig 
@@ -1347,13 +1333,12 @@
     alter table pfi_pluginfirmawebperusrent add constraint pfi_pfwpue_usuent_plug_uk unique (usuarientitatid, pluginfirmawebid);
     alter table pfi_propietatglobal add constraint pfi_propietat_clau_entitat_uk unique (clau, entitatid);
     alter table pfi_rebreavis add constraint pfi_rebreavis_tnotiusr_uk unique (tipusnotificacioid, usuarientitatid);
-    alter table pfi_roleusuariaplicacio add constraint pfi_roleusrapp_approle_uk unique (usuariaplicacioid, roleid);
     alter table pfi_roleusuarientitat add constraint pfi_roleusrent_roleusrent_uk unique (roleid, usuarientitatid);
     alter table pfi_tipusdocumentcoladele add constraint pfi_tipusdoccd_codetdoc_uk unique (colaboraciodelegacioid, tipusdocumentid);
     alter table pfi_usuariaplicacioperfil add constraint pfi_perfilapp_codi_uk unique (codi);
     alter table pfi_usuarientitat add constraint pfi_usrentitat_perentcar_uk unique (usuaripersonaid, entitatid, carrec);
     alter table pfi_usuarientitatfavorit add constraint pfi_favorit_origfavo_uk unique (origenid, favoritid);
-    alter table pfi_usuaripersona add constraint pfi_persona_nif_uk unique (nif);
+    alter table pfi_usuaripersona add constraint pfi_persona_nif_extern_uk unique (nif, usuariintern);
  -- FINAL UNIQUES
 
  -- INICI GRANTS
@@ -1389,7 +1374,6 @@
     grant select,insert,delete,update on pfi_rebreavis to www_portafib;
     grant select,insert,delete,update on pfi_revisordefirma to www_portafib;
     grant select,insert,delete,update on pfi_role to www_portafib;
-    grant select,insert,delete,update on pfi_roleusuariaplicacio to www_portafib;
     grant select,insert,delete,update on pfi_roleusuarientitat to www_portafib;
     grant select,insert,delete,update on pfi_tipusdocument to www_portafib;
     grant select,insert,delete,update on pfi_tipusdocumentcoladele to www_portafib;
