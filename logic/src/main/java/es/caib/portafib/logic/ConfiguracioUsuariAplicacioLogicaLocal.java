@@ -24,6 +24,8 @@ public interface ConfiguracioUsuariAplicacioLogicaLocal extends
 
   public static final String JNDI_NAME = "portafib/ConfiguracioUsuariAplicacioLogicaEJB/local";
 
+  public UsuariAplicacioConfiguracioJPA findByPrimaryKeyUnauthorized(Long _ID_);
+  
   public PerfilDeFirma getPerfilDeFirma(final String usuariAplicacioID, String codiPerfil,
       final int usFirma) throws I18NException;
 

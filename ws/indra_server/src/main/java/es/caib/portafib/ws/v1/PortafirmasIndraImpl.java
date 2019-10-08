@@ -1915,7 +1915,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
         UsuariEntitatJPA usuariEntitat;
         try {
           // Cercam l'usuari per NIF
-          usuariEntitat = usuariEntitatLogicaEjb.findUsuariEntitatByNif(
+          usuariEntitat = usuariEntitatLogicaEjb.findUsuariEntitatInternByNif(
               usuariAplicacio.getEntitatID(), signerID.toUpperCase());
           // Cercam l'usuari per USERNAME
           if (usuariEntitat == null) {

@@ -85,3 +85,27 @@ ALTER TABLE pfi_bitacola DROP COLUMN usuariaplicacioid;
 
 -- Descripció ja no és una columna obligatoria
 ALTER TABLE pfi_bitacola MODIFY (descripcio NULL);
+
+
+-- ----------------------------------------------
+-- 01/09/2019 Usuaris externs puguin firmar #162 
+-- ----------------------------------------------
+
+ALTER TABLE pfi_usuaripersona
+  DROP CONSTRAINT pfi_persona_nif_uk;
+ALTER TABLE pfi_usuaripersona
+  ADD CONSTRAINT pfi_persona_nif_extern_uk UNIQUE (nif, usuariintern);
+  
+ALTER TABLE pfi_firma
+  ADD extern_nom varchar2(100);
+ALTER TABLE pfi_firma
+  ADD extern_llinatges varchar2(255);
+ALTER TABLE pfi_firma
+  ADD extern_email varchar2(255);
+ALTER TABLE pfi_firma
+  ADD extern_idioma varchar2(2);
+ALTER TABLE pfi_firma
+  ADD extern_token varchar2(255);
+ALTER TABLE pfi_firma
+  ADD extern_nivellseguretat number(10,0);
+

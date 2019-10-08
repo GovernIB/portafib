@@ -3,6 +3,7 @@ package es.caib.portafib.logic;
 import es.caib.portafib.ejb.EstatDeFirmaLocal;
 import es.caib.portafib.jpa.EstatDeFirmaJPA;
 import es.caib.portafib.jpa.FirmaJPA;
+import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 
@@ -25,6 +26,8 @@ public interface EstatDeFirmaLogicaLocal extends EstatDeFirmaLocal {
   public static final String JNDI_NAME = "portafib/EstatDeFirmaLogicaEJB/local";
 
   public EstatDeFirmaJPA findByPrimaryKeyUnauthorized(Long id);
+  
+  public EstatDeFirma updateUnauthorized(EstatDeFirma instance) throws I18NException;
 
   public EstatDeFirmaJPA createFull(EstatDeFirmaJPA estatDeFirma) throws I18NException;
 
@@ -33,6 +36,8 @@ public interface EstatDeFirmaLogicaLocal extends EstatDeFirmaLocal {
 
   public Map<Long, PeticioDeFirma> getPeticioDeFirmaFromEstatDeFirmaID(
       List<EstatDeFirma> estatDeFirmaList) throws I18NException;
+  
+  public PeticioDeFirmaJPA getPeticioDeFirmaFromFirmaID(long firmaID) throws I18NException;
 
   public List<EstatDeFirma> getAllEstatDeFirmaActiuOfFlux(Long fluxDeFirmesID)
       throws I18NException;

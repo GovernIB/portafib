@@ -143,7 +143,7 @@ public class RestFirmaUtils<K extends ApisIBKeyValue> extends RestUtilsErrorMana
   
   public ResponseEntity<?> internalGetAvailableProfiles(HttpServletRequest request,
       String locale) {
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }

@@ -349,6 +349,89 @@
 
 
         </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.USUARIEXTERNNOM)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="firma.usuariExternNom" var="usuariExternNom" />
+              <fmt:message key="genapp.form.searchby" var="cercaperusuariExternNom" >                
+                 <fmt:param value="${usuariExternNom}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${usuariExternNom}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariExternNom}" path="usuariExternNom" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.USUARIEXTERNLLINATGES)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="firma.usuariExternLlinatges" var="usuariExternLlinatges" />
+              <fmt:message key="genapp.form.searchby" var="cercaperusuariExternLlinatges" >                
+                 <fmt:param value="${usuariExternLlinatges}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${usuariExternLlinatges}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariExternLlinatges}" path="usuariExternLlinatges" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.USUARIEXTERNEMAIL)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="firma.usuariExternEmail" var="usuariExternEmail" />
+              <fmt:message key="genapp.form.searchby" var="cercaperusuariExternEmail" >                
+                 <fmt:param value="${usuariExternEmail}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${usuariExternEmail}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariExternEmail}" path="usuariExternEmail" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.USUARIEXTERNIDIOMA)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="firma.usuariExternIdioma" var="usuariExternIdioma" />
+              <fmt:message key="genapp.form.searchby" var="cercaperusuariExternIdioma" >                
+                 <fmt:param value="${usuariExternIdioma}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${usuariExternIdioma}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariExternIdioma}" path="usuariExternIdioma" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.USUARIEXTERNTOKEN)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="firma.usuariExternToken" var="usuariExternToken" />
+              <fmt:message key="genapp.form.searchby" var="cercaperusuariExternToken" >                
+                 <fmt:param value="${usuariExternToken}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${usuariExternToken}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariExternToken}" path="usuariExternToken" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.USUARIEXTERNNIVELLSEGURETAT)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="firma.usuariExternNivellSeguretat" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="usuariExternNivellSeguretatDesde" />
+
+
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+
+              <form:input cssClass="input-append input-small search-query" path="usuariExternNivellSeguretatFins" />
+
+            </div>
+
+
+        </c:if>
 
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key >= 0 && not empty __entry.value.searchBy }">

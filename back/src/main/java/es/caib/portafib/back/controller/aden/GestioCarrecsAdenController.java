@@ -139,7 +139,7 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
       seleccioCarrecForm.setEntitatID(LoginInfo.getInstance().getEntitatID());
 
       seleccioCarrecForm.setCancelUrl("/canviarPipella/" + ConstantsV2.ROLE_ADEN);
-      seleccioCarrecForm.setUrlData("/common/json/usuarientitat");
+      seleccioCarrecForm.setUrlData("/common/json/usuarientitatintern");
      
       try {
         seleccioCarrecForm.setUsuarisFavorits(

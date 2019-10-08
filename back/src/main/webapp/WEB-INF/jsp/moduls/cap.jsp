@@ -23,7 +23,7 @@
     <ul class="user-nav pull-right dropdown">
 
       <c:if test="${not empty loginInfo.entitatID}" > 
-       
+      <c:if test="${loginInfo.usuariPersona.usuariIntern}">
       <li>
          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
            <i class="icon-home icon-white"></i><fmt:message key="estitat_entitats" /> <span class="caret"></span>
@@ -39,6 +39,7 @@
         </c:forEach>
         </ul>
       </li>
+      </c:if>
 
       <li>
          <a href="<c:out value="${loginInfo.entitat.web}" />" target="_blank">
@@ -48,12 +49,16 @@
 
       </c:if>
       
+
+      
+ 
       <li>
         <a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
           <i class="icon-user icon-white"></i>
           ${loginInfo.usuariPersona.nom}&nbsp;${loginInfo.usuariPersona.llinatges}
           <span class="caret"></span>
         </a>
+        <c:if test="${loginInfo.usuariPersona.usuariIntern}">
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
           <li><a tabindex="-1" href="<c:url value="/common/configuracio/usuaripersona/${pageContext.request.userPrincipal.name}/edit"/>"><fmt:message key="configuracio" /></a></li>
           
@@ -64,7 +69,9 @@
           <li><a tabindex="-1" href="<c:url value="/j_spring_security_logout" />">Sortir</a></li>
            --%>
         </ul>
+        </c:if>
       </li>
+     
 
     </ul>
     <div class="clearfix"></div>

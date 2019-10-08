@@ -51,7 +51,7 @@ public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitat
   @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
   
-  @EJB(mappedName = "portafib/FirmaLogicaEJB/local")
+  @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
   protected FirmaLogicaLocal firmaLogicaEjb;
 
   @Override

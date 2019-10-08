@@ -11,12 +11,15 @@ import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.utils.ConstantsV2;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 
 import org.fundaciobit.pluginsib.userinformation.IUserInformationPlugin;
@@ -40,6 +43,9 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 @SecurityDomain("seycon")
 public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
     UsuariPersonaLogicaLocal {
+  
+  @Resource
+  private SessionContext context;
   
   @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
@@ -122,6 +128,22 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
   }
 */
 
+  @Override
+  public Set<String>  getRolesOfLoggedUser() throws I18NException {
+    
+    String[] allRoles = { ConstantsV2.PFI_USER, ConstantsV2.PFI_ADMIN };
+    Set<String> roles = new HashSet<String>();
+    
+    for (String rol : allRoles) {
+      if (context.isCallerInRole(rol)) {
+        roles.add(rol);
+      }
+    }
+    return roles;
+  }
+  
+  
+
 
   @Override
   public UsuariPersonaJPA createFull(UsuariPersonaJPA usuariPersonaJPA)
@@ -144,7 +166,6 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
     // 2.- Comparar usuaripersona amb usuari del plugin de info (login)  
     // Llançarà errors si el nif no és correcte
     UserInfo userInfo = checkAdministrationIDInUserInformationPlugin(usuariPersonaJPA.getNif());
-    
 
     // Comparar username
     if (!usuariPersonaJPA.getUsuariPersonaID().equals(userInfo.getUsername())) {
@@ -155,12 +176,11 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
       ));
       throw new I18NValidationException(list);
     }
-    
+
+    usuariPersonaJPA.setUsuariIntern(true);
     usuariPersonaJPA.setUsuariEntitats(null);
     usuariPersonaJPA.setIdioma(null);
 
-
-    
     return (UsuariPersonaJPA)create(usuariPersonaJPA);
   }
   
@@ -247,7 +267,10 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
       }
       // TODO SELECTONE
       Where w = Where.OR(
-          UsuariPersonaFields.NIF.equal(usernameOrAdministrationID.toUpperCase()),
+          Where.AND(
+              UsuariPersonaFields.NIF.equal(usernameOrAdministrationID.toUpperCase()),
+              UsuariPersonaFields.USUARIINTERN.equal(true)
+              ),          
           UsuariPersonaFields.USUARIPERSONAID.equal(usernameOrAdministrationID.trim())
       );
       List<UsuariPersona> usuariPersonaList = this.select(w);
@@ -267,7 +290,10 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
         return null;
       }
       // TODO SELECTONE
-      Where w = UsuariPersonaFields.NIF.equal(administrationID.toUpperCase());
+      Where w = Where.AND(
+          UsuariPersonaFields.NIF.equal(administrationID.toUpperCase()),
+          UsuariPersonaFields.USUARIINTERN.equal(true)
+          );
       List<UsuariPersona> usuariPersonaList = this.select(w);
       if (usuariPersonaList.isEmpty()) {
         return null;

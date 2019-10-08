@@ -4,6 +4,7 @@ import java.util.Set;
 
 import es.caib.portafib.ejb.FirmaLocal;
 import es.caib.portafib.jpa.FirmaJPA;
+import es.caib.portafib.model.entity.Firma;
 
 import javax.ejb.Local;
 
@@ -16,10 +17,19 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
  */
 @Local
 public interface FirmaLogicaLocal extends FirmaLocal {
+  
+  public static final String JNDI_NAME = "portafib/FirmaLogicaEJB/local";
 
   public Set<Long> deleteFull(long firmaID) throws I18NException;
 
   public Set<Long> deleteFull(FirmaJPA firma) throws I18NException;
 
   public FirmaJPA createFull(FirmaJPA firma) throws I18NException;
+
+  public FirmaJPA getFirmaByToken(String token) throws I18NException;
+  
+  public FirmaJPA findByPrimaryKeyUnauthorized(Long _ID_);
+  
+  public Firma updateUnauthorized(Firma instance) throws I18NException;
+
 }

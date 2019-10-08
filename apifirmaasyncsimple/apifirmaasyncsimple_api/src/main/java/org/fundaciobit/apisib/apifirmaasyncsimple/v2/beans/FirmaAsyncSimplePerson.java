@@ -38,6 +38,15 @@ public class FirmaAsyncSimplePerson {
     super();
   }
 
+  public FirmaAsyncSimplePerson(String positionInTheCompany, String administrationID,
+      String username, String intermediateServerUsername) {
+    super();
+    this.positionInTheCompany = positionInTheCompany;
+    this.administrationID = administrationID;
+    this.username = username;
+    this.intermediateServerUsername = intermediateServerUsername;
+  }
+
   public String getPositionInTheCompany() {
     return positionInTheCompany;
   }

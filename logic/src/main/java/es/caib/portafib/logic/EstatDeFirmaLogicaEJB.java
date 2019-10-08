@@ -70,6 +70,11 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     return this.findByPrimaryKey(id);
   }
   
+  @Override
+  public EstatDeFirma updateUnauthorized(EstatDeFirma instance) throws I18NException {
+    return super.update(instance);
+  }
+  
 
   @Override
   public Set<Long> getPeticioDeFirmaIDsDeEstatDeFirmaActiusByUsuariEntitat(String usuariEntitatID, String rol,
@@ -127,48 +132,60 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     if (estatDeFirmaList == null) {
       return null;
     }
-    
-    
 
     Map<Long, PeticioDeFirma> map = new HashMap<Long, PeticioDeFirma>();
 
     for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
-
-      SubQuery<Firma, Long> subqueryFirma;
-      subqueryFirma = firmaEjb.getSubQuery(FirmaFields.BLOCDEFIRMAID,
-          FirmaFields.FIRMAID.equal(estatDeFirma.getFirmaID()));
-
-      SubQuery<BlocDeFirmes, Long> subqueryBloc;
-      subqueryBloc = blocDeFirmesEjb.getSubQuery(BlocDeFirmesFields.FLUXDEFIRMESID,
-          BlocDeFirmesFields.BLOCDEFIRMESID.in(subqueryFirma));
-
       
-      // SubQuery<FluxDeFirmes,Long> subqueryFlux ; subqueryFlux =
-      // fluxDeFirmesEjb.getSubQuery(FluxDeFirmesFields.FLUXDEFIRMESID,
-      // FluxDeFirmesFields.FLUXDEFIRMESID.in(subqueryBloc),(OrderBy[]) null);
-       
-      // SubQuery<PeticioDeFirma,Long> subqueryPeticio ;
-      // subqueryPeticio =
-      // peticioDeFirmaEjb.getSubQuery(PeticioDeFirmaFields.PETICIODEFIRMAID,
-      // PeticioDeFirmaFields.FLUXDEFIRMESID.in(subqueryFlux),(OrderBy[]) null);
-
-      Where w = PeticioDeFirmaFields.FLUXDEFIRMESID.in(subqueryBloc);
-
-      //log.info("SQL: " + w.toSQL());
-
-      List<PeticioDeFirma> list = peticioDeFirmaEjb.select(w);
-
-      if (list != null && list.size() != 0) {
-        PeticioDeFirmaJPA pf = (PeticioDeFirmaJPA)list.get(0);
+      long firmaID = estatDeFirma.getFirmaID();
+      PeticioDeFirmaJPA pf = getPeticioDeFirmaFromFirmaID(firmaID);
+      
+      if (pf != null) {
         Hibernate.initialize(pf.getTipusDocument());
         map.put(estatDeFirma.getEstatDeFirmaID(), pf);
       }
 
     }
-   
 
     return map;
 
+  }
+
+
+  @Override
+  public PeticioDeFirmaJPA getPeticioDeFirmaFromFirmaID(long firmaID)
+      throws I18NException {
+    SubQuery<Firma, Long> subqueryFirma;
+    subqueryFirma = firmaEjb.getSubQuery(FirmaFields.BLOCDEFIRMAID,
+        FirmaFields.FIRMAID.equal(firmaID));
+
+    SubQuery<BlocDeFirmes, Long> subqueryBloc;
+    subqueryBloc = blocDeFirmesEjb.getSubQuery(BlocDeFirmesFields.FLUXDEFIRMESID,
+        BlocDeFirmesFields.BLOCDEFIRMESID.in(subqueryFirma));
+
+    
+    // SubQuery<FluxDeFirmes,Long> subqueryFlux ; subqueryFlux =
+    // fluxDeFirmesEjb.getSubQuery(FluxDeFirmesFields.FLUXDEFIRMESID,
+    // FluxDeFirmesFields.FLUXDEFIRMESID.in(subqueryBloc),(OrderBy[]) null);
+     
+    // SubQuery<PeticioDeFirma,Long> subqueryPeticio ;
+    // subqueryPeticio =
+    // peticioDeFirmaEjb.getSubQuery(PeticioDeFirmaFields.PETICIODEFIRMAID,
+    // PeticioDeFirmaFields.FLUXDEFIRMESID.in(subqueryFlux),(OrderBy[]) null);
+
+    Where w = PeticioDeFirmaFields.FLUXDEFIRMESID.in(subqueryBloc);
+
+    //log.info("SQL: " + w.toSQL());
+
+    List<PeticioDeFirma> list = peticioDeFirmaEjb.select(w);
+
+    PeticioDeFirmaJPA pf;
+    if (list != null && list.size() != 0) {
+      pf = (PeticioDeFirmaJPA)list.get(0);
+    } else {
+      pf = null;
+    }
+    return pf;
   }
   
   

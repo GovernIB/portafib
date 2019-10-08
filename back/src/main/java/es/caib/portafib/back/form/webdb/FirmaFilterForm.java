@@ -318,6 +318,83 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
   }
 
 
+  private java.lang.String usuariExternNom;
+
+  public java.lang.String getUsuariExternNom() {
+    return this.usuariExternNom;
+  }
+
+  public void setUsuariExternNom(java.lang.String usuariExternNom) {
+    this.usuariExternNom = usuariExternNom;
+  }
+
+
+  private java.lang.String usuariExternLlinatges;
+
+  public java.lang.String getUsuariExternLlinatges() {
+    return this.usuariExternLlinatges;
+  }
+
+  public void setUsuariExternLlinatges(java.lang.String usuariExternLlinatges) {
+    this.usuariExternLlinatges = usuariExternLlinatges;
+  }
+
+
+  private java.lang.String usuariExternEmail;
+
+  public java.lang.String getUsuariExternEmail() {
+    return this.usuariExternEmail;
+  }
+
+  public void setUsuariExternEmail(java.lang.String usuariExternEmail) {
+    this.usuariExternEmail = usuariExternEmail;
+  }
+
+
+  private java.lang.String usuariExternIdioma;
+
+  public java.lang.String getUsuariExternIdioma() {
+    return this.usuariExternIdioma;
+  }
+
+  public void setUsuariExternIdioma(java.lang.String usuariExternIdioma) {
+    this.usuariExternIdioma = usuariExternIdioma;
+  }
+
+
+  private java.lang.String usuariExternToken;
+
+  public java.lang.String getUsuariExternToken() {
+    return this.usuariExternToken;
+  }
+
+  public void setUsuariExternToken(java.lang.String usuariExternToken) {
+    this.usuariExternToken = usuariExternToken;
+  }
+
+
+  private java.lang.Integer usuariExternNivellSeguretatDesde;
+
+  public java.lang.Integer getUsuariExternNivellSeguretatDesde() {
+    return this.usuariExternNivellSeguretatDesde;
+  }
+
+  public void setUsuariExternNivellSeguretatDesde(java.lang.Integer usuariExternNivellSeguretatDesde) {
+    this.usuariExternNivellSeguretatDesde = usuariExternNivellSeguretatDesde;
+  }
+
+
+  private java.lang.Integer usuariExternNivellSeguretatFins;
+
+  public java.lang.Integer getUsuariExternNivellSeguretatFins() {
+    return this.usuariExternNivellSeguretatFins;
+  }
+
+  public void setUsuariExternNivellSeguretatFins(java.lang.Integer usuariExternNivellSeguretatFins) {
+    this.usuariExternNivellSeguretatFins = usuariExternNivellSeguretatFins;
+  }
+
+
   public FirmaFilterForm() {
   }
   
@@ -350,9 +427,17 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
     this.minimDeRevisorsDesde = __toClone.minimDeRevisorsDesde;
     this.minimDeRevisorsFins = __toClone.minimDeRevisorsFins;
     this.perfilDeFirma = __toClone.perfilDeFirma;
+    this.usuariExternNom = __toClone.usuariExternNom;
+    this.usuariExternLlinatges = __toClone.usuariExternLlinatges;
+    this.usuariExternEmail = __toClone.usuariExternEmail;
+    this.usuariExternIdioma = __toClone.usuariExternIdioma;
+    this.usuariExternToken = __toClone.usuariExternToken;
+    this.usuariExternNivellSeguretatDesde = __toClone.usuariExternNivellSeguretatDesde;
+    this.usuariExternNivellSeguretatFins = __toClone.usuariExternNivellSeguretatFins;
     this.mapOfUsuariEntitatForDestinatariID = __toClone.mapOfUsuariEntitatForDestinatariID;
     this.mapOfBlocDeFirmesForBlocDeFirmaID = __toClone.mapOfBlocDeFirmesForBlocDeFirmaID;
     this.mapOfValuesForTipusEstatDeFirmaFinalID = __toClone.mapOfValuesForTipusEstatDeFirmaFinalID;
+    this.mapOfValuesForUsuariExternNivellSeguretat = __toClone.mapOfValuesForUsuariExternNivellSeguretat;
   }
   
   /* ========= UTILS ========== */
@@ -419,6 +504,18 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
 
   public void setMapOfValuesForTipusEstatDeFirmaFinalID(Map<String, String> mapOfValuesForTipusEstatDeFirmaFinalID) {
     this.mapOfValuesForTipusEstatDeFirmaFinalID = mapOfValuesForTipusEstatDeFirmaFinalID;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForUsuariExternNivellSeguretat;
+
+  public Map<String, String> getMapOfValuesForUsuariExternNivellSeguretat() {
+    return this.mapOfValuesForUsuariExternNivellSeguretat;
+  }
+
+  public void setMapOfValuesForUsuariExternNivellSeguretat(Map<String, String> mapOfValuesForUsuariExternNivellSeguretat) {
+    this.mapOfValuesForUsuariExternNivellSeguretat = mapOfValuesForUsuariExternNivellSeguretat;
   }
 
 

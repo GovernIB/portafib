@@ -11,13 +11,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Entity;
 import java.util.Set;
 import org.hibernate.annotations.Index;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import org.hibernate.annotations.ForeignKey;
 
 
 @Entity
-@Table(name = "pfi_usuaripersona" )
+@Table(name = "pfi_usuaripersona"  , uniqueConstraints = {
+            @UniqueConstraint( columnNames={"nif","usuariintern"}) } )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
 @javax.xml.bind.annotation.XmlRootElement
 public class UsuariPersonaJPA implements UsuariPersona {
@@ -42,7 +44,7 @@ private static final long serialVersionUID = -80349968L;
 	java.lang.String email;
 
 	@Index(name="pfi_usuaripersona_nif_i")
-	@Column(name="nif",nullable = false,unique = true,length = 9)
+	@Column(name="nif",nullable = false,length = 9)
 	java.lang.String nif;
 
 	@Index(name="pfi_persona_idiomaid_fk_i")

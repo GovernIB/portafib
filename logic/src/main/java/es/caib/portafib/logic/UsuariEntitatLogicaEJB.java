@@ -1,6 +1,7 @@
 package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.ColaboracioDelegacioLocal;
+import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.ejb.FirmaLocal;
 import es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal;
 import es.caib.portafib.ejb.RebreAvisLocal;
@@ -40,7 +41,9 @@ import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+import org.fundaciobit.genapp.common.query.BooleanField;
 import org.fundaciobit.genapp.common.query.IntegerField;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.StringField;
@@ -60,6 +63,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Gestiona Usuaris Entitat d'alt nivell
@@ -73,28 +77,28 @@ import java.util.Set;
 public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     UsuariEntitatLogicaLocal, ConstantsV2 {
 
-  @EJB(mappedName = "portafib/UsuariEntitatFavoritEJB/local")
+  @EJB(mappedName = UsuariEntitatFavoritLocal.JNDI_NAME)
   private UsuariEntitatFavoritLocal usuariEntitatFavoritEjb;
 
-  @EJB(mappedName = "portafib/RoleUsuariEntitatEJB/local")
+  @EJB(mappedName = RoleUsuariEntitatLocal.JNDI_NAME)
   private RoleUsuariEntitatLocal roleUsuariEntitatEjb;
 
-  @EJB(mappedName = "portafib/RebreAvisEJB/local")
+  @EJB(mappedName = RebreAvisLocal.JNDI_NAME)
   private RebreAvisLocal rebreAvisEjb;
 
-  @EJB(mappedName = "portafib/FirmaEJB/local")
+  @EJB(mappedName = FirmaLocal.JNDI_NAME)
   private FirmaLocal firmaEjb;
 
   @EJB(mappedName = PlantillaFluxDeFirmesLocal.JNDI_NAME)
   private PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;
 
-  @EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local")
+  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   private PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
-  private es.caib.portafib.ejb.EntitatLocal entitatEjb;
+  @EJB(mappedName = EntitatLocal.JNDI_NAME)
+  private EntitatLocal entitatEjb;
 
-  @EJB(mappedName = "portafib/ColaboracioDelegacioEJB/local")
+  @EJB(mappedName = ColaboracioDelegacioLocal.JNDI_NAME)
   private ColaboracioDelegacioLocal colaboracioDelegacioEjb;
  
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
@@ -123,6 +127,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     }
     return ue;
   }
+
   
   
   @PostConstruct
@@ -523,6 +528,54 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   }
   
   
+  
+  
+  @Override
+  public UsuariEntitatJPA createUsuariEntitatExtern(UsuariEntitatJPA usuariEntitatExtern,
+      String entitatID)  throws I18NValidationException, I18NException {
+    
+    // 1.- Cream la Persona
+
+    UsuariPersonaJPA usuariPersonaExternJPA = usuariEntitatExtern.getUsuariPersona();
+    
+    usuariPersonaExternJPA.setUsuariPersonaID("EXTERN-" + usuariPersonaExternJPA.getNif().toUpperCase());
+    usuariPersonaExternJPA.setUsuariIntern(false);
+    usuariPersonaExternJPA.setUsuariEntitats(null);
+    usuariPersonaExternJPA.setIdioma(null);
+    usuariPersonaExternJPA.setContrasenya(UUID.randomUUID().toString());
+
+    // 1.1- Validation Basica
+    UsuariPersonaLogicValidator<UsuariPersonaJPA> validador = new UsuariPersonaLogicValidator<UsuariPersonaJPA>();
+    
+    UsuariPersonaBeanValidator upbv = new UsuariPersonaBeanValidator(validador, idiomaEjb, usuariPersonaLogicaEjb);
+    final boolean isNou = true;
+    List<I18NFieldError> list = upbv.validate(usuariPersonaExternJPA, isNou);
+    if (!list.isEmpty()) {
+      throw new I18NValidationException(list);
+    }
+
+    usuariPersonaExternJPA = (UsuariPersonaJPA)usuariPersonaLogicaEjb.create(usuariPersonaExternJPA);
+    
+    // 2.- Cream l'usuari entitat
+    usuariEntitatExtern.setUsuariEntitatID(entitatID
+        + "_" + usuariPersonaExternJPA.getUsuariPersonaID());
+    usuariEntitatExtern.setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
+    usuariEntitatExtern.setPoliticaDePluginFirmaWeb(ConstantsV2.POLITICA_PLUGIN_FIRMA_WEB_NOMES_PLUGINS_ENTITAT);
+    usuariEntitatExtern.setRebreTotsElsAvisos(false);
+    usuariEntitatExtern.setUsuariPersonaID(usuariPersonaExternJPA.getUsuariPersonaID());
+    usuariEntitatExtern.setEntitatID(entitatID);
+
+    usuariEntitatExtern = (UsuariEntitatJPA)create(usuariEntitatExtern);
+    
+    // 3.- Li afegim el ROLE de DESTINATARI
+    RoleUsuariEntitatJPA roleUsr;
+    roleUsr = new RoleUsuariEntitatJPA(ConstantsV2.ROLE_DEST, usuariEntitatExtern.getUsuariEntitatID());
+    roleUsuariEntitatEjb.create(roleUsr);
+    
+    return usuariEntitatExtern;
+  }
+  
+  
   @Override
   public UsuariEntitatJPA updateFull(UsuariEntitatJPA usuariEntitat) 
     throws I18NValidationException, I18NException {
@@ -587,10 +640,23 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   
   
   @Override
-  public UsuariEntitatJPA findUsuariEntitatByNif(String entitatID, String nif) 
+  public UsuariEntitatJPA findUsuariEntitatInternByNif(String entitatID, String nif) 
     throws I18NException {
-    
-    
+    final boolean isIntern = true;
+    return findUsuariEntitatByNif(entitatID, nif, isIntern);
+  }
+  
+  @Override
+  public UsuariEntitatJPA findUsuariEntitatExternByNif(String entitatID, String nif)
+      throws I18NException {
+    final boolean isIntern = false;
+    return findUsuariEntitatByNif(entitatID, nif, isIntern);
+  }
+
+  
+  
+  protected UsuariEntitatJPA findUsuariEntitatByNif(String entitatID, String nif, boolean isIntern)
+      throws I18NException {
     // genapp.validation.required=El camp {0} és obligatori.
     if (entitatID == null || entitatID.trim().length() == 0) {
       throw new I18NException("genapp.validation.required",
@@ -604,9 +670,11 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     
     
     StringField nifField = new UsuariEntitatQueryPath().USUARIPERSONA().NIF();
+    BooleanField usuariInternField = new UsuariEntitatQueryPath().USUARIPERSONA().USUARIINTERN();
     
     List<UsuariEntitat> list = select(Where.AND(
         nifField.equal(nif),
+        usuariInternField.equal(isIntern),
         ENTITATID.equal(entitatID),
         CARREC.isNull()
         ));
@@ -614,7 +682,9 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     if (list.size() == 0) {
       return null;
     } else {
-      return (UsuariEntitatJPA)list.get(0);
+      UsuariEntitatJPA ue = (UsuariEntitatJPA)list.get(0);
+      Hibernate.initialize(ue.getUsuariPersona());
+      return ue;
     }
 
   }

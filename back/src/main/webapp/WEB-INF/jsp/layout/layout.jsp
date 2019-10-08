@@ -33,10 +33,12 @@
   <div class="row-fluid container main">
     
     <ul class="nav nav-tabs custom-submenu">
-    
+
+    <c:if test="${loginInfo.usuariPersona.usuariIntern }">
     <li ${(empty pipella)?'class="active"' : '' } >
         <a href="<c:url value="/canviarPipella/"/>"><fmt:message key="inici" /></a>
     </li> 
+    </c:if>
 
 
     <c:forEach var="rolG" items="${loginInfo.roles}">

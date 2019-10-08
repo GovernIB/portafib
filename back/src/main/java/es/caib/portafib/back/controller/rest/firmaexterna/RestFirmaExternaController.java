@@ -83,7 +83,7 @@ public class RestFirmaExternaController extends RestUtilsErrorManager {
   public ResponseEntity<?> getAvisosPeticioPerRol(HttpServletRequest request,
       @RequestBody ExternalSignatureAvisosPeticioRequest consulta) {
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }

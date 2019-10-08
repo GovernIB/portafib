@@ -190,11 +190,15 @@
             <url-pattern>/index.jsp</url-pattern>
             <url-pattern>/indexcc.jsp</url-pattern>
             <!-- Plugins de Firma -->
-            <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
+            <url-pattern>/common/signmodule/*</url-pattern>
             <!-- Passarela de Firma PortaFIB No-Autenticada i REST -->
             <url-pattern>/public/*</url-pattern>
             <!-- GENERADOR DE SEGELLAT DE TEMPS PER FIRMA EN SERVIDOR -->
             <url-pattern>/common/timestampgenerator/*</url-pattern>
+            <!-- Usuaris Externs: Login per TOKEN -->
+            <url-pattern>/common/externaluser/*</url-pattern>
+            <url-pattern>/common/plantilla/viewonlyflux/*</url-pattern>
+            <url-pattern>/common/arxiu/*</url-pattern>
             <!--  REST Autenticació per Codi -->
             <url-pattern>/common/rest/apifirmaenservidorsimple/v1/*</url-pattern>
             <url-pattern>/common/rest/apifirmawebsimple/v1/*</url-pattern>

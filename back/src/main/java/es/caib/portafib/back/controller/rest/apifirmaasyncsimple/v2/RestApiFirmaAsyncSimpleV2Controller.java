@@ -33,7 +33,6 @@ import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.logic.utils.datasource.ByteArrayDataSource;
 import es.caib.portafib.logic.utils.datasource.FitxerIdDataSource;
 import es.caib.portafib.model.entity.TipusDocument;
-import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.fields.AnnexFields;
 import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.IdiomaFields;
@@ -42,10 +41,13 @@ import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
+
+import org.apache.commons.lang.StringUtils;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.ApiFirmaAsyncSimple;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleAnnex;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleCustodyInfo;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleDocumentTypeInformation;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleExternalSigner;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleFile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleKeyValue;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleMetadata;
@@ -59,12 +61,14 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSigna
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithSignBlockList;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignedFile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignedFileInfo;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSigner;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignerInfo;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleValidationInfo;
 import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
+import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
@@ -85,6 +89,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -94,11 +99,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.UUID;
 
 /**
  * Created 06/06/2019 10:23
  *
- * @author anadal
+ * @author anadal (u80067)
  */
 @Controller
 @RequestMapping(value = RestApiFirmaAsyncSimpleV2Controller.CONTEXT)
@@ -116,7 +122,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
   
-  @EJB(mappedName = "portafib/FirmaLogicaEJB/local")
+  @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
   private FirmaLogicaLocal firmaLogicaEjb;
 
   @EJB(mappedName = FitxerLogicaLocal.JNDI_NAME)
@@ -150,7 +156,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   public ResponseEntity<?> getAvailableLanguages(HttpServletRequest request,
       @RequestBody String languageUI) {
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
@@ -221,7 +227,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   public ResponseEntity<?> getAvailableTypesOfDocuments(HttpServletRequest request,
       @RequestBody String languageUI) {
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
@@ -311,7 +317,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       @RequestBody FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode signatureRequest)
       throws AbstractApisIBException {
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
@@ -407,11 +413,26 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
             }
           }
           
-          FirmaAsyncSimplePerson personToSign = new FirmaAsyncSimplePerson();
+          FirmaAsyncSimpleSigner personToSign = new FirmaAsyncSimpleSigner();
           UsuariEntitatJPA ue = firma.getUsuariEntitat();
           
           if (ue.getCarrec() == null) {
-            personToSign.setIntermediateServerUsername(ue.getUsuariEntitatID());
+            // NO es carrec
+            if (ue.getUsuariPersona().isUsuariIntern()) {
+              // Usuari Intern
+              personToSign.setIntermediateServerUsername(ue.getUsuariEntitatID());
+            } else {
+              //Si usuari extern llavors omplir tot lo de usuari extern
+              UsuariPersonaJPA persona = ue.getUsuariPersona();
+              FirmaAsyncSimpleExternalSigner exSigner = new FirmaAsyncSimpleExternalSigner(
+                  persona.getNif(),
+                  firma.getUsuariExternNom() == null? persona.getNom() : firma.getUsuariExternNom(),
+                  firma.getUsuariExternLlinatges() == null? persona.getLlinatges() : firma.getUsuariExternLlinatges(),
+                  firma.getUsuariExternEmail() == null? persona.getEmail() : firma.getUsuariExternEmail(),
+                  firma.getUsuariExternIdioma() == null? persona.getIdiomaID() : firma.getUsuariExternIdioma(),
+                  firma.getUsuariExternNivellSeguretat());
+              personToSign.setExternalSigner(exSigner);
+            }
           } else {
             personToSign.setPositionInTheCompany(ue.getUsuariEntitatID());
           }
@@ -474,7 +495,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   public ResponseEntity<?> createAndStartSignatureRequest(HttpServletRequest request,
       @RequestBody FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest) {
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
@@ -492,7 +513,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       languageUI = signatureRequest.getLanguageUI();
       if (languageUI == null || languageUI.trim().length() == 0) {
         // XYZ ZZZ TRA
-        return generateServerError("El parametre d'entrada languageUI no pot ser null o buit.");
+        return generateServerError("El paràmetre d'entrada languageUI no pot ser null o buit.");
       }
 
       FirmaAsyncSimpleFile fileToConvertInfo = signatureRequest.getFileToSign();
@@ -504,7 +525,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
       PeticioDeFirmaJPA peticioDeFirmaJPA = signatureRequestToPeticioDeFirmaJPAFull(
           signatureRequest, loginInfo.getUsuariAplicacio(), loginInfo.getEntitat(),
-          fitxersCreats);
+          fitxersCreats, languageUI);
 
       // Convertir Fitxers
       /*
@@ -583,7 +604,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   public ResponseEntity<?> getSignatureRequestState(HttpServletRequest request,
       @RequestBody FirmaAsyncSimpleSignatureRequestInfo info) {
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
@@ -660,7 +681,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   public ResponseEntity<?> getSignedFileOfSignatureRequest(HttpServletRequest request,
       @RequestBody FirmaAsyncSimpleSignatureRequestInfo info) {
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
@@ -830,7 +851,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   public ResponseEntity<?> deletePeticioDeFirma(HttpServletRequest request,
       @RequestBody FirmaAsyncSimpleSignatureRequestInfo info) {
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
@@ -913,8 +934,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   }
 
   protected PeticioDeFirmaJPA signatureRequestToPeticioDeFirmaJPAFull(
-      FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest, UsuariAplicacioJPA usrapp,
-      EntitatJPA entitatJPA, Set<Long> fitxersCreats) throws I18NException, I18NValidationException {
+      FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest,
+      UsuariAplicacioJPA usrapp, EntitatJPA entitatJPA, 
+      Set<Long> fitxersCreats, String languageUI) throws I18NException, I18NValidationException {
 
     // De Perfil de Firma i Configuracio de Firma
     // XYZ ZZZ ZZZ
@@ -986,14 +1008,14 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       final String msg = "Els blocs de firmes de la Petició de Firmes val null o està buit";
       throw new I18NException("genapp.comodi", msg);
     } else {
-      jpa.setFluxDeFirmes(toJPA(blocks, entitatJPA.getEntitatID(), fitxersCreats));
+      jpa.setFluxDeFirmes(toJPA(blocks, entitatJPA.getEntitatID(), fitxersCreats, languageUI));
     }
 
     return jpa;
   }
 
   protected FluxDeFirmesJPA toJPA(FirmaAsyncSimpleSignatureBlock[] blocks, String entitatID,
-      Set<Long> fitxersCreats) throws I18NException {
+      Set<Long> fitxersCreats, String languageUI) throws I18NException {
 
     // Bean
     FluxDeFirmesJPA jpa = new FluxDeFirmesJPA("Flux per Petició Async " + blocks.toString());
@@ -1001,7 +1023,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     Set<BlocDeFirmesJPA> blocsDeFirmesJPA = new HashSet<BlocDeFirmesJPA>();
     for (int b = 0; b < blocks.length; b++) {
       FirmaAsyncSimpleSignatureBlock bloc = blocks[b];
-      blocsDeFirmesJPA.add(toJPA(b, bloc, entitatID, fitxersCreats));
+      blocsDeFirmesJPA.add(toJPA(b, bloc, entitatID, fitxersCreats, languageUI));
     }
     jpa.setBlocDeFirmess(blocsDeFirmesJPA);
 
@@ -1009,7 +1031,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   }
 
   protected BlocDeFirmesJPA toJPA(int ordre, FirmaAsyncSimpleSignatureBlock bloc,
-      String entitatID, Set<Long> fitxersCreats) throws I18NException {
+      String entitatID, Set<Long> fitxersCreats, String languageUI) throws I18NException {
 
     if (bloc == null) {
       // XYZ ZZZ TRA
@@ -1031,7 +1053,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     Set<FirmaJPA> firmesJPA = new HashSet<FirmaJPA>();
     for (FirmaAsyncSimpleSignature firmaBean : firmants) {
 
-      firmesJPA.add(toJPA(firmaBean, entitatID, fitxersCreats));
+      firmesJPA.add(toJPA(firmaBean, entitatID, fitxersCreats, languageUI));
 
       jpa.setFirmas(firmesJPA);
     }
@@ -1040,7 +1062,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   }
 
   protected FirmaJPA toJPA(FirmaAsyncSimpleSignature firmaBean, String entitatID,
-      Set<Long> fitxersCreats) throws I18NException {
+      Set<Long> fitxersCreats, String languageUI) throws I18NException {
 
     if (firmaBean == null) {
       // XYZ ZZZ TRA
@@ -1067,14 +1089,38 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     java.lang.String motiu = firmaBean.getReason();
     int minimDeRevisors = firmaBean.getMinimumNumberOfRevisers();
 
-    java.lang.String destinatariID = searchUser(firmaBean.getPersonToSign(), entitatID,
-        FirmaFields.DESTINATARIID);
+    java.lang.String destinatariID = searchUser(firmaBean.getSigner(), entitatID,
+        FirmaFields.DESTINATARIID, languageUI);
     java.lang.Long fitxerFirmatID = null;
+    
+    
+    // External Signer
+    java.lang.String extern_nom= null;
+    java.lang.String extern_llinatges= null;
+    java.lang.String extern_email= null;
+    java.lang.String extern_idioma= null;    
+    java.lang.Integer extern_nivellseguretat= null;
+    java.lang.String extern_token= null;
+    
+    FirmaAsyncSimpleExternalSigner es = firmaBean.getSigner().getExternalSigner(); 
+    if (es != null) {
+      extern_nom = es.getName();
+      extern_llinatges= es.getSurnames();
+      extern_email= es.getEmail();
+      extern_idioma= es.getLanguage();
+      extern_nivellseguretat= es.getSecurityLevel();
+      
+      // XYZ ZZZ ZZZ Verificar que token és uúnic sino generar-ne un de nou
+      // Utilitzar sincronized 
+      extern_token = UUID.randomUUID().toString();
+    }
 
     FirmaJPA jpa = new FirmaJPA(firmaID, destinatariID, blocDeFirmaID, obligatori,
         fitxerFirmatID, numFirmaDocument, caixaPagina, caixaX, caixaY, caixaAmple, caixaAlt,
         numeroSerieCertificat, emissorCertificat, nomCertificat, tipusEstatDeFirmaFinalID,
-        mostrarRubrica, motiu, minimDeRevisors, null,null,null,null);
+        mostrarRubrica, motiu, minimDeRevisors, null,null,null,null,
+        extern_nom , extern_llinatges , extern_email ,  extern_idioma , 
+        extern_token , extern_nivellseguretat);
 
     List<FirmaAsyncSimpleReviser> revisors = firmaBean.getRevisers();
 
@@ -1085,8 +1131,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       Set<RevisorDeFirmaJPA> revisorsJPA = new HashSet<RevisorDeFirmaJPA>();
 
       for (FirmaAsyncSimpleReviser rev : revisors) {
-        String usuariEntitatID = searchUser(rev.getReviser(), entitatID,
-            RevisorDeFirmaFields.USUARIENTITATID);
+        String usuariEntitatID = searchUser(rev, entitatID,
+            RevisorDeFirmaFields.USUARIENTITATID, languageUI);
         RevisorDeFirmaJPA revisor = new RevisorDeFirmaJPA(usuariEntitatID, 0, rev.isRequired());
         revisorsJPA.add(revisor);
       }
@@ -1095,29 +1141,44 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     return jpa;
   }
 
-  protected String searchUser(FirmaAsyncSimplePerson persona, String entitatID, Field<?> camp)
+  /**
+   * 
+   * @param person
+   * @param entitatID
+   * @param camp
+   * @return
+   * @throws I18NException
+   */
+  protected String searchUser(FirmaAsyncSimplePerson person, String entitatID, Field<?> camp, String languageUI)
       throws I18NException {
 
     int count = 0;
     int type = -1;
-    if (persona.getAdministrationID() != null
-        && persona.getAdministrationID().trim().length() != 0) {
+    if (person.getAdministrationID() != null
+        && person.getAdministrationID().trim().length() != 0) {
       count++;
       type = 0;
     }
-    if (persona.getUsername() != null && persona.getUsername().trim().length() != 0) {
+    if (person.getUsername() != null && person.getUsername().trim().length() != 0) {
       count++;
       type = 1;
     }
-    if (persona.getIntermediateServerUsername() != null
-        && persona.getIntermediateServerUsername().trim().length() != 0) {
+    if (person.getIntermediateServerUsername() != null
+        && person.getIntermediateServerUsername().trim().length() != 0) {
       count++;
       type = 2;
     }
-    if (persona.getPositionInTheCompany() != null
-        && persona.getPositionInTheCompany().trim().length() != 0) {
+    if (person.getPositionInTheCompany() != null
+        && person.getPositionInTheCompany().trim().length() != 0) {
       type = 3;
       count++;
+    }
+    if (person instanceof FirmaAsyncSimpleSigner) {
+      FirmaAsyncSimpleSigner signer = (FirmaAsyncSimpleSigner)person;
+      if (signer.getExternalSigner() != null) {
+        type = 4;
+        count++;
+      }
     }
 
     if (count == 0) {
@@ -1136,37 +1197,37 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
               + camp.fullName);
     }
 
-    UsuariEntitat ue = null;
+    UsuariEntitatJPA ue = null;
     switch (type) {
 
       case 0: // NIF
-        ue = usuariEntitatLogicaEjb.findUsuariEntitatByNif(entitatID,
-            persona.getAdministrationID());
+        ue = usuariEntitatLogicaEjb.findUsuariEntitatInternByNif(entitatID,
+            person.getAdministrationID());
         if (ue == null) {
           // XYZ ZZZ TRA
           throw new I18NException("genapp.comodi", "No existeix cap usuari amb NIF "
-              + persona.getAdministrationID());
+              + person.getAdministrationID());
         }
       break;
 
       case 1: // Username
         ue = usuariEntitatLogicaEjb.findUsuariEntitatByUsername(entitatID,
-            persona.getUsername());
+            person.getUsername());
         if (ue == null) {
           // XYZ ZZZ TRA
           throw new I18NException("genapp.comodi", "No existeix cap usuari amb username "
-              + persona.getUsername());
+              + person.getUsername());
         }
 
       break;
 
       case 2: // UsuariEntitatID
-        ue = usuariEntitatLogicaEjb.findByPrimaryKey(persona.getIntermediateServerUsername());
+        ue = usuariEntitatLogicaEjb.findByPrimaryKey(person.getIntermediateServerUsername());
         if (ue == null) {
           // XYZ ZZZ TRA
           throw new I18NException("genapp.comodi",
               "No existeix cap usuari entitat (IntermediateServerUsername) "
-                  + persona.getIntermediateServerUsername());
+                  + person.getIntermediateServerUsername());
         }
         if (ue.getCarrec() != null) {
           // XYZ ZZZ TRA
@@ -1177,12 +1238,12 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       break;
 
       case 3: // Càrrec
-        ue = usuariEntitatLogicaEjb.findByPrimaryKey(persona.getPositionInTheCompany());
+        ue = usuariEntitatLogicaEjb.findByPrimaryKey(person.getPositionInTheCompany());
         if (ue == null) {
           // XYZ ZZZ TRA
           throw new I18NException("genapp.comodi",
               "No existeix cap càrrec (PositionInTheCompany) "
-                  + persona.getIntermediateServerUsername());
+                  + person.getIntermediateServerUsername());
         }
         // Comprovar que
         if (ue.getCarrec() == null) {
@@ -1192,12 +1253,116 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
               "S´ha assignat dins càrrec (PositionInTheCompany) un identificador que correspon a un usuari entitat (IntermediateServerUsername)");
         }
       break;
+      
+      case 4: // Usuari Extern
+      {
+
+        FirmaAsyncSimpleSigner signer = (FirmaAsyncSimpleSigner)person;
+        
+        FirmaAsyncSimpleExternalSigner extSigner = signer.getExternalSigner();
+        // Cercar usuari extern amb NIF
+        
+        
+        // Check camps 
+        String nif = extSigner.getAdministrationId();
+        
+        if (nif == null || nif.trim().length() == 0) {
+          // XYZ ZZZ TRA
+          throw new I18NException("genapp.comodi", "El camp NIF de l'Usuari Extern val null o està buit");
+        }
+        
+        // XYZ ZZZ ZZZ CHECK NIF
+        if (nif.length() > 9) {
+          // XYZ ZZZ TRA
+          throw new I18NException("genapp.validation.sizeexceeds",// XYZ ZZZ TRA
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentString("NIF de l'Usuari Extern"),
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(9)));
+        }
+        
+        // XYZ ZZZ TRA
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile("([XYZ][0-9]{7}[A-Z])|([0-9]{8}[A-Z])");
+        if (!p.matcher(nif).matches()) {
+          throw new I18NException("genapp.validation.malformed",
+             // XYZ ZZZ TRA
+             new org.fundaciobit.genapp.common.i18n.I18NArgumentString("NIF de l'Usuari Extern"));
+        }
+        
+        ue = usuariEntitatLogicaEjb.findUsuariEntitatExternByNif(entitatID, nif);
+        if (ue == null) {
+          log.warn("No existeix cap usuari entitat extern amb NIF "
+              + person.getAdministrationID() + ". El cream." );
+          
+          // L'hem de crear persona i usuari entitat extern
+          UsuariPersonaJPA persona = new UsuariPersonaJPA();
+          persona.setEmail(extSigner.getEmail());
+          persona.setIdiomaID(extSigner.getLanguage());
+          persona.setLlinatges(extSigner.getSurnames());
+          persona.setNif(extSigner.getAdministrationId());
+          persona.setNom(extSigner.getName());
+          
+          log.info("Cridant a crear persona externa: " + extSigner.getName() 
+              + " " + extSigner.getSurnames() + "[" + extSigner.getEmail()+ "] {" + extSigner.getAdministrationId() + "}");
+          
+
+          UsuariEntitatJPA ueExtern = new UsuariEntitatJPA();
+          ueExtern.setActiu(true);
+          ueExtern.setEntitatID(entitatID);
+          ueExtern.setUsuariPersona(persona);
+
+          try {
+            ue = usuariEntitatLogicaEjb.createUsuariEntitatExtern(ueExtern, entitatID);
+          } catch (I18NValidationException ve) {
+            
+            throw new I18NException("genapp.comodi", 
+                "Pareix se que algunes dades de l´usuari extern són incorrectes: "
+                + I18NCommonUtils.getMessage(ve, new Locale(languageUI)));
+          }
+        } else {
+          // Usuari Entitat Extern existeix
+          // Revisar si tots els camps de FirmaAsyncSimpleExternalSigner són correctes
+          UsuariPersonaJPA persona = ue.getUsuariPersona();
+          if (StringUtils.isBlank(extSigner.getEmail())) {
+            extSigner.setEmail(persona.getEmail());
+          }
+          if (StringUtils.isBlank(extSigner.getLanguage())) {
+            extSigner.setLanguage(persona.getIdiomaID());
+          }
+          if (StringUtils.isBlank(extSigner.getName())) {
+            extSigner.setName(persona.getNom());
+          }
+          if (StringUtils.isBlank(extSigner.getSurnames())) {
+            extSigner.setSurnames(persona.getLlinatges());
+          }
+          
+          switch(extSigner.getSecurityLevel()) {
+            case FirmaAsyncSimpleExternalSigner.SECURITY_LEVEL_TOKEN:
+              // OK
+            break;
+            
+            case FirmaAsyncSimpleExternalSigner.SECURITY_LEVEL_CERTIFICATE:
+            case FirmaAsyncSimpleExternalSigner.SECURITY_LEVEL_PASSWORD:
+              // XYZ ZZZ XYZ 
+              throw new I18NException("genapp.comodi", 
+                  "Encara no es suporta el nivell de seguretat " + extSigner.getSecurityLevel());
+            default:
+              // XYZ ZZZ XYZ 
+              throw new I18NException("genapp.comodi", 
+                  "Nivell de seguretat desconegut" + extSigner.getSecurityLevel());
+            
+          }
+          
+        }
+      } 
+      break;
+      
+      default:
+        throw new I18NException("genapp.comodi", "Tipus de firmant desconegut: " + type);
 
     }
 
     if (!entitatID.equals(ue.getEntitatID())) {
       // XYZ ZZZ TRA
-      throw new I18NException("genapp.comodi", "usuari definit a " + camp.fullName
+      throw new I18NException("genapp.comodi", "Usuari definit a " + camp.fullName
           + " no pertany a l´entitat " + entitatID);
     }
 

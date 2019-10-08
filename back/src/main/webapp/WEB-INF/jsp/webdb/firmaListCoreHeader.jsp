@@ -78,6 +78,24 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.PERFILDEFIRMA)}">
         <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.PERFILDEFIRMA)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNNOM)}">
+        <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.USUARIEXTERNNOM)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNLLINATGES)}">
+        <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.USUARIEXTERNLLINATGES)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNEMAIL)}">
+        <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.USUARIEXTERNEMAIL)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNIDIOMA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.USUARIEXTERNIDIOMA)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNTOKEN)}">
+        <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.USUARIEXTERNTOKEN)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNNIVELLSEGURETAT)}">
+        <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.USUARIEXTERNNIVELLSEGURETAT)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">

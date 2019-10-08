@@ -58,6 +58,19 @@ public class ApiFirmaWebSimpleJersey extends
     super(endPointBase, username, password);
   }
 
+  
+  /**
+   * 
+   * @param endPointBase
+   * @param username
+   * @param password
+   * @param ignoreServerCertificates
+   */
+  public ApiFirmaWebSimpleJersey(String endPointBase, String username, String password,
+      boolean ignoreServerCertificates) {
+    super(endPointBase, username, password, ignoreServerCertificates);
+  }
+
   /**
    * 
    * 

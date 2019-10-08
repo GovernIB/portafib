@@ -105,6 +105,24 @@ private static final long serialVersionUID = -491371752L;
 	@Column(name="perfildefirma",length = 50)
 	java.lang.String perfilDeFirma;
 
+	@Column(name="extern_nom",length = 100)
+	java.lang.String usuariExternNom;
+
+	@Column(name="extern_llinatges",length = 255)
+	java.lang.String usuariExternLlinatges;
+
+	@Column(name="extern_email",length = 255)
+	java.lang.String usuariExternEmail;
+
+	@Column(name="extern_idioma",length = 2)
+	java.lang.String usuariExternIdioma;
+
+	@Column(name="extern_token",length = 255)
+	java.lang.String usuariExternToken;
+
+	@Column(name="extern_nivellseguretat",length = 10)
+	java.lang.Integer usuariExternNivellSeguretat;
+
 
 
   /** Constructor Buit */
@@ -112,7 +130,7 @@ private static final long serialVersionUID = -491371752L;
   }
 
   /** Constructor amb tots els camps  */
-  public FirmaJPA(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors , java.lang.Boolean checkAdministrationIdOfSigner , java.lang.Boolean checkDocumentModifications , java.lang.Boolean checkValidationSignature , java.lang.String perfilDeFirma) {
+  public FirmaJPA(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors , java.lang.Boolean checkAdministrationIdOfSigner , java.lang.Boolean checkDocumentModifications , java.lang.Boolean checkValidationSignature , java.lang.String perfilDeFirma , java.lang.String usuariExternNom , java.lang.String usuariExternLlinatges , java.lang.String usuariExternEmail , java.lang.String usuariExternIdioma , java.lang.String usuariExternToken , java.lang.Integer usuariExternNivellSeguretat) {
     this.firmaID=firmaID;
     this.destinatariID=destinatariID;
     this.blocDeFirmaID=blocDeFirmaID;
@@ -135,9 +153,15 @@ private static final long serialVersionUID = -491371752L;
     this.checkDocumentModifications=checkDocumentModifications;
     this.checkValidationSignature=checkValidationSignature;
     this.perfilDeFirma=perfilDeFirma;
+    this.usuariExternNom=usuariExternNom;
+    this.usuariExternLlinatges=usuariExternLlinatges;
+    this.usuariExternEmail=usuariExternEmail;
+    this.usuariExternIdioma=usuariExternIdioma;
+    this.usuariExternToken=usuariExternToken;
+    this.usuariExternNivellSeguretat=usuariExternNivellSeguretat;
 }
   /** Constructor sense valors autoincrementals */
-  public FirmaJPA(java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors , java.lang.Boolean checkAdministrationIdOfSigner , java.lang.Boolean checkDocumentModifications , java.lang.Boolean checkValidationSignature , java.lang.String perfilDeFirma) {
+  public FirmaJPA(java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors , java.lang.Boolean checkAdministrationIdOfSigner , java.lang.Boolean checkDocumentModifications , java.lang.Boolean checkValidationSignature , java.lang.String perfilDeFirma , java.lang.String usuariExternNom , java.lang.String usuariExternLlinatges , java.lang.String usuariExternEmail , java.lang.String usuariExternIdioma , java.lang.String usuariExternToken , java.lang.Integer usuariExternNivellSeguretat) {
     this.destinatariID=destinatariID;
     this.blocDeFirmaID=blocDeFirmaID;
     this.obligatori=obligatori;
@@ -159,6 +183,12 @@ private static final long serialVersionUID = -491371752L;
     this.checkDocumentModifications=checkDocumentModifications;
     this.checkValidationSignature=checkValidationSignature;
     this.perfilDeFirma=perfilDeFirma;
+    this.usuariExternNom=usuariExternNom;
+    this.usuariExternLlinatges=usuariExternLlinatges;
+    this.usuariExternEmail=usuariExternEmail;
+    this.usuariExternIdioma=usuariExternIdioma;
+    this.usuariExternToken=usuariExternToken;
+    this.usuariExternNivellSeguretat=usuariExternNivellSeguretat;
 }
   /** Constructor dels valors Not Null */
   public FirmaJPA(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , int caixaPagina , boolean mostrarRubrica , int minimDeRevisors) {
@@ -193,6 +223,12 @@ private static final long serialVersionUID = -491371752L;
     this.setCheckDocumentModifications(__bean.getCheckDocumentModifications());
     this.setCheckValidationSignature(__bean.getCheckValidationSignature());
     this.setPerfilDeFirma(__bean.getPerfilDeFirma());
+    this.setUsuariExternNom(__bean.getUsuariExternNom());
+    this.setUsuariExternLlinatges(__bean.getUsuariExternLlinatges());
+    this.setUsuariExternEmail(__bean.getUsuariExternEmail());
+    this.setUsuariExternIdioma(__bean.getUsuariExternIdioma());
+    this.setUsuariExternToken(__bean.getUsuariExternToken());
+    this.setUsuariExternNivellSeguretat(__bean.getUsuariExternNivellSeguretat());
     // Fitxer
     this.setFitxerFirmat(FitxerJPA.toJPA(__bean.getFitxerFirmat()));
 	}
@@ -351,6 +387,48 @@ private static final long serialVersionUID = -491371752L;
 		this.perfilDeFirma = _perfilDeFirma_;
 	};
 
+	public java.lang.String getUsuariExternNom() {
+		return(usuariExternNom);
+	};
+	public void setUsuariExternNom(java.lang.String _usuariExternNom_) {
+		this.usuariExternNom = _usuariExternNom_;
+	};
+
+	public java.lang.String getUsuariExternLlinatges() {
+		return(usuariExternLlinatges);
+	};
+	public void setUsuariExternLlinatges(java.lang.String _usuariExternLlinatges_) {
+		this.usuariExternLlinatges = _usuariExternLlinatges_;
+	};
+
+	public java.lang.String getUsuariExternEmail() {
+		return(usuariExternEmail);
+	};
+	public void setUsuariExternEmail(java.lang.String _usuariExternEmail_) {
+		this.usuariExternEmail = _usuariExternEmail_;
+	};
+
+	public java.lang.String getUsuariExternIdioma() {
+		return(usuariExternIdioma);
+	};
+	public void setUsuariExternIdioma(java.lang.String _usuariExternIdioma_) {
+		this.usuariExternIdioma = _usuariExternIdioma_;
+	};
+
+	public java.lang.String getUsuariExternToken() {
+		return(usuariExternToken);
+	};
+	public void setUsuariExternToken(java.lang.String _usuariExternToken_) {
+		this.usuariExternToken = _usuariExternToken_;
+	};
+
+	public java.lang.Integer getUsuariExternNivellSeguretat() {
+		return(usuariExternNivellSeguretat);
+	};
+	public void setUsuariExternNivellSeguretat(java.lang.Integer _usuariExternNivellSeguretat_) {
+		this.usuariExternNivellSeguretat = _usuariExternNivellSeguretat_;
+	};
+
 
 
   @Override
@@ -477,6 +555,12 @@ private static final long serialVersionUID = -491371752L;
     __tmp.setCheckDocumentModifications(__bean.getCheckDocumentModifications());
     __tmp.setCheckValidationSignature(__bean.getCheckValidationSignature());
     __tmp.setPerfilDeFirma(__bean.getPerfilDeFirma());
+    __tmp.setUsuariExternNom(__bean.getUsuariExternNom());
+    __tmp.setUsuariExternLlinatges(__bean.getUsuariExternLlinatges());
+    __tmp.setUsuariExternEmail(__bean.getUsuariExternEmail());
+    __tmp.setUsuariExternIdioma(__bean.getUsuariExternIdioma());
+    __tmp.setUsuariExternToken(__bean.getUsuariExternToken());
+    __tmp.setUsuariExternNivellSeguretat(__bean.getUsuariExternNivellSeguretat());
     // Fitxer
     __tmp.setFitxerFirmat(FitxerJPA.toJPA(__bean.getFitxerFirmat()));
 		return __tmp;

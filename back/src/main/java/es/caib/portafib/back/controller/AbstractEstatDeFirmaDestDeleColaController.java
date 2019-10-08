@@ -9,7 +9,6 @@ import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.AbstractParallelSignedFilesProcessing;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
-import es.caib.portafib.ejb.FirmaLocal;
 import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.EstatDeFirmaJPA;
@@ -21,6 +20,7 @@ import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
+import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
@@ -52,6 +52,7 @@ import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
@@ -97,6 +98,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -122,22 +124,22 @@ import java.util.Set;
   public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDeFirmaController implements
       EstatDeFirmaFields, ConstantsV2 {
 
-    @EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local")
+    @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
     protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
 
-    @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
+    @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
     protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-    @EJB(mappedName = "portafib/ColaboracioDelegacioLogicaEJB/local")
+    @EJB(mappedName = ColaboracioDelegacioLogicaLocal.JNDI_NAME)
     protected ColaboracioDelegacioLogicaLocal colaboracioDelegacioEjb;
     
     @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
     protected ConfiguracioUsuariAplicacioLogicaLocal configuracioDeFirmaLogicaEjb;
 
-    @EJB(mappedName = "portafib/FirmaEJB/local")
-    protected FirmaLocal firmaEjb;
+    @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
+    protected FirmaLogicaLocal firmaEjb;
 
-    @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
+    @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
     protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
     @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
@@ -812,10 +814,13 @@ import java.util.Set;
         signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
         
+
+        ModelAndView mav;
         final String view = "PluginDeFirmaContenidor_" + getRole();
-        ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);
+        mav = SignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);
         
         
+
         // Només quan #peticions > 3 activar thread
         // Posar en marxa un thread que vagi mirant les entrades i les processi 
         // En el mapping finalOK o finalError descartar les entrades ja processades
@@ -845,8 +850,8 @@ import java.util.Set;
     // NODEFINIT     8    descartat(*)   descartat(**)  -
     // TODO (*) En un futur el valor descartat per dest i dele no tindran sentit i les 
     //          delegacions firmades per un dest o les destinacions firmades per un delegat 
-    //          serna tractades com l'estat final del la sol3licitud: firmada o rebutjada
-    //  (**) En el cas de col3laborador-revisor no  pot ser l'estat DESCARTAT.
+    //          seran tractades com l'estat final del la sol·licitud: firmada o rebutjada
+    //  (**) En el cas de col·laborador-revisor no  pot ser l'estat DESCARTAT.
     
     public static final int FILTRAR_PER_RES = -1;
     
@@ -1106,8 +1111,16 @@ import java.util.Set;
 
       signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
-      final String view = "PluginDeFirmaContenidor_AutoFirma";
-      ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);
+      
+      // XYZ ZZZ ZZZ 
+      ModelAndView mav;
+      if (loginInfo.getUsuariPersona().isUsuariIntern()) {
+        final String view = "PluginDeFirmaContenidor_AutoFirma";
+        mav = SignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);
+      } else {
+        final String view = "PluginDeFirmaContenidor_UsuariExtern";
+        mav = SignatureModuleController.startPublicSignatureProcess(request, response, view, signaturesSet);
+      }
 
       return mav;
     }
@@ -1127,10 +1140,18 @@ import java.util.Set;
     public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
         @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
     
-      log.info("\n\n XYZ ZZZ   ñññññññññ   PASSA PER finalProcesDeFirma\n\n");
+      log.info("\n\n XYZ ZZZ ZZZ   ñññññññññ   PASSA PER finalProcesDeFirma\n\n");
       
-      ModelAndView mav = new ModelAndView("public_wait");
+      String view ;
       
+      if (LoginInfo.getInstance().getUsuariPersona().isUsuariIntern()) {
+        view = "passarela_wait";
+      } else {
+        view = "externaluser_wait";
+      }
+
+      ModelAndView mav = new ModelAndView(view);
+
       mav.addObject("finalURL", getContextWeb() + "/finalFirmaReal/" + signaturesSetID);
       
       return mav;
@@ -1149,7 +1170,7 @@ import java.util.Set;
     public ModelAndView finalProcesDeFirmaReal(HttpServletRequest request, HttpServletResponse response,
         @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
     
-      log.info("\n\n XYZ ZZZ   ñññññññññ   PASSA PER finalProcesDeFirmaReal\n\n");
+      log.info("\n\n XYZ ZZZ ZZZ   ñññññññññ   PASSA PER finalProcesDeFirmaReal\n\n");
     
       SignaturesSetWeb ss;
       ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
@@ -1577,7 +1598,7 @@ import java.util.Set;
           case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
           {
             UsuariAplicacioConfiguracio configuracioDefirma;
-            configuracioDefirma = configuracioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
+            configuracioDefirma = configuracioDeFirmaLogicaEjb.findByPrimaryKeyUnauthorized(peticioDeFirma.getConfiguracioDeFirmaID());
 
             timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForUsrApp(
                   peticioDeFirma.getSolicitantUsuariAplicacioID(), entitat, configuracioDefirma);
@@ -1643,7 +1664,7 @@ import java.util.Set;
       return llistatPaginat(request, response, null);
     }
 
-    private void rebutjarInternal(HttpServletRequest request, HttpServletResponse response,
+    protected boolean rebutjarInternal(HttpServletRequest request, HttpServletResponse response,
                                   Long estatDeFirmaID, Long peticioDeFirmaID) throws I18NException {
       final long estatFirmaInicial;
       if (ConstantsV2.ROLE_REVI.equals(getRole())) {
@@ -1655,7 +1676,7 @@ import java.util.Set;
       CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,estatFirmaInicial);
       if (check == null) {
         // S'ha produit un error. Retornam.
-        return;
+        return false;
       }
 
       EstatDeFirmaJPA estatDeFirma = check.estatDeFirma;
@@ -1671,7 +1692,7 @@ import java.util.Set;
       if (!checkOK) {
         new PeticioDeFirmaController().createMessageError(request, "error.peticiobloquejada",
             peticioDeFirmaID);
-        return;
+        return false;
       }
 
       String motiuDeRebuig = request.getParameter("motiu");
@@ -1679,14 +1700,19 @@ import java.util.Set;
       if (log.isDebugEnabled()) {
         log.debug("Rebutjat motiuDeRebuig: " + motiuDeRebuig);
       }
+      log.info("XYZ ZZZ ZZZ Rebutjat motiuDeRebuig:\n\n " + motiuDeRebuig + "\n\n");
 
       try {
         peticioDeFirmaLogicaEjb.rebutjar(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig);
 
         // TODO falta missatge de tot OK
+        return true;
 
       } catch (I18NException i18ne) {
-        HtmlUtils.saveMessageError(request, I18NUtils.getMessage(i18ne));
+        String msg = I18NUtils.getMessage(i18ne);
+        log.error(msg, i18ne);        
+        HtmlUtils.saveMessageError(request, msg);
+        return false;
       }
     }
 
@@ -1892,20 +1918,20 @@ import java.util.Set;
 
       UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio = null;
 
-      PeticioDeFirma peticioDeFirma = peticioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirmaID);
+      PeticioDeFirma peticioDeFirma = peticioDeFirmaLogicaEjb.findByPrimaryKeyFull(peticioDeFirmaID);
 
       switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
 
         case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
 
           if (peticioDeFirma.getConfiguracioDeFirmaID() != null) {
-            usuariAplicacioConfiguracio = configuracioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
+            usuariAplicacioConfiguracio = configuracioDeFirmaLogicaEjb.findByPrimaryKeyUnauthorized(peticioDeFirma.getConfiguracioDeFirmaID());
           }
           break;
 
         case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
 
-          usuariAplicacioConfiguracio = configuracioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
+          usuariAplicacioConfiguracio = configuracioDeFirmaLogicaEjb.findByPrimaryKeyUnauthorized(peticioDeFirma.getConfiguracioDeFirmaID());
           break;
       }
 
@@ -1968,7 +1994,7 @@ import java.util.Set;
      */
     private FirmaJPA checkFirma(EstatDeFirmaJPA estatDeFirma, HttpServletRequest request,
         boolean checkEstat) {
-      FirmaJPA firma = firmaEjb.findByPrimaryKey(new Long(estatDeFirma.getFirmaID()));
+      FirmaJPA firma = firmaEjb.findByPrimaryKeyUnauthorized(new Long(estatDeFirma.getFirmaID()));
       if (firma == null) {
         log.error("La firma de l'EstatDeFirma no existeix.");
         super.createMessageError(request, "error.nofirmar", estatDeFirma.getEstatDeFirmaID());
@@ -1995,7 +2021,9 @@ import java.util.Set;
 
       LoginInfo loginInfo = LoginInfo.getInstance();
 
-      EstatDeFirmaJPA estatDeFirma = estatDeFirmaLogicaEjb.findByPrimaryKey(estatDeFirmaID);
+      // XYZ ZZZ ZZZ EstatDeFirmaJPA estatDeFirma = estatDeFirmaLogicaEjb.findByPrimaryKey(estatDeFirmaID);
+      EstatDeFirmaJPA estatDeFirma = estatDeFirmaLogicaEjb.findByPrimaryKeyUnauthorized(estatDeFirmaID);
+      
       if (estatDeFirma == null) {
         super.createMessageError(request, "error.notfound", estatDeFirmaID);
         return null;
@@ -2954,12 +2982,13 @@ import java.util.Set;
           fitxers.add(new KeyValue<FitxerJPA>(f, String.valueOf(ConstantsV2.DOC_PDF)));
         } else {
           FitxerJPA f;
-          if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+          
+          //if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
             f = peticioDeFirma.getFitxerAFirmar();
-          } else {
-            f = peticioDeFirma.getFitxerAdaptat();
-            f.setNom(peticioDeFirma.getFitxerAFirmar().getNom());
-          }
+          //} else {
+          //  f = peticioDeFirma.getFitxerAdaptat();
+          //  f.setNom(peticioDeFirma.getFitxerAFirmar().getNom());
+          //}
           fitxers.add(new KeyValue<FitxerJPA>(f, processFileType(f)));
         }
 

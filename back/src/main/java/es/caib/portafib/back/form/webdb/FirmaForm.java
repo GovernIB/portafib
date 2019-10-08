@@ -27,6 +27,7 @@ public class FirmaForm extends PortaFIBBaseForm {
     this.listOfUsuariEntitatForDestinatariID = __toClone.listOfUsuariEntitatForDestinatariID;
     this.listOfBlocDeFirmesForBlocDeFirmaID = __toClone.listOfBlocDeFirmesForBlocDeFirmaID;
     this.listOfValuesForTipusEstatDeFirmaFinalID = __toClone.listOfValuesForTipusEstatDeFirmaFinalID;
+    this.listOfValuesForUsuariExternNivellSeguretat = __toClone.listOfValuesForUsuariExternNivellSeguretat;
   }
   
   public FirmaForm(FirmaJPA firma, boolean nou) {
@@ -88,6 +89,18 @@ public class FirmaForm extends PortaFIBBaseForm {
 
   public void setListOfValuesForTipusEstatDeFirmaFinalID(List<StringKeyValue> listOfValuesForTipusEstatDeFirmaFinalID) {
     this.listOfValuesForTipusEstatDeFirmaFinalID = listOfValuesForTipusEstatDeFirmaFinalID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForUsuariExternNivellSeguretat;
+
+  public List<StringKeyValue> getListOfValuesForUsuariExternNivellSeguretat() {
+    return this.listOfValuesForUsuariExternNivellSeguretat;
+  }
+
+  public void setListOfValuesForUsuariExternNivellSeguretat(List<StringKeyValue> listOfValuesForUsuariExternNivellSeguretat) {
+    this.listOfValuesForUsuariExternNivellSeguretat = listOfValuesForUsuariExternNivellSeguretat;
   }
 
 

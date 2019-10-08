@@ -34,6 +34,12 @@ public interface FirmaFields extends java.io.Serializable {
 	 public static final BooleanField CHECKDOCUMENTMODIFICATIONS = new BooleanField(_TABLE_MODEL, "checkDocumentModifications", "checkdocumentmodifications");
 	 public static final BooleanField CHECKVALIDATIONSIGNATURE = new BooleanField(_TABLE_MODEL, "checkValidationSignature", "checkvalidationsignature");
 	 public static final StringField PERFILDEFIRMA = new StringField(_TABLE_MODEL, "perfilDeFirma", "perfildefirma");
+	 public static final StringField USUARIEXTERNNOM = new StringField(_TABLE_MODEL, "usuariExternNom", "extern_nom");
+	 public static final StringField USUARIEXTERNLLINATGES = new StringField(_TABLE_MODEL, "usuariExternLlinatges", "extern_llinatges");
+	 public static final StringField USUARIEXTERNEMAIL = new StringField(_TABLE_MODEL, "usuariExternEmail", "extern_email");
+	 public static final StringField USUARIEXTERNIDIOMA = new StringField(_TABLE_MODEL, "usuariExternIdioma", "extern_idioma");
+	 public static final StringField USUARIEXTERNTOKEN = new StringField(_TABLE_MODEL, "usuariExternToken", "extern_token");
+	 public static final IntegerField USUARIEXTERNNIVELLSEGURETAT = new IntegerField(_TABLE_MODEL, "usuariExternNivellSeguretat", "extern_nivellseguretat");
 
 
   public static final Field<?>[] ALL_FIRMA_FIELDS = {
@@ -58,7 +64,13 @@ public interface FirmaFields extends java.io.Serializable {
     CHECKADMINISTRATIONIDOFSIGNER,
     CHECKDOCUMENTMODIFICATIONS,
     CHECKVALIDATIONSIGNATURE,
-    PERFILDEFIRMA
+    PERFILDEFIRMA,
+    USUARIEXTERNNOM,
+    USUARIEXTERNLLINATGES,
+    USUARIEXTERNEMAIL,
+    USUARIEXTERNIDIOMA,
+    USUARIEXTERNTOKEN,
+    USUARIEXTERNNIVELLSEGURETAT
   };
 
 

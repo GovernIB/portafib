@@ -168,8 +168,7 @@ public interface ConstantsV2 {
   public static final String CONTEXT_COLA_ESTATFIRMA_VALIDAT = CONTEXT_COLA_ESTATFIRMA + "Validat";
   public static final String CONTEXT_COLA_ESTATFIRMA_INVALIDAT = CONTEXT_COLA_ESTATFIRMA + "Invalidat";
   public static final String CONTEXT_COLA_ESTATFIRMA_DESCARTAT = CONTEXT_COLA_ESTATFIRMA + "Descartat";
-  
-  
+
   public static final String CONTEXT_REVI_ESTATFIRMA = "/revi/estatDeFirma";
   public static final String CONTEXT_REVI_ESTATFIRMA_PENDENT = CONTEXT_REVI_ESTATFIRMA + "Pendent";
   public static final String CONTEXT_REVI_ESTATFIRMA_ACCEPTADA = CONTEXT_REVI_ESTATFIRMA + "Acceptada";
@@ -178,9 +177,11 @@ public interface ConstantsV2 {
   public static final String CONTEXT_ADEN_PETICIOFIRMA_USRAPP = "/aden/peticiofirmaaplicacio";
   public static final String CONTEXT_ADEN_PETICIOFIRMA_TOTES_CONSULTAR = "/aden/peticiofirmatotesconsultar";
   public static final String CONTEXT_ADEN_PETICIOFIRMA_TOTES_GESTIONAR = "/aden/peticiofirmatotesgestionar";
- 
-  
+
   public static final String CONTEXT_ADEN_NOTIFICACIONSWS = "/aden/notificaciows";
+  
+  public static final String CONTEXT_EXTERNALUSER_TOKEN =  "/common/externaluser/token";
+  public static final String CONTEXT_EXTERNALUSER_ESTATDEFIRMA =  "/common/externaluser/estatdefirma";
 
   
   //==============================================================
@@ -526,4 +527,13 @@ public interface ConstantsV2 {
           BITACOLA_OP_NOTIFICAR_REBUTJADA, BITACOLA_OP_NOTIFICAR_FIRMA_PARCIAL,
           BITACOLA_OP_NOTIFICAR_FINALITZADA, BITACOLA_OP_NOTIFICAR_INVALIDADA
   };
+
+  // =============================================================
+  // -- Nivells de Seguretat per Firmes d'Usuaris Externs  #162 --
+  // =============================================================
+  
+  public static final int USUARIEXTERN_SECURITY_LEVEL_TOKEN = 1;
+  public static final int USUARIEXTERN_SECURITY_LEVEL_PASSWORD = 2;
+  public static final int USUARIEXTERN_SECURITY_LEVEL_CERTIFICATE = 4;
+
 }

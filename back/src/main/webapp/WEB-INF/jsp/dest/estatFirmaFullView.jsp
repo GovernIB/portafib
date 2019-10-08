@@ -20,7 +20,7 @@
       onclick="goTo('<c:url value="${contexte}/acceptar/${estatID}/${peticioID}"/>')"> <i
       class="icon-check"></i> <fmt:message key="revisor.acceptar" /> </a> &nbsp;&nbsp; 
     </c:if>
-    <c:if test="${ rolecontext eq 'dest' || rolecontext eq 'dele' }" >
+    <c:if test="${ rolecontext eq 'dest' || rolecontext eq 'dele' || rolecontext eq 'common' }" >
       <a class="btn btn-success" href="#"
       onclick="firmar('<c:url value="${contexte}/firmar/${estatID}/${peticioID}"/>')"> <i
       class="icon-edit"></i> <fmt:message key="firmar" /> </a> &nbsp;&nbsp; 
@@ -260,6 +260,18 @@
 
 </div>
 
+<!-- CONTINGUT -->
+<div class="span7">
+
+  <!--  Missatges  -->
+  <jsp:include page="/WEB-INF/jsp/moduls/missatges.jsp" />
+  
+  <%--  Visor del Document a firmar i dels annexes --%>
+  <jsp:include page="/WEB-INF/jsp/dest/estatFirmaDocuments.jsp" />
+
+  <!-- FINAL DIV CONTINGUT -->
+</div>
+
 <c:if test="${empty estatDeFirma.tipusEstatDeFirmaFinalID }">
 <script>
 
@@ -282,17 +294,5 @@
   
 </script>
 </c:if>
-
-<!-- CONTINGUT -->
-<div class="span7">
-
-  <!--  Missatges  -->
-  <jsp:include page="/WEB-INF/jsp/moduls/missatges.jsp" />
-  
-  <%--  Visor del Document a firmar i dels annexes --%>
-  <jsp:include page="/WEB-INF/jsp/dest/estatFirmaDocuments.jsp" />
-
-  <!-- FINAL DIV CONTINGUT -->
-</div>
 
 <div class="clearfix"></div>

@@ -55,7 +55,7 @@ public class RestUtilsErrorManager extends RestUtils {
 
     LoginInfo loginInfo = LoginInfo.getInstance();
 
-    log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
+    //log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
 
     // Checks Globals
     if (loginInfo.getUsuariEntitat() != null) {

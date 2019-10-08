@@ -52,8 +52,8 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = "/common/rest/revisordefirma")
 public class RestAuthenticatedRevisorDeFirmaController extends RestUtils {
 
-  @EJB(mappedName = "portafib/FirmaLogicaEJB/local")
-  private FirmaLogicaLocal firmaLogicaEjb;
+  @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
+  protected FirmaLogicaLocal firmaLogicaEjb;
 
   @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
@@ -76,7 +76,7 @@ public class RestAuthenticatedRevisorDeFirmaController extends RestUtils {
 
     log.info(" XYZ ZZZ eNTRA A addRevisorDeFirmaToFirma => RevisorDeFirmaRest: " + rev);
 
-    String error = autenticate(request);
+    String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, null, HttpStatus.UNAUTHORIZED);
     }

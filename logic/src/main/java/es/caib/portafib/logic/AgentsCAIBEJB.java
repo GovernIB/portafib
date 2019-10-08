@@ -56,8 +56,8 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
   @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
 
-  @EJB(mappedName = "portafib/FirmaLogicaEJB/local")
-  private FirmaLogicaLocal firmaLogicaEjb;
+  @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
+  protected FirmaLogicaLocal firmaLogicaEjb;
 
   @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
   private EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
