@@ -121,6 +121,12 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
     }
     flux.setFluxDeFirmesID(fluxID);
 
+    // Crear plantilla si es requereix
+    if (pff != null) {
+      pff.setFluxDeFirmesID(fluxBD.getFluxDeFirmesID());
+      plantillaFluxDeFirmesEjb.create(pff);
+    }
+
     // Validador blocs
     BlocDeFirmesValidator<BlocDeFirmesJPA> bfv = new BlocDeFirmesLogicValidator();
     BlocDeFirmesBeanValidator bfbv = new BlocDeFirmesBeanValidator(bfv, blocDeFirmesLogicaEjb, this);
@@ -133,14 +139,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
 
       blocDeFirmesLogicaEjb.createFull(blocDeFirmesJPA);
     } 
-    
-    // Crear plantilla si es requereix
-    if (pff != null) {
-      pff.setFluxDeFirmesID(fluxBD.getFluxDeFirmesID());
-      plantillaFluxDeFirmesEjb.create(pff);
-    }
-    
-  
+
     return flux;
   }
 
