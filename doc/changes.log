@@ -1,4 +1,19 @@
 
+PortaFIB 2.0.2
+==============
+
+2019-10-08 Usuaris externs puguin firmar #162 
+
+2019-10-01 Fer que els usuaris aplicació s'autentiquin a traves de JBoss i no emprant contrasenya de BBDD #277 
+
+2019-09-27 Suportar CAdES a Firma Web, API Firma Simple Web i API Firma Simple Async #294 
+
+2019-09-27 Suportar XAdES a Firma Web, API Firma Simple Web i API Firma Simple Async #333 
+
+2019-09-27 Bitacola: Poder filtrar per entitat #321 
+
+2019-09-27 Afegir dins la taula de bitacola els camps necessaris per fer la Bitacola Genèrica #325
+
 
 PortaFIB 2.0.1
 ==============

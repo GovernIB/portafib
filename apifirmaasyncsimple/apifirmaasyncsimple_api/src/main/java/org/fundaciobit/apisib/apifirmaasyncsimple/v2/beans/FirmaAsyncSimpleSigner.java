@@ -22,13 +22,6 @@ public class FirmaAsyncSimpleSigner extends FirmaAsyncSimplePerson {
     super();
   }
 
-  public FirmaAsyncSimpleSigner(String positionInTheCompany, String administrationID,
-      String username, String intermediateServerUsername,
-      FirmaAsyncSimpleExternalSigner externalSigner) {
-    super(positionInTheCompany, administrationID, username, intermediateServerUsername);
-    this.externalSigner = externalSigner;
-  }
-
   public FirmaAsyncSimpleExternalSigner getExternalSigner() {
     return externalSigner;
   }
