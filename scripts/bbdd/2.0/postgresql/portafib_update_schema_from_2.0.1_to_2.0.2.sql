@@ -41,7 +41,7 @@ UPDATE pfi_bitacola
             (select entitatid from pfi_usuarientitat where usuarientitatid = pfi_bitacola.usuarientitatid)
         WHERE usuarientitatid is not null;
 
--- Actualitzar login amb l'id d'usuari aplicació, o l'usuaripersonaid del usuarientitat.
+-- Actualitzar usuariid amb l'id d'usuari aplicació, o l'usuaripersonaid del usuarientitat.
 UPDATE pfi_bitacola
         SET usuariid = usuariaplicacioid
         WHERE usuariaplicacioid is not null;
@@ -50,7 +50,7 @@ UPDATE pfi_bitacola
             (select usuaripersonaid from pfi_usuarientitat where usuarientitatid = pfi_bitacola.usuarientitatid)
         WHERE usuarientitatid is not null;
 
--- Intentar mapejar segons la descripció el tipus d'operació
+-- Mapejar segons la descripció el tipus d'operació
 UPDATE pfi_bitacola SET tipusoperacio = 1 WHERE descripcio = 'Petició creada';
 UPDATE pfi_bitacola SET tipusoperacio = 2 WHERE descripcio = 'Petició actualitzada';
 UPDATE pfi_bitacola SET tipusoperacio = 3 WHERE descripcio like 'Petició esborrada%';
@@ -78,7 +78,7 @@ ALTER TABLE pfi_bitacola ALTER COLUMN entitatid SET NOT NULL;
 ALTER TABLE pfi_bitacola ALTER COLUMN usuariid SET NOT NULL;
 ALTER TABLE pfi_bitacola ALTER COLUMN tipusoperacio SET NOT NULL;
 
--- Esborrar columnes que ja no s'usen
+-- Esborrar columnes que ja no s'empren
 ALTER TABLE pfi_bitacola DROP COLUMN peticiodefirmaid;
 ALTER TABLE pfi_bitacola DROP COLUMN usuarientitatid;
 ALTER TABLE pfi_bitacola DROP COLUMN usuariaplicacioid;
@@ -105,8 +105,7 @@ ALTER TABLE pfi_bitacola ALTER COLUMN descripcio DROP NOT NULL;
 -- INSERT INTO sc_wl_usuari(usu_codi,usu_pass) VALUES(<id usuariaplicacio>,<contrasenya>);
 -- INSERT INTO sc_wl_usugru(ugr_codusu, ugr_codgru) VALUES(<id usuariaplicacio>,<id role>);
 
-ALTER TABLE pfi_usuariaplicacio
-  DROP COLUMN contrasenya;
+ALTER TABLE pfi_usuariaplicacio DROP COLUMN contrasenya;
 
 DROP TABLE pfi_roleusuariaplicacio;
 
