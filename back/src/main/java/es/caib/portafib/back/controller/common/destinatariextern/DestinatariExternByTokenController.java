@@ -79,7 +79,7 @@ public class DestinatariExternByTokenController {
     }
 
     String username = firma.getUsuariEntitat().getUsuariPersonaID();
-
+    log.info(" XYZ ZZZ ZZZ  USERNAME => |" + username + "|");
     
     try {
       LoginInfo loginInfo = LoginInfo.getInstance();
@@ -144,12 +144,12 @@ public class DestinatariExternByTokenController {
         Set<String> roles = new HashSet<String>();
         // XYZ ZZZ  RestUtils.
         boolean autenticated = authenticateUsernamePassword(request, username,
-            password, roles, log, this.usuariPersonaLogicaEjb);
+            password, roles, log);
         
         
        
         
-        //log.info(" XYZ ZZZ ZZZ 111 request.isUserInRole(ConstantsV2.PFI_USER); => " + request.isUserInRole(ConstantsV2.PFI_USER));
+        log.info(" XYZ ZZZ ZZZ 111 autenticated => " + autenticated);
         
 //        // XYZ ZZZ ZZZ Restutils.
 //        autenticated = authenticateUsernamePassword(request, username,
@@ -321,9 +321,8 @@ public class DestinatariExternByTokenController {
   
   
   
-  public static boolean authenticateUsernamePassword(HttpServletRequest request,
-      String username,  String password, Set<String> roles, Logger log,
-      UsuariPersonaLogicaLocal usuariPersonaLogicaEjb) throws I18NException {
+  public boolean authenticateUsernamePassword(HttpServletRequest request,
+      String username,  String password, Set<String> roles, Logger log) throws I18NException {
     
     /*
     boolean autenticat;
@@ -388,14 +387,13 @@ public class DestinatariExternByTokenController {
     
     */
     
-    boolean autenticat = false;
-    
-
+    boolean autenticat;
     // Amb l'autenticació addicional següent, no podem recuperar els rols, però les credencials es mantenen per
     // les capes internes.
     request.getSession();
     
-    if (autenticat) {
+    //if (autenticat) 
+    {
       WebAuthentication pwl = new WebAuthentication();
       autenticat = pwl.login(username, password);
       
