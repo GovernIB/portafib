@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.EJB;
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import es.caib.portafib.back.controller.rest.PassiveCallbackHandler;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.FirmaJPA;
@@ -80,8 +77,7 @@ public class DestinatariExternByTokenController {
       model.addObject("error", "No existeix cap firma amb identificador (token) " + token);
       return model;
     }
-    
-    
+
     String username = firma.getUsuariEntitat().getUsuariPersonaID();
 
     
@@ -148,12 +144,12 @@ public class DestinatariExternByTokenController {
         Set<String> roles = new HashSet<String>();
         // XYZ ZZZ  RestUtils.
         boolean autenticated = authenticateUsernamePassword(request, username,
-            password, roles, log);
+            password, roles, log, this.usuariPersonaLogicaEjb);
         
         
-        roles.addAll(usuariPersonaLogicaEjb.getRolesOfLoggedUser());
+       
         
-        log.info(" XYZ ZZZ ZZZ 111 request.isUserInRole(ConstantsV2.PFI_USER); => " + request.isUserInRole(ConstantsV2.PFI_USER));
+        //log.info(" XYZ ZZZ ZZZ 111 request.isUserInRole(ConstantsV2.PFI_USER); => " + request.isUserInRole(ConstantsV2.PFI_USER));
         
 //        // XYZ ZZZ ZZZ Restutils.
 //        autenticated = authenticateUsernamePassword(request, username,
@@ -162,9 +158,9 @@ public class DestinatariExternByTokenController {
 //        log.info(" XYZ ZZZ ZZZ 222 request.isUserInRole(ConstantsV2.PFI_USER); => " + request.isUserInRole(ConstantsV2.PFI_USER));
 
         // Volem autenticat i amb un sol rol ROLE_DEST
-        log.info("XYZ ZZZ ZZZ autenticated => " + autenticated);
-        log.info("XYZ ZZZ ZZZ roles.size() => " + roles.size());
-        log.info("XYZ ZZZ ZZZ roles.contains(ConstantsV2.PFI_USER) => "
+        
+        log.info("XYZ ZZZ ZZZ [usuariPersonaLogicaEjb.getRolesOfLoggedUser()] roles.size() => " + roles.size());
+        log.info("XYZ ZZZ ZZZ [usuariPersonaLogicaEjb.getRolesOfLoggedUser()] roles.contains(ConstantsV2.PFI_USER) => "
             + roles.contains(ConstantsV2.PFI_USER));
 
         if (autenticated) { // && roles.size() == 1 XYZ ZZZ ZZZ && roles.contains(ConstantsV2.PFI_USER)) {
@@ -172,16 +168,8 @@ public class DestinatariExternByTokenController {
           // registram l'usuari
           
           
-          Collection<GrantedAuthority> seyconAuthorities;
-
-          seyconAuthorities = new ArrayList<GrantedAuthority>();
-          for (String rol : roles) {
-            log.info(" REST::ROLE => " + rol);
-            seyconAuthorities.add(new SimpleGrantedAuthority(rol));
-          }
-          
-          seyconAuthorities.remove(new SimpleGrantedAuthority(ConstantsV2.PFI_USER));
-          seyconAuthorities.add(new SimpleGrantedAuthority(ConstantsV2.ROLE_DEST));
+          Collection<GrantedAuthority> springAuthorities = new ArrayList<GrantedAuthority>();
+          springAuthorities.add(new SimpleGrantedAuthority(ConstantsV2.ROLE_DEST));
 
           
           // XYZ ZZZ ZZZ Check deshabilitada: entitat
@@ -206,7 +194,7 @@ public class DestinatariExternByTokenController {
           
           
           // Cridar directament a AuthenticationSuccessListener.onApplicationEvent(InteractiveAuthenticationSuccessEvent event) 
-          User user = new User(username, password, seyconAuthorities);
+          User user = new User(username, password, springAuthorities);
           
           UsuariEntitatJPA usuariEntitat = firma.getUsuariEntitat(); 
 
@@ -218,8 +206,8 @@ public class DestinatariExternByTokenController {
           
           Map<String, Set<GrantedAuthority>> rolesPerEntitat;
           rolesPerEntitat = new HashMap<String, Set<GrantedAuthority>>();
-          rolesPerEntitat.put(entitatIDActual, new HashSet<GrantedAuthority>(seyconAuthorities));
-          rolesPerEntitat.put(null, new HashSet<GrantedAuthority>(seyconAuthorities));
+          rolesPerEntitat.put(entitatIDActual, new HashSet<GrantedAuthority>(springAuthorities));
+          rolesPerEntitat.put(null, new HashSet<GrantedAuthority>(springAuthorities));
 
           Map<String, UsuariEntitatJPA> usuariEntitatPerEntitatID;
           usuariEntitatPerEntitatID = new HashMap<String, UsuariEntitatJPA>();
@@ -243,8 +231,6 @@ public class DestinatariExternByTokenController {
           
           request.getSession().setAttribute(EXTERNAL_USER_TOKEN, token);
           request.getSession().setAttribute(EXTERNAL_USER_ESTATFIRMAID, ef.getEstatDeFirmaID());
-          
-          
 
           // redirect a pantalla completa de firma
           String redirect = ConstantsV2.CONTEXT_EXTERNALUSER_ESTATDEFIRMA + "/fullView/"
@@ -335,28 +321,33 @@ public class DestinatariExternByTokenController {
   
   
   
-  public boolean authenticateUsernamePassword(HttpServletRequest request, String username,
-      String password, Set<String> roles, Logger log) {
+  public static boolean authenticateUsernamePassword(HttpServletRequest request,
+      String username,  String password, Set<String> roles, Logger log,
+      UsuariPersonaLogicaLocal usuariPersonaLogicaEjb) throws I18NException {
+    
+    /*
     boolean autenticat;
+    
+    
+    
     log.info("XYZ ZZZ ZZZ autenticate::username: |" + username + "|");    
     log.info("XYZ ZZZ ZZZ autenticate:: PRE AUTENTICATE " + request.getUserPrincipal());
 
     // L'autenticació següent ens permet comprovarl l'usuari i recuperar el seus rols, però no l'emmagatzema
     // internament i per tant les cridades a altres capes (EJB) no mantenen l'autenticació.
+    
     try {
+      
       LoginContext lc = new LoginContext("client-login", //Constants.SECURITY_DOMAIN,
           new PassiveCallbackHandler(username, password));
       lc.login();
 
-      
-      
-      /*
       Set<Principal> principalsCred = lc.getSubject().getPrincipals();
       if (principalsCred == null ||principalsCred.isEmpty()) {
         log.warn(" getPrincipals() == BUIT");
       } else {
         for (Principal object : principalsCred) {
-          log.debug(" getPrincipals() == " + object.getName() + "(" + object.getClass() + ")");
+          log.info(" getPrincipals() == " + object.getName() + "(" + object.getClass() + ")");
           if ("Roles".equals(object.getName())
               && object instanceof org.jboss.security.SimpleGroup) {
             org.jboss.security.SimpleGroup sg = (org.jboss.security.SimpleGroup)object;
@@ -364,26 +355,26 @@ public class DestinatariExternByTokenController {
             Enumeration<Principal> enumPrinc = sg.members();
             while(enumPrinc.hasMoreElements()) {
               Principal rol = enumPrinc.nextElement();
-              log.debug("           ROL: " + rol.getName());
+              log.info("           ROL: " + rol.getName());
               roles.add(rol.getName());
             }
           }
         }
       }
-      */
       
-      try {
-        // L'autenticació "client-login" permet al client autenticar-se per atacar EJBs. El moment efectiu de
-        // l'autenticació no es realitza amb el login, sinó que aquesta es produeix amb l'accés al recurs.
-        // Amb aquesta invocació d'un mètode forçam que es realitzi l'autenticació efectiva
-        // Si falla llançarà un EJBAccessException
-        usuariPersonaLogicaEjb.findByPrimaryKey(username);
-      } catch (IllegalArgumentException iae) {
-        // Per qualque motiu desconegut, la implementació de LoginModule de seycon no es lliga correctament
-        // al context quan s'efectua una primera autenticació amb èxit. En canvi, si és una autenticació cacheada
-        // si que la lliga correctament.
-        log.info("Workaround per bug en autenticació seycon(IllegalArgumentException): " + iae.getMessage());
-      }
+      
+//      try {
+//        // L'autenticació "client-login" permet al client autenticar-se per atacar EJBs. El moment efectiu de
+//        // l'autenticació no es realitza amb el login, sinó que aquesta es produeix amb l'accés al recurs.
+//        // Amb aquesta invocació d'un mètode forçam que es realitzi l'autenticació efectiva
+//        // Si falla llançarà un EJBAccessException
+//        usuariPersonaLogicaEjb.findByPrimaryKey(username);
+//      } catch (IllegalArgumentException iae) {
+//        // Per qualque motiu desconegut, la implementació de LoginModule de seycon no es lliga correctament
+//        // al context quan s'efectua una primera autenticació amb èxit. En canvi, si és una autenticació cacheada
+//        // si que la lliga correctament.
+//        log.info("Workaround per bug en autenticació seycon(IllegalArgumentException): " + iae.getMessage());
+//      }
 
       autenticat = true;
     } catch (LoginException le) {
@@ -394,16 +385,32 @@ public class DestinatariExternByTokenController {
         log.info("Workaround per bug en autenticació seycon(EJBAccessException): " + callerUnauthorized.getMessage());
         autenticat = false;
     }
+    
+    */
+    
+    boolean autenticat = false;
+    
 
     // Amb l'autenticació addicional següent, no podem recuperar els rols, però les credencials es mantenen per
     // les capes internes.
+    request.getSession();
+    
     if (autenticat) {
       WebAuthentication pwl = new WebAuthentication();
       autenticat = pwl.login(username, password);
+      
+      if (autenticat) {
+        roles.addAll(usuariPersonaLogicaEjb.getRolesOfLoggedUser());
+      }
+      
     }
-
-    log.info("XYZ ZZZ ZZZ autenticate:: POST AUTENTICATE " + request.getUserPrincipal()
-        + " [ autenticat => " + autenticat + "]");
+/*
+    log.info("XYZ ZZZ ZZZ autenticate:: POST AUTENTICATE:: autenticat => " + autenticat);
+    log.info("XYZ ZZZ ZZZ autenticate:: POST AUTENTICATE:: request.getUserPrincipal() => " + request.getUserPrincipal());
+    
+    log.info("XYZ ZZZ ZZZ autenticate:: POST AUTENTICATE => PFI_USER " 
+        + request.isUserInRole(ConstantsV2.PFI_USER));
+*/
     return autenticat;
   }
 

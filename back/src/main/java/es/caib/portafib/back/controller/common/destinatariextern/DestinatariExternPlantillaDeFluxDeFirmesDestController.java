@@ -23,7 +23,7 @@ public class DestinatariExternPlantillaDeFluxDeFirmesDestController extends Plan
 
   @Override
   public boolean isActiveList() {
-    return false;
+    return true;
   }
 
   @Override

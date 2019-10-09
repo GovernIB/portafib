@@ -4185,7 +4185,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     if (currentUserIs(usuariEntitatID)) {
       return true;
     } else {
-      // this.usuariEntitatEjb.findByPrimaryKey(usuariEntitatID).getEntitatID();
       String entitatID = this.usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.ENTITATID,
           UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID));
       return currentUsuariEntitatADEN(entitatID) != null;
@@ -4215,25 +4214,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    */
   private boolean currentUserIs(String usuariEntitat) throws I18NException {
     String username = context.getCallerPrincipal().getName();
-    if ("anonymous".equals(username) || "nobody".equals(username)) {
-      // Miram si és un usuari extern
-
-      Boolean isIntern = this.usuariEntitatEjb.executeQueryOne(new UsuariEntitatQueryPath()
-          .USUARIPERSONA().USUARIINTERN(), UsuariEntitatFields.USUARIENTITATID
-          .equal(usuariEntitat));
-
-      if (isIntern == null || isIntern == true) {
-        return false;
-      } else {
-        return true;
-      }
-
-    } else {
-      return this.usuariEntitatEjb.count(Where.AND(
+    return this.usuariEntitatEjb.count(Where.AND(
           UsuariEntitatFields.USUARIPERSONAID.equal(username),
           UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitat),
           UsuariEntitatFields.ACTIU.equal(true), UsuariEntitatFields.CARREC.isNull())) == 1;
-    }
+
   }
 
   @Override
