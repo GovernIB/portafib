@@ -142,9 +142,9 @@ public class AuthenticationSuccessListener implements
             }
             persona.setNom(nom);
             persona.setLlinatges(llinatges);
-
             persona.setUsuariPersonaID(name);
             persona.setNif(info.getAdministrationID().toUpperCase());
+            persona.setUsuariIntern(true);
 
             UsuariEntitatJPA usuariEntitat = null;
             Set<String> virtualRoles = null;
