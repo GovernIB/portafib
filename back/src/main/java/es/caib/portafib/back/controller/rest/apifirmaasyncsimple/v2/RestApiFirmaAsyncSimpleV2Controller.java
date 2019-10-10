@@ -1299,6 +1299,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
           persona.setLlinatges(extSigner.getSurnames());
           persona.setNif(extSigner.getAdministrationId());
           persona.setNom(extSigner.getName());
+          persona.setUsuariIntern(false);
           
           log.info("Cridant a crear persona externa: " + extSigner.getName() 
               + " " + extSigner.getSurnames() + "[" + extSigner.getEmail()+ "] {" + extSigner.getAdministrationId() + "}");

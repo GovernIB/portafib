@@ -390,6 +390,8 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
                                ((pfui.getSurname2()== null)? "" : (" " + pfui.getSurname2()))
                              );
             usuariPersona.setNom(pfui.getName());
+            usuariPersona.setUsuariIntern(true);
+            
 
             ue = getUsuariEntitatJPAInstance(codusu, entitatID, usuariEntitatActiu);
           
