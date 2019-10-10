@@ -5,6 +5,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.model.fields.PerfilDeFirmaQueryPath;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Select;
@@ -20,7 +22,6 @@ import es.caib.portafib.back.form.webdb.PerfilsPerUsuariAplicacioForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.jpa.PerfilsPerUsuariAplicacioJPA;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
-import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 
 /**
  * 
@@ -75,7 +76,9 @@ public class PerfilsDeUsuariAplicacioAdenController extends
   @Override
   public List<StringKeyValue> getReferenceListForPerfilDeFirmaID(HttpServletRequest request,
       ModelAndView mav, Where where)  throws I18NException {
-    return perfilDeFirmaRefList.getReferenceList(PerfilDeFirmaFields.USUARIAPLICACIOPERFILID, where );
+    String entitatID = LoginInfo.getInstance().getEntitatID();
+    Where newWhere = Where.AND(where, new PerfilDeFirmaQueryPath().CONFIGURACIODEFIRMA1().ENTITATID().equal(entitatID));
+    return super.getReferenceListForPerfilDeFirmaID(request, mav, newWhere);
   }
 
   
