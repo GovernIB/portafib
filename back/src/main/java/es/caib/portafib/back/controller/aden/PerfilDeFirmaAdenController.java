@@ -2,11 +2,14 @@ package es.caib.portafib.back.controller.aden;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
+import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
+import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
@@ -30,7 +33,7 @@ import es.caib.portafib.model.fields.PerfilDeFirmaQueryPath;
 /**
  * 
  * @author anadal(u80067)
- *
+ * @author areus
  */
 @Controller
 @RequestMapping(value = PerfilDeFirmaAdenController.CONTEXT_WEB)
@@ -38,9 +41,6 @@ import es.caib.portafib.model.fields.PerfilDeFirmaQueryPath;
 public class PerfilDeFirmaAdenController extends PerfilDeFirmaController {
 
   public static final String CONTEXT_WEB = "/aden/perfildefirma";
-
-  @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
-  public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
 
   @Override
   public String getTileForm() {
@@ -169,4 +169,38 @@ public class PerfilDeFirmaAdenController extends PerfilDeFirmaController {
 
   }
 
+  @Override
+  public List<StringKeyValue> getReferenceListForConfiguracioDeFirma1ID(HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
+    String entitatID = LoginInfo.getInstance().getEntitatID();
+    Where newWhere = Where.AND(where, UsuariAplicacioConfiguracioFields.ENTITATID.equal(entitatID));
+    return super.getReferenceListForConfiguracioDeFirma1ID(request, mav, newWhere);
+  }
+
+  @Override
+  public List<StringKeyValue> getReferenceListForConfiguracioDeFirma2ID(HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
+    String entitatID = LoginInfo.getInstance().getEntitatID();
+    Where newWhere = Where.AND(where, UsuariAplicacioConfiguracioFields.ENTITATID.equal(entitatID));
+    return super.getReferenceListForConfiguracioDeFirma2ID(request, mav, newWhere);
+  }
+
+  @Override
+  public List<StringKeyValue> getReferenceListForConfiguracioDeFirma3ID(HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
+    String entitatID = LoginInfo.getInstance().getEntitatID();
+    Where newWhere = Where.AND(where, UsuariAplicacioConfiguracioFields.ENTITATID.equal(entitatID));
+    return super.getReferenceListForConfiguracioDeFirma3ID(request, mav, newWhere);
+  }
+
+  @Override
+  public List<StringKeyValue> getReferenceListForConfiguracioDeFirma4ID(HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
+    String entitatID = LoginInfo.getInstance().getEntitatID();
+    Where newWhere = Where.AND(where, UsuariAplicacioConfiguracioFields.ENTITATID.equal(entitatID));
+    return super.getReferenceListForConfiguracioDeFirma4ID(request, mav, newWhere);
+  }
+
+  @Override
+  public List<StringKeyValue> getReferenceListForConfiguracioDeFirma5ID(HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
+    String entitatID = LoginInfo.getInstance().getEntitatID();
+    Where newWhere = Where.AND(where, UsuariAplicacioConfiguracioFields.ENTITATID.equal(entitatID));
+    return super.getReferenceListForConfiguracioDeFirma5ID(request, mav, newWhere);
+  }
 }
