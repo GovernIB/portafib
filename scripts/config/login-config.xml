@@ -48,18 +48,6 @@
 		  </login-module>
 -->
 
-          <!--  USUARIS EXTERNS   -->
-          <login-module code="org.jboss.security.auth.spi.DatabaseServerLoginModule" flag="sufficient"> 
-            <module-option name="dsJndiName">java:/es.caib.portafib.db</module-option> 
-            <!-- ORACLE: SELECT contrasenya FROM pfi_usuaripersona WHERE usuaripersonaid=? AND usuariintern=0 -->
-            <module-option name="principalsQuery">
-			          SELECT contrasenya FROM pfi_usuaripersona WHERE usuaripersonaid=? AND usuariintern=false
-            </module-option> 
-            <module-option name="rolesQuery">
-                SELECT distinct('PFI_USER'), 'Roles' from pfi_tipusdocument where ? is not null
-            </module-option> 
-          </login-module> 
-
                  
            <!--  HTTPS & CLIENTCERT(només per entorns NO CAIB)  -->
 	        <login-module code="es.caib.portafib.back.security.BaseCertLoginModule"  flag="sufficient">       
