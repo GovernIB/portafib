@@ -2,6 +2,7 @@ package es.caib.portafib.back.controller.soli;
 
 import es.caib.portafib.back.form.soli.PeticioFirmaMassivaForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
@@ -141,6 +142,10 @@ public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
     final int total = files.size();
     int countOK = 0;
     int countError = 0;
+    
+    String username = LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID();
+    EntitatJPA entitatJPA = LoginInfo.getInstance().getEntitat();
+    
     for (MultipartFile arxiuPujat : files) {
       
       PeticioDeFirmaJPA peticio = null;
@@ -165,9 +170,9 @@ public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
         count++;
         // TODO Moure a lògica en un sol mètode cloneAndStart
         peticio = peticioDeFirmaLogicaEjb.clonePeticioDeFirma(peticioDeFirmaID,
-            LoginInfo.getInstance().getEntitat(), t, d, m, arxiuActual);
+            entitatJPA, t, d, m, arxiuActual);
 
-        peticioDeFirmaLogicaEjb.start(peticio.getPeticioDeFirmaID(), false);
+        peticioDeFirmaLogicaEjb.start(peticio.getPeticioDeFirmaID(), false, username);
 
         countOK++;
 

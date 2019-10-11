@@ -57,10 +57,12 @@ public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaCon
     borrarFitxers(fitxers); 
   }
 
-   @Override
-   public PeticioDeFirmaJPA update(HttpServletRequest request, PeticioDeFirmaJPA peticioDeFirma) throws Exception, I18NException, I18NValidationException {
-      return peticioDeFirmaLogicaEjb.updateFull(peticioDeFirma);
-   }
+  @Override
+  public PeticioDeFirmaJPA update(HttpServletRequest request, PeticioDeFirmaJPA peticioDeFirma)
+      throws Exception, I18NException, I18NValidationException {
+    return peticioDeFirmaLogicaEjb.updateFull(peticioDeFirma, LoginInfo.getInstance()
+        .getUsuariPersona().getUsuariPersonaID());
+  }
 
    // #166
   @Override

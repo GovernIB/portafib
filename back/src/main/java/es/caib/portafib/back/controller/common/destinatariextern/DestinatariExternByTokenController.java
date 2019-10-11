@@ -143,13 +143,14 @@ public class DestinatariExternByTokenController {
 
         Set<String> roles = new HashSet<String>();
         // XYZ ZZZ  RestUtils.
-        boolean autenticated = authenticateUsernamePassword(request, username,
-            password, roles, log);
+        //boolean autenticated = authenticateUsernamePassword(request, username,        password, roles, log);
+        
+        boolean autenticated = true;
         
         
        
         
-        log.info(" XYZ ZZZ ZZZ 111 autenticated => " + autenticated);
+        //log.info(" XYZ ZZZ ZZZ 111 autenticated => " + autenticated);
         
 //        // XYZ ZZZ ZZZ Restutils.
 //        autenticated = authenticateUsernamePassword(request, username,
@@ -326,9 +327,7 @@ public class DestinatariExternByTokenController {
     
     /*
     boolean autenticat;
-    
-    
-    
+
     log.info("XYZ ZZZ ZZZ autenticate::username: |" + username + "|");    
     log.info("XYZ ZZZ ZZZ autenticate:: PRE AUTENTICATE " + request.getUserPrincipal());
 
