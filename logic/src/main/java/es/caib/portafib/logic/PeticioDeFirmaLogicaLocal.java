@@ -41,7 +41,7 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
   public PeticioDeFirmaJPA createFull(PeticioDeFirmaJPA peticioDeFirma) throws I18NException,
       I18NValidationException;
 
-  public PeticioDeFirmaJPA updateFull(PeticioDeFirmaJPA peticioDeFirma) throws I18NException,
+  public PeticioDeFirmaJPA updateFull(PeticioDeFirmaJPA peticioDeFirma, String usernameLoguejat) throws I18NException,
       I18NValidationException;
 
   public List<PeticioDeFirmaJPA> selectFull(Where where) throws I18NException;
@@ -54,9 +54,9 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
   public Set<Long> deleteFullUsingUsuariAplicacio(Long peticioDeFirmaID,
       String usuariAplicacioID) throws I18NException;
 
-  public void start(Long peticioDeFirmaID, boolean wakeupTimer) throws I18NException;
+  public void start(Long peticioDeFirmaID, boolean wakeupTimer, String usernameLoguejat) throws I18NException;
 
-  public boolean pause(Long peticioDeFirmaID) throws I18NException;
+  public boolean pause(Long peticioDeFirmaID, String usernameLoguejat) throws I18NException;
 
   /**
    * 
@@ -99,13 +99,13 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
    * public boolean isLockedPeticioDeFirma(long peticioDeFirmaID, String usuariEntitatID);
    */
   public void nouFitxerFirmat(File file, Long estatDeFirmaID, Long peticioDeFirmaID,
-      String token, int numFirma, int numFirmesOriginals) throws I18NException;
+      String token, int numFirma, int numFirmesOriginals, String usernameLoguejat) throws I18NException;
 
   public void rebutjarADEN(PeticioDeFirmaJPA peticioDeFirma, String usuariEntitatAden,
       String motiuDeRebuig) throws I18NException;
 
   public void rebutjar(EstatDeFirma estatDeFirma, Firma firma,
-      PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig) throws I18NException;
+      PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig, String usernameLoguejat) throws I18NException;
 
   public void marcarRevisant(EstatDeFirma estatDeFirma, Firma firma,
       PeticioDeFirma peticioDeFirma) throws I18NException;

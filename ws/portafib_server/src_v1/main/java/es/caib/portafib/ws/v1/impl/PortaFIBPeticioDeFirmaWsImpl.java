@@ -425,8 +425,10 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
     PeticioDeFirmaWs peticioCreada;
     peticioCreada = createPeticioDeFirma(peticioDeFirmaWs);
 
+    String userapp = wsContext.getUserPrincipal().getName();
+    
     try {
-      peticioDeFirmaLogicaEjb.start(peticioCreada.getPeticioDeFirmaID(), true);
+      peticioDeFirmaLogicaEjb.start(peticioCreada.getPeticioDeFirmaID(), true, userapp);
     } catch (Throwable th) {
       deletePeticioDeFirma(peticioCreada.getPeticioDeFirmaID());
       throw th;
@@ -441,9 +443,8 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
       throws WsI18NException, Throwable {
 
     // Check propietari
-    checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID);
-
-    peticioDeFirmaLogicaEjb.start(peticioDeFirmaID, true);
+    String userapp =  checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID);
+    peticioDeFirmaLogicaEjb.start(peticioDeFirmaID, true, userapp);
   }
 
   @RolesAllowed({ PFI_ADMIN ,PFI_USER })
@@ -507,8 +508,8 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
   public void pausePeticioDeFirma(@WebParam(name = "peticioDeFirmaID") long peticioDeFirmaID)
       throws WsI18NException, Throwable {
     // Check propietari
-    checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID);
-    peticioDeFirmaLogicaEjb.pause(peticioDeFirmaID);
+    String usuariApp = checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID);
+    peticioDeFirmaLogicaEjb.pause(peticioDeFirmaID, usuariApp);
   }
 
   @RolesAllowed({ PFI_ADMIN ,PFI_USER })
@@ -556,7 +557,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
    * @param peticioDeFirmaID
    * @throws I18NException
    */
-  private void checkIfPeticioDeFirmaIsPropertyOfUsrApp(long peticioDeFirmaID)
+  private String checkIfPeticioDeFirmaIsPropertyOfUsrApp(long peticioDeFirmaID)
       throws I18NException {
     
     if (!wsContext.isUserInRole(PFI_ADMIN)) {
@@ -569,7 +570,9 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
         throw new I18NException("peticiodefirma.error.nopropietari", userapp,
             String.valueOf(peticioDeFirmaID));
       }
+      return userapp;
     }
+    return null;
   }
 
 }

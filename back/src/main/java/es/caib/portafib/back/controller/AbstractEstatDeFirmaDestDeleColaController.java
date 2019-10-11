@@ -1145,7 +1145,7 @@ import java.util.Set;
       String view ;
       
       if (LoginInfo.getInstance().getUsuariPersona().isUsuariIntern()) {
-        view = "passarela_wait";
+        view = "portafib_wait";
       } else {
         view = "externaluser_wait";
       }
@@ -1269,7 +1269,8 @@ import java.util.Set;
             }
 
             peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID,
-                token, signedFile.getSignNumber(), originalNumberOfSignsArray[i]);
+                token, signedFile.getSignNumber(), originalNumberOfSignsArray[i],
+                LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID());
 
             status.setProcessed(true);
 
@@ -1379,7 +1380,8 @@ import java.util.Set;
       
      
       peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID,
-          token, signedFileInfo.getSignNumber(), originalNumberOfSigns);
+          token, signedFileInfo.getSignNumber(), originalNumberOfSigns,
+          LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID());
       
     }
 
@@ -1703,7 +1705,8 @@ import java.util.Set;
       log.info("XYZ ZZZ ZZZ Rebutjat motiuDeRebuig:\n\n " + motiuDeRebuig + "\n\n");
 
       try {
-        peticioDeFirmaLogicaEjb.rebutjar(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig);
+        peticioDeFirmaLogicaEjb.rebutjar(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig,
+            LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID());
 
         // TODO falta missatge de tot OK
         return true;

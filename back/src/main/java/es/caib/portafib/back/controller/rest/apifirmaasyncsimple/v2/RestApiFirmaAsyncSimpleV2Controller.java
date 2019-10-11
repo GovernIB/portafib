@@ -556,9 +556,11 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       //System.gc();
 
       long peticioDeFirmaID = peticioDeFirmaJPA.getPeticioDeFirmaID();
+      
+      UsuariAplicacioJPA ua = loginInfo.getUsuariAplicacio();
 
       try {
-        peticioDeFirmaLogicaEjb.start(peticioDeFirmaJPA.getPeticioDeFirmaID(), true);
+        peticioDeFirmaLogicaEjb.start(peticioDeFirmaJPA.getPeticioDeFirmaID(), true, ua.getUsuariAplicacioID());
       } catch (I18NException th) {
         deletePeticioDeFirma(peticioDeFirmaID, loginInfo.getUsuariAplicacio()
             .getUsuariAplicacioID());

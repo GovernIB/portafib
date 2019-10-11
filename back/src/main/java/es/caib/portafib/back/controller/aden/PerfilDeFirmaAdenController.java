@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
 import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
@@ -26,7 +25,6 @@ import es.caib.portafib.back.form.webdb.PerfilDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PerfilDeFirmaForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.PerfilDeFirmaJPA;
-import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 import es.caib.portafib.model.fields.PerfilDeFirmaQueryPath;
 

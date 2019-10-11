@@ -19,7 +19,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**
  * 
- * @author anadal
+ * @author anadal(u80067)
  *
  */
 @Stateless(name = "WebServicesMethodsEJB")
@@ -33,7 +33,7 @@ public class WebServicesMethodsEJB extends PeticioDeFirmaLogicaEJB implements
    * Només ve de INDRA
    */
   @Override
-  public PeticioDeFirmaJPA createAndStartPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma)
+  public PeticioDeFirmaJPA createAndStartPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma, String usuariAplicacioID)
       throws I18NException, I18NValidationException {
 
     // Nous camps a Firma i a Peticio de Firma #281
@@ -45,7 +45,7 @@ public class WebServicesMethodsEJB extends PeticioDeFirmaLogicaEJB implements
 
     peticioDeFirma = createFull(peticioDeFirma);
 
-    start(peticioDeFirma.getPeticioDeFirmaID(), true);
+    start(peticioDeFirma.getPeticioDeFirmaID(), true, usuariAplicacioID);
 
     return peticioDeFirma;
   }

@@ -1739,7 +1739,9 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       gestionarFitxers(peticioDeFirma, dataHandlers, files);
 
       // Crear peticio
-      PeticioDeFirmaJPA peticio = webServicesMethodsEjb.createAndStartPeticioDeFirma(peticioDeFirma);
+      PeticioDeFirmaJPA peticio;
+      peticio = webServicesMethodsEjb.createAndStartPeticioDeFirma(peticioDeFirma,
+          usuariAplicacio.getUsuariAplicacioID());
 
       UploadResponse _return = new UploadResponse();
 

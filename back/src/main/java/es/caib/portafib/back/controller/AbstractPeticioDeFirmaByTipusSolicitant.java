@@ -74,7 +74,6 @@ import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
-
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.Fitxer;
@@ -717,7 +716,8 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
       @PathVariable long peticioDeFirmaID) throws Exception, I18NException {
 
     try {
-      this.peticioDeFirmaLogicaEjb.start(peticioDeFirmaID, true);
+      this.peticioDeFirmaLogicaEjb.start(peticioDeFirmaID, true,
+          LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID());
       createMessageSuccess(request, "success.iniciat", peticioDeFirmaID);
     } catch (I18NException error) {
       HtmlUtils.saveMessageError(request, I18NUtils.getMessage(error));
@@ -757,6 +757,8 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
           I18NUtils.tradueix("peticiodefirma.capseleccionat"));
 
     } else {
+      
+      String username = LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID();
 
       for (int i = 0; i < seleccionatsStr.length; i++) {
         Long peticioDeFirmaID;
@@ -770,7 +772,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
         }
 
         try {
-          this.peticioDeFirmaLogicaEjb.start(peticioDeFirmaID, false);
+          this.peticioDeFirmaLogicaEjb.start(peticioDeFirmaID, false, username);
           // createMessageSuccess(request, "success.iniciat", peticioDeFirmaID);
         } catch (I18NException error) {
           HtmlUtils.saveMessageError(request, I18NUtils.getMessage(error));
@@ -791,7 +793,8 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
       @PathVariable long peticioDeFirmaID) throws I18NException {
 
     // TODO Ha de llançar excepcio (no ha de tornar booleà)
-    if (this.peticioDeFirmaLogicaEjb.pause(peticioDeFirmaID)) {
+    if (this.peticioDeFirmaLogicaEjb.pause(peticioDeFirmaID,
+        LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID())) {
       createMessageSuccess(request, "success.pausat", peticioDeFirmaID);
     } else {
       // TODO Aquest no és el missatge correcte
@@ -819,13 +822,15 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
 
       return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
     } else {
+      
+      String username = LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID();
 
       for (int i = 0; i < seleccionatsStr.length; i++) {
         try {
           Long peticioDeFirmaID = Long.parseLong(seleccionatsStr[i]);
 
           // TODO Ha de llanaçar un error no un booleà
-          if (this.peticioDeFirmaLogicaEjb.pause(peticioDeFirmaID)) {
+          if (this.peticioDeFirmaLogicaEjb.pause(peticioDeFirmaID, username)) {
             // TODO OK
           } else {
             // TODO EEROR

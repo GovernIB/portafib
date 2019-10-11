@@ -264,7 +264,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   @Override
-  public PeticioDeFirmaJPA updateFull(PeticioDeFirmaJPA peticioDeFirma) throws I18NException,
+  public PeticioDeFirmaJPA updateFull(PeticioDeFirmaJPA peticioDeFirma, String usernameLoguejat) throws I18NException,
       I18NValidationException {
 
     PeticioDeFirmaBeanValidator pfbv = new PeticioDeFirmaBeanValidator(validator,
@@ -275,10 +275,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     pfbv.throwValidationExceptionIfErrors(peticioDeFirma, isNou);
 
 
-    if (!hasAccess(peticioDeFirma)) {
+    if (!hasAccess(peticioDeFirma, usernameLoguejat)) {
       throw new I18NException("peticiodefirma.error.nopropietari",
-              context.getCallerPrincipal().getName(),
-              String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
+        usernameLoguejat, String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
     }
 
     peticioDeFirma = (PeticioDeFirmaJPA) this.update(peticioDeFirma);
@@ -662,7 +661,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * Inicia una peticio de firma
    */
   @Override
-  public void start(Long peticioDeFirmaID, boolean wakeupTimer) throws I18NException {
+  public void start(Long peticioDeFirmaID, boolean wakeupTimer, String usernameLoguejat) throws I18NException {
 
     PeticioDeFirmaJPA peticioDeFirma = findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
 
@@ -673,10 +672,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           new I18NArgumentString(String.valueOf(peticioDeFirmaID)));
     }
 
-    if (!hasAccess(peticioDeFirma)) {
+    if (!hasAccess(peticioDeFirma, usernameLoguejat)) {
       throw new I18NException("peticiodefirma.error.nopropietari",
-              context.getCallerPrincipal().getName(),
-              String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
+         usernameLoguejat, String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
     }
 
     int tipusFirmaID = peticioDeFirma.getTipusFirmaID();
@@ -1539,14 +1537,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   @Override
-  public boolean pause(Long peticioDeFirmaID) throws I18NException {
+  public boolean pause(Long peticioDeFirmaID, String usernameLoguejat) throws I18NException {
     PeticioDeFirmaJPA peticioDeFirma = findByPrimaryKey(peticioDeFirmaID);
     if (peticioDeFirma != null) {
 
-      if (!hasAccess(peticioDeFirma)) {
+      if (!hasAccess(peticioDeFirma, usernameLoguejat)) {
         throw new I18NException("peticiodefirma.error.nopropietari",
-                context.getCallerPrincipal().getName(),
-                String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
+             usernameLoguejat, String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
       }
 
       peticioDeFirma
@@ -2055,9 +2052,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         }
       }
       
-      if (!hasAccess(pf)) {
+      if (!hasAccess(pf, username)) {
         throw new I18NException("peticiodefirma.error.nopermisdeborrar",
-                context.getCallerPrincipal().getName(),
+                username,
                 String.valueOf(pf.getPeticioDeFirmaID()));
       }
 
@@ -2305,7 +2302,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
   @Override
   public void nouFitxerFirmat(File signatureFile2, Long estatDeFirmaID, Long peticioDeFirmaID,
-      String token, int numFirmaPortaFIB, int numFirmesOriginals) throws I18NException {
+      String token, int numFirmaPortaFIB, int numFirmesOriginals, String usernameLoguejat) throws I18NException {
 
     Long fileID = null;
     try {
@@ -2583,7 +2580,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         
         String motiuDeRebuig = e.getMessage();
         
-        rebutjar(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig);
+        rebutjar(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig, usernameLoguejat);
         return;
       }
 
@@ -2988,7 +2985,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       est.setEntitatID(entitatID);
       est.setData(new Timestamp(System.currentTimeMillis()));
 
-      estadisticaEjb.create(est);
+      estadisticaEjb.createUnauthorized(est);
     } catch (Throwable th) {
       log.error("Error afegint estadistiques de Peticio Finalitzada: " + th.getMessage(), th);
     }
@@ -3040,7 +3037,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       EstatDeFirma estatDeFirma = estatsPendentsDeFirma.get(0);
       Firma firma = firmaLogicaEjb.findByPrimaryKey(estatDeFirma.getFirmaID());
-      rebutjarInternal(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig);
+      
+      String usernameLoguejat = usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.USUARIPERSONAID,
+          UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatAden));
+      
+      rebutjarInternal(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig, usernameLoguejat);
 
     }
 
@@ -3078,7 +3079,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
   @Override
   public void rebutjar(EstatDeFirma estatDeFirma, Firma firma,
-      PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig) throws I18NException {
+      PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig,
+      String usernameLoguejat) throws I18NException {
     
     int estatP = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
     if (estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
@@ -3090,7 +3092,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           peticioDeFirma.getTitol());
     }
 
-    rebutjarInternal(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig);
+    rebutjarInternal(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig, usernameLoguejat);
 
     //usuariAplicacioEjb.findByPrimaryKey(_ID_)(peticioDeFirma.getSolicitantUsuariAplicacioID()).getEntitatID();
     String entitatID = usuariAplicacioEjb.executeQueryOne(UsuariAplicacioFields.ENTITATID, 
@@ -3124,7 +3126,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   private void rebutjarInternal(EstatDeFirma estatDeFirma, Firma firma,
-      PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig) throws I18NException {
+      PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig, String usernameLoguejat) throws I18NException {
 
     if (motiuDeRebuig == null || motiuDeRebuig.trim().length() == 0) {
       throw new I18NException("estatdefirma.motiu.buit", new I18NArgumentCode(
@@ -3132,10 +3134,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     }
 
     // Comprova que l'usuari té l'UsuariEntitat de l'EstatDeFirma
-    if (!hasAccess(estatDeFirma)) {
+    if (!hasAccess(estatDeFirma, usernameLoguejat)) {
       // XYZ ZZZ ZZZ
       throw new I18NException("genapp.comodi","L´usuari "
-              + context.getCallerPrincipal().getName()
+              + usernameLoguejat
               + " no té permisos sobre la petició de firma amb ID "
               + String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
     }
@@ -4160,7 +4162,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * si és l'usuariApliació de la petició o bé és administrador de l'entitat a la qual pertany l'usuariApliacio
    * @throws I18NException
    */
-  protected boolean hasAccess(PeticioDeFirma peticioDeFirma) throws I18NException {
+  protected boolean hasAccess(PeticioDeFirma peticioDeFirma, String usernameLoguejat) throws I18NException {
 
     if (context.isCallerInRole(ConstantsV2.PFI_ADMIN)) {
       return true;
@@ -4168,26 +4170,26 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     String solicitantUsuariEntitat1ID = peticioDeFirma.getSolicitantUsuariEntitat1ID();
     if (solicitantUsuariEntitat1ID != null) {
-      return currentUserIs(solicitantUsuariEntitat1ID);
+      return currentUserIs(solicitantUsuariEntitat1ID, usernameLoguejat);
     } else {
       String usuariAplicacioID = peticioDeFirma.getSolicitantUsuariAplicacioID();
-      if (usuariAplicacioID.equals(context.getCallerPrincipal().getName())) {
+      if (usuariAplicacioID.equals(usernameLoguejat)) {
         return true;
       } else {
         String entitatID = this.usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID).getEntitatID();
-        return currentUsuariEntitatADEN(entitatID) != null;
+        return currentUsuariEntitatADEN(entitatID, usernameLoguejat) != null;
       }
     }
   }
 
-  protected boolean hasAccess(EstatDeFirma estatDeFirma) throws I18NException {
+  protected boolean hasAccess(EstatDeFirma estatDeFirma, String usernameLoguejat) throws I18NException {
     String usuariEntitatID = estatDeFirma.getUsuariEntitatID();
-    if (currentUserIs(usuariEntitatID)) {
+    if (currentUserIs(usuariEntitatID, usernameLoguejat)) {
       return true;
     } else {
       String entitatID = this.usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.ENTITATID,
           UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID));
-      return currentUsuariEntitatADEN(entitatID) != null;
+      return currentUsuariEntitatADEN(entitatID, usernameLoguejat) != null;
     }
   }
 
@@ -4196,11 +4198,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * sinó retorna null
    * @param entitatID
    */
-  private String currentUsuariEntitatADEN(String entitatID) throws I18NException {
-    String username = context.getCallerPrincipal().getName();
+  private String currentUsuariEntitatADEN(String entitatID,String usernameLoguejat) throws I18NException {
+    //String username = context.getCallerPrincipal().getName();
     return this.roleUsuariEntitatEjb.executeQueryOne(RoleUsuariEntitatFields.USUARIENTITATID, Where.AND(
             RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_ADEN),
-            new RoleUsuariEntitatQueryPath().USUARIENTITAT().USUARIPERSONAID().equal(username),
+            new RoleUsuariEntitatQueryPath().USUARIENTITAT().USUARIPERSONAID().equal(usernameLoguejat),
             new RoleUsuariEntitatQueryPath().USUARIENTITAT().ACTIU().equal(true),
             new RoleUsuariEntitatQueryPath().USUARIENTITAT().CARREC().isNull(),
             new RoleUsuariEntitatQueryPath().USUARIENTITAT().ENTITATID().equal(entitatID)
@@ -4212,10 +4214,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * 
    * @param usuariEntitat
    */
-  private boolean currentUserIs(String usuariEntitat) throws I18NException {
-    String username = context.getCallerPrincipal().getName();
+  private boolean currentUserIs(String usuariEntitat, String usernameLoguejat) throws I18NException {
+    //String username = context.getCallerPrincipal().getName();
+
     return this.usuariEntitatEjb.count(Where.AND(
-          UsuariEntitatFields.USUARIPERSONAID.equal(username),
+          UsuariEntitatFields.USUARIPERSONAID.equal(usernameLoguejat),
           UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitat),
           UsuariEntitatFields.ACTIU.equal(true), UsuariEntitatFields.CARREC.isNull())) == 1;
 
