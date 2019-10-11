@@ -91,8 +91,8 @@ var usBgColor = [ 'red', 'green', 'blue', 'orange', 'grey', 'brown', 'violet' ];
 /* USENFIRMAAPISIMPLESERVIDOR */ [true,  true,  true,  true,  true,  true,  true,  true,  false, true,  true,  true,  true,  false ],
 /* USENFIRMAAPISIMPLEWEB      */ [true,  true,  true,  true,  true,  true,  true,  true,  true,  false, true,  true,  true,  false ],
 /* USENFIRMAWEB               */ [false, true,  false, false, false, false, false, false, false, false, false, false, false, false ],
-/* USENFIRMAWS1               */ [true,  true,  false, false, false, true,  false, true,  false, false, false, false, false, false ],
-/* USENFIRMAASYNCREST2        */ [true,  true,  true,  true,  true,  true,  true,  true,  true,  false, false, false, false, false ],
+/* USENFIRMAWS1               */ [true,  true,  false, false, false, true,  false, true,  false, false, true,  true,  true,  false ],
+/* USENFIRMAASYNCREST2        */ [true,  true,  true,  true,  true,  true,  true,  true,  true,  false, true,  true,  true,  false ],
 /* USENFIRMAPASSARELASERVIDOR */ [false, false, false, false, false, false, false, true,  false, true,  true,  true,  true,  false ],
 /* USENFIRMAPASSARELAWEB      */ [false, false, false, false, false, false, false, true,  false, false, true,  true,  true,  false ]
  ];
