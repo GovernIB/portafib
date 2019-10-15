@@ -5,6 +5,7 @@ import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatusList;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.bean.PeticioDeFirmaBean;
+import es.caib.portafib.model.bean.UsuariAplicacioConfiguracioBean;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
@@ -69,6 +70,37 @@ public class TestJAXB {
           "</peticioDeFirmaBean>\n", serialitzat);
 
     Assert.assertNotNull(peticio.getFitxerAFirmar().getData());
+
+    log.info(serialitzat);
+  }
+
+  @Test
+  public void testSerialitzarUsuariAplicacioConfiguracio() {
+
+    log.info("testSerialitzarUsuariAplicacioConfiguracio");
+
+    UsuariAplicacioConfiguracioBean config = new UsuariAplicacioConfiguracioBean();
+
+    String serialitzat = JAXBUtil.marshal(config);
+
+    Assert.assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
+          "<usuariAplicacioConfiguracioBean>\n" +
+          "    <modeDeFirma>false</modeDeFirma>\n" +
+          "    <politicaSegellatDeTemps>0</politicaSegellatDeTemps>\n" +
+          "    <politicaTaulaFirmes>0</politicaTaulaFirmes>\n" +
+          "    <posicioTaulaFirmesID>0</posicioTaulaFirmesID>\n" +
+          "    <tipusFirmaID>0</tipusFirmaID>\n" +
+          "    <tipusOperacioFirma>0</tipusOperacioFirma>\n" +
+          "    <usEnFirmaApiSimpleServidor>false</usEnFirmaApiSimpleServidor>\n" +
+          "    <usEnFirmaApiSimpleWeb>false</usEnFirmaApiSimpleWeb>\n" +
+          "    <usEnFirmaAsyncRest2>false</usEnFirmaAsyncRest2>\n" +
+          "    <usEnFirmaPassarelaServidor>false</usEnFirmaPassarelaServidor>\n" +
+          "    <usEnFirmaPassarelaWeb>false</usEnFirmaPassarelaWeb>\n" +
+          "    <usEnFirmaWS1>false</usEnFirmaWS1>\n" +
+          "    <usEnFirmaWeb>false</usEnFirmaWeb>\n" +
+          "    <usPoliticaDeFirma>0</usPoliticaDeFirma>\n" +
+          "    <usuariAplicacioConfigID>0</usuariAplicacioConfigID>\n" +
+          "</usuariAplicacioConfiguracioBean>\n", serialitzat);
 
     log.info(serialitzat);
   }

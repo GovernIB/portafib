@@ -4,6 +4,7 @@ import es.caib.portafib.logic.events.FirmaEvent;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatusList;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.model.bean.PeticioDeFirmaBean;
+import es.caib.portafib.model.bean.UsuariAplicacioConfiguracioBean;
 import org.apache.log4j.Logger;
 
 import javax.xml.bind.JAXBContext;
@@ -31,6 +32,7 @@ public class JAXBUtil {
          // S'han de passar totes les classes que voldrem serialitzar.
          jaxbContext = JAXBContext.newInstance(
                PeticioDeFirmaBean.class,
+               UsuariAplicacioConfiguracioBean.class,
                FirmaEvent.class,
                PassarelaSignatureStatusList.class,
                PassarelaSignaturesSet.class);
@@ -69,9 +71,12 @@ public class JAXBUtil {
                new QName("firmaEvent"), FirmaEvent.class, (FirmaEvent) objecte);
       }
       if (objecte instanceof PeticioDeFirmaBean) {
-         PeticioDeFirmaBean peticioDeFirmaBean = (PeticioDeFirmaBean) objecte;
          return new JAXBElement<PeticioDeFirmaBean>(
-               new QName("peticioDeFirmaBean"), PeticioDeFirmaBean.class, peticioDeFirmaBean);
+               new QName("peticioDeFirmaBean"), PeticioDeFirmaBean.class, (PeticioDeFirmaBean) objecte);
+      }
+      if (objecte instanceof UsuariAplicacioConfiguracioBean) {
+         return new JAXBElement<UsuariAplicacioConfiguracioBean>(
+               new QName("usuariAplicacioConfiguracioBean"), UsuariAplicacioConfiguracioBean.class, (UsuariAplicacioConfiguracioBean) objecte);
       }
       if (objecte instanceof PassarelaSignaturesSet) {
          return objecte; //PassarelaSignatureSet ja té @XmlRootElement

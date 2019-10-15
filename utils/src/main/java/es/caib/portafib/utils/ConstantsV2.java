@@ -4,7 +4,7 @@ package es.caib.portafib.utils;
 /**
  *
  * @author anadal
- *
+ * @author areus
  */
 public interface ConstantsV2 {
 
@@ -488,9 +488,10 @@ public interface ConstantsV2 {
   // Tipus d'objectes
   int BITACOLA_TIPUS_PETICIO = 1;
   int BITACOLA_TIPUS_FIRMASINCRONA = 2;
+  int BITACOLA_TIPUS_CONFIGURACIO = 3;
 
   int[] BITACOLA_TIPUS = {
-          BITACOLA_TIPUS_PETICIO, BITACOLA_TIPUS_FIRMASINCRONA
+          BITACOLA_TIPUS_PETICIO, BITACOLA_TIPUS_FIRMASINCRONA, BITACOLA_TIPUS_CONFIGURACIO
   };
 
   // Tipus d'operació
