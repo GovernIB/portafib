@@ -1,14 +1,21 @@
 package es.caib.portafib.back.controller.aden;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
+import es.caib.portafib.back.controller.AbstractPeticioDeFirmaController;
+import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
+import es.caib.portafib.back.controller.webdb.UsuariAplicacioConfiguracioController;
+import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioFilterForm;
+import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioForm;
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
+import es.caib.portafib.logic.UsuariAplicacioConfiguracioLogicaLocal;
+import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
+import es.caib.portafib.model.fields.PluginFields;
+import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
+import es.caib.portafib.utils.ConstantsPortaFIB;
+import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
@@ -20,25 +27,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import es.caib.portafib.back.controller.AbstractPeticioDeFirmaController;
-import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
-import es.caib.portafib.back.controller.webdb.UsuariAplicacioConfiguracioController;
-import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioFilterForm;
-import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioForm;
-import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
-import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
-import es.caib.portafib.model.fields.PluginFields;
-import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
-import es.caib.portafib.utils.ConstantsV2;
-import es.caib.portafib.utils.ConstantsPortaFIB;
+import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * - https://github.com/GovernIB/portafib/issues/148 - Perfils i Configuracions per l'API de
  * Firma Simple #235
  * 
  * @author anadal
- *
+ * @author areus
  */
 @Controller
 @RequestMapping(value = ConfiguracioDeFirmaAdenController.CONTEXT_WEB)
@@ -47,6 +48,9 @@ import es.caib.portafib.utils.ConstantsPortaFIB;
 public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfiguracioController {
 
   public static final String CONTEXT_WEB = "/aden/configdefirma";
+
+  @EJB(mappedName = UsuariAplicacioConfiguracioLogicaLocal.JNDI_NAME)
+  private UsuariAplicacioConfiguracioLogicaLocal usuariAplicacioConfiguracioLogicaEjb;
 
   @Override
   public String getTileForm() {
@@ -73,7 +77,6 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
 
     if (form.isNou()) {
       // Creació
-
       UsuariAplicacioConfiguracio uac = form.getUsuariAplicacioConfiguracio();
 
       uac.setTipusOperacioFirma(ConstantsV2.TIPUS_OPERACIO_FIRMA_FIRMAR);
@@ -86,20 +89,15 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
       // XYZ ZZZ Falta valors per politiques de custodia, taula i segell de temps !!!!
       // XYZ ZZZ ConstantsPortaFIB.POLITICA_TAULA_FIRMES_NO_ES_PERMET
 
-
       uac.setPoliticaSegellatDeTemps(ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR);
       uac.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
-
       uac.setPluginFirmaServidorID(null);
-
       uac.setEntitatID(LoginInfo.getInstance().getEntitatID());
-
       uac.setUsEnFirmaAsyncRest2(true);
       uac.setUsEnFirmaWeb(true);
       uac.setUsEnFirmaApiSimpleWeb(true);
     }
-    
-    
+
     if (__isView) {
       
       form.setCancelButtonVisible(false);
@@ -107,12 +105,8 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
       form.addAdditionalButton(new AdditionalButton("icon-edit icon-white","genapp.edit",
           CONTEXT_WEB + "/" + form.getUsuariAplicacioConfiguracio().getUsuariAplicacioConfigID()
               + "/edit", "btn-warning"));
-      
-      
     }
     
-    
-
     // Codi comu
     form.addHiddenField(ENTITATID);
 
@@ -125,10 +119,7 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
     form.addHelpToField(HTMLPERLLISTARPLUGINSFIRMAWEB,
         I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
   
-
     form.addReadOnlyField(TIPUSOPERACIOFIRMA);
-    
-
     form.addReadOnlyField(VALIDARCERTIFICAT);
 
     // XYZ ZZZ Pendent de Implementar
@@ -143,7 +134,6 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
     }
 
     return form;
-
   }
 
   @Override
@@ -199,8 +189,6 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
     return pluginRefList.getReferenceList(PluginFields.PLUGINID, where2);
   }
 
-
-
   /**
    * #166
    */
@@ -221,8 +209,6 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
     final boolean isEntitat = false;
     return GestioEntitatAdminController.staticGetReferenceListForPoliticaSegellatDeTemps(isEntitat);
   }
-
-
 
   @Override
   public void postValidate(HttpServletRequest request,
@@ -349,6 +335,25 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
     return ENTITATID.equal(LoginInfo.getInstance().getEntitatID());
+  }
+
+  /*
+  Sobreescriure operacions de crear/actualitzar/esborrar per emprar UsuariAplicacioConfiguracioLogica que genera bitàcola
+   */
+
+  @Override
+  public UsuariAplicacioConfiguracioJPA create(HttpServletRequest request, UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio) throws Exception, I18NException, I18NValidationException {
+    return (UsuariAplicacioConfiguracioJPA) usuariAplicacioConfiguracioLogicaEjb.create(usuariAplicacioConfiguracio);
+  }
+
+  @Override
+  public UsuariAplicacioConfiguracioJPA update(HttpServletRequest request, UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio) throws Exception, I18NException, I18NValidationException {
+    return (UsuariAplicacioConfiguracioJPA) usuariAplicacioConfiguracioLogicaEjb.update(usuariAplicacioConfiguracio);
+  }
+
+  @Override
+  public void delete(HttpServletRequest request, UsuariAplicacioConfiguracio usuariAplicacioConfiguracio) throws Exception, I18NException {
+    usuariAplicacioConfiguracioLogicaEjb.delete(usuariAplicacioConfiguracio);
   }
 
 }

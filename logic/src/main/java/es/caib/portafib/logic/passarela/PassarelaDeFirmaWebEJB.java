@@ -10,6 +10,7 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.AbstractPluginLogicaLocal;
+import es.caib.portafib.logic.BitacolaLogicaLocal;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
@@ -19,6 +20,7 @@ import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSecureVerificationCodeStampInfo;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
+import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatusList;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.passarela.api.PassarelaValidationInfo;
 import es.caib.portafib.logic.utils.CustodiaForStartPeticioDeFirma;
@@ -39,7 +41,6 @@ import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.CodiBarresFields;
 import es.caib.portafib.utils.ConstantsV2;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
@@ -59,7 +60,6 @@ import javax.activation.DataSource;
 import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -78,7 +78,7 @@ import java.util.Set;
 /**
  * 
  * @author anadal
- *
+ * @author areus
  */
 @Stateless(name = "PassarelaDeFirmaWebEJB")
 @SecurityDomain("seycon")
@@ -89,8 +89,11 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
   @EJB(mappedName = CodiBarresLocal.JNDI_NAME)
   protected CodiBarresLocal codiBarresEjb;
 
-  @EJB(mappedName = EstadisticaLocal.JNDI_NAME)
+  @EJB(mappedName = EstadisticaLocal.JNDI_NAME, beanName = "EstadisticaEJB")
   protected EstadisticaLocal estadisticaEjb;
+
+  @EJB(mappedName = BitacolaLogicaLocal.JNDI_NAME)
+  protected BitacolaLogicaLocal bitacolaLogicaEjb;
 
   @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME, beanName = "ModulDeFirmaWebLogicaEJB")
   protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;
@@ -131,13 +134,11 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
     // Tiquet # 186
     if (PropietatGlobalUtil.isDisabledSignaturesTable()) {
-      if (signaturesSet != null) {
-        PassarelaFileInfoSignature[] files = signaturesSet.getFileInfoSignatureArray();
-        for (PassarelaFileInfoSignature passarelaFileInfoSignature : files) {
-          passarelaFileInfoSignature
-              .setSignaturesTableLocation(ConstantsV2.TAULADEFIRMES_SENSETAULA); // = 0
-          passarelaFileInfoSignature.setSignaturesTableHeader(null);
-        }
+      PassarelaFileInfoSignature[] files = signaturesSet.getFileInfoSignatureArray();
+      for (PassarelaFileInfoSignature passarelaFileInfoSignature : files) {
+        passarelaFileInfoSignature
+            .setSignaturesTableLocation(ConstantsV2.TAULADEFIRMES_SENSETAULA); // = 0
+        passarelaFileInfoSignature.setSignaturesTableHeader(null);
       }
     }
 
@@ -151,9 +152,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     Map<String, CustodiaInfoJPA> custodiaBySignID = new HashMap<String, CustodiaInfoJPA>();
 
     try {
-
       Locale locale;
-
       try {
         locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
       } catch (Throwable e) {
@@ -171,12 +170,10 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         nom = "PassarelaWeb_Custòdia";
       }
       
-      
       EntitatJPA entitatJPA = entitatEjb.findByPrimaryKey(entitatID);
       CustodiaInfo custodiaInfo = custodiaInfoLogicaEjb.getCustodiaUA(usuariAplicacio, null,
           nom, entitatJPA);
 
-      CustodiaForStartPeticioDeFirma custStartInfo = null;
       PassarelaSecureVerificationCodeStampInfo psvcs = null;
       Map<String, PeticioDeFirmaJPA> peticioDeFirmaBySignID = new HashMap<String, PeticioDeFirmaJPA>();
 
@@ -196,8 +193,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         File adaptat = getFitxerAdaptatPath(signaturesSetID, signID);
         originalNumberOfSignsArray[count] = processFileToSign(locale, entitatID, pfis,
             original, adaptat, usuariAplicacio);
-        
-        
         
         if (custodiaInfo != null) {
           
@@ -232,7 +227,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
           peticioDeFirmaBySignID.put(signID, peticioDeFirma);
 
           // Peticio de Firma
-          custStartInfo = custodiaInfoLogicaEjb.custodiaCommonActionsOnStartPeticioDeFirma(peticioDeFirma, cust);
+          CustodiaForStartPeticioDeFirma custStartInfo =
+                custodiaInfoLogicaEjb.custodiaCommonActionsOnStartPeticioDeFirma(peticioDeFirma, cust);
 
           switch(peticioDeFirma.getTipusFirmaID()) {
           
@@ -251,19 +247,22 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
               log.error(msg, new Exception());
               throw new I18NException("genapp.comodi", msg);
           }
-          
-
         }
 
         count++;
       }
-
 
       // Guardar
       storeSignaturesSet(new PassarelaSignaturesSetWebInternalUse(entitatID,
           originalNumberOfSignsArray, fullView, signaturesSet,
           usuariAplicacio.getUsuariAplicacioID(), urlBase, perfilDeFirma, 
           configBySignID, custodiaBySignID, peticioDeFirmaBySignID));
+
+      bitacolaLogicaEjb.createBitacola(entitatID,
+            signaturesSetID,
+            ConstantsV2.BITACOLA_TIPUS_FIRMASINCRONA,
+            ConstantsV2.BITACOLA_OP_INICIAR,
+            signaturesSet);
 
     } catch (I18NException i18n) {
 
@@ -803,8 +802,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     }
 
     // Estadistica
+    int signaturesValides = 0;
     if (ssf.getStatus() == StatusSignaturesSet.STATUS_FINAL_OK) {
-      int signaturesValides = 0;
       for (FileInfoSignature fis : ss.getFileInfoSignatureArray()) {
         final String signID = fis.getSignID();
         PassarelaSignatureStatusWebInternalUse pss = statusBySignID.get(signID);
@@ -846,6 +845,31 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         }
       }
     }
+
+    // Bitacola
+    int tipusoperacio = ssf.getStatus() == StatusSignaturesSet.STATUS_FINAL_OK
+          ? ConstantsV2.BITACOLA_OP_FINALITZAR
+          : ConstantsV2.BITACOLA_OP_REBUTJAR;
+    String descripcio;
+    if (ssf.getStatus() == StatusSignaturesSet.STATUS_FINAL_OK) {
+      if (signaturesValides < ss.getFileInfoSignatureArray().length) {
+        descripcio = "Signatures realitzades correctament: " + signaturesValides + " de " + ss.getFileInfoSignatureArray().length;
+      } else {
+        descripcio = "Totes les signatures realitzades correctament: " + signaturesValides;
+      }
+    } else {
+      descripcio = ssf.getErrorMessage();
+    }
+    PassarelaSignatureStatusList statusList = new PassarelaSignatureStatusList();
+    statusList.getPassarelaSignatureStatus().addAll(ssf.getStatusBySignatureID().values());
+
+    bitacolaLogicaEjb.createBitacola(
+          ssf.getEntitatID(),
+          transactionID,
+          ConstantsV2.BITACOLA_TIPUS_FIRMASINCRONA,
+          tipusoperacio,
+          descripcio,
+          statusList);
 
     return ssf;
   }
@@ -1114,7 +1138,9 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       log.debug("Eliminant transacció WEB ]" + signaturesSetID + "[");
     }
 
-    passarelaSignaturesSets.remove(signaturesSetID);
+    synchronized (passarelaSignaturesSets) {
+      passarelaSignaturesSets.remove(signaturesSetID);
+    }
   }
 
   /**
@@ -1149,11 +1175,15 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       }
 
       if (keysToDelete.size() != 0) {
-        synchronized (passarelaSignaturesSets) {
+        for (PassarelaSignaturesSetWebInternalUse pss : keysToDelete) {
+          deleteSignaturesSet(pss);
 
-          for (PassarelaSignaturesSetWebInternalUse pss : keysToDelete) {
-            deleteSignaturesSet(pss);
-          }
+          bitacolaLogicaEjb.createBitacola(
+                pss.getEntitatID(),
+                pss.getSignaturesSet().getSignaturesSetID(),
+                ConstantsV2.BITACOLA_TIPUS_FIRMASINCRONA,
+                ConstantsV2.BITACOLA_OP_ESBORRAR,
+                "Petició caducada");
         }
       }
     }

@@ -48,8 +48,8 @@ import es.caib.portafib.logic.utils.datasource.FitxerIdDataSource;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.logic.validator.PeticioDeFirmaLogicValidator;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
-import es.caib.portafib.model.bean.PeticioDeFirmaBean;
 import es.caib.portafib.model.bean.FitxerBean;
+import es.caib.portafib.model.bean.PeticioDeFirmaBean;
 import es.caib.portafib.model.entity.Annex;
 import es.caib.portafib.model.entity.AnnexFirmat;
 import es.caib.portafib.model.entity.BlocDeFirmes;
@@ -90,7 +90,6 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
-
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -124,7 +123,6 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -153,7 +151,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 
  * @author anadal(u80067)
- *
+ * @author areus
  */
 @Stateless(name = "PeticioDeFirmaLogicaEJB")
 @SecurityDomain("seycon")
@@ -3389,6 +3387,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       // Actualitzam petició
       peticio = (PeticioDeFirmaJPA) update(peticio);
+
+      // bitàcola
+      bitacolaLogicaEjb.createBitacola(
+            entitatJPA.getEntitatID(),
+            peticioDeFirmaID,
+            ConstantsV2.BITACOLA_TIPUS_PETICIO,
+            ConstantsV2.BITACOLA_OP_RESETEJAR
+      );
 
       // Desbloquejam petició
       try {

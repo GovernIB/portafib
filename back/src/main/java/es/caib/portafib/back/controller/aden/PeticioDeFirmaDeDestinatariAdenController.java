@@ -4,6 +4,7 @@ import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.form.PeticionsDeFirmaDeDestinatariFilterForm;
 import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
@@ -12,7 +13,6 @@ import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.utils.ConstantsV2;
-
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
@@ -31,11 +31,11 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 
  * @author anadal(u80067)
- *
+ * @author areus
  */
 @Controller
 @RequestMapping(value = "/aden/peticionsdedestinatari")
-@SessionAttributes(types = { PeticionsDeFirmaDeDestinatariFilterForm.class })
+@SessionAttributes(types = { PeticionsDeFirmaDeDestinatariFilterForm.class, PeticioDeFirmaForm.class })
 public class PeticioDeFirmaDeDestinatariAdenController extends
     AbstractPeticioDeFirmaAdenController {
 
@@ -142,14 +142,12 @@ public class PeticioDeFirmaDeDestinatariAdenController extends
     // NOTA: Una firma que conté un càrrec, en el moment que s'activa,
     // es converteix l'usuari-carrec en usuari-entitat
 
-    Where w = Where.AND(wParent, peticio.PETICIODEFIRMAID().isNotNull(),
+    Where w = Where.AND(peticio.PETICIODEFIRMAID().isNotNull(),
     // Associam al usuariEntitatID destinatari
         firmaQueryPath.USUARIENTITAT().USUARIENTITATID().equal(usuariEntitatID)
-
     );
 
-    return PETICIODEFIRMAID.in(firmaEjb.getSubQuery(peticio.PETICIODEFIRMAID(), w));
-
+    return Where.AND(wParent, PETICIODEFIRMAID.in(firmaEjb.getSubQuery(peticio.PETICIODEFIRMAID(), w)));
   }
 
   @Override
