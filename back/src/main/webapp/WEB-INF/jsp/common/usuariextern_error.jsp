@@ -1,11 +1,7 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+<br/>
+
 
 <center>
   <div class="alert alert-error">
@@ -16,9 +12,18 @@
     <h4>${error}</h4>
     </c:if>
     <c:if test="${ not empty errorcode}" >
-    <h4> <fmt:message key="${errorcode}" /></h4>
+    <h4> <fmt:message key="${errorcode}" >
+           <fmt:param value="${param0}" />
+           <fmt:param value="${param1}" />
+           <fmt:param value="${param2}" />
+           <fmt:param value="${param3}" />
+           <fmt:param value="${param4}" />
+           <fmt:param value="${param5}" />
+         </fmt:message>
+    </h4>
     </c:if>
     <br> TOKEN: <b>${token}</b> <br>
   </div>
 </center>
 
+<br/>

@@ -51,7 +51,7 @@
       
 
       
- 
+ <c:if test="${not empty loginInfo}" >
       <li>
         <a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
           <i class="icon-user icon-white"></i>
@@ -71,11 +71,11 @@
         </ul>
         </c:if>
       </li>
-     
+   </c:if> 
 
     </ul>
     <div class="clearfix"></div>
-
+ <c:if test="${not empty loginInfo}" >
     <div style="text-align: left; width: ${(17 + 5)* fn:length(idiomes) }px;" class="pull-right">
     <c:forEach  var="idioma"  items="${idiomes}" varStatus="status">
        <%--i:${status.index}  | c:${status.count} | l:[{$idioma}]  --%>
@@ -84,6 +84,7 @@
             height="14" border="0" />
        </a>
     </c:forEach>
+  </c:if>
 
     </div>
   </div>

@@ -644,6 +644,8 @@ import java.util.Set;
         @ModelAttribute EstatDeFirmaFilterForm filterForm,
         @RequestParam("url_user") String baseUrlFull) throws I18NException {
 
+      noPermetreUsuarisExterns();
+
       log.info("XYZ ZZZ baseUrlFull = " + baseUrlFull);
       
       String baseUrl = es.caib.portafib.back.utils.Utils.getUrlBaseFromFullUrl(request, baseUrlFull);
@@ -709,7 +711,7 @@ import java.util.Set;
         Properties firstFiltreProperties = null;
 
         for (int i = 0; i < listIds.size(); i++) {
-        StringKeyValue skv = listIds.get(i);
+          StringKeyValue skv = listIds.get(i);
 
 
           if (debug) {
@@ -833,6 +835,13 @@ import java.util.Set;
         
     }
 
+    protected void noPermetreUsuarisExterns() throws I18NException {
+      if (LoginInfo.getInstance().getUsuariPersona().isUsuariIntern()) {
+        // XYZ ZZZ TRA
+        throw new I18NException("genapp.comodi", "Acció no permesa per un Usuari Extern.");
+      }
+    }
+
 
     
 
@@ -870,7 +879,8 @@ import java.util.Set;
     // TODO moure a EJB
     private void checkCanSignPeticioDeFirma(HttpServletRequest request, Long peticioDeFirmaID, Long estatDeFirmaID) throws I18NException {
 
-      EstatDeFirma ef = checkEstatDeFirma(estatDeFirmaID, request, false);
+      
+      EstatDeFirma ef = checkEstatDeFirma(estatDeFirmaID, request);
      
       long firmaId = ef.getFirmaID();
       
@@ -1006,7 +1016,8 @@ import java.util.Set;
           str.append(nom_i_dni);
         }
         
-        PeticioDeFirmaJPA peticio = checkPeticioDeFirma(peticioDeFirmaID, request, false);
+        boolean checkSiEstaEnMarxa = true;        
+        PeticioDeFirmaJPA peticio = checkPeticioDeFirma(checkSiEstaEnMarxa, peticioDeFirmaID, request);
 
         throw new I18NException("solicituddefirma.requereixvistiplauderevisor",
             peticio.getTitol(), str.toString());
@@ -1018,8 +1029,10 @@ import java.util.Set;
     public ModelAndView acceptar(HttpServletRequest request, HttpServletResponse response,
         @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
 
-      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
-          ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR);
+      boolean checkSiEstaEnMarxa = true;
+      boolean checkEstatsInicials = true;
+      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, checkEstatsInicials,
+          checkSiEstaEnMarxa,    ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR);
       if (check == null) {
         // S'ha produit un error i retornam el control al llistat
         return llistatPaginat(request, response, null);
@@ -1412,8 +1425,10 @@ import java.util.Set;
         Long peticioDeFirmaID, String langUI, Map<String, List<Long>> pluginsFirmaBySignatureID,
         String entitatID, int numberTotalOfSignatures) throws I18NException {
 
-        CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
-            ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
+        boolean checkSiEstaEnMarxa = true;
+        boolean checkEstatsInicials = true;
+        CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, checkEstatsInicials,
+            checkSiEstaEnMarxa, ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
         if (check == null) {
           // S'ha produit un error i retornam el control al llistat
           return null;
@@ -1675,7 +1690,10 @@ import java.util.Set;
         estatFirmaInicial = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR;
       }
 
-      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,estatFirmaInicial);
+      boolean checkSiEstaEnMarxa = true;
+      boolean checkEstatsInicials = true;
+      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, 
+          checkEstatsInicials, checkSiEstaEnMarxa, estatFirmaInicial);
       if (check == null) {
         // S'ha produit un error. Retornam.
         return false;
@@ -1788,7 +1806,10 @@ import java.util.Set;
     public ModelAndView validar(HttpServletRequest request, HttpServletResponse response,
         @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
 
-      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
+      boolean checkSiEstaEnMarxa = true;
+      boolean checkEstatsInicials = true;
+      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, checkEstatsInicials,
+          checkSiEstaEnMarxa,
           ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
           ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR);
       if (check == null) {
@@ -1813,9 +1834,10 @@ import java.util.Set;
 
       // TODO traduir
       // checkRole(request, "invalidar");
-
-      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
-          ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
+      boolean checkSiEstaEnMarxa = true;
+      boolean checkEstatsInicials = true;
+      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, checkEstatsInicials,
+          checkSiEstaEnMarxa, ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
           ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR);
       if (check == null) {
         // S'ha produit un error i retornam el control al llistat
@@ -1850,7 +1872,10 @@ import java.util.Set;
 
 
       try {
-        CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
+        boolean checkSiEstaEnMarxa = true;
+        boolean checkEstatsInicials = true;
+        CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request,
+            checkEstatsInicials, checkSiEstaEnMarxa,
             ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
             ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR);
         if (check != null) {
@@ -1943,23 +1968,38 @@ import java.util.Set;
 
     // TODO Moure a capa de logica (així com els altres metodes de check)
     private CheckInfo checkAll(Long estatDeFirmaID, Long peticioDeFirmaID,
-        HttpServletRequest request, boolean checkEstat, long... estatsInicialsRequerits)
-        throws I18NException {
+        HttpServletRequest request) throws I18NException {
+      
+      boolean checkEstatsInicials = false;
+      boolean checkSiEstaEnMarxa = false;
+      long[] estatsInicialsRequerits = new long[0];
+      
+      return checkAll(estatDeFirmaID, peticioDeFirmaID,
+          request, checkEstatsInicials, checkSiEstaEnMarxa,
+          estatsInicialsRequerits);
+    }
+    
+    
+    
+    
+    private CheckInfo checkAll(Long estatDeFirmaID, Long peticioDeFirmaID,
+        HttpServletRequest request, boolean checkEstatsInicials, boolean checkSiEstaEnMarxa,
+        long... estatsInicialsRequerits) throws I18NException {
 
       EstatDeFirmaJPA estatDeFirma;
-      estatDeFirma = checkEstatDeFirma(estatDeFirmaID, request, checkEstat,
+      estatDeFirma = checkEstatDeFirma(estatDeFirmaID, request, checkEstatsInicials,
           estatsInicialsRequerits);
       if (estatDeFirma == null) {
         return null;
       }
 
-      FirmaJPA firma = checkFirma(estatDeFirma, request, checkEstat);
+      FirmaJPA firma = checkFirma(checkSiEstaEnMarxa, estatDeFirma, request);
       if (firma == null) {
         return null;
       }
 
       PeticioDeFirmaJPA peticioDeFirma;
-      peticioDeFirma = checkPeticioDeFirma(peticioDeFirmaID, request, checkEstat);
+      peticioDeFirma = checkPeticioDeFirma(checkSiEstaEnMarxa, peticioDeFirmaID, request);
       if (peticioDeFirma == null) {
         return null;
       }
@@ -1968,8 +2008,8 @@ import java.util.Set;
 
     }
 
-    private PeticioDeFirmaJPA checkPeticioDeFirma(Long peticioDeFirmaID,
-        HttpServletRequest request, boolean checkEstat) throws I18NException {
+    private PeticioDeFirmaJPA checkPeticioDeFirma(boolean checkSiEstaEnMarxa, Long peticioDeFirmaID,
+        HttpServletRequest request) throws I18NException {
 
       PeticioDeFirmaJPA peticioDeFirma = peticioDeFirmaLogicaEjb
           .findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
@@ -1977,10 +2017,12 @@ import java.util.Set;
         new PeticioDeFirmaController().createMessageError(request, "error.notfound", null);
         return null;
       }
-      if (checkEstat) {
+      if (checkSiEstaEnMarxa) {
         int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
-        if ((estat != ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES)
-            && (estat != ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT)) {
+        if ((estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES)
+            || (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT)) {
+          // OK
+        } else {
           new PeticioDeFirmaController().createMessageError(request, "error.peticionoenprogres",
               peticioDeFirmaID);
           return null;
@@ -1995,8 +2037,8 @@ import java.util.Set;
      * @param request
      * @return
      */
-    private FirmaJPA checkFirma(EstatDeFirmaJPA estatDeFirma, HttpServletRequest request,
-        boolean checkEstat) {
+    private FirmaJPA checkFirma(boolean checkSiEstaEnMarxa, EstatDeFirmaJPA estatDeFirma,
+        HttpServletRequest request) {
       FirmaJPA firma = firmaEjb.findByPrimaryKeyUnauthorized(new Long(estatDeFirma.getFirmaID()));
       if (firma == null) {
         log.error("La firma de l'EstatDeFirma no existeix.");
@@ -2004,7 +2046,7 @@ import java.util.Set;
         return null;
       }
 
-      if (checkEstat && firma.getFitxerFirmat() != null) {
+      if (checkSiEstaEnMarxa && firma.getFitxerFirmat() != null) {
         log.error("La firma de l'EstatDeFirma ja esta firmada");
         super.createMessageError(request, "error.nofirmar", estatDeFirma.getEstatDeFirmaID());
         return null;
@@ -2013,6 +2055,23 @@ import java.util.Set;
       }
     }
 
+    
+    
+    /**
+     * 
+     * @param estatDeFirmaID
+     * @param request
+     * @return
+     */
+    private EstatDeFirmaJPA checkEstatDeFirma(Long estatDeFirmaID, HttpServletRequest request) {
+      boolean checkEstatsInicials = false; 
+      long[] estatsInicialsRequerits = new long[0];
+      return checkEstatDeFirma(estatDeFirmaID, request, checkEstatsInicials, estatsInicialsRequerits);
+    }
+    
+    
+    
+    
     /**
      * 
      * @param estatDeFirmaID
@@ -2020,7 +2079,7 @@ import java.util.Set;
      * @return
      */
     private EstatDeFirmaJPA checkEstatDeFirma(Long estatDeFirmaID, HttpServletRequest request,
-        boolean checkEstat, long... estatsInicialsRequerits) {
+        boolean checkEstatsInicials, long... estatsInicialsRequerits) {
 
       LoginInfo loginInfo = LoginInfo.getInstance();
 
@@ -2031,7 +2090,18 @@ import java.util.Set;
         super.createMessageError(request, "error.notfound", estatDeFirmaID);
         return null;
       }
-      if (checkEstat) {
+      
+      if (!estatDeFirma.getUsuariEntitatID().equals(loginInfo.getUsuariEntitatID())) {
+        if (loginInfo.hasRole(ROLE_ADEN)) {
+          // OK
+        } else {
+          log.error("La persona encarregada de la firma no es qui esta intentant firmar");
+          super.createMessageError(request, "error.nofirmar", estatDeFirmaID);
+          return null;
+        }
+      }
+
+      if (checkEstatsInicials) {
         boolean conteEstat = false;
         long estat = estatDeFirma.getTipusEstatDeFirmaInicialID();
         for (int i = 0; i < estatsInicialsRequerits.length; i++) {
@@ -2047,12 +2117,8 @@ import java.util.Set;
           super.createMessageError(request, "error.nofirmar", estatDeFirmaID);
           return null;
         }
-
-        if (!estatDeFirma.getUsuariEntitatID().equals(loginInfo.getUsuariEntitatID())) {
-          log.error("La persona encarregada de la firma no es qui esta intentant firmar");
-          super.createMessageError(request, "error.nofirmar", estatDeFirmaID);
-          return null;
-        }
+        
+        
       }
 
       return estatDeFirma;
@@ -2844,9 +2910,7 @@ import java.util.Set;
       
       // p.e. viewDocuments_ROLE_DEST
       String view = "viewDocumentsFullView_" + getRole();
-      
-      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, false,
-          ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
+      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request);
       if (check == null) {
         // S'ha produit un error i retornam el control al llistat
         return llistatPaginat(request, response, null);
@@ -2885,9 +2949,8 @@ import java.util.Set;
         @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
 
       String view = getFullViewTile();
-      
-      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, false,
-          ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
+
+      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request);
       if (check == null) {
         // S'ha produit un error i retornam el control al llistat
         return llistatPaginat(request, response, null);

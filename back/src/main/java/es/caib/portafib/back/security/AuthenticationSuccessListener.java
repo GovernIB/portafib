@@ -25,6 +25,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.preparer.BasePreparer;
 import es.caib.portafib.jpa.EntitatJPA;
@@ -65,12 +66,29 @@ public class AuthenticationSuccessListener implements
       // TODO traduccio
       throw new LoginException("NO PUC ACCEDIR A LA INFORMACIO de AUTENTICACIO");
     }
-
+    
     User user = (User) au.getPrincipal();
     
     String name = user.getUsername();
     log.debug(" =================================================================");
     log.info(" ============ Login Usuari: " + name);
+    
+    try {
+      LoginInfo loginInfo = LoginInfo.getInstance();
+
+      if (!name.equals(loginInfo.getUsuariPersona().getUsuariPersonaID())) {
+        throw new LoginException("Amb aquest navegador ja s'ha autenticat amb un altre usuari."
+            + " Tanqui el navegador completament.");
+      }
+    } catch (Throwable e) {
+      
+      log.info(" XYZ ZZZ ZZZ Ha entrat amb un usuari extern i ara intenta entrar com a usuari intern !!!!", e);
+      
+      // OK
+    }
+    
+
+   
     
     final boolean isDebug = log.isDebugEnabled();
 
