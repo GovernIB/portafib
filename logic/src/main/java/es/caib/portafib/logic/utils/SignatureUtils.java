@@ -145,7 +145,8 @@ public class SignatureUtils {
        String idname, long locationSignTableID, String reason, String location, String signerEmail, int signNumber,
        String languageSign, long signTypeID, long signAlgorithmID, boolean signModeBool, String firmatPerFormat,
        ITimeStampGenerator timeStampGenerator, PolicyInfoSignature policyInfoSignature, String expedientCode,
-       String expedientName, String expedientUrl, String procedureCode, String procedureName) throws I18NException {
+       String expedientName, String expedientUrl, String procedureCode, String procedureName,
+       String usuariAplicacioID) throws I18NException {
 
     PdfVisibleSignature pdfInfoSignature = null;
 
@@ -214,7 +215,7 @@ public class SignatureUtils {
         signNumber, languageSign, signOperation, signType, signAlgorithm, signMode,
         locationSignTable, signaturesTableHeader, pdfInfoSignature, csvStampInfo,
         timeStampGenerator != null, timeStampGenerator, policyInfoSignature,
-          expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
+        expedientCode, expedientName, expedientUrl, procedureCode, procedureName, usuariAplicacioID);
 
     return fis;
   }
@@ -384,7 +385,8 @@ public class SignatureUtils {
             posicioTaulaFirmesID, reason, location, signerEmail, sign_number, langDoc,
             signTypeID, signAlgorithm, signMode, getFirmatPerFormat(entitat, config, langDoc),
             timeStampGenerator, pis, pfis.getExpedientCodi(), pfis.getExpedientNom(),
-            pfis.getExpedientUrl(), pfis.getProcedimentCodi(), pfis.getProcedimentNom());
+            pfis.getExpedientUrl(), pfis.getProcedimentCodi(), pfis.getProcedimentNom(),
+              usuariAplicacio.getUsuariAplicacioID());
 
         fileInfoSignatureArray[count] = fis;
         count++;

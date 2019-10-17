@@ -446,6 +446,23 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/annexList.jsp" />
     </definition>
 
+    <definition name="pluginFirmaWebPerUsuariEntitatFormAden" extends="role_aden">
+        <put-attribute name="titol" value="pluginFirmaWebPerUsuariEntitat.pluginFirmaWebPerUsuariEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariEntitatForm.jsp" />
+    </definition>
+
+    <definition name="pluginFirmaWebPerUsuariEntitatListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariEntitatList.jsp" />
+    </definition>
+
+    <definition name="pluginFirmaWebPerUsuariAplicacioFormAden" extends="role_aden">
+        <put-attribute name="titol" value="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebPerUsuariAplicacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariAplicacioForm.jsp" />
+    </definition>
+
+    <definition name="pluginFirmaWebPerUsuariAplicacioListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariAplicacioList.jsp" />
+    </definition>
 
     <!--  ===========  ADMINISTRADOR ================== -->
     

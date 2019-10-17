@@ -6,6 +6,7 @@ import java.io.File;
 /**
  * 
  * @author anadal
+ * @author areus
  */
 public class FileInfoSignature {
 
@@ -117,6 +118,11 @@ public class FileInfoSignature {
   String procedureName;
 
   /**
+   * Identificador de l'usuari aplicació que ha sol·licitat la firma.
+   */
+  String applicationID;
+
+  /**
    * 
    */
   public FileInfoSignature() {
@@ -156,7 +162,7 @@ public class FileInfoSignature {
 
 
   /**
-   *
+   * Constructor complet.
    */
   public FileInfoSignature(String signID, File fileToSign, File previusSignatureDetachedFile,
                            String mimeType, String name, String reason, String location, String signerEmail,
@@ -166,7 +172,7 @@ public class FileInfoSignature {
                            SecureVerificationCodeStampInfo secureVerificationCodeStampInfo,
                            boolean userRequiresTimeStamp, ITimeStampGenerator timeStampGenerator,
                            PolicyInfoSignature policyInfoSignature, String expedientCode, String expedientName,
-                           String expedientUrl, String procedureCode, String procedureName) {
+                           String expedientUrl, String procedureCode, String procedureName, String applicationID) {
     super();
     this.signID = signID;
     this.fileToSign = fileToSign;
@@ -194,6 +200,7 @@ public class FileInfoSignature {
     this.expedientUrl = expedientUrl;
     this.procedureCode = procedureCode;
     this.procedureName = procedureName;
+    this.applicationID = applicationID;
   }
 
   public String getSignID() {
@@ -413,6 +420,11 @@ public class FileInfoSignature {
     this.procedureName = procedureName;
   }
 
+  public String getApplicationID() {
+    return applicationID;
+  }
 
-
+  public void setApplicationID(String applicationID) {
+    this.applicationID = applicationID;
+  }
 }

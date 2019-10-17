@@ -52,7 +52,6 @@ import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
-
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
@@ -98,7 +97,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -1653,7 +1651,8 @@ import java.util.Set;
             idname, location_sign_table, reason, location, signerEmail,  sign_number, 
             langSign, peticioDeFirma.getTipusFirmaID(), peticioDeFirma.getAlgorismeDeFirmaID(),
             peticioDeFirma.getModeDeFirma(), firmatPerFormat, timeStampGenerator, policyInfoSignature,
-            expedientCode, expedientName, expedientUrl, procedureCode, procedureName),
+            expedientCode, expedientName, expedientUrl, procedureCode, procedureName,
+            peticioDeFirma.getSolicitantUsuariAplicacioID()),
             originalNumberOfSigns);
     }
 
