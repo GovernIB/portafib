@@ -1,9 +1,8 @@
 package es.caib.portafib.back.controller.common.destinatariextern;
 
-import javax.annotation.security.RunAs;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import es.caib.portafib.back.controller.AbstractEstatDeFirmaDestDeleColaController;
+import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
+import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,9 +12,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import es.caib.portafib.back.controller.dest.EstatFirmaAbstractDestController;
-import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
-import es.caib.portafib.utils.ConstantsV2;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Controller per gestionar Firmes d'un Usuari Extern
@@ -25,9 +23,17 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = ConstantsV2.CONTEXT_EXTERNALUSER_ESTATDEFIRMA)
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
-@RunAs("PFI_USER")
-public class DestinatariExternEstatFirmaPendentController extends
-    EstatFirmaAbstractDestController {
+public class DestinatariExternEstatFirmaPendentController extends AbstractEstatDeFirmaDestDeleColaController {
+
+  @Override
+  public final String getBaseEntityNameCode() {
+    return "solicituddefirma.llistat";
+  }
+
+  @Override
+  public final String getRole() {
+    return ConstantsV2.ROLE_DEST;
+  }
 
   @Override
   public int getFilterType() {
@@ -67,5 +73,33 @@ public class DestinatariExternEstatFirmaPendentController extends
       return model;
     }
   }
+  
+  @Override
+  public boolean isActiveList() {
+    return false;
+  }
+
+  @Override
+  public boolean isActiveFormNew() {
+    return false;
+  }
+
+  @Override
+  public boolean isActiveFormEdit() {
+    return false;
+  }
+
+  @Override
+  public boolean isActiveDelete() {
+    return false;
+  }
+
+  @Override
+  public boolean isActiveFormView() {
+    return false;
+  }
+  
+  
+
 
 }
