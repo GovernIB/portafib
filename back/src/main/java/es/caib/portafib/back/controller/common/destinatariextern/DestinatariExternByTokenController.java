@@ -1,16 +1,17 @@
 package es.caib.portafib.back.controller.common.destinatariextern;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import javax.ejb.EJB;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.PortaFIBSessionLocaleResolver;
+import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.FirmaJPA;
+import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
+import es.caib.portafib.logic.FirmaLogicaLocal;
+import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
+import es.caib.portafib.model.entity.EstatDeFirma;
+import es.caib.portafib.utils.ConstantsV2;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -26,18 +27,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.back.utils.PortaFIBSessionLocaleResolver;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.FirmaJPA;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
-import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
-import es.caib.portafib.logic.FirmaLogicaLocal;
-import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
-import es.caib.portafib.model.entity.EstatDeFirma;
-import es.caib.portafib.utils.ConstantsV2;
+import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 

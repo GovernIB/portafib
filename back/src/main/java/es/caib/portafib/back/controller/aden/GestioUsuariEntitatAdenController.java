@@ -21,16 +21,15 @@ import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.utils.ConstantsPortaFIB.POLITICA_CUSTODIA;
 import es.caib.portafib.utils.ConstantsV2;
-
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.SelectConstant;
+import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.genapp.common.query.Where;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -46,14 +45,15 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created 28/05/13 11:51
  *
  * @author mgonzalez
  * @author anadal
+ * @author areus
  */
 @Controller
 @RequestMapping(value = GestioUsuariEntitatAdenController.CONTEXTWEB)
@@ -147,7 +147,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
       
       seleccioUsuariForm.setTitol("usuarientitat.gestio");
       seleccioUsuariForm.setSubtitol("usuarientitat.seleccionarpersona");
-      seleccioUsuariForm.setCancelUrl("/canviarPipella/"+ConstantsV2.ROLE_ADMIN);
+      seleccioUsuariForm.setCancelUrl("/canviarPipella/"+ConstantsV2.ROLE_ADEN);
       seleccioUsuariForm.setUrlData(getUrlDataJsonSearch());
       
       seleccioUsuariForm.setUsuarisFavorits(getUsuarisFavorits());
@@ -258,18 +258,17 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
         usuariEntitatForm.addAdditionalButton(new AdditionalButton(
           "icon-play", "activar", getContextWeb() + "/activar/{0}", "btn-success"));
       }
-      
+
+      // Afegir botó per gestionar plugins web: #173
+      usuariEntitatForm.addAdditionalButton(new AdditionalButton(
+            "icon-cog", "pluginfirmaweb.veure",
+            PluginFirmaWebPerUsuariEntitatAdenController.CONTEXT_WEB + "/seleccio/{0}",
+            "btn-info"
+      ));
     }
-    
-    // XYZ ZZZ Es quedaran així fins que no s'implementi #165
-    // usuariEntitatForm.addReadOnlyField(POLITICACUSTODIA);
-    
+
     usuariEntitatForm.setAttachedAdditionalJspCode(true);
-    
-    
-    // XYZ ZZZ Es quedaran així fins que no s'implementi #173
-    usuariEntitatForm.addReadOnlyField(POLITICADEPLUGINFIRMAWEB);
-    
+
     // Ocultam camps del formulari
     usuariEntitatForm.addHiddenField(CARREC);
 
@@ -403,8 +402,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
           );
   }
   
- 
-  
+
   @Override
   public void postValidate(HttpServletRequest request,
       UsuariEntitatForm usuariEntitatForm, BindingResult result)

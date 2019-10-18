@@ -11,7 +11,6 @@ import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.utils.ConstantsPortaFIB.POLITICA_CUSTODIA;
 import es.caib.portafib.utils.ConstantsV2;
-
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
@@ -22,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -181,7 +179,7 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
     
     for (int i = 0; i < ConstantsV2.POLITICA_PLUGIN_FIRMA_WEB.length; i++) {
       __tmp.add(new StringKeyValue(String.valueOf(ConstantsV2.POLITICA_PLUGIN_FIRMA_WEB[i]),
-          I18NUtils.tradueix("usuarientitat.politicapluginfirmaweb." + ConstantsV2.POLITICA_PLUGIN_FIRMA_WEB[i])));
+          I18NUtils.tradueix("politicapluginfirmaweb." + ConstantsV2.POLITICA_PLUGIN_FIRMA_WEB[i])));
     }
 
     return __tmp;

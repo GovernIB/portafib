@@ -65,11 +65,11 @@ import java.util.Set;
  * @author areus
  */
 @Controller
-@RequestMapping(value = GestioUsuariAplicacioAdenController.GESTIO_USUARI_APLICACIO_CONTEXTWEB)
+@RequestMapping(value = GestioUsuariAplicacioAdenController.CONTEXTWEB)
 @SessionAttributes(types = { UsuariAplicacioForm.class, UsuariAplicacioFilterForm.class })
 public class GestioUsuariAplicacioAdenController extends UsuariAplicacioController {
 
-  public static final String GESTIO_USUARI_APLICACIO_CONTEXTWEB = "/aden/usuariAplicacio";
+  static final String CONTEXTWEB = "/aden/usuariAplicacio";
 
   protected static final int PERFILS = 1;
 
@@ -92,7 +92,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
    * Indica si es admin o aden
    * TODO: Té sentit que GestioUsuariAplicacioAdminController extengui d'aquí només per dir isAdmin false? Sembla que
    * seria més lògic, eliminar les consultes a isAdmin i fer override dels mètodes que calgui.
-   * @return
+   * @return sempre retorna false
    */
   protected boolean isAdmin() {
     return false;
@@ -156,9 +156,6 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       usuariAplicacioForm.addReadOnlyField(USUARIAPLICACIOID);
       usuariAplicacioForm.addReadOnlyField(ACTIU);
     }
-
-    // XYZ ZZZ Es quedaran així fins que no s'implementi #173
-    usuariAplicacioForm.addReadOnlyField(POLITICADEPLUGINFIRMAWEB);
 
     usuariAplicacioForm.setAttachedAdditionalJspCode(true);
 
@@ -251,7 +248,14 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       usuariAplicacioFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
           "icon-check", "validar.urlcallback", getContextWeb() + "/validarurlcallback/{0}",
           "btn-info"));
-      
+
+      // Afegir botó per gestionar plugins web: #173
+      usuariAplicacioFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
+            "icon-cog", "pluginfirmaweb.veure",
+            PluginFirmaWebPerUsuariAplicacioAdenController.CONTEXT_WEB + "/seleccio/{0}",
+            "btn-info"
+      ));
+
       usuariAplicacioFilterForm.setActionsRenderer(UsuariAplicacioConfiguracioFilterForm.ACTIONS_RENDERER_DROPDOWN_BUTTON);
 
       if (isAdmin()) {

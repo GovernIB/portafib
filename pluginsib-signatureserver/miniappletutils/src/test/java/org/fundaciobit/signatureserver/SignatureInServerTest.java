@@ -171,12 +171,14 @@ public class SignatureInServerTest extends TestCase {
     final String procedureCode = null;
     final String procedureName = null;
 
+    final String applicationID = "app";
+
     FileInfoSignature fileInfo = new FileInfoSignature(signID, source, previusSignatureDetachedFile,
         FileInfoSignature.PDF_MIME_TYPE, name, reason, location, signerEmail, signNumber,
         languageSign, signOperation, signType, signAlgorithm, signMode, signaturesTableLocation,
         signaturesTableHeader, pdfInfoSignature, csvStampInfo, userRequiresTimeStamp,
         timeStampGenerator, policyInfoSignature, expedientCode,
-          expedientName, expedientUrl, procedureCode, procedureName);
+          expedientName, expedientUrl, procedureCode, procedureName, applicationID);
 
     MiniAppletSignInfo info = MiniAppletUtils.convertLocalSignature(commonInfoSignature,
         fileInfo, null, pair.getPublicCertificate());

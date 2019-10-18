@@ -1,9 +1,5 @@
 package org.fundaciobit.plugins.signature.api;
 
-import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-
 /**
  * 
  * @author anadal

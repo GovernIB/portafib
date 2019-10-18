@@ -1,20 +1,15 @@
 package es.caib.portafib.logic;
 
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.ejb.Stateless;
-
 import es.caib.portafib.ejb.PluginEJB;
 import es.caib.portafib.model.entity.Plugin;
-
-
-
-
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.pluginsib.core.IPlugin;
 import org.jboss.ejb3.annotation.SecurityDomain;
+
+import javax.ejb.Stateless;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -25,7 +20,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 @SecurityDomain("seycon")
 public class PluginLogicaEJB extends PluginEJB implements PluginLogicaLocal {
 
-  private static Map<Long, IPlugin> pluginsCache = new HashMap<Long, IPlugin>();
+  private static final Map<Long, IPlugin> pluginsCache = new HashMap<Long, IPlugin>();
 
   
   @Override

@@ -1277,7 +1277,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         langUI, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         ConstantsV2.SIGN_MODE_IMPLICIT,
         SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langUI), timeStampGenerator,
-        policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
+        policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode, procedureName,
+        entitat.getUsuariAplicacioID());
 
     FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
 

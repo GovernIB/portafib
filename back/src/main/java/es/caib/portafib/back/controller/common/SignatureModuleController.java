@@ -1,23 +1,16 @@
 package es.caib.portafib.back.controller.common;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.ejb.EJB;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import es.caib.portafib.back.security.LoginException;
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
+import es.caib.portafib.back.utils.Utils;
+import es.caib.portafib.jpa.PluginJPA;
+import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaWebPublicLogicaLocal;
+import es.caib.portafib.model.entity.Plugin;
+import es.caib.portafib.model.entity.UsuariPersona;
+import es.caib.portafib.model.fields.PluginFields;
+import es.caib.portafib.utils.Configuracio;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
@@ -34,13 +27,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
-import es.caib.portafib.back.utils.Utils;
-import es.caib.portafib.jpa.PluginJPA;
-import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
-import es.caib.portafib.model.entity.Plugin;
-import es.caib.portafib.model.fields.PluginFields;
-import es.caib.portafib.utils.Configuracio;
+import javax.ejb.EJB;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -53,9 +55,8 @@ public class SignatureModuleController extends HttpServlet {
 
   protected static Logger log = Logger.getLogger(SignatureModuleController.class);
 
-  
-  @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
-  protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;
+  @EJB(mappedName = ModulDeFirmaWebPublicLogicaLocal.JNDI_NAME)
+  protected ModulDeFirmaWebPublicLogicaLocal modulDeFirmaEjb;
 
   public static final String PRIVATE_CONTEXTWEB = "/common/signmodule";
   
@@ -72,10 +73,39 @@ public class SignatureModuleController extends HttpServlet {
     Map<String, List<Long>> pluginsFirmaPerTipusDoc = signaturesSet.getPluginsFirmaBySignatureID();
     
     List<Plugin> moduls;
-    
+
+    // Implementar política de plugins de firma web #173
+    // La política de plugins de firma web s'aplica quan no tenim plugins específics pel tipus de document.
     if (pluginsFirmaPerTipusDoc == null || pluginsFirmaPerTipusDoc.size() == 0) {
       try {
-        moduls = modulDeFirmaEjb.getAllPlugins(signaturesSet.getEntitat().getEntitatID()); // LoginInfo.getInstance().getEntitatID());
+
+        // Intentan obtenir l'usuariEntitat i l'usuariPersona
+        UsuariPersona usuariPersona = null;
+        String usuariEntitatID = null;
+        try {
+          usuariPersona = LoginInfo.getInstance().getUsuariPersona();
+          usuariEntitatID = LoginInfo.getInstance().getUsuariEntitatID();
+        } catch (LoginException ignored) {}
+
+        // Hem d'emprar la política definida a l'UsuariEntitat quan estam al context privat (i per tant
+        // està accedint un usuariEntitat com a destinatari, o si estam al contexte públic i es tracta d'un
+        // usuari extern.
+        boolean emprarUsuariEntitat = PRIVATE_CONTEXTWEB.equals(getContextWeb()) ||
+              (usuariPersona != null && !usuariPersona.isUsuariIntern());
+
+        if (emprarUsuariEntitat) {
+          // Hi ha usuari Entitat, agafam els plugins de l'usuari entitat segons la seva política
+          log.info("Emprant plugins de l'usuari entitat: " + usuariEntitatID);
+          moduls = modulDeFirmaEjb.getAllPluginsUsuariEntitat(usuariEntitatID);
+        } else {
+          // Estam a un context públic en firma síncrona, i hem d'emprar l'usuari aplicació.
+          // Aquesta info està a nivell d'informació de signatura, i n'hi pot haver vàries, però com que estam
+          // en firma síncrona, totes han de ser de la mateixa aplicació, per tant agafam el primer.
+          String usuariAplicacioID = signaturesSet.getFileInfoSignatureArray()[0].getApplicationID();
+          log.info("Emprant plugins de l'usuari aplicació: " + usuariAplicacioID);
+          moduls = modulDeFirmaEjb.getAllPluginsUsuariAplicacio(usuariAplicacioID);
+        }
+
       } catch (I18NException e) {
         String msg = I18NUtils.tradueix("plugindefirma.error.getallmodulsdefirma", I18NUtils.getMessage(e));
         return generateErrorMAV(request, signaturesSetID, msg, e);

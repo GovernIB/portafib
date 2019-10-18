@@ -1,12 +1,12 @@
 package es.caib.portafib.back.controller.aden;
 
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-
+import es.caib.portafib.back.controller.webdb.PerfilsPerUsuariAplicacioController;
+import es.caib.portafib.back.form.webdb.PerfilsPerUsuariAplicacioForm;
+import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.jpa.PerfilsPerUsuariAplicacioJPA;
 import es.caib.portafib.model.fields.PerfilDeFirmaQueryPath;
+import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Select;
@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import es.caib.portafib.back.controller.webdb.PerfilsPerUsuariAplicacioController;
-import es.caib.portafib.back.form.webdb.PerfilsPerUsuariAplicacioForm;
-import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
-import es.caib.portafib.jpa.PerfilsPerUsuariAplicacioJPA;
-import es.caib.portafib.model.fields.UsuariAplicacioFields;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 
@@ -60,7 +58,7 @@ public class PerfilsDeUsuariAplicacioAdenController extends
       log.warn("S'ha cridat a crear configuració d'Aplicació però no s'ha guardat el USUARIAPLICACIOID dins la sessió.");
 
       mav.setView(new RedirectView(
-          GestioUsuariAplicacioAdenController.GESTIO_USUARI_APLICACIO_CONTEXTWEB + "/list",
+          GestioUsuariAplicacioAdenController.CONTEXTWEB + "/list",
           true));
       return perfilsPerUsuariAplicacioForm;
     }
@@ -94,7 +92,7 @@ public class PerfilsDeUsuariAplicacioAdenController extends
   public String getRedirectWhenCancel(HttpServletRequest request,
       java.lang.Long perfilPerUsrAppID) {
     return "redirect:"
-        + GestioUsuariAplicacioAdenController.GESTIO_USUARI_APLICACIO_CONTEXTWEB + "/list";
+        + GestioUsuariAplicacioAdenController.CONTEXTWEB + "/list";
   }
 
   @Override

@@ -23,7 +23,6 @@ import es.caib.portafib.model.fields.FitxerFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
-
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
@@ -64,7 +63,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -290,7 +288,8 @@ public class AutoFirmaController extends FitxerController
         langSign, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         ConstantsV2.SIGN_MODE_IMPLICIT,
         SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langSign), timeStampGenerator,
-        policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
+        policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode, procedureName,
+        entitat.getUsuariAplicacioID());
     
     CommonInfoSignature commonInfoSignature;
     {

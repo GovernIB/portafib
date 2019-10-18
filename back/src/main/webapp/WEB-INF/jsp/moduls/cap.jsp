@@ -1,5 +1,3 @@
-<%@page import="org.springframework.context.i18n.LocaleContextHolder"%>
-<%@page import="java.util.Locale"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"
 %><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"
 %><%@ taglib prefix="tiles"  uri="http://tiles.apache.org/tags-tiles" 
