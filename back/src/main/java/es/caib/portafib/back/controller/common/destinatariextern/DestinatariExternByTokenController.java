@@ -71,7 +71,7 @@ public class DestinatariExternByTokenController {
 
     FirmaJPA firma = firmaLogicaEjb.getFirmaByToken(token);
     if (firma == null) {
-      return showErrorPageWithCode("usuariextern.token.error.noexisteix", token);
+      return showErrorPageWithCode(token, "usuariextern.token.error.noexisteix", token);
     }
 
     String username = firma.getUsuariEntitat().getUsuariPersonaID();
@@ -108,8 +108,7 @@ public class DestinatariExternByTokenController {
 
       String estatStr = I18NCommonUtils.tradueix(LocaleContextHolder.getLocale(),
           "tipusestatpeticiodefirma." + peticio.getTipusEstatPeticioDeFirmaID()); 
-      
-      
+
       return showErrorPageWithCode(token,  "usuariextern.token.error.peticio.japrocessada", token,
           estatStr);
 

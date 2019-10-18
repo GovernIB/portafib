@@ -1760,18 +1760,27 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
                   String base = I18NCommonUtils.tradueix(loc, "usuariextern.email.subject", 
                       peticioDeFirma.getTitol());                  
                   String subject= "PORTAFIB: "  + base;
-                  String message = I18NCommonUtils.tradueix(loc, "usuariextern.emaul.body", base, urlToken);
+                  String message = I18NCommonUtils.tradueix(loc, "usuariextern.email.body", base, urlToken);
                   boolean isHtml = true;
                  
                   String from = PropietatGlobalUtil.getAppEmail();
                   String recipient = firmaJPA.getUsuariExternEmail();
-                  
+                  log.info("Enviant correu a usuari extern (" + recipient + ")");
                   try {
                     EmailUtil.postMail(subject, message, isHtml, from, recipient);
-                  } catch(Exception e) {
+                  } catch(Throwable e) {
+                    String msg;
+                    if (e instanceof I18NException) {
+                      msg = I18NCommonUtils.getMessage((I18NException)e, loc);
+                    } else {
+                      msg = e.getMessage();
+                    }
                     // XYZ ZZZ TRA
-                    throw new PeticioHaDeSerRebutjadaException(
-                        "S'ha intentat enviar correu a " + recipient + " però ha fallat: " + e.getMessage());
+                    msg = "S'ha intentat enviar correu a " + recipient + " però ha fallat: " + msg;
+                    
+                    log.error(msg, e);
+                    
+                    throw new PeticioHaDeSerRebutjadaException(msg, e);
                   }
                   
                 break;
