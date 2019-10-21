@@ -246,10 +246,11 @@ public class DestinatariExternByTokenController {
     Long estat = firma.getTipusEstatDeFirmaFinalID();
     if (estat == null) {
       
-      if (ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT == firma.getTipusEstatDeFirmaFinalID()) {
-        // La firma s'ha rebutjat
-        message = "usuariextern.token.error.estat.rebutjat"; 
-      } else {
+//      if (ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT == firma.getTipusEstatDeFirmaFinalID()) {
+//        // La firma s'ha rebutjat
+//        message = "usuariextern.token.error.estat.rebutjat"; 
+//      } else 
+      {
         // Pareix que la firma s'ha cancel·lat
         message = "usuariextern.token.error.estat.cancelat";
       }

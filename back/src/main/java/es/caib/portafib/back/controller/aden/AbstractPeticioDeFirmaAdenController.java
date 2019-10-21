@@ -195,16 +195,10 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
   @Override
   public void postList(HttpServletRequest request, ModelAndView mav, PeticioDeFirmaFilterForm filterForm, List<PeticioDeFirma> list) throws I18NException {
 
-    log.info("postList()");
-    log.info("HiddenFilds: " + filterForm.getHiddenFields());
-
-    log.info("super.postList()");
     super.postList(request, mav, filterForm, list);
 
     Map<Long, String> mapRemitent = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_REMITENT).getValueMap();
     mapRemitent.clear();
-
-    log.info("mapRemitent: " + mapRemitent);
 
     for (PeticioDeFirma pf : list) {
       StringBuffer str = new StringBuffer();
@@ -218,8 +212,5 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
       mapRemitent.put(pf.getPeticioDeFirmaID(),  str.toString());
     }
 
-    log.info("mapRemitent: " + mapRemitent);
-
-    log.info("HiddenFilds: " + filterForm.getHiddenFields());
   }
 }

@@ -18,6 +18,7 @@ import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.fields.PerfilsPerUsuariAplicacioFields;
 import es.caib.portafib.model.fields.PerfilsPerUsuariAplicacioQueryPath;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
+import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
 import es.caib.portafib.utils.ConstantsV2;
 
 import javax.annotation.security.PermitAll;
@@ -45,7 +46,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 @SecurityDomain("seycon")
 @RunAs("PFI_USER")
 public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfiguracioEJB
-    implements ConfiguracioUsuariAplicacioLogicaLocal {
+    implements ConfiguracioUsuariAplicacioLogicaLocal, UsuariAplicacioConfiguracioFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal perfilsPerUsuariAplicacioEjb;
@@ -53,28 +54,8 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
   @EJB(mappedName = es.caib.portafib.ejb.PerfilDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PerfilDeFirmaLocal perfilDeFirmaEjb;
 
-  /*
-   * @Override
-   * 
-   * @RolesAllowed({ "PFI_ADMIN", "PFI_USER" }) public UsuariAplicacioConfiguracio
-   * getConfiguracioUsuariAplicacio( final String usuariAplicacioID, String codiPerfil, final
-   * int usFirma) throws I18NException {
-   * 
-   * PerfilDeFirma usuariApicacioPerfil = getPerfilDeFirma(usuariAplicacioID, codiPerfil,
-   * usFirma);
-   * 
-   * // XYZ ZZZ Falta Fer !!!! // Aqui s'ha de processar la condició del Perfil i veure quin
-   * valor retorna // A partir del valor sencer obtingut retornar UsrAppConfiguracio1ID // o
-   * UsrAppConfiguracio2ID o UsrAppConfiguracio3ID
-   * 
-   * final Long idConf = usuariApicacioPerfil.getConfiguracioDeFirma1ID();
-   * 
-   * final UsuariAplicacioConfiguracio config = findByPrimaryKey(idConf);
-   * 
-   * checkTePermisPerUsDeFirma(usuariAplicacioID, codiPerfil, usFirma, config);
-   * 
-   * return config; }
-   */
+  @EJB(mappedName = es.caib.portafib.ejb.TraduccioLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.TraduccioLocal traduccioEjb;
 
   protected void checkTePermisPerUsDeFirma(final String usuariAplicacioID, String codiPerfil,
       final int usFirma, final UsuariAplicacioConfiguracio config) throws I18NException {
@@ -593,32 +574,34 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     return config;
   }
 
-  /*
-   * @Override //@RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
-   * 
-   * @PermitAll public PerfilConfiguracionsDeFirma getConfiguracioFirmaPerApiPortaFIBWS1(
-   * String usuariAplicacioID) throws I18NException {
-   * 
-   * final int usFirma = ConstantsV2.US_FIRMA_CONF_APP_FIRMAWS1;
-   * 
-   * PerfilDeFirma perfilDeFirma = getPerfilDeFirma(usuariAplicacioID, codiPerfil, usFirma);
-   * 
-   * Map<String, Object> parameters = new HashMap<String, Object>();
-   * parameters.put("firmaSimpleSignDocumentRequest", firmaSimpleSignDocumentRequest);
-   * 
-   * UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
-   * ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR, firmaSimpleSignDocumentRequest
-   * .getCommonInfo().getLanguageUI(), parameters);
-   * 
-   * Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = new HashMap<String,
-   * UsuariAplicacioConfiguracioJPA>();
-   * 
-   * configBySignID.put(firmaSimpleSignDocumentRequest.getFileInfoSignature().getSignID(),
-   * config);
-   * 
-   * return new PerfilConfiguracionsDeFirma(perfilDeFirma, configBySignID);
-   * 
-   * }
-   */
+  @Override
+  public void deleteFull(Long _ID_) throws I18NException {
+
+    Long idM = null;
+    Long idF = null;
+    
+    Boolean esDePeticio = executeQueryOne(ESDEPETICIO, USUARIAPLICACIOCONFIGID.equal(_ID_));
+    
+    if (esDePeticio == null) {
+      return;
+    }
+
+    if (esDePeticio == false) {
+      idM = this.executeQueryOne(MOTIUDELEGACIOID, USUARIAPLICACIOCONFIGID.equal(_ID_));
+      idF = this.executeQueryOne(FIRMATPERFORMATID, USUARIAPLICACIOCONFIGID.equal(_ID_));
+    }
+    
+    this.delete(_ID_);
+    
+
+    if (idM != null) {
+      traduccioEjb.delete(idM);
+    }
+    
+    if (idF != null) {
+      traduccioEjb.delete(idF);
+    }
+    
+  }
 
 }

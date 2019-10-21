@@ -49,6 +49,9 @@ public class EntitatLogicaEJB extends EntitatEJB implements EntitatLogicaLocal, 
 
   @EJB(mappedName = PluginDeCustodiaLogicaLocal.JNDI_NAME)
   private PluginDeCustodiaLogicaLocal pluginDeCustodiaLogicaEjb;
+  
+  @EJB(mappedName = es.caib.portafib.ejb.TraduccioLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.TraduccioLocal traduccioEjb;
 
   /**
    * 
@@ -104,7 +107,17 @@ public class EntitatLogicaEJB extends EntitatEJB implements EntitatLogicaLocal, 
     // (4) Eliminar propietats globals
     propietatGlobalEjb.delete(PropietatGlobalFields.ENTITATID.equal(entitatID));
 
-    // Eliminar Entitat
+    // (5) Eliminar traduccions
+    Long id = this.executeQueryOne(MOTIUDELEGACIOID, ENTITATID.equal(entitatID));
+    if (id != null) {
+      traduccioEjb.delete(id);
+    }
+    id = this.executeQueryOne(FIRMATPERFORMATID, ENTITATID.equal(entitatID));
+    if (id != null) {
+      traduccioEjb.delete(id);
+    }
+    
+    // (6) Eliminar Entitat
     super.delete(entitatID);
 
   }

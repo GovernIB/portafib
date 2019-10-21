@@ -98,6 +98,10 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICASEGELLATDETEMPS)));
 
+    __vr.rejectIfEmptyOrWhitespace(__target__,ESDEPETICIO, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ESDEPETICIO)));
+
     // Check size
     if (__vr.getFieldErrorCount(NOM) == 0) {
       java.lang.String __nom = (java.lang.String)__vr.getFieldValue(__target__,NOM);
