@@ -367,8 +367,6 @@ public class AfirmaServerTest extends TestCase {
     final String procedureCode = null;
     final String procedureName = null;
 
-    final String applicationID = "app";
-
     PolicyInfoSignature policyInfoSignature = null;
     if (epes) {
       policyInfoSignature = new PolicyInfoSignature();
@@ -385,7 +383,7 @@ public class AfirmaServerTest extends TestCase {
         languageSign, signOperation, signType, signAlgorithm, signMode, signaturesTableLocation,
         signaturesTableHeader, pdfInfoSignature, csvStampInfo, userRequiresTimeStamp,
         timeStampGenerator, policyInfoSignature, expedientCode, expedientName, expedientUrl,
-          procedureCode, procedureName, applicationID);
+          procedureCode, procedureName);
         /*new FileInfoSignature(signID, source, testFile.mime, name,
         reason, location, signerEmail, signNumber, languageSign, signType, signAlgorithm,
         signMode, signaturesTableLocation, signaturesTableHeader, pdfInfoSignature,

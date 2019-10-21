@@ -1277,8 +1277,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         langUI, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         ConstantsV2.SIGN_MODE_IMPLICIT,
         SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langUI), timeStampGenerator,
-        policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode, procedureName,
-        entitat.getUsuariAplicacioID());
+        policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
 
     FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
 
@@ -1309,7 +1308,11 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         originalNumberOfSignsArray, entitat, urlFirmaFinal, true, baseUrl);
 
     signaturesSet.setPluginsFirmaBySignatureID(null);
-    
+
+    // Afegir usuariAplicació per #173
+    // És una única firma, la de delegació. L'aplicació és la de l'entitat.
+    signaturesSet.getApplicationBySignatureID().put(fis.getSignID(), entitat.getUsuariAplicacioID());
+
     HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("firmardelegacio.titol")); 
     //"<b>Firmar Autorització</b> Ara ha de firmar l´autorització de delegació. Sense aquest pas no es completarà aquesta delegació. Si vol, pot deixar aquest pas per més endavant però fins que no firmi aquesta delegació, aquesta no s´activarà.");
 

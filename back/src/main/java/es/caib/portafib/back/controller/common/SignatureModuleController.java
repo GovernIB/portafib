@@ -101,7 +101,7 @@ public class SignatureModuleController extends HttpServlet {
           // Estam a un context públic en firma síncrona, i hem d'emprar l'usuari aplicació.
           // Aquesta info està a nivell d'informació de signatura, i n'hi pot haver vàries, però com que estam
           // en firma síncrona, totes han de ser de la mateixa aplicació, per tant agafam el primer.
-          String usuariAplicacioID = signaturesSet.getFileInfoSignatureArray()[0].getApplicationID();
+          String usuariAplicacioID = signaturesSet.getApplicationBySignatureID().values().iterator().next();
           log.info("Emprant plugins de l'usuari aplicació: " + usuariAplicacioID);
           moduls = modulDeFirmaEjb.getAllPluginsUsuariAplicacio(usuariAplicacioID);
         }

@@ -118,11 +118,6 @@ public class FileInfoSignature {
   String procedureName;
 
   /**
-   * Identificador de l'usuari aplicació que ha sol·licitat la firma.
-   */
-  String applicationID;
-
-  /**
    * 
    */
   public FileInfoSignature() {
@@ -172,7 +167,7 @@ public class FileInfoSignature {
                            SecureVerificationCodeStampInfo secureVerificationCodeStampInfo,
                            boolean userRequiresTimeStamp, ITimeStampGenerator timeStampGenerator,
                            PolicyInfoSignature policyInfoSignature, String expedientCode, String expedientName,
-                           String expedientUrl, String procedureCode, String procedureName, String applicationID) {
+                           String expedientUrl, String procedureCode, String procedureName) {
     super();
     this.signID = signID;
     this.fileToSign = fileToSign;
@@ -200,7 +195,6 @@ public class FileInfoSignature {
     this.expedientUrl = expedientUrl;
     this.procedureCode = procedureCode;
     this.procedureName = procedureName;
-    this.applicationID = applicationID;
   }
 
   public String getSignID() {
@@ -418,13 +412,5 @@ public class FileInfoSignature {
 
   public void setProcedureName(String procedureName) {
     this.procedureName = procedureName;
-  }
-
-  public String getApplicationID() {
-    return applicationID;
-  }
-
-  public void setApplicationID(String applicationID) {
-    this.applicationID = applicationID;
   }
 }

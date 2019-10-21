@@ -813,6 +813,10 @@ import java.util.Set;
 
         signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
+      // Afegir usuariAplicació per #173
+        for (FileInfoFull fif : fileInfoFullArray) {
+          signaturesSet.getApplicationBySignatureID().put(fif.fileInfoSignature.getSignID(), fif.applicationID);
+        }
         
 
         ModelAndView mav;
@@ -834,7 +838,7 @@ import java.util.Set;
     }
 
     protected void noPermetreUsuarisExterns() throws I18NException {
-      if (LoginInfo.getInstance().getUsuariPersona().isUsuariIntern()) {
+      if (!LoginInfo.getInstance().getUsuariPersona().isUsuariIntern()) {
         // XYZ ZZZ TRA
         throw new I18NException("genapp.comodi", "Acció no permesa per un Usuari Extern.");
       }
@@ -1122,6 +1126,9 @@ import java.util.Set;
 
       signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
+      // Afegir usuariAplicació per #173
+      // Cas que només hi ha una firma, la ficam
+      signaturesSet.getApplicationBySignatureID().put(fif.fileInfoSignature.getSignID(), fif.applicationID);
       
       // XYZ ZZZ ZZZ 
       ModelAndView mav;
@@ -1666,9 +1673,8 @@ import java.util.Set;
             idname, location_sign_table, reason, location, signerEmail,  sign_number, 
             langSign, peticioDeFirma.getTipusFirmaID(), peticioDeFirma.getAlgorismeDeFirmaID(),
             peticioDeFirma.getModeDeFirma(), firmatPerFormat, timeStampGenerator, policyInfoSignature,
-            expedientCode, expedientName, expedientUrl, procedureCode, procedureName,
-            peticioDeFirma.getSolicitantUsuariAplicacioID()),
-            originalNumberOfSigns);
+            expedientCode, expedientName, expedientUrl, procedureCode, procedureName),
+            originalNumberOfSigns, peticioDeFirma.getSolicitantUsuariAplicacioID());
     }
 
 
@@ -3231,14 +3237,16 @@ import java.util.Set;
     public static class FileInfoFull {
       public final FileInfoSignature fileInfoSignature;
       public final int originalNumberOfSigns;
+      public final String applicationID;
       /**
        * @param fileInfoSignature
        * @param originalNumberOfSigns
        */
-      public FileInfoFull(FileInfoSignature fileInfoSignature, int originalNumberOfSigns) {
+      public FileInfoFull(FileInfoSignature fileInfoSignature, int originalNumberOfSigns, String applicationID) {
         super();
         this.fileInfoSignature = fileInfoSignature;
         this.originalNumberOfSigns = originalNumberOfSigns;
+        this.applicationID = applicationID;
       }
       
       
