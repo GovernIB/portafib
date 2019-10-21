@@ -6,7 +6,7 @@
 //
 
 
-package org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signresult;
+package org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.signresult;
 
 import java.util.ArrayList;
 import java.util.List;

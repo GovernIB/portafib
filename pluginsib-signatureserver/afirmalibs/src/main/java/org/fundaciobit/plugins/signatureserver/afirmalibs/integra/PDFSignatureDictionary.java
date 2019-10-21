@@ -4,7 +4,7 @@
  * Could not load the following classes:
  *  com.lowagie.text.pdf.PdfDictionary
  */
-package org.fundaciobit.plugin.signatureserver.afirmalibs.integra;
+package org.fundaciobit.plugins.signatureserver.afirmalibs.integra;
 
 import java.io.Serializable;
 

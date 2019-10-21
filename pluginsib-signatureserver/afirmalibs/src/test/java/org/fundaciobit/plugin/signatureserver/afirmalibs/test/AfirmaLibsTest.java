@@ -3,7 +3,7 @@ package org.fundaciobit.plugin.signatureserver.afirmalibs.test;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.fundaciobit.plugin.signatureserver.afirmalibs.AfirmaLibsSignatureServerPlugin;
+
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.IRubricGenerator;
@@ -16,6 +16,7 @@ import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.SignaturesTableHeader;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureserver.afirmalibs.AfirmaLibsSignatureServerPlugin;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
 import org.fundaciobit.pluginsib.core.utils.PluginsManager;
 

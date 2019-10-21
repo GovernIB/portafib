@@ -8,9 +8,9 @@ import java.security.MessageDigest;
 import java.util.Calendar;
 import java.util.Properties;
 
-import org.fundaciobit.plugin.signatureserver.afirmalibs.AfirmaLibsSignatureServerPlugin;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
+import org.fundaciobit.plugins.signatureserver.afirmalibs.AfirmaLibsSignatureServerPlugin;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 
 import es.gob.afirma.signers.tsp.pkcs7.CMSTimestamper;

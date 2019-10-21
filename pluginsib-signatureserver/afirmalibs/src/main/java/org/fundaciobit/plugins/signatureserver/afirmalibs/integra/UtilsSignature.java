@@ -1,4 +1,4 @@
-package org.fundaciobit.plugin.signatureserver.afirmalibs.integra;
+package org.fundaciobit.plugins.signatureserver.afirmalibs.integra;
 
 import org.apache.log4j.Logger;
 import org.bouncycastle.cert.X509CertificateHolder;
