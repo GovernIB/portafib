@@ -39,8 +39,10 @@
        <c:choose>
           <c:when test="${type eq Constants.DOC_PDF}">
              <object data="${urlfile}" type="application/pdf" width="100%" height="750">    
-               <br/><br/><br/>
-               <center><a href="${urlfile}"><c:out value="${nomfile}"/></a></center>
+               <p style="margin: 10px; font-weight: bolder;">
+               <fmt:message key="vistacompleta.navegadornopdf" /><br />
+               <fmt:message key="vistacompleta.potdescarregardocument" /><a href="${urlfile}"><c:out value="${nomfile}"/></a>
+               </p>
             </object>
           </c:when>
           <c:when test="${type eq Constants.DOC_TXT}">
