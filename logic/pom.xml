@@ -18,6 +18,14 @@
   <dependencies>
 
     <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <dependency>
       <artifactId>apifirmasimple-api</artifactId>
       <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
       <version>1.0</version>

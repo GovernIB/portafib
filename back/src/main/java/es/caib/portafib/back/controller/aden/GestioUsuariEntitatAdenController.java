@@ -18,9 +18,12 @@ import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
+import es.caib.portafib.model.fields.UsuariEntitatFields;
+import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.utils.ConstantsPortaFIB.POLITICA_CUSTODIA;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
@@ -45,6 +48,7 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.util.List;
 import java.util.Set;
 
@@ -236,19 +240,37 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
     } else {
       usuariEntitatForm.addReadOnlyField(ACTIU);
       
-      UsuariEntitat ue = usuariEntitatForm.getUsuariEntitat();
+      boolean esUsuariIntern = this.usuariEntitatLogicaEjb.executeQueryOne(
+          new UsuariEntitatQueryPath().USUARIPERSONA().USUARIINTERN(), 
+          UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatForm.getUsuariEntitat().getUsuariEntitatID()));
+
+      if (esUsuariIntern) {
       
-      Long count = roleUsuariEntitatLogicaEjb.count(Where.AND(
-           RoleUsuariEntitatFields.USUARIENTITATID.equal(ue.getUsuariEntitatID()),
-           RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_SOLI)
-        ) );
-      
-      if (count == 0) {
-        // No té role solicitant, llavors li posam un boto per donar-lo d'alta com soli.
-        usuariEntitatForm.addAdditionalButton(new AdditionalButton("icon-plus-sign",
-            "usuarientitat.rolesolicitant",
-            getContextWeb() + "/addsolicitantrole/" + ue.getUsuariEntitatID(),
-            "btn-success"));
+        UsuariEntitat ue = usuariEntitatForm.getUsuariEntitat();
+        
+        Long count = roleUsuariEntitatLogicaEjb.count(Where.AND(
+             RoleUsuariEntitatFields.USUARIENTITATID.equal(ue.getUsuariEntitatID()),
+             RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_SOLI)
+          ) );
+        
+        if (count == 0) {
+          // No té role solicitant, llavors li posam un boto per donar-lo d'alta com soli.
+          usuariEntitatForm.addAdditionalButton(new AdditionalButton("icon-plus-sign",
+              "usuarientitat.rolesolicitant",
+              getContextWeb() + "/addsolicitantrole/" + ue.getUsuariEntitatID(),
+              "btn-success"));
+        }
+       
+      } else {
+
+        usuariEntitatForm.addHiddenField(UsuariEntitatFields.EMAIL);
+        usuariEntitatForm.addHiddenField(UsuariEntitatFields.LOGOSEGELLID);
+        usuariEntitatForm.addHiddenField(UsuariEntitatFields.PREDETERMINAT);
+        usuariEntitatForm.addHiddenField(UsuariEntitatFields.REBRETOTSELSAVISOS);
+        usuariEntitatForm.addHiddenField(UsuariEntitatFields.POLITICACUSTODIA);
+        usuariEntitatForm.addHiddenField(UsuariEntitatFields.CUSTODIAINFOID);
+
+        HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("usuarientitat.depersonaexterna"));
       }
       
       if (usuariEntitatForm.getUsuariEntitat().isActiu()) {

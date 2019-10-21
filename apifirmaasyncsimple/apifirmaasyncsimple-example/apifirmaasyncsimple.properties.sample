@@ -16,15 +16,18 @@ PROFILE=PROFILE_PADES
 # Plantilla de Firmes (si aquesta està definida, no utilitza ni nifsDestinataris ni nifRevisor)
 #plantillaDeFirmes=208694
 
-# NIFs separats per comes
-nifsDestinataris=123456789C
+# NIFs o usuariextern. 
+# Firma en serie: separat per barra '|'
+# Firma en paral.lel  Separats per coma ','
 
-#nifsDestinataris=usuariextern, 123456789C
+nifsDestinataris=123456789C
+#nifsDestinataris=usuariextern , 43090000C | 12345678Z
+#nifsDestinataris=usuariextern, 12345678Z
 
 usuariextern.name=Inotna
 usuariextern.surnames=Ladan Rasanneb
 usuariextern.administrationid=123456789C
-usuariextern.email=externaluserl@gmail.com
+usuariextern.email=externaluser@externalfundation.org
 usuariextern.language=ca
 
 

@@ -118,66 +118,77 @@ public class ApiFirmaAsyncSimpleTester {
 
     if (plantillaDeFirmes == null || plantillaDeFirmes.trim().length() == 0) {
 
-      String[] nifsDestinataris = getNifsDestinataris();
+      String[][] destinataris = getNifsDestinataris();
       String nifRevisor = getNifRevisor();
 
-      System.out.println("nifsDestinataris = " + Arrays.toString(nifsDestinataris));
+      
 
-      if (nifsDestinataris == null || nifsDestinataris.length == 0) {
+      if (destinataris == null || destinataris.length == 0) {
         throw new Exception(
             "S'ha de definir la propietat nifsDestinataris dins test.properties");
       }
 
-      signatureBlocks = new FirmaAsyncSimpleSignatureBlock[nifsDestinataris.length];
+      signatureBlocks = new FirmaAsyncSimpleSignatureBlock[destinataris.length];
 
-      for (int i = 0; i < nifsDestinataris.length; i++) {
-        String nif = nifsDestinataris[i];
-        if (nif == null || nif.trim().length() == 0) {
-          throw new Exception("Un dels NIFs dels destinataris està buit o val null");
+      for (int i = 0; i < destinataris.length; i++) {
+        String[] destinatarisBloc = destinataris[i];
+        if (destinatarisBloc == null || destinatarisBloc.length == 0) {
+          throw new Exception("Els destinataris del bloc " + i + " està buit o val null");
+        }
+        System.out.println("BLOC[" + i + "] => Destinataris = " + Arrays.toString(destinatarisBloc));
+        List<FirmaAsyncSimpleSignature> signers = new ArrayList<FirmaAsyncSimpleSignature>();
+        for (int j = 0; j < destinatarisBloc.length; j++) {
+          
+          String nif = destinatarisBloc[j].trim();
+          
+          if (nif == null || nif.trim().length() == 0) {
+            throw new Exception("El destinatari " + j +  " del bloc " + i + " està buit o val null");
+          }
+
+          FirmaAsyncSimpleSigner personToSign;
+          if ("usuariextern".equals(nif)) {
+            FirmaAsyncSimpleExternalSigner externalSigner = getExternalSigner();
+            personToSign = new FirmaAsyncSimpleSigner();
+            personToSign.setExternalSigner(externalSigner);
+          } else {
+            personToSign = new FirmaAsyncSimpleSigner();
+            personToSign.setAdministrationID(nif);
+          }
+
+          
+          boolean required = true;
+          String reason = null; // Usar la de la Petició
+
+          // Revisors
+          int minimumNumberOfRevisers;
+          List<FirmaAsyncSimpleReviser> revisers;
+
+          if (nifRevisor == null) {
+            minimumNumberOfRevisers = 0;
+            revisers = null;
+          } else {
+            minimumNumberOfRevisers = 1;
+
+            FirmaAsyncSimplePerson rev = new FirmaAsyncSimplePerson();
+            rev.setAdministrationID(nifRevisor);
+
+            final boolean requiredReviser = true;
+            FirmaAsyncSimpleReviser reviser = new FirmaAsyncSimpleReviser(rev, requiredReviser);
+
+            revisers = new ArrayList<FirmaAsyncSimpleReviser>();
+            revisers.add(reviser);
+
+          }
+
+          signers.add(new FirmaAsyncSimpleSignature(personToSign, required, reason,
+              minimumNumberOfRevisers, revisers));
+
         }
         
-        FirmaAsyncSimpleSigner personToSign;
-        if ("usuariextern".equals(nif)) {
-          FirmaAsyncSimpleExternalSigner externalSigner = getExternalSigner();
-          personToSign = new FirmaAsyncSimpleSigner();
-          personToSign.setExternalSigner(externalSigner);
-        } else {
-          personToSign = new FirmaAsyncSimpleSigner();
-          personToSign.setAdministrationID(nif);
-        }
-
-        List<FirmaAsyncSimpleSignature> signers = new ArrayList<FirmaAsyncSimpleSignature>();
-        boolean required = true;
-        String reason = null; // Usar la de la Petició
-
-        // Revisors
-        int minimumNumberOfRevisers;
-        List<FirmaAsyncSimpleReviser> revisers;
-
-        if (nifRevisor == null) {
-          minimumNumberOfRevisers = 0;
-          revisers = null;
-        } else {
-          minimumNumberOfRevisers = 1;
-
-          FirmaAsyncSimplePerson rev = new FirmaAsyncSimplePerson();
-          rev.setAdministrationID(nifRevisor);
-
-          final boolean requiredReviser = true;
-          FirmaAsyncSimpleReviser reviser = new FirmaAsyncSimpleReviser(rev, requiredReviser);
-
-          revisers = new ArrayList<FirmaAsyncSimpleReviser>();
-          revisers.add(reviser);
-
-        }
-
-        signers.add(new FirmaAsyncSimpleSignature(personToSign, required, reason,
-            minimumNumberOfRevisers, revisers));
-
-        int minimumNumberOfSignaturesRequired = 1;
+        int minimumNumberOfSignaturesRequired = signers.size();
         signatureBlocks[i] = new FirmaAsyncSimpleSignatureBlock(
             minimumNumberOfSignaturesRequired, signers);
-
+       
       }
     }
 
@@ -255,7 +266,7 @@ public class ApiFirmaAsyncSimpleTester {
       }
 
       log.info("Creada peticio amb ID = " + peticioDeFirmaID2);
-
+      
       rinfo = new FirmaAsyncSimpleSignatureRequestInfo(peticioDeFirmaID2, languageUI);
 
       if (isWaitToSign()) {
@@ -380,12 +391,24 @@ public class ApiFirmaAsyncSimpleTester {
     }
   }
 
-  protected String[] getNifsDestinataris() {
+  protected String[][] getNifsDestinataris() {
     String tmp = testProperties.getProperty("nifsDestinataris");
     if (tmp == null || tmp.trim().length() == 0) {
       return null;
     }
-    return tmp.split(",");
+    
+    
+    
+    String[] blocs =  tmp.split("\\|");
+    
+    String[][] flux = new String[blocs.length][];
+    
+    for (int i = 0; i < blocs.length; i++) {
+      flux[i] = blocs[i].split(",");
+    }
+    
+    return flux;
+    
   }
   
   protected FirmaAsyncSimpleExternalSigner getExternalSigner() {
