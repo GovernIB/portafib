@@ -1,5 +1,25 @@
 package org.fundaciobit.apisib.apifirmasimple.v1.test;
 
+import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaEnServidorSimple;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfile;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentResponse;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignedFileInfo;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeResponse;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradedFileInfo;
+import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.NoAvailablePluginException;
+import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaEnServidorSimpleJersey;
+import org.fundaciobit.apisib.core.exceptions.ApisIBClientException;
+import org.fundaciobit.apisib.core.exceptions.ApisIBServerException;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
+import org.junit.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,26 +32,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
-
-import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaEnServidorSimple;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfile;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentResponse;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignedFileInfo;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradedFileInfo;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeResponse;
-import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.NoAvailablePluginException;
-import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaEnServidorSimpleJersey;
-import org.fundaciobit.apisib.core.exceptions.ApisIBClientException;
-import org.fundaciobit.apisib.core.exceptions.ApisIBServerException;
-import org.fundaciobit.pluginsib.core.utils.FileUtils;
-import org.junit.Test;
 
 /**
  * 
@@ -471,8 +471,7 @@ public class ApiFirmaEnServidorSimpleTester {
     FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("sample.xml_signed.xsig",
         "application/xml");
 
-    FirmaSimpleFile documentDetached = null; // getSimpleFileFromResource("sample.xml",
-                                             // "application/xml");
+    FirmaSimpleFile documentDetached = getSimpleFileFromResource("sample.xml", "application/xml");
 
     internalFullTestUpgrade(PROFILE_XADES_PROPERTY, fileToUpgrade, documentDetached,
         "sample.xml_signed_upgraded.xsig");

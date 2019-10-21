@@ -3,8 +3,6 @@ package es.caib.portafib.logic;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.security.PdfPKCS7;
-
-import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfComparator;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
@@ -14,7 +12,6 @@ import es.caib.portafib.logic.utils.ValidationsCAdES;
 import es.caib.portafib.logic.utils.ValidationsXAdES;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.utils.ConstantsV2;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -30,7 +27,6 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -50,10 +46,7 @@ import java.util.Date;
 @SecurityDomain("seycon")
 public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLogicaLocal {
 
-  protected static Logger log = Logger.getLogger(ValidacioCompletaFirmaLogicaEJB.class);
-
-  @EJB(mappedName = EntitatLocal.JNDI_NAME)
-  private EntitatLocal entitatEjb;
+  protected static final Logger log = Logger.getLogger(ValidacioCompletaFirmaLogicaEJB.class);
 
   @EJB(mappedName = PluginValidacioFirmesLogicaLocal.JNDI_NAME)
   protected PluginValidacioFirmesLogicaLocal validacioFirmesEjb;
