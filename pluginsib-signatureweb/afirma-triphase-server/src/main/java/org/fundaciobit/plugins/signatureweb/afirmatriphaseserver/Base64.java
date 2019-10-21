@@ -7,7 +7,7 @@
  * Date: 08/09/2017
  * You may contact the copyright holder at: soporte.afirma@correo.gob.es
  */
-package org.fundaciobit.plugin.signatureweb.afirmatriphaseserver;
+package org.fundaciobit.plugins.signatureweb.afirmatriphaseserver;
 
 import java.io.IOException;
 

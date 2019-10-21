@@ -99,7 +99,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.UUID;
 
 /**
  * Created 06/06/2019 10:23
@@ -1010,17 +1009,28 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       final String msg = "Els blocs de firmes de la Petició de Firmes val null o està buit";
       throw new I18NException("genapp.comodi", msg);
     } else {
-      jpa.setFluxDeFirmes(toJPA(blocks, entitatJPA.getEntitatID(), fitxersCreats, languageUI));
+      jpa.setFluxDeFirmes(toJPA(blocks, entitatJPA.getEntitatID(), fitxersCreats, 
+          languageUI, signatureRequest.getTitle()));
     }
 
     return jpa;
   }
 
+  /**
+   * 
+   * @param blocks
+   * @param entitatID
+   * @param fitxersCreats
+   * @param languageUI
+   * @param titolPeticio
+   * @return
+   * @throws I18NException
+   */
   protected FluxDeFirmesJPA toJPA(FirmaAsyncSimpleSignatureBlock[] blocks, String entitatID,
-      Set<Long> fitxersCreats, String languageUI) throws I18NException {
+      Set<Long> fitxersCreats, String languageUI, String titolPeticio) throws I18NException {
 
     // Bean
-    FluxDeFirmesJPA jpa = new FluxDeFirmesJPA("Flux per Petició Async " + blocks.toString());
+    FluxDeFirmesJPA jpa = new FluxDeFirmesJPA("Flux per Petició Async " + titolPeticio);
 
     Set<BlocDeFirmesJPA> blocsDeFirmesJPA = new HashSet<BlocDeFirmesJPA>();
     for (int b = 0; b < blocks.length; b++) {
@@ -1112,9 +1122,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       extern_idioma= es.getLanguage();
       extern_nivellseguretat= es.getSecurityLevel();
       
-      // XYZ ZZZ ZZZ Verificar que token és uúnic sino generar-ne un de nou
-      // Utilitzar sincronized 
-      extern_token = UUID.randomUUID().toString();
+      // Genera un token únic  
+      extern_token = firmaLogicaEjb.getUniqueTokenForFirma();
     }
 
     FirmaJPA jpa = new FirmaJPA(firmaID, destinatariID, blocDeFirmaID, obligatori,

@@ -1,4 +1,4 @@
-package org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signsaver;
+package org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.signsaver;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.AfirmaTriphaseSignatureWebPlugin;
-import org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.AfirmaTriphaseSignatureWebPlugin.Item;
+import org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.AfirmaTriphaseSignatureWebPlugin;
+import org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.AfirmaTriphaseSignatureWebPlugin.Item;
 
 import es.gob.afirma.signers.batch.SignSaver;
 import es.gob.afirma.signers.batch.SingleSign;

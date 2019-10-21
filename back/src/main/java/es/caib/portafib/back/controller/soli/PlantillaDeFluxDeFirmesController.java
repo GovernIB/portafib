@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -1023,9 +1022,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
         firma.setUsuariExternNivellSeguretat(ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_TOKEN);
         firma.setUsuariExternNom(up.getNom());
         
-        // XYZ ZZZ ZZZ Verificar que token és uúnic sino generar-ne un de nou
-        // Utilitzar sincronized 
-        firma.setUsuariExternToken(UUID.randomUUID().toString());
+        // Genera un token únic  
+        firma.setUsuariExternToken(firmaLogicaEjb.getUniqueTokenForFirma());
 
       }
 

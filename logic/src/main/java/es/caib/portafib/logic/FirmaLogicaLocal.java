@@ -31,5 +31,8 @@ public interface FirmaLogicaLocal extends FirmaLocal {
   public FirmaJPA findByPrimaryKeyUnauthorized(Long _ID_);
   
   public Firma updateUnauthorized(Firma instance) throws I18NException;
+  
+  public String getUniqueTokenForFirma() throws I18NException;
+  
 
 }

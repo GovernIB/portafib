@@ -260,18 +260,39 @@
                                   ${firma.firmaID}
                                   </c:if>
 
-                                  <c:if test="${not empty firma.usuariEntitat.carrec}">
-                                    <b>${firma.usuariEntitat.carrec}</b>
-                                    <br />
-                                    <small>
-                                      ${firma.usuariEntitat.usuariPersona.nom}&nbsp;${firma.usuariEntitat.usuariPersona.llinatges}
-                                       <br>
-                                    </small>
-                                  </c:if>
-                                  <c:if test="${empty firma.usuariEntitat.carrec}">
+                                  <c:choose>
+         
+                                    <%--  CARREC --%>
+                                    <c:when test = "${not empty firma.usuariEntitat.carrec}">
+                                      <b>${firma.usuariEntitat.carrec}</b>
+                                      <br/>
+                                      <small>
+                                        ${firma.usuariEntitat.usuariPersona.nom}&nbsp;
+                                        ${firma.usuariEntitat.usuariPersona.llinatges}
+                                        <br>
+                                      </small>
+                                    </c:when>
+                                     
+                                    <%--  USUARI EXTERN --%>
+                                    <c:when test = "${not empty firma.usuariExternNom}">
+                                      <i>${firma.usuariExternNom}&nbsp;${firma.usuariExternLlinatges}</i><br/>
+                                      <small>
+                                        <i class="icon-envelope"></i>${firma.usuariExternEmail}<br/>
+                                        ${firma.usuariEntitat.usuariPersona.nif}
+                                      </small>
+                                    </c:when>
+                                    
+                                    <%--  USUARI INTERN --%>
+                                    <c:when test = "${empty firma.usuariExternNom}">
                                       ${firma.usuariEntitat.usuariPersona.nom}&nbsp;${firma.usuariEntitat.usuariPersona.llinatges}<br/>
                                       ${firma.usuariEntitat.usuariPersona.nif}<br/>
-                                  </c:if>
+                                    </c:when>
+                                     
+                                    <c:otherwise>
+                                       ERROR UNKNOWN USER
+                                    </c:otherwise>
+                                  </c:choose>
+                                  
 
                                   <table style="text-align: left">
 

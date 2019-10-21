@@ -6,7 +6,7 @@
 //
 
 
-package org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signbatch;
+package org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.signbatch;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
