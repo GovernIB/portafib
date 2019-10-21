@@ -99,7 +99,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.UUID;
 
 /**
  * Created 06/06/2019 10:23
@@ -1123,9 +1122,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       extern_idioma= es.getLanguage();
       extern_nivellseguretat= es.getSecurityLevel();
       
-      // XYZ ZZZ ZZZ Verificar que token és uúnic sino generar-ne un de nou
-      // Utilitzar sincronized 
-      extern_token = UUID.randomUUID().toString();
+      // Genera un token únic  
+      extern_token = firmaLogicaEjb.getUniqueTokenForFirma();
     }
 
     FirmaJPA jpa = new FirmaJPA(firmaID, destinatariID, blocDeFirmaID, obligatori,

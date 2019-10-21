@@ -3,6 +3,7 @@ package es.caib.portafib.logic;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import es.caib.portafib.ejb.EstatDeFirmaLocal;
 import es.caib.portafib.ejb.FirmaEJB;
@@ -140,5 +141,27 @@ public class FirmaLogicaEJB extends FirmaEJB implements FirmaLogicaLocal {
     return firma;
 
   }
+  
+  @Override
+  public String getUniqueTokenForFirma() throws I18NException {
+
+    int x = 20;
+    do {
+      String token = UUID.randomUUID().toString();
+    
+      Long count = this.count(FirmaFields.USUARIEXTERNTOKEN.equal(token));
+      
+      if (count == 0) {
+        return token;
+      }
+      x++;
+    } while(x < 20);
+    
+    throw new I18NException("genapp.comodi", 
+        "No s'ha pogut generar un token únic per una firma d'un Usuari Extern.");
+    
+    
+  }
+  
 
 }
