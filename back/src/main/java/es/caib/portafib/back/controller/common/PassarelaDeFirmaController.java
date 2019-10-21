@@ -1,28 +1,5 @@
 package es.caib.portafib.back.controller.common;
 
-import java.io.StringWriter;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
-import javax.ejb.EJB;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.log4j.Logger;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.signature.api.SignaturesSet;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
-import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSessionLocaleResolver;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
@@ -38,6 +15,27 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.utils.Configuracio;
+import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.SignaturesSet;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.StringWriter;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * 
@@ -111,8 +109,7 @@ public class PassarelaDeFirmaController {
       
       log.info(" XYZ ZZZ \n\n ssf.getApplicationID() => " + ssf.getApplicationID() + "\n\n" );
       
-      UsuariAplicacioJPA usrApp = (UsuariAplicacioJPA) usuariAplicacioLogicaEjb
-          .findByPrimaryKey(ssf.getApplicationID());
+      UsuariAplicacioJPA usrApp = usuariAplicacioLogicaEjb.findByPrimaryKey(ssf.getApplicationID());
 
       log.info(" XYZ ZZZ \n\n usrApp => " + usrApp + "\n\n" );
       
@@ -143,6 +140,12 @@ public class PassarelaDeFirmaController {
 
       // No tenim cap restricció de plugins per tipus de document
       signaturesSet.setPluginsFirmaBySignatureID(null);
+
+      // Afegir usuariAplicació per #173
+      // En passarela l'aplicació és la mateixa per totes les signatures.
+      for (FileInfoSignature fis : ss.getFileInfoSignatureArray()) {
+        signaturesSet.getApplicationBySignatureID().put(fis.getSignID(), ssf.getApplicationID());
+      }
 
       final String view = "PluginDeFirmaContenidor_Passarela";
 
@@ -217,7 +220,7 @@ public class PassarelaDeFirmaController {
    * Quan acaba el mòdul de firma mostram espera de validacions de firma
    * @param request
    * @param response
-   * @param signaturesSetID
+   * @param transactionID
    * @return
    * @throws Exception
    */

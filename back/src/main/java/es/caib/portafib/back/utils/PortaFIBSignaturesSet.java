@@ -1,14 +1,14 @@
 package es.caib.portafib.back.utils;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import es.caib.portafib.jpa.EntitatJPA;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 
-import es.caib.portafib.jpa.EntitatJPA;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -18,6 +18,8 @@ import es.caib.portafib.jpa.EntitatJPA;
 public class PortaFIBSignaturesSet extends SignaturesSetWeb {
 
   protected Map<String, List<Long>> pluginsFirmaBySignatureID = null;
+
+  protected Map<String, String> applicationBySignatureID = new HashMap<String, String>();
   
   protected List<Long> filterByPluginID = null;
 
@@ -57,6 +59,14 @@ public class PortaFIBSignaturesSet extends SignaturesSetWeb {
 
   public void setPluginsFirmaBySignatureID(Map<String, List<Long>> pluginsFirmaBySignatureID) {
     this.pluginsFirmaBySignatureID = pluginsFirmaBySignatureID;
+  }
+
+  public Map<String, String> getApplicationBySignatureID() {
+    return applicationBySignatureID;
+  }
+
+  public void setApplicationBySignatureID(Map<String, String> applicationBySignatureID) {
+    this.applicationBySignatureID = applicationBySignatureID;
   }
 
   public String getUrlFinalOriginal() {

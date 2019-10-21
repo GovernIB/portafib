@@ -288,8 +288,7 @@ public class AutoFirmaController extends FitxerController
         langSign, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         ConstantsV2.SIGN_MODE_IMPLICIT,
         SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langSign), timeStampGenerator,
-        policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode, procedureName,
-        entitat.getUsuariAplicacioID());
+        policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
     
     CommonInfoSignature commonInfoSignature;
     {
@@ -319,9 +318,11 @@ public class AutoFirmaController extends FitxerController
         caducitat.getTime(),  commonInfoSignature,
         new FileInfoSignature[] { fis }, new int[] { originalNumberOfSigns },
         loginInfo.getEntitat(), urlFinal, true, baseUrl);
-    
-    signaturesSet.setPluginsFirmaBySignatureID(null);
 
+    signaturesSet.setPluginsFirmaBySignatureID(null);
+    // Afegir usuariAplicació per #173
+    // És una única firma, amb autofirma. L'aplicació és la de l'entitat.
+    signaturesSet.getApplicationBySignatureID().put(fis.getSignID(), entitat.getUsuariAplicacioID());
     
     final String view = "PluginDeFirmaContenidor_AutoFirma";
     ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);

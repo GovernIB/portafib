@@ -206,15 +206,13 @@ public class ExempleApp {
     final String procedureCode=null;
     final String procedureName=null;
 
-    final String applicationID = "app";
-
     FileInfoSignature fileInfo = new FileInfoSignature(signID, source,
         previusSignatureDetachedFile, 
         FileInfoSignature.PDF_MIME_TYPE, name, reason, location, signerEmail, signNumber,
         languageSign, signOperation, signType, signAlgorithm, signMode, signaturesTableLocation,
         signaturesTableHeader, pdfInfoSignature, csvStampInfo, userRequiresTimeStamp,
         timeStampGenerator, policyInfoSignature, expedientCode,
-          expedientName, expedientUrl, procedureCode, procedureName, applicationID);
+          expedientName, expedientUrl, procedureCode, procedureName);
 
     final String signaturesSetID = String.valueOf(System.currentTimeMillis());
     SignaturesSet signaturesSet = new SignaturesSet(signaturesSetID, commonInfoSignature,
