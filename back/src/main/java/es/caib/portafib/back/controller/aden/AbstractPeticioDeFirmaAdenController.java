@@ -1,31 +1,35 @@
 package es.caib.portafib.back.controller.aden;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
+import es.caib.portafib.back.controller.AbstractPeticioDeFirmaByTipusSolicitant;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
+import es.caib.portafib.model.entity.PeticioDeFirma;
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
+import es.caib.portafib.utils.Configuracio;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import es.caib.portafib.back.controller.AbstractPeticioDeFirmaByTipusSolicitant;
-import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.utils.Configuracio;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
  * @author anadal(u80067)
- *
+ * @author areus
  */
 public abstract class AbstractPeticioDeFirmaAdenController extends
     AbstractPeticioDeFirmaByTipusSolicitant {
+
+  private int COLUMN_REMITENT = 1;
 
   @Override
   public String getAnnexPath() {
@@ -69,10 +73,26 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
   public PeticioDeFirmaFilterForm getPeticioDeFirmaFilterForm(Integer pagina,
       ModelAndView mav, HttpServletRequest request) throws I18NException {
 
-    PeticioDeFirmaFilterForm peticioDeFirmaFilterForm;
-    peticioDeFirmaFilterForm = super.getPeticioDeFirmaFilterForm(pagina, mav, request);
+    PeticioDeFirmaFilterForm peticioDeFirmaFilterForm = super.getPeticioDeFirmaFilterForm(pagina, mav, request);
 
     if (peticioDeFirmaFilterForm.isNou()) {
+
+      {
+        // Amagam el remitent per defecte i cream una nova columna que juntarà remitentNom i remitentDescripció
+        peticioDeFirmaFilterForm.addHiddenField(REMITENTNOM);
+
+        AdditionalField<Long, String> additionalField = new AdditionalField<Long, String>();
+        additionalField.setCodeName(REMITENTNOM.codeLabel);
+        additionalField.setPosition(COLUMN_REMITENT);
+        additionalField.setEscapeXml(false);
+        // Els valors s'ompliran al mètode postList()
+        additionalField.setValueMap(new HashMap<Long, String>());
+        // Per ordenar feim servir el mateix camp de nom del remitent
+        additionalField.setOrderBy(REMITENTNOM);
+
+        peticioDeFirmaFilterForm.addAdditionalField(additionalField);
+      }
+
       peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
           "icon-list-alt icon-white", "peticiodefirma.fitxerspeticio", getContextWeb()
               + "/fitxerspeticio/{0}",
@@ -153,6 +173,7 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
       campsFiltre.add(DESCRIPCIO);
       campsFiltre.add(MOTIU);
       campsFiltre.add(REMITENTNOM);
+      campsFiltre.add(REMITENTDESCRIPCIO);
       campsFiltre.add(DATASOLICITUD);
       campsFiltre.add(DATAFINAL);
       campsFiltre.add(DATACADUCITAT);
@@ -171,4 +192,34 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
 
   }
 
+  @Override
+  public void postList(HttpServletRequest request, ModelAndView mav, PeticioDeFirmaFilterForm filterForm, List<PeticioDeFirma> list) throws I18NException {
+
+    log.info("postList()");
+    log.info("HiddenFilds: " + filterForm.getHiddenFields());
+
+    log.info("super.postList()");
+    super.postList(request, mav, filterForm, list);
+
+    Map<Long, String> mapRemitent = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_REMITENT).getValueMap();
+    mapRemitent.clear();
+
+    log.info("mapRemitent: " + mapRemitent);
+
+    for (PeticioDeFirma pf : list) {
+      StringBuffer str = new StringBuffer();
+      str.append("<small><b>");
+      str.append(pf.getRemitentNom()).append("</b>");
+      String remiDesc = pf.getRemitentDescripcio();
+      if (remiDesc != null) {
+        str.append("<br/>").append(remiDesc);
+      }
+      str.append("</small>");
+      mapRemitent.put(pf.getPeticioDeFirmaID(),  str.toString());
+    }
+
+    log.info("mapRemitent: " + mapRemitent);
+
+    log.info("HiddenFilds: " + filterForm.getHiddenFields());
+  }
 }
