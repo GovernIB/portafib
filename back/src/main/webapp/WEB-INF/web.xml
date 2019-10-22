@@ -215,6 +215,7 @@
         <web-resource-collection>
             <web-resource-name>portafib_back-common</web-resource-name>
             <url-pattern>/common/*</url-pattern>
+            <url-pattern>/canviarPipella/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>PFI_USER</role-name>

@@ -79,15 +79,10 @@ public class AuthenticationSuccessListener implements
             + " Tanqui el navegador completament.");
       }
     } catch (Throwable e) {
-      
-      log.info(" XYZ ZZZ ZZZ Ha entrat amb un usuari extern i ara intenta entrar com a usuari intern !!!!", e);
-      
-      // OK
+      log.info(" XYZ ZZZ ZZZ S'ha produit un error consultant la informació de login actual: " + e.getMessage());
     }
     
 
-   
-    
     final boolean isDebug = log.isDebugEnabled();
 
     // Cercam si té el ROLE_USER o ROLE_ADMIN
