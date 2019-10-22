@@ -816,3 +816,25 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.ESDEPETICIO)}">
+        <tr id="usuariAplicacioConfiguracio_esDePeticio_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.ESDEPETICIO])?'usuariAplicacioConfiguracio.esDePeticio':__theForm.labels[UsuariAplicacioConfiguracioFields.ESDEPETICIO]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.ESDEPETICIO]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.ESDEPETICIO]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.ESDEPETICIO)}" >
+              <form:errors path="usuariAplicacioConfiguracio.esDePeticio" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.ESDEPETICIO)? 'false' : 'true'}" path="usuariAplicacioConfiguracio.esDePeticio" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.ESDEPETICIO)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.usuariAplicacioConfiguracio.esDePeticio}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        

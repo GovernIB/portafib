@@ -46,6 +46,7 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
 	 public static final BooleanField CHECKCANVIATDOCFIRMAT = new BooleanField(_TABLE_MODEL, "checkCanviatDocFirmat", "checkcanviatdocfirmat");
 	 public static final BooleanField COMPROVARNIFFIRMA = new BooleanField(_TABLE_MODEL, "comprovarNifFirma", "comprovarniffirma");
 	 public static final BooleanField VALIDARCERTIFICAT = new BooleanField(_TABLE_MODEL, "validarCertificat", "validarcertificat");
+	 public static final BooleanField ESDEPETICIO = new BooleanField(_TABLE_MODEL, "esDePeticio", "esdepeticio");
 
 
   public static final Field<?>[] ALL_USUARIAPLICACIOCONFIGURACIO_FIELDS = {
@@ -82,7 +83,8 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
     VALIDARFIRMA,
     CHECKCANVIATDOCFIRMAT,
     COMPROVARNIFFIRMA,
-    VALIDARCERTIFICAT
+    VALIDARCERTIFICAT,
+    ESDEPETICIO
   };
 
 

@@ -25,6 +25,7 @@ import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.FluxDeFirmesJPA;
 import es.caib.portafib.jpa.MetadadaJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.validator.PeticioDeFirmaBeanValidator;
@@ -85,11 +86,13 @@ import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields;
+import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -123,6 +126,7 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -438,6 +442,31 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
     }
     // --- FINAL CHECK CUSTODIA
+    
+    
+    // Clonar Configuració de Firma
+    {
+      Long configuracioDeFirmaID = peticioDeFirma.getConfiguracioDeFirmaID();
+      if(configuracioDeFirmaID != null) {
+        
+        UsuariAplicacioConfiguracioJPA config;
+        config = configuracioDeFirmaLogicaEjb.findByPrimaryKey(configuracioDeFirmaID);
+        
+        if (config == null) {
+          throw new I18NException("genapp.comodi", "S´ha passat configuracio de firma amb ID "
+            + configuracioDeFirmaID + "que no existeix a la Petició de Firma");
+        }
+        
+        UsuariAplicacioConfiguracioJPA clone = UsuariAplicacioConfiguracioJPA.copyJPA(config);
+        clone.setUsuariAplicacioConfigID(0);
+        clone.setEsDePeticio(true);
+        
+        clone = (UsuariAplicacioConfiguracioJPA)configuracioDeFirmaLogicaEjb.create(clone);
+        
+        peticioDeFirma.setConfiguracioDeFirmaID(clone.getUsuariAplicacioConfigID());
+      }
+    }
+    
 
     // TODO controlar permisos de creació. Bàsicament que el solicitant 
     // sigui un dels UsuarisEntitat de l'usuari, o en cas d'UsuariAplicacio
@@ -2086,8 +2115,28 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       String entitatID = pf.getUsuariAplicacio().getEntitatID();
 
+      
       // Esborrar Peticio de Firma
-      delete(pf); // peticioDeFirmaID);
+      this.delete(pf);
+      
+      // Esborrar Configuració de Firma si es de la Petició
+      {
+        Long configuracioDeFirmaID = pf.getConfiguracioDeFirmaID();
+        if(configuracioDeFirmaID == null) {
+          // OK
+        } else {
+          
+          boolean esDePeticio;
+          esDePeticio = configuracioDeFirmaLogicaEjb.executeQueryOne(
+              UsuariAplicacioConfiguracioFields.ESDEPETICIO,
+              UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID.equal(configuracioDeFirmaID));
+          
+          if (esDePeticio) {
+            configuracioDeFirmaLogicaEjb.deleteFull(configuracioDeFirmaID);
+          }
+        }
+      }
+      
 
       if (isUsuariEntitat) {
          if (motiuEsborrat == null) {

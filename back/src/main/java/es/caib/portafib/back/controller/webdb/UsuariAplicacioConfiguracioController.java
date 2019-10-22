@@ -361,6 +361,9 @@ public class UsuariAplicacioConfiguracioController
       fillValuesToGroupByItemsBoolean("definitenentitat", groupByItemsMap, VALIDARCERTIFICAT);
 
 
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, ESDEPETICIO);
+
+
     return groupByItemsMap;
   }
 

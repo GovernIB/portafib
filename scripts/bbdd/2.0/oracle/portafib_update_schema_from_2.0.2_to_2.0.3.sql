@@ -14,5 +14,9 @@ UPDATE pfi_plugin
   WHERE classe='org.fundaciobit.plugin.signatureserver.afirmalibs.AfirmaLibsSignatureServerPlugin';
   
   
-  
-  
+-- ================================================
+-- 2019-10-21  Fer còpia de Configuració en Petició de Firma #371 
+-- ================================================
+ 
+ ALTER TABLE pfi_usuariaplicacioconfig
+  ADD esdepeticio NUMBER(1,0) NOT NULL DEFAULT 0;

@@ -104,6 +104,9 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public java.lang.Boolean getValidarCertificat();
 	public void setValidarCertificat(java.lang.Boolean _validarCertificat_);
 
+	public boolean isEsDePeticio();
+	public void setEsDePeticio(boolean _esDePeticio_);
+
 
 
   // ======================================

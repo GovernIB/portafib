@@ -147,6 +147,10 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.VALIDARCERTIFICAT);
   }
 
+  public BooleanField ESDEPETICIO() {
+    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.ESDEPETICIO);
+  }
+
 
 
   @Override
