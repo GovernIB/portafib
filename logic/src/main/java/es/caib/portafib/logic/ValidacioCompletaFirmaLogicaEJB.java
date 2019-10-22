@@ -103,14 +103,17 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
       IPortaFIBDataSource documentDetached = validacioRequest.getDocumentDetachedData();
 
       if (documentDetached == null) {
-
         // Si es CAdES o XAdES en la primera firma i es requereix firma explicita o
         // detached, llavors getDocumentDetachedData() valdrà null, però per la
-        // validació necessitam el valor del fitxer original
+        // validació necessitam el valor del fitxer original, sempre i quan
+        // no sigui un XAdES 'internally detached' que sí que inclou el document.
         if (validacioRequest.getSignMode() == ConstantsV2.SIGN_MODE_EXPLICIT) {
-          documentDetached = validacioRequest.getOriginalData();
+          // per tant, comprovam que no és XAdES, o sí és XAdES no és un internally detached
+          if (validacioRequest.getSignTypeID() != ConstantsV2.TIPUSFIRMA_XADES
+                || !ValidationsXAdES.isXadesDettachedWithOriginalDocumentAsSibling(validacioRequest.getSignatureData())) {
+            documentDetached = validacioRequest.getOriginalData();
+          }
         }
-
       }
 
       if (log.isDebugEnabled()) {
@@ -231,7 +234,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                     "Pareix ser que el document adjunt en la firna XAdES Attached NO es"
                     + " igual al document original enviat");                
               }
-            } catch (IOException e) {
+            } catch (Exception e) {
               throw new I18NException("genapp.comodi",
                   "Error llegint el document adjunt en la firna XAdES Attached o el document "
                   + "original enviat");
