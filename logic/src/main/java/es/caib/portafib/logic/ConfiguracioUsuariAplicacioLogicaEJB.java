@@ -577,31 +577,33 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
   @Override
   public void deleteFull(Long _ID_) throws I18NException {
 
-    Long idM = null;
-    Long idF = null;
-    
-    Boolean esDePeticio = executeQueryOne(ESDEPETICIO, USUARIAPLICACIOCONFIGID.equal(_ID_));
-    
-    if (esDePeticio == null) {
+    // Es podran esborrar les traduccions quan només en quedi una referència
+    UsuariAplicacioConfiguracio config = this.findByPrimaryKey(_ID_);
+
+    if (config == null) {
       return;
     }
 
-    if (esDePeticio == false) {
-      idM = this.executeQueryOne(MOTIUDELEGACIOID, USUARIAPLICACIOCONFIGID.equal(_ID_));
-      idF = this.executeQueryOne(FIRMATPERFORMATID, USUARIAPLICACIOCONFIGID.equal(_ID_));
+    Long countM = null;
+    if (config.getMotiuDelegacioID() != null) {
+      countM = this.count(MOTIUDELEGACIOID.equal(config.getMotiuDelegacioID()));
     }
     
-    this.delete(_ID_);
-    
+    Long countF = null;
+    if (config.getFirmatPerFormatID() != null) {
+      countF = this.count(FIRMATPERFORMATID.equal(config.getFirmatPerFormatID()));
+    }
 
-    if (idM != null) {
-      traduccioEjb.delete(idM);
+    this.delete(_ID_);
+
+    if (countM != null && countM == 1) {
+      traduccioEjb.delete(config.getMotiuDelegacioID());
     }
-    
-    if (idF != null) {
-      traduccioEjb.delete(idF);
+
+    if (countF != null && countF == 1) {
+      traduccioEjb.delete(config.getFirmatPerFormatID());
     }
-    
+
   }
 
 }

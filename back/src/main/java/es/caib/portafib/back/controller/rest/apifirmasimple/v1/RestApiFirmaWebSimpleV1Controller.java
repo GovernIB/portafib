@@ -434,7 +434,6 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
       log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
 
       // Validar simpleSignature
-
       cleanExpiredTransactions();
 
       // CHECKS DE variable

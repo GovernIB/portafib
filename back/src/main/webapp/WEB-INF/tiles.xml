@@ -464,6 +464,11 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariAplicacioList.jsp" />
     </definition>
 
+    <definition name="peticioSincronaListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
+    </definition>
+    
+
     <!--  ===========  ADMINISTRADOR ================== -->
     
     <definition name="role_admin" extends="base.definition">

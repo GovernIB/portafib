@@ -1119,6 +1119,30 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
     deleteSignaturesSet(pss);
   }
+  
+  @Override
+  public Map<String, PassarelaSignaturesSetWebInternalUse> getAllTransactionsByEntitatID(
+      String entitatID) throws I18NException {
+    
+    checkExpiredSignaturesSet();
+
+    Map<String, PassarelaSignaturesSetWebInternalUse> map = new HashMap<String, PassarelaSignaturesSetWebInternalUse>();
+
+    synchronized (passarelaSignaturesSets) {
+
+      for (Map.Entry<String, PassarelaSignaturesSetWebInternalUse> entry : passarelaSignaturesSets
+          .entrySet()) {
+        if (entry.getValue().getEntitatID().equals(entitatID)) {
+          map.put(entry.getKey(), entry.getValue());
+        }
+      }
+    }
+
+    return map;
+
+  }
+  
+  
 
   protected void deleteSignaturesSet(PassarelaSignaturesSetWebInternalUse pss) {
 

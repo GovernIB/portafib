@@ -66,6 +66,7 @@ static {
   menu1.add(null);
   menu1.add(MenuItem.retallaDarrerPath("estadistica.estadistica.plural", "/aden/estadistica/search"));
   menu1.add(MenuItem.retallaDarrerPath("bitacola.menu", "/aden/bitacola/list"));
+  menu1.add(MenuItem.retallaDarrerPath("peticiosincrona.menu", "/aden/peticiosincrona/list"));
 
 
   final String CONFIGURACIO_DE_FIRMA = UsuariAplicacioConfiguracioFields._TABLE_MODEL + "." + UsuariAplicacioConfiguracioFields._TABLE_MODEL + ".plural";

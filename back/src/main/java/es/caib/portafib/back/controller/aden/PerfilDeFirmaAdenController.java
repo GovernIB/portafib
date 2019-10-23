@@ -169,36 +169,39 @@ public class PerfilDeFirmaAdenController extends PerfilDeFirmaController {
 
   @Override
   public List<StringKeyValue> getReferenceListForConfiguracioDeFirma1ID(HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
-    String entitatID = LoginInfo.getInstance().getEntitatID();
-    Where newWhere = Where.AND(where, UsuariAplicacioConfiguracioFields.ENTITATID.equal(entitatID));
+    Where newWhere = newWhereForConfiguracioUsuariAplicacio(where);
     return super.getReferenceListForConfiguracioDeFirma1ID(request, mav, newWhere);
   }
 
   @Override
   public List<StringKeyValue> getReferenceListForConfiguracioDeFirma2ID(HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
-    String entitatID = LoginInfo.getInstance().getEntitatID();
-    Where newWhere = Where.AND(where, UsuariAplicacioConfiguracioFields.ENTITATID.equal(entitatID));
+    Where newWhere = newWhereForConfiguracioUsuariAplicacio(where);
     return super.getReferenceListForConfiguracioDeFirma2ID(request, mav, newWhere);
   }
 
   @Override
   public List<StringKeyValue> getReferenceListForConfiguracioDeFirma3ID(HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
-    String entitatID = LoginInfo.getInstance().getEntitatID();
-    Where newWhere = Where.AND(where, UsuariAplicacioConfiguracioFields.ENTITATID.equal(entitatID));
+    Where newWhere = newWhereForConfiguracioUsuariAplicacio(where);
     return super.getReferenceListForConfiguracioDeFirma3ID(request, mav, newWhere);
   }
 
   @Override
   public List<StringKeyValue> getReferenceListForConfiguracioDeFirma4ID(HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
-    String entitatID = LoginInfo.getInstance().getEntitatID();
-    Where newWhere = Where.AND(where, UsuariAplicacioConfiguracioFields.ENTITATID.equal(entitatID));
+    Where newWhere = newWhereForConfiguracioUsuariAplicacio(where);
     return super.getReferenceListForConfiguracioDeFirma4ID(request, mav, newWhere);
   }
 
   @Override
   public List<StringKeyValue> getReferenceListForConfiguracioDeFirma5ID(HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
-    String entitatID = LoginInfo.getInstance().getEntitatID();
-    Where newWhere = Where.AND(where, UsuariAplicacioConfiguracioFields.ENTITATID.equal(entitatID));
+    Where newWhere = newWhereForConfiguracioUsuariAplicacio(where);
     return super.getReferenceListForConfiguracioDeFirma5ID(request, mav, newWhere);
+  }
+
+  protected Where newWhereForConfiguracioUsuariAplicacio(Where where) {
+    String entitatID = LoginInfo.getInstance().getEntitatID();
+    Where newWhere = Where.AND(where,
+        UsuariAplicacioConfiguracioFields.ENTITATID.equal(entitatID),
+        UsuariAplicacioConfiguracioFields.ESDEPETICIO.equal(false));
+    return newWhere;
   }
 }

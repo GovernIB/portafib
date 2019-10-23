@@ -109,6 +109,8 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
     
     // Codi comu
     form.addHiddenField(ENTITATID);
+    form.addHiddenField(ESDEPETICIO);
+    
 
     form.addHelpToField(FILTRECERTIFICATS,
         I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
@@ -334,7 +336,10 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
 
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-    return ENTITATID.equal(LoginInfo.getInstance().getEntitatID());
+    return Where.AND(
+        ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
+        ESDEPETICIO.equal(false)            
+       );
   }
 
   /*

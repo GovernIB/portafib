@@ -20,7 +20,7 @@ import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 
 /**
  * 
- * @author anadal
+ * @author anadal(u80067)
  *
  */
 @Local
@@ -32,12 +32,13 @@ public interface PassarelaDeFirmaWebLocal extends AbstractPassarelaDeFirmaLocal 
 
   public static final String PASSARELA_CONTEXTPATH_FINAL = "/final";
 
+  public Map<String, PassarelaSignaturesSetWebInternalUse> getAllTransactionsByEntitatID(
+      String entitatID) throws I18NException;
+
   public String startTransaction(PassarelaSignaturesSet signaturesSet, String entitatID,
-      boolean fullView, UsuariAplicacioJPA usuariAplicacio,
-      PerfilDeFirma perfilDeFirma,
+      boolean fullView, UsuariAplicacioJPA usuariAplicacio, PerfilDeFirma perfilDeFirma,
       Map<String, UsuariAplicacioConfiguracioJPA> configBySignID,
-      Map<String,Long> tipusDocumentalBySignID,
-      int origenPeticioDeFirma)
+      Map<String, Long> tipusDocumentalBySignID, int origenPeticioDeFirma)
       throws I18NException, I18NValidationException;
 
   public PassarelaSignatureStatus getStatusTransaction(String transactionID)
