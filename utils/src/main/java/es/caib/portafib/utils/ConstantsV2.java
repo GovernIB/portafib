@@ -118,6 +118,8 @@ public interface ConstantsV2 {
   public static final String ROLE_COLA = "ROLE_COLA";
   // Administrador d''Entitat
   public static final String ROLE_ADEN = "ROLE_ADEN";
+  // Administrador d'Aplicacions
+  public static final String ROLE_ADEN2 = "ROLE_ADEN2";
   // Sol·licitant
   public static final String ROLE_SOLI = "ROLE_SOLI";
   // Revisor

@@ -59,16 +59,23 @@
        <c:if test="${not(empty avisos[rol])}">
          &nbsp; <span class="badge badge-warning">${avisos[rol]}</span>
        </c:if>
-        <%-- MMMENU
-       <c:if test="${rol eq 'ROLE_COLA' }">
-         &nbsp;<b class="caret"></b>
-        </c:if>
-         --%>
        </a>
-        
-
-       
     </li>
+    
+    
+     <c:if test="${rol eq 'ROLE_ADEN' }">
+       <li class="${(pipella eq 'ROLE_ADEN2')?'active' : '' }">
+          <c:url var="linktab" value="/canviarPipella/ROLE_ADEN2"/>
+          <c:set var="href" value="href=\"${linktab}\"" />
+          <a ${href}><fmt:message key="ROLE_ADEN2" />
+          <c:if test="${not(empty avisos[ROLE_ADEN2])}">
+            &nbsp; <span class="badge badge-warning">${avisos[ROLE_ADEN2]}</span>
+          </c:if>
+          </a>
+          
+       </li>
+     </c:if>
+    
     </c:if>  
     </c:forEach>
 

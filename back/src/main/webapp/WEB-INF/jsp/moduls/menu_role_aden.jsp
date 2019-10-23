@@ -23,7 +23,6 @@ private static final List<List<MenuItem>> menus  = new ArrayList<List<MenuItem>>
 static {
   
   List<MenuItem> menu1;
-  List<MenuItem> menu2;
   
   boolean compactar= PropietatGlobalUtil.compactMenuOptionsOfAdEn();
   
@@ -66,34 +65,8 @@ static {
   menu1.add(MenuItem.retallaDarrerPath("estadistica.estadistica.plural", "/aden/estadistica/search"));
   menu1.add(MenuItem.retallaDarrerPath("bitacola.menu", "/aden/bitacola/list"));
 
-
-
-  final String CONFIGURACIO_DE_FIRMA = UsuariAplicacioConfiguracioFields._TABLE_MODEL + "." + UsuariAplicacioConfiguracioFields._TABLE_MODEL + ".plural";
-  final String PERFIL_DE_FIRMA = PerfilDeFirmaFields._TABLE_MODEL + "." + PerfilDeFirmaFields._TABLE_MODEL + ".plural";
-  
-  menu2 = new ArrayList<MenuItem>();
-  menu2.add(MenuItem.retallaDarrerPath("usuariaplicacio.gestio", "/aden/usuariAplicacio/list"));
-  menu2.add(MenuItem.retallaDarrerPath(PERFIL_DE_FIRMA, "/aden/perfildefirma/list"));
-  menu2.add(MenuItem.retallaDarrerPath( CONFIGURACIO_DE_FIRMA, "/aden/configdefirma/list"));
-
-  menu2.add(null);
-  if (compactar) {
-    // No mostrar 
-  } else {
-    menu2.add(MenuItem.retallaDarrerPath("peticiodefirma.usrapp.llistar", "/aden/peticiofirmaaplicacio/list"));
-  }
-  
-  menu2.add(MenuItem.retallaDarrerPath("peticiosincrona.menu", "/aden/peticiosincrona/list"));
-
-  menu2.add(null);
-  menu2.add(MenuItem.retallaDarrerPath("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/aden/plantilla/list"));
-  menu2.add(MenuItem.retallaDarrerPath("custodiaInfo.custodiaInfo.plural", "/aden/peticio/custodiainfo/list"));
-  menu2.add(MenuItem.retallaDarrerPath("notificaciows.llistat", "/aden/notificaciows/list"));
-
-  
-
   menus.add(menu1);
-  menus.add(menu2);
+
 }
 
 %><%
@@ -123,16 +96,8 @@ for(List<MenuItem> menu : menus) {
 
   </ul>
   
-  <%
-  if (count == 0) { %>
-      </div>
-      </div>
-      <br/>
-      <div class="thumbnail">
-      <div>
-      <h5><fmt:message key="ROLE_ADEN.menu2" /></h5>
-  <%    
-  }
+  <%  
+ 
   count++;
   
 }  // final FOR 
