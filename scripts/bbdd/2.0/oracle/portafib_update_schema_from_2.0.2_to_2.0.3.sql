@@ -19,4 +19,4 @@ UPDATE pfi_plugin
 -- ================================================
  
  ALTER TABLE pfi_usuariaplicacioconfig
-  ADD esdepeticio NUMBER(1,0) NOT NULL DEFAULT 0;
+  ADD esdepeticio NUMBER(1,0) DEFAULT 0 NOT NULL;

@@ -15,18 +15,12 @@ import javax.activation.URLDataSource;
 import java.io.File;
 import java.net.URL;
 
-
 /**
- *
- * 
+ * Classe de test de serialitzacions amb JAXB
  */
 public class TestJAXB {
   
   public static final Logger log = Logger.getLogger(TestJAXB.class);
-
-  public static void main(String[] args) {
-    new TestJAXB().testSerialitzarPeticioDeFirma();
-  }
 
   @Test
   public void testSerialitzarPeticioDeFirma() {
