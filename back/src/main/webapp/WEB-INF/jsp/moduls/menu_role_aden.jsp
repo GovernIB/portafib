@@ -66,7 +66,7 @@ static {
   menu1.add(null);
   menu1.add(MenuItem.retallaDarrerPath("estadistica.estadistica.plural", "/aden/estadistica/search"));
   menu1.add(MenuItem.retallaDarrerPath("bitacola.menu", "/aden/bitacola/list"));
-  menu1.add(MenuItem.retallaDarrerPath("peticiosincrona.menu", "/aden/peticiosincrona/list"));
+
 
 
   final String CONFIGURACIO_DE_FIRMA = UsuariAplicacioConfiguracioFields._TABLE_MODEL + "." + UsuariAplicacioConfiguracioFields._TABLE_MODEL + ".plural";
@@ -78,14 +78,20 @@ static {
   menu2.add(MenuItem.retallaDarrerPath( CONFIGURACIO_DE_FIRMA, "/aden/configdefirma/list"));
 
   menu2.add(null);
-  menu2.add(MenuItem.retallaDarrerPath("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/aden/plantilla/list"));
   if (compactar) {
     // No mostrar 
   } else {
     menu2.add(MenuItem.retallaDarrerPath("peticiodefirma.usrapp.llistar", "/aden/peticiofirmaaplicacio/list"));
   }
+  
+  menu2.add(MenuItem.retallaDarrerPath("peticiosincrona.menu", "/aden/peticiosincrona/list"));
+
+  menu2.add(null);
+  menu2.add(MenuItem.retallaDarrerPath("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/aden/plantilla/list"));
   menu2.add(MenuItem.retallaDarrerPath("custodiaInfo.custodiaInfo.plural", "/aden/peticio/custodiainfo/list"));
   menu2.add(MenuItem.retallaDarrerPath("notificaciows.llistat", "/aden/notificaciows/list"));
+
+  
 
   menus.add(menu1);
   menus.add(menu2);
