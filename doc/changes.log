@@ -4,6 +4,37 @@ PortaFIB 2.0.3
 
 2019-10-23 Llistat de Peticions de Passarela i API Firma Simple #339
 
+2019-10-22 Controlar perdua de sessió #304
+
+2019-10-22 Plugin validacio firmes @firma: Error validant XADES Detached #350
+
+2019-10-21 Afegir política de plugins de firma web #173
+
+2019-10-21 Columna de remitent dinàmica el els Llistats de Peticions de Firma d'AdEn #340
+
+2019-10-21 Token de Firma Unic per usuari Extern #359
+
+2019-10-21 Error en el Test testUpgradeSignatureXAdESOfBinary() de Api Firma Simple en Servidor #306
+
+2019-10-21 No s'esborren les traduccions associades a Taules #376 
+
+2019-10-15 Bitacola als canvis de configuracions dels Usuaris Aplicació #335
+
+2019-10-15 No mostra res el visor de Documents de Vista Completa #374 
+
+2019-10-14 Afegir dins Bitacola, les peticions de Api Firma Simple #251
+
+2019-10-14 Millores Usuaris Externs #373
+
+2019-10-10 Fer còpia de Configuració en Petició de Firma #371
+
+2019-10-10 Usuaris Externs amb correu incorrecte #369 
+
+2019-10-10 Reiniciar Peticions de Firma des d'Administrador d'Entitat no va molt be #368
+
+2019-10-08 Modificar Flux de Firmes per mostrar usuari extern enlloc d'usuari persona #361
+
+2019-10-08 Usuari Extern: No permetre modificar Usuari Entitat associat a usuari Extern #360
 
 
 PortaFIB 2.0.2

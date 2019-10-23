@@ -1,10 +1,10 @@
-<%@page import="es.caib.portafib.logic.utils.PropietatGlobalUtil"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List"%>
-<%@page import="es.caib.portafib.back.utils.MenuItem"%>
-<%@page import="es.caib.portafib.utils.ConstantsV2"%>
-<%@page import="es.caib.portafib.back.controller.aden.PerfilDeFirmaAdenController"%>
-<%@page import="es.caib.portafib.model.fields.PerfilDeFirmaFields"
+<%@page import="es.caib.portafib.logic.utils.PropietatGlobalUtil"
+%><%@page import="java.util.ArrayList"
+%><%@page import="java.util.List"
+%><%@page import="es.caib.portafib.back.utils.MenuItem"
+%><%@page import="es.caib.portafib.utils.ConstantsV2"
+%><%@page import="es.caib.portafib.back.controller.aden.PerfilDeFirmaAdenController"
+%><%@page import="es.caib.portafib.model.fields.PerfilDeFirmaFields"
 %><%@page import="es.caib.portafib.back.controller.aden.ConfiguracioDeFirmaAdenController"
 %><%@page import="es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields"
 %><%@page import="es.caib.portafib.utils.Configuracio"
@@ -19,7 +19,6 @@
 <%!
 
 private static final List<List<MenuItem>> menus  = new ArrayList<List<MenuItem>>();
-
 
 static {
   
