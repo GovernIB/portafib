@@ -444,6 +444,7 @@
         checkcanviatdocfirmat number(1,0),
         comprovarniffirma number(1,0),
         entitatid varchar2(50 char) not null,
+        esdepeticio number(1,0) not null,
         filtrecertificats clob,
         firmatperformatid number(19,0),
         htmlperllistarpluginsfirmaweb clob,

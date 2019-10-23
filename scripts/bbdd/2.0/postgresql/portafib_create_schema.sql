@@ -509,6 +509,7 @@ SET default_with_oids = false;
         checkcanviatdocfirmat bool,
         comprovarniffirma bool,
         entitatid varchar(50) not null,
+        esdepeticio bool not null,
         filtrecertificats text,
         firmatperformatid int8,
         htmlperllistarpluginsfirmaweb text,
