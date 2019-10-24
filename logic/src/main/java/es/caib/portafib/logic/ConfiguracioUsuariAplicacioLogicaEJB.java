@@ -199,12 +199,11 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
      */
     return perfilDeFirma;
   }
-  
+
   @Override
   public UsuariAplicacioConfiguracioJPA findByPrimaryKeyUnauthorized(Long _ID_) {
     return super.findByPrimaryKey(_ID_);
   }
-  
 
   protected PerfilDeFirma getPerfilDeFirmaByCodi(String codiPerfil) throws I18NException {
     PerfilDeFirma perfilDeFirma;
@@ -584,26 +583,36 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
       return;
     }
 
+    Long motiuID = config.getMotiuDelegacioID()
     Long countM = null;
-    if (config.getMotiuDelegacioID() != null) {
-      countM = this.count(MOTIUDELEGACIOID.equal(config.getMotiuDelegacioID()));
+    if (motiuID != null) {
+      countM = this.count(MOTIUDELEGACIOID.equal(motiuID));
     }
     
     Long countF = null;
-    if (config.getFirmatPerFormatID() != null) {
-      countF = this.count(FIRMATPERFORMATID.equal(config.getFirmatPerFormatID()));
+    Long firmatPerID= config.getFirmatPerFormatID();
+    if (firmatPerID != null) {
+      countF = this.count(FIRMATPERFORMATID.equal(firmatPerID));
     }
-
-    this.delete(_ID_);
-
-    if (countM != null && countM == 1) {
-      traduccioEjb.delete(config.getMotiuDelegacioID());
+    
+    // El delete esborra automàticament les traduccions, si s'utilitzen en altres llocs llavors no s'han d'esborrar
+    boolean update = false;
+    if (countM != null && countM != 1) {
+      config.setMotiuDelegacioID(null);
+      update = true;
     }
-
-    if (countF != null && countF == 1) {
-      traduccioEjb.delete(config.getFirmatPerFormatID());
+    
+    if (countF != null && countF != 1) {
+      config.setFirmatPerFormatID(null);
+      update = true;
     }
+    
+    if (update == true) {
+      this.update(config);
+    }
+    
+
+    this.delete(config);
 
   }
-
 }

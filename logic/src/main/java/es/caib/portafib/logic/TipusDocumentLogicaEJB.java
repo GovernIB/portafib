@@ -1,6 +1,9 @@
 package es.caib.portafib.logic;
  
+import es.caib.portafib.ejb.PeticioDeFirmaLocal;
+import es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioLocal;
 import es.caib.portafib.ejb.TipusDocumentEJB;
+import es.caib.portafib.ejb.TraduccioLocal;
 import es.caib.portafib.jpa.TipusDocumentJPA;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields;
@@ -8,12 +11,14 @@ import es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.jboss.ejb3.annotation.SecurityDomain;
  /**
   * 
   * @author dboerner
+  * @author anadal(u80067)
   *
   */
  @Stateless(name="TipusDocumentLogicaEJB")
@@ -21,22 +26,16 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  public class TipusDocumentLogicaEJB extends TipusDocumentEJB
    implements TipusDocumentLogicaLocal
  {
-	@EJB(mappedName = "portafib/TipusDocumentColaboracioDelegacioEJB/local")
-	protected es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioLocal tipusDocumentColaboracioDelegacioEjb;
+	@EJB(mappedName = TipusDocumentColaboracioDelegacioLocal.JNDI_NAME)
+	protected TipusDocumentColaboracioDelegacioLocal tipusDocumentColaboracioDelegacioEjb;
 		
-	@EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
-	protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
+	@EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
+	protected PeticioDeFirmaLocal peticioDeFirmaEjb;
 	
-	/*
-  @PostConstruct
-  public void init() {
-    log.info(" ========================== ");
-    log.info(" DDDDDDDDDDDDDDDDDDDDDDDDDD ");
-    log.info(" DDDDDDDDDDDDDDDDDDDDDDDDDD ");
-    log.info(" DDDDDDDDDDDDDDDDDDDDDDDDDD ");
-  }
-	*/
+  @EJB(mappedName = TraduccioLocal.JNDI_NAME)
+  protected TraduccioLocal traduccioEjb;
 	
+
 
 	@Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
@@ -52,7 +51,10 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 		if (numPeticions != 0) {
 			throw new I18NException("tipusDocument.error.borrar.peticions");
 		}
+		
+		// NOTA: Les traduccions s'esborran automàticament
 		delete(tipusDocument);
+
 	};
 
 	@Override

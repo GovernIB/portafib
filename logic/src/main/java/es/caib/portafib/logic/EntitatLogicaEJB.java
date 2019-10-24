@@ -107,17 +107,10 @@ public class EntitatLogicaEJB extends EntitatEJB implements EntitatLogicaLocal, 
     // (4) Eliminar propietats globals
     propietatGlobalEjb.delete(PropietatGlobalFields.ENTITATID.equal(entitatID));
 
-    // (5) Eliminar traduccions
-    Long id = this.executeQueryOne(MOTIUDELEGACIOID, ENTITATID.equal(entitatID));
-    if (id != null) {
-      traduccioEjb.delete(id);
-    }
-    id = this.executeQueryOne(FIRMATPERFORMATID, ENTITATID.equal(entitatID));
-    if (id != null) {
-      traduccioEjb.delete(id);
-    }
+  
     
-    // (6) Eliminar Entitat
+    // (5) Eliminar Entitat
+    // NOTA: Les traduccions s'esborren automàticament
     super.delete(entitatID);
 
   }
