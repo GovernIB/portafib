@@ -36,21 +36,20 @@ import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.utils.ConstantsV2;
 
-
 /**
- *
- * @author anadal
+ * 
+ * @author anadal(u80067)
  *
  */
 @Controller
 @RequestMapping(value = "/aden/revisor")
-@SessionAttributes(types = {RoleUsuariEntitatForm.class, RoleUsuariEntitatFilterForm.class,
+@SessionAttributes(types = { RoleUsuariEntitatForm.class, RoleUsuariEntitatFilterForm.class,
     SeleccioUsuariForm.class })
 public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitatController {
-  
+
   @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
-  
+
   @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
   protected FirmaLogicaLocal firmaLogicaEjb;
 
@@ -58,7 +57,7 @@ public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitat
   public String getRoleGestionat() {
     return ConstantsV2.ROLE_REVI;
   }
-  
+
   @Override
   public String getTileForm() {
     return "gestioRoleRevisorForm";
@@ -69,60 +68,54 @@ public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitat
     // NO S'USARÀ, JA QUE NO HI HA LLISTAT
     return "gestioRoleRevisorList";
   }
-  
+
   @Override
   public boolean isActiveList() {
     return false;
   }
-  
-    
+
   @Override
   protected String getTileSeleccioUsuari() {
     return "seleccioUsuariForm_ADEN";
   }
-  
+
   @Override
   protected SeleccioUsuariForm getSeleccioUsuariForm(HttpServletRequest request) {
     SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
-     
-     seleccioUsuariForm.setTitol("revisor.gestio");
-     seleccioUsuariForm.setSubtitol("revisor.gestio.subtitol");
-     seleccioUsuariForm.setCancelUrl("/canviarPipella/"+ConstantsV2.ROLE_ADEN);
-     seleccioUsuariForm.setUrlData("/common/json/usuaripersonaentitat");
-     
-     seleccioUsuariForm.setUsuarisFavorits(null);
 
-     return seleccioUsuariForm;
+    seleccioUsuariForm.setTitol("revisor.gestio");
+    seleccioUsuariForm.setSubtitol("revisor.gestio.subtitol");
+    seleccioUsuariForm.setCancelUrl("/canviarPipella/" + ConstantsV2.ROLE_ADEN);
+    seleccioUsuariForm.setUrlData("/common/json/usuaripersonaentitatintern");
+
+    seleccioUsuariForm.setUsuarisFavorits(null);
+
+    return seleccioUsuariForm;
   }
-  
-  
-  
-  
 
   @Override
   protected String checksPostNif(HttpServletRequest request, UsuariPersona usuariPersona,
       String param1, String param2) throws I18NException {
-    
+
     // Cercam l'usuari entitat de l'entitat actual associat a usuariPersona
-    
+
     String entitatActualID = LoginInfo.getInstance().getEntitatID();
     String usuariPersonaID = usuariPersona.getUsuariPersonaID();
-    UsuariEntitatJPA ue = usuariEntitatLogicaEjb.findUsuariEntitatByUsername(
-        entitatActualID, usuariPersonaID);
+    UsuariEntitatJPA ue = usuariEntitatLogicaEjb.findUsuariEntitatByUsername(entitatActualID,
+        usuariPersonaID);
 
-    if(ue == null) {
-      throw new I18NException("usuarientitat.error.noexisteix", 
-          new I18NArgumentString(usuariPersonaID));
+    if (ue == null) {
+      throw new I18NException("usuarientitat.error.noexisteix", new I18NArgumentString(
+          usuariPersonaID));
     }
-    
-    
+
     // Esbrinam si aquest ususrientitat ja té el rol de solicitant o no
     Where w1 = ROLEID.equal(ConstantsV2.ROLE_REVI);
     Where w2 = USUARIENTITATID.equal(ue.getUsuariEntitatID());
-    List<Long> list = roleUsuariEntitatEjb.executeQuery(ID, Where.AND(w1,w2));
+    List<Long> list = roleUsuariEntitatEjb.executeQuery(ID, Where.AND(w1, w2));
 
     // TODO selectOne
-    
+
     if (list.size() == 0) {
       request.getSession().setAttribute("UsuariEntitatRevisor", ue.getUsuariEntitatID());
       return getContextWeb() + "/new";
@@ -130,26 +123,28 @@ public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitat
       HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("revisor.hasRole"));
       return getContextWeb() + "/" + list.get(0) + "/edit";
     }
-   
 
   }
-  
+
   @Override
   public void initNewRoleForm(RoleUsuariEntitatForm roleUsuariEntitatForm,
-      HttpServletRequest request, ModelAndView mav, UsuariPersona usuariPersona) throws I18NException {
-    String _usuariEntitatID_ = (String)request.getSession().getAttribute("UsuariEntitatRevisor");
+      HttpServletRequest request, ModelAndView mav, UsuariPersona usuariPersona)
+      throws I18NException {
+    String _usuariEntitatID_ = (String) request.getSession().getAttribute(
+        "UsuariEntitatRevisor");
     roleUsuariEntitatForm.getRoleUsuariEntitat().setUsuariEntitatID(_usuariEntitatID_);
     roleUsuariEntitatForm.addReadOnlyField(USUARIENTITATID);
 
     String nomPersona = usuariPersona.getNom() + " " + usuariPersona.getLlinatges();
-    HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("revisor.verificacio",
-        nomPersona, usuariPersona.getNif()));
-    
+    HtmlUtils.saveMessageInfo(request,
+        I18NUtils.tradueix("revisor.verificacio", nomPersona, usuariPersona.getNif()));
+
   }
 
   @Override
   public void initEditRoleForm(RoleUsuariEntitatForm roleUsuariEntitatForm,
-      HttpServletRequest request, ModelAndView mav, UsuariPersona usuariPersona) throws I18NException {
+      HttpServletRequest request, ModelAndView mav, UsuariPersona usuariPersona)
+      throws I18NException {
     roleUsuariEntitatForm.addReadOnlyField(USUARIENTITATID);
     roleUsuariEntitatForm.setSaveButtonVisible(false);
   }
@@ -160,91 +155,94 @@ public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitat
       throws I18NException {
 
     String usuariEntitatID = roleUsuariEntitatForm.getRoleUsuariEntitat().getUsuariEntitatID();
-    
+
     UsuariEntitatJPA usuariEntitatJPA = usuariEntitatLogicaEjb
         .findByPrimaryKeyFull(usuariEntitatID);
 
     List<StringKeyValue> nueva = new ArrayList<StringKeyValue>();
-    
+
     nueva.add(new StringKeyValue(usuariEntitatJPA.getUsuariEntitatID(), Utils
-          .getNom(usuariEntitatJPA.getUsuariPersona())));
-    
+        .getNom(usuariEntitatJPA.getUsuariPersona())));
+
     return nueva;
   }
-  
+
   @Override
   public void delete(HttpServletRequest request, RoleUsuariEntitat roleUsuariEntitat)
       throws Exception, I18NException {
 
-    
-    // #169 Ho feim a SACO => Si apareix a alguna Peticio de Firma 
+    // #169 Ho feim a SACO => Si apareix a alguna Peticio de Firma
     // com a revisor llavors no es pot esborrar
-    
+
     List<RevisorDeFirma> revisions;
-    revisions = revisorDeFirmaEjb.select(RevisorDeFirmaFields.USUARIENTITATID.equal(roleUsuariEntitat.getUsuariEntitatID()));
-    
-    
-    
+    revisions = revisorDeFirmaEjb.select(RevisorDeFirmaFields.USUARIENTITATID
+        .equal(roleUsuariEntitat.getUsuariEntitatID()));
+
     if (revisions == null || revisions.size() == 0) {
-      super.delete(request, roleUsuariEntitat); 
+      super.delete(request, roleUsuariEntitat);
     } else {
-      
 
       List<Long> firmesID = new ArrayList<Long>();
       for (RevisorDeFirma revisorDeFirma : revisions) {
         firmesID.add(revisorDeFirma.getFirmaID());
       }
-      
+
       // Revisors de Firma en Peticions de Firma
       {
         FirmaQueryPath fqp = new FirmaQueryPath();
-        
-        PeticioDeFirmaQueryPath pfqp =  fqp.BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA();
-        
-        SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(pfqp.PETICIODEFIRMAID().select, pfqp.TITOL().select);
-  
-        List<StringKeyValue> skvList = firmaLogicaEjb.executeQuery(smskv, FirmaFields.FIRMAID.in(firmesID));
-        
-        if (skvList != null && skvList.size()!=0)
-        { 
+
+        PeticioDeFirmaQueryPath pfqp = fqp.BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA();
+
+        SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(
+            pfqp.PETICIODEFIRMAID().select, pfqp.TITOL().select);
+
+        List<StringKeyValue> skvList = firmaLogicaEjb.executeQuery(smskv,
+            FirmaFields.FIRMAID.in(firmesID));
+
+        if (skvList != null && skvList.size() != 0) {
           StringBuffer str = new StringBuffer();
           for (StringKeyValue skv : skvList) {
             str.append(skv.getValue()).append(" (").append(skv.getKey()).append("), ");
           }
-    
-          //  "El revisor amb usuari-entitat {0} no es pot esborrar ja que esta donat
+
+          // "El revisor amb usuari-entitat {0} no es pot esborrar ja que esta donat
           // d´alta com a revisor en les següent peticions de firma: {1}
-          HtmlUtils.saveMessageError(request, 
-              I18NUtils.tradueix("revisor.error.apareixenpeticions",  roleUsuariEntitat.getUsuariEntitatID(), str.toString()));
+          HtmlUtils.saveMessageError(
+              request,
+              I18NUtils.tradueix("revisor.error.apareixenpeticions",
+                  roleUsuariEntitat.getUsuariEntitatID(), str.toString()));
         }
       }
-      
+
       // Revisors de Firma en Plantilles de Flux de Firma
       {
         FirmaQueryPath fqp = new FirmaQueryPath();
-        
-        FluxDeFirmesQueryPath pfqp =  fqp.BLOCDEFIRMES().FLUXDEFIRMES();
-        
-        SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(pfqp.FLUXDEFIRMESID().select, pfqp.NOM().select);
-  
-        List<StringKeyValue> skvList = firmaLogicaEjb.executeQuery(smskv, FirmaFields.FIRMAID.in(firmesID));
-        
-        if (skvList != null && skvList.size()!=0)
-        { 
+
+        FluxDeFirmesQueryPath pfqp = fqp.BLOCDEFIRMES().FLUXDEFIRMES();
+
+        SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(
+            pfqp.FLUXDEFIRMESID().select, pfqp.NOM().select);
+
+        List<StringKeyValue> skvList = firmaLogicaEjb.executeQuery(smskv,
+            FirmaFields.FIRMAID.in(firmesID));
+
+        if (skvList != null && skvList.size() != 0) {
           StringBuffer str = new StringBuffer();
           for (StringKeyValue skv : skvList) {
             str.append(skv.getValue()).append(" (").append(skv.getKey()).append("), ");
           }
-    
-          //  "El revisor amb usuari-entitat {0} no es pot esborrar ja que esta donat
+
+          // "El revisor amb usuari-entitat {0} no es pot esborrar ja que esta donat
           // d´alta com a revisor en les següent peticions de firma: {1}
-          HtmlUtils.saveMessageError(request, 
-              I18NUtils.tradueix("revisor.error.apareixenflux",  roleUsuariEntitat.getUsuariEntitatID(), str.toString()));
+          HtmlUtils.saveMessageError(
+              request,
+              I18NUtils.tradueix("revisor.error.apareixenflux",
+                  roleUsuariEntitat.getUsuariEntitatID(), str.toString()));
         }
       }
-      
+
     }
-     
+
   }
 
   @Override
@@ -253,17 +251,19 @@ public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitat
   }
 
   @Override
-  public String getRedirectWhenCancel(HttpServletRequest request,java.lang.Long id) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long id) {
     return "redirect:/canviarPipella/" + ConstantsV2.ROLE_ADEN;
   }
-  
+
   @Override
-  public String getRedirectWhenDelete(HttpServletRequest request,java.lang.Long id, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long id,
+      Throwable __e) {
     return getRedirectWhenCancel(request, id);
   }
 
   @Override
-  public String getRedirectWhenCreated(HttpServletRequest request,RoleUsuariEntitatForm roleUsuariEntitatForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request,
+      RoleUsuariEntitatForm roleUsuariEntitatForm) {
     return getRedirectWhenCancel(request, roleUsuariEntitatForm.getRoleUsuariEntitat().getId());
   }
 

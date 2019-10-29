@@ -121,8 +121,6 @@ public class ApiFirmaAsyncSimpleTester {
       String[][] destinataris = getNifsDestinataris();
       String nifRevisor = getNifRevisor();
 
-      
-
       if (destinataris == null || destinataris.length == 0) {
         throw new Exception(
             "S'ha de definir la propietat nifsDestinataris dins test.properties");
@@ -135,19 +133,21 @@ public class ApiFirmaAsyncSimpleTester {
         if (destinatarisBloc == null || destinatarisBloc.length == 0) {
           throw new Exception("Els destinataris del bloc " + i + " està buit o val null");
         }
-        System.out.println("BLOC[" + i + "] => Destinataris = " + Arrays.toString(destinatarisBloc));
+        System.out.println("BLOC[" + i + "] => Destinataris = "
+            + Arrays.toString(destinatarisBloc));
         List<FirmaAsyncSimpleSignature> signers = new ArrayList<FirmaAsyncSimpleSignature>();
         for (int j = 0; j < destinatarisBloc.length; j++) {
-          
+
           String nif = destinatarisBloc[j].trim();
-          
+
           if (nif == null || nif.trim().length() == 0) {
-            throw new Exception("El destinatari " + j +  " del bloc " + i + " està buit o val null");
+            throw new Exception("El destinatari " + j + " del bloc " + i
+                + " està buit o val null");
           }
 
           FirmaAsyncSimpleSigner personToSign;
-          if ("usuariextern".equals(nif)) {
-            FirmaAsyncSimpleExternalSigner externalSigner = getExternalSigner();
+          if (nif.startsWith("usuariextern")) {
+            FirmaAsyncSimpleExternalSigner externalSigner = getExternalSigner(nif);
             personToSign = new FirmaAsyncSimpleSigner();
             personToSign.setExternalSigner(externalSigner);
           } else {
@@ -155,7 +155,6 @@ public class ApiFirmaAsyncSimpleTester {
             personToSign.setAdministrationID(nif);
           }
 
-          
           boolean required = true;
           String reason = null; // Usar la de la Petició
 
@@ -184,11 +183,11 @@ public class ApiFirmaAsyncSimpleTester {
               minimumNumberOfRevisers, revisers));
 
         }
-        
+
         int minimumNumberOfSignaturesRequired = signers.size();
         signatureBlocks[i] = new FirmaAsyncSimpleSignatureBlock(
             minimumNumberOfSignaturesRequired, signers);
-       
+
       }
     }
 
@@ -260,13 +259,14 @@ public class ApiFirmaAsyncSimpleTester {
         // Utilitzar Blocs de Firmes
         log.info("Petició de Firma emprant Blocs de Firmes");
         FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest;
-        signatureRequest = new FirmaAsyncSimpleSignatureRequestWithSignBlockList(signatureRequestBase,
-            signatureBlocks);
-        peticioDeFirmaID2 = api.createAndStartSignatureRequestWithSignBlockList(signatureRequest);
+        signatureRequest = new FirmaAsyncSimpleSignatureRequestWithSignBlockList(
+            signatureRequestBase, signatureBlocks);
+        peticioDeFirmaID2 = api
+            .createAndStartSignatureRequestWithSignBlockList(signatureRequest);
       }
 
       log.info("Creada peticio amb ID = " + peticioDeFirmaID2);
-      
+
       rinfo = new FirmaAsyncSimpleSignatureRequestInfo(peticioDeFirmaID2, languageUI);
 
       if (isWaitToSign()) {
@@ -307,11 +307,11 @@ public class ApiFirmaAsyncSimpleTester {
 
           byte[] data = firma.getData();
           log.info("Tamany del fitxer: " + data.length);
-          
+
           String postFix;
-          String signType = info.getSignType(); 
+          String signType = info.getSignType();
           if (FirmaAsyncSimpleSignedFileInfo.SIGN_TYPE_PADES.equals(signType)) {
-              postFix = "_signed.pdf"; 
+            postFix = "_signed.pdf";
           } else if (FirmaAsyncSimpleSignedFileInfo.SIGN_TYPE_CADES.equals(signType)) {
             postFix = "_signed.csig";
           } else if (FirmaAsyncSimpleSignedFileInfo.SIGN_TYPE_XADES.equals(signType)) {
@@ -396,34 +396,31 @@ public class ApiFirmaAsyncSimpleTester {
     if (tmp == null || tmp.trim().length() == 0) {
       return null;
     }
-    
-    
-    
-    String[] blocs =  tmp.split("\\|");
-    
+
+    String[] blocs = tmp.split("\\|");
+
     String[][] flux = new String[blocs.length][];
-    
+
     for (int i = 0; i < blocs.length; i++) {
       flux[i] = blocs[i].split(",");
     }
-    
+
     return flux;
-    
+
   }
-  
-  protected FirmaAsyncSimpleExternalSigner getExternalSigner() {
+
+  protected FirmaAsyncSimpleExternalSigner getExternalSigner(String base) {
 
     FirmaAsyncSimpleExternalSigner es = new FirmaAsyncSimpleExternalSigner();
-    es.setAdministrationId(testProperties.getProperty("usuariextern.administrationid"));
-    es.setEmail(testProperties.getProperty("usuariextern.email"));
-    es.setLanguage(testProperties.getProperty("usuariextern.language"));
-    es.setName(testProperties.getProperty("usuariextern.name"));
+    es.setAdministrationId(testProperties.getProperty(base + ".administrationid"));
+    es.setEmail(testProperties.getProperty(base + ".email"));
+    es.setLanguage(testProperties.getProperty(base + ".language"));
+    es.setName(testProperties.getProperty(base + ".name"));
     es.setSecurityLevel(FirmaAsyncSimpleExternalSigner.SECURITY_LEVEL_TOKEN);
-    es.setSurnames(testProperties.getProperty("usuariextern.surnames"));
+    es.setSurnames(testProperties.getProperty(base + ".surnames"));
 
     return es;
   }
-  
 
   protected String getNifRevisor() {
 

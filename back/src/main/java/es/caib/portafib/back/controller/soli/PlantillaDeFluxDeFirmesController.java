@@ -80,6 +80,7 @@ import es.caib.portafib.model.entity.RevisorDeFirma;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariPersona;
+import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FluxDeFirmesQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
@@ -96,23 +97,22 @@ import es.caib.portafib.utils.ConstantsV2;
  */
 @Controller
 @RequestMapping(value = "/soli/plantilla")
-@SessionAttributes(types = { 
-    PlantillaDeFluxDeFirmesFilterForm.class, PlantillaDeFluxDeFirmesForm.class,
-    FluxDeFirmesForm.class, FluxDeFirmesFilterForm.class, SeleccioUsuariForm.class })
-public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
-   implements ConstantsV2 {
-  
-  
+@SessionAttributes(types = { PlantillaDeFluxDeFirmesFilterForm.class,
+    PlantillaDeFluxDeFirmesForm.class, FluxDeFirmesForm.class, FluxDeFirmesFilterForm.class,
+    SeleccioUsuariForm.class })
+public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController implements
+    ConstantsV2 {
+
   public static final StringField USUARIAPLICACIOID;
-  
+
   public static final BooleanField COMPARTIR_PLANTILLA;
-  
+
   static {
-    USUARIAPLICACIOID = new FluxDeFirmesQueryPath().PLANTILLAFLUXDEFIRMES().USUARIAPLICACIOID();
-    
+    USUARIAPLICACIOID = new FluxDeFirmesQueryPath().PLANTILLAFLUXDEFIRMES()
+        .USUARIAPLICACIOID();
+
     COMPARTIR_PLANTILLA = new FluxDeFirmesQueryPath().PLANTILLAFLUXDEFIRMES().COMPARTIR();
   }
-  
 
   @EJB(mappedName = PlantillaFluxDeFirmesLocal.JNDI_NAME)
   private PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;
@@ -131,7 +131,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
   @EJB(mappedName = "portafib/BlocDeFirmesLogicaEJB/local")
   protected BlocDeFirmesLogicaLocal blocDeFirmesLogicaEjb;
-  
+
   @EJB(mappedName = "portafib/RoleUsuariEntitatEJB/local")
   protected es.caib.portafib.ejb.RoleUsuariEntitatLocal roleUsuariEntitatEjb;
 
@@ -149,27 +149,27 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   protected UsuariAplicacioRefList usuariAplicacioRefList;
 
   @Autowired
-  protected es.caib.portafib.back.reflist.UsuariEntitatJSONRefList usuariEntitatRefList; 
-  
+  protected es.caib.portafib.back.reflist.UsuariEntitatJSONRefList usuariEntitatRefList;
+
   @Autowired
   protected es.caib.portafib.back.reflist.CarrecJSONRefList carrecRefList;
-  
 
   protected boolean isViewMode = false;
-  
-  protected boolean tipusPlantillaInViewMode = false; // true = usuariEntitat | false = usuariAplicacio
+
+  protected boolean tipusPlantillaInViewMode = false; // true = usuariEntitat | false =
+                                                      // usuariAplicacio
 
   protected MappingOrder mappingOrder = new MappingOrder();
-  
+
   /**
    * 
    */
   public PlantillaDeFluxDeFirmesController() {
     super();
     mappingOrder.addMapping(PlantillaFluxDeFirmesFields.USUARIAPLICACIOID, USUARIAPLICACIOID);
-    
+
     mappingOrder.addMapping(PlantillaFluxDeFirmesFields.COMPARTIR, COMPARTIR_PLANTILLA);
-    
+
   }
 
   @Override
@@ -186,215 +186,205 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   public String getSessionAttributeFilterForm() {
     return "PlantillaFluxDeFirmes_soli";
   }
-  
+
   @PostConstruct
   public void init() {
 
     {
       usuariAplicacioRefList = new UsuariAplicacioRefList(usuariAplicacioRefList);
-  
-      usuariAplicacioRefList.setSelects(new Select<?>[] {
-          UsuariAplicacioFields.USUARIAPLICACIOID.select        
-      });
+
+      usuariAplicacioRefList
+          .setSelects(new Select<?>[] { UsuariAplicacioFields.USUARIAPLICACIOID.select });
       usuariAplicacioRefList.setSeparator("");
     }
 
   }
-  
-  
+
   @RequestMapping(value = "/viewfluxpeticioid/{peticiodeFirmaID}", method = RequestMethod.GET)
   public ModelAndView viewFluxDeFirmesPeticioIDGet(
       @PathVariable("peticiodeFirmaID") java.lang.Long peticiodeFirmaID,
       HttpServletRequest request, HttpServletResponse response) throws I18NException {
-        
+
     Where w = PeticioDeFirmaFields.PETICIODEFIRMAID.equal(peticiodeFirmaID);
     // TODO canvia per onlyone result
-    List<Long> fluxIDList = peticioDeFirmaEjb.executeQuery(PeticioDeFirmaFields.FLUXDEFIRMESID, w);
-    
+    List<Long> fluxIDList = peticioDeFirmaEjb.executeQuery(
+        PeticioDeFirmaFields.FLUXDEFIRMESID, w);
+
     // TODO Gestionar errors
     Long fluxDeFirmesID = fluxIDList.get(0);
-    return viewFluxDeFirmesGet(fluxDeFirmesID, request,  response);
+    return viewFluxDeFirmesGet(fluxDeFirmesID, request, response);
 
   }
-  
-  
-  
+
   @RequestMapping(value = "/viewflux/{fluxDeFirmesID}", method = RequestMethod.GET)
-  public ModelAndView viewFluxDeFirmesGet(@PathVariable("fluxDeFirmesID") java.lang.Long fluxDeFirmesID,
+  public ModelAndView viewFluxDeFirmesGet(
+      @PathVariable("fluxDeFirmesID") java.lang.Long fluxDeFirmesID,
       HttpServletRequest request, HttpServletResponse response) throws I18NException {
-        
+
     ModelAndView mav = veureFluxDeFirmesGet(fluxDeFirmesID, request, response);
-    
+
     mav.setViewName("PlantillaDeFluxDeFirmesFormSoliPopup");
-    
-    FluxDeFirmesForm fff = (FluxDeFirmesForm)mav.getModel().get("fluxDeFirmesForm");
-    
+
+    FluxDeFirmesForm fff = (FluxDeFirmesForm) mav.getModel().get("fluxDeFirmesForm");
+
     // Oculta informacio del propietari de la plantilla (si en té)
     fff.addHiddenField(PlantillaFluxDeFirmesFields.USUARIENTITATID);
     fff.addHiddenField(PlantillaFluxDeFirmesFields.COMPARTIR);
 
     // Oculta el boto de tornar
-    //fff.getHiddenFields().add("tornar");
+    // fff.getHiddenFields().add("tornar");
     fff.setAdditionalButtons(new ArrayList<AdditionalButton>());
 
     return mav;
 
   }
-  
 
   @RequestMapping(value = "/viewonlyflux/{fluxDeFirmesID}", method = RequestMethod.GET)
-  public ModelAndView viewOnlyFluxDeFirmesGet(@PathVariable("fluxDeFirmesID") java.lang.Long fluxDeFirmesID,
+  public ModelAndView viewOnlyFluxDeFirmesGet(
+      @PathVariable("fluxDeFirmesID") java.lang.Long fluxDeFirmesID,
       HttpServletRequest request, HttpServletResponse response) throws I18NException {
 
     ModelAndView mav = viewFluxDeFirmesGet(fluxDeFirmesID, request, response);
     mav.addObject("onlyFlux", true);
     return mav;
   }
-  
-  
+
   @RequestMapping(value = "/viewonlyfluxofpeticio/{peticioDeFirmaID}", method = RequestMethod.GET)
-  public ModelAndView viewOnlyFluxOfPeticioGet(@PathVariable("peticioDeFirmaID") java.lang.Long peticioDeFirmaID,
+  public ModelAndView viewOnlyFluxOfPeticioGet(
+      @PathVariable("peticioDeFirmaID") java.lang.Long peticioDeFirmaID,
       HttpServletRequest request, HttpServletResponse response) throws I18NException {
 
     PeticioDeFirmaJPA peticio = peticioDeFirmaEjb.findByPrimaryKey(peticioDeFirmaID);
-    
+
     ModelAndView mav = viewFluxDeFirmesGet(peticio.getFluxDeFirmesID(), request, response);
     mav.addObject("onlyFlux", true);
     return mav;
   }
-  
-  
-  
+
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-    
-    
+
     SubQuery<PlantillaFluxDeFirmes, Long> subquery;
     if (isUsuariEntitat()) {
       // Flux de Firmes Usuari-Entitat
       String currentUser = LoginInfo.getInstance().getUsuariEntitatID();
-      
+
       subquery = plantillaFluxDeFirmesEjb.getSubQuery(
           PlantillaFluxDeFirmesFields.FLUXDEFIRMESID,
           PlantillaFluxDeFirmesFields.USUARIENTITATID.equal(currentUser));
-      
+
     } else {
       // Només mostrar els Usuaris Aplicacio de la meva entitat !!!!
       SubQuery<UsuariAplicacio, String> subqueryUA;
-      subqueryUA =usuariAplicacioEjb.getSubQuery(UsuariAplicacioFields.USUARIAPLICACIOID,
+      subqueryUA = usuariAplicacioEjb.getSubQuery(UsuariAplicacioFields.USUARIAPLICACIOID,
           UsuariAplicacioFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()));
       // Flux de Firmes Usuari-Aplicacio
-      
+
       subquery = plantillaFluxDeFirmesEjb.getSubQuery(
           PlantillaFluxDeFirmesFields.FLUXDEFIRMESID,
           PlantillaFluxDeFirmesFields.USUARIAPLICACIOID.in(subqueryUA));
-      
+
     }
 
     return FLUXDEFIRMESID.in(subquery);
   }
-  
+
   /**
    * 
    * @param request
    * @return
    */
   public boolean isUsuariEntitat() {
-    // L'usuari solicitant no pot gestionar Plantilles de Flux de Firmes 
+    // L'usuari solicitant no pot gestionar Plantilles de Flux de Firmes
     // de usuaris-aplicacio
     return true;
   }
-  
+
   @Override
-  public void preList(HttpServletRequest request, ModelAndView mav, FluxDeFirmesFilterForm filterForm)  throws I18NException {
+  public void preList(HttpServletRequest request, ModelAndView mav,
+      FluxDeFirmesFilterForm filterForm) throws I18NException {
     // TODO FICAR DINS FILTER FORM
-    if (isUsuariEntitat()) {      
+    if (isUsuariEntitat()) {
       filterForm.addHiddenField(PlantillaFluxDeFirmesFields.USUARIENTITATID);
     }
   }
-  
-  
+
   @Override
   public FluxDeFirmesFilterForm getFluxDeFirmesFilterForm(Integer pagina, ModelAndView mav,
       HttpServletRequest request) throws I18NException {
 
-      FluxDeFirmesFilterForm fluxDeFirmesFilterForm;
-      fluxDeFirmesFilterForm = super.getFluxDeFirmesFilterForm(pagina, mav, request);
-      
-      if (fluxDeFirmesFilterForm.isNou()) {
+    FluxDeFirmesFilterForm fluxDeFirmesFilterForm;
+    fluxDeFirmesFilterForm = super.getFluxDeFirmesFilterForm(pagina, mav, request);
 
-        fluxDeFirmesFilterForm = new PlantillaDeFluxDeFirmesFilterForm(fluxDeFirmesFilterForm);
- 
-        //  codi comú
-        if (!Configuracio.isDesenvolupament()) {
-          fluxDeFirmesFilterForm.addHiddenField(FLUXDEFIRMESID);
-        }
+    if (fluxDeFirmesFilterForm.isNou()) {
 
-        fluxDeFirmesFilterForm.setAddButtonVisible(false);
+      fluxDeFirmesFilterForm = new PlantillaDeFluxDeFirmesFilterForm(fluxDeFirmesFilterForm);
 
-        
-        fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.USUARIENTITATID);
-        if (isUsuariEntitat()) {
-          fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.USUARIAPLICACIOID);
-        }
-
-        fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.FLUXDEFIRMESID);
-        
-        if (LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN) ||
-            LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN)) {
-          fluxDeFirmesFilterForm.addGroupByField(COMPARTIR_PLANTILLA);
-        } else {
-          fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.COMPARTIR);          
-        }
-
-        fluxDeFirmesFilterForm.setVisibleMultipleSelection(true);
-    
-        if (!isUsuariEntitat()) {
-          fluxDeFirmesFilterForm.addGroupByField(USUARIAPLICACIOID);
-          
-        }
-        
-      } else {
-        // MAPEIG ORDRE
-        mappingOrder.processDirectOrderMapping(fluxDeFirmesFilterForm);
+      // codi comú
+      if (!Configuracio.isDesenvolupament()) {
+        fluxDeFirmesFilterForm.addHiddenField(FLUXDEFIRMESID);
       }
 
-      log.info("usuariPersona = " + isUsuariEntitat());
-      mav.addObject("usuariPersona", isUsuariEntitat());
-            
-      return fluxDeFirmesFilterForm;
+      fluxDeFirmesFilterForm.setAddButtonVisible(false);
+
+      fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.USUARIENTITATID);
+      if (isUsuariEntitat()) {
+        fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.USUARIAPLICACIOID);
+      }
+
+      fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.FLUXDEFIRMESID);
+
+      if (LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN)
+          || LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN)) {
+        fluxDeFirmesFilterForm.addGroupByField(COMPARTIR_PLANTILLA);
+      } else {
+        fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.COMPARTIR);
+      }
+
+      fluxDeFirmesFilterForm.setVisibleMultipleSelection(true);
+
+      if (!isUsuariEntitat()) {
+        fluxDeFirmesFilterForm.addGroupByField(USUARIAPLICACIOID);
+
+      }
+
+    } else {
+      // MAPEIG ORDRE
+      mappingOrder.processDirectOrderMapping(fluxDeFirmesFilterForm);
+    }
+
+    log.info("usuariPersona = " + isUsuariEntitat());
+    mav.addObject("usuariPersona", isUsuariEntitat());
+
+    return fluxDeFirmesFilterForm;
   }
-  
- 
-  
+
   @Override
-  public void postList(HttpServletRequest request, ModelAndView mav, 
-      FluxDeFirmesFilterForm filterForm,  List<FluxDeFirmes> list) throws I18NException {
-    
+  public void postList(HttpServletRequest request, ModelAndView mav,
+      FluxDeFirmesFilterForm filterForm, List<FluxDeFirmes> list) throws I18NException {
+
     // DE-MAPEIG ORDRE
     mappingOrder.processIndirectOrderMapping(filterForm);
 
-    String parentContext = isUsuariEntitat()?"soli":"aden";
-    
+    String parentContext = isUsuariEntitat() ? "soli" : "aden";
+
     // Mostrar boto per editar usuaris que poden veure les meves plantilles
-    if (isUsuariEntitat() && (LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN) ||
-        !LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN) )) {
-      
-      
+    if (isUsuariEntitat()
+        && (LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN) || !LoginInfo
+            .getInstance().hasRole(ConstantsV2.ROLE_ADEN))) {
+
       filterForm.getAdditionalButtonsByPK().clear();
 
-       for (FluxDeFirmes flux : list) {
-         if (((FluxDeFirmesJPA)flux).getPlantillaFluxDeFirmes().getCompartir() == null)
-         filterForm.addAdditionalButtonByPK(flux.getFluxDeFirmesID(), new AdditionalButton(
-           "icon-lock", "fluxDeFirmes.permisos", "/" + parentContext + "/permisosplantilla/view/{0}",
-           "btn-warning"));
-       }
-    } 
-    
+      for (FluxDeFirmes flux : list) {
+        if (((FluxDeFirmesJPA) flux).getPlantillaFluxDeFirmes().getCompartir() == null)
+          filterForm.addAdditionalButtonByPK(flux.getFluxDeFirmesID(), new AdditionalButton(
+              "icon-lock", "fluxDeFirmes.permisos", "/" + parentContext
+                  + "/permisosplantilla/view/{0}", "btn-warning"));
+      }
+    }
+
   }
-  
-  
-  
+
   @Override
   public Map<Field<?>, GroupByItem> fillReferencesForList(FluxDeFirmesFilterForm filterForm,
       HttpServletRequest request, ModelAndView mav, List<FluxDeFirmes> list,
@@ -403,57 +393,47 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     Map<Field<?>, GroupByItem> groupByItemsMap = super.fillReferencesForList(filterForm,
         request, mav, list, groupItems);
 
-    
-
     // Field usuariAplicacioID
     if (!isUsuariEntitat()) {
       Map<String, String> _tmp;
       List<StringKeyValue> _listSKV;
-      
-      
+
       _listSKV = usuariAplicacioRefList.getReferenceList(
           UsuariAplicacioFields.USUARIAPLICACIOID, null);
       _tmp = org.fundaciobit.genapp.common.utils.Utils.listToMap(_listSKV);
-      ((PlantillaDeFluxDeFirmesFilterForm) filterForm) .setMapOfUsuariAplicacioForUsuariAplicacioID(_tmp);      
-      
+      ((PlantillaDeFluxDeFirmesFilterForm) filterForm)
+          .setMapOfUsuariAplicacioForUsuariAplicacioID(_tmp);
+
       if (filterForm.getGroupByFields().contains(USUARIAPLICACIOID)) {
         fillValuesToGroupByItems(_tmp, groupByItemsMap, USUARIAPLICACIOID, false);
-        groupByItemsMap.get(USUARIAPLICACIOID).setCodeLabel(      
-          PlantillaFluxDeFirmesFields.USUARIAPLICACIOID.fullName);
+        groupByItemsMap.get(USUARIAPLICACIOID).setCodeLabel(
+            PlantillaFluxDeFirmesFields.USUARIAPLICACIOID.fullName);
       }
 
-      
-      
-      
       if (filterForm.getGroupByFields().contains(COMPARTIR_PLANTILLA)) {
-        fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, COMPARTIR_PLANTILLA);
+        fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap,
+            COMPARTIR_PLANTILLA);
         groupByItemsMap.get(COMPARTIR_PLANTILLA).setCodeLabel(
-          PlantillaFluxDeFirmesFields.COMPARTIR.fullName);
+            PlantillaFluxDeFirmesFields.COMPARTIR.fullName);
       }
 
-      
     }
-    
-    /*
-     * _listSKV = this.entitatRefList.getReferenceList(EntitatFields.NOM, null);
-      _tmp = org.fundaciobit.genapp.common.utils.Utils.listToMap(_listSKV);
-      groupByItemsMap.get(ENTITAT_NOM).setCodeLabel(EntitatFields._TABLE_MODEL + "." + EntitatFields._TABLE_MODEL);
-      fillValuesToGroupByItems(_tmp, groupByItemsMap, ENTITAT_NOM, false);
 
-     * 
+    /*
+     * _listSKV = this.entitatRefList.getReferenceList(EntitatFields.NOM, null); _tmp =
+     * org.fundaciobit.genapp.common.utils.Utils.listToMap(_listSKV);
+     * groupByItemsMap.get(ENTITAT_NOM).setCodeLabel(EntitatFields._TABLE_MODEL + "." +
+     * EntitatFields._TABLE_MODEL); fillValuesToGroupByItems(_tmp, groupByItemsMap,
+     * ENTITAT_NOM, false);
      */
-    
-    
+
     return groupByItemsMap;
 
   }
 
-  
   public boolean isEditingPlantilla() {
     return true;
   }
-  
-  
 
   @Override
   public FluxDeFirmesForm getFluxDeFirmesForm(FluxDeFirmesJPA _jpa, boolean __isView,
@@ -466,34 +446,35 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
     // Per paràmetre ens han de passar si estam amb tipus usuari-aplicacio o
     // usuari-entitat
-    
 
     if (form.isNou()) {
-      
+
       // TODO llevar !!!!
       form.setRedirectOnModify(getContextWeb() + "/list/1");
-     
+
       PlantillaFluxDeFirmesJPA ua = new PlantillaFluxDeFirmesJPA();
       ua.setCompartir(false);
-      
+
       if (isUsuariEntitat()) {
         ua.setUsuariEntitatID(LoginInfo.getInstance().getUsuariEntitatID());
       } else {
         // Aquest where ha de filtrar només els usuaris aplicacio de la
         // meva entitat !!!!!
-        Where where = UsuariAplicacioFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID());
+        Where where = UsuariAplicacioFields.ENTITATID.equal(LoginInfo.getInstance()
+            .getEntitatID());
 
-        List<StringKeyValue> usernames = usuariAplicacioRefList.getReferenceList(UsuariAplicacioFields.USUARIAPLICACIOID, where);
+        List<StringKeyValue> usernames = usuariAplicacioRefList.getReferenceList(
+            UsuariAplicacioFields.USUARIAPLICACIOID, where);
 
         Collections.sort(usernames, new KeyValueComparator<String>());
-        
+
         form.setListOfUsuariAplicacioForUsuariAplicacioID(usernames);
 
         ua.setUsuariEntitatID(null);
       }
 
       form.setPlantillaFluxDeFirmes(ua);
-      
+
       FluxDeFirmesJPA ff = form.getFluxDeFirmes();
       Set<BlocDeFirmesJPA> blocDeFirmess = new HashSet<BlocDeFirmesJPA>();
       ff.setBlocDeFirmess(blocDeFirmess);
@@ -501,11 +482,10 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       // -- MODE EDICIO
       FluxDeFirmesJPA ff = form.getFluxDeFirmes();
       long fluxID = ff.getFluxDeFirmesID();
-      
+
       // Miram READ ONLY
       String ro = request.getParameter("readOnly");
       form.setReadOnly("true".equals(ro));
-      
 
       form.addHiddenField(PlantillaFluxDeFirmesFields.USUARIENTITATID);
       if (isUsuariEntitat()) {
@@ -513,10 +493,10 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       } else {
         form.addReadOnlyField(PlantillaFluxDeFirmesFields.USUARIAPLICACIOID);
       }
-      
+
       if (form.isReadOnly()) {
         form.addReadOnlyField(NOM);
-        
+
         form.addReadOnlyField(PlantillaFluxDeFirmesFields.DESCRIPCIO);
 
         form.setDeleteButtonVisible(false);
@@ -527,11 +507,10 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
           form.setDeleteButtonVisible(false);
         }
       }
-      
 
       // Colors de les caixes de Bloc i Firmes
-      procesaBackgroundColors(ff, form, ff.getPeticioDeFirma() != null );
-      
+      procesaBackgroundColors(ff, form, ff.getPeticioDeFirma() != null);
+
       // Carregar plantilla de flux
       PlantillaFluxDeFirmesJPA pff;
       pff = (PlantillaFluxDeFirmesJPA) plantillaFluxDeFirmesEjb.findByPrimaryKey(fluxID);
@@ -540,18 +519,19 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
         if (pff.getUsuariAplicacioID() != null) {
           // No permetem modificar l'usuari seleccionat
           List<StringKeyValue> list = new ArrayList<StringKeyValue>();
-          list.add(new StringKeyValue(pff.getUsuariAplicacioID(),pff.getUsuariAplicacioID()));
+          list.add(new StringKeyValue(pff.getUsuariAplicacioID(), pff.getUsuariAplicacioID()));
           // mav.addObject("listOfUsuariAplicacioForUsuariAplicacioID", list);
           form.setListOfUsuariAplicacioForUsuariAplicacioID(list);
         }
       } else {
         form.setPlantillaFluxDeFirmes(pff);
       }
-    
-    }; // Final mode edició
-    
-    if (!LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN) &&
-        !LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN)) {
+
+    }
+    ; // Final mode edició
+
+    if (!LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN)
+        && !LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN)) {
       form.addHiddenField(PlantillaFluxDeFirmesFields.COMPARTIR);
     }
 
@@ -561,67 +541,63 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     } else {
       form.setRedirectOnModify(redirectOnModify);
     }
-    
+
     List<UsuariEntitatJPA> users = null;
 
-     // Plantilla de Fluxos d'usuari i per fluxos de la peticio de firma
+    // Plantilla de Fluxos d'usuari i per fluxos de la peticio de firma
     PlantillaFluxDeFirmesJPA pff = form.getPlantillaFluxDeFirmes();
     if ((pff == null) || (pff != null && pff.getUsuariAplicacioID() == null)) {
       // Seleccionem l'usuari actual
       LoginInfo loginInfo = LoginInfo.getInstance();
       String currentUser = loginInfo.getUsuariEntitatID();
-      
-      if (!form.isReadOnly() && (pff!= null && pff.getUsuariEntitatID() != null)) {
+
+      if (!form.isReadOnly() && (pff != null && pff.getUsuariEntitatID() != null)) {
         UsuariPersona up = loginInfo.getUsuariPersona();
         String nom = up.getNom() + " " + up.getLlinatges();
         Set<StringKeyValue> list = new HashSet<StringKeyValue>();
         list.add(new StringKeyValue(currentUser, nom));
         form.setListOfUsuariEntitatForUsuariEntitatID(list);
 
-        if (pff!= null && pff.getUsuariEntitatID() != null) {
+        if (pff != null && pff.getUsuariEntitatID() != null) {
           pff.setUsuariEntitatID(currentUser);
         }
-     }
-      
+      }
 
       // Llista de posibles firmants
 
       // Seleccionem tots els usuaris favorits (ja contenen usuari-persona)
       final boolean incloureCarrecs = true;
-      users = usuariEntitatLogicaEjb.selectFavorits(
-            currentUser, null /*Constants.ROLE_DEST*/, incloureCarrecs);
+      users = usuariEntitatLogicaEjb.selectFavorits(currentUser,
+          null /* Constants.ROLE_DEST */, incloureCarrecs);
 
     } else {
-      
+
       String entitatID = LoginInfo.getInstance().getEntitatID();
 
       // La gent que pot estar dins un flux d'usuari aplicació son:
-      //  (1) Tots els usuaris-entitat actius amb role ROLE_DEST de la meva entitat i
-      //  (2) Tots els càrrecs actius de la meva entitat 
+      // (1) Tots els usuaris-entitat actius amb role ROLE_DEST de la meva entitat i
+      // (2) Tots els càrrecs actius de la meva entitat
       SubQuery<RoleUsuariEntitat, String> sq;
       sq = roleUsuariEntitatEjb.getSubQuery(RoleUsuariEntitatFields.USUARIENTITATID,
           RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_DEST));
-      
-      Where w = Where.AND(
-          UsuariEntitatFields.ENTITATID.equal(entitatID), // de la meva entitat
+
+      Where w = Where.AND(UsuariEntitatFields.ENTITATID.equal(entitatID), // de la meva entitat
           UsuariEntitatFields.ACTIU.equal(true), // actius
-          Where.OR(
-               UsuariEntitatFields.USUARIENTITATID.in(sq), // Role_Dest o
-               UsuariEntitatFields.CARREC.isNotNull()  // Es càrrec
-               )
-          );
+          Where.OR(UsuariEntitatFields.USUARIENTITATID.in(sq), // Role_Dest o
+              UsuariEntitatFields.CARREC.isNotNull() // Es càrrec
+              ));
 
       users = usuariEntitatLogicaEjb.selectFull(w);
     }
-   
+
     // Llevar de la llista d'usuaris els usuaris que ja estan al flux
-    //List<UsuariEntitatJPA> usuarisDelFlux = new ArrayList<UsuariEntitatJPA>();
+    // List<UsuariEntitatJPA> usuarisDelFlux = new ArrayList<UsuariEntitatJPA>();
     Set<BlocDeFirmesJPA> blocs = form.getFluxDeFirmes().getBlocDeFirmess();
-    for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {      
+    for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
       Set<FirmaJPA> firmes = blocDeFirmesJPA.getFirmas();
       for (FirmaJPA firmaJPA : firmes) {
         users.remove(firmaJPA.getUsuariEntitat());
-        //usuarisDelFlux.add(firmaJPA.getUsuariEntitat());
+        // usuarisDelFlux.add(firmaJPA.getUsuariEntitat());
       }
     }
 
@@ -630,11 +606,11 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       urlCancel = getContextWeb() + "/list/1";
     } else {
       urlCancel = form.getRedirectOnModify();
-    }    
+    }
     form.addAdditionalButton(new AdditionalButton("", "tornar", urlCancel, ""));
-    
+
     form.setCancelButtonVisible(false);
-    
+
     form.addHiddenField(PlantillaFluxDeFirmesFields.FLUXDEFIRMESID);
     form.addHiddenField(PlantillaFluxDeFirmesFields.USUARIENTITATID);
     if (isUsuariEntitat()) {
@@ -649,77 +625,75 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
       seleccioUsuariForm.setTitol("selectflux.selectuser");
       seleccioUsuariForm.setUrlData(getContextWeb() + "/selecciousuarisjsonperflux");
-        
-      seleccioUsuariForm.setUsuarisFavorits(
-            Utils.sortStringKeyValueList(
-            SearchJSONController.favoritsToUsuariEntitat( users)));
-  
+
+      seleccioUsuariForm.setUsuarisFavorits(Utils.sortStringKeyValueList(SearchJSONController
+          .favoritsToUsuariEntitat(users)));
+
       mav.addObject("seleccioUsuariForm", seleccioUsuariForm);
       request.getSession().setAttribute("seleccioUsuariForm", seleccioUsuariForm);
     }
-    
+
     // FORMULARI SELECCIO USUARI-REVISOR
     {
       SeleccioUsuariForm seleccioUsuariRevisorForm = new SeleccioUsuariForm();
       seleccioUsuariRevisorForm.setTitol("selectflux.selectuserrevisor");
       seleccioUsuariRevisorForm.setUrlData("/common/json/usuarientitatrevisor");
       seleccioUsuariRevisorForm.setUsuarisFavorits(null);
-  
+
       mav.addObject("seleccioUsuariRevisorForm", seleccioUsuariRevisorForm);
-      request.getSession().setAttribute("seleccioUsuariRevisorForm", seleccioUsuariRevisorForm);
+      request.getSession()
+          .setAttribute("seleccioUsuariRevisorForm", seleccioUsuariRevisorForm);
     }
-   
+
     return form;
   }
 
-  
-
-  protected void procesaBackgroundColors(FluxDeFirmesJPA ff,
-      PlantillaDeFluxDeFirmesForm form, boolean iniciat) {
-    //final String GROC = "FFFFAA";
-    final String BLAU = "C0F7FE"; //"BBBBFF";
+  protected void procesaBackgroundColors(FluxDeFirmesJPA ff, PlantillaDeFluxDeFirmesForm form,
+      boolean iniciat) {
+    // final String GROC = "FFFFAA";
+    final String BLAU = "C0F7FE"; // "BBBBFF";
     final String VERD = "BBFFBB";
-    final String ROIG_B = "FAE7EC"; //"E37795"; //"FFA4A4"; // "FF6666";
-    final String ROIG_F = "FF7575";    
+    final String ROIG_B = "FAE7EC"; // "E37795"; //"FFA4A4"; // "FF6666";
+    final String ROIG_F = "FF7575";
     final String GRIS = "D0D0D0";
     final String VERMELL = "FF0000";
-    
-    Map<Long,String> backgroundColorsOfBloc = new HashMap<Long,String>();
-    
-    Map<Long,String> backgroundColorsOfFirma = new HashMap<Long,String>();
-    
+
+    Map<Long, String> backgroundColorsOfBloc = new HashMap<Long, String>();
+
+    Map<Long, String> backgroundColorsOfFirma = new HashMap<Long, String>();
 
     final boolean isDebug = log.isDebugEnabled();
-    
+
     if (isDebug) {
       log.info(" Entra dins processarBackgroundColors");
     }
-    
-    
+
     for (BlocDeFirmesJPA bloc : ff.getBlocDeFirmess()) {
       Set<FirmaJPA> firmes = bloc.getFirmas();
       if (iniciat) {
-        
-        if (isDebug) { log.info("===== COLORS: Bloc[" + bloc.getBlocDeFirmesID() + "]"); }
-        
+
+        if (isDebug) {
+          log.info("===== COLORS: Bloc[" + bloc.getBlocDeFirmesID() + "]");
+        }
+
         if (bloc.getDataFinalitzacio() == null) {
-            // No iniciat o en progress
-          
-            // Esta en progres si les firmes tenen estats de firmes
-            Set<EstatDeFirmaJPA> estats = null;
-            for (FirmaJPA firmaJPA : firmes) {
-              estats = firmaJPA.getEstatDeFirmas();
-              break;
-            }
-            
-            if (estats == null || estats.size() == 0) {
-              // No iniciat
-              break;
-            } else {
-              // En progres
-              backgroundColorsOfBloc.put(bloc.getBlocDeFirmesID(), BLAU);
-            }          
-         
+          // No iniciat o en progress
+
+          // Esta en progres si les firmes tenen estats de firmes
+          Set<EstatDeFirmaJPA> estats = null;
+          for (FirmaJPA firmaJPA : firmes) {
+            estats = firmaJPA.getEstatDeFirmas();
+            break;
+          }
+
+          if (estats == null || estats.size() == 0) {
+            // No iniciat
+            break;
+          } else {
+            // En progres
+            backgroundColorsOfBloc.put(bloc.getBlocDeFirmesID(), BLAU);
+          }
+
         } else {
           // Finalitzat o rebutjat (si es rebutjat ho processarem dins les firmes)
           backgroundColorsOfBloc.put(bloc.getBlocDeFirmesID(), VERD);
@@ -727,7 +701,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       }
 
       for (FirmaJPA firma : firmes) {
-        
+
         if (!firma.getUsuariEntitat().isActiu()) {
           backgroundColorsOfFirma.put(firma.getFirmaID(), VERMELL);
         } else {
@@ -761,7 +735,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
         }
         if (isDebug) {
           log.info("===== COLORS: Firma[" + firma.getFirmaID() + "] = "
-             + backgroundColorsOfFirma.get(firma.getFirmaID())); 
+              + backgroundColorsOfFirma.get(firma.getFirmaID()));
         }
       }
     }
@@ -771,249 +745,379 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
   }
 
-  
-  
-  
-  
-  
   @RequestMapping(value = "/afegirRevisorDesDeModal", method = RequestMethod.POST)
-  public String afegirRevisorDesDeModal(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
-      @ModelAttribute @Valid  SeleccioUsuariForm seleccioUsuariForm, 
-       HttpServletRequest request) {
+  public String afegirRevisorDesDeModal(
+      @ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
+      @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm, HttpServletRequest request) {
 
     String usuariEntitatID = seleccioUsuariForm.getId();
     String firmaIDStr = seleccioUsuariForm.getParam1();
-    
+
     log.info("\n\n  --------- XYZ ZZZ afegirRevisorDesDeModal ----------");
-    log.info("    usuariEntitatID = |" +usuariEntitatID + "|");
-    log.info("    firmaIDStr = |" +firmaIDStr + "|");
-    
-    
+    log.info("    usuariEntitatID = |" + usuariEntitatID + "|");
+    log.info("    firmaIDStr = |" + firmaIDStr + "|");
+
     long firmaID = Integer.parseInt(firmaIDStr);
     try {
       // TODO Moure tot aquest mètode a EJB
-  
-      //log.error("afegirFirma: usuariEntitatID: " + usuariEntitatID + " \\  blocID: " + blocID);
-  
+
+      // log.error("afegirFirma: usuariEntitatID: " + usuariEntitatID + " \\  blocID: " +
+      // blocID);
+
       UsuariEntitatJPA usuariEntitat = usuariEntitatLogicaEjb
           .findByPrimaryKeyFull(usuariEntitatID);
       if (usuariEntitat == null) {
-        HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
-            new String[] {
-            I18NUtils.tradueix("usuariEntitat.usuariEntitat"),
-            I18NUtils.tradueix("usuariEntitat.usuariEntitatID"),
-            String .valueOf(usuariEntitatID)
-             }));
+        HtmlUtils.saveMessageError(
+            request,
+            I18NUtils.tradueix(
+                "error.notfound",
+                new String[] { I18NUtils.tradueix("usuariEntitat.usuariEntitat"),
+                    I18NUtils.tradueix("usuariEntitat.usuariEntitatID"),
+                    String.valueOf(usuariEntitatID) }));
         return getTileForm();
       }
-      
+
       Long count = roleUsuariEntitatEjb.count(Where.AND(
           RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_REVI),
-          RoleUsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID)   ));
-      
+          RoleUsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID)));
+
       if (count == null || count.longValue() != 1) {
-        HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.noesrevisor", usuariEntitatID));
+        HtmlUtils.saveMessageError(request,
+            I18NUtils.tradueix("error.noesrevisor", usuariEntitatID));
         return getTileForm();
       }
-  
-      // revisar si firma existeix !!!
-  
-      FirmaJPA firma = (FirmaJPA)firmaLogicaEjb.findByPrimaryKey(firmaID);
-  
+
+      Long blocID = firmaLogicaEjb.executeQueryOne(FirmaFields.BLOCDEFIRMAID,
+          FirmaFields.FIRMAID.equal(firmaID));
+      FirmaJPA firma = searchFirma(fluxDeFirmesForm, blocID, firmaID);
+
+      // Revisar si firma existeix !!!
       if (firma == null) {
-        HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
-            new String[] {
-            I18NUtils.tradueix("firma.firma"),
-            I18NUtils.tradueix("firma.firmaID"),
-            String .valueOf(firmaID)
-             }));
-        return getTileForm();
-        
-      }
-      
-      long blocID = firma.getBlocDeFirmaID();
-      BlocDeFirmesJPA bloc = searchBloc(fluxDeFirmesForm, blocID);
-
-      if (bloc == null) {
-        HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
-            new String[] {
-            I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
-            I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
-            String .valueOf(blocID)
-             }));
+        HtmlUtils.saveMessageError(
+            request,
+            I18NUtils.tradueix(
+                "error.notfound",
+                new String[] { I18NUtils.tradueix("firma.firma"),
+                    I18NUtils.tradueix("firma.firmaID"), String.valueOf(firmaID) }));
         return getTileForm();
       }
 
-      
+      // Cream el revisor
       RevisorDeFirmaJPA rev = new RevisorDeFirmaJPA();
-
       rev.setFirmaID(firmaID);
       rev.setObligatori(true);
       rev.setUsuariEntitatID(usuariEntitatID);
-    
-      rev = (RevisorDeFirmaJPA)revisorDeFirmaEjb.create(rev);
+      rev = (RevisorDeFirmaJPA) revisorDeFirmaEjb.create(rev);
 
+      // Per fer feina en local
       rev.setUsuariEntitat(usuariEntitat);
+      rev.setFirma(firma);
 
       // Afegim el nou revisor a la firma
-      for(FirmaJPA firmaitem : bloc.getFirmas()) {
-        
-        if(firmaitem.getFirmaID() == firmaID) {
-          firmaitem.getRevisorDeFirmas().add((RevisorDeFirmaJPA)rev);
+      firma.getRevisorDeFirmas().add((RevisorDeFirmaJPA) rev);
+
+      // Recalcular minim de revisors de Firma!!!!
+      int countObligatori = 0;
+      for (RevisorDeFirmaJPA f : firma.getRevisorDeFirmas()) {
+        if (f.isObligatori()) {
+          countObligatori++;
         }
-        
       }
-         
-    
-    } catch(I18NException e) {
+      // Arriba al mínim ?
+      if (countObligatori > firma.getMinimDeRevisors()) {
+        firma.setMinimDeRevisors(countObligatori);
+      } else {
+        // Es passa del màxim?
+        int total = firma.getRevisorDeFirmas().size();
+        if (total < firma.getMinimDeRevisors()) {
+          firma.setMinimDeRevisors(total);
+        }
+      }
+
+      // Actualitzam la firma
+      firmaLogicaEjb.update(firma);
+
+    } catch (I18NException e) {
       HtmlUtils.saveMessageError(request, I18NUtils.getMessage(e));
     }
-    
-    
+
     return getTileForm();
   }
-  
-  
+
   @RequestMapping(value = "/eliminarRevisor", method = RequestMethod.POST)
   public String eliminarRevisor(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
       @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm,
-      @RequestParam("revisorID") long revisorID, HttpServletRequest request) throws I18NException {
+      @RequestParam("blocID") long blocID, @RequestParam("firmaID") long firmaID,
+      @RequestParam("revisorID") long revisorID, HttpServletRequest request)
+      throws I18NException {
 
-    
-    RevisorDeFirma rev =  revisorDeFirmaEjb.findByPrimaryKey(revisorID);
+    FirmaJPA firma = searchFirma(fluxDeFirmesForm, blocID, firmaID);
+
+    RevisorDeFirma rev = searchRevisor(firma, revisorID);
 
     if (rev == null) {
-      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
-          new String[] {
-          I18NUtils.tradueix("revisorDeFirma.revisorDeFirma"),
-          I18NUtils.tradueix("revisorDeFirma.revisorDeFirmaID"),
-          String .valueOf(revisorID)
-           }));
+      htmlMessageNotFoundRevisor(revisorID, request);
       return getTileForm();
     }
 
+    // Eliminam el revisor de la bbdd
     revisorDeFirmaEjb.delete(revisorID);
 
-    long firmaID = rev.getFirmaID();
+    // Eliminam el revisor de l'entitat local
+    firma.getRevisorDeFirmas().remove(rev);
 
-    for (BlocDeFirmesJPA bloc : fluxDeFirmesForm.getFluxDeFirmes().getBlocDeFirmess()) {
-      for(FirmaJPA firmaitem : bloc.getFirmas()) {
-        if(firmaitem.getFirmaID() == firmaID) {
-          for(RevisorDeFirma revisor : firmaitem.getRevisorDeFirmas()) {
-              if (revisor.getRevisorDeFirmaID() == revisorID) {
-                firmaitem.getRevisorDeFirmas().remove(revisor);
-                return getTileForm();
-              }
-          }
-        }
+    // Recalcular minim de revisors de Firma!!!!
+    int countObligatori = 0;
+    for (RevisorDeFirmaJPA f : firma.getRevisorDeFirmas()) {
+      if (f.isObligatori()) {
+        countObligatori++;
       }
     }
-    
-    log.warn("\n\nNo he trobat revisor de firma amb ID " + revisorID 
-        + " dins de la firma amb id " + firmaID + "\n\n");
+
+    // Arriba al mínim
+    if (countObligatori > firma.getMinimDeRevisors()) {
+      firma.setMinimDeRevisors(countObligatori);
+    } else {
+      // arriba la màxim
+      int total = firma.getRevisorDeFirmas().size();
+      if (total < firma.getMinimDeRevisors()) {
+        firma.setMinimDeRevisors(total);
+      }
+
+    }
+
+    firmaLogicaEjb.update(firma);
 
     return getTileForm();
+
   }
 
-  
+  protected void htmlMessageNotFoundRevisor(long revisorID, HttpServletRequest request) {
+    HtmlUtils.saveMessageError(
+        request,
+        I18NUtils.tradueix(
+            "error.notfound",
+            new String[] { I18NUtils.tradueix("revisorDeFirma.revisorDeFirma"),
+                I18NUtils.tradueix("revisorDeFirma.revisorDeFirmaID"),
+                String.valueOf(revisorID) }));
+  }
+
   @RequestMapping(value = "/esborrarmotiu", method = RequestMethod.POST)
   public String esborrarMotiu(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
       @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm,
       @RequestParam("firmaID") long firmaID, HttpServletRequest request) throws I18NException {
 
-
     for (BlocDeFirmesJPA bloc : fluxDeFirmesForm.getFluxDeFirmes().getBlocDeFirmess()) {
-      for(FirmaJPA firmaitem : bloc.getFirmas()) {
-        if(firmaitem.getFirmaID() == firmaID) {
+      for (FirmaJPA firmaitem : bloc.getFirmas()) {
+        if (firmaitem.getFirmaID() == firmaID) {
           firmaitem.setMotiu(null);
           firmaLogicaEjb.update(firmaitem);
           return getTileForm();
         }
       }
     }
-    
+
     // XYZ ZZZ Passar a HTMlUtils.saveWarning ????
-    log.warn("\n\nNo he trobat la firma amb ID " + firmaID 
+    log.warn("\n\nNo he trobat la firma amb ID " + firmaID
         + " per esborrar el motiu de la firma n\n");
 
     return getTileForm();
   }
-  
-  
+
+  @RequestMapping(value = "/ferRevisorObligatori", method = RequestMethod.POST)
+  public String ferRevisorObligatori(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
+      @RequestParam("blocID") long blocID, @RequestParam("firmaID") long firmaID,
+      @RequestParam("revisorID") long revisorID, HttpServletRequest request)
+      throws I18NException {
+
+    FirmaJPA firma = searchFirma(fluxDeFirmesForm, blocID, firmaID);
+
+    if (firma == null) {
+      // error.notfound=No s´ha trobat cap {0} amb {1} igual a {2}
+      HtmlUtils.saveMessageError(
+          request,
+          I18NUtils.tradueix(
+              "error.notfound",
+              new String[] { I18NUtils.tradueix("firma.firma"),
+                  I18NUtils.tradueix("firma.firmaID"), String.valueOf(blocID) }));
+      return getTileForm();
+    }
+
+    int countObligatori = 0;
+    int countNoObligatori = 0;
+    RevisorDeFirmaJPA revisor = null;
+    for (RevisorDeFirmaJPA f : firma.getRevisorDeFirmas()) {
+      if (f.getRevisorDeFirmaID() == revisorID) {
+        revisor = f;
+      }
+      if (f.isObligatori()) {
+        countObligatori++;
+      } else {
+        countNoObligatori++;
+      }
+    }
+
+    if (revisor == null) {
+      htmlMessageNotFoundRevisor(firmaID, request);
+      return getTileForm();
+    }
+
+    boolean nouObligatori = !revisor.isObligatori();
+
+    // TODO Moure a EJB
+    int menorValorPerMinimDeFirmes;
+    if (nouObligatori == true) {
+      // Era una firma no obligatoria i ara volem que sigui obligatoria
+      // Revisar Minim del bloc
+      menorValorPerMinimDeFirmes = countObligatori + 1
+          + ((countNoObligatori - 1) == 0 ? 0 : 1);
+
+    } else {
+      // Era una firma obligatoria i ara volem que sigui no obligatoria
+      menorValorPerMinimDeFirmes = countObligatori - 1
+          + ((countNoObligatori + 1) == 0 ? 0 : 1);
+
+      // Podem llevar obligatori si Minim_Firmes > Firmes_obligatories + (1 si existeixen
+      // firmes no_obligatories)
+      if (menorValorPerMinimDeFirmes == 0) {
+        // TODO XYZ ZZZ TRA
+        HtmlUtils.saveMessageWarning(request,
+            "No es posible eliminar el flag Obligatori d'aquest Revisor de Firma.");
+        return getTileForm();
+      }
+    }
+
+    if (firma.getMinimDeRevisors() < menorValorPerMinimDeFirmes) {
+      firma.setMinimDeRevisors(menorValorPerMinimDeFirmes);
+      firmaLogicaEjb.update(firma);
+    } else {
+      if (firma.getMinimDeRevisors() > firma.getRevisorDeFirmas().size()) {
+        firma.setMinimDeRevisors(firma.getRevisorDeFirmas().size());
+        firmaLogicaEjb.update(firma);
+      }
+    }
+
+    revisor.setObligatori(nouObligatori);
+    revisorDeFirmaEjb.update(revisor);
+
+    return getTileForm();
+
+  }
+
+  @RequestMapping(value = "/changeMinimDeRevisors", method = RequestMethod.POST)
+  public String changeMinimDeRevisors(
+      @ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
+      @RequestParam("blocID") long blocID, @RequestParam("firmaID") long firmaID,
+      @RequestParam("minimDeFirmes") int minimDeRevisors, HttpServletRequest request)
+      throws I18NException {
+
+    FirmaJPA firma = searchFirma(fluxDeFirmesForm, blocID, firmaID);
+
+    if (firma == null) {
+      HtmlUtils.saveMessageError(
+          request,
+          I18NUtils.tradueix(
+              "error.notfound",
+              new String[] { I18NUtils.tradueix("firma.firma"),
+                  I18NUtils.tradueix("firma.firmaID"), String.valueOf(firmaID) }));
+      return getTileForm();
+    }
+
+    int countObligatori = 0;
+    int countNoObligatori = 0;
+    for (RevisorDeFirmaJPA f : firma.getRevisorDeFirmas()) {
+      if (f.isObligatori()) {
+        countObligatori++;
+      } else {
+        countNoObligatori++;
+      }
+    }
+
+    int afegit = (countNoObligatori == 0) ? 0 : 1;
+    if (minimDeRevisors >= (countObligatori + afegit)) {
+      // OK
+      firma.setMinimDeRevisors(minimDeRevisors);
+      firmaLogicaEjb.update(firma);
+    } else {
+      // TODO XYZ ZZZ ZZZ Traduir
+      HtmlUtils.saveMessageWarning(request, "No es posible canviar el mínim de revisors  a "
+          + minimDeRevisors + " en aquest bloc");
+    }
+
+    return getTileForm();
+
+  }
+
   @RequestMapping(value = "/definirmotiu", method = RequestMethod.POST)
   public String definirMotiu(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
       @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm,
-      @RequestParam("firmaID") long firmaID,
-      @RequestParam("motiu") String motiu, HttpServletRequest request) throws I18NException {
+      @RequestParam("firmaID") long firmaID, @RequestParam("motiu") String motiu,
+      HttpServletRequest request) throws I18NException {
 
     motiu = motiu.replace('\'', '´').replace('"', 'ʺ');
 
     for (BlocDeFirmesJPA bloc : fluxDeFirmesForm.getFluxDeFirmes().getBlocDeFirmess()) {
-      for(FirmaJPA firmaitem : bloc.getFirmas()) {
-        if(firmaitem.getFirmaID() == firmaID) {
+      for (FirmaJPA firmaitem : bloc.getFirmas()) {
+        if (firmaitem.getFirmaID() == firmaID) {
           firmaitem.setMotiu(motiu);
           firmaLogicaEjb.update(firmaitem);
           return getTileForm();
         }
       }
     }
-    
+
     // XYZ ZZZ Passar a HTMlUtils.saveWarning ????
-    log.warn("\n\nNo he trobat la firma amb ID " + firmaID 
+    log.warn("\n\nNo he trobat la firma amb ID " + firmaID
         + " per modificar el motiu de la firma n\n");
 
     return getTileForm();
   }
-  
-  
-  
-  
-  
+
   @RequestMapping(value = "/afegirFirmaDesDeModal", method = RequestMethod.POST)
-  public String afegirFirmaDesDeModal(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
-      @ModelAttribute @Valid  SeleccioUsuariForm seleccioUsuariForm, 
-       HttpServletRequest request) {
+  public String afegirFirmaDesDeModal(
+      @ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
+      @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm, HttpServletRequest request) {
 
     String usuariEntitatID = seleccioUsuariForm.getId();
     long blocID = Integer.parseInt(seleccioUsuariForm.getParam1());
     try {
       // TODO Moure tot aquest mètode a EJB
-  
-      //log.error("afegirFirma: usuariEntitatID: " + usuariEntitatID + " \\  blocID: " + blocID);
-  
+
+      // log.error("afegirFirma: usuariEntitatID: " + usuariEntitatID + " \\  blocID: " +
+      // blocID);
+
       UsuariEntitatJPA usuariEntitat = usuariEntitatLogicaEjb
           .findByPrimaryKeyFull(usuariEntitatID);
       if (usuariEntitat == null) {
-        HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
-            new String[] {
-            I18NUtils.tradueix("usuariEntitat.usuariEntitat"),
-            I18NUtils.tradueix("usuariEntitat.usuariEntitatID"),
-            String .valueOf(usuariEntitatID)
-             }));
+        HtmlUtils.saveMessageError(
+            request,
+            I18NUtils.tradueix(
+                "error.notfound",
+                new String[] { I18NUtils.tradueix("usuariEntitat.usuariEntitat"),
+                    I18NUtils.tradueix("usuariEntitat.usuariEntitatID"),
+                    String.valueOf(usuariEntitatID) }));
         return getTileForm();
       }
-  
+
       BlocDeFirmesJPA bloc = searchBloc(fluxDeFirmesForm, blocID);
-  
+
       if (bloc == null) {
-        HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
-            new String[] {
-            I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
-            I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
-            String .valueOf(blocID)
-             }));
+        HtmlUtils.saveMessageError(request, I18NUtils.tradueix(
+            "error.notfound",
+            new String[] { I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
+                I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"), String.valueOf(blocID) }));
         return getTileForm();
       }
-  
+
       FirmaJPA firma = new FirmaJPA();
-  
+
       firma.setBlocDeFirmaID(blocID);
       firma.setDestinatariID(usuariEntitat.getUsuariEntitatID());
       firma.setUsuariEntitat(usuariEntitat);
       firma.setObligatori(true);
-      
+
       UsuariPersona up = usuariEntitat.getUsuariPersona();
-      
+
       if (!up.isUsuariIntern()) {
         // Usuari Extern
         firma.setUsuariExternEmail(up.getEmail());
@@ -1021,14 +1125,14 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
         firma.setUsuariExternLlinatges(up.getLlinatges());
         firma.setUsuariExternNivellSeguretat(ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_TOKEN);
         firma.setUsuariExternNom(up.getNom());
-        
-        // Genera un token únic  
+
+        // Genera un token únic
         firma.setUsuariExternToken(firmaLogicaEjb.getUniqueTokenForFirma());
 
       }
 
       firma = (FirmaJPA) firmaLogicaEjb.create(firma);
-  
+
       if (bloc.getMinimDeFirmes() == bloc.getFirmas().size()) {
         bloc.getFirmas().add(firma);
         bloc.setMinimDeFirmes(bloc.getFirmas().size());
@@ -1036,22 +1140,17 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       } else {
         bloc.getFirmas().add(firma);
       }
-      
-      
-      //long  fluxDeFirmesID = fluxDeFirmesForm.getFluxDeFirmes().getFluxDeFirmesID();    
+
+      // long fluxDeFirmesID = fluxDeFirmesForm.getFluxDeFirmes().getFluxDeFirmesID();
       afegitUsuariAlFlux(seleccioUsuariForm, usuariEntitatID);
-    } catch(I18NException e) {
+    } catch (I18NException e) {
       HtmlUtils.saveMessageError(request, I18NUtils.getMessage(e));
     }
-    
-    
+
     return getTileForm();
   }
-  
 
-
-  private void afegitUsuariAlFlux(SeleccioUsuariForm seleccioUsuariForm,
-      String usuariEntitatID) {
+  private void afegitUsuariAlFlux(SeleccioUsuariForm seleccioUsuariForm, String usuariEntitatID) {
     List<StringKeyValue> list = seleccioUsuariForm.getUsuarisFavorits();
     removeUsuariEntitatFromList(usuariEntitatID, list);
   }
@@ -1063,25 +1162,26 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
         toDelete = stringKeyValue;
         break;
       }
-    }    
+    }
     list.remove(toDelete);
   }
 
-  
   /**
    * Filtre usuaris-entitat de l'entitat actual.
+   * 
    * @param request
    * @param response
    * @throws Exception
    */
   @RequestMapping(value = "/selecciousuarisjsonperflux", method = RequestMethod.GET)
-  public void seleccioUsuarisJsonPerFluxGet(HttpServletRequest request, HttpServletResponse response
-     ) throws Exception {
+  public void seleccioUsuarisJsonPerFluxGet(HttpServletRequest request,
+      HttpServletResponse response) throws Exception {
     seleccioUsuarisJsonPerFlux(request, response);
   }
-  
+
   /**
    * Filtre usuaris-entitat de l'entitat actual.
+   * 
    * @param request
    * @param response
    * @throws Exception
@@ -1090,55 +1190,44 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   public void seleccioUsuarisJsonPerFlux(HttpServletRequest request,
       HttpServletResponse response) throws Exception {
 
-    
     final String queryFull = request.getParameter("query");
-    
+
     if (log.isDebugEnabled()) {
       log.debug("queryFull = |" + queryFull + "|");
     }
-    
+
     PlantillaDeFluxDeFirmesForm form;
     form = (PlantillaDeFluxDeFirmesForm) request.getSession().getAttribute("fluxDeFirmesForm");
-    
-    
+
     List<String> aEliminar = new ArrayList<String>();
-    
+
     Set<BlocDeFirmesJPA> blocs = form.getFluxDeFirmes().getBlocDeFirmess();
-    for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {      
+    for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
       Set<FirmaJPA> firmes = blocDeFirmesJPA.getFirmas();
       for (FirmaJPA firmaJPA : firmes) {
         aEliminar.add(firmaJPA.getUsuariEntitat().getUsuariEntitatID());
       }
     }
-    
-    
+
     String json = SearchJSONController.generaLlistatUsuarisCarrecsJson(queryFull, aEliminar,
         usuariEntitatLogicaEjb, usuariEntitatRefList, carrecRefList);
-    
-    
 
-    PrintWriter pw= response.getWriter();
-    
+    PrintWriter pw = response.getWriter();
+
     pw.write(json);
     pw.flush();
-    
+
   }
 
-
-  
-  
-  
-  
   @RequestMapping(value = "/afegirBlocDesDeModal", method = RequestMethod.POST)
   public String afegirBlocDesDeModal(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
-      SeleccioUsuariForm seleccioUsuariForm,
-       HttpServletRequest request) throws Exception {
-    
+      SeleccioUsuariForm seleccioUsuariForm, HttpServletRequest request) throws Exception {
+
     String usuariEntitatID = seleccioUsuariForm.getId();
     int blocOrdre = Integer.parseInt(seleccioUsuariForm.getParam1());
-    
-    if (log.isDebugEnabled() ) {
-      log.debug("afegirBlocDesDeModal(" + usuariEntitatID + "," +  blocOrdre + ")");
+
+    if (log.isDebugEnabled()) {
+      log.debug("afegirBlocDesDeModal(" + usuariEntitatID + "," + blocOrdre + ")");
     }
 
     try {
@@ -1146,22 +1235,20 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       long fluxID = flux.getFluxDeFirmesID();
       BlocDeFirmesJPA bloc = fluxDeFirmesLogicaEjb.afegirBlocDeFirmesAFlux(fluxID,
           usuariEntitatID, blocOrdre);
-  
+
       Set<BlocDeFirmesJPA> blocs = flux.getBlocDeFirmess();
       blocs.add(bloc);
-  
+
       fluxDeFirmesLogicaEjb.regeneraOrdres(blocs);
-      
+
       afegitUsuariAlFlux(seleccioUsuariForm, usuariEntitatID);
-    } catch(I18NException e) {
+    } catch (I18NException e) {
       HtmlUtils.saveMessageError(request, I18NUtils.getMessage(e));
     }
 
     return getTileForm();
 
   }
-  
-  
 
   @RequestMapping(value = "/canviMinimDeFirmes", method = RequestMethod.POST)
   public String canviMinimDeFirmes(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
@@ -1171,35 +1258,36 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     BlocDeFirmesJPA bloc = searchBloc(fluxDeFirmesForm, blocID);
 
     if (bloc == null) {
-      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
-          new String[] {
-          I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
-          I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
-          String .valueOf(blocID)
-           }));
+      HtmlUtils
+          .saveMessageError(
+              request,
+              I18NUtils.tradueix(
+                  "error.notfound",
+                  new String[] { I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
+                      I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
+                      String.valueOf(blocID) }));
       return getTileForm();
     }
-    
+
     int countObligatori = 0;
     int countNoObligatori = 0;
     for (FirmaJPA f : bloc.getFirmas()) {
       if (f.isObligatori()) {
-        countObligatori ++;
+        countObligatori++;
       } else {
-        countNoObligatori ++;
+        countNoObligatori++;
       }
     }
-    
-    int afegit = (countNoObligatori == 0)? 0 : 1;
+
+    int afegit = (countNoObligatori == 0) ? 0 : 1;
     if (minimDeFirmes >= (countObligatori + afegit)) {
       // OK
       bloc.setMinimDeFirmes(minimDeFirmes);
       blocDeFirmesLogicaEjb.update(bloc);
     } else {
       // TODO Traduir
-      HtmlUtils.saveMessageWarning(request,
-          "No es posible canviar el mínim de firmes a " 
-          + minimDeFirmes +  " en aquest bloc");
+      HtmlUtils.saveMessageWarning(request, "No es posible canviar el mínim de firmes a "
+          + minimDeFirmes + " en aquest bloc");
     }
 
     return getTileForm();
@@ -1215,12 +1303,14 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
     if (bloc == null) {
       // error.notfound=No s´ha trobat cap {0} amb {1} igual a {2}
-      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
-          new String[] {
-          I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
-          I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
-          String .valueOf(blocID)
-           }));
+      HtmlUtils
+          .saveMessageError(
+              request,
+              I18NUtils.tradueix(
+                  "error.notfound",
+                  new String[] { I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
+                      I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
+                      String.valueOf(blocID) }));
       return getTileForm();
     }
 
@@ -1229,7 +1319,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     int countNoObligatori = 0;
     for (FirmaJPA f : bloc.getFirmas()) {
       if (f.getFirmaID() == firmaID) {
-        firma = f;        
+        firma = f;
       }
       if (f.isObligatori()) {
         countObligatori++;
@@ -1240,37 +1330,40 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
     if (firma == null) {
       // error.notfound=No s´ha trobat cap {0} amb {1} igual a {2}
-      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
-          new String[] {
-          I18NUtils.tradueix("firma.firma"),
-          I18NUtils.tradueix("firma.firmaID"),
-          String .valueOf(firmaID)
-           }));
+      HtmlUtils.saveMessageError(
+          request,
+          I18NUtils.tradueix(
+              "error.notfound",
+              new String[] { I18NUtils.tradueix("firma.firma"),
+                  I18NUtils.tradueix("firma.firmaID"), String.valueOf(firmaID) }));
       return getTileForm();
     }
 
     boolean nouObligatori = !firma.isObligatori();
-    
+
     // TODO Moure a EJB
     int menorValorPerMinimDeFirmes;
     if (nouObligatori == true) {
       // Era una firma no obligatoria i ara volem que sigui obligatoria
       // Revisar Minim del bloc
-      menorValorPerMinimDeFirmes = countObligatori + 1 + ((countNoObligatori -1) == 0? 0 : 1);
-      
-      
+      menorValorPerMinimDeFirmes = countObligatori + 1
+          + ((countNoObligatori - 1) == 0 ? 0 : 1);
+
     } else {
-      // Era una firma  obligatoria i ara volem que sigui no obligatoria
-      menorValorPerMinimDeFirmes = countObligatori - 1 + ( (countNoObligatori + 1 )== 0? 0 : 1);
-      
-      // Podem llevar obligatori si Minim_Firmes > Firmes_obligatories + (1 si existeixen firmes no_obligatories)
+      // Era una firma obligatoria i ara volem que sigui no obligatoria
+      menorValorPerMinimDeFirmes = countObligatori - 1
+          + ((countNoObligatori + 1) == 0 ? 0 : 1);
+
+      // Podem llevar obligatori si Minim_Firmes > Firmes_obligatories + (1 si existeixen
+      // firmes no_obligatories)
       if (menorValorPerMinimDeFirmes == 0) {
         // TODO
-        HtmlUtils.saveMessageWarning(request, "No es posible eliminar el flag Obligatori d'aquesta firma.");
+        HtmlUtils.saveMessageWarning(request,
+            "No es posible eliminar el flag Obligatori d'aquesta firma.");
         return getTileForm();
       }
     }
-    
+
     if (bloc.getMinimDeFirmes() < menorValorPerMinimDeFirmes) {
       bloc.setMinimDeFirmes(menorValorPerMinimDeFirmes);
       blocDeFirmesLogicaEjb.update(bloc);
@@ -1280,10 +1373,9 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
         blocDeFirmesLogicaEjb.update(bloc);
       }
     }
-    
+
     firma.setObligatori(nouObligatori);
     firmaLogicaEjb.update(firma);
-
 
     return getTileForm();
 
@@ -1298,12 +1390,14 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     BlocDeFirmesJPA bloc = searchBloc(fluxDeFirmesForm, blocID);
 
     if (bloc == null) {
-      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
-          new String[] {
-          I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
-          I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
-          String .valueOf(blocID)
-           }));
+      HtmlUtils
+          .saveMessageError(
+              request,
+              I18NUtils.tradueix(
+                  "error.notfound",
+                  new String[] { I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
+                      I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
+                      String.valueOf(blocID) }));
       return getTileForm();
     }
 
@@ -1311,25 +1405,22 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     int countObligatori = 0;
     for (FirmaJPA f : bloc.getFirmas()) {
       if (f.getFirmaID() == firmaID) {
-        firma = f;        
+        firma = f;
       } else {
         if (f.isObligatori()) {
-          countObligatori ++;
+          countObligatori++;
         }
       }
     }
-    
-    
-    
 
     if (firma == null) {
       // error.notfound=No s´ha trobat cap {0} amb {1} igual a {2}
-      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
-          new String[] {
-          I18NUtils.tradueix("firma.firma"),
-          I18NUtils.tradueix("firma.firmaID"),
-          String .valueOf(firmaID)
-           }));
+      HtmlUtils.saveMessageError(
+          request,
+          I18NUtils.tradueix(
+              "error.notfound",
+              new String[] { I18NUtils.tradueix("firma.firma"),
+                  I18NUtils.tradueix("firma.firmaID"), String.valueOf(firmaID) }));
       return getTileForm();
     }
 
@@ -1337,35 +1428,32 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
     firmaLogicaEjb.deleteFull(firma);
     bloc.getFirmas().remove(firma);
-    
-    boolean update =false;
-    if (countObligatori > bloc.getMinimDeFirmes())  {
+
+    boolean update = false;
+    if (countObligatori > bloc.getMinimDeFirmes()) {
       bloc.setMinimDeFirmes(countObligatori);
       update = true;
     }
-    
+
     if (bloc.getMinimDeFirmes() > bloc.getFirmas().size()) {
       bloc.setMinimDeFirmes(bloc.getFirmas().size());
       update = true;
     }
-      
+
     if (update) {
       blocDeFirmesLogicaEjb.update(bloc);
     }
-    
-    
+
     UsuariEntitatJPA ue = firma.getUsuariEntitat();
-    
+
     eliminatUsuariDelFlux(seleccioUsuariForm, ue);
-    
+
     return getTileForm();
 
-    
   }
 
-  private void eliminatUsuariDelFlux(SeleccioUsuariForm seleccioUsuariForm,
-      UsuariEntitatJPA ue) {
-    
+  private void eliminatUsuariDelFlux(SeleccioUsuariForm seleccioUsuariForm, UsuariEntitatJPA ue) {
+
     List<StringKeyValue> list = seleccioUsuariForm.getUsuarisFavorits();
     list.add(SearchJSONController.getStringKeyValueFromUsuariEntitat(ue));
     Utils.sortStringKeyValueList(list);
@@ -1379,19 +1467,21 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     BlocDeFirmesJPA bloc = searchBloc(fluxDeFirmesForm, blocID);
 
     if (bloc == null) {
-      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
-          new String[] {
-          I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
-          I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
-          String .valueOf(blocID)
-           }));
+      HtmlUtils
+          .saveMessageError(
+              request,
+              I18NUtils.tradueix(
+                  "error.notfound",
+                  new String[] { I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
+                      I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
+                      String.valueOf(blocID) }));
       return getTileForm();
     }
 
     blocDeFirmesLogicaEjb.deleteFull(blocID);
 
     fluxDeFirmesForm.getFluxDeFirmes().getBlocDeFirmess().remove(bloc);
-    
+
     for (FirmaJPA firma : bloc.getFirmas()) {
       eliminatUsuariDelFlux(seleccioUsuariForm, firma.getUsuariEntitat());
     }
@@ -1411,37 +1501,60 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     }
     return bloc;
   }
-  
-  
-  
-  
-  
 
+  protected FirmaJPA searchFirma(FluxDeFirmesForm fluxDeFirmesForm, long blocID, long firmaID) {
+    Set<BlocDeFirmesJPA> blocs = fluxDeFirmesForm.getFluxDeFirmes().getBlocDeFirmess();
+
+    for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
+      if (blocID == blocDeFirmesJPA.getBlocDeFirmesID()) {
+        for (FirmaJPA f : blocDeFirmesJPA.getFirmas()) {
+          if (f.getFirmaID() == firmaID) {
+            return f;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  protected RevisorDeFirmaJPA searchRevisor(FirmaJPA firma, long revisorID) {
+
+    for (RevisorDeFirmaJPA f : firma.getRevisorDeFirmas()) {
+      if (f.getRevisorDeFirmaID() == revisorID) {
+        return f;
+      }
+    }
+    return null;
+  }
 
   @Override
-  public void preValidate(HttpServletRequest request, FluxDeFirmesForm fluxDeFirmesForm2, BindingResult result)
-      throws I18NException {
+  public void preValidate(HttpServletRequest request, FluxDeFirmesForm fluxDeFirmesForm2,
+      BindingResult result) throws I18NException {
 
     final boolean isDebug = log.isDebugEnabled();
-    if (isDebug) { log.debug("Entra a PreVALIDATE()" + result.getClass()); }
-    
+    if (isDebug) {
+      log.debug("Entra a PreVALIDATE()" + result.getClass());
+    }
+
     PlantillaDeFluxDeFirmesForm form = (PlantillaDeFluxDeFirmesForm) fluxDeFirmesForm2;
 
-    //FluxDeFirmesJPA flux = fluxDeFirmesForm.getFluxDeFirmes();
+    // FluxDeFirmesJPA flux = fluxDeFirmesForm.getFluxDeFirmes();
 
     if (form.isNou()) {
       // Utilitzarem el prevalidate per carregar la primera firma dins el
       // fluxDeFirmes
 
-      if (isDebug) { log.debug(" PreValidate():: Entra a NOU: " + result.hasErrors()); }
+      if (isDebug) {
+        log.debug(" PreValidate():: Entra a NOU: " + result.hasErrors());
+      }
 
       String usuariEntitat = form.getUsuariEntitatPrimeraFirma();
-      
+
       if (usuariEntitat == null || usuariEntitat.trim().length() == 0) {
         final String name = PlantillaDeFluxDeFirmesForm.USUARI_ENTITAT_PRIMERA_FIRMA_FIELD;
-        result.addError(new FieldError(name, name, null, false, 
-            new String[] {"genapp.validation.required" },
-            new Object[] { I18NUtils.tradueix("usuarientitatprimerafirma") }, null));
+        result.addError(new FieldError(name, name, null, false,
+            new String[] { "genapp.validation.required" }, new Object[] { I18NUtils
+                .tradueix("usuarientitatprimerafirma") }, null));
       } else {
 
         if (isDebug) {
@@ -1450,94 +1563,88 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
         BlocDeFirmesJPA bloc = new BlocDeFirmesJPA();
         bloc.setMinimDeFirmes(1);
-  
+
         FirmaJPA firma = new FirmaJPA();
         firma.setDestinatariID(usuariEntitat);
         firma.setObligatori(true);
-  
+
         bloc.getFirmas().add(firma);
-  
+
         form.getFluxDeFirmes().getBlocDeFirmess().clear();
         form.getFluxDeFirmes().getBlocDeFirmess().add(bloc);
       }
     }
-    
+
     // TODO fullName
     final String modelPlantilla = PlantillaFluxDeFirmesFields._TABLE_MODEL;
-    result.recordSuppressedField(modelPlantilla 
-        + "." + PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.javaName);
+    result.recordSuppressedField(modelPlantilla + "."
+        + PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.javaName);
 
     PlantillaFluxDeFirmesJPA ffup = form.getPlantillaFluxDeFirmes();
     if (ffup != null) {
       BindingResult errors = new BeanPropertyBindingResult(form, "");
       plantillaFluxDeFirmesValidator.validate(form, errors);
-      
+
       if (!isUsuariEntitat()) {
         if (ffup.getUsuariAplicacioID() == null) {
-          final String modelApp =  modelPlantilla 
-             + "." + PlantillaFluxDeFirmesFields.USUARIAPLICACIOID.javaName;
+          final String modelApp = modelPlantilla + "."
+              + PlantillaFluxDeFirmesFields.USUARIAPLICACIOID.javaName;
           ValidationUtils.rejectIfEmptyOrWhitespace(errors, modelApp,
               "genapp.validation.required", new Object[] { I18NUtils.tradueix(modelApp) });
         }
       }
-      
+
       processErrors(result, errors);
-    } 
+    }
 
     if (!isDebug) {
       log.debug("Surt de PreVALIDATE()");
     }
-    
-   
+
   }
-  
-  @Override  
-  public void postValidate(HttpServletRequest request, FluxDeFirmesForm fluxDeFirmesForm, BindingResult result)  throws I18NException {
-    
+
+  @Override
+  public void postValidate(HttpServletRequest request, FluxDeFirmesForm fluxDeFirmesForm,
+      BindingResult result) throws I18NException {
+
     if (result.hasErrors()) {
-      
+
       List<ObjectError> list = result.getAllErrors();
-      
+
       log.error(" postValidate HAS ERRORS : " + result.hasErrors());
-      
-      
+
       for (ObjectError oe1 : list) {
-        
+
         FieldError oe = (FieldError) oe1;
-        
+
         log.error("Error " + oe.getObjectName() + ": Camp " + oe.getField());
       }
-      
-    } else {      
+
+    } else {
       PlantillaDeFluxDeFirmesForm form = (PlantillaDeFluxDeFirmesForm) fluxDeFirmesForm;
-      
+
       FluxDeFirmesJPA flux = form.getFluxDeFirmes();
-      
-      
+
       PlantillaFluxDeFirmesJPA ffup = form.getPlantillaFluxDeFirmes();
       if (ffup == null) {
         flux.setPlantillaFluxDeFirmes(null);
       } else {
         flux.setPlantillaFluxDeFirmes(ffup);
       }
-      
+
     }
   }
 
-  
-
-  
   protected void processErrors(BindingResult result, BindingResult errors) {
     List<ObjectError> list = errors.getAllErrors();
-    
+
     log.error(" processErrors 111 : " + errors.hasErrors());
-    
-    
+
     for (ObjectError oe1 : list) {
       FieldError oe = (FieldError) oe1;
-      
+
       log.error("Error " + oe.getObjectName() + ": Camp " + oe.getField());
-      
+
       // Ignorar fluxDeFirmesID
       if (oe.getField().endsWith("fluxDeFirmesID")) {
         continue;
@@ -1545,48 +1652,49 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
       result.addError(oe);
     }
-    
-    
+
     log.error(" processErrors 222: " + errors.hasErrors());
   }
 
   @Override
-  public String getRedirectWhenCreated(HttpServletRequest request, FluxDeFirmesForm fluxDeFirmesForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request,
+      FluxDeFirmesForm fluxDeFirmesForm) {
     return "redirect:" + getContextWeb() + "/"
         + fluxDeFirmesForm.getFluxDeFirmes().getFluxDeFirmesID() + "/edit";
   }
 
   @Override
-  public String getRedirectWhenModified(HttpServletRequest request, FluxDeFirmesForm fluxDeFirmesForm, Throwable __e) {
-    
-    PlantillaDeFluxDeFirmesForm form = (PlantillaDeFluxDeFirmesForm)fluxDeFirmesForm;
-    
+  public String getRedirectWhenModified(HttpServletRequest request,
+      FluxDeFirmesForm fluxDeFirmesForm, Throwable __e) {
+
+    PlantillaDeFluxDeFirmesForm form = (PlantillaDeFluxDeFirmesForm) fluxDeFirmesForm;
+
     String redirectOnModify = form.getRedirectOnModify();
-    
+
     if (log.isDebugEnabled()) {
       log.debug("getRedirectWhenModified => " + redirectOnModify);
     }
-    
+
     if (redirectOnModify == null) {
       return super.getRedirectWhenModified(request, fluxDeFirmesForm, __e);
     } else {
       return "redirect:" + redirectOnModify;
     }
   }
-  
 
   @Override
-  public FluxDeFirmesJPA create(HttpServletRequest request, FluxDeFirmesJPA fluxDeFirmes) throws Exception, I18NException, I18NValidationException {
+  public FluxDeFirmesJPA create(HttpServletRequest request, FluxDeFirmesJPA fluxDeFirmes)
+      throws Exception, I18NException, I18NValidationException {
     // El create ha de crear:
     // (1) El flux
     // (2) Plantilla de Usuari Entitat o Plantilla de Usuari
     // (3) Primera Firma del Flux (Bloc + Firma)
-    
+
     if (log.isDebugEnabled()) {
       PlantillaFluxDeFirmes pff = fluxDeFirmes.getPlantillaFluxDeFirmes();
       if (pff != null) {
         if (pff.getUsuariEntitatID() != null) {
-          log.info("Entra dins create (Person): " + pff);        
+          log.info("Entra dins create (Person): " + pff);
           log.info("  User:  " + pff.getUsuariEntitatID());
           log.info("  Desc:  " + pff.getDescripcio());
         } else {
@@ -1595,21 +1703,22 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
           if (pff.getCompartir() == null) {
             pff.setCompartir(false);
           }
-          
-        }        
+
+        }
       }
     }
     return fluxDeFirmesLogicaEjb.createFull(fluxDeFirmes);
   }
-  
+
   @Override
-  public FluxDeFirmesJPA update(HttpServletRequest request, FluxDeFirmesJPA fluxDeFirmes) throws I18NException, I18NValidationException {
-    
+  public FluxDeFirmesJPA update(HttpServletRequest request, FluxDeFirmesJPA fluxDeFirmes)
+      throws I18NException, I18NValidationException {
+
     PlantillaFluxDeFirmes pff = fluxDeFirmes.getPlantillaFluxDeFirmes();
     if (pff != null && pff.getUsuariAplicacioID() != null && pff.getCompartir() == null) {
-        pff.setCompartir(false);
+      pff.setCompartir(false);
     }
-    
+
     return fluxDeFirmesLogicaEjb.updateFullPlantillaFluxUsuari(fluxDeFirmes);
   }
 
@@ -1617,7 +1726,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   public void delete(HttpServletRequest request, FluxDeFirmes fluxDeFirmes)
       throws I18NException {
     fluxDeFirmesLogicaEjb.deleteFull(fluxDeFirmes.getFluxDeFirmesID());
-    //return true;
+    // return true;
   }
 
   @Override
@@ -1647,27 +1756,22 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     return fluxDeFirmes;
   }
 
-
-  
   public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
       ModelAndView mav, Where where) throws I18NException {
     return usuariAplicacioRefList.getReferenceList(UsuariAplicacioFields.USUARIAPLICACIOID,
         where);
   }
-  
+
   @Override
   public String getEntityNameCode() {
-    final String model = PlantillaFluxDeFirmesFields._TABLE_MODEL; 
+    final String model = PlantillaFluxDeFirmesFields._TABLE_MODEL;
     return model + "." + model;
   }
-  
-  
-  
+
   @Override
   public String getEntityNameCodePlural() {
-      return getEntityNameCode() + ".plural";
+    return getEntityNameCode() + ".plural";
   }
- 
 
   @Override
   @InitBinder("fluxDeFirmesForm")
@@ -1675,8 +1779,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     super.initBinderForm(binder);
 
     binder.setDisallowedFields(FLUXDEFIRMESID.fullName,
-    		PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.fullName);
+        PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.fullName);
   }
-
 
 }

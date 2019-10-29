@@ -29,7 +29,7 @@ public class FluxDeFirmesSoliController extends PlantillaDeFluxDeFirmesControlle
   public boolean isActiveFormNew() {
     return false;
   }
-  
+
   @Override
   public boolean isActiveFormView() {
     return true;

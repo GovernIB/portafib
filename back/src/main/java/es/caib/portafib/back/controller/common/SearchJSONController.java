@@ -183,6 +183,22 @@ public class SearchJSONController {
   }
   
   
+  /**
+   * Filtre totes les persones de PortaFIB de tipus intern
+   * @param request
+   * @param response
+   * @throws Exception
+   */
+  @RequestMapping(value = "/usuaripersonaintern", method = RequestMethod.POST)
+  public void usuaripersonaintern(HttpServletRequest request, HttpServletResponse response
+     ) throws Exception {
+
+    final Where additionalWhere = UsuariPersonaFields.USUARIINTERN.equal(true);
+    
+    processUsuariPersonaRequest(request, response, additionalWhere);
+    
+  }
+  
   
   /**
    * Filtre per les persones que estan donades d'alta a l'entitat actual i a més estan actives
@@ -193,17 +209,51 @@ public class SearchJSONController {
   @RequestMapping(value = "/usuaripersonaentitat", method = RequestMethod.POST)
   public void usuaripersonaentitat(HttpServletRequest request, HttpServletResponse response
      ) throws Exception {
+    // Tots
+    final Boolean isIntern = null;
 
+    usuaripersonaentitatCommon(request, response, isIntern);
+
+  }
+
+  @RequestMapping(value = "/usuaripersonaentitatintern", method = RequestMethod.POST)
+  public void usuaripersonaentitatintern(HttpServletRequest request, HttpServletResponse response
+     ) throws Exception {
+
+    // Només intern     
+    final Boolean isIntern = true;
+
+    usuaripersonaentitatCommon(request, response, isIntern);
+
+  }
+
+
+  protected void usuaripersonaentitatCommon(HttpServletRequest request,
+      HttpServletResponse response, Boolean isIntern) throws IOException {
     SubQuery<UsuariEntitat, String> subquery;
     
     try {
-      subquery = usuariEntitatLogicaEjb.getSubQuery(UsuariEntitatFields.USUARIPERSONAID,
-          Where.AND(
-            UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
-            UsuariEntitatFields.CARREC.isNull(),
-            UsuariEntitatFields.ACTIU.equal(true)
-            ) 
+      Where whereBase  = Where.AND(
+          UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
+          UsuariEntitatFields.CARREC.isNull(),
+          UsuariEntitatFields.ACTIU.equal(true)
           );
+      
+      Where byTipusUsuari;
+      
+      if (isIntern == null) {
+        byTipusUsuari = whereBase;
+      } else if (isIntern == true) {
+        byTipusUsuari = Where.AND(whereBase,
+            new UsuariEntitatQueryPath().USUARIPERSONA().USUARIINTERN().equal(true));
+      } else {
+        byTipusUsuari = Where.AND(whereBase,
+            new UsuariEntitatQueryPath().USUARIPERSONA().USUARIINTERN().equal(false));
+      }
+      
+      
+      subquery = usuariEntitatLogicaEjb.getSubQuery(UsuariEntitatFields.USUARIPERSONAID,
+          byTipusUsuari);
     } catch (I18NException e) {
       log.error("Error cercant usuaris dins del mètode usuaripersonaentitat()", e);
       subquery = null;
@@ -212,7 +262,6 @@ public class SearchJSONController {
     Where additionalWhere = UsuariPersonaFields.USUARIPERSONAID.in(subquery);
     
     processUsuariPersonaRequest(request, response, additionalWhere);
-
   }
 
 

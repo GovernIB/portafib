@@ -2926,7 +2926,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         log.debug("Fer neteja de FITXERS INNECESSARIS DE firmes. FITXER_ID = " + fitxerID);
       }
       f.setFitxerFirmatID(null);
-      firmaLogicaEjb.update(f);
+      firmaLogicaEjb.updateUnauthorized(f);
 
       fitxerLogicaEjb.deleteFull(fitxerID);
     }

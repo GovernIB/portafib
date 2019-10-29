@@ -136,12 +136,16 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
   public void timeOutHandler(Timer timer) {
     boolean wakeUp = isWakeUpTimer(timer);
     if (!wakeUp) {
-      log.info("-----------------------------------------------------------");
-      log.info("timeOutHandler: Iniciant execució normal programada.");
+      if (log.isDebugEnabled()) {
+        log.debug("-----------------------------------------------------------");
+        log.debug("timeOutHandler: Iniciant execució normal programada.");
+      }
       nextExecution = timer.getNextTimeout().getTime();
     } else {
-      log.info("-----------------------------------------------------------");
-      log.info("timeOutHandler: Iniciant execució forçada per un wakeUp.");
+      if (log.isDebugEnabled()) {
+        log.info("-----------------------------------------------------------");
+        log.info("timeOutHandler: Iniciant execució forçada per un wakeUp.");
+      }
     }
 
     if (!semaphore.tryAcquire()) {
@@ -184,7 +188,11 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       final long now = System.currentTimeMillis();
       final long notificacionsTimeLapse = PropietatGlobalUtil.getNotificacionsTimeLapse();
 
-      log.info("executeTask: Iniciam notificacions");
+      boolean isDebug = log.isDebugEnabled();
+      
+      if (isDebug) {
+        log.debug("executeTask: Iniciam notificacions");
+      }
 
 
       // Si s'ha demanat enviamnet de notificacions ara i no fa més de X
@@ -195,13 +203,17 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
 
       if (wakeUp && ( (lastFullExecution + notificacionsTimeLapse) > now)) {
 
-        log.info("executeTask: Només executam les Notificacions amb dataError==null");
+        if (isDebug) {
+          log.debug("executeTask: Només executam les Notificacions amb dataError==null");
+        }
 
       } else {
 
         Timestamp nowX = new Timestamp(now - notificacionsTimeLapse);
         whereDataError = Where.OR(whereDataError, NotificacioWSFields.DATAERROR.lessThan(nowX));
-        log.info("executeTask: Execució completa");
+        if (isDebug) {
+          log.debug("executeTask: Execució completa");
+        }
         lastFullExecution = now;
 
       }
@@ -212,7 +224,9 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       Where where = Where.AND(NotificacioWSFields.BLOQUEJADA.equal(false), whereDataError);
 
       Long retryToPause = PropietatGlobalUtil.getNumberOfErrorsToPauseNotification();
-      log.info("executeTask: Numero de reintents = " + retryToPause);
+      if (isDebug) {
+        log.debug("executeTask: Numero de reintents = " + retryToPause);
+      }
 
       if (retryToPause != null) {
         where = Where.AND(where,
@@ -220,7 +234,9 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       }
 
       final long notificacionsPendents = notificacioEjb.count(where);
-      log.info("executeTask: Notificacions pendents: " + notificacionsPendents);
+      if (isDebug) {
+        log.debug("executeTask: Notificacions pendents: " + notificacionsPendents);
+      }
       if (notificacionsPendents == 0) {
         return;
       }

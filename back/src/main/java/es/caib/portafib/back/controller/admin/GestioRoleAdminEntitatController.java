@@ -148,7 +148,7 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
      seleccioUsuariForm.setTitol("administradorentitat.alta");
      seleccioUsuariForm.setSubtitol("administradorentitat.alta.introduirnif");
      seleccioUsuariForm.setCancelUrl(getContextWeb() + "/list/1");
-     seleccioUsuariForm.setUrlData("/common/json/usuaripersona");
+     seleccioUsuariForm.setUrlData("/common/json/usuaripersonaintern");
      seleccioUsuariForm.setParam1(request.getParameter("entitatID"));
 
      // Només entrarem si l'administrador té el rol de PFI_USER. Si només

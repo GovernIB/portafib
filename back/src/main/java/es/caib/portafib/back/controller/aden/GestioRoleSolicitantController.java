@@ -73,7 +73,7 @@ public class GestioRoleSolicitantController extends AbstractGestioRoleUsuariEnti
      seleccioUsuariForm.setTitol("solicitant.gestio");
      seleccioUsuariForm.setSubtitol("solicitant.gestio.subtitol");
      seleccioUsuariForm.setCancelUrl("/canviarPipella/"+ConstantsV2.ROLE_ADEN);
-     seleccioUsuariForm.setUrlData("/common/json/usuaripersonaentitat");
+     seleccioUsuariForm.setUrlData("/common/json/usuaripersonaentitatintern");
      
      List<StringKeyValue> skvList;
      try { 

@@ -583,7 +583,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
       return;
     }
 
-    Long motiuID = config.getMotiuDelegacioID()
+    Long motiuID = config.getMotiuDelegacioID();
     Long countM = null;
     if (motiuID != null) {
       countM = this.count(MOTIUDELEGACIOID.equal(motiuID));

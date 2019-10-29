@@ -21,15 +21,20 @@ PROFILE=PROFILE_PADES
 # Firma en paral.lel  Separats per coma ','
 
 nifsDestinataris=123456789C
-#nifsDestinataris=usuariextern , 43090000C | 12345678Z
-#nifsDestinataris=usuariextern, 12345678Z
+#nifsDestinataris=usuariextern.1, 43090000C | 12345678Z
+#nifsDestinataris=usuariextern.2, 12345678Z
 
-usuariextern.name=Inotna
-usuariextern.surnames=Ladan Rasanneb
-usuariextern.administrationid=123456789C
-usuariextern.email=externaluser@externalfundation.org
-usuariextern.language=ca
+usuariextern.1.name=Inotna
+usuariextern.1.surnames=Ladan Rasanneb
+usuariextern.1.administrationid=123456789C
+usuariextern.1.email=externaluser@externalfundation.org
+usuariextern.1.language=ca
 
+usuariextern.2.name=Anton
+usuariextern.2.surnames=Trob
+usuariextern.2.administrationid=43434343K
+usuariextern.2.email=anton@externalfundation.org
+usuariextern.2.language=es
 
 # Revisor (s'afegirà a cada firma)
 # nifRevisor=123456789C
