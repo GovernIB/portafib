@@ -138,6 +138,14 @@
           ${usuariAplicacioConfiguracio.policyUrlDocument}
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
+          <td>
+          <c:set var="tmp">${usuariAplicacioConfiguracio.motiuDelegacioID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${usuariAplicacioConfiguracio.motiuDelegacio.traduccions[lang].valor}
+          </c:if>
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES)}">
           <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.politicaTaulaFirmes}</c:set>
@@ -159,14 +167,6 @@
           <c:set var="tmp">${usuariAplicacioConfiguracio.firmatPerFormatID}</c:set>
           <c:if test="${not empty tmp}">
           ${usuariAplicacioConfiguracio.firmatPerFormat.traduccions[lang].valor}
-          </c:if>
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
-          <td>
-          <c:set var="tmp">${usuariAplicacioConfiguracio.motiuDelegacioID}</c:set>
-          <c:if test="${not empty tmp}">
-          ${usuariAplicacioConfiguracio.motiuDelegacio.traduccions[lang].valor}
           </c:if>
           </td>
         </c:if>

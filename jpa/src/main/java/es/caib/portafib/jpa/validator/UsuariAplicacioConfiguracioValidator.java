@@ -203,20 +203,6 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
       }
     }
 
-    if (__vr.getFieldErrorCount(FIRMATPERFORMATID) == 0) {
-      java.lang.Long __firmatperformatid = (java.lang.Long)__vr.getFieldValue(__target__,FIRMATPERFORMATID);
-      if (__firmatperformatid != null ) {
-        Long __count_ = null;
-        try { __count_ = __traduccioManager.count(TraduccioFields.TRADUCCIOID.equal(__firmatperformatid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-        if (__count_ == null || __count_ == 0) {        
-          __vr.rejectValue(FIRMATPERFORMATID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccio"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccioID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__firmatperformatid)));
-        }
-      }
-    }
-
     if (__vr.getFieldErrorCount(MOTIUDELEGACIOID) == 0) {
       java.lang.Long __motiudelegacioid = (java.lang.Long)__vr.getFieldValue(__target__,MOTIUDELEGACIOID);
       if (__motiudelegacioid != null ) {
@@ -227,6 +213,20 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccio"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccioID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__motiudelegacioid)));
+        }
+      }
+    }
+
+    if (__vr.getFieldErrorCount(FIRMATPERFORMATID) == 0) {
+      java.lang.Long __firmatperformatid = (java.lang.Long)__vr.getFieldValue(__target__,FIRMATPERFORMATID);
+      if (__firmatperformatid != null ) {
+        Long __count_ = null;
+        try { __count_ = __traduccioManager.count(TraduccioFields.TRADUCCIOID.equal(__firmatperformatid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        if (__count_ == null || __count_ == 0) {        
+          __vr.rejectValue(FIRMATPERFORMATID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccio"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccioID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__firmatperformatid)));
         }
       }
     }

@@ -33,7 +33,6 @@ import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.PeticioDeFirma;
-import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.AnnexFields;
 import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
@@ -1520,53 +1519,10 @@ import java.util.Set;
         
         EntitatJPA entitat = loginInfo.getEntitat();
 
-        // Cercar el motiu segons si es DELEGACIO o DESTINATARI
-        final String reason;
-        Locale localeSign = new Locale(langSign);
-        Long colaDeleID = estatDeFirma.getColaboracioDelegacioID();
         UsuariPersona up = loginInfo.getUsuariPersona();
-        if (colaDeleID == null) {
-          // Destinatari
-          if (firma.getMotiu() != null) {
-            reason = firma.getMotiu();
-          } else {
-            reason = I18NUtils.tradueix(localeSign, "motiupeticiodirecta");
-          }
-        } else {
-          // Delegat
-          // Firma {0} (NIF {1}) per substitució de {2} (NIF {3}).Motiu: {4}
-          // (ID={5})
-          ColaboracioDelegacio colaDele = colaboracioDelegacioEjb.findByPrimaryKey(colaDeleID);
 
-          UsuariEntitatJPA dest = usuariEntitatLogicaEjb.findByPrimaryKeyFull(colaDele
-              .getDestinatariID());
 
-          String motiu;
-          if (firma.getMotiu() == null) {
-            // El de la peticio
-            motiu = peticioDeFirma.getMotiu();
-          } else {
-            // El de la firma
-            motiu = firma.getMotiu();
-          }
-          
-          UsuariPersona destUP = dest.getUsuariPersona();
-          String[] args = {
-              // Delegat
-              up.getNom() + " " + up.getLlinatges(), // {0} Nom del delegat
-              up.getNif(),            // {1} NIF del delegat
-              // Destinatari Original
-              destUP.getNom() + " " + destUP.getLlinatges(),  // {2} Nom del destinatari
-              destUP.getNif(),              // {3} NIF del destinatari
-              colaDele.getMotiu(),          // {4} Motiu de la delegació
-              motiu,    // {5} Motiu de la peticio de firma
-              };
-          String basemsg = SignatureUtils.getMotiuDeFirmaFormat(entitat, langSign);
-          MessageFormat mf = new MessageFormat(basemsg);
-          reason = mf.format(args);
-        }
-        
-        // XYZ TODO FALTA
+      // XYZ TODO FALTA
         final String location = null;
 
         final String signerEmail = up.getEmail(); 
@@ -1574,12 +1530,13 @@ import java.util.Set;
         // Construir Objecte
         final String idname = peticioDeFirma.getFitxerAFirmar().getNom();
 
-        final String firmatPerFormat = SignatureUtils.getFirmatPerFormat(entitat, null, langSign);
-
        final String signatureID = encodeSignatureID(peticioDeFirmaID, estatDeFirmaID, token);
        
        // S'ha d'obtenir de la PeticioDeFirma
-       
+
+      // Cercar el motiu segons si es DELEGACIO o DESTINATARI
+        final String reason;
+        final String firmatPerFormat;
        // Nous camps de Peticio de Firma #281
        ITimeStampGenerator timeStampGenerator;
        // Política de firma #283 -> #287
@@ -1591,17 +1548,24 @@ import java.util.Set;
             boolean userRequiresTimeStamp = peticioDeFirma.isSegellatDeTemps();
             timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat, userRequiresTimeStamp);
             policyInfoSignature = SignatureUtils.getPolicyInfoSignature(entitat, null);
+            reason = getReasonDestinatariDelegat(entitat, peticioDeFirma, firma, estatDeFirma, up, null, langSign);
+            firmatPerFormat = SignatureUtils.getFirmatPerFormat(entitat, null, langSign);
           }
           break;
 
           case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
           {
             boolean userRequiresTimeStamp = peticioDeFirma.isSegellatDeTemps();
-            UsuariAplicacioConfiguracio configuracioDefirma = null;
+            UsuariAplicacioConfiguracioJPA configuracioDefirma = null;
             if (peticioDeFirma.getConfiguracioDeFirmaID() != null) {
               configuracioDefirma = configuracioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
             }
             policyInfoSignature = SignatureUtils.getPolicyInfoSignature(entitat, configuracioDefirma);
+            reason = getReasonDestinatariDelegat(entitat, peticioDeFirma, firma, estatDeFirma, up,
+                  configuracioDefirma, langSign);
+            // Aquí podríem agafar la configuració però Amb l'API V1 els valors per generar la taula de firmes
+            // no s'agafen de la configuració.
+            firmatPerFormat = SignatureUtils.getFirmatPerFormat(entitat, null, langSign);
 
             if (userRequiresTimeStamp) {
               if (configuracioDefirma == null) {
@@ -1619,13 +1583,16 @@ import java.util.Set;
           
           case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
           {
-            UsuariAplicacioConfiguracio configuracioDefirma;
-            configuracioDefirma = configuracioDeFirmaLogicaEjb.findByPrimaryKeyUnauthorized(peticioDeFirma.getConfiguracioDeFirmaID());
+            UsuariAplicacioConfiguracioJPA configuracioDefirma =
+                  configuracioDeFirmaLogicaEjb.findByPrimaryKeyUnauthorized(peticioDeFirma.getConfiguracioDeFirmaID());
 
             timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForUsrApp(
                   peticioDeFirma.getSolicitantUsuariAplicacioID(), entitat, configuracioDefirma);
 
             policyInfoSignature = SignatureUtils.getPolicyInfoSignature(entitat, configuracioDefirma);
+            reason = getReasonDestinatariDelegat(entitat, peticioDeFirma, firma, estatDeFirma, up,
+                  configuracioDefirma, langSign);
+            firmatPerFormat = SignatureUtils.getFirmatPerFormat(entitat, configuracioDefirma, langSign);
           }
           break;
             
@@ -1675,6 +1642,55 @@ import java.util.Set;
             peticioDeFirma.getModeDeFirma(), firmatPerFormat, timeStampGenerator, policyInfoSignature,
             expedientCode, expedientName, expedientUrl, procedureCode, procedureName),
             originalNumberOfSigns, peticioDeFirma.getSolicitantUsuariAplicacioID());
+    }
+
+    private String getReasonDestinatariDelegat(EntitatJPA entitat, PeticioDeFirmaJPA peticioDeFirma, FirmaJPA firma,
+                                               EstatDeFirmaJPA estatDeFirma, UsuariPersona up,
+                                               UsuariAplicacioConfiguracioJPA config, String langSign) {
+      final String reason;
+      Locale localeSign = new Locale(langSign);
+      Long colaDeleID = estatDeFirma.getColaboracioDelegacioID();
+      if (colaDeleID == null) {
+        // Destinatari
+        if (firma.getMotiu() != null) {
+          reason = firma.getMotiu();
+        } else {
+          reason = I18NUtils.tradueix(localeSign, "motiupeticiodirecta");
+        }
+      } else {
+        // Delegat
+        // Firma {0} (NIF {1}) per substitució de {2} (NIF {3}).Motiu: {4}
+        // (ID={5})
+        ColaboracioDelegacio colaDele = colaboracioDelegacioEjb.findByPrimaryKey(colaDeleID);
+
+        UsuariEntitatJPA dest = usuariEntitatLogicaEjb.findByPrimaryKeyFull(colaDele
+            .getDestinatariID());
+
+        String motiu;
+        if (firma.getMotiu() == null) {
+          // El de la peticio
+          motiu = peticioDeFirma.getMotiu();
+        } else {
+          // El de la firma
+          motiu = firma.getMotiu();
+        }
+
+        UsuariPersona destUP = dest.getUsuariPersona();
+        String[] args = {
+            // Delegat
+            up.getNom() + " " + up.getLlinatges(), // {0} Nom del delegat
+            up.getNif(),            // {1} NIF del delegat
+            // Destinatari Original
+            destUP.getNom() + " " + destUP.getLlinatges(),  // {2} Nom del destinatari
+            destUP.getNif(),              // {3} NIF del destinatari
+            colaDele.getMotiu(),          // {4} Motiu de la delegació
+            motiu,    // {5} Motiu de la peticio de firma
+            };
+        String basemsg = SignatureUtils.getMotiuDeFirmaFormat(entitat, config, langSign);
+        MessageFormat mf = new MessageFormat(basemsg);
+        reason = mf.format(args);
+      }
+      return reason;
     }
 
 

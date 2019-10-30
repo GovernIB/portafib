@@ -39,10 +39,10 @@ var markFieldsRowID = [
         UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH,
         UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM,
         UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT,*/
+    '<%=UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID.fullName.replace('.','_')%>_rowid',
     '<%=UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES.fullName.replace('.','_')%>_rowid',/*
         UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID,
         UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID,
-        UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID,
         UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES,*/
     '<%=UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS.fullName.replace('.','_')%>_rowid',/*
         UsuariAplicacioConfiguracioFields.PLUGINSEGELLATID,*/
@@ -87,14 +87,14 @@ var usFieldsRowID = [
 
 var usBgColor = [ 'red', 'green', 'blue', 'orange', 'grey', 'brown', 'violet' ];
 
- var fieldUses = [              /*FI.CER|TI.OPE|TI.FIR|ALG.FI|MOD.FI|POL.FI|P.TA.F|P.SG.T|HTPLFW|P.F.SV|VAL.FI|CK.N.M|CM.NIF|VAL.CR*/
-/* USENFIRMAAPISIMPLESERVIDOR */ [true,  true,  true,  true,  true,  true,  true,  true,  false, true,  true,  true,  true,  false ],
-/* USENFIRMAAPISIMPLEWEB      */ [true,  true,  true,  true,  true,  true,  true,  true,  true,  false, true,  true,  true,  false ],
-/* USENFIRMAWEB               */ [false, true,  false, false, false, false, false, false, false, false, false, false, false, false ],
-/* USENFIRMAWS1               */ [true,  true,  false, false, false, true,  false, true,  false, false, true,  true,  true,  false ],
-/* USENFIRMAASYNCREST2        */ [true,  true,  true,  true,  true,  true,  true,  true,  true,  false, true,  true,  true,  false ],
-/* USENFIRMAPASSARELASERVIDOR */ [false, false, false, false, false, false, false, true,  false, true,  true,  true,  true,  false ],
-/* USENFIRMAPASSARELAWEB      */ [false, false, false, false, false, false, false, true,  false, false, true,  true,  true,  false ]
+ var fieldUses = [              /*FI.CER|TI.OPE|TI.FIR|ALG.FI|MOD.FI|POL.FI|MOT.DE|P.TA.F|P.SG.T|HTPLFW|P.F.SV|VAL.FI|CK.N.M|CM.NIF|VAL.CR*/
+/* USENFIRMAAPISIMPLESERVIDOR */ [true,  true,  true,  true,  true,  true,  false, true,  true,  false, true,  true,  true,  true,  false ],
+/* USENFIRMAAPISIMPLEWEB      */ [true,  true,  true,  true,  true,  true,  false, true,  true,  true,  false, true,  true,  true,  false ],
+/* USENFIRMAWEB               */ [false, true,  false, false, false, false, false, false, false, false, false, false, false, false, false ],
+/* USENFIRMAWS1               */ [true,  true,  false, false, false, true,  true,  false, true,  false, false, true,  true,  true,  false ],
+/* USENFIRMAASYNCREST2        */ [true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  false, true,  true,  true,  false ],
+/* USENFIRMAPASSARELASERVIDOR */ [false, false, false, false, false, false, false, false, true,  false, true,  true,  true,  true,  false ],
+/* USENFIRMAPASSARELAWEB      */ [false, false, false, false, false, false, false, false, true,  false, false, true,  true,  true,  false ]
  ];
 
  $("input[type='checkbox']").change(function() {
@@ -147,7 +147,7 @@ var usBgColor = [ 'red', 'green', 'blue', 'orange', 'grey', 'brown', 'violet' ];
      } else {
          document.getElementById("<%=UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
          document.getElementById("<%=UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
-         document.getElementById("<%=UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
+         // document.getElementById("<%=UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
          document.getElementById("<%=UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES.fullName.replace('.', '_') %>_rowid").style.display = 'none';
      }*/
 
@@ -170,7 +170,7 @@ var usBgColor = [ 'red', 'green', 'blue', 'orange', 'grey', 'brown', 'violet' ];
          document.getElementById("<%=UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES.fullName.replace('.', '_') %>_rowid").style.display = 'none';
          document.getElementById("<%=UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
          document.getElementById("<%=UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
-         document.getElementById("<%=UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
+         // document.getElementById("<%=UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
          document.getElementById("<%=UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES.fullName.replace('.', '_') %>_rowid").style.display = 'none';
 
          document.getElementById("<%=UsuariAplicacioConfiguracioFields.MODEDEFIRMA.fullName.replace('.', '_') %>_rowid").style.display = 'none';
@@ -219,12 +219,12 @@ var usBgColor = [ 'red', 'green', 'blue', 'orange', 'grey', 'brown', 'violet' ];
        document.getElementById("<%=UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
        document.getElementById("<%=UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES.fullName.replace('.', '_') %>_rowid").style.display = 'none';
        document.getElementById("<%=UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
-       document.getElementById("<%=UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
+       //document.getElementById("<%=UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
      } else {
        document.getElementById("<%=UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID.fullName.replace('.', '_') %>_rowid").style.display = '';
        document.getElementById("<%=UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES.fullName.replace('.', '_') %>_rowid").style.display = '';
        document.getElementById("<%=UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID.fullName.replace('.', '_') %>_rowid").style.display = '';
-       document.getElementById("<%=UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID.fullName.replace('.', '_') %>_rowid").style.display = '';
+       //document.getElementById("<%=UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID.fullName.replace('.', '_') %>_rowid").style.display = '';
      }
  }
 
@@ -287,9 +287,9 @@ var usBgColor = [ 'red', 'green', 'blue', 'orange', 'grey', 'brown', 'violet' ];
  final Field<?>[] tipusFirma = {
      UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES,
      UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID,
-     UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES,
      UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID,
-     UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID
+     // UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID,
+     UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES
   };
  %>
  

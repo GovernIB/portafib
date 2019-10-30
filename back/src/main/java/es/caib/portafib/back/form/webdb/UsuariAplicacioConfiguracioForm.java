@@ -24,10 +24,10 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
     this.listOfValuesForTipusFirmaID = __toClone.listOfValuesForTipusFirmaID;
     this.listOfValuesForAlgorismeDeFirmaID = __toClone.listOfValuesForAlgorismeDeFirmaID;
     this.listOfValuesForUsPoliticaDeFirma = __toClone.listOfValuesForUsPoliticaDeFirma;
+    this.listOfTraduccioForMotiuDelegacioID = __toClone.listOfTraduccioForMotiuDelegacioID;
     this.listOfValuesForPoliticaTaulaFirmes = __toClone.listOfValuesForPoliticaTaulaFirmes;
     this.listOfValuesForPosicioTaulaFirmesID = __toClone.listOfValuesForPosicioTaulaFirmesID;
     this.listOfTraduccioForFirmatPerFormatID = __toClone.listOfTraduccioForFirmatPerFormatID;
-    this.listOfTraduccioForMotiuDelegacioID = __toClone.listOfTraduccioForMotiuDelegacioID;
     this.listOfValuesForPoliticaSegellatDeTemps = __toClone.listOfValuesForPoliticaSegellatDeTemps;
     this.listOfPluginForPluginSegellatID = __toClone.listOfPluginForPluginSegellatID;
     this.listOfPluginForPluginFirmaServidorID = __toClone.listOfPluginForPluginFirmaServidorID;
@@ -116,6 +116,18 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
 
 
 
+  private List<StringKeyValue> listOfTraduccioForMotiuDelegacioID;
+
+  public List<StringKeyValue> getListOfTraduccioForMotiuDelegacioID() {
+    return this.listOfTraduccioForMotiuDelegacioID;
+  }
+
+  public void setListOfTraduccioForMotiuDelegacioID(List<StringKeyValue> listOfTraduccioForMotiuDelegacioID) {
+    this.listOfTraduccioForMotiuDelegacioID = listOfTraduccioForMotiuDelegacioID;
+  }
+
+
+
   private List<StringKeyValue> listOfValuesForPoliticaTaulaFirmes;
 
   public List<StringKeyValue> getListOfValuesForPoliticaTaulaFirmes() {
@@ -148,18 +160,6 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
 
   public void setListOfTraduccioForFirmatPerFormatID(List<StringKeyValue> listOfTraduccioForFirmatPerFormatID) {
     this.listOfTraduccioForFirmatPerFormatID = listOfTraduccioForFirmatPerFormatID;
-  }
-
-
-
-  private List<StringKeyValue> listOfTraduccioForMotiuDelegacioID;
-
-  public List<StringKeyValue> getListOfTraduccioForMotiuDelegacioID() {
-    return this.listOfTraduccioForMotiuDelegacioID;
-  }
-
-  public void setListOfTraduccioForMotiuDelegacioID(List<StringKeyValue> listOfTraduccioForMotiuDelegacioID) {
-    this.listOfTraduccioForMotiuDelegacioID = listOfTraduccioForMotiuDelegacioID;
   }
 
 

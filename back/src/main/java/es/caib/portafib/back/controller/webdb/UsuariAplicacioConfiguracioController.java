@@ -268,6 +268,16 @@ public class UsuariAplicacioConfiguracioController
       };
     }
 
+    // Field motiuDelegacioID
+    {
+      _listSKV = getReferenceListForMotiuDelegacioID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfTraduccioForMotiuDelegacioID(_tmp);
+      if (filterForm.getGroupByFields().contains(MOTIUDELEGACIOID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, MOTIUDELEGACIOID, false);
+      };
+    }
+
     // Field politicaTaulaFirmes
     {
       _listSKV = getReferenceListForPoliticaTaulaFirmes(request, mav, filterForm, list, groupByItemsMap, null);
@@ -295,16 +305,6 @@ public class UsuariAplicacioConfiguracioController
       filterForm.setMapOfTraduccioForFirmatPerFormatID(_tmp);
       if (filterForm.getGroupByFields().contains(FIRMATPERFORMATID)) {
         fillValuesToGroupByItems(_tmp, groupByItemsMap, FIRMATPERFORMATID, false);
-      };
-    }
-
-    // Field motiuDelegacioID
-    {
-      _listSKV = getReferenceListForMotiuDelegacioID(request, mav, filterForm, list, groupByItemsMap, null);
-      _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfTraduccioForMotiuDelegacioID(_tmp);
-      if (filterForm.getGroupByFields().contains(MOTIUDELEGACIOID)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, MOTIUDELEGACIOID, false);
       };
     }
 
@@ -383,10 +383,10 @@ public class UsuariAplicacioConfiguracioController
     __mapping.put(TIPUSFIRMAID, filterForm.getMapOfValuesForTipusFirmaID());
     __mapping.put(ALGORISMEDEFIRMAID, filterForm.getMapOfValuesForAlgorismeDeFirmaID());
     __mapping.put(USPOLITICADEFIRMA, filterForm.getMapOfValuesForUsPoliticaDeFirma());
+    __mapping.put(MOTIUDELEGACIOID, filterForm.getMapOfTraduccioForMotiuDelegacioID());
     __mapping.put(POLITICATAULAFIRMES, filterForm.getMapOfValuesForPoliticaTaulaFirmes());
     __mapping.put(POSICIOTAULAFIRMESID, filterForm.getMapOfValuesForPosicioTaulaFirmesID());
     __mapping.put(FIRMATPERFORMATID, filterForm.getMapOfTraduccioForFirmatPerFormatID());
-    __mapping.put(MOTIUDELEGACIOID, filterForm.getMapOfTraduccioForMotiuDelegacioID());
     __mapping.put(POLITICASEGELLATDETEMPS, filterForm.getMapOfValuesForPoliticaSegellatDeTemps());
     __mapping.put(PLUGINSEGELLATID, filterForm.getMapOfPluginForPluginSegellatID());
     __mapping.put(PLUGINFIRMASERVIDORID, filterForm.getMapOfPluginForPluginFirmaServidorID());
@@ -411,21 +411,21 @@ public class UsuariAplicacioConfiguracioController
     ModelAndView mav = new ModelAndView(getTileForm());
     UsuariAplicacioConfiguracioForm usuariAplicacioConfiguracioForm = getUsuariAplicacioConfiguracioForm(null, false, request, mav);
     
-    if (usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio().getFirmatPerFormat() == null){
-      es.caib.portafib.jpa.TraduccioJPA trad = new es.caib.portafib.jpa.TraduccioJPA();
-      for (es.caib.portafib.model.entity.Idioma idioma : usuariAplicacioConfiguracioForm.getIdiomesTraduccio()) {
-        trad.addTraduccio(idioma.getIdiomaID(), new es.caib.portafib.jpa.TraduccioMapJPA());
-      }
-      usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio().setFirmatPerFormat(trad);
-    }
-
-    
     if (usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio().getMotiuDelegacio() == null){
       es.caib.portafib.jpa.TraduccioJPA trad = new es.caib.portafib.jpa.TraduccioJPA();
       for (es.caib.portafib.model.entity.Idioma idioma : usuariAplicacioConfiguracioForm.getIdiomesTraduccio()) {
         trad.addTraduccio(idioma.getIdiomaID(), new es.caib.portafib.jpa.TraduccioMapJPA());
       }
       usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio().setMotiuDelegacio(trad);
+    }
+
+    
+    if (usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio().getFirmatPerFormat() == null){
+      es.caib.portafib.jpa.TraduccioJPA trad = new es.caib.portafib.jpa.TraduccioJPA();
+      for (es.caib.portafib.model.entity.Idioma idioma : usuariAplicacioConfiguracioForm.getIdiomesTraduccio()) {
+        trad.addTraduccio(idioma.getIdiomaID(), new es.caib.portafib.jpa.TraduccioMapJPA());
+      }
+      usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio().setFirmatPerFormat(trad);
     }
 
     mav.addObject("usuariAplicacioConfiguracioForm" ,usuariAplicacioConfiguracioForm);
@@ -1007,6 +1007,32 @@ public java.lang.Long stringToPK(String value) {
     return __tmp;
   }
 
+  public List<StringKeyValue> getReferenceListForMotiuDelegacioID(HttpServletRequest request,
+       ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
+       List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (usuariAplicacioConfiguracioFilterForm.isHiddenField(MOTIUDELEGACIOID)
+      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(MOTIUDELEGACIOID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    if (!_groupByItemsMap.containsKey(MOTIUDELEGACIOID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      for (UsuariAplicacioConfiguracio _item : list) {
+        if(_item.getMotiuDelegacioID() == null) { continue; };
+        _pkList.add(_item.getMotiuDelegacioID());
+        }
+        _w = TraduccioFields.TRADUCCIOID.in(_pkList);
+      }
+    return getReferenceListForMotiuDelegacioID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForMotiuDelegacioID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    return traduccioRefList.getReferenceList(TraduccioFields.TRADUCCIOID, where );
+  }
+
 
   public List<StringKeyValue> getReferenceListForPoliticaTaulaFirmes(HttpServletRequest request,
        ModelAndView mav, UsuariAplicacioConfiguracioForm usuariAplicacioConfiguracioForm, Where where)  throws I18NException {
@@ -1093,32 +1119,6 @@ public java.lang.Long stringToPK(String value) {
 
 
   public List<StringKeyValue> getReferenceListForFirmatPerFormatID(HttpServletRequest request,
-       ModelAndView mav, Where where)  throws I18NException {
-    return traduccioRefList.getReferenceList(TraduccioFields.TRADUCCIOID, where );
-  }
-
-  public List<StringKeyValue> getReferenceListForMotiuDelegacioID(HttpServletRequest request,
-       ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
-       List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (usuariAplicacioConfiguracioFilterForm.isHiddenField(MOTIUDELEGACIOID)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(MOTIUDELEGACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
-    }
-    Where _w = null;
-    if (!_groupByItemsMap.containsKey(MOTIUDELEGACIOID)) {
-      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
-      for (UsuariAplicacioConfiguracio _item : list) {
-        if(_item.getMotiuDelegacioID() == null) { continue; };
-        _pkList.add(_item.getMotiuDelegacioID());
-        }
-        _w = TraduccioFields.TRADUCCIOID.in(_pkList);
-      }
-    return getReferenceListForMotiuDelegacioID(request, mav, Where.AND(where,_w));
-  }
-
-
-  public List<StringKeyValue> getReferenceListForMotiuDelegacioID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     return traduccioRefList.getReferenceList(TraduccioFields.TRADUCCIOID, where );
   }

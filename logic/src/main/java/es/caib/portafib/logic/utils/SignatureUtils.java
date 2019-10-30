@@ -476,12 +476,20 @@ public class SignatureUtils {
 
   }
 
-  public static String getMotiuDeFirmaFormat(EntitatJPA entitat, String lang) {
+  public static String getMotiuDeFirmaFormat(EntitatJPA entitat,
+                                             UsuariAplicacioConfiguracioJPA config, String lang) {
+
+    TraduccioJPA traduccio = null;
+
+    if (config != null) {
+      traduccio = config.getMotiuDelegacio();
+    }
+
+    if (traduccio == null) {
+      traduccio = entitat.getMotiuDelegacio();
+    }
 
     String motiuDeFirma = null;
-
-    TraduccioJPA traduccio = entitat.getMotiuDelegacio();
-
     if (traduccio != null) {
       TraduccioMapJPA tm = traduccio.getTraduccio(lang);
       if (tm != null) {
@@ -495,7 +503,6 @@ public class SignatureUtils {
     }
 
     return motiuDeFirma;
-
   }
 
   // -----------------------------------------------------------------

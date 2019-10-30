@@ -91,6 +91,10 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT);
   }
 
+  public LongField MOTIUDELEGACIOID() {
+    return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID);
+  }
+
   public IntegerField POLITICATAULAFIRMES() {
     return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES);
   }
@@ -101,10 +105,6 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
 
   public LongField FIRMATPERFORMATID() {
     return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID);
-  }
-
-  public LongField MOTIUDELEGACIOID() {
-    return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID);
   }
 
   public StringField PROPIETATSTAULAFIRMES() {
@@ -252,18 +252,18 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     });
   }
 
-  public TraduccioQueryPath FIRMATPERFORMAT() {
-    return new TraduccioQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "firmatPerFormat" + ".";
-      }
-    });
-  }
-
   public TraduccioQueryPath MOTIUDELEGACIO() {
     return new TraduccioQueryPath(new QueryPath() {
       public String getQueryPath() {
           return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "motiuDelegacio" + ".";
+      }
+    });
+  }
+
+  public TraduccioQueryPath FIRMATPERFORMAT() {
+    return new TraduccioQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "firmatPerFormat" + ".";
       }
     });
   }

@@ -62,6 +62,9 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public java.lang.String getPolicyUrlDocument();
 	public void setPolicyUrlDocument(java.lang.String _policyUrlDocument_);
 
+	public java.lang.Long getMotiuDelegacioID();
+	public void setMotiuDelegacioID(java.lang.Long _motiuDelegacioID_);
+
 	public int getPoliticaTaulaFirmes();
 	public void setPoliticaTaulaFirmes(int _politicaTaulaFirmes_);
 
@@ -70,9 +73,6 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 
 	public java.lang.Long getFirmatPerFormatID();
 	public void setFirmatPerFormatID(java.lang.Long _firmatPerFormatID_);
-
-	public java.lang.Long getMotiuDelegacioID();
-	public void setMotiuDelegacioID(java.lang.Long _motiuDelegacioID_);
 
 	public java.lang.String getPropietatsTaulaFirmes();
 	public void setPropietatsTaulaFirmes(java.lang.String _propietatsTaulaFirmes_);
