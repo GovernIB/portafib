@@ -203,7 +203,16 @@ public class AutoFirmaController extends FitxerController
       result.rejectValue(fieldError.getField().javaName, fieldError.getTranslation().getCode(),
           I18NUtils.tradueixArguments(fieldError.getTranslation().getArgs()),
           null);
-      
+
+      // Cal netejar el directori #383. Com alternativa es podria fixar un nou id al form, i el fitxer
+      // pujat quedaria allà sense signar fins que l'usuari el volgués eliminar.
+      try {
+        FileUtils.deleteDirectory(getAutofirmaBasePath(loginInfo.getUsuariEntitatID(), id));
+      } catch (IOException ioe) {
+        log.warn("Error netejant directori: " + ioe.getMessage(), ioe);
+      }
+      // //
+
       ModelAndView mav = new ModelAndView("autoFirmaForm");
       mav.addObject(form);
       return mav;
@@ -515,7 +524,7 @@ public class AutoFirmaController extends FitxerController
     } catch (Exception e) {
       String error= e.getMessage();
       log.error("Error desconegut convertint document a pdf: " + error, e);
-      return new I18NFieldError(FITXERAFIRMARID, 
+      return new I18NFieldError(FITXERAFIRMARID,
           new I18NTranslation(
           "formatfitxer.conversio.error", new I18NArgumentString(error)));
     }
@@ -901,8 +910,8 @@ public class AutoFirmaController extends FitxerController
       return getRedirectWhenDelete(request, fitxerID, e);
     }
   }
-  
-  
+
+
   
   @Override
   public void delete(HttpServletRequest request, Fitxer fitxer) throws Exception,I18NException {
