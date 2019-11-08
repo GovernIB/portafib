@@ -262,6 +262,15 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaForm.jsp" />
     </definition>
  
+    <definition name="peticionsDeFirmaTotesList" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
+    </definition>
+
+    <definition name="peticioDeFirmaTotesForm" extends="role_aden">
+        <put-attribute name="titol" value="peticioDeFirma.peticioDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaForm.jsp" />
+    </definition>
+
     <definition name="grupEntitatForm_aden" extends="role_aden">
         <put-attribute name="titol" value="grupEntitat.grupEntitat" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/grupEntitatForm.jsp" />
@@ -396,8 +405,12 @@
     
     
     <!--  ===========  ADMINISTRADOR APLICACIO ================== -->
-    
-    
+
+    <definition name="role_aden2" extends="base.definition">
+        <put-attribute name="pipella" value="ROLE_ADEN2" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_aden2.jsp" />
+    </definition>
+
     <definition name="gestioUsuariAplicacioFormAden" extends="role_aden2">
         <put-attribute name="titol" value="usuariAplicacio.usuariAplicacio" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariAplicacioForm.jsp" />
@@ -405,12 +418,6 @@
 
     <definition name="gestioUsuariAplicacioListAden" extends="role_aden2">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariAplicacioList.jsp" />
-    </definition>
-    
-
-    <definition name="role_aden2" extends="base.definition">
-        <put-attribute name="pipella" value="ROLE_ADEN2" />
-        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_aden2.jsp" />
     </definition>
 
     <definition name="usuariAplicacioConfiguracioFormAden" extends="role_aden2">
@@ -440,7 +447,7 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
     </definition>
     
-        <definition name="notificacioWSForm" extends="role_aden2">
+    <definition name="notificacioWSForm" extends="role_aden2">
         <put-attribute name="titol" value="notificacio.notificacio" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/notificacioWSForm.jsp" />
     </definition>
