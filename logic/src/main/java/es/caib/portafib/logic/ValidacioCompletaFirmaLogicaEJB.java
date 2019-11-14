@@ -35,6 +35,7 @@ import java.math.BigInteger;
 import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -209,23 +210,30 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
           // Si és attached llavors validam
           if (validacioRequest.getSignMode() == ConstantsV2.SIGN_MODE_IMPLICIT) {
 
-            IPortaFIBDataSource originalBo = validacioRequest.getAdaptedData();
-
-            
             byte[] documentOriginal;
             {
-              InputStream is = validacioRequest.getSignatureData().getInputStream();
+              InputStream is = validacioRequest.getAdaptedData().getInputStream();
               try {
-                documentOriginal = ValidationsXAdES.getOriginalDocumentOfXadesAttachedSignature(is);
+                documentOriginal = ValidationsXAdES.getProcessedOriginalData(is);
               } finally {
                 try { is.close(); } catch (Exception e2) { }
               }
             }
 
+            byte[] documentOriginalExtret;
+            {
+              InputStream is = validacioRequest.getSignatureData().getInputStream();
+              try {
+                documentOriginalExtret = ValidationsXAdES.getOriginalDocumentOfXadesAttachedSignature(is);
+              } finally {
+                try { is.close(); } catch (Exception e2) { }
+              }
+            }
+
+
             try {
-              InputStream is = originalBo.getInputStream();
-              boolean isEquals = IOUtils.contentEquals(is, new ByteArrayInputStream(documentOriginal));
-              is.close();
+              boolean isEquals = Arrays.equals(documentOriginal, documentOriginalExtret);
+
               if (isEquals) {
                 checkDocumentModifications = true;
               } else {

@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -94,9 +95,11 @@ public class SignatureModuleController extends HttpServlet {
               (usuariPersona != null && !usuariPersona.isUsuariIntern());
 
         if (emprarUsuariEntitat) {
-          // Hi ha usuari Entitat, agafam els plugins de l'usuari entitat segons la seva política
-          log.info("Emprant plugins de l'usuari entitat: " + usuariEntitatID);
-          moduls = modulDeFirmaEjb.getAllPluginsUsuariEntitat(usuariEntitatID);
+          // Hi ha usuari Entitat, agafam els plugins de l'usuari entitat segons la seva política i tots els
+          // usuaris aplicació
+          Set<String> usuarisAplicacio = new HashSet<String>(signaturesSet.getApplicationBySignatureID().values());
+          log.info("Emprant plugins de l'usuari entitat: " + usuariEntitatID + ", i aplicacions: " + usuarisAplicacio);
+          moduls = modulDeFirmaEjb.getAllPluginsUsuariEntitatAplicacions(usuariEntitatID, usuarisAplicacio);
         } else {
           // Estam a un context públic en firma síncrona, i hem d'emprar l'usuari aplicació.
           // Aquesta info està a nivell d'informació de signatura, i n'hi pot haver vàries, però com que estam

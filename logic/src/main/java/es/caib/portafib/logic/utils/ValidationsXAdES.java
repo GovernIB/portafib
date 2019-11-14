@@ -265,6 +265,27 @@ public class ValidationsXAdES {
   }
 
   /**
+   * Procesa document original per tal d'obtenir una representació del que s'ha signat, que bàsicament
+   * seria el mateix, però sense la declaració xml.
+   *
+   * @param in document original
+   * @return document original sense la declaració xml.
+   */
+  public static byte[] getProcessedOriginalData(InputStream in) throws I18NException {
+    try {
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      dbf.setNamespaceAware(true);
+      Document document = dbf.newDocumentBuilder().parse(in);
+      return UtilsXML.transformDOMtoString(document.getDocumentElement(), true).getBytes();
+    } catch (Exception e) {
+      // XYZ ZZZ TRA
+      throw new I18NException("genapp.comodi",
+          "Error desconegut intentant procesar document original d´una firma XAdES: "
+              + e.getMessage());
+    }
+  }
+
+  /**
    * Transforms a node with childrens in a string.
    * 
    * @param node

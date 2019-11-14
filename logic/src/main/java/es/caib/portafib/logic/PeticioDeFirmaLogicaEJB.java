@@ -460,7 +460,17 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         UsuariAplicacioConfiguracioJPA clone = UsuariAplicacioConfiguracioJPA.copyJPA(config);
         clone.setUsuariAplicacioConfigID(0);
         clone.setEsDePeticio(true);
-        
+
+        // fixam ID a 0 perquè les recrei.
+        if (clone.getMotiuDelegacio() != null) {
+          clone.getMotiuDelegacio().setTraduccioID(0);
+          clone.setMotiuDelegacioID(null);
+        }
+        if (clone.getFirmatPerFormat() != null) {
+          clone.getFirmatPerFormat().setTraduccioID(0);
+          clone.setFirmatPerFormatID(null);
+        }
+
         clone = (UsuariAplicacioConfiguracioJPA)configuracioDeFirmaLogicaEjb.create(clone);
         
         peticioDeFirma.setConfiguracioDeFirmaID(clone.getUsuariAplicacioConfigID());

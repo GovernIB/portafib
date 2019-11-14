@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?> 
-<java version="1.6.0_33" class="java.beans.XMLDecoder"> 
+<java version="1.6.0_45" class="java.beans.XMLDecoder"> 
  <object class="org.fundaciobit.genapp.Project"> 
   <void property="dataBaseInfo"> 
    <object class="org.fundaciobit.genapp.common.db.DataBaseInfo"> 
@@ -22810,6 +22810,84 @@ opcional incluso cuando se genera una firma EPES.</string>
         </void> 
         <void index="20"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="foreignKeys"> 
+           <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
+            <void index="0"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>traduccioid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_confapp_traduccio_moti_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_traduccio</string> 
+              </void> 
+              <void property="type"> 
+               <int>1</int> 
+              </void> 
+             </object> 
+            </void> 
+           </array> 
+          </void> 
+          <void property="index"> 
+           <string>pfi_confapp_motiudele_fk_i</string> 
+          </void> 
+          <void property="javaName"> 
+           <string>motiuDelegacioID</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.Long</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Format del camp ´Motiu Delegació´</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Formato del campo ´Motivo Delegación´</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>19</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>motiudelegacioid</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>-5</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="foreignKey"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>traduccioid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_confapp_traduccio_moti_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_traduccio</string> 
+              </void> 
+              <void property="type"> 
+               <int>1</int> 
+              </void> 
+             </object> 
+            </void> 
+            <void property="webtype"> 
+             <int>3</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="21"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>0</string> 
           </void> 
@@ -22859,7 +22937,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="21"> 
+        <void index="22"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>0</string> 
@@ -22910,7 +22988,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="22"> 
+        <void index="23"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -22972,84 +23050,6 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
               <void property="name"> 
                <string>pfi_confapp_traduccio_firm_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_traduccio</string> 
-              </void> 
-              <void property="type"> 
-               <int>1</int> 
-              </void> 
-             </object> 
-            </void> 
-            <void property="webtype"> 
-             <int>3</int> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
-        <void index="23"> 
-         <object class="org.fundaciobit.genapp.FieldInfo"> 
-          <void property="digits"> 
-           <int>0</int> 
-          </void> 
-          <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
-            <void index="0"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>traduccioid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_confapp_traduccio_moti_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_traduccio</string> 
-              </void> 
-              <void property="type"> 
-               <int>1</int> 
-              </void> 
-             </object> 
-            </void> 
-           </array> 
-          </void> 
-          <void property="index"> 
-           <string>pfi_confapp_motiudele_fk_i</string> 
-          </void> 
-          <void property="javaName"> 
-           <string>motiuDelegacioID</string> 
-          </void> 
-          <void property="javaType"> 
-           <class>java.lang.Long</class> 
-          </void> 
-          <void property="labels"> 
-           <void method="put"> 
-            <string>ca</string> 
-            <string>Format del camp ´Motiu Delegació´</string> 
-           </void> 
-           <void method="put"> 
-            <string>es</string> 
-            <string>Formato del campo ´Motivo Delegación´</string> 
-           </void> 
-          </void> 
-          <void property="size"> 
-           <int>19</int> 
-          </void> 
-          <void property="sqlName"> 
-           <string>motiudelegacioid</string> 
-          </void> 
-          <void property="sqlType"> 
-           <int>-5</int> 
-          </void> 
-          <void property="webFieldInfo"> 
-           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="foreignKey"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>traduccioid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_confapp_traduccio_moti_fk</string> 
               </void> 
               <void property="table"> 
                <string>pfi_traduccio</string> 

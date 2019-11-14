@@ -6,6 +6,7 @@ import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 
 import javax.ejb.Local;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 
@@ -19,14 +20,6 @@ public interface ModulDeFirmaWebLogicaLocal extends
   String JNDI_NAME = "portafib/ModulDeFirmaWebLogicaEJB/local";
 
   /**
-   * Retorna els plugins de firma web usables per un usuari entitat, tenint en compte la seva política de plugins.
-   * Si és només entitat, retorna els plugins de l'entitat.
-   * Si és entitat +/- plugins afegits o llevats, afegeix o lleva als plugins de l'entitat els plugins.
-   * Si és només plugins afegits, retorna només els plugins afegits.
-   */
-  List<Plugin> getAllPluginsUsuariEntitat(String usuariEntitatID) throws I18NException;
-
-  /**
    * Retorna els plugins de firma web usables per un usuari aplicació en firma síncrona/passarel·la,
    * tenint en compte la seva política de plugins:
    *  Si és només entitat, retorna els plugins de l'entitat.
@@ -34,4 +27,19 @@ public interface ModulDeFirmaWebLogicaLocal extends
    *  Si és només plugins afegits, retorna només els plugins afegits.
    */
   List<Plugin> getAllPluginsUsuariAplicacio(String usuariAplicacioID) throws I18NException;
+
+  /**
+   * Retorna els plugins de firma web usables per un usuari entitat amb varis usuaris aplicació,
+   * tenint en compte la política de plugins tant de l'usuari aplicació com de l'usuari entitat.
+   *
+   * Si la política de l'usuari entitat és "només entitat" retorna els plugins dels l'usuaris aplicació que
+   * coincideixen.
+   * Si és només plugins afegits, retorna només els plugins afegits.
+   * Si és entitat +/- plugins afegits o llevats, agafa els plugins comuns de les aplicacions com a plugins
+   * per defecte, i afegeix o lleva als plugins marcats a l'usuari entitat.
+   *
+   */
+  List<Plugin> getAllPluginsUsuariEntitatAplicacions(String usuariEntitatID, Set<String> usuarisAplicacioID)
+        throws I18NException;
+
 }

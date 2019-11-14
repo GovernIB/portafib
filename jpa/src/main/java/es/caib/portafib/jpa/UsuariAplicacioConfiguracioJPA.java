@@ -107,6 +107,10 @@ opcional incluso cuando se genera una firma EPES. */
 	@Column(name="policyurldocument",length = 255)
 	java.lang.String policyUrlDocument;
 
+	@Index(name="pfi_confapp_motiudele_fk_i")
+	@Column(name="motiudelegacioid",length = 19)
+	java.lang.Long motiuDelegacioID;
+
   /** -1 definit en l'entitat, 0 no es permet taules de firmes, 1  obligatori politica definida en la configuració d'usuari aplicació o entitat, 2 opcional, per defecte el definit a l'entitat */
 	@Column(name="politicataulafirmes",nullable = false,length = 10)
 	int politicaTaulaFirmes;
@@ -118,10 +122,6 @@ opcional incluso cuando se genera una firma EPES. */
 	@Index(name="pfi_confapp_firmatper_fk_i")
 	@Column(name="firmatperformatid",length = 19)
 	java.lang.Long firmatPerFormatID;
-
-	@Index(name="pfi_confapp_motiudele_fk_i")
-	@Column(name="motiudelegacioid",length = 19)
-	java.lang.Long motiuDelegacioID;
 
 	@Column(name="propietatstaulafirmes",length = 2147483647)
   @Lob
@@ -172,7 +172,7 @@ opcional incluso cuando se genera una firma EPES. */
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariAplicacioConfiguracioJPA(long usuariAplicacioConfigID , java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaAsyncRest2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.Long motiuDelegacioID , java.lang.String propietatsTaulaFirmes , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Boolean validarFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean comprovarNifFirma , java.lang.Boolean validarCertificat , boolean esDePeticio) {
+  public UsuariAplicacioConfiguracioJPA(long usuariAplicacioConfigID , java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaAsyncRest2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.Long motiuDelegacioID , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.String propietatsTaulaFirmes , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Boolean validarFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean comprovarNifFirma , java.lang.Boolean validarCertificat , boolean esDePeticio) {
     this.usuariAplicacioConfigID=usuariAplicacioConfigID;
     this.nom=nom;
     this.entitatID=entitatID;
@@ -193,10 +193,10 @@ opcional incluso cuando se genera una firma EPES. */
     this.policyIdentifierHash=policyIdentifierHash;
     this.policyIdentifierHashAlgorithm=policyIdentifierHashAlgorithm;
     this.policyUrlDocument=policyUrlDocument;
+    this.motiuDelegacioID=motiuDelegacioID;
     this.politicaTaulaFirmes=politicaTaulaFirmes;
     this.posicioTaulaFirmesID=posicioTaulaFirmesID;
     this.firmatPerFormatID=firmatPerFormatID;
-    this.motiuDelegacioID=motiuDelegacioID;
     this.propietatsTaulaFirmes=propietatsTaulaFirmes;
     this.politicaSegellatDeTemps=politicaSegellatDeTemps;
     this.pluginSegellatID=pluginSegellatID;
@@ -210,7 +210,7 @@ opcional incluso cuando se genera una firma EPES. */
     this.esDePeticio=esDePeticio;
 }
   /** Constructor sense valors autoincrementals */
-  public UsuariAplicacioConfiguracioJPA(java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaAsyncRest2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.Long motiuDelegacioID , java.lang.String propietatsTaulaFirmes , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Boolean validarFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean comprovarNifFirma , java.lang.Boolean validarCertificat , boolean esDePeticio) {
+  public UsuariAplicacioConfiguracioJPA(java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaAsyncRest2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.Long motiuDelegacioID , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.String propietatsTaulaFirmes , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Boolean validarFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean comprovarNifFirma , java.lang.Boolean validarCertificat , boolean esDePeticio) {
     this.nom=nom;
     this.entitatID=entitatID;
     this.usEnFirmaApiSimpleServidor=usEnFirmaApiSimpleServidor;
@@ -230,10 +230,10 @@ opcional incluso cuando se genera una firma EPES. */
     this.policyIdentifierHash=policyIdentifierHash;
     this.policyIdentifierHashAlgorithm=policyIdentifierHashAlgorithm;
     this.policyUrlDocument=policyUrlDocument;
+    this.motiuDelegacioID=motiuDelegacioID;
     this.politicaTaulaFirmes=politicaTaulaFirmes;
     this.posicioTaulaFirmesID=posicioTaulaFirmesID;
     this.firmatPerFormatID=firmatPerFormatID;
-    this.motiuDelegacioID=motiuDelegacioID;
     this.propietatsTaulaFirmes=propietatsTaulaFirmes;
     this.politicaSegellatDeTemps=politicaSegellatDeTemps;
     this.pluginSegellatID=pluginSegellatID;
@@ -288,10 +288,10 @@ opcional incluso cuando se genera una firma EPES. */
     this.setPolicyIdentifierHash(__bean.getPolicyIdentifierHash());
     this.setPolicyIdentifierHashAlgorithm(__bean.getPolicyIdentifierHashAlgorithm());
     this.setPolicyUrlDocument(__bean.getPolicyUrlDocument());
+    this.setMotiuDelegacioID(__bean.getMotiuDelegacioID());
     this.setPoliticaTaulaFirmes(__bean.getPoliticaTaulaFirmes());
     this.setPosicioTaulaFirmesID(__bean.getPosicioTaulaFirmesID());
     this.setFirmatPerFormatID(__bean.getFirmatPerFormatID());
-    this.setMotiuDelegacioID(__bean.getMotiuDelegacioID());
     this.setPropietatsTaulaFirmes(__bean.getPropietatsTaulaFirmes());
     this.setPoliticaSegellatDeTemps(__bean.getPoliticaSegellatDeTemps());
     this.setPluginSegellatID(__bean.getPluginSegellatID());
@@ -445,6 +445,13 @@ opcional incluso cuando se genera una firma EPES. */
 		this.policyUrlDocument = _policyUrlDocument_;
 	};
 
+	public java.lang.Long getMotiuDelegacioID() {
+		return(motiuDelegacioID);
+	};
+	public void setMotiuDelegacioID(java.lang.Long _motiuDelegacioID_) {
+		this.motiuDelegacioID = _motiuDelegacioID_;
+	};
+
 	public int getPoliticaTaulaFirmes() {
 		return(politicaTaulaFirmes);
 	};
@@ -464,13 +471,6 @@ opcional incluso cuando se genera una firma EPES. */
 	};
 	public void setFirmatPerFormatID(java.lang.Long _firmatPerFormatID_) {
 		this.firmatPerFormatID = _firmatPerFormatID_;
-	};
-
-	public java.lang.Long getMotiuDelegacioID() {
-		return(motiuDelegacioID);
-	};
-	public void setMotiuDelegacioID(java.lang.Long _motiuDelegacioID_) {
-		this.motiuDelegacioID = _motiuDelegacioID_;
 	};
 
 	public java.lang.String getPropietatsTaulaFirmes() {
@@ -661,31 +661,6 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:traduccioid | Table: pfi_traduccio | Type: 1  
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade=javax.persistence.CascadeType.ALL)
-	@ForeignKey(name="pfi_confapp_traduccio_firm_fk")
-	@JoinColumn(name = "firmatperformatid", referencedColumnName ="traduccioID", nullable = true, insertable=false, updatable=false)
-	private TraduccioJPA firmatPerFormat;
-
-	public TraduccioJPA getFirmatPerFormat() {
-    return this.firmatPerFormat;
-  }
-
-	public  void setFirmatPerFormat(TraduccioJPA firmatPerFormat) {
-    this.firmatPerFormat = firmatPerFormat;
-  }
-
-  @javax.xml.bind.annotation.XmlTransient
-  public java.util.Map<String, es.caib.portafib.jpa.TraduccioMapJPA> getFirmatPerFormatTraduccions() {
-    return this.firmatPerFormat.getTraduccions();
-  }
-
-  public void setFirmatPerFormatTraduccions(java.util.Map<String, es.caib.portafib.jpa.TraduccioMapJPA> __traduccions__) {
-    this.firmatPerFormat.setTraduccions(__traduccions__);
-  }
-
-
-// IMP Field:traduccioid | Table: pfi_traduccio | Type: 1  
-
-	@ManyToOne(fetch = FetchType.EAGER, cascade=javax.persistence.CascadeType.ALL)
 	@ForeignKey(name="pfi_confapp_traduccio_moti_fk")
 	@JoinColumn(name = "motiudelegacioid", referencedColumnName ="traduccioID", nullable = true, insertable=false, updatable=false)
 	private TraduccioJPA motiuDelegacio;
@@ -705,6 +680,31 @@ opcional incluso cuando se genera una firma EPES. */
 
   public void setMotiuDelegacioTraduccions(java.util.Map<String, es.caib.portafib.jpa.TraduccioMapJPA> __traduccions__) {
     this.motiuDelegacio.setTraduccions(__traduccions__);
+  }
+
+
+// IMP Field:traduccioid | Table: pfi_traduccio | Type: 1  
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade=javax.persistence.CascadeType.ALL)
+	@ForeignKey(name="pfi_confapp_traduccio_firm_fk")
+	@JoinColumn(name = "firmatperformatid", referencedColumnName ="traduccioID", nullable = true, insertable=false, updatable=false)
+	private TraduccioJPA firmatPerFormat;
+
+	public TraduccioJPA getFirmatPerFormat() {
+    return this.firmatPerFormat;
+  }
+
+	public  void setFirmatPerFormat(TraduccioJPA firmatPerFormat) {
+    this.firmatPerFormat = firmatPerFormat;
+  }
+
+  @javax.xml.bind.annotation.XmlTransient
+  public java.util.Map<String, es.caib.portafib.jpa.TraduccioMapJPA> getFirmatPerFormatTraduccions() {
+    return this.firmatPerFormat.getTraduccions();
+  }
+
+  public void setFirmatPerFormatTraduccions(java.util.Map<String, es.caib.portafib.jpa.TraduccioMapJPA> __traduccions__) {
+    this.firmatPerFormat.setTraduccions(__traduccions__);
   }
 
 
@@ -763,10 +763,10 @@ opcional incluso cuando se genera una firma EPES. */
     __tmp.setPolicyIdentifierHash(__bean.getPolicyIdentifierHash());
     __tmp.setPolicyIdentifierHashAlgorithm(__bean.getPolicyIdentifierHashAlgorithm());
     __tmp.setPolicyUrlDocument(__bean.getPolicyUrlDocument());
+    __tmp.setMotiuDelegacioID(__bean.getMotiuDelegacioID());
     __tmp.setPoliticaTaulaFirmes(__bean.getPoliticaTaulaFirmes());
     __tmp.setPosicioTaulaFirmesID(__bean.getPosicioTaulaFirmesID());
     __tmp.setFirmatPerFormatID(__bean.getFirmatPerFormatID());
-    __tmp.setMotiuDelegacioID(__bean.getMotiuDelegacioID());
     __tmp.setPropietatsTaulaFirmes(__bean.getPropietatsTaulaFirmes());
     __tmp.setPoliticaSegellatDeTemps(__bean.getPoliticaSegellatDeTemps());
     __tmp.setPluginSegellatID(__bean.getPluginSegellatID());

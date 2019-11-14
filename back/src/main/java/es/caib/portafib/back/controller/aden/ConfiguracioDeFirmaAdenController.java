@@ -115,8 +115,10 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
     form.addHelpToField(FILTRECERTIFICATS,
         I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
     form.addHelpToField(MOTIUDELEGACIOID,
+        I18NUtils.tradueix("motiudelegacio.help") + "\n" +
         I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
     form.addHelpToField(FIRMATPERFORMATID,
+        I18NUtils.tradueix("firmatperformat.help") + "\n" +
         I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
     form.addHelpToField(HTMLPERLLISTARPLUGINSFIRMAWEB,
         I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));

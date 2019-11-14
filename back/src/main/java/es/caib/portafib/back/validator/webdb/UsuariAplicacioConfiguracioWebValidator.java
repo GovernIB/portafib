@@ -53,8 +53,8 @@ public class UsuariAplicacioConfiguracioWebValidator  implements Validator, Usua
   public void validate(Object target, Errors errors) {
 
 java.util.List<Field<?>> _ignoreFields = new java.util.ArrayList<Field<?>>();
-_ignoreFields.add(FIRMATPERFORMATID);
 _ignoreFields.add(MOTIUDELEGACIOID);
+_ignoreFields.add(FIRMATPERFORMATID);
     WebValidationResult<Object> wvr;
     wvr = new WebValidationResult<Object>(errors, _ignoreFields);
 
@@ -74,45 +74,6 @@ _ignoreFields.add(MOTIUDELEGACIOID);
       usuariAplicacioConfiguracio = ((UsuariAplicacioConfiguracioForm)target).getUsuariAplicacioConfiguracio();
     } else {
       usuariAplicacioConfiguracio = (es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA)target;
-    }
-    {
-      // IF CAMP ES NOT NULL verificar que totes les traduccions son not null
-      es.caib.portafib.jpa.TraduccioJPA tradJPA = usuariAplicacioConfiguracio.getFirmatPerFormat();
-      if (tradJPA != null) {
-        // TODO ERROR
-        java.util.Map<String,es.caib.portafib.jpa.TraduccioMapJPA> _trad = tradJPA.getTraduccions();
-        int countNull= 0;
-        int countNotNull = 0;
-        for (String _idioma : _trad.keySet()) {
-          es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
-          if (_map == null || (_map.getValor() == null || _map.getValor().length() == 0 )) {
-            countNull++;
-          } else {
-            countNotNull++;
-          }
-        }
-
-        if (countNull == _trad.size()) {
-          // OK Tot esta buit ==> passam el camp a NULL
-          usuariAplicacioConfiguracio.setFirmatPerFormatID(null);
-          usuariAplicacioConfiguracio.setFirmatPerFormat(null);
-        } else {
-          if (countNotNull  == _trad.size()) {
-            // OK Tot esta ple
-          } else {
-            for (String _idioma : _trad.keySet()) {
-              es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
-              if (_map == null || (_map.getValor() == null || _map.getValor().length() == 0 )) {
-                errors.rejectValue("usuariAplicacioConfiguracio.firmatPerFormat", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
-                errors.rejectValue("usuariAplicacioConfiguracio.firmatPerFormat.traduccions["+ _idioma +"].valor",
-                  "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
-              }
-            }
-          }
-        }
-      } else {
-        errors.rejectValue("usuariAplicacioConfiguracio.firmatPerFormat", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
-      }
     }
     {
       // IF CAMP ES NOT NULL verificar que totes les traduccions son not null
@@ -151,6 +112,45 @@ _ignoreFields.add(MOTIUDELEGACIOID);
         }
       } else {
         errors.rejectValue("usuariAplicacioConfiguracio.motiuDelegacio", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(MOTIUDELEGACIOID.fullName)}, null);
+      }
+    }
+    {
+      // IF CAMP ES NOT NULL verificar que totes les traduccions son not null
+      es.caib.portafib.jpa.TraduccioJPA tradJPA = usuariAplicacioConfiguracio.getFirmatPerFormat();
+      if (tradJPA != null) {
+        // TODO ERROR
+        java.util.Map<String,es.caib.portafib.jpa.TraduccioMapJPA> _trad = tradJPA.getTraduccions();
+        int countNull= 0;
+        int countNotNull = 0;
+        for (String _idioma : _trad.keySet()) {
+          es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
+          if (_map == null || (_map.getValor() == null || _map.getValor().length() == 0 )) {
+            countNull++;
+          } else {
+            countNotNull++;
+          }
+        }
+
+        if (countNull == _trad.size()) {
+          // OK Tot esta buit ==> passam el camp a NULL
+          usuariAplicacioConfiguracio.setFirmatPerFormatID(null);
+          usuariAplicacioConfiguracio.setFirmatPerFormat(null);
+        } else {
+          if (countNotNull  == _trad.size()) {
+            // OK Tot esta ple
+          } else {
+            for (String _idioma : _trad.keySet()) {
+              es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
+              if (_map == null || (_map.getValor() == null || _map.getValor().length() == 0 )) {
+                errors.rejectValue("usuariAplicacioConfiguracio.firmatPerFormat", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
+                errors.rejectValue("usuariAplicacioConfiguracio.firmatPerFormat.traduccions["+ _idioma +"].valor",
+                  "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
+              }
+            }
+          }
+        }
+      } else {
+        errors.rejectValue("usuariAplicacioConfiguracio.firmatPerFormat", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
       }
     }
 

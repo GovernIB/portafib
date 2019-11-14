@@ -208,6 +208,28 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
+  private java.lang.Long motiuDelegacioIDDesde;
+
+  public java.lang.Long getMotiuDelegacioIDDesde() {
+    return this.motiuDelegacioIDDesde;
+  }
+
+  public void setMotiuDelegacioIDDesde(java.lang.Long motiuDelegacioIDDesde) {
+    this.motiuDelegacioIDDesde = motiuDelegacioIDDesde;
+  }
+
+
+  private java.lang.Long motiuDelegacioIDFins;
+
+  public java.lang.Long getMotiuDelegacioIDFins() {
+    return this.motiuDelegacioIDFins;
+  }
+
+  public void setMotiuDelegacioIDFins(java.lang.Long motiuDelegacioIDFins) {
+    this.motiuDelegacioIDFins = motiuDelegacioIDFins;
+  }
+
+
   private java.lang.Integer politicaTaulaFirmesDesde;
 
   public java.lang.Integer getPoliticaTaulaFirmesDesde() {
@@ -271,28 +293,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
   public void setFirmatPerFormatIDFins(java.lang.Long firmatPerFormatIDFins) {
     this.firmatPerFormatIDFins = firmatPerFormatIDFins;
-  }
-
-
-  private java.lang.Long motiuDelegacioIDDesde;
-
-  public java.lang.Long getMotiuDelegacioIDDesde() {
-    return this.motiuDelegacioIDDesde;
-  }
-
-  public void setMotiuDelegacioIDDesde(java.lang.Long motiuDelegacioIDDesde) {
-    this.motiuDelegacioIDDesde = motiuDelegacioIDDesde;
-  }
-
-
-  private java.lang.Long motiuDelegacioIDFins;
-
-  public java.lang.Long getMotiuDelegacioIDFins() {
-    return this.motiuDelegacioIDFins;
-  }
-
-  public void setMotiuDelegacioIDFins(java.lang.Long motiuDelegacioIDFins) {
-    this.motiuDelegacioIDFins = motiuDelegacioIDFins;
   }
 
 
@@ -428,14 +428,14 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.policyIdentifierHash = __toClone.policyIdentifierHash;
     this.policyIdentifierHashAlgorithm = __toClone.policyIdentifierHashAlgorithm;
     this.policyUrlDocument = __toClone.policyUrlDocument;
+    this.motiuDelegacioIDDesde = __toClone.motiuDelegacioIDDesde;
+    this.motiuDelegacioIDFins = __toClone.motiuDelegacioIDFins;
     this.politicaTaulaFirmesDesde = __toClone.politicaTaulaFirmesDesde;
     this.politicaTaulaFirmesFins = __toClone.politicaTaulaFirmesFins;
     this.posicioTaulaFirmesIDDesde = __toClone.posicioTaulaFirmesIDDesde;
     this.posicioTaulaFirmesIDFins = __toClone.posicioTaulaFirmesIDFins;
     this.firmatPerFormatIDDesde = __toClone.firmatPerFormatIDDesde;
     this.firmatPerFormatIDFins = __toClone.firmatPerFormatIDFins;
-    this.motiuDelegacioIDDesde = __toClone.motiuDelegacioIDDesde;
-    this.motiuDelegacioIDFins = __toClone.motiuDelegacioIDFins;
     this.propietatsTaulaFirmes = __toClone.propietatsTaulaFirmes;
     this.politicaSegellatDeTempsDesde = __toClone.politicaSegellatDeTempsDesde;
     this.politicaSegellatDeTempsFins = __toClone.politicaSegellatDeTempsFins;
@@ -451,10 +451,10 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.mapOfValuesForTipusFirmaID = __toClone.mapOfValuesForTipusFirmaID;
     this.mapOfValuesForAlgorismeDeFirmaID = __toClone.mapOfValuesForAlgorismeDeFirmaID;
     this.mapOfValuesForUsPoliticaDeFirma = __toClone.mapOfValuesForUsPoliticaDeFirma;
+    this.mapOfTraduccioForMotiuDelegacioID = __toClone.mapOfTraduccioForMotiuDelegacioID;
     this.mapOfValuesForPoliticaTaulaFirmes = __toClone.mapOfValuesForPoliticaTaulaFirmes;
     this.mapOfValuesForPosicioTaulaFirmesID = __toClone.mapOfValuesForPosicioTaulaFirmesID;
     this.mapOfTraduccioForFirmatPerFormatID = __toClone.mapOfTraduccioForFirmatPerFormatID;
-    this.mapOfTraduccioForMotiuDelegacioID = __toClone.mapOfTraduccioForMotiuDelegacioID;
     this.mapOfValuesForPoliticaSegellatDeTemps = __toClone.mapOfValuesForPoliticaSegellatDeTemps;
     this.mapOfPluginForPluginSegellatID = __toClone.mapOfPluginForPluginSegellatID;
     this.mapOfPluginForPluginFirmaServidorID = __toClone.mapOfPluginForPluginFirmaServidorID;
@@ -553,6 +553,18 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
 
 
+  private Map<String, String> mapOfTraduccioForMotiuDelegacioID;
+
+  public Map<String, String> getMapOfTraduccioForMotiuDelegacioID() {
+    return this.mapOfTraduccioForMotiuDelegacioID;
+  }
+
+  public void setMapOfTraduccioForMotiuDelegacioID(Map<String, String> mapOfTraduccioForMotiuDelegacioID) {
+    this.mapOfTraduccioForMotiuDelegacioID = mapOfTraduccioForMotiuDelegacioID;
+  }
+
+
+
   private Map<String, String> mapOfValuesForPoliticaTaulaFirmes;
 
   public Map<String, String> getMapOfValuesForPoliticaTaulaFirmes() {
@@ -585,18 +597,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
   public void setMapOfTraduccioForFirmatPerFormatID(Map<String, String> mapOfTraduccioForFirmatPerFormatID) {
     this.mapOfTraduccioForFirmatPerFormatID = mapOfTraduccioForFirmatPerFormatID;
-  }
-
-
-
-  private Map<String, String> mapOfTraduccioForMotiuDelegacioID;
-
-  public Map<String, String> getMapOfTraduccioForMotiuDelegacioID() {
-    return this.mapOfTraduccioForMotiuDelegacioID;
-  }
-
-  public void setMapOfTraduccioForMotiuDelegacioID(Map<String, String> mapOfTraduccioForMotiuDelegacioID) {
-    this.mapOfTraduccioForMotiuDelegacioID = mapOfTraduccioForMotiuDelegacioID;
   }
 
 
