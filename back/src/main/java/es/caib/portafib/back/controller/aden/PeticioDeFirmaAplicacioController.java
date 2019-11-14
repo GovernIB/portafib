@@ -1,6 +1,5 @@
 package es.caib.portafib.back.controller.aden;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -20,7 +19,8 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_USRAPP)
 @SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class,
     PeticioDeFirmaFilterForm.class })
-public final class PeticioDeFirmaAplicacioController extends AbstractPeticioDeFirmaAdenController {
+public final class PeticioDeFirmaAplicacioController extends
+    AbstractPeticioDeFirmaAdenController {
 
   @Override
   public String getEntityNameCode() {
@@ -40,6 +40,36 @@ public final class PeticioDeFirmaAplicacioController extends AbstractPeticioDeFi
   @Override
   public boolean addCreateButton() {
     return true;
+  }
+
+  @Override
+  public String getTileForm() {
+    return "peticioDeFirmaAplicacioForm2";
+  }
+
+  @Override
+  public String getTileList() {
+    return "peticioDeFirmaAplicacioList2";
+  }
+
+  @Override
+  public String getTileSeleccioFlux() {
+    return "seleccionaFluxDeFirmaPerAplicacioForm2";
+  }
+
+  @Override
+  public String getFluxPath() {
+    return FluxDeFirmes2AdenController.CONTEXT_WEB;
+  }
+
+  @Override
+  public String getAnnexPath() {
+    return Annex2AdenController.CONTEXT_WEB + "/list";
+  }
+
+  @Override
+  public String getBitacolaContextWeb() {
+    return BitacolaPeticio2AdenController.CONTEXT_WEB;
   }
 
 }

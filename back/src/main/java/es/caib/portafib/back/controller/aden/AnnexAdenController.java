@@ -14,13 +14,15 @@ import es.caib.portafib.back.form.webdb.AnnexForm;
  *
  */
 @Controller
-@RequestMapping(value = "/aden/gestioannexes")
+@RequestMapping(value = AnnexAdenController.CONTEXT_WEB)
 @SessionAttributes(types = { AnnexForm.class, AnnexFilterForm.class })
 public class AnnexAdenController extends AbstractAnnexController {
+  
+  public static final String CONTEXT_WEB = "/aden/gestioannexes";
 
   @Override
-  public boolean isSoli() {
-    return false;
+  public int getType() {
+    return TYPE_ADEN;
   }
 
 }
