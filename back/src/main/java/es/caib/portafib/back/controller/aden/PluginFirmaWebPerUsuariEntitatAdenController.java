@@ -1,6 +1,7 @@
 package es.caib.portafib.back.controller.aden;
 
 import es.caib.portafib.back.controller.webdb.PluginFirmaWebPerUsuariEntitatController;
+import es.caib.portafib.back.form.PortaFIBBaseFilterForm;
 import es.caib.portafib.back.form.webdb.PluginFirmaWebPerUsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.PluginFirmaWebPerUsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
@@ -8,7 +9,9 @@ import es.caib.portafib.ejb.UsuariEntitatLocal;
 import es.caib.portafib.jpa.PluginFirmaWebPerUsuariEntitatJPA;
 import es.caib.portafib.model.entity.PluginFirmaWebPerUsuariEntitat;
 import es.caib.portafib.model.fields.PluginFields;
+import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.SubQuery;
@@ -27,6 +30,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.List;
 
 /**
@@ -108,11 +112,14 @@ public class PluginFirmaWebPerUsuariEntitatAdenController extends PluginFirmaWeb
          // Estam gestionant els plugins d'un usuari, per tant no mostram l'usuari, que ja apareix al títol
          pluginFilterForm.addHiddenField(USUARIENTITATID);
 
+         
          // Afegir un botó per tornar a la pantalla de selecció d'usuari
          pluginFilterForm.addAdditionalButton(
                new AdditionalButton("icon-arrow-left icon-white", "tornar",
-                     NO_USUARIENTITAT_VIEW, "btn-primary"));
+                     getContextWeb() + "/tornar", "btn-primary"));
+         
       }
+      
 
 
       String usuariEntitatID = (String)request.getSession().getAttribute(SESSION_USUARIENTITATID);
@@ -129,7 +136,14 @@ public class PluginFirmaWebPerUsuariEntitatAdenController extends PluginFirmaWeb
       pluginFilterForm.setTitleCode("pluginfirmaweb.listtitle");
       // TODO agafar una representació millor del nom
       pluginFilterForm.setTitleParam(usuariEntitatID);
-
+      
+      
+      // Mirar la politica de Plugins Web a veure si es compatible amb aquesta pantalla
+      Integer politica = usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB,
+             UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID));
+      
+      mostrarAvisSegonsPolitica(request, pluginFilterForm, politica);
+      
       // Només mostrar boto d'afegir si queden pluguins per vincular al usuari entitat.
       pluginFilterForm.setAddButtonVisible(
             !getRemainingReferenceListForPluginFirmaWebID(request, mav, usuariEntitatID).isEmpty()
@@ -137,6 +151,33 @@ public class PluginFirmaWebPerUsuariEntitatAdenController extends PluginFirmaWeb
 
       return pluginFilterForm;
    }
+
+  public static void mostrarAvisSegonsPolitica(HttpServletRequest request,
+      PortaFIBBaseFilterForm pluginFilterForm, Integer politica)
+      throws I18NException {
+    switch (politica) {
+      
+      case ConstantsV2.POLITICA_PLUGIN_FIRMA_WEB_NOMES_PLUGINS_ENTITAT:
+        // Els plugins aqui definits no tindrán efecte, ja que la politica d´aquest
+        // usuari és la de utilitzar només els plugins de firma web definits dins l´entitat
+        HtmlUtils.saveMessageError(request, I18NUtils.tradueix("pluginfirmaweb.error.senseefecte"));
+      break;
+        
+      case ConstantsV2.POLITICA_PLUGIN_FIRMA_WEB_ENTITAT_I_ADDICIONALS:
+        // Els plugins aquí definits s'afegiran o es llevaran als definits en l'entitat.
+        pluginFilterForm.setSubTitleCode("pluginfirmaweb.info.definitsientitat");
+      break;
+
+      case ConstantsV2.POLITICA_PLUGIN_FIRMA_WEB_NOMES_ADDICIONALS:
+        //Només es mostraran els plugins aquí definits per l'usuari seleccionat.
+        pluginFilterForm.setSubTitleCode("pluginfirmaweb.info.nomesdefinits");
+      break;  
+        
+      default:
+        throw new I18NException("genapp.comodi",
+            "Politica de PLugins de Firma Web desconeguda: " + politica);
+    }
+  }
 
    @Override
    public PluginFirmaWebPerUsuariEntitatForm getPluginFirmaWebPerUsuariEntitatForm(
@@ -188,6 +229,26 @@ public class PluginFirmaWebPerUsuariEntitatAdenController extends PluginFirmaWeb
 
       return pluginForm;
    }
+   
+   
+   
+  @RequestMapping(value = "/tornar", method = RequestMethod.GET)
+  public ModelAndView tornarEditUsuari(HttpServletRequest request, HttpServletResponse response) {
+
+    String usuariEntitatID = (String) request.getSession().getAttribute(
+        SESSION_USUARIENTITATID);
+
+    String redirect;
+    if (usuariEntitatID == null) {
+      redirect = NO_USUARIENTITAT_VIEW;
+    } else {
+      redirect = "/aden/usuariEntitat/" + usuariEntitatID + "/edit";
+    }
+
+    return new ModelAndView(new RedirectView(redirect, true));
+  }
+   
+   
 
    /**
     * Punt d'entrada a la gestió de plugins d'un usuari entitat.

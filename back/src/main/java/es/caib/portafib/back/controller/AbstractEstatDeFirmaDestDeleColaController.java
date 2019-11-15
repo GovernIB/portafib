@@ -1156,9 +1156,7 @@ import java.util.Set;
     @RequestMapping(value = "/finalFirma/{signaturesSetID}")
     public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
         @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
-    
-      log.info("\n\n XYZ ZZZ ZZZ   ñññññññññ   PASSA PER finalProcesDeFirma\n\n");
-      
+
       String view ;
       
       if (LoginInfo.getInstance().getUsuariPersona().isUsuariIntern()) {
@@ -1186,9 +1184,7 @@ import java.util.Set;
     @RequestMapping(value = "/finalFirmaReal/{signaturesSetID}")
     public ModelAndView finalProcesDeFirmaReal(HttpServletRequest request, HttpServletResponse response,
         @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
-    
-      log.info("\n\n XYZ ZZZ ZZZ   ñññññññññ   PASSA PER finalProcesDeFirmaReal\n\n");
-    
+
       SignaturesSetWeb ss;
       ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
 
