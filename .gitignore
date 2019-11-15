@@ -294,3 +294,7 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /logic/tmpfiles
 /logic/src/test/java/es/caib/portafib/logic/utils/AttachFileToPDF.java
 /ws/portafib_externalsignature_rest_jersey/apiexternalsignature.properties
+/dev.bat
+/caib.bat
+/pluginsib-signatureweb/afirma-triphase-server-lib/dependencies.txt
+/pluginsib-signatureweb/afirma-triphase-server-lib/deps.bat
