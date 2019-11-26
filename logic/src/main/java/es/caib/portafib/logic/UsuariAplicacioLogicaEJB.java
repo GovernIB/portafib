@@ -44,8 +44,8 @@ import java.util.Set;
  * @author anadal
  * 
  */
-@Stateless(name = "UsuariAplicacioLogicaEJB")
-@SecurityDomain("seycon")
+@Stateless(name = UsuariAplicacioLogicaLocal.BEAN_NAME)
+@SecurityDomain(ConstantsV2.SECURITY_DOMAIN)
 public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
     UsuariAplicacioLogicaLocal {
     
@@ -62,7 +62,7 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
   @EJB(mappedName = TipusDocumentLocal.JNDI_NAME, beanName = "TipusDocumentEJB")
   protected TipusDocumentLocal tipusDocumentEjb;
 
-  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME, beanName = "PeticioDeFirmaLogicaEJB")
+  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME, beanName = PeticioDeFirmaLogicaLocal.BEAN_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
   
   @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)
