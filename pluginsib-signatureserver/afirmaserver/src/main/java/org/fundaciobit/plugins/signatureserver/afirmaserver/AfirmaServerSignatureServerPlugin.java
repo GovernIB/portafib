@@ -66,7 +66,7 @@ import java.util.Properties;
 /**
  *
  * @author anadal
- *
+ * @author areus
  */
 public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPlugin  {
   
@@ -87,7 +87,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
    */
   public static final String SIGNFORMAT_EXPLICIT_EXTERNALLY_DETACHED = "explicit/externally_detached";
 
-  protected static final Map<String, String> hashAlgorithmMap = new HashMap<String, String>();
+  private static final Map<String, String> hashAlgorithmMap = new HashMap<String, String>();
 
   //protected static final List<SignatureFormatEnum> xadesFormats = new ArrayList<SignatureFormatEnum>();
   
@@ -259,7 +259,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
   @Override
   public String[] getSupportedSignatureTypes() {
-    // TODO Falta CADes, ...
     return new String[] { FileInfoSignature.SIGN_TYPE_PADES,
         FileInfoSignature.SIGN_TYPE_XADES, FileInfoSignature.SIGN_TYPE_CADES,
         FileInfoSignature.SIGN_TYPE_SMIME };
@@ -402,20 +401,17 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         
         final String tipusFirma = fileInfo.getSignType();
         String signType;
-        String signMode = null;
         if (FileInfoSignature.SIGN_TYPE_PADES.equals(tipusFirma)) {
           signType = SignTypesURIs.PADES;          
-        } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(fileInfo.getSignType())) {
+        } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(tipusFirma)) {
           signType = SignTypesURIs.XADES_V_1_3_2;
-        } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())
-            || FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
+        } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(tipusFirma)
+            || FileInfoSignature.SIGN_TYPE_SMIME.equals(tipusFirma)) {
           signType = SignTypesURIs.CADES;
         } else {
-          // TODO Falta CADes,
-
           // "Tipus de Firma amb ID {0} no està suportat pel plugin
           // `{1}`
-          String msg = getTraduccio("tipusfirma.desconegut", locale, fileInfo.getSignType(),
+          String msg = getTraduccio("tipusfirma.desconegut", locale, tipusFirma,
               this.getName(locale));
 
           ss.setErrorMsg(msg);
@@ -424,14 +420,33 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
           continue;
         }
 
-        // MODE PER XADES I CADES
-        if (!FileInfoSignature.SIGN_TYPE_PADES.equals(tipusFirma)) {
+        // MODE PER XADES
+        String xmlSignMode = null;
+        if (FileInfoSignature.SIGN_TYPE_XADES.equals(tipusFirma)) {
           if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_EXPLICIT) {
-            signMode = XmlSignatureMode.DETACHED;
+            xmlSignMode = XmlSignatureMode.DETACHED;
           } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT) {
-            signMode = XmlSignatureMode.ENVELOPING;
+            xmlSignMode = XmlSignatureMode.ENVELOPING;
           } else {
-            String msg = getTraduccio("modefirma.desconegut", locale, fileInfo.getSignType(),
+            String msg = getTraduccio("modefirma.desconegut", locale, tipusFirma,
+                this.getName(locale));
+
+            ss.setErrorMsg(msg);
+            ss.setErrorException(null);
+            ss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+            continue;
+          }
+        }
+
+        // MODE PER CADES
+        Boolean cadesIncludeDocument = null;
+        if (FileInfoSignature.SIGN_TYPE_CADES.equals(tipusFirma)) {
+          if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_EXPLICIT) {
+            cadesIncludeDocument = false;
+          } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT) {
+            cadesIncludeDocument = true;
+          } else {
+            String msg = getTraduccio("modefirma.desconegut", locale, tipusFirma,
                 this.getName(locale));
 
             ss.setErrorMsg(msg);
@@ -442,10 +457,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         }
 
 
-
         // Indicamos los datos a firmar
 
-        if (FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
+        if (FileInfoSignature.SIGN_TYPE_SMIME.equals(tipusFirma)) {
           // SMIME
           String mimeType = fileInfo.getMimeType();
           if (mimeType == null || mimeType.trim().length() == 0) {
@@ -473,9 +487,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         }
 
         if (!FileInfoSignature.SIGN_TYPE_PADES.equals(tipusFirma) && isXML) {
-          inParams.put(DSSTagsRequest.BASE64XML, new String(Base64.encode(bytesToSign)));
+          inParams.put(DSSTagsRequest.BASE64XML, Base64.encode(bytesToSign));
         } else {
-          inParams.put(DSSTagsRequest.BASE64DATA, new String(Base64.encode(bytesToSign)));
+          inParams.put(DSSTagsRequest.BASE64DATA, Base64.encode(bytesToSign));
         }
 
         // Indicamos el nombre del documento a firmar
@@ -495,8 +509,14 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         // Indicamos el tipo de firma a generar
         inParams.put(DSSTagsRequest.SIGNATURE_TYPE, signType);
 
-        if (signMode != null) {
-          inParams.put(DSSTagsRequest.XML_SIGNATURE_MODE, signMode);
+        if (xmlSignMode != null) {
+          inParams.put(DSSTagsRequest.XML_SIGNATURE_MODE, xmlSignMode);
+        }
+
+        if (cadesIncludeDocument != null) {
+          if (cadesIncludeDocument) {
+            inParams.put(DSSTagsRequest.INCLUDE_E_CONTENT, "");
+          }
         }
 
         // Indicamos el algoritmo de hash que usar para generar la firma
@@ -556,16 +576,16 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
         if (debug) {
 
-          StringBuffer inputProperties = new StringBuffer();
+          StringBuilder inputProperties = new StringBuilder();
 
           for (String key : inParams.keySet()) {
 
-            inputProperties.append(key + " => ");
+            inputProperties.append(key).append(" => ");
             Object obj = inParams.get(key);
             if (obj instanceof String) {
               String str = (String) obj;
               if (str.length() > 80) {
-                inputProperties.append(str.subSequence(0, 80)  + " ...");
+                inputProperties.append(str.subSequence(0, 80)).append(" ...");
               } else {
                 inputProperties.append(str);
               }
@@ -625,7 +645,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
             File firmat = File.createTempFile("AfirmaServerPlugin", "signedfile");
 
-            if (FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
+            if (FileInfoSignature.SIGN_TYPE_SMIME.equals(tipusFirma)) {
               // SMIME
 
               String mimeType = fileInfo.getMimeType();
@@ -652,9 +672,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
               fos.flush();
               fos.close();
             }
-
-            // Buidar memòria
-            signedData = null;
 
             ss.setSignedData(firmat);
             ss.setStatus(StatusSignature.STATUS_FINAL_OK);
@@ -692,57 +709,43 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
       } catch (Throwable th) {
         // TODO Mirar certs tipus d'excepció
-
         String param = fileInfo.getName() + " (" + i + ")[" + th.getClass().getName() + "]:"
             + th.getMessage();
         String msg = getTraduccio("error.firmantdocument", locale, param);
-
         log.error(msg, th);
 
         StatusSignature ss = getStatusSignature(signaturesSet, i);
-
         ss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
-
         ss.setErrorException(th);
-
         ss.setErrorMsg(msg);
       }
     }
 
     signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
-
     return signaturesSet;
-
   }
   
   
   @Override
   public boolean isUpgradeSignatureSupported(SignatureTypeFormEnumForUpgrade typeform) {
-    if (SignatureTypeFormEnumForUpgrade.PAdES_T_LEVEL.equals(typeform)) {
-      return false;
-    }
-    return true;
+    return !SignatureTypeFormEnumForUpgrade.PAdES_T_LEVEL.equals(typeform);
   }
   
   @Override
   public boolean isRequiredExternalTimeStampForUpgradeSignature() {
     return false;
   }
-  
-  
 
   @Override
   public boolean isTargetCertificateSupportedForUpgradeSignature() {
     return true;
   }
-  
 
   @Override
   public byte[] upgradeSignature(byte[] signature,  byte[] targetCertificate, 
       SignatureTypeFormEnumForUpgrade typeform,
      ITimeStampGenerator timeStampGenerator, String timeStamperURL) throws Exception {
 
-    
     if(signature == null || signature.length == 0){
       throw new Exception("Evolución de firma electrónica: Firma electrónica nula o vacía.");
     }
@@ -758,25 +761,18 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       throw new Exception("Formato para actualizacion desconocido " + typeform.getType() + " - " + typeform.getFormat() + " no soportado en este plugin.");
     }
 
-    
     String appID = getPropertyRequired(AfirmaServerSignatureServerPlugin.APPLICATIONID_SENSE_SEGELLLAT_DE_TEMPS_PROPERTY);
     
     UpgradeSignatureRequest upgSigReq = new UpgradeSignatureRequest();
-    
     upgSigReq.setApplicationId(appID);
     // Indicamos que la generación la queremos de manera inmediata y no
     // en base al tiempo de espera definido en la política de firma
     // asociada
     
     upgSigReq.setIgnoreGracePeriod(true);
-    
     upgSigReq.setSignature(signature);
-        
     upgSigReq.setSignatureFormat(dssSignatureFormat);
-    
     upgSigReq.setTargetSigner(targetCertificate);
-    
-  
 
     ServerSignerResponse serSigRes = internalUpgradeSignature(upgSigReq);
 
@@ -822,17 +818,11 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     
     return serSigRes.getSignature();
   }
-  
-  
-  
-  
-  
-  public SignatureFormatEnum convertEnum(SignatureTypeFormEnumForUpgrade typeForm) {
+
+  private SignatureFormatEnum convertEnum(SignatureTypeFormEnumForUpgrade typeForm) {
     switch(typeForm) {
     
-        
         //case ODF: return SignatureFormatEnum.ODF;
-        
         //case PDF: return SignatureFormatEnum.PDF;
         //case PAdES: return SignatureFormatEnum.PAdES;
         //case PAdES_BES: return SignatureFormatEnum.PAdES_BES;
@@ -864,7 +854,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         case XAdES_XL2: return SignatureFormatEnum.XAdES_XL2;
         case XAdES_A: return SignatureFormatEnum.XAdES_A;
 
-
         // FORMATS ADAPTATS
         // TODO Eliminar quan s'actualitzi la llibreria de Integr@
         
@@ -879,8 +868,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         case CAdES_T_LEVEL: return SignatureFormatEnum.CAdES_T;
         case CAdES_LT_LEVEL: return SignatureFormatEnum.CAdes_XL;
         case CAdES_LTA_LEVEL: return SignatureFormatEnum.CAdES_A;
-        
-        
+
         case XAdES_C: return SignatureFormatEnum.XAdES_T; // XAdES_C;
         //case XAdES_BASELINE: return SignatureFormatEnum.XAdES_BES;
         //case XAdES_B_LEVEL: return SignatureFormatEnum.XAdES_BES;
@@ -888,8 +876,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         case XAdES_LT_LEVEL: return SignatureFormatEnum.XAdES_XL;
         case XAdES_LTA_LEVEL: return SignatureFormatEnum.XAdES_A;
 
-        
-        // TODO NOUS FORMATS Per quan s'actualitzi la llibreria de Integr@ 
+        // TODO NOUS FORMATS Per quan s'actualitzi la llibreria de Integr@
         /*
         
         case PAdES_BASELINE: return SignatureFormatEnum.PAdES_BASELINE;
@@ -917,15 +904,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         
     default:
         return null;
-        
     }
-    
-    
-    
   }
   
-  
-
   /**
    * Tiquet (a.10) Afegir mètodes d'extensió de firma: upgradeSignature() i
    * supportUpgradeSignature() #167 https://github.com/GovernIB/portafib/issues/167
@@ -1174,7 +1155,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   /**
    * AQUEST MÈTODE ESTA DUPLICAT AL PLUGIN-INTEGR@
    * 
-   * @param eSignature
+   * @param signature
    * @return
    * @throws SigningException
    */
