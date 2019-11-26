@@ -66,6 +66,13 @@ public interface PortaFIBUsuariEntitatWs extends IBaseAutenticatedV1Ws {
   public void deleteUsuariPersona(@WebParam(name = "usuariPersonaID") String usuariPersonaID)
       throws WsI18NException, Throwable;
 
+  @WebMethod
+  @RolesAllowed({ Constants.PFI_ADMIN })
+  public void updateUsuariPersona(@WebParam(name = "usuariPersonaBean") UsuariPersonaBean usuariPersonaBean)
+      throws WsI18NException, Throwable;
+  
+  
+
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
   // ------------------------| Usuari Entitat |-------------------------

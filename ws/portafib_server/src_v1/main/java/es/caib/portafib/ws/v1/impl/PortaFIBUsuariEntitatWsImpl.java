@@ -186,6 +186,36 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl imple
     Set<Long> fitxers = usuariPersonaLogicaEjb.deleteFull(usuariPersonaID);
     FileSystemManager.eliminarArxius(fitxers);
   }
+  
+  
+  
+  @WebMethod
+  @RolesAllowed({ Constants.PFI_ADMIN })
+  @Override
+  public void updateUsuariPersona(@WebParam(name = "usuariPersonaBean") UsuariPersonaBean usuariPersonaBean)
+      throws WsI18NException, Throwable {
+    
+    if (usuariPersonaBean == null || usuariPersonaBean.getUsuariPersonaID() == null) {
+      return;
+    }
+    
+    //usuariPersonaBean.getUariPersonaLogicaEjb.
+    UsuariPersonaJPA usuariPersonaJPA;
+    usuariPersonaJPA = usuariPersonaLogicaEjb.findByPrimaryKey(usuariPersonaBean.getUsuariPersonaID());
+    
+    if (usuariPersonaJPA == null) {
+      return;
+    }
+
+    usuariPersonaJPA.setEmail(usuariPersonaBean.getEmail());
+    usuariPersonaJPA.setIdiomaID(usuariPersonaBean.getIdiomaID());
+    usuariPersonaJPA.setLlinatges(usuariPersonaBean.getLlinatges());
+    usuariPersonaJPA.setNom(usuariPersonaBean.getNom());
+
+    usuariPersonaLogicaEjb.update(usuariPersonaJPA);
+
+  }
+  
 
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
