@@ -8,7 +8,9 @@ import es.caib.portafib.ejb.UsuariAplicacioLocal;
 import es.caib.portafib.jpa.PluginFirmaWebPerUsuariAplicacioJPA;
 import es.caib.portafib.model.entity.PluginFirmaWebPerUsuariAplicacio;
 import es.caib.portafib.model.fields.PluginFields;
+import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.SubQuery;
@@ -27,6 +29,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.List;
 
 /**
@@ -111,7 +114,8 @@ public class PluginFirmaWebPerUsuariAplicacioAdenController extends PluginFirmaW
          // Afegir un botó per tornar a la pantalla per triar usuari d'una llista.
          pluginFilterForm.addAdditionalButton(
                new AdditionalButton("icon-arrow-left icon-white", "tornar",
-                     NO_USUARIAPLICACIO_VIEW, "btn-primary"));
+                   getContextWeb() + "/tornar", "btn-primary"));
+
       }
 
 
@@ -124,10 +128,18 @@ public class PluginFirmaWebPerUsuariAplicacioAdenController extends PluginFirmaW
          mav.setView(new RedirectView(NO_USUARIAPLICACIO_VIEW, true));
          return pluginFilterForm;
       }
+      
 
       // Posam un títol "custom" que inclou el nom de l'usuari
       pluginFilterForm.setTitleCode("pluginfirmaweb.listtitle");
       pluginFilterForm.setTitleParam(usuariAplicacioID);
+      
+      
+      // Mirar la politica de Plugins Web a veure si es compatible amb aquesta pantalla
+      Integer politica = usuariAplicacioEjb.executeQueryOne(UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB,
+          UsuariAplicacioFields.USUARIAPLICACIOID.equal(usuariAplicacioID));
+      
+      PluginFirmaWebPerUsuariEntitatAdenController.mostrarAvisSegonsPolitica(request, pluginFilterForm, politica);
 
       // Només mostrar boto d'afegir si queden pluguins per vincular al usuari aplicació.
       pluginFilterForm.setAddButtonVisible(
@@ -187,6 +199,27 @@ public class PluginFirmaWebPerUsuariAplicacioAdenController extends PluginFirmaW
       return pluginForm;
    }
 
+   
+   
+   @RequestMapping(value = "/tornar", method = RequestMethod.GET)
+   public ModelAndView tornarEditUsuari(HttpServletRequest request, HttpServletResponse response) {
+
+     String usuariAplicaicoID = (String) request.getSession().getAttribute(
+         SESSION_USUARIAPLICACIOID);
+
+     String redirect;
+     if (usuariAplicaicoID == null) {
+       redirect = NO_USUARIAPLICACIO_VIEW;
+     } else {
+       redirect = "/aden/usuariAplicacio/" + usuariAplicaicoID + "/edit";
+     }
+
+     return new ModelAndView(new RedirectView(redirect, true));
+   }
+    
+   
+   
+   
    /**
     * Punt d'entrada a la gestió de plugins d'un usuari aplicació.
     * @param usuariAplicacioID identificador de l'usuari aplicació

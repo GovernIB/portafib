@@ -11,7 +11,9 @@ import es.caib.portafib.callback.beans.v1.PortaFIBEvent;
  * @author anadal
  *
  */
-@WebService
+@WebService (    
+    targetNamespace="http://v1.server.callback.ws.portafib.caib.es/"
+ )
 public interface PortaFIBCallBackWs {
 
   @WebMethod

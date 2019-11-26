@@ -5,6 +5,7 @@ import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.Configuracio;
+
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,13 +35,19 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
 
   @Override
   public String getAnnexPath() {
-    return "/aden/gestioannexes/list";
+    return AnnexAdenController.CONTEXT_WEB + "/list";
   }
 
   @Override
   public String getFluxPath() {
-    return "/aden/fluxdefirmes/";
+    return  FluxDeFirmesAdenController.CONTEXT_WEB;
   }
+  
+  
+  public String getBitacolaContextWeb() {
+    return BitacolaPeticioAdenController.CONTEXT_WEB;
+  }
+  
 
   @Override
   public String getCustodiaContext() {
@@ -99,7 +107,7 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
           // FitxersDePeticioAdenController.CONTEXT_WEB + "/peticio/{0}",
           "btn-info"));
 
-      String bitacolaLink = BitacolaPeticioAdenController.CONTEXT_WEB
+      String bitacolaLink = getBitacolaContextWeb()
           + "/peticio/{0}?returnPath=" + getContextWeb() + "/list";
       peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
           "icon-cog icon-white", "peticiodefirma.bitacola", bitacolaLink, "btn-info"));

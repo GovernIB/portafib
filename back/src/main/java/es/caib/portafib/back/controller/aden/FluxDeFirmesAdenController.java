@@ -16,11 +16,12 @@ import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
  *
  */
 @Controller
-@RequestMapping(value = "/aden/fluxdefirmes")
+@RequestMapping(value = FluxDeFirmesAdenController.CONTEXT_WEB)
 @SessionAttributes(types = {  SeleccioUsuariForm.class, PlantillaDeFluxDeFirmesForm.class,
     FluxDeFirmesForm.class,  FluxDeFirmesFilterForm.class })
 public class FluxDeFirmesAdenController extends PlantillaDeFluxDeFirmesAdenController {
 
+  public static final String CONTEXT_WEB = "/aden/fluxdefirmes";
 
   @Override
   public boolean isActiveList() {

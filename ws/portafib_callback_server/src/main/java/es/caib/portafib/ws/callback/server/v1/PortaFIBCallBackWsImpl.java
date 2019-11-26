@@ -15,16 +15,18 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 /**
- * 
+ *
  * @author anadal
- * 
+ *
  */
 @Stateless(name = PortaFIBCallBackWsImpl.NAME + "Ejb")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 @WebService(name = PortaFIBCallBackWsImpl.NAME_WS,
-             portName = PortaFIBCallBackWsImpl.NAME_WS, 
+             portName = PortaFIBCallBackWsImpl.NAME_WS,
              serviceName = PortaFIBCallBackWsImpl.NAME_WS + "Service",
-             endpointInterface = "es.caib.portafib.ws.callback.server.v1." + PortaFIBCallBackWsImpl.NAME_WS)
+             targetNamespace="http://v1.server.callback.ws.portafib.caib.es/",
+             endpointInterface = "es.caib.portafib.ws.callback.server.v1." + PortaFIBCallBackWsImpl.NAME_WS
+             )
 @WebContext(contextRoot = "/portafib/cb", urlPattern = "/v1/" + PortaFIBCallBackWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false)
 public class PortaFIBCallBackWsImpl implements PortaFIBCallBackWs {
 

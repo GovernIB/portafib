@@ -34,23 +34,31 @@ public abstract class AbstractAnnexController extends AnnexController {
 
   @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
+  
+  protected static String[] stringByType = new String[] { "Soli", "Aden", "2Aden"};
+  
+  public static final int TYPE_SOLI = 0;
+  
+  public static final int TYPE_ADEN = 1;
+  
+  public static final int TYPE_ADEN2 = 2;
 
   @Override
   public String getTileForm() {
-    return "annexForm" + (isSoli() ? "Soli" : "Aden");
+    return "annexForm" + stringByType[getType()];
   }
 
   @Override
   public String getTileList() {
-    return "annexList" + (isSoli() ? "Soli" : "Aden");
+    return "annexList" + stringByType[getType()];
   }
 
   @Override
   public String getSessionAttributeFilterForm() {
-    return "Annex_" + isSoli() + "_FilterForm";
+    return "Annex_" + getType() + "_FilterForm";
   }
 
-  public abstract boolean isSoli();
+  public abstract int getType();
 
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
     Long peticioDeFirmaID = getPeticioDeFirmaFromSession(request);

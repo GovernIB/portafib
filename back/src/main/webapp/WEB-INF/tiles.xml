@@ -396,11 +396,30 @@
         <put-attribute name="titol" value="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebPerUsuariAplicacio" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariAplicacioForm.jsp" />
     </definition>
-
-    <definition name="pluginFirmaWebPerUsuariAplicacioListAden" extends="role_aden">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariAplicacioList.jsp" />
+    
+    <definition name="seleccionaFluxDeFirmaPerAplicacioForm" extends="role_aden">
+        <put-attribute name="titol" value="fluxDeFirmes.fluxDeFirmes" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/soli/seleccionaFluxDeFirma.jsp" />
+    </definition>
+    
+    <definition name="peticioDeFirmaAplicacioForm" extends="role_aden">
+        <put-attribute name="titol" value="peticioDeFirma.peticioDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaForm.jsp" />
     </definition>
 
+    <definition name="peticioDeFirmaAplicacioList" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
+    </definition>
+    
+    
+   <definition name="PlantillaDeFluxDeFirmesFormAden" extends="role_aden">
+        <put-attribute name="titol" value="plantillaFluxDeFirmes.plantillaFluxDeFirmes" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesForm.jsp" />
+    </definition>
+    
+    <definition name="PlantillaDeFluxDeFirmesListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesList.jsp" />
+    </definition>
 
     
     
@@ -456,17 +475,17 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/notificacioWSList.jsp" />
     </definition>
         
-    <definition name="seleccionaFluxDeFirmaPerAplicacioForm" extends="role_aden2">
+    <definition name="seleccionaFluxDeFirmaPerAplicacioForm2" extends="role_aden2">
         <put-attribute name="titol" value="fluxDeFirmes.fluxDeFirmes" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/soli/seleccionaFluxDeFirma.jsp" />
     </definition>
     
-    <definition name="peticioDeFirmaAplicacioForm" extends="role_aden2">
+    <definition name="peticioDeFirmaAplicacioForm2" extends="role_aden2">
         <put-attribute name="titol" value="peticioDeFirma.peticioDeFirma" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaForm.jsp" />
     </definition>
 
-    <definition name="peticioDeFirmaAplicacioList" extends="role_aden2">
+    <definition name="peticioDeFirmaAplicacioList2" extends="role_aden2">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
     </definition>
     
@@ -479,13 +498,30 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoList.jsp" />
     </definition>
     
-    <definition name="PlantillaDeFluxDeFirmesFormAden" extends="role_aden2">
+    <definition name="PlantillaDeFluxDeFirmes2FormAden" extends="role_aden2">
         <put-attribute name="titol" value="plantillaFluxDeFirmes.plantillaFluxDeFirmes" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesForm.jsp" />
     </definition>
     
-    <definition name="PlantillaDeFluxDeFirmesListAden" extends="role_aden2">
+    <definition name="PlantillaDeFluxDeFirmes2ListAden" extends="role_aden2">
         <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesList.jsp" />
+    </definition>
+
+    <definition name="pluginFirmaWebPerUsuariAplicacioListAden" extends="role_aden2">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariAplicacioList.jsp" />
+    </definition>
+    
+    <definition name="annexForm2Aden" extends="role_aden2">
+        <put-attribute name="titol" value="annex.annex" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/annexForm.jsp" />
+    </definition>
+    
+    <definition name="annexList2Aden" extends="role_aden2">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/annexList.jsp" />
+    </definition>
+
+    <definition name="bitacolaPeticio2ListAden" extends="role_aden2">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/bitacolaList.jsp" />
     </definition>
 
     <!--  ===========  ADMINISTRADOR ================== -->

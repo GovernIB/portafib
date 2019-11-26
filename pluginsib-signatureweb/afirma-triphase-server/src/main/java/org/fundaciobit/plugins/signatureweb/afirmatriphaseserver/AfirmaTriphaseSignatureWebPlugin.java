@@ -33,6 +33,8 @@ import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSi
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
@@ -47,6 +49,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.SocketException;
@@ -57,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -133,20 +137,52 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     
   }
   
+
   
-//  protected boolean rubricUsingText() {
-//    return "true".equalsIgnoreCase(getProperty(AUTOFIRMA_BASE_PROPERTIES + "rubricusingtext"));
-//  }
   
 
   @Override
   public String[] getSupportedSignatureTypes() {
-    return new String[] {
-        FileInfoSignature.SIGN_TYPE_PADES,
-        FileInfoSignature.SIGN_TYPE_XADES,
-        FileInfoSignature.SIGN_TYPE_CADES,
-        FileInfoSignature.SIGN_TYPE_SMIME
-        };
+    
+    // Desactivar les firmes XAdES dels PLugins de Firma si estam en JBoss 5.2 #388
+    boolean acceptXAdES = false;
+    /*
+     
+    Aquest CODI NO FUNCIONA: Llança un error javax.management.InstanceNotFoundException: jboss.system:type=Server is not registered. 
+      
+     
+    try {
+      MBeanServer server = ManagementFactory.getPlatformMBeanServer();   
+      Hashtable<String, String> props = new Hashtable<String, String>();   
+      props.put("type", "Server");   
+      ObjectName name = new ObjectName("jboss.system", props);   
+      String version = (String) (server.getAttribute(name, "Version"));
+      
+      
+      log.info("\n\n\n\n  XYZ ZZZ ZZZ VERSION JBOSS => " + version + "\n\n\n\n");
+      
+      if (version.indexOf("5.1") != -1) {
+        // OK
+        acceptXAdES = true;
+      }
+      
+      
+    } catch(Throwable th) {
+      log.error("Error descobrint versió de JBOSS: " + th.getMessage(), th);
+    }
+    
+    log.info("\n\n\n\n XYZ ZZZ ZZZ acceptXAdES => " + acceptXAdES + "\n\n\n\n");
+    */
+    
+    if (acceptXAdES) {
+
+      return new String[] { FileInfoSignature.SIGN_TYPE_PADES,
+          FileInfoSignature.SIGN_TYPE_XADES, FileInfoSignature.SIGN_TYPE_CADES,
+          FileInfoSignature.SIGN_TYPE_SMIME };
+    } else {
+      return new String[] { FileInfoSignature.SIGN_TYPE_PADES,
+          FileInfoSignature.SIGN_TYPE_CADES, FileInfoSignature.SIGN_TYPE_SMIME };
+    }
   }
 
   @Override

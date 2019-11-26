@@ -19,8 +19,8 @@ import es.caib.portafib.back.form.webdb.AnnexForm;
 public class AnnexSoliController extends AbstractAnnexController {
 
   @Override
-  public boolean isSoli() {
-    return true;
+  public int getType() {
+    return TYPE_SOLI;
   }
 
 }
