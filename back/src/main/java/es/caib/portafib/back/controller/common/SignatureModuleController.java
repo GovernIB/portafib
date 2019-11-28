@@ -544,7 +544,7 @@ public class SignatureModuleController extends HttpServlet {
       
       if (log.isDebugEnabled()) {
         log.info("SignatureModuleController::closeSignaturesSet() "
-             + "=> Esborrant signaturesSetID = " + signaturesSetID, new Exception());
+             + "=> Esborrant signaturesSetID = " + signaturesSetID);
       }
       
       portaFIBSignaturesSets.remove(signaturesSetID);
