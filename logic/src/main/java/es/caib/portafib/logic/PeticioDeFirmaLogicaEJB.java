@@ -157,7 +157,7 @@ import java.util.concurrent.TimeUnit;
  * @author anadal(u80067)
  * @author areus
  */
-@Stateless(name = "PeticioDeFirmaLogicaEJB")
+@Stateless(name = PeticioDeFirmaLogicaLocal.BEAN_NAME)
 @SecurityDomain("seycon")
 public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     PeticioDeFirmaLogicaLocal, ConstantsV2 {

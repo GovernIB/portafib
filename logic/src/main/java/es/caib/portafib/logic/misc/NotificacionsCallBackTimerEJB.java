@@ -58,7 +58,7 @@ import static es.caib.portafib.utils.ConstantsV2.NOTIFICACIOAVIS_PETICIO_REBUTJA
  */
 @Stateless(name = "NotificacionsCallBackTimerEJB")
 @SecurityDomain("seycon")
-@RunAs("PFI_ADMIN")
+@RunAs(ConstantsV2.PFI_ADMIN)
 public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimerLocal {
 
   @Resource
@@ -67,7 +67,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
   @EJB(mappedName = NotificacioWSLocal.JNDI_NAME, beanName = "NotificacioWSEJB")
   private NotificacioWSLocal notificacioEjb;
 
-  @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME, beanName = "UsuariAplicacioEJB")
+  @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME,  beanName = "UsuariAplicacioEJB")
   private UsuariAplicacioLocal usuariAplicacioEjb;
 
   @EJB(mappedName = BitacolaLogicaLocal.JNDI_NAME)

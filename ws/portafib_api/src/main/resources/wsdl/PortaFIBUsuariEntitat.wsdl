@@ -70,6 +70,8 @@
   <xs:element name="removeRoleSolicitantResponse" type="tns:removeRoleSolicitantResponse"/>
   <xs:element name="updateAdministrationIDOfCarrec" type="tns:updateAdministrationIDOfCarrec"/>
   <xs:element name="updateAdministrationIDOfCarrecResponse" type="tns:updateAdministrationIDOfCarrecResponse"/>
+  <xs:element name="updateUsuariPersona" type="tns:updateUsuariPersona"/>
+  <xs:element name="updateUsuariPersonaResponse" type="tns:updateUsuariPersonaResponse"/>
   <xs:complexType name="updateAdministrationIDOfCarrec">
     <xs:sequence>
       <xs:element minOccurs="0" name="carrecID" type="xs:string"/>
@@ -323,13 +325,13 @@
       <xs:element minOccurs="0" name="return" type="tns:usuariPersonaBean"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="getVersion">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getVersionResponse">
+  <xs:complexType name="updateUsuariPersona">
     <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:string"/>
+      <xs:element minOccurs="0" name="usuariPersonaBean" type="tns:usuariPersonaBean"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateUsuariPersonaResponse">
+    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="activateUsuariEntitat">
     <xs:sequence>
@@ -338,6 +340,14 @@
   </xs:complexType>
   <xs:complexType name="activateUsuariEntitatResponse">
     <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getVersion">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getVersionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="addRoleAdministradorDeEntitat">
     <xs:sequence>
@@ -596,6 +606,10 @@
     <wsdl:part name="parameters" element="tns:getInfoFromPluginUserInfoByAdministrationIDResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="updateUsuariPersona">
+    <wsdl:part name="parameters" element="tns:updateUsuariPersona">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="addRoleAdministradorDeEntitat">
     <wsdl:part name="parameters" element="tns:addRoleAdministradorDeEntitat">
     </wsdl:part>
@@ -682,6 +696,10 @@
   </wsdl:message>
   <wsdl:message name="deleteUsuariPersonaResponse">
     <wsdl:part name="parameters" element="tns:deleteUsuariPersonaResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUsuariPersonaResponse">
+    <wsdl:part name="parameters" element="tns:updateUsuariPersonaResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateAdministrationIDOfCarrecResponse">
@@ -905,11 +923,13 @@
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getVersion">
-      <wsdl:input name="getVersion" message="tns:getVersion">
+    <wsdl:operation name="updateUsuariPersona">
+      <wsdl:input name="updateUsuariPersona" message="tns:updateUsuariPersona">
     </wsdl:input>
-      <wsdl:output name="getVersionResponse" message="tns:getVersionResponse">
+      <wsdl:output name="updateUsuariPersonaResponse" message="tns:updateUsuariPersonaResponse">
     </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="activateUsuariEntitat">
       <wsdl:input name="activateUsuariEntitat" message="tns:activateUsuariEntitat">
@@ -918,6 +938,12 @@
     </wsdl:output>
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <wsdl:input name="getVersion" message="tns:getVersion">
+    </wsdl:input>
+      <wsdl:output name="getVersionResponse" message="tns:getVersionResponse">
+    </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="addRoleAdministradorDeEntitat">
       <wsdl:input name="addRoleAdministradorDeEntitat" message="tns:addRoleAdministradorDeEntitat">
@@ -1272,6 +1298,18 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="activateUsuariEntitatResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateUsuariPersona">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateUsuariPersona">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateUsuariPersonaResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="WsI18NException">
