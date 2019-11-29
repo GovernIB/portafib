@@ -306,9 +306,6 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
         }
       }
     }
-
-
-    
     
     form.addReadOnlyField(NIF);
     
@@ -316,7 +313,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
     // Feim només de lectura el camp ID perque no els puguin modificar.
     form.addReadOnlyField(USUARIPERSONAID);
     form.addHiddenField(RUBRICAID);
-    form.addHiddenField(USUARIINTERN);
+    form.addReadOnlyField(USUARIINTERN);
     form.addHiddenField(CONTRASENYA);
     
 

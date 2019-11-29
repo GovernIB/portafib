@@ -136,6 +136,7 @@ public class JPAConversion {
     __tmp.setEmail(__bean.getEmail());
     __tmp.setNif(__bean.getNif());
     __tmp.setIdiomaID(__bean.getIdiomaID());
+    __tmp.setUsuariIntern(true);
     __tmp.setRubricaID(__bean.getRubricaID());
     // Fitxer
     __tmp.setRubrica(toJPA(__bean.getRubrica()));

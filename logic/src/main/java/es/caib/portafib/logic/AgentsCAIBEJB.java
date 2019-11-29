@@ -378,7 +378,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
               log.error(msg, i18ne);
               return null;
             }
-            
+
             // Omplim l'usuariPersona amb les dades del PortaFIBUserInfo
             usuariPersona = new UsuariPersonaJPA();
             usuariPersona.setNif(pfui.getAdministrationID().toUpperCase());

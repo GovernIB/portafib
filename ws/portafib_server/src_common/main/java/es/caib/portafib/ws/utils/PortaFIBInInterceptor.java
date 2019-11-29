@@ -47,7 +47,7 @@ public class PortaFIBInInterceptor extends AbstractPhaseInterceptor<Message> {
     super(Phase.PRE_INVOKE);
   }
 
-  @SuppressWarnings("unchecked")
+  //@SuppressWarnings("unchecked")
   public void handleMessage(Message message) throws Fault {
     
     boolean logEnable = log.isDebugEnabled(); 

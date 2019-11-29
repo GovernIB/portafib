@@ -21,7 +21,7 @@ public class PortaFIBOutInterceptor extends AbstractPhaseInterceptor<Message> {
     super(Phase.SEND);
   }
 
-  @SuppressWarnings("unchecked")
+  //@SuppressWarnings("unchecked")
   public void handleMessage(Message message) throws Fault {
     UsuariAplicacioCache.remove();
   }

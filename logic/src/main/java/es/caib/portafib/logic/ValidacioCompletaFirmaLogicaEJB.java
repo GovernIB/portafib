@@ -3,6 +3,8 @@ package es.caib.portafib.logic;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.security.PdfPKCS7;
+
+import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfComparator;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
@@ -11,6 +13,7 @@ import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.logic.utils.ValidationsCAdES;
 import es.caib.portafib.logic.utils.ValidationsXAdES;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
+import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -37,6 +40,7 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * 
@@ -363,7 +367,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
       if (validacioRequest.getNifEsperat() == null) {
         // XYZ ZZZ TRA
         String msg = "La configuració de firma exigeix que es comprovi que el NIF"
-            + " que ha signat és gual a l'esperat, però en la petició no s'ha"
+            + " que ha signat és igual a l'esperat, però en la petició no s'ha"
             + " enviat cap NIF. Consulti amb l'administrador de PortaFIB el valor"
             + " de la propietat es.caib.portafib.strictvalidation";
         if (PropietatGlobalUtil.isStrictValidation()) {
@@ -456,9 +460,41 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
         log.info("XYZ ZZZ nifFirmant: " + nifFirmant);
         log.info("XYZ ZZZ getNifEsperat(): " + validacioRequest.getNifEsperat());
+        
+        
+        
+        if (nifFirmant == null) {
 
-        LogicUtils.checkExpectedNif(nifFirmant, validacioRequest.getNifEsperat());
-        checkAdministrationIDOfSigner = true;
+            boolean isPseudonymCertificate;
+            try {
+              isPseudonymCertificate = CertificateUtils.isPseudonymCertificate(certificateLastSign);
+            } catch (Exception e) {
+              log.error("Error intentant descobrir si el certificat és de PSEUDONIM: " + e.getMessage() , e);
+              log.error(certificateLastSign.toString());
+              isPseudonymCertificate = false;
+            } 
+            
+            if (isPseudonymCertificate) {
+              // Acceptam "barco" ja que no tenim els Pseudonim amb que comparar
+              checkAdministrationIDOfSigner = null;
+            } else {
+              final String codeError = "error.no_nif_en_certificat";
+              if (Configuracio.isDesenvolupament()) {
+                // Només mostram l'error pel LOG
+                // TODO S'ha de crear un idioma per defecte dins configuracio
+                log.error(I18NLogicUtils.tradueix(new Locale("ca"), codeError), new Exception());
+              } else {
+                throw new I18NException(codeError);
+              }
+            }
+            
+        } else {
+            
+            LogicUtils.checkExpectedNif(nifFirmant, validacioRequest.getNifEsperat());
+            checkAdministrationIDOfSigner = true;
+            
+          
+        }
 
       }
 
