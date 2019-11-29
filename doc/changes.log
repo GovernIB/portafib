@@ -3,7 +3,39 @@
 PortaFIB 2.0.4
 ==============
 
+2019-11-29 NullPointerException per mor de que es guarda un valor null dins una Notificacio #395
+
+2019-11-29 Canvi nomenclatura fitxers sql #397
+
+2019-11-28 Com validar firmes amb Certificats amb Pseudònim #393
+
+2019-11-28 La validació de Firmes de afirmacxf no parseja bé el camp DenominaciónSistemaComponente #396
+
+El procés final de firma genera un log d'error sense que res vagi malament #394
+
+Revisar missatge i lloc de retorn en Politica Plugins Web UsrEntitat i UsrApp #391
+
+Canvi dades usuaris i donar Roles via WS #390
+
+Desactivar les firmes XAdES dels PLugins de Firma si estam en JBoss 5.2 #388
+
+Error de pantalla en Consulta i gestió de Peticions de firma #387
+
+Error en comparació fitxer original i signat en firmes XADES #384
+
+L'autofirma deixa el directori en un estat inconsistent després de pujar fitxer invàlid #383
+
+MotiuDeFirma i FirmatPerDelegacio no estan actius a Configuració de Firma #380
+
+Separar menús d'Administrador d'Entitat #379
+
 2019-10-24 No s'esborren les traduccions associades a Taules #376
+
+Plugin de Firma en Servidor @firma no genera firmes CAdES ATTACHED #241
+
+Millores en Revisors de Firmes #190
+
+Afegir política de plugins de firma web #173
 
 
 PortaFIB 2.0.3
