@@ -4,7 +4,7 @@ package es.caib.portafib.back.form.webdb;
 import java.util.List;
 import javax.ejb.EJB;
 import org.springframework.stereotype.Component;
-
+import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.OrderBy;
@@ -13,9 +13,12 @@ import org.fundaciobit.genapp.common.query.Where;
 
 import es.caib.portafib.ejb.TipusDocumentLocal;
 import es.caib.portafib.ejb.TraduccioLocal;
+import es.caib.portafib.jpa.TraduccioMapJPA;
+
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
+import org.jfree.util.Log;
 
 /**
  *  ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! 
@@ -25,6 +28,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 @Component
 public class TipusDocumentRefList extends RefListBase
     implements TipusDocumentFields {
+  
+  protected final Logger log = Logger.getLogger(getClass());
 
   @EJB(mappedName = TipusDocumentLocal.JNDI_NAME)
   private TipusDocumentLocal tipusDocumentEjb;
@@ -56,9 +61,20 @@ public class TipusDocumentRefList extends RefListBase
     for (es.caib.portafib.model.entity.Traduccio traduccio : traduccions) {
       es.caib.portafib.jpa.TraduccioJPA traduccioJPA = (es.caib.portafib.jpa.TraduccioJPA) traduccio;
       String key = keysMap.get(String.valueOf(traduccioJPA.getTraduccioID()));
-      String value = traduccioJPA.getTraduccio(_lang).getValor();
+
+      // XYZ ZZZ ZZZ
+      TraduccioMapJPA tra = traduccioJPA.getTraduccio(_lang);
+      String value;      
+      if (tra == null) {
+        value = "No es troba la traducció a [" + _lang + "] pel codi de traducció {" + traduccioJPA.getTraduccioID() + "}";
+        log.error(value);
+        value ="UNKNOWN TRANSLATION[" +  traduccioJPA.getTraduccioID() + "][" + _lang+ "]";
+      } else {
+        value = tra.getValor();
+      }
       StringKeyValue skv = new StringKeyValue(key, value);
       _list.add(skv);
+
     }
     java.util.Collections.sort(_list, new org.fundaciobit.genapp.common.KeyValue.KeyValueComparator<String>());
     return _list;
