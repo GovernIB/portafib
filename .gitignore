@@ -298,3 +298,17 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /caib.bat
 /pluginsib-signatureweb/afirma-triphase-server-lib/dependencies.txt
 /pluginsib-signatureweb/afirma-triphase-server-lib/deps.bat
+/ws/portafib_api/src/main/resources/genapp_en.properties
+/ws/portafib_api/src/main/resources/logicmissatges_en.properties
+/ws/portafib_api/src/main/resources/portafib_genapp_en.properties
+/ws/portafib_api_passarela_servidor/src/main/resources/genapp_en.properties
+/ws/portafib_api_passarela_servidor/src/main/resources/logicmissatges_en.properties
+/ws/portafib_api_passarela_servidor/src/main/resources/portafib_genapp_en.properties
+/ws/portafib_api_passarela_web/src/main/resources/genapp_en.properties
+/ws/portafib_api_passarela_web/src/main/resources/logicmissatges_en.properties
+/ws/portafib_api_passarela_web/src/main/resources/portafib_genapp_en.properties
+/back/src/main/resources/genapp_en.properties
+/back/src/main/resources/logicmissatges_en.properties
+/back/src/main/resources/portafib_genapp_en.properties
+/logic/src/main/resources/genapp_en.properties
+/logic/src/main/resources/portafib_genapp_en.properties

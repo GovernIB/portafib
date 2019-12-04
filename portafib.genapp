@@ -18,11 +18,14 @@
    </object> 
   </void> 
   <void property="languages"> 
-   <array class="java.lang.String" length="2"> 
+   <array class="java.lang.String" length="3"> 
     <void index="0"> 
      <string>ca</string> 
     </void> 
     <void index="1"> 
+     <string>en</string> 
+    </void> 
+    <void index="2"> 
      <string>es</string> 
     </void> 
    </array> 
@@ -88,6 +91,10 @@
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>ID</string> 
            </void> 
            <void method="put"> 
@@ -158,6 +165,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>Petició de Firma ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Request for Signature ID</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -238,6 +249,10 @@
             <string>Fitxer</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>File</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Fichero</string> 
            </void> 
@@ -299,6 +314,10 @@
             <string>Adjuntar</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Attach</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Adjuntar</string> 
            </void> 
@@ -344,6 +363,10 @@
             <string>Firmar</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Sign</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Firmar</string> 
            </void> 
@@ -380,6 +403,10 @@
         <string>Annex</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Annex</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Anexo</string> 
        </void> 
@@ -388,6 +415,10 @@
        <void method="put"> 
         <string>ca</string> 
         <string>Annexos</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Anexos</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -435,6 +466,10 @@
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>ID</string> 
            </void> 
            <void method="put"> 
@@ -497,6 +532,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>Fitxer ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>File</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -574,6 +613,10 @@
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>Annex ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>Annex ID</string> 
            </void> 
            <void method="put"> 
@@ -655,6 +698,10 @@
             <string>Firma ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Firma ID</string> 
            </void> 
@@ -707,6 +754,10 @@
         <string>Annex Firmat</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Signed Annex</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Anexo Firmado</string> 
        </void> 
@@ -715,6 +766,10 @@
        <void method="put"> 
         <string>ca</string> 
         <string>Annexos Firmats</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Signed Annexes</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -765,6 +820,10 @@
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -801,6 +860,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>Entitat</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Entity</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -846,6 +909,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>Usuari</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>User</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -894,6 +961,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>Data</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Date</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -947,6 +1018,10 @@
             <string>Objecte</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Object</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Objeto</string> 
            </void> 
@@ -993,6 +1068,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>ID objecte</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Object ID</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -1043,6 +1122,10 @@
             <string>Operació</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Operation</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Operación</string> 
            </void> 
@@ -1091,6 +1174,10 @@
             <string>Descripció</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Descripción</string> 
            </void> 
@@ -1130,6 +1217,10 @@
             <string>Contingut</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Contingut</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Contingut</string> 
            </void> 
@@ -1166,6 +1257,10 @@
         <string>Bitacola</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Logbook</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Bitacola</string> 
        </void> 
@@ -1174,6 +1269,10 @@
        <void method="put"> 
         <string>ca</string> 
         <string>Bitacoles</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Logbooks</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -1241,6 +1340,10 @@
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -1288,6 +1391,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>Ordre</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Order</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -1339,6 +1446,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>Data Finalització</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Completion Date</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -1406,6 +1517,10 @@
             <string>Flux de Firmes ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID Signature Flow</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Flujo de Firmas ID</string> 
            </void> 
@@ -1461,6 +1576,10 @@
             <string>Mínim de Firmes</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Minimum of Signatures</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Mínimo de Firmas</string> 
            </void> 
@@ -1497,6 +1616,10 @@
         <string>Bloc de Firmes</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Signature Block</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Bloque de Firmas</string> 
        </void> 
@@ -1505,6 +1628,10 @@
        <void method="put"> 
         <string>ca</string> 
         <string>Blocs de Firmes</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Signature Blocks</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -1569,6 +1696,10 @@
             <string>Identificador de Codi de Barres</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Bar Code Identifier</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Identificador de Código de Barras</string> 
            </void> 
@@ -1613,6 +1744,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>Nom</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Name</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -1660,6 +1795,10 @@
             <string>Descripció</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Descripción</string> 
            </void> 
@@ -1693,6 +1832,10 @@
         <string>Codi de Barres</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Barcode</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Código de Barras</string> 
        </void> 
@@ -1701,6 +1844,10 @@
        <void method="put"> 
         <string>ca</string> 
         <string>Codis de Barres</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Barcodes</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -1781,6 +1928,10 @@
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -1851,6 +2002,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>Destinatari</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Recipient</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -1937,6 +2092,10 @@
             <string>Col·laborador Delegat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Delegated Contributor</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Colaborador Delegado</string> 
            </void> 
@@ -1995,6 +2154,10 @@
             <string>Es Delegat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>He is Delegate</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Es Delegado</string> 
            </void> 
@@ -2040,6 +2203,10 @@
             <string>Motiu</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Reason</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Motivo</string> 
            </void> 
@@ -2082,6 +2249,10 @@
             <string>Descripció</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Descripción</string> 
            </void> 
@@ -2122,6 +2293,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>Data Inici</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Start date</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -2169,6 +2344,10 @@
             <string>Data Fi</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>End Date</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Fecha Fin</string> 
            </void> 
@@ -2212,6 +2391,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>Actiu</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Active</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -2262,6 +2445,10 @@
             <string>Revisor</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Reviser</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Revisor</string> 
            </void> 
@@ -2308,6 +2495,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>Motiu Deshabilitada</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Reason Disabled</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -2372,6 +2563,10 @@
             <string>Autorització</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Authorization</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Autorización</string> 
            </void> 
@@ -2418,6 +2613,10 @@
         <string>Colaboració-Delegació</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Collaboration-Delegation</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Colaboración-Delegación</string> 
        </void> 
@@ -2426,6 +2625,10 @@
        <void method="put"> 
         <string>ca</string> 
         <string>Colaboracions-Delegacions</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Collaborations-Delegations</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -2532,6 +2735,10 @@
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -2587,6 +2794,10 @@
             <string>Nom de la Plantilla</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Template Name</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Nombre de la Plantilla</string> 
            </void> 
@@ -2633,6 +2844,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>Identificador Document del Sistema de Custòdia</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Identifier Document of the Custody System</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -2703,6 +2918,10 @@
             <string>Plugin de Custòdia</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Custody Plugin</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Plugin de Custodia</string> 
            </void> 
@@ -2761,6 +2980,10 @@
             <string>Paràmetres per Custodia</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Parameters for Custody</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Parámetros para Custodia</string> 
            </void> 
@@ -2804,6 +3027,10 @@
            <void method="put"> 
             <string>ca</string> 
             <string>Custodiar</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Custodian</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -2856,6 +3083,10 @@
             <string>Pàgines</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>pages</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Páginas</string> 
            </void> 
@@ -2905,6 +3136,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>Missatge</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Message</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -2959,6 +3194,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>Posició missatge</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Message position</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -3035,6 +3274,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Tipus de Còdi de Barres</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Barcode Type</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Tipo de Código de Barras</string> 
            </void> 
@@ -3102,6 +3345,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Posició codi de barres</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Barcode position</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Posición código de barras</string> 
            </void> 
@@ -3153,6 +3400,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>Text de Codi de Barres</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Text of the Bar Code</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -3224,6 +3475,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>Usuari</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>User</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -3307,6 +3562,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Usuari Aplicació</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>User Application</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Usuario Aplicación</string> 
            </void> 
@@ -3388,6 +3647,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Entitat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Entity</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Entidad</string> 
            </void> 
@@ -3446,6 +3709,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Petició de Firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Petition for Signature</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Petición de Firma</string> 
            </void> 
@@ -3491,6 +3758,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Data Custòdia</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Custody Date</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Fecha Custodia</string> 
            </void> 
@@ -3530,6 +3801,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>Editable</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>Editable</string> 
            </void> 
            <void method="put"> 
@@ -3575,6 +3850,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Codi Segur de Verificació (CSV)</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Secure Verification Code (CSV)</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Código Seguro de Verificación (CSV)</string> 
            </void> 
@@ -3614,6 +3893,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Web de validació del CSV</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>CSV validation website</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Web de validación del CSV</string> 
            </void> 
@@ -3651,6 +3934,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>URL al document de definició de creació del CSV</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>URL to the CSV creation definition document</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -3695,6 +3982,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Web on descarregar Fitxer Custodiat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Web where to download File Custodiado</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Web donde descarregar Fichero Custodiado</string> 
            </void> 
@@ -3732,6 +4023,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>URL directa on descarregar Fitxer Signat</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Direct URL where to download Signed File</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -3773,6 +4068,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>URL directa on descarregar la versió imprimible de la firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Direct URL to download the printable version of the signature</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>URL directa donde descarregar la versión imprimible de la firma</string> 
            </void> 
@@ -3810,6 +4109,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>URL directa on descarregar la versió ENI de la firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Direct URL where to download the ENI version of the signature</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -3854,6 +4157,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>ID de l´expedient (API Arxiu)</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>File ID (Arxiu API)</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID del expediente (API Arxiu)</string> 
            </void> 
@@ -3896,6 +4203,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>ID del Document (API Arxiu)</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Document ID (Arxiu API)</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID del Documento(API Arxiu)</string> 
            </void> 
@@ -3929,6 +4240,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
         <string>Custòdia de Document</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Document Custody</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Custodia de Documento</string> 
        </void> 
@@ -3937,6 +4252,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
        <void method="put"> 
         <string>ca</string> 
         <string>Documents Custodiats</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Document Custodies</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -4102,6 +4421,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -4152,6 +4475,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>Nom</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Name</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -4205,6 +4532,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Descripció</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Descripción</string> 
            </void> 
@@ -4245,6 +4576,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>Activa</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Active</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -4290,6 +4625,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>Pàgina web</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Website</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -4354,6 +4693,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>Favicon</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>Favicon</string> 
            </void> 
            <void method="put"> 
@@ -4435,6 +4778,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Logo Web</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Web Logo</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Logo Web</string> 
            </void> 
@@ -4511,6 +4858,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>Logo Web Peu</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Logo Web Pie</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -4591,6 +4942,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Logo Segell</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Seal Logo</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Logo Sello</string> 
            </void> 
@@ -4649,6 +5004,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Adreça Html</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>HTML address</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Dirección Html</string> 
            </void> 
@@ -4692,6 +5051,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>Filtre de certificats</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Certificate Filter</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -4759,6 +5122,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Formulari Pdf Autorització Delegació</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Pdf Form Authorization Delegation</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Formulario Pdf Autorización Delegación</string> 
            </void> 
@@ -4814,6 +5181,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Suport Telèfon</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Support Phone</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Soporte Teléfono</string> 
            </void> 
@@ -4853,6 +5224,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Suport URL</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Support URL</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Soporte URL</string> 
            </void> 
@@ -4890,6 +5265,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>Suport Email</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Email Support</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -4960,6 +5339,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>UsuariAplicació per peticions de firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>UserApplication for signature requests</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>UsuarioAplicación para peticiones de firma</string> 
            </void> 
@@ -5012,6 +5395,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Tamany màxim de pujada de fitxers</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Maximum file upload size</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Tamaño máximo de subida de ficheros</string> 
            </void> 
@@ -5051,6 +5438,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
             <string>Tamany màxim del fitxer adaptat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Maximum size of the adapted file</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Tamaño máximo del fichero adaptado</string> 
            </void> 
@@ -5088,6 +5479,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>Max fitxers en firma múltiple</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Max multiple signature files</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -5133,6 +5528,10 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <void method="put"> 
             <string>ca</string> 
             <string>Ús de la Política de Firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Use of the Signature Policy</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -5184,6 +5583,10 @@ firmes PAdES-EPES,CAdES-EPES y XAdES-EPES.</string>
             <string>Identificador de Política (OID)</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Policy Identifier (OID)</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Identificador de Política (OID)</string> 
            </void> 
@@ -5225,6 +5628,10 @@ este parámetro si se indicó también policyIdentifier.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Hash del OID (Base64)</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>OID Hash (Base64)</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -5272,6 +5679,10 @@ SHA1, SHA-256, SHA-384 o SHA-512</string>
             <string>Algoritme del Hash del OID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>OID Hash Algorithm</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Algoritmo del Hash del OID</string> 
            </void> 
@@ -5314,6 +5725,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>URL al document de política de firmes</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>URL to signature policy document</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -5376,6 +5791,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Format del camp ´Motiu Delegació´</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Format of the ´Delegation Reason´ field</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -5456,6 +5875,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Format del camp ´Firmat per´</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Format of the camp ´Signed by´</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Formato del camp ´Firmado por´</string> 
            </void> 
@@ -5517,6 +5940,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Algorisme de firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature algorithm</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Algorisme de firma</string> 
            </void> 
@@ -5566,6 +5993,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Política de Custòdia</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Custody Policy</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -5636,6 +6067,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Plantilla de Custòdia</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Custody Template</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Plantilla de Custodia</string> 
            </void> 
@@ -5697,6 +6132,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Política de la Taula de Firmes</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature Table Policy</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Política de la Tabla de Firmas</string> 
            </void> 
@@ -5748,6 +6187,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Posició de la Taula de Firmes per defecte</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Default Signature Table Position</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Posición de la Tabla de Firmas por defecto</string> 
            </void> 
@@ -5793,6 +6236,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Propietats de Taula de Firmes</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature Table Owners</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Propietades de Tabla de Firmas</string> 
            </void> 
@@ -5833,6 +6280,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Política de Segellat de temps</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Time Stamping Policy</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -5904,6 +6355,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Plugin de Segellat de Temps</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Time Stamping Plugin</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -5984,6 +6439,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Plugin Generador de Rúbrica</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Header Generator Plugin</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Plugin Generador de Rúbrica</string> 
            </void> 
@@ -6042,6 +6501,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Comprovar NIF després de firmar</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Check NIF after signing</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Comprobar NIF después de firmar</string> 
            </void> 
@@ -6085,6 +6548,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Comprovar que no s&apos;hagi modificat durant la firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Check that it has not been modified during signature</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -6150,6 +6617,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Plugin de Validació de Firmes</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Signature Validation Plugin</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -6230,6 +6701,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Plugin de Validació de Certificats</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Certificate Validation Plugin</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Plugin de Validación de Certificados</string> 
            </void> 
@@ -6279,6 +6754,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Entitat</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Entity</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Entidad</string> 
        </void> 
@@ -6287,6 +6766,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Entitats</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Entities</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -6337,6 +6820,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -6379,6 +6866,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Data</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Date</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -6433,6 +6924,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Tipus</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Type</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -6503,6 +6998,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Entitat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Entidat</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Entidat</string> 
            </void> 
@@ -6564,6 +7063,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Valor</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Value</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Valor</string> 
            </void> 
@@ -6609,6 +7112,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Usuari Aplicació</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>User Application</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Usuario Aplicación</string> 
            </void> 
@@ -6646,6 +7153,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Usuari Entitat</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>User Entity</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -6690,6 +7201,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Paràmetres</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Parameters</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Parámetros</string> 
            </void> 
@@ -6723,6 +7238,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Estadística</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Statistics</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Estadística</string> 
        </void> 
@@ -6731,6 +7250,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Estadístiques</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Statistics</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -6778,6 +7301,10 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>ID</string> 
            </void> 
            <void method="put"> 
@@ -6843,6 +7370,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Firm</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -6929,6 +7460,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Usuari Entitat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>User Entity</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Usuario Entidad</string> 
            </void> 
@@ -6993,6 +7528,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Data Inici</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Start Date</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Fecha Inicio</string> 
            </void> 
@@ -7044,6 +7583,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Data Fi</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>End Date</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Fecha Final</string> 
            </void> 
@@ -7087,6 +7630,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Estat Inicial</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Initial state</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -7138,6 +7685,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Estat Final</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Final state</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -7211,6 +7762,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Colaboració-Delegació</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Collaboration-Delegation</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Colaboración-Delegación</string> 
            </void> 
@@ -7266,6 +7821,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Descripció</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Descripción</string> 
            </void> 
@@ -7299,6 +7858,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Estat de Firma</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Signature Status</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Estado de Firma</string> 
        </void> 
@@ -7307,6 +7870,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Estats de Firma</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Signatures Status</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -7400,6 +7967,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -7470,6 +8041,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Destinatari ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Recipient ID</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -7553,6 +8128,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Bloc de Firma ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID Signature Block</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Bloque de Firma ID</string> 
            </void> 
@@ -7609,6 +8188,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Obligatori</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Mandatory</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -7676,6 +8259,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Fitxer Firmat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signed File</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Fichero Firmado</string> 
            </void> 
@@ -7728,6 +8315,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Núm. Firma Document</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>No. Signature Document</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Núm. Firma Documento</string> 
            </void> 
@@ -7768,6 +8359,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Caixa Pàgina</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Box Page</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -7812,6 +8407,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Caixa X</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>X Box</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Caja X</string> 
            </void> 
@@ -7849,6 +8448,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Caixa Y</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Y box</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -7890,6 +8493,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Caixa Ample</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Wide Box</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Caja Ancho</string> 
            </void> 
@@ -7927,6 +8534,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Caixa Alt</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>High box</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -7971,6 +8582,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Número Serie del Certificat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Certificate Serial Number</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Número Serie del Certificado</string> 
            </void> 
@@ -8013,6 +8628,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Emissor Certificat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Certified Issuer</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Emisor Certificado</string> 
            </void> 
@@ -8053,6 +8672,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Nom Certificat</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Certificate Name</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -8103,6 +8726,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Estat de Firma Final</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Final Signature Status</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Estado de Firma Final</string> 
            </void> 
@@ -8148,6 +8775,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Mostrar Rúbrica</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Show Rubric</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Mostrar Rúbrica</string> 
            </void> 
@@ -8188,6 +8819,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Motiu</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Reason</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -8232,6 +8867,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Número mínim de revisors</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Minimum number of reviewers</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Número mínimo de revisores</string> 
            </void> 
@@ -8274,6 +8913,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Validat NIF del firmant</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Validated NIF of the signer</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Validado NIF del firmante</string> 
            </void> 
@@ -8311,6 +8954,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Validat si Document s´ha Modficat</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Verified if Document has been Modified</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -8352,6 +8999,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>S´ha validat firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>The signature has been validated</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Se ha validado la firma</string> 
            </void> 
@@ -8391,6 +9042,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Perfil de la Firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Profile of the Firm</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Perfil de la Firma</string> 
            </void> 
@@ -8427,6 +9082,10 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>extern_nom</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>extern_nom</string> 
            </void> 
            <void method="put"> 
@@ -8469,6 +9128,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>extern_llinatges</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>extern_llinatges</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>extern_llinatges</string> 
            </void> 
@@ -8505,6 +9168,10 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>extern_email</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>extern_email</string> 
            </void> 
            <void method="put"> 
@@ -8547,6 +9214,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>extern_idioma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>extern_idioma</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>extern_idioma</string> 
            </void> 
@@ -8583,6 +9254,10 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>extern_token</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>extern_token</string> 
            </void> 
            <void method="put"> 
@@ -8625,6 +9300,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>extern_nivellseguretat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>extern_nivellseguretat</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>extern_nivellseguretat</string> 
            </void> 
@@ -8661,6 +9340,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Firma</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Signature</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Firma</string> 
        </void> 
@@ -8669,6 +9352,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Firmes</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Signatures</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -8957,6 +9644,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -9001,6 +9692,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Nom</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>First name</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -9051,6 +9746,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Descripció</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Descripción</string> 
            </void> 
@@ -9088,6 +9787,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Tamany</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Size</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -9132,6 +9835,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Mime</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Mime</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Mime</string> 
            </void> 
@@ -9171,6 +9878,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Fitxer</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>File</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Fichero</string> 
        </void> 
@@ -9179,6 +9890,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Fitxers</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Files</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -9272,6 +9987,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -9324,6 +10043,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Nom</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Name</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Nombre</string> 
            </void> 
@@ -9366,6 +10089,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Flux de Firmes</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Signature Flow</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Flujo de Firmas</string> 
        </void> 
@@ -9374,6 +10101,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Fluxos de Firmes</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Signature Flows</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -9454,6 +10185,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -9501,6 +10236,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Nom</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Name</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -9555,6 +10294,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Descripció</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -9622,6 +10365,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Entitat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Entity</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Entidad</string> 
            </void> 
@@ -9671,6 +10418,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Grup d&apos;Usuaris</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>User Group</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Grupo de Usuarios</string> 
        </void> 
@@ -9679,6 +10430,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Grups d&apos;Usuaris</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>User Groups</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -9750,6 +10505,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -9812,6 +10571,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Usuari</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>User</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -9892,6 +10655,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Grup Entitat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Entity Group</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Grupo Entidad</string> 
            </void> 
@@ -9941,6 +10708,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Usuari d&apos;un Grup</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>User of a Group</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Usuario de un Grupo</string> 
        </void> 
@@ -9949,6 +10720,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Usuaris d&apos;un Grup</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Users of a Group</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -10057,6 +10832,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -10096,6 +10875,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Nom</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Name</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -10152,6 +10935,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Suportat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Supported</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Soportado</string> 
            </void> 
@@ -10197,6 +10984,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Ordre</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Order</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Orden</string> 
            </void> 
@@ -10236,6 +11027,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Idioma</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Language</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Idioma</string> 
        </void> 
@@ -10244,6 +11039,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Idiomes</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Languages</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -10297,6 +11096,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -10333,6 +11136,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Nom</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Name</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -10380,6 +11187,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Valor</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Value</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Valor</string> 
            </void> 
@@ -10423,6 +11234,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Descripció</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -10485,6 +11300,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Petició de Firma ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Petition for Signature ID</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -10551,6 +11370,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Tipus de Metadada</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Metadata Type</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Tipo de Metadato</string> 
            </void> 
@@ -10590,6 +11413,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Metadada</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Metadata</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Metadato</string> 
        </void> 
@@ -10598,6 +11425,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Metadades</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Metadatas</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -10648,6 +11479,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -10687,6 +11522,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Nom</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Name</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -10755,6 +11594,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Tipus de Document</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Document type</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -10844,6 +11687,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Mòdul de Firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature Module</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Módulo de Firma</string> 
            </void> 
@@ -10899,6 +11746,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Mòdul de Firma per Tipus de Document</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Signature Module by Document Type</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Módulo de Firma por Tipo de Documento</string> 
        </void> 
@@ -10907,6 +11758,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Mòduls de Firma per Tipus de Document</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Signature Modules by Document Type</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -10978,6 +11833,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -11020,6 +11879,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Petició de Firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Petition for Signature</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -11090,6 +11953,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Tipus Notificació</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Type Notification</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Tipo Notificación</string> 
            </void> 
@@ -11151,6 +12018,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Data Creació</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Creation date</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Fecha Creación</string> 
            </void> 
@@ -11202,6 +12073,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Data Enviament</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Date Shipping</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Fecha Envio</string> 
            </void> 
@@ -11245,6 +12120,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Descripció</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -11292,6 +12171,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Bloquejada</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Blocked</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Bloqueada</string> 
            </void> 
@@ -11334,6 +12217,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Error</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Error</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Error</string> 
            </void> 
@@ -11371,6 +12258,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Data Error</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Date Error</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -11418,6 +12309,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Reintents</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Retries</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Reintentos</string> 
            </void> 
@@ -11463,6 +12358,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Usuari Aplicació</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>User Application</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Usuario Aplicación</string> 
            </void> 
@@ -11499,6 +12398,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Notificació WS</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>WS notification</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Notificación WS</string> 
        </void> 
@@ -11507,6 +12410,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Notificacions WS</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>WS notifications</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -11574,6 +12481,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -11621,6 +12532,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Nom</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>First name</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -11671,6 +12586,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Codi</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Code</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Código</string> 
            </void> 
@@ -11719,6 +12638,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Descripció</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Descripción</string> 
            </void> 
@@ -11756,6 +12679,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Condició</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Condition</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -11818,6 +12745,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Configuració de Firma 1</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Signature Settings 1</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -11901,6 +12832,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Configuració de Firma 2</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature Settings 2</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Configuración de Firma 2</string> 
            </void> 
@@ -11977,6 +12912,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Configuració de Firma 3</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Signature Settings 3</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -12057,6 +12996,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Configuració de Firma 4</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature Settings 4</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Configuración de Firma 4</string> 
            </void> 
@@ -12135,6 +13078,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Configuració de Firma 5</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature Settings 5</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Configuración de Firma 5</string> 
            </void> 
@@ -12190,6 +13137,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Adreça Web Base d&apos;Accés</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Access Base Web Address</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Dirección Web Base de Acceso</string> 
            </void> 
@@ -12223,6 +13174,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Perfil de Firma</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Signature Profile</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Perfil de Firma</string> 
        </void> 
@@ -12231,6 +13186,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Perfils de Firma</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Signature Profiles</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -12278,6 +13237,10 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>ID</string> 
            </void> 
            <void method="put"> 
@@ -12343,6 +13306,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Perfil de Firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Signature Profile</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -12426,6 +13393,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Usuari Aplicació</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>User Application</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Usuario Aplicación</string> 
            </void> 
@@ -12478,6 +13449,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Perfil per Usuari Aplicació</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Profile for User Application</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Perfil para Usuario Aplicación</string> 
        </void> 
@@ -12486,6 +13461,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Perfils per Usuaris Aplicació</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Profiles for Users Application</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -12557,6 +13536,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -12619,6 +13602,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Grup</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Group</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -12702,6 +13689,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Plantilla</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Template</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Plantilla</string> 
            </void> 
@@ -12754,6 +13745,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Permís d&apos;un Grup a una Plantilla</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Permission of a Group to a Template</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Permiso de un Grupo a una Plantilla</string> 
        </void> 
@@ -12762,6 +13757,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Permisos d&apos;un Grup a una Plantilla</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Permissions of a Group to a Template</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -12833,6 +13832,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -12895,6 +13898,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Usuari</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>User</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -12981,6 +13988,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Plantilla</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Template</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Plantilla</string> 
            </void> 
@@ -13033,6 +14044,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Permís d&apos;Usuari damunt una Plantilla</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>User Permission on a Template</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Permiso de Usuario sobre una Plantilla</string> 
        </void> 
@@ -13041,6 +14056,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Permisos d&apos;Usuari damunt una Plantilla</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>User Permissions on a Template</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -13142,6 +14161,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -13192,6 +14215,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Títol</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Title</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -13245,6 +14272,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Descripció</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Descripción</string> 
            </void> 
@@ -13285,6 +14316,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Motiu</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Reason</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -13350,6 +14385,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Fitxer a Firmar</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>File to Sign</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -13430,6 +14469,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Firma Original Detached</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Original Detached Signature</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Firma Original Detached</string> 
            </void> 
@@ -13506,6 +14549,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Fitxer Adaptat</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Adapted File</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -13586,6 +14633,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Tipus de Document</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Document type</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Tipo de Documento</string> 
            </void> 
@@ -13644,6 +14695,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Descripció del Tipus de Document</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Description of Document Type</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Descripción del Tipo de Documento</string> 
            </void> 
@@ -13686,6 +14741,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Data Solicitud</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Application date</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Fecha Solicitud</string> 
            </void> 
@@ -13726,6 +14785,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Data Final</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>End Date</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -13771,6 +14834,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Data Caducitat</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Expiration date</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -13823,6 +14890,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Tipus Operació de Firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Type of Signature Operation</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Tipo de Operación de Firma</string> 
            </void> 
@@ -13869,6 +14940,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Tipus Firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Signature Type</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -13922,6 +14997,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Algorisme de firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature algorithm</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Algoritmo de firma</string> 
            </void> 
@@ -13965,6 +15044,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Mode de firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Signature mode</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -14013,6 +15096,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Posició Taula Firmes</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Signature Table Position</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -14066,6 +15153,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Estat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>State</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Estado</string> 
            </void> 
@@ -14115,6 +15206,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Motiu de Rebuig</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Reason for Rejection</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -14182,6 +15277,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Idioma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Language</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Idioma</string> 
            </void> 
@@ -14244,6 +15343,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Prioritat</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Priority</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -14312,6 +15415,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Flux de Firmes</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Signature Flow</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -14401,6 +15508,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Sol·licitant Aplicació</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Application Applicant</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Solicitante Aplicación</string> 
            </void> 
@@ -14462,6 +15573,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Remitent</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Sender</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Remitente</string> 
            </void> 
@@ -14505,6 +15620,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Descripció del remitent</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Description of the sender</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -14552,6 +15671,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Codi Expedient</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>File Code</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Código Expediente</string> 
            </void> 
@@ -14594,6 +15717,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Nom Expedient</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>File Name</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Nombre Expediente</string> 
            </void> 
@@ -14631,6 +15758,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Adreça Web Expedient</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Web Address File</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -14678,6 +15809,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Codi Procediment</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Procedure code</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Código procedimiento</string> 
            </void> 
@@ -14720,6 +15855,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Nom Procediment</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Name Procedure</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Nombre Procedimiento</string> 
            </void> 
@@ -14760,6 +15899,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Informació Addicional</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Additional Information</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -14805,6 +15948,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Informació Addicional Avaluable</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Additional Assessable information</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -14867,6 +16014,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Logo Segell</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Seal Logo</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -14944,6 +16095,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Informació de custòdia</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Custody information</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Información de custodia</string> 
            </void> 
@@ -15019,6 +16174,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Sol·licitant Persona</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Applicant Person</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Solicitante Persona</string> 
            </void> 
@@ -15092,6 +16251,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Sol·licitant 2</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Applicant 2</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -15172,6 +16335,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Sol·licitant 3</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Applicant 3</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Solicitante 3</string> 
            </void> 
@@ -15237,6 +16404,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Avís Web</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Web Notice</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Aviso Web</string> 
            </void> 
@@ -15282,6 +16453,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Incloure Segell de Temps</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Include Time Stamp</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Incluir Sello de Tiempo</string> 
            </void> 
@@ -15325,6 +16500,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Origen de la Petició de Firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Origin of the Signature Petition</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -15395,6 +16574,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Configuració de Firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature Configuration</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Configuración de Firma</string> 
            </void> 
@@ -15444,6 +16627,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Petició de Firma</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Petition for Signature</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Petición de Firma</string> 
        </void> 
@@ -15452,6 +16639,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
        <void method="put"> 
         <string>ca</string> 
         <string>Peticions de Firma</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Petitions for Signature</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -15542,6 +16733,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Plantilla</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Template</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Plantilla</string> 
            </void> 
@@ -15601,6 +16796,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Descripció</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -15672,6 +16871,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Propietat de</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Property of</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -15752,6 +16955,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Propietat de</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Property of</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Propiedad de</string> 
            </void> 
@@ -15813,6 +17020,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Compartir</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Share</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Compartir</string> 
            </void> 
@@ -15849,6 +17060,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Plantilla de Flux de Firmes</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Signature Flow Template</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Plantilla de Flujo de Firmas</string> 
        </void> 
@@ -15857,6 +17072,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
        <void method="put"> 
         <string>ca</string> 
         <string>Plantilles de Flux de Firmes</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Signature Flow Templates</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -16054,6 +17273,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -16101,6 +17324,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Codi</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Code</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -16169,6 +17396,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Nom</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Name</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -16255,6 +17486,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Descripció curta</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Short description</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Descripción corta</string> 
            </void> 
@@ -16319,6 +17554,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Classe Java</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Java class</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Clase Java</string> 
            </void> 
@@ -16361,6 +17600,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Ordre</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Order</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Orden</string> 
            </void> 
@@ -16401,6 +17644,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Tipus de plugin</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Plugin type</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -16451,6 +17698,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Propietats Administrador</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Administrator Properties</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Propiedades Administrador</string> 
            </void> 
@@ -16491,6 +17742,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Propietats Pròpies de l&apos;Entitat</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Own Properties of the Entitat</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -16538,6 +17793,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Política d&apos;ús</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Usage Policy</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -16614,6 +17873,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Entitat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Entity</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Entidad</string> 
            </void> 
@@ -16672,6 +17935,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Actiu</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Active</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Activo</string> 
            </void> 
@@ -16721,6 +17988,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Política de Mostrar Propietats</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Show Ownership Policy</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Política de Mostrar Propietats</string> 
            </void> 
@@ -16760,6 +18031,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Plugin</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Plugin</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Plugin</string> 
        </void> 
@@ -16767,6 +18042,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
       <void property="labelsPlural"> 
        <void method="put"> 
         <string>ca</string> 
+        <string>Plugins</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
         <string>Plugins</string> 
        </void> 
        <void method="put"> 
@@ -16815,6 +18094,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>ID</string> 
            </void> 
            <void method="put"> 
@@ -16879,6 +18162,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Entitat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Entitat</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Entitat</string> 
            </void> 
@@ -16934,6 +18221,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>Data</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>Data</string> 
            </void> 
            <void method="put"> 
@@ -17008,6 +18299,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Plugin</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Plugin</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Plugin</string> 
            </void> 
@@ -17069,6 +18364,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Mètode Plugin</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Plugin Method</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Métode Plugin</string> 
            </void> 
@@ -17115,6 +18414,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Paràmetres Text</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Text parameters</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -17179,6 +18482,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Paràmetres Fitxer</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>File parameters</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Parámetros Fichero</string> 
            </void> 
@@ -17238,6 +18545,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Retorn Text</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Text return</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -17302,6 +18613,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Retorn Fitxer</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Return File</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Retorno Fichero</string> 
            </void> 
@@ -17363,6 +18678,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Tipus Resultat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Type Result</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Tipo Resultado</string> 
            </void> 
@@ -17408,6 +18727,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Temps Execució</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Execution Time</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Tiempo Ejecución</string> 
            </void> 
@@ -17444,8 +18767,12 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Cridada a Plugin</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Call to Plugin</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
-        <string>Cridada a Plugin</string> 
+        <string>Llamada a Plugin</string> 
        </void> 
       </void> 
       <void property="labelsPlural"> 
@@ -17454,8 +18781,12 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Cridades a Plugin</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Calls to Plugin</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
-        <string>Cridades a Plugin</string> 
+        <string>Llamadas a Plugin</string> 
        </void> 
       </void> 
       <void property="name"> 
@@ -17499,6 +18830,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>ID</string> 
            </void> 
            <void method="put"> 
@@ -17563,8 +18898,12 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Usuari Aplicació</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Application User</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
-            <string>Usuari Aplicació</string> 
+            <string>Usuario Aplicación</string> 
            </void> 
           </void> 
           <void property="notNullable"> 
@@ -17647,6 +18986,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Plugin Firma Web</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Web Signature Plugin</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Plugin Firma Web</string> 
            </void> 
@@ -17714,6 +19057,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Acció</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Action</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Acción</string> 
            </void> 
@@ -17753,6 +19100,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Plugin de Firma Web per Usuari Aplicació</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Web Signature Plugin by User Application</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Plugin de Firma Web por Usuario Aplicación</string> 
        </void> 
@@ -17761,6 +19112,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
        <void method="put"> 
         <string>ca</string> 
         <string>Plugins de Firma Web per Usuari Aplicació</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Web Signature Plugins by User Application</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -17832,6 +19187,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -17891,6 +19250,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Usuari Entitat</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>User Entity</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -17977,6 +19340,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Plugin de Firma Web</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Web Signature Plugin</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Plugin de Firma Web</string> 
            </void> 
@@ -18044,6 +19411,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Acció</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Action</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Acción</string> 
            </void> 
@@ -18083,8 +19454,12 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Plugin de Firma Web per Usuari Entitat</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Web Signature Plugin by Entity User</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
-        <string>Plugin de Firma Web por Usuario Entitat</string> 
+        <string>Plugin de Firma Web por Usuario Entidad</string> 
        </void> 
       </void> 
       <void property="labelsPlural"> 
@@ -18093,8 +19468,12 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Plugins de Firma Web per Usuari Entitat</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Web Signature Plugin by Entity User</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
-        <string>Plugins de Firma Web por Usuario Entitat</string> 
+        <string>Plugins de Firma Web por Usuario Entidad</string> 
        </void> 
       </void> 
       <void property="multipleUniques"> 
@@ -18162,6 +19541,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -18201,6 +19584,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Clau</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Key</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -18252,6 +19639,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Valor</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Value</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -18319,6 +19710,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Entitat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Entity</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Entidad</string> 
            </void> 
@@ -18377,6 +19772,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Descripció</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Descripción</string> 
            </void> 
@@ -18410,6 +19809,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Propietat Global</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Global Property</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Propiedad Global</string> 
        </void> 
@@ -18418,6 +19821,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
        <void method="put"> 
         <string>ca</string> 
         <string>Propietats Globals</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Global Properties</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -18489,6 +19896,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -18548,6 +19959,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Usuari Entitat ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>User Entity ID</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -18631,6 +20046,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Tipus Notificacio ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID Notification Type</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Tipo de Notificación ID</string> 
            </void> 
@@ -18695,6 +20114,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Agrupar Correus</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Group Mail</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Agrupar Correos</string> 
            </void> 
@@ -18731,6 +20154,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Rebre Avís</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Receive Notice</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Recibir Aviso</string> 
        </void> 
@@ -18739,6 +20166,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
        <void method="put"> 
         <string>ca</string> 
         <string>Rebre Avís</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Receive News</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -18810,6 +20241,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -18869,6 +20304,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Usuari</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>User</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -18955,6 +20394,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Firma</string> 
            </void> 
@@ -19016,6 +20459,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Obligatori</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Mandatory</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Obligatorio</string> 
            </void> 
@@ -19052,6 +20499,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Revisor de Firma</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Signature Reviewer</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Revisor de Firma</string> 
        </void> 
@@ -19060,6 +20511,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
        <void method="put"> 
         <string>ca</string> 
         <string>Revisors de Firma</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Signature Reviewers</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -19121,6 +20576,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -19168,6 +20627,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Nom</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>First name</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -19221,6 +20684,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Descripció</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Descripción</string> 
            </void> 
@@ -19254,6 +20721,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Role</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Role</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Role</string> 
        </void> 
@@ -19261,6 +20732,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
       <void property="labelsPlural"> 
        <void method="put"> 
         <string>ca</string> 
+        <string>Rols</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
         <string>Roles</string> 
        </void> 
        <void method="put"> 
@@ -19309,6 +20784,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>ID</string> 
            </void> 
            <void method="put"> 
@@ -19373,6 +20852,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>Role</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>Role</string> 
            </void> 
            <void method="put"> 
@@ -19460,6 +20943,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Usuari Entitat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>User Entity</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Usuario Entidad</string> 
            </void> 
@@ -19512,6 +20999,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Role d&apos;un UsuariEntitat</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Role of a User Entity</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Role de un UsuarioEntidad</string> 
        </void> 
@@ -19520,6 +21011,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
        <void method="put"> 
         <string>ca</string> 
         <string>Roles de UsuariEntitat</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Roles of a User Entity</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -19628,6 +21123,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -19700,6 +21199,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Nom</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>First name</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Nombre</string> 
            </void> 
@@ -19770,6 +21273,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Tipus Document Base</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Type Base Document</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Tipo Documento Base</string> 
            </void> 
@@ -19816,6 +21323,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Descripció</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -19883,6 +21394,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Usuari Aplicació</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>User Application</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Usuario Aplicación</string> 
            </void> 
@@ -19929,6 +21444,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Tipus de Document</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Document Type</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Tipo de Documento</string> 
        </void> 
@@ -19937,6 +21456,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
        <void method="put"> 
         <string>ca</string> 
         <string>Tipus de Document</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Document Type</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -19984,6 +21507,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>ID</string> 
            </void> 
            <void method="put"> 
@@ -20046,6 +21573,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Colaboració-Delegació ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Collaboration-Delegation ID</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -20129,6 +21660,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Tipus Document ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Type Document ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Tipo Documento ID</string> 
            </void> 
@@ -20181,6 +21716,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Tipus Document per Colabor./Delegat</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Type Document by Collaborator / Delegate</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Tipo Documento por Colabor./Delegado</string> 
        </void> 
@@ -20189,6 +21728,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
        <void method="put"> 
         <string>ca</string> 
         <string>Tipus Document per Colabor./Delegat</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Types Document by Collaborator / Delegate</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -20284,6 +21827,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -20328,6 +21875,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Nom</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>First name</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -20381,6 +21932,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Descripció</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Descripción</string> 
            </void> 
@@ -20426,6 +21981,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>És Avís</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>It is notice</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Es Aviso</string> 
            </void> 
@@ -20459,6 +22018,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Tipus de Notificació</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Type of Notification</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Tipo de Notificación</string> 
        </void> 
@@ -20467,6 +22030,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
        <void method="put"> 
         <string>ca</string> 
         <string>Tipus de Notificació</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Types of Notification</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -20628,6 +22195,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>traduccioid</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>translation</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>traduccioid</string> 
            </void> 
@@ -20663,6 +22234,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Traduccio</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Translation</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Traduccio</string> 
        </void> 
@@ -20671,6 +22246,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
        <void method="put"> 
         <string>ca</string> 
         <string>Traduccio</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Translations</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -20741,6 +22320,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Traduccio Mapid</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Mapid Translation</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Traduccio Mapid</string> 
            </void> 
@@ -20805,6 +22388,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>idiomaid</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>languageid</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>idiomaid</string> 
            </void> 
@@ -20849,6 +22436,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>valor</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>value</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>valor</string> 
            </void> 
@@ -20882,6 +22473,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>TraduccioMap</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>TranslationMap</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>TraduccioMap</string> 
        </void> 
@@ -20890,6 +22485,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
        <void method="put"> 
         <string>ca</string> 
         <string>TraduccioMap</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>TranslationMaps</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -21035,6 +22634,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Nom Usuari</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>User Name</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Nombre Usuario</string> 
            </void> 
@@ -21119,6 +22722,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Entitat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Entity</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Entidad</string> 
            </void> 
@@ -21183,6 +22790,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Email Admin</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Email Admin</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Email Admin</string> 
            </void> 
@@ -21237,6 +22848,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Callback Versió</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Callback Version</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Callback Versión</string> 
            </void> 
@@ -21288,6 +22903,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Callback URL</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>URL callback</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Callback URL</string> 
            </void> 
@@ -21334,6 +22953,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Actiu</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Active</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -21404,6 +23027,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Idioma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Language</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Idioma</string> 
            </void> 
@@ -21460,6 +23087,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Descripció</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Description</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -21524,6 +23155,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Logo Segell</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Stamp Logo</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Logo Sello</string> 
            </void> 
@@ -21582,6 +23217,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Política de Plugin de Firma Web</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Web Signature Plugin Policy</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Política de Plugin de Firma Web</string> 
            </void> 
@@ -21631,6 +23270,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Política de Custòdia</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Custody Policy</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -21701,6 +23344,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Plantilla de Custòdia</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Custody Template</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Plantilla de Custodia</string> 
            </void> 
@@ -21750,6 +23397,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <string>Usuari Aplicació</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>User Application</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Usuario Aplicación</string> 
        </void> 
@@ -21758,6 +23409,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
        <void method="put"> 
         <string>ca</string> 
         <string>Usuaris Aplicació</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Users Application</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -21890,6 +23545,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -21926,6 +23585,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Nom</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Name</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -21999,6 +23662,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Entitat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Entity</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Entidad</string> 
            </void> 
@@ -22060,6 +23727,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Ús en Api  Firma Simple en Servidor</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Use in Api Simple Server Signature</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Uso en Api  Firma Simple en Servidor</string> 
            </void> 
@@ -22105,6 +23776,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Ús en Api  Firma Simple en Web</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Use in Api Simple Web Signature</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Uso en Api  Firma Simple en Web</string> 
            </void> 
@@ -22148,6 +23823,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Ús en Firma Web</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Use in Web Signature</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -22198,6 +23877,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Ús en Firma WS v1</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Use in WS Signature v1</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Uso en Firma WS v1</string> 
            </void> 
@@ -22241,6 +23924,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Ús en Firma Async Simple REST v2</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Use in Async Simple REST v2 Signature</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -22288,6 +23975,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Ús en Firma Servidor de Passarela</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Use in Gateway Server Signature</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Uso en Firma Servidor de Pasarela</string> 
            </void> 
@@ -22333,6 +24024,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Ús en Firma Web de Passarela</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Use in Passarela Web Signature</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Uso en Firma Web de Passarela</string> 
            </void> 
@@ -22373,6 +24068,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Filtre certificats</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Filter Certificates</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -22418,6 +24117,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Tipus Operació Firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Type Operation Signature</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -22468,6 +24171,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Tipus Firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature Type</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Tipo Firma</string> 
            </void> 
@@ -22516,6 +24223,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Algorisme de Firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature Algorithm</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Algoritmo de Firma</string> 
            </void> 
@@ -22556,6 +24267,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <void method="put"> 
             <string>ca</string> 
             <string>Mode de Firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Signature Mode</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -22609,6 +24324,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Ús de la Política de Firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Use of the Signature Policy</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Uso de la Política de Firma</string> 
            </void> 
@@ -22658,6 +24377,10 @@ firmes PAdES-EPES,CAdES-EPES y XAdES-EPES.</string>
             <string>Identificador de Política (OID)</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Policy Identifier (OID)</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Identificador de Política (OID)</string> 
            </void> 
@@ -22695,6 +24418,10 @@ firmes PAdES-EPES,CAdES-EPES y XAdES-EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Hash del OID (Base64)</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>OID Hash (Base64)</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -22742,6 +24469,10 @@ SHA1, SHA-256, SHA-384 o SHA-512</string>
             <string>Algorisme del Hash del OID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>OID Hash Algorithm</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Algoritmo del Hash del OID</string> 
            </void> 
@@ -22784,6 +24515,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>URL al document de política de firmes</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>URL to signature policy document</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -22848,6 +24583,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Format del camp ´Motiu Delegació´</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Format of the ´Delegation reason´ field</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Formato del campo ´Motivo Delegación´</string> 
            </void> 
@@ -22909,6 +24648,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Política de taula de firmes</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature Table Policy</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Política de tabla de firmas</string> 
            </void> 
@@ -22958,6 +24701,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Posicio Taula de Firmes</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Firm Taula Position</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -23028,6 +24775,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Format del camp ´Firmat per´</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Format of the camp ´Signed by´</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Formato del camp ´Firmado por´</string> 
            </void> 
@@ -23083,6 +24834,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Propietats de Taula de Firmes</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature Table Owners</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Propietades de Tabla de Firmas</string> 
            </void> 
@@ -23126,6 +24881,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Política de Segellat de temps</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Time Stamping Policy</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -23196,6 +24955,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Plugin de Segellat de Temps</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Time Sealing Plugin</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Plugin de Segellado de Tiempo</string> 
            </void> 
@@ -23249,6 +25012,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Codi HTML de Plugins de Firma Web</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Web Signature Plugins HTML Code</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -23313,6 +25080,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Plugin de Firma en Servidor</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Server Signature Plugin</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Plugin de Firma en Servidor</string> 
            </void> 
@@ -23368,6 +25139,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Format d´extensió de Firma</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Signature extension format</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Formato de extensión de Firma</string> 
            </void> 
@@ -23411,6 +25186,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Validar Firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Validate Signature</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -23458,6 +25237,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Validar que el doc. firmat no s&apos;hagi modificat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Validate that the doc. signed has not been modified</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Validar que el doc. firmado no se haya modificado</string> 
            </void> 
@@ -23501,6 +25284,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Comprovar NIF Firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Check NIF Signature</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -23548,6 +25335,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Validar Certificat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Validate Certificate</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Validar Certificado</string> 
            </void> 
@@ -23593,6 +25384,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>És de Petició</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>It is Petition</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Es de Petición</string> 
            </void> 
@@ -23629,6 +25424,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Configuració de Firma</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Signature Settings</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Configuración de Firma</string> 
        </void> 
@@ -23637,6 +25436,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Configuracions de Firma</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Signatures Settings</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -23909,6 +25712,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -23959,6 +25766,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Càrrec</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Cargo</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -24027,6 +25838,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Persona</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Person</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -24113,6 +25928,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Entitat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Entity</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Entidad</string> 
            </void> 
@@ -24174,6 +25993,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Actiu</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Active</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Activo</string> 
            </void> 
@@ -24216,6 +26039,10 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>Email</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>Email</string> 
            </void> 
            <void method="put"> 
@@ -24281,6 +26108,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Logo Segell</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Seal Logo</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Logo Sello</string> 
            </void> 
@@ -24339,6 +26170,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Predeterminat</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Predetermined</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Predeterminado</string> 
            </void> 
@@ -24390,6 +26225,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Rebre tots els avisos</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Receive all notices</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Recibir todos los avisos</string> 
            </void> 
@@ -24436,6 +26275,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Política de Plugin de Firma Web</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Web Signature Plugin Policy</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -24487,6 +26330,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Política de Custòdia</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Custody Policy</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -24560,6 +26407,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Plantilla de Custòdia</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Custody Template</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Plantilla de Custodia</string> 
            </void> 
@@ -24609,6 +26460,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Usuari Entitat</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>User Entity</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Usuario Entidad</string> 
        </void> 
@@ -24617,6 +26472,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Usuaris Entitat</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Users Entity</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -24691,6 +26550,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -24750,6 +26613,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Origen ID</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>ID Origin</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -24833,6 +26700,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Favorit ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Favorite ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Favorito ID</string> 
            </void> 
@@ -24885,6 +26756,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Usuari Favorit</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Favorite User</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Usuario Favorito</string> 
        </void> 
@@ -24893,6 +26768,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Usuaris Favorits</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Favorite Users</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
@@ -24981,6 +26860,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>ID</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>ID</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>ID</string> 
            </void> 
@@ -25033,6 +26916,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Nom</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Name</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Nombre</string> 
            </void> 
@@ -25079,6 +26966,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Llinatges</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Surnames</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -25132,6 +27023,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Correu</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Mail</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Correo</string> 
            </void> 
@@ -25180,6 +27075,10 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
+            <string>NIF</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
             <string>NIF</string> 
            </void> 
            <void method="put"> 
@@ -25252,6 +27151,10 @@ opcional incluso cuando se genera una firma EPES.</string>
            <void method="put"> 
             <string>ca</string> 
             <string>Idioma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Language</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
@@ -25335,6 +27238,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Rúbrica</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Rubric</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Rúbrica</string> 
            </void> 
@@ -25390,6 +27297,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>És Usuari Intern</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Is an Internal User</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Es Usuario Interno</string> 
            </void> 
@@ -25432,6 +27343,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Contrasenya</string> 
            </void> 
            <void method="put"> 
+            <string>en</string> 
+            <string>Password</string> 
+           </void> 
+           <void method="put"> 
             <string>es</string> 
             <string>Contraseña</string> 
            </void> 
@@ -25465,6 +27380,10 @@ opcional incluso cuando se genera una firma EPES.</string>
         <string>Persona</string> 
        </void> 
        <void method="put"> 
+        <string>en</string> 
+        <string>Person</string> 
+       </void> 
+       <void method="put"> 
         <string>es</string> 
         <string>Persona</string> 
        </void> 
@@ -25473,6 +27392,10 @@ opcional incluso cuando se genera una firma EPES.</string>
        <void method="put"> 
         <string>ca</string> 
         <string>Persones</string> 
+       </void> 
+       <void method="put"> 
+        <string>en</string> 
+        <string>Persons</string> 
        </void> 
        <void method="put"> 
         <string>es</string> 
