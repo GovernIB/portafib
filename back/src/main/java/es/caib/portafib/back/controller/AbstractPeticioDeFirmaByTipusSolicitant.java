@@ -1237,7 +1237,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
     
     if (getTipusSolicitant() == TipusSolicitant.SOLICITANT_WEB) {
       Set<Long> fitxers = peticioDeFirmaLogicaEjb.deleteFullUsingUsuariEntitat(
-        peticioDeFirma.getPeticioDeFirmaID(), LoginInfo.getInstance().getUsuariEntitatID());
+        peticioDeFirma.getPeticioDeFirmaID(), LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID());
       borrarFitxers(fitxers);
     } else {
       
@@ -1255,7 +1255,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
       }
     
       Set<Long> fitxers = peticioDeFirmaLogicaEjb.deleteFullUsingAdministradorEntitat(
-        peticioDeFirma.getPeticioDeFirmaID(), LoginInfo.getInstance().getUsuariEntitatID(),
+        peticioDeFirma.getPeticioDeFirmaID(), LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID(),
         motiuEsborrat);
       borrarFitxers(fitxers);
     }

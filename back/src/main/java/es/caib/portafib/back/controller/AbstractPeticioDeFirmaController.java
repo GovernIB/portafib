@@ -52,7 +52,7 @@ public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaCon
 
     Set<Long> fitxers;
     fitxers = peticioDeFirmaLogicaEjb.deleteFullUsingUsuariEntitat(
-        peticioDeFirma.getPeticioDeFirmaID(), LoginInfo.getInstance().getUsuariEntitatID());
+        peticioDeFirma.getPeticioDeFirmaID(), LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID());
 
     borrarFitxers(fitxers); 
   }
