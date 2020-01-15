@@ -779,27 +779,36 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
             // eEMGDE17.5.4 – NIVEL DE FIRMA: Nick, PIN ciudadano, Firma electrónica avanzada,
             // Claves concertadas, Firma electrónica avanzada basada en certificados, CSV
             String eniSignLevel = null;
-            
-            EstatDeFirmaJPA estat = firma.getEstatDeFirmas().iterator().next();
 
-            UsuariPersonaJPA up = estat.getUsuariEntitat().getUsuariPersona();
-            String eniSignerName = up.getNom() + " " + up.getLlinatges();
-            String eniSignerAdministrationId = up.getNif();
-            Date signDate =  new Date(estat.getDataFi().getTime());
-            
-            BigInteger ns = firma.getNumeroSerieCertificat();
-            String serialNumberCert;
-            if (ns == null) {
-              serialNumberCert = null;
-            } else {
-              serialNumberCert = ns.toString();
+            for(EstatDeFirmaJPA estat : firma.getEstatDeFirmas()) {
+
+              if (estat.getTipusEstatDeFirmaFinalID() != ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT) {
+                continue;
+              }
+
+              UsuariPersonaJPA up = estat.getUsuariEntitat().getUsuariPersona();
+              String eniSignerName = up.getNom() + " " + up.getLlinatges();
+              String eniSignerAdministrationId = up.getNif();
+              Date signDate =  new Date(estat.getDataFi().getTime());
+
+              BigInteger ns = firma.getNumeroSerieCertificat();
+              String serialNumberCert;
+              if (ns == null) {
+                serialNumberCert = null;
+              } else {
+                serialNumberCert = ns.toString();
+              }
+              String issuerCert = firma.getEmissorCertificat();
+              String subjectCert = firma.getNomCertificat();
+              List<FirmaAsyncSimpleKeyValue> additionInformation = null;
+  
+              FirmaAsyncSimpleSignerInfo signerInfo = new FirmaAsyncSimpleSignerInfo(eniRolFirma, 
+                  eniSignerName, eniSignerAdministrationId, eniSignLevel, signDate, 
+                  serialNumberCert, issuerCert, subjectCert, additionInformation);
+              signers.add(signerInfo);
+              // Només hi ha una firma en els EstatsDeFirma
+              break;
             }
-            String issuerCert = firma.getEmissorCertificat();
-            String subjectCert = firma.getNomCertificat();
-            List<FirmaAsyncSimpleKeyValue> additionInformation = null;
-            
-            FirmaAsyncSimpleSignerInfo signerInfo = new FirmaAsyncSimpleSignerInfo(eniRolFirma, eniSignerName, eniSignerAdministrationId, eniSignLevel, signDate, serialNumberCert, issuerCert, subjectCert, additionInformation);
-            signers.add(signerInfo);      
           }
 
           // Nous camps a Firma i a Peticio de Firma #281
