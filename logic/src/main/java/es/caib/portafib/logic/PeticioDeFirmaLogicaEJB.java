@@ -2015,28 +2015,24 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   public static class BlocDeFirmesComparator implements Comparator<BlocDeFirmes> {
-
     public int compare(BlocDeFirmes o1, BlocDeFirmes o2) {
       return o1.getOrdre() - o2.getOrdre();
     }
   }
 
-  
   @Override
-  public Set<Long> deleteFullUsingAdministradorEntitat(Long peticioDeFirmaID, String usuariEntitatID,
+  public Set<Long> deleteFullUsingAdministradorEntitat(Long peticioDeFirmaID, String usernameLoguejat,
       String motiuEsborrat) throws I18NException {
     if (motiuEsborrat == null || motiuEsborrat.trim().length() == 0) {
       throw new I18NException("genapp.comodi", "Com a Administrador d'Entitat no pot esborrar "
           + "la petició amb ID " + peticioDeFirmaID + " sinó defineix un motiu.");
     }
-    return deleteFull(peticioDeFirmaID,usuariEntitatID, true, motiuEsborrat);
+    return deleteFull(peticioDeFirmaID, usernameLoguejat, true, motiuEsborrat);
   }
-  
-  
-  
+
   @Override
-  public Set<Long> deleteFullUsingUsuariEntitat(Long peticioDeFirmaID, String usuariEntitatID) throws I18NException {
-    return deleteFull(peticioDeFirmaID,usuariEntitatID, true,  null);
+  public Set<Long> deleteFullUsingUsuariEntitat(Long peticioDeFirmaID, String usernameLoguejat) throws I18NException {
+    return deleteFull(peticioDeFirmaID,usernameLoguejat, true,  null);
   }
 
   @Override
@@ -2049,8 +2045,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * @param peticioDeFirmaID
    * @return List of filesID deleted
    */
-
-  private Set<Long> deleteFull(Long peticioDeFirmaID, String username, 
+  private Set<Long> deleteFull(Long peticioDeFirmaID, String usernameLoguejat,
       boolean isUsuariEntitat,  String motiuEsborrat)
       throws I18NException {
     Set<Long> files = new HashSet<Long>();
@@ -2075,33 +2070,22 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       // Check si l'usuari entitat o aplicació té permis per esborrar
       // Si és PFI_ADMIN se li permet
-      
-      if (!context.isCallerInRole(PFI_ADMIN)) {
-        if (isUsuariEntitat) {
-          
-          if (motiuEsborrat == null) {
-            // Solicitant Web
-            if (!username.equals(pf.getSolicitantUsuariEntitat1ID())) {
-              // L'usuari {0} no té permisos per esborrar la petició de firma titulada {1}
-              throw new I18NException("peticiodefirma.error.nopermisdeborrar", username,
+
+      // No és un Administrador d'Entitat, comprovam accés normal...
+      if (motiuEsborrat == null) {
+        if (!hasAccess(pf, usernameLoguejat)) {
+          throw new I18NException("peticiodefirma.error.nopermisdeborrar",
+                  usernameLoguejat,
                   pf.getTitol());
-            }
-          } else {
-            // Administrador d'entitat
-            
-          }
-        } else {
-          if (!username.equals(pf.getSolicitantUsuariAplicacioID())) {
-            throw new I18NException("peticiodefirma.error.nopermisdeborrar", username,
-                pf.getTitol());
-          }
         }
-      }
-      
-      if (!hasAccess(pf, username)) {
-        throw new I18NException("peticiodefirma.error.nopermisdeborrar",
-                username,
-                String.valueOf(pf.getPeticioDeFirmaID()));
+      } else {
+        // És Administrador d'Entitat. Comprovam que ho sigui de l'entitat de la qual és la petició.
+        String entitatID = this.usuariAplicacioEjb.findByPrimaryKey(pf.getSolicitantUsuariAplicacioID()).getEntitatID();
+        if (currentUsuariEntitatADEN(entitatID, usernameLoguejat) == null) {
+          throw new I18NException("peticiodefirma.error.nopermisdeborrar",
+                  usernameLoguejat,
+                  pf.getTitol());
+        }
       }
 
       // Esborrar Notificacions
@@ -4233,7 +4217,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * Evalua si el compte d'usuari té accés a la petició de firma
    * @param peticioDeFirma
    * @return true sí l'usuari és administrador, si té associat l'usuariEntitat de la petició,
-   * si és l'usuariApliació de la petició o bé és administrador de l'entitat a la qual pertany l'usuariApliacio
+   * si és l'usuariApliació de la petició o bé és administrador de l'entitat a la qual pertany l'usuariAplicaio
    * @throws I18NException
    */
   protected boolean hasAccess(PeticioDeFirma peticioDeFirma, String usernameLoguejat) throws I18NException {

@@ -50,9 +50,9 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
 
   public List<PeticioDeFirmaJPA> selectFull(Where where) throws I18NException;
   
-  public Set<Long> deleteFullUsingAdministradorEntitat(Long peticioDeFirmaID, String usuariEntitatID, String motiuEsborrat) throws I18NException;
+  public Set<Long> deleteFullUsingAdministradorEntitat(Long peticioDeFirmaID, String usernameLoguejat, String motiuEsborrat) throws I18NException;
 
-  public Set<Long> deleteFullUsingUsuariEntitat(Long peticioDeFirmaID, String usuariEntitatID)
+  public Set<Long> deleteFullUsingUsuariEntitat(Long peticioDeFirmaID, String usernameLoguejat)
       throws I18NException;
 
   public Set<Long> deleteFullUsingUsuariAplicacio(Long peticioDeFirmaID,

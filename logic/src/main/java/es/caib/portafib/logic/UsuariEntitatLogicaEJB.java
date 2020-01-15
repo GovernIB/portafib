@@ -401,7 +401,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
       
       for (Long peticioDeFirmaID : peticionsID) {
         fitxers.addAll(this.peticioDeFirmaLogicaEjb.deleteFullUsingUsuariEntitat(
-            peticioDeFirmaID, usuariEntitatID));  
+            peticioDeFirmaID, usuariEntitatJPA.getUsuariPersonaID()));
       }
       
     }
