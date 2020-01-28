@@ -11,19 +11,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class FlowTemplateSimpleStartTransactionRequest  {
-  
-  // XYZ ZZZ 
+public class FlowTemplateSimpleStartTransactionRequest {
 
-  public static final String VIEW_FULLSCREEN = "fullview";
-  
-  public static final String VIEW_IFRAME = "iframe";
-  
   String transactionID;
-  
-  String returnUrl;
 
-  String view;
+  String returnUrl;
 
   /**
    * 
@@ -36,14 +28,10 @@ public class FlowTemplateSimpleStartTransactionRequest  {
    * @param transactionID
    * @param fileInfoSignatureArray
    */
-  public FlowTemplateSimpleStartTransactionRequest(String transactionID,
-      String returnUrl, String view) {
-
+  public FlowTemplateSimpleStartTransactionRequest(String transactionID, String returnUrl) {
     this.transactionID = transactionID;
     this.returnUrl = returnUrl;
-    this.view = view;
   }
-
 
   public String getReturnUrl() {
     return returnUrl;
@@ -53,14 +41,6 @@ public class FlowTemplateSimpleStartTransactionRequest  {
     this.returnUrl = returnUrl;
   }
 
-  public String getView() {
-    return view;
-  }
-
-  public void setView(String view) {
-    this.view = view;
-  }
-  
   public String getTransactionID() {
     return transactionID;
   }
@@ -68,6 +48,5 @@ public class FlowTemplateSimpleStartTransactionRequest  {
   public void setTransactionID(String transactionID) {
     this.transactionID = transactionID;
   }
-
 
 }

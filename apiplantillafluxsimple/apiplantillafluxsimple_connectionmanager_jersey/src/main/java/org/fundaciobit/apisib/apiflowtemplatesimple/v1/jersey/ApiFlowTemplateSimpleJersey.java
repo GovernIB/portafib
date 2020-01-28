@@ -1,4 +1,4 @@
-package org.fundaciobit.apisib.apiflowtemplatesimple.v2.jersey;
+package org.fundaciobit.apisib.apiflowtemplatesimple.v1.jersey;
 
 import java.util.List;
 

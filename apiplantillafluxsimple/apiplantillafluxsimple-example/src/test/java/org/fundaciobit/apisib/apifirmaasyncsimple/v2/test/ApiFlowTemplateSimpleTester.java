@@ -28,7 +28,7 @@ import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleK
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleStartTransactionRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleStatus;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleViewFlowTemplateRequest;
-import org.fundaciobit.apisib.apiflowtemplatesimple.v2.jersey.ApiFlowTemplateSimpleJersey;
+import org.fundaciobit.apisib.apiflowtemplatesimple.v1.jersey.ApiFlowTemplateSimpleJersey;
 import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 
 /**
@@ -188,11 +188,10 @@ public class ApiFlowTemplateSimpleTester {
 
       int port = 1989 + (int) (Math.random() * 100.0);
       final String returnUrl = "http://localhost:" + port + "/returnurl/" + transactionID;
-      final String view = FlowTemplateSimpleStartTransactionRequest.VIEW_FULLSCREEN;
 
       FlowTemplateSimpleStartTransactionRequest startTransactionInfo;
       startTransactionInfo = new FlowTemplateSimpleStartTransactionRequest(transactionID,
-          returnUrl, view);
+          returnUrl);
 
       String redirectUrl = api.startTransaction(startTransactionInfo);
 
