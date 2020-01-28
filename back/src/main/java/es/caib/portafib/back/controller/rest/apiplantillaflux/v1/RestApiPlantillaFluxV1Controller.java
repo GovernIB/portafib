@@ -306,190 +306,128 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
 
   }
 
-    
-    
-    @RequestMapping(value = "/"
-        + ApiFlowTemplateSimple.GETALLFLOWTEMPLATESBYFILTER, method = RequestMethod.POST)
-    @ResponseBody
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getAllFlowTemplatesByFilter(HttpServletRequest request,
-        @RequestBody FlowTemplateSimpleFilterGetAllByFilter filterByDescription) {
-
-      String error = autenticateUsrApp(request);
-      if (error != null) {
-        return generateServerError(error, HttpStatus.UNAUTHORIZED);
-      }
-
-      // XYZ ZZZ Canviar per idioma per defecte
-      String languageUI = "ca";
-
-      try {
-        log.info(
-            " XYZ ZZZ eNTRA A getAllFlowTemplatesByFilter => filterByDescription: "
-                + filterByDescription);
-
-        // TODO XYZ ZZZ CHECKS DE LOGIN
-        LoginInfo loginInfo = commonChecks();
-
-        log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
-
-        // Validar simpleSignature
-        cleanExpiredTransactions();
-
-        FlowTemplateSimpleFlowTemplateList list = internalGetAll(filterByDescription.getDescriptionFilter(),
-            filterByDescription.getNameFilter());
-    
-    
-    HttpHeaders headers = addAccessControllAllowOrigin();
-    ResponseEntity<?> re = new ResponseEntity<FlowTemplateSimpleFlowTemplateList>(list, headers, HttpStatus.OK);
-    log.info(" XYZ ZZZ SURT DE getAllFlowTemplatesByFilter => FINAL OK");
-
-
-    return re;
-
-  } catch (I18NException i18ne) {
-
-    String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
-
-    log.error(msg, i18ne);
-
-    return generateServerError(msg);
-
-  } catch (Throwable th) {
-
-    // XYZ ZZZ TRA
-    String msg = "Error desconegut iniciant la pantalla de Plantilla de Flux de Firmes: "
-        + th.getMessage();
-
-    log.error(msg, th);
-
-    return generateServerError(msg, th);
-  }
-  }
-
-    
-    
-
-    
-    
-    @RequestMapping(value = "/"
-        + ApiFlowTemplateSimple.GETFLOWINFOBYFLOWTEMPLATEID, method = RequestMethod.POST)
-    @ResponseBody
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getFlowInfoByFlowTemplateID(HttpServletRequest request,
-        @RequestBody String encryptedFlowTemplateID) {
-
-      String error = autenticateUsrApp(request);
-      if (error != null) {
-        return generateServerError(error, HttpStatus.UNAUTHORIZED);
-      }
-
-      // XYZ ZZZ Canviar per idioma per defecte
-      String languageUI = "ca";
-
-      try {
-        log.info(
-            " XYZ ZZZ eNTRA A getFlowInfoByFlowTemplateID => flowTemplateID: "
-                + encryptedFlowTemplateID);  
-
-        // TODO XYZ ZZZ CHECKS DE LOGIN
-        LoginInfo loginInfo = commonChecks();
-
-        log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
-
-        // Validar simpleSignature
-        cleanExpiredTransactions();
-
-        FileIDEncrypter encrypter =  HibernateFileUtil.getEncrypter();
-        
-        
-        String decriptStrFlowTemplateID = encrypter.decrypt(encryptedFlowTemplateID);
-        
-        Long decriptFlowTemplateID =Long.parseLong(decriptStrFlowTemplateID);
-        
-        
-        FlowTemplateSimpleFlowTemplate info = getFlowTemplateInfo(decriptFlowTemplateID);
-        
-        
-        info.setIntermediateServerFlowTemplateId(encryptedFlowTemplateID);
-        
-        
-
-    HttpHeaders headers = addAccessControllAllowOrigin();
-    ResponseEntity<?> re = new ResponseEntity<FlowTemplateSimpleFlowTemplate>(info, headers, HttpStatus.OK);
-
-    return re;
-
-  } catch (I18NException i18ne) {
-
-    String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
-
-    log.error(msg, i18ne);
-
-    return generateServerError(msg);
-
-  } catch (Throwable th) {
-
-    // XYZ ZZZ TRA
-    String msg = "Error desconegut iniciant la pantalla de Plantilla de Flux de Firmes: "
-        + th.getMessage();
-
-    log.error(msg, th);
-
-    return generateServerError(msg, th);
-  }
-  }
-  
-  
-  
-  
-
   @RequestMapping(value = "/"
-      + ApiFlowTemplateSimple.TRANSACTIONSTATUS, method = RequestMethod.POST)
+      + ApiFlowTemplateSimple.GETALLFLOWTEMPLATESBYFILTER, method = RequestMethod.POST)
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public ResponseEntity<?> getTransactionStatus(@RequestBody String transactionID,
-      HttpServletRequest request) {
+  public ResponseEntity<?> getAllFlowTemplatesByFilter(HttpServletRequest request,
+      @RequestBody FlowTemplateSimpleFilterGetAllByFilter filterBy) {
+
+    String error = autenticateUsrApp(request);
+    if (error != null) {
+      return generateServerError(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    // XYZ ZZZ Canviar per idioma per defecte
+    String languageUI = "ca";
+
     try {
+      log.info(" XYZ ZZZ eNTRA A getAllFlowTemplatesByFilter => filterBy: " + filterBy);
 
-      log.info(" XYZ ZZZ ENTRA A getTransactionStatus => " + transactionID);
+      // TODO XYZ ZZZ CHECKS DE LOGIN
+      LoginInfo loginInfo = commonChecks();
 
-      String error = autenticateUsrApp(request);
-      if (error != null) {
-        return generateServerError(error, HttpStatus.UNAUTHORIZED);
-      }
+      log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
 
-      log.info(" XYZ ZZZ startTransaction::transactionID => |" + transactionID + "|");
-      log.info(" XYZ ZZZ startTransaction::currentTransactions.size() => "
-          + currentTransactions.size());
+      // Validar simpleSignature
+      cleanExpiredTransactions();
 
-      TransactionInfo ti = currentTransactions.get(transactionID);
-
-      if (ti == null) {
-        // TODO XYZ ZZZ Traduir
-        return generateServerError("No existeix cap transacció amb ID " + transactionID);
-      }
+      FlowTemplateSimpleFlowTemplateList list = internalGetAll(filterBy.getNameFilter(),
+          filterBy.getDescriptionFilter());
 
       HttpHeaders headers = addAccessControllAllowOrigin();
-      ResponseEntity<?> re = new ResponseEntity<FlowTemplateSimpleStatus>(ti.getStatus(),
+      ResponseEntity<?> re = new ResponseEntity<FlowTemplateSimpleFlowTemplateList>(list,
           headers, HttpStatus.OK);
-      log.info(" XYZ ZZZ surt de  getTransactionStatus => FINAL");
+      log.info(" XYZ ZZZ SURT DE getAllFlowTemplatesByFilter => FINAL OK");
 
       return re;
 
+    } catch (I18NException i18ne) {
+
+      String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+
+      log.error(msg, i18ne);
+
+      return generateServerError(msg);
+
     } catch (Throwable th) {
-      final String msg = "Error desconegut intentant recuperar informació de l'estat de la transacció: "
-          + transactionID + ": " + th.getMessage();
+
+      // XYZ ZZZ TRA
+      String msg = "Error desconegut iniciant la pantalla de Plantilla de Flux de Firmes: "
+          + th.getMessage();
 
       log.error(msg, th);
 
       return generateServerError(msg, th);
     }
-
   }
+
+  @RequestMapping(value = "/"
+      + ApiFlowTemplateSimple.GETFLOWINFOBYFLOWTEMPLATEID, method = RequestMethod.POST)
+  @ResponseBody
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public ResponseEntity<?> getFlowInfoByFlowTemplateID(HttpServletRequest request,
+      @RequestBody String encryptedFlowTemplateID) {
+
+    String error = autenticateUsrApp(request);
+    if (error != null) {
+      return generateServerError(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    // XYZ ZZZ Canviar per idioma per defecte
+    String languageUI = "ca";
+
+    try {
+      log.info(" XYZ ZZZ eNTRA A getFlowInfoByFlowTemplateID => flowTemplateID: "
+          + encryptedFlowTemplateID);
+
+      // TODO XYZ ZZZ CHECKS DE LOGIN
+      LoginInfo loginInfo = commonChecks();
+
+      log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
+
+      // Validar simpleSignature
+      cleanExpiredTransactions();
+
+      FileIDEncrypter encrypter = HibernateFileUtil.getEncrypter();
+
+      String decriptStrFlowTemplateID = encrypter.decrypt(encryptedFlowTemplateID);
+
+      Long decriptFlowTemplateID = Long.parseLong(decriptStrFlowTemplateID);
+
+      FlowTemplateSimpleFlowTemplate info = getFlowTemplateInfo(decriptFlowTemplateID);
+
+      info.setIntermediateServerFlowTemplateId(encryptedFlowTemplateID);
+
+      HttpHeaders headers = addAccessControllAllowOrigin();
+      ResponseEntity<?> re = new ResponseEntity<FlowTemplateSimpleFlowTemplate>(info, headers,
+          HttpStatus.OK);
+
+      return re;
+
+    } catch (I18NException i18ne) {
+
+      String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+
+      log.error(msg, i18ne);
+
+      return generateServerError(msg);
+
+    } catch (Throwable th) {
+
+      // XYZ ZZZ TRA
+      String msg = "Error desconegut iniciant la pantalla de Plantilla de Flux de Firmes: "
+          + th.getMessage();
+
+      log.error(msg, th);
+
+      return generateServerError(msg, th);
+    }
+  }
+
+
 
   @RequestMapping(value = "/"
       + ApiFlowTemplateSimple.GETFLOWTEMPLATERESULT, method = RequestMethod.POST)
@@ -500,7 +438,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
       HttpServletRequest request, HttpServletResponse response) {
 
     try {
-      
+
       String error = autenticateUsrApp(request);
       if (error != null) {
         return generateServerError(error, HttpStatus.UNAUTHORIZED);
@@ -521,10 +459,10 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
         Long fluxDeFirmesID = ti.getFluxDeFirmesID();
 
         flowInfo = getFlowTemplateInfo(fluxDeFirmesID);
-        
+
         String returnedFluxID;
         if (ti.getTransactionInfo().isSaveOnServer()) {
-          FileIDEncrypter encrypter =  HibernateFileUtil.getEncrypter();
+          FileIDEncrypter encrypter = HibernateFileUtil.getEncrypter();
           returnedFluxID = encrypter.encrypt(String.valueOf(fluxDeFirmesID));
         } else {
           returnedFluxID = null;
@@ -559,7 +497,6 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
   protected FlowTemplateSimpleFlowTemplate getFlowTemplateInfo(Long fluxDeFirmesID)
       throws I18NException, Exception {
     FlowTemplateSimpleFlowTemplate flowInfo;
-    
 
     FluxDeFirmesJPA flux;
     flux = fluxDeFirmesLogicaEjb.findByPrimaryKeyFullForPlantilla(fluxDeFirmesID);
@@ -567,8 +504,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     String name = flux.getNom();
     String descripcio = flux.getPlantillaFluxDeFirmes().getDescripcio();
 
-    List<BlocDeFirmesJPA> blocsJPA = new ArrayList<BlocDeFirmesJPA>(
-        flux.getBlocDeFirmess());
+    List<BlocDeFirmesJPA> blocsJPA = new ArrayList<BlocDeFirmesJPA>(flux.getBlocDeFirmess());
     Collections.sort(blocsJPA, new ComparatorBlocDeFirmesJPA());
 
     List<FlowTemplateSimpleBlock> blocks = new ArrayList<FlowTemplateSimpleBlock>();
@@ -584,8 +520,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
           signer.setIntermediateServerUsername(firmaJPA.getDestinatariID());
         } else {
 
-          String administrationId = firmaJPA.getUsuariEntitat().getUsuariPersona()
-              .getNif();
+          String administrationId = firmaJPA.getUsuariEntitat().getUsuariPersona().getNif();
 
           String uename = firmaJPA.getUsuariExternNom();
           String surnames = firmaJPA.getUsuariExternLlinatges();
@@ -636,8 +571,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
 
     String returnedFluxID = null;
 
-    flowInfo = new FlowTemplateSimpleFlowTemplate(returnedFluxID, name,
-        descripcio, blocks);
+    flowInfo = new FlowTemplateSimpleFlowTemplate(returnedFluxID, name, descripcio, blocks);
     return flowInfo;
   }
 
@@ -666,12 +600,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     log.info(" XYZ ZZZ closeTransaction => FINAL OK");
 
   }
-  
-  
-  
-  
 
-  
   @RequestMapping(value = "/"
       + ApiFlowTemplateSimple.GETALLFLOWTEMPLATES, method = RequestMethod.POST)
   @ResponseBody
@@ -688,10 +617,10 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     try {
 
       FlowTemplateSimpleFlowTemplateList result = internalGetAll(null, null);
-      
+
       HttpHeaders headers = addAccessControllAllowOrigin();
-      ResponseEntity<?> re = new ResponseEntity<FlowTemplateSimpleFlowTemplateList>(
-          result, headers, HttpStatus.OK);
+      ResponseEntity<?> re = new ResponseEntity<FlowTemplateSimpleFlowTemplateList>(result,
+          headers, HttpStatus.OK);
       log.info(" XYZ ZZZ surt de  getAllFlowTemplates => FINAL");
 
       return re;
@@ -713,36 +642,33 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     SelectMultipleStringKeyValue select = new SelectMultipleStringKeyValue(
         PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.select,
         new PlantillaFluxDeFirmesQueryPath().FLUXDEFIRMES().NOM().select);
-    
+
     Where where = PlantillaFluxDeFirmesFields.USUARIAPLICACIOID.equal(usuariAplicacioID);
-    
+
     if (name != null && name.trim().length() != 0) {
-       where = Where.AND(where, new PlantillaFluxDeFirmesQueryPath().FLUXDEFIRMES().NOM().like("%" + name + "%"));
+      where = Where.AND(where,
+          new PlantillaFluxDeFirmesQueryPath().FLUXDEFIRMES().NOM().like("%" + name + "%"));
     }
-    
+
     if (description != null && description.trim().length() != 0) {
-      where = Where.AND(PlantillaFluxDeFirmesFields.DESCRIPCIO.like("%" +description + "%"));
+      where = Where.AND(PlantillaFluxDeFirmesFields.DESCRIPCIO.like("%" + description + "%"));
     }
 
     List<StringKeyValue> listKV = plantillaFluxDeFirmesEjb.executeQuery(select, where);
-    
+
     List<FlowTemplateSimpleKeyValue> list = new ArrayList<FlowTemplateSimpleKeyValue>();
 
-    FileIDEncrypter encrypter =  HibernateFileUtil.getEncrypter();
-    
+    FileIDEncrypter encrypter = HibernateFileUtil.getEncrypter();
+
     for (StringKeyValue skv : listKV) {
-      list.add(new FlowTemplateSimpleKeyValue(encrypter.encrypt(skv.getKey()), skv.getValue()));
+      list.add(
+          new FlowTemplateSimpleKeyValue(encrypter.encrypt(skv.getKey()), skv.getValue()));
     }
 
     FlowTemplateSimpleFlowTemplateList result = new FlowTemplateSimpleFlowTemplateList(list);
     return result;
   }
 
-  
-  
-
-  
-  
   @RequestMapping(value = "/"
       + ApiFlowTemplateSimple.GETURLTOVIEWFLOWTEMPLATE, method = RequestMethod.POST)
   @ResponseBody
@@ -759,17 +685,15 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
 
     try {
 
-      //String usuariAplicacioID = usuariAplicacioCache.get().getUsuariAplicacioID();
+      // String usuariAplicacioID = usuariAplicacioCache.get().getUsuariAplicacioID();
 
       // XYZ ZZZ ZZZ REVISAR CERTA CACHE PER SEGURETAT !!!!
       String result = PropietatGlobalUtil.getUrlBaseForFlowTemplate()
-         + PlantillaDeFluxDeFirmesRestController.CONTEXT + "/viewflux/" 
-         + viewFlowRequest.getFlowTemplateID(); // + "?readOnly=true";
+          + PlantillaDeFluxDeFirmesRestController.CONTEXT + "/viewflux/"
+          + viewFlowRequest.getFlowTemplateID(); // + "?readOnly=true";
 
-      
       HttpHeaders headers = addAccessControllAllowOrigin();
-      ResponseEntity<?> re = new ResponseEntity<String>(
-          result, headers, HttpStatus.OK);
+      ResponseEntity<?> re = new ResponseEntity<String>(result, headers, HttpStatus.OK);
       log.info(" XYZ ZZZ surt de  getTransactionStatus => FINAL");
 
       return re;
@@ -783,10 +707,6 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
       return generateServerError(msg, th);
     }
   }
-
-  
-  
-  
 
   protected void internalCloseTransaction(String transactionID) {
 

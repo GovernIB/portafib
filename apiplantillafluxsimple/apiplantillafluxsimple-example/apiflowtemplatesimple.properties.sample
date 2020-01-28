@@ -1,4 +1,9 @@
 
-XYZ ZZZ
+endpoint=http://10.215.216.175:8080/portafib/common/rest/apiflowtemplatesimple/v1/
+username=username
+password=password
 
+
+language=es
+saveonserver=true
 

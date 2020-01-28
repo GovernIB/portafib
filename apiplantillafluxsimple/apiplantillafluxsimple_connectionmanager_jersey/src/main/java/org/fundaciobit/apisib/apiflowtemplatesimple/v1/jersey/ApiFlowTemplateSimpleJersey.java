@@ -10,7 +10,6 @@ import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleF
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleFlowTemplateList;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleGetTransactionIdRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleKeyValue;
-import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleStatus;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleViewFlowTemplateRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleStartTransactionRequest;
 import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
@@ -107,23 +106,6 @@ public class ApiFlowTemplateSimpleJersey
     return result;
   }
 
-  /**
-   * Retorna l'estat de la transacció.
-   * 
-   * @param transactionID
-   * @return
-   * @throws Exception
-   */
-
-  public FlowTemplateSimpleStatus getTransactionStatus(String transactionID)
-      throws AbstractApisIBException {
-
-    ClientResponse response = commonCall(transactionID, TRANSACTIONSTATUS);
-
-    FlowTemplateSimpleStatus result = response.getEntity(FlowTemplateSimpleStatus.class);
-
-    return result;
-  }
 
   /**
    * Retorna el resultat i les fitxers signats de les firmes enviades.
@@ -184,9 +166,9 @@ public class ApiFlowTemplateSimpleJersey
 
   @Override
   public FlowTemplateSimpleFlowTemplateList getAllFlowTemplatesByFilter(
-      FlowTemplateSimpleFilterGetAllByFilter filterByDescription)
+      FlowTemplateSimpleFilterGetAllByFilter filterBy)
       throws AbstractApisIBException {
-    ClientResponse response = commonCall(filterByDescription, GETALLFLOWTEMPLATESBYFILTER);
+    ClientResponse response = commonCall(filterBy, GETALLFLOWTEMPLATESBYFILTER);
 
     FlowTemplateSimpleFlowTemplateList result = response.getEntity(FlowTemplateSimpleFlowTemplateList.class);
 

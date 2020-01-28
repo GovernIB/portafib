@@ -8,7 +8,6 @@ import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleF
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleGetFlowResultResponse;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleGetTransactionIdRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleKeyValue;
-import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleStatus;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleViewFlowTemplateRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleStartTransactionRequest;
 import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
@@ -26,8 +25,6 @@ public interface ApiFlowTemplateSimple {
   public static final String GETTRANSACTIONID = "getTransactionID";
 
   public static final String STARTTRANSACTION = "startTransaction";
-
-  public static final String TRANSACTIONSTATUS = "getTransactionStatus";
 
   public static final String GETFLOWTEMPLATERESULT = "getFlowTemplateResult";
 
@@ -64,11 +61,11 @@ public interface ApiFlowTemplateSimple {
   
   /**
    * 
-   * @param filterByDescription
+   * @param filterBy
    * @return
    * @throws AbstractApisIBException
    */
-  public FlowTemplateSimpleFlowTemplateList getAllFlowTemplatesByFilter(FlowTemplateSimpleFilterGetAllByFilter filterByDescription)
+  public FlowTemplateSimpleFlowTemplateList getAllFlowTemplatesByFilter(FlowTemplateSimpleFilterGetAllByFilter filterBy)
       throws AbstractApisIBException;
 
   /**
@@ -105,17 +102,6 @@ public interface ApiFlowTemplateSimple {
    * @throws Exception
    */
   public String startTransaction(FlowTemplateSimpleStartTransactionRequest startTransactionInfo)
-      throws AbstractApisIBException;
-
-  /**
-   * Retorna l'estat de la transacció.
-   * 
-   * @param transactionID
-   * @return
-   * @throws Exception
-   */
-
-  public FlowTemplateSimpleStatus getTransactionStatus(String transactionID)
       throws AbstractApisIBException;
 
   /**

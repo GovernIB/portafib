@@ -60,7 +60,7 @@ public class ApiFlowTemplateSimpleTester {
       testCrearFluxDeFirma(api, languageUI, saveOnServer);
 
       // Llistar Plantilles
-      String lastKey;
+      //String lastKey;
 
       // lastKey = llistarFluxDeFirmes(api, languageUI);
       
@@ -173,7 +173,7 @@ public class ApiFlowTemplateSimpleTester {
 
       String name = "Prova des de API REST - " + System.currentTimeMillis();
       String descr = "test=true;\n" + "user=anadal\n";
-      final boolean visibleDescription = true;
+      final boolean visibleDescription = false;
 
       FlowTemplateSimpleGetTransactionIdRequest transactionRequest;
       transactionRequest = new FlowTemplateSimpleGetTransactionIdRequest(languageUI,
