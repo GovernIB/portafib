@@ -4,9 +4,13 @@ import es.caib.portafib.ejb.PlantillaFluxDeFirmesEJB;
 import es.caib.portafib.jpa.PermisGrupPlantillaJPA;
 import es.caib.portafib.jpa.PermisUsuariPlantillaJPA;
 import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
+import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
+
+import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.hibernate.Hibernate;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
@@ -21,7 +25,18 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 public class PlantillaFluxDeFirmesLogicaEJB extends PlantillaFluxDeFirmesEJB 
   implements PlantillaFluxDeFirmesLogicaLocal, PlantillaFluxDeFirmesFields {
 
-
+  
+  
+  
+  @Override
+  @PermitAll
+  public PlantillaFluxDeFirmes create(PlantillaFluxDeFirmes instance) throws I18NException {
+    return super.create(instance);
+  }
+  
+  
+  
+  @Override
   public PlantillaFluxDeFirmesJPA findByPrimaryKeyFull(Long plantillaFluxDeFirmesID) {
     PlantillaFluxDeFirmesJPA plantilla = super.findByPrimaryKey(plantillaFluxDeFirmesID);
     if (plantilla != null) {

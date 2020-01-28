@@ -1642,7 +1642,7 @@ import java.util.Set;
 
     private String getReasonDestinatariDelegat(EntitatJPA entitat, PeticioDeFirmaJPA peticioDeFirma, FirmaJPA firma,
                                                EstatDeFirmaJPA estatDeFirma, UsuariPersona up,
-                                               UsuariAplicacioConfiguracioJPA config, String langSign) {
+                                               UsuariAplicacioConfiguracioJPA config, String langSign)  {
       final String reason;
       Locale localeSign = new Locale(langSign);
       Long colaDeleID = estatDeFirma.getColaboracioDelegacioID();

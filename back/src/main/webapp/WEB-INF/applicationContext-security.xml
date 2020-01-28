@@ -36,6 +36,8 @@
     <sec:intercept-url pattern="/common/rest/apifirmawebsimple/v1/**" access="permitAll"/>
     <sec:intercept-url pattern="/common/rest/apiexternalsignature/v1/**" access="permitAll"/>    
     <sec:intercept-url pattern="/common/rest/revisordefirma/**" access="permitAll"/>
+    <sec:intercept-url pattern="/common/rest/apiflowtemplatesimple/v1/**" access="permitAll"/>
+    <sec:intercept-url pattern="/common/json/usuarientitatrevisor" access="permitAll"/>
     <!-- Nova API REST ASYNC V2 -->
     <sec:intercept-url pattern="/common/rest/apifirmaasyncsimple/v2/**" access="permitAll"/>
 

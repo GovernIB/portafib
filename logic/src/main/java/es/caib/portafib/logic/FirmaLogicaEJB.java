@@ -16,6 +16,7 @@ import es.caib.portafib.model.fields.AnnexFirmatFields;
 import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -43,7 +44,20 @@ public class FirmaLogicaEJB extends FirmaEJB implements FirmaLogicaLocal {
 
   @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
+  
+  @Override
+  @PermitAll
+  public Firma create(Firma instance) throws I18NException {
+    return super.create(instance);
+  }
+  
+  @Override
+  @PermitAll
+  public Firma update(Firma instance) throws I18NException {
+    return super.update(instance);
+  }
 
+  @Override
   public Set<Long> deleteFull(long firmaID) throws I18NException {
     FirmaJPA firma = (FirmaJPA) findByPrimaryKey(firmaID);
     return deleteFull(firma);

@@ -196,7 +196,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     } catch (Throwable th) {
 
       // XYZ ZZZ TRA
-      String msg = "Error desconegut cridant a getTypesOfDocumentsAvailable: "
+      String msg = "Error desconegut cridant a getAvailableLanguages: "
           + th.getMessage();
 
       log.error(msg, th);
@@ -478,7 +478,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
   }
 
-  public class ComparatorBlocDeFirmesJPA implements Comparator<BlocDeFirmesJPA> {
+  public static class ComparatorBlocDeFirmesJPA implements Comparator<BlocDeFirmesJPA> {
 
     @Override
     public int compare(BlocDeFirmesJPA o1, BlocDeFirmesJPA o2) {

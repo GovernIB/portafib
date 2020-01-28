@@ -958,7 +958,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
 
   public void enviarNotificacioMailColaDele(HttpServletRequest request,
-      ColaboracioDelegacio coladele) {
+      ColaboracioDelegacio coladele)  {
     final String entitatID = LoginInfo.getInstance().getEntitatID();
     // El col·laborador s'activa directament
     if (PropietatGlobalUtil.isSendNotificationWhenCreateDelegacioColaboracio(entitatID) && !esDeCarrec()) {

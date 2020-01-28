@@ -18,7 +18,7 @@ import es.caib.portafib.jpa.TraduccioMapJPA;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
-import org.jfree.util.Log;
+
 
 /**
  *  ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! 

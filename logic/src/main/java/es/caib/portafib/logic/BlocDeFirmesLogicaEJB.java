@@ -15,6 +15,7 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.hibernate.Hibernate;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -22,7 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 
+ *
  * @author anadal
  *
  */
@@ -38,12 +39,24 @@ public class BlocDeFirmesLogicaEJB extends BlocDeFirmesEJB
   @EJB(mappedName = "portafib/UsuariEntitatEJB/local", beanName = "UsuariEntitatEJB")
   private UsuariEntitatLocal usuariEntitatEjb;
 
+  @Override
+  @PermitAll
+  public BlocDeFirmes create(BlocDeFirmes instance) throws I18NException {
+    return super.create(instance);
+  }
+  
+  @Override
+  @PermitAll
+  public BlocDeFirmes update(BlocDeFirmes instance) throws I18NException {
+    return super.update(instance);
+  }
+  
 
   @Override
   public BlocDeFirmesJPA createFull(BlocDeFirmesJPA blocDeFirmesJPA) throws I18NException, I18NValidationException {
     Set<FirmaJPA> firmes = blocDeFirmesJPA.getFirmas();
     //blocDeFirmesJPA.setFirmas(null);
-    
+
     blocDeFirmesJPA.setBlocDeFirmesID(0);
     BlocDeFirmes blocBD = create(blocDeFirmesJPA);
     long blocID = blocBD.getBlocDeFirmesID();

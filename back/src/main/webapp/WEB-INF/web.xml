@@ -204,6 +204,8 @@
             <url-pattern>/common/rest/apifirmawebsimple/v1/*</url-pattern>
             <url-pattern>/common/rest/apiexternalsignature/v1/*</url-pattern>
             <url-pattern>/common/rest/revisordefirma/*</url-pattern>
+            <url-pattern>/common/rest/apiflowtemplatesimple/v1/*</url-pattern>
+            <url-pattern>/common/json/usuarientitatrevisor</url-pattern>
             <!-- Nova API REST ASYNC V2 -->
             <url-pattern>/common/rest/apifirmaasyncsimple/v2/*</url-pattern>
 

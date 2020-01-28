@@ -1,9 +1,9 @@
 package es.caib.portafib.logic;
 
 import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.logic.utils.PortaFIBTimeStampInfo;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
@@ -162,7 +162,7 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
   
       ITimeStampGenerator timeStampGenerator = new PortaFIBTimeStampGenerator(plugin);
       
-      String absoluteURL = LogicUtils.getUrlBase(perfilDeFirma);
+      String absoluteURL = PropietatGlobalUtil.getUrlBaseForSignatureModule(perfilDeFirma);
       String timeStampUrl = getTimeStampUrl(absoluteURL, pluginSegellatID);
       
       info = new PortaFIBTimeStampInfo(timeStampGenerator, timeStampUrl);

@@ -155,26 +155,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
     return folderTransaction;
   }
 
-  protected String internalGetTransacction() {
-    String transactionID;
-    synchronized (this) {
-      try {
-        Thread.sleep(100);
-      } catch (InterruptedException e) {
-      }
 
-      transactionID = System.currentTimeMillis() + "" + System.nanoTime();
-      transactionID = org.fundaciobit.pluginsib.core.utils.Base64.encode(transactionID)
-          .toLowerCase();
-      transactionID = transactionID.replaceAll("=", "");
-
-    }
-
-    if (log.isDebugEnabled()) {
-      log.info(" Creada transacció amb ID = |" + transactionID + "|");
-    }
-    return transactionID;
-  }
 
   public FirmaSimpleSignatureResult convertPassarelaSignatureResult2FirmaSimpleSignatureResult(
       PassarelaSignatureResult psr, PassarelaCommonInfoSignature commonInfo,

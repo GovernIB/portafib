@@ -36,7 +36,7 @@ public interface ApiFirmaAsyncSimple {
   public static final String SIGNEDFILEOFSIGNATUREREQUEST = "getSignedFileOfSignatureRequest";
 
   public static final String DELETESIGNATUREREQUEST = "deleteSignatureRequest";
-
+  
   /**
    * 
    * @param languageUI

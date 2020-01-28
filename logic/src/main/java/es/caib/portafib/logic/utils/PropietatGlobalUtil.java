@@ -1,6 +1,7 @@
 package es.caib.portafib.logic.utils;
 
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
+import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -235,6 +236,11 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     return val;
   }
 
+  
+  public static final String SIGNATUREMODULEABSOLUTEURL = "signaturemodule.absoluteurl";
+  
+  public static final String FLOWTEMPLATEABSOLUTEURL = "flowtemplate.absoluteurl";
+  
   /**
    * 
    * Opcional. Si no es defineix llavors obté la URL absoluta de la petició (Pot haver-hi
@@ -247,14 +253,60 @@ public class PropietatGlobalUtil implements ConstantsV2 {
    * 
    * @return
    */
+  /*
   public static String getSignatureModuleAbsoluteURL() {
-    final String partialPropertyName = "signaturemodule.absoluteurl";
-    String val = getString(partialPropertyName);
+    String val = getString(SIGNATUREMODULEABSOLUTEURL);
     if (log.isDebugEnabled()) {
       log.debug("getSignatureModuleAbsoluteURL() = " + val);
     }
     return val;
   }
+  */
+
+  
+  public static String getUrlBaseForFlowTemplate() throws I18NException {
+    return getUrlBase(null, FLOWTEMPLATEABSOLUTEURL);
+  }
+  
+  
+  public static String getUrlBaseForSignatureModule(final PerfilDeFirma perfilDeFirma) throws I18NException {
+    return getUrlBase(perfilDeFirma, SIGNATUREMODULEABSOLUTEURL);
+  }
+
+    
+  protected static String getUrlBase(final PerfilDeFirma perfilDeFirma,
+      final String partialKeyProperty) throws I18NException {
+    String urlBase;
+
+    if (perfilDeFirma == null) {
+      urlBase = null;
+    } else {
+      urlBase = perfilDeFirma.getUrlBase();
+    }
+
+    if (urlBase == null) {
+      urlBase = getString(partialKeyProperty);
+      if (log.isDebugEnabled()) {
+        log.debug("PropertyValue(" + partialKeyProperty + ") = " + urlBase);
+      }
+    }
+
+    if (urlBase == null) {
+      
+      if (perfilDeFirma == null) {
+        throw new I18NException("error.nobaseurl", ConstantsV2.PORTAFIB_PROPERTY_BASE + partialKeyProperty);
+      } else {
+        throw new I18NException("error.nobaseurl.perfil", perfilDeFirma.getCodi(),
+            ConstantsV2.PORTAFIB_PROPERTY_BASE + partialKeyProperty);
+      }
+    }
+
+    return urlBase;
+  }
+  
+  
+  
+  
 
   /**
    * És l'adreça pública d'accés al portafirmes. Es requereix fonamentalment per l''inclusió de

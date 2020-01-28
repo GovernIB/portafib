@@ -8,14 +8,15 @@
 
   <modules>
 
-    <!-- Llibreries de Firma Simple, Firma Asincrona Simple, Firma Web i Firma en Servidor -->
+    <!-- Llibreries de Firma Simple, Firma Asincrona Simple, Firma Web i Firma en Servidor
     <module>pluginsib-signatureserver</module>
     <module>pluginsib-signatureweb</module>
     <module>apisib</module>
     <module>apifirmasimple</module>
-    <module>apifirmaasyncsimple</module> 
+    <module>apifirmaasyncsimple</module> -->
+    <module>apiplantillafluxsimple</module>    
 
-    <!-- PortaFIB -->
+    <!-- PortaFIB 
     <module>utils</module>
     <module>persistence</module>
     <module>model</module>
@@ -23,7 +24,7 @@
     <module>ejb</module>
     <module>ws</module>
     <module>scripts</module>
-    <module>testjpa</module>
+    <module>testjpa</module>-->
     <module>logic</module>
     <module>back</module>
     <module>ear</module>
@@ -75,7 +76,7 @@
   <properties>
     <version_txt_template_file>./scripts/templates/versio.txt.template</version_txt_template_file>
     <version_txt_file>./versio.txt</version_txt_file>
-    <portafib.version>2.0.5</portafib.version>
+    <portafib.version>2.0.6</portafib.version>
 
     <plugins.version>2.0.0</plugins.version>
     <plugins.signatureserver.version>3.0.0</plugins.signatureserver.version>

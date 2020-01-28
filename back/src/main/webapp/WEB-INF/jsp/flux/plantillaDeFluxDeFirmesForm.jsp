@@ -7,6 +7,8 @@
 }
 </style>
 
+
+
 <c:set var="contexte" value="${fluxDeFirmesForm.contexte}" />
 
 <%--                  VARIABLE 'usuariEntitat'                         --%>
@@ -93,8 +95,10 @@
       </c:if>
 
         <%@include file="../webdb/fluxDeFirmesFormCorePost.jsp" %>
-
-        <%@include file="../webdb/fluxDeFirmesFormButtons.jsp" %>
+        
+        <c:if test="${fluxDeFirmesForm.nou || (not isPlantillaRest && not fluxDeFirmesForm.nou)}">
+           <%@include file="../webdb/fluxDeFirmesFormButtons.jsp" %>
+        </c:if>
 
         <br/>
   
@@ -104,6 +108,17 @@
 
       <!-- No mostram el flux si estam en NOU  -->
       <c:if test="${!fluxDeFirmesForm.nou}">
+      
+        <%-- XYZ ZZZ Si estam amb flux rest llavors mostrar boto de OK i Cancelar  --%>
+        
+        <c:if test="${isPlantillaRest && not readOnly}">
+        <center>
+        <a href="<c:url value="${contexte}/finalRestOK"/>" class="btn btn-large btn-primary disabled"> <fmt:message key="genapp.save" /> </a>
+        <a href="<c:url value="${contexte}/finalRestCanceled"/>" class="btn btn-large btn-primary disabled"><fmt:message key="genapp.cancel" /></a>
+        </center>
+        </c:if>
+        
+      
         <center>
           <c:if test="${readOnly == false || onlyFlux == false}">            
             <hr />

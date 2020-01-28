@@ -114,13 +114,38 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
 
   
   @Override
-  public UsuariEntitatJPA findByPrimaryKeyFull(String usuariEntitatID) {
+  public UsuariEntitatJPA findByPrimaryKeyFull(String usuariEntitatID)  {
     return findByPrimaryKeyFull(this, usuariEntitatID); 
   }
   
   public static UsuariEntitatJPA findByPrimaryKeyFull(UsuariEntitatLocal usuariEntitatEjb,
-      String usuariEntitatID) {
-    UsuariEntitatJPA ue = (UsuariEntitatJPA) usuariEntitatEjb.findByPrimaryKey(usuariEntitatID);
+      String usuariEntitatID)  {
+    UsuariEntitatJPA ue;
+    
+    try {
+      ue = (UsuariEntitatJPA) usuariEntitatEjb.findByPrimaryKey(usuariEntitatID);
+    } catch (javax.ejb.EJBAccessException e) {
+      
+      List<UsuariEntitat> list; 
+      try {
+        list = usuariEntitatEjb.select(UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID));
+        
+        if (list != null && list.size() != 0) {
+          ue = (UsuariEntitatJPA)list.get(0);
+        } else {
+          ue = null;
+        }
+        
+      } catch (I18NException e1) {
+        System.err.println("Error cercant UsuariEntitat amb ID " + usuariEntitatID);
+        e1.printStackTrace(System.err);
+        ue = null;
+      }
+      
+      
+    }
+    
+   
     if (ue != null) {
       Hibernate.initialize(ue.getUsuariPersona());
       Hibernate.initialize(ue.getUsuariEntitatFavorit_favoritids());

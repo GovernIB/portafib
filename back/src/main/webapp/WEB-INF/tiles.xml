@@ -152,6 +152,20 @@
         <put-attribute name="titol" value="SignatureWebContainer" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor.jsp" />
     </definition>
+    
+    
+    <definition name="PlantillaDeFluxDeFirmesFormRest" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp">
+        <put-attribute name="titol" value="plantillaFluxDeFirmes.plantillaFluxDeFirmes" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesForm.jsp" />
+    </definition>
+    
+    <definition name="PlantillaDeFluxDeFirmesListRest" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesList.jsp" />
+    </definition>
+    
+    <definition name="PlantillaDeFluxDeFirmesFormRestPopup" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesForm.jsp" />
+    </definition>
 
 
     <!--  ===========  WEBDB ================== -->
@@ -411,8 +425,7 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
     </definition>
     
-    
-   <definition name="PlantillaDeFluxDeFirmesFormAden" extends="role_aden">
+    <definition name="PlantillaDeFluxDeFirmesFormAden" extends="role_aden">
         <put-attribute name="titol" value="plantillaFluxDeFirmes.plantillaFluxDeFirmes" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesForm.jsp" />
     </definition>

@@ -25,7 +25,6 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.passarela.api.PassarelaValidationInfo;
 import es.caib.portafib.logic.utils.CustodiaForStartPeticioDeFirma;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
-import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.logic.utils.ValidacioCompletaRequest;
@@ -122,7 +121,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       int origenPeticioDeFirma) throws I18NException,
       I18NValidationException {
 
-    final String urlBase = LogicUtils.getUrlBase(perfilDeFirma);
+    final String urlBase = PropietatGlobalUtil.getUrlBaseForSignatureModule(perfilDeFirma);
 
     // Validar
     SignaturesSetBeanValidator ssbv = new SignaturesSetBeanValidator(validator, this,

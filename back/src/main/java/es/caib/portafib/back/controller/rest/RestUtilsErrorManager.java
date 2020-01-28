@@ -66,4 +66,26 @@ public class RestUtilsErrorManager extends RestUtils {
 
     return loginInfo;
   }
+  
+  protected String internalGetTransacction() {
+    String transactionID;
+    synchronized (this) {
+      try {
+        Thread.sleep(100);
+      } catch (InterruptedException e) {
+      }
+
+      transactionID = System.currentTimeMillis() + "" + System.nanoTime();
+      transactionID = org.fundaciobit.pluginsib.core.utils.Base64.encode(transactionID)
+          .toLowerCase();
+      transactionID = transactionID.replaceAll("=", "");
+
+    }
+
+    if (log.isDebugEnabled()) {
+      log.info(" Creada transacció amb ID = |" + transactionID + "|");
+    }
+    return transactionID;
+  }
+  
 }

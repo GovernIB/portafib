@@ -1,8 +1,6 @@
 package es.caib.portafib.logic;
 
-import es.caib.portafib.ejb.FirmaLocal;
 import es.caib.portafib.ejb.FluxDeFirmesEJB;
-import es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal;
 import es.caib.portafib.ejb.UsuariEntitatLocal;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;
 import es.caib.portafib.jpa.FirmaJPA;
@@ -38,6 +36,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.LazyInitializationException;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.ArrayList;
@@ -61,14 +60,14 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
   @EJB(mappedName = "portafib/UsuariEntitatEJB/local", beanName = "UsuariEntitatEJB")
   protected UsuariEntitatLocal usuariEntitatEjb;
 
-  @EJB(mappedName = "portafib/FirmaEJB/local", beanName = "FirmaEJB")
-  private FirmaLocal firmaEjb;
+  @EJB(mappedName = "portafib/FirmaLogicaEJB/local", beanName = "FirmaLogicaEJB")
+  private FirmaLogicaLocal firmaLogicaEjb;
 
   @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local", beanName = "PeticioDeFirmaEJB")
   protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
   
-  @EJB(mappedName = PlantillaFluxDeFirmesLocal.JNDI_NAME, beanName = "PlantillaFluxDeFirmesEJB")
-  protected PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;
+  @EJB(mappedName = PlantillaFluxDeFirmesLogicaLocal.JNDI_NAME, beanName = "PlantillaFluxDeFirmesLogicaEJB")
+  protected PlantillaFluxDeFirmesLogicaLocal plantillaFluxDeFirmesLogicaEjb;
   
   @EJB(mappedName = es.caib.portafib.ejb.PermisUsuariPlantillaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PermisUsuariPlantillaLocal permisUsuariPlantillaEjb;
@@ -81,6 +80,8 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
 
   protected BlocDeFirmesValidator<BlocDeFirmesJPA> validatorBloc = new BlocDeFirmesValidator<BlocDeFirmesJPA>(); 
 
+  @PermitAll
+  @Override
   public FluxDeFirmesJPA createFull(FluxDeFirmesJPA flux) throws I18NException, I18NValidationException {
     // Checks
     if (flux == null) {
@@ -124,7 +125,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
     // Crear plantilla si es requereix
     if (pff != null) {
       pff.setFluxDeFirmesID(fluxBD.getFluxDeFirmesID());
-      plantillaFluxDeFirmesEjb.create(pff);
+      plantillaFluxDeFirmesLogicaEjb.create(pff);
     }
 
     // Validador blocs
@@ -191,6 +192,8 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
 
   
 
+
+  @Override
   public FluxDeFirmesJPA findByPrimaryKeyFull(Long fluxDeFirmesID) {
     FluxDeFirmesJPA flux = super.findByPrimaryKey(fluxDeFirmesID);
     if (flux != null) {
@@ -362,7 +365,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
     
 
     // Esborrar Plantilla         
-    plantillaFluxDeFirmesEjb.delete(
+    plantillaFluxDeFirmesLogicaEjb.delete(
         PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.equal(fluxDeFirmesID));
 
     // Esborrar Flux De Firmes
@@ -374,6 +377,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
     return files;
   }
   
+  @PermitAll
   @Override
   public BlocDeFirmesJPA afegirBlocDeFirmesAFlux(long fluxDeFirmesID,
       String usuariEntitatID, int blocOrdre) throws I18NException {
@@ -398,7 +402,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
     firma.setUsuariEntitat(usuariEntitat);
     firma.setObligatori(true);
     
-    firma = (FirmaJPA)firmaEjb.create(firma);
+    firma = (FirmaJPA)firmaLogicaEjb.create(firma);
     
     bloc.getFirmas().add(firma);
     
@@ -432,7 +436,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
       final boolean isNou = false;
       validatePlantillaFluxDeFirmes(flux, isNou, pff);
       
-      plantillaFluxDeFirmesEjb.update(pff);
+      plantillaFluxDeFirmesLogicaEjb.update(pff);
       
       if (pff.getCompartir() != null) {
         // Eliminar usuaris i grups que tenen permis sobre aquesta plantilla
@@ -460,14 +464,14 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
 
     
     PlantillaFluxDeFirmes plantillaFlux;
-    plantillaFlux = plantillaFluxDeFirmesEjb.findByPrimaryKey(fluxDeFirmesID);
+    plantillaFlux = plantillaFluxDeFirmesLogicaEjb.findByPrimaryKey(fluxDeFirmesID);
     
     HashSet<Long>  fitxers = new HashSet<Long>();
     
     if (plantillaFlux != null) {
       fitxers.addAll(this.deleteFull(fluxDeFirmesID));
       
-      plantillaFluxDeFirmesEjb.delete(plantillaFlux);
+      plantillaFluxDeFirmesLogicaEjb.delete(plantillaFlux);
     }
     
     return fitxers;

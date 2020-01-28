@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>apiplantillafluxsimple-jersey</artifactId>
+  <groupId>org.fundaciobit.apisib.apiplantillafluxsimple</groupId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>FundacioBit - ApisIB - API Plantilla Flux Simple - Connection Manager Jersey</name>
+
+  <parent>
+    <artifactId>apiplantillafluxsimple</artifactId>
+    <groupId>org.fundaciobit.apisib.apiplantillafluxsimple</groupId>
+    <version>1.0.0</version>
+  </parent>
+
+  <properties>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <artifactId>apiplantillafluxsimple-api</artifactId>
+      <groupId>org.fundaciobit.apisib.apiplantillafluxsimple</groupId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>apisib-jerseycore</artifactId>
+      <groupId>org.fundaciobit.apisib.jerseycore</groupId>
+      <version>1.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>
+    </dependency>
+
+  </dependencies>
+
+</project>

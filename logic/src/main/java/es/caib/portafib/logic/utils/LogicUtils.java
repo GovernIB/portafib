@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
-import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.versio.Versio;
 
@@ -23,26 +22,6 @@ public class LogicUtils {
 
   public static String getVersio() {
     return Versio.VERSIO + (Configuracio.isCAIB() ? "-caib" : "");
-  }
-
-  public static String getUrlBase(final PerfilDeFirma perfilDeFirma) throws I18NException {
-    String urlBase;
-
-    if (perfilDeFirma == null) {
-      urlBase = null;
-    } else {
-      urlBase = perfilDeFirma.getUrlBase();
-    }
-
-    if (urlBase == null) {
-      urlBase = PropietatGlobalUtil.getSignatureModuleAbsoluteURL();
-    }
-
-    if (urlBase == null) {
-      throw new I18NException("error.nobaseurl", perfilDeFirma.getCodi());
-    }
-
-    return urlBase;
   }
 
   public static void checkExpectedNif(String nifFirmant, String expectedNif)

@@ -125,6 +125,10 @@ public class PropietatsConstants {
           "Modificat a la versió 2.0.0 Opcional. És utilitzada pels Mòduls de Firma que necessitin accedir al PortaFIB de forma remota. En principi és idèntica a la propietat  «es.caib.portafib.url». S'utilitza quan la URL Base del Perfil de Firma no està definida."),
       new Propietat(
           true,
+          "es.caib.portafib.flowtemplate.absoluteurl",
+          "Opcional. És utilitzada per l'API REST de Plantilla de Flux quan s'ha d'enviar la ruta al PortaFIB."),
+      new Propietat(
+          true,
           "es.caib.portafib.notificationwhencreatedelegaciocolaboracio",
           "Nou a la versió 1.1.1 .Opcional. Indica si s’han d’enviar avisos via correu electrònic als delegats o col·laboradors quan són assignats per un destinatari. Existeix la mateix propietat però per aplicar a una sola entitat (Veure punt .-)"),
       new Propietat(
