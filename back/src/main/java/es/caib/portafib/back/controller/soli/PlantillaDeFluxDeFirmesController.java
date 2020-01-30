@@ -33,6 +33,10 @@ import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -48,6 +52,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import es.caib.portafib.back.controller.common.PlantillaDeFluxDeFirmesRestController;
 import es.caib.portafib.back.controller.common.SearchJSONController;
@@ -76,6 +81,7 @@ import es.caib.portafib.jpa.FluxDeFirmesJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
 import es.caib.portafib.jpa.RevisorDeFirmaJPA;
+import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.BlocDeFirmesLogicaLocal;
 import es.caib.portafib.logic.FirmaLogicaLocal;
@@ -264,6 +270,10 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     return mav;
 
   }
+  
+
+  
+  
 
   @RequestMapping(value = "/viewonlyflux/{fluxDeFirmesID}", method = RequestMethod.GET)
   public ModelAndView viewOnlyFluxDeFirmesGet(

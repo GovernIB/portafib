@@ -31,6 +31,7 @@ public class FlowTemplateSimpleStartTransactionRequest {
   public FlowTemplateSimpleStartTransactionRequest(String transactionID, String returnUrl) {
     this.transactionID = transactionID;
     this.returnUrl = returnUrl;
+
   }
 
   public String getReturnUrl() {

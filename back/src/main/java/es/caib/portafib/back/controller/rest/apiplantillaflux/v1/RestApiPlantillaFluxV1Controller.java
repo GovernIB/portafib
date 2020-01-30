@@ -19,10 +19,12 @@ import javax.ws.rs.core.MediaType;
 
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.ApiFlowTemplateSimple;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleBlock;
+import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleEditFlowTemplateRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleExternalSigner;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleFilterGetAllByFilter;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleFlowTemplate;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleFlowTemplateList;
+import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleFlowTemplateRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleGetFlowResultResponse;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleGetTransactionIdRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleKeyValue;
@@ -369,15 +371,18 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public ResponseEntity<?> getFlowInfoByFlowTemplateID(HttpServletRequest request,
-      @RequestBody String encryptedFlowTemplateID) {
+      @RequestBody FlowTemplateSimpleFlowTemplateRequest flowTemplateRequest) {
 
+    
     String error = autenticateUsrApp(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
 
     // XYZ ZZZ Canviar per idioma per defecte
-    String languageUI = "ca";
+    String languageUI = flowTemplateRequest.getLanguageUI();
+    
+    String encryptedFlowTemplateID = flowTemplateRequest.getFlowTemplateId();
 
     try {
       log.info(" XYZ ZZZ eNTRA A getFlowInfoByFlowTemplateID => flowTemplateID: "
@@ -707,6 +712,153 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
       return generateServerError(msg, th);
     }
   }
+  
+  
+  
+  @RequestMapping(value = "/"
+      + ApiFlowTemplateSimple.GETURLTOEDITFLOWTEMPLATE, method = RequestMethod.POST)
+  @ResponseBody
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public ResponseEntity<?> getUrlToEditFlowTemplate(
+      @RequestBody FlowTemplateSimpleEditFlowTemplateRequest editFlowTemplate,
+      HttpServletRequest request, HttpServletResponse response) {
+
+    String error = autenticateUsrApp(request);
+    if (error != null) {
+      return generateServerError(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    try {
+      
+      
+      String transactionID = internalGetTransacction();
+
+      
+      String fluxDeFirmesIDStr = editFlowTemplate.getFlowTemplateId();
+      String languageUI = editFlowTemplate.getLanguageUI();
+      
+      java.lang.Long fluxDeFirmesID;
+
+      FileIDEncrypter encrypter = HibernateFileUtil.getEncrypter();
+      try {
+        fluxDeFirmesID = Long.parseLong(encrypter.decrypt(fluxDeFirmesIDStr));
+      } catch (Exception e) {
+        // XYZ ZZZ TRA
+        throw new I18NException("genapp.comodi",
+            "Error desencriptant identificador de Flux de Firmes");
+      }
+      
+      
+     
+      
+
+      // Verificar que existeix
+      FluxDeFirmesJPA flux = fluxDeFirmesLogicaEjb.findByPrimaryKeyFullForPlantilla(fluxDeFirmesID);
+      
+      if (flux == null) {
+        // XYZ ZZZ TRA
+        String msg = "No existeix la plantilla de Flux de Firmes amb ID " + fluxDeFirmesIDStr;
+        
+        log.error(msg + "( ID BBDD => " + fluxDeFirmesID + ")");
+        
+        throw new I18NException("genapp.comodi", msg);
+      }
+
+      String name = flux.getNom();
+      String description = flux.getPlantillaFluxDeFirmes().getDescripcio(); 
+      boolean visibleDescription = false;
+      
+      FlowTemplateSimpleGetTransactionIdRequest transactionIDRequest;
+      transactionIDRequest = new FlowTemplateSimpleGetTransactionIdRequest(languageUI, true, name, description, visibleDescription);
+      
+      FlowTemplateSimpleStartTransactionRequest startTransactionInfo;
+      startTransactionInfo = new FlowTemplateSimpleStartTransactionRequest(transactionID, editFlowTemplate.getReturnUrl());
+      
+      TransactionInfo info = new TransactionInfo(transactionID, usuariAplicacioCache.get(), transactionIDRequest);
+      
+      info.setStartTransactionInfo(startTransactionInfo);
+      info.setFluxDeFirmesID(fluxDeFirmesID);
+
+      currentTransactions.put(transactionID, info);
+ 
+
+      // String usuariAplicacioID = usuariAplicacioCache.get().getUsuariAplicacioID();
+      // XYZ ZZZ ZZZ REVISAR CERTA CACHE PER SEGURETAT !!!!
+      String result = PropietatGlobalUtil.getUrlBaseForFlowTemplate()
+          + PlantillaDeFluxDeFirmesRestController.CONTEXT + "/editflux/"
+          + transactionID; 
+
+      HttpHeaders headers = addAccessControllAllowOrigin();
+      ResponseEntity<?> re = new ResponseEntity<String>(result, headers, HttpStatus.OK);
+      log.info(" XYZ ZZZ surt de  getUrlToEditFlowTemplate => FINAL");
+
+      return re;
+
+    } catch (Throwable th) {
+      
+      // XYZ ZZZ ZZZZ
+      final String msg = "Error desconegut intentant recuperar informació "
+          + "dels Flux de Firmes d'un uauari apicació:" + th.getMessage();
+
+      log.error(msg, th);
+
+      return generateServerError(msg, th);
+    }
+  }
+  
+  
+  
+  @RequestMapping(value = "/"
+      + ApiFlowTemplateSimple.DELETEFLOWTEMPLATE, method = RequestMethod.POST)
+  @ResponseBody
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public ResponseEntity<?> deleteFlowTemplate(
+      @RequestBody FlowTemplateSimpleFlowTemplateRequest flowTemplaterequest,
+      HttpServletRequest request, HttpServletResponse response) {
+
+    String error = autenticateUsrApp(request);
+    if (error != null) {
+      return generateServerError(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    try {
+
+      Long fluxDeFirmesID;
+
+      FileIDEncrypter encrypter = HibernateFileUtil.getEncrypter();
+      try {
+        fluxDeFirmesID = Long.parseLong(encrypter.decrypt(flowTemplaterequest.getFlowTemplateId()));
+      } catch (Exception e) {
+        throw new I18NException("genapp.comodi",
+            "Error desencriptant identificador de Flux de Firmes");
+      }
+
+      fluxDeFirmesLogicaEjb.deleteFull(fluxDeFirmesID);
+
+      Boolean result = true;
+
+      HttpHeaders headers = addAccessControllAllowOrigin();
+      ResponseEntity<?> re = new ResponseEntity<Boolean>(result, headers, HttpStatus.OK);
+      log.info(" XYZ ZZZ surt de  getTransactionStatus => FINAL");
+
+      return re;
+
+    } catch (Throwable th) {
+
+      // XYZ ZZZ ZZZZ
+      final String msg = "Error desconegut intentant esborrar Plantilla de "
+          + " Flux de Firmes d'un usuari apicació:" + th.getMessage();
+
+      log.error(msg, th);
+
+      return generateServerError(msg, th);
+    }
+  }
+  
+  
+  
 
   protected void internalCloseTransaction(String transactionID) {
 

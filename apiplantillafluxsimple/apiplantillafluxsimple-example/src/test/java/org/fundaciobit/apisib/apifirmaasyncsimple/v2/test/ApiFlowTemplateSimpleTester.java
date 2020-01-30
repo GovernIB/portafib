@@ -19,9 +19,11 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.ApiFlowTemplateSimple;
+import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleEditFlowTemplateRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleFilterGetAllByFilter;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleFlowTemplate;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleFlowTemplateList;
+import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleFlowTemplateRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleGetFlowResultResponse;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleGetTransactionIdRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleKeyValue;
@@ -56,13 +58,13 @@ public class ApiFlowTemplateSimpleTester {
       api = getApiFlowTemplateSimple(prop);
 
       // Crear Flux
-      final boolean saveOnServer = isSaveOnServer(prop);
-      testCrearFluxDeFirma(api, languageUI, saveOnServer);
+      //final boolean saveOnServer = isSaveOnServer(prop);
+      //testCrearFluxDeFirma(api, languageUI, saveOnServer);
 
       // Llistar Plantilles
-      //String lastKey;
+      String lastKey;
 
-      // lastKey = llistarFluxDeFirmes(api, languageUI);
+      lastKey = llistarFluxDeFirmes(api, languageUI);
       
       // Llistar Plantilles amb filtre
       //String name = "API REST";
@@ -71,10 +73,17 @@ public class ApiFlowTemplateSimpleTester {
 
       // Mostrar Flux de Firmes
       // mostarFluxDeFirmes(api, languageUI, lastKey);
+      
+      // Editar Flux de Firmes
+      //lastKey = "kWuDt8W-mTGUEawp66KjdA==";
+      //editarFluxDeFirmes(api, languageUI, lastKey);
 
       // Mostrar detalls de flux
       //lastKey = "kWuDt8W-mTGUEawp66KjdA==";
-      //mostarFluxDeFirmesInfo(api, languageUI, lastKey);
+      //descarregarFluxDeFirmesInfo(api, languageUI, lastKey);
+      
+      lastKey = "CZm4Cx7uzSOZXGCAC_46vw==";
+      esborrarFluxDeFirmes(api, languageUI, lastKey);
 
     } catch (Exception e) {
       // TODO: handle exception
@@ -97,18 +106,54 @@ public class ApiFlowTemplateSimpleTester {
       System.out.println("Per favor obri un Navegador i copia-li la URL anterior ...");
     }
   }
+  
+  
+  protected static void editarFluxDeFirmes(ApiFlowTemplateSimple api, final String languageUI,
+      String lastKey) throws AbstractApisIBException, IOException, URISyntaxException {
+    FlowTemplateSimpleEditFlowTemplateRequest viewFlowRequest;
+    viewFlowRequest = new FlowTemplateSimpleEditFlowTemplateRequest(languageUI, lastKey, "http://google.es");
+    String url = api.getUrlToEditFlowTemplate(viewFlowRequest);
 
-  protected static void mostarFluxDeFirmesInfo(ApiFlowTemplateSimple api,
+    System.out.println();
+    System.out.println("Edit Flow Template Url = " + url);
+
+    if (Desktop.isDesktopSupported()) {
+      Desktop.getDesktop().browse(new URI(url));
+    } else {
+      System.out.println("Per favor obri un Navegador i copia-li la URL anterior ...");
+    }
+  }
+
+  protected static void descarregarFluxDeFirmesInfo(ApiFlowTemplateSimple api,
       final String languageUI, String lastKey)
       throws AbstractApisIBException, IOException, URISyntaxException {
+    
+    FlowTemplateSimpleFlowTemplateRequest request;
+    request = new FlowTemplateSimpleFlowTemplateRequest(languageUI, lastKey);
 
-    FlowTemplateSimpleFlowTemplate flow = api.getFlowInfoByFlowTemplateID(lastKey);
+    FlowTemplateSimpleFlowTemplate flow = api.getFlowInfoByFlowTemplateID(request);
 
     System.out.println(" Flow Template Info = " + flow.getName());
 
     System.out.println(FlowTemplateSimpleFlowTemplate.toString(flow));
 
   }
+  
+  
+  
+  protected static void esborrarFluxDeFirmes(ApiFlowTemplateSimple api,
+      final String languageUI, String lastKey)
+      throws AbstractApisIBException, IOException, URISyntaxException {
+    
+    FlowTemplateSimpleFlowTemplateRequest flowTemplateRequest;
+    flowTemplateRequest = new FlowTemplateSimpleFlowTemplateRequest(languageUI, lastKey);
+
+    boolean esborrat = api.deleteFlowTemplate(flowTemplateRequest);
+
+    System.out.println("Delete  Flow Template Info = " + esborrat);
+
+  }
+
 
   
   
@@ -188,7 +233,8 @@ public class ApiFlowTemplateSimpleTester {
 
       int port = 1989 + (int) (Math.random() * 100.0);
       final String returnUrl = "http://localhost:" + port + "/returnurl/" + transactionID;
-
+      
+      // Per ara només suportam FULLVIEW
       FlowTemplateSimpleStartTransactionRequest startTransactionInfo;
       startTransactionInfo = new FlowTemplateSimpleStartTransactionRequest(transactionID,
           returnUrl);

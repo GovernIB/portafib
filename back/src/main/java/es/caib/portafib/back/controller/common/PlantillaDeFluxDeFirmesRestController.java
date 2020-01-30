@@ -79,13 +79,54 @@ public class PlantillaDeFluxDeFirmesRestController extends PlantillaDeFluxDeFirm
   @RequestMapping(value = "/new/{transactionID}", method = RequestMethod.GET)
   public ModelAndView createFromRestRequest(
       @PathVariable("transactionID") String transactionID, HttpServletRequest request,
-      HttpServletResponse response) throws Exception {
+      HttpServletResponse response) throws I18NException {
+    
+    initializeRestLoginInfo(transactionID, request);
 
+    return new ModelAndView(new RedirectView(getContextWeb() + "/new", true));
+  }
+  
+  /**
+   * NOMES PER REST
+   * @param fluxDeFirmesIDStr
+   * @param request
+   * @param response
+   * @return
+   * @throws I18NException
+   */
+  @RequestMapping(value = "/editflux/{transactionID}", method = RequestMethod.GET)
+  public ModelAndView editFluxDeFirmesRest(
+      @PathVariable("transactionID") String transactionID, HttpServletRequest request,
+      HttpServletResponse response) throws I18NException {
+
+//   request.getSession().setAttribute(
+//        PlantillaDeFluxDeFirmesRestController.SESSION_TRANSACTION_ID_FLOW_TEMPLATE_REST, transactionID);
+//
+//    TransactionInfo restTransaction = RestApiPlantillaFluxV1Controller.currentTransactions
+//          .get(transactionID);
+//    
+    
+    Long fluxDeFirmesID = initializeRestLoginInfo(transactionID, request);
+    
+    
+    ModelAndView mav = new ModelAndView(
+        new RedirectView(getContextWeb() + "/" + fluxDeFirmesID + "/edit", true));
+
+    return mav;
+
+  }
+  
+  
+  
+  protected Long initializeRestLoginInfo(String transactionID, HttpServletRequest request)
+      throws I18NException {
+    
     TransactionInfo ti = RestApiPlantillaFluxV1Controller.currentTransactions
         .get(transactionID);
 
     if (ti == null) {
-      throw new Exception(
+      // XYZ ZZZ ZZZ
+      throw new I18NException("genapp.comodi",
           "No es troba la transacció de Rest Flow Template amb ID " + transactionID);
     }
 
@@ -105,11 +146,13 @@ public class PlantillaDeFluxDeFirmesRestController extends PlantillaDeFluxDeFirm
     // and set the authentication of the current Session context
     SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
 
-    request.getSession().setAttribute(SESSION_TRANSACTION_ID_FLOW_TEMPLATE_REST,
+    request.getSession().setAttribute(PlantillaDeFluxDeFirmesRestController.SESSION_TRANSACTION_ID_FLOW_TEMPLATE_REST,
         ti.getTransactionID());
-
-    return new ModelAndView(new RedirectView(getContextWeb() + "/new", true));
+    
+    return ti.getFluxDeFirmesID();
   }
+  
+
 
   @RequestMapping(value = "/finalRestOK", method = RequestMethod.GET)
   public ModelAndView finalRestOK(HttpServletRequest request, HttpServletResponse response)

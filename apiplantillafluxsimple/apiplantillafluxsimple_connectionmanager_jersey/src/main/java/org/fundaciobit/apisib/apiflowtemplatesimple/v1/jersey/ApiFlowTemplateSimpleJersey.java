@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.ApiFlowTemplateSimple;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleGetFlowResultResponse;
+import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleEditFlowTemplateRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleError;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleFilterGetAllByFilter;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleFlowTemplate;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleFlowTemplateList;
+import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleFlowTemplateRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleGetTransactionIdRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleKeyValue;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleViewFlowTemplateRequest;
@@ -158,6 +160,34 @@ public class ApiFlowTemplateSimpleJersey
 
     return result;
   }
+  
+  
+  @Override
+  public String getUrlToEditFlowTemplate(
+      FlowTemplateSimpleEditFlowTemplateRequest editFlowRequest)
+      throws AbstractApisIBException {
+    ClientResponse response = commonCall(editFlowRequest, GETURLTOEDITFLOWTEMPLATE);
+
+    String result = response.getEntity(String.class);
+    
+    result = cleanString(result);
+
+    return result;
+  }
+  
+  
+  @Override
+  public boolean deleteFlowTemplate(
+      FlowTemplateSimpleFlowTemplateRequest deleteFlowRequest)
+      throws AbstractApisIBException {
+    ClientResponse response = commonCall(deleteFlowRequest, DELETEFLOWTEMPLATE);
+
+    boolean result = response.getEntity(Boolean.class);
+
+    return result;
+  }
+  
+  
 
   @Override
   protected Class<FlowTemplateSimpleError> getErrorClass() {
@@ -176,10 +206,10 @@ public class ApiFlowTemplateSimpleJersey
   }
 
   @Override
-  public FlowTemplateSimpleFlowTemplate getFlowInfoByFlowTemplateID(String flowTemplateID)
+  public FlowTemplateSimpleFlowTemplate getFlowInfoByFlowTemplateID(FlowTemplateSimpleFlowTemplateRequest flowTemplateRequest)
       throws AbstractApisIBException {
 
-    ClientResponse response = commonCall(flowTemplateID, GETFLOWINFOBYFLOWTEMPLATEID);
+    ClientResponse response = commonCall(flowTemplateRequest, GETFLOWINFOBYFLOWTEMPLATEID);
 
     FlowTemplateSimpleFlowTemplate result = response.getEntity(FlowTemplateSimpleFlowTemplate.class);
 
