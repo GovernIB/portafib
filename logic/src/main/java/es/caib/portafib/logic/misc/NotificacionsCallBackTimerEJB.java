@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Semaphore;
 
+import static es.caib.portafib.utils.ConstantsV2.BITACOLA_OP_ERROR_NOTIFICACIO;
 import static es.caib.portafib.utils.ConstantsV2.BITACOLA_OP_NOTIFICAR_ENPROCES;
 import static es.caib.portafib.utils.ConstantsV2.BITACOLA_OP_NOTIFICAR_FINALITZADA;
 import static es.caib.portafib.utils.ConstantsV2.BITACOLA_OP_NOTIFICAR_FIRMA_PARCIAL;
@@ -53,8 +54,10 @@ import static es.caib.portafib.utils.ConstantsV2.NOTIFICACIOAVIS_PETICIO_PAUSADA
 import static es.caib.portafib.utils.ConstantsV2.NOTIFICACIOAVIS_PETICIO_REBUTJADA;
 
 /**
- * 
+ * Servei d'enviament de Notificacions de callback mitjançant l'activació d'un timer
+ *
  * @author anadal
+ * @author areus
  */
 @Stateless(name = "NotificacionsCallBackTimerEJB")
 @SecurityDomain("seycon")
@@ -137,13 +140,11 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
     boolean wakeUp = isWakeUpTimer(timer);
     if (!wakeUp) {
       if (log.isDebugEnabled()) {
-        log.debug("-----------------------------------------------------------");
         log.debug("timeOutHandler: Iniciant execució normal programada.");
       }
       nextExecution = timer.getNextTimeout().getTime();
     } else {
       if (log.isDebugEnabled()) {
-        log.info("-----------------------------------------------------------");
         log.info("timeOutHandler: Iniciant execució forçada per un wakeUp.");
       }
     }
@@ -187,39 +188,30 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
     try {
       final long now = System.currentTimeMillis();
       final long notificacionsTimeLapse = PropietatGlobalUtil.getNotificacionsTimeLapse();
-
-      boolean isDebug = log.isDebugEnabled();
+      final boolean isDebug = log.isDebugEnabled();
       
       if (isDebug) {
         log.debug("executeTask: Iniciam notificacions");
       }
-
 
       // Si s'ha demanat enviamnet de notificacions ara i no fa més de X
       // segons de la darrera execució, llavors només processam les
       // notificacions amb dataError = null
 
       Where whereDataError = NotificacioWSFields.DATAERROR.isNull();
-
       if (wakeUp && ( (lastFullExecution + notificacionsTimeLapse) > now)) {
-
         if (isDebug) {
           log.debug("executeTask: Només executam les Notificacions amb dataError==null");
         }
-
       } else {
-
         Timestamp nowX = new Timestamp(now - notificacionsTimeLapse);
         whereDataError = Where.OR(whereDataError, NotificacioWSFields.DATAERROR.lessThan(nowX));
         if (isDebug) {
           log.debug("executeTask: Execució completa");
         }
         lastFullExecution = now;
-
       }
-
       lastExecution = now;
-
 
       Where where = Where.AND(NotificacioWSFields.BLOQUEJADA.equal(false), whereDataError);
 
@@ -229,8 +221,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       }
 
       if (retryToPause != null) {
-        where = Where.AND(where,
-            NotificacioWSFields.REINTENTS.lessThan((int) (long) retryToPause));
+        where = Where.AND(where, NotificacioWSFields.REINTENTS.lessThan((int) (long) retryToPause));
       }
 
       final long notificacionsPendents = notificacioEjb.count(where);
@@ -243,35 +234,8 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
 
       // Temps màxim notificant, la meitat del temps programat, o com a màxim en qualsevol cas 2 minuts
       final long maxTempsNotificant = Math.min(notificacionsTimeLapse / 2, 120000);
-      long sleepTime = 1000L;
-      long estimatedProcessTime = 500L;
-      int maximSeleccionats = (int) (maxTempsNotificant / (sleepTime + estimatedProcessTime));
-
-
-      long ordreMagnitud = notificacionsPendents / maximSeleccionats;
-
-      if (ordreMagnitud < 2) {
-
-        log.info("executeTask: Velocitat de notificació normal "); // 40 x minut
-
-      } else if (ordreMagnitud < 4) {
-
-        sleepTime /= 2;
-        maximSeleccionats = (int) (maxTempsNotificant / (sleepTime + estimatedProcessTime));
-        log.info("executeTask: Velocitat de notificació +"); // 60 x minut
-
-      } else if (ordreMagnitud < 6) {
-
-        sleepTime /= 10;
-        maximSeleccionats = (int) (maxTempsNotificant / (sleepTime + estimatedProcessTime));
-        log.info("executeTask: Velocitat de notificació ++"); // 100 x minut
-
-      } else {
-
-        sleepTime = 0;
-        maximSeleccionats = (int) (maxTempsNotificant / (sleepTime + estimatedProcessTime));
-        log.info("executeTask: Velocitat de notificació +++"); // 120 x minut
-      }
+      long estimatedProcessTime = 250L;
+      int maximSeleccionats = (int) (maxTempsNotificant / estimatedProcessTime);
 
       List<NotificacioWS> notificacions = notificacioEjb.select(where, 0, maximSeleccionats,
           new OrderBy(NotificacioWSFields.DATACREACIO));
@@ -281,24 +245,12 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       // Processam les notificacions
       int count = 0;
       for (NotificacioWS notificacioWS : notificacions) {
-
-        try {
-          count++;
-          log.info("Processant notificacio amb ID " + notificacioWS.getNotificacioID());
-          log.info("notificacio::getDataError() => " + notificacioWS.getDataError());
-          log.info("notificacio::getReintents() => " + notificacioWS.getReintents());
-          // Obte un NotificacioInfo a partir del notificacioWS.getDescripcio()
-          processNotificacio((NotificacioWSJPA) notificacioWS);
-
-
-        } catch (Exception e) {
-          log.error("Error processant notificacio amb ID " + notificacioWS.getNotificacioID() + ": "
-                + e.getMessage(), e);
-        }
-
-        if (sleepTime > 0L) {
-          Thread.sleep(sleepTime);
-        }
+        count++;
+        log.info("Processant notificacio amb ID " + notificacioWS.getNotificacioID());
+        log.info("notificacio::getDataError() => " + notificacioWS.getDataError());
+        log.info("notificacio::getReintents() => " + notificacioWS.getReintents());
+        // Obte un NotificacioInfo a partir del notificacioWS.getDescripcio()
+        processNotificacio((NotificacioWSJPA) notificacioWS);
 
         // Estarem fent feina com a màxim la meitat del temps programat, o com a màxim 1 minut. per no saturar el servidor
         if ((System.currentTimeMillis() - now) > maxTempsNotificant) {
@@ -306,6 +258,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
           break;
         }
       }
+
       if (count > 0) {
         log.info("executeTask: Processades " + count + "  de " + notificacionsSeleccionades + " selecionades d'un total de " + notificacionsPendents + " pendents");
       }
@@ -339,11 +292,46 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         log.info("  USRAPP: " + usuariAplicacio.getUsuariAplicacioID());
         log.info("  SERVER: " + usuariAplicacio.getCallbackURL());
         log.info("  VERSIO: " + usuariAplicacio.getCallbackVersio());
+        log.info("  PETICIO: " +notificacioJPA.getPeticioDeFirmaID());
         log.info("  EVENT: " + notificacioInfo.getFirmaEvent().getEventID());
 
         NotificacioSender sender = NotificacioSenderFactory.getSender(usuariAplicacio);
         if (sender != null) {
-          sender.sendNotificacio(notificacioInfo, usuariAplicacio);
+          // Afegit el bloc de try-catch aquí per assegurar que si la notificació falla, s'itenti ver la bitàcola,
+          // i independentment de que la bitàcola vagi bé, si la notificació havia donat un error aquest es propagui
+          // perquè es tracti com fins ara.
+          // No és molt elegant, però és la manera més segura d'afegir la bitàcola d'error de notificació sense rompre
+          // res del que ja hi ha.
+          // Caldrà però a qualque moment refactoritzar tot el codi per millor el tractament de les excepcions a tot
+          // el procés de les notificacions.
+          try {
+
+            sender.sendNotificacio(notificacioInfo, usuariAplicacio);
+
+          } catch (Throwable t) {
+            // Si la notificació dona qualsevol error, intentam fer una bitàcola
+            try {
+              // Intentam recuperar el motiu primigeni de l'error
+              Throwable cause = t;
+              while (cause.getCause() != null) {
+                cause = cause.getCause();
+              }
+
+              bitacolaLogicaEjb.createBitacola(
+                      usuariAplicacio.getEntitatID(),
+                      notificacioJPA.getPeticioDeFirmaID(),
+                      BITACOLA_TIPUS_PETICIO,
+                      BITACOLA_OP_ERROR_NOTIFICACIO,
+                      "Error realitzant notificació: " + cause,
+                      notificacioInfo.getFirmaEvent());
+
+            } catch (Throwable logged) {
+              // Si la creació de bitàcola falla, només logejam l'excepció que dona, però a continuació...
+              log.warn("Error intentant crear bitàcola d'error de notificació", logged);
+            }
+            // Rellamçam l'error original que havia donat l'enviament de notificació perquè continui el procés...
+            throw t;
+          }
         }
 
         int operacio = -1;
