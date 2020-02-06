@@ -1,5 +1,7 @@
 package es.caib.portafib.logic.utils;
 
+import org.fundaciobit.genapp.common.i18n.I18NException;
+
 /**
  * 
  * @author anadal(u80067)
@@ -7,20 +9,11 @@ package es.caib.portafib.logic.utils;
  */
 public class PeticioHaDeSerRebutjadaException extends Exception {
 
-  public PeticioHaDeSerRebutjadaException() {
+  protected final I18NException i18nException;
+
+  public PeticioHaDeSerRebutjadaException(I18NException i18nException) {
     super();
-  }
-
-  public PeticioHaDeSerRebutjadaException(String message, Throwable cause) {
-    super(message, cause);
-  }
-
-  public PeticioHaDeSerRebutjadaException(String message) {
-    super(message);
-  }
-
-  public PeticioHaDeSerRebutjadaException(Throwable cause) {
-    super(cause);
+    this.i18nException = i18nException;
   }
 
 }

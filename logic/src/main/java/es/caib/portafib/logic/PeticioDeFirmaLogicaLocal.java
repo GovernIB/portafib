@@ -78,8 +78,6 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
   public String lockPeticioDeFirma(long peticioDeFirmaID, String usuariEntitatID,
       long timeAliveToken);
 
-  // public boolean unlockPeticioDeFirma(long peticioDeFirmaID, String token);
-
   /**
    * 
    * @param peticioDeFirmaID
@@ -99,9 +97,7 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
   public boolean checkPeticioDeFirmaByUsuariEntitat(long peticioDeFirmaID,
       String usuariEntitatId);
 
-  /*
-   * public boolean isLockedPeticioDeFirma(long peticioDeFirmaID, String usuariEntitatID);
-   */
+
   public void nouFitxerFirmat(File file, Long estatDeFirmaID, Long peticioDeFirmaID,
       String token, int numFirma, int numFirmesOriginals, String usernameLoguejat) throws I18NException;
 
@@ -135,6 +131,9 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
 
   public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar() throws Exception,
       I18NException;
+  
+  public void sendMailToExternalUser(String titolPeticio, FirmaJPA firmaJPA)
+      throws I18NException;
 
   /**
    * Fa neteja en peticions firmades de: - Firmes Intermedies - Fitxer Adaptat - Fitxer

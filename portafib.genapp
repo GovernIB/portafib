@@ -9082,15 +9082,15 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
-            <string>extern_nom</string> 
+            <string>Nom</string> 
            </void> 
            <void method="put"> 
             <string>en</string> 
-            <string>extern_nom</string> 
+            <string>First Name</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
-            <string>extern_nom</string> 
+            <string>Nombre</string> 
            </void> 
           </void> 
           <void property="size"> 
@@ -9125,15 +9125,15 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
-            <string>extern_llinatges</string> 
+            <string>Llinatges</string> 
            </void> 
            <void method="put"> 
             <string>en</string> 
-            <string>extern_llinatges</string> 
+            <string>Surnames</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
-            <string>extern_llinatges</string> 
+            <string>Apellidos</string> 
            </void> 
           </void> 
           <void property="size"> 
@@ -9168,15 +9168,15 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
-            <string>extern_email</string> 
+            <string>Email</string> 
            </void> 
            <void method="put"> 
             <string>en</string> 
-            <string>extern_email</string> 
+            <string>Email</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
-            <string>extern_email</string> 
+            <string>Email</string> 
            </void> 
           </void> 
           <void property="size"> 
@@ -9211,15 +9211,15 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
-            <string>extern_idioma</string> 
+            <string>Idioma</string> 
            </void> 
            <void method="put"> 
             <string>en</string> 
-            <string>extern_idioma</string> 
+            <string>Language</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
-            <string>extern_idioma</string> 
+            <string>Idioma</string> 
            </void> 
           </void> 
           <void property="size"> 

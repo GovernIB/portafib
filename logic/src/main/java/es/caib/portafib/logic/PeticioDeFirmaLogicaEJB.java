@@ -1775,51 +1775,17 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
                 case ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_TOKEN:
                   // Enviar-li correu amb TOKEN
 
-                  
-                  // XYZ ZZZ ZZZ  S'hauria de collir la URL base de POrtaFIB del 
-                  // Perfil de Firma
-                  String urlPortaFIB = PropietatGlobalUtil.getPortafibUrlForExternalSignatures();
-                  
-                  // XYZ ZZZ ZZZ TRA
-                  if (urlPortaFIB == null) {
-                    throw new I18NException("genapp.comodi",
-                        "No puc obtenir la URL base de PortaFIB a partir de la propietat"
-                        + " PortafibUrlForExternalSignatures. Consulti amb l'administrador de PortaFIB.");
-                  }
-                  
-                  
-                  final String urlToken = urlPortaFIB + ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN 
-                      + "/" + firmaJPA.getUsuariExternToken();
-                  
-                  
-              
-
-                  Locale loc = new Locale(firmaJPA.getUsuariExternIdioma());
-
-                  String base = I18NCommonUtils.tradueix(loc, "usuariextern.email.subject", 
-                      peticioDeFirma.getTitol());                  
-                  String subject= "PORTAFIB: "  + base;
-                  String message = I18NCommonUtils.tradueix(loc, "usuariextern.email.body", base, urlToken);
-                  boolean isHtml = true;
-                 
-                  String from = PropietatGlobalUtil.getAppEmail();
-                  String recipient = firmaJPA.getUsuariExternEmail();
-                  log.info("Enviant correu a usuari extern (" + recipient + ")");
                   try {
-                    EmailUtil.postMail(subject, message, isHtml, from, recipient);
-                  } catch(Throwable e) {
-                    String msg;
-                    if (e instanceof I18NException) {
-                      msg = I18NCommonUtils.getMessage((I18NException)e, loc);
-                    } else {
-                      msg = e.getMessage();
-                    }
+                    sendMailToExternalUser(peticioDeFirma.getTitol(), firmaJPA);
+                  } catch(I18NException i18ne) {
+                    
+                    Locale loc = new Locale("ca");
+                    String msg = I18NCommonUtils.getMessage((I18NException)i18ne, loc);
+   
                     // XYZ ZZZ TRA
-                    msg = "S'ha intentat enviar correu a " + recipient + " però ha fallat: " + msg;
-                    
-                    log.error(msg, e);
-                    
-                    throw new PeticioHaDeSerRebutjadaException(msg, e);
+                    msg = "S'ha intentat enviar correu a " + firmaJPA.getUsuariExternEmail() + " però ha fallat: " + msg;
+                    log.error(msg, i18ne);
+                    throw new PeticioHaDeSerRebutjadaException(i18ne);
                   }
                   
                 break;
@@ -1985,6 +1951,56 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           BITACOLA_OP_FINALITZAR);
 
     return true;
+  }
+
+  @Override
+  public void sendMailToExternalUser(String titolPeticio, FirmaJPA firmaJPA)
+      throws I18NException {
+    // XYZ ZZZ ZZZ  S'hauria de collir la URL base de POrtaFIB del 
+    // Perfil de Firma
+    String urlPortaFIB = PropietatGlobalUtil.getPortafibUrlForExternalSignatures();
+    
+    // XYZ ZZZ ZZZ TRA
+    if (urlPortaFIB == null) {
+      throw new I18NException("genapp.comodi",
+          "No puc obtenir la URL base de PortaFIB a partir de la propietat"
+          + " PortafibUrlForExternalSignatures. Consulti amb l'administrador de PortaFIB.");
+    }
+    
+    
+    final String urlToken = urlPortaFIB + ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN 
+        + "/" + firmaJPA.getUsuariExternToken();
+
+    Locale loc = new Locale(firmaJPA.getUsuariExternIdioma());
+    
+
+    String base = I18NCommonUtils.tradueix(loc, "usuariextern.email.subject", 
+        titolPeticio);                  
+    String subject= "PORTAFIB: "  + base;
+    String message = I18NCommonUtils.tradueix(loc, "usuariextern.email.body", base, urlToken);
+    boolean isHtml = true;
+         
+    String from = PropietatGlobalUtil.getAppEmail();
+    String recipient = firmaJPA.getUsuariExternEmail();
+    log.info("Enviant correu a usuari extern (" + recipient + ")");
+    
+    // XYZ ZZZ ZZZ TODO
+//    bitacolaLogicaEjb.createBitacola(
+//        usuariAplicacioEjb.findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID()).getEntitatID(),
+//        peticioDeFirma.getPeticioDeFirmaID(),
+//        BITACOLA_TIPUS_PETICIO,
+//        BITACOLA_OP_ACTUALITZAR,
+//        PeticioDeFirmaBean.toBean(peticioDeFirma));
+    
+    try {
+      EmailUtil.postMail(subject, message, isHtml, from, recipient);
+    } catch(Throwable e) {
+      if (e instanceof I18NException) {
+        throw (I18NException)e;
+      } else {
+        throw new I18NException("genapp.comodi", e.getMessage());
+      }
+    }
   }
 
   protected void descartarEstatsDeFirma(Long[] firmaIDs, final String msg,

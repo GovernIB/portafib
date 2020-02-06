@@ -314,3 +314,5 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /logic/src/main/resources/portafib_genapp_en.properties
 /apiplantillafluxsimple/apiplantillafluxsimple-example/apiflowtemplatesimple.properties
 /apiplantillafluxsimple/apiplantillafluxsimple-example/src/test/java/org/fundaciobit/apisib/apifirmaasyncsimple/v2/test/Esborrar.java
+/back/src/main/webapp/img/fundaciobit.jpg
+/back/src/main/webapp/img/dgidt.jpg
