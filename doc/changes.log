@@ -1,3 +1,19 @@
+
+PortaFIB 2.0.6
+==============
+
+2020-02-07 Fer llistat d'Usuaris Externs dins d'AdEn @DGMAD #362
+
+2020-02-07 Afegir a bitàcola els intents de notificació fallits #402 
+
+2020-02-06 Usuaris Externs: Analisi II @DGMAD #372
+
+2020-02-04 Substituir logos #401
+
+2010-01-29 Servei Rest de API Firma Sincrona Simple per generar Flux de Firmes #378
+
+2020-01-15 Normalitzar versions dels plugins validatecertificate i validate signature #403
+
 PortaFIB 2.0.5
 ==============
 
