@@ -1640,6 +1640,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     log.debug(" ========== startNextSign");
     Timestamp now = new Timestamp(System.currentTimeMillis());
+    
+    String entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
 
     for (BlocDeFirmesJPA blocDeFirmesJPA : blocsOrdenats) {
 
@@ -1776,7 +1778,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
                   // Enviar-li correu amb TOKEN
 
                   try {
-                    sendMailToExternalUser(peticioDeFirma.getTitol(), firmaJPA);
+                    sendMailToExternalUser(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
+                        peticioDeFirma.getTitol(), firmaJPA);
                   } catch(I18NException i18ne) {
                     
                     Locale loc = new Locale("ca");
@@ -1945,7 +1948,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     events.peticio_firmada(peticioDeFirma);
 
     bitacolaLogicaEjb.createBitacola(
-          peticioDeFirma.getUsuariAplicacio().getEntitatID(),
+          entitatID,
           peticioDeFirma.getPeticioDeFirmaID(),
           BITACOLA_TIPUS_PETICIO,
           BITACOLA_OP_FINALITZAR);
@@ -1954,8 +1957,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   @Override
-  public void sendMailToExternalUser(String titolPeticio, FirmaJPA firmaJPA)
-      throws I18NException {
+  public void sendMailToExternalUser(String entitatId, long peticioDeFirmaID,
+      String titolPeticio, FirmaJPA firmaJPA)  throws I18NException {
+    
     // XYZ ZZZ ZZZ  S'hauria de collir la URL base de POrtaFIB del 
     // Perfil de Firma
     String urlPortaFIB = PropietatGlobalUtil.getPortafibUrlForExternalSignatures();
@@ -1984,17 +1988,22 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     String recipient = firmaJPA.getUsuariExternEmail();
     log.info("Enviant correu a usuari extern (" + recipient + ")");
     
-    // XYZ ZZZ ZZZ TODO
-//    bitacolaLogicaEjb.createBitacola(
-//        usuariAplicacioEjb.findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID()).getEntitatID(),
-//        peticioDeFirma.getPeticioDeFirmaID(),
-//        BITACOLA_TIPUS_PETICIO,
-//        BITACOLA_OP_ACTUALITZAR,
-//        PeticioDeFirmaBean.toBean(peticioDeFirma));
+    
     
     try {
       EmailUtil.postMail(subject, message, isHtml, from, recipient);
+      
+      // Bitacola
+      bitacolaLogicaEjb.createBitacola(entitatId, peticioDeFirmaID,
+          BITACOLA_TIPUS_PETICIO, BITACOLA_OP_EMAIL_USUARI_EXTERN, "OK:" + recipient);
+      
     } catch(Throwable e) {
+      
+      // Bitacola
+      bitacolaLogicaEjb.createBitacola(entitatId, peticioDeFirmaID,
+          BITACOLA_TIPUS_PETICIO, BITACOLA_OP_EMAIL_USUARI_EXTERN,
+          "ERROR:" + recipient + ":" + e.getMessage());
+      
       if (e instanceof I18NException) {
         throw (I18NException)e;
       } else {

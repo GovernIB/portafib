@@ -132,8 +132,8 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
   public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar() throws Exception,
       I18NException;
   
-  public void sendMailToExternalUser(String titolPeticio, FirmaJPA firmaJPA)
-      throws I18NException;
+  public void sendMailToExternalUser(String entitatId, long peticioDeFirmaID,
+      String titolPeticio, FirmaJPA firmaJPA)  throws I18NException;
 
   /**
    * Fa neteja en peticions firmades de: - Firmes Intermedies - Fitxer Adaptat - Fitxer

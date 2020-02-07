@@ -42,6 +42,7 @@ import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
+import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.utils.ConstantsV2;
@@ -229,13 +230,16 @@ public class FirmaUsuariExternAdenController extends FirmaController {
 
     FirmaJPA firmaJPA = null;
     try {
-      Field<String> field = new FirmaQueryPath().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA()
-          .TITOL();
-      String titolPeticio = firmaEjb.executeQueryOne(field, FIRMAID.equal(firmaID));
+      
+      PeticioDeFirmaQueryPath qp = new FirmaQueryPath().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA(); 
+
+      String titolPeticio = firmaEjb.executeQueryOne(qp.TITOL(), FIRMAID.equal(firmaID));
+      Long peticioDeFirmaID =  firmaEjb.executeQueryOne(qp.PETICIODEFIRMAID(), FIRMAID.equal(firmaID));
 
       firmaJPA = (FirmaJPA) firmaEjb.findByPrimaryKey(firmaID);
 
-      peticioDeFirmaLogicaEjb.sendMailToExternalUser(titolPeticio, firmaJPA);
+      peticioDeFirmaLogicaEjb.sendMailToExternalUser(LoginInfo.getInstance().getEntitatID(),
+          peticioDeFirmaID, titolPeticio, firmaJPA);
 
       HtmlUtils.saveMessageSuccess(request, I18NUtils
           .tradueix("firmausuariextern.reenviar.ok", firmaJPA.getUsuariExternEmail()));
