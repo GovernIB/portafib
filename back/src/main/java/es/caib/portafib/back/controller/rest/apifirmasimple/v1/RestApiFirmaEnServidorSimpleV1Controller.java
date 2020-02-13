@@ -24,7 +24,6 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleKeyValue;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignedFileInfo;
@@ -461,12 +460,14 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
       FirmaSimpleSignDocumentsResponse fssfrFull = processPassarelaResults(fullResults, pss,
           isSignatureInServer);
 
-      FirmaSimpleStatus status = fssfrFull.getStatusSignatureProcess();
+      FirmaSimpleStatus statusGlobal = fssfrFull.getStatusSignatureProcess();
 
       
       FirmaSimpleSignatureResult result;
+      
+      String signID = simpleSignature.getFileInfoSignature().getSignID();
 
-      if (status.getStatus() == FirmaSimpleStatus.STATUS_FINAL_OK) {
+      if (statusGlobal.getStatus() == FirmaSimpleStatus.STATUS_FINAL_OK) {
         // Només hi ha una firma
         result = fssfrFull.getResults().get(0);
       
@@ -479,8 +480,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
   
           final boolean useSignPolicy = (pss.getCommonInfoSignature().getPolicyInfoSignature() != null);
   
-          UsuariAplicacioConfiguracioJPA config = pcf.configBySignID.get(simpleSignature
-              .getFileInfoSignature().getSignID());
+          UsuariAplicacioConfiguracioJPA config = pcf.configBySignID.get(signID);
   
           ValidacioCompletaResponse vcr = fullResults.getValidacioResponseBySignID().get(
               fileInfo.getSignID());
@@ -489,25 +489,17 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
               simpleSignature.getFileInfoSignature(), profileSignType, result.getSignedFile(),
               loginInfo.getEntitat().getEntitatID(), useSignPolicy, vcr, languageUI));
   
-        } else {
-          // Passam l'error de la firma a l'error general
-          status.setStatus(result.getStatus().getStatus());
-          status.setErrorMessage(result.getStatus().getErrorMessage());
-          status.setErrorStackTrace(result.getStatus().getErrorStackTrace());
-          result = null;
-        }
+        } 
       } else {
-        // Error general
-        result = null;        
+        // Passam l'error general a l'error de la firma
+        result = new FirmaSimpleSignatureResult(signID, statusGlobal, null, null);    
       }
 
-      FirmaSimpleSignDocumentResponse fssfr = new FirmaSimpleSignDocumentResponse(status,
-          result);
 
       HttpHeaders headers = addAccessControllAllowOrigin();
-      ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignDocumentResponse>(fssfr,
+      ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignatureResult>(result,
           headers, HttpStatus.OK);
-      log.info(" XYZ ZZZ Surt de signDocuments => FINAL OK");
+      log.info(" XYZ ZZZ Surt de signDocuments => FINAL");
 
       return re;
 

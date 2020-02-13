@@ -682,7 +682,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
 
     PerfilDeFirma perfil;
     String usrAppID = LoginInfo.getInstance().getUsuariAplicacio().getUsuariAplicacioID();
-    if (codiPerfil == null) {
+    if (codiPerfil == null || codiPerfil.trim().length() == 0) {
       perfil = configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirmaPerApiFirmaSimple(
           usrAppID, esFirmaEnServidor);
       codiPerfil = perfil.getCodi();

@@ -48,7 +48,7 @@ INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (69, 'en', 
 
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (99, 'en', 'Other types of documents');
 
-INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) SELECT traducciomapid, 'en' , concat('NEED TRANS: 'valor)  FROM pfi_traducciomap where idiomaid = 'ca' AND traducciomapid in (select nom from pfi_tipusdocument where nom < 0  OR nom > 99);
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) SELECT traducciomapid, 'en' , concat('NEED TRANS: ',valor)  FROM pfi_traducciomap where idiomaid = 'ca' AND traducciomapid in (select nom from pfi_tipusdocument where nom < 0  OR nom > 99);
 
 -- Traduccions de Plugins
 

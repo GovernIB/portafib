@@ -18,7 +18,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfil
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleError;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentResponse;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeResponse;
 import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
@@ -60,13 +60,13 @@ public class ApiFirmaEnServidorSimpleJersey extends
    * @throws Exception
    */
   @Override
-  public FirmaSimpleSignDocumentResponse signDocument(
+  public FirmaSimpleSignatureResult signDocument(
       FirmaSimpleSignDocumentRequest signaturesSet) throws AbstractApisIBException {
 
     ClientResponse response = commonCall(signaturesSet, SIGNDOCUMENT);
 
-    FirmaSimpleSignDocumentResponse result = response
-        .getEntity(FirmaSimpleSignDocumentResponse.class);
+    FirmaSimpleSignatureResult result = response
+        .getEntity(FirmaSimpleSignatureResult.class);
 
     return result;
   }

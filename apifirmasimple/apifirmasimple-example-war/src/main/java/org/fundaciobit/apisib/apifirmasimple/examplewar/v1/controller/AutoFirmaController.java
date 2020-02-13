@@ -30,7 +30,6 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignatu
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
@@ -275,14 +274,13 @@ public class AutoFirmaController {
 
 
 
-        FirmaSimpleSignDocumentResponse singleResult = apiServidor.signDocument(fes);
+        FirmaSimpleSignatureResult singleResult = apiServidor.signDocument(fes);
         
         List<FirmaSimpleSignatureResult> list = new ArrayList<FirmaSimpleSignatureResult>();
-        list.add(singleResult.getResult());
+        list.add(singleResult);
         
-        FirmaSimpleSignDocumentsResponse fullResults 
-           = new FirmaSimpleSignDocumentsResponse(singleResult.getStatusSignatureProcess(),
-               list);
+        FirmaSimpleSignDocumentsResponse fullResults;
+        fullResults = new FirmaSimpleSignDocumentsResponse(singleResult.getStatus(), list);
 
         return finalProcesDeFirmaServer(request, response, fullResults, peticions);
 

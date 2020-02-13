@@ -6,7 +6,6 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignedFileInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
@@ -214,11 +213,11 @@ public class ApiFirmaEnServidorSimpleTester {
     {
       FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
 
-      FirmaSimpleSignDocumentResponse result = internalSignDocument(api, perfil, fileToSign);
+      FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign);
 
       // Hauria de ser firma PADES
       if (result != null) {
-        String currentType = result.getResult().getSignedFileInfo().getSignType();
+        String currentType = result.getSignedFileInfo().getSignType();
         if (!FirmaSimpleSignedFileInfo.SIGN_TYPE_PADES.equals(currentType)) {
           throw new Exception("S'esperava una firma de tipus PADES"
               + " però s'ha rebut una de tipus " + currentType);
@@ -229,11 +228,11 @@ public class ApiFirmaEnServidorSimpleTester {
     {
       FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml", "text/xml");
 
-      FirmaSimpleSignDocumentResponse result = internalSignDocument(api, perfil, fileToSign);
+      FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign);
 
       // Hauria de ser firma PADES
       if (result != null) {
-        String currentType = result.getResult().getSignedFileInfo().getSignType();
+        String currentType = result.getSignedFileInfo().getSignType();
         if (!FirmaSimpleSignedFileInfo.SIGN_TYPE_XADES.equals(currentType)) {
           throw new Exception("S'esperava una firma de tipus XADES"
               + " però s'ha rebut una de tipus " + currentType);
@@ -244,11 +243,11 @@ public class ApiFirmaEnServidorSimpleTester {
     {
       FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
 
-      FirmaSimpleSignDocumentResponse result = internalSignDocument(api, perfil, fileToSign);
+      FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign);
 
       // Hauria de ser firma PADES
       if (result != null) {
-        String currentType = result.getResult().getSignedFileInfo().getSignType();
+        String currentType = result.getSignedFileInfo().getSignType();
         if (!FirmaSimpleSignedFileInfo.SIGN_TYPE_CADES.equals(currentType)) {
           throw new Exception("S'esperava una firma de tipus CADES"
               + " però s'ha rebut una de tipus " + currentType);
@@ -310,7 +309,7 @@ public class ApiFirmaEnServidorSimpleTester {
     internalSignDocument(api, perfil, fileToSign);
   }
 
-  protected FirmaSimpleSignDocumentResponse internalSignDocument(ApiFirmaEnServidorSimple api,
+  protected FirmaSimpleSignatureResult internalSignDocument(ApiFirmaEnServidorSimple api,
       final String perfil, FirmaSimpleFile fileToSign) throws Exception,
       FileNotFoundException, IOException {
     String signID = "1";
@@ -339,9 +338,9 @@ public class ApiFirmaEnServidorSimpleTester {
     FirmaSimpleSignDocumentRequest signature;
     signature = new FirmaSimpleSignDocumentRequest(commonInfo, fileInfoSignature);
 
-    FirmaSimpleSignDocumentResponse fullResults = api.signDocument(signature);
+    FirmaSimpleSignatureResult fullResults = api.signDocument(signature);
 
-    FirmaSimpleStatus transactionStatus = fullResults.getStatusSignatureProcess();
+    FirmaSimpleStatus transactionStatus = fullResults.getStatus();
 
     int status = transactionStatus.getStatus();
 
@@ -375,48 +374,24 @@ public class ApiFirmaEnServidorSimpleTester {
       case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
       {
         System.out.println(" ===== RESULTAT  =========");
-        FirmaSimpleSignatureResult fssr = fullResults.getResult();
+       
 
         {
-          System.out.println(" ---- Signature [ " + fssr.getSignID() + " ]");
+          System.out.println(" ---- Signature [ " + fullResults.getSignID() + " ]");
 
-          FirmaSimpleStatus statusSign = fssr.getStatus();
-
-          int estat = statusSign.getStatus();
-          System.out.println("  STATUS SIGNATURE CODE = " + estat);
-
-          switch (estat) {
-
-            case FirmaSimpleStatus.STATUS_INITIALIZING: // = 0;
-              System.out.println("  RESULT: STATUS_INITIALIZING => Incoherent Status");
-            break;
-
-            case FirmaSimpleStatus.STATUS_IN_PROGRESS: // = 1;
-              System.out.println("  RESULT: STATUS_IN_PROGRESS => Incoherent Status");
-            break;
-
-            case FirmaSimpleStatus.STATUS_FINAL_ERROR: // = -1;
-              System.err.println("  RESULT: Error en la firma: "
-                  + statusSign.getErrorMessage());
-            break;
-
-            case FirmaSimpleStatus.STATUS_CANCELLED: // = -2;
-              System.err.println("  RESULT: L'usuari ha cancelat la firma.");
-            break;
-
-            case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
+        
               System.err.println("  RESULT: OK");
-              FirmaSimpleFile fsf = fssr.getSignedFile();
+              FirmaSimpleFile fsf = fullResults.getSignedFile();
               FileOutputStream fos = new FileOutputStream(fsf.getNom());
               fos.write(fsf.getData());
               fos.flush();
               fos.close();
               System.out.println("  RESULT: Fitxer signat guardat en '" + fsf.getNom() + "'");
-              printSignatureInfo(fssr);
+              printSignatureInfo(fullResults);
 
               return fullResults;
 
-          }
+          
 
         } // Final for de fitxers firmats
       } // Final Case Firma OK
