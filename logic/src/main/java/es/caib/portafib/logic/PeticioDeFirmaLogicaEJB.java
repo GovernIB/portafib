@@ -159,8 +159,8 @@ import java.util.concurrent.TimeUnit;
  */
 @Stateless(name = PeticioDeFirmaLogicaLocal.BEAN_NAME)
 @SecurityDomain("seycon")
-public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
-    PeticioDeFirmaLogicaLocal, ConstantsV2 {
+public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
+    implements PeticioDeFirmaLogicaLocal, ConstantsV2 {
 
   @EJB(mappedName = AnnexFirmatLocal.JNDI_NAME)
   protected AnnexFirmatLocal annexFirmatEjb;
@@ -177,7 +177,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
   private EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
-  @EJB(mappedName = BlocDeFirmesLogicaLocal.JNDI_NAME) //, beanName = "BlocDeFirmesEJB")
+  @EJB(mappedName = BlocDeFirmesLogicaLocal.JNDI_NAME) // , beanName = "BlocDeFirmesEJB")
   private BlocDeFirmesLogicaLocal blocDeFirmesEjb;
 
   @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
@@ -204,7 +204,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   @EJB(mappedName = EntitatLocal.JNDI_NAME, beanName = "EntitatEJB")
   protected EntitatLocal entitatEjb;
 
-  @EJB(mappedName =  AnnexLogicaLocal.JNDI_NAME)
+  @EJB(mappedName = AnnexLogicaLocal.JNDI_NAME)
   private AnnexLogicaLocal annexLogicaEjb;
 
   @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)
@@ -236,7 +236,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
   @EJB(mappedName = ValidacioCompletaFirmaLogicaLocal.JNDI_NAME)
   protected ValidacioCompletaFirmaLogicaLocal validacioCompletaLogicaEjb;
-  
+
   @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
   protected ConfiguracioUsuariAplicacioLogicaLocal configuracioDeFirmaLogicaEjb;
 
@@ -266,35 +266,31 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   @Override
-  public PeticioDeFirmaJPA updateFull(PeticioDeFirmaJPA peticioDeFirma, String usernameLoguejat) throws I18NException,
-      I18NValidationException {
+  public PeticioDeFirmaJPA updateFull(PeticioDeFirmaJPA peticioDeFirma,
+      String usernameLoguejat) throws I18NException, I18NValidationException {
 
     PeticioDeFirmaBeanValidator pfbv = new PeticioDeFirmaBeanValidator(validator,
         custodiaInfoLogicaEjb, fluxDeFirmesLogicaEjb, idiomaEjb, this, tipusDocumentEjb,
-        usuariAplicacioEjb, configuracioDeFirmaLogicaEjb,  usuariEntitatEjb);
+        usuariAplicacioEjb, configuracioDeFirmaLogicaEjb, usuariEntitatEjb);
 
     final boolean isNou = false;
     pfbv.throwValidationExceptionIfErrors(peticioDeFirma, isNou);
 
-
     if (!hasAccess(peticioDeFirma, usernameLoguejat)) {
-      throw new I18NException("peticiodefirma.error.nopropietari",
-        usernameLoguejat, String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
+      throw new I18NException("peticiodefirma.error.nopropietari", usernameLoguejat,
+          String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
     }
 
     peticioDeFirma = (PeticioDeFirmaJPA) this.update(peticioDeFirma);
 
     bitacolaLogicaEjb.createBitacola(
-          usuariAplicacioEjb.findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID()).getEntitatID(),
-          peticioDeFirma.getPeticioDeFirmaID(),
-          BITACOLA_TIPUS_PETICIO,
-          BITACOLA_OP_ACTUALITZAR,
-          PeticioDeFirmaBean.toBean(peticioDeFirma));
+        usuariAplicacioEjb.findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID())
+            .getEntitatID(),
+        peticioDeFirma.getPeticioDeFirmaID(), BITACOLA_TIPUS_PETICIO, BITACOLA_OP_ACTUALITZAR,
+        PeticioDeFirmaBean.toBean(peticioDeFirma));
 
     return peticioDeFirma;
   }
-
-
 
   /**
    * 
@@ -303,8 +299,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * @return
    */
   @Override
-  public PeticioDeFirmaJPA createFull(PeticioDeFirmaJPA peticioDeFirma) throws I18NException,
-      I18NValidationException {
+  public PeticioDeFirmaJPA createFull(PeticioDeFirmaJPA peticioDeFirma)
+      throws I18NException, I18NValidationException {
 
     if (peticioDeFirma == null) {
       return null;
@@ -337,12 +333,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         for (AnnexJPA annex : annexes) {
           if (annex.isAdjuntar() != annex.isFirmar()) {
             List<I18NFieldError> camps = new ArrayList<I18NFieldError>();
-            camps.add(
-                new I18NFieldError(AnnexFields.ADJUNTAR, new I18NTranslation("peticiodefirma.annexos.novalid"))
-                );
-            camps.add(
-                new I18NFieldError(AnnexFields.FIRMAR, new I18NTranslation("peticiodefirma.annexos.novalid")
-                ));
+            camps.add(new I18NFieldError(AnnexFields.ADJUNTAR,
+                new I18NTranslation("peticiodefirma.annexos.novalid")));
+            camps.add(new I18NFieldError(AnnexFields.FIRMAR,
+                new I18NTranslation("peticiodefirma.annexos.novalid")));
             throw new I18NValidationException(camps);
           }
         }
@@ -369,8 +363,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     final String usuariEntitatID;
     final UsuariEntitatJPA usuariEntitat;
     final EntitatJPA entitatJPA;
-    
-    
+
     // Nous camps de Peticio de Firma #281
     switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
 
@@ -387,8 +380,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           // UsuariPersona persona = usuariEntitat.getUsuariPersona();
           peticioDeFirma.setRemitentNom(persona.getNom() + " " + persona.getLlinatges());
           if (peticioDeFirma.getRemitentDescripcio() == null) {
-            peticioDeFirma.setRemitentDescripcio(usuariEntitat.getEmail() == null ? persona
-                .getEmail() : usuariEntitat.getEmail());
+            peticioDeFirma
+                .setRemitentDescripcio(usuariEntitat.getEmail() == null ? persona.getEmail()
+                    : usuariEntitat.getEmail());
           }
         }
 
@@ -418,22 +412,49 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         throw new I18NException("genapp.comodi",
             " No hi ha codi per gestionar la recuperació de l'entitat"
                 + " de les Peticions de Firma amb Origen "
-                + I18NCommonUtils.tradueix(new Locale("ca"), "origenpeticiodefirma."
-                    + peticioDeFirma.getOrigenPeticioDeFirma()));
+                + I18NCommonUtils.tradueix(new Locale("ca"),
+                    "origenpeticiodefirma." + peticioDeFirma.getOrigenPeticioDeFirma()));
     }
-    
-
 
     // ======= Check de Custòdia ==========
     {
-      CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodyInfoOnCreatePeticio(peticioDeFirma, entitatJPA,
-          usuariEntitat, usuariAplicacio);
-
+      log.info("\n\n ??????? XYZ ZZZ  CUSTODIA BASE PREEEEE OBJ => "
+          + peticioDeFirma.getCustodiaInfo() + "\n\n");
+      log.info("\n\n ??????? XYZ ZZZ CUSTODIA BASE PRE2222 ID => "
+          + peticioDeFirma.getCustodiaInfo().getCustodiaInfoID() + "\n\n");
+      CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodyInfoOnCreatePeticio(peticioDeFirma,
+          entitatJPA, usuariEntitat, usuariAplicacio);
+      log.info("\n\n ??????? XYZ ZZZ CUSTODIA BASE POST => PC => "
+          + usuariAplicacio.getPoliticaCustodia() + "\n\n");
       if (ci == null) {
+        // AQUI NO POT ESTAR
+
         peticioDeFirma.setCustodiaInfoID(null);
-      } else {
+
+        if (peticioDeFirma.getCustodiaInfo() != null) {
+          final int pol = usuariAplicacio.getPoliticaCustodia();
+          if (pol == ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL
+              || pol == ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU
+              || pol == ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU) {
+
+            log.info("\n\n ??????? XYZ ZZZ  CUSTODIA BASE POST OBJ 2222 => "
+                + peticioDeFirma.getCustodiaInfo() + "\n\n");
+
+            ci = CustodiaInfoBean.toBean(peticioDeFirma.getCustodiaInfo());
+            // peticioDeFirma.setCustodiaInfo(peticioDeFirma.getCustodiaInfo().getCustodiaInfoID());
+          }
+        }
+
+      }
+
+      // else
+      if (ci != null) {
+
+        log.info("\n\n ???????  CUSTODIA BASE ID => " + ci.getCustodiaInfoID() + "\n\n");
 
         CustodiaInfoJPA custodiaInfo = CustodiaInfoJPA.toJPA(ci);
+
+        custodiaInfo.setCustodiaInfoID(0);
 
         custodiaInfo = (CustodiaInfoJPA) custodiaInfoLogicaEjb.create(custodiaInfo);
 
@@ -442,21 +463,20 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
     }
     // --- FINAL CHECK CUSTODIA
-    
-    
+
     // Clonar Configuració de Firma
     {
       Long configuracioDeFirmaID = peticioDeFirma.getConfiguracioDeFirmaID();
-      if(configuracioDeFirmaID != null) {
-        
+      if (configuracioDeFirmaID != null) {
+
         UsuariAplicacioConfiguracioJPA config;
         config = configuracioDeFirmaLogicaEjb.findByPrimaryKey(configuracioDeFirmaID);
-        
+
         if (config == null) {
           throw new I18NException("genapp.comodi", "S´ha passat configuracio de firma amb ID "
-            + configuracioDeFirmaID + "que no existeix a la Petició de Firma");
+              + configuracioDeFirmaID + "que no existeix a la Petició de Firma");
         }
-        
+
         UsuariAplicacioConfiguracioJPA clone = UsuariAplicacioConfiguracioJPA.copyJPA(config);
         clone.setUsuariAplicacioConfigID(0);
         clone.setEsDePeticio(true);
@@ -471,31 +491,26 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           clone.setFirmatPerFormatID(null);
         }
 
-        clone = (UsuariAplicacioConfiguracioJPA)configuracioDeFirmaLogicaEjb.create(clone);
-        
+        clone = (UsuariAplicacioConfiguracioJPA) configuracioDeFirmaLogicaEjb.create(clone);
+
         peticioDeFirma.setConfiguracioDeFirmaID(clone.getUsuariAplicacioConfigID());
       }
     }
-    
 
-    // TODO controlar permisos de creació. Bàsicament que el solicitant 
+    // TODO controlar permisos de creació. Bàsicament que el solicitant
     // sigui un dels UsuarisEntitat de l'usuari, o en cas d'UsuariAplicacio
     // que aquest coincideix amb l'usuari
     PeticioDeFirmaJPA pf = (PeticioDeFirmaJPA) create(peticioDeFirma);
 
     Long peticioDeFirmaID = pf.getPeticioDeFirmaID();
 
-    bitacolaLogicaEjb.createBitacola(
-          entitatJPA.getEntitatID(),
-          peticioDeFirmaID,
-          BITACOLA_TIPUS_PETICIO,
-          BITACOLA_OP_CREAR,
-          PeticioDeFirmaBean.toBean(pf));
+    bitacolaLogicaEjb.createBitacola(entitatJPA.getEntitatID(), peticioDeFirmaID,
+        BITACOLA_TIPUS_PETICIO, BITACOLA_OP_CREAR, PeticioDeFirmaBean.toBean(pf));
 
     if (log.isDebugEnabled()) {
       log.debug("PF[" + pf.getPeticioDeFirmaID() + "] = " + pf);
-      log.debug("PeticioDeFirma[" + peticioDeFirma.getPeticioDeFirmaID() + "] = "
-          + peticioDeFirma);
+      log.debug(
+          "PeticioDeFirma[" + peticioDeFirma.getPeticioDeFirmaID() + "] = " + peticioDeFirma);
     }
 
     // Afegir annexos
@@ -601,14 +616,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     return peticioDeFirma;
   }
-  
-  
-  
-  
+
   protected PeticioDeFirmaJPA findByPrimaryKeyForCustody(Long peticioDeFirmaID) {
-    
+
     PeticioDeFirmaJPA peticioDeFirma = findByPrimaryKey(peticioDeFirmaID);
-    
+
     if (peticioDeFirma == null) {
       return null;
     }
@@ -616,12 +628,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     initializeUsuaris(peticioDeFirma);
     Hibernate.initialize(peticioDeFirma.getCustodiaInfo());
     Hibernate.initialize(peticioDeFirma.getTipusDocument());
-    
+
     return peticioDeFirma;
-    
+
   }
-  
-  
 
   @Override
   public PeticioDeFirmaJPA findByPrimaryKeyWithUserInfo(Long peticioDeFirmaID) {
@@ -670,7 +680,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       Hibernate.initialize(peticioDeFirma.getSolicitantUsuariEntitat2ID());
       Hibernate.initialize(peticioDeFirma.getSolicitantUsuariEntitat2().getUsuariPersona());
     }
-    
+
     if (peticioDeFirma.getSolicitantUsuariEntitat3ID() != null) {
       Hibernate.initialize(peticioDeFirma.getSolicitantUsuariEntitat3ID());
       Hibernate.initialize(peticioDeFirma.getSolicitantUsuariEntitat3().getUsuariPersona());
@@ -681,13 +691,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       if (peticioDeFirma.getUsuariAplicacio() == null) {
 
-        peticioDeFirma.setUsuariAplicacio(usuariAplicacioEjb.findByPrimaryKey(peticioDeFirma
-            .getSolicitantUsuariAplicacioID()));
+        peticioDeFirma.setUsuariAplicacio(usuariAplicacioEjb
+            .findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID()));
 
         if (peticioDeFirma.getUsuariAplicacio() == null) {
-          log.error(
-              "No s'ha pogut inicialitzar l'usuari Aplicacio "
-                  + peticioDeFirma.getSolicitantUsuariAplicacioID(), new Exception());
+          log.error("No s'ha pogut inicialitzar l'usuari Aplicacio "
+              + peticioDeFirma.getSolicitantUsuariAplicacioID(), new Exception());
         }
       }
 
@@ -698,24 +707,27 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * Inicia una peticio de firma
    */
   @Override
-  public void start(Long peticioDeFirmaID, boolean wakeupTimer, String usernameLoguejat) throws I18NException {
+  public void start(Long peticioDeFirmaID, boolean wakeupTimer, String usernameLoguejat)
+      throws I18NException {
 
     PeticioDeFirmaJPA peticioDeFirma = findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
 
     if (peticioDeFirma == null) {
       // No s´ha trobat cap {0} amb {1} igual a {2}
-      throw new I18NException("error.notfound", new I18NArgumentCode(_TABLE_MODEL + "."
-          + _TABLE_MODEL), new I18NArgumentCode(PETICIODEFIRMAID.fullName),
+      throw new I18NException("error.notfound",
+          new I18NArgumentCode(_TABLE_MODEL + "." + _TABLE_MODEL),
+          new I18NArgumentCode(PETICIODEFIRMAID.fullName),
           new I18NArgumentString(String.valueOf(peticioDeFirmaID)));
     }
 
     if (!hasAccess(peticioDeFirma, usernameLoguejat)) {
-      throw new I18NException("peticiodefirma.error.nopropietari",
-         usernameLoguejat, String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
+      throw new I18NException("peticiodefirma.error.nopropietari", usernameLoguejat,
+          String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
     }
 
     int tipusFirmaID = peticioDeFirma.getTipusFirmaID();
-    if (tipusFirmaID == ConstantsV2.TIPUSFIRMA_XADES || tipusFirmaID == ConstantsV2.TIPUSFIRMA_CADES) {
+    if (tipusFirmaID == ConstantsV2.TIPUSFIRMA_XADES
+        || tipusFirmaID == ConstantsV2.TIPUSFIRMA_CADES) {
       final Set<BlocDeFirmesJPA> blocs = peticioDeFirma.getFluxDeFirmes().getBlocDeFirmess();
       if (blocs.size() > 1 || blocs.iterator().next().getMinimDeFirmes() > 1) {
         throw new I18NException("peticiodefirma.tipusdefirma.nomesdeunafirma");
@@ -750,12 +762,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         if (peticioDeFirma.getCustodiaInfoID() != null) {
           custodiaInfo = peticioDeFirma.getCustodiaInfo();
         }
-        
-        custodiaForStartPeticioDeFirma = custodiaInfoLogicaEjb.custodiaCommonActionsOnStartPeticioDeFirma(
-            peticioDeFirma, custodiaInfo);
+
+        custodiaForStartPeticioDeFirma = custodiaInfoLogicaEjb
+            .custodiaCommonActionsOnStartPeticioDeFirma(peticioDeFirma, custodiaInfo);
 
         // Numero de firmes total
-        
 
         // Posar ROLE DEST als firmants del flux de firmes
         checkUsersOfFlux(flux);
@@ -766,7 +777,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         switch (tipusFirma) {
 
           case ConstantsV2.TIPUSFIRMA_PADES:
-            
+
             Set<BlocDeFirmesJPA> blocs = flux.getBlocDeFirmess();
             int numFirmes = 0;
             for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
@@ -778,10 +789,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
               throw new Exception("Una peticio de firma pot tenir com a màxim "
                   + ConstantsV2.MAX_FIRMES_PER_TAULA + " firmes obligatories.");
             }
-            
-            
-            fitxerFinalAFirmar = thingsToDoInPADESWhenStartsPeticioDeFirma(peticioDeFirma, numFirmes, custodiaInfo,
-                custodiaForStartPeticioDeFirma);
+
+            fitxerFinalAFirmar = thingsToDoInPADESWhenStartsPeticioDeFirma(peticioDeFirma,
+                numFirmes, custodiaInfo, custodiaForStartPeticioDeFirma);
 
           break;
 
@@ -789,16 +799,17 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           case ConstantsV2.TIPUSFIRMA_XADES:
           case ConstantsV2.TIPUSFIRMA_CADES:
             // #294 i #333
-            fitxerFinalAFirmar = thingsToDoInXADESorCADESWhenStartsPeticioDeFirma(peticioDeFirma);
+            fitxerFinalAFirmar = thingsToDoInXADESorCADESWhenStartsPeticioDeFirma(
+                peticioDeFirma);
           break;
-            
+
           default:
             throw new I18NException("genapp.comodi", "Tipus de Firma " + tipusFirma
                 + " no suportada en PeticioDeFirmaLogicaEJB.start() !!!!");
         }
 
         long fitxerFinalAFirmarID = fitxerFinalAFirmar.getFitxerID();
-        
+
         peticioDeFirma.setFitxerAdaptatID(fitxerFinalAFirmarID);
         dstPDF = FileSystemManager.getFile(fitxerFinalAFirmarID);
 
@@ -813,23 +824,19 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       FirmaEventList events = new FirmaEventList();
       try {
         startNextSign(peticioDeFirma, flux, null, events);
-      } catch(PeticioHaDeSerRebutjadaException re) {
+      } catch (PeticioHaDeSerRebutjadaException re) {
         // Aqui podem llançar una exceptio per aturar arrancada
         // XYZ ZZZ TRA
         throw new I18NException("genapp.comodi", "Error desconegut durant"
-            + " la posada en marxa d'una Petició de Firma: " + re.getMessage()); 
+            + " la posada en marxa d'una Petició de Firma: " + re.getMessage());
       }
 
       peticioDeFirma = (PeticioDeFirmaJPA) update(peticioDeFirma);
 
       events.peticio_en_proces(peticioDeFirma);
 
-      bitacolaLogicaEjb.createBitacola(
-            peticioDeFirma.getUsuariAplicacio().getEntitatID(),
-            peticioDeFirma.getPeticioDeFirmaID(),
-            BITACOLA_TIPUS_PETICIO,
-            BITACOLA_OP_INICIAR);
-
+      bitacolaLogicaEjb.createBitacola(peticioDeFirma.getUsuariAplicacio().getEntitatID(),
+          peticioDeFirma.getPeticioDeFirmaID(), BITACOLA_TIPUS_PETICIO, BITACOLA_OP_INICIAR);
 
       // Avisos
       firmaEventManagerEjb.processList(events, wakeupTimer);
@@ -879,10 +886,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         }
       }
 
-      if (ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT != currentState 
+      if (ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT != currentState
           && custodiaForStartPeticioDeFirma != null) {
         try {
-          custodiaForStartPeticioDeFirma.plugin.deleteCustody(custodiaForStartPeticioDeFirma.custodyID);
+          custodiaForStartPeticioDeFirma.plugin
+              .deleteCustody(custodiaForStartPeticioDeFirma.custodyID);
         } catch (Throwable e) {
           log.error(
               "Error desconegut intentant esborrar el document de custodia: " + e.getMessage(),
@@ -895,8 +903,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       if (error instanceof I18NException) {
         throw (I18NException) error;
       } else {
-        throw new I18NException(error, "error.unknown", new I18NArgumentString(
-            error.getMessage()));
+        throw new I18NException(error, "error.unknown",
+            new I18NArgumentString(error.getMessage()));
       }
     }
 
@@ -907,56 +915,50 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * @param peticioDeFirma
    * @throws I18NException
    */
-  private  FitxerJPA thingsToDoInXADESorCADESWhenStartsPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma) 
-      throws I18NException, I18NValidationException  {
-    
+  private FitxerJPA thingsToDoInXADESorCADESWhenStartsPeticioDeFirma(
+      PeticioDeFirmaJPA peticioDeFirma) throws I18NException, I18NValidationException {
+
     peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
-    
-    
+
     Set<AnnexJPA> annexesOrig = peticioDeFirma.getAnnexs();
     // annexLogicaEjb.select(AnnexFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
     for (AnnexJPA annexJPA : annexesOrig) {
       // CHECK Nmés acceptam firmar/adjuntar o no_firmar/no_adjuntar
       boolean isFirmar = annexJPA.isFirmar();
-      boolean isAdjuntar= annexJPA.isAdjuntar();
+      boolean isAdjuntar = annexJPA.isAdjuntar();
       if (!isFirmar && !isAdjuntar) {
         // OK
       } else {
         // Qualsevol altre combinació per XAdES/CADES no es suporta
         // XYZ ZZZ TRA
-        throw new I18NException("genapp.comodi", 
-            "Combinació de flags no suportada en firmes CAdES/XAdES en l'annexe " 
-            + annexJPA.getFitxer().getNom() + "( isFirmar = " + isFirmar
-            + " | isAdjuntar = " + isAdjuntar + ")");
+        throw new I18NException("genapp.comodi",
+            "Combinació de flags no suportada en firmes CAdES/XAdES en l'annexe "
+                + annexJPA.getFitxer().getNom() + "( isFirmar = " + isFirmar
+                + " | isAdjuntar = " + isAdjuntar + ")");
       }
-        
+
     }
-    
-    
-     
+
     // Copiar Original a Adaptat
-    // XYZ ZZZ ZZZ Optimitzar: veure si podem deixar l'original i 
-    // per on s'utilitzi Adaptat fer que si és XADES/CADES es miri l'original. 
+    // XYZ ZZZ ZZZ Optimitzar: veure si podem deixar l'original i
+    // per on s'utilitzi Adaptat fer que si és XADES/CADES es miri l'original.
     Set<Long> fitxersCreats = new HashSet<Long>();
-    
-    FitxerJPA fitxerAdaptat = new FitxerJPA(FitxerBean.toBean(peticioDeFirma.getFitxerAFirmar()));
+
+    FitxerJPA fitxerAdaptat = new FitxerJPA(
+        FitxerBean.toBean(peticioDeFirma.getFitxerAFirmar()));
     fitxerAdaptat.setFitxerID(0);
-    fitxerAdaptat = fitxerLogicaEjb.createFitxerField(
-        fitxerAdaptat, 
-        new FitxerIdDataSource(peticioDeFirma.getFitxerAFirmarID()),
-        fitxersCreats, FITXERADAPTATID);
+    fitxerAdaptat = fitxerLogicaEjb.createFitxerField(fitxerAdaptat,
+        new FitxerIdDataSource(peticioDeFirma.getFitxerAFirmarID()), fitxersCreats,
+        FITXERADAPTATID);
 
     return fitxerAdaptat;
   }
 
-
- 
-
-  private FitxerJPA thingsToDoInPADESWhenStartsPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma, int numFirmes,
-      CustodiaInfo custodiaInfo, 
+  private FitxerJPA thingsToDoInPADESWhenStartsPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma,
+      int numFirmes, CustodiaInfo custodiaInfo,
       CustodiaForStartPeticioDeFirma custodiaForStartPeticioDeFirma)
-          throws Exception, I18NException, I18NValidationException {
+      throws Exception, I18NException, I18NValidationException {
 
     // Attachments
     Set<AnnexJPA> annexesAttached = new HashSet<AnnexJPA>();
@@ -967,7 +969,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       for (AnnexJPA annexJPA : annexesOrig) {
         // CHECK Nmés acceptam firmar/adjuntar o no_firmar/no_adjuntar
         boolean isFirmar = annexJPA.isFirmar();
-        boolean isAdjuntar= annexJPA.isAdjuntar();
+        boolean isAdjuntar = annexJPA.isAdjuntar();
         if (isFirmar && isAdjuntar) {
           // OK
           annexesAttached.add(annexJPA);
@@ -976,12 +978,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             // OK
           } else {
             // Qualsevol altre combinació per PAdES no es suporta
-            // 
-            throw new I18NException("genapp.comodi", "Combinació de flags no suportada en firmes PAdES en l'annexe " 
-                + annexJPA.getFitxer().getNom() + "( isFirmar = " + isFirmar
-                + " | isAdjuntar = " + isAdjuntar + ")");
+            //
+            throw new I18NException("genapp.comodi",
+                "Combinació de flags no suportada en firmes PAdES en l'annexe "
+                    + annexJPA.getFitxer().getNom() + "( isFirmar = " + isFirmar
+                    + " | isAdjuntar = " + isAdjuntar + ")");
           }
-          
+
         }
 
       }
@@ -992,7 +995,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       attachments = new ArrayList<AttachedFile>(annexesAttached.size());
       for (AnnexJPA annex : annexesAttached) {
         File f = FileSystemManager.getFile(annex.getFitxerID());
-        attachments.add(new AttachedFile(annex.getFitxer().getNom(), annex.getFitxer().getDescripcio(), f));
+        attachments.add(new AttachedFile(annex.getFitxer().getNom(),
+            annex.getFitxer().getDescripcio(), f));
       }
     }
 
@@ -1019,8 +1023,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     String idioma = peticioDeFirma.getIdiomaID();
 
     if (idioma == null) {
-      
-      
+
       // Nous camps de Peticio de Firma #281
       switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
 
@@ -1040,11 +1043,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
         default:
           // XYZ ZZZ TRA
-          log.error("No hi ha codi per gestionar el Custodia Context de les Peticions de Firma amb Origen "
-              + I18NCommonUtils.tradueix(new Locale("ca"), "origenpeticiodefirma."
-                  + peticioDeFirma.getOrigenPeticioDeFirma()));
+          log.error(
+              "No hi ha codi per gestionar el Custodia Context de les Peticions de Firma amb Origen "
+                  + I18NCommonUtils.tradueix(new Locale("ca"),
+                      "origenpeticiodefirma." + peticioDeFirma.getOrigenPeticioDeFirma()));
       }
-      
 
       if (idioma == null) {
         idioma = Configuracio.getDefaultLanguage();
@@ -1053,19 +1056,17 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     log.debug(" Idioma Petició: " + idioma);
 
     Locale locale = new Locale(idioma);
-    
-    
-    
+
     // TRANSFORMAR DOCUMENT A PDF
     {
-      
+
       long fitxerID = peticioDeFirma.getFitxerAFirmarID();
       FitxerJPA fitxer = peticioDeFirma.getFitxerAFirmar();
 
       if (fitxerID != 0) {
 
         File file = FileSystemManager.getFile(fitxerID);
-        //File fileTmp = FileSystemManager.getTmpFile(fitxerID);
+        // File fileTmp = FileSystemManager.getTmpFile(fitxerID);
 
         // En aquest moment el fitxer pujat es troba en [ID] si la peticio de firma
         // és nova o en [ID].tmp si la petició existeix i s'esta actualitzant. En
@@ -1073,13 +1074,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         // i no es vol sobreescriure el fitxer original fins que es guardi la peticio.
         // Just després de guardar la petició es moura el fitxer [ID].tmp a [ID]
         // si estam en mode actualització.
-        File fileToConvert = file; //peticioDeFirmaForm.isNou() ? file : fileTmp;
+        File fileToConvert = file; // peticioDeFirmaForm.isNou() ? file : fileTmp;
 
         // TODO PASSAR A DEBUG
         log.info(" FILE ORIG = " + file.getAbsolutePath() + "\t" + file.exists() + "\t"
             + file.length() + "\t" + new Date(file.lastModified()));
-        //log.info(" FILE TEMP = " + fileTmp.getAbsolutePath() + "\t" + fileTmp.exists() + "\t"
-        //    + fileTmp.length() + "\t" + new Date(fileTmp.lastModified()));
+        // log.info(" FILE TEMP = " + fileTmp.getAbsolutePath() + "\t" + fileTmp.exists() +
+        // "\t"
+        // + fileTmp.length() + "\t" + new Date(fileTmp.lastModified()));
 
         Fitxer fileToConvertInfo = new FitxerBean();
         fileToConvertInfo.setMime(fitxer.getMime());
@@ -1129,8 +1131,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         }
       }
     }
-    
-    
 
     // ==== TAULA DE FIRMES
     final int posicio = (int) peticioDeFirma.getPosicioTaulaFirmesID();
@@ -1169,12 +1169,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     File srcPDF = FileSystemManager.getFile(peticioDeFirma.getFitxerAFirmarID());
     File dstPDF;
     dstPDF = File.createTempFile("peticio_temp_", ".pdf", FileSystemManager.getFilesPath());
-    
+
     try {
 
       Long maxSize = PdfUtils.selectMin(maxSizeEntitat,
           PropietatGlobalUtil.getMaxFitxerAdaptatSizeInBytes());
-      
+
       final boolean acceptTransformPDFA = PropietatGlobalUtil.acceptTransformPDFA(entitatID);
 
       PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(srcPDF, dstPDF, attachments, maxSize,
@@ -1197,7 +1197,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       long fitxerFinalAFirmarID = f.getFitxerID();
 
-      //dstPDF = FileSystemManager.sobreescriureFitxer(dstPDF, fitxerFinalAFirmarID);
+      // dstPDF = FileSystemManager.sobreescriureFitxer(dstPDF, fitxerFinalAFirmarID);
       dstPDF = LogicUtils.sobreescriureFitxerChecked(dstPDF, fitxerFinalAFirmarID);
 
       if (log.isDebugEnabled()) {
@@ -1217,10 +1217,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
   }
 
-  
-
   // Ficar a l'api
-  protected File getLogoOfPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma) throws I18NException {
+  protected File getLogoOfPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma)
+      throws I18NException {
 
     if (peticioDeFirma.getLogoSegellID() == null) {
 
@@ -1275,11 +1274,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             destinatarisUsuari.add(firma.getDestinatariID());
           } else {
             String usuariEntitatID = usuariEntitatEjb.executeQueryOne(
-                UsuariEntitatFields.USUARIENTITATID, Where.AND(
-                    UsuariEntitatFields.USUARIPERSONAID.equal(usuariEntitatJPA
-                        .getUsuariPersonaID()), UsuariEntitatFields.ENTITATID
-                        .equal(usuariEntitatJPA.getEntitatID()), UsuariEntitatFields.CARREC
-                        .isNull()));
+                UsuariEntitatFields.USUARIENTITATID,
+                Where.AND(
+                    UsuariEntitatFields.USUARIPERSONAID
+                        .equal(usuariEntitatJPA.getUsuariPersonaID()),
+                    UsuariEntitatFields.ENTITATID.equal(usuariEntitatJPA.getEntitatID()),
+                    UsuariEntitatFields.CARREC.isNull()));
 
             destinatarisCarrec.add(firma.getDestinatariID());
             destinatarisUsuari.add(usuariEntitatID);
@@ -1293,9 +1293,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     allDestinataris.addAll(destinatarisCarrec);
 
     // Verificar que els usuaris estan actius
-    long count = usuariEntitatEjb.count(Where.AND(
-        UsuariEntitatFields.USUARIENTITATID.in(allDestinataris),
-        UsuariEntitatFields.ACTIU.equal(false)));
+    long count = usuariEntitatEjb
+        .count(Where.AND(UsuariEntitatFields.USUARIENTITATID.in(allDestinataris),
+            UsuariEntitatFields.ACTIU.equal(false)));
     if (count != 0) {
       throw new I18NException("peticiodefirma.usuarisnoactius", String.valueOf(count));
     }
@@ -1304,8 +1304,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     // tenguin.
     Where where = Where.AND(RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_DEST),
         RoleUsuariEntitatFields.USUARIENTITATID.in(destinatarisUsuari));
-    List<String> destAmbPermis = roleUsuariEntitatEjb.executeQuery(
-        RoleUsuariEntitatFields.USUARIENTITATID, where);
+    List<String> destAmbPermis = roleUsuariEntitatEjb
+        .executeQuery(RoleUsuariEntitatFields.USUARIENTITATID, where);
     // Esborram tos els que tenen permis
     for (String ambPermis : destAmbPermis) {
       destinatarisUsuari.remove(ambPermis);
@@ -1374,7 +1374,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     public boolean equals(Object obj) {
       if (obj instanceof Token) {
         Token tok = (Token) obj;
-        if (tok.timeInMs == this.timeInMs && this.usuariEntitatID.equals(tok.usuariEntitatID)) {
+        if (tok.timeInMs == this.timeInMs
+            && this.usuariEntitatID.equals(tok.usuariEntitatID)) {
           return true;
         }
       }
@@ -1451,7 +1452,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // CAS 1: Crear un nou TOKEN
       Token token = new Token(usuariEntitatID, timeAliveToken);
       locks.put(peticioDeFirmaID, token);
-      //bitacolaLogicaEjb.createBitacola("lock.new", peticioDeFirmaID, usuariEntitatID);
+      // bitacolaLogicaEjb.createBitacola("lock.new", peticioDeFirmaID, usuariEntitatID);
       return token.getTokenString();
     } else {
       // Existeix bloqueig
@@ -1459,12 +1460,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         // CAS 2: Si es el mateix usuari llavors no existeix bloqueig
         // Actualitzam la data (si és necessari) i retornam el token
         tokenStored.updateTime();
-        //bitacolaLogicaEjb.createBitacola("lock.updateTime", peticioDeFirmaID, usuariEntitatID);
+        // bitacolaLogicaEjb.createBitacola("lock.updateTime", peticioDeFirmaID,
+        // usuariEntitatID);
         return tokenStored.getTokenString();
       } else {
         // CAS 3: Esta bloquejat per un altre usuari.
-        // TODO: S'ha de crear bitàcola de que no s'ha pogut crear el lock perquè està bloquejat?
-        //bitacolaLogicaEjb.createBitacola("lock.null", peticioDeFirmaID, usuariEntitatID);
+        // TODO: S'ha de crear bitàcola de que no s'ha pogut crear el lock perquè està
+        // bloquejat?
+        // bitacolaLogicaEjb.createBitacola("lock.null", peticioDeFirmaID, usuariEntitatID);
         return null;
       }
     }
@@ -1563,10 +1566,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         return true;
       } else {
         if (log.isDebugEnabled()) {
-          log.debug(
-              "S'ha cridat a checkPeticioDeFirmaByUsuariEntitat(" + peticioDeFirmaID + ","
-                  + usuariEntitatId + ") però els usuaris són diferents("
-                  + tokenStored.getTokenString() + ")", new Exception());
+          log.debug("S'ha cridat a checkPeticioDeFirmaByUsuariEntitat(" + peticioDeFirmaID
+              + "," + usuariEntitatId + ") però els usuaris són diferents("
+              + tokenStored.getTokenString() + ")", new Exception());
         }
         return false;
       }
@@ -1579,19 +1581,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     if (peticioDeFirma != null) {
 
       if (!hasAccess(peticioDeFirma, usernameLoguejat)) {
-        throw new I18NException("peticiodefirma.error.nopropietari",
-             usernameLoguejat, String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
+        throw new I18NException("peticiodefirma.error.nopropietari", usernameLoguejat,
+            String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
       }
 
       peticioDeFirma
           .setTipusEstatPeticioDeFirmaID(ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT);
       update(peticioDeFirma);
 
-      bitacolaLogicaEjb.createBitacola(
-            peticioDeFirma.getUsuariAplicacio().getEntitatID(),
-            peticioDeFirma.getPeticioDeFirmaID(),
-            BITACOLA_TIPUS_PETICIO,
-            BITACOLA_OP_PAUSAR);
+      bitacolaLogicaEjb.createBitacola(peticioDeFirma.getUsuariAplicacio().getEntitatID(),
+          peticioDeFirma.getPeticioDeFirmaID(), BITACOLA_TIPUS_PETICIO, BITACOLA_OP_PAUSAR);
 
       try {
         // Events
@@ -1623,9 +1622,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    */
   protected boolean startNextSign(PeticioDeFirmaJPA peticioDeFirma, FluxDeFirmesJPA flux,
       EstatDeFirmaJPA estatDeFirma, FirmaEventList events)
-          throws I18NException, PeticioHaDeSerRebutjadaException {
+      throws I18NException, PeticioHaDeSerRebutjadaException {
 
-    if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() != ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
+    if (peticioDeFirma
+        .getTipusEstatPeticioDeFirmaID() != ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
       log.error("S'esta cercant un nou bloc de firmes disponible per la petició "
           + peticioDeFirma.getPeticioDeFirmaID() + " però aquesta no esta en progres. ");
       return false;
@@ -1640,7 +1640,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     log.debug(" ========== startNextSign");
     Timestamp now = new Timestamp(System.currentTimeMillis());
-    
+
     String entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
 
     for (BlocDeFirmesJPA blocDeFirmesJPA : blocsOrdenats) {
@@ -1666,8 +1666,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
 
       // Cercam un bloc no tancat pero amb totes les firmes realitzades
-      long firmesFinalitzades = firmaLogicaEjb.count(Where.AND(
-          FirmaFields.FIRMAID.in(firmaIDs), FirmaFields.FITXERFIRMATID.isNotNull()));
+      long firmesFinalitzades = firmaLogicaEjb.count(
+          Where.AND(FirmaFields.FIRMAID.in(firmaIDs), FirmaFields.FITXERFIRMATID.isNotNull()));
 
       if (firmesFinalitzades >= blocDeFirmesJPA.getMinimDeFirmes()) {
         log.debug("  Tancam Bloc i passam al següent !!!");
@@ -1697,8 +1697,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
         // Cercam les firmes no realitzades
 
-        long estatsDeFirma = estatDeFirmaLogicaEjb.count(EstatDeFirmaFields.FIRMAID
-            .in(firmaIDs));
+        long estatsDeFirma = estatDeFirmaLogicaEjb
+            .count(EstatDeFirmaFields.FIRMAID.in(firmaIDs));
 
         if (estatsDeFirma != 0) {
           // És un bloc amb firmes pendents, per la qual cosa no feim res
@@ -1742,8 +1742,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
                 }
 
                 destinatariReal = usuariEntitatEjb.executeQueryOne(
-                    UsuariEntitatFields.USUARIENTITATID, Where.AND(
-                        UsuariEntitatFields.ENTITATID.equal(dest.getEntitatID()),
+                    UsuariEntitatFields.USUARIENTITATID,
+                    Where.AND(UsuariEntitatFields.ENTITATID.equal(dest.getEntitatID()),
                         UsuariEntitatFields.USUARIPERSONAID.equal(dest.getUsuariPersonaID()),
                         UsuariEntitatFields.CARREC.isNull()));
                 if (destinatariReal == null) {
@@ -1763,47 +1763,49 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             estatDeFirmaDest.setDataInici(new Timestamp(System.currentTimeMillis()));
             estatDeFirmaDest.setDescripcio("");
             estatDeFirmaDest.setFirmaID(firmaJPA.getFirmaID());
-            estatDeFirmaDest
-                .setTipusEstatDeFirmaInicialID(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
+            estatDeFirmaDest.setTipusEstatDeFirmaInicialID(
+                ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
             estatDeFirmaDest.setUsuariEntitatID(destinatariReal);
             estatDeFirmaDest = (EstatDeFirmaJPA) estatDeFirmaLogicaEjb
                 .createFull(estatDeFirmaDest);
-            
+
             if (firmaJPA.getUsuariExternEmail() != null) {
-              
-              // Usuari Extern              
-              switch(firmaJPA.getUsuariExternNivellSeguretat()) {
-                
+
+              // Usuari Extern
+              switch (firmaJPA.getUsuariExternNivellSeguretat()) {
+
                 case ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_TOKEN:
                   // Enviar-li correu amb TOKEN
 
                   try {
                     sendMailToExternalUser(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
                         peticioDeFirma.getTitol(), firmaJPA);
-                  } catch(I18NException i18ne) {
-                    
+                  } catch (I18NException i18ne) {
+
                     Locale loc = new Locale("ca");
-                    String msg = I18NCommonUtils.getMessage((I18NException)i18ne, loc);
-   
+                    String msg = I18NCommonUtils.getMessage((I18NException) i18ne, loc);
+
                     // XYZ ZZZ TRA
-                    msg = "S'ha intentat enviar correu a " + firmaJPA.getUsuariExternEmail() + " però ha fallat: " + msg;
+                    msg = "S'ha intentat enviar correu a " + firmaJPA.getUsuariExternEmail()
+                        + " però ha fallat: " + msg;
                     log.error(msg, i18ne);
                     throw new PeticioHaDeSerRebutjadaException(i18ne);
                   }
-                  
+
                 break;
-                
+
                 case ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_CERTIFICATE:
                 case ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_PASSWORD:
-                  // XYZ ZZZ XYZ 
-                  throw new I18NException("genapp.comodi", 
-                      "Encara no es suporta el nivell de seguretat " + firmaJPA.getUsuariExternNivellSeguretat());
+                  // XYZ ZZZ XYZ
+                  throw new I18NException("genapp.comodi",
+                      "Encara no es suporta el nivell de seguretat "
+                          + firmaJPA.getUsuariExternNivellSeguretat());
                 default:
-                  // XYZ ZZZ XYZ 
-                  throw new I18NException("genapp.comodi", 
-                      "Nivell de seguretat desconegut" + firmaJPA.getUsuariExternNivellSeguretat());
+                  // XYZ ZZZ XYZ
+                  throw new I18NException("genapp.comodi", "Nivell de seguretat desconegut"
+                      + firmaJPA.getUsuariExternNivellSeguretat());
               }
-              
+
             } else {
               events.requerit_per_firmar(peticioDeFirma, estatDeFirmaDest);
             }
@@ -1819,8 +1821,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             SubQuery<TipusDocumentColaboracioDelegacio, Long> subquery;
             subquery = tipusDocumentColaboracioDelegacioEjb.getSubQuery(
                 TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID,
-                TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID.equal(peticioDeFirma
-                    .getTipusDocumentID()));
+                TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID
+                    .equal(peticioDeFirma.getTipusDocumentID()));
 
             // (a.2) Una llista buida significa que acceptarà qualsevol peticio
             SubQuery<TipusDocumentColaboracioDelegacio, Long> subquery2;
@@ -1832,10 +1834,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
             final Where commonWhere = Where.AND(ColaboracioDelegacioFields.ACTIVA.equal(true),
                 Where.OR(ColaboracioDelegacioFields.DATAINICI.isNull(),
-                    ColaboracioDelegacioFields.DATAINICI.lessThan(now)), Where.OR(
-                    ColaboracioDelegacioFields.DATAFI.isNull(),
-                    ColaboracioDelegacioFields.DATAFI.greaterThan(now)), Where.OR(
-                    ColaboracioDelegacioFields.COLABORACIODELEGACIOID.in(subquery),
+                    ColaboracioDelegacioFields.DATAINICI.lessThan(now)),
+                Where.OR(ColaboracioDelegacioFields.DATAFI.isNull(),
+                    ColaboracioDelegacioFields.DATAFI.greaterThan(now)),
+                Where.OR(ColaboracioDelegacioFields.COLABORACIODELEGACIOID.in(subquery),
                     new LongConstantField(0L).in(subquery2)));
 
             final Where w1 = Where.AND(
@@ -1878,10 +1880,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
                 tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR;
               }
               estatDeFirmaColaDele.setTipusEstatDeFirmaInicialID(tipusEstat);
-              estatDeFirmaColaDele.setUsuariEntitatID(colaboracioDelegacio
-                  .getColaboradorDelegatID());
-              estatDeFirmaColaDele.setColaboracioDelegacioID(colaboracioDelegacio
-                  .getColaboracioDelegacioID());
+              estatDeFirmaColaDele
+                  .setUsuariEntitatID(colaboracioDelegacio.getColaboradorDelegatID());
+              estatDeFirmaColaDele
+                  .setColaboracioDelegacioID(colaboracioDelegacio.getColaboracioDelegacioID());
               estatDeFirmaColaDele = estatDeFirmaLogicaEjb.createFull(estatDeFirmaColaDele);
               if (tipusEstat == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
                 events.requerit_per_firmar(peticioDeFirma, estatDeFirmaColaDele);
@@ -1947,65 +1949,56 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     // Avisam de la firma final
     events.peticio_firmada(peticioDeFirma);
 
-    bitacolaLogicaEjb.createBitacola(
-          entitatID,
-          peticioDeFirma.getPeticioDeFirmaID(),
-          BITACOLA_TIPUS_PETICIO,
-          BITACOLA_OP_FINALITZAR);
+    bitacolaLogicaEjb.createBitacola(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
+        BITACOLA_TIPUS_PETICIO, BITACOLA_OP_FINALITZAR);
 
     return true;
   }
 
   @Override
   public void sendMailToExternalUser(String entitatId, long peticioDeFirmaID,
-      String titolPeticio, FirmaJPA firmaJPA)  throws I18NException {
-    
-    // XYZ ZZZ ZZZ  S'hauria de collir la URL base de POrtaFIB del 
+      String titolPeticio, FirmaJPA firmaJPA) throws I18NException {
+
+    // XYZ ZZZ ZZZ S'hauria de collir la URL base de POrtaFIB del
     // Perfil de Firma
     String urlPortaFIB = PropietatGlobalUtil.getPortafibUrlForExternalSignatures();
-    
+
     // XYZ ZZZ ZZZ TRA
     if (urlPortaFIB == null) {
       throw new I18NException("genapp.comodi",
           "No puc obtenir la URL base de PortaFIB a partir de la propietat"
-          + " PortafibUrlForExternalSignatures. Consulti amb l'administrador de PortaFIB.");
+              + " PortafibUrlForExternalSignatures. Consulti amb l'administrador de PortaFIB.");
     }
-    
-    
-    final String urlToken = urlPortaFIB + ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN 
-        + "/" + firmaJPA.getUsuariExternToken();
+
+    final String urlToken = urlPortaFIB + ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN + "/"
+        + firmaJPA.getUsuariExternToken();
 
     Locale loc = new Locale(firmaJPA.getUsuariExternIdioma());
-    
 
-    String base = I18NCommonUtils.tradueix(loc, "usuariextern.email.subject", 
-        titolPeticio);                  
-    String subject= "PORTAFIB: "  + base;
+    String base = I18NCommonUtils.tradueix(loc, "usuariextern.email.subject", titolPeticio);
+    String subject = "PORTAFIB: " + base;
     String message = I18NCommonUtils.tradueix(loc, "usuariextern.email.body", base, urlToken);
     boolean isHtml = true;
-         
+
     String from = PropietatGlobalUtil.getAppEmail();
     String recipient = firmaJPA.getUsuariExternEmail();
     log.info("Enviant correu a usuari extern (" + recipient + ")");
-    
-    
-    
+
     try {
       EmailUtil.postMail(subject, message, isHtml, from, recipient);
-      
+
       // Bitacola
-      bitacolaLogicaEjb.createBitacola(entitatId, peticioDeFirmaID,
-          BITACOLA_TIPUS_PETICIO, BITACOLA_OP_EMAIL_USUARI_EXTERN, "OK:" + recipient);
-      
-    } catch(Throwable e) {
-      
+      bitacolaLogicaEjb.createBitacola(entitatId, peticioDeFirmaID, BITACOLA_TIPUS_PETICIO,
+          BITACOLA_OP_EMAIL_USUARI_EXTERN, "OK:" + recipient);
+
+    } catch (Throwable e) {
+
       // Bitacola
-      bitacolaLogicaEjb.createBitacola(entitatId, peticioDeFirmaID,
-          BITACOLA_TIPUS_PETICIO, BITACOLA_OP_EMAIL_USUARI_EXTERN,
-          "ERROR:" + recipient + ":" + e.getMessage());
-      
+      bitacolaLogicaEjb.createBitacola(entitatId, peticioDeFirmaID, BITACOLA_TIPUS_PETICIO,
+          BITACOLA_OP_EMAIL_USUARI_EXTERN, "ERROR:" + recipient + ":" + e.getMessage());
+
       if (e instanceof I18NException) {
-        throw (I18NException)e;
+        throw (I18NException) e;
       } else {
         throw new I18NException("genapp.comodi", e.getMessage());
       }
@@ -2015,15 +2008,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   protected void descartarEstatsDeFirma(Long[] firmaIDs, final String msg,
       PeticioDeFirmaJPA peticioDeFirma, FirmaEventList events, Timestamp now)
       throws I18NException {
-    List<EstatDeFirma> estatsDeFirma = estatDeFirmaLogicaEjb.select(Where.AND(
-        EstatDeFirmaFields.DATAFI.isNull(), EstatDeFirmaFields.FIRMAID.in(firmaIDs)));
+    List<EstatDeFirma> estatsDeFirma = estatDeFirmaLogicaEjb.select(Where
+        .AND(EstatDeFirmaFields.DATAFI.isNull(), EstatDeFirmaFields.FIRMAID.in(firmaIDs)));
 
     for (EstatDeFirma estat : estatsDeFirma) {
       estat.setDataFi(now);
       estat.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
       estat.setDescripcio(msg);
       estat = estatDeFirmaLogicaEjb.update(estat);
-      if (estat.getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+      if (estat
+          .getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
         events.descartat_per_firmar(peticioDeFirma, estat);
       } else {
         events.descartat_per_validar(peticioDeFirma, estat);
@@ -2046,8 +2040,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   @Override
-  public Set<Long> deleteFullUsingAdministradorEntitat(Long peticioDeFirmaID, String usernameLoguejat,
-      String motiuEsborrat) throws I18NException {
+  public Set<Long> deleteFullUsingAdministradorEntitat(Long peticioDeFirmaID,
+      String usernameLoguejat, String motiuEsborrat) throws I18NException {
     if (motiuEsborrat == null || motiuEsborrat.trim().length() == 0) {
       throw new I18NException("genapp.comodi", "Com a Administrador d'Entitat no pot esborrar "
           + "la petició amb ID " + peticioDeFirmaID + " sinó defineix un motiu.");
@@ -2056,13 +2050,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   @Override
-  public Set<Long> deleteFullUsingUsuariEntitat(Long peticioDeFirmaID, String usernameLoguejat) throws I18NException {
-    return deleteFull(peticioDeFirmaID,usernameLoguejat, true,  null);
+  public Set<Long> deleteFullUsingUsuariEntitat(Long peticioDeFirmaID, String usernameLoguejat)
+      throws I18NException {
+    return deleteFull(peticioDeFirmaID, usernameLoguejat, true, null);
   }
 
   @Override
-  public Set<Long> deleteFullUsingUsuariAplicacio(Long peticioDeFirmaID, String usuariAplicacioID) throws I18NException {
-    return deleteFull(peticioDeFirmaID,usuariAplicacioID, false,  null);
+  public Set<Long> deleteFullUsingUsuariAplicacio(Long peticioDeFirmaID,
+      String usuariAplicacioID) throws I18NException {
+    return deleteFull(peticioDeFirmaID, usuariAplicacioID, false, null);
   }
 
   /**
@@ -2071,8 +2067,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * @return List of filesID deleted
    */
   private Set<Long> deleteFull(Long peticioDeFirmaID, String usernameLoguejat,
-      boolean isUsuariEntitat,  String motiuEsborrat)
-      throws I18NException {
+      boolean isUsuariEntitat, String motiuEsborrat) throws I18NException {
     Set<Long> files = new HashSet<Long>();
 
     try {
@@ -2081,17 +2076,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       if (pf == null) {
         return files;
       }
-      
-//      int estatP = pf.getTipusEstatPeticioDeFirmaID();
-//      if (estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
-//          || estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
-//        // OK
-//        // URGENT XYZ ZZZ TRA
-//        throw new I18NException("genapp.comodi",
-//            "La petició titulada " + pf.getTitol()
-//            + " NO ha d'estar pausada o en procés per poder-la esborrar");
-//      }
-      
+
+      // int estatP = pf.getTipusEstatPeticioDeFirmaID();
+      // if (estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
+      // || estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
+      // // OK
+      // // URGENT XYZ ZZZ TRA
+      // throw new I18NException("genapp.comodi",
+      // "La petició titulada " + pf.getTitol()
+      // + " NO ha d'estar pausada o en procés per poder-la esborrar");
+      // }
 
       // Check si l'usuari entitat o aplicació té permis per esborrar
       // Si és PFI_ADMIN se li permet
@@ -2099,32 +2093,32 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // No és un Administrador d'Entitat, comprovam accés normal...
       if (motiuEsborrat == null) {
         if (!hasAccess(pf, usernameLoguejat)) {
-          throw new I18NException("peticiodefirma.error.nopermisdeborrar",
-                  usernameLoguejat,
-                  pf.getTitol());
+          throw new I18NException("peticiodefirma.error.nopermisdeborrar", usernameLoguejat,
+              pf.getTitol());
         }
       } else {
-        // És Administrador d'Entitat. Comprovam que ho sigui de l'entitat de la qual és la petició.
-        String entitatID = this.usuariAplicacioEjb.findByPrimaryKey(pf.getSolicitantUsuariAplicacioID()).getEntitatID();
+        // És Administrador d'Entitat. Comprovam que ho sigui de l'entitat de la qual és la
+        // petició.
+        String entitatID = this.usuariAplicacioEjb
+            .findByPrimaryKey(pf.getSolicitantUsuariAplicacioID()).getEntitatID();
         if (currentUsuariEntitatADEN(entitatID, usernameLoguejat) == null) {
-          throw new I18NException("peticiodefirma.error.nopermisdeborrar",
-                  usernameLoguejat,
-                  pf.getTitol());
+          throw new I18NException("peticiodefirma.error.nopermisdeborrar", usernameLoguejat,
+              pf.getTitol());
         }
       }
 
       // Esborrar Notificacions
-      //notificacioWsEjb.delete(NotificacioWSFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
+      // notificacioWsEjb.delete(NotificacioWSFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
       // Esborrar Bitacola
-      //bitacolaEjb.delete(BitacolaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
+      // bitacolaEjb.delete(BitacolaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
       // Esborrar metadades
       metadadaLogicaEjb.delete(MetadadaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
       // Esborrar anexes (i anexes firmats)
-      List<Annex> adjunts = annexLogicaEjb.select(AnnexFields.PETICIODEFIRMAID
-          .equal(peticioDeFirmaID));
+      List<Annex> adjunts = annexLogicaEjb
+          .select(AnnexFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
       if (adjunts != null) {
         for (Annex annex : adjunts) {
           files.addAll(annexLogicaEjb.deleteFull(annex.getAnnexID()));
@@ -2134,52 +2128,42 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       String entitatID = pf.getUsuariAplicacio().getEntitatID();
 
-      
       // Esborrar Peticio de Firma
       this.delete(pf);
-      
+
       // Esborrar Configuració de Firma si es de la Petició
       {
         Long configuracioDeFirmaID = pf.getConfiguracioDeFirmaID();
-        if(configuracioDeFirmaID == null) {
+        if (configuracioDeFirmaID == null) {
           // OK
         } else {
-          
+
           boolean esDePeticio;
           esDePeticio = configuracioDeFirmaLogicaEjb.executeQueryOne(
               UsuariAplicacioConfiguracioFields.ESDEPETICIO,
-              UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID.equal(configuracioDeFirmaID));
-          
+              UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID
+                  .equal(configuracioDeFirmaID));
+
           if (esDePeticio) {
             configuracioDeFirmaLogicaEjb.deleteFull(configuracioDeFirmaID);
           }
         }
       }
-      
 
       if (isUsuariEntitat) {
-         if (motiuEsborrat == null) {
-           bitacolaLogicaEjb.createBitacola(
-                 entitatID,
-                 pf.getPeticioDeFirmaID(),
-                 BITACOLA_TIPUS_PETICIO,
-                 BITACOLA_OP_ESBORRAR,
-                 "Petició esborrada per Usuari-Entitat");
-         } else {
-           bitacolaLogicaEjb.createBitacola(
-                 entitatID,
-                 pf.getPeticioDeFirmaID(),
-                 BITACOLA_TIPUS_PETICIO,
-                 BITACOLA_OP_ESBORRAR,
-                 "Petició esborrada per Administrador Entitat: " + motiuEsborrat);
-         }
+        if (motiuEsborrat == null) {
+          bitacolaLogicaEjb.createBitacola(entitatID, pf.getPeticioDeFirmaID(),
+              BITACOLA_TIPUS_PETICIO, BITACOLA_OP_ESBORRAR,
+              "Petició esborrada per Usuari-Entitat");
+        } else {
+          bitacolaLogicaEjb.createBitacola(entitatID, pf.getPeticioDeFirmaID(),
+              BITACOLA_TIPUS_PETICIO, BITACOLA_OP_ESBORRAR,
+              "Petició esborrada per Administrador Entitat: " + motiuEsborrat);
+        }
       } else {
-        bitacolaLogicaEjb.createBitacola(
-              entitatID,
-              pf.getPeticioDeFirmaID(),
-              BITACOLA_TIPUS_PETICIO,
-              BITACOLA_OP_ESBORRAR,
-              "Petició esborrada per Usuari-Aplicació");
+        bitacolaLogicaEjb.createBitacola(entitatID, pf.getPeticioDeFirmaID(),
+            BITACOLA_TIPUS_PETICIO, BITACOLA_OP_ESBORRAR,
+            "Petició esborrada per Usuari-Aplicació");
       }
 
       // Esborrar flux de firmes
@@ -2200,12 +2184,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
 
       // Esborram la reserva de Custòdia en cas de no haver finalitzat
-      if (pf.getCustodiaInfoID() != null
-          && pf.getTipusEstatPeticioDeFirmaID() != ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
+      if (pf.getCustodiaInfoID() != null && pf
+          .getTipusEstatPeticioDeFirmaID() != ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
 
         // Esborram la reserva de custòdia
-        CustodiaInfoJPA custInfo = custodiaInfoLogicaEjb.findByPrimaryKey(pf
-            .getCustodiaInfoID());
+        CustodiaInfoJPA custInfo = custodiaInfoLogicaEjb
+            .findByPrimaryKey(pf.getCustodiaInfoID());
 
         IDocumentCustodyPlugin plugin;
         plugin = pluginDeCustodiaLogicaEjb.getInstanceByPluginID(custInfo.getPluginID());
@@ -2215,10 +2199,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             plugin.deleteCustody(custInfo.getCustodiaDocumentID());
           } catch (NotSupportedCustodyException e) {
             // TODO Avisar Administrador
-            log.error("Error esborrant custodia amb ID " + custInfo.getCustodiaDocumentID(), e);
+            log.error("Error esborrant custodia amb ID " + custInfo.getCustodiaDocumentID(),
+                e);
           } catch (CustodyException e) {
             // TODO Avisar Administrador
-            log.error("Error esborrant custodia amb ID " + custInfo.getCustodiaDocumentID(), e);
+            log.error("Error esborrant custodia amb ID " + custInfo.getCustodiaDocumentID(),
+                e);
           }
         }
 
@@ -2321,8 +2307,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         FirmaFields.NUMFIRMADOCUMENT.isNotNull());
 
     // TODO Falta selectOne
-    List<Firma> firmes = firmaLogicaEjb.select(where, firstResult, maxResults, new OrderBy(
-        FirmaFields.NUMFIRMADOCUMENT, OrderType.DESC));
+    List<Firma> firmes = firmaLogicaEjb.select(where, firstResult, maxResults,
+        new OrderBy(FirmaFields.NUMFIRMADOCUMENT, OrderType.DESC));
 
     if (firmes == null || firmes.size() == 0) {
       return null;
@@ -2356,8 +2342,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     SelectMultipleKeyValue<Long> select = new SelectMultipleKeyValue<Long>(keySelect,
         valueSelects);
 
-    List<KeyValue<Long>> firmes = firmaLogicaEjb.executeQuery(select, where, new OrderBy(
-        FirmaFields.NUMFIRMADOCUMENT, OrderType.DESC));
+    List<KeyValue<Long>> firmes = firmaLogicaEjb.executeQuery(select, where,
+        new OrderBy(FirmaFields.NUMFIRMADOCUMENT, OrderType.DESC));
 
     if (firmes == null || firmes.size() == 0) {
       return null;
@@ -2366,8 +2352,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       Map<Integer, IPortaFIBDataSource> fitxersByNumFirma = new HashMap<Integer, IPortaFIBDataSource>();
       for (KeyValue<Long> keyValue : firmes) {
 
-        fitxersByNumFirma.put(Integer.parseInt(keyValue.getValue()), new FitxerIdDataSource(
-            keyValue.getKey()));
+        fitxersByNumFirma.put(Integer.parseInt(keyValue.getValue()),
+            new FitxerIdDataSource(keyValue.getKey()));
       }
 
       return fitxersByNumFirma;
@@ -2377,7 +2363,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
   @Override
   public void nouFitxerFirmat(File signatureFile2, Long estatDeFirmaID, Long peticioDeFirmaID,
-      String token, int numFirmaPortaFIB, int numFirmesOriginals, String usernameLoguejat) throws I18NException {
+      String token, int numFirmaPortaFIB, int numFirmesOriginals, String usernameLoguejat)
+      throws I18NException {
 
     Long fileID = null;
     try {
@@ -2467,7 +2454,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           validarFitxerFirma = entitat.getPluginValidaFirmesID() != null;
           checkCanviatDocFirmat = entitat.isCheckCanviatDocFirmat();
           comprovarNifFirma = entitat.isComprovarNifFirma();
-          break;
+        break;
 
         case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
           if (confFirmaId == null) {
@@ -2475,39 +2462,48 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             checkCanviatDocFirmat = entitat.isCheckCanviatDocFirmat();
             comprovarNifFirma = entitat.isComprovarNifFirma();
           } else {
-            UsuariAplicacioConfiguracio configuracio = configuracioDeFirmaLogicaEjb.findByPrimaryKey(confFirmaId);
+            UsuariAplicacioConfiguracio configuracio = configuracioDeFirmaLogicaEjb
+                .findByPrimaryKey(confFirmaId);
 
-            validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb, entitatID);
-            checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio, entitatEjb, entitatID);
-            comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb, entitatID);
+            validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb,
+                entitatID);
+            checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio,
+                entitatEjb, entitatID);
+            comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb,
+                entitatID);
           }
-          break;
+        break;
 
         case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
           if (confFirmaId == null) {
-            // XYZ ZZZ TRA 
-            throw new I18NException("genapp.comodi", "La petició " + peticioDeFirmaID 
-                + " amb origen ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1 o "
-                + "ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2 no se li"
-                + " ha definit Configuracio de Firma");
+            // XYZ ZZZ TRA
+            throw new I18NException("genapp.comodi",
+                "La petició " + peticioDeFirmaID
+                    + " amb origen ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1 o "
+                    + "ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2 no se li"
+                    + " ha definit Configuracio de Firma");
           }
 
-          UsuariAplicacioConfiguracio configuracio = configuracioDeFirmaLogicaEjb.findByPrimaryKeyUnauthorized(confFirmaId);
+          UsuariAplicacioConfiguracio configuracio = configuracioDeFirmaLogicaEjb
+              .findByPrimaryKeyUnauthorized(confFirmaId);
 
-          validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb, entitatID);
-          checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio, entitatEjb, entitatID);
-          comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb, entitatID);
+          validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb,
+              entitatID);
+          checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio,
+              entitatEjb, entitatID);
+          comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb,
+              entitatID);
 
-          break;
-        
+        break;
+
         case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1:
-          // XYZ ZZZ TRA 
-          throw new I18NException("genapp.comodi", "Una petició amb origen" 
-            + " ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1 no hauria de passar per aquí.");
+          // XYZ ZZZ TRA
+          throw new I18NException("genapp.comodi", "Una petició amb origen"
+              + " ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1 no hauria de passar per aquí.");
 
         default:
-            // XYZ ZZZ TRA 
-            throw new I18NException("genapp.comodi", "L´origen de la petició de firma amb codi " 
+          // XYZ ZZZ TRA
+          throw new I18NException("genapp.comodi", "L´origen de la petició de firma amb codi "
               + peticioDeFirma.getOrigenPeticioDeFirma() + " és desconegut.");
 
       }
@@ -2515,30 +2511,30 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       String expectedNif;
       {
         final StringField NIF = new UsuariEntitatQueryPath().USUARIPERSONA().NIF();
-        final Where where = UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma
-            .getUsuariEntitatID());
+        final Where where = UsuariEntitatFields.USUARIENTITATID
+            .equal(estatDeFirma.getUsuariEntitatID());
         expectedNif = usuariEntitatEjb.executeQueryOne(NIF, where);
       }
-      
+
       IPortaFIBDataSource fitxerAdaptat = new FitxerIdDataSource(
           peticioDeFirma.getFitxerAdaptatID());
 
       ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
           validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal,
           fitxerAdaptat, signature, documentDetached, peticioDeFirma.getTipusFirmaID(),
-          peticioDeFirma.getModeDeFirma(), languageUI, numFirmaPortaFIB,
-          numFirmesOriginals, expectedNif, peticioDeFirma.getPosicioTaulaFirmesID());
+          peticioDeFirma.getModeDeFirma(), languageUI, numFirmaPortaFIB, numFirmesOriginals,
+          expectedNif, peticioDeFirma.getPosicioTaulaFirmesID());
 
       // Aqui es fan totes les validacions completes !!!!!!
       ValidacioCompletaResponse validacioResponse;
       validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest);
-      
+
       // Nous camps a Firma i a Petició de Firma #281
-      firma.setCheckAdministrationIdOfSigner(validacioResponse.getCheckAdministrationIDOfSigner());
+      firma.setCheckAdministrationIdOfSigner(
+          validacioResponse.getCheckAdministrationIDOfSigner());
       firma.setCheckDocumentModifications(validacioResponse.getCheckDocumentModifications());
       firma.setCheckValidationSignature(validacioResponse.getCheckValidationSignature());
       firma.setPerfilDeFirma(validacioResponse.getPerfilDeFirma());
-      
 
       firma.setNumeroSerieCertificat(validacioResponse.getNumeroSerieCertificat());
       firma.setEmissorCertificat(validacioResponse.getEmissorCertificat());
@@ -2554,8 +2550,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       fitxer.setDescripcio("");
       fitxer.setMime(validacioResponse.getMime());
       // XYZ FALTA NOM DE FITXER ORIGINAL
-      fitxer.setNom("PeticioFirma_" + peticioDeFirmaID + "."
-          + validacioResponse.getExtension());
+      fitxer
+          .setNom("PeticioFirma_" + peticioDeFirmaID + "." + validacioResponse.getExtension());
       fitxer.setTamany(signatureFile2.length());
 
       fitxer = fitxerLogicaEjb.createFull(fitxer);
@@ -2568,13 +2564,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       estatDeFirma = (EstatDeFirmaJPA) estatDeFirmaLogicaEjb.updateUnauthorized(estatDeFirma);
       events.firma_parcial(peticioDeFirma, estatDeFirma);
 
-      //TODO BITACOLA com saber quin plugin s'ha emprat per signar?
+      // TODO BITACOLA com saber quin plugin s'ha emprat per signar?
 
-      bitacolaLogicaEjb.createBitacola(
-            entitatID,
-            peticioDeFirma.getPeticioDeFirmaID(),
-            BITACOLA_TIPUS_PETICIO,
-            BITACOLA_OP_FIRMAR_PARCIALMENT);
+      bitacolaLogicaEjb.createBitacola(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
+          BITACOLA_TIPUS_PETICIO, BITACOLA_OP_FIRMAR_PARCIALMENT);
 
       // 3.- Associar Fitxer a la Firma i guardar
       firma.setNumFirmaDocument(numFirmaPortaFIB);
@@ -2598,7 +2591,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         estat.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
         estat.setDescripcio("Alguna altra persona ja ha firmat la peticio");
         estat = estatDeFirmaLogicaEjb.update(estat);
-        if (estat.getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+        if (estat
+            .getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
           events.descartat_per_firmar(peticioDeFirma, estat);
         } else {
           events.descartat_per_validar(peticioDeFirma, estat);
@@ -2620,8 +2614,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             FirmaFields.BLOCDEFIRMAID.equal(blocID), FirmaFields.OBLIGATORI.equal(false),
             FirmaFields.FITXERFIRMATID.isNotNull());
 
-        final long firmes = firmaLogicaEjb.count(Where.OR(firmes_obligatories,
-            firmes_no_obligatories_ja_firmades));
+        final long firmes = firmaLogicaEjb
+            .count(Where.OR(firmes_obligatories, firmes_no_obligatories_ja_firmades));
 
         if (firmes >= minim_de_firmes) {
           // Descartar les firmes no obligatories que no estan firmades
@@ -2645,16 +2639,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       // 6.- Cercar següent firma o finalitzar la petició
       FluxDeFirmesJPA flux;
-      flux = fluxDeFirmesLogicaEjb.findByPrimaryKeyFullForNextSign(peticioDeFirma
-          .getFluxDeFirmesID());
+      flux = fluxDeFirmesLogicaEjb
+          .findByPrimaryKeyFullForNextSign(peticioDeFirma.getFluxDeFirmesID());
 
       boolean peticioFinalitzada;
       try {
         peticioFinalitzada = startNextSign(peticioDeFirma, flux, estatDeFirma, events);
-      } catch(PeticioHaDeSerRebutjadaException e) {
-        
+      } catch (PeticioHaDeSerRebutjadaException e) {
+
         String motiuDeRebuig = e.getMessage();
-        
+
         rebutjar(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig, usernameLoguejat);
         return;
       }
@@ -2665,7 +2659,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // IMPORTATNT: Això ha de ser lo darrer per si hi hagues algun error en
       // les passes anteriors
       // 8.- Guardar Fitxer en Sistema de Fitxers
-      //FileSystemManager.sobreescriureFitxer(signatureFile, fitxer.getFitxerID());
+      // FileSystemManager.sobreescriureFitxer(signatureFile, fitxer.getFitxerID());
       fileID = fitxer.getFitxerID();
       signatureFile2 = LogicUtils.sobreescriureFitxerChecked(signatureFile2, fileID);
 
@@ -2674,13 +2668,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       if (peticioFinalitzada) {
         if (peticioDeFirma.getCustodiaInfoID() != null) {
 
-          CustodiaInfo custInfo = custodiaInfoLogicaEjb.findByPrimaryKeyUnathorized(peticioDeFirma
-            .getCustodiaInfoID());
+          CustodiaInfo custInfo = custodiaInfoLogicaEjb
+              .findByPrimaryKeyUnathorized(peticioDeFirma.getCustodiaInfoID());
 
-          IPortaFIBDataSource fitxerAFirmar = new FitxerIdDataSource(peticioDeFirma.getFitxerAFirmarID());
+          IPortaFIBDataSource fitxerAFirmar = new FitxerIdDataSource(
+              peticioDeFirma.getFitxerAFirmarID());
 
           String fitxerAFirmarNom = peticioDeFirma.getFitxerAFirmar().getNom();
-          
+
           custodiaInfoLogicaEjb.custodiaThingToDoOnFinishPeticioDeFirma(fitxerAFirmarNom,
               fitxerAFirmar, signatureFile2, peticioDeFirma, firma, custInfo);
         }
@@ -2766,13 +2761,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         throw (I18NException) error;
       }
 
-      throw new I18NException(error, "error.unknown", new I18NArgumentString(
-          error.getMessage()));
+      throw new I18NException(error, "error.unknown",
+          new I18NArgumentString(error.getMessage()));
     } finally {
       try {
         if (!unlockPeticioDeFirma(peticioDeFirmaID, token)) {
-          log.error("No s'ha pogut desbloquejar la petició " + peticioDeFirmaID
-              + " amb token " + token);
+          log.error("No s'ha pogut desbloquejar la petició " + peticioDeFirmaID + " amb token "
+              + token);
           for (Long peticioID : PeticioDeFirmaLogicaEJB.locks.keySet()) {
             Token tok = PeticioDeFirmaLogicaEJB.locks.get(peticioID);
             log.error("LOCKS: " + peticioID + " --> T(ms): " + tok.getTimeInMs() + " | U: "
@@ -2787,7 +2782,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     }
   }
 
-
   @Override
   public void cleanOriginalFilesOfPeticioDeFirma(Long peticioDeFirmaID) throws I18NException {
 
@@ -2800,7 +2794,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     }
 
     // L'únic estat en que es pot fer neteja d'originals és l'estat Firmat
-    int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID(); 
+    int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
     if (estat != ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
       // Les peticions no iniciades no es poden netejar
       throw new I18NException("peticiodefirma.error.neteja.nofirmat",
@@ -2812,9 +2806,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     ferNetejaPeticioFinalitzadaRebutjada(peticioDeFirma, firmaJPA);
 
     // ----- 3.- FER NETEJA D'ANNEXES ADJUNTS
-    List<Annex> llista = annexLogicaEjb.select(Where.AND(
-        AnnexFields.PETICIODEFIRMAID.equal(peticioDeFirmaID), AnnexFields.FIRMAR.equal(true),
-        AnnexFields.ADJUNTAR.equal(true)));
+    List<Annex> llista = annexLogicaEjb
+        .select(Where.AND(AnnexFields.PETICIODEFIRMAID.equal(peticioDeFirmaID),
+            AnnexFields.FIRMAR.equal(true), AnnexFields.ADJUNTAR.equal(true)));
     if (llista != null) {
       for (Annex annex : llista) {
         Set<Long> filesToDelete = annexLogicaEjb.deleteFull(annex);
@@ -2830,16 +2824,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       fitxerLogicaEjb.deleteFull(fitxerAfirmarID);
     }
 
-    bitacolaLogicaEjb.createBitacola(
-          peticioDeFirma.getUsuariAplicacio().getEntitatID(),
-          peticioDeFirma.getPeticioDeFirmaID(),
-          BITACOLA_TIPUS_PETICIO,
-          BITACOLA_OP_NETEJAR_ORIGINALS);
+    bitacolaLogicaEjb.createBitacola(peticioDeFirma.getUsuariAplicacio().getEntitatID(),
+        peticioDeFirma.getPeticioDeFirmaID(), BITACOLA_TIPUS_PETICIO,
+        BITACOLA_OP_NETEJAR_ORIGINALS);
 
   }
-  
-  
-  
+
   /**
    * 
    * @param entitatID
@@ -2847,18 +2837,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * @throws I18NException
    */
   protected EntitatJPA findEntitatByPrimaryKeyPublic(String entitatID) throws I18NException {
-    
-    List<Entitat> list =  entitatEjb.select(EntitatFields.ENTITATID.equal(entitatID));
-    
+
+    List<Entitat> list = entitatEjb.select(EntitatFields.ENTITATID.equal(entitatID));
+
     if (list == null || list.size() == 0) {
-      return null;      
+      return null;
     } else {
-      return (EntitatJPA)list.get(0);
+      return (EntitatJPA) list.get(0);
     }
 
   }
-  
-  
 
   @Override
   public void cleanAdaptatFileOfPeticioDeFirma(Long peticioDeFirmaID) throws I18NException {
@@ -2878,11 +2866,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       FirmaJPA firmaJPA = getLastSignOfPeticioDeFirma(peticioDeFirmaID);
       ferNetejaPeticioFinalitzadaRebutjada(peticioDeFirma, firmaJPA);
 
-      bitacolaLogicaEjb.createBitacola(
-            peticioDeFirma.getUsuariAplicacio().getEntitatID(),
-            peticioDeFirma.getPeticioDeFirmaID(),
-            BITACOLA_TIPUS_PETICIO,
-            BITACOLA_OP_NETEJAR_ADAPTATS);
+      bitacolaLogicaEjb.createBitacola(peticioDeFirma.getUsuariAplicacio().getEntitatID(),
+          peticioDeFirma.getPeticioDeFirmaID(), BITACOLA_TIPUS_PETICIO,
+          BITACOLA_OP_NETEJAR_ADAPTATS);
 
     } else {
       // Les peticions no iniciades no es poden netejar
@@ -2963,9 +2949,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR));
     Where w2 = EstatDeFirmaFields.COLABORACIODELEGACIOID.isNotNull();
     ColaboracioDelegacioQueryPath cdqp = new EstatDeFirmaQueryPath().COLABORACIODELEGACIO();
-    Where w3 = Where.AND(cdqp.REVISOR().equal(true), cdqp.ACTIVA().equal(true), cdqp
-        .ESDELEGAT().equal(false) // Es col·laborador
-        );
+    Where w3 = Where.AND(cdqp.REVISOR().equal(true), cdqp.ACTIVA().equal(true),
+        cdqp.ESDELEGAT().equal(false) // Es col·laborador
+    );
 
     if (estatDeFirmaLogicaEjb.count(Where.AND(w1, w2, w3)) != 0) {
       // Existeixen col·laboradors-revisors per la qual cosa un col·laborador
@@ -2976,8 +2962,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     // Marcam revisant-per-validar
     Timestamp now = new Timestamp(System.currentTimeMillis());
     estatDeFirma.setDataFi(now);
-    estatDeFirma
-        .setTipusEstatDeFirmaInicialID(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR);
+    estatDeFirma.setTipusEstatDeFirmaInicialID(
+        ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR);
     estatDeFirma.setDescripcio("El document ha sigut marcat per revisar");
     estatDeFirmaLogicaEjb.update(estatDeFirma);
 
@@ -3021,8 +3007,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       String motiuInvalidacio) throws I18NException {
 
     if (motiuInvalidacio == null || motiuInvalidacio.trim().length() == 0) {
-      throw new I18NException("estatdefirma.motiu.buit", new I18NArgumentCode(
-          "estatdefirma.motiu.invalidacio"));
+      throw new I18NException("estatdefirma.motiu.buit",
+          new I18NArgumentCode("estatdefirma.motiu.invalidacio"));
     }
 
     Timestamp now = new Timestamp(System.currentTimeMillis());
@@ -3069,7 +3055,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   @Override
   public void rebutjarADEN(PeticioDeFirmaJPA peticioDeFirma, String usuariEntitatAden,
       String motiuDeRebuig) throws I18NException {
-    
+
     int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
     if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
         || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
@@ -3088,8 +3074,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     List<EstatDeFirma> estatsPendentsDeFirma = estatDeFirmaLogicaEjb.select(Where.AND(
         EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
             .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
-        EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull(), PETICIODEFIRMAID
-            .equal(peticioDeFirma.getPeticioDeFirmaID())));
+        EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull(),
+        PETICIODEFIRMAID.equal(peticioDeFirma.getPeticioDeFirmaID())));
 
     if (estatsPendentsDeFirma.isEmpty()) {
       // Això significa que esta pausada i totes les firmes pendents s'han
@@ -3112,26 +3098,23 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       EstatDeFirma estatDeFirma = estatsPendentsDeFirma.get(0);
       Firma firma = firmaLogicaEjb.findByPrimaryKey(estatDeFirma.getFirmaID());
-      
-      String usernameLoguejat = usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.USUARIPERSONAID,
+
+      String usernameLoguejat = usuariEntitatEjb.executeQueryOne(
+          UsuariEntitatFields.USUARIPERSONAID,
           UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatAden));
-      
+
       rebutjarInternal(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig, usernameLoguejat);
 
     }
 
-    String entitatID =
-          usuariAplicacioEjb.findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID()).getEntitatID();
+    String entitatID = usuariAplicacioEjb
+        .findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID()).getEntitatID();
 
-    bitacolaLogicaEjb.createBitacola(
-          entitatID,
-          peticioDeFirma.getPeticioDeFirmaID(),
-          BITACOLA_TIPUS_PETICIO,
-          BITACOLA_OP_REBUTJAR,
-          "Petició rebutjada per Administrador Entitat: " + motiuDeRebuig);
+    bitacolaLogicaEjb.createBitacola(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
+        BITACOLA_TIPUS_PETICIO, BITACOLA_OP_REBUTJAR,
+        "Petició rebutjada per Administrador Entitat: " + motiuDeRebuig);
 
     rebutjarEstadistica(usuariEntitatAden, entitatID, peticioDeFirma);
-
 
     // Fer neteja de tots els fitxers firmats i del fitxer adaptat
     // No és una acció crítica, d'aqui el try-catch: només es per alliberar espai
@@ -3154,9 +3137,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
   @Override
   public void rebutjar(EstatDeFirma estatDeFirma, Firma firma,
-      PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig,
-      String usernameLoguejat) throws I18NException {
-    
+      PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig, String usernameLoguejat)
+      throws I18NException {
+
     int estatP = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
     if (estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
         || estatP == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
@@ -3169,19 +3152,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     rebutjarInternal(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig, usernameLoguejat);
 
-    //usuariAplicacioEjb.findByPrimaryKey(_ID_)(peticioDeFirma.getSolicitantUsuariAplicacioID()).getEntitatID();
-    String entitatID = usuariAplicacioEjb.executeQueryOne(UsuariAplicacioFields.ENTITATID, 
-              UsuariAplicacioFields.USUARIAPLICACIOID.equal(peticioDeFirma.getSolicitantUsuariAplicacioID()));
+    // usuariAplicacioEjb.findByPrimaryKey(_ID_)(peticioDeFirma.getSolicitantUsuariAplicacioID()).getEntitatID();
+    String entitatID = usuariAplicacioEjb.executeQueryOne(UsuariAplicacioFields.ENTITATID,
+        UsuariAplicacioFields.USUARIAPLICACIOID
+            .equal(peticioDeFirma.getSolicitantUsuariAplicacioID()));
 
-    bitacolaLogicaEjb.createBitacola(
-          entitatID,
-          peticioDeFirma.getPeticioDeFirmaID(),
-          BITACOLA_TIPUS_PETICIO,
-          BITACOLA_OP_REBUTJAR,
-          "Petició rebutjada: " + motiuDeRebuig);
+    bitacolaLogicaEjb.createBitacola(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
+        BITACOLA_TIPUS_PETICIO, BITACOLA_OP_REBUTJAR, "Petició rebutjada: " + motiuDeRebuig);
 
     rebutjarEstadistica(estatDeFirma.getUsuariEntitatID(), entitatID, peticioDeFirma);
-
 
     // Fer neteja de tots els fitxers firmats i del fitxer adaptat
     // No és una acció crítica, d'aqui el try-catch: només es per alliberar espai
@@ -3201,19 +3180,19 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   private void rebutjarInternal(EstatDeFirma estatDeFirma, Firma firma,
-      PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig, String usernameLoguejat) throws I18NException {
+      PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig, String usernameLoguejat)
+      throws I18NException {
 
     if (motiuDeRebuig == null || motiuDeRebuig.trim().length() == 0) {
-      throw new I18NException("estatdefirma.motiu.buit", new I18NArgumentCode(
-          "estatdefirma.motiu.rebuig"));
+      throw new I18NException("estatdefirma.motiu.buit",
+          new I18NArgumentCode("estatdefirma.motiu.rebuig"));
     }
 
     // Comprova que l'usuari té l'UsuariEntitat de l'EstatDeFirma
     if (!hasAccess(estatDeFirma, usernameLoguejat)) {
       // XYZ ZZZ ZZZ
-      throw new I18NException("genapp.comodi","L´usuari "
-              + usernameLoguejat
-              + " no té permisos sobre la petició de firma amb ID "
+      throw new I18NException("genapp.comodi",
+          "L´usuari " + usernameLoguejat + " no té permisos sobre la petició de firma amb ID "
               + String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
     }
 
@@ -3243,7 +3222,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         estatDeFirmaLogicaEjb.updateUnauthorized(estat);
 
         // Events
-        if (estat.getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+        if (estat
+            .getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
           events.descartat_per_firmar(peticioDeFirma, estatDeFirma);
         } else {
           events.descartat_per_validar(peticioDeFirma, estatDeFirma);
@@ -3271,7 +3251,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           .setTipusEstatPeticioDeFirmaID(ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT);
       peticioDeFirma.setDataFinal(now);
 
-
       if (peticioDeFirma.getSolicitantUsuariEntitat1ID() != null) {
         peticioDeFirma.setAvisWeb(true);
       }
@@ -3292,7 +3271,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   @Override
-  public PeticioDeFirmaJPA resetPeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA) 
+  public PeticioDeFirmaJPA resetPeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA)
       throws I18NException, I18NValidationException {
 
     PeticioDeFirmaJPA peticio = this.findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
@@ -3306,8 +3285,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     if (peticio.getFitxerAFirmarID() == null) {
       // Aquesta petició no es pot reinicialitzar ja que s'ha fet neteja dels documents
       // originals que la composaven
-      throw new I18NException("peticiodefirma.error.noreinicialitzar", peticio.getTitol()
-          + "(" + peticio.getPeticioDeFirmaID() + ")");
+      throw new I18NException("peticiodefirma.error.noreinicialitzar",
+          peticio.getTitol() + "(" + peticio.getPeticioDeFirmaID() + ")");
     }
 
     // Fitxers a esborrar
@@ -3328,10 +3307,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       peticio.setMotiuDeRebuig(null);
 
       // Esborrar Notificacions
-      //notificacioWsEjb.delete(NotificacioWSFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
+      // notificacioWsEjb.delete(NotificacioWSFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
       peticio.setAvisWeb(false);
- 
+
       // Esborrar Fitxers Firmats, AnnexosFirmats i Estats de Firma
 
       FluxDeFirmesJPA flux = peticio.getFluxDeFirmes();
@@ -3396,7 +3375,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           // OK No fer res
         } else {
           // CAS 2: Ara no hi ha custodia i abans si n'hi havia
-          if (peticio.getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
+          if (peticio
+              .getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
             // CAS 2.a Si la petició ha finalitzat, deslligam la custodiaactual de la peticio
             peticio.setCustodiaInfoID(null);
             peticio.setCustodiaInfo(null);
@@ -3426,7 +3406,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         } else {
 
           // Cas 4: Ara hi ha custodia default i la petició també en tenia
-          if (peticio.getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
+          if (peticio
+              .getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
 
             if (custodiaInfo_Entitat_Default.isEditable()) {
               // Feim una còpia de l'actual
@@ -3466,12 +3447,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       peticio = (PeticioDeFirmaJPA) update(peticio);
 
       // bitàcola
-      bitacolaLogicaEjb.createBitacola(
-            entitatJPA.getEntitatID(),
-            peticioDeFirmaID,
-            ConstantsV2.BITACOLA_TIPUS_PETICIO,
-            ConstantsV2.BITACOLA_OP_RESETEJAR
-      );
+      bitacolaLogicaEjb.createBitacola(entitatJPA.getEntitatID(), peticioDeFirmaID,
+          ConstantsV2.BITACOLA_TIPUS_PETICIO, ConstantsV2.BITACOLA_OP_RESETEJAR);
 
       // Desbloquejam petició
       try {
@@ -3555,8 +3532,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   public PeticioDeFirmaJPA clonePeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA,
       String newMessageFormaPatternForName) throws I18NException {
 
-    return clonePeticioDeFirma(peticioDeFirmaID, entitatJPA, newMessageFormaPatternForName, null, null,
-        null);
+    return clonePeticioDeFirma(peticioDeFirmaID, entitatJPA, newMessageFormaPatternForName,
+        null, null, null);
 
   }
 
@@ -3584,8 +3561,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     if (peticioOrig.getFitxerAFirmarID() == null) {
       // Aquesta petició no es pot clonar ja que s'ha fet neteja dels document originals que la
       // composaven
-      throw new I18NException("peticiodefirma.error.noclonar", peticioOrig.getTitol() + "("
-          + peticioOrig.getPeticioDeFirmaID() + ")");
+      throw new I18NException("peticiodefirma.error.noclonar",
+          peticioOrig.getTitol() + "(" + peticioOrig.getPeticioDeFirmaID() + ")");
     }
 
     PeticioDeFirmaJPA peticio = PeticioDeFirmaJPA.toJPA(peticioOrig);
@@ -3733,7 +3710,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             // Feim una còpia de l'actual
             cloneCustodiaInfo(peticio, custodiaInfo_Peticio_Current, false);
             // Per si s'ha canviat el plugin de CustodyInfo de l'entitat
-            //peticio.getCustodiaInfo().setPluginID(custodiaInfo_Entitat_Allowed.getPluginID());
+            // peticio.getCustodiaInfo().setPluginID(custodiaInfo_Entitat_Allowed.getPluginID());
           } else {
             // Feim una copia de la plantilla de l'entitat
             cloneCustodiaInfo(peticio, custodiaInfo_Entitat_Allowed, false);
@@ -3841,26 +3818,22 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     clonedCust.setCustodiaDocumentID(null);
     clonedCust.setUrlFitxerCustodiat(null);
     clonedCust.setCsv(null);
-    
+
     clonedCust.setCsvGenerationDefinition(null);
     clonedCust.setCsvValidationWeb(null);
-    
 
     clonedCust.setOriginalFileDirectUrl(null);
     clonedCust.setPrintableFileDirectUrl(null);
     clonedCust.setEniFileDirectUrl(null);
     clonedCust.setExpedientArxiuId(null); // futura compatibilitat amb plugin arxiu
-    clonedCust.setDocumentArxiuId(null);   // futura compatibilitat amb plugin arxiu
-    
+    clonedCust.setDocumentArxiuId(null); // futura compatibilitat amb plugin arxiu
 
     clonedCust.setNomPlantilla(null);
     clonedCust.setEntitatID(null);
     clonedCust.setTitolPeticio(peticio.getTitol());
 
-    
     clonedCust.setUsuariEntitatID(peticio.getSolicitantUsuariEntitat1ID());
     clonedCust.setUsuariAplicacioID(peticio.getSolicitantUsuariAplicacioID());
-    
 
     if (create) {
       clonedCust = (CustodiaInfoJPA) custodiaInfoLogicaEjb.create(clonedCust);
@@ -3909,8 +3882,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * 
    * @return retorna els mail als que s'ha enviat un avis
    */
-  public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar() throws Exception,
-      I18NException {
+  public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar()
+      throws Exception, I18NException {
 
     Map<String, InfoUser> allUsuariEntitat = new HashMap<String, InfoUser>();
 
@@ -3966,9 +3939,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         continue;
       }
 
-      Where where = Where.AND(PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID
-          .equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES), new PeticioDeFirmaQueryPath()
-          .USUARIAPLICACIO().ENTITATID().equal(entitatID));
+      Where where = Where.AND(
+          PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID
+              .equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES),
+          new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID));
       List<PeticioDeFirma> peticions = this.select(where);
 
       // Cercar nom entitats per petició
@@ -4008,8 +3982,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           dif = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
           Where w = BlocDeFirmesFields.FLUXDEFIRMESID
               .equal(peticioDeFirma.getFluxDeFirmesID());
-          firmes = blocDeFirmesEjb.executeQueryOne(new SelectSum(
-              BlocDeFirmesFields.MINIMDEFIRMES), w);
+          firmes = blocDeFirmesEjb
+              .executeQueryOne(new SelectSum(BlocDeFirmesFields.MINIMDEFIRMES), w);
 
           // Firmes realitzades
           Where wf = Where.AND(
@@ -4037,8 +4011,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           }
           ;
 
-          dataSeguentAvis = new Date(inici.getTime()
-              + (int) (diesSeguentAvis * 24 * 60 * 60 * 1000));
+          dataSeguentAvis = new Date(
+              inici.getTime() + (int) (diesSeguentAvis * 24 * 60 * 60 * 1000));
 
           enviarCorreu = (dataSeguentAvis.getTime() < now);
 
@@ -4052,9 +4026,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           log.debug(peticioDeFirma.getTitol() + "\t " + sdf.format(inici) + "\t "
               + sdf.format(fi) + "\t " + dif + "\t "
               + ((firmes == null) ? "-" : String.valueOf(firmes)) + "\t "
-              + ((firmesRealitzades == null) ? "-" : String.valueOf(firmesRealitzades))
-              + "\t " + ((dataSeguentAvis == null) ? "-" : sdf.format(dataSeguentAvis))
-              + "\t " + enviarCorreu + "\t[" + entitatID + "]");
+              + ((firmesRealitzades == null) ? "-" : String.valueOf(firmesRealitzades)) + "\t "
+              + ((dataSeguentAvis == null) ? "-" : sdf.format(dataSeguentAvis)) + "\t "
+              + enviarCorreu + "\t[" + entitatID + "]");
         }
       }
 
@@ -4065,14 +4039,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       for (PeticioDeFirma pf : avisarA) {
 
-        Where wf = Where.AND(new EstatDeFirmaQueryPath().FIRMA().BLOCDEFIRMES()
-            .FLUXDEFIRMESID().equal(pf.getFluxDeFirmesID()),
+        Where wf = Where.AND(
+            new EstatDeFirmaQueryPath().FIRMA().BLOCDEFIRMES().FLUXDEFIRMESID()
+                .equal(pf.getFluxDeFirmesID()),
             EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
                 .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
             EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull());
 
-        List<String> avisarusuaris = estatDeFirmaLogicaEjb.executeQuery(
-            EstatDeFirmaFields.USUARIENTITATID, wf);
+        List<String> avisarusuaris = estatDeFirmaLogicaEjb
+            .executeQuery(EstatDeFirmaFields.USUARIENTITATID, wf);
 
         avisosUsuariPerPeticio.put(pf, new HashSet<String>(avisarusuaris));
 
@@ -4109,9 +4084,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // 1.2.- Mail Usuari Persona
       {
         SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(
-            UsuariEntitatFields.USUARIENTITATID.select, new UsuariEntitatQueryPath()
-                .USUARIPERSONA().EMAIL().select, new UsuariEntitatQueryPath().USUARIPERSONA()
-                .IDIOMAID().select);
+            UsuariEntitatFields.USUARIENTITATID.select,
+            new UsuariEntitatQueryPath().USUARIPERSONA().EMAIL().select,
+            new UsuariEntitatQueryPath().USUARIPERSONA().IDIOMAID().select);
 
         Where w1 = Where.AND(UsuariEntitatFields.USUARIENTITATID.in(recuperarMailsDe),
             UsuariEntitatFields.EMAIL.isNull());
@@ -4161,9 +4136,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       try {
         EmailUtil.enviarMails(emailsEntitat);
       } catch (I18NException e) {
-        log.error(
-            "Error enviant correus de l'entitat " + entitatID + ": "
-                + I18NLogicUtils.getMessage(e, new Locale("ca")), e);
+        log.error("Error enviant correus de l'entitat " + entitatID + ": "
+            + I18NLogicUtils.getMessage(e, new Locale("ca")), e);
       }
 
     }
@@ -4240,12 +4214,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
   /**
    * Evalua si el compte d'usuari té accés a la petició de firma
+   * 
    * @param peticioDeFirma
    * @return true sí l'usuari és administrador, si té associat l'usuariEntitat de la petició,
-   * si és l'usuariApliació de la petició o bé és administrador de l'entitat a la qual pertany l'usuariAplicaio
+   *         si és l'usuariApliació de la petició o bé és administrador de l'entitat a la qual
+   *         pertany l'usuariAplicaio
    * @throws I18NException
    */
-  protected boolean hasAccess(PeticioDeFirma peticioDeFirma, String usernameLoguejat) throws I18NException {
+  protected boolean hasAccess(PeticioDeFirma peticioDeFirma, String usernameLoguejat)
+      throws I18NException {
 
     if (context.isCallerInRole(ConstantsV2.PFI_ADMIN)) {
       return true;
@@ -4259,13 +4236,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       if (usuariAplicacioID.equals(usernameLoguejat)) {
         return true;
       } else {
-        String entitatID = this.usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID).getEntitatID();
+        String entitatID = this.usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID)
+            .getEntitatID();
         return currentUsuariEntitatADEN(entitatID, usernameLoguejat) != null;
       }
     }
   }
 
-  protected boolean hasAccess(EstatDeFirma estatDeFirma, String usernameLoguejat) throws I18NException {
+  protected boolean hasAccess(EstatDeFirma estatDeFirma, String usernameLoguejat)
+      throws I18NException {
     String usuariEntitatID = estatDeFirma.getUsuariEntitatID();
     if (currentUserIs(usuariEntitatID, usernameLoguejat)) {
       return true;
@@ -4277,19 +4256,21 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   /**
-   * Si l'usuari té un UsuariEntitat que és Administrador de l'Entitat indicada, retorna aquest UsuariEntitat,
-   * sinó retorna null
+   * Si l'usuari té un UsuariEntitat que és Administrador de l'Entitat indicada, retorna aquest
+   * UsuariEntitat, sinó retorna null
+   * 
    * @param entitatID
    */
-  private String currentUsuariEntitatADEN(String entitatID,String usernameLoguejat) throws I18NException {
-    //String username = context.getCallerPrincipal().getName();
-    return this.roleUsuariEntitatEjb.executeQueryOne(RoleUsuariEntitatFields.USUARIENTITATID, Where.AND(
-            RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_ADEN),
-            new RoleUsuariEntitatQueryPath().USUARIENTITAT().USUARIPERSONAID().equal(usernameLoguejat),
+  private String currentUsuariEntitatADEN(String entitatID, String usernameLoguejat)
+      throws I18NException {
+    // String username = context.getCallerPrincipal().getName();
+    return this.roleUsuariEntitatEjb.executeQueryOne(RoleUsuariEntitatFields.USUARIENTITATID,
+        Where.AND(RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_ADEN),
+            new RoleUsuariEntitatQueryPath().USUARIENTITAT().USUARIPERSONAID()
+                .equal(usernameLoguejat),
             new RoleUsuariEntitatQueryPath().USUARIENTITAT().ACTIU().equal(true),
             new RoleUsuariEntitatQueryPath().USUARIENTITAT().CARREC().isNull(),
-            new RoleUsuariEntitatQueryPath().USUARIENTITAT().ENTITATID().equal(entitatID)
-    ));
+            new RoleUsuariEntitatQueryPath().USUARIENTITAT().ENTITATID().equal(entitatID)));
   }
 
   /**
@@ -4297,73 +4278,69 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * 
    * @param usuariEntitat
    */
-  private boolean currentUserIs(String usuariEntitat, String usernameLoguejat) throws I18NException {
-    //String username = context.getCallerPrincipal().getName();
+  private boolean currentUserIs(String usuariEntitat, String usernameLoguejat)
+      throws I18NException {
+    // String username = context.getCallerPrincipal().getName();
 
-    return this.usuariEntitatEjb.count(Where.AND(
-          UsuariEntitatFields.USUARIPERSONAID.equal(usernameLoguejat),
-          UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitat),
-          UsuariEntitatFields.ACTIU.equal(true), UsuariEntitatFields.CARREC.isNull())) == 1;
+    return this.usuariEntitatEjb
+        .count(Where.AND(UsuariEntitatFields.USUARIPERSONAID.equal(usernameLoguejat),
+            UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitat),
+            UsuariEntitatFields.ACTIU.equal(true), UsuariEntitatFields.CARREC.isNull())) == 1;
 
   }
 
   @Override
-  public CustodiaInfo addCustodiaInfoToPeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA) throws I18NException, I18NValidationException {
+  public CustodiaInfo addCustodiaInfoToPeticioDeFirma(long peticioDeFirmaID,
+      EntitatJPA entitatJPA) throws I18NException, I18NValidationException {
 
-    
-    
     log.info("XYZ ZZZ addCustodiaInfoToPeticioDeFirma:: ENTRA");
-    
+
     // Check peticio de firma
-    PeticioDeFirmaJPA peticio = (PeticioDeFirmaJPA)this.findByPrimaryKey(peticioDeFirmaID);
+    PeticioDeFirmaJPA peticio = (PeticioDeFirmaJPA) this.findByPrimaryKey(peticioDeFirmaID);
     if (peticio == null) {
       log.info("XYZ ZZZ  addCustodiaInfoToPeticioDeFirma:: peticio == null");
       return null;
     }
 
     // TODO Check si usuari app o usuari entitat pot custodiar
-    
-    /* XYZ ZZZ
-    CustodiaInfoBeanValidator cibv = new CustodiaInfoBeanValidator(validatorCustodiaInfo,usuariEntitatEjb,
-        entitatEjb, posicioPaginaEjb, codiBarresEjb, usuariAplicacioEjb);
-    
-    cibv.validate(target, isNou)
-
-    cibv.throwValidationExceptionIfErrors(custodiaInfo, true)
-    */
 
     /*
-    String usuariEntitatID = peticio.getSolicitantUsuariEntitat1ID();
-    String entitatID;
-    if (usuariEntitatID == null) {
-      entitatID = peticio.getUsuariAplicacio().getEntitatID();      
-    } else {
-      entitatID = peticio.getSolicitantUsuariEntitat1().getEntitatID();
+     * XYZ ZZZ CustodiaInfoBeanValidator cibv = new
+     * CustodiaInfoBeanValidator(validatorCustodiaInfo,usuariEntitatEjb, entitatEjb,
+     * posicioPaginaEjb, codiBarresEjb, usuariAplicacioEjb);
+     * 
+     * cibv.validate(target, isNou)
+     * 
+     * cibv.throwValidationExceptionIfErrors(custodiaInfo, true)
+     */
+
+    /*
+     * String usuariEntitatID = peticio.getSolicitantUsuariEntitat1ID(); String entitatID; if
+     * (usuariEntitatID == null) { entitatID = peticio.getUsuariAplicacio().getEntitatID(); }
+     * else { entitatID = peticio.getSolicitantUsuariEntitat1().getEntitatID(); }
+     ***
+     * 
+     * CustodiaInfoJPA custodiaInfo = CustodiaInfoJPA.toJPA(
+     * constructDefaultCustodiaInfo(peticio.getTitol(), entitatID, usuariEntitatID,
+     * peticio.getSolicitantUsuariAplicacioID(), peticio.getIdiomaID()));
+     */
+    CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodyInfoOnAddCustodyToPeticio(peticio,
+        entitatJPA);
+
+    if (ci == null) {
+      log.info(
+          "XYZ ZZZ  addCustodiaInfoToPeticioDeFirma:: searchDefaultCustodyInfo() == null");
+      return null;
     }
-    
-    ***
-    CustodiaInfoJPA custodiaInfo = CustodiaInfoJPA.toJPA(
-        constructDefaultCustodiaInfo(peticio.getTitol(), entitatID, usuariEntitatID,
-         peticio.getSolicitantUsuariAplicacioID(), peticio.getIdiomaID()));
-         */
-   CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodyInfoOnAddCustodyToPeticio(peticio, entitatJPA);
-   
-   
-   
-   if (ci == null) {
-     log.info("XYZ ZZZ  addCustodiaInfoToPeticioDeFirma:: searchDefaultCustodyInfo() == null");
-     return null;
-   }
 
     CustodiaInfoJPA custodiaInfo = CustodiaInfoJPA.toJPA(ci);
-     
-    custodiaInfo = (CustodiaInfoJPA)custodiaInfoLogicaEjb.create(custodiaInfo);
+
+    custodiaInfo = (CustodiaInfoJPA) custodiaInfoLogicaEjb.create(custodiaInfo);
     peticio.setCustodiaInfoID(custodiaInfo.getCustodiaInfoID());
     peticio.setCustodiaInfo(custodiaInfo);
-    
+
     this.update(peticio);
-   
-    
+
     return custodiaInfo;
   }
 
