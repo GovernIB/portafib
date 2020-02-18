@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+<mbean code="org.jboss.varia.property.SystemPropertiesService" name="jboss:type=Service,name=SystemProperties">
+
+    <!--  Load properties from each of the given comma seperated URLs  -->
+    <attribute name="URLList">
+      <!--
+      /apps/ourapp/ourapp.properties,
+      /apps/ourapp/exception.properties 
+      -->
+    </attribute>
+
+    <!--  Set raw properties file style properties.    -->
+    <attribute name="Properties">
+       apifirmasimple.exempleweb.signature_web.endpoint=http://localhost:8080/portafib/common/rest/apifirmawebsimple/v1/
+       apifirmasimple.exempleweb.signature_web.username=myusr_app
+       apifirmasimple.exempleweb.signature_web.password=mypwd_app
+       
+       apifirmasimple.exempleweb.signature_server.endpoint=http://localhost:8080/portafib/common/rest/apifirmaenservidorsimple/v1/
+       apifirmasimple.exempleweb.signature_server.username=myusr_app
+       apifirmasimple.exempleweb.signature_server.password=mypwd_app
+    </attribute>
+
+</mbean>
+</server>
