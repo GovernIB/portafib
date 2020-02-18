@@ -83,7 +83,7 @@
 </tr>
 <tr>
   <td style="text-align: right;">Codi Font:&nbsp;</td>
-  <td><a target="_blank" href="https://github.com/GovernIB/portafib/tree/portafib-2.0/apifirmasimple">
+  <td><a target="_blank" href="https://github.com/GovernIB/portafib/tree/portafib-2.0/apifirmasimple/apifirmaasyncsimple-example-web">
 Forja GitHub del GovernIB</a></td>
 </tr>
 <tr>
