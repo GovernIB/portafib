@@ -25,6 +25,8 @@ import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.FluxDeFirmesJPA;
 import es.caib.portafib.jpa.MetadadaJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.jpa.TraduccioJPA;
+import es.caib.portafib.jpa.TraduccioMapJPA;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
@@ -473,17 +475,25 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
               + configuracioDeFirmaID + "que no existeix a la Petició de Firma");
         }
 
-        UsuariAplicacioConfiguracioJPA clone = UsuariAplicacioConfiguracioJPA.copyJPA(config);
+        UsuariAplicacioConfiguracioJPA clone = UsuariAplicacioConfiguracioJPA.toJPA(config);
         clone.setUsuariAplicacioConfigID(0);
         clone.setEsDePeticio(true);
 
-        // fixam ID a 0 perquè les recrei.
-        if (clone.getMotiuDelegacio() != null) {
-          clone.getMotiuDelegacio().setTraduccioID(0);
+        /*
+        clonam el motiu delegació i el firmat per, fixant els id a null perquè les recreei.
+         */
+        if (config.getMotiuDelegacioID() != null) {
+          TraduccioJPA cloneMotiu = new TraduccioJPA();
+          cloneMotiu.setTraduccions(new HashMap<String, TraduccioMapJPA>(config.getMotiuDelegacioTraduccions()));
+
+          clone.setMotiuDelegacio(cloneMotiu);
           clone.setMotiuDelegacioID(null);
         }
-        if (clone.getFirmatPerFormat() != null) {
-          clone.getFirmatPerFormat().setTraduccioID(0);
+        if (config.getFirmatPerFormatID() != null) {
+          TraduccioJPA cloneFirmat = new TraduccioJPA();
+          cloneFirmat.setTraduccions(new HashMap<String, TraduccioMapJPA>(config.getFirmatPerFormatTraduccions()));
+
+          clone.setFirmatPerFormat(cloneFirmat);
           clone.setFirmatPerFormatID(null);
         }
 
