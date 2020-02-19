@@ -92,7 +92,6 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
-
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -126,7 +125,6 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -418,13 +416,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
     // ======= Check de Custòdia ==========
     {
-      log.info("\n\n ??????? XYZ ZZZ  CUSTODIA BASE PREEEEE OBJ => "
+      log.debug("\n\n ??????? XYZ ZZZ  CUSTODIA BASE PREEEEE OBJ => "
           + peticioDeFirma.getCustodiaInfo() + "\n\n");
-      log.info("\n\n ??????? XYZ ZZZ CUSTODIA BASE PRE2222 ID => "
-          + peticioDeFirma.getCustodiaInfo().getCustodiaInfoID() + "\n\n");
       CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodyInfoOnCreatePeticio(peticioDeFirma,
           entitatJPA, usuariEntitat, usuariAplicacio);
-      log.info("\n\n ??????? XYZ ZZZ CUSTODIA BASE POST => PC => "
+      log.debug("\n\n ??????? XYZ ZZZ CUSTODIA BASE POST => PC => "
           + usuariAplicacio.getPoliticaCustodia() + "\n\n");
       if (ci == null) {
         // AQUI NO POT ESTAR
@@ -437,7 +433,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
               || pol == ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU
               || pol == ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU) {
 
-            log.info("\n\n ??????? XYZ ZZZ  CUSTODIA BASE POST OBJ 2222 => "
+            log.debug("\n\n ??????? XYZ ZZZ  CUSTODIA BASE POST OBJ 2222 => "
                 + peticioDeFirma.getCustodiaInfo() + "\n\n");
 
             ci = CustodiaInfoBean.toBean(peticioDeFirma.getCustodiaInfo());
@@ -450,7 +446,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       // else
       if (ci != null) {
 
-        log.info("\n\n ???????  CUSTODIA BASE ID => " + ci.getCustodiaInfoID() + "\n\n");
+        log.debug("\n\n ???????  CUSTODIA BASE ID => " + ci.getCustodiaInfoID() + "\n\n");
 
         CustodiaInfoJPA custodiaInfo = CustodiaInfoJPA.toJPA(ci);
 
