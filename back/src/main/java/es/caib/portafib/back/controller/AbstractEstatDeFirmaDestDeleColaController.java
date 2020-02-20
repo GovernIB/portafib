@@ -1563,16 +1563,12 @@ import java.util.Set;
             // no s'agafen de la configuració.
             firmatPerFormat = SignatureUtils.getFirmatPerFormat(entitat, null, langSign);
 
-            if (userRequiresTimeStamp) {
-              if (configuracioDefirma == null) {
-                // Per peticions Antigues
-                timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat, userRequiresTimeStamp);
-              } else {
-                timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForUsrApp(
-                    peticioDeFirma.getSolicitantUsuariAplicacioID(), entitat, configuracioDefirma);
-              }
+            if (configuracioDefirma == null) {
+              // Per peticions Antigues
+              timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat, userRequiresTimeStamp);
             } else {
-              timeStampGenerator = null;
+              timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForUsrApp(
+                  peticioDeFirma.getSolicitantUsuariAplicacioID(), entitat, configuracioDefirma, userRequiresTimeStamp);
             }
           }
           break;
@@ -1582,8 +1578,9 @@ import java.util.Set;
             UsuariAplicacioConfiguracioJPA configuracioDefirma =
                   configuracioDeFirmaLogicaEjb.findByPrimaryKeyUnauthorized(peticioDeFirma.getConfiguracioDeFirmaID());
 
+            // Amb API V2 l'usuari no pot indicar si vol o no timestamp, per tant passam 'null'.
             timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForUsrApp(
-                  peticioDeFirma.getSolicitantUsuariAplicacioID(), entitat, configuracioDefirma);
+                  peticioDeFirma.getSolicitantUsuariAplicacioID(), entitat, configuracioDefirma, null);
 
             policyInfoSignature = SignatureUtils.getPolicyInfoSignature(entitat, configuracioDefirma);
             reason = getReasonDestinatariDelegat(entitat, peticioDeFirma, firma, estatDeFirma, up,

@@ -36,7 +36,7 @@ public interface SegellDeTempsLogicaLocal extends AbstractPluginLogicaLocal<ITim
       throws I18NException;
   
   public ITimeStampGenerator getTimeStampGeneratorForUsrApp(String usuariAplicacioID,
-      EntitatJPA entitat, UsuariAplicacioConfiguracio config)  throws I18NException;
+      EntitatJPA entitat, UsuariAplicacioConfiguracio config, Boolean userRequiresTimeStamp) throws I18NException;
 
   public PortaFIBTimeStampInfo getTimeStampInfoForUsrApp(String usuariAplicacioID,
       EntitatJPA entitat, PerfilDeFirma perfilDeFirma, UsuariAplicacioConfiguracio config,
