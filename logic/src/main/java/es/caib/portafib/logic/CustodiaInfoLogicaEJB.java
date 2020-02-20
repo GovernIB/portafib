@@ -45,6 +45,7 @@ import es.caib.portafib.utils.ConstantsV2;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
 
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
@@ -1298,6 +1299,14 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
 
     }
   }
+  
+  
+  // ZZZZ
+  @Override
+  public EntityManager getEntityManager() {
+    return super.getEntityManager();
+  }
+  
 
   @Override
   public CustodiaInfoJPA findByPrimaryKeyUnathorized(Long _ID_) {

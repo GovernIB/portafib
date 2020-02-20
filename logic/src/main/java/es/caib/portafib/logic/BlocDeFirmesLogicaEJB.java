@@ -62,18 +62,22 @@ public class BlocDeFirmesLogicaEJB extends BlocDeFirmesEJB
     long blocID = blocBD.getBlocDeFirmesID();
     blocDeFirmesJPA.setBlocDeFirmesID(blocID);
 
+    
+    
     // Validador de firmes.
     FirmaValidator<FirmaJPA> fv = new FirmaLogicValidator();
     FirmaBeanValidator fbv = new FirmaBeanValidator(fv,this, firmaLogicaEjb, usuariEntitatEjb);
     for (FirmaJPA firmaJPA : firmes) {
+      
       firmaJPA.setBlocDeFirmaID(blocID);
       firmaJPA.setFirmaID(0);
 
-      // Valida firma
       fbv.throwValidationExceptionIfErrors(firmaJPA, true);
 
       Firma firmaBD = this.firmaLogicaEjb.createFull(firmaJPA);
       firmaJPA.setFirmaID(firmaBD.getFirmaID());
+      
+            
     }
     
     return (BlocDeFirmesJPA)blocBD;

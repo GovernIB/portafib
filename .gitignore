@@ -316,3 +316,7 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /apiplantillafluxsimple/apiplantillafluxsimple-example/src/test/java/org/fundaciobit/apisib/apifirmaasyncsimple/v2/test/Esborrar.java
 /back/src/main/webapp/img/fundaciobit.jpg
 /back/src/main/webapp/img/dgidt.jpg
+/apifirmasimple/apifirmaasyncsimple-example-web/z_esborrar
+/apifirmasimple/apifirmaasyncsimple-example-web/apifirmasimple.properties
+/apifirmasimple/apifirmaasyncsimple-example-web/compile.bat
+/apiplantillafluxsimple/compil.bat

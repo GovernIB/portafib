@@ -126,6 +126,7 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -418,30 +419,28 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
     // ======= Check de Custòdia ==========
     {
-      log.info("\n\n ??????? XYZ ZZZ  CUSTODIA BASE PREEEEE OBJ => "
-          + peticioDeFirma.getCustodiaInfo() + "\n\n");
-      log.info("\n\n ??????? XYZ ZZZ CUSTODIA BASE PRE2222 ID => "
-          + peticioDeFirma.getCustodiaInfo().getCustodiaInfoID() + "\n\n");
+     
       CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodyInfoOnCreatePeticio(peticioDeFirma,
           entitatJPA, usuariEntitat, usuariAplicacio);
-      log.info("\n\n ??????? XYZ ZZZ CUSTODIA BASE POST => PC => "
-          + usuariAplicacio.getPoliticaCustodia() + "\n\n");
+     
       if (ci == null) {
-        // AQUI NO POT ESTAR
+        
+        
+        if (peticioDeFirma.getOrigenPeticioDeFirma() != ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB) {
 
-        peticioDeFirma.setCustodiaInfoID(null);
-
-        if (peticioDeFirma.getCustodiaInfo() != null) {
-          final int pol = usuariAplicacio.getPoliticaCustodia();
-          if (pol == ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL
-              || pol == ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU
-              || pol == ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU) {
-
-            log.info("\n\n ??????? XYZ ZZZ  CUSTODIA BASE POST OBJ 2222 => "
-                + peticioDeFirma.getCustodiaInfo() + "\n\n");
-
-            ci = CustodiaInfoBean.toBean(peticioDeFirma.getCustodiaInfo());
-            // peticioDeFirma.setCustodiaInfo(peticioDeFirma.getCustodiaInfo().getCustodiaInfoID());
+          if (peticioDeFirma.getCustodiaInfo() != null) {
+            final int pol = usuariAplicacio.getPoliticaCustodia();
+            if (pol == ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL
+                || pol == ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU
+                || pol == ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU) {
+  
+              log.info("\n\n ??????? XYZ ZZZ  CUSTODIA BASE POST OBJ 2222 => "
+                  + peticioDeFirma.getCustodiaInfo() + "\n\n");
+  
+              ci = CustodiaInfoBean.toBean(peticioDeFirma.getCustodiaInfo());
+              peticioDeFirma.setCustodiaInfoID(null);
+              // peticioDeFirma.setCustodiaInfo(peticioDeFirma.getCustodiaInfo().getCustodiaInfoID());
+            }
           }
         }
 
@@ -455,6 +454,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
         CustodiaInfoJPA custodiaInfo = CustodiaInfoJPA.toJPA(ci);
 
         custodiaInfo.setCustodiaInfoID(0);
+        
 
         custodiaInfo = (CustodiaInfoJPA) custodiaInfoLogicaEjb.create(custodiaInfo);
 
@@ -3656,6 +3656,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
           firmaJPA.setNumeroSerieCertificat(null);
           firmaJPA.setEmissorCertificat(null);
           firmaJPA.setNomCertificat(null);
+          
 
           if (firmaJPA.getEstatDeFirmas() != null) {
             firmaJPA.getEstatDeFirmas().clear();
@@ -3718,6 +3719,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
         }
       }
+      
+     
 
       /*
        * IDocumentCustodyPlugin custodiaPluginClassID = null; try { custodiaPluginClassID =
@@ -3730,6 +3733,17 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
        */
 
       peticio = createFull(peticio);
+      
+      
+     // ZZZZZ
+      
+      log.info(" XYZ ZZZ ZZZ   ABANS DE createFULL FLUSH");
+      
+      EntityManager em = custodiaInfoLogicaEjb.getEntityManager();
+      em.flush();
+      
+      log.info(" XYZ ZZZ ZZZ  DESPRES DE createFULL FLUSH");
+      
 
       // Necessitam l'identificador de la petició de Firma per annexes i metadades
       for (MetadadaJPA metaOrig : peticioOrig.getMetadadas()) {
@@ -3834,10 +3848,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
     clonedCust.setUsuariEntitatID(peticio.getSolicitantUsuariEntitat1ID());
     clonedCust.setUsuariAplicacioID(peticio.getSolicitantUsuariAplicacioID());
+    
+    clonedCust.setPeticioDeFirmas(null);
 
     if (create) {
       clonedCust = (CustodiaInfoJPA) custodiaInfoLogicaEjb.create(clonedCust);
       peticio.setCustodiaInfoID(clonedCust.getCustodiaInfoID());
+      peticio.setCustodiaInfo(null);
     } else {
       peticio.setCustodiaInfoID(null);
       peticio.setCustodiaInfo(clonedCust);

@@ -26,12 +26,14 @@ public class FirmaLogicValidator extends FirmaValidator<FirmaJPA> {
          }
       }
 
-      Integer minimDeRevisors = (Integer) __vr.getFieldValue(__target__, MINIMDEREVISORS);
-      if (minimDeRevisors < revisorsObligatoris || minimDeRevisors > nombreRevisors) {
-         __vr.rejectValue(MINIMDEREVISORS, "firma.error.minimderevisors",
-               new I18NArgumentString(String.valueOf(revisorsObligatoris)),
-               new I18NArgumentString(String.valueOf(nombreRevisors))
-         );
+      if (nombreRevisors!= 0 && revisorsObligatoris!= 0) {
+        Integer minimDeRevisors = (Integer) __vr.getFieldValue(__target__, MINIMDEREVISORS);
+        if (minimDeRevisors < revisorsObligatoris || minimDeRevisors > nombreRevisors) {
+           __vr.rejectValue(MINIMDEREVISORS, "firma.error.minimderevisors",
+                 new I18NArgumentString(String.valueOf(revisorsObligatoris)),
+                 new I18NArgumentString(String.valueOf(nombreRevisors))
+           );
+        }
       }
    }
 }

@@ -364,6 +364,12 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
             .AND(PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID.equal(usuariAplicacioID),
                 where));
 
+    
+    log.info("XYZ ZZZ codisPerfil == " + codisPerfil);
+    if (codisPerfil != null) {
+      log.info("XYZ ZZZ codisPerfil.size() == " + codisPerfil.size()); 
+    }
+    
     if (codisPerfil == null || codisPerfil.size() != 1) {
       throw new I18NException(codiError, usuariAplicacioID, nomus);
     }
