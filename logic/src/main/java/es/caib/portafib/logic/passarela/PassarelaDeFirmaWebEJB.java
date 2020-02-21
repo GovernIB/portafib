@@ -480,7 +480,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       return null;
     } else {
       if (log.isDebugEnabled()) {
-        log.error("getStatusTransaction(" + transactionID + ") == " + ss.getStatus());
+        log.debug("getStatusTransaction(" + transactionID + ") == " + ss.getStatus());
       }
       return ss;
     }

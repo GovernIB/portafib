@@ -1795,7 +1795,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
    
   public Integer tipusDocumentFromPortaFIBToIndra(long tipusDocumentID) {
     if (tipusDocumentID > 0) {
-      log.error("S'esta convertint un tipus de document (positiu) "
+      log.info("S'esta convertint un tipus de document (positiu) "
           + " per un usuari aplicació, per la qual cosa aquest tipus de document "
           + " hauria de ser negatiu (" + tipusDocumentID + ")" );
     }
