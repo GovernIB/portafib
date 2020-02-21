@@ -198,7 +198,7 @@ public class ValidationsXAdES {
       List<?> references = xmlSign.getSignedInfo().getReferences();
       XMLSignatureInput xmlObjectInput = null;
       
-      log.info(" XYZ ZZZ ZZZ ValidationsXAdES result A001 => References => " + references.size());
+      log.debug("ValidationsXAdES result A001 => References => " + references.size());
       
       for (Object tmp : references) {
         Reference ref = (Reference) tmp;

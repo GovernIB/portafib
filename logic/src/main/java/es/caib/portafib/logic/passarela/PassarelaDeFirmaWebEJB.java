@@ -874,49 +874,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
   }
 
 
-  /**
-   * 
-   * Validar certificat i firmes, i comprovar que els NIFs corresponen
-   * 
-   * @param ssf
-   */
-  /** XYZ ZZZ ZZZ 
-  protected void validateSignatures2(PassarelaSignaturesSetWebInternalUse ssf,
-      boolean esFirmaEnServidor) {
-
-    final boolean isDebug = log.isDebugEnabled();
-
-    if (isDebug) {
-      log.info("VALIDACIO WEB PASSARELA  => Cridada a  validateSignatures(ssf, isFirmaServidor)");
-    }
-
-    Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignID = ssf
-        .getStatusBySignatureID();
-
-    final String languageUI = ssf.getSignaturesSet().getCommonInfoSignature().getLanguageUI();
-
-    final String applicationID = ssf.getApplicationID();
-    final UsuariAplicacio usuariAplicacio;
-    usuariAplicacio = usuariAplicacioLogicaEjb.findByPrimaryKey(applicationID);
-
-    final String entitatID = usuariAplicacio.getEntitatID();
-
-    Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = ssf.getConfigBySignID();
-
-    PassarelaFileInfoSignature[] fileInfoSignatureArray = ssf.getSignaturesSet()
-        .getFileInfoSignatureArray();
-
-    for (int p = 0; p < fileInfoSignatureArray.length; p++) {
-
-      PassarelaFileInfoSignature fis = fileInfoSignatureArray[p];
-
-      validateSignature(ssf, isDebug, statusBySignID, languageUI, entitatID, configBySignID,
-          p, fis);
-
-    }
-  }
-   * @throws I18NException 
-  */
+ 
 
   protected ValidacioCompletaResponse validateSignature(PassarelaSignaturesSetWebInternalUse ssf,
       File fitxerFirmat, final String entitatID, final String languageUI,
@@ -1014,7 +972,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       ValidacioCompletaResponse validacioResponse;
       validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest);
 
-      log.info("\n\n   XYZ ZZZ ZZZ VALIDACIO RESPONSE ==>  " + validacioResponse + "\n\n");
+      log.debug("VALIDACIO RESPONSE ==>  " + validacioResponse + "\n\n");
 
       return validacioResponse;
   }
@@ -1074,26 +1032,27 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
     checkExpiredSignaturesSet();
 
-    log.info("XYZ ZZZ  Calling readSignaturesSet(" + transactionID + ")");
+    log.debug("Calling readSignaturesSet(" + transactionID + ")");
 
     synchronized (passarelaSignaturesSets) {
 
       PassarelaSignaturesSetWebInternalUse pss = passarelaSignaturesSets.get(transactionID);
       if (pss == null) {
 
-        log.info("XYZ ZZZ  La transacció " + transactionID + " no existeix !!!!!");
+        
+        log.warn("La transacció " + transactionID + " no existeix !!!!!");
 
-        if (passarelaSignaturesSets.size() == 0) {
-          log.info("XYZ ZZZ  passarelaSignaturesSets ESTA BUIT  !!!!!");
-        } else {
-          log.info("XYZ ZZZ Contingut de  passarelaSignaturesSets:");
-          for (String id : passarelaSignaturesSets.keySet()) {
-            log.info("          XYZ ZZZ  EXISTEIX ID :  " + id);
+        if (log.isDebugEnabled()) {
+          if (passarelaSignaturesSets.size() == 0) {
+            log.debug("passarelaSignaturesSets ESTA BUIT  !!!!!");
+          } else {
+            log.debug(" Contingut de  passarelaSignaturesSets:");
+            for (String id : passarelaSignaturesSets.keySet()) {
+              log.debug("  EXISTEIX ID :  " + id);
+            }
           }
         }
-
       }
-
       return pss;
     }
 

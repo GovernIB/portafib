@@ -260,11 +260,6 @@ public class AutoFirmaController extends FitxerController
     
     
     final int sign_number = 1;
-
-
-    
-    log.info("XYZ ZZZ langSign = " + langSign);
-    
     
     final String signaturesSetID= String.valueOf(id);
     // Posam el mateix id ja que només es firma un sol fitxer
@@ -314,14 +309,13 @@ public class AutoFirmaController extends FitxerController
     
     String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, CONTEXTWEB);
     final String urlFinal = response.encodeURL(relativeControllerBase + "/final/" + signaturesSetID);
-    
-    log.info(" XYZ ZZZ relativeControllerBase => " + relativeControllerBase);
-    
-    log.info(" XYZ ZZZ BASE URL FULL FORM => " + form.getBaseUrlFull());
-    
-    
+
     final String baseUrl = Utils.getUrlBaseFromFullUrl(request, form.getBaseUrlFull());
-    log.info(" XYZ ZZZ BASE URL  => " + form.getBaseUrlFull());
+    if (log.isDebugEnabled()) {
+      log.info("autofirmaPost::relativeControllerBase => " + relativeControllerBase);
+      log.info("autofirmaPost::BASE URL FULL FORM => " + form.getBaseUrlFull());
+      log.info("autofirmaPost::BASE URL  => " + baseUrl);
+    }
     
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
         caducitat.getTime(),  commonInfoSignature,

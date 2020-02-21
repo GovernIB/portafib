@@ -122,7 +122,7 @@ public class Exemple {
       if (custodiaInfoBean == null) {
         log.info("Avis: No hi ha sistema de custodia definit"
             + " o l´usuari aplicació " + usr_app + " no pot custodiar");
-      } else {
+      } else {        
         if (!custodiaInfoBean.isEditable()) {
           log.info("Avis: La custòdia per defecte NO ES MODIFICABLE");
         }

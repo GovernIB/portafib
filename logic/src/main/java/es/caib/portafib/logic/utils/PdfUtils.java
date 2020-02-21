@@ -213,7 +213,7 @@ public class PdfUtils implements ConstantsV2 {
       }
     }
 
-    log.info(" XYZ ZZZ originalNumberOfSigns = " + originalNumberOfSigns);
+    log.debug("originalNumberOfSigns = " + originalNumberOfSigns);
 
     // EL FITXER ORIGINAL JA ESTA FIRMAT
     if (originalNumberOfSigns != 0) {
@@ -258,15 +258,10 @@ public class PdfUtils implements ConstantsV2 {
 
     if (!requereixTaula_o_Custodia_o_Annexes) {
 
-      log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: NO TENIM TAULA NI CUSTODIA NI ANNEXES");
-
-      {
-
-        log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: NO ADAPTACIO. RETORNA ORIGINAL");
-        // Copiar dins dstFile el fitxer Original
-        FileUtils.copyFile(srcPDF, dstPDF);
-      }
-
+      log.debug("PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: NO TENIM TAULA NI CUSTODIA NI ANNEXES");
+      log.debug("PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: NO ADAPTACIO. RETORNA ORIGINAL");
+      // Copiar dins dstFile el fitxer Original
+      FileUtils.copyFile(srcPDF, dstPDF);
 
       return originalNumberOfSigns;
     } // Final IF requereixTaula_o_Custodia_o_Annexes
@@ -452,45 +447,7 @@ public class PdfUtils implements ConstantsV2 {
     return false;
   }
 
-  /*
-  protected static File forceCleanPdfInternal(List<AttachedFile> attachments,
-      File fileTmp1, List<AttachedFile> attachmentsOriginalPDF) throws IOException,
-      FileNotFoundException, Exception {
-    File input3;
-    log.info(" XYZ ZZZ METHOD FORCE CLEAN PDF");
-    
-    PdfReader reader2 = new PdfReader(new FileInputStream(fileTmp1));
-    //ByteArrayOutputStream output2 = new ByteArrayOutputStream();
-    
-    File fileTmp2 = null;
-    FileOutputStream output2 = null;
-    try {
-    
-      fileTmp2 = File.createTempFile("portafib_pdfutils_2_", ".pdf");
-      fileTmp2.deleteOnExit();
-          
-      output2 = new FileOutputStream(fileTmp2);
-      
-      
-      forceCleanPdf(reader2, output2, attachments);
-      // Esborrar del directori temporal els fitxers adjunts originals
-      for (AttachedFile fileAttached : attachmentsOriginalPDF) {
-        fileAttached.getContent().delete();
-      }
-  
-      output2.flush();
-      output2.close();
-      output2 = null;
-    } finally {
-      try { if (output2 != null) { output2.close(); } } catch (Exception e) { };
-      //try { if (fileTmp2 != null) { fileTmp2.delete(); } } catch (Exception e) { };
-    }
  
-    // 6.- Afegir propietats inicials
-    input3 = fileTmp2;
-    return input3;
-  }
-*/
   /**
    * 
    * @param dstPDF
@@ -1330,15 +1287,11 @@ public class PdfUtils implements ConstantsV2 {
   }
 
   public static boolean isPdfAx(final byte[] metadata) {
-    
-    //log.info(" XYZ ZZZ METADATA(byte[])= " + metadata);
-    
+
     if (metadata == null) {
       return false;
     }
     final String rdf = new String(metadata);
-    
-    //log.info(" XYZ ZZZ METADATA(string) = ]" +  rdf +  "[");
     
     return rdf.replace("\n", "") //$NON-NLS-1$ //$NON-NLS-2$
           .replace("\r", "") //$NON-NLS-1$ //$NON-NLS-2$

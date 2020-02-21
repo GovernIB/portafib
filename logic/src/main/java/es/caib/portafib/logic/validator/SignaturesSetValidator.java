@@ -74,12 +74,7 @@ public class SignaturesSetValidator<T extends PassarelaSignaturesSet> {
               new I18NArgumentString(f.javaName));
         }
         
-        // XYZ ZZZ --------------------  NO esta suportats
-        //if (pfis.getCustodiaInfo() != null) {
-        //  __vr.rejectValue(getF("fileInfoSignatureArray.custodiaInfo"),
-        //      "error.passarela.custodia.nosuportat");
-        //}
-        
+       
         // --------------------  FileToSign
         FitxerBean fitxer = pfis.getFileToSign(); 
         if (fitxer== null) {

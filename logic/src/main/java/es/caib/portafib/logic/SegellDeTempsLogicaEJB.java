@@ -18,7 +18,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 /**
  * 
  * @author anadal(u80067)
- *
+ * @author areus
  */
 @Stateless(name = "SegellDeTempsLogicaEJB")
 @SecurityDomain("seycon")
@@ -36,12 +36,9 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
   }
 
   /**
-   * 
-   * @param request
-   * @param webContext
+   *
+   * @param basePath
    * @param pluginID
-   * @param signaturesSetID
-   * @param signatureIndex
    * @return
    */
   @Override
@@ -94,24 +91,24 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
     return new PortaFIBTimeStampGenerator(plugin);
 
   }
-  
-  
-  
+
+
+  /**
+   *
+   * @param usuariAplicacioID
+   * @param entitat
+   * @param config
+   * @param userRequiresTimeStamp si l'usuari requereix o no timestamp. null si l'api que està emprant l'usuari no
+   *                              permet passar aquest valor
+   * @return
+   * @throws I18NException
+   */
   @Override
   public ITimeStampGenerator getTimeStampGeneratorForUsrApp(String usuariAplicacioID,
-      EntitatJPA entitat, UsuariAplicacioConfiguracio config)  throws I18NException {
+      EntitatJPA entitat, UsuariAplicacioConfiguracio config, Boolean userRequiresTimeStamp)  throws I18NException {
 
-    final boolean userRequiresTimeStamp = false;
     Long pluginSegellatID = getTimestampPluginIDOfConfig(usuariAplicacioID,
          config, entitat, userRequiresTimeStamp);
-
-//    if (pluginSegellatID == null) {
-//      // XYZ ZZZ TRA
-//      throw new I18NException("genapp.comodi", "La petició requereix Segellat de Temps,"
-//          + " però La configuració de Firma amb nom " + config.getNom()
-//          + " associat al Pefil de Firma amb codi " + perfilDeFirma.getCodi()
-//          + " no en té definit cap.");
-//    }
 
     ITimeStampGenerator timeStampGenerator;
     if (pluginSegellatID == null) {
@@ -120,7 +117,7 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
       ITimeStampPlugin plugin = this.getInstanceByPluginID(pluginSegellatID);
   
       if (plugin == null) {
-        // TODO Traduir com toca
+        // TODO XYZ ZZZ TRA Traduir com toca
         throw new I18NException("error.unknown",
             "No s'ha pogut instanciar el plugin de segellat amb ID " + pluginSegellatID);
       }
@@ -172,17 +169,17 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
   }
 
   /**
-   * 
+   *
    * @param usuariAplicacioID
-   * @param perfilDeFirma
    * @param config
    * @param entitatJPA
+   * @param userRequiresTimeStamp
    * @return
    * @throws I18NException
    */
   protected Long getTimestampPluginIDOfConfig(final String usuariAplicacioID,
       final UsuariAplicacioConfiguracio config,
-      EntitatJPA entitatJPA, boolean userRequiresTimeStamp) throws I18NException {
+      EntitatJPA entitatJPA, Boolean userRequiresTimeStamp) throws I18NException {
 
     int politicaSegellatDeTemps = config.getPoliticaSegellatDeTemps();
 
@@ -201,9 +198,12 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
       break;
 
       case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO:
+        if (userRequiresTimeStamp == null || !userRequiresTimeStamp) {
+          pluginSegellatTempsID = null;
+          break;
+        }
       case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI:
-        if(!userRequiresTimeStamp) {
-          // És usuari aplicació
+        if(userRequiresTimeStamp != null && !userRequiresTimeStamp) {
           pluginSegellatTempsID = null;
           break;
         }
@@ -218,7 +218,7 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
       break;
 
       default:
-        // XYZ ZZZ Traduir
+        // XYZ ZZZ TRA Traduir
         throw new I18NException("genapp.comodi", "Politica de segellat de temps desconeguda ("
             + politicaSegellatDeTemps + ") en usuari aplicació " + usuariAplicacioID);
     }

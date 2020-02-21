@@ -50,6 +50,7 @@ public class ValidationXAdESTester {
     try {
       in = new FileInputStream(xml);
     } catch (FileNotFoundException e) {
+      // XYZ ZZZ TRA
       throw new I18NException("genapp.comodi", "Error llegint fitxer " + xml + ": "
           + e.getMessage());
     }
@@ -57,8 +58,9 @@ public class ValidationXAdESTester {
     // write to file.
     X509Certificate[] certificates = ValidationsXAdES.getCertificatesOfXadesSignature(in);
 
-    // File target = new File(xml.getName() + ".signature");
-    log.info("XYZ ZZZ ZZZ NIF => " + CertificateUtils.getDNI(certificates[0]));
+    if(log.isDebugEnabled()) {
+      log.debug("extractCertificates(XML)::NIF => " + CertificateUtils.getDNI(certificates[0]));
+    }
 
     return certificates;
   }

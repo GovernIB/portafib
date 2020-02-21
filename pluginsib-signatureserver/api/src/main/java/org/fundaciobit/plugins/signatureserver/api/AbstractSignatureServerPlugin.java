@@ -189,24 +189,7 @@ public abstract class AbstractSignatureServerPlugin
              
              return msg;
            }
-           
-    
-           /* XYZ ZZZ 
-           if (
-             // Cas 1: alguna firma no conte generador i plugin no té generador intern
-             (signatureRequireTimeStampAndNotProvidesGenerator && !plugin.providesTimeStampGenerator(signType))
-             // Cas 2: totes les firmes proveeixen generador i plugin no suporta generadors externs
-           || (!signatureRequireTimeStampAndNotProvidesGenerator && !plugin.acceptExternalTimeStampGenerator(signType)) ) {
-             // Exclude Plugin
-             
-             log.info(" XYZ ZZZ anySignatureRequireTimeStampAndNotProvidesGenerator = " + signatureRequireTimeStampAndNotProvidesGenerator);
-                          
-             log.info("Exclos plugin [" + plugin.getName(new Locale("ca")) 
-                 + "]: NO TE GENERADOR SEGELLAT DE TEMPS PER TIPUS DE FIRMA "
-                 + signType);
-             return false;
-           }
-           */
+
          }
 
          // 1.2- Taula de Firmes

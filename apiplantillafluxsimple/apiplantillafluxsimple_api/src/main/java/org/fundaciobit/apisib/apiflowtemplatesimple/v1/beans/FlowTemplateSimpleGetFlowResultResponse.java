@@ -66,9 +66,6 @@ public class FlowTemplateSimpleGetFlowResultResponse {
   @Override
   public String toString() {
     StringBuffer str = new StringBuffer();
-
-    // XYZ ZZZ
-
     List<FlowTemplateSimpleKeyValue> additionalInformation = getProperties();
 
     if (additionalInformation != null && additionalInformation.size() != 0) {

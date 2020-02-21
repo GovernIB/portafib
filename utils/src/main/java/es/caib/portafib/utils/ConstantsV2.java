@@ -16,9 +16,6 @@ public interface ConstantsV2 {
 
   public static final String MAIL_QUEUE = "jms/es.caib.portafib.PortaFIBMailsQueue";
 
-  // XYZ ZZZ 
-  public static final String NOTIFICACIONS_QUEUE = "jms/es.caib.portafib.PortaFIBNotificacionsQueue";
-  
   public static final String PDF_FILE_EXTENSION = "pdf";
   
   public static final String MIME_TYPE_PDF = "application/pdf";
@@ -209,28 +206,19 @@ public interface ConstantsV2 {
   public static final int DOC_BIN = 3;
   
   
-  // #199  TIPUS METADADES XYZ ZZZ
-//  0;"tipusmetadada.string";"java.lang.String"
-//  1;"tipusmetadada.integer";"java.math.BigInteger"
-//  2;"tipusmetadada.decimal";"java.math.BigDecimal"
-//  3;"tipusmetadada.boolean";"java.lang.Boolean"
-//  4;"tipusmetadada.base64";"org.fundaciobit.pluginsib.core.utils.Base64"
-//  5;"tipusmetadada.date";"org.fundaciobit.pluginsib.core.utils.ISO8601"
-
+  /** Valors per prioritat:
   
-
-//prioritat.0=Prioridad Pausada
-//prioritat.1=Prioridad Insignificante
-//prioritat.2=Prioridad Muy Baja
-//prioritat.3=Prioridad Baja
-//prioritat.4=Prioridad Normal-Baja
-//prioritat.5=Prioridad Normal
-//prioritat.6=Prioridad Normal-Alta
-//prioritat.7=Prioridad Alta
-//prioritat.8=Prioridad Muy Alta
-//prioritat.9=Prioridad Inmediata
-
-
+  prioritat.0=Prioridad Pausada
+  prioritat.1=Prioridad Insignificante
+  prioritat.2=Prioridad Muy Baja
+  prioritat.3=Prioridad Baja
+  prioritat.4=Prioridad Normal-Baja
+  prioritat.5=Prioridad Normal
+  prioritat.6=Prioridad Normal-Alta
+  prioritat.7=Prioridad Alta
+  prioritat.8=Prioridad Muy Alta
+  prioritat.9=Prioridad Inmediata
+  */
   public static final int PRIORITAT_BAIXA = 3;
   public static final int PRIORITAT_NORMAL = 5;
   public static final int PRIORITAT_ALTA = 7;

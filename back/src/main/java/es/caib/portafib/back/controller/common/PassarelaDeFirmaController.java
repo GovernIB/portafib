@@ -85,33 +85,13 @@ public class PassarelaDeFirmaController {
     }
 
     // Passarela només pot tenir una sola Configuracio
-
     try {
-/*
-      PerfilConfiguracioDeFirma pcf2;
-      if (ssf.isApiFirmaSimple()) {
-        
-        
-        configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioFirmaPerApiFirmaSimpleWeb(usuariAplicacioID, perfilDeFirma, firmaSimpleSignDocumentRequest)
-        
-      } else {
-      
-        final boolean isFirmaServidor = true;
-        
-        pcf = configuracioUsuariAplicacioLogicaLocalEjb
-            .getConfiguracioUsuariAplicacioPerPassarela(ssf.getApplicationID(), isFirmaServidor);
-      }
-      */
+
       PassarelaSignaturesSet pss = ssf.getSignaturesSet();
 
       EntitatJPA entitat = passarelaDeFirmaEjb.getEntitat(ssf.getEntitatID());
-
-      
-      log.info(" XYZ ZZZ \n\n ssf.getApplicationID() => " + ssf.getApplicationID() + "\n\n" );
       
       UsuariAplicacioJPA usrApp = usuariAplicacioLogicaEjb.findByPrimaryKey(ssf.getApplicationID());
-
-      log.info(" XYZ ZZZ \n\n usrApp => " + usrApp + "\n\n" );
       
       Set<String> timeStampUrls = new HashSet<String>();
       SignaturesSet ss = SignatureUtils.passarelaSignaturesSetToSignaturesSet(
@@ -162,10 +142,7 @@ public class PassarelaDeFirmaController {
 
       if (idioma == null || idioma.trim().length() == 0) {
         idioma = Configuracio.getDefaultLanguage();
-        log.info(" XYZ ZZZ  PassarelaDeFirmaController:: LOGIN INFO (idioma default) => "
-            + idioma);
       }
-      log.info(" XYZ ZZZ  PassarelaDeFirmaController:: LOGIN INFO => " + loginInfo);
       if (loginInfo == null || loginInfo.getUsuariAplicacio() != null) {
         PortaFIBSessionLocaleResolver.setLocaleManually(request, idioma);
         mav.addObject("lang", idioma);
@@ -228,7 +205,7 @@ public class PassarelaDeFirmaController {
   public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
       @PathVariable("transactionID") String transactionID) throws Exception {
 
-    log.info("\n\n XYZ ZZZ   kkkkkkkkkkkkk   PASSA PER PassarelaDeFirmaController::finalProcesDeFirma\n\n");
+    log.debug("PASSA PER PassarelaDeFirmaController::finalProcesDeFirma[" + transactionID + "]");
 
     ModelAndView mav = new ModelAndView("passarela_wait");
 
@@ -278,7 +255,7 @@ public class PassarelaDeFirmaController {
 
     final String url = ssf.getSignaturesSet().getCommonInfoSignature().getUrlFinal();
 
-    log.info(" XYZ ZZZ PassarelaDeFirmaController::finlaProcessDeFirma(); => URL redirect = "
+    log.debug("PassarelaDeFirmaController::finalProcessDeFirma(); => URL redirect = "
         + url);
 
     return new ModelAndView(new RedirectView(url));

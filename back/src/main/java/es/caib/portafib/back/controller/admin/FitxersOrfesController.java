@@ -153,8 +153,6 @@ public class FitxersOrfesController extends FitxerController {
     
     // Fitxers que existeixen en BBDD però no fisicament
     for (Long fID : fitxersBBDD) {
-      //File f = FileSystemManager.getFile(fID);
-      //  fitxersFisics.contains(String.valueOf(fID))
       if (!fitxersFisics.containsKey(fID)) {
         // TODO XYZ ZZZ TRADUIR
         HtmlUtils.saveMessageError(request, "Fitxer amb ID="

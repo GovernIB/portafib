@@ -230,12 +230,9 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       hiddenFields.remove(USUARIAPLICACIOID);
       hiddenFields.remove(CALLBACKVERSIO);
       hiddenFields.remove(ACTIU);
-      //hiddenFields.remove(POLITICACUSTODIA);
       
       
       usuariAplicacioFilterForm.setHiddenFields(hiddenFields);
-      
-      // XYZ ZZZ  usuariAplicacioFilterForm.addHiddenField(POTCUSTODIAR);
 
       usuariAplicacioFilterForm.addHiddenField(POLITICADEPLUGINFIRMAWEB);
 

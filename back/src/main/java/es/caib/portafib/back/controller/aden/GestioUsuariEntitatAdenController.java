@@ -381,7 +381,6 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
     ue.setEntitatID(entitatID);
     ue.setActiu(true);
     
-    // XYZ ZZZ  ue.setPotCustodiar(false);
     ue.setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
     
     ue.setUsuariEntitatID(entitatID+ "_" +usuariPersonaID);

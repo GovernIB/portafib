@@ -342,9 +342,6 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
       String titol, String usuariAplicacioID, String usuariEntitatID)
       throws I18NException, I18NValidationException {
 
-    log.info(
-        "XYZ ZZZ ZZZ generateCustodiaInfoDefinidaAContinuacioForUsuariEntitatUsuariAplicacio() => ENTRA ");
-
     Long custodiaObligatoriaID;
     // XYZ ZZZ ZZZ S'hauria de fer segons el tipus de Petició
     if (usuariEntitatID != null) {
@@ -648,8 +645,6 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
       EntitatJPA entitatJPA, boolean onCreatePeticio, UsuariEntitat usuariEntitat,
       UsuariAplicacio usuariAplicacio) throws I18NException, I18NValidationException {
 
-    log.info("\n\n ??????? XYZ ZZZ  searchDefaultCustodyInfo => "
-        + peticio.getOrigenPeticioDeFirma() + "\n\n");
 
     final String titol = peticio.getTitol();
 
@@ -659,19 +654,19 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
     switch (peticio.getOrigenPeticioDeFirma()) {
 
       case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB: {
-        log.info("XYZ ZZZ  getAllowedCustodyInfo:: ES USER ENTITAT (cridant getCustodiaUE)");
+        
         int politicaCustodia = usuariEntitat.getPoliticaCustodia();
 
-        onlyDef = this.searchDefaultCustodyInfo(entitatJPA, politicaCustodia, "soli web",
+        onlyDef = this.searchDefaultCustodyInfo(peticio, entitatJPA, politicaCustodia, "soli web",
             titol, onCreatePeticio, usuariAplicacio, usuariEntitat);
       }
       break;
 
       case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
       case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2: {
-        log.info("XYZ ZZZ  getAllowedCustodyInfo:: ES USER APP (cridant a getCustodiaUA)");
+        
         int politicaCustodia = usuariAplicacio.getPoliticaCustodia();
-        onlyDef = this.searchDefaultCustodyInfo(entitatJPA, politicaCustodia, "soli aplicacio",
+        onlyDef = this.searchDefaultCustodyInfo(peticio, entitatJPA, politicaCustodia, "soli aplicacio",
             titol, onCreatePeticio, usuariAplicacio, usuariEntitat);
       }
       break;
@@ -689,12 +684,10 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
 
   }
 
-  protected CustodiaInfo searchDefaultCustodyInfo(EntitatJPA entitatJPA, int politicaCustodia,
+  protected CustodiaInfo searchDefaultCustodyInfo(PeticioDeFirmaJPA peticio, 
+      EntitatJPA entitatJPA, int politicaCustodia,
       String name, String titol, boolean onCreatePeticio, UsuariAplicacio usuariAplicacio,
       UsuariEntitat usuariEntitat) throws I18NException, I18NValidationException {
-
-    log.info(
-        "\n\n ??????? XYZ ZZZ  searchDefaultCustodyInfo(5) => " + politicaCustodia + "\n\n");
 
     String usuariAplicacioID = usuariAplicacio == null ? null
         : usuariAplicacio.getUsuariAplicacioID();
@@ -706,12 +699,12 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU:
         if (onCreatePeticio) {
           return null;
-        }
+        } // else ADDCUSTODY WEBUI
         // [ENTITAT] Opcional plantilla Entitat (Per defecte Actiu)
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU:
         // El que s´hagi definit dins l´Entitat
       case ConstantsV2.POLITICA_CUSTODIA_POLITICA_DE_CUSTODIA_DEFINIDA_EN_ENTITAT:
-        return searchDefaultCustodyInfoE(entitatJPA, titol, usuariAplicacioID, usuariEntitatID,
+        return searchDefaultCustodyInfoE(peticio,entitatJPA, titol, usuariAplicacioID, usuariEntitatID,
             onCreatePeticio);
 
       // No permetre
@@ -721,14 +714,11 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
       // Llibertat Total (selecció, edició i us)
       case ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL:
         if (onCreatePeticio) {
-          log.info(
-              "\n\n ??????? XYZ ZZZ  searchDefaultCustodyInfo(5) => SURT 111 NULL" + "\n\n");
-          return null;
+          return peticio.getCustodiaInfo();
         } else {
           CustodiaInfoJPA custodiaInfo = createCustodiaInfoLlibertatTotal(
               entitatJPA.getEntitatID(), titol, usuariAplicacioID, usuariEntitatID);
 
-          log.info("\n\n ??????? XYZ ZZZ  searchDefaultCustodyInfo(5) => SURT 22222" + "\n\n");
           return custodiaInfo;
         }
 
@@ -746,6 +736,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
             + politicaCustodia + ") no suportada per PortaFIB per " + name);
 
       default:
+     // XYZ ZZZ TRA
         throw new I18NException("genapp.comodi",
             "No es reconeix el tipus de politica de cutòdia amb id " + politicaCustodia);
 
@@ -755,14 +746,10 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
   protected CustodiaInfoJPA createCustodiaInfoLlibertatTotal(String entitatID, String titol,
       String usuariAplicacioID, String usuariEntitatID) throws I18NException {
 
-    log.info("\n\n XYZ ZZZ ???????  createCustodiaInfoLlibertatTotal=> " + "\n\n");
-
     CustodiaInfoJPA custodiaInfo = new CustodiaInfoJPA();
     custodiaInfo.setCustodiaInfoID(0);
 
-    log.info("\n\n XYZ ZZZ ???????  PRE createCustodiaInfoLlibertatTotal DEFAULT " + "\n\n");
     defaultValuesForCustodiaInfo(entitatID, custodiaInfo);
-    log.info("\n\n XYZ ZZZ ???????  POST createCustodiaInfoLlibertatTotal DEFAULT " + "\n\n");
 
     // Posam null per indicar que no es de cap entitat
     custodiaInfo.setEntitatID(null);
@@ -776,7 +763,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
     return custodiaInfo;
   }
 
-  protected CustodiaInfo searchDefaultCustodyInfoE(EntitatJPA entitatJPA, String titol,
+  protected CustodiaInfo searchDefaultCustodyInfoE(PeticioDeFirmaJPA peticio,EntitatJPA entitatJPA, String titol,
       String usuariAplicacioID, String usuariEntitatID, boolean onCreatePeticio)
       throws I18NException, I18NValidationException {
 
@@ -791,11 +778,15 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
       // [ENTITAT] Opcional plantilla Entitat (Per defecte NO Actiu)
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU:
         if (onCreatePeticio) {
-          return null;
+           return null;
         }
 
         // [ENTITAT] Opcional plantilla Entitat (Per defecte Actiu)
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU:
+        if (onCreatePeticio) {
+            return null;
+          }
+      
 
         // Obligatori Plantilla definida en Entitat
       case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO: {
@@ -833,7 +824,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
       // Llibertat Total (selecció, edició i us)
       case ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL:
         if (onCreatePeticio) {
-          return null;
+          return peticio.getCustodiaInfo();
         } else {
           CustodiaInfoJPA custodiaInfo = createCustodiaInfoLlibertatTotal(
               entitatJPA.getEntitatID(), titol, usuariAplicacioID, usuariEntitatID);
@@ -948,7 +939,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
     switch (peticio.getOrigenPeticioDeFirma()) {
 
       case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
-        log.info("XYZ ZZZ  getAllowedCustodyInfo:: ES USER ENTITAT (cridant getCustodiaUE)");
+        log.debug("getAllowedCustodyInfo:: ES USER ENTITAT (cridant getCustodiaUE)");
         final String usuariAplicacioID = null;// usuariAplicacio.getUsuariAplicacioID();
         onlyDef = this.getCustodiaUE(entitatJPA, usuariEntitat, usuariAplicacioID,
             custodiaSentByUser, titol);
@@ -956,7 +947,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
 
       case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
       case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
-        log.info("XYZ ZZZ  getAllowedCustodyInfo:: ES USER APP (cridant a getCustodiaUA)");
+        log.debug("getAllowedCustodyInfo:: ES USER APP (cridant a getCustodiaUA)");
         onlyDef = this.getCustodiaUA(usuariAplicacio, custodiaSentByUser, titol, entitatJPA);
       break;
 
@@ -993,45 +984,6 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
         // la còpia es fa per evitar modificacions de la instància interna
         Map<String, Object> parameters = getAdditionalParametersForDocumentCustody(
             peticioDeFirma, null, custodiaInfo);
-
-        // XYZ ZZZ ZZZ Llevar tot aquest bloc o posar-ho en DEBUG
-        /*
-         * { long pluginID = custodiaInfo.getPluginID(); String plantilla =
-         * pluginDeCustodiaLogicaEjb.executeQueryOne(PluginFields.PROPERTIESADMIN,
-         * PluginFields.PLUGINID.equal(pluginID));
-         * 
-         * Properties prop = new Properties(); prop.load(new StringReader(plantilla));
-         * 
-         * Set<Object> keys = prop.keySet();
-         * 
-         * 
-         * log.info("getSolicitantUsuariEntitat1 => " +
-         * peticioDeFirma.getSolicitantUsuariEntitat1());
-         * log.info("getSolicitantUsuariEntitat1.getUsuariPersona() => " +
-         * peticioDeFirma.getSolicitantUsuariEntitat1().getUsuariPersona());
-         * log.info("getSolicitantUsuariEntitat1.getUsuariPersona().getNif() => " +
-         * peticioDeFirma.getSolicitantUsuariEntitat1().getUsuariPersona().getNif());
-         * 
-         * log.info("\n\n ================== PLANTILLA CUSTODIA\n\n" + plantilla + "\n\n\n");
-         * 
-         * StringBuffer res = new StringBuffer();
-         * 
-         * for(Object key : keys) {
-         * 
-         * String value = prop.getProperty((String)key);
-         * 
-         * if (value.contains("firma.") ||
-         * value.contains("peticio.custodiaInfo.custodiaDocumentID")) {
-         * res.append(key).append(" => **NM**]").append(value).append("[\n"); } else { String
-         * tmp = org.fundaciobit.pluginsib.utils.templateengine.TemplateEngine.
-         * processExpressionLanguage(value, parameters);
-         * res.append(key).append(" => ]").append(tmp).append("[\n"); }
-         * 
-         * }
-         * 
-         * log.info("\n\n ================== PARAMETRES PLUGIN CUSTODIA\n\n" + res.toString() +
-         * "\n\n\n"); }
-         */
 
         // PUNT IMPORTANT => RESERVA DE l'ID DE CUSTODIA
         try {

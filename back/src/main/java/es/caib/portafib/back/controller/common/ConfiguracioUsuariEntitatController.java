@@ -81,7 +81,6 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
     
     usuariEntitatForm.addHiddenField(ACTIU);
     usuariEntitatForm.addHiddenField(CARREC);
-    // XYZ ZZZ usuariEntitatForm.addReadOnlyField(POTCUSTODIAR);
     usuariEntitatForm.addReadOnlyField(POLITICACUSTODIA);
     usuariEntitatForm.addReadOnlyField(POLITICADEPLUGINFIRMAWEB);
     

@@ -125,7 +125,7 @@ public class PlantillaDeFluxDeFirmesRestController extends PlantillaDeFluxDeFirm
         .get(transactionID);
 
     if (ti == null) {
-      // XYZ ZZZ ZZZ
+      // XYZ ZZZ TRA
       throw new I18NException("genapp.comodi",
           "No es troba la transacció de Rest Flow Template amb ID " + transactionID);
     }
@@ -181,6 +181,7 @@ public class PlantillaDeFluxDeFirmesRestController extends PlantillaDeFluxDeFirm
         .getAttribute(SESSION_TRANSACTION_ID_FLOW_TEMPLATE_REST);
 
     if (transactionID == null) {
+      // XYZ ZZZ TRA
       throw new Exception("No es troba la transacció de Rest Flow Template dins la sessio");
     }
 
@@ -189,7 +190,8 @@ public class PlantillaDeFluxDeFirmesRestController extends PlantillaDeFluxDeFirm
 
     ti.getStatus().setStatus(FlowTemplateSimpleStatus.STATUS_CANCELLED);
 
-    ti.getStatus().setErrorMessage(" XYZ ZZZ TRA Cancel·lat per l'usuari");
+    //  XYZ ZZZ TRA
+    ti.getStatus().setErrorMessage("Cancel·lat per l'usuari");
 
     return new ModelAndView(new RedirectView(ti.getStartTransactionInfo().getReturnUrl()));
   }

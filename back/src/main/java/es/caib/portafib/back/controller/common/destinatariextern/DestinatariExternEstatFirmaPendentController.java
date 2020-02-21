@@ -65,10 +65,8 @@ public class DestinatariExternEstatFirmaPendentController extends AbstractEstatD
       return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN + "/final", true));
     } else {
       String token = (String)request.getSession().getAttribute(DestinatariExternByTokenController.EXTERNAL_USER_TOKEN);
-      // XYZ ZZZ ZZZ
       ModelAndView model = new ModelAndView("externaluser_showerror");
       model.addObject("token", token);
-      // XYZ ZZZ ZZZ
       model.addObject("error", "S'ha produït un error durant el procés de rebuig.");
       return model;
     }

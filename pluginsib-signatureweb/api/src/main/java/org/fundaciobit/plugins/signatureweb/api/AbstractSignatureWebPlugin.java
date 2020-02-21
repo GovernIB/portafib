@@ -536,8 +536,6 @@ public abstract class AbstractSignatureWebPlugin
   
   
   protected void internalResetAndClean(HttpServletRequest request) {
-    
-    log.info(" XYZ ZZZZ PRE AbstractSignatureWebPlugin::internalResetAndClean()");
     synchronized (infoSign) {
       
       Set<String> clone = new HashSet<String>(infoSign.keySet());
@@ -550,7 +548,6 @@ public abstract class AbstractSignatureWebPlugin
         }
       }
     }
-    log.info(" XYZ ZZZZ POST AbstractSignatureWebPlugin::internalResetAndClean()");
   }
   
   

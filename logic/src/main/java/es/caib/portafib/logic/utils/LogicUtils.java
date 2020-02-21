@@ -61,43 +61,7 @@ public class LogicUtils {
       log.error(msg);
       throw new Exception(msg);
     }
-
-//    {
-//      FileInputStream is = null;
-//
-//      try {
-//        is = new FileInputStream(src);
-//        FileChannel channel = is.getChannel();
-//
-//        int count = 0;
-//        do {
-//          try {
-//            channel.tryLock();
-//            log.info("\n\n XYZ ZZZ ZZZ channel.tryLock()[" + count + "] => OK OK \n\n");
-//
-//          } catch (Exception e) {
-//            log.error(" XYZ ZZZ ZZZ  Error en channel.tryLock() [" + count + "] => "
-//                + e.getMessage(), e);
-//          }
-//
-//          count++;
-//          Thread.sleep(1000);
-//        } while (count < 10);
-//      } finally {
-//        try {
-//          if (is != null) {
-//            is.close();
-//          }
-//          if (is != null) {
-//            is.close();
-//          }
-//        } catch (Exception e) {
-//          // TODO: handle exception
-//        }
-//
-//      }
-//    }
-    
+   
 
     // Movem el fitxer
     final long srcLength = src.length();

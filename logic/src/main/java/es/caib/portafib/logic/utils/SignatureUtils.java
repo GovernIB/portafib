@@ -370,12 +370,12 @@ public class SignatureUtils {
 
         File pdfAdaptat = passarelaDeFirmaEjb.getFitxerAdaptatPath(signaturesSetID, signID);
 
-        log.info(" XYZ ZZZ SIGNUTILS :: SIGN_ALGO{" + count + "} [pfis.getSignAlgorithm()] = "
+        log.debug("SIGNUTILS :: SIGN_ALGO{" + count + "} [pfis.getSignAlgorithm()] = "
             + pfis.getSignAlgorithm());
 
         int signAlgorithm = getSignAlgorithmToPortaFIB(pfis.getSignAlgorithm());
 
-        log.info(" XYZ ZZZ SIGNUTILS :: SIGN_ALGO{" + count + "} [int signAlgorithm] = "
+        log.debug("SIGNUTILS :: SIGN_ALGO{" + count + "} [int signAlgorithm] = "
             + signAlgorithm);
 
         boolean signMode = getSignModeToPortaFIB(pfis.getSignMode());

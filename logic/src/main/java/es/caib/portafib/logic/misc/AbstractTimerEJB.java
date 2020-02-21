@@ -63,23 +63,13 @@ public abstract class AbstractTimerEJB implements AbstractTimerLocal {
       }
 
     } catch (Throwable e) {
-      
       Throwable cause = e.getCause();
-      
-      log.error("XYZ ZZZ\n\n CAUSE ===" + cause + "\n\n");
-      
+      log.error("timeOutHandler:: CAUSE => " + cause + "\n\n");
       if (cause != null && cause instanceof javax.naming.NameNotFoundException ) {
-        //
-        
-        log.error("XYZ ZZZ\n\n ERA UNA TASCA GUARDADA EN MEMORIA ===" + cause + "\n\n");
-        
-        
-        return;
+        log.error("timeOutHandler:: ERA UNA TASCA GUARDADA EN MEMORIA ==> " + cause);
+      } else {
+        log.error("timeOutHandler:: [" + getTimerName() + "] Error executant tasca: " + e.getMessage(), e);
       }
-      
-      
-      
-      log.error("[" + getTimerName() + "] Error executant tasca: " + e.getMessage(), e);
     }
   }
 

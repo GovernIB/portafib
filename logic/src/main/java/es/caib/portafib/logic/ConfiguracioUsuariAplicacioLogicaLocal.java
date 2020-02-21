@@ -53,15 +53,7 @@ public interface ConfiguracioUsuariAplicacioLogicaLocal extends
 
   public UsuariAplicacioConfiguracioJPA getConfiguracioUsuariAplicacioPerApiPortafibWS1(
       final String usuariAplicacioID) throws I18NException;
-  
-  
-  public void deleteFull(Long _ID_) throws I18NException;
 
-  //public PerfilConfiguracioDeFirma getConfiguracioUsuariAplicacioPerPassarela(
-  //    final String usuariAplicacioID, final boolean esFirmaEnServidor) throws I18NException;
-  
-  // XYZ ZZZ revisar si s'esta utilitzant
-  //public PerfilDeFirma getPerfilDeFirmaPerPassarela(final String usuariAplicacioID,
-  //    final boolean esFirmaEnServidor) throws I18NException;
+  public void deleteFull(Long _ID_) throws I18NException;
 
 }

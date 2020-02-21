@@ -48,7 +48,7 @@ public class PluginValidacioFirmesLogicaEJB extends
       IPortaFIBDataSource documentDetachedDS, String languageUI)
       throws I18NException {
 
-    log.info("\n\n XYZ ZZZ =======  ENTRA DINS PLUGIN VALIDACIO DE FIRMES (EJB)  ======= \n\n");
+    log.info(" =======  ENTRA DINS PLUGIN VALIDACIO DE FIRMES (EJB)  ======= \n\n");
 
     Long pluginValidateSignatureID = entitatEjb.executeQueryOne(
         EntitatFields.PLUGINVALIDAFIRMESID, EntitatFields.ENTITATID.equal(entitatID));
@@ -84,12 +84,10 @@ public class PluginValidacioFirmesLogicaEJB extends
       throw new I18NException("genapp.comodi", msg);
     }
     
-    
-    log.info("\n\nXYZ ZZZ ZZZ Signature bytes[] => " + signature.length);
-    
-    log.info("\nXYZ ZZZ ZZZ DocumentDetached bytes[] => " + ((documentDetached == null)? "NULL" : (""  +documentDetached.length)) + "\n\n");
-    
-    
+    if (log.isDebugEnabled()) {
+      log.debug("Signature bytes[] => " + signature.length);
+      log.info("DocumentDetached bytes[] => " + ((documentDetached == null)? "NULL" : (""  +documentDetached.length)) + "\n\n");
+    }
 
     ValidateSignatureResponse vsresp = internalValidateSignature(pluginValidateSignatureID,
         signType, signature, documentDetached, languageUI);

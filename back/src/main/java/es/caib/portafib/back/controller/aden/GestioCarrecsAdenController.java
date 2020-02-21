@@ -387,7 +387,6 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
     usuariEntitatForm.addHiddenField(PREDETERMINAT);
     usuariEntitatForm.addHiddenField(REBRETOTSELSAVISOS);
     usuariEntitatForm.addHiddenField(ENTITATID);
-    // XYZ ZZZ  usuariEntitatForm.addHiddenField(POTCUSTODIAR);
     usuariEntitatForm.addHiddenField(POLITICACUSTODIA);
     usuariEntitatForm.addHiddenField(POLITICADEPLUGINFIRMAWEB);
 
@@ -423,7 +422,6 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
           filterForm.addHiddenField(LOGOSEGELLID);
           filterForm.addHiddenField(PREDETERMINAT);
           
-          // XYZ ZZZ   filterForm.addHiddenField(POTCUSTODIAR);
           filterForm.addHiddenField(POLITICACUSTODIA);
 
           filterForm.addHiddenField(POLITICADEPLUGINFIRMAWEB);

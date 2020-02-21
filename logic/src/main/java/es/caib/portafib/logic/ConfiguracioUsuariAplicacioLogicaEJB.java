@@ -174,29 +174,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
         configuracionsList.add(cfg);
       }
     }
-    /*
-     * List<UsuariAplicacioConfiguracio> configs; configs =
-     * select(UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID
-     * .in(configuracionsList));
-     * 
-     * for (UsuariAplicacioConfiguracio config : configs) {
-     * 
-     * // Check si es té permis checkTePermisPerUsDeFirma(usuariAplicacioID, codiPerfil,
-     * usFirma, config);
-     * 
-     * // Check si es firma en servidor que tengui definit el Plugin if ((usFirma ==
-     * ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR) || (usFirma ==
-     * ConstantsV2.US_FIRMA_CONF_APP_PASSARELAFIRMASERVIDOR)) {
-     * 
-     * Long pluginId = config.getPluginFirmaServidorID();
-     * 
-     * if (pluginId == null) { // XYZ ZZZ Traduir throw new I18NException("genapp.comodi",
-     * "La configuració de firma " + config.getNom() +
-     * " enllaçada amb el perfil de firma amb codi " + codiPerfil +
-     * " i associat a l'usuari aplicació " + usuariAplicacioID +
-     * " no té definit el plugin de firma en servidor. " + "Consulti amb l'Administrador."); }
-     * } }
-     */
+
     return perfilDeFirma;
   }
 
@@ -365,9 +343,9 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
                 where));
 
     
-    log.info("XYZ ZZZ codisPerfil == " + codisPerfil);
+    log.debug("codisPerfil == " + codisPerfil);
     if (codisPerfil != null) {
-      log.info("XYZ ZZZ codisPerfil.size() == " + codisPerfil.size()); 
+      log.debug("codisPerfil.size() == " + codisPerfil.size()); 
     }
     
     if (codisPerfil == null || codisPerfil.size() != 1) {

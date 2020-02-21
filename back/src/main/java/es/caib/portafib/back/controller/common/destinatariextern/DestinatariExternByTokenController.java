@@ -65,7 +65,7 @@ public class DestinatariExternByTokenController {
   public ModelAndView token(HttpServletRequest request, HttpServletResponse response,
       @PathVariable("token") String token) throws Exception, I18NException {
 
-    log.info(" XYZ ZZZ ZZZ  TOKEN => |" + token + "|");
+    log.debug("token::TOKEN => |" + token + "|");
 
     FirmaJPA firma = firmaLogicaEjb.getFirmaByToken(token);
     if (firma == null) {
@@ -73,11 +73,11 @@ public class DestinatariExternByTokenController {
     }
 
     String username = firma.getUsuariEntitat().getUsuariPersonaID();
-    log.info(" XYZ ZZZ ZZZ  USERNAME => |" + username + "|");
+    log.info("token::USERNAME => |" + username + "|");
     
     String idiomaID = firma.getUsuariExternIdioma();
     
-    log.info(" XYZ ZZZ ZZZ  IDIOMA USUARI EXTERN 222 => " + idiomaID);
+    log.info("token::IDIOMA USUARI EXTERN => " + idiomaID);
     
     PortaFIBSessionLocaleResolver.setLocaleManually(request, idiomaID);
 
@@ -119,10 +119,12 @@ public class DestinatariExternByTokenController {
         // FER LOGIN
         Set<String> roles = new HashSet<String>();
 
-        log.info("XYZ ZZZ ZZZ [usuariPersonaLogicaEjb.getRolesOfLoggedUser()] roles.size() => "
+        if (log.isDebugEnabled()) {
+          log.debug("token::[usuariPersonaLogicaEjb.getRolesOfLoggedUser()] roles.size() => "
             + roles.size());
-        log.info("XYZ ZZZ ZZZ [usuariPersonaLogicaEjb.getRolesOfLoggedUser()] roles.contains(ConstantsV2.PFI_USER) => "
+          log.info("token::[usuariPersonaLogicaEjb.getRolesOfLoggedUser()] roles.contains(ConstantsV2.PFI_USER) => "
             + roles.contains(ConstantsV2.PFI_USER));
+        }
 
         {
 
@@ -131,28 +133,6 @@ public class DestinatariExternByTokenController {
           Collection<GrantedAuthority> springAuthorities = new ArrayList<GrantedAuthority>();
           springAuthorities.add(new SimpleGrantedAuthority(ConstantsV2.ROLE_DEST));
 
-          // XYZ ZZZ ZZZ Check deshabilitada: entitat
-          // if (!entitat.isActiva()) {
-          // final String msg = "L'entitat " + entitat.getNom()
-          // + " a la que està associat l'usuari-aplicacio " + username
-          // + " esta deshabilitada.";
-          // log.error(" XYZ ZZZ autenticate:: " + msg);
-          //
-          // ModelAndView model = new ModelAndView("externaluser_showerror");
-          // model.addObject("token", token);
-          // // XYZ ZZZ ZZZ
-          // model.addObject("error", msg);
-          //
-          // return model;
-          //
-          // }
-
-          // XYZ ZZZ ZZZ Check deshabilitada: usuarientitat
-          // FALTA
-
-          // Cridar directament a
-          // AuthenticationSuccessListener.onApplicationEvent(InteractiveAuthenticationSuccessEvent
-          // event)
           final String password = "";
           User user = new User(username, password, springAuthorities);
 
