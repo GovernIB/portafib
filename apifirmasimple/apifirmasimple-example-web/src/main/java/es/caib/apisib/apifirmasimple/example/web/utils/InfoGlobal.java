@@ -1,4 +1,4 @@
-package org.fundaciobit.apisib.apifirmasimple.example.web.utils;
+package es.caib.apisib.apifirmasimple.example.web.utils;
 
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;

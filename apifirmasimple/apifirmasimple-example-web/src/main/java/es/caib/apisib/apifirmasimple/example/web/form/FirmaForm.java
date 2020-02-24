@@ -1,13 +1,14 @@
-package org.fundaciobit.apisib.apifirmasimple.example.web.form;
+package es.caib.apisib.apifirmasimple.example.web.form;
 
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.fundaciobit.apisib.apifirmasimple.example.web.utils.ValidMultipartFile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import es.caib.apisib.apifirmasimple.example.web.utils.ValidMultipartFile;
 
 /**
  * 

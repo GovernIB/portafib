@@ -15,7 +15,7 @@
 		</init-param>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>org.fundaciobit.apisib.apifirmasimple.example.web</param-value>
+			<param-value>es.caib.apisib.apifirmasimple.example.web</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

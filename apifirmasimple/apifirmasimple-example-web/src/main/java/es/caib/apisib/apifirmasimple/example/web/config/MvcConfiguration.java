@@ -1,4 +1,4 @@
-package org.fundaciobit.apisib.apifirmasimple.example.web.config;
+package es.caib.apisib.apifirmasimple.example.web.config;
 
 import javax.validation.Validation;
 
@@ -20,7 +20,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  *
  */
 @Configuration
-@ComponentScan(basePackages="org.fundaciobit.apisib.apifirmasimple.example.web")
+@ComponentScan(basePackages="es.caib.apisib.apifirmasimple.example.web")
 @EnableWebMvc
 public class MvcConfiguration implements WebMvcConfigurer {
 
@@ -48,18 +48,10 @@ public class MvcConfiguration implements WebMvcConfigurer {
 	
 	  ReloadableResourceBundleMessageSource messageSource = new org.springframework.context.support.ReloadableResourceBundleMessageSource();
 	  messageSource.setDefaultEncoding("UTF-8");
-	  //messageSource.addBasenames("/WEB-INF/classes/messages");
-	  
-	  
-	  // XYZ ZZZ  "classpath:messages"
 	  messageSource.addBasenames("/WEB-INF/classes/messages", 
 	          "/WEB-INF/classes/ValidationMessages", "classpath:shared/ValidationMessages");
 	  
-	  
-  	/*
-    <property name="basename" value="/WEB-INF/classes/messages"/>
-    <property name="defaultEncoding" value="UTF-8"/>
-    */
+
 	 return messageSource;
   }
 
@@ -75,16 +67,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
       bean.setMessageInterpolator(new MyMessageInterpolator( 
               Validation.byDefaultProvider().configure().getDefaultMessageInterpolator()));
       
-      
-      //bean.
-      
-      
-      //bean.setConstraintValidatorFactory(  new MyConstraintValidatorFactory(
-      //        Validation.byDefaultProvider().configure().getDefaultMessageInterpolator()));
-      
-      //System.out.println("\n\n\n" + mi.getClass()  +"\n\n\n");
-
-      
+     
       return bean;
   }
 

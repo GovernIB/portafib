@@ -1,4 +1,4 @@
-package org.fundaciobit.apisib.apifirmasimple.example.web.controller;
+package es.caib.apisib.apifirmasimple.example.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

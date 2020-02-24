@@ -1,14 +1,10 @@
-package org.fundaciobit.apisib.apifirmasimple.example.web.controller;
+package es.caib.apisib.apifirmasimple.example.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.apisib.apifirmasimple.example.web.form.ConfiguracioForm;
-import org.fundaciobit.apisib.apifirmasimple.example.web.utils.ApiFirmaEnServidorCache;
-import org.fundaciobit.apisib.apifirmasimple.example.web.utils.ApiFirmaWebCache;
-import org.fundaciobit.apisib.apifirmasimple.example.web.utils.HtmlUtils;
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaEnServidorSimple;
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaWebSimple;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -21,6 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.RedirectView;
+
+import es.caib.apisib.apifirmasimple.example.web.form.ConfiguracioForm;
+import es.caib.apisib.apifirmasimple.example.web.utils.ApiFirmaEnServidorCache;
+import es.caib.apisib.apifirmasimple.example.web.utils.ApiFirmaWebCache;
+import es.caib.apisib.apifirmasimple.example.web.utils.HtmlUtils;
 
 /**
  * 

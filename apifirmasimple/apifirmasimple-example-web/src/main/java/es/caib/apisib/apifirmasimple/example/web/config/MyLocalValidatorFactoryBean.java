@@ -1,4 +1,4 @@
-package org.fundaciobit.apisib.apifirmasimple.example.web.config;
+package es.caib.apisib.apifirmasimple.example.web.config;
 
 import java.util.HashSet;
 import java.util.List;

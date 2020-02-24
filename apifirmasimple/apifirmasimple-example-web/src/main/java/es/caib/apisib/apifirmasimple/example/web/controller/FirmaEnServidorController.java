@@ -1,4 +1,4 @@
-package org.fundaciobit.apisib.apifirmasimple.example.web.controller;
+package es.caib.apisib.apifirmasimple.example.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
  */
 @Controller
 @RequestMapping(value = FirmaEnServidorController.CONTEXTWEB)
-@SessionAttributes(types = { org.fundaciobit.apisib.apifirmasimple.example.web.form.FirmaForm.class })
+@SessionAttributes(types = { es.caib.apisib.apifirmasimple.example.web.form.FirmaForm.class })
 public class FirmaEnServidorController extends AbstractFirmaController {
 
     public static final String CONTEXTWEB = "/firmaenservidor";

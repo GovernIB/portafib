@@ -1,4 +1,4 @@
-package org.fundaciobit.apisib.apifirmasimple.example.web.utils;
+package es.caib.apisib.apifirmasimple.example.web.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

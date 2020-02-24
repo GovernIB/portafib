@@ -1,4 +1,4 @@
-package org.fundaciobit.apisib.apifirmasimple.example.web.form;
+package es.caib.apisib.apifirmasimple.example.web.form;
 
 import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
