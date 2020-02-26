@@ -1,4 +1,21 @@
 
+PortaFIB 2.0.7
+==============
+
+2020-02-26 No agafa correctament la codificació de caràcters del text inserit com a motiu de firma #411
+
+2020-02-24 Fer exemple web per API Firma Simple Sincrona #404
+
+2020-02-21 Errors Clonant Petició o Creant peticio si aquesta conté Revisors #412
+
+2020-02-21 Problema de RollBack al CrearPetició amb Custòdia #407
+
+2020-02-20 Emprant API WS V1 no fa cas de la política de segellat de temps indicada a la configuració de firma #410
+
+2020-02-19 Problema de rendiment en iniciar una petició de firma #409
+
+2020-02-13 Problemes en API Rest en Servidor: retorn de signDocument i perfilID cadena buida #406
+
 PortaFIB 2.0.6
 ==============
 
