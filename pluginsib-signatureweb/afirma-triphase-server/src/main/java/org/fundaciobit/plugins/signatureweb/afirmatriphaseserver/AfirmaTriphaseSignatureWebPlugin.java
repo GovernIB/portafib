@@ -33,8 +33,6 @@ import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSi
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
@@ -49,7 +47,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.SocketException;
@@ -60,7 +57,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -73,7 +69,7 @@ import java.util.Set;
 /**
  * 
  * @author anadal
- *
+ * @author areus
  */
 public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin
     implements DocumentManager {
@@ -134,11 +130,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       e.printStackTrace();
       return null;
     }
-    
   }
-  
-
-  
   
 
   @Override
@@ -149,24 +141,21 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     /*
      
     Aquest CODI NO FUNCIONA: Llança un error javax.management.InstanceNotFoundException: jboss.system:type=Server is not registered. 
-      
-     
+
     try {
       MBeanServer server = ManagementFactory.getPlatformMBeanServer();   
       Hashtable<String, String> props = new Hashtable<String, String>();   
       props.put("type", "Server");   
       ObjectName name = new ObjectName("jboss.system", props);   
       String version = (String) (server.getAttribute(name, "Version"));
-      
-      
+
       log.info("\n\n\n\n  XYZ ZZZ ZZZ VERSION JBOSS => " + version + "\n\n\n\n");
       
       if (version.indexOf("5.1") != -1) {
         // OK
         acceptXAdES = true;
       }
-      
-      
+
     } catch(Throwable th) {
       log.error("Error descobrint versió de JBOSS: " + th.getMessage(), th);
     }
@@ -240,10 +229,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     super.closeSignaturesSet(request, id);
   }
   
-  
-  
-  
-  
 
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
@@ -277,14 +262,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   @Override
   public boolean acceptExternalTimeStampGenerator(String signType) {
-
-     if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)
-         || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
-         || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
-       return true;
-     } else {
-       return false;
-     }
+    return FileInfoSignature.SIGN_TYPE_PADES.equals(signType)
+            || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
+            || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType);
   }
 
   @Override
@@ -389,7 +369,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   }
 
-
   
   public boolean commonRequestGETPOST(String absolutePluginRequestPath,
       String relativePluginRequestPath, String query, SignaturesSetWeb signaturesSet,
@@ -459,12 +438,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     return resultat;
   }
-  
-  
-  
-  
-  
-  
+
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -560,15 +534,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           response.getOutputStream().flush();
 
         } else {
-         
-          
+
           response.setContentType("image/jpeg");
           response.setHeader("Content-Disposition", "inline; filename=\"rubric.jpg\"");
           response.setContentLength((int)rubric.length());
           
           org.apache.commons.io.FileUtils.copyFile(rubric, response.getOutputStream());
-          
-
 
           //response.getOutputStream().write(rubric);
           response.getOutputStream().flush();
@@ -589,14 +560,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         }
 
         break;
-
       }
 
     } catch (Exception e) {
       log.error("Error processant POST: " + e.getMessage(), e);
       response.setStatus(404);
     }
-
   }
   
 
@@ -692,10 +661,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     
   }
   
-  
 
   public static final String INDEX_HTML = "index";
-
 
   private void indexPage(String absolutePluginRequestPath, String relativePluginRequestPath,
       HttpServletRequest request, HttpServletResponse response, SignaturesSetWeb signaturesSet,
@@ -744,19 +711,15 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         
       }
       return maxAlgo;
-
   }
 
-  
-  
 
   private void indexPageAutofirma(String absolutePluginRequestPath, String relativePluginRequestPath,
       HttpServletRequest request, HttpServletResponse response, SignaturesSetWeb signaturesSet,
       int signatureIndex, Locale locale) {
 
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
-    
-    
+
     URL url;
     try {
       url = new URL(absolutePluginRequestPath);
@@ -815,7 +778,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       }
       
       // Convertir Properties a String
-      StringBuffer configPropertiesStr1 = new StringBuffer();
+      StringBuilder configPropertiesStr1 = new StringBuilder();
 
       for (Object key : configProperties[i].keySet()) {
         configPropertiesStr1
@@ -845,7 +808,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       return;
     }
 
-    StringBuffer batch = new StringBuffer();
+    StringBuilder batch = new StringBuilder();
     {
       batch.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n" + //$NON-NLS-1$
       "<signbatch stoponerror=\"false\" algorithm=\"" + algorithm + "\">\r\n"); //$NON-NLS-1$
@@ -858,10 +821,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         }
 
         final FileInfoSignature fis = fisArray[i];  
-
-
-
-        // D:/dades/dades/CarpetesPersonals/Programacio/portafib-1.1-jboss-5.1.0.GA/server/default/deployautofirma/autofirma.war/dst_batch/document_firmat.pdf");
 
         File fileDst;
         try {
@@ -954,29 +913,39 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         
         configProperties[i].remove(FORMAT_BATCH);
         
-        //var extraParams = MiniApplet.getBase64FromText(document.getElementById("params").value);
-        String extraParamsB64 = encodeB64(configPropertiesStr[i]);
-        
+        //String extraParamsB64 = encodeB64(configPropertiesStr[i]);
+        // @firma llegeix aquest extraParams amb un mètode propi que per davall empra un Properties.load que
+        // per versions de Java < 9 sempre empra ISO-8859-1. Per tant, per produir el paràmetre, empram també el
+        // seu mètode que per davall empra un Properties.store que també emprarà ISO-8859-1.
+        // Veure issue #411
+        String extraParamsB64;
+        try {
+          extraParamsB64 = AOUtil.properties2Base64(configProperties[i]);
+        } catch (IOException e) {
+          // TODO traduir
+          String errorMsg = "Error desconegut intentant generar extraParams en Base64: " + e.getMessage();
+          finishWithError(response, signaturesSet, errorMsg, e);
+          return;
+        }
+
         batch.append(
            "  <singlesign Id=\"" + signatureFullID + "\">\r\n" + //$NON-NLS-1$
             "    <datasource>file://" + src +  "</datasource>\r\n" + //$NON-NLS-1$
-            "    <format>"  + formatBatch + "</format>\r\n" + 
-            "    <suboperation>sign</suboperation>\r\n" + 
-            "    <extraparams>" + extraParamsB64 + "</extraparams>\r\n" + 
+            "    <format>"  + formatBatch + "</format>\r\n" +
+            "    <suboperation>sign</suboperation>\r\n" +
+            "    <extraparams>" + extraParamsB64 + "</extraparams>\r\n" +
             "    <signsaver>\r\n" + //$NON-NLS-1$
             // org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signsaver.SignSaverFile
             "      <class>" + SignSaverFile.class.getName() + "</class>\r\n" +
-            "      <config>" + encodeB64(config) + "</config>\r\n" + 
+            "      <config>" + encodeB64(config) + "</config>\r\n" +
             "    </signsaver>\r\n" +
             "   </singlesign>\r\n");
       }
       // FINAL FOR 
 
-      batch.append("</signbatch>"); 
-    
+      batch.append("</signbatch>");
     }
-    
-    
+
     if (debug) {
       log.info("Batch File = \r\n" + batch);
       log.info("Batch Size = \r\n" + batch.length());
@@ -986,7 +955,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     
     final boolean debugWeb = "true".equalsIgnoreCase(getProperty(AUTOFIRMA_BASE_PROPERTIES + "debug"));
 
-    
     final String hostURLBase = HOST + request.getContextPath();
     final String cargarAppAfirma;
     
@@ -1014,15 +982,13 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     
     if (timeout != null) {
       if (timeout > 60) {
-        timeoutbase =(int)(timeout.intValue() / 4);
+        timeoutbase = (timeout / 4);
       } else {
         log.warn("AutofirmaPlugin:: Ha elegit un Timeout inferior a 60. !!!!!");
       }
-
     }
     
     //System.out.println("TIMEOUTBASE = " + timeoutbase);
-    
 
     String javascriptCode =    
         "<script type=\"text/javascript\">\n"
@@ -1171,14 +1137,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       javascript.put(sai.getSignaturesSetID(), javascriptCode);
       
       
-      response.setCharacterEncoding("utf-8");
+      response.setCharacterEncoding("UTF-8");
       response.setContentType("text/html");
       
       PrintWriter out = generateHeader(request, response, absolutePluginRequestPath, 
           relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
       
-
-   
 
     out.println(
       "\n\n"
@@ -1224,18 +1188,16 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     out.flush();
     
     signaturesSet.getStatusSignaturesSet().setStatus(StatusSignature.STATUS_IN_PROGRESS);
-
   }
   
-  
-  
+
   private void indexPageClientMobil(String absolutePluginRequestPath, String relativePluginRequestPath,
       HttpServletRequest request, HttpServletResponse response, SignaturesSetWeb signaturesSet,
       int signatureIndex, Locale locale) {
 
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
 
-    response.setCharacterEncoding("utf-8");
+    response.setCharacterEncoding("UTF-8");
     response.setContentType("text/html");
 
     URL url;
@@ -1258,8 +1220,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
         relativePluginRequestPath);
  
-    
-    
+
     final FileInfoSignature[] fisArray = signaturesSet.getFileInfoSignatureArray();
     
     final String[] configPropertiesStr = new String[fisArray.length];
@@ -1283,7 +1244,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       }
       
 
-      
       String format = configProperties[i].getProperty(FORMAT_BATCH);
       format = format + "tri";
       
@@ -1295,7 +1255,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       configProperties[i].setProperty("serverUrl", HOST + PATH + "/" + SIGNATURESERVICE);
       
       // Convertir Properties a String
-      StringBuffer configPropertiesStr1 = new StringBuffer();
+      StringBuilder configPropertiesStr1 = new StringBuilder();
 
       for (Object key : configProperties[i].keySet()) {
         configPropertiesStr1
@@ -1318,10 +1278,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       return;
     }
 
-
     SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
- 
-    
 
       String javascriptCode1 =    
         " <script type=\"text/javascript\">\n"
@@ -1367,14 +1324,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "    try {\n"
         + "      switch(indexFirma) {\n";
         
-        StringBuffer javascriptCode2 = new StringBuffer(); 
+        StringBuilder javascriptCode2 = new StringBuilder();
         
         for (int j = 0; j < configProperties.length; j++) {
           
           final String algorithm = configProperties[j].getProperty(ALGORITHM);
-          
           final String formatBatch = configProperties[j].getProperty(FORMAT_BATCH);
-          
           //final String format = configProperties[j].getProperty(FORMAT_SIGN);
           
           javascriptCode2.append(
@@ -1385,8 +1340,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
             + "          showResultCallback, showErrorCallback);\n"
             + "      break;\n");
         }
-        
-        
+
         String javascriptCode3 =
         "      } // Final Switch\n"
         + (debugWeb?"      showLog(\"Post_MiniApplet.sign()\");\n":"")
@@ -1536,7 +1490,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "\">\n");
 
         
-        
         if (debugWeb) {
           out.println(
             "      <br/>\n"
@@ -1557,10 +1510,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     out.flush();
     
     signaturesSet.getStatusSignaturesSet().setStatus(StatusSignature.STATUS_IN_PROGRESS);
-
   }
-  
-  
   
 
   protected String encodeB64(final String config) {
@@ -1585,8 +1535,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       String callbackhost, final int index, 
       final FileInfoSignature fis, String algorithmRequired) {
     Properties configProperties = new Properties();
-    
-    
+
     //  XYZ ZZZ cridar a MiniAppletUtils.convertLocalSignature() ??? 
     boolean debug = isDebug();
     
@@ -1622,7 +1571,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     
     // CODI CONVERSIO COMU
     MiniAppletUtils.convertCommon(fis, configProperties);
-
 
     // POLITICA DE FIRMA
     PolicyInfoSignature policy;
@@ -1664,8 +1612,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           
           return null;
         }
-        
-       
+
         
 //        if (rubricUsingText()) {
 //          // ========= IMATGE DE TEXT ===============
@@ -1703,14 +1650,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       }
       
 
-
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
       
       // AOSignConstants.SIGN_FORMAT_XADES_ENVELOPED)
       // AOSignConstants.SIGN_FORMAT_XADES_EXTERNALLY_DETACHED)
 
       MiniAppletUtils.convertXAdES(fis, configProperties);
-      
 
       formatBatch = "XAdES";
       formatSign = configProperties.getProperty(FORMAT_SIGN);
@@ -1720,8 +1665,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
       formatBatch = "CAdES";
       formatSign = "CAdES";
-      
-        
+
       MiniAppletUtils.convertCAdES(fis, configProperties);
       
     } else {
@@ -1743,12 +1687,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     
     configProperties.put(FORMAT_BATCH, formatBatch);
     configProperties.put(FORMAT_SIGN, formatSign);
-    
-    
+
     log.info(" XYZ ZZZ ZZZ FORMAT generat dins MINIAPPLET UTILS: " + configProperties.getProperty(FORMAT_BATCH) );
     log.info(" XYZ ZZZ ZZZ FORMAT generat dins AFIRMATRIPHASE: " + configProperties.getProperty(FORMAT_SIGN) );
-    
-
 
     // SIGNATURE ID
     configProperties.put(SIGNATUREID, encodeSignatureItemID(signaturesSetID, index));
@@ -1761,7 +1702,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       MiniAppletUtils.convertTimeStamp(fis, timeStampUrl, isLocalSignature, configProperties);
     }
 
-    
     // ESPECIFIC DE @firma AutoFirma i Client @firma Mòbil
     //configProperties.setProperty("serverUrl", HOST + PATH + "/" + SIGNATURESERVICE);
 
@@ -1792,7 +1732,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       }
     }
 
-
     if (debug) {
       Set<Object> keys = configProperties.keySet();
       for (Object key : keys) {
@@ -1801,8 +1740,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     }
 
     return configProperties;
-
-   
   }
   
   
@@ -1814,7 +1751,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     return b.toString();
   }
   
-  
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
   // ------------------ PAGINA DE FINAL -----------------------------------
@@ -1822,8 +1758,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   // ----------------------------------------------------------------------------
 
   public static final String FINAL_PAGE_CLIENT_MOBIL = "finalClientMobil";
-
-
   
   /**
    * pagina de FInal pel CLient Mòbil
@@ -1833,8 +1767,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
    * @param signatureIndex
    * @param request
    * @param response
-   * @param uploadedFiles
-   * @throws Exception
    */
   private void finalPageClientMobil(String query, SignaturesSetWeb signaturesSet,
       int signatureIndex, HttpServletRequest request, HttpServletResponse response) {
@@ -1912,13 +1844,10 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       String errorMsg = getSimpleName() + "Error processant l´xml del resultat de la firma ("
           + signaturesSet.getSignaturesSetID() + "): " + e.getMessage();
       super.finishWithError(response, signaturesSet, errorMsg, e);
-      return;
     }
-
   }
   
-  
-  
+
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
   // ------------------ PAGINA DE FINAL BATCH -----------------------------------
@@ -1939,13 +1868,10 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
    * @param signatureIndex
    * @param request
    * @param response
-   * @param uploadedFiles
-   * @throws Exception
    */
   private void finalPageBatch(String query, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response) {
 
-    
    String resultXMLB64 = request.getParameter(RESULT_REQUEST_PARAM);
    
    if (resultXMLB64 == null || resultXMLB64.trim().length() == 0) {
@@ -1987,8 +1913,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
        }
        
        Item item = decodeSignatureItemID(sr.getId());
-       
-          
+
        StatusSignature status = getStatusSignature(signaturesSetID, item.index);
        
        if (status.getStatus() < 0) {
@@ -1997,8 +1922,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
          countError++;
          continue;
        } 
-       
-       
+
        if ("DONE_AND_SAVED".equals(sr.getResult())) {
 
          final File dataInicial = status.getSignedData();
@@ -2023,8 +1947,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
          log.error("Resultat de Firma Erroni en SignSet = " + item.signaturesSetID 
              + "(index = " + item.index + " ) = " + sr.getResult());
-         
-         
+
          String valor = sr.getValue();
          if (valor != null && valor.trim().length() != 0) {
            valor = "( Valor = " + valor.trim() + ")";
@@ -2035,9 +1958,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
          status.setErrorMsg(sr.getDescription() + valor);
          status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
          status.setSignedData(null);
-         
        }
-
      }
      
      // Revisar si tot ja s'ha guardat
@@ -2076,9 +1997,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
        }
 
      } finally {
-     
        SignSaverFile.removeProcessedFiles(allIds);
-       
      }
 
      StatusSignaturesSet statusSet = signaturesSet.getStatusSignaturesSet();
@@ -2095,14 +2014,10 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
          + "Error processant l´xml del resultat de la firma ("
          + signaturesSet.getSignaturesSetID() + "): " + e.getMessage();
      super.finishWithError(response, signaturesSet, errorMsg, e);
-     return ;
    }
-
   }
   
-  
-  
-  
+
 //----------------------------------------------------------------------------
  // ----------------------------------------------------------------------------
  // ------------------ PAGINA D'ERROR-----------------------------------
@@ -2113,29 +2028,28 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
  /**
   * Mostra pàgina per descarregar autofirma
-  * 
+  *
   * @param query
   * @param signaturesSet
   * @param signatureIndex
   * @param request
   * @param response
-  * @param uploadedFiles
-  * @throws Exception
+  * @param absolutePluginRequestPath
+  * @param relativePluginRequestPath
+  * @param locale
   */
  private void downloadAutofirmaPage(String query, SignaturesSetWeb signaturesSet, int signatureIndex,
      HttpServletRequest request, HttpServletResponse response, String absolutePluginRequestPath,
      String relativePluginRequestPath, Locale locale) {
 
-   response.setCharacterEncoding("utf-8");
+   response.setCharacterEncoding("UTF-8");
    response.setContentType("text/html");
    
    SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
    
    PrintWriter out = generateHeader(request, response, absolutePluginRequestPath, 
        relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
-   
-   
-   
+
    List<String[]> descarregues = new ArrayList<String[]>();
    
      
@@ -2151,7 +2065,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
    descarregues.add(new String[] { "IOS" , "https://itunes.apple.com/es/app/cliente-firma-movil/id627410001?mt=8" });
 
    out.println(
-     
       "<div style=\"width:100%;height:100%;\">\n"
       + "  <table style=\"min-height:200px;width:100%;height:100%;\">\n"
       + "    <tr valign=\"middle\">\n"
@@ -2164,8 +2077,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       + "          </h4><br/>\n"
       + "         <div  align=\"left\">\n"
       + "          <ul>\n");
-      
-      
 
         for (String[] desc : descarregues) {
           out.println("          <li><b>" + desc[0]+ ":</b>"
@@ -2188,11 +2099,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       + "  }\n"
       + "</script>");
 
-   
    generateFooter(out, sai, signaturesSet);
    
    out.flush();
-    
  }
   
 
@@ -2213,8 +2122,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
    * @param signatureIndex
    * @param request
    * @param response
-   * @param uploadedFiles
-   * @throws Exception
+   * @param absolutePluginRequestPath
+   * @param locale
    */
   private void clientErrorPage(String query, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response, String absolutePluginRequestPath,
@@ -2252,7 +2161,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     } else {
       log.warn("@firma AUTOFIRMA: S'ha rebut un error: " + errorMsg);
-      
 
       if (errorMsg.startsWith("Type: java.util.concurrent.TimeoutExceptionMessage:")) {
         try {
@@ -2273,7 +2181,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         cancel(request, response, signaturesSet);          
         return;
       }
-
     }
     
     status.setErrorMsg(getTraduccio("error.missatge", locale, errorMsg));
@@ -2284,7 +2191,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     } catch (IOException e) {
       e.printStackTrace();
     }
-
   }
 
   // ----------------------------------------------------------------------------
@@ -2473,7 +2379,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       }
     }
 
-
     // TODO Cache ???
     RetrieveService retrieveService = new RetrieveService();
 
@@ -2486,7 +2391,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
       finishWithError(response, signaturesSet, errorMsg, e);
     }
-
   }
 
   public static class ParametersServletRequest extends
@@ -2518,8 +2422,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   // ----------------------------------------------------------------------------
   
   public static final String BATCHPRESIGNER = "BatchPresigner";
-  
-  
+
   /**
    * ?????????
    * 
@@ -2546,7 +2449,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
       finishWithError(response, signaturesSet, errorMsg, e);
     }
-
   }
 
   private BatchPresigner batchPresigner = null;
@@ -2560,17 +2462,14 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   }
 
   
-  
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
   // --------- SERVEIS @FIRMA BATCH :: BatchPostsigner ----------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
- 
   public static final String BATCHPOSTSIGNER = "BatchPostsigner";
-  
-  
+
   /**
    * ?????????
    * 
@@ -2597,7 +2496,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
       finishWithError(response, signaturesSet, errorMsg, e);
     }
-
   }
 
   private BatchPostsigner batchPostsigner = null;
@@ -2610,8 +2508,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     return batchPostsigner;
   }
 
-  
-  
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -2669,7 +2565,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       configField = SignatureService.class.getDeclaredField("config");
       configField.setAccessible(true);
 
-      
       // Valors NO REALS, nomes per inicialitzar el sistema !!!!
       Properties config = (Properties) configField.get(null);
 
@@ -2781,7 +2676,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     public String toString() {
       return this.signaturesSetID + " " + this.index;
     }
-    
   }
 
   /**
@@ -2849,8 +2743,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       }
       
       fis.close();
-      
-      
+
       return data;
 
     } catch (final Exception e) {
@@ -2872,7 +2765,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       }
       throw new IOException(e.getMessage(), e);
     }
-
   }
 
   /**
@@ -2924,14 +2816,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       throw e;
 
     }
-
   }
 
   protected File checkSMIMEiSegellatDeTemps(byte[] data, final String signaturesSetID,
       final int signatureIndex, SignaturesSetWeb ss, FileInfoSignature fisig,
       StatusSignature status) throws IOException {
 
-    
     //***************** SELLO DE TIEMPO PER CADES&SMIME ****************
 
     if (fisig.getTimeStampGenerator() != null) {
@@ -2974,8 +2864,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     //************** FIN SELLO DE TIEMPO ****************
 
 
-   
-
     File firmat = null;
     FileOutputStream fos = null;
     try {
@@ -3000,7 +2888,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           fos.flush();
         } finally {
           if (fis != null) {
-            try { fis.close(); } catch (Exception e) { }
+            try { fis.close(); } catch (Exception ignored) { }
           }
         }
         fis.close();
@@ -3040,9 +2928,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     }
     return firmat;
   }
-  
-  
-  
+
   
   protected File checkSMIMEiSegellatDeTemps(File dataInicial, final String signaturesSetID,
       final int signatureIndex, SignaturesSetWeb ss, FileInfoSignature fisig,
@@ -3060,17 +2946,25 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       retornDirecte = false;
     }
     
-    if (retornDirecte == true) {
+    if (retornDirecte) {
       return null;
     } else {
       byte[] data = FileUtils.readFromFile(dataInicial);
       return checkSMIMEiSegellatDeTemps(data, signaturesSetID, signatureIndex, ss, fisig, status);
     }
-    
-
   }
-  
 
+  // La classe és thread-safe i costa construir-la, per tant es reaprofita la instància.
+  private static final JAXBContext jaxbContext;
+
+  static {
+    try {
+       jaxbContext = JAXBContext.newInstance(Signs.class);
+    } catch (JAXBException e) {
+      // Si no es pot inicialitzar és un error de sistema
+      throw new RuntimeException(e);
+    }
+  }
 
   protected static Signs xmlToSignResultList(String xml) throws JAXBException {
     xml = xml.trim();
@@ -3078,8 +2972,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     if (!xml.toLowerCase().endsWith("</signs>")) {
       xml = xml + "</signs>";
     }
-    
-    JAXBContext jaxbContext = JAXBContext.newInstance(Signs.class);
+
+    // La classe és thread-safe i costa construir-la, per tant la passam a variable static i l'inicialitzam més amunt
+    //JAXBContext jaxbContext = JAXBContext.newInstance(Signs.class);
 
     Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
     
@@ -3096,6 +2991,4 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   public void resetAndClean(HttpServletRequest request) throws Exception {
     internalResetAndClean(request);
   }
-  
-  
 }

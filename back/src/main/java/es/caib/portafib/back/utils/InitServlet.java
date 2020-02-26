@@ -29,6 +29,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import java.io.File;
+import java.util.Locale;
 
 /**
  * Servlet emprat per inicialitzar el Back
@@ -221,12 +222,9 @@ public class InitServlet extends HttpServlet {
 
     // Mostrar Versió
     String ver = LogicUtils.getVersio();
-    try {
-      log.info("PortaFIB Version: " + ver + " Build:" + Build.BUILD);
-    } catch (Throwable e) {
-      System.out.println("PortaFIB Version: " + ver + " Build:" + Build.BUILD);
-    }
-
+    log.info("PortaFIB Version: " + ver + " Build:" + Build.BUILD);
+    log.info("platform encoding: " + System.getProperty("file.encoding"));
+    log.info("default locale: " + Locale.getDefault());
   }
   
   
