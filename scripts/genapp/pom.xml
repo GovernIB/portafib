@@ -29,18 +29,11 @@
         <updatePolicy>never</updatePolicy>
       </snapshots>
     </repository>
-
-    <repository>
-      <id>codelds</id>
-      <url>https://code.lds.org/nexus/content/groups/main-repo</url>
-    </repository>
-
     <repository>
       <id>genapp-maven-repos</id>
       <name>GenApp Maven Repository</name>
       <url>http://GovernIB.github.io/maven/maven/</url>
     </repository>
-
   </repositories>
 
 
