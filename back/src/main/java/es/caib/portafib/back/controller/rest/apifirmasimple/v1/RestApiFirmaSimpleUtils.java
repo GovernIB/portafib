@@ -5,6 +5,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
+import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
 import es.caib.portafib.logic.passarela.PassarelaKeyValue;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaCustodyInfo;
@@ -84,7 +85,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
   private es.caib.portafib.ejb.CodiBarresLocal codiBarresEjb;
 
   public ResponseEntity<FirmaSimpleError> generateNoAvailablePlugin(String language,
-      boolean firma) {
+      boolean firma, NoCompatibleSignaturePluginException ex) {
     // TODO XYZ ZZZ Traduir
     String msg;
     if (firma) {
@@ -92,6 +93,12 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
     } else {
       msg = "El plugin seleccionat no suporta el proces d'actualització de firma.";
     }
+    
+    if (ex != null && ex.getMessage() != null) {
+      msg = msg +  " (" + ex.getMessage() + ")";
+    }
+    
+    
     return new ResponseEntity<FirmaSimpleError>(new FirmaSimpleError(msg,
         NoAvailablePluginException.class.getName()), HttpStatus.INTERNAL_SERVER_ERROR);
   }

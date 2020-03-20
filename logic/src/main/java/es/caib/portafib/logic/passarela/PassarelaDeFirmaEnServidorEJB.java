@@ -181,6 +181,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
       String error = signaturePlugin.filter(ss, parameters);
       if (error != null) {
+        log.error("Plugin no passa per la rao següent: " + error);
         throw new NoCompatibleSignaturePluginException(error);
       }
 

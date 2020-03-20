@@ -274,9 +274,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
 
     } catch (NoCompatibleSignaturePluginException nape) {
 
-      // XYZ ZZZ
-
-      return generateNoAvailablePlugin(fsur.getLanguageUI(), false);
+      return generateNoAvailablePlugin(fsur.getLanguageUI(), false,nape);
 
     } catch (I18NException i18ne) {
 
@@ -453,7 +451,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
         fullResults = passarelaDeFirmaEnServidorEjb.signDocuments(pss, loginInfo.getEntitat(),
             loginInfo.getUsuariAplicacio(), pcf.perfilDeFirma, pcf.configBySignID);
       } catch (NoCompatibleSignaturePluginException nape) {
-        return generateNoAvailablePlugin(pss.getCommonInfoSignature().getLanguageUI(), true);
+        return generateNoAvailablePlugin(pss.getCommonInfoSignature().getLanguageUI(), true, nape);
       }
 
       final boolean isSignatureInServer = true;

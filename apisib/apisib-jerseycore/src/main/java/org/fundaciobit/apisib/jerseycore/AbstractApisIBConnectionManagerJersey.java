@@ -146,6 +146,7 @@ public abstract class AbstractApisIBConnectionManagerJersey<E extends ApisIBErro
         simple = response.getEntity(getErrorClass());
       } catch (Exception e) {
         // Error no controlat
+        e.printStackTrace();
       }
 
       // System.out.println(" ERROR SIMPLE: ]" + simple + "[");
@@ -159,14 +160,7 @@ public abstract class AbstractApisIBConnectionManagerJersey<E extends ApisIBErro
           // System.out.println(" ERROR TIPUS IS SERVER EXCEPTION: ]"
           // + tipus.equals(ServerException.class.getName()) + "[");
 
-          if (tipus.equals(ApisIBTimeOutException.class.getName())) {
-            throw new ApisIBTimeOutException(simple.getMessage(), simple.getStackTrace());
-          } else if (tipus.equals(ApisIBServerException.class.getName())) {
-            throw new ApisIBServerException(simple.getMessage(), simple.getStackTrace());
-          } else {
-            // TODO Altres Excepcions
-            throw new ApisIBClientException(simple.getMessage(), simple.getStackTrace());
-          }
+          processException(simple, tipus);
 
         }
       }
@@ -178,6 +172,18 @@ public abstract class AbstractApisIBConnectionManagerJersey<E extends ApisIBErro
 
     }
 
+  }
+
+  protected void processException(E simple, String tipus)
+      throws AbstractApisIBException {
+    if (tipus.equals(ApisIBTimeOutException.class.getName())) {
+      throw new ApisIBTimeOutException(simple.getMessage(), simple.getStackTrace());
+    } else if (tipus.equals(ApisIBServerException.class.getName())) {
+      throw new ApisIBServerException(simple.getMessage(), simple.getStackTrace());
+    } else {
+      // TODO Altres Excepcions
+      throw new ApisIBClientException(simple.getMessage(), simple.getStackTrace());
+    }
   }
 
   /**

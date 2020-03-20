@@ -21,8 +21,11 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentReq
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeResponse;
+import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.CancelledUserException;
+import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.NoAvailablePluginException;
 import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 import org.fundaciobit.apisib.core.exceptions.ApisIBClientException;
+import org.fundaciobit.apisib.core.exceptions.ApisIBTimeOutException;
 import org.fundaciobit.apisib.jerseycore.AbstractApisIBConnectionManagerJersey;
 
 import com.sun.jersey.api.client.ClientResponse;
@@ -33,9 +36,9 @@ import com.sun.jersey.api.client.GenericType;
  * @author anadal(u80067)
  *
  */
-public class ApiFirmaEnServidorSimpleJersey extends
-    AbstractApisIBConnectionManagerJersey<FirmaSimpleError> implements
-    ApiFirmaEnServidorSimple {
+public class ApiFirmaEnServidorSimpleJersey
+    extends AbstractApisIBConnectionManagerJersey<FirmaSimpleError>
+    implements ApiFirmaEnServidorSimple {
 
   /**
    * @param endPointBase
@@ -49,8 +52,25 @@ public class ApiFirmaEnServidorSimpleJersey extends
    * @param username
    * @param password
    */
-  public ApiFirmaEnServidorSimpleJersey(String endPointBase, String username, String password) {
+  public ApiFirmaEnServidorSimpleJersey(String endPointBase, String username,
+      String password) {
     super(endPointBase, username, password);
+  }
+
+  @Override
+  protected void processException(FirmaSimpleError simple, String tipus)
+      throws AbstractApisIBException {
+    if (tipus.equals(CancelledUserException.class.getName())) {
+
+      throw new CancelledUserException(simple.getMessage(), simple.getStackTrace());
+
+    } else if (tipus.equals(NoAvailablePluginException.class.getName())) {
+
+      throw new NoAvailablePluginException(simple.getMessage(), simple.getStackTrace());
+
+    } else {
+      super.processException(simple, tipus);
+    }
   }
 
   /**
@@ -60,13 +80,12 @@ public class ApiFirmaEnServidorSimpleJersey extends
    * @throws Exception
    */
   @Override
-  public FirmaSimpleSignatureResult signDocument(
-      FirmaSimpleSignDocumentRequest signaturesSet) throws AbstractApisIBException {
+  public FirmaSimpleSignatureResult signDocument(FirmaSimpleSignDocumentRequest signaturesSet)
+      throws AbstractApisIBException {
 
     ClientResponse response = commonCall(signaturesSet, SIGNDOCUMENT);
 
-    FirmaSimpleSignatureResult result = response
-        .getEntity(FirmaSimpleSignatureResult.class);
+    FirmaSimpleSignatureResult result = response.getEntity(FirmaSimpleSignatureResult.class);
 
     return result;
   }
@@ -90,7 +109,8 @@ public class ApiFirmaEnServidorSimpleJersey extends
           } catch (IOException e) {
             throw new ApisIBClientException(
                 "Error desconegut transformant les dades de'un fitxer XAdES: "
-                    + e.getMessage(), e);
+                    + e.getMessage(),
+                e);
           }
           // result.setMime(null);
         }
@@ -120,16 +140,16 @@ public class ApiFirmaEnServidorSimpleJersey extends
   }
 
   // XYZ Moure a Utils
-  private static byte[] transformEncoding(byte[] source, String srcEncoding, String tgtEncoding)
-      throws IOException {
+  private static byte[] transformEncoding(byte[] source, String srcEncoding,
+      String tgtEncoding) throws IOException {
     BufferedReader br = null;
     BufferedWriter bw = null;
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
     try {
-      br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(source),
-          srcEncoding));
+      br = new BufferedReader(
+          new InputStreamReader(new ByteArrayInputStream(source), srcEncoding));
       bw = new BufferedWriter(new OutputStreamWriter(baos, tgtEncoding));
       char[] buffer = new char[16384];
       int read;
