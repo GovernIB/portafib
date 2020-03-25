@@ -42,4 +42,10 @@ public interface ModulDeFirmaWebLogicaLocal extends
   List<Plugin> getAllPluginsUsuariEntitatAplicacions(String usuariEntitatID, Set<String> usuarisAplicacioID)
         throws I18NException;
 
+  /**
+   * Borra un plugin de firma web comprovant que no estigui associat a cap tipus documental.
+   * @param instance el plugin de firma web
+   * @throws I18NException si el plugin està associat a qualque tipus documental.
+   */
+  void deleteFull(Plugin instance) throws I18NException;
 }

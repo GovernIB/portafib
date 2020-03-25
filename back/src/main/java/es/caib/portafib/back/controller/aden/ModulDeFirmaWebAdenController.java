@@ -2,7 +2,10 @@ package es.caib.portafib.back.controller.aden;
 
 
 import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
 
+import es.caib.portafib.model.entity.Plugin;
+import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +30,7 @@ public class ModulDeFirmaWebAdenController extends AbstractPluginAdenController<
   
   @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
   protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;
-  
-  
+
   @Override
   public String getTileForm() {
     return "modulDeFirmaFormAden";
@@ -64,5 +66,11 @@ public class ModulDeFirmaWebAdenController extends AbstractPluginAdenController<
     return "moduldefirma.titolmodal";
   }
 
-  
+  /**
+   * Empra el mètode específic que comprova que no es borri si està relacionat amb tipus documental.
+   */
+  @Override
+  public void delete(HttpServletRequest request, Plugin plugin) throws Exception, I18NException {
+    modulDeFirmaEjb.deleteFull(plugin);
+  }
 }
