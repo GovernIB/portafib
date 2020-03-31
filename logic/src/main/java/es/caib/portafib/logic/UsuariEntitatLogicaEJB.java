@@ -559,35 +559,48 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   public UsuariEntitatJPA createUsuariEntitatExtern(UsuariEntitatJPA usuariEntitatExtern,
       String entitatID)  throws I18NValidationException, I18NException {
     
-    // 1.- Cream la Persona
-
-    UsuariPersonaJPA usuariPersonaExternJPA = usuariEntitatExtern.getUsuariPersona();
+    // 1.- Assignam o Cream la Persona
+    String usuariPersonaExternaID;
     
-    usuariPersonaExternJPA.setUsuariPersonaID("EXTERN-" + usuariPersonaExternJPA.getNif().toUpperCase());
-    usuariPersonaExternJPA.setUsuariIntern(false);
-    usuariPersonaExternJPA.setUsuariEntitats(null);
-    usuariPersonaExternJPA.setIdioma(null);
-    usuariPersonaExternJPA.setContrasenya(UUID.randomUUID().toString());
-
-    // 1.1- Validation Basica
-    UsuariPersonaLogicValidator<UsuariPersonaJPA> validador = new UsuariPersonaLogicValidator<UsuariPersonaJPA>();
-    
-    UsuariPersonaBeanValidator upbv = new UsuariPersonaBeanValidator(validador, idiomaEjb, usuariPersonaLogicaEjb);
-    final boolean isNou = true;
-    List<I18NFieldError> list = upbv.validate(usuariPersonaExternJPA, isNou);
-    if (!list.isEmpty()) {
-      throw new I18NValidationException(list);
+    {
+      UsuariPersonaJPA usuariPersonaExternaJPA = usuariEntitatExtern.getUsuariPersona();
+      
+      if (usuariPersonaExternaJPA == null) {
+        // Això significa que la Persona Externa ja existeix
+        usuariPersonaExternaID = usuariEntitatExtern.getUsuariPersonaID();
+      } else {
+        // 1 S'ha de crear la persona externa
+        usuariPersonaExternaJPA.setUsuariPersonaID("EXTERN-" + usuariPersonaExternaJPA.getNif().toUpperCase());
+        usuariPersonaExternaJPA.setUsuariIntern(false);
+        usuariPersonaExternaJPA.setUsuariEntitats(null);
+        usuariPersonaExternaJPA.setIdioma(null);
+        usuariPersonaExternaJPA.setContrasenya(UUID.randomUUID().toString());
+        
+        // 2- Validation Basica
+        UsuariPersonaLogicValidator<UsuariPersonaJPA> validador = new UsuariPersonaLogicValidator<UsuariPersonaJPA>();
+        
+        UsuariPersonaBeanValidator upbv = new UsuariPersonaBeanValidator(validador, idiomaEjb, usuariPersonaLogicaEjb);
+        final boolean isNou = true;
+        List<I18NFieldError> list = upbv.validate(usuariPersonaExternaJPA, isNou);
+        if (!list.isEmpty()) {
+          throw new I18NValidationException(list);
+        }
+  
+        usuariPersonaExternaJPA = (UsuariPersonaJPA)usuariPersonaLogicaEjb.create(usuariPersonaExternaJPA);
+        usuariPersonaExternaID = usuariPersonaExternaJPA.getUsuariPersonaID();
+      }
     }
+   
 
-    usuariPersonaExternJPA = (UsuariPersonaJPA)usuariPersonaLogicaEjb.create(usuariPersonaExternJPA);
+
     
     // 2.- Cream l'usuari entitat
     usuariEntitatExtern.setUsuariEntitatID(entitatID
-        + "_" + usuariPersonaExternJPA.getUsuariPersonaID());
+        + "_" + usuariPersonaExternaID);
     usuariEntitatExtern.setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
     usuariEntitatExtern.setPoliticaDePluginFirmaWeb(ConstantsV2.POLITICA_PLUGIN_FIRMA_WEB_NOMES_PLUGINS_ENTITAT);
     usuariEntitatExtern.setRebreTotsElsAvisos(false);
-    usuariEntitatExtern.setUsuariPersonaID(usuariPersonaExternJPA.getUsuariPersonaID());
+    usuariEntitatExtern.setUsuariPersonaID(usuariPersonaExternaID);
     usuariEntitatExtern.setEntitatID(entitatID);
 
     usuariEntitatExtern = (UsuariEntitatJPA)create(usuariEntitatExtern);
@@ -678,6 +691,29 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     return findUsuariEntitatByNif(entitatID, nif, isIntern);
   }
 
+  @Override
+  public UsuariPersonaJPA findUsuariPersonaExternaByNif(String nif) throws I18NException {
+    
+    if (nif == null || nif.trim().length() == 0) {
+      return null;
+    }
+    
+    StringField nifField = new UsuariEntitatQueryPath().USUARIPERSONA().NIF();
+    BooleanField usuariInternField = new UsuariEntitatQueryPath().USUARIPERSONA().USUARIINTERN();
+    
+    List<UsuariPersona> list = usuariPersonaLogicaEjb.select(Where.AND(
+        UsuariPersonaFields.NIF.equal(nif),
+        UsuariPersonaFields.USUARIINTERN.equal(false)
+        ));
+    
+    if (list.size() == 0) {
+      return null;
+    } else {
+      UsuariPersonaJPA up = (UsuariPersonaJPA)list.get(0);
+      return up;
+    }
+    
+  }
   
   
   protected UsuariEntitatJPA findUsuariEntitatByNif(String entitatID, String nif, boolean isIntern)

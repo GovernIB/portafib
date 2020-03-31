@@ -3,6 +3,7 @@ package es.caib.portafib.back.form;
 import java.util.List;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
+import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 
 /**
  * 
@@ -22,7 +23,16 @@ public class SeleccioUsuariForm {
   String param2; // Parametre opcional 1
   String urlData; // Url d'on obtenir les dades JSON. Podrà retornar id de persones
                   // o ids de usuari-entitat
-  
+
+  /**
+   * Boto secundary:
+   * 
+   *  secondayButton.key   : Codelabel
+   *  secondayButton.value : ActionJavascript
+   *  
+   */
+  AdditionalButton secondaryButton;
+
   List<StringKeyValue> usuarisFavorits = null;
 
   public String getUrlData() {
@@ -31,6 +41,15 @@ public class SeleccioUsuariForm {
 
   public void setUrlData(String urlData) {
     this.urlData = urlData;
+  }
+
+
+  public AdditionalButton getSecondaryButton() {
+    return secondaryButton;
+  }
+
+  public void setSecondaryButton(AdditionalButton secondaryButton) {
+    this.secondaryButton = secondaryButton;
   }
 
   public String getId() {
