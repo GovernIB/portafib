@@ -1,5 +1,6 @@
 package es.caib.portafib.logic;
 
+import es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal;
 import es.caib.portafib.ejb.PluginFirmaWebPerUsuariAplicacioLocal;
 import es.caib.portafib.ejb.PluginFirmaWebPerUsuariEntitatLocal;
 import es.caib.portafib.ejb.UsuariAplicacioLocal;
@@ -7,6 +8,7 @@ import es.caib.portafib.ejb.UsuariEntitatLocal;
 import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariEntitat;
+import es.caib.portafib.model.fields.ModulDeFirmaPerTipusDeDocumentFields;
 import es.caib.portafib.model.fields.PluginFirmaWebPerUsuariAplicacioFields;
 import es.caib.portafib.model.fields.PluginFirmaWebPerUsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
@@ -44,6 +46,9 @@ public class ModulDeFirmaWebLogicaEJB extends AbstractPluginLogicaEJB<ISignature
   @EJB(mappedName = PluginFirmaWebPerUsuariAplicacioLocal.JNDI_NAME)
   private PluginFirmaWebPerUsuariAplicacioLocal pluginFirmaWebPerUsuariAplicacioEjb;
 
+  @EJB(mappedName = ModulDeFirmaPerTipusDeDocumentLocal.JNDI_NAME)
+  private ModulDeFirmaPerTipusDeDocumentLocal modulDeFirmaPerTipusDeDocumentEjb;
+
   @Override
   public int getTipusDePlugin() {
     return ConstantsV2.TIPUS_PLUGIN_MODULDEFIRMA_WEB;
@@ -52,6 +57,20 @@ public class ModulDeFirmaWebLogicaEJB extends AbstractPluginLogicaEJB<ISignature
   @Override
   protected String getName() {
     return "Modul de Firma Web";
+  }
+
+  /**
+   * Borra un plugin de firma web comprovant que no estigui associat a cap tipus documental.
+   * @param instance el plugin de firma web
+   * @throws I18NException si el plugin està associat a qualque tipus documental.
+   */
+  public void deleteFull(Plugin instance) throws I18NException {
+    Where where = ModulDeFirmaPerTipusDeDocumentFields.PLUGINID.equal(instance.getPluginID());
+    long count = modulDeFirmaPerTipusDeDocumentEjb.count(where);
+    if (count > 0) {
+      throw new I18NException("moduldefirmaweb.teTipusDocumental", String.valueOf(instance.getPluginID()));
+    }
+    super.delete(instance);
   }
 
   /**
