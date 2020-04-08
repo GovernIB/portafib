@@ -1,6 +1,8 @@
 package es.caib.portafib.utils;
 
 
+import java.nio.charset.Charset;
+
 /**
  *
  * @author anadal
@@ -533,4 +535,15 @@ public interface ConstantsV2 {
   public static final int USUARIEXTERN_SECURITY_LEVEL_PASSWORD = 2;
   public static final int USUARIEXTERN_SECURITY_LEVEL_CERTIFICATE = 4;
 
+  // ==================================================================
+  // -- Constants per codificació de caràcters. Afegit arrel de #425 --
+  // ==================================================================
+
+  // Charsets emprats dins l'aplicació
+  Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
+  Charset UTF_8 = Charset.forName("UTF-8");
+
+  // Reemplaç per noms de fitxer que no es poden passar a ISO-8859-1 i per tant
+  // no es poden escriure dins la capçalera Content-Disposition
+  byte[] FILENAME_UNMAPPABLE_REPLACEMENT = "_".getBytes(ISO_8859_1);
 }
