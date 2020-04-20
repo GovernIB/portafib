@@ -139,10 +139,7 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/usuariextern_final.jsp" />
     </definition>
 
-    <definition name="externaluser_showerror" extends="base.definition.cap_contingut_peu_sense_preparer">
-        <put-attribute name="titol" value="ERROR USUARI EXTERN" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/common/usuariextern_error.jsp" />
-    </definition>
+
 
     <definition name="externaluser_estatFirmaFullView"  extends="base.definition.cap_contingut_peu">
         <put-attribute name="contingut" value="/WEB-INF/jsp/dest/estatFirmaFullView.jsp" />

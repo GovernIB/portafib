@@ -87,7 +87,7 @@ public class ApiFlowTemplateSimpleTester {
       //descarregarFluxDeFirmesInfo(api, languageUI, lastKey);
       
       //lastKey = "CZm4Cx7uzSOZXGCAC_46vw==";
-      esborrarFluxDeFirmes(api, languageUI, lastKey);
+      //esborrarFluxDeFirmes(api, languageUI, lastKey);
 
     } catch (Exception e) {
       // TODO: handle exception
@@ -220,7 +220,7 @@ public class ApiFlowTemplateSimpleTester {
     String transactionID = null;
     try {
 
-      String name = "Prova des de API REST - " + System.currentTimeMillis();
+      String name = "Prova des de API REST àáèéòó- " + System.currentTimeMillis();
       String descr = "test=true;\n" + "user=anadal\n";
       final boolean visibleDescription = false;
 

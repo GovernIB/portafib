@@ -587,10 +587,15 @@
            
            console.log("XYZ ZZZ blocID = " + blocID);
 
-           setValue("crearfirma_blocid", blocID);
+           
            setValue("crearfirma_firmaid", '');
            setValue("crearfirma_nif", nif );
+           // Si estam en un bloc que ja existeix
+           setValue("crearfirma_blocid", blocID);
+           // Si cream un nou bloc 
            
+           console.log("crearfirma_blocOrdre => ]" + document.getElementById("param2").value + "[");
+           setValue("crearfirma_blocOrdre", document.getElementById("param2").value);
 
            $('#crearFirmaUsuariExtern').modal('show');
 
@@ -627,7 +632,8 @@
           <input id="crearfirma_blocid" name="crearfirma_blocid" type="hidden" >
           <input id="crearfirma_firmaid" name="crearfirma_firmaid" type="hidden" >
           <input id="crearfirma_usuarientitatid" name="crearfirma_usuarientitatid" type="hidden" >
-    
+          <input id="crearfirma_blocOrdre" name="crearfirma_blocOrdre" type="hidden" >
+
           <div class="form-group">
             <label for="crearfirma_nif" style="display: inline;"><fmt:message key="usuariPersona.nif"/>: </label>
             <input id="crearfirma_nif" name="crearfirma_nif" type="text" class="input" >
@@ -705,6 +711,7 @@
       
       document.getElementById("seleccioUsuariForm").action='<c:url value="${contexte}/afegirBlocDesDeModal"/>';
       document.getElementById("param1").value = blocOrdre;
+      document.getElementById("param2").value = blocOrdre;
       
       openSelectUserDialog();
       
@@ -715,6 +722,7 @@
       
       document.getElementById("seleccioUsuariForm").action='<c:url value="${contexte}/afegirFirmaDesDeModal"/>';
       document.getElementById("param1").value = blocID;
+      document.getElementById("param2").value = "";
       
       openSelectUserDialog();
       

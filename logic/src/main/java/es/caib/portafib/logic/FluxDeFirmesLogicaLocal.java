@@ -39,7 +39,7 @@ public interface FluxDeFirmesLogicaLocal extends FluxDeFirmesLocal {
 
   public void regeneraOrdres(Set<BlocDeFirmesJPA> blocs) throws I18NException;
 
-  public BlocDeFirmesJPA afegirBlocDeFirmesAFlux(long fluxDeFirmesID, String usuariEntitatID,
+  public BlocDeFirmesJPA afegirBlocDeFirmesAFlux(long fluxDeFirmesID, // String usuariEntitatID,
       int blocOrdre) throws I18NException;
 
   public FluxDeFirmesJPA updateFullPlantillaFluxUsuari(FluxDeFirmesJPA flux)

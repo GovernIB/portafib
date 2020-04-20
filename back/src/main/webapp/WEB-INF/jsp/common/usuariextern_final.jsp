@@ -1,22 +1,27 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+<br/>
+
 
 <center>
-  <div class="alert alert-success">
+  <div class="alert ${(status eq 2)? 'alert-success':'alert-error'}">
     <h2>
-      <fmt:message key="usuariextern.token.finalprocesdefirma" />
+      <fmt:message key="usuariextern.token.${(status eq 2)? 'finalprocesdefirma':'.error.titol'}" />
     </h2>
-
-    <br />
-    <h4>${message}</h4>
-    <br /> 
-    <a href="<c:url value="${vistacompletaurl}" />" class="btn btn-primary" style="color: white;">
-      <fmt:message key="usuariextern.token.anarveurevistacompletafirma" />
-    </a>
+    
+    <c:if test="${ not empty errorcode}" >
+    <h4> <fmt:message key="${errorcode}" >
+           <fmt:param value="${param0}" />
+           <fmt:param value="${param1}" />
+           <fmt:param value="${param2}" />
+           <fmt:param value="${param3}" />
+           <fmt:param value="${param4}" />
+           <fmt:param value="${param5}" />
+         </fmt:message>
+    </h4>
+    </c:if>
+    <br> TOKEN: <b>${token}</b> <br>
   </div>
+</center>
+
+<br/>

@@ -84,7 +84,6 @@ import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.RevisorDeFirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
-import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.model.entity.FluxDeFirmes;
 import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
 import es.caib.portafib.model.entity.RevisorDeFirma;
@@ -981,7 +980,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     
   
   /**
-   * Mètode REST de consulta de si existeix USUARI EXTERN
+   * Mètode creació de usuari-extern 
    * @param fluxDeFirmesForm
    * @param request
    * @param response
@@ -993,24 +992,63 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
     
     // String firmaid = request.getParameter("crearfirma_firmaid");
-    
-    long blocID  = Integer.parseInt(request.getParameter("crearfirma_blocid"));
-    String usuariEntitatID = request.getParameter("crearfirma_usuarientitatid");
-    String nif = request.getParameter("crearfirma_nif");
-    
-    UsuariExtern usuariExtern;
-    {
-
-      String nom = request.getParameter("crearfirma_nom");
-      String llinatges = request.getParameter("crearfirma_llinatges");
-      String email = request.getParameter("crearfirma_email");
-      String idioma = request.getParameter("crearfirma_idiomaID");
-      
-      usuariExtern = new UsuariExtern(nom, llinatges, email, idioma);
-    }
-    
-
     try {
+      
+      String blocOrdreStr =request.getParameter("crearfirma_blocOrdre");
+      String blocIDStr = request.getParameter("crearfirma_blocid");
+      
+      log.info(" \n\n XYZ ZZZ Bloc ORDRE STR => ]" + blocOrdreStr + "[");
+      log.info("XYZ ZZZ Bloc ID STR => ]" + blocIDStr + "[");
+      
+      long blocID;
+      
+      
+      String usuariEntitatID = request.getParameter("crearfirma_usuarientitatid");
+      String nif = request.getParameter("crearfirma_nif");
+      
+      
+      boolean creatBloc = false;
+      Set<BlocDeFirmesJPA> blocs = null;
+      BlocDeFirmesJPA bloc = null;
+      
+      if ("".equals(blocOrdreStr)) { 
+         //  Afegir Firma a Bloc Existent
+        blocID   = Integer.parseInt(blocIDStr);
+      } else {
+        
+        // Nou Bloc + Firma
+        
+        int blocOrdre = Integer.parseInt(blocOrdreStr);
+
+        FluxDeFirmesJPA flux = fluxDeFirmesForm.getFluxDeFirmes();
+        long fluxID = flux.getFluxDeFirmesID();
+        bloc = fluxDeFirmesLogicaEjb.afegirBlocDeFirmesAFlux(fluxID, blocOrdre);
+        
+        blocs = flux.getBlocDeFirmess();
+        blocs.add(bloc);
+        
+        blocID = bloc.getBlocDeFirmesID();
+        
+        fluxDeFirmesLogicaEjb.regeneraOrdres(blocs);
+        
+        creatBloc = true;
+      }
+      
+      
+      
+      UsuariExtern usuariExtern;
+      {
+  
+        String nom = request.getParameter("crearfirma_nom");
+        String llinatges = request.getParameter("crearfirma_llinatges");
+        String email = request.getParameter("crearfirma_email");
+        String idioma = request.getParameter("crearfirma_idiomaID");
+        
+        usuariExtern = new UsuariExtern(nom, llinatges, email, idioma);
+      }
+      
+
+    
       UsuariEntitatJPA usuariEntitat;
       
       if (usuariEntitatID != null && usuariEntitatID.trim().length() != 0) {
@@ -1044,6 +1082,12 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       
       
       if (!afegirFirma(fluxDeFirmesForm, request, usuariEntitat, usuariExtern, blocID)) {
+        
+        if (creatBloc ) {
+          blocs.remove(bloc);
+          blocDeFirmesLogicaEjb.deleteFull(bloc.getBlocDeFirmesID());
+        }
+        
         return getTileForm();
       }
 
@@ -1652,16 +1696,34 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     try {
       FluxDeFirmesJPA flux = fluxDeFirmesForm.getFluxDeFirmes();
       long fluxID = flux.getFluxDeFirmesID();
-      BlocDeFirmesJPA bloc = fluxDeFirmesLogicaEjb.afegirBlocDeFirmesAFlux(fluxID,
-          usuariEntitatID, blocOrdre);
-
+      BlocDeFirmesJPA bloc = fluxDeFirmesLogicaEjb.afegirBlocDeFirmesAFlux(fluxID, blocOrdre);
+      
+      UsuariEntitatJPA usuariEntitat = usuariEntitatLogicaEjb
+          .findByPrimaryKeyFull(usuariEntitatID);
+      if (usuariEntitat == null) {
+        HtmlUtils.saveMessageError(request,
+            I18NUtils.tradueix("error.notfound",
+                new String[] { I18NUtils.tradueix("usuariEntitat.usuariEntitat"),
+                    I18NUtils.tradueix("usuariEntitat.usuariEntitatID"),
+                    String.valueOf(usuariEntitatID) }));
+        return getTileForm();
+      }
+      
       Set<BlocDeFirmesJPA> blocs = flux.getBlocDeFirmess();
       blocs.add(bloc);
-
+      
+      if (!afegirFirma(fluxDeFirmesForm, request, usuariEntitat, bloc.getBlocDeFirmesID())) {
+        blocs.remove(bloc);
+        blocDeFirmesLogicaEjb.deleteFull(bloc.getBlocDeFirmesID());
+        
+        return getTileForm();
+      }
+      
       fluxDeFirmesLogicaEjb.regeneraOrdres(blocs);
 
       afegitUsuariAlFlux(seleccioUsuariForm, usuariEntitatID);
     } catch (I18NException e) {
+      log.error("Error desconegut creant Bloc de Firmes: " + e.getMessage(), e); 
       HtmlUtils.saveMessageError(request, I18NUtils.getMessage(e));
     }
 

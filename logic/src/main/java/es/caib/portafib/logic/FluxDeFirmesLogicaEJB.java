@@ -9,6 +9,7 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
 import es.caib.portafib.jpa.RevisorDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.jpa.validator.BlocDeFirmesBeanValidator;
 import es.caib.portafib.jpa.validator.BlocDeFirmesValidator;
 import es.caib.portafib.jpa.validator.FluxDeFirmesBeanValidator;
@@ -18,6 +19,7 @@ import es.caib.portafib.model.entity.FluxDeFirmes;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
 import es.caib.portafib.model.entity.RevisorDeFirma;
+import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.FluxDeFirmesFields;
 import es.caib.portafib.model.fields.FluxDeFirmesQueryPath;
 import es.caib.portafib.model.fields.PermisGrupPlantillaFields;
@@ -25,6 +27,8 @@ import es.caib.portafib.model.fields.PermisUsuariPlantillaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesQueryPath;
+import es.caib.portafib.utils.ConstantsV2;
+
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -379,13 +383,9 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
   
   @PermitAll
   @Override
-  public BlocDeFirmesJPA afegirBlocDeFirmesAFlux(long fluxDeFirmesID,
-      String usuariEntitatID, int blocOrdre) throws I18NException {
+  public BlocDeFirmesJPA afegirBlocDeFirmesAFlux(long fluxDeFirmesID, int blocOrdre) throws I18NException {
 
-    UsuariEntitatJPA usuariEntitat = UsuariEntitatLogicaEJB.findByPrimaryKeyFull(usuariEntitatEjb, usuariEntitatID);
-    if (usuariEntitat == null) {
-      return null;
-    }
+    
     
     BlocDeFirmesJPA bloc = new BlocDeFirmesJPA();
     bloc.setFluxDeFirmesID(fluxDeFirmesID);
@@ -394,6 +394,15 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
     
     bloc = (BlocDeFirmesJPA)blocDeFirmesLogicaEjb.create(bloc);
     
+    /*
+    if (usuariEntitatID == null) {
+      return bloc;
+    }
+    
+    UsuariEntitatJPA usuariEntitat = UsuariEntitatLogicaEJB.findByPrimaryKeyFull(usuariEntitatEjb, usuariEntitatID);
+    if (usuariEntitat == null) {
+      return bloc;
+    }
     
     FirmaJPA firma = new FirmaJPA();
 
@@ -402,9 +411,23 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
     firma.setUsuariEntitat(usuariEntitat);
     firma.setObligatori(true);
     
+    UsuariPersonaJPA persona = usuariEntitat.getUsuariPersona();
+    
+    if (!persona.isUsuariIntern()) {
+      firma.setUsuariExternEmail(persona.getEmail());
+      firma.setUsuariExternNivellSeguretat(ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_TOKEN);
+      firma.setUsuariExternLlinatges(_usuariExternLlinatges_);
+      firma.setUsuariExternNom(_usuariExternNom_);
+      firma.setUsuariExternToken(_usuariExternToken_);
+    }
+    
+    
     firma = (FirmaJPA)firmaLogicaEjb.create(firma);
     
+    
     bloc.getFirmas().add(firma);
+    */
+
     
     return bloc;
     
