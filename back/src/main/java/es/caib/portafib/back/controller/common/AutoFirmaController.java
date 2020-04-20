@@ -627,7 +627,7 @@ public class AutoFirmaController extends FitxerController
 
       response.setContentType(ConstantsV2.MIME_TYPE_PDF);
 
-      response.setHeader("Content-Disposition", "inline; filename=\"" +filename + "\"");
+      response.setHeader("Content-Disposition", Utils.getContentDispositionHeader(true, filename));
       response.setContentLength((int)fafirmar.length());
   
       java.io.OutputStream output = response.getOutputStream();
@@ -721,7 +721,7 @@ public class AutoFirmaController extends FitxerController
     
     {
       response.setContentType(ConstantsV2.MIME_TYPE_PDF);
-      response.setHeader("Content-Disposition", "inline; filename=\"" +filename + "\"");
+      response.setHeader("Content-Disposition", Utils.getContentDispositionHeader(true, filename));
       response.setContentLength((int)ffirmat.length());
   
       java.io.OutputStream output = response.getOutputStream();

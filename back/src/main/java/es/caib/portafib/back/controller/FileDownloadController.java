@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller;
 
+import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.model.entity.Fitxer;
 
@@ -35,7 +36,7 @@ public class FileDownloadController {
 
   /**
    * 
-   * @param arxiuId
+   * @param encryptedArxiuId
    * @param request
    * @param response
    * @author anadal
@@ -114,8 +115,7 @@ public class FileDownloadController {
         response.setContentType(contentType);
       }
 
-      response.setHeader("Content-Disposition", (attachment ? "attachment" : "inline")
-          + "; filename=\"" + filename + "\"");
+      response.setHeader("Content-Disposition", Utils.getContentDispositionHeader(attachment, filename));
       response.setContentLength((int) file.length());
 
       output = response.getOutputStream();
