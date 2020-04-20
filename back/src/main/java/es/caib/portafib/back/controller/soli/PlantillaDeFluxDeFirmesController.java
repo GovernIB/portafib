@@ -1033,9 +1033,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
         
         creatBloc = true;
       }
-      
-      
-      
+
       UsuariExtern usuariExtern;
       {
   
