@@ -84,6 +84,7 @@ import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.RevisorDeFirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
+import es.caib.portafib.logic.utils.UsuariExtern;
 import es.caib.portafib.model.entity.FluxDeFirmes;
 import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
 import es.caib.portafib.model.entity.RevisorDeFirma;
@@ -1565,49 +1566,14 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
                   String.valueOf(blocID) }));
       return false;
     }
-
-    FirmaJPA firma = new FirmaJPA();
-
-    firma.setBlocDeFirmaID(blocID);
-    firma.setDestinatariID(usuariEntitat.getUsuariEntitatID());
-    firma.setUsuariEntitat(usuariEntitat);
-    firma.setObligatori(true);
-
-    UsuariPersona up = usuariEntitat.getUsuariPersona();
-
-    if (!up.isUsuariIntern()) {
-      // Usuari Extern
-      if (usuariExtern == null) {
-        firma.setUsuariExternEmail(up.getEmail());
-        firma.setUsuariExternIdioma(up.getIdiomaID());
-        firma.setUsuariExternLlinatges(up.getLlinatges());
-        firma.setUsuariExternNom(up.getNom());
-      } else {
-        firma.setUsuariExternEmail(usuariExtern.getEmail());
-        firma.setUsuariExternIdioma(usuariExtern.getIdioma());
-        firma.setUsuariExternLlinatges(usuariExtern.getLlinatges());
-        firma.setUsuariExternNom(usuariExtern.getNom());
-      }
-      
-      firma.setUsuariExternNivellSeguretat(ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_TOKEN);
-
-      // Genera un token únic
-      firma.setUsuariExternToken(firmaLogicaEjb.getUniqueTokenForFirma());
-
-    }
-
-    firma = (FirmaJPA) firmaLogicaEjb.create(firma);
-
-    if (bloc.getMinimDeFirmes() == bloc.getFirmas().size()) {
-      bloc.getFirmas().add(firma);
-      bloc.setMinimDeFirmes(bloc.getFirmas().size());
-      blocDeFirmesLogicaEjb.update(bloc);
-    } else {
-      bloc.getFirmas().add(firma);
-    }
+    final boolean persistence = true;
+    return  fluxDeFirmesLogicaEjb.afegirFirmaABloc(usuariEntitat, usuariExtern, bloc, persistence);
     
-    return true;
   }
+  
+  
+  
+  
 
   private void afegitUsuariAlFlux(SeleccioUsuariForm seleccioUsuariForm,
       String usuariEntitatID) {
@@ -2273,58 +2239,6 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     binder.setDisallowedFields(FLUXDEFIRMESID.fullName,
         PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.fullName);
   }
-  
-  
-  /**
-   * 
-   * @author anadal (u80067)
-   *
-   */
-  public static class UsuariExtern {
-
-
-    protected String nom;
-    protected String llinatges;
-    protected String email;
-    protected String idioma;
-    
-    
-    
-    
-    public UsuariExtern(String nom, String llinatges, String email, String idioma) {
-      super();
-      this.nom = nom;
-      this.llinatges = llinatges;
-      this.email = email;
-      this.idioma = idioma;
-    }
-    public String getNom() {
-      return nom;
-    }
-    public void setNom(String nom) {
-      this.nom = nom;
-    }
-    public String getLlinatges() {
-      return llinatges;
-    }
-    public void setLlinatges(String llinatges) {
-      this.llinatges = llinatges;
-    }
-    public String getEmail() {
-      return email;
-    }
-    public void setEmail(String email) {
-      this.email = email;
-    }
-    public String getIdioma() {
-      return idioma;
-    }
-    public void setIdioma(String idioma) {
-      this.idioma = idioma;
-    }
-
-  }
-  
 
 }
 

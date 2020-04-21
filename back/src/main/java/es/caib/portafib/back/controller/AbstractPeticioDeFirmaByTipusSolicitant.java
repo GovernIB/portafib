@@ -21,6 +21,7 @@ import es.caib.portafib.jpa.FluxDeFirmesJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
@@ -360,6 +361,8 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
 
       return getTileSeleccioFlux(); // "redirect:" + getContextWeb() + "/selectflux";
     }
+    
+    
     final boolean isDebug = log.isDebugEnabled();
     String usuariAplicacioID = null;
     int origenPeticioDeFirma;
@@ -390,7 +393,6 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
 
     FluxDeFirmesJPA fluxDeFirmes;
     try {
-
       switch (tipus) {
 
         case SeleccioFluxDeFirmesForm.TIPUS_SELECT_PRIMER_USUARI_DEL_FLUX:
@@ -411,6 +413,11 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
           if (isDebug) {
             log.debug("usuariEntitatPrimeraFirma == " + usuariEntitatPrimeraFirma);
           }
+          
+          
+          
+          
+          
 
           Set<BlocDeFirmesJPA> blocDeFirmes = new HashSet<BlocDeFirmesJPA>();
           int ordre = 0;
@@ -418,6 +425,20 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
           FirmaJPA firma = new FirmaJPA();
           firma.setDestinatariID(usuariEntitatPrimeraFirma);
           firma.setObligatori(true);
+          
+          
+          UsuariEntitatJPA usuariEntitat = usuariEntitatLogicaEjb.findByPrimaryKeyFull(usuariEntitatPrimeraFirma);
+          UsuariPersonaJPA usuariPersona = usuariEntitat.getUsuariPersona();
+          if (!usuariPersona.isUsuariIntern()) {
+            firma.setUsuariExternEmail(usuariPersona.getEmail());
+            firma.setUsuariExternIdioma(usuariPersona.getIdiomaID());
+            firma.setUsuariExternLlinatges(usuariPersona.getLlinatges());
+            firma.setUsuariExternNom(usuariPersona.getNom());
+          }
+        
+          
+          
+          
           Set<FirmaJPA> firmes = new HashSet<FirmaJPA>();
           firmes.add(firma);
 
@@ -429,6 +450,28 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
 
           blocDeFirmes.add(bloc);
           // }
+
+          /*
+          
+          //int ordre = 0;
+          
+          BlocDeFirmesJPA bloc = new BlocDeFirmesJPA();
+          bloc.setFirmas(new HashSet<FirmaJPA>());
+          bloc.setMinimDeFirmes(0);
+          bloc.setOrdre(0);
+          
+          
+          
+         UsuariEntitatJPA usuariEntitat = usuariEntitatLogicaEjb.findByPrimaryKeyFull(usuariEntitatPrimeraFirma);
+          
+          final boolean persistence = false;
+          fluxDeFirmesLogicaEjb.afegirFirmaABloc(usuariEntitat, null, bloc, persistence);
+          
+          
+          Set<BlocDeFirmesJPA> blocDeFirmes = new HashSet<BlocDeFirmesJPA>();
+          blocDeFirmes.add(bloc);
+ */ 
+          
 
           fluxDeFirmes = new FluxDeFirmesJPA();
           fluxDeFirmes.setNom(nom);
@@ -468,9 +511,16 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
           return "redirect:" + getContextWeb() + "/selectflux";
 
       }
-
+      /*
+    } catch (I18NException e) {
+      // TODO XYZ ZZZ TRA traduir icatch de I18NException
+      String msg = "Error creant flux de firmes " + I18NUtils.getMessage(e);
+      log.error(msg, e);
+      HtmlUtils.saveMessageError(request, msg);
+      return "redirect:" + getContextWeb() + "/selectflux";
+*/
     } catch (Exception e) {
-      // TODO traduir icatch de I18NException
+      // TODO XYZ ZZZ TRA traduir icatch de I18NException
       String msg = "Error creant flux de firmes " + e.getMessage();
       log.error(msg, e);
       HtmlUtils.saveMessageError(request, msg);
