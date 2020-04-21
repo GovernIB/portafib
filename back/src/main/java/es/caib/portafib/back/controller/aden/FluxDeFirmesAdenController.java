@@ -58,4 +58,15 @@ public class FluxDeFirmesAdenController extends PlantillaDeFluxDeFirmesAdenContr
   public boolean isEditingPlantilla() {
     return false;
   }
+  
+  @Override
+  public String getTileForm() {
+    return "PlantillaDeFluxDeFirmesFormAden";
+  }
+
+  @Override
+  public String getTileList() {
+    return "PlantillaDeFluxDeFirmesListAden";
+  }
+
 }

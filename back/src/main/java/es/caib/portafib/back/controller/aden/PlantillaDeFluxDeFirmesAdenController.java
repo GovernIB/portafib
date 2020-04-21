@@ -25,12 +25,12 @@ public class PlantillaDeFluxDeFirmesAdenController extends PlantillaDeFluxDeFirm
 
   @Override
   public String getTileForm() {
-    return "PlantillaDeFluxDeFirmesFormAden";
+    return "PlantillaDeFluxDeFirmes2FormAden";
   }
 
   @Override
   public String getTileList() {
-    return "PlantillaDeFluxDeFirmesListAden";
+    return "PlantillaDeFluxDeFirmes2ListAden";
   }
 
   @Override
