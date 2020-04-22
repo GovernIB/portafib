@@ -287,7 +287,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
         List<Long> peticioIDs = notificacioWSEjb.executeQuery(NotificacioWSFields.PETICIODEFIRMAID, Where.AND(w1,w2,w3,w45));
 
         if (peticioIDs != null && peticioIDs.size() != 0) {
-          avisos.put(rol, peticioIDs);
+          avisos.put(ROLE_ADEN2, peticioIDs);
         }
       }
     }

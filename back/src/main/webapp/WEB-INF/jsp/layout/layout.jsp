@@ -68,8 +68,8 @@
           <c:url var="linktab" value="/canviarPipella/ROLE_ADEN2"/>
           <c:set var="href" value="href=\"${linktab}\"" />
           <a ${href}><fmt:message key="ROLE_ADEN2" />
-          <c:if test="${not(empty avisos[ROLE_ADEN2])}">
-            &nbsp; <span class="badge badge-warning">${avisos[ROLE_ADEN2]}</span>
+          <c:if test="${not(empty avisos['ROLE_ADEN2'])}">
+            &nbsp; <span class="badge badge-warning">${avisos['ROLE_ADEN2']}</span>
           </c:if>
           </a>
           
