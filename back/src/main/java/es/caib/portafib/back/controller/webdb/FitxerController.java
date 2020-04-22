@@ -259,6 +259,7 @@ public class FitxerController
       postValidate(request,fitxerForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         fitxer = create(request, fitxer);
@@ -353,6 +354,7 @@ public class FitxerController
       postValidate(request, fitxerForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         fitxer = update(request, fitxer);

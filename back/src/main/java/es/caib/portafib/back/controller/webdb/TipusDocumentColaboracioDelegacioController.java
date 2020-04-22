@@ -308,6 +308,7 @@ public class TipusDocumentColaboracioDelegacioController
       postValidate(request,tipusDocumentColaboracioDelegacioForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         tipusDocumentColaboracioDelegacio = create(request, tipusDocumentColaboracioDelegacio);
@@ -402,6 +403,7 @@ public class TipusDocumentColaboracioDelegacioController
       postValidate(request, tipusDocumentColaboracioDelegacioForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         tipusDocumentColaboracioDelegacio = update(request, tipusDocumentColaboracioDelegacio);

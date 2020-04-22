@@ -308,6 +308,7 @@ public class GrupEntitatUsuariEntitatController
       postValidate(request,grupEntitatUsuariEntitatForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         grupEntitatUsuariEntitat = create(request, grupEntitatUsuariEntitat);
@@ -402,6 +403,7 @@ public class GrupEntitatUsuariEntitatController
       postValidate(request, grupEntitatUsuariEntitatForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         grupEntitatUsuariEntitat = update(request, grupEntitatUsuariEntitat);

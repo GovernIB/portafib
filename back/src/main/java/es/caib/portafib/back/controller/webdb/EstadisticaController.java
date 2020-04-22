@@ -304,6 +304,7 @@ public class EstadisticaController
       postValidate(request,estadisticaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         estadistica = create(request, estadistica);
@@ -398,6 +399,7 @@ public class EstadisticaController
       postValidate(request, estadisticaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         estadistica = update(request, estadistica);

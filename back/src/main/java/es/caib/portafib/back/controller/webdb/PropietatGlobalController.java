@@ -286,6 +286,7 @@ public class PropietatGlobalController
       postValidate(request,propietatGlobalForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         propietatGlobal = create(request, propietatGlobal);
@@ -380,6 +381,7 @@ public class PropietatGlobalController
       postValidate(request, propietatGlobalForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         propietatGlobal = update(request, propietatGlobal);

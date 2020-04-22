@@ -339,6 +339,7 @@ public class TipusDocumentController
       postValidate(request,tipusDocumentForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         tipusDocument = create(request, tipusDocument);
@@ -433,6 +434,7 @@ public class TipusDocumentController
       postValidate(request, tipusDocumentForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         tipusDocument = update(request, tipusDocument);

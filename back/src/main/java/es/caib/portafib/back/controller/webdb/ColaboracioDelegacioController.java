@@ -320,6 +320,7 @@ public class ColaboracioDelegacioController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         colaboracioDelegacio = create(request, colaboracioDelegacio);
@@ -419,6 +420,7 @@ public class ColaboracioDelegacioController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         colaboracioDelegacio = update(request, colaboracioDelegacio);

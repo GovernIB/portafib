@@ -311,6 +311,7 @@ public class RebreAvisController
       postValidate(request,rebreAvisForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         rebreAvis = create(request, rebreAvis);
@@ -405,6 +406,7 @@ public class RebreAvisController
       postValidate(request, rebreAvisForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         rebreAvis = update(request, rebreAvis);

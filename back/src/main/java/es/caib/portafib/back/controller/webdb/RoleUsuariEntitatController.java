@@ -308,6 +308,7 @@ public class RoleUsuariEntitatController
       postValidate(request,roleUsuariEntitatForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         roleUsuariEntitat = create(request, roleUsuariEntitat);
@@ -402,6 +403,7 @@ public class RoleUsuariEntitatController
       postValidate(request, roleUsuariEntitatForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         roleUsuariEntitat = update(request, roleUsuariEntitat);

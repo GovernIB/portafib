@@ -333,6 +333,7 @@ public class PlantillaFluxDeFirmesController
       postValidate(request,plantillaFluxDeFirmesForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         plantillaFluxDeFirmes = create(request, plantillaFluxDeFirmes);
@@ -427,6 +428,7 @@ public class PlantillaFluxDeFirmesController
       postValidate(request, plantillaFluxDeFirmesForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         plantillaFluxDeFirmes = update(request, plantillaFluxDeFirmes);

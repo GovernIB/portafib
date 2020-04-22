@@ -259,6 +259,7 @@ public class RoleController
       postValidate(request,roleForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         role = create(request, role);
@@ -353,6 +354,7 @@ public class RoleController
       postValidate(request, roleForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         role = update(request, role);

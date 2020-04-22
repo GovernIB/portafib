@@ -596,6 +596,7 @@ public class PeticioDeFirmaController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         peticioDeFirma = create(request, peticioDeFirma);
@@ -605,9 +606,6 @@ public class PeticioDeFirmaController
         return getRedirectWhenCreated(request, peticioDeFirmaForm);
       }
     } catch (Throwable __e) {
-      
-      log.error("XYXXXX    ERROR " + __e.getMessage(), __e );
-      
       afm.processErrorFilesWithoutThrowException(); // FILE
       if (__e instanceof I18NValidationException) {
         ValidationWebUtils.addFieldErrorsToBindingResult(result, (I18NValidationException)__e);
@@ -698,6 +696,7 @@ public class PeticioDeFirmaController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         peticioDeFirma = update(request, peticioDeFirma);

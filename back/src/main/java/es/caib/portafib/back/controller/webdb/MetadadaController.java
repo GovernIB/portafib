@@ -304,6 +304,7 @@ public class MetadadaController
       postValidate(request,metadadaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         metadada = create(request, metadada);
@@ -398,6 +399,7 @@ public class MetadadaController
       postValidate(request, metadadaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         metadada = update(request, metadada);

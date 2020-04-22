@@ -286,6 +286,7 @@ public class BlocDeFirmesController
       postValidate(request,blocDeFirmesForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         blocDeFirmes = create(request, blocDeFirmes);
@@ -380,6 +381,7 @@ public class BlocDeFirmesController
       postValidate(request, blocDeFirmesForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         blocDeFirmes = update(request, blocDeFirmes);

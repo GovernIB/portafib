@@ -382,6 +382,7 @@ public class UsuariEntitatController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         usuariEntitat = create(request, usuariEntitat);
@@ -481,6 +482,7 @@ public class UsuariEntitatController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         usuariEntitat = update(request, usuariEntitat);

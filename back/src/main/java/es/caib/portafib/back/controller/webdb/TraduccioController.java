@@ -259,6 +259,7 @@ public class TraduccioController
       postValidate(request,traduccioForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         traduccio = create(request, traduccio);
@@ -353,6 +354,7 @@ public class TraduccioController
       postValidate(request, traduccioForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         traduccio = update(request, traduccio);

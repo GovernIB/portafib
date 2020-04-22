@@ -308,6 +308,7 @@ public class PermisUsuariPlantillaController
       postValidate(request,permisUsuariPlantillaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         permisUsuariPlantilla = create(request, permisUsuariPlantilla);
@@ -402,6 +403,7 @@ public class PermisUsuariPlantillaController
       postValidate(request, permisUsuariPlantillaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         permisUsuariPlantilla = update(request, permisUsuariPlantilla);

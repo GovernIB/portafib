@@ -300,6 +300,7 @@ public class BitacolaController
       postValidate(request,bitacolaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         bitacola = create(request, bitacola);
@@ -394,6 +395,7 @@ public class BitacolaController
       postValidate(request, bitacolaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         bitacola = update(request, bitacola);

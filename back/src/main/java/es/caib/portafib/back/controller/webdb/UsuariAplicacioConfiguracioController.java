@@ -564,6 +564,7 @@ public class UsuariAplicacioConfiguracioController
       postValidate(request,usuariAplicacioConfiguracioForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         usuariAplicacioConfiguracio = create(request, usuariAplicacioConfiguracio);
@@ -658,6 +659,7 @@ public class UsuariAplicacioConfiguracioController
       postValidate(request, usuariAplicacioConfiguracioForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         usuariAplicacioConfiguracio = update(request, usuariAplicacioConfiguracio);

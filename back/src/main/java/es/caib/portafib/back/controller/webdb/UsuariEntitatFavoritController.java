@@ -304,6 +304,7 @@ public class UsuariEntitatFavoritController
       postValidate(request,usuariEntitatFavoritForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         usuariEntitatFavorit = create(request, usuariEntitatFavorit);
@@ -398,6 +399,7 @@ public class UsuariEntitatFavoritController
       postValidate(request, usuariEntitatFavoritForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         usuariEntitatFavorit = update(request, usuariEntitatFavorit);

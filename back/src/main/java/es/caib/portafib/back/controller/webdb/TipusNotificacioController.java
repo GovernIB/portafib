@@ -262,6 +262,7 @@ public class TipusNotificacioController
       postValidate(request,tipusNotificacioForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         tipusNotificacio = create(request, tipusNotificacio);
@@ -356,6 +357,7 @@ public class TipusNotificacioController
       postValidate(request, tipusNotificacioForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         tipusNotificacio = update(request, tipusNotificacio);
