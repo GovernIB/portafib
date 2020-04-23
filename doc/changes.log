@@ -2,6 +2,8 @@
 PortaFIB 2.0.8
 ==============
 
+2020-04-23 PortaFIB-WS: No fer Shade de Constants #423
+
 2020-04-22 Quan hi hagi un error en un camp mostrar un avis adalt #424
 
 2020-04-22 El número d'avisos quan hi ha notificacions bloquejades apareix a Admin Entitat enlloc de Admin d'Aplicacions #418
