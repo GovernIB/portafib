@@ -398,6 +398,7 @@ public class PluginController
       postValidate(request,pluginForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         plugin = create(request, plugin);
@@ -492,6 +493,7 @@ public class PluginController
       postValidate(request, pluginForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         plugin = update(request, plugin);

@@ -416,6 +416,7 @@ public class CustodiaInfoController
       postValidate(request,custodiaInfoForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         custodiaInfo = create(request, custodiaInfo);
@@ -510,6 +511,7 @@ public class CustodiaInfoController
       postValidate(request, custodiaInfoForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         custodiaInfo = update(request, custodiaInfo);

@@ -262,6 +262,7 @@ public class IdiomaController
       postValidate(request,idiomaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         idioma = create(request, idioma);
@@ -356,6 +357,7 @@ public class IdiomaController
       postValidate(request, idiomaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         idioma = update(request, idioma);

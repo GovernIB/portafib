@@ -139,10 +139,7 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/usuariextern_final.jsp" />
     </definition>
 
-    <definition name="externaluser_showerror" extends="base.definition.cap_contingut_peu_sense_preparer">
-        <put-attribute name="titol" value="ERROR USUARI EXTERN" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/common/usuariextern_error.jsp" />
-    </definition>
+
 
     <definition name="externaluser_estatFirmaFullView"  extends="base.definition.cap_contingut_peu">
         <put-attribute name="contingut" value="/WEB-INF/jsp/dest/estatFirmaFullView.jsp" />
@@ -423,14 +420,7 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
     </definition>
 
-    <definition name="PlantillaDeFluxDeFirmesFormAden" extends="role_aden">
-        <put-attribute name="titol" value="plantillaFluxDeFirmes.plantillaFluxDeFirmes" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesForm.jsp" />
-    </definition>
 
-    <definition name="PlantillaDeFluxDeFirmesListAden" extends="role_aden">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesList.jsp" />
-    </definition>
 
     <definition name="firmaUsuariExternFormAden" extends="role_aden">
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
@@ -440,14 +430,24 @@
     <definition name="firmaUsuariExternListAden" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/firmaList.jsp" />
     </definition>
+    
+    <definition name="PlantillaDeFluxDeFirmesFormAden" extends="role_aden">
+        <put-attribute name="titol" value="plantillaFluxDeFirmes.plantillaFluxDeFirmes" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesForm.jsp" />
+    </definition>
+
+    <definition name="PlantillaDeFluxDeFirmesListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesList.jsp" />
+    </definition>
 
     <!--  ===========  ADMINISTRADOR APLICACIO ================== -->
+
 
     <definition name="role_aden2" extends="base.definition">
         <put-attribute name="pipella" value="ROLE_ADEN2" />
         <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_aden2.jsp" />
     </definition>
-
+    
     <definition name="gestioUsuariAplicacioFormAden" extends="role_aden2">
         <put-attribute name="titol" value="usuariAplicacio.usuariAplicacio" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariAplicacioForm.jsp" />

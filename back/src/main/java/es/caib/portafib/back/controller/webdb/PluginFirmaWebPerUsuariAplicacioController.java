@@ -326,6 +326,7 @@ public class PluginFirmaWebPerUsuariAplicacioController
       postValidate(request,pluginFirmaWebPerUsuariAplicacioForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         pluginFirmaWebPerUsuariAplicacio = create(request, pluginFirmaWebPerUsuariAplicacio);
@@ -420,6 +421,7 @@ public class PluginFirmaWebPerUsuariAplicacioController
       postValidate(request, pluginFirmaWebPerUsuariAplicacioForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         pluginFirmaWebPerUsuariAplicacio = update(request, pluginFirmaWebPerUsuariAplicacio);

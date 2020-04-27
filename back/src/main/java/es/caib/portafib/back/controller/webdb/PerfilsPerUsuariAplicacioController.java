@@ -308,6 +308,7 @@ public class PerfilsPerUsuariAplicacioController
       postValidate(request,perfilsPerUsuariAplicacioForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         perfilsPerUsuariAplicacio = create(request, perfilsPerUsuariAplicacio);
@@ -402,6 +403,7 @@ public class PerfilsPerUsuariAplicacioController
       postValidate(request, perfilsPerUsuariAplicacioForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         perfilsPerUsuariAplicacio = update(request, perfilsPerUsuariAplicacio);

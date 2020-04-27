@@ -259,6 +259,7 @@ public class FluxDeFirmesController
       postValidate(request,fluxDeFirmesForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         fluxDeFirmes = create(request, fluxDeFirmes);
@@ -353,6 +354,7 @@ public class FluxDeFirmesController
       postValidate(request, fluxDeFirmesForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         fluxDeFirmes = update(request, fluxDeFirmes);

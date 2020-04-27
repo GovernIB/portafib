@@ -308,6 +308,7 @@ public class ModulDeFirmaPerTipusDeDocumentController
       postValidate(request,modulDeFirmaPerTipusDeDocumentForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         modulDeFirmaPerTipusDeDocument = create(request, modulDeFirmaPerTipusDeDocument);
@@ -402,6 +403,7 @@ public class ModulDeFirmaPerTipusDeDocumentController
       postValidate(request, modulDeFirmaPerTipusDeDocumentForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         modulDeFirmaPerTipusDeDocument = update(request, modulDeFirmaPerTipusDeDocument);

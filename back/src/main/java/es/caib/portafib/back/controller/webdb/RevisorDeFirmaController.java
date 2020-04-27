@@ -311,6 +311,7 @@ public class RevisorDeFirmaController
       postValidate(request,revisorDeFirmaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         revisorDeFirma = create(request, revisorDeFirma);
@@ -405,6 +406,7 @@ public class RevisorDeFirmaController
       postValidate(request, revisorDeFirmaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         revisorDeFirma = update(request, revisorDeFirma);

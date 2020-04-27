@@ -563,6 +563,7 @@ public class EntitatController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         entitat = create(request, entitat);
@@ -662,6 +663,7 @@ public class EntitatController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         entitat = update(request, entitat);

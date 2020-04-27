@@ -366,6 +366,7 @@ public class EstatDeFirmaController
       postValidate(request,estatDeFirmaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         estatDeFirma = create(request, estatDeFirma);
@@ -460,6 +461,7 @@ public class EstatDeFirmaController
       postValidate(request, estatDeFirmaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         estatDeFirma = update(request, estatDeFirma);

@@ -394,6 +394,7 @@ public class UsuariAplicacioController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         usuariAplicacio = create(request, usuariAplicacio);
@@ -493,6 +494,7 @@ public class UsuariAplicacioController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         usuariAplicacio = update(request, usuariAplicacio);

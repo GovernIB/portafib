@@ -286,6 +286,7 @@ public class GrupEntitatController
       postValidate(request,grupEntitatForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         grupEntitat = create(request, grupEntitat);
@@ -380,6 +381,7 @@ public class GrupEntitatController
       postValidate(request, grupEntitatForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         grupEntitat = update(request, grupEntitat);

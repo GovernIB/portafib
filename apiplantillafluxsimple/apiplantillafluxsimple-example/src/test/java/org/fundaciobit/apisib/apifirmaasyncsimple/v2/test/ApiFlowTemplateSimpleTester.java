@@ -56,15 +56,19 @@ public class ApiFlowTemplateSimpleTester {
       
 
       api = getApiFlowTemplateSimple(prop);
-
-      // Crear Flux
-      //final boolean saveOnServer = isSaveOnServer(prop);
-      //testCrearFluxDeFirma(api, languageUI, saveOnServer);
-
-      // Llistar Plantilles
+      
       String lastKey;
 
-      lastKey = llistarFluxDeFirmes(api, languageUI);
+      // Crear Flux
+      final boolean saveOnServer = isSaveOnServer(prop);
+      if ((lastKey =testCrearFluxDeFirma(api, languageUI, saveOnServer)) == null) {
+        return;
+      };
+
+      // Llistar Plantilles
+     
+
+      //lastKey = llistarFluxDeFirmes(api, languageUI);
       
       // Llistar Plantilles amb filtre
       //String name = "API REST";
@@ -82,8 +86,8 @@ public class ApiFlowTemplateSimpleTester {
       //lastKey = "kWuDt8W-mTGUEawp66KjdA==";
       //descarregarFluxDeFirmesInfo(api, languageUI, lastKey);
       
-      lastKey = "CZm4Cx7uzSOZXGCAC_46vw==";
-      esborrarFluxDeFirmes(api, languageUI, lastKey);
+      //lastKey = "CZm4Cx7uzSOZXGCAC_46vw==";
+      //esborrarFluxDeFirmes(api, languageUI, lastKey);
 
     } catch (Exception e) {
       // TODO: handle exception
@@ -210,13 +214,13 @@ public class ApiFlowTemplateSimpleTester {
     return lastKey;
   }
 
-  public static boolean testCrearFluxDeFirma(ApiFlowTemplateSimple api, String languageUI,
+  public static String testCrearFluxDeFirma(ApiFlowTemplateSimple api, String languageUI,
       boolean saveOnServer) throws Exception {
 
     String transactionID = null;
     try {
 
-      String name = "Prova des de API REST - " + System.currentTimeMillis();
+      String name = "Prova des de API REST àáèéòó- " + System.currentTimeMillis();
       String descr = "test=true;\n" + "user=anadal\n";
       final boolean visibleDescription = false;
 
@@ -277,13 +281,13 @@ public class ApiFlowTemplateSimpleTester {
           if (desc != null) {
             System.err.println(desc);
           }
-          return false;
+          return null;
         }
 
         case FlowTemplateSimpleStatus.STATUS_CANCELLED: // = -2;
         {
           System.err.println("L'usuari ha cancelat la construcció del flux");
-          return false;
+          return null;
         }
 
         case FlowTemplateSimpleStatus.STATUS_FINAL_OK: // = 2;
@@ -292,13 +296,13 @@ public class ApiFlowTemplateSimpleTester {
 
           System.out.println(FlowTemplateSimpleFlowTemplate.toString(flux));
 
-          return true;
+          return flux.getIntermediateServerFlowTemplateId();
 
         } // Final Case Firma OK
 
         default: {
           System.err.println("Codi d'estat de finalització desconegut (" + status + ")");
-          return false;
+          return null;
         }
 
       } // Final Switch Firma

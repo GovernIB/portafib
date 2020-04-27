@@ -315,6 +315,7 @@ public class PluginCridadaController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         pluginCridada = create(request, pluginCridada);
@@ -414,6 +415,7 @@ public class PluginCridadaController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         pluginCridada = update(request, pluginCridada);

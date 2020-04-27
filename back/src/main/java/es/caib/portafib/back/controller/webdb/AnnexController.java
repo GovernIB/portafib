@@ -299,6 +299,7 @@ public class AnnexController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         annex = create(request, annex);
@@ -398,6 +399,7 @@ public class AnnexController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         annex = update(request, annex);

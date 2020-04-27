@@ -596,6 +596,7 @@ public class PeticioDeFirmaController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         peticioDeFirma = create(request, peticioDeFirma);
@@ -695,6 +696,7 @@ public class PeticioDeFirmaController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         peticioDeFirma = update(request, peticioDeFirma);

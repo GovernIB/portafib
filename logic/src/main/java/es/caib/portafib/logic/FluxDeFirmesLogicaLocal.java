@@ -3,6 +3,8 @@ package es.caib.portafib.logic;
 import es.caib.portafib.ejb.FluxDeFirmesLocal;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;
 import es.caib.portafib.jpa.FluxDeFirmesJPA;
+import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.logic.utils.UsuariExtern;
 
 import java.util.List;
 import java.util.Set;
@@ -39,8 +41,11 @@ public interface FluxDeFirmesLogicaLocal extends FluxDeFirmesLocal {
 
   public void regeneraOrdres(Set<BlocDeFirmesJPA> blocs) throws I18NException;
 
-  public BlocDeFirmesJPA afegirBlocDeFirmesAFlux(long fluxDeFirmesID, String usuariEntitatID,
+  public BlocDeFirmesJPA afegirBlocDeFirmesAFlux(long fluxDeFirmesID, // String usuariEntitatID,
       int blocOrdre) throws I18NException;
+  
+  public boolean afegirFirmaABloc(UsuariEntitatJPA usuariEntitat, UsuariExtern usuariExtern,
+      BlocDeFirmesJPA bloc, boolean persistence) throws I18NException;
 
   public FluxDeFirmesJPA updateFullPlantillaFluxUsuari(FluxDeFirmesJPA flux)
       throws I18NException, I18NValidationException;

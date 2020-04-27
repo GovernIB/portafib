@@ -61,6 +61,8 @@ public interface UsuariEntitatLogicaLocal extends UsuariEntitatLocal {
 
   public UsuariEntitatJPA findUsuariEntitatExternByNif(String entitatID, String nif)
       throws I18NException;
+  
+  public UsuariPersonaJPA findUsuariPersonaExternaByNif(String nif) throws I18NException;
 
   public UsuariEntitatJPA findUsuariEntitatByUsername(String entitatID, String username)
       throws I18NException;

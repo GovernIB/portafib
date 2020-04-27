@@ -289,6 +289,7 @@ public class NotificacioWSController
       postValidate(request,notificacioWSForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         notificacioWS = create(request, notificacioWS);
@@ -383,6 +384,7 @@ public class NotificacioWSController
       postValidate(request, notificacioWSForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         notificacioWS = update(request, notificacioWS);

@@ -358,6 +358,7 @@ public class PerfilDeFirmaController
       postValidate(request,perfilDeFirmaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         perfilDeFirma = create(request, perfilDeFirma);
@@ -452,6 +453,7 @@ public class PerfilDeFirmaController
       postValidate(request, perfilDeFirmaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         perfilDeFirma = update(request, perfilDeFirma);

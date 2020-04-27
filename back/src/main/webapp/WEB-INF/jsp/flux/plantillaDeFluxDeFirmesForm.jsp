@@ -12,9 +12,9 @@
 <c:set var="contexte" value="${fluxDeFirmesForm.contexte}" />
 
 <%--                  VARIABLE 'usuariEntitat'                         --%>
-<%-- Booleà: + True  : indica que és una plantilla de usuari-entitat   --%>
-<%--         + False : indica que és una plantilla de usuari-aplicacio --%>
-<%--         + null  : indica que no és una plantilla                  --%>
+<%-- BooleÃ : + True  : indica que Ã©s una plantilla de usuari-entitat   --%>
+<%--         + False : indica que Ã©s una plantilla de usuari-aplicacio --%>
+<%--         + null  : indica que no Ã©s una plantilla                  --%>
 <c:if test="${not empty fluxDeFirmesForm.plantillaFluxDeFirmes}">
 
   <c:if test="${empty fluxDeFirmesForm.plantillaFluxDeFirmes.usuariEntitatID}">
@@ -78,7 +78,7 @@
              
        <%@include file="../webdb/fluxDeFirmesFormCore.jsp" %>
 
-       <%-- Mostrar Descripció: Miram si es Plantilla o Flux --%>
+       <%-- Mostrar DescripciÃ³: Miram si es Plantilla o Flux --%>
        <c:if test="${not empty usuariEntitat}" >     
        <%@include file="../webdb/plantillaFluxDeFirmesFormCore.jsp" %>
        </c:if>
@@ -353,7 +353,7 @@
                                         </button>
                                       </c:if>
                                       
-                                      <%-- Mínim de Revisors de Firmes --%>
+                                      <%-- MÃ­nim de Revisors de Firmes --%>
                                       <c:if test="${ not empty firma.revisorDeFirmas}">
                                         <br/>
                                        
@@ -494,15 +494,199 @@
   <div id="avis_true_false" class="modal hide fade">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h3><fmt:message key="avis"></fmt:message></h3>
+      <h3><fmt:message key="avis"/></h3>
     </div>
     <div class="modal-body">
-      <p><fmt:message key="fluxDeFirmes.compartir.borrarusuaris"></fmt:message></p>
+      <p><fmt:message key="fluxDeFirmes.compartir.borrarusuaris"/></p>
     </div>
     <div class="modal-footer">
-      <a href="#" class="btn btn-primary close"><fmt:message key="tancar"></fmt:message></a>
+      <a href="#" class="btn btn-primary close"><fmt:message key="tancar"/></a>
     </div>
   </div>
+  
+  
+  
+  
+  <%--  --------------------------------------------------- --%>
+  <%--  ----------------- USUARIS EXTERNS ----------------- --%>
+  <%--  --------------------------------------------------- --%>
+  
+<!-- Modal Per demanar NIF de  USUARI EXTERN tabindex="-1" role="dialog" aria-labelledby="consultaNifUsuariExternLabel" aria-hidden="true"-->
+
+<div class="modal hide fade" id="consultaNifUsuariExtern" >
+  <form:form action="#" method="${method}" id="consultaNifUsuariExternForm">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>
+        <fmt:message key="firmausuariextern.consultanif.titol"/>
+      </h3>
+    </div>
+    <div class="modal-body">
+          <div class="form-group">
+            <label for="consultanif" style="display: inline;"><fmt:message key="usuariPersona.nif"/>: </label>
+            <input id="consultanif" name="consultanif" type="text" class="input" >
+          </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" class="close" data-dismiss="modal"><fmt:message key="tancar"/></button>
+        <button type="button" class="btn btn-primary" onclick="consultaNifUsuariExternSubmit()"><fmt:message key="continuar"/></button> 
+    </div>    
+  </form:form>
+</div>
+  
+  <script type="text/javascript">
+
+     function consultaNifUsuariExternSubmit() {
+       //document.getElementById('consultaNifUsuariExternForm').submit();
+       var nif = document.getElementById('consultanif').value;
+       var URL="<c:url value="${contexte}/consultaNifUsuariExtern"/>?nif="+ nif;
+       $.getJSON(URL, function(info) {
+         
+           var msg;
+           if (info.id) {
+              msg = "id:" + info.id + "\n"
+               + "nif:" + info.nif + "\n"
+               + "email:" +info.email+ "\n"
+               + "nom:" + info.nom + "\n"
+               + "llinatges:" + info.llinatges + "\n";
+              
+              setValue("crearfirma_usuarientitatid", info.id);
+              setValue("crearfirma_nom", info.nom);
+              setValue("crearfirma_llinatges", info.llinatges);
+              setValue("crearfirma_idiomaID", info.idioma);
+              setValue("crearfirma_email", info.email);
+              
+              document.getElementById("crearfirma_nif").readOnly = true;
+              msg = "XYZ ZZZ  HI HA USUARI ENTITAT";
+              
+           } else {
+             
+             
+             if (info.email) {
+               
+               msg = "XYZ ZZZ  HI HA USUARI PERSONA";
+               
+               setValue("crearfirma_nom", info.nom);
+               setValue("crearfirma_llinatges", info.llinatges);
+               setValue("crearfirma_email", info.email);
+               setValue("crearfirma_idiomaID", info.idioma);
+               
+               document.getElementById("crearfirma_nif").readOnly = true;
+               
+               
+             } else {
+               msg = "XYZ ZZZ  NO EXISTEIX AQUEST NIF";
+               setValue("crearfirma_idiomaID", '${lang}');
+             }
+             
+           }
+           // XYZ ZZZ
+           console.log(msg);
+           
+           var blocID = document.getElementById("param1").value;
+           
+           console.log("XYZ ZZZ blocID = " + blocID);
+
+           
+           setValue("crearfirma_firmaid", '');
+           setValue("crearfirma_nif", nif );
+           // Si estam en un bloc que ja existeix
+           setValue("crearfirma_blocid", blocID);
+           // Si cream un nou bloc 
+           
+           console.log("crearfirma_blocOrdre => ]" + document.getElementById("param2").value + "[");
+           setValue("crearfirma_blocOrdre", document.getElementById("param2").value);
+
+           $('#crearFirmaUsuariExtern').modal('show');
+
+           setTimeout(closeConsultaNifUsuariExternDialog, 750);
+
+        });
+     }
+     
+     
+     function setValue(id, value) {
+       
+       document.getElementById(id).value = value;
+       
+     }
+     
+     function closeConsultaNifUsuariExternDialog() {
+       $('#consultaNifUsuariExtern').modal('hide');
+     }
+
+  </script>
+
+
+<!-- Modal Per crear firma d'un USUARI EXTERN tabindex="-1" role="dialog" aria-labelledby="crearFirmaUsuariExternLabel" aria-hidden="true"-->
+
+<div class="modal fade hide" id="crearFirmaUsuariExtern" >
+   <form action="<c:url value="${contexte}/afegirFirmaUsuariExtern"/>" method="POST" id="crearFirmaUsuariExternForm" >
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true" >&times;</button>
+      <h3>
+        <fmt:message key="firmausuariextern.creafirma.titol"/>
+      </h3>
+    </div>
+    <div class="modal-body">
+          <input id="crearfirma_blocid" name="crearfirma_blocid" type="hidden" >
+          <input id="crearfirma_firmaid" name="crearfirma_firmaid" type="hidden" >
+          <input id="crearfirma_usuarientitatid" name="crearfirma_usuarientitatid" type="hidden" >
+          <input id="crearfirma_blocOrdre" name="crearfirma_blocOrdre" type="hidden" >
+
+          <div class="form-group">
+            <label for="crearfirma_nif" style="display: inline;"><fmt:message key="usuariPersona.nif"/>: </label>
+            <input id="crearfirma_nif" name="crearfirma_nif" type="text" class="input" >
+          </div>
+          
+          <div class="form-group">
+            <label for="crearfirma_nom" style="display: inline;"><fmt:message key="usuariPersona.nom"/>: </label>
+            <input id="crearfirma_nom" name="crearfirma_nom" type="text" class="input" >
+          </div>
+          
+          <div class="form-group">
+            <label for="crearfirma_llinatges" style="display: inline;"><fmt:message key="usuariPersona.llinatges"/>: </label>
+            <input id="crearfirma_llinatges" name="crearfirma_llinatges" type="text" class="input" >
+          </div>
+          
+          <div class="form-group">
+            <label for="crearfirma_email" style="display: inline;"><fmt:message key="usuariPersona.email"/>: </label>
+            <input id="crearfirma_email" name="crearfirma_email" type="text" class="input" >
+          </div>
+          <!--  XYZ ZZZ  COMBO BOX -->
+          <div class="form-group">
+            <label for="crearfirma_idiomaID" style="display: inline;"><fmt:message key="usuariPersona.idiomaID"/>: </label>
+            <select id="crearfirma_idiomaID" name="crearfirma_idiomaID"  class="input" >
+               <%-- XYZ ZZZ  Fer-ho dinamic --%>
+               <option value="ca">Catal&agrave;</option>
+               <option value="es">Castellano</option>
+               <%-- <option value="volvo">Volvo</option> --%>
+            </select>
+          </div>       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><fmt:message key="tancar"/></button>
+        <button type="button" class="btn btn-primary" onclick="crearFirmaUsuariExternSubmit()"><fmt:message key="continuar"/></button> 
+      </div>
+  </form>
+</div>
+
+
+  <script type="text/javascript">
+
+     function crearFirmaUsuariExternSubmit() {
+       
+       // XYZ ZZZ Validar camps via JAVASCRIPT
+       
+       document.getElementById('crearFirmaUsuariExternForm').submit();
+       
+     }
+
+  </script>
+
+  
+  
+  
 
   <%-- FORMULARI MODAL DE SELECCIO D'USUARIS  --%>
   <%-- REQUERIT:  Assignar un valor qualsevol com a valor inicial --%>
@@ -527,6 +711,7 @@
       
       document.getElementById("seleccioUsuariForm").action='<c:url value="${contexte}/afegirBlocDesDeModal"/>';
       document.getElementById("param1").value = blocOrdre;
+      document.getElementById("param2").value = blocOrdre;
       
       openSelectUserDialog();
       
@@ -537,6 +722,7 @@
       
       document.getElementById("seleccioUsuariForm").action='<c:url value="${contexte}/afegirFirmaDesDeModal"/>';
       document.getElementById("param1").value = blocID;
+      document.getElementById("param2").value = "";
       
       openSelectUserDialog();
       
@@ -563,7 +749,7 @@
 
   
   function definirMotiuDeFirma(firmaid) {
-    var motiu = prompt("<fmt:message key="firma.motiudefirma.definir.dialog"></fmt:message>");
+    var motiu = prompt('<fmt:message key="firma.motiudefirma.definir.dialog"/>');
 
     if (motiu == null || motiu == "") {
       <%-- // No feim res --%>
@@ -577,7 +763,7 @@
   
   
   function modificarMotiuDeFirma(firmaid, valoractual) {
-    var motiu = prompt("<fmt:message key="firma.motiudefirma.modificar.dialog"></fmt:message>", valoractual);
+    var motiu = prompt('<fmt:message key="firma.motiudefirma.modificar.dialog"/>', valoractual);
 
 
     if (motiu == null) {
@@ -666,7 +852,7 @@
     
     <sec:authorize access="hasRole('ROLE_ADEN')">
 
-    <%-- Només plantilles de usuari-entitat i de en edició --%> 
+    <%-- NomÃ©s plantilles de usuari-entitat i de en ediciÃ³ --%> 
     <c:if test="${usuariEntitat == 'true' && !fluxDeFirmesForm.nou }" >
 	    
     var value;
@@ -679,7 +865,7 @@
         return;
       }
 
-      if (value == 'false') { // només jo
+      if (value == 'false') { // nomÃ©s jo
     	$('#avis_true_false').modal('show');
         return;
       }
@@ -689,13 +875,11 @@
 
     <c:if test="${not empty fluxDeFirmesForm.plantillaFluxDeFirmes.compartir}" >
 
-    
     if (value == 'true' || value == 'false') {
       // No fer res
     } else {      
       alert("<fmt:message key="fluxDeFirmes.compartir.ambllista"></fmt:message>")
     }
-    
  
     </c:if>
 

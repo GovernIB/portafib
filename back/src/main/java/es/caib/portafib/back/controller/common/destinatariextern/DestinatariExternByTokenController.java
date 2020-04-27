@@ -69,7 +69,7 @@ public class DestinatariExternByTokenController {
 
     FirmaJPA firma = firmaLogicaEjb.getFirmaByToken(token);
     if (firma == null) {
-      return showErrorPageWithCode(token, "usuariextern.token.error.noexisteix", token);
+      return showErrorPage(token, "usuariextern.token.error.noexisteix", token);
     }
 
     String username = firma.getUsuariEntitat().getUsuariPersonaID();
@@ -87,7 +87,7 @@ public class DestinatariExternByTokenController {
       LoginInfo loginInfo = LoginInfo.getInstance();
 
       if (!username.equals(loginInfo.getUsuariPersona().getUsuariPersonaID())) {
-        return showErrorPageWithCode(token, "usuariextern.token.error.jaloguejat");
+        return showErrorPage(token, "usuariextern.token.error.jaloguejat");
       }
 
     } catch (es.caib.portafib.back.security.LoginException e) {
@@ -95,7 +95,7 @@ public class DestinatariExternByTokenController {
     }
 
     if (firma.getTipusEstatDeFirmaFinalID() != null) {
-      return showErrorPageWithCode(token, "usuariextern.token.error.firma.japrocessada", 
+      return showErrorPage(token, "usuariextern.token.error.firma.japrocessada", 
           token, String.valueOf(firma.getTipusEstatDeFirmaFinalID()));
     }
 
@@ -107,7 +107,7 @@ public class DestinatariExternByTokenController {
       String estatStr = I18NCommonUtils.tradueix(LocaleContextHolder.getLocale(),
           "tipusestatpeticiodefirma." + peticio.getTipusEstatPeticioDeFirmaID()); 
 
-      return showErrorPageWithCode(token,  "usuariextern.token.error.peticio.japrocessada", token,
+      return showErrorPage(token,  "usuariextern.token.error.peticio.japrocessada", token,
           estatStr);
 
     }
@@ -191,18 +191,28 @@ public class DestinatariExternByTokenController {
     //    + ". No s'ha trobat Estat de Firma de tipus ASSIGNAT_PER_FIRMAR (Petició: "
     //    + peticio.getPeticioDeFirmaID() + " | FirmaID: " + firma.getFirmaID() + ")";
     
-    return showErrorPageWithCode(token, "usuariextern.token.error.noassignatperfirmar", 
+    return showErrorPage(token, "usuariextern.token.error.noassignatperfirmar", 
         token, String.valueOf(peticio.getPeticioDeFirmaID()),
         String.valueOf(firma.getFirmaID()) );
 
   }
 
   
-  protected ModelAndView showErrorPageWithCode(String token, String errorcode, String ... params) {
-    ModelAndView model = new ModelAndView("externaluser_showerror");
+  protected ModelAndView showErrorPage(String token, String errorcode, String ... params) {
+    return finalPageWithMessage(token, ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT, errorcode, params);
+  }
+  
+  protected ModelAndView finalPageWithMessage(String token,  Long estat, String errorcode, String ... params) {
+    ModelAndView model = new ModelAndView("externaluser_final");
     model.addObject("token", token);
-    model.addObject("errorcode", errorcode);
+   
+    if (estat == null) {
+      estat = ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT;
+    }
+    model.addObject("status", estat);
     
+    
+    model.addObject("errorcode", errorcode);
     for (int i = 0; i < params.length; i++) {
       model.addObject("param" + i, params[i]);
     }
@@ -219,7 +229,7 @@ public class DestinatariExternByTokenController {
     FirmaJPA firma = firmaLogicaEjb.getFirmaByToken(token);
     if (firma == null) {
       //No existeix cap firma amb identificador (token) " + token;  
-      return showErrorPageWithCode(token, "usuariextern.token.error.noexisteix", token);
+      return showErrorPage(token, "usuariextern.token.error.noexisteix", token);
     }
 
     String message;
@@ -246,7 +256,7 @@ public class DestinatariExternByTokenController {
       }
     }
 
-    return showErrorPageWithCode(token, message,  String.valueOf(estat));
+    return finalPageWithMessage(token,  estat, message,  String.valueOf(estat));
 
   }
 

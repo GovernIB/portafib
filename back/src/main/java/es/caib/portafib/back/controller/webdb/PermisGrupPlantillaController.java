@@ -308,6 +308,7 @@ public class PermisGrupPlantillaController
       postValidate(request,permisGrupPlantillaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         permisGrupPlantilla = create(request, permisGrupPlantilla);
@@ -402,6 +403,7 @@ public class PermisGrupPlantillaController
       postValidate(request, permisGrupPlantillaForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         permisGrupPlantilla = update(request, permisGrupPlantilla);

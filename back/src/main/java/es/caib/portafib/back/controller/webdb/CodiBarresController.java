@@ -259,6 +259,7 @@ public class CodiBarresController
       postValidate(request,codiBarresForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         codiBarres = create(request, codiBarres);
@@ -353,6 +354,7 @@ public class CodiBarresController
       postValidate(request, codiBarresForm, result);
 
       if (result.hasErrors()) {
+        result.reject("error.form");
         return getTileForm();
       } else {
         codiBarres = update(request, codiBarres);

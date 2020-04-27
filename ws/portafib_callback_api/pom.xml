@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>    
+  <modelVersion>4.0.0</modelVersion>
   <artifactId>portafib-ws-callback-api</artifactId>
   <groupId>es.caib.portafib</groupId>
   <packaging>jar</packaging>
@@ -9,19 +11,13 @@
 
   <name>PortaFIB WS - Callback API</name>
 
-  <parent>
-    <groupId>es.caib.portafib</groupId>
-    <artifactId>portafib-ws</artifactId>
-    <version>2.0.8</version>
-  </parent>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <!-- JBoss dependency versions -->  
-    <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>  
+    <!-- JBoss dependency versions -->
+    <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>
   </properties>
 
-  <dependencyManagement>  
+  <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>org.jboss.spec</groupId>
@@ -30,8 +26,8 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-    </dependencies>  
-  </dependencyManagement> 
+    </dependencies>
+  </dependencyManagement>
 
 
 
@@ -83,10 +79,32 @@
 
 
   <repositories>
+
+    <repository>
+      <id>maven-nuxeo</id>
+      <name>Maven Nuxeo Repository</name>
+      <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+
     <repository>
       <id>java.net-m2</id>
       <name>java.net - Maven 2</name>
       <url>https://repository.jboss.org/nexus/content/repositories/java.net-m2</url>
+    </repository>
+
+    <repository>
+      <id>github-governib-maven</id>
+      <name>GitHub GovernIB Maven Repository</name>
+      <url>https://governib.github.io/maven/maven/</url>
     </repository>
   </repositories>
 
@@ -96,7 +114,7 @@
       <id>regenerateapi</id>
       <activation>
         <activeByDefault>false</activeByDefault>
-        <property>				    
+        <property>
           <name>regenerateapi</name>
         </property>
       </activation>
@@ -137,10 +155,11 @@
                 <phase>generate-sources</phase>
                 <configuration>
                   <className>es.caib.portafib.ws.callback.server.v1.PortaFIBCallBackWs</className>
-                  <genWsdl>true</genWsdl>							
+                  <genWsdl>true</genWsdl>
                   <verbose>true</verbose>
                   <outputFile>${basedir}/src/main/resources/wsdl/PortaFIBCallBack_v1.wsdl</outputFile>
-                  <argline>-s ${basedir}/code -portname PortaFIBCallBackWs -address http://localhost:8080/portafib/cb/v1/PortaFIBCallBack</argline>
+                  <argline>-s ${basedir}/code -portname PortaFIBCallBackWs -address
+                    http://localhost:8080/portafib/cb/v1/PortaFIBCallBack</argline>
                 </configuration>
                 <goals>
                   <goal>java2ws</goal>
@@ -152,39 +171,39 @@
             </executions>
           </plugin>
 
-          <plugin>  
-            <groupId>org.jboss.ws.plugins</groupId>  
-            <artifactId>maven-jaxws-tools-plugin</artifactId>  
+          <plugin>
+            <groupId>org.jboss.ws.plugins</groupId>
+            <artifactId>maven-jaxws-tools-plugin</artifactId>
             <version>1.1.1.Final</version>
-            <configuration>  
-              <verbose>true</verbose>  
-              <goalPrefix>wsconsume</goalPrefix>	
-              <extension>true</extension>					
-              <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>	
+            <configuration>
+              <verbose>true</verbose>
+              <goalPrefix>wsconsume</goalPrefix>
+              <extension>true</extension>
+              <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
               <targetPackage>es.caib.portafib.ws.callback.api.v1</targetPackage>
               <bindingFiles>
                 <bindingFile>${basedir}/bindings/bindings.xjc</bindingFile>
-              </bindingFiles>					
-            </configuration>  
-            <executions>  
+              </bindingFiles>
+            </configuration>
+            <executions>
 
-              <execution>  
-                <id>WSDL to Java API PortaFIBCallBack</id>  
+              <execution>
+                <id>WSDL to Java API PortaFIBCallBack</id>
                 <goals>
                   <goal>wsconsume</goal>
-                </goals>  
-                <configuration>  
-                  <wsdls> 
-                    <wsdl>${basedir}/src/main/resources/wsdl/PortaFIBCallBack_v1.wsdl</wsdl>  
+                </goals>
+                <configuration>
+                  <wsdls>
+                    <wsdl>${basedir}/src/main/resources/wsdl/PortaFIBCallBack_v1.wsdl</wsdl>
                   </wsdls>
                   <wsdlLocation>http://localhost:8080/portafib/cb/v1/PortaFIBCallBack?wsdl</wsdlLocation>
                   <argLine>-n</argLine>
-                </configuration>  
-              </execution> 
+                </configuration>
+              </execution>
 
 
-            </executions>  
-          </plugin> 
+            </executions>
+          </plugin>
 
         </plugins>
 
@@ -193,16 +212,14 @@
   </profiles>
 
 
-
-
   <dependencies>
 
-    <dependency>  
-      <groupId>org.jboss.ws.cxf</groupId>  
-      <artifactId>jbossws-cxf-client</artifactId>  
-      <version>4.1.1.Final</version>  
-      <scope>provided</scope>  
-    </dependency> 
+    <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-client</artifactId>
+      <version>4.1.1.Final</version>
+      <scope>provided</scope>
+    </dependency>
 
     <dependency>
       <groupId>commons-io</groupId>
@@ -216,6 +233,13 @@
       <artifactId>genapp-core</artifactId>
       <version>1.0</version>
       <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>

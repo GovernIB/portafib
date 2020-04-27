@@ -366,6 +366,7 @@ public class FirmaController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         firma = create(request, firma);
@@ -465,6 +466,7 @@ public class FirmaController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         firma = update(request, firma);

@@ -315,6 +315,7 @@ public class AnnexFirmatController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         annexFirmat = create(request, annexFirmat);
@@ -414,6 +415,7 @@ public class AnnexFirmatController
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
+        result.reject("error.form");
         return getTileForm();
       } else {
         annexFirmat = update(request, annexFirmat);

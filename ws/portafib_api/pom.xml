@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>    
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
   <artifactId>portafib-ws-api</artifactId>
   <groupId>es.caib.portafib</groupId>
@@ -10,21 +10,16 @@
   <version>1.1</version>
 
   <name>PortaFIB WS - API</name>
-
-  <parent>
-    <groupId>es.caib.portafib</groupId>
-    <artifactId>portafib-ws</artifactId>
-    <version>2.0.8</version>
-  </parent>
-
+  <!-- <parent> <groupId>es.caib.portafib</groupId> <artifactId>portafib-ws</artifactId> 
+    <version>2.0.8</version> </parent> -->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <!-- JBoss dependency versions -->  
-    <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>  
+    <!-- JBoss dependency versions -->
+    <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>
 
   </properties>
 
-  <dependencyManagement>  
+  <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>org.jboss.spec</groupId>
@@ -33,8 +28,8 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-    </dependencies>  
-  </dependencyManagement> 
+    </dependencies>
+  </dependencyManagement>
 
   <repositories>
     <repository>
@@ -86,14 +81,14 @@
         <artifactId>maven-resources-plugin</artifactId>
         <executions>
           <execution>
-            <id>copy-resources</id>				
+            <id>copy-resources</id>
             <phase>validate</phase>
             <goals>
               <goal>copy-resources</goal>
             </goals>
             <configuration>
               <outputDirectory>${basedir}/src/main/resources</outputDirectory>
-              <resources>          
+              <resources>
                 <resource>
                   <directory>${basedir}/../../logic/src/main/resources</directory>
                   <includes>
@@ -105,7 +100,7 @@
                 </resource>
               </resources>
               <overwrite>true</overwrite>
-            </configuration>            
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -137,7 +132,7 @@
       <id>regenerateapi</id>
       <activation>
         <activeByDefault>false</activeByDefault>
-        <property>				    
+        <property>
           <name>regenerateapi</name>
         </property>
       </activation>
@@ -192,12 +187,13 @@
                 <phase>generate-sources</phase>
                 <configuration>
                   <className>es.caib.portafib.ws.v1.impl.PortaFIBHelloWorldWs</className>
-                  <genWsdl>true</genWsdl>							
+                  <genWsdl>true</genWsdl>
                   <verbose>true</verbose>
                   <frontend>jaxws</frontend>
                   <databinding>jaxb</databinding>
                   <outputFile>${basedir}/src/main/resources/wsdl/PortaFIBHelloWorld.wsdl</outputFile>
-                  <argline>-s ${basedir}/code -portname PortaFIBHelloWorldWs -address http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld</argline>
+                  <argline>-s ${basedir}/code -portname PortaFIBHelloWorldWs -address
+                    http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld</argline>
                 </configuration>
                 <goals>
                   <goal>java2ws</goal>
@@ -208,10 +204,12 @@
                 <phase>generate-sources</phase>
                 <configuration>
                   <className>es.caib.portafib.ws.v1.impl.PortaFIBUsuariAplicacioWs</className>
-                  <genWsdl>true</genWsdl>							
+                  <genWsdl>true</genWsdl>
                   <verbose>true</verbose>
                   <outputFile>${basedir}/src/main/resources/wsdl/PortaFIBUsuariAplicacio.wsdl</outputFile>
-                  <argline>-s ${basedir}/code -portname PortaFIBUsuariAplicacioWs -address http://localhost:8080/portafib/ws/v1/PortaFIBUsuariAplicacio</argline>
+                  <argline>-s ${basedir}/code -portname PortaFIBUsuariAplicacioWs
+                    -address
+                    http://localhost:8080/portafib/ws/v1/PortaFIBUsuariAplicacio</argline>
                 </configuration>
                 <goals>
                   <goal>java2ws</goal>
@@ -223,10 +221,12 @@
                 <phase>generate-sources</phase>
                 <configuration>
                   <className>es.caib.portafib.ws.v1.impl.PortaFIBUsuariEntitatWs</className>
-                  <genWsdl>true</genWsdl>							
+                  <genWsdl>true</genWsdl>
                   <verbose>true</verbose>
                   <outputFile>${basedir}/src/main/resources/wsdl/PortaFIBUsuariEntitat.wsdl</outputFile>
-                  <argline>-s ${basedir}/code -portname PortaFIBUsuariEntitatWs -address http://localhost:8080/portafib/ws/v1/PortaFIBUsuariEntitat</argline>
+                  <argline>-s ${basedir}/code -portname PortaFIBUsuariEntitatWs
+                    -address
+                    http://localhost:8080/portafib/ws/v1/PortaFIBUsuariEntitat</argline>
                 </configuration>
                 <goals>
                   <goal>java2ws</goal>
@@ -238,10 +238,12 @@
                 <phase>generate-sources</phase>
                 <configuration>
                   <className>es.caib.portafib.ws.v1.impl.PortaFIBPeticioDeFirmaWs</className>
-                  <genWsdl>true</genWsdl>							
+                  <genWsdl>true</genWsdl>
                   <verbose>true</verbose>
                   <outputFile>${basedir}/src/main/resources/wsdl/PortaFIBPeticioDeFirma.wsdl</outputFile>
-                  <argline>-s ${basedir}/code -portname PortaFIBPeticioDeFirmaWs -address http://localhost:8080/portafib/ws/v1/PortaFIBPeticioDeFirma</argline>
+                  <argline>-s ${basedir}/code -portname PortaFIBPeticioDeFirmaWs
+                    -address
+                    http://localhost:8080/portafib/ws/v1/PortaFIBPeticioDeFirma</argline>
                 </configuration>
                 <goals>
                   <goal>java2ws</goal>
@@ -251,78 +253,78 @@
             </executions>
           </plugin>
 
-          <plugin>  
-            <groupId>org.jboss.ws.plugins</groupId>  
-            <artifactId>maven-jaxws-tools-plugin</artifactId>  
+          <plugin>
+            <groupId>org.jboss.ws.plugins</groupId>
+            <artifactId>maven-jaxws-tools-plugin</artifactId>
             <version>1.1.1.Final</version>
-            <configuration>  
-              <verbose>true</verbose>  
-              <goalPrefix>wsconsume</goalPrefix>	
-              <extension>true</extension>					
-              <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>	
+            <configuration>
+              <verbose>true</verbose>
+              <goalPrefix>wsconsume</goalPrefix>
+              <extension>true</extension>
+              <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
               <targetPackage>es.caib.portafib.ws.api.v1</targetPackage>
               <bindingFiles>
                 <bindingFile>${basedir}/bindings/bindings.xjc</bindingFile>
               </bindingFiles>
-            </configuration>  
-            <executions>  
-              <execution>  
-                <id>WSDL to Java API PortaFIBHelloWorld</id>  
+            </configuration>
+            <executions>
+              <execution>
+                <id>WSDL to Java API PortaFIBHelloWorld</id>
                 <goals>
                   <goal>wsconsume</goal>
-                </goals>  
-                <configuration>  
-                  <wsdls> 
-                    <wsdl>${basedir}/src/main/resources/wsdl/PortaFIBHelloWorld.wsdl</wsdl>  
+                </goals>
+                <configuration>
+                  <wsdls>
+                    <wsdl>${basedir}/src/main/resources/wsdl/PortaFIBHelloWorld.wsdl</wsdl>
                   </wsdls>
                   <wsdlLocation>http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld?wsdl</wsdlLocation>
                   <argLine>-n</argLine>
-                </configuration>  
-              </execution> 
-              <execution>  
-                <id>WSDL to Java API PortaFIBUsuariAplicacio </id>  
+                </configuration>
+              </execution>
+              <execution>
+                <id>WSDL to Java API PortaFIBUsuariAplicacio </id>
                 <goals>
                   <goal>wsconsume</goal>
-                </goals>  
-                <configuration>  
-                  <wsdls> 
-                    <wsdl>${basedir}/src/main/resources/wsdl/PortaFIBUsuariAplicacio.wsdl</wsdl>  
+                </goals>
+                <configuration>
+                  <wsdls>
+                    <wsdl>${basedir}/src/main/resources/wsdl/PortaFIBUsuariAplicacio.wsdl</wsdl>
                   </wsdls>
                   <wsdlLocation>http://localhost:8080/portafib/ws/v1/PortaFIBUsuariAplicacio?wsdl</wsdlLocation>
                   <argLine>-n</argLine>
-                </configuration>  
-              </execution> 
-              <execution>  
-                <id>WSDL to Java API PortaFIBUsuariEntitat</id>  
+                </configuration>
+              </execution>
+              <execution>
+                <id>WSDL to Java API PortaFIBUsuariEntitat</id>
                 <goals>
                   <goal>wsconsume</goal>
-                </goals>  
-                <configuration>  
-                  <wsdls> 
-                    <wsdl>${basedir}/src/main/resources/wsdl/PortaFIBUsuariEntitat.wsdl</wsdl>  
+                </goals>
+                <configuration>
+                  <wsdls>
+                    <wsdl>${basedir}/src/main/resources/wsdl/PortaFIBUsuariEntitat.wsdl</wsdl>
                   </wsdls>
                   <wsdlLocation>http://localhost:8080/portafib/ws/v1/PortaFIBUsuariEntitat?wsdl</wsdlLocation>
                   <argLine>-n</argLine>
-                </configuration>  
-              </execution> 
+                </configuration>
+              </execution>
 
-              <execution>  
-                <id>WSDL to Java API PortaFIBPeticioDeFirma</id>  
+              <execution>
+                <id>WSDL to Java API PortaFIBPeticioDeFirma</id>
                 <goals>
                   <goal>wsconsume</goal>
-                </goals>  
-                <configuration>  
-                  <wsdls> 
-                    <wsdl>${basedir}/src/main/resources/wsdl/PortaFIBPeticioDeFirma.wsdl</wsdl>  
+                </goals>
+                <configuration>
+                  <wsdls>
+                    <wsdl>${basedir}/src/main/resources/wsdl/PortaFIBPeticioDeFirma.wsdl</wsdl>
                   </wsdls>
                   <wsdlLocation>http://localhost:8080/portafib/ws/v1/PortaFIBPeticioDeFirma?wsdl</wsdlLocation>
 
                   <argLine>-n</argLine>
-                </configuration>  
-              </execution> 
+                </configuration>
+              </execution>
 
-            </executions>  
-          </plugin> 
+            </executions>
+          </plugin>
 
         </plugins>
 
@@ -335,18 +337,32 @@
 
   <dependencies>
 
-    <dependency>  
-      <groupId>org.jboss.ws.cxf</groupId>  
-      <artifactId>jbossws-cxf-client</artifactId>  
-      <version>4.1.1.Final</version>  
-      <scope>provided</scope>  
-    </dependency> 
+    <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-client</artifactId>
+      <version>4.1.1.Final</version>
+      <scope>provided</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.genapp</groupId>
       <artifactId>genapp-core</artifactId>
       <version>1.0</version>
       <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
