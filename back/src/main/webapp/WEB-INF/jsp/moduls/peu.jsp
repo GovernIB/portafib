@@ -16,17 +16,25 @@
      </c:if>
    </div>
  </td>
+ 
+ <c:if test="${isMobile }">
+   </tr><tr>
+ </c:if>
 
  <td width="20%" valign="top">
-   <div class="center" style=" margin-top: 20px;">
+   <div class="center colophon" style=" margin-top: 20px;">
      <c:if test="${not empty loginInfo.entitatID}" > 
      <c:out value="${loginInfo.entitat.adrezaHtml}" escapeXml="false" />
      </c:if>
    </div>
  </td>
+ 
+  <c:if test="${isMobile }">
+   </tr><tr>
+ </c:if>
 
  <td width="40%" valign="top">
-  <div class="pull-right govern-footer">
+  <div class="${isMobile?'':'pull-right'} govern-footer colophon">
     <c:if test="${not empty loginInfo.entitatID}" >
     <a href="<c:out value="${loginInfo.entitat.web}" />" target="_blank">
     <img src="<c:url value="${pfi:fileUrl(loginInfo.entitat.logoWebPeu)}"/>"  alt="${loginInfo.entitat.nom }" />

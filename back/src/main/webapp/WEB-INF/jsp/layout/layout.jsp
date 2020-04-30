@@ -30,9 +30,9 @@
 
 
   <!--  PIPELLES -->
-  <div class="row-fluid container main">
+  <div class="row-fluid ${isMobile?'container-mobile main-mobile':'container main'}" >
     
-    <ul class="nav nav-tabs custom-submenu">
+    <ul class="nav nav-tabs ${isMobile?'custom-submenu-mobile':'custom-submenu'}">
 
     <c:if test="${loginInfo.usuariPersona.usuariIntern }">
     <li ${(empty pipella)?'class="active"' : '' } >
@@ -107,7 +107,7 @@
   <!-- FINAL DIV PIPELLES -->
   </div>
 
-  <div class="container row-fluid">
+  <div class="${isMobile?'container-mobile':'container'}" row-fluid">
     <tiles:insertAttribute name="peu">     
     </tiles:insertAttribute>
   </div>

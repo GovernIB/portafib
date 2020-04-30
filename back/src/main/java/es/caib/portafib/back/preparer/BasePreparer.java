@@ -21,6 +21,8 @@ import org.fundaciobit.genapp.common.i18n.I18NTranslation;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.mobile.device.Device;
+import org.springframework.mobile.device.DeviceUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
@@ -60,6 +62,18 @@ public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
 	  Object[] requestObjects = tilesContext.getRequestObjects();
 	  if (requestObjects[0] instanceof HttpServletRequest) {
 	    HttpServletRequest httpRequest = (HttpServletRequest) requestObjects[0];
+	    
+	    
+	    Device currentDevice = DeviceUtils.getRequiredCurrentDevice(httpRequest);
+	    if(currentDevice.isMobile()) {
+	      
+	      log.info("\n\nXYZ ZZZ IS MOBILE = true \n\n");
+	      
+	      httpRequest.getSession().setAttribute("isMobile", true);      
+        request.put("isMobile", true);
+	    } else {
+	      log.info("\n\nXYZ ZZZ IS MOBILE = false \n\n");
+	    }
 
 	    // Error de Login
 	    final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
@@ -119,6 +133,9 @@ public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
         containsRoleUser = true;
       }
     }
+    
+
+    
     
     
     

@@ -16,7 +16,9 @@ final String[] menu = {
     "",
     "delegacio.gestio",
     "",
-    "colaboracio.gestio"
+    "colaboracio.gestio"/*,
+    "",
+    "descarregar.apk"*/
 
 };
 
@@ -38,6 +40,8 @@ static {
   mapping.put("colaboracio.gestio", "/dest/colaborador/list"); //Llistat de Col·laboradors
 
   mapping.put("delegacio.gestio", "/dest/delegat/list"); //Llista delegació
+  
+  //mapping.put("descarregar.apk", "/doc/portafibapp.apk"); //PortaFIBApp
 
 }
 

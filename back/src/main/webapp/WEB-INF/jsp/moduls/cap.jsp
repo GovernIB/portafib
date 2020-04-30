@@ -3,7 +3,7 @@
 %><%@ taglib prefix="tiles"  uri="http://tiles.apache.org/tags-tiles" 
 %>
 
-<div class="row-fluid container nav-container">
+<div class="row-fluid ${isMobile?'container-mobile nav-container-mobile':'container nav-container'}" >
   <c:if test="${not empty loginInfo.entitatID}" >
   <div class="logo pull-left" >
     <a href="<c:out value="${loginInfo.entitat.web}" />" target="_blank">
@@ -14,11 +14,14 @@
   
   <div class="aplication-logo pull-left">
     <img src="<c:url value="/img/app-logo-header.png"/>"   alt="PortaFIB" title="PortaFIB"/>
-
   </div>
   
-  <div class="pull-right main-menu">
-    <ul class="user-nav pull-right dropdown">
+  <c:if test="${isMobile }">
+   <div class="clearfix"></div>
+ </c:if>
+  
+  <div class="${isMobile?'pull-left':'pull-right'} main-menu">
+    <ul class="user-nav pull-right dropdown" style="${isMobile?'margin-left:10px;':''}">
 
       <c:if test="${not empty loginInfo.entitatID}" > 
       <c:if test="${loginInfo.usuariPersona.usuariIntern}">
@@ -88,6 +91,8 @@
   </div>
 
 </div>
+<c:if test="${not isMobile}">
+
 
  <script type="text/javascript">
   var xrknpass = false;
@@ -108,11 +113,10 @@
       });
    });
   </script>
-
-  <div id="xrkn" style="position:absolute; width:500px; height:530px; top:150px; left:300px;visibility: hidden;">
+  <div id="xrkn" style="position:absolute; width:500px; height:530px; top:150px; left:300px;visibility:hidden;">
   </div>
 
-
+</c:if>
 <%--
 </header> <!-- end of header bar -->
 

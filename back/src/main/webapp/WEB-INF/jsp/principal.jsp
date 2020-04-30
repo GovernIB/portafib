@@ -19,21 +19,15 @@
 
 <br/>
 <br/>
-<table border="0" >
-<tr>
-<td valign="top">
+<div>
 <a href="http://dgtic.caib.es/" target="_blank">
 <img style="max-width:250px;" src="<c:url value="/img/dgmad.png"/>"  alt="DGMAD" title="DGMAD"/>
 </a>
-</td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td valign="top">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="http://blog.fundaciobit.org/category/admindigital/" target="_blank">
 <img style="max-width:230px;" src="<c:url value="/img/fundaciobit.png"/>"  alt="Fundaci&oacute; Bit" title="Fundaci&oacute; Bit"/>
 </a>
-</td>
-</tr>
-</table>
+</div>
 <br/>
 </center>
 

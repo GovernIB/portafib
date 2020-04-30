@@ -82,6 +82,8 @@ import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
+import org.springframework.mobile.device.DeviceUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -528,6 +530,36 @@ import java.util.Set;
 
         // altres comandes
         ff.setAttachedAdditionalJspCode(true);
+        
+        
+        // --------------------------
+        // ---------  MOBIL ---------
+        // --------------------------
+        Device device = DeviceUtils.getRequiredCurrentDevice(request);
+        if (device != null && device.isMobile() ) {
+          
+          final List<Field<?>> EMPTY_FIELDS_LIST = new ArrayList<Field<?>>();
+          
+          // Buidar groupBy
+          ff.setGroupByFields(EMPTY_FIELDS_LIST);
+          
+          // Buidar FilterBy
+          ff.setFilterByFields(EMPTY_FIELDS_LIST);
+          
+          // Llevar totes les columnes
+          ff.setHiddenFields(new HashSet<Field<?>>(Arrays.asList(EstatDeFirmaFields.ALL_ESTATDEFIRMA_FIELDS)));
+          
+          // Llevar totes les columnes addicionals excepte la del titol del document(nom petició de firma)
+          // => Es fa el en mètode postList()
+
+          // Mirar si es pot llevar la cadena "Accions" de cada fila (substiruir per espai o "..."
+          // => Per ara, no es pot
+          
+          // Fixar paginació a 5, 10 o 20 elements
+          ff.setAllItemsPerPage(new int[] {5, 10, 20});
+        }
+        
+        
 
       }
       return ff;
@@ -2153,6 +2185,9 @@ import java.util.Set;
       mav.addObject("peticionsByEstat", peticionsByEstat);
       
       Map<Long, Long> annexesByPeticio = new HashMap<Long,Long>();
+      
+      Device device = DeviceUtils.getRequiredCurrentDevice(request);
+      final boolean isMobile = (device != null && device.isMobile());
 
       // Annexes, Peticio de Firma, Tipus Document , Remitent i DataInici
       {
@@ -2161,21 +2196,31 @@ import java.util.Set;
         mapPF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TITOL).getValueMap();
         mapPF.clear();
         
-        Map<Long, String> mapTD;
-        mapTD = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TIPUSDOC).getValueMap();
-        mapTD.clear();
+        Map<Long, String> mapTD = null;
+        Map<Long, String> mapCR = null;
         
         final boolean remitent = role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE);
-        Map<Long, String> mapCR = null;
-        if (remitent) {          
-          mapCR = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_REMITENT).getValueMap();
-          mapCR.clear();
+        
+        if (!isMobile) {
+          mapTD = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TIPUSDOC).getValueMap();
+          mapTD.clear();
+
+          if (remitent) {          
+            mapCR = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_REMITENT).getValueMap();
+            mapCR.clear();
+          }
         }
 
         for(Long estatDeFirmaId : peticionsByEstat.keySet()) {
            PeticioDeFirmaJPA pf = (PeticioDeFirmaJPA)peticionsByEstat.get(estatDeFirmaId);
            
            mapPF.put(estatDeFirmaId, pf.getTitol());
+           
+           annexesByPeticio.put(pf.getPeticioDeFirmaID(),
+               annexEjb.count(AnnexFields.PETICIODEFIRMAID.equal(pf.getPeticioDeFirmaID())));
+           
+           if (isMobile) continue;
+           
            mapTD.put(estatDeFirmaId, pf.getTipusDocument().getNomTraduccions().get("ca").getValor());
            
            if (remitent) {
@@ -2190,370 +2235,370 @@ import java.util.Set;
              mapCR.put(estatDeFirmaId,  str.toString());
            }
            
-           annexesByPeticio.put(pf.getPeticioDeFirmaID(),
-             annexEjb.count(AnnexFields.PETICIODEFIRMAID.equal(pf.getPeticioDeFirmaID())));
+
            
         }
         
       }
       
-      
-      org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat dateTimeFormat;
-      dateTimeFormat = new org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat();
-      
-      
-
-      
-      List<Long> estatFirmaIDs = new ArrayList<Long>();
-      
-      // DATA INICI 
-      {
-        Map<Long, String> mapDI;
-        mapDI = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_ESTATDEFIRMA_DATAINICI_SMALL).getValueMap();
-        mapDI.clear();
-
-        for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
-          mapDI.put(estatDeFirma.getEstatDeFirmaID(), 
-              "<small>" + dateTimeFormat.format(estatDeFirma.getDataInici()).replace(" ", "<br/>") + "</small>");
-          estatFirmaIDs.add(estatDeFirma.getEstatDeFirmaID());
-        }
-      }
-
-
-      // Informacio Addicional Avaluable
-      {
-
-        DoubleField df = new EstatDeFirmaQueryPath().FIRMA().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA().INFORMACIOADDICIONALAVALUABLE();
-   
-        SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(EstatDeFirmaFields.ESTATDEFIRMAID.select,
-            df.select);
+      if (!isMobile)  {
         
-        //Long count = estatDeFirmaEjb.count(Where.AND(EstatDeFirmaFields.ESTATDEFIRMAID.in(estatFirmaIDs),df.isNotNull()));
+        org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat dateTimeFormat;
+        dateTimeFormat = new org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat();
         
-        Where w = Where.AND(EstatDeFirmaFields.ESTATDEFIRMAID.in(estatFirmaIDs),df.isNotNull());
+  
+        List<Long> estatFirmaIDs = new ArrayList<Long>();
         
-        List<StringKeyValue> list = estatDeFirmaEjb.executeQuery(smskv, w);
-        
-        
-        if (list != null && list.size() > 0) {
-          // Si hi elements llevam la columna del items a OCULTAR
-          filterForm.getHiddenFields().remove(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
-
-          Map<Long, String> mapIAA;
-          mapIAA = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE).getValueMap();
-          mapIAA.clear();
-          
-          for (StringKeyValue skv : list) {
-            mapIAA.put(new Long(skv.getKey()), skv.getValue());
-          }
-          
-          
-        } else {
-          // Si no hiha elments, l'afegim als items a ocultar
-          filterForm.addHiddenField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
-        }
-        
-      }
-      
-      
-      // DATA FI
-      if (getFilterType() != FILTRAR_PER_PENDENT) {
-
-        Map<Long, String> mapDF;
-        mapDF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_ESTATDEFIRMA_DATAFI_SMALL).getValueMap();
-        mapDF.clear();
-        for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
-          mapDF.put(estatDeFirma.getEstatDeFirmaID(), 
-              "<small>" + dateTimeFormat.format(estatDeFirma.getDataFi()).replace(" ", "<br/>") + "</small>");
-        }
-      }  
-
-
-      List<Long> estatsID = new ArrayList<Long>();
-      if (role.equals(ConstantsV2.ROLE_COLA) || role.equals(ConstantsV2.ROLE_DELE)) {
-        for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
-          // Crec que aquest if es innecesari !!!
-          if (estatDeFirma.getColaboracioDelegacioID() != null) {
-            estatsID.add(estatDeFirma.getEstatDeFirmaID());
+        // DATA INICI 
+        {
+          Map<Long, String> mapDI;
+          mapDI = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_ESTATDEFIRMA_DATAINICI_SMALL).getValueMap();
+          mapDI.clear();
+  
+          for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
+            mapDI.put(estatDeFirma.getEstatDeFirmaID(), 
+                "<small>" + dateTimeFormat.format(estatDeFirma.getDataInici()).replace(" ", "<br/>") + "</small>");
+            estatFirmaIDs.add(estatDeFirma.getEstatDeFirmaID());
           }
         }
-      }
-      
-      
-      // Delegat de Colaborador
-      if (role.equals(ConstantsV2.ROLE_COLA)) { 
-        UsuariPersonaQueryPath upqp = new EstatDeFirmaQueryPath().COLABORACIODELEGACIO()
-            .DESTINATARI().USUARIPERSONA();
-    
-        SelectMultipleKeyValue<Long> smsky;
-        smsky = new SelectMultipleKeyValue<Long>(ESTATDEFIRMAID.select, upqp.NOM().select,
-            upqp.LLINATGES().select);
-    
-        List<KeyValue<Long>> nomsDest = estatDeFirmaEjb.executeQuery(smsky,
-            ESTATDEFIRMAID.in(estatsID));
-    
-        Map<Long, String> infoDestByEstat = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_DELEGAT_DE_COLABORADOR).getValueMap();
-        infoDestByEstat.clear();
-        for (KeyValue<Long> keyValue : nomsDest) {
+  
+  
+        // Informacio Addicional Avaluable
+        {
+  
+          DoubleField df = new EstatDeFirmaQueryPath().FIRMA().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA().INFORMACIOADDICIONALAVALUABLE();
+     
+          SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(EstatDeFirmaFields.ESTATDEFIRMAID.select,
+              df.select);
           
-          infoDestByEstat.put(keyValue.getKey(), "<small>" + keyValue.getValue() + "</small>");
-        }
-
-      }
-      
-      //  Delegats
-      if (role.equals(ConstantsV2.ROLE_DEST)) {
-        
-        Map<Long, String> mapDD = new HashMap<Long, String>();
-        Map<Long, int[]> infoDelegatsByEstat = infoColaboradorsDelegats(estatDeFirmaList,
-            ESTATS_INICIALS_DELE);
-        
-        boolean existeixenDelegacions = false;
-
-        for(Long estatDeFirmaId :  infoDelegatsByEstat.keySet()) {
-      
-          int[] valors = infoDelegatsByEstat.get(estatDeFirmaId);
-          StringBuffer str = new StringBuffer();
-          if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT + 2] != 0) {
-             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.2")
-                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT + 2] + "/" + valors[0] + "</small><br/>\n");
-          }
+          //Long count = estatDeFirmaEjb.count(Where.AND(EstatDeFirmaFields.ESTATDEFIRMAID.in(estatFirmaIDs),df.isNotNull()));
           
-          if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] != 0) {
-            str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.5")
-                + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] + "/" + valors[0] + "</small><br/>\n");
-          }
+          Where w = Where.AND(EstatDeFirmaFields.ESTATDEFIRMAID.in(estatFirmaIDs),df.isNotNull());
           
-          if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] != 0) {
-            str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.3")
-                + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] + "/" + valors[0] + "</small><br/>\n");
-          }
-          if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] != 0) {             
-            str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.4")
-                + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] + "/" + valors[0] + "</small><br/>\n");
-          }
-          if (valors[1] != 0) {
-            str.append("<small>" + I18NUtils.tradueix("pendent") 
-                + ": " + valors[1] + "/" + valors[0] + "</small><br/>\n");
-          }
+          List<StringKeyValue> list = estatDeFirmaEjb.executeQuery(smskv, w);
           
-          if (str.length() != 0) {
-            existeixenDelegacions = true;
-          }
-
-          mapDD.put(estatDeFirmaId, str.toString());
           
-        }
-
-        // Ocultar columna si esta buida
-        if (!existeixenDelegacions) {
-          filterForm.getAdditionalFields().remove(COLUMN_DELEGATS_DE_DESTINATARI);
-        } else {
-          
-          AdditionalField<Long,String> adfieldDD;
-          
-          adfieldDD = (AdditionalField<Long,String>)filterForm.getAdditionalFields().get(COLUMN_DELEGATS_DE_DESTINATARI);
-          
-          if (adfieldDD == null) {
-            // NOVA COLUMNA si no esta creada
-            adfieldDD = new AdditionalField<Long,String>(); 
-            adfieldDD.setCodeName("ROLE_DELE.plural");
-            adfieldDD.setPosition(COLUMN_DELEGATS_DE_DESTINATARI);
-            // Els valors s'ompliran al mètode postList()
-            adfieldDD.setEscapeXml(false);
+          if (list != null && list.size() > 0) {
+            // Si hi elements llevam la columna del items a OCULTAR
+            filterForm.getHiddenFields().remove(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
+  
+            Map<Long, String> mapIAA;
+            mapIAA = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE).getValueMap();
+            mapIAA.clear();
             
-            filterForm.addAdditionalField(adfieldDD);
-          }
-          
-          adfieldDD.setValueMap(mapDD);
-
-        }
-
-      }
-      
-      // Col·laboradors
-      boolean ocultarColumnaColaboradors = filterForm.getHiddenFields().contains(ColaboracioDelegacioFields.DESTINATARIID); 
-
-      if ((role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) 
-          // Es la forma d'indicar que el doc s'ha rebutjar i que no importa veure els col·laboradors
-          && !ocultarColumnaColaboradors) {
-        
-        Map<Long, String> mapCC = new HashMap<Long, String>();
-
-        boolean existeixenColaboracions = false;
-        
-        
-        Map<Long, int[]> infoColaboradorsByEstat = infoColaboradorsDelegats(estatDeFirmaList,
-            ESTATS_INICIALS_COLA);
-        //mav.addObject("infoColaboradorsByEstat", infoColaboradorsByEstat);
-        
-        for(Long estatDeFirmaId :  infoColaboradorsByEstat.keySet()) {
-        
-           int[] valors=infoColaboradorsByEstat.get(estatDeFirmaId);
-           StringBuffer str = new StringBuffer();
-           if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2] != 0) {
-             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.0")
-                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2]  + "/" + valors[0] + "</small><br/>\n");
-           }
-           if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT+ 2] != 0) {
-             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.1")
-                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT+ 2] + "/" + valors[0] + "</small><br/>\n");
-           }
-           if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] != 0) {           
-             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.4")
-                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT+ 2] + "/" + valors[0] + "</small><br/>\n");
-           }
-           if(valors[1] != 0) {
-             str.append("<small>" + I18NUtils.tradueix("pendent") 
-                 + ": " + valors[1] + "/" + valors[0]  + "</small><br/>\n");
-           }
-           
-           if (str.length() != 0) {
-             existeixenColaboracions = true;
-           }
-           
-           mapCC.put(estatDeFirmaId, str.toString());
-        }
-        
-
-        // Ocultar columna si esta buida
-        if (!existeixenColaboracions) {
-          filterForm.getAdditionalFields().remove(COLUMN_COLABORADORS);
-        } else {
-
-          AdditionalField<Long,String> adfieldDD;
-          adfieldDD = (AdditionalField<Long,String>)filterForm.getAdditionalFields().get(COLUMN_COLABORADORS);
-          
-          if (adfieldDD == null) {
-            // NOVA COLUMNA si no esta creada
-
-            adfieldDD = new AdditionalField<Long,String>(); 
-            adfieldDD.setCodeName("colaborador.short");
-            adfieldDD.setPosition(COLUMN_COLABORADORS);
-            // Els valors s'ompliran al mètode postList()
-            adfieldDD.setEscapeXml(false);
+            for (StringKeyValue skv : list) {
+              mapIAA.put(new Long(skv.getKey()), skv.getValue());
+            }
             
-            filterForm.addAdditionalField(adfieldDD);
-          }
-          
-          adfieldDD.setValueMap(mapCC);
-
-        }
-
-      } else {
-        if (ocultarColumnaColaboradors) {
-          filterForm.getAdditionalFields().remove(COLUMN_COLABORADORS);
-        }
-      }
-      
-      
-      
-      
-      // Revisors
-      if (role.equals(ConstantsV2.ROLE_REVI)) {
-        
-        Map<Long, String> mapCC = new HashMap<Long, String>();
-
-        boolean existeixenRevisors = false;
-        
-        
-        Map<Long, int[]> infoColaboradorsByEstat = infoColaboradorsDelegats(estatDeFirmaList,
-            ESTATS_INICIALS_REVI);
-        //mav.addObject("infoColaboradorsByEstat", infoColaboradorsByEstat);
-        
-        for(Long estatDeFirmaId :  infoColaboradorsByEstat.keySet()) {
-        
-           int[] valors=infoColaboradorsByEstat.get(estatDeFirmaId);
-           StringBuffer str = new StringBuffer();
-          
-           
-           if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] != 0) {
-             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.0")
-                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2]  + "/" + valors[0] + "</small><br/>\n");
-           }
-           if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT+ 2] != 0) {
-             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.1")
-                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT+ 2] + "/" + valors[0] + "</small><br/>\n");
-           }
-           if(valors[1] != 0) {
-             str.append("<small>" + I18NUtils.tradueix("pendent") 
-                 + ": " + valors[1] + "/" + valors[0]  + "</small><br/>\n");
-           }
-           
-           if (str.length() != 0) {
-             existeixenRevisors = true;
-           }
-           
-           mapCC.put(estatDeFirmaId, str.toString());
-        }
-        
-
-        // Ocultar columna si esta buida
-        if (!existeixenRevisors) {
-          filterForm.getAdditionalFields().remove(COLUMN_REVISORS);
-        } else {
-
-          AdditionalField<Long,String> adfieldDD;
-          adfieldDD = (AdditionalField<Long,String>)filterForm.getAdditionalFields().get(COLUMN_REVISORS);
-          
-          if (adfieldDD == null) {
-            // NOVA COLUMNA si no esta creada
-
-            adfieldDD = new AdditionalField<Long,String>(); 
-            adfieldDD.setCodeName("revisor.short");
-            adfieldDD.setPosition(COLUMN_REVISORS);
-            // Els valors s'ompliran al mètode postList()
-            adfieldDD.setEscapeXml(false);
             
-            filterForm.addAdditionalField(adfieldDD);
-          }
-          
-          adfieldDD.setValueMap(mapCC);
-
-        }
-
-      } else {
-        if (ocultarColumnaColaboradors) {
-          filterForm.getAdditionalFields().remove(COLUMN_REVISORS);
-        }
-      }
-      
-      
-      
-      
-      {
-        
-        Map<Long, String> mapPR;
-        mapPR = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_PRIORITAT).getValueMap();
-        mapPR.clear();
-        
-        String color_priority, title_priority;
-        for(Long estatDeFirmaId : peticionsByEstat.keySet()) {
-          int prioritatID = peticionsByEstat.get(estatDeFirmaId).getPrioritatID();
-          title_priority="prioritat." + prioritatID;
-          
-          if (prioritatID <= ConstantsV2.PRIORITAT_BAIXA) {
-             color_priority="btn-success";             
-          } else if (prioritatID >= ConstantsV2.PRIORITAT_ALTA) {
-              color_priority="btn-danger";
           } else {
-              color_priority="btn-warning";
+            // Si no hiha elments, l'afegim als items a ocultar
+            filterForm.addHiddenField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
           }
-
-          mapPR.put(estatDeFirmaId, "<button title=\""+ I18NUtils.tradueix(title_priority) + "\" "
-              + " class=\"btn btn-mini " + color_priority + "\" type=\"button\">&nbsp;</button>");         
-         }
-
-      }
+          
+        }
+        
+        
+        // DATA FI
+        if (getFilterType() != FILTRAR_PER_PENDENT) {
+  
+          Map<Long, String> mapDF;
+          mapDF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_ESTATDEFIRMA_DATAFI_SMALL).getValueMap();
+          mapDF.clear();
+          for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
+            mapDF.put(estatDeFirma.getEstatDeFirmaID(), 
+                "<small>" + dateTimeFormat.format(estatDeFirma.getDataFi()).replace(" ", "<br/>") + "</small>");
+          }
+        }  
+  
+  
+        List<Long> estatsID = new ArrayList<Long>();
+        if (role.equals(ConstantsV2.ROLE_COLA) || role.equals(ConstantsV2.ROLE_DELE)) {
+          for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
+            // Crec que aquest if es innecesari !!!
+            if (estatDeFirma.getColaboracioDelegacioID() != null) {
+              estatsID.add(estatDeFirma.getEstatDeFirmaID());
+            }
+          }
+        }
+        
+        
+        // Delegat de Colaborador
+        if (role.equals(ConstantsV2.ROLE_COLA)) { 
+          UsuariPersonaQueryPath upqp = new EstatDeFirmaQueryPath().COLABORACIODELEGACIO()
+              .DESTINATARI().USUARIPERSONA();
       
-      // TODO Només mostrar en les pantalles Pendents
-      if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) {
-
-
-        Map<Long, String> rebuigDescriptionByEstat = getRebuigDescriptionByEstat(estatDeFirmaList);
-
-        mav.addObject("rebuigDescriptionByEstat", rebuigDescriptionByEstat);
-
+          SelectMultipleKeyValue<Long> smsky;
+          smsky = new SelectMultipleKeyValue<Long>(ESTATDEFIRMAID.select, upqp.NOM().select,
+              upqp.LLINATGES().select);
+      
+          List<KeyValue<Long>> nomsDest = estatDeFirmaEjb.executeQuery(smsky,
+              ESTATDEFIRMAID.in(estatsID));
+      
+          Map<Long, String> infoDestByEstat = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_DELEGAT_DE_COLABORADOR).getValueMap();
+          infoDestByEstat.clear();
+          for (KeyValue<Long> keyValue : nomsDest) {
+            
+            infoDestByEstat.put(keyValue.getKey(), "<small>" + keyValue.getValue() + "</small>");
+          }
+  
+        }
+        
+        //  Delegats
+        if (role.equals(ConstantsV2.ROLE_DEST)) {
+          
+          Map<Long, String> mapDD = new HashMap<Long, String>();
+          Map<Long, int[]> infoDelegatsByEstat = infoColaboradorsDelegats(estatDeFirmaList,
+              ESTATS_INICIALS_DELE);
+          
+          boolean existeixenDelegacions = false;
+  
+          for(Long estatDeFirmaId :  infoDelegatsByEstat.keySet()) {
+        
+            int[] valors = infoDelegatsByEstat.get(estatDeFirmaId);
+            StringBuffer str = new StringBuffer();
+            if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT + 2] != 0) {
+               str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.2")
+                   + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT + 2] + "/" + valors[0] + "</small><br/>\n");
+            }
+            
+            if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] != 0) {
+              str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.5")
+                  + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] + "/" + valors[0] + "</small><br/>\n");
+            }
+            
+            if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] != 0) {
+              str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.3")
+                  + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] + "/" + valors[0] + "</small><br/>\n");
+            }
+            if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] != 0) {             
+              str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.4")
+                  + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] + "/" + valors[0] + "</small><br/>\n");
+            }
+            if (valors[1] != 0) {
+              str.append("<small>" + I18NUtils.tradueix("pendent") 
+                  + ": " + valors[1] + "/" + valors[0] + "</small><br/>\n");
+            }
+            
+            if (str.length() != 0) {
+              existeixenDelegacions = true;
+            }
+  
+            mapDD.put(estatDeFirmaId, str.toString());
+            
+          }
+  
+          // Ocultar columna si esta buida
+          if (!existeixenDelegacions) {
+            filterForm.getAdditionalFields().remove(COLUMN_DELEGATS_DE_DESTINATARI);
+          } else {
+            
+            AdditionalField<Long,String> adfieldDD;
+            
+            adfieldDD = (AdditionalField<Long,String>)filterForm.getAdditionalFields().get(COLUMN_DELEGATS_DE_DESTINATARI);
+            
+            if (adfieldDD == null) {
+              // NOVA COLUMNA si no esta creada
+              adfieldDD = new AdditionalField<Long,String>(); 
+              adfieldDD.setCodeName("ROLE_DELE.plural");
+              adfieldDD.setPosition(COLUMN_DELEGATS_DE_DESTINATARI);
+              // Els valors s'ompliran al mètode postList()
+              adfieldDD.setEscapeXml(false);
+              
+              filterForm.addAdditionalField(adfieldDD);
+            }
+            
+            adfieldDD.setValueMap(mapDD);
+  
+          }
+  
+        }
+        
+        // Col·laboradors
+        boolean ocultarColumnaColaboradors = filterForm.getHiddenFields().contains(ColaboracioDelegacioFields.DESTINATARIID); 
+  
+        if ((role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) 
+            // Es la forma d'indicar que el doc s'ha rebutjar i que no importa veure els col·laboradors
+            && !ocultarColumnaColaboradors) {
+          
+          Map<Long, String> mapCC = new HashMap<Long, String>();
+  
+          boolean existeixenColaboracions = false;
+          
+          
+          Map<Long, int[]> infoColaboradorsByEstat = infoColaboradorsDelegats(estatDeFirmaList,
+              ESTATS_INICIALS_COLA);
+          //mav.addObject("infoColaboradorsByEstat", infoColaboradorsByEstat);
+          
+          for(Long estatDeFirmaId :  infoColaboradorsByEstat.keySet()) {
+          
+             int[] valors=infoColaboradorsByEstat.get(estatDeFirmaId);
+             StringBuffer str = new StringBuffer();
+             if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2] != 0) {
+               str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.0")
+                   + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2]  + "/" + valors[0] + "</small><br/>\n");
+             }
+             if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT+ 2] != 0) {
+               str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.1")
+                   + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT+ 2] + "/" + valors[0] + "</small><br/>\n");
+             }
+             if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] != 0) {           
+               str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.4")
+                   + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT+ 2] + "/" + valors[0] + "</small><br/>\n");
+             }
+             if(valors[1] != 0) {
+               str.append("<small>" + I18NUtils.tradueix("pendent") 
+                   + ": " + valors[1] + "/" + valors[0]  + "</small><br/>\n");
+             }
+             
+             if (str.length() != 0) {
+               existeixenColaboracions = true;
+             }
+             
+             mapCC.put(estatDeFirmaId, str.toString());
+          }
+          
+  
+          // Ocultar columna si esta buida
+          if (!existeixenColaboracions) {
+            filterForm.getAdditionalFields().remove(COLUMN_COLABORADORS);
+          } else {
+  
+            AdditionalField<Long,String> adfieldDD;
+            adfieldDD = (AdditionalField<Long,String>)filterForm.getAdditionalFields().get(COLUMN_COLABORADORS);
+            
+            if (adfieldDD == null) {
+              // NOVA COLUMNA si no esta creada
+  
+              adfieldDD = new AdditionalField<Long,String>(); 
+              adfieldDD.setCodeName("colaborador.short");
+              adfieldDD.setPosition(COLUMN_COLABORADORS);
+              // Els valors s'ompliran al mètode postList()
+              adfieldDD.setEscapeXml(false);
+              
+              filterForm.addAdditionalField(adfieldDD);
+            }
+            
+            adfieldDD.setValueMap(mapCC);
+  
+          }
+  
+        } else {
+          if (ocultarColumnaColaboradors) {
+            filterForm.getAdditionalFields().remove(COLUMN_COLABORADORS);
+          }
+        }
+        
+        
+        
+        
+        // Revisors
+        if (role.equals(ConstantsV2.ROLE_REVI)) {
+          
+          Map<Long, String> mapCC = new HashMap<Long, String>();
+  
+          boolean existeixenRevisors = false;
+          
+          
+          Map<Long, int[]> infoColaboradorsByEstat = infoColaboradorsDelegats(estatDeFirmaList,
+              ESTATS_INICIALS_REVI);
+          //mav.addObject("infoColaboradorsByEstat", infoColaboradorsByEstat);
+          
+          for(Long estatDeFirmaId :  infoColaboradorsByEstat.keySet()) {
+          
+             int[] valors=infoColaboradorsByEstat.get(estatDeFirmaId);
+             StringBuffer str = new StringBuffer();
+            
+             
+             if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] != 0) {
+               str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.0")
+                   + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2]  + "/" + valors[0] + "</small><br/>\n");
+             }
+             if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT+ 2] != 0) {
+               str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.1")
+                   + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT+ 2] + "/" + valors[0] + "</small><br/>\n");
+             }
+             if(valors[1] != 0) {
+               str.append("<small>" + I18NUtils.tradueix("pendent") 
+                   + ": " + valors[1] + "/" + valors[0]  + "</small><br/>\n");
+             }
+             
+             if (str.length() != 0) {
+               existeixenRevisors = true;
+             }
+             
+             mapCC.put(estatDeFirmaId, str.toString());
+          }
+          
+  
+          // Ocultar columna si esta buida
+          if (!existeixenRevisors) {
+            filterForm.getAdditionalFields().remove(COLUMN_REVISORS);
+          } else {
+  
+            AdditionalField<Long,String> adfieldDD;
+            adfieldDD = (AdditionalField<Long,String>)filterForm.getAdditionalFields().get(COLUMN_REVISORS);
+            
+            if (adfieldDD == null) {
+              // NOVA COLUMNA si no esta creada
+  
+              adfieldDD = new AdditionalField<Long,String>(); 
+              adfieldDD.setCodeName("revisor.short");
+              adfieldDD.setPosition(COLUMN_REVISORS);
+              // Els valors s'ompliran al mètode postList()
+              adfieldDD.setEscapeXml(false);
+              
+              filterForm.addAdditionalField(adfieldDD);
+            }
+            
+            adfieldDD.setValueMap(mapCC);
+  
+          }
+  
+        } else {
+          if (ocultarColumnaColaboradors) {
+            filterForm.getAdditionalFields().remove(COLUMN_REVISORS);
+          }
+        }
+        
+        
+        
+        
+        {
+          
+          Map<Long, String> mapPR;
+          mapPR = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_PRIORITAT).getValueMap();
+          mapPR.clear();
+          
+          String color_priority, title_priority;
+          for(Long estatDeFirmaId : peticionsByEstat.keySet()) {
+            int prioritatID = peticionsByEstat.get(estatDeFirmaId).getPrioritatID();
+            title_priority="prioritat." + prioritatID;
+            
+            if (prioritatID <= ConstantsV2.PRIORITAT_BAIXA) {
+               color_priority="btn-success";             
+            } else if (prioritatID >= ConstantsV2.PRIORITAT_ALTA) {
+                color_priority="btn-danger";
+            } else {
+                color_priority="btn-warning";
+            }
+  
+            mapPR.put(estatDeFirmaId, "<button title=\""+ I18NUtils.tradueix(title_priority) + "\" "
+                + " class=\"btn btn-mini " + color_priority + "\" type=\"button\">&nbsp;</button>");         
+           }
+  
+        }
+        
+        // TODO Només mostrar en les pantalles Pendents
+        if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) {
+  
+  
+          Map<Long, String> rebuigDescriptionByEstat = getRebuigDescriptionByEstat(estatDeFirmaList);
+  
+          mav.addObject("rebuigDescriptionByEstat", rebuigDescriptionByEstat);
+  
+        }
+        
       }
 
       // ============================
@@ -2719,6 +2764,20 @@ import java.util.Set;
            
          }
        }
+       
+       
+       if (isMobile) {
+         // Llevar totes les columnes addicionals excepte la del titol del document(nom petició de firma)
+         Map<Integer, AdditionalField<?, ?>> additionalFields = filterForm.getAdditionalFields();
+         Set<Integer> keySet = new HashSet<Integer>(additionalFields.keySet());
+         for (Integer columnID : keySet) {
+           
+           if (columnID != COLUMN_PETICIODEFIRMA_TITOL) {
+             additionalFields.remove(columnID);
+           }
+         }
+       }
+       
 
     }
 
