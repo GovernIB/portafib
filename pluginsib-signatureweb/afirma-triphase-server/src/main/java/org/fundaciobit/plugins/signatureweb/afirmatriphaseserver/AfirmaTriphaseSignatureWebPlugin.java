@@ -674,11 +674,13 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     // NOTA: Client Mòbil no suporta processos Batch
     UAgentInfo uai = new UAgentInfo(userAgent, accept);
 
-    if (uai.detectTierIphone() || uai.detectTierTablet() ) {
+    if (uai.detectAndroid() || uai.detectTierIphone() || uai.detectTierTablet() ) {
+      log.info("AfirmaTriphaseSignatureWebPlugin =>> ES TABLET, ANDROID o IPHONE. ");
       // Tablets i mobils 
       indexPageClientMobil(absolutePluginRequestPath, relativePluginRequestPath, request,
           response, signaturesSet, signatureIndex, locale);
-    } else {
+    } else { 
+      log.info("AfirmaTriphaseSignatureWebPlugin =>> ES PC ");
       indexPageAutofirma(absolutePluginRequestPath, relativePluginRequestPath,
           request, response, signaturesSet, signatureIndex, locale);
     }
@@ -912,6 +914,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         final String formatBatch = configProperties[i].getProperty(FORMAT_BATCH);
         
         configProperties[i].remove(FORMAT_BATCH);
+        configProperties[i].remove(FORMAT_MOBILE);
         
         //String extraParamsB64 = encodeB64(configPropertiesStr[i]);
         // @firma llegeix aquest extraParams amb un mètode propi que per davall empra un Properties.load que
@@ -929,7 +932,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         }
 
         batch.append(
-           "  <singlesign Id=\"" + signatureFullID + "\">\r\n" + //$NON-NLS-1$
+            "  <singlesign Id=\"" + signatureFullID + "\">\r\n" + //$NON-NLS-1$
             "    <datasource>file://" + src +  "</datasource>\r\n" + //$NON-NLS-1$
             "    <format>"  + formatBatch + "</format>\r\n" +
             "    <suboperation>sign</suboperation>\r\n" +
@@ -941,7 +944,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
             "    </signsaver>\r\n" +
             "   </singlesign>\r\n");
       }
-      // FINAL FOR 
+      // FINAL FOR
 
       batch.append("</signbatch>");
     }
@@ -1242,12 +1245,19 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         countNulls++;
         continue;
       }
+      /*
+      {***
+        String format = configProperties[i].getProperty(FORMAT_BATCH);
+        
+        
+        configProperties[i].setProperty(FORMAT_SIGN, format);
+        
+        format = format + "tri";
+        configProperties[i].setProperty(FORMAT_BATCH, format);
+      }
+      */
       
-
-      String format = configProperties[i].getProperty(FORMAT_BATCH);
-      format = format + "tri";
-      
-      configProperties[i].setProperty(FORMAT_SIGN, format);
+      configProperties[i].remove(FORMAT_BATCH);
       
       configProperties[i].remove(SIGNATUREID);
       
@@ -1329,13 +1339,13 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         for (int j = 0; j < configProperties.length; j++) {
           
           final String algorithm = configProperties[j].getProperty(ALGORITHM);
-          final String formatBatch = configProperties[j].getProperty(FORMAT_BATCH);
+          final String formatMobile = configProperties[j].getProperty(FORMAT_MOBILE);
           //final String format = configProperties[j].getProperty(FORMAT_SIGN);
           
           javascriptCode2.append(
               "      case " + j + ":\n" 
             + "        MiniApplet.sign('" + encodeSignatureItemID(signaturesSetID, j) + "',"
-            + "          '" + algorithm + "', '" + formatBatch + "',"
+            + "          '" + algorithm + "', '" + formatMobile + "',"
             + "          '" + StringEscapeUtils.escapeJavaScript(configPropertiesStr[j]) + "',\n"
             + "          showResultCallback, showErrorCallback);\n"
             + "      break;\n");
@@ -1525,6 +1535,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   
   public static final String FORMAT_BATCH = "formatbatch";
   
+  public static final String FORMAT_MOBILE = "formatmobile";
+  
   public static final String FORMAT_SIGN = "format";
   
   public static final String SIGNATUREID = "SignatureId";
@@ -1580,6 +1592,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     
     final String formatSign;
     final String formatBatch;
+    final String formatMobile;
     
     
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
@@ -1588,6 +1601,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       
       formatSign = "PAdES";
       formatBatch = "PAdES";
+      formatMobile = "PAdEStri";
       
       
       if (fis.getPdfVisibleSignature() != null 
@@ -1658,11 +1672,13 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       MiniAppletUtils.convertXAdES(fis, configProperties);
 
       formatBatch = "XAdES";
+      formatMobile = "XAdEStri";
       formatSign = configProperties.getProperty(FORMAT_SIGN);
 
     } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
         || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
 
+      formatMobile = "CAdEStri";
       formatBatch = "CAdES";
       formatSign = "CAdES";
 
@@ -1685,12 +1701,16 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     }
 
     
+    configProperties.put(FORMAT_MOBILE, formatMobile);
     configProperties.put(FORMAT_BATCH, formatBatch);
     configProperties.put(FORMAT_SIGN, formatSign);
 
-    log.info(" XYZ ZZZ ZZZ FORMAT generat dins MINIAPPLET UTILS: " + configProperties.getProperty(FORMAT_BATCH) );
-    log.info(" XYZ ZZZ ZZZ FORMAT generat dins AFIRMATRIPHASE: " + configProperties.getProperty(FORMAT_SIGN) );
-
+    log.info("");
+    log.info(" XYZ ZZZ ZZZ FORMAT generat dins MINIAPPLET UTILS: " + configProperties.getProperty(FORMAT_SIGN)  );
+    log.info(" XYZ ZZZ ZZZ FORMAT generat dins FORMAT_BATCH: " + configProperties.getProperty(FORMAT_BATCH));
+    log.info(" XYZ ZZZ ZZZ FORMAT generat dins FORMAT_MOBILE: " + configProperties.getProperty(FORMAT_MOBILE));
+    log.info("");
+    
     // SIGNATURE ID
     configProperties.put(SIGNATUREID, encodeSignatureItemID(signaturesSetID, index));
 
