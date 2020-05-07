@@ -266,7 +266,9 @@ public class UsuariPersonaController
     if (usuariPersonaForm.getListOfIdiomaForIdiomaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForIdiomaID(request, mav, usuariPersonaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       usuariPersonaForm.setListOfIdiomaForIdiomaID(_listSKV);
     }
     
@@ -608,7 +610,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForIdiomaID(HttpServletRequest request,
        ModelAndView mav, UsuariPersonaForm usuariPersonaForm, Where where)  throws I18NException {
     if (usuariPersonaForm.isHiddenField(IDIOMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (usuariPersonaForm.isReadOnlyField(IDIOMAID)) {
@@ -623,7 +625,7 @@ public java.lang.String stringToPK(String value) {
        List<UsuariPersona> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariPersonaFilterForm.isHiddenField(IDIOMAID)
       && !usuariPersonaFilterForm.isGroupByField(IDIOMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(IDIOMAID)) {

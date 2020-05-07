@@ -275,14 +275,18 @@ public class PermisGrupPlantillaController
     if (permisGrupPlantillaForm.getListOfGrupEntitatForGrupEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForGrupEntitatID(request, mav, permisGrupPlantillaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       permisGrupPlantillaForm.setListOfGrupEntitatForGrupEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (permisGrupPlantillaForm.getListOfPlantillaFluxDeFirmesForPlantillaFluxDeFirmesID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPlantillaFluxDeFirmesID(request, mav, permisGrupPlantillaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       permisGrupPlantillaForm.setListOfPlantillaFluxDeFirmesForPlantillaFluxDeFirmesID(_listSKV);
     }
     
@@ -591,7 +595,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForGrupEntitatID(HttpServletRequest request,
        ModelAndView mav, PermisGrupPlantillaForm permisGrupPlantillaForm, Where where)  throws I18NException {
     if (permisGrupPlantillaForm.isHiddenField(GRUPENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (permisGrupPlantillaForm.isReadOnlyField(GRUPENTITATID)) {
@@ -606,7 +610,7 @@ public java.lang.Long stringToPK(String value) {
        List<PermisGrupPlantilla> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (permisGrupPlantillaFilterForm.isHiddenField(GRUPENTITATID)
       && !permisGrupPlantillaFilterForm.isGroupByField(GRUPENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(GRUPENTITATID)) {
@@ -630,7 +634,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPlantillaFluxDeFirmesID(HttpServletRequest request,
        ModelAndView mav, PermisGrupPlantillaForm permisGrupPlantillaForm, Where where)  throws I18NException {
     if (permisGrupPlantillaForm.isHiddenField(PLANTILLAFLUXDEFIRMESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (permisGrupPlantillaForm.isReadOnlyField(PLANTILLAFLUXDEFIRMESID)) {
@@ -645,7 +649,7 @@ public java.lang.Long stringToPK(String value) {
        List<PermisGrupPlantilla> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (permisGrupPlantillaFilterForm.isHiddenField(PLANTILLAFLUXDEFIRMESID)
       && !permisGrupPlantillaFilterForm.isGroupByField(PLANTILLAFLUXDEFIRMESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PLANTILLAFLUXDEFIRMESID)) {

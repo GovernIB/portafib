@@ -275,14 +275,18 @@ public class PerfilsPerUsuariAplicacioController
     if (perfilsPerUsuariAplicacioForm.getListOfPerfilDeFirmaForPerfilDeFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPerfilDeFirmaID(request, mav, perfilsPerUsuariAplicacioForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       perfilsPerUsuariAplicacioForm.setListOfPerfilDeFirmaForPerfilDeFirmaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (perfilsPerUsuariAplicacioForm.getListOfUsuariAplicacioForUsuariAplicacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariAplicacioID(request, mav, perfilsPerUsuariAplicacioForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       perfilsPerUsuariAplicacioForm.setListOfUsuariAplicacioForUsuariAplicacioID(_listSKV);
     }
     
@@ -591,7 +595,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPerfilDeFirmaID(HttpServletRequest request,
        ModelAndView mav, PerfilsPerUsuariAplicacioForm perfilsPerUsuariAplicacioForm, Where where)  throws I18NException {
     if (perfilsPerUsuariAplicacioForm.isHiddenField(PERFILDEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (perfilsPerUsuariAplicacioForm.isReadOnlyField(PERFILDEFIRMAID)) {
@@ -606,7 +610,7 @@ public java.lang.Long stringToPK(String value) {
        List<PerfilsPerUsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (perfilsPerUsuariAplicacioFilterForm.isHiddenField(PERFILDEFIRMAID)
       && !perfilsPerUsuariAplicacioFilterForm.isGroupByField(PERFILDEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PERFILDEFIRMAID)) {
@@ -630,7 +634,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
        ModelAndView mav, PerfilsPerUsuariAplicacioForm perfilsPerUsuariAplicacioForm, Where where)  throws I18NException {
     if (perfilsPerUsuariAplicacioForm.isHiddenField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (perfilsPerUsuariAplicacioForm.isReadOnlyField(USUARIAPLICACIOID)) {
@@ -645,7 +649,7 @@ public java.lang.Long stringToPK(String value) {
        List<PerfilsPerUsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (perfilsPerUsuariAplicacioFilterForm.isHiddenField(USUARIAPLICACIOID)
       && !perfilsPerUsuariAplicacioFilterForm.isGroupByField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIAPLICACIOID)) {

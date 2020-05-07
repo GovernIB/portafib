@@ -260,7 +260,9 @@ public class PropietatGlobalController
     if (propietatGlobalForm.getListOfEntitatForEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForEntitatID(request, mav, propietatGlobalForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       propietatGlobalForm.setListOfEntitatForEntitatID(_listSKV);
     }
     
@@ -569,7 +571,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForEntitatID(HttpServletRequest request,
        ModelAndView mav, PropietatGlobalForm propietatGlobalForm, Where where)  throws I18NException {
     if (propietatGlobalForm.isHiddenField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (propietatGlobalForm.isReadOnlyField(ENTITATID)) {
@@ -584,7 +586,7 @@ public java.lang.Long stringToPK(String value) {
        List<PropietatGlobal> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (propietatGlobalFilterForm.isHiddenField(ENTITATID)
       && !propietatGlobalFilterForm.isGroupByField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(ENTITATID)) {

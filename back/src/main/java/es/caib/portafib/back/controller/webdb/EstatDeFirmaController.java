@@ -312,35 +312,45 @@ public class EstatDeFirmaController
     if (estatDeFirmaForm.getListOfFirmaForFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForFirmaID(request, mav, estatDeFirmaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       estatDeFirmaForm.setListOfFirmaForFirmaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (estatDeFirmaForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, estatDeFirmaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       estatDeFirmaForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (estatDeFirmaForm.getListOfValuesForTipusEstatDeFirmaInicialID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusEstatDeFirmaInicialID(request, mav, estatDeFirmaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       estatDeFirmaForm.setListOfValuesForTipusEstatDeFirmaInicialID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (estatDeFirmaForm.getListOfValuesForTipusEstatDeFirmaFinalID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusEstatDeFirmaFinalID(request, mav, estatDeFirmaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       estatDeFirmaForm.setListOfValuesForTipusEstatDeFirmaFinalID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (estatDeFirmaForm.getListOfColaboracioDelegacioForColaboracioDelegacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForColaboracioDelegacioID(request, mav, estatDeFirmaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       estatDeFirmaForm.setListOfColaboracioDelegacioForColaboracioDelegacioID(_listSKV);
     }
     
@@ -649,7 +659,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForFirmaID(HttpServletRequest request,
        ModelAndView mav, EstatDeFirmaForm estatDeFirmaForm, Where where)  throws I18NException {
     if (estatDeFirmaForm.isHiddenField(FIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (estatDeFirmaForm.isReadOnlyField(FIRMAID)) {
@@ -664,7 +674,7 @@ public java.lang.Long stringToPK(String value) {
        List<EstatDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (estatDeFirmaFilterForm.isHiddenField(FIRMAID)
       && !estatDeFirmaFilterForm.isGroupByField(FIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(FIRMAID)) {
@@ -688,7 +698,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, EstatDeFirmaForm estatDeFirmaForm, Where where)  throws I18NException {
     if (estatDeFirmaForm.isHiddenField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (estatDeFirmaForm.isReadOnlyField(USUARIENTITATID)) {
@@ -703,7 +713,7 @@ public java.lang.Long stringToPK(String value) {
        List<EstatDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (estatDeFirmaFilterForm.isHiddenField(USUARIENTITATID)
       && !estatDeFirmaFilterForm.isGroupByField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {
@@ -727,7 +737,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusEstatDeFirmaInicialID(HttpServletRequest request,
        ModelAndView mav, EstatDeFirmaForm estatDeFirmaForm, Where where)  throws I18NException {
     if (estatDeFirmaForm.isHiddenField(TIPUSESTATDEFIRMAINICIALID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForTipusEstatDeFirmaInicialID(request, mav, where);
   }
@@ -738,7 +748,7 @@ public java.lang.Long stringToPK(String value) {
        List<EstatDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (estatDeFirmaFilterForm.isHiddenField(TIPUSESTATDEFIRMAINICIALID)
       && !estatDeFirmaFilterForm.isGroupByField(TIPUSESTATDEFIRMAINICIALID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForTipusEstatDeFirmaInicialID(request, mav, Where.AND(where,_w));
@@ -759,7 +769,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusEstatDeFirmaFinalID(HttpServletRequest request,
        ModelAndView mav, EstatDeFirmaForm estatDeFirmaForm, Where where)  throws I18NException {
     if (estatDeFirmaForm.isHiddenField(TIPUSESTATDEFIRMAFINALID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForTipusEstatDeFirmaFinalID(request, mav, where);
   }
@@ -770,7 +780,7 @@ public java.lang.Long stringToPK(String value) {
        List<EstatDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (estatDeFirmaFilterForm.isHiddenField(TIPUSESTATDEFIRMAFINALID)
       && !estatDeFirmaFilterForm.isGroupByField(TIPUSESTATDEFIRMAFINALID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForTipusEstatDeFirmaFinalID(request, mav, Where.AND(where,_w));
@@ -793,7 +803,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForColaboracioDelegacioID(HttpServletRequest request,
        ModelAndView mav, EstatDeFirmaForm estatDeFirmaForm, Where where)  throws I18NException {
     if (estatDeFirmaForm.isHiddenField(COLABORACIODELEGACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (estatDeFirmaForm.isReadOnlyField(COLABORACIODELEGACIOID)) {
@@ -808,7 +818,7 @@ public java.lang.Long stringToPK(String value) {
        List<EstatDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (estatDeFirmaFilterForm.isHiddenField(COLABORACIODELEGACIOID)
       && !estatDeFirmaFilterForm.isGroupByField(COLABORACIODELEGACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(COLABORACIODELEGACIOID)) {

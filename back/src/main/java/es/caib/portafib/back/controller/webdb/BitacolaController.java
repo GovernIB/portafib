@@ -267,14 +267,18 @@ public class BitacolaController
     if (bitacolaForm.getListOfValuesForTipusObjecte() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusObjecte(request, mav, bitacolaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       bitacolaForm.setListOfValuesForTipusObjecte(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (bitacolaForm.getListOfValuesForTipusOperacio() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusOperacio(request, mav, bitacolaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       bitacolaForm.setListOfValuesForTipusOperacio(_listSKV);
     }
     
@@ -583,7 +587,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusObjecte(HttpServletRequest request,
        ModelAndView mav, BitacolaForm bitacolaForm, Where where)  throws I18NException {
     if (bitacolaForm.isHiddenField(TIPUSOBJECTE)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForTipusObjecte(request, mav, where);
   }
@@ -594,7 +598,7 @@ public java.lang.Long stringToPK(String value) {
        List<Bitacola> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (bitacolaFilterForm.isHiddenField(TIPUSOBJECTE)
       && !bitacolaFilterForm.isGroupByField(TIPUSOBJECTE)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForTipusObjecte(request, mav, Where.AND(where,_w));
@@ -613,7 +617,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusOperacio(HttpServletRequest request,
        ModelAndView mav, BitacolaForm bitacolaForm, Where where)  throws I18NException {
     if (bitacolaForm.isHiddenField(TIPUSOPERACIO)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForTipusOperacio(request, mav, where);
   }
@@ -624,7 +628,7 @@ public java.lang.Long stringToPK(String value) {
        List<Bitacola> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (bitacolaFilterForm.isHiddenField(TIPUSOPERACIO)
       && !bitacolaFilterForm.isGroupByField(TIPUSOPERACIO)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForTipusOperacio(request, mav, Where.AND(where,_w));

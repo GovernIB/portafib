@@ -449,84 +449,108 @@ public class EntitatController
     if (entitatForm.getListOfUsuariAplicacioForUsuariAplicacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariAplicacioID(request, mav, entitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       entitatForm.setListOfUsuariAplicacioForUsuariAplicacioID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfValuesForUsPoliticaDeFirma() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsPoliticaDeFirma(request, mav, entitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       entitatForm.setListOfValuesForUsPoliticaDeFirma(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfValuesForAlgorismeDeFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForAlgorismeDeFirmaID(request, mav, entitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       entitatForm.setListOfValuesForAlgorismeDeFirmaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfValuesForPoliticaCustodia() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPoliticaCustodia(request, mav, entitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       entitatForm.setListOfValuesForPoliticaCustodia(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfCustodiaInfoForCustodiaInfoID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForCustodiaInfoID(request, mav, entitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       entitatForm.setListOfCustodiaInfoForCustodiaInfoID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfValuesForPoliticaTaulaFirmes() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPoliticaTaulaFirmes(request, mav, entitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       entitatForm.setListOfValuesForPoliticaTaulaFirmes(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfValuesForPosicioTaulaFirmes() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPosicioTaulaFirmes(request, mav, entitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       entitatForm.setListOfValuesForPosicioTaulaFirmes(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfValuesForPoliticaSegellatDeTemps() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPoliticaSegellatDeTemps(request, mav, entitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       entitatForm.setListOfValuesForPoliticaSegellatDeTemps(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfPluginForPluginSegellTempsID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPluginSegellTempsID(request, mav, entitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       entitatForm.setListOfPluginForPluginSegellTempsID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfPluginForPluginRubricaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPluginRubricaID(request, mav, entitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       entitatForm.setListOfPluginForPluginRubricaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfPluginForPluginValidaFirmesID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPluginValidaFirmesID(request, mav, entitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       entitatForm.setListOfPluginForPluginValidaFirmesID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfPluginForPluginValidaCertificatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPluginValidaCertificatID(request, mav, entitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       entitatForm.setListOfPluginForPluginValidaCertificatID(_listSKV);
     }
     
@@ -914,7 +938,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
     if (entitatForm.isHiddenField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (entitatForm.isReadOnlyField(USUARIAPLICACIOID)) {
@@ -929,7 +953,7 @@ public java.lang.String stringToPK(String value) {
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(USUARIAPLICACIOID)
       && !entitatFilterForm.isGroupByField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIAPLICACIOID)) {
@@ -954,7 +978,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsPoliticaDeFirma(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
     if (entitatForm.isHiddenField(USPOLITICADEFIRMA)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForUsPoliticaDeFirma(request, mav, where);
   }
@@ -965,7 +989,7 @@ public java.lang.String stringToPK(String value) {
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(USPOLITICADEFIRMA)
       && !entitatFilterForm.isGroupByField(USPOLITICADEFIRMA)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForUsPoliticaDeFirma(request, mav, Where.AND(where,_w));
@@ -986,7 +1010,7 @@ public java.lang.String stringToPK(String value) {
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(MOTIUDELEGACIOID)
       && !entitatFilterForm.isGroupByField(MOTIUDELEGACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(MOTIUDELEGACIOID)) {
@@ -1012,7 +1036,7 @@ public java.lang.String stringToPK(String value) {
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(FIRMATPERFORMATID)
       && !entitatFilterForm.isGroupByField(FIRMATPERFORMATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(FIRMATPERFORMATID)) {
@@ -1037,7 +1061,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForAlgorismeDeFirmaID(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
     if (entitatForm.isHiddenField(ALGORISMEDEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForAlgorismeDeFirmaID(request, mav, where);
   }
@@ -1048,7 +1072,7 @@ public java.lang.String stringToPK(String value) {
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(ALGORISMEDEFIRMAID)
       && !entitatFilterForm.isGroupByField(ALGORISMEDEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForAlgorismeDeFirmaID(request, mav, Where.AND(where,_w));
@@ -1069,7 +1093,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
     if (entitatForm.isHiddenField(POLITICACUSTODIA)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForPoliticaCustodia(request, mav, where);
   }
@@ -1080,7 +1104,7 @@ public java.lang.String stringToPK(String value) {
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(POLITICACUSTODIA)
       && !entitatFilterForm.isGroupByField(POLITICACUSTODIA)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForPoliticaCustodia(request, mav, Where.AND(where,_w));
@@ -1103,7 +1127,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
     if (entitatForm.isHiddenField(CUSTODIAINFOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (entitatForm.isReadOnlyField(CUSTODIAINFOID)) {
@@ -1118,7 +1142,7 @@ public java.lang.String stringToPK(String value) {
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(CUSTODIAINFOID)
       && !entitatFilterForm.isGroupByField(CUSTODIAINFOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(CUSTODIAINFOID)) {
@@ -1143,7 +1167,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPoliticaTaulaFirmes(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
     if (entitatForm.isHiddenField(POLITICATAULAFIRMES)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForPoliticaTaulaFirmes(request, mav, where);
   }
@@ -1154,7 +1178,7 @@ public java.lang.String stringToPK(String value) {
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(POLITICATAULAFIRMES)
       && !entitatFilterForm.isGroupByField(POLITICATAULAFIRMES)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForPoliticaTaulaFirmes(request, mav, Where.AND(where,_w));
@@ -1175,7 +1199,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPosicioTaulaFirmes(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
     if (entitatForm.isHiddenField(POSICIOTAULAFIRMES)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForPosicioTaulaFirmes(request, mav, where);
   }
@@ -1186,7 +1210,7 @@ public java.lang.String stringToPK(String value) {
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(POSICIOTAULAFIRMES)
       && !entitatFilterForm.isGroupByField(POSICIOTAULAFIRMES)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForPosicioTaulaFirmes(request, mav, Where.AND(where,_w));
@@ -1207,7 +1231,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPoliticaSegellatDeTemps(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
     if (entitatForm.isHiddenField(POLITICASEGELLATDETEMPS)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForPoliticaSegellatDeTemps(request, mav, where);
   }
@@ -1218,7 +1242,7 @@ public java.lang.String stringToPK(String value) {
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(POLITICASEGELLATDETEMPS)
       && !entitatFilterForm.isGroupByField(POLITICASEGELLATDETEMPS)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForPoliticaSegellatDeTemps(request, mav, Where.AND(where,_w));
@@ -1239,7 +1263,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPluginSegellTempsID(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
     if (entitatForm.isHiddenField(PLUGINSEGELLTEMPSID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (entitatForm.isReadOnlyField(PLUGINSEGELLTEMPSID)) {
@@ -1254,7 +1278,7 @@ public java.lang.String stringToPK(String value) {
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(PLUGINSEGELLTEMPSID)
       && !entitatFilterForm.isGroupByField(PLUGINSEGELLTEMPSID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PLUGINSEGELLTEMPSID)) {
@@ -1279,7 +1303,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPluginRubricaID(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
     if (entitatForm.isHiddenField(PLUGINRUBRICAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (entitatForm.isReadOnlyField(PLUGINRUBRICAID)) {
@@ -1294,7 +1318,7 @@ public java.lang.String stringToPK(String value) {
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(PLUGINRUBRICAID)
       && !entitatFilterForm.isGroupByField(PLUGINRUBRICAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PLUGINRUBRICAID)) {
@@ -1319,7 +1343,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPluginValidaFirmesID(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
     if (entitatForm.isHiddenField(PLUGINVALIDAFIRMESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (entitatForm.isReadOnlyField(PLUGINVALIDAFIRMESID)) {
@@ -1334,7 +1358,7 @@ public java.lang.String stringToPK(String value) {
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(PLUGINVALIDAFIRMESID)
       && !entitatFilterForm.isGroupByField(PLUGINVALIDAFIRMESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PLUGINVALIDAFIRMESID)) {
@@ -1359,7 +1383,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPluginValidaCertificatID(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
     if (entitatForm.isHiddenField(PLUGINVALIDACERTIFICATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (entitatForm.isReadOnlyField(PLUGINVALIDACERTIFICATID)) {
@@ -1374,7 +1398,7 @@ public java.lang.String stringToPK(String value) {
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(PLUGINVALIDACERTIFICATID)
       && !entitatFilterForm.isGroupByField(PLUGINVALIDACERTIFICATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PLUGINVALIDACERTIFICATID)) {

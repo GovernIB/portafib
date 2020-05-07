@@ -278,14 +278,18 @@ public class RebreAvisController
     if (rebreAvisForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, rebreAvisForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       rebreAvisForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (rebreAvisForm.getListOfTipusNotificacioForTipusNotificacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusNotificacioID(request, mav, rebreAvisForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       rebreAvisForm.setListOfTipusNotificacioForTipusNotificacioID(_listSKV);
     }
     
@@ -594,7 +598,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, RebreAvisForm rebreAvisForm, Where where)  throws I18NException {
     if (rebreAvisForm.isHiddenField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (rebreAvisForm.isReadOnlyField(USUARIENTITATID)) {
@@ -609,7 +613,7 @@ public java.lang.Long stringToPK(String value) {
        List<RebreAvis> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (rebreAvisFilterForm.isHiddenField(USUARIENTITATID)
       && !rebreAvisFilterForm.isGroupByField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {
@@ -633,7 +637,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusNotificacioID(HttpServletRequest request,
        ModelAndView mav, RebreAvisForm rebreAvisForm, Where where)  throws I18NException {
     if (rebreAvisForm.isHiddenField(TIPUSNOTIFICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (rebreAvisForm.isReadOnlyField(TIPUSNOTIFICACIOID)) {
@@ -648,7 +652,7 @@ public java.lang.Long stringToPK(String value) {
        List<RebreAvis> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (rebreAvisFilterForm.isHiddenField(TIPUSNOTIFICACIOID)
       && !rebreAvisFilterForm.isGroupByField(TIPUSNOTIFICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(TIPUSNOTIFICACIOID)) {

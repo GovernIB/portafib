@@ -286,21 +286,27 @@ public class PluginFirmaWebPerUsuariEntitatController
     if (pluginFirmaWebPerUsuariEntitatForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, pluginFirmaWebPerUsuariEntitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       pluginFirmaWebPerUsuariEntitatForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (pluginFirmaWebPerUsuariEntitatForm.getListOfPluginForPluginFirmaWebID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPluginFirmaWebID(request, mav, pluginFirmaWebPerUsuariEntitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       pluginFirmaWebPerUsuariEntitatForm.setListOfPluginForPluginFirmaWebID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (pluginFirmaWebPerUsuariEntitatForm.getListOfValuesForAccio() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForAccio(request, mav, pluginFirmaWebPerUsuariEntitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       pluginFirmaWebPerUsuariEntitatForm.setListOfValuesForAccio(_listSKV);
     }
     
@@ -609,7 +615,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, PluginFirmaWebPerUsuariEntitatForm pluginFirmaWebPerUsuariEntitatForm, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariEntitatForm.isHiddenField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (pluginFirmaWebPerUsuariEntitatForm.isReadOnlyField(USUARIENTITATID)) {
@@ -624,7 +630,7 @@ public java.lang.Long stringToPK(String value) {
        List<PluginFirmaWebPerUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariEntitatFilterForm.isHiddenField(USUARIENTITATID)
       && !pluginFirmaWebPerUsuariEntitatFilterForm.isGroupByField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {
@@ -648,7 +654,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPluginFirmaWebID(HttpServletRequest request,
        ModelAndView mav, PluginFirmaWebPerUsuariEntitatForm pluginFirmaWebPerUsuariEntitatForm, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariEntitatForm.isHiddenField(PLUGINFIRMAWEBID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (pluginFirmaWebPerUsuariEntitatForm.isReadOnlyField(PLUGINFIRMAWEBID)) {
@@ -663,7 +669,7 @@ public java.lang.Long stringToPK(String value) {
        List<PluginFirmaWebPerUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariEntitatFilterForm.isHiddenField(PLUGINFIRMAWEBID)
       && !pluginFirmaWebPerUsuariEntitatFilterForm.isGroupByField(PLUGINFIRMAWEBID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PLUGINFIRMAWEBID)) {
@@ -687,7 +693,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForAccio(HttpServletRequest request,
        ModelAndView mav, PluginFirmaWebPerUsuariEntitatForm pluginFirmaWebPerUsuariEntitatForm, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariEntitatForm.isHiddenField(ACCIO)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForAccio(request, mav, where);
   }
@@ -698,7 +704,7 @@ public java.lang.Long stringToPK(String value) {
        List<PluginFirmaWebPerUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariEntitatFilterForm.isHiddenField(ACCIO)
       && !pluginFirmaWebPerUsuariEntitatFilterForm.isGroupByField(ACCIO)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForAccio(request, mav, Where.AND(where,_w));

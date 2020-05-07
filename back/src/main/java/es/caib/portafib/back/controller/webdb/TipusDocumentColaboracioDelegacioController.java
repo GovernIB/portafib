@@ -275,14 +275,18 @@ public class TipusDocumentColaboracioDelegacioController
     if (tipusDocumentColaboracioDelegacioForm.getListOfColaboracioDelegacioForColaboracioDelegacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForColaboracioDelegacioID(request, mav, tipusDocumentColaboracioDelegacioForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       tipusDocumentColaboracioDelegacioForm.setListOfColaboracioDelegacioForColaboracioDelegacioID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (tipusDocumentColaboracioDelegacioForm.getListOfTipusDocumentForTipusDocumentID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusDocumentID(request, mav, tipusDocumentColaboracioDelegacioForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       tipusDocumentColaboracioDelegacioForm.setListOfTipusDocumentForTipusDocumentID(_listSKV);
     }
     
@@ -591,7 +595,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForColaboracioDelegacioID(HttpServletRequest request,
        ModelAndView mav, TipusDocumentColaboracioDelegacioForm tipusDocumentColaboracioDelegacioForm, Where where)  throws I18NException {
     if (tipusDocumentColaboracioDelegacioForm.isHiddenField(COLABORACIODELEGACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (tipusDocumentColaboracioDelegacioForm.isReadOnlyField(COLABORACIODELEGACIOID)) {
@@ -606,7 +610,7 @@ public java.lang.Long stringToPK(String value) {
        List<TipusDocumentColaboracioDelegacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentColaboracioDelegacioFilterForm.isHiddenField(COLABORACIODELEGACIOID)
       && !tipusDocumentColaboracioDelegacioFilterForm.isGroupByField(COLABORACIODELEGACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(COLABORACIODELEGACIOID)) {
@@ -630,7 +634,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusDocumentID(HttpServletRequest request,
        ModelAndView mav, TipusDocumentColaboracioDelegacioForm tipusDocumentColaboracioDelegacioForm, Where where)  throws I18NException {
     if (tipusDocumentColaboracioDelegacioForm.isHiddenField(TIPUSDOCUMENTID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (tipusDocumentColaboracioDelegacioForm.isReadOnlyField(TIPUSDOCUMENTID)) {
@@ -645,7 +649,7 @@ public java.lang.Long stringToPK(String value) {
        List<TipusDocumentColaboracioDelegacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentColaboracioDelegacioFilterForm.isHiddenField(TIPUSDOCUMENTID)
       && !tipusDocumentColaboracioDelegacioFilterForm.isGroupByField(TIPUSDOCUMENTID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(TIPUSDOCUMENTID)) {

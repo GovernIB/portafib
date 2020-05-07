@@ -275,14 +275,18 @@ public class RoleUsuariEntitatController
     if (roleUsuariEntitatForm.getListOfRoleForRoleID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForRoleID(request, mav, roleUsuariEntitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       roleUsuariEntitatForm.setListOfRoleForRoleID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (roleUsuariEntitatForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, roleUsuariEntitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       roleUsuariEntitatForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
     }
     
@@ -591,7 +595,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForRoleID(HttpServletRequest request,
        ModelAndView mav, RoleUsuariEntitatForm roleUsuariEntitatForm, Where where)  throws I18NException {
     if (roleUsuariEntitatForm.isHiddenField(ROLEID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (roleUsuariEntitatForm.isReadOnlyField(ROLEID)) {
@@ -606,7 +610,7 @@ public java.lang.Long stringToPK(String value) {
        List<RoleUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (roleUsuariEntitatFilterForm.isHiddenField(ROLEID)
       && !roleUsuariEntitatFilterForm.isGroupByField(ROLEID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(ROLEID)) {
@@ -630,7 +634,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, RoleUsuariEntitatForm roleUsuariEntitatForm, Where where)  throws I18NException {
     if (roleUsuariEntitatForm.isHiddenField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (roleUsuariEntitatForm.isReadOnlyField(USUARIENTITATID)) {
@@ -645,7 +649,7 @@ public java.lang.Long stringToPK(String value) {
        List<RoleUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (roleUsuariEntitatFilterForm.isHiddenField(USUARIENTITATID)
       && !roleUsuariEntitatFilterForm.isGroupByField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {

@@ -278,14 +278,18 @@ public class AnnexFirmatController
     if (annexFirmatForm.getListOfAnnexForAnnexID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForAnnexID(request, mav, annexFirmatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       annexFirmatForm.setListOfAnnexForAnnexID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (annexFirmatForm.getListOfFirmaForFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForFirmaID(request, mav, annexFirmatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       annexFirmatForm.setListOfFirmaForFirmaID(_listSKV);
     }
     
@@ -627,7 +631,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForAnnexID(HttpServletRequest request,
        ModelAndView mav, AnnexFirmatForm annexFirmatForm, Where where)  throws I18NException {
     if (annexFirmatForm.isHiddenField(ANNEXID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (annexFirmatForm.isReadOnlyField(ANNEXID)) {
@@ -642,7 +646,7 @@ public java.lang.Long stringToPK(String value) {
        List<AnnexFirmat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (annexFirmatFilterForm.isHiddenField(ANNEXID)
       && !annexFirmatFilterForm.isGroupByField(ANNEXID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(ANNEXID)) {
@@ -666,7 +670,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForFirmaID(HttpServletRequest request,
        ModelAndView mav, AnnexFirmatForm annexFirmatForm, Where where)  throws I18NException {
     if (annexFirmatForm.isHiddenField(FIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (annexFirmatForm.isReadOnlyField(FIRMAID)) {
@@ -681,7 +685,7 @@ public java.lang.Long stringToPK(String value) {
        List<AnnexFirmat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (annexFirmatFilterForm.isHiddenField(FIRMAID)
       && !annexFirmatFilterForm.isGroupByField(FIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(FIRMAID)) {
