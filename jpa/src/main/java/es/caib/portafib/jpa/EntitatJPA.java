@@ -3,18 +3,18 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import java.util.HashSet;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Lob;
 import javax.persistence.Entity;
-import java.util.Set;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import org.hibernate.annotations.Index;
+import javax.persistence.SequenceGenerator;
+import org.hibernate.annotations.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.OneToMany;
+import java.util.Set;
+import javax.persistence.Id;
 
 
 @Entity
@@ -1011,74 +1011,74 @@ opcional incluso cuando se genera una firma EPES. */
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
-    if(!"PluginJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugins) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugins())) ) {
-      __tmp.setPlugins(PluginJPA.copyJPA(__jpa.getPlugins(), __alreadyCopied,"EntitatJPA"));
-    }
-    if(!"EstadisticaJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.estadisticas) || org.hibernate.Hibernate.isInitialized(__jpa.getEstadisticas())) ) {
-      __tmp.setEstadisticas(EstadisticaJPA.copyJPA(__jpa.getEstadisticas(), __alreadyCopied,"EntitatJPA"));
-    }
-    if(!"GrupEntitatJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.grupEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getGrupEntitats())) ) {
-      __tmp.setGrupEntitats(GrupEntitatJPA.copyJPA(__jpa.getGrupEntitats(), __alreadyCopied,"EntitatJPA"));
-    }
-    if(!"CustodiaInfoJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfos) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfos())) ) {
-      __tmp.setCustodiaInfos(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfos(), __alreadyCopied,"EntitatJPA"));
-    }
-    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracios())) ) {
-      __tmp.setUsuariAplicacioConfiguracios(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracios(), __alreadyCopied,"EntitatJPA"));
-    }
-    if(!"UsuariAplicacioJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacios())) ) {
-      __tmp.setUsuariAplicacios(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacios(), __alreadyCopied,"EntitatJPA"));
+    if(!"PluginCridadaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginCridadas) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginCridadas())) ) {
+      __tmp.setPluginCridadas(PluginCridadaJPA.copyJPA(__jpa.getPluginCridadas(), __alreadyCopied,"EntitatJPA"));
     }
     if(!"PropietatGlobalJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.propietatGlobals) || org.hibernate.Hibernate.isInitialized(__jpa.getPropietatGlobals())) ) {
       __tmp.setPropietatGlobals(PropietatGlobalJPA.copyJPA(__jpa.getPropietatGlobals(), __alreadyCopied,"EntitatJPA"));
     }
-    if(!"PluginCridadaJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginCridadas) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginCridadas())) ) {
-      __tmp.setPluginCridadas(PluginCridadaJPA.copyJPA(__jpa.getPluginCridadas(), __alreadyCopied,"EntitatJPA"));
+    if(!"EstadisticaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.estadisticas) || org.hibernate.Hibernate.isInitialized(__jpa.getEstadisticas())) ) {
+      __tmp.setEstadisticas(EstadisticaJPA.copyJPA(__jpa.getEstadisticas(), __alreadyCopied,"EntitatJPA"));
+    }
+    if(!"UsuariAplicacioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacios())) ) {
+      __tmp.setUsuariAplicacios(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacios(), __alreadyCopied,"EntitatJPA"));
+    }
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracios())) ) {
+      __tmp.setUsuariAplicacioConfiguracios(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracios(), __alreadyCopied,"EntitatJPA"));
     }
     if(!"UsuariEntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitats())) ) {
       __tmp.setUsuariEntitats(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitats(), __alreadyCopied,"EntitatJPA"));
     }
-    // Copia de beans complexes (IMP)
-    if(!"PluginJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginRubrica) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginRubrica()) ) ) {
-      __tmp.setPluginRubrica(PluginJPA.copyJPA(__jpa.getPluginRubrica(), __alreadyCopied,"EntitatJPA"));
+    if(!"CustodiaInfoJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfos) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfos())) ) {
+      __tmp.setCustodiaInfos(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfos(), __alreadyCopied,"EntitatJPA"));
     }
-    if(!"PluginJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginSegellTemps) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginSegellTemps()) ) ) {
-      __tmp.setPluginSegellTemps(PluginJPA.copyJPA(__jpa.getPluginSegellTemps(), __alreadyCopied,"EntitatJPA"));
+    if(!"GrupEntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.grupEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getGrupEntitats())) ) {
+      __tmp.setGrupEntitats(GrupEntitatJPA.copyJPA(__jpa.getGrupEntitats(), __alreadyCopied,"EntitatJPA"));
+    }
+    if(!"PluginJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugins) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugins())) ) {
+      __tmp.setPlugins(PluginJPA.copyJPA(__jpa.getPlugins(), __alreadyCopied,"EntitatJPA"));
+    }
+    // Copia de beans complexes (IMP)
+    if(!"TraduccioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.firmatPerFormat) || org.hibernate.Hibernate.isInitialized(__jpa.getFirmatPerFormat()) ) ) {
+      __tmp.setFirmatPerFormat(TraduccioJPA.copyJPA(__jpa.getFirmatPerFormat(), __alreadyCopied,"EntitatJPA"));
     }
     if(!"TraduccioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.motiuDelegacio) || org.hibernate.Hibernate.isInitialized(__jpa.getMotiuDelegacio()) ) ) {
       __tmp.setMotiuDelegacio(TraduccioJPA.copyJPA(__jpa.getMotiuDelegacio(), __alreadyCopied,"EntitatJPA"));
     }
-    if(!"TraduccioJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.firmatPerFormat) || org.hibernate.Hibernate.isInitialized(__jpa.getFirmatPerFormat()) ) ) {
-      __tmp.setFirmatPerFormat(TraduccioJPA.copyJPA(__jpa.getFirmatPerFormat(), __alreadyCopied,"EntitatJPA"));
+    if(!"PluginJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginSegellTemps) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginSegellTemps()) ) ) {
+      __tmp.setPluginSegellTemps(PluginJPA.copyJPA(__jpa.getPluginSegellTemps(), __alreadyCopied,"EntitatJPA"));
+    }
+    if(!"UsuariAplicacioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
+      __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"EntitatJPA"));
     }
     if(!"PluginJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginValidaCertificat) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginValidaCertificat()) ) ) {
       __tmp.setPluginValidaCertificat(PluginJPA.copyJPA(__jpa.getPluginValidaCertificat(), __alreadyCopied,"EntitatJPA"));
     }
-    if(!"CustodiaInfoJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfo) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfo()) ) ) {
-      __tmp.setCustodiaInfo(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfo(), __alreadyCopied,"EntitatJPA"));
+    if(!"PluginJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginRubrica) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginRubrica()) ) ) {
+      __tmp.setPluginRubrica(PluginJPA.copyJPA(__jpa.getPluginRubrica(), __alreadyCopied,"EntitatJPA"));
     }
     if(!"PluginJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginValidaFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginValidaFirmes()) ) ) {
       __tmp.setPluginValidaFirmes(PluginJPA.copyJPA(__jpa.getPluginValidaFirmes(), __alreadyCopied,"EntitatJPA"));
     }
-    if(!"UsuariAplicacioJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
-      __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"EntitatJPA"));
+    if(!"CustodiaInfoJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfo) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfo()) ) ) {
+      __tmp.setCustodiaInfo(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfo(), __alreadyCopied,"EntitatJPA"));
     }
 
     return __tmp;
