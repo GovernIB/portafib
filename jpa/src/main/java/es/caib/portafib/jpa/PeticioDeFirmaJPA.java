@@ -3,20 +3,20 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.ForeignKey;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import java.util.Set;
-import java.util.HashSet;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
 import org.hibernate.annotations.Index;
-import javax.persistence.SequenceGenerator;
+import org.hibernate.annotations.ForeignKey;
+import java.util.HashSet;
+import javax.persistence.OneToMany;
+import javax.persistence.Entity;
+import java.util.Set;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.GeneratedValue;
 
 
 @Entity
@@ -963,41 +963,41 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
       __tmp.setMetadadas(MetadadaJPA.copyJPA(__jpa.getMetadadas(), __alreadyCopied,"PeticioDeFirmaJPA"));
     }
     // Copia de beans complexes (IMP)
-    if(!"IdiomaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.idioma) || org.hibernate.Hibernate.isInitialized(__jpa.getIdioma()) ) ) {
-      __tmp.setIdioma(IdiomaJPA.copyJPA(__jpa.getIdioma(), __alreadyCopied,"PeticioDeFirmaJPA"));
+    if(!"TipusDocumentJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocument) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocument()) ) ) {
+      __tmp.setTipusDocument(TipusDocumentJPA.copyJPA(__jpa.getTipusDocument(), __alreadyCopied,"PeticioDeFirmaJPA"));
+    }
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracio()) ) ) {
+      __tmp.setUsuariAplicacioConfiguracio(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracio(), __alreadyCopied,"PeticioDeFirmaJPA"));
     }
     if(!"CustodiaInfoJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfo) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfo()) ) ) {
       __tmp.setCustodiaInfo(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfo(), __alreadyCopied,"PeticioDeFirmaJPA"));
     }
-    if(!"UsuariAplicacioJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
-      __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"PeticioDeFirmaJPA"));
-    }
-    if(!"TipusDocumentJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocument) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocument()) ) ) {
-      __tmp.setTipusDocument(TipusDocumentJPA.copyJPA(__jpa.getTipusDocument(), __alreadyCopied,"PeticioDeFirmaJPA"));
-    }
-    if(!"UsuariEntitatJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.solicitantUsuariEntitat1) || org.hibernate.Hibernate.isInitialized(__jpa.getSolicitantUsuariEntitat1()) ) ) {
-      __tmp.setSolicitantUsuariEntitat1(UsuariEntitatJPA.copyJPA(__jpa.getSolicitantUsuariEntitat1(), __alreadyCopied,"PeticioDeFirmaJPA"));
-    }
-    if(!"UsuariEntitatJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.solicitantUsuariEntitat3) || org.hibernate.Hibernate.isInitialized(__jpa.getSolicitantUsuariEntitat3()) ) ) {
-      __tmp.setSolicitantUsuariEntitat3(UsuariEntitatJPA.copyJPA(__jpa.getSolicitantUsuariEntitat3(), __alreadyCopied,"PeticioDeFirmaJPA"));
+    if(!"FluxDeFirmesJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.fluxDeFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getFluxDeFirmes()) ) ) {
+      __tmp.setFluxDeFirmes(FluxDeFirmesJPA.copyJPA(__jpa.getFluxDeFirmes(), __alreadyCopied,"PeticioDeFirmaJPA"));
     }
     if(!"UsuariEntitatJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.solicitantUsuariEntitat2) || org.hibernate.Hibernate.isInitialized(__jpa.getSolicitantUsuariEntitat2()) ) ) {
       __tmp.setSolicitantUsuariEntitat2(UsuariEntitatJPA.copyJPA(__jpa.getSolicitantUsuariEntitat2(), __alreadyCopied,"PeticioDeFirmaJPA"));
     }
-    if(!"FluxDeFirmesJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.fluxDeFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getFluxDeFirmes()) ) ) {
-      __tmp.setFluxDeFirmes(FluxDeFirmesJPA.copyJPA(__jpa.getFluxDeFirmes(), __alreadyCopied,"PeticioDeFirmaJPA"));
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.solicitantUsuariEntitat3) || org.hibernate.Hibernate.isInitialized(__jpa.getSolicitantUsuariEntitat3()) ) ) {
+      __tmp.setSolicitantUsuariEntitat3(UsuariEntitatJPA.copyJPA(__jpa.getSolicitantUsuariEntitat3(), __alreadyCopied,"PeticioDeFirmaJPA"));
     }
-    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracio()) ) ) {
-      __tmp.setUsuariAplicacioConfiguracio(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracio(), __alreadyCopied,"PeticioDeFirmaJPA"));
+    if(!"IdiomaJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.idioma) || org.hibernate.Hibernate.isInitialized(__jpa.getIdioma()) ) ) {
+      __tmp.setIdioma(IdiomaJPA.copyJPA(__jpa.getIdioma(), __alreadyCopied,"PeticioDeFirmaJPA"));
+    }
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.solicitantUsuariEntitat1) || org.hibernate.Hibernate.isInitialized(__jpa.getSolicitantUsuariEntitat1()) ) ) {
+      __tmp.setSolicitantUsuariEntitat1(UsuariEntitatJPA.copyJPA(__jpa.getSolicitantUsuariEntitat1(), __alreadyCopied,"PeticioDeFirmaJPA"));
+    }
+    if(!"UsuariAplicacioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
+      __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"PeticioDeFirmaJPA"));
     }
 
     return __tmp;

@@ -3,17 +3,17 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
-import javax.persistence.ManyToOne;
-import javax.persistence.UniqueConstraint;
-import javax.persistence.GeneratedValue;
 import org.hibernate.annotations.Index;
-import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
-import javax.persistence.JoinColumn;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import org.hibernate.annotations.ForeignKey;
+import javax.persistence.GeneratedValue;
 
 
 @Entity
@@ -183,13 +183,13 @@ private static final long serialVersionUID = -844814954L;
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
     // Copia de beans complexes (IMP)
-    if(!"UsuariAplicacioJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
-      __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"PluginFirmaWebPerUsuariAplicacioJPA"));
-    }
     if(!"PluginJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugin) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugin()) ) ) {
       __tmp.setPlugin(PluginJPA.copyJPA(__jpa.getPlugin(), __alreadyCopied,"PluginFirmaWebPerUsuariAplicacioJPA"));
+    }
+    if(!"UsuariAplicacioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
+      __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"PluginFirmaWebPerUsuariAplicacioJPA"));
     }
 
     return __tmp;

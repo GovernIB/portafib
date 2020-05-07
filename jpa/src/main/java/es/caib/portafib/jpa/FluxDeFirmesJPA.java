@@ -3,17 +3,17 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
+import javax.persistence.SequenceGenerator;
 import java.util.HashSet;
+import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import java.util.Set;
-import javax.persistence.Id;
+import org.hibernate.annotations.Index;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 
 
 @Entity
@@ -159,10 +159,6 @@ private static final long serialVersionUID = -624049275L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
-    if(!"BlocDeFirmesJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.blocDeFirmess) || org.hibernate.Hibernate.isInitialized(__jpa.getBlocDeFirmess())) ) {
-      __tmp.setBlocDeFirmess(BlocDeFirmesJPA.copyJPA(__jpa.getBlocDeFirmess(), __alreadyCopied,"FluxDeFirmesJPA"));
-    }
     if(!"PeticioDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma())) ) {
       __tmp.setPeticioDeFirma(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma(), __alreadyCopied,"FluxDeFirmesJPA"));
@@ -170,6 +166,10 @@ private static final long serialVersionUID = -624049275L;
     if(!"PlantillaFluxDeFirmesJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plantillaFluxDeFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getPlantillaFluxDeFirmes())) ) {
       __tmp.setPlantillaFluxDeFirmes(PlantillaFluxDeFirmesJPA.copyJPA(__jpa.getPlantillaFluxDeFirmes(), __alreadyCopied,"FluxDeFirmesJPA"));
+    }
+    if(!"BlocDeFirmesJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.blocDeFirmess) || org.hibernate.Hibernate.isInitialized(__jpa.getBlocDeFirmess())) ) {
+      __tmp.setBlocDeFirmess(BlocDeFirmesJPA.copyJPA(__jpa.getBlocDeFirmess(), __alreadyCopied,"FluxDeFirmesJPA"));
     }
     // Copia de beans complexes (IMP)
 
