@@ -3,16 +3,16 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
-import org.hibernate.annotations.Index;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ManyToOne;
 import javax.persistence.GeneratedValue;
+import org.hibernate.annotations.Index;
+import javax.persistence.SequenceGenerator;
+import org.hibernate.annotations.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
 
 
 @Entity
@@ -276,6 +276,10 @@ private static final long serialVersionUID = 1766648722L;
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
     // Copia de beans complexes (IMP)
+    if(!"FirmaJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.firma) || org.hibernate.Hibernate.isInitialized(__jpa.getFirma()) ) ) {
+      __tmp.setFirma(FirmaJPA.copyJPA(__jpa.getFirma(), __alreadyCopied,"EstatDeFirmaJPA"));
+    }
     if(!"UsuariEntitatJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
       __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"EstatDeFirmaJPA"));
@@ -283,10 +287,6 @@ private static final long serialVersionUID = 1766648722L;
     if(!"ColaboracioDelegacioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.colaboracioDelegacio) || org.hibernate.Hibernate.isInitialized(__jpa.getColaboracioDelegacio()) ) ) {
       __tmp.setColaboracioDelegacio(ColaboracioDelegacioJPA.copyJPA(__jpa.getColaboracioDelegacio(), __alreadyCopied,"EstatDeFirmaJPA"));
-    }
-    if(!"FirmaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.firma) || org.hibernate.Hibernate.isInitialized(__jpa.getFirma()) ) ) {
-      __tmp.setFirma(FirmaJPA.copyJPA(__jpa.getFirma(), __alreadyCopied,"EstatDeFirmaJPA"));
     }
 
     return __tmp;

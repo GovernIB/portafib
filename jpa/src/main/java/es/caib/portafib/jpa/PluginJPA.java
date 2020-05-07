@@ -3,20 +3,20 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.GenerationType;
-import org.hibernate.annotations.Index;
-import org.hibernate.annotations.ForeignKey;
-import java.util.HashSet;
-import javax.persistence.OneToMany;
 import javax.persistence.Entity;
-import java.util.Set;
-import javax.persistence.FetchType;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import org.hibernate.annotations.ForeignKey;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import java.util.Set;
+import java.util.HashSet;
+import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
+import org.hibernate.annotations.Index;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
 
 
 @Entity
@@ -508,13 +508,13 @@ private static final long serialVersionUID = 190357384L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
-    if(!"PluginFirmaWebPerUsuariAplicacioJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginFirmaWebPerUsuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginFirmaWebPerUsuariAplicacios())) ) {
-      __tmp.setPluginFirmaWebPerUsuariAplicacios(PluginFirmaWebPerUsuariAplicacioJPA.copyJPA(__jpa.getPluginFirmaWebPerUsuariAplicacios(), __alreadyCopied,"PluginJPA"));
+    if(!"PluginCridadaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginCridadas) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginCridadas())) ) {
+      __tmp.setPluginCridadas(PluginCridadaJPA.copyJPA(__jpa.getPluginCridadas(), __alreadyCopied,"PluginJPA"));
     }
-    if(!"ModulDeFirmaPerTipusDeDocumentJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.modulDeFirmaPerTipusDeDocuments) || org.hibernate.Hibernate.isInitialized(__jpa.getModulDeFirmaPerTipusDeDocuments())) ) {
-      __tmp.setModulDeFirmaPerTipusDeDocuments(ModulDeFirmaPerTipusDeDocumentJPA.copyJPA(__jpa.getModulDeFirmaPerTipusDeDocuments(), __alreadyCopied,"PluginJPA"));
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracio_pluginsegellatids) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracio_pluginsegellatids())) ) {
+      __tmp.setUsuariAplicacioConfiguracio_pluginsegellatids(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracio_pluginsegellatids(), __alreadyCopied,"PluginJPA"));
     }
     if(!"EntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_pluginvalidafirmesids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_pluginvalidafirmesids())) ) {
@@ -524,33 +524,33 @@ private static final long serialVersionUID = 190357384L;
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracio_pluginfirmaservidorids) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracio_pluginfirmaservidorids())) ) {
       __tmp.setUsuariAplicacioConfiguracio_pluginfirmaservidorids(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracio_pluginfirmaservidorids(), __alreadyCopied,"PluginJPA"));
     }
-    if(!"EntitatJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_pluginrubricaids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_pluginrubricaids())) ) {
-      __tmp.setEntitat_pluginrubricaids(EntitatJPA.copyJPA(__jpa.getEntitat_pluginrubricaids(), __alreadyCopied,"PluginJPA"));
+    if(!"CustodiaInfoJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfos) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfos())) ) {
+      __tmp.setCustodiaInfos(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfos(), __alreadyCopied,"PluginJPA"));
+    }
+    if(!"PluginFirmaWebPerUsuariEntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginFirmaWebPerUsuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginFirmaWebPerUsuariEntitats())) ) {
+      __tmp.setPluginFirmaWebPerUsuariEntitats(PluginFirmaWebPerUsuariEntitatJPA.copyJPA(__jpa.getPluginFirmaWebPerUsuariEntitats(), __alreadyCopied,"PluginJPA"));
     }
     if(!"EntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_pluginvalidacertificatids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_pluginvalidacertificatids())) ) {
       __tmp.setEntitat_pluginvalidacertificatids(EntitatJPA.copyJPA(__jpa.getEntitat_pluginvalidacertificatids(), __alreadyCopied,"PluginJPA"));
     }
-    if(!"CustodiaInfoJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfos) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfos())) ) {
-      __tmp.setCustodiaInfos(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfos(), __alreadyCopied,"PluginJPA"));
-    }
-    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracio_pluginsegellatids) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracio_pluginsegellatids())) ) {
-      __tmp.setUsuariAplicacioConfiguracio_pluginsegellatids(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracio_pluginsegellatids(), __alreadyCopied,"PluginJPA"));
-    }
     if(!"EntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_pluginids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_pluginids())) ) {
       __tmp.setEntitat_pluginids(EntitatJPA.copyJPA(__jpa.getEntitat_pluginids(), __alreadyCopied,"PluginJPA"));
     }
-    if(!"PluginCridadaJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginCridadas) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginCridadas())) ) {
-      __tmp.setPluginCridadas(PluginCridadaJPA.copyJPA(__jpa.getPluginCridadas(), __alreadyCopied,"PluginJPA"));
+    if(!"EntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_pluginrubricaids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_pluginrubricaids())) ) {
+      __tmp.setEntitat_pluginrubricaids(EntitatJPA.copyJPA(__jpa.getEntitat_pluginrubricaids(), __alreadyCopied,"PluginJPA"));
     }
-    if(!"PluginFirmaWebPerUsuariEntitatJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginFirmaWebPerUsuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginFirmaWebPerUsuariEntitats())) ) {
-      __tmp.setPluginFirmaWebPerUsuariEntitats(PluginFirmaWebPerUsuariEntitatJPA.copyJPA(__jpa.getPluginFirmaWebPerUsuariEntitats(), __alreadyCopied,"PluginJPA"));
+    if(!"ModulDeFirmaPerTipusDeDocumentJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.modulDeFirmaPerTipusDeDocuments) || org.hibernate.Hibernate.isInitialized(__jpa.getModulDeFirmaPerTipusDeDocuments())) ) {
+      __tmp.setModulDeFirmaPerTipusDeDocuments(ModulDeFirmaPerTipusDeDocumentJPA.copyJPA(__jpa.getModulDeFirmaPerTipusDeDocuments(), __alreadyCopied,"PluginJPA"));
+    }
+    if(!"PluginFirmaWebPerUsuariAplicacioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginFirmaWebPerUsuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginFirmaWebPerUsuariAplicacios())) ) {
+      __tmp.setPluginFirmaWebPerUsuariAplicacios(PluginFirmaWebPerUsuariAplicacioJPA.copyJPA(__jpa.getPluginFirmaWebPerUsuariAplicacios(), __alreadyCopied,"PluginJPA"));
     }
     // Copia de beans complexes (IMP)
     if(!"EntitatJPA".equals(origenJPA) && 
