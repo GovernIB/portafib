@@ -269,7 +269,9 @@ public class AnnexController
     if (annexForm.getListOfPeticioDeFirmaForPeticioDeFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPeticioDeFirmaID(request, mav, annexForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       annexForm.setListOfPeticioDeFirmaForPeticioDeFirmaID(_listSKV);
     }
     
@@ -611,7 +613,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPeticioDeFirmaID(HttpServletRequest request,
        ModelAndView mav, AnnexForm annexForm, Where where)  throws I18NException {
     if (annexForm.isHiddenField(PETICIODEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (annexForm.isReadOnlyField(PETICIODEFIRMAID)) {
@@ -626,7 +628,7 @@ public java.lang.Long stringToPK(String value) {
        List<Annex> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (annexFilterForm.isHiddenField(PETICIODEFIRMAID)
       && !annexFilterForm.isGroupByField(PETICIODEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PETICIODEFIRMAID)) {

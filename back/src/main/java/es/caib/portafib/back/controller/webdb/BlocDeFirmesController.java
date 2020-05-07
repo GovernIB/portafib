@@ -260,7 +260,9 @@ public class BlocDeFirmesController
     if (blocDeFirmesForm.getListOfFluxDeFirmesForFluxDeFirmesID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForFluxDeFirmesID(request, mav, blocDeFirmesForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       blocDeFirmesForm.setListOfFluxDeFirmesForFluxDeFirmesID(_listSKV);
     }
     
@@ -569,7 +571,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForFluxDeFirmesID(HttpServletRequest request,
        ModelAndView mav, BlocDeFirmesForm blocDeFirmesForm, Where where)  throws I18NException {
     if (blocDeFirmesForm.isHiddenField(FLUXDEFIRMESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (blocDeFirmesForm.isReadOnlyField(FLUXDEFIRMESID)) {
@@ -584,7 +586,7 @@ public java.lang.Long stringToPK(String value) {
        List<BlocDeFirmes> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (blocDeFirmesFilterForm.isHiddenField(FLUXDEFIRMESID)
       && !blocDeFirmesFilterForm.isGroupByField(FLUXDEFIRMESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(FLUXDEFIRMESID)) {

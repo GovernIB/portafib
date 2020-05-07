@@ -299,14 +299,18 @@ public class TipusDocumentController
     if (tipusDocumentForm.getListOfValuesForTipusDocumentBaseID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusDocumentBaseID(request, mav, tipusDocumentForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       tipusDocumentForm.setListOfValuesForTipusDocumentBaseID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (tipusDocumentForm.getListOfUsuariAplicacioForUsuariAplicacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariAplicacioID(request, mav, tipusDocumentForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       tipusDocumentForm.setListOfUsuariAplicacioForUsuariAplicacioID(_listSKV);
     }
     
@@ -622,7 +626,7 @@ public java.lang.Long stringToPK(String value) {
        List<TipusDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentFilterForm.isHiddenField(NOMID)
       && !tipusDocumentFilterForm.isGroupByField(NOMID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(NOMID)) {
@@ -646,7 +650,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusDocumentBaseID(HttpServletRequest request,
        ModelAndView mav, TipusDocumentForm tipusDocumentForm, Where where)  throws I18NException {
     if (tipusDocumentForm.isHiddenField(TIPUSDOCUMENTBASEID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForTipusDocumentBaseID(request, mav, where);
   }
@@ -657,7 +661,7 @@ public java.lang.Long stringToPK(String value) {
        List<TipusDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentFilterForm.isHiddenField(TIPUSDOCUMENTBASEID)
       && !tipusDocumentFilterForm.isGroupByField(TIPUSDOCUMENTBASEID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForTipusDocumentBaseID(request, mav, Where.AND(where,_w));
@@ -714,7 +718,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
        ModelAndView mav, TipusDocumentForm tipusDocumentForm, Where where)  throws I18NException {
     if (tipusDocumentForm.isHiddenField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (tipusDocumentForm.isReadOnlyField(USUARIAPLICACIOID)) {
@@ -729,7 +733,7 @@ public java.lang.Long stringToPK(String value) {
        List<TipusDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentFilterForm.isHiddenField(USUARIAPLICACIOID)
       && !tipusDocumentFilterForm.isGroupByField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIAPLICACIOID)) {

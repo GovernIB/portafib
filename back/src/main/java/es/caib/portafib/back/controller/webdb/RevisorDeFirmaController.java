@@ -278,14 +278,18 @@ public class RevisorDeFirmaController
     if (revisorDeFirmaForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, revisorDeFirmaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       revisorDeFirmaForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (revisorDeFirmaForm.getListOfFirmaForFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForFirmaID(request, mav, revisorDeFirmaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       revisorDeFirmaForm.setListOfFirmaForFirmaID(_listSKV);
     }
     
@@ -594,7 +598,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, RevisorDeFirmaForm revisorDeFirmaForm, Where where)  throws I18NException {
     if (revisorDeFirmaForm.isHiddenField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (revisorDeFirmaForm.isReadOnlyField(USUARIENTITATID)) {
@@ -609,7 +613,7 @@ public java.lang.Long stringToPK(String value) {
        List<RevisorDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (revisorDeFirmaFilterForm.isHiddenField(USUARIENTITATID)
       && !revisorDeFirmaFilterForm.isGroupByField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {
@@ -633,7 +637,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForFirmaID(HttpServletRequest request,
        ModelAndView mav, RevisorDeFirmaForm revisorDeFirmaForm, Where where)  throws I18NException {
     if (revisorDeFirmaForm.isHiddenField(FIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (revisorDeFirmaForm.isReadOnlyField(FIRMAID)) {
@@ -648,7 +652,7 @@ public java.lang.Long stringToPK(String value) {
        List<RevisorDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (revisorDeFirmaFilterForm.isHiddenField(FIRMAID)
       && !revisorDeFirmaFilterForm.isGroupByField(FIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(FIRMAID)) {

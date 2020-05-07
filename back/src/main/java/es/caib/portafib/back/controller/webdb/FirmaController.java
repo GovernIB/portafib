@@ -315,28 +315,36 @@ public class FirmaController
     if (firmaForm.getListOfUsuariEntitatForDestinatariID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForDestinatariID(request, mav, firmaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       firmaForm.setListOfUsuariEntitatForDestinatariID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (firmaForm.getListOfBlocDeFirmesForBlocDeFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForBlocDeFirmaID(request, mav, firmaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       firmaForm.setListOfBlocDeFirmesForBlocDeFirmaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (firmaForm.getListOfValuesForTipusEstatDeFirmaFinalID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusEstatDeFirmaFinalID(request, mav, firmaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       firmaForm.setListOfValuesForTipusEstatDeFirmaFinalID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (firmaForm.getListOfValuesForUsuariExternNivellSeguretat() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariExternNivellSeguretat(request, mav, firmaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       firmaForm.setListOfValuesForUsuariExternNivellSeguretat(_listSKV);
     }
     
@@ -679,7 +687,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForDestinatariID(HttpServletRequest request,
        ModelAndView mav, FirmaForm firmaForm, Where where)  throws I18NException {
     if (firmaForm.isHiddenField(DESTINATARIID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (firmaForm.isReadOnlyField(DESTINATARIID)) {
@@ -694,7 +702,7 @@ public java.lang.Long stringToPK(String value) {
        List<Firma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (firmaFilterForm.isHiddenField(DESTINATARIID)
       && !firmaFilterForm.isGroupByField(DESTINATARIID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(DESTINATARIID)) {
@@ -718,7 +726,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForBlocDeFirmaID(HttpServletRequest request,
        ModelAndView mav, FirmaForm firmaForm, Where where)  throws I18NException {
     if (firmaForm.isHiddenField(BLOCDEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (firmaForm.isReadOnlyField(BLOCDEFIRMAID)) {
@@ -733,7 +741,7 @@ public java.lang.Long stringToPK(String value) {
        List<Firma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (firmaFilterForm.isHiddenField(BLOCDEFIRMAID)
       && !firmaFilterForm.isGroupByField(BLOCDEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(BLOCDEFIRMAID)) {
@@ -757,7 +765,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusEstatDeFirmaFinalID(HttpServletRequest request,
        ModelAndView mav, FirmaForm firmaForm, Where where)  throws I18NException {
     if (firmaForm.isHiddenField(TIPUSESTATDEFIRMAFINALID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForTipusEstatDeFirmaFinalID(request, mav, where);
   }
@@ -768,7 +776,7 @@ public java.lang.Long stringToPK(String value) {
        List<Firma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (firmaFilterForm.isHiddenField(TIPUSESTATDEFIRMAFINALID)
       && !firmaFilterForm.isGroupByField(TIPUSESTATDEFIRMAFINALID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForTipusEstatDeFirmaFinalID(request, mav, Where.AND(where,_w));
@@ -788,7 +796,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariExternNivellSeguretat(HttpServletRequest request,
        ModelAndView mav, FirmaForm firmaForm, Where where)  throws I18NException {
     if (firmaForm.isHiddenField(USUARIEXTERNNIVELLSEGURETAT)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForUsuariExternNivellSeguretat(request, mav, where);
   }
@@ -799,7 +807,7 @@ public java.lang.Long stringToPK(String value) {
        List<Firma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (firmaFilterForm.isHiddenField(USUARIEXTERNNIVELLSEGURETAT)
       && !firmaFilterForm.isGroupByField(USUARIEXTERNNIVELLSEGURETAT)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForUsuariExternNivellSeguretat(request, mav, Where.AND(where,_w));

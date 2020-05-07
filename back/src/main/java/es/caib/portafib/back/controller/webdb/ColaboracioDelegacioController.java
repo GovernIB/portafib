@@ -283,14 +283,18 @@ public class ColaboracioDelegacioController
     if (colaboracioDelegacioForm.getListOfUsuariEntitatForDestinatariID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForDestinatariID(request, mav, colaboracioDelegacioForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       colaboracioDelegacioForm.setListOfUsuariEntitatForDestinatariID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (colaboracioDelegacioForm.getListOfUsuariEntitatForColaboradorDelegatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForColaboradorDelegatID(request, mav, colaboracioDelegacioForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       colaboracioDelegacioForm.setListOfUsuariEntitatForColaboradorDelegatID(_listSKV);
     }
     
@@ -633,7 +637,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForDestinatariID(HttpServletRequest request,
        ModelAndView mav, ColaboracioDelegacioForm colaboracioDelegacioForm, Where where)  throws I18NException {
     if (colaboracioDelegacioForm.isHiddenField(DESTINATARIID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (colaboracioDelegacioForm.isReadOnlyField(DESTINATARIID)) {
@@ -648,7 +652,7 @@ public java.lang.Long stringToPK(String value) {
        List<ColaboracioDelegacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (colaboracioDelegacioFilterForm.isHiddenField(DESTINATARIID)
       && !colaboracioDelegacioFilterForm.isGroupByField(DESTINATARIID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(DESTINATARIID)) {
@@ -672,7 +676,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForColaboradorDelegatID(HttpServletRequest request,
        ModelAndView mav, ColaboracioDelegacioForm colaboracioDelegacioForm, Where where)  throws I18NException {
     if (colaboracioDelegacioForm.isHiddenField(COLABORADORDELEGATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (colaboracioDelegacioForm.isReadOnlyField(COLABORADORDELEGATID)) {
@@ -687,7 +691,7 @@ public java.lang.Long stringToPK(String value) {
        List<ColaboracioDelegacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (colaboracioDelegacioFilterForm.isHiddenField(COLABORADORDELEGATID)
       && !colaboracioDelegacioFilterForm.isGroupByField(COLABORADORDELEGATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(COLABORADORDELEGATID)) {

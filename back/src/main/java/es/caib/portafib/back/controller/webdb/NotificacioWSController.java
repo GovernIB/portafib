@@ -263,7 +263,9 @@ public class NotificacioWSController
     if (notificacioWSForm.getListOfTipusNotificacioForTipusNotificacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusNotificacioID(request, mav, notificacioWSForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       notificacioWSForm.setListOfTipusNotificacioForTipusNotificacioID(_listSKV);
     }
     
@@ -572,7 +574,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusNotificacioID(HttpServletRequest request,
        ModelAndView mav, NotificacioWSForm notificacioWSForm, Where where)  throws I18NException {
     if (notificacioWSForm.isHiddenField(TIPUSNOTIFICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (notificacioWSForm.isReadOnlyField(TIPUSNOTIFICACIOID)) {
@@ -587,7 +589,7 @@ public java.lang.Long stringToPK(String value) {
        List<NotificacioWS> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (notificacioWSFilterForm.isHiddenField(TIPUSNOTIFICACIOID)
       && !notificacioWSFilterForm.isGroupByField(TIPUSNOTIFICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(TIPUSNOTIFICACIOID)) {

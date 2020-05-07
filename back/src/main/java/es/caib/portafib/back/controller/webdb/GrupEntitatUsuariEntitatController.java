@@ -275,14 +275,18 @@ public class GrupEntitatUsuariEntitatController
     if (grupEntitatUsuariEntitatForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, grupEntitatUsuariEntitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       grupEntitatUsuariEntitatForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (grupEntitatUsuariEntitatForm.getListOfGrupEntitatForGrupEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForGrupEntitatID(request, mav, grupEntitatUsuariEntitatForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       grupEntitatUsuariEntitatForm.setListOfGrupEntitatForGrupEntitatID(_listSKV);
     }
     
@@ -591,7 +595,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, GrupEntitatUsuariEntitatForm grupEntitatUsuariEntitatForm, Where where)  throws I18NException {
     if (grupEntitatUsuariEntitatForm.isHiddenField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (grupEntitatUsuariEntitatForm.isReadOnlyField(USUARIENTITATID)) {
@@ -606,7 +610,7 @@ public java.lang.Long stringToPK(String value) {
        List<GrupEntitatUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (grupEntitatUsuariEntitatFilterForm.isHiddenField(USUARIENTITATID)
       && !grupEntitatUsuariEntitatFilterForm.isGroupByField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {
@@ -630,7 +634,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForGrupEntitatID(HttpServletRequest request,
        ModelAndView mav, GrupEntitatUsuariEntitatForm grupEntitatUsuariEntitatForm, Where where)  throws I18NException {
     if (grupEntitatUsuariEntitatForm.isHiddenField(GRUPENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (grupEntitatUsuariEntitatForm.isReadOnlyField(GRUPENTITATID)) {
@@ -645,7 +649,7 @@ public java.lang.Long stringToPK(String value) {
        List<GrupEntitatUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (grupEntitatUsuariEntitatFilterForm.isHiddenField(GRUPENTITATID)
       && !grupEntitatUsuariEntitatFilterForm.isGroupByField(GRUPENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(GRUPENTITATID)) {

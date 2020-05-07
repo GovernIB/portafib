@@ -271,14 +271,18 @@ public class MetadadaController
     if (metadadaForm.getListOfPeticioDeFirmaForPeticioDeFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPeticioDeFirmaID(request, mav, metadadaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       metadadaForm.setListOfPeticioDeFirmaForPeticioDeFirmaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (metadadaForm.getListOfValuesForTipusMetadadaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusMetadadaID(request, mav, metadadaForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       metadadaForm.setListOfValuesForTipusMetadadaID(_listSKV);
     }
     
@@ -587,7 +591,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPeticioDeFirmaID(HttpServletRequest request,
        ModelAndView mav, MetadadaForm metadadaForm, Where where)  throws I18NException {
     if (metadadaForm.isHiddenField(PETICIODEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (metadadaForm.isReadOnlyField(PETICIODEFIRMAID)) {
@@ -602,7 +606,7 @@ public java.lang.Long stringToPK(String value) {
        List<Metadada> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (metadadaFilterForm.isHiddenField(PETICIODEFIRMAID)
       && !metadadaFilterForm.isGroupByField(PETICIODEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PETICIODEFIRMAID)) {
@@ -626,7 +630,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusMetadadaID(HttpServletRequest request,
        ModelAndView mav, MetadadaForm metadadaForm, Where where)  throws I18NException {
     if (metadadaForm.isHiddenField(TIPUSMETADADAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     return getReferenceListForTipusMetadadaID(request, mav, where);
   }
@@ -637,7 +641,7 @@ public java.lang.Long stringToPK(String value) {
        List<Metadada> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (metadadaFilterForm.isHiddenField(TIPUSMETADADAID)
       && !metadadaFilterForm.isGroupByField(TIPUSMETADADAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     return getReferenceListForTipusMetadadaID(request, mav, Where.AND(where,_w));

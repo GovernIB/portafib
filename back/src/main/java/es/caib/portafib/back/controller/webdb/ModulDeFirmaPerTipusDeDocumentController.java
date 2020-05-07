@@ -275,14 +275,18 @@ public class ModulDeFirmaPerTipusDeDocumentController
     if (modulDeFirmaPerTipusDeDocumentForm.getListOfTipusDocumentForTipusDocumentID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusDocumentID(request, mav, modulDeFirmaPerTipusDeDocumentForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       modulDeFirmaPerTipusDeDocumentForm.setListOfTipusDocumentForTipusDocumentID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (modulDeFirmaPerTipusDeDocumentForm.getListOfPluginForPluginID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPluginID(request, mav, modulDeFirmaPerTipusDeDocumentForm, null);
 
+ if (!_listSKV.isEmpty())    {
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+    }
       modulDeFirmaPerTipusDeDocumentForm.setListOfPluginForPluginID(_listSKV);
     }
     
@@ -591,7 +595,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusDocumentID(HttpServletRequest request,
        ModelAndView mav, ModulDeFirmaPerTipusDeDocumentForm modulDeFirmaPerTipusDeDocumentForm, Where where)  throws I18NException {
     if (modulDeFirmaPerTipusDeDocumentForm.isHiddenField(TIPUSDOCUMENTID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (modulDeFirmaPerTipusDeDocumentForm.isReadOnlyField(TIPUSDOCUMENTID)) {
@@ -606,7 +610,7 @@ public java.lang.Long stringToPK(String value) {
        List<ModulDeFirmaPerTipusDeDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (modulDeFirmaPerTipusDeDocumentFilterForm.isHiddenField(TIPUSDOCUMENTID)
       && !modulDeFirmaPerTipusDeDocumentFilterForm.isGroupByField(TIPUSDOCUMENTID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(TIPUSDOCUMENTID)) {
@@ -630,7 +634,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
        ModelAndView mav, ModulDeFirmaPerTipusDeDocumentForm modulDeFirmaPerTipusDeDocumentForm, Where where)  throws I18NException {
     if (modulDeFirmaPerTipusDeDocumentForm.isHiddenField(PLUGINID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _where = null;
     if (modulDeFirmaPerTipusDeDocumentForm.isReadOnlyField(PLUGINID)) {
@@ -645,7 +649,7 @@ public java.lang.Long stringToPK(String value) {
        List<ModulDeFirmaPerTipusDeDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (modulDeFirmaPerTipusDeDocumentFilterForm.isHiddenField(PLUGINID)
       && !modulDeFirmaPerTipusDeDocumentFilterForm.isGroupByField(PLUGINID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
+      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PLUGINID)) {
