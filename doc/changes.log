@@ -2,19 +2,39 @@
 PortaFIB 2.0.8
 ==============
 
+2020-05-08 Camsp de tipus DOuble dona error no controlat al fallar el format #192 
+
 2020-05-05 Cliente Movil @firma no funciona #427
 
 2020-04-30 Estudi de Firma des de Mòbil (Petició Ramon Roca) #426
+
+2020-04-30 GenApp: No pot fer sort() d'un llistat Inmodificable #370
+
+2020-04-27 La compilació per defecte no carrega l'ear #421
 
 2020-04-23 PortaFIB-WS: No fer Shade de Constants #423
 
 2020-04-22 Quan hi hagi un error en un camp mostrar un avis adalt #424
 
+2020-04-22 PortaFIB-WS: No fer Shade de Constants #423
+
 2020-04-22 El número d'avisos quan hi ha notificacions bloquejades apareix a Admin Entitat enlloc de Admin d'Aplicacions #418
 
 2020-04-21 Llistat de Plantilles de Flux de Firmes de " Admin. d´Aplicacions" es mosta en pipella erronia #422 
 
+2020-04-21 El número d'avisos quan hi ha notificacions bloquejades apareix a Admin Entitat enlloc de Admin d'Aplicacions #418
+
 2020-04-20 Permetre afegir usuaris externs al sol·lictant #420 
+
+2020-04-16 Poder donar d'alta Usuaris Extern des de Flux de Firmes #355
+
+2020-04-07 Error quan nom de l'arxiu de pfi_fitxer conté caràcters especials #425
+
+2020-03-25 Error esborrant Plugin de firma web que te Plugin-Tipus Documental #415
+
+2020-03-20 Eliminar referències a repositori maven obsolet #416
+
+2020-02-26 Inicialitzar portafib-2.0.8 #414  26 Feb
 
 
 
