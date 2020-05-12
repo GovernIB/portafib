@@ -129,7 +129,7 @@
             if (reassign) {
                 currentActionForExporter = document.estadistica.action;
             }
-            document.estadistica.action = '<c:url value="${contexte}/export/" />' + document.estadistica.exporter.value;
+            document.estadistica.action = '<c:url value="${contexte}/export/" />' + getExporterAction();
             if (reassign) {
                 setTimeout(reassignAction, 3000);
             }
@@ -139,6 +139,16 @@
         function reassignAction() {
             document.estadistica.action = currentActionForExporter;
             currentActionForExporter = "";
+        }
+
+        function getExporterAction() {
+            var radios = document.estadistica.elements["exporter"];
+            for (var i=0; i< radios.length;i++) {
+                if(radios[i].checked == true) {
+                    return radios[i].value;
+                }
+            }
+            return null;
         }
     </script>
 
