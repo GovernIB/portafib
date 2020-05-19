@@ -356,7 +356,8 @@ import java.util.Set;
           addfieldPF.setOrderBy(COLUMN_PETICIODEFIRMA_TITOL_FIELD);
           
           addfieldPF.setSearchBy(COLUMN_PETICIODEFIRMA_TITOL_FIELD);
-  
+          addfieldPF.setEscapeXml(false);
+          
           ff.addAdditionalField(addfieldPF);
         }
 
@@ -2214,7 +2215,15 @@ import java.util.Set;
         for(Long estatDeFirmaId : peticionsByEstat.keySet()) {
            PeticioDeFirmaJPA pf = (PeticioDeFirmaJPA)peticionsByEstat.get(estatDeFirmaId);
            
-           mapPF.put(estatDeFirmaId, pf.getTitol());
+           String pfTitol = pf.getTitol();
+           String pfTitolCut = "";
+           if (pfTitol != null) {
+        	   pfTitolCut = (pfTitol.length()>30)?pfTitol.substring(0,30)+"...":pfTitol;
+           }
+        		   
+           String pfTitolView = "<a href=\"#\" data-toggle=\"tooltip\" title=\"" + pfTitol  + "\">" + pfTitolCut + "</a>";
+           
+           mapPF.put(estatDeFirmaId, pfTitolView);
            
            annexesByPeticio.put(pf.getPeticioDeFirmaID(),
                annexEjb.count(AnnexFields.PETICIODEFIRMAID.equal(pf.getPeticioDeFirmaID())));
