@@ -3041,6 +3041,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
   public void rebutjarADEN(PeticioDeFirmaJPA peticioDeFirma, String usuariEntitatAden,
       String motiuDeRebuig) throws I18NException {
 
+    // Afegim que és l'administrador entitat al motiu de rebuig perquè quedi constància
+    // a les diferents bandes.
+    motiuDeRebuig = "Petició rebutjada per Administrador Entitat: " + motiuDeRebuig;
+
     int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
     if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
         || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
@@ -3097,7 +3101,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
     bitacolaLogicaEjb.createBitacola(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
         BITACOLA_TIPUS_PETICIO, BITACOLA_OP_REBUTJAR,
-        "Petició rebutjada per Administrador Entitat: " + motiuDeRebuig);
+            motiuDeRebuig);
 
     rebutjarEstadistica(usuariEntitatAden, entitatID, peticioDeFirma);
 
