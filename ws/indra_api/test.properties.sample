@@ -4,7 +4,9 @@ test_host=http://localhost:8080/portafib/portafirmasws/web/services/
 test_usr=fundaciobit_usrapp
 test_pwd=fundaciobit_usrapp
 # Es pot emprar tant DNI com username
-#test_signer=43096845C
+# També es poden posar varis usuaris separats per ,
+#test_signer=99999999R
+#test_signer=anadal,99999999R
 test_signer=anadal
 # Esperar a que firmin la peticio?
 wait_to_sign=false
