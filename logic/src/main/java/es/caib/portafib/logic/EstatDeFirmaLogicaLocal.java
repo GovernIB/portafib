@@ -31,9 +31,6 @@ public interface EstatDeFirmaLogicaLocal extends EstatDeFirmaLocal {
 
   public EstatDeFirmaJPA createFull(EstatDeFirmaJPA estatDeFirma) throws I18NException;
 
-  public Set<Long> getPeticioDeFirmaIDsDeEstatDeFirmaActiusByUsuariEntitat(
-      String usuariEntitatID, String rol, Long[] estatsDeFirma) throws I18NException;
-
   public Map<Long, PeticioDeFirma> getPeticioDeFirmaFromEstatDeFirmaID(
       List<EstatDeFirma> estatDeFirmaList) throws I18NException;
   
@@ -45,6 +42,9 @@ public interface EstatDeFirmaLogicaLocal extends EstatDeFirmaLocal {
   public Map<String, List<Long>> getAvisosUsuariEntitat(String usuariEntitatID,
       String entitatID, Set<String> roles) throws I18NException;
   
+  public Map<String, Long> getNombreAvisosUsuariEntitat(String usuariEntitatID,
+      String entitatID, Set<String> roles) throws I18NException;
+
   public List<FirmaJPA> getFirmesWithEstatDeFirmaFirmatOfPeticio(long peticioDeFirmaID)
       throws I18NException;
 

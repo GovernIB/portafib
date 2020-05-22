@@ -1,6 +1,7 @@
 package es.caib.portafib.logic.utils;
 
 import java.io.File;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.log4j.Logger;
@@ -9,6 +10,8 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.versio.Versio;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.Where;
 
 /**
  * 
@@ -91,4 +94,28 @@ public class LogicUtils {
     return dest;
   }
 
+  /**
+   * Workaround per https://github.com/GovernIB/genapp/issues/39
+   * Crea una Where de tipus IN dividida en blocs de màxim 1000.
+   * @param field camp a emprar
+   * @param values llista de valors a comprovar dins l'IN
+   * @return un where que el camp field està dins values.
+   */
+  public static Where getSafeWhereIn( Field field, List values) {
+    final int MAX_IN_SIZE = 1000;
+    Where whereIn;
+    if (values.size() < MAX_IN_SIZE) {
+      whereIn = field.in(values);
+    } else {
+      int iterations = ((values.size() - 1) / MAX_IN_SIZE) + 1;
+      Where[] wheresIn = new Where[iterations];
+      for (int i = 0; i < iterations; i++) {
+        int firstIndex = i * MAX_IN_SIZE;
+        int lastIndex = Math.min(firstIndex + MAX_IN_SIZE, values.size());
+        wheresIn[i] =  field.in(values.subList(firstIndex, lastIndex));
+      }
+      whereIn = Where.OR(wheresIn);
+    }
+    return whereIn;
+  }
 }

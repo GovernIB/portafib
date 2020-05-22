@@ -13,6 +13,7 @@ import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.BlocDeFirmesFields;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
+import es.caib.portafib.model.fields.EstatDeFirmaQueryPath;
 import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.NotificacioWSFields;
@@ -40,7 +41,9 @@ import java.util.Set;
 /**
  * 
  * @author anadal
- * 
+ * @author areus
+ * TODO: la lògica de calcular els avisos té a veure només parcialment amb els EstatsDeFirma, podria
+ * traslladar-se a un altre EJB d'avisos.
  */
 @Stateless(name = "EstatDeFirmaLogicaEJB")
 @SecurityDomain("seycon")
@@ -64,7 +67,6 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     return (EstatDeFirmaJPA)this.create(estatDeFirma);
   }
   
-  
   @Override
   public EstatDeFirmaJPA findByPrimaryKeyUnauthorized(Long id) {
     return this.findByPrimaryKey(id);
@@ -74,56 +76,12 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   public EstatDeFirma updateUnauthorized(EstatDeFirma instance) throws I18NException {
     return super.update(instance);
   }
-  
-
-  @Override
-  public Set<Long> getPeticioDeFirmaIDsDeEstatDeFirmaActiusByUsuariEntitat(String usuariEntitatID, String rol,
-      Long[] estatsDeFirma) throws I18NException {
-    
-    Where w1 = EstatDeFirmaFields.USUARIENTITATID.equal(usuariEntitatID);
-    
-    Where w2;
-    if (ConstantsV2.ROLE_REVI.equals(rol) || ConstantsV2.ROLE_DEST.equals(rol)) {
-      // DESTINATARI o REVISOR DE FIRMA
-      w2 = EstatDeFirmaFields.COLABORACIODELEGACIOID.isNull();
-    } else {
-      // DELEGAT o SOLICITANT
-      w2 = EstatDeFirmaFields.COLABORACIODELEGACIOID.isNotNull();
-    }
-    
-    Where w3;
-    if (estatsDeFirma == null || estatsDeFirma.length == 0) {
-      w3 = null;
-    } else {
-      if (estatsDeFirma.length == 1) {
-        w3 = EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.equal(estatsDeFirma[0]);
-      } else {
-        w3 = EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.in(estatsDeFirma);
-      }
-    }
-    Where w4 = EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull();
-
-    // List<EstatDeFirma> estatsDeFirmaList;
-    //estatsDeFirmaList = this.select(Where.AND(w1, w2, w3, w4));
-    
-    List<Long> firmes = this.executeQuery(FIRMAID, Where.AND(w1, w2, w3, w4));
-    
-    // Cercarem les Peticions de Firma associades als ID de les firmes 
-    
-    // new PeticioDeFirmaQueryPath().FLUXDEFIRMES().
-    LongField field = new FirmaQueryPath().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA().PETICIODEFIRMAID();
-
-    List<Long> idsPeticioList = firmaEjb.executeQuery(field, FirmaFields.FIRMAID.in(firmes));
-    Set<Long> idsPeticioDeFirma = new HashSet<Long>(idsPeticioList);
-
-    return idsPeticioDeFirma;
-  }
 
   /**
    * 
    * @param estatDeFirmaList
    * @return
-   * @throws Exception
+   * @throws I18NException
    */
   @Override
   public Map<Long, PeticioDeFirma> getPeticioDeFirmaFromEstatDeFirmaID(
@@ -144,13 +102,10 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
         Hibernate.initialize(pf.getTipusDocument());
         map.put(estatDeFirma.getEstatDeFirmaID(), pf);
       }
-
     }
 
     return map;
-
   }
-
 
   @Override
   public PeticioDeFirmaJPA getPeticioDeFirmaFromFirmaID(long firmaID)
@@ -192,8 +147,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   @Override
   public List<EstatDeFirma> getAllEstatDeFirmaActiuOfFlux(Long fluxDeFirmesID)
      throws I18NException {
-    
-    
+
     SubQuery<BlocDeFirmes, Long> subqueryBloc;
     subqueryBloc = blocDeFirmesEjb.getSubQuery(BlocDeFirmesFields.BLOCDEFIRMESID,
         Where.AND(
@@ -209,16 +163,14 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
             FirmaFields.FITXERFIRMATID.isNull()
             ));
 
-
     Where wEdF = Where.AND(
         EstatDeFirmaFields.DATAFI.isNull(),
         EstatDeFirmaFields.FIRMAID.in(subqueryFirma)
         );
-    
-    return select(wEdF);
 
+    return select(wEdF);
   }
-  
+
   @Override
   public Map<String, List<Long>> getAvisosUsuariEntitat(String usuariEntitatID, 
       String entitatID, Set<String> roles) throws I18NException {
@@ -226,11 +178,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     for (String rol : roles) {          
       // ROL SOLICITANT
       if (ROLE_SOLI.equals(rol)) {
-        Where w = Where.AND(
-          PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID.equal(usuariEntitatID),
-          PeticioDeFirmaFields.AVISWEB.equal(true)
-        );
-        //Long count = peticioDeFirmaEjb.count(w);
+        Where w = getWhereAvisosSolicitant(usuariEntitatID);
         List<Long> list = peticioDeFirmaEjb.executeQuery(PeticioDeFirmaFields.PETICIODEFIRMAID, w);
         if (list != null && list.size() != 0) {
           avisos.put(rol, list);
@@ -242,50 +190,23 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
           || ROLE_DELE.equals(rol)
           || ROLE_COLA.equals(rol)
           || ROLE_REVI.equals(rol)) {
-        Long[] estatsDeFirma;
-        
-        if (ROLE_REVI.equals(rol)) {
-          estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR };
-        } else if (ROLE_COLA.equals(rol)) {
-          estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
-              TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR};
-        } else {
-          estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR };
-        }
 
-        Set<Long> peticioDeFirmaIDs;
-        peticioDeFirmaIDs = this.getPeticioDeFirmaIDsDeEstatDeFirmaActiusByUsuariEntitat(
-            usuariEntitatID, rol, estatsDeFirma);
-
-        if (peticioDeFirmaIDs != null && peticioDeFirmaIDs.size() != 0) {
+        Where whereIn = getWhereAvisosDestDeleColaRevi(usuariEntitatID, rol);
+        List<Long> peticioDeFirmaIDs = peticioDeFirmaEjb.executeQuery(PeticioDeFirmaFields.PETICIODEFIRMAID, whereIn);
+        if (peticioDeFirmaIDs.size() > 0) {
           if (log.isDebugEnabled()) {
             log.debug("Afegint avisos pel rol " + rol + " (" + peticioDeFirmaIDs.size()  + ")");
           }
-          avisos.put(rol, new ArrayList<Long>(peticioDeFirmaIDs));
+          avisos.put(rol, peticioDeFirmaIDs);
         }
+        continue;
       }
       // ROLS ADEN
       if (ROLE_ADEN.equals(rol)) {
         // Revisar si hi ha notificacion que donen errors
-        
-        Where w1 = NotificacioWSFields.DATAENVIAMENT.isNull();
-        Where w2 = NotificacioWSFields.REINTENTS.greaterThan(5);
-        Where w3 = NotificacioWSFields.BLOQUEJADA.equal(false);
-
-        /*
-        PeticioDeFirmaQueryPath pfQP = new NotificacioWSQueryPath().PETICIODEFIRMA();
-        Where w4 = pfQP.SOLICITANTUSUARIAPLICACIOID().isNotNull();
-        Where w5 = pfQP.USUARIAPLICACIO().ENTITATID().equal(entitatID);
-         */
-        Where w4 = PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.isNotNull();
-        Where w5 = new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID);
-        SubQuery<PeticioDeFirma, Long> subQuery = peticioDeFirmaEjb.getSubQuery(PeticioDeFirmaFields.PETICIODEFIRMAID, Where.AND(w4, w5));
-
-        Where w45 = NotificacioWSFields.PETICIODEFIRMAID.in(subQuery);
-
-        //List<Long> peticioIDs = notificacioWSEjb.executeQuery(NotificacioWSFields.PETICIODEFIRMAID, Where.AND(w1,w2,w3,w4,w5));
-        List<Long> peticioIDs = notificacioWSEjb.executeQuery(NotificacioWSFields.PETICIODEFIRMAID, Where.AND(w1,w2,w3,w45));
-
+        List<Long> peticioIDs = notificacioWSEjb.executeQuery(
+                NotificacioWSFields.PETICIODEFIRMAID,
+                getWhereAvisosAden(entitatID));
         if (peticioIDs != null && peticioIDs.size() != 0) {
           avisos.put(ROLE_ADEN2, peticioIDs);
         }
@@ -293,7 +214,127 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     }
     return avisos;
   }
-  
+
+  /**
+   * Versió del {@link #getAvisosUsuariEntitat(String, String, Set)} que només retorna els nombres enlloc de la
+   * llista completa d'identificadors.
+   * @param usuariEntitatID identificador de l'usuari-entitat
+   * @param entitatID entitat
+   * @param roles roles pels quals s'han de calcular els avisos
+   * @return map indexat per role d'usuari que té com a valor el nombre d'avisos per aquell role.
+   * @throws I18NException si es produeix qualsevol error a la lògica.
+   */
+  @Override
+  public Map<String, Long> getNombreAvisosUsuariEntitat(String usuariEntitatID,
+      String entitatID, Set<String> roles) throws I18NException {
+    Map<String, Long> avisos = new HashMap<String, Long>();
+    for (String rol : roles) {
+      // ROL SOLICITANT
+      if (ROLE_SOLI.equals(rol)) {
+        Long count = peticioDeFirmaEjb.count(getWhereAvisosSolicitant(usuariEntitatID));
+        if (count > 0) {
+          avisos.put(rol, count);
+        }
+        continue;
+      }
+      // ROLS DESTINATARI, DELEGAT i COLABORADOR
+      if (ROLE_DEST.equals(rol)
+          || ROLE_DELE.equals(rol)
+          || ROLE_COLA.equals(rol)
+          || ROLE_REVI.equals(rol)) {
+
+        Where whereIn = getWhereAvisosDestDeleColaRevi(usuariEntitatID, rol);
+        Long count = peticioDeFirmaEjb.count(whereIn);
+        if (count > 0) {
+          avisos.put(rol, count);
+        }
+        continue;
+      }
+
+      // ROLS ADEN
+      if (ROLE_ADEN.equals(rol)) {
+        // Revisar si hi ha notificacion que donen errors
+        Long count = notificacioWSEjb.count(getWhereAvisosAden(entitatID));
+        if (count > 0) {
+          avisos.put(ROLE_ADEN2, count);
+        }
+      }
+    }
+    return avisos;
+  }
+
+  private Where getWhereAvisosDestDeleColaRevi(String usuariEntitatID, String rol) throws I18NException {
+    Long[] estatsDeFirma;
+    if (ROLE_REVI.equals(rol)) {
+      estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR };
+    } else if (ROLE_COLA.equals(rol)) {
+      estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
+          TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR};
+    } else {
+      estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR };
+    }
+
+    Where w1 = EstatDeFirmaFields.USUARIENTITATID.equal(usuariEntitatID);
+
+    Where w2;
+    if (ConstantsV2.ROLE_REVI.equals(rol) || ConstantsV2.ROLE_DEST.equals(rol)) {
+      // DESTINATARI o REVISOR DE FIRMA
+      w2 = EstatDeFirmaFields.COLABORACIODELEGACIOID.isNull();
+    } else {
+      // DELEGAT o SOLICITANT
+      w2 = EstatDeFirmaFields.COLABORACIODELEGACIOID.isNotNull();
+    }
+
+    Where w3;
+    if (estatsDeFirma.length == 1) {
+      w3 = EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.equal(estatsDeFirma[0]);
+    } else {
+      w3 = EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.in(estatsDeFirma);
+    }
+
+    Where w4 = EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull();
+
+    LongField peticiodefirmaidField = new EstatDeFirmaQueryPath()
+            .FIRMA()
+            .BLOCDEFIRMES()
+            .FLUXDEFIRMES()
+            .PETICIODEFIRMA()
+            .PETICIODEFIRMAID();
+
+    SubQuery<EstatDeFirma, Long> subQuery = this.getSubQuery(peticiodefirmaidField, Where.AND(w1, w2, w3, w4));
+    return PeticioDeFirmaFields.PETICIODEFIRMAID.in(subQuery);
+  }
+
+  /**
+   * Genera el where per calcular els avisos (notificacions) per un administrador d'entitat.
+   * @param entitatID identificador de l'entitat
+   * @return where per obtenir els avisos.
+   */
+  private Where getWhereAvisosAden(String entitatID) throws I18NException {
+    Where w1 = NotificacioWSFields.DATAENVIAMENT.isNull();
+    Where w2 = NotificacioWSFields.REINTENTS.greaterThan(5);
+    Where w3 = NotificacioWSFields.BLOQUEJADA.equal(false);
+    Where w4 = PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.isNotNull();
+    Where w5 = new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID);
+
+    SubQuery<PeticioDeFirma, Long> subQuery = peticioDeFirmaEjb.getSubQuery(PeticioDeFirmaFields.PETICIODEFIRMAID, Where.AND(w4, w5));
+    Where w45 = NotificacioWSFields.PETICIODEFIRMAID.in(subQuery);
+
+    return Where.AND(w1, w2, w3, w45);
+  }
+
+  /**
+   * Genera el where per calcular els avisos (peticions de firma) d'un solicitant.
+   * @param usuariEntitatID usuari-entitat del solicitant
+   * @return where per obtenir els avisos.
+   */
+  private Where getWhereAvisosSolicitant(String usuariEntitatID) {
+    return Where.AND(
+          PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID.equal(usuariEntitatID),
+          PeticioDeFirmaFields.AVISWEB.equal(true)
+        );
+  }
+
   @Override
   public List<FirmaJPA> getFirmesWithEstatDeFirmaFirmatOfPeticio(long peticioDeFirmaID)
       throws I18NException {

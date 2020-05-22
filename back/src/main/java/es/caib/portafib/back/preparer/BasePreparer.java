@@ -32,7 +32,7 @@ import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * @author anadal
- *
+ * @author areus
  */
 @RunAs("PFI_USER")
 @Component
@@ -44,10 +44,7 @@ public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
   
   @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
   protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
-  
-  
 
-  
 	@Override
 	public void execute(TilesRequestContext tilesContext, 
 	    AttributeContext attributeContext) throws PreparerException {
@@ -120,9 +117,7 @@ public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
 
     // Pipella
     request.put("pipella", attributeContext.getAttribute("pipella"));
-    
-    
-    
+
     boolean containsRoleUser = false;
     Set<GrantedAuthority> rolesSeycon = loginInfo.getRolesPerEntitat().get(null);
     //log.info("BasePreparer:: rolesSeycon (" + rolesSeycon.size() + ")" );
@@ -133,12 +128,7 @@ public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
         containsRoleUser = true;
       }
     }
-    
 
-    
-    
-    
-    
     if (containsRoleUser && loginInfo.getEntitatID() != null) {
 
       // Avisos
@@ -154,21 +144,13 @@ public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
         //log.info("BasePreparer::ROLES = " + roles.size());
         String usu_ent_actual = loginInfo.getUsuariEntitatID();
 
-        Map<String,List<Long>> avisosPeticio = estatDeFirmaLogicaEjb.getAvisosUsuariEntitat(usu_ent_actual, loginInfo.getEntitatID(), roles);
-        
-        for (Map.Entry<String, List<Long>> entry : avisosPeticio.entrySet()) {
-          
-          avisos.put(entry.getKey(), (long)entry.getValue().size());
-        }
-        
-  
+        avisos = estatDeFirmaLogicaEjb.getNombreAvisosUsuariEntitat(usu_ent_actual, loginInfo.getEntitatID(), roles);
+
       } catch (I18NException e) {
         log.error("Error intentant obtenir els avisos dels rols "
             + I18NUtils.getMessage(e), e);
-        
       }
-      request.put("avisos", avisos); 
-
+      request.put("avisos", avisos);
     }
 
     
@@ -186,7 +168,4 @@ public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
 
     
 	}
-
-  
-
 }

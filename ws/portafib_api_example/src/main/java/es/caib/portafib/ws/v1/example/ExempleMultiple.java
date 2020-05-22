@@ -148,7 +148,7 @@ public class ExempleMultiple {
       }
 
       final CountDownLatch createCountDown = new CountDownLatch(nombreThreads);
-      final Long peticionsID[][] = new Long[nombreThreads][peticionsThread];
+      final Long[][] peticionsID = new Long[nombreThreads][peticionsThread];
       long currentNanoTime = System.nanoTime();
 
       for (int i = 1; i <= nombreThreads; i++) {
