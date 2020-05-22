@@ -234,7 +234,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
 
       // Temps màxim notificant, la meitat del temps programat, o com a màxim en qualsevol cas 2 minuts
       final long maxTempsNotificant = Math.min(notificacionsTimeLapse / 2, 120000);
-      long estimatedProcessTime = 250L;
+      long estimatedProcessTime = 100L;
       int maximSeleccionats = (int) (maxTempsNotificant / estimatedProcessTime);
 
       List<NotificacioWS> notificacions = notificacioEjb.select(where, 0, maximSeleccionats,

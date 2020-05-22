@@ -9,6 +9,9 @@ import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.AbstractParallelSignedFilesProcessing;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
+import es.caib.portafib.ejb.AnnexLocal;
+import es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal;
+import es.caib.portafib.ejb.RevisorDeFirmaLocal;
 import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.EstatDeFirmaJPA;
@@ -148,13 +151,13 @@ import java.util.Set;
     protected SegellDeTempsLogicaLocal segellDeTempsEjb;
     
     @EJB(mappedName = es.caib.portafib.ejb.AnnexLocal.JNDI_NAME)
-    protected es.caib.portafib.ejb.AnnexLocal annexEjb;
+    protected AnnexLocal annexEjb;
     
     @EJB(mappedName = es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal.JNDI_NAME)
-    protected es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal modulDeFirmaPerTipusDeDocumentEjb;
+    protected ModulDeFirmaPerTipusDeDocumentLocal modulDeFirmaPerTipusDeDocumentEjb;
     
     @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
-    protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
+    protected RevisorDeFirmaLocal revisorDeFirmaEjb;
 
 
     final Long[] ESTATS_INICIALS_COLA = new Long[] {
@@ -938,13 +941,11 @@ import java.util.Set;
             TIPUSESTATDEFIRMAFINALID.isNull(),        
             TIPUSESTATDEFIRMAINICIALID.equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR)
             );
-        
-        if (isDebug) {
-          log.debug("RV1 = " + estatDeFirmaEjb.count(specificRole));
-        }
 
-        
         Long count = estatDeFirmaEjb.count(specificRole);
+        if (isDebug) {
+          log.debug("RV1 = " + count);
+        }
         
         if (count != null && count != 0) {
           
@@ -972,52 +973,26 @@ import java.util.Set;
       // Cercar colaboradors-revisors que no han donat el vist i plau a la firma
       {
 
-        
         Where wColaRevi0 = Where.OR(
             TIPUSESTATDEFIRMAFINALID.isNull(),
             TIPUSESTATDEFIRMAFINALID.notEqual(ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT)
             );
-        if (isDebug) {
-          log.debug("CR0 = " + estatDeFirmaEjb.count(wColaRevi0));
-        }
-        
-            
         Where wColaRevi1 = Where.OR(
             TIPUSESTATDEFIRMAINICIALID.equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR),
             TIPUSESTATDEFIRMAINICIALID.equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR)
           );
-        if (isDebug) {
-          log.debug("CR1 = " + estatDeFirmaEjb.count(Where.AND(wColaRevi0,wColaRevi1)));
-        }
-  
-        
-        // 
         Where wColaRevi2 = COLABORACIODELEGACIOID.isNotNull();
-        if (isDebug) {
-          log.debug("CR2 = " + estatDeFirmaEjb.count(Where.AND(wColaRevi0, wColaRevi1, wColaRevi2)));
-        }
-        
-        // 
+
         ColaboracioDelegacioQueryPath cdqp = new EstatDeFirmaQueryPath().COLABORACIODELEGACIO();
-        
         Where wColaRevi3 = Where.AND(
             cdqp.REVISOR().equal(true),
             cdqp.ACTIVA().equal(true),
             cdqp.ESDELEGAT().equal(false) // Es col·laborador
           );
-        
-        if (isDebug) {
-          log.debug("CR3 = " + estatDeFirmaEjb.count(Where.AND(wColaRevi0, wColaRevi1, wColaRevi2, wColaRevi3)));
-        }
-        
-        // 
+
         Where wColaRevi4 = FIRMAID.equal(firmaId);
         final Where specificRole = Where.AND(wColaRevi0, wColaRevi1,wColaRevi2,wColaRevi3, wColaRevi4);
-        if (isDebug) {
-          log.debug("CR4 = " + estatDeFirmaEjb.count(specificRole));
-        }
 
-        
         // CONSULTA
         final Select<?>[] nomcomplet = new Select<?>[] {
             cdqp.COLABORADORDELEGAT().USUARIPERSONA().NOM().select,
@@ -1038,10 +1013,8 @@ import java.util.Set;
         
       }
       
-
-      
       if (!fullusuaris.isEmpty()) {
-        StringBuffer str = new StringBuffer();
+        StringBuilder str = new StringBuilder();
         for (StringKeyValue colaID : fullusuaris) {
 
           String nom_i_dni = colaID.getValue() + ")";
@@ -2185,8 +2158,19 @@ import java.util.Set;
           .getPeticioDeFirmaFromEstatDeFirmaID(estatDeFirmaList);
       mav.addObject("peticionsByEstat", peticionsByEstat);
       
-      Map<Long, Long> annexesByPeticio = new HashMap<Long,Long>();
-      
+      // OBTENIR SI LES PETICONS TENEN ANNEXOS O NO AMB UNA SOLA VEGADA #447
+      ////
+      Set<Long> idsPeticio = new HashSet<Long>(peticionsByEstat.values().size());
+      for (PeticioDeFirma peticio : peticionsByEstat.values()) {
+        idsPeticio.add(peticio.getPeticioDeFirmaID());
+      }
+
+      // Aquesta serà la llista d'id de petició que tenen qualque annex
+      List<Long> listPeticionsAmbAnnex = annexEjb.executeQuery(
+              AnnexFields.PETICIODEFIRMAID,
+              AnnexFields.PETICIODEFIRMAID.in(idsPeticio));
+      //////////
+
       Device device = DeviceUtils.getRequiredCurrentDevice(request);
       final boolean isMobile = (device != null && device.isMobile());
 
@@ -2224,10 +2208,7 @@ import java.util.Set;
            String pfTitolView = "<a href=\"#\" data-toggle=\"tooltip\" title=\"" + pfTitol  + "\">" + pfTitolCut + "</a>";
            
            mapPF.put(estatDeFirmaId, pfTitolView);
-           
-           annexesByPeticio.put(pf.getPeticioDeFirmaID(),
-               annexEjb.count(AnnexFields.PETICIODEFIRMAID.equal(pf.getPeticioDeFirmaID())));
-           
+
            if (isMobile) continue;
            
            mapTD.put(estatDeFirmaId, pf.getTipusDocument().getNomTraduccions().get("ca").getValor());
@@ -2636,7 +2617,7 @@ import java.util.Set;
         
         
         // Comprovar si hi ha anexes
-        if (annexesByPeticio.get(peticioID) != 0) {
+        if (listPeticionsAmbAnnex.contains(peticioID)) {
           filterForm.addAdditionalButtonByPK(estatDeFirmaId,
               new AdditionalButton("icon-folder-open", "annex.annex.plural",
               getContextWeb() + "/viewDocuments/" + estatDeFirmaId + "/" + peticioID , "btn-info"));
@@ -2806,7 +2787,7 @@ import java.util.Set;
           Where w2 = FIRMAID.equal(estatDeFirma.getFirmaID());
           List<String> motiuList = estatDeFirmaEjb.executeQuery(DESCRIPCIO, Where.AND(w1, w2));
 
-          StringBuffer motius = new StringBuffer();
+          StringBuilder motius = new StringBuilder();
           for (String m : motiuList) {
             if (motius.length() != 0) {
               motius.append(' ');
