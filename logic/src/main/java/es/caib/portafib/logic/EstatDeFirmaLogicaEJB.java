@@ -81,32 +81,48 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   }
 
   /**
-   * 
-   * @param estatDeFirmaList
-   * @return
+   * Retorn un map on les claus són els identificados dels estats de firma indicats i el valor la petició
+   * de firma que li correspón.
+   * @param estatsDeFirma llista d'estats de firma
+   * @return map amb clau id d'estat de firma i valor petició de firma.
    * @throws I18NException
    */
   @Override
   public Map<Long, PeticioDeFirma> getPeticioDeFirmaFromEstatDeFirmaID(
-      List<EstatDeFirma> estatDeFirmaList) throws I18NException {
+      List<EstatDeFirma> estatsDeFirma) throws I18NException {
 
-    if (estatDeFirmaList == null) {
-      return null;
+    // Optimitzat per #447
+    List<Long> idsEstats = new ArrayList<Long>(estatsDeFirma.size());
+    for (EstatDeFirma estat: estatsDeFirma) {
+      idsEstats.add(estat.getEstatDeFirmaID());
     }
 
-    Map<Long, PeticioDeFirma> map = new HashMap<Long, PeticioDeFirma>();
+    /*
+    selecciona parella estatDeFirma, PeticioDeFirmaJPA
+    no he trobat alternativa de fer una sola select aquesta consulta amb genapp
+    es pot fer un select múltiple on mesclar valors i entitats?
+    */
+    Query query = __em.createQuery(
+            "select e.estatDeFirmaID, p " +
+                    "from PeticioDeFirmaJPA p " +
+                    "join p.fluxDeFirmes fl " +
+                    "join fl.blocDeFirmess b " +
+                    "join b.firmas f " +
+                    "join f.estatDeFirmas e " +
+                    "join fetch p.tipusDocument " +
+                    "left join fetch p.fitxerAFirmar " +
+                    "left join fetch p.fitxerAdaptat " +
+                    "left join fetch p.firmaOriginalDetached " +
+                    "left join fetch p.logoSegell " +
+                    "where e.estatDeFirmaID IN (:idsEstats)");
+    query.setParameter("idsEstats", idsEstats);
 
-    for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
-      
-      long firmaID = estatDeFirma.getFirmaID();
-      PeticioDeFirmaJPA pf = getPeticioDeFirmaFromFirmaID(firmaID);
-      
-      if (pf != null) {
-        Hibernate.initialize(pf.getTipusDocument());
-        map.put(estatDeFirma.getEstatDeFirmaID(), pf);
-      }
+    List<Object[]> list = (List<Object[]>) query.getResultList();
+
+    Map<Long, PeticioDeFirma> map = new HashMap<Long, PeticioDeFirma>(list.size());
+    for (Object[] result: list) {
+      map.put(((Long) result[0]), ((PeticioDeFirmaJPA) result[1]));
     }
-
     return map;
   }
 
@@ -121,29 +137,14 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     subqueryBloc = blocDeFirmesEjb.getSubQuery(BlocDeFirmesFields.FLUXDEFIRMESID,
         BlocDeFirmesFields.BLOCDEFIRMESID.in(subqueryFirma));
 
-    
-    // SubQuery<FluxDeFirmes,Long> subqueryFlux ; subqueryFlux =
-    // fluxDeFirmesEjb.getSubQuery(FluxDeFirmesFields.FLUXDEFIRMESID,
-    // FluxDeFirmesFields.FLUXDEFIRMESID.in(subqueryBloc),(OrderBy[]) null);
-     
-    // SubQuery<PeticioDeFirma,Long> subqueryPeticio ;
-    // subqueryPeticio =
-    // peticioDeFirmaEjb.getSubQuery(PeticioDeFirmaFields.PETICIODEFIRMAID,
-    // PeticioDeFirmaFields.FLUXDEFIRMESID.in(subqueryFlux),(OrderBy[]) null);
-
     Where w = PeticioDeFirmaFields.FLUXDEFIRMESID.in(subqueryBloc);
-
-    //log.info("SQL: " + w.toSQL());
-
     List<PeticioDeFirma> list = peticioDeFirmaEjb.select(w);
 
-    PeticioDeFirmaJPA pf;
-    if (list != null && list.size() != 0) {
-      pf = (PeticioDeFirmaJPA)list.get(0);
+    if (list.size() > 0) {
+      return (PeticioDeFirmaJPA)list.get(0);
     } else {
-      pf = null;
+      return null;
     }
-    return pf;
   }
   
   
@@ -382,12 +383,8 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
       FirmaJPA jpa = (FirmaJPA)firma; 
       Set<EstatDeFirmaJPA> estatDeFirmas = new HashSet<EstatDeFirmaJPA>();
       estatDeFirmas.add(map.get(jpa.getFirmaID()));
-      
       jpa.setEstatDeFirmas(estatDeFirmas);
-      
-      
       firmesJPA.add(jpa);
-      
     }
 
     return firmesJPA;
@@ -396,7 +393,11 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   @Override
   public List<Object[]> getCountColaboracioDelegacioByFirmaIDAndTipusEstatFinal(
           String usuariEntitatID, Collection<Long> idsFirma, Long[] estatsInicials) {
-
+    /*
+    selecciona les tuples: nombre de resulats agrupats per id de firma i tipus estat de firma final
+    no he trobat alternativa de fer una sola select aquesta consulta amb genapp
+    es pot fer un select múltiple amb una funció d'agregació i dos camps a incloure al group by?
+    */
     Query query = __em.createQuery(
             "select count(e), e.firmaID, e.tipusEstatDeFirmaFinalID " +
                     "from EstatDeFirmaJPA e " +
