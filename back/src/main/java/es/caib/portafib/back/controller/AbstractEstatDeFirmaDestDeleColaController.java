@@ -61,13 +61,11 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.DoubleField;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.GroupByItem;
-import org.fundaciobit.genapp.common.query.GroupByValueItem;
 import org.fundaciobit.genapp.common.query.IntegerField;
 import org.fundaciobit.genapp.common.query.LongField;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Select;
-import org.fundaciobit.genapp.common.query.SelectGroupByAndCountForField;
 import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
 import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.StringField;
@@ -2414,8 +2412,7 @@ import java.util.Set;
           Map<Long, String> mapCC = new HashMap<Long, String>();
   
           boolean existeixenColaboracions = false;
-          
-          
+
           Map<Long, int[]> infoColaboradorsByEstat = infoColaboradorsDelegats(estatDeFirmaList,
               ESTATS_INICIALS_COLA);
           //mav.addObject("infoColaboradorsByEstat", infoColaboradorsByEstat);
@@ -2767,89 +2764,92 @@ import java.util.Set;
            }
          }
        }
-       
-
     }
 
-    public HashMap<Long, String> getRebuigDescriptionByEstat(List<EstatDeFirma> estatDeFirmaList)
+    /**
+     * Retorna un map indexat per identificador d'estat de firma, i valor un string amb tots els motius de rebuig
+     * d'estats de firma que pertanyen a la mateixa firma que han estat invalidats.
+     * @param estatsDeFirma llistat d'estats de firma
+     * @return map d'identificador d'estat de firma i cadena amb els motius de rebuig concatenats.
+     * @throws I18NException
+     */
+    public Map<Long, String> getRebuigDescriptionByEstat(List<EstatDeFirma> estatsDeFirma)
         throws I18NException {
-
-      HashMap<Long, String> rebuigDescriptionByEstat = new HashMap<Long, String>();
-
-      for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
-
+      // Optimitzat per fer una única consulta enlloc de N, #447
+      final Map<Long, Long> firma2estat = new HashMap<Long, Long>();
+      final Map<Long, StringBuilder> motiuBuilderByEntitat = new HashMap<Long, StringBuilder>();
+      for (EstatDeFirma estatDeFirma: estatsDeFirma) {
         if (estatDeFirma.getTipusEstatDeFirmaFinalID() == null) {
-          // Cercarem tots els estats de firma associats a la mateixa firma
-          // i que estiguin invalidats
-          // (1) Invalidats
-          Where w1 = TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_INVALIDAT);
-          // (2) Amb la mateix firma
-          Where w2 = FIRMAID.equal(estatDeFirma.getFirmaID());
-          List<String> motiuList = estatDeFirmaEjb.executeQuery(DESCRIPCIO, Where.AND(w1, w2));
-
-          StringBuilder motius = new StringBuilder();
-          for (String m : motiuList) {
-            if (motius.length() != 0) {
-              motius.append(' ');
-            }
-            motius.append(m);
-          }
-          rebuigDescriptionByEstat.put(estatDeFirma.getEstatDeFirmaID(), motius.toString());
+          firma2estat.put(estatDeFirma.getFirmaID(), estatDeFirma.getEstatDeFirmaID());
+          motiuBuilderByEntitat.put(estatDeFirma.getEstatDeFirmaID(), new StringBuilder());
         }
+      }
+
+      // Cercarem tots els estats de firma associats a la mateixa firma
+      // i que estiguin invalidats
+      // (1) Invalidats
+      Where w1 = TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_INVALIDAT);
+      // (2) Amb la mateix firma
+      Where w2 = FIRMAID.in(firma2estat.keySet());
+      List<EstatDeFirma> estatsRebuig = estatDeFirmaEjb.select(Where.AND(w1, w2));
+
+      for (EstatDeFirma estatRebuig: estatsRebuig) {
+        final StringBuilder motius = motiuBuilderByEntitat.get(firma2estat.get(estatRebuig.getFirmaID()));
+        if (motius.length() > 0) {
+          motius.append(' ');
+        }
+        motius.append(estatRebuig.getDescripcio());
+      }
+
+      final Map<Long, String> rebuigDescriptionByEstat = new HashMap<Long, String>(motiuBuilderByEntitat.size());
+      for (Map.Entry<Long, StringBuilder> entry: motiuBuilderByEntitat.entrySet()) {
+        rebuigDescriptionByEstat.put(entry.getKey(), entry.getValue().toString());
       }
 
       return rebuigDescriptionByEstat;
-
     }
 
-
-    // TODO Estats inicials eliminar list
-
-    protected Map<Long, int[]> infoColaboradorsDelegats(List<EstatDeFirma> estatDeFirma,
-        Long[] estatsInicials) throws I18NException {
-      Map<Long, int[]> infoValidacionsByEstat = new HashMap<Long, int[]>();
+    /**
+     * Calcula el nombre de estats de firma en els quals un colaborador o delegat ha intervegut.
+     * El map està indexat per l'identificador d'estat de firma (que provenden del parametre estatsDeFirma).
+     * Els estats de firma que es seleccionen són els que tenen un dels estats de firma inicial que es correspon
+     * amb el paràmetre estatsInicials, i corresponen a la mateixa firma que els estats de firma passats per paràmetre
+     * El valor del map, és:
+     *  [0]: nombre total d'estats de firma (la suma dels elements següents)
+     *  [1]: nombre d'estats de firma que no tenen estat final
+     *  [N]: nombre d'estats de firma que tenen l'estat final corresponent a N-2
+     * @param estatsDeFirma estats de firma dels quals agafar l'id de firma
+     * @param estatsInicials estats inicals a tenir en compte
+     * @return
+     * @throws I18NException
+     */
+    protected Map<Long, int[]> infoColaboradorsDelegats(List<EstatDeFirma> estatsDeFirma,
+                                                        Long[] estatsInicials) throws I18NException {
+      // Optimitzat per fer una única consulta enlloc de N, #447
       final String usuariEntitatID = LoginInfo.getInstance().getUsuariEntitatID();
-      for (EstatDeFirma estat : estatDeFirma) {
-        Where w = Where.AND(EstatDeFirmaFields.USUARIENTITATID.notEqual(usuariEntitatID),
-            EstatDeFirmaFields.FIRMAID.equal(estat.getFirmaID()),
-            EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.in(estatsInicials));
-
-        List<GroupByValueItem> list = estatDeFirmaLogicaEjb.executeQuery(
-            new SelectGroupByAndCountForField(EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID), w,
-            (OrderBy[]) null);
-
-        int[] valors = new int[TIPUSESTATDEFIRMAFINAL.length + 2]; // +2 = pendent
-                                                                   // i total
-
-        int total = 0;
-        for (GroupByValueItem item : list) {
-          int count = item.getCount().intValue();
-          String valStr = item.getValue();
-          // Pendent
-          if (valStr == null) {
-            valors[1] = count;
-            total = total + count;
-            continue;
-          }
-
-          int index = Long.valueOf(valStr).intValue();
-
-          try {
-            valors[index + 2] = count;
-            total = total + count;
-            continue;
-          } catch (IndexOutOfBoundsException iobe) {
-            log.error("Valor desconegut " + valStr + " o index fora de rang " + index, iobe);
-          }
-
-
-        }
-
-        valors[0] = total;
-
-        infoValidacionsByEstat.put(estat.getEstatDeFirmaID(), valors);
+      final int LENGTH = ConstantsV2.TIPUSESTATDEFIRMAFINAL.length + 2;
+      final Map<Long, Long> firma2estat = new HashMap<Long, Long>(estatsDeFirma.size());
+      final Map<Long, int[]> infoColaboradorsDelegats = new HashMap<Long, int[]>(estatsDeFirma.size());
+      for (EstatDeFirma estatDeFirma: estatsDeFirma) {
+        firma2estat.put(estatDeFirma.getFirmaID(), estatDeFirma.getEstatDeFirmaID());
+        infoColaboradorsDelegats.put(estatDeFirma.getEstatDeFirmaID(), new int[LENGTH]);
       }
-      return infoValidacionsByEstat;
+
+      List<Object[]> resultList = estatDeFirmaLogicaEjb
+              .getCountColaboracioDelegacioByFirmaIDAndTipusEstatFinal(
+                      usuariEntitatID, firma2estat.keySet(), estatsInicials);
+
+      for (Object[] result: resultList) {
+        final Long count = (Long) result[0];
+        final Long idFirma = (Long) result[1];
+        final int index = (result[2] == null ? 1 : ((Long)result[2]).intValue() + 2);
+
+        final int[] counters = infoColaboradorsDelegats.get(firma2estat.get(idFirma));
+        counters[index] = count.intValue();
+        counters[0] += count.intValue();
+      }
+
+      return infoColaboradorsDelegats;
     }
 
     @Override

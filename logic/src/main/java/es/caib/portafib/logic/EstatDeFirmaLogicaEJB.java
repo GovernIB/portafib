@@ -31,7 +31,10 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -389,6 +392,23 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
 
     return firmesJPA;
   }
-  
+
+  @Override
+  public List<Object[]> getCountColaboracioDelegacioByFirmaIDAndTipusEstatFinal(
+          String usuariEntitatID, Collection<Long> idsFirma, Long[] estatsInicials) {
+
+    Query query = __em.createQuery(
+            "select count(e), e.firmaID, e.tipusEstatDeFirmaFinalID " +
+                    "from EstatDeFirmaJPA e " +
+                    "where e.firmaID in (:idsFirma) " +
+                    "  and e.usuariEntitatID <> :usuariEntitat " +
+                    "  and e.tipusEstatDeFirmaInicialID in (:estatsInicials) " +
+                    "group by e.firmaID, e.tipusEstatDeFirmaFinalID ");
+    query.setParameter("idsFirma", idsFirma);
+    query.setParameter("usuariEntitat", usuariEntitatID);
+    query.setParameter("estatsInicials", Arrays.asList(estatsInicials));
+
+    return (List<Object[]>) query.getResultList();
+  }
   
 }
