@@ -36,6 +36,7 @@ import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariEntitat;
+import es.caib.portafib.model.fields.EstatDeFirmaQueryPath;
 import es.caib.portafib.model.fields.FluxDeFirmesFields;
 import es.caib.portafib.model.fields.GrupEntitatFields;
 import es.caib.portafib.model.fields.GrupEntitatUsuariEntitatFields;
@@ -62,6 +63,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.SelectConstant;
+import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
@@ -110,6 +112,17 @@ import java.util.zip.ZipOutputStream;
 public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
     AbstractPeticioDeFirmaController implements ConstantsV2 {
 
+  private static final String MAX_PETICIO_TITLE_LENGTH_PROPERTY = "es.caib.portafib.maxpeticiotitlelength";	
+  private static final int TITLE_LENGTH = Integer.parseInt(System.getProperty(MAX_PETICIO_TITLE_LENGTH_PROPERTY,"30"));
+  private static final int COLUMN_PETICIODEFIRMA_TITOL = -1;
+  private static final StringField COLUMN_PETICIODEFIRMA_TITOL_FIELD;
+
+  static {
+      PeticioDeFirmaQueryPath pfqp;
+      pfqp = new EstatDeFirmaQueryPath().FIRMA().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA();      
+      COLUMN_PETICIODEFIRMA_TITOL_FIELD = pfqp.TITOL();
+    }
+	
   /**
    * Columna Solicitant
    */
@@ -1487,7 +1500,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
       hiddenFields.addAll(Arrays.asList(ALL_PETICIODEFIRMA_FIELDS));
 
       // Mostrar camps següents
-      hiddenFields.remove(TITOL);
+      //hiddenFields.remove(TITOL);
       hiddenFields.remove(DATASOLICITUD);
       hiddenFields.remove(DATAFINAL);
       hiddenFields.remove(TIPUSESTATPETICIODEFIRMAID);
@@ -1574,6 +1587,25 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
               new OrderBy(DATASOLICITUD, OrderType.DESC), };
         break;
       }
+      
+      
+      //  NOVES COLUMNES PETICIO
+
+      // ===================  Nom de petició de firma
+      {
+        AdditionalField<String,String> addfieldPF = new AdditionalField<String,String>(); 
+        addfieldPF.setCodeName("peticioDeFirma.titol");
+        addfieldPF.setPosition(COLUMN_PETICIODEFIRMA_TITOL);
+        // Els valors s'ompliran al mètode postList()
+        addfieldPF.setValueMap(new HashMap<String, String>());
+        addfieldPF.setOrderBy(COLUMN_PETICIODEFIRMA_TITOL_FIELD);
+        addfieldPF.setSearchBy(COLUMN_PETICIODEFIRMA_TITOL_FIELD);
+        addfieldPF.setEscapeXml(false);
+        
+        peticioDeFirmaFilterForm.addAdditionalField(addfieldPF);
+      }
+
+      
       
       
       if (getTipusSolicitant() != TipusSolicitant.SOLICITANT_WEB) {
@@ -2069,6 +2101,28 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
     LoginInfo loginInfo = LoginInfo.getInstance();
     EntitatJPA entitat = loginInfo.getEntitat();
     String entitatID = loginInfo.getEntitatID();
+    
+    
+    
+	  Map<Long, String> mapPF;
+      mapPF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TITOL).getValueMap();
+      mapPF.clear();
+      
+      for (PeticioDeFirma pf:list) {
+    	  long pk = pf.getPeticioDeFirmaID();
+    	  String pfTitol = pf.getTitol();
+          String pfTitolCut = "";
+          if (pfTitol != null) {
+       	   pfTitolCut = (pfTitol.length()>TITLE_LENGTH)?pfTitol.substring(0,TITLE_LENGTH)+"...":pfTitol;
+          }
+          String pfTitolView = "<a href=\"#\" data-toggle=\"tooltip\" title=\"" + pfTitol  + "\">" + pfTitolCut + "</a>";
+          mapPF.put(pk, pfTitolView);
+      }
+    
+    
+    
+    
+    
 
     switch (tipusSolicitant) {
 
