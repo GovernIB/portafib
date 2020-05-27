@@ -293,8 +293,9 @@ import java.util.Set;
         });
 
         ff.addGroupByField(COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD); // Propietat de Peticio De Firma
-        ff.addGroupByField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
-        
+
+        //Eliminar la info addicinal avaluable com a camp d'agrupació #434
+        //ff.addGroupByField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
         
         if (getRole().equals(ConstantsV2.ROLE_COLA)) {
           // Propietat de Col.laboracio-Delegacio
@@ -597,23 +598,16 @@ import java.util.Set;
         _tmp = Utils.listToMap(_listSKV);
         fillValuesToGroupByItems(_tmp, groupByItemsMap, COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD, false);
       }
-      
-      {
-//        List<Long> values = new ArrayList<Long>();
-//        for (EstatDeFirma ef : list) {
-//             values.add(ef.getEstatDeFirmaID());          
-//        }
-//          
-//        EstatDeFirmaFields.ESTATDEFIRMAID.in(values);
-        
+
+      //Eliminar la info addicinal avaluable com a camp d'agrupació #434
+      /*{
         _listSKV = estatDeFirmaEjb.executeQuery(
              new SelectMultipleStringKeyValue(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD.select,
                  COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD.select), getAdditionalCondition(request) );
-        
-        //_listSKV = this.tipusDocumentRefList.getReferenceList(TipusDocumentFields.TIPUSDOCUMENTID, null);
+
         _tmp = Utils.listToMap(_listSKV);
         fillValuesToGroupByItems(_tmp, groupByItemsMap, COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD, false);
-      }
+      }*/
 
       return groupByItemsMap;
     }
