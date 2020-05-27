@@ -948,10 +948,7 @@
           <void property="filter"> 
            <boolean>true</boolean> 
           </void> 
-          <void property="groupBy"> 
-           <boolean>true</boolean> 
-          </void> 
-          <void property="javaName"> 
+          <void property="javaName">
            <string>data</string> 
           </void> 
           <void property="javaType"> 

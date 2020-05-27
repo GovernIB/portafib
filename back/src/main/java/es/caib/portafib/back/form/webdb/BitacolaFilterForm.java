@@ -195,7 +195,7 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATA ,TIPUSOBJECTE ,TIPUSOPERACIO }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUSOBJECTE ,TIPUSOPERACIO }));
   }
 
 
