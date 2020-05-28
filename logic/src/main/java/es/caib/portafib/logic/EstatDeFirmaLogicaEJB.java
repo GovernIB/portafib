@@ -35,6 +35,7 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -90,6 +91,10 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   @Override
   public Map<Long, PeticioDeFirma> getPeticioDeFirmaFromEstatDeFirmaID(
       List<EstatDeFirma> estatsDeFirma) throws I18NException {
+
+    if (estatsDeFirma == null || estatsDeFirma.isEmpty()) {
+      return Collections.emptyMap();
+    }
 
     // Optimitzat per #447
     List<Long> idsEstats = new ArrayList<Long>(estatsDeFirma.size());
@@ -393,6 +398,11 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   @Override
   public List<Object[]> getCountColaboracioDelegacioByFirmaIDAndTipusEstatFinal(
           String usuariEntitatID, Collection<Long> idsFirma, Long[] estatsInicials) {
+
+    if (idsFirma == null || idsFirma.isEmpty()) {
+      return Collections.emptyList();
+    }
+
     /*
     selecciona les tuples: nombre de resulats agrupats per id de firma i tipus estat de firma final
     no he trobat alternativa de fer una sola select aquesta consulta amb genapp

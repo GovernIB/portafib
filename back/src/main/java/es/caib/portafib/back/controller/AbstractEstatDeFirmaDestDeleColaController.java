@@ -106,6 +106,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -2819,6 +2820,10 @@ import java.util.Set;
      */
     protected Map<Long, int[]> infoColaboradorsDelegats(List<EstatDeFirma> estatsDeFirma,
                                                         Long[] estatsInicials) throws I18NException {
+      if (estatsDeFirma == null || estatsDeFirma.isEmpty()) {
+        return Collections.emptyMap();
+      }
+
       // Optimitzat per fer una única consulta enlloc de N, #447
       final String usuariEntitatID = LoginInfo.getInstance().getUsuariEntitatID();
       final int LENGTH = ConstantsV2.TIPUSESTATDEFIRMAFINAL.length + 2;
