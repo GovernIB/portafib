@@ -25,6 +25,7 @@ import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.Fitxer;
@@ -112,8 +113,7 @@ import java.util.zip.ZipOutputStream;
 public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
     AbstractPeticioDeFirmaController implements ConstantsV2 {
 
-  private static final String MAX_PETICIO_TITLE_LENGTH_PROPERTY = "es.caib.portafib.maxpeticiotitlelength";	
-  private static final int TITLE_LENGTH = Integer.parseInt(System.getProperty(MAX_PETICIO_TITLE_LENGTH_PROPERTY,"30"));
+  	
   private static final int COLUMN_PETICIODEFIRMA_TITOL = -1;
   private static final StringField COLUMN_PETICIODEFIRMA_TITOL_FIELD;
 
@@ -2102,22 +2102,22 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
     EntitatJPA entitat = loginInfo.getEntitat();
     String entitatID = loginInfo.getEntitatID();
     
+    int titleLength = PropietatGlobalUtil.getMaxPeticioTitleLength(entitatID);
     
-    
-	  Map<Long, String> mapPF;
-      mapPF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TITOL).getValueMap();
-      mapPF.clear();
+	Map<Long, String> mapPF;
+    mapPF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TITOL).getValueMap();
+    mapPF.clear();
       
-      for (PeticioDeFirma pf:list) {
-    	  long pk = pf.getPeticioDeFirmaID();
-    	  String pfTitol = pf.getTitol();
-          String pfTitolCut = "";
-          if (pfTitol != null) {
-       	   pfTitolCut = (pfTitol.length()>TITLE_LENGTH)?pfTitol.substring(0,TITLE_LENGTH)+"...":pfTitol;
-          }
-          String pfTitolView = "<a href=\"#\" data-toggle=\"tooltip\" title=\"" + pfTitol  + "\">" + pfTitolCut + "</a>";
-          mapPF.put(pk, pfTitolView);
-      }
+	for (PeticioDeFirma pf : list) {
+		long pk = pf.getPeticioDeFirmaID();
+		String pfTitol = pf.getTitol();
+		String pfTitolCut = "";
+		if (pfTitol != null) {
+			pfTitolCut = (pfTitol.length() > titleLength) ? pfTitol.substring(0, titleLength) + "..." : pfTitol;
+		}
+		String pfTitolView = "<a href=\"#\" data-toggle=\"tooltip\" title=\"" + pfTitol + "\">" + pfTitolCut + "</a>";
+		mapPF.put(pk, pfTitolView);
+	}
     
     
     

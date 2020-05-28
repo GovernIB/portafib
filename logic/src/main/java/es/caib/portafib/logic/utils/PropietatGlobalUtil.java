@@ -237,6 +237,29 @@ public class PropietatGlobalUtil implements ConstantsV2 {
   }
 
   
+  
+  /**
+   * Opcional. Indica la longitud màxima del titol de una peticio de firma.
+   * Valor per defecte 50.
+   */
+	public static int getMaxPeticioTitleLength(String entitatID) {
+		final String partialPropertyName = "maxpeticiotitlelength";
+		Long val = getLongByEntitat(entitatID, partialPropertyName);
+
+		if (val == null) {
+			val = 50L;
+		}
+
+		if (log.isDebugEnabled()) {
+			log.debug(" getMaxPeticioTitleLength() = " + val);
+		}
+		return val.intValue();
+	}
+  
+  
+  
+  
+  
   public static final String SIGNATUREMODULEABSOLUTEURL = "signaturemodule.absoluteurl";
   
   public static final String FLOWTEMPLATEABSOLUTEURL = "flowtemplate.absoluteurl";
