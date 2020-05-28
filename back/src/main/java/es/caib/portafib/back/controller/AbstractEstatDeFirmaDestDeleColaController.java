@@ -2170,6 +2170,12 @@ import java.util.Set;
       // Annexes, Peticio de Firma, Tipus Document , Remitent i DataInici
       {
 
+        LoginInfo loginInfo = LoginInfo.getInstance();
+        EntitatJPA entitat = loginInfo.getEntitat();
+        String entitatID = loginInfo.getEntitatID();
+          
+        int titleLength = PropietatGlobalUtil.getMaxPeticioTitleLength(entitatID);
+    	  
         Map<Long, String> mapPF;
         mapPF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TITOL).getValueMap();
         mapPF.clear();
@@ -2189,16 +2195,19 @@ import java.util.Set;
           }
         }
 
+  
+        
+        
         for(Long estatDeFirmaId : peticionsByEstat.keySet()) {
            PeticioDeFirmaJPA pf = (PeticioDeFirmaJPA)peticionsByEstat.get(estatDeFirmaId);
            
            String pfTitol = pf.getTitol();
            String pfTitolCut = "";
            if (pfTitol != null) {
-        	   pfTitolCut = (pfTitol.length()>30)?pfTitol.substring(0,30)+"...":pfTitol;
+        	   pfTitolCut = (pfTitol.length()> titleLength )?pfTitol.substring(0,titleLength)+"...":pfTitol;
            }
         		   
-           String pfTitolView = "<a href=\"#\" data-toggle=\"tooltip\" title=\"" + pfTitol  + "\">" + pfTitolCut + "</a>";
+           String pfTitolView =(titleLength>0)?"<a href=\"#\" data-toggle=\"tooltip\" title=\"" + pfTitol  + "\">" + pfTitolCut + "</a>":pfTitol;
            
            mapPF.put(estatDeFirmaId, pfTitolView);
 
