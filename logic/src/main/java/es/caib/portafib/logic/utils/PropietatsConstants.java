@@ -16,7 +16,7 @@ public class PropietatsConstants {
       new Propietat(
 		 true,
 		 "es.caib.portafib.maxpeticiotitlelength",
-		  " Opcional. Valor per defecte 50. Indica la longitud màxima del titol de una peticio de firma."),
+		  " Opcional. Valor per defecte 0. Indica la longitud màxima del titol de una peticio de firma si el valor està fixat."),
 	  new Propietat(
           true,
           "es.caib.portafib.maxitemstoshowinautocomplete",

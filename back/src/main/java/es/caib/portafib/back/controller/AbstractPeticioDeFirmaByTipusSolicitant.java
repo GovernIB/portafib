@@ -2115,13 +2115,9 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
 		if (pfTitol != null) {
 			pfTitolCut = (pfTitol.length() > titleLength) ? pfTitol.substring(0, titleLength) + "..." : pfTitol;
 		}
-		String pfTitolView = "<a href=\"#\" data-toggle=\"tooltip\" title=\"" + pfTitol + "\">" + pfTitolCut + "</a>";
+		String pfTitolView =(titleLength>0)?"<a href=\"#\" data-toggle=\"tooltip\" title=\"" + pfTitol + "\">" + pfTitolCut + "</a>":pfTitol;
 		mapPF.put(pk, pfTitolView);
 	}
-    
-    
-    
-    
     
 
     switch (tipusSolicitant) {
