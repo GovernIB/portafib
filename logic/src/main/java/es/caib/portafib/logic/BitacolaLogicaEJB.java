@@ -2,8 +2,8 @@ package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.BitacolaEJB;
 import es.caib.portafib.jpa.BitacolaJPA;
+import es.caib.portafib.jpa.validator.BitacolaBeanValidator;
 import es.caib.portafib.logic.jaxb.JAXBUtil;
-import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.annotation.Resource;
@@ -12,9 +12,8 @@ import javax.ejb.Stateless;
 import java.sql.Timestamp;
 
 /**
- * 
- * @author areus
  *
+ * @author areus
  */
 @Stateless(name = "BitacolaLogicaEJB")
 @SecurityDomain("seycon")
@@ -36,10 +35,28 @@ public class BitacolaLogicaEJB extends BitacolaEJB implements BitacolaLogicaLoca
       if (objecte != null) {
         objecteSerialitzat = JAXBUtil.marshal(objecte);
       }
-      return (BitacolaJPA) this.create(entitatid, usuariid, data, tipusobjecte, objecteid,
-            tipusoperacio, descripcio, objecteSerialitzat);
-    } catch (I18NException e) {
-      log.error("Error creant bitàcola", e);
+      if (descripcio != null && descripcio.length() > 255) {
+        log.warn("Camp DESCRIPCIO de bitàcola massa llarg. Missatge original: \n" + descripcio);
+        descripcio = descripcio.substring(0, 255);
+      }
+
+      // Asseguram que es validen els camps per evitar errors de base de dades.
+      BitacolaBeanValidator beanValidator = new BitacolaBeanValidator(this);
+
+      BitacolaJPA bitacola = new BitacolaJPA(entitatid, usuariid, data, tipusobjecte, objecteid, tipusoperacio, descripcio, objecteSerialitzat);
+      beanValidator.throwValidationExceptionIfErrors(bitacola, true);
+
+      return (BitacolaJPA) this.create(bitacola);
+
+    } catch (Throwable th) {
+      String bitacolaString = "[" +
+              "Entitat: " + entitatid +
+              "ObjecteID: " + objecteid +
+              "TipusObjecte: " + tipusobjecte +
+              "TipusOperacio: " + tipusoperacio +
+              "Descripcio: " + descripcio +
+              "]";
+      log.error("Error creant bitàcola: " + bitacolaString, th);
       return null;
     }
   }
