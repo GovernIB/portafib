@@ -65,7 +65,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.DESCRIPCIO)}">
           <td>
-          ${bitacola.descripcio}
+          ${fn:escapeXml(bitacola.descripcio)}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.OBJECTESERIALITZAT)}">
