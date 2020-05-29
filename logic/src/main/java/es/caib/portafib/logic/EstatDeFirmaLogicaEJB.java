@@ -3,7 +3,9 @@ package es.caib.portafib.logic;
 import es.caib.portafib.ejb.BlocDeFirmesLocal;
 import es.caib.portafib.ejb.EstatDeFirmaEJB;
 import es.caib.portafib.ejb.FirmaLocal;
+import es.caib.portafib.ejb.NotificacioWSLocal;
 import es.caib.portafib.ejb.PeticioDeFirmaLocal;
+import es.caib.portafib.ejb.UsuariAplicacioLocal;
 import es.caib.portafib.jpa.EstatDeFirmaJPA;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
@@ -19,6 +21,7 @@ import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.NotificacioWSFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
+import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.LongField;
@@ -63,8 +66,11 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local", beanName = "PeticioDeFirmaEJB")
   protected PeticioDeFirmaLocal peticioDeFirmaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.NotificacioWSLocal.JNDI_NAME, beanName = "NotificacioWSEJB")
-  protected es.caib.portafib.ejb.NotificacioWSLocal notificacioWSEjb;
+  @EJB(mappedName = NotificacioWSLocal.JNDI_NAME, beanName = "NotificacioWSEJB")
+  protected NotificacioWSLocal notificacioWSEjb;
+
+  @EJB(mappedName = "portafib/UsuariAplicacioEJB/local", beanName = "UsuariAplicacioEJB")
+  protected UsuariAplicacioLocal usuariAplicacioEjb;
 
   @Override
   public EstatDeFirmaJPA createFull(EstatDeFirmaJPA estatDeFirma) throws I18NException {
@@ -323,13 +329,14 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     Where w1 = NotificacioWSFields.DATAENVIAMENT.isNull();
     Where w2 = NotificacioWSFields.REINTENTS.greaterThan(5);
     Where w3 = NotificacioWSFields.BLOQUEJADA.equal(false);
-    Where w4 = PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.isNotNull();
-    Where w5 = new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID);
+    Where w4 = NotificacioWSFields.USUARIAPLICACIOID.in(
+            usuariAplicacioEjb.getSubQuery(
+                    UsuariAplicacioFields.USUARIAPLICACIOID,
+                    UsuariAplicacioFields.ENTITATID.equal(entitatID)
+            )
+    );
 
-    SubQuery<PeticioDeFirma, Long> subQuery = peticioDeFirmaEjb.getSubQuery(PeticioDeFirmaFields.PETICIODEFIRMAID, Where.AND(w4, w5));
-    Where w45 = NotificacioWSFields.PETICIODEFIRMAID.in(subQuery);
-
-    return Where.AND(w1, w2, w3, w45);
+    return Where.AND(w1, w2, w3, w4);
   }
 
   /**

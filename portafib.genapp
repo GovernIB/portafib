@@ -850,6 +850,9 @@
           <void property="digits"> 
            <int>0</int> 
           </void> 
+          <void property="index"> 
+           <string>pfi_bitacola_entitatid_i</string> 
+          </void> 		  
           <void property="javaName"> 
            <string>entitatid</string> 
           </void> 
@@ -948,6 +951,9 @@
           <void property="filter"> 
            <boolean>true</boolean> 
           </void> 
+          <void property="index"> 
+           <string>pfi_bitacola_data_i</string> 
+          </void>
           <void property="javaName">
            <string>data</string> 
           </void> 
@@ -1003,6 +1009,9 @@
           <void property="groupBy"> 
            <boolean>true</boolean> 
           </void> 
+          <void property="index"> 
+           <string>pfi_bitacola_tipusobjecte_i</string> 
+          </void>
           <void property="javaName"> 
            <string>tipusObjecte</string> 
           </void> 
@@ -1107,6 +1116,9 @@
           <void property="groupBy"> 
            <boolean>true</boolean> 
           </void> 
+          <void property="index"> 
+           <string>pfi_bitacola_tipusoperacio_i</string> 
+          </void>
           <void property="javaName"> 
            <string>tipusOperacio</string> 
           </void> 
@@ -11864,7 +11876,7 @@ opcional incluso cuando se genera una firma EPES.</string>
            <boolean>true</boolean> 
           </void> 
           <void property="index"> 
-           <string>pfi_notifica_peticioid_fk_i</string> 
+           <string>pfi_notifica_peticioid_i</string> 
           </void> 
           <void property="javaName"> 
            <string>peticioDeFirmaID</string> 
@@ -12000,8 +12012,8 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="filter"> 
            <boolean>true</boolean> 
           </void> 
-          <void property="groupBy"> 
-           <boolean>true</boolean> 
+		  <void property="index"> 
+           <string>pfi_notificacio_datacreacio_i</string> 
           </void> 
           <void property="javaName"> 
            <string>dataCreacio</string> 
@@ -12294,6 +12306,9 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="filter"> 
            <boolean>true</boolean> 
           </void> 
+		  <void property="index"> 
+           <string>pfi_notificacio_reintents_i</string> 
+          </void> 		  
           <void property="javaName"> 
            <string>reintents</string> 
           </void> 
@@ -12339,10 +12354,13 @@ opcional incluso cuando se genera una firma EPES.</string>
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
-          </void> 
-          <void property="groupBy"> 
+          </void>
+		  <void property="filter"> 
            <boolean>true</boolean> 
-          </void> 
+          </void>
+		  <void property="index"> 
+           <string>pfi_notificacio_usrappid_i</string> 
+          </void> 		  		  
           <void property="javaName"> 
            <string>usuariAplicacioID</string> 
           </void> 
