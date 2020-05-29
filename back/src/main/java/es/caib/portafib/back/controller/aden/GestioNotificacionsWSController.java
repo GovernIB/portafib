@@ -90,10 +90,11 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       notificacioFilterForm.addGroupByField(USUARIAPLICACIOID);
        */
 
-      notificacioFilterForm.addFilterByField(DESCRIPCIO);
+      //notificacioFilterForm.addFilterByField(DESCRIPCIO);
       notificacioFilterForm.addFilterByField(ERROR);
       notificacioFilterForm.addFilterByField(DATACREACIO);
       notificacioFilterForm.addFilterByField(USUARIAPLICACIOID);
+      notificacioFilterForm.addFilterByField(PETICIODEFIRMAID);
 
       notificacioFilterForm.addHiddenField(DATAENVIAMENT);
       notificacioFilterForm.addHiddenField(DESCRIPCIO);
