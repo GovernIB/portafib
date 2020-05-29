@@ -3,19 +3,19 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.ForeignKey;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import java.util.Set;
-import java.util.HashSet;
-import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.GenerationType;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.ForeignKey;
+import java.util.HashSet;
+import javax.persistence.OneToMany;
+import javax.persistence.Entity;
+import java.util.Set;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.GeneratedValue;
 
 
 @Entity
@@ -352,13 +352,13 @@ private static final long serialVersionUID = -637711502L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
-    if(!"EstatDeFirmaJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.estatDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getEstatDeFirmas())) ) {
-      __tmp.setEstatDeFirmas(EstatDeFirmaJPA.copyJPA(__jpa.getEstatDeFirmas(), __alreadyCopied,"ColaboracioDelegacioJPA"));
-    }
     if(!"TipusDocumentColaboracioDelegacioJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocumentColaboracioDelegacios) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocumentColaboracioDelegacios())) ) {
       __tmp.setTipusDocumentColaboracioDelegacios(TipusDocumentColaboracioDelegacioJPA.copyJPA(__jpa.getTipusDocumentColaboracioDelegacios(), __alreadyCopied,"ColaboracioDelegacioJPA"));
+    }
+    if(!"EstatDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.estatDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getEstatDeFirmas())) ) {
+      __tmp.setEstatDeFirmas(EstatDeFirmaJPA.copyJPA(__jpa.getEstatDeFirmas(), __alreadyCopied,"ColaboracioDelegacioJPA"));
     }
     // Copia de beans complexes (IMP)
     if(!"UsuariEntitatJPA".equals(origenJPA) && 

@@ -3,14 +3,14 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import java.util.HashSet;
-import javax.persistence.Entity;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import java.util.Set;
+import java.util.HashSet;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Entity;
+import java.util.Set;
+import org.hibernate.annotations.Index;
+import javax.persistence.FetchType;
 
 
 @Entity
@@ -170,13 +170,13 @@ private static final long serialVersionUID = -1316357342L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
-    if(!"NotificacioWSJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.notificacioWSs) || org.hibernate.Hibernate.isInitialized(__jpa.getNotificacioWSs())) ) {
-      __tmp.setNotificacioWSs(NotificacioWSJPA.copyJPA(__jpa.getNotificacioWSs(), __alreadyCopied,"TipusNotificacioJPA"));
-    }
     if(!"RebreAvisJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.rebreAviss) || org.hibernate.Hibernate.isInitialized(__jpa.getRebreAviss())) ) {
       __tmp.setRebreAviss(RebreAvisJPA.copyJPA(__jpa.getRebreAviss(), __alreadyCopied,"TipusNotificacioJPA"));
+    }
+    if(!"NotificacioWSJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.notificacioWSs) || org.hibernate.Hibernate.isInitialized(__jpa.getNotificacioWSs())) ) {
+      __tmp.setNotificacioWSs(NotificacioWSJPA.copyJPA(__jpa.getNotificacioWSs(), __alreadyCopied,"TipusNotificacioJPA"));
     }
     // Copia de beans complexes (IMP)
 

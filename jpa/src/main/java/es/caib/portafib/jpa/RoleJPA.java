@@ -3,14 +3,14 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import java.util.HashSet;
-import javax.persistence.Entity;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import java.util.Set;
+import java.util.HashSet;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Entity;
+import java.util.Set;
+import org.hibernate.annotations.Index;
+import javax.persistence.FetchType;
 
 
 @Entity

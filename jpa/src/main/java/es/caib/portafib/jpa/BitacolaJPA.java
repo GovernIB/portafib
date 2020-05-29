@@ -3,13 +3,13 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GenerationType;
-import javax.persistence.Lob;
-import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Entity;
+import javax.persistence.GenerationType;
+import org.hibernate.annotations.Index;
+import javax.persistence.GeneratedValue;
 
 
 @Entity
@@ -28,21 +28,25 @@ private static final long serialVersionUID = 1492894118L;
 	@Column(name="bitacolaid",nullable = false,length = 19)
 	long bitacolaID;
 
+	@Index(name="pfi_bitacola_entitatid_i")
 	@Column(name="entitatid",nullable = false,length = 50)
 	java.lang.String entitatid;
 
 	@Column(name="usuariid",nullable = false,length = 101)
 	java.lang.String usuariid;
 
+	@Index(name="pfi_bitacola_data_i")
 	@Column(name="data",nullable = false,length = 29,precision = 6)
 	java.sql.Timestamp data;
 
+	@Index(name="pfi_bitacola_tipusobjecte_i")
 	@Column(name="tipusobjecte",nullable = false,length = 10)
 	int tipusObjecte;
 
 	@Column(name="objecteid",nullable = false,length = 50)
 	java.lang.String objecteid;
 
+	@Index(name="pfi_bitacola_tipusoperacio_i")
 	@Column(name="tipusoperacio",nullable = false,length = 10)
 	int tipusOperacio;
 

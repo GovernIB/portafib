@@ -3,17 +3,17 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.GeneratedValue;
 import org.hibernate.annotations.Index;
-import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
-import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import org.hibernate.annotations.ForeignKey;
+import javax.persistence.GeneratedValue;
 
 
 @Entity
@@ -32,7 +32,7 @@ private static final long serialVersionUID = 1184441005L;
 	@Column(name="notificacioid",nullable = false,length = 19)
 	long notificacioID;
 
-	@Index(name="pfi_notifica_peticioid_fk_i")
+	@Index(name="pfi_notifica_peticioid_i")
 	@Column(name="peticiodefirmaid",nullable = false,length = 19)
 	long peticioDeFirmaID;
 
@@ -40,6 +40,7 @@ private static final long serialVersionUID = 1184441005L;
 	@Column(name="tipusnotificacioid",nullable = false,length = 19)
 	long tipusNotificacioID;
 
+	@Index(name="pfi_notificacio_datacreacio_i")
 	@Column(name="datacreacio",nullable = false,length = 29,precision = 6)
 	java.sql.Timestamp dataCreacio;
 
@@ -60,9 +61,11 @@ private static final long serialVersionUID = 1184441005L;
 	@Column(name="dataerror",length = 35,precision = 6)
 	java.sql.Timestamp dataError;
 
+	@Index(name="pfi_notificacio_reintents_i")
 	@Column(name="reintents",nullable = false,length = 10)
 	int reintents;
 
+	@Index(name="pfi_notificacio_usrappid_i")
 	@Column(name="usuariaplicacioid",nullable = false,length = 101)
 	java.lang.String usuariAplicacioID;
 

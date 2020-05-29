@@ -61,7 +61,7 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 			<property name="hibernate.order_updates" value="true"/>
 			<property name="hibernate.order_inserts" value="true"/>
 
-			<property name="hibernate.dialect" value="${es.caib.portafib.hibernate.dialect}" />
+            <property name="hibernate.dialect" value="${es.caib.portafib.hibernate.dialect}" />
             <property name="hibernate.query.substitutions" value="${es.caib.portafib.hibernate.query.substitutions}"/>
         </properties>
     </persistence-unit>
