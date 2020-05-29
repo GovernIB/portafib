@@ -237,12 +237,12 @@ public class NotificacioWSFilterForm extends PortaFIBBaseFilterForm implements N
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { PETICIODEFIRMAID ,TIPUSNOTIFICACIOID ,DATACREACIO ,DATAENVIAMENT ,DESCRIPCIO ,ERROR ,REINTENTS ,USUARIAPLICACIOID }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { PETICIODEFIRMAID ,TIPUSNOTIFICACIOID ,DATACREACIO ,DESCRIPCIO ,ERROR ,REINTENTS ,USUARIAPLICACIOID }));
   }
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATAENVIAMENT ,BLOQUEJADA }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUSNOTIFICACIOID ,BLOQUEJADA }));
   }
 
 

@@ -85,14 +85,15 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
               new OrderBy(DATACREACIO, OrderType.DESC),
               new OrderBy(NOTIFICACIOID, OrderType.DESC) });
 
-      notificacioFilterForm.addGroupByField(TIPUSNOTIFICACIOID);
-      notificacioFilterForm.addGroupByField(BLOQUEJADA);
+      /*
       notificacioFilterForm.addGroupByField(DATACREACIO);
       notificacioFilterForm.addGroupByField(USUARIAPLICACIOID);
+       */
 
       notificacioFilterForm.addFilterByField(DESCRIPCIO);
       notificacioFilterForm.addFilterByField(ERROR);
       notificacioFilterForm.addFilterByField(DATACREACIO);
+      notificacioFilterForm.addFilterByField(USUARIAPLICACIOID);
 
       notificacioFilterForm.addHiddenField(DATAENVIAMENT);
       notificacioFilterForm.addHiddenField(DESCRIPCIO);

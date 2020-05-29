@@ -11927,6 +11927,9 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="filter"> 
            <boolean>true</boolean> 
           </void> 
+          <void property="groupBy"> 
+           <boolean>true</boolean> 
+          </void> 
           <void property="foreignKeys"> 
            <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
             <void index="0"> 
@@ -12063,12 +12066,6 @@ opcional incluso cuando se genera una firma EPES.</string>
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>6</int> 
-          </void> 
-          <void property="filter"> 
-           <boolean>true</boolean> 
-          </void> 
-          <void property="groupBy"> 
-           <boolean>true</boolean> 
           </void> 
           <void property="javaName"> 
            <string>dataEnviament</string> 
