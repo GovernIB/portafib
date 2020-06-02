@@ -5,11 +5,14 @@
 -- ================================================
 
 -- Indexos per optimitzar les consultes sobre bitàcoles
--- Alerta! Comprovar abans que els índexos no existeixen!!!!!
+-- Comprovar abans que els índexos no existeixen.
 create index pfi_bitacola_entitatid_i on pfi_bitacola (entitatid);
 create index pfi_bitacola_data_i on pfi_bitacola (data);
-create index pfi_bitacola_tipusobjecte_i on pfi_bitacola (tipusobjecte);
-create index pfi_bitacola_tipusoperacio_i on pfi_bitacola (tipusoperacio);
+create index pfi_bitacola_enttipobj_i on pfi_bitacola (entitatid, tipusobjecte);
+create index pfi_bitacola_enttipope_i on pfi_bitacola (entitatid, tipusoperacio);
+-- Comprovar si els indexos existeixen
+drop index pfi_bitacola_tipusobjecte_i;
+drop index pfi_bitacola_tipusoperacio_i;
 
 -- Indexos per optimitzar les consultes sobre notificacions
 create index pfi_notificacio_datacreacio_i on pfi_notificacio (datacreacio);
