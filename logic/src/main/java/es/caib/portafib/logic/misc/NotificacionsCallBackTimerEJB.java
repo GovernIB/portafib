@@ -224,14 +224,6 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         where = Where.AND(where, NotificacioWSFields.REINTENTS.lessThan((int) (long) retryToPause));
       }
 
-      final long notificacionsPendents = notificacioEjb.count(where);
-      if (isDebug) {
-        log.debug("executeTask: Notificacions pendents: " + notificacionsPendents);
-      }
-      if (notificacionsPendents == 0) {
-        return;
-      }
-
       // Temps màxim notificant, la meitat del temps programat, o com a màxim en qualsevol cas 2 minuts
       final long maxTempsNotificant = Math.min(notificacionsTimeLapse / 2, 120000);
       long estimatedProcessTime = 100L;
@@ -260,7 +252,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       }
 
       if (count > 0) {
-        log.info("executeTask: Processades " + count + "  de " + notificacionsSeleccionades + " selecionades d'un total de " + notificacionsPendents + " pendents");
+        log.info("executeTask: Processades " + count + "  de " + notificacionsSeleccionades);
       }
 
     } catch (Throwable e) {

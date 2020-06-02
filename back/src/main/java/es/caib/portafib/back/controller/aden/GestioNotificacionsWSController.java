@@ -10,6 +10,7 @@ import es.caib.portafib.logic.NotificacioWSLogicaLocal;
 import es.caib.portafib.model.entity.NotificacioWS;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Where;
@@ -28,14 +29,16 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 /**
  * 
  * @author anadal
- *
+ * @author areus
  */
 @Controller
 @RequestMapping(value = "/aden/notificaciows")
@@ -81,9 +84,11 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       notificacioFilterForm.setItemsPerPage(20);
 
       notificacioFilterForm
-          .setDefaultOrderBy(new OrderBy[] { new OrderBy(BLOQUEJADA), 
-              new OrderBy(DATACREACIO, OrderType.DESC),
-              new OrderBy(NOTIFICACIOID, OrderType.DESC) });
+          .setDefaultOrderBy(new OrderBy[] { new OrderBy(DATACREACIO, OrderType.DESC) });
+
+      notificacioFilterForm
+          .setGroupByFields(new ArrayList<Field<?>>());
+      notificacioFilterForm.addGroupByField(BLOQUEJADA);
 
       /*
       notificacioFilterForm.addGroupByField(DATACREACIO);

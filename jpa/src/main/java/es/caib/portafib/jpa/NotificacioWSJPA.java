@@ -61,11 +61,9 @@ private static final long serialVersionUID = 1184441005L;
 	@Column(name="dataerror",length = 35,precision = 6)
 	java.sql.Timestamp dataError;
 
-	@Index(name="pfi_notificacio_reintents_i")
 	@Column(name="reintents",nullable = false,length = 10)
 	int reintents;
 
-	@Index(name="pfi_notificacio_usrappid_i")
 	@Column(name="usuariaplicacioid",nullable = false,length = 101)
 	java.lang.String usuariAplicacioID;
 
