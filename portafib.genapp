@@ -12352,6 +12352,9 @@ opcional incluso cuando se genera una firma EPES.</string>
 		  <void property="filter"> 
            <boolean>true</boolean> 
           </void>
+          <void property="index">
+           <string>pfi_notificacio_usrappid_i</string>
+          </void>
           <void property="javaName">
            <string>usuariAplicacioID</string> 
           </void> 

@@ -224,13 +224,26 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         where = Where.AND(where, NotificacioWSFields.REINTENTS.lessThan((int) (long) retryToPause));
       }
 
+      final long notificacionsPendents = notificacioEjb.count(where);
+      if (isDebug) {
+        log.debug("executeTask: Notificacions pendents: " + notificacionsPendents);
+      }
+      if (notificacionsPendents == 0) {
+        return;
+      }
+
       // Temps màxim notificant, la meitat del temps programat, o com a màxim en qualsevol cas 2 minuts
-      final long maxTempsNotificant = Math.min( (notificacionsTimeLapse * 2) / 3, 120000);
-      long estimatedProcessTime = 30L;
-      int maximSeleccionats = (int) (maxTempsNotificant / estimatedProcessTime);
+      final long maxTempsNotificant = Math.min( (notificacionsTimeLapse ) / 2, 120000);
+      long estimatedProcessTime = 50L;
+      // Processam un màxim de 1000 notificacions pendents per execució
+      int maximSeleccionats = Math.min( (int) (maxTempsNotificant / estimatedProcessTime), 1000);
 
       List<NotificacioWS> notificacions = notificacioEjb.select(where, 0, maximSeleccionats,
-          new OrderBy(NotificacioWSFields.DATACREACIO));
+          new OrderBy(NotificacioWSFields.DATACREACIO),
+          new OrderBy(NotificacioWSFields.REINTENTS)); /* Dins la mateixa data no caldria ordenar pels que
+        tenguin menor nombre de reintents. Però afegint aquest criteri d'ordenació la BDD agafarà l'índex definit
+        per (bloquejada, reintents) que farà la consulta molt més ràpida. */
+
       final int notificacionsSeleccionades = notificacions.size();
       log.info("executeTask: Notificacions seleccionades: " + notificacionsSeleccionades);
 
@@ -254,7 +267,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       }
 
       if (count > 0) {
-        log.info("executeTask: Processades " + count + "  de " + notificacionsSeleccionades);
+        log.info("executeTask: Processades " + count + "  de " + notificacionsSeleccionades + " selecionades d'un total de " + notificacionsPendents + " pendents");
       }
 
     } catch (Throwable e) {

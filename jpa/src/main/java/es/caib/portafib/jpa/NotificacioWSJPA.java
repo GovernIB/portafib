@@ -64,6 +64,7 @@ private static final long serialVersionUID = 1184441005L;
 	@Column(name="reintents",nullable = false,length = 10)
 	int reintents;
 
+	@Index(name="pfi_notificacio_usrappid_i")
 	@Column(name="usuariaplicacioid",nullable = false,length = 101)
 	java.lang.String usuariAplicacioID;
 

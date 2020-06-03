@@ -16,5 +16,7 @@ drop index pfi_bitacola_tipusoperacio_i;
 
 -- Indexos per optimitzar les consultes sobre notificacions
 create index pfi_notificacio_datacreacio_i on pfi_notificacio (datacreacio);
+create index pfi_notificacio_usrappid_i on pfi_notificacio (usuariaplicacioid);
+create index pfi_notificacio_bloqreint_i on pfi_notificacio (bloquejada, reintents);
 -- Renombrar l'index ja que la clau forana ja no existeix
 alter index pfi_notifica_peticioid_fk_i rename to pfi_notifica_peticioid_i;
