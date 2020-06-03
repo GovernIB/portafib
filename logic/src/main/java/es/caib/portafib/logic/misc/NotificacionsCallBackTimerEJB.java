@@ -225,8 +225,8 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       }
 
       // Temps màxim notificant, la meitat del temps programat, o com a màxim en qualsevol cas 2 minuts
-      final long maxTempsNotificant = Math.min(notificacionsTimeLapse / 2, 120000);
-      long estimatedProcessTime = 100L;
+      final long maxTempsNotificant = Math.min( (notificacionsTimeLapse * 2) / 3, 120000);
+      long estimatedProcessTime = 30L;
       int maximSeleccionats = (int) (maxTempsNotificant / estimatedProcessTime);
 
       List<NotificacioWS> notificacions = notificacioEjb.select(where, 0, maximSeleccionats,
@@ -239,12 +239,14 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       for (NotificacioWS notificacioWS : notificacions) {
         count++;
         log.info("Processant notificacio amb ID " + notificacioWS.getNotificacioID());
-        log.info("notificacio::getDataError() => " + notificacioWS.getDataError());
-        log.info("notificacio::getReintents() => " + notificacioWS.getReintents());
+        if (notificacioWS.getDataError() != null) {
+          log.info("notificacio::getDataError() => " + notificacioWS.getDataError());
+          log.info("notificacio::getReintents() => " + notificacioWS.getReintents());
+        }
         // Obte un NotificacioInfo a partir del notificacioWS.getDescripcio()
         processNotificacio((NotificacioWSJPA) notificacioWS);
 
-        // Estarem fent feina com a màxim la meitat del temps programat, o com a màxim 1 minut. per no saturar el servidor
+        // Estarem fent feina durant un temps màxim per no saturar el servidor, i evitar cridades concurrents
         if ((System.currentTimeMillis() - now) > maxTempsNotificant) {
           log.warn("executeTask: Fa més de " + maxTempsNotificant + " ms que feim Notificacions. Aturam per no saturar servidor!!!");
           break;
@@ -281,11 +283,11 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         log.warn("processNotificacio: No es troba UsuariAplicacio " + usuariAplicacioID + ". Tancam de la notificacio");
 
       } else {
-        log.info("  USRAPP: " + usuariAplicacio.getUsuariAplicacioID());
-        log.info("  SERVER: " + usuariAplicacio.getCallbackURL());
-        log.info("  VERSIO: " + usuariAplicacio.getCallbackVersio());
-        log.info("  PETICIO: " +notificacioJPA.getPeticioDeFirmaID());
-        log.info("  EVENT: " + notificacioInfo.getFirmaEvent().getEventID());
+        log.info("\n\tUSRAPP: " + usuariAplicacio.getUsuariAplicacioID() +
+                "\n\tSERVER: " + usuariAplicacio.getCallbackURL() +
+                "\n\tVERSIO: " + usuariAplicacio.getCallbackVersio() +
+                "\n\tPETICIO: " +notificacioJPA.getPeticioDeFirmaID() +
+                "\n\tEVENT: " + notificacioInfo.getFirmaEvent().getEventID());
 
         NotificacioSender sender = NotificacioSenderFactory.getSender(usuariAplicacio);
         if (sender != null) {
