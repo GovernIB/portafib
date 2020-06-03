@@ -808,9 +808,8 @@ import java.util.Set;
           final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
           final String administrationID = loginInfo.getUsuariPersona().getNif();
 
-          commonInfoSignature = new CommonInfoSignature(langUI, firstFiltreCertificats, username, administrationID);
-
-
+          commonInfoSignature = new CommonInfoSignature(langUI,
+                  CommonInfoSignature.cleanFiltreCertificats(firstFiltreCertificats), username, administrationID);
         }
         
         // Vuls suposar que abans de "9 minuts més un minut per cada firma" haurà

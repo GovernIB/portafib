@@ -71,7 +71,7 @@ public class CommonInfoSignature {
   }
 
   public static String cleanFiltreCertificats(String certificateFilter) {
-    StringBuffer cleanFilter = new StringBuffer();
+    StringBuilder cleanFilter = new StringBuilder();
   
     if (certificateFilter != null && certificateFilter.trim().length() != 0) {
           
