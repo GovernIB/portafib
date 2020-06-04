@@ -113,16 +113,9 @@ import java.util.zip.ZipOutputStream;
 public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
     AbstractPeticioDeFirmaController implements ConstantsV2 {
 
-  	
-  private static final int COLUMN_PETICIODEFIRMA_TITOL = -1;
-  private static final StringField COLUMN_PETICIODEFIRMA_TITOL_FIELD;
 
-  static {
-      PeticioDeFirmaQueryPath pfqp;
-      pfqp = new EstatDeFirmaQueryPath().FIRMA().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA();      
-      COLUMN_PETICIODEFIRMA_TITOL_FIELD = pfqp.TITOL();
-    }
-	
+  private static final int COLUMN_PETICIODEFIRMA_TITOL = -1;
+
   /**
    * Columna Solicitant
    */
@@ -1598,8 +1591,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
         addfieldPF.setPosition(COLUMN_PETICIODEFIRMA_TITOL);
         // Els valors s'ompliran al mètode postList()
         addfieldPF.setValueMap(new HashMap<String, String>());
-        addfieldPF.setOrderBy(COLUMN_PETICIODEFIRMA_TITOL_FIELD);
-        addfieldPF.setSearchBy(COLUMN_PETICIODEFIRMA_TITOL_FIELD);
+        addfieldPF.setOrderBy(TITOL);
         addfieldPF.setEscapeXml(false);
         
         peticioDeFirmaFilterForm.addAdditionalField(addfieldPF);
@@ -2071,12 +2063,16 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
       case SOLICITANT_TOTS:
         String entitatID = LoginInfo.getInstance().getEntitatID();
         SubQuery<UsuariAplicacio, String> subqueryApp = usuariAplicacioEjb.getSubQuery(UsuariAplicacioFields.USUARIAPLICACIOID, UsuariAplicacioFields.ENTITATID.equal(entitatID) );
+
+        // No cal filtrar per usuari-entitat, ja que sempre hi ha un usuari-aplicació
+        // per defecte de l'Entitat que s'empra quan el solicitant és un usuari-entitat
+        /*
         SubQuery<UsuariEntitat, String> subqueryPerson = usuariEntitatLogicaEjb.getSubQuery(UsuariEntitatFields.USUARIENTITATID, UsuariEntitatFields.ENTITATID.equal(entitatID) );
-        
         Where w = Where.OR(SOLICITANTUSUARIENTITAT1ID.in(subqueryPerson),
             SOLICITANTUSUARIAPLICACIOID.in(subqueryApp));
+        return w;*/
 
-        return w;
+        return SOLICITANTUSUARIAPLICACIOID.in(subqueryApp);
 
       default:
         // XYZ ZZZ TRA

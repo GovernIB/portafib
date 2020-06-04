@@ -152,9 +152,9 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
 
       List<Field<?>> campsGroupBy = new ArrayList<Field<?>>();
 
-      campsGroupBy.add(TIPUSDOCUMENTID);
+      //campsGroupBy.add(TIPUSDOCUMENTID);
       campsGroupBy.add(TIPUSESTATPETICIODEFIRMAID);
-      campsGroupBy.add(PRIORITATID);
+      //campsGroupBy.add(PRIORITATID);
 
       if (showUsuariAplicacio) {
         campsGroupBy.add(PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID);
