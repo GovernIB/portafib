@@ -45,6 +45,8 @@ import java.util.List;
 @SessionAttributes(types = { NotificacioWSForm.class, NotificacioWSFilterForm.class })
 public class GestioNotificacionsWSController extends NotificacioWSController {
 
+  private static final String USUARIAPLICACIOID_REQUEST_ATTRIBUTE = "GestioNotificacionsWSController.usuariAplicacioID";
+
   @EJB(mappedName = NotificacioWSLogicaLocal.JNDI_NAME)
   protected NotificacioWSLogicaLocal notificacioLogicaEjb;
   
@@ -86,10 +88,8 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       notificacioFilterForm
           .setDefaultOrderBy(new OrderBy[] { new OrderBy(DATACREACIO, OrderType.DESC) });
 
-      notificacioFilterForm
-          .setGroupByFields(new ArrayList<Field<?>>());
+      notificacioFilterForm.setGroupByFields(new ArrayList<Field<?>>());
       notificacioFilterForm.addGroupByField(BLOQUEJADA);
-
       /*
       notificacioFilterForm.addGroupByField(DATACREACIO);
       notificacioFilterForm.addGroupByField(USUARIAPLICACIOID);
@@ -155,8 +155,24 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
   }
 
   @Override
+  public void preList(HttpServletRequest request, ModelAndView mav, NotificacioWSFilterForm filterForm) throws I18NException {
+    super.preList(request, mav, filterForm);
+    // Guardam el camp de cerca per usuariAplicacioID perquè l'hem de tractar de forma especial
+    if (filterForm.getUsuariAplicacioID() != null && !filterForm.getUsuariAplicacioID().isEmpty()) {
+      request.setAttribute(USUARIAPLICACIOID_REQUEST_ATTRIBUTE, filterForm.getUsuariAplicacioID());
+      filterForm.setUsuariAplicacioID(null);
+    }
+  }
+
+  @Override
   public void postList(HttpServletRequest request, ModelAndView mav,
       NotificacioWSFilterForm filterForm, List<NotificacioWS> list) throws I18NException {
+    // Recuperam el camp de certa per usuariAplicacioID que hem tractat de forma especial
+    String usuariAplicacioID = (String) request.getAttribute(USUARIAPLICACIOID_REQUEST_ATTRIBUTE);
+    if (usuariAplicacioID != null) {
+      request.removeAttribute(USUARIAPLICACIOID_REQUEST_ATTRIBUTE);
+      filterForm.setUsuariAplicacioID(usuariAplicacioID);
+    }
 
     // Valors inicials, pendents del que es digui més endavant
     //filterForm.getAdditionalButtons().clear();
@@ -341,12 +357,20 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
     // Seleccionar notificacions dels usuari aplicació de l'entitat del ADEN
-    return USUARIAPLICACIOID.in(
+    Where where = USUARIAPLICACIOID.in(
             usuariAplicacioEjb.getSubQuery(
-                  UsuariAplicacioFields.USUARIAPLICACIOID,
-                  UsuariAplicacioFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID())
+                    UsuariAplicacioFields.USUARIAPLICACIOID,
+                    UsuariAplicacioFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID())
             )
     );
+
+    // Aplicam un tractament especial a la cerca per usuariAplicacioID
+    String usuariAplicacioID = (String) request.getAttribute(USUARIAPLICACIOID_REQUEST_ATTRIBUTE);
+    if (usuariAplicacioID != null) {
+      where = Where.AND(where, USUARIAPLICACIOID.equal(usuariAplicacioID));
+    }
+
+    return where;
   }
 
   @Override

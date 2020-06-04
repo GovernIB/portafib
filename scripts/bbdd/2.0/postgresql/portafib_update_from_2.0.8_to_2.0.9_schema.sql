@@ -7,6 +7,7 @@
 -- Indexos per optimitzar les consultes sobre bitàcoles
 create index pfi_bitacola_entitatid_i on pfi_bitacola (entitatid);
 create index pfi_bitacola_data_i on pfi_bitacola (data);
+create index pfi_bitacola_objecteid_i on pfi_bitacola (objecteid);
 create index pfi_bitacola_enttipobj_i on pfi_bitacola (entitatid, tipusobjecte);
 create index pfi_bitacola_enttipope_i on pfi_bitacola (entitatid, tipusoperacio);
 -- Comprovar si els indexos existeixen
