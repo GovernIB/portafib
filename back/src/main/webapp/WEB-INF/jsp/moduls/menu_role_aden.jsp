@@ -87,9 +87,10 @@ for(List<MenuItem> menu : menus) {
       <fmt:message var="traduccio" key="${item.label}" />
       <c:set var="theurl" value="${item.url}"/>
       <c:set var="theurlbase" value="${item.urlbase}"/>
+      <c:set var="match" value="${(fn:contains(urlActual, theurl)) or ((fn:contains(urlActual, theurlbase)) and (fn:endsWith(theurlbase, 'entitat')))}"/>
       <li style="list-style-type: disc; list-style-position: inside;">
         <a href="<c:url value="${theurl}"/>">
-          <span style="${(fn:contains(urlActual, theurlbase))? "font-weight: bold;" : ""} ${(fn:endsWith(traduccio, '(*)'))? "color: red;" : ""}">${traduccio}</span>
+          <span style="${(match)? "font-weight: bold;" : ""} ${(fn:endsWith(traduccio, '(*)'))? "color: red;" : ""}">${traduccio}</span>
         </a>
       </li>
     </c:if>
