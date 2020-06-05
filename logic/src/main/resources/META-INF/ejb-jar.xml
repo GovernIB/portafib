@@ -9,7 +9,12 @@ http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
         <!-- Log de les cridades a PeticioDeFirmaLogicaEJB ja que és l'EJB més crític #220 -->
         <interceptor-binding>
             <ejb-name>PeticioDeFirmaLogicaEJB</ejb-name>
-            <interceptor-class>es.caib.portafib.logic.interceptors.LogInterceptor</interceptor-class>
+            <interceptor-class>es.caib.portafib.ejb.interceptors.LogInterceptor</interceptor-class>
+        </interceptor-binding>
+        <!-- Log de les cridades a PassarelaDeFirmaWebEJB ja que també són crítiques #449 -->
+        <interceptor-binding>
+            <ejb-name>PassarelaDeFirmaWebEJB</ejb-name>
+            <interceptor-class>es.caib.portafib.ejb.interceptors.LogInterceptor</interceptor-class>
         </interceptor-binding>
 
         <application-exception>
