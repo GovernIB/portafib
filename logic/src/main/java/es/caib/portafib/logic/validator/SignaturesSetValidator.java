@@ -61,10 +61,22 @@ public class SignaturesSetValidator<T extends PassarelaSignaturesSet> {
     }
 
     // Valors Not Null
+    if (pss.getExpiryDate() == null) {
+      Field<?> f = getF("expiryDate");
+      __vr.rejectValue(f, "genapp.validation.required",
+          new I18NArgumentString(f.javaName));
+    }
+
     if (pss.getCommonInfoSignature() == null) {
       Field<?> f = getF("commonInfoSignature");
       __vr.rejectValue(f, "genapp.validation.required",
           new I18NArgumentString(f.javaName));
+    } else {
+      if (pss.getCommonInfoSignature().getLanguageUI() == null) {
+        Field<?> f = getF("commonInfoSignature.languageUI");
+        __vr.rejectValue(f, "genapp.validation.required",
+                new I18NArgumentString(f.javaName));
+      }
     }
 
     if (pss.getFileInfoSignatureArray() == null || pss.getFileInfoSignatureArray().length == 0) {
