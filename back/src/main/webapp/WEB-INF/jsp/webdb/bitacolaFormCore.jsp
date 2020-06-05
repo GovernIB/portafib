@@ -113,7 +113,7 @@
             </td>
             <td>
             <form:errors path="bitacola.objecteid" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTEID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTEID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="bitacola.objecteid"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTEID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTEID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="100" path="bitacola.objecteid"   />
 
            </td>
         </tr>

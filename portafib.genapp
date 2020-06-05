@@ -1088,7 +1088,7 @@
            <boolean>true</boolean> 
           </void> 
           <void property="size"> 
-           <int>50</int> 
+           <int>100</int>
           </void> 
           <void property="sqlName"> 
            <string>objecteid</string> 

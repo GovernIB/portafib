@@ -21,3 +21,10 @@ create index pfi_notificacio_usrappid_i on pfi_notificacio (usuariaplicacioid);
 create index pfi_notificacio_bloqreint_i on pfi_notificacio (bloquejada, reintents);
 -- Renombrar l'index ja que la clau forana ja no existeix
 alter index pfi_notifica_peticioid_fk_i rename to pfi_notifica_peticioid_i;
+
+
+-- ================================================
+-- 2020-06-04 Els identificadors de l'API de passarela no caben dins la bitàcola #436
+-- ================================================
+
+ALTER TABLE pfi_bitacola MODIFY (objecteid varchar2(100 char) );

@@ -43,7 +43,7 @@ private static final long serialVersionUID = 1492894118L;
 	@Column(name="tipusobjecte",nullable = false,length = 10)
 	int tipusObjecte;
 
-	@Column(name="objecteid",nullable = false,length = 50)
+	@Column(name="objecteid",nullable = false,length = 100)
 	java.lang.String objecteid;
 
 	@Index(name="pfi_bitacola_tipusoperacio_i")
