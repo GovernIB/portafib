@@ -15,6 +15,7 @@ import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.ValidacioCompletaFirmaLogicaLocal;
+import es.caib.portafib.logic.bitacola.InfoBitacola;
 import es.caib.portafib.logic.passarela.api.PassarelaCustodyInfo;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSecureVerificationCodeStampInfo;
@@ -56,8 +57,10 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
+import javax.annotation.Resource;
 import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import java.io.File;
 import java.io.IOException;
@@ -84,6 +87,9 @@ import java.util.Set;
 @RunAs("PFI_USER")
 public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatureWebPlugin>
     implements PassarelaDeFirmaWebLocal {
+
+  @Resource
+  SessionContext context;
 
   @EJB(mappedName = CodiBarresLocal.JNDI_NAME)
   protected CodiBarresLocal codiBarresEjb;
@@ -120,6 +126,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       Map<String,Long> tipusDocumentalBySignID,
       int origenPeticioDeFirma) throws I18NException,
       I18NValidationException {
+
+    log.info("User: " + context.getCallerPrincipal().getName());
 
     final String urlBase = PropietatGlobalUtil.getUrlBaseForSignatureModule(perfilDeFirma);
 
@@ -258,11 +266,15 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
           usuariAplicacio.getUsuariAplicacioID(), urlBase, perfilDeFirma, 
           configBySignID, custodiaBySignID, peticioDeFirmaBySignID));
 
-      bitacolaLogicaEjb.createBitacola(entitatID,
-            signaturesSetID,
-            ConstantsV2.BITACOLA_TIPUS_FIRMASINCRONA,
-            ConstantsV2.BITACOLA_OP_INICIAR,
-            signaturesSet);
+      bitacolaLogicaEjb.createBitacola(
+              InfoBitacola.builder(entitatID)
+                      .objecteid(signaturesSetID)
+                      .tipusObjecte(ConstantsV2.BITACOLA_TIPUS_FIRMASINCRONA)
+                      .tipusOperacio(ConstantsV2.BITACOLA_OP_INICIAR)
+                      .objecte(signaturesSet)
+                      .principal(context.getCallerPrincipal())
+                      .build());
+
 
     } catch (I18NException i18n) {
       log.error("Error a startTransaction: " + signaturesSetID + ". " + i18n.getMessage());
@@ -778,9 +790,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     }
 
     // Bitacola
-    int tipusoperacio = ssf.getStatus() == StatusSignaturesSet.STATUS_FINAL_OK
-          ? ConstantsV2.BITACOLA_OP_FINALITZAR
-          : ConstantsV2.BITACOLA_OP_REBUTJAR;
     String descripcio;
     if (ssf.getStatus() == StatusSignaturesSet.STATUS_FINAL_OK) {
       if (signaturesValides < ss.getFileInfoSignatureArray().length) {
@@ -795,12 +804,15 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     statusList.getPassarelaSignatureStatus().addAll(ssf.getStatusBySignatureID().values());
 
     bitacolaLogicaEjb.createBitacola(
-          ssf.getEntitatID(),
-          transactionID,
-          ConstantsV2.BITACOLA_TIPUS_FIRMASINCRONA,
-          tipusoperacio,
-          descripcio,
-          statusList);
+            InfoBitacola.builder(ssf.getEntitatID())
+                    .objecteid(transactionID)
+                    .tipusObjecte(ConstantsV2.BITACOLA_TIPUS_FIRMASINCRONA)
+                    .tipusOperacio(ssf.getStatus() == StatusSignaturesSet.STATUS_FINAL_OK
+                            ? ConstantsV2.BITACOLA_OP_FINALITZAR
+                            : ConstantsV2.BITACOLA_OP_REBUTJAR)
+                    .descripcio(descripcio)
+                    .objecte(statusList)
+                    .build());
 
     return ssf;
   }
