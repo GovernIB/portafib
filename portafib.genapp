@@ -850,10 +850,7 @@
           <void property="digits"> 
            <int>0</int> 
           </void> 
-          <void property="index"> 
-           <string>pfi_bitacola_entitatid_i</string> 
-          </void> 		  
-          <void property="javaName"> 
+          <void property="javaName">
            <string>entitatid</string> 
           </void> 
           <void property="javaType"> 
@@ -1009,10 +1006,7 @@
           <void property="groupBy"> 
            <boolean>true</boolean> 
           </void> 
-          <void property="index"> 
-           <string>pfi_bitacola_tipusobjecte_i</string> 
-          </void>
-          <void property="javaName"> 
+          <void property="javaName">
            <string>tipusObjecte</string> 
           </void> 
           <void property="javaType"> 
@@ -1063,7 +1057,10 @@
           </void> 
           <void property="filter"> 
            <boolean>true</boolean> 
-          </void> 
+          </void>
+          <void property="index">
+           <string>pfi_bitacola_objecteid_i</string>
+          </void>
           <void property="javaName"> 
            <string>objecteid</string> 
           </void> 
@@ -1116,10 +1113,7 @@
           <void property="groupBy"> 
            <boolean>true</boolean> 
           </void> 
-          <void property="index"> 
-           <string>pfi_bitacola_tipusoperacio_i</string> 
-          </void>
-          <void property="javaName"> 
+          <void property="javaName">
            <string>tipusOperacio</string> 
           </void> 
           <void property="javaType"> 

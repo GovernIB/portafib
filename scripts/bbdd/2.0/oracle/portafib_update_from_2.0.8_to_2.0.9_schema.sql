@@ -6,12 +6,12 @@
 
 -- Indexos per optimitzar les consultes sobre bitàcoles
 -- Comprovar abans que els índexos no existeixen.
-create index pfi_bitacola_entitatid_i on pfi_bitacola (entitatid);
 create index pfi_bitacola_data_i on pfi_bitacola (data);
 create index pfi_bitacola_objecteid_i on pfi_bitacola (objecteid);
 create index pfi_bitacola_enttipobj_i on pfi_bitacola (entitatid, tipusobjecte);
 create index pfi_bitacola_enttipope_i on pfi_bitacola (entitatid, tipusoperacio);
 -- Comprovar si els indexos existeixen
+drop index pfi_bitacola_entitatid_i;
 drop index pfi_bitacola_tipusobjecte_i;
 drop index pfi_bitacola_tipusoperacio_i;
 

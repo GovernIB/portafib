@@ -20,7 +20,7 @@
         descripcio varchar2(255 char),
         entitatid varchar2(50 char) not null,
         objecteserialitzat clob,
-        objecteid varchar2(50 char) not null,
+        objecteid varchar2(100 char) not null,
         tipusobjecte number(10,0) not null,
         tipusoperacio number(10,0) not null,
         usuariid varchar2(101 char) not null
@@ -534,7 +534,9 @@
     create index pfi_annexfirmat_annexid_fk_i on pfi_annexfirmat (annexid);
     create index pfi_annexfirmat_pk_i on pfi_annexfirmat (annexfirmatid);
     create index pfi_annexfirmat_firmaid_fk_i on pfi_annexfirmat (firmaid);
+    create index pfi_bitacola_objecteid_i on pfi_bitacola (objecteid);
     create index pfi_bitacola_pk_i on pfi_bitacola (bitacolaid);
+    create index pfi_bitacola_data_i on pfi_bitacola (data);
     create index pfi_blocfirmes_fluxid_fk_i on pfi_blocdefirmes (fluxdefirmesid);
     create index pfi_blocdefirmes_pk_i on pfi_blocdefirmes (blocdefirmesid);
     create index pfi_codibarres_pk_i on pfi_codibarres (codibarresid);
@@ -551,20 +553,20 @@
     create index pfi_custodia_codibarid_fk_i on pfi_custodiainfo (codibarresid);
     create index pfi_custodia_entitatid_fk_i on pfi_custodiainfo (entitatid);
     create index pfi_entitat_motiudele_fk_i on pfi_entitat (motiudelegacioid);
+    create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
     create index pfi_entitat_pk_i on pfi_entitat (entitatid);
+    create index pfi_entitat_pluginvalfir_fk_i on pfi_entitat (pluginvalidafirmesid);
     create index pfi_entitat_pluginvalcer_fk_i on pfi_entitat (pluginvalidacertificatid);
     create index pfi_entitat_pluginrubri_fk_i on pfi_entitat (pluginrubricaid);
-    create index pfi_entitat_pdfautoriid_fk_i on pfi_entitat (pdfautoritzaciodelegacioid);
-    create index pfi_entitat_usrappid_fk_i on pfi_entitat (usuariaplicacioid);
-    create index pfi_entitat_firmatper_fk_i on pfi_entitat (firmatperformatid);
-    create index pfi_entitat_faviconid_fk_i on pfi_entitat (faviconid);
-    create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
-    create index pfi_entitat_pluginvalfir_fk_i on pfi_entitat (pluginvalidafirmesid);
     create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
     create index pfi_entitat_segelltemps_fk_i on pfi_entitat (pluginid);
-    create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
+    create index pfi_entitat_pdfautoriid_fk_i on pfi_entitat (pdfautoritzaciodelegacioid);
     create index pfi_entitat_logowebpeuid_fk_i on pfi_entitat (logowebpeuid);
+    create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
+    create index pfi_entitat_usrappid_fk_i on pfi_entitat (usuariaplicacioid);
     create index pfi_entitat_logowebid_fk_i on pfi_entitat (logowebid);
+    create index pfi_entitat_firmatper_fk_i on pfi_entitat (firmatperformatid);
+    create index pfi_entitat_faviconid_fk_i on pfi_entitat (faviconid);
     create index pfi_estadistica_pk_i on pfi_estadistica (estadisticaid);
     create index pfi_estadistica_entitatid_fk_i on pfi_estadistica (entitatid);
     create index pfi_estatdefirma_firmaid_fk_i on pfi_estatdefirma (firmaid);
@@ -592,9 +594,11 @@
     create index pfi_mofitido_modfirma_fk_i on pfi_modulfirmapertipusdoc (pluginid);
     create index pfi_modulfirmapertipusdoc_pk_i on pfi_modulfirmapertipusdoc (id);
     create index pfi_mofitido_tipusdoc_fk_i on pfi_modulfirmapertipusdoc (tipusdocumentid);
-    create index pfi_notifica_peticioid_fk_i on pfi_notificacio (peticiodefirmaid);
+    create index pfi_notifica_peticioid_i on pfi_notificacio (peticiodefirmaid);
+    create index pfi_notificacio_usrappid_i on pfi_notificacio (usuariaplicacioid);
     create index pfi_notificacio_pk_i on pfi_notificacio (notificacioid);
     create index pfi_notifica_tiponotiid_fk_i on pfi_notificacio (tipusnotificacioid);
+    create index pfi_notificacio_datacreacio_i on pfi_notificacio (datacreacio);
     create index pfi_perfilsperusrapp_pk_i on pfi_perfilsperusrapp (perfilsperusrappid);
     create index pfi_perfilsua_usuappid_fk_i on pfi_perfilsperusrapp (usuariaplicacioid);
     create index pfi_perfilsua_perfilid_fk_i on pfi_perfilsperusrapp (usuariaplicacioperfilid);
@@ -1390,3 +1394,7 @@
     grant select on pfi_portafib_seq to www_portafib;
  -- FINAL GRANTS
 
+    -- Indexos múltiples
+    create index pfi_bitacola_enttipobj_i on pfi_bitacola (entitatid, tipusobjecte);
+    create index pfi_bitacola_enttipope_i on pfi_bitacola (entitatid, tipusoperacio);
+    create index pfi_notificacio_bloqreint_i on pfi_notificacio (bloquejada, reintents);

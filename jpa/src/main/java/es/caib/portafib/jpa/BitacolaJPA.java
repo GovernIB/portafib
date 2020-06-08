@@ -28,7 +28,6 @@ private static final long serialVersionUID = 1492894118L;
 	@Column(name="bitacolaid",nullable = false,length = 19)
 	long bitacolaID;
 
-	@Index(name="pfi_bitacola_entitatid_i")
 	@Column(name="entitatid",nullable = false,length = 50)
 	java.lang.String entitatid;
 
@@ -39,14 +38,13 @@ private static final long serialVersionUID = 1492894118L;
 	@Column(name="data",nullable = false,length = 29,precision = 6)
 	java.sql.Timestamp data;
 
-	@Index(name="pfi_bitacola_tipusobjecte_i")
 	@Column(name="tipusobjecte",nullable = false,length = 10)
 	int tipusObjecte;
 
+	@Index(name="pfi_bitacola_objecteid_i")
 	@Column(name="objecteid",nullable = false,length = 100)
 	java.lang.String objecteid;
 
-	@Index(name="pfi_bitacola_tipusoperacio_i")
 	@Column(name="tipusoperacio",nullable = false,length = 10)
 	int tipusOperacio;
 

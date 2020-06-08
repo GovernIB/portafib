@@ -36,7 +36,7 @@ SET default_with_oids = false;
         descripcio varchar(255),
         entitatid varchar(50) not null,
         objecteserialitzat text,
-        objecteid varchar(50) not null,
+        objecteid varchar(100) not null,
         tipusobjecte int4 not null,
         tipusoperacio int4 not null,
         usuariid varchar(101) not null,
@@ -635,7 +635,11 @@ SET default_with_oids = false;
         foreign key (firmaid) 
         references pfi_firma;
 
+    create index pfi_bitacola_objecteid_i on pfi_bitacola (objecteid);
+
     create index pfi_bitacola_pk_i on pfi_bitacola (bitacolaid);
+
+    create index pfi_bitacola_data_i on pfi_bitacola (data);
 
     create index pfi_blocfirmes_fluxid_fk_i on pfi_blocdefirmes (fluxdefirmesid);
 
@@ -714,33 +718,33 @@ SET default_with_oids = false;
 
     create index pfi_entitat_motiudele_fk_i on pfi_entitat (motiudelegacioid);
 
+    create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
+
     create index pfi_entitat_pk_i on pfi_entitat (entitatid);
+
+    create index pfi_entitat_pluginvalfir_fk_i on pfi_entitat (pluginvalidafirmesid);
 
     create index pfi_entitat_pluginvalcer_fk_i on pfi_entitat (pluginvalidacertificatid);
 
     create index pfi_entitat_pluginrubri_fk_i on pfi_entitat (pluginrubricaid);
 
-    create index pfi_entitat_pdfautoriid_fk_i on pfi_entitat (pdfautoritzaciodelegacioid);
-
-    create index pfi_entitat_usrappid_fk_i on pfi_entitat (usuariaplicacioid);
-
-    create index pfi_entitat_firmatper_fk_i on pfi_entitat (firmatperformatid);
-
-    create index pfi_entitat_faviconid_fk_i on pfi_entitat (faviconid);
-
-    create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
-
-    create index pfi_entitat_pluginvalfir_fk_i on pfi_entitat (pluginvalidafirmesid);
-
     create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
 
     create index pfi_entitat_segelltemps_fk_i on pfi_entitat (pluginid);
 
-    create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
+    create index pfi_entitat_pdfautoriid_fk_i on pfi_entitat (pdfautoritzaciodelegacioid);
 
     create index pfi_entitat_logowebpeuid_fk_i on pfi_entitat (logowebpeuid);
 
+    create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
+
+    create index pfi_entitat_usrappid_fk_i on pfi_entitat (usuariaplicacioid);
+
     create index pfi_entitat_logowebid_fk_i on pfi_entitat (logowebid);
+
+    create index pfi_entitat_firmatper_fk_i on pfi_entitat (firmatperformatid);
+
+    create index pfi_entitat_faviconid_fk_i on pfi_entitat (faviconid);
 
     alter table pfi_entitat 
         add constraint pfi_entitat_traduccio_firm_fk 
@@ -926,11 +930,15 @@ SET default_with_oids = false;
         foreign key (pluginid) 
         references pfi_plugin;
 
-    create index pfi_notifica_peticioid_fk_i on pfi_notificacio (peticiodefirmaid);
+    create index pfi_notifica_peticioid_i on pfi_notificacio (peticiodefirmaid);
+
+    create index pfi_notificacio_usrappid_i on pfi_notificacio (usuariaplicacioid);
 
     create index pfi_notificacio_pk_i on pfi_notificacio (notificacioid);
 
     create index pfi_notifica_tiponotiid_fk_i on pfi_notificacio (tipusnotificacioid);
+
+    create index pfi_notificacio_datacreacio_i on pfi_notificacio (datacreacio);
 
     alter table pfi_notificacio 
         add constraint pfi_notifica_tipnotific_fk 
@@ -1460,3 +1468,8 @@ SET default_with_oids = false;
         references pfi_idioma;
 
     create sequence pfi_portafib_seq;
+
+    -- Indexos múltiples
+    create index pfi_bitacola_enttipobj_i on pfi_bitacola (entitatid, tipusobjecte);
+    create index pfi_bitacola_enttipope_i on pfi_bitacola (entitatid, tipusoperacio);
+    create index pfi_notificacio_bloqreint_i on pfi_notificacio (bloquejada, reintents);
