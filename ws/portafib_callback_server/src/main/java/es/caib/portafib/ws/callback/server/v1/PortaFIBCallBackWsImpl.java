@@ -46,8 +46,8 @@ public class PortaFIBCallBackWsImpl implements PortaFIBCallBackWs {
   public void event(@WebParam(name = "event") PortaFIBEvent event) throws CallBackException {
     log.info("rebut envent");
     try {
-      // Simulam un temps de procés de 400ms
-      Thread.sleep(400);
+      // Simulam un temps de procés de 20ms
+      Thread.sleep(20);
     } catch (InterruptedException e) {
       log.warn("interromput");
     }

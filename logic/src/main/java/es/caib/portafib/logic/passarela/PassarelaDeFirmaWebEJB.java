@@ -15,6 +15,7 @@ import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.ValidacioCompletaFirmaLogicaLocal;
+import es.caib.portafib.logic.bitacola.InfoBitacola;
 import es.caib.portafib.logic.passarela.api.PassarelaCustodyInfo;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSecureVerificationCodeStampInfo;
@@ -56,8 +57,10 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
+import javax.annotation.Resource;
 import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import java.io.File;
 import java.io.IOException;
@@ -84,6 +87,9 @@ import java.util.Set;
 @RunAs("PFI_USER")
 public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatureWebPlugin>
     implements PassarelaDeFirmaWebLocal {
+
+  @Resource
+  SessionContext context;
 
   @EJB(mappedName = CodiBarresLocal.JNDI_NAME)
   protected CodiBarresLocal codiBarresEjb;
@@ -121,6 +127,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       int origenPeticioDeFirma) throws I18NException,
       I18NValidationException {
 
+    log.info("User: " + context.getCallerPrincipal().getName());
+
     final String urlBase = PropietatGlobalUtil.getUrlBaseForSignatureModule(perfilDeFirma);
 
     // Validar
@@ -130,6 +138,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     ssbv.throwValidationExceptionIfErrors(signaturesSet, isNou);
 
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
+    log.info("startTransaction: " + signaturesSetID);
 
     // Tiquet # 186
     if (PropietatGlobalUtil.isDisabledSignaturesTable()) {
@@ -207,7 +216,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
           cust = (CustodiaInfoJPA)custodiaInfoLogicaEjb.create(cust);
           
           if (log.isDebugEnabled()) {
-            log.debug("\n\nCreada custodia per SIGID[" + signID + "] ==> " + cust);
+            log.debug("Creada custodia per SIGID[" + signID + "] ==> " + cust);
           }
           custodiaBySignID.put(signID, cust);
           
@@ -242,7 +251,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
             
             default:
               // XYZ ZZZ TRA
-              String msg =  "ID de Tipus de Firma desconegut: " + peticioDeFirma.getTipusFirmaID();
+              String msg = "ID de Tipus de Firma desconegut: " + peticioDeFirma.getTipusFirmaID();
               log.error(msg, new Exception());
               throw new I18NException("genapp.comodi", msg);
           }
@@ -257,14 +266,18 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
           usuariAplicacio.getUsuariAplicacioID(), urlBase, perfilDeFirma, 
           configBySignID, custodiaBySignID, peticioDeFirmaBySignID));
 
-      bitacolaLogicaEjb.createBitacola(entitatID,
-            signaturesSetID,
-            ConstantsV2.BITACOLA_TIPUS_FIRMASINCRONA,
-            ConstantsV2.BITACOLA_OP_INICIAR,
-            signaturesSet);
+      bitacolaLogicaEjb.createBitacola(
+              InfoBitacola.builder(entitatID)
+                      .objecteid(signaturesSetID)
+                      .tipusObjecte(ConstantsV2.BITACOLA_TIPUS_FIRMASINCRONA)
+                      .tipusOperacio(ConstantsV2.BITACOLA_OP_INICIAR)
+                      .objecte(signaturesSet)
+                      .principal(context.getCallerPrincipal())
+                      .build());
+
 
     } catch (I18NException i18n) {
-
+      log.error("Error a startTransaction: " + signaturesSetID + ". " + i18n.getMessage());
       // Esborrar Custòdies
       for (CustodiaInfoJPA ci : custodiaBySignID.values()) {
         try {
@@ -397,72 +410,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     secureVerificationCodeStampInfo.setMessage(custodiaInfo.getMissatge());
     secureVerificationCodeStampInfo.setPages(custodiaInfo.getPagines());
     
-    
-    /*
-     * XYZ ZZZ #165 { // CustodiaInfoBean custodiaInfo = config.getCustodiaInfoID() int
-     * politicaCustodia = usuariAplicacio.getPoliticaCustodia(); boolean obtenirDeEntitat =
-     * false; if (politicaCustodia ==
-     * ConstantsV2.POLITICA_CUSTODIA_POLITICA_DE_CUSTODIA_DEFINIDA_EN_ENTITAT) {
-     * obtenirDeEntitat = true; politicaCustodia = entitatJPA.getPoliticaCustodia(); }
-     * 
-     * switch (politicaCustodia) {
-     * 
-     * case ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE: secureVerificationCodeStampInfo = null;
-     * break; case ConstantsV2.POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT: // XYZ ZZZ Traduir
-     * #165 throw new I18NException("genapp.comodi",
-     * "Politica de Custodia no suportada per PortaFIB (Usuari aplicació " +
-     * usuariAplicacio.getUsuariAplicacioID() + ")");
-     * 
-     * case
-     * ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_ENTITAT_PER_DEFECTE_ACTIU:
-     * case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO: long
-     * custodiaInfoID = entitatJPA.getCustodiaInfoID(); if (obtenirDeEntitat) { custodiaInfoID
-     * = entitatJPA.getCustodiaInfoID(); } else { custodiaInfoID =
-     * usuariAplicacio.getCustodiaInfoID(); }
-     * 
-     * CustodiaInfo custodiaInfo = custodiaInfoEjb.findByPrimaryKey(custodiaInfoID);
-     * 
-     * secureVerificationCodeStampInfo = new PassarelaSecureVerificationCodeStampInfo();
-     * 
-     * secureVerificationCodeStampInfo.setBarCodePosition((int) custodiaInfo
-     * .getCodiBarresPosicioPaginaID());
-     * secureVerificationCodeStampInfo.setBarCodeText(custodiaInfo.getCodiBarresText());
-     * 
-     * String codiBarresID = custodiaInfo.getCodiBarresID();
-     * 
-     * String codiBarresNom = codiBarresEjb.executeQueryOne(CodiBarresFields.NOM,
-     * CodiBarresFields.CODIBARRESID.equal(codiBarresID));
-     * 
-     * if (codiBarresNom == null) { // TODO Traduir XYZ ZZZ String msg =
-     * "No s'ha trobat cap plugin de Codi de Barres amb nom " + codiBarresNom; throw new
-     * I18NException("error.unknown", msg); }
-     * 
-     * secureVerificationCodeStampInfo.setBarCodeType(codiBarresNom);
-     * 
-     * long messagePosition = custodiaInfo.getMissatgePosicioPaginaID();
-     * secureVerificationCodeStampInfo.setMessagePosition((int) messagePosition);
-     * secureVerificationCodeStampInfo.setMessage(custodiaInfo.getMissatge());
-     * secureVerificationCodeStampInfo.setPages(custodiaInfo.getPagines()); break;
-     * 
-     * case
-     * ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_ENTITAT_PER_DEFECTE_NO_ACTIU:
-     * secureVerificationCodeStampInfo = null; break;
-     * 
-     * case ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL: throw new
-     * I18NException("genapp.comodi", "Politica de Custodia no suportada per API FIRMA SIMPLE "
-     * + "(Usuari aplicació " + usuariAplicacio.getUsuariAplicacioID() + ")");
-     * 
-     * default: // XYZ ZZZ Traduir throw new I18NException("genapp.comodi",
-     * "Politica de Custòdia desconeguda (" + politicaCustodia + ") en usuari aplicació " +
-     * usuariAplicacio.getUsuariAplicacioID()); }
-     * 
-     * }
-     */
-
     return secureVerificationCodeStampInfo;
   }
-  
-  
 
   @Override
   public List<String> getSupportedBarCodeTypes() throws I18NException {
@@ -594,6 +543,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
   public PassarelaSignatureResult getSignatureResult(String transactionID, String signID)  throws I18NException {
     PassarelaSignaturesSetWebInternalUse ssf = readSignaturesSet(transactionID);
     if (ssf == null) {
+      log.info("No s'ha trobat informació de la transacció: " + transactionID + ". Retornam null");
       return null;
     }
 
@@ -607,7 +557,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     }
 
     return null;
-
   }
 
   @Override
@@ -618,8 +567,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
   @Override
   public PassarelaSignaturesSetWebInternalUse finalProcesDeFirma(String transactionID,
       SignaturesSetWeb ss) throws I18NException {
-
-    log.info(" XYZ ZZZ ZZZ \n\n finalProcesDeFirma => ENTRA\n\n");
 
     StatusSignaturesSet sss = ss.getStatusSignaturesSet();
 
@@ -681,8 +628,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
               pss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
               pss.setErrorStackTrace(null);
 
-              
-
             } else {
 
               CustodiaInfoJPA custInfo = custodiaBySignID.get(signID);
@@ -697,7 +642,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                       + firmat.getAbsolutePath() + ": " + e.getMessage();
                   log.error(msg, e);
                   throw new I18NException("genapp.comodi", msg);
-                  
                 }
   
                 // Validar certificat i firmes, i comprovar que els NIFs corresponen
@@ -706,10 +650,9 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                 ValidacioCompletaResponse validacioResponse = validateSignature(ssf, firmat,
                   entitatID, languageUI, configBySignID.get(signID), pfis, numFirmesOriginals);
                 pss.setInfoValidacio(validacioResponse);
-               
-  
+
                 // Custodia Documental
-                log.info("\n\n finalProcesDeFirma.CUSTODIA => " + custInfo);
+                log.info("finalProcesDeFirma.CUSTODIA => " + custInfo);
                 if (custInfo != null) {
                   final FirmaJPA firma = null;
                   String fitxerAFirmarNom = ssf.signaturesSet.getSignaturesSetID() + "_"
@@ -729,6 +672,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                 pss.setFitxerFirmat(firmat);
               
               } catch (I18NException i18n) {
+                log.error("Error durant el process de final de firma: " + transactionID + ". " + i18n.getMessage());
                 pss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
                 pss.setErrorMessage(I18NLogicUtils.getMessage(i18n, new Locale(languageUI)));
 
@@ -846,9 +790,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     }
 
     // Bitacola
-    int tipusoperacio = ssf.getStatus() == StatusSignaturesSet.STATUS_FINAL_OK
-          ? ConstantsV2.BITACOLA_OP_FINALITZAR
-          : ConstantsV2.BITACOLA_OP_REBUTJAR;
     String descripcio;
     if (ssf.getStatus() == StatusSignaturesSet.STATUS_FINAL_OK) {
       if (signaturesValides < ss.getFileInfoSignatureArray().length) {
@@ -863,18 +804,18 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     statusList.getPassarelaSignatureStatus().addAll(ssf.getStatusBySignatureID().values());
 
     bitacolaLogicaEjb.createBitacola(
-          ssf.getEntitatID(),
-          transactionID,
-          ConstantsV2.BITACOLA_TIPUS_FIRMASINCRONA,
-          tipusoperacio,
-          descripcio,
-          statusList);
+            InfoBitacola.builder(ssf.getEntitatID())
+                    .objecteid(transactionID)
+                    .tipusObjecte(ConstantsV2.BITACOLA_TIPUS_FIRMASINCRONA)
+                    .tipusOperacio(ssf.getStatus() == StatusSignaturesSet.STATUS_FINAL_OK
+                            ? ConstantsV2.BITACOLA_OP_FINALITZAR
+                            : ConstantsV2.BITACOLA_OP_REBUTJAR)
+                    .descripcio(descripcio)
+                    .objecte(statusList)
+                    .build());
 
     return ssf;
   }
-
-
- 
 
   protected ValidacioCompletaResponse validateSignature(PassarelaSignaturesSetWebInternalUse ssf,
       File fitxerFirmat, final String entitatID, final String languageUI,
@@ -883,8 +824,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
     // TODO check null
     final String signID = fis.getSignID();
-
-    
 
       boolean validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb,
           entitatID);
@@ -951,8 +890,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       final boolean signMode = SignatureUtils.convertApiSignMode2PortafibSignMode(fis
           .getSignMode());
 
-      
-
       String expectedNif = ssf.getSignaturesSet().getCommonInfoSignature()
           .getAdministrationID();
 
@@ -962,7 +899,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       IPortaFIBDataSource adaptat = new FileDataSource(getFitxerAdaptatPath(ssf.getSignaturesSet().getSignaturesSetID(), signID));
       int posTaulaDeFirmes = fis.getSignaturesTableLocation();
       
-
       ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
           validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal, adaptat,
           signature, documentDetached, signTypeID, signMode, languageUI, 
@@ -1038,8 +974,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
       PassarelaSignaturesSetWebInternalUse pss = passarelaSignaturesSets.get(transactionID);
       if (pss == null) {
-
-        
         log.warn("La transacció " + transactionID + " no existeix !!!!!");
 
         if (log.isDebugEnabled()) {
@@ -1067,9 +1001,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
   }
 
   protected void deleteSignaturesSet(String transactionID) {
-
     PassarelaSignaturesSetWebInternalUse pss = readSignaturesSet(transactionID);
-
     if (pss == null) {
       log.warn("NO Existeix signaturesSetID igual a " + transactionID);
       return;
@@ -1097,9 +1029,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     }
 
     return map;
-
   }
-  
   
 
   protected void deleteSignaturesSet(PassarelaSignaturesSetWebInternalUse pss) {

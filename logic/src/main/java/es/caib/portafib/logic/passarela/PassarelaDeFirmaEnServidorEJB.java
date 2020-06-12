@@ -124,6 +124,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
       ssbv.throwValidationExceptionIfErrors(passarelaSignaturesSet, isNou);
 
       signaturesSetID = passarelaSignaturesSet.getSignaturesSetID();
+      log.info("signDocuments: " + signaturesSetID);
 
       // Guardar ZYX ZZZ
       // storeSignaturesSet(new PassarelaSignaturesSetFull(entitatID,

@@ -1,4 +1,41 @@
 
+PortaFIB 2.0.9
+==============
+
+2020-06-05 Errada al menú d'adminstrador entitat: "Modificar dades de Persona" / "Alta de Persones" #438
+
+2020-06-05 Moure l'opció "Llistat Firmes Externes" del menú Administrador Entitat #440
+
+2020-06-05 A la bitàcola no apareix l'usuari aplicació que crea les peticions síncrones #442
+
+2020-06-05 Camps obligatoris no validats a api Passarela V1 #457
+
+2020-06-05 Introduir logs a les firmes síncrones perquè imprimeixi l'id de transacció davant errors inesperats #449
+
+2020-06-05 Els identificadors de l'API de passrela no caben dins la bitàcola #436
+
+2020-06-05 No agafa correctament la codificació de caràcters del text inserit com a motiu de firma #411
+
+2020-06-04 Problemes de rendiment en les consultes de petició de firma i bitàcola #434
+
+2020-06-03 NullPointerException per mor del fitltre de certificats #456
+
+2020-05-29 Acursar nom de la petició en llistat de Solicitant #147
+
+2020-05-29 Acursar nom de la petició en llistat de Destinatari,Delegat i Col·laborador #430
+
+2020-05-28 Els errors de bitàcola fan fallar tot el procés de notificacions #453
+
+2020-05-28 Evitar consultes múltiples a les pantalles de llistats estatsdefirma/peticiodefirma #447
+
+2020-05-22 Optmitzar la generació del nombre d'avisos #445
+
+2020-05-20 Falla notificador de l'api d'Indra quan la petició s'ha esborrat #441
+
+2020-05-20 Error a l'API Indra/Portafirmas quan s'intenta descarregar un document que ha estat parcialment firmat #444
+
+2020-05-12 Error al formulari per generar estadístiques amb IE #433
+
 PortaFIB 2.0.8
 ==============
 
@@ -34,7 +71,7 @@ PortaFIB 2.0.8
 
 2020-03-20 Eliminar referències a repositori maven obsolet #416
 
-2020-02-26 Inicialitzar portafib-2.0.8 #414  26 Feb
+2020-02-26 Inicialitzar portafib-2.0.8 #414
 
 
 

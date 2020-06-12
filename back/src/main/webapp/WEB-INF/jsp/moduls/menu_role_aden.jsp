@@ -34,8 +34,7 @@ static {
   menu1.add(MenuItem.retallaDarrerPath("usuaripersona.alta", "/aden/usuariPersona/alta"));
   menu1.add(MenuItem.retallaDarrerPath("usuaripersona.modificar", "/aden/usuariPersona/modificar"));
   menu1.add(MenuItem.retallaDarrerPath("usuarientitat.gestio", "/aden/usuariEntitat/selecciousuari"));
-  menu1.add(null);
-  menu1.add(MenuItem.retallaDarrerPath("firmausuariextern.plural", "/aden/firmausuariextern/list"));  
+  menu1.add(null);  
   menu1.add(MenuItem.retallaDarrerPath("carrec.gestio", "/aden/carrec/list"));
   menu1.add(MenuItem.retallaDarrerPath("colaboradordecarrec.plural", "/aden/colaboradordecarrec/list"));
   menu1.add(MenuItem.retallaDarrerPath("solicitant.gestio", "/aden/solicitant/selecciousuari"));
@@ -62,6 +61,7 @@ static {
     menu1.add(MenuItem.retallaDarrerPath("peticiodefirma.netejaesborrat", "/aden/peticio/netejaesborrat/list"));
   }
   menu1.add(MenuItem.retallaDarrerPath("peticionsdefirma.destinatari", "/aden/peticionsdedestinatari/selecciousuari"));
+  menu1.add(MenuItem.retallaDarrerPath("firmausuariextern.plural", "/aden/firmausuariextern/list"));
   menu1.add(null);
   menu1.add(MenuItem.retallaDarrerPath("estadistica.estadistica.plural", "/aden/estadistica/search"));
   menu1.add(MenuItem.retallaDarrerPath("bitacola.menu", "/aden/bitacola/list"));
@@ -87,9 +87,10 @@ for(List<MenuItem> menu : menus) {
       <fmt:message var="traduccio" key="${item.label}" />
       <c:set var="theurl" value="${item.url}"/>
       <c:set var="theurlbase" value="${item.urlbase}"/>
+      <c:set var="match" value="${(fn:contains(urlActual, theurl)) or ((fn:contains(urlActual, theurlbase)) and (fn:endsWith(theurlbase, 'entitat')))}"/>
       <li style="list-style-type: disc; list-style-position: inside;">
         <a href="<c:url value="${theurl}"/>">
-          <span style="${(fn:contains(urlActual, theurlbase))? "font-weight: bold;" : ""} ${(fn:endsWith(traduccio, '(*)'))? "color: red;" : ""}">${traduccio}</span>
+          <span style="${(match)? "font-weight: bold;" : ""} ${(fn:endsWith(traduccio, '(*)'))? "color: red;" : ""}">${traduccio}</span>
         </a>
       </li>
     </c:if>

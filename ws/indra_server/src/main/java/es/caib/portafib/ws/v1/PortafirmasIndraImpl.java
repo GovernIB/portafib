@@ -1093,7 +1093,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
             if (lastSign == null) {
               lastSign = peticioDeFirmaLogicaEjb.getLastSignOfPeticioDeFirma(peticioDeFirmaID);
             }
-            if (lastSign == null) {
+            if (lastSign == null || lastSign.getFitxerFirmat() == null) {
               returnedFile = null;
             } else {
               FitxerJPA fitxer = lastSign.getFitxerFirmat();
@@ -1242,7 +1242,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
   }
   
   protected File fillFitxerInfo(File file, FitxerJPA fitxer) {
-    
+
     file.setExtension(getExtensioDeDocument(fitxer.getNom()));
     file.setMimeType(fitxer.getMime());
     
@@ -2508,12 +2508,11 @@ public class PortafirmasIndraImpl implements Cws, Constants {
   
   
   private String getExtensioDeDocument(String arxiuNom) {
-    int index = arxiuNom.lastIndexOf(".");
-    if (index != -1) {
-      return arxiuNom.substring(index + 1);
-    } else {
+    int index;
+    if (arxiuNom == null || (index = arxiuNom.lastIndexOf(".")) == -1) {
       return "";
     }
+    return arxiuNom.substring(index + 1);
   }
 
 }

@@ -175,15 +175,12 @@ public class NotificacioSenderApiIndra implements NotificacioSender {
       if (fe.getEstatDeFirmaUsuariEntitatID() != null) {
 
          signer = new Signer();
-
          Certificate certificate = null;
 
          if (eventID == ConstantsV2.NOTIFICACIOAVIS_FIRMA_PARCIAL) {
 
-
             long firmaID = fe.getFirmaID();
             FirmaLogicaLocal firmaEjb = EjbManager.getFirmaLogicaEJB();
-
             Firma firma = firmaEjb.findByPrimaryKey(firmaID);
 
             if (firma != null) {
@@ -208,9 +205,13 @@ public class NotificacioSenderApiIndra implements NotificacioSender {
             signer.setDelegate(delegate);
          }
 
-         FirmaLogicaLocal firmaEjb = EjbManager.getFirmaLogicaEJB();
-         Firma firma = firmaEjb.findByPrimaryKey(fe.getFirmaID());
-         signer.setId(extractAdministrationID(firma.getDestinatariID()));
+         // #441 Podem arribar aquí perquè s'ha rebutjat i esborrat una peticó i ja no hi és per tant no trobarem
+         // la firma. Tampoc no cal, perquè tenim l'usuariEntitat de l'EstatdeFirma
+
+         //FirmaLogicaLocal firmaEjb = EjbManager.getFirmaLogicaEJB();
+         //Firma firma = firmaEjb.findByPrimaryKey(fe.getFirmaID());
+         //signer.setId(extractAdministrationID(firma.getDestinatariID()));
+         signer.setId(extractAdministrationID(fe.getEstatDeFirmaUsuariEntitatID()));
       }
 
       if (eventID == ConstantsV2.NOTIFICACIOAVIS_PETICIO_REBUTJADA) {

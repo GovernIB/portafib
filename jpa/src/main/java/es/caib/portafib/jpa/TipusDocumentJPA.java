@@ -3,17 +3,17 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import java.util.HashSet;
-import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import java.util.HashSet;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Entity;
+import java.util.Set;
+import org.hibernate.annotations.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import java.util.Set;
-import javax.persistence.Id;
+import org.hibernate.annotations.ForeignKey;
 
 
 @Entity
@@ -243,10 +243,6 @@ private static final long serialVersionUID = -1473284441L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
-    if(!"TipusDocumentColaboracioDelegacioJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocumentColaboracioDelegacios) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocumentColaboracioDelegacios())) ) {
-      __tmp.setTipusDocumentColaboracioDelegacios(TipusDocumentColaboracioDelegacioJPA.copyJPA(__jpa.getTipusDocumentColaboracioDelegacios(), __alreadyCopied,"TipusDocumentJPA"));
-    }
     if(!"ModulDeFirmaPerTipusDeDocumentJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.modulDeFirmaPerTipusDeDocuments) || org.hibernate.Hibernate.isInitialized(__jpa.getModulDeFirmaPerTipusDeDocuments())) ) {
       __tmp.setModulDeFirmaPerTipusDeDocuments(ModulDeFirmaPerTipusDeDocumentJPA.copyJPA(__jpa.getModulDeFirmaPerTipusDeDocuments(), __alreadyCopied,"TipusDocumentJPA"));
@@ -255,14 +251,18 @@ private static final long serialVersionUID = -1473284441L;
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
       __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"TipusDocumentJPA"));
     }
-    // Copia de beans complexes (IMP)
-    if(!"UsuariAplicacioJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
-      __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"TipusDocumentJPA"));
+    if(!"TipusDocumentColaboracioDelegacioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocumentColaboracioDelegacios) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocumentColaboracioDelegacios())) ) {
+      __tmp.setTipusDocumentColaboracioDelegacios(TipusDocumentColaboracioDelegacioJPA.copyJPA(__jpa.getTipusDocumentColaboracioDelegacios(), __alreadyCopied,"TipusDocumentJPA"));
     }
+    // Copia de beans complexes (IMP)
     if(!"TraduccioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.nom) || org.hibernate.Hibernate.isInitialized(__jpa.getNom()) ) ) {
       __tmp.setNom(TraduccioJPA.copyJPA(__jpa.getNom(), __alreadyCopied,"TipusDocumentJPA"));
+    }
+    if(!"UsuariAplicacioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
+      __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"TipusDocumentJPA"));
     }
 
     return __tmp;

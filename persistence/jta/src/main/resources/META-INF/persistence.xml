@@ -55,6 +55,12 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 		<class>es.caib.portafib.jpa.UsuariPersonaJPA</class>
 
         <properties>
+			<property name="hibernate.default_batch_fetch_size" value="100"/>
+			<property name="hibernate.jdbc.fetch_size" value="100"/>
+			<property name="hibernate.jdbc.batch_size" value="10"/>
+			<property name="hibernate.order_updates" value="true"/>
+			<property name="hibernate.order_inserts" value="true"/>
+
             <property name="hibernate.dialect" value="${es.caib.portafib.hibernate.dialect}" />
             <property name="hibernate.query.substitutions" value="${es.caib.portafib.hibernate.query.substitutions}"/>
         </properties>

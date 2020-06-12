@@ -13,8 +13,11 @@ public class PropietatsConstants {
   public static final Map<String, Propietat> propietatsEntitat = new HashMap<String, PropietatsConstants.Propietat>();
 
   private static final Propietat[] PROPIETATS_ENTITAT = {
-
       new Propietat(
+		 true,
+		 "es.caib.portafib.maxpeticiotitlelength",
+		  " Opcional. Valor per defecte 0. Indica la longitud màxima del titol de una peticio de firma si el valor està fixat."),
+	  new Propietat(
           true,
           "es.caib.portafib.maxitemstoshowinautocomplete",
           " Opcional. Valor per defecte 10. En els formularis de cerques dinàmiques d'usuari,           indica el màxim de resultats permesos per mostrar resultats de l'usuari."),

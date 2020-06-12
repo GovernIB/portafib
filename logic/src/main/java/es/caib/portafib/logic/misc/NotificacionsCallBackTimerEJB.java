@@ -233,12 +233,17 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       }
 
       // Temps màxim notificant, la meitat del temps programat, o com a màxim en qualsevol cas 2 minuts
-      final long maxTempsNotificant = Math.min(notificacionsTimeLapse / 2, 120000);
-      long estimatedProcessTime = 250L;
-      int maximSeleccionats = (int) (maxTempsNotificant / estimatedProcessTime);
+      final long maxTempsNotificant = Math.min( (notificacionsTimeLapse ) / 2, 120000);
+      long estimatedProcessTime = 50L;
+      // Processam un màxim de 1000 notificacions pendents per execució
+      int maximSeleccionats = Math.min( (int) (maxTempsNotificant / estimatedProcessTime), 1000);
 
       List<NotificacioWS> notificacions = notificacioEjb.select(where, 0, maximSeleccionats,
-          new OrderBy(NotificacioWSFields.DATACREACIO));
+          new OrderBy(NotificacioWSFields.DATACREACIO),
+          new OrderBy(NotificacioWSFields.REINTENTS)); /* Dins la mateixa data no caldria ordenar pels que
+        tenguin menor nombre de reintents. Però afegint aquest criteri d'ordenació la BDD agafarà l'índex definit
+        per (bloquejada, reintents) que farà la consulta molt més ràpida. */
+
       final int notificacionsSeleccionades = notificacions.size();
       log.info("executeTask: Notificacions seleccionades: " + notificacionsSeleccionades);
 
@@ -247,12 +252,14 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       for (NotificacioWS notificacioWS : notificacions) {
         count++;
         log.info("Processant notificacio amb ID " + notificacioWS.getNotificacioID());
-        log.info("notificacio::getDataError() => " + notificacioWS.getDataError());
-        log.info("notificacio::getReintents() => " + notificacioWS.getReintents());
+        if (notificacioWS.getDataError() != null) {
+          log.info("notificacio::getDataError() => " + notificacioWS.getDataError());
+          log.info("notificacio::getReintents() => " + notificacioWS.getReintents());
+        }
         // Obte un NotificacioInfo a partir del notificacioWS.getDescripcio()
         processNotificacio((NotificacioWSJPA) notificacioWS);
 
-        // Estarem fent feina com a màxim la meitat del temps programat, o com a màxim 1 minut. per no saturar el servidor
+        // Estarem fent feina durant un temps màxim per no saturar el servidor, i evitar cridades concurrents
         if ((System.currentTimeMillis() - now) > maxTempsNotificant) {
           log.warn("executeTask: Fa més de " + maxTempsNotificant + " ms que feim Notificacions. Aturam per no saturar servidor!!!");
           break;
@@ -289,11 +296,11 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         log.warn("processNotificacio: No es troba UsuariAplicacio " + usuariAplicacioID + ". Tancam de la notificacio");
 
       } else {
-        log.info("  USRAPP: " + usuariAplicacio.getUsuariAplicacioID());
-        log.info("  SERVER: " + usuariAplicacio.getCallbackURL());
-        log.info("  VERSIO: " + usuariAplicacio.getCallbackVersio());
-        log.info("  PETICIO: " +notificacioJPA.getPeticioDeFirmaID());
-        log.info("  EVENT: " + notificacioInfo.getFirmaEvent().getEventID());
+        log.info("\n\tUSRAPP: " + usuariAplicacio.getUsuariAplicacioID() +
+                "\n\tSERVER: " + usuariAplicacio.getCallbackURL() +
+                "\n\tVERSIO: " + usuariAplicacio.getCallbackVersio() +
+                "\n\tPETICIO: " +notificacioJPA.getPeticioDeFirmaID() +
+                "\n\tEVENT: " + notificacioInfo.getFirmaEvent().getEventID());
 
         NotificacioSender sender = NotificacioSenderFactory.getSender(usuariAplicacio);
         if (sender != null) {

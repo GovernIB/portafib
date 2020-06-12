@@ -45,13 +45,38 @@ public class SignaturesSetValidator<T extends PassarelaSignaturesSet> {
        AbstractPassarelaDeFirmaLocal passarelaDeFirmaEjb, String entitatID) {
 
     
-    PassarelaSignaturesSet pss = __target__;
+    final PassarelaSignaturesSet pss = __target__;
+
+    // Comprovar signatureSetID #436
+    if (isEmpty(pss.getSignaturesSetID())) {
+      Field<?> f = getF("signaturesSetID");
+      __vr.rejectValue(f, "genapp.validation.required",
+          new I18NArgumentString(f.javaName));
+    } else {
+      if (pss.getSignaturesSetID().length() > 100) {
+        Field<?> f = getF("signaturesSetID");
+        __vr.rejectValue(f, "genapp.validation.sizeexceeds",
+                new I18NArgumentString(f.javaName), new I18NArgumentString(String.valueOf(100)));
+      }
+    }
 
     // Valors Not Null
+    if (pss.getExpiryDate() == null) {
+      Field<?> f = getF("expiryDate");
+      __vr.rejectValue(f, "genapp.validation.required",
+          new I18NArgumentString(f.javaName));
+    }
+
     if (pss.getCommonInfoSignature() == null) {
       Field<?> f = getF("commonInfoSignature");
       __vr.rejectValue(f, "genapp.validation.required",
           new I18NArgumentString(f.javaName));
+    } else {
+      if (pss.getCommonInfoSignature().getLanguageUI() == null) {
+        Field<?> f = getF("commonInfoSignature.languageUI");
+        __vr.rejectValue(f, "genapp.validation.required",
+                new I18NArgumentString(f.javaName));
+      }
     }
 
     if (pss.getFileInfoSignatureArray() == null || pss.getFileInfoSignatureArray().length == 0) {

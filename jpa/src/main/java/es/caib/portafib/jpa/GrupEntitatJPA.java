@@ -3,20 +3,20 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.UniqueConstraint;
-import org.hibernate.annotations.ForeignKey;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import java.util.Set;
-import java.util.HashSet;
-import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.GenerationType;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.ForeignKey;
+import java.util.HashSet;
+import javax.persistence.OneToMany;
+import javax.persistence.Entity;
+import javax.persistence.UniqueConstraint;
+import java.util.Set;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.GeneratedValue;
 
 
 @Entity
@@ -194,13 +194,13 @@ private static final long serialVersionUID = -1606199656L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
-    if(!"PermisGrupPlantillaJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.permisGrupPlantillas) || org.hibernate.Hibernate.isInitialized(__jpa.getPermisGrupPlantillas())) ) {
-      __tmp.setPermisGrupPlantillas(PermisGrupPlantillaJPA.copyJPA(__jpa.getPermisGrupPlantillas(), __alreadyCopied,"GrupEntitatJPA"));
-    }
     if(!"GrupEntitatUsuariEntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.grupEntitatUsuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getGrupEntitatUsuariEntitats())) ) {
       __tmp.setGrupEntitatUsuariEntitats(GrupEntitatUsuariEntitatJPA.copyJPA(__jpa.getGrupEntitatUsuariEntitats(), __alreadyCopied,"GrupEntitatJPA"));
+    }
+    if(!"PermisGrupPlantillaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.permisGrupPlantillas) || org.hibernate.Hibernate.isInitialized(__jpa.getPermisGrupPlantillas())) ) {
+      __tmp.setPermisGrupPlantillas(PermisGrupPlantillaJPA.copyJPA(__jpa.getPermisGrupPlantillas(), __alreadyCopied,"GrupEntitatJPA"));
     }
     // Copia de beans complexes (IMP)
     if(!"EntitatJPA".equals(origenJPA) && 

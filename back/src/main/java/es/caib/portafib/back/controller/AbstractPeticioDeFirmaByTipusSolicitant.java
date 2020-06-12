@@ -25,6 +25,7 @@ import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.Fitxer;
@@ -36,6 +37,7 @@ import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariEntitat;
+import es.caib.portafib.model.fields.EstatDeFirmaQueryPath;
 import es.caib.portafib.model.fields.FluxDeFirmesFields;
 import es.caib.portafib.model.fields.GrupEntitatFields;
 import es.caib.portafib.model.fields.GrupEntitatUsuariEntitatFields;
@@ -62,6 +64,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.SelectConstant;
+import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
@@ -109,6 +112,9 @@ import java.util.zip.ZipOutputStream;
  */
 public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
     AbstractPeticioDeFirmaController implements ConstantsV2 {
+
+
+  private static final int COLUMN_PETICIODEFIRMA_TITOL = -1;
 
   /**
    * Columna Solicitant
@@ -1487,7 +1493,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
       hiddenFields.addAll(Arrays.asList(ALL_PETICIODEFIRMA_FIELDS));
 
       // Mostrar camps següents
-      hiddenFields.remove(TITOL);
+      //hiddenFields.remove(TITOL);
       hiddenFields.remove(DATASOLICITUD);
       hiddenFields.remove(DATAFINAL);
       hiddenFields.remove(TIPUSESTATPETICIODEFIRMAID);
@@ -1574,6 +1580,24 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
               new OrderBy(DATASOLICITUD, OrderType.DESC), };
         break;
       }
+      
+      
+      //  NOVES COLUMNES PETICIO
+
+      // ===================  Nom de petició de firma
+      {
+        AdditionalField<String,String> addfieldPF = new AdditionalField<String,String>(); 
+        addfieldPF.setCodeName("peticioDeFirma.titol");
+        addfieldPF.setPosition(COLUMN_PETICIODEFIRMA_TITOL);
+        // Els valors s'ompliran al mètode postList()
+        addfieldPF.setValueMap(new HashMap<String, String>());
+        addfieldPF.setOrderBy(TITOL);
+        addfieldPF.setEscapeXml(false);
+        
+        peticioDeFirmaFilterForm.addAdditionalField(addfieldPF);
+      }
+
+      
       
       
       if (getTipusSolicitant() != TipusSolicitant.SOLICITANT_WEB) {
@@ -2039,12 +2063,16 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
       case SOLICITANT_TOTS:
         String entitatID = LoginInfo.getInstance().getEntitatID();
         SubQuery<UsuariAplicacio, String> subqueryApp = usuariAplicacioEjb.getSubQuery(UsuariAplicacioFields.USUARIAPLICACIOID, UsuariAplicacioFields.ENTITATID.equal(entitatID) );
+
+        // No cal filtrar per usuari-entitat, ja que sempre hi ha un usuari-aplicació
+        // per defecte de l'Entitat que s'empra quan el solicitant és un usuari-entitat
+        /*
         SubQuery<UsuariEntitat, String> subqueryPerson = usuariEntitatLogicaEjb.getSubQuery(UsuariEntitatFields.USUARIENTITATID, UsuariEntitatFields.ENTITATID.equal(entitatID) );
-        
         Where w = Where.OR(SOLICITANTUSUARIENTITAT1ID.in(subqueryPerson),
             SOLICITANTUSUARIAPLICACIOID.in(subqueryApp));
+        return w;*/
 
-        return w;
+        return SOLICITANTUSUARIAPLICACIOID.in(subqueryApp);
 
       default:
         // XYZ ZZZ TRA
@@ -2069,6 +2097,24 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
     LoginInfo loginInfo = LoginInfo.getInstance();
     EntitatJPA entitat = loginInfo.getEntitat();
     String entitatID = loginInfo.getEntitatID();
+    
+    int titleLength = PropietatGlobalUtil.getMaxPeticioTitleLength(entitatID);
+    
+	Map<Long, String> mapPF;
+    mapPF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TITOL).getValueMap();
+    mapPF.clear();
+      
+	for (PeticioDeFirma pf : list) {
+		long pk = pf.getPeticioDeFirmaID();
+		String pfTitol = pf.getTitol();
+		String pfTitolCut = "";
+		if (pfTitol != null) {
+			pfTitolCut = (pfTitol.length() > titleLength) ? pfTitol.substring(0, titleLength) + "..." : pfTitol;
+		}
+		String pfTitolView =(titleLength>0)?"<a href=\"#\" data-toggle=\"tooltip\" title=\"" + pfTitol + "\">" + pfTitolCut + "</a>":pfTitol;
+		mapPF.put(pk, pfTitolView);
+	}
+    
 
     switch (tipusSolicitant) {
 

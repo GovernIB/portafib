@@ -2,6 +2,7 @@ package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.BitacolaLocal;
 import es.caib.portafib.jpa.BitacolaJPA;
+import es.caib.portafib.logic.bitacola.InfoBitacola;
 
 import javax.ejb.Local;
 
@@ -14,6 +15,8 @@ import javax.ejb.Local;
 public interface BitacolaLogicaLocal extends BitacolaLocal {
 
   String JNDI_NAME = "portafib/BitacolaLogicaEJB/local";
+
+  BitacolaJPA createBitacola(InfoBitacola info);
 
   BitacolaJPA createBitacola(String entitatid, String objecteid, int tipusobjecte,
                                     int tipusoperacio);

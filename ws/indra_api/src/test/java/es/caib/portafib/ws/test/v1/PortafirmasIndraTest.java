@@ -263,17 +263,23 @@ public class PortafirmasIndraTest extends IndraTestUtils {
 
     peticioInfo.importance = ImportanceEnum._normal;
 
-    peticioInfo.minSignersByBloc.put(0, 1); // una firma en el bloc 0
-
     String signerDNIorUsername = IndraTestUtils.getSigner();
     
     peticioInfo.senderUserEmail = "anadal@fundaciobit.org";
     peticioInfo.senderUserName = "Nom de " + signerDNIorUsername;
     
     peticioInfo.signAnnexes = false; // S'han de firmar el anexos ??
-    
-    peticioInfo.signersIdsByBloc.put(0, new String[]{ signerDNIorUsername });
-    
+
+    // Si s'indiquen varis signats separats per coma, les ficam un a cada bloc
+    // i indicam per cada bloc que cal una signatura només
+    // TODO: també podriem donar l'opció de posar-los en paral·lel dins el mateix
+    // bloc i que el minim de signatures del bloc fos el nombre de signants.
+    String[] signers = signerDNIorUsername.split(",");
+    for (int i = 0; i < signers.length; i++) {
+      peticioInfo.signersIdsByBloc.put(i, new String[]{ signers[i] });
+      peticioInfo.minSignersByBloc.put(i, 1);
+    }
+
     peticioInfo.signMode = SignModeEnum._attached;
 
     // 1 - PDF; 2 - P7/CMS/CADES; 3 - XADES;

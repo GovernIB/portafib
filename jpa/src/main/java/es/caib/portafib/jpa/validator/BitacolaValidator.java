@@ -71,9 +71,9 @@ public class BitacolaValidator<T> implements BitacolaFields {
     
     if (__vr.getFieldErrorCount(OBJECTEID) == 0) {
       java.lang.String __objecteid = (java.lang.String)__vr.getFieldValue(__target__,OBJECTEID);
-      if (__objecteid!= null && __objecteid.length() > 50) {
+      if (__objecteid!= null && __objecteid.length() > 100) {
         __vr.rejectValue(OBJECTEID, "genapp.validation.sizeexceeds",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(OBJECTEID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(50)));
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(OBJECTEID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(100)));
       }
     }
     

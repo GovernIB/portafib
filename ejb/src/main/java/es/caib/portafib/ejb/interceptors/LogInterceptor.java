@@ -1,4 +1,4 @@
-package es.caib.portafib.logic.interceptors;
+package es.caib.portafib.ejb.interceptors;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -45,7 +45,7 @@ public class LogInterceptor {
 
       final long elapsedMillis = (System.nanoTime() - startNanoTime) / 1000000;
 
-      if (elapsedMillis > 5000) {
+      if (elapsedMillis > 500) {
          log.warn(message + " return(" + result + ") in " + elapsedMillis + "ms!!!");
       } else {
          log.info(message + " return(" + result + ") in " + elapsedMillis + "ms");

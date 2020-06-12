@@ -3,13 +3,13 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GenerationType;
-import javax.persistence.Lob;
-import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Entity;
+import javax.persistence.GenerationType;
+import org.hibernate.annotations.Index;
+import javax.persistence.GeneratedValue;
 
 
 @Entity
@@ -34,13 +34,15 @@ private static final long serialVersionUID = 1492894118L;
 	@Column(name="usuariid",nullable = false,length = 101)
 	java.lang.String usuariid;
 
+	@Index(name="pfi_bitacola_data_i")
 	@Column(name="data",nullable = false,length = 29,precision = 6)
 	java.sql.Timestamp data;
 
 	@Column(name="tipusobjecte",nullable = false,length = 10)
 	int tipusObjecte;
 
-	@Column(name="objecteid",nullable = false,length = 50)
+	@Index(name="pfi_bitacola_objecteid_i")
+	@Column(name="objecteid",nullable = false,length = 100)
 	java.lang.String objecteid;
 
 	@Column(name="tipusoperacio",nullable = false,length = 10)

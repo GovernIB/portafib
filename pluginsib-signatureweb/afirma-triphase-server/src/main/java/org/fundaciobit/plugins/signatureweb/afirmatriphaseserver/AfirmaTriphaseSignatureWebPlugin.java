@@ -915,21 +915,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         
         configProperties[i].remove(FORMAT_BATCH);
         configProperties[i].remove(FORMAT_MOBILE);
-        
-        //String extraParamsB64 = encodeB64(configPropertiesStr[i]);
-        // @firma llegeix aquest extraParams amb un mètode propi que per davall empra un Properties.load que
-        // per versions de Java < 9 sempre empra ISO-8859-1. Per tant, per produir el paràmetre, empram també el
-        // seu mètode que per davall empra un Properties.store que també emprarà ISO-8859-1.
-        // Veure issue #411
-        String extraParamsB64;
-        try {
-          extraParamsB64 = AOUtil.properties2Base64(configProperties[i]);
-        } catch (IOException e) {
-          // TODO traduir
-          String errorMsg = "Error desconegut intentant generar extraParams en Base64: " + e.getMessage();
-          finishWithError(response, signaturesSet, errorMsg, e);
-          return;
-        }
+
+        // @firma llegeix els extraParams amb un Properties.load sobre un String.getBytes. El primer espera
+        // ISO-8859-1, el segon genera ISO-8859-1 o UTF-8 en funció de la plataforma. Cosa que és impossible de quadrar.
+        // Amb l'escapeJava genera ASCII escapant els caràcters unicode, per tant el getBytes no  espanyarà res.
+        // Veure #411
+        String extraParamsB64 = encodeB64(StringEscapeUtils.escapeJava(configPropertiesStr[i]));
 
         batch.append(
             "  <singlesign Id=\"" + signatureFullID + "\">\r\n" + //$NON-NLS-1$
