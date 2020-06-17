@@ -2355,7 +2355,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
           /* FLUX EDITAR */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID,
               new AdditionalButton("/img/fluxicon.png", "fluxDeFirmes.editar",
-                  "javascript:goTo('" + request.getContextPath() + "/" + getFluxPath()
+                  "javascript:goTo('" + request.getContextPath() + getFluxPath() + "/"
                       + peticioDeFirma.getFluxDeFirmesID() + "/edit?redirectOnModify="
                       + getContextWeb() + "/list')", "btn-warning"));
       } else {
@@ -2365,7 +2365,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
                 + peticioDeFirmaID + "/edit", "btn-info"));
 
         filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-            "/img/fluxicon.png", "fluxDeFirmes.fluxDeFirmes", "/" + getFluxPath() + "/view/"
+            "/img/fluxicon.png", "fluxDeFirmes.fluxDeFirmes", getFluxPath() + "/view/"
                 + peticioDeFirma.getFluxDeFirmesID() + "?redirectOnModify=" + getContextWeb()
                 + "/list&readOnly=true", "btn-info"));
       }

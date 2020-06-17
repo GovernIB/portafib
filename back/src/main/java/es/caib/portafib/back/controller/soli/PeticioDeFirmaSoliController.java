@@ -23,7 +23,7 @@ public abstract class PeticioDeFirmaSoliController extends
   
   @Override
   public String getFluxPath() {
-    return "/soli/fluxdefirmes/";  
+    return "/soli/fluxdefirmes";
   }
   
   @Override
