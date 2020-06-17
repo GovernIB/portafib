@@ -8,7 +8,7 @@
  <tr>
  <td width="40%" valign="top">
    <div class="pull-left colophon">
-     <b title="Build: <%=Build.BUILD%>"><fmt:message key="app.nom" /> v<%=LogicUtils.getVersio()%></b><br/>
+     <b title="Build: <%=LogicUtils.getBuild()%>"><fmt:message key="app.nom" /> v<%=LogicUtils.getVersio()%></b><br/>
      <i><a href="http://blog.fundaciobit.org/category/admindigital/" target="_blank"><fmt:message key="desenvolupatper" /></a></i><br/>
      <!-- Button to trigger modal -->
      <c:if test="${not empty loginInfo.entitatID}" > 
