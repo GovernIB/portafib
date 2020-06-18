@@ -1,11 +1,15 @@
 package es.caib.portafib.logic;
 
+import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.utils.ConstantsV2;
 
 import javax.ejb.Stateless;
 
+import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 import org.jboss.ejb3.annotation.SecurityDomain;
+
+import java.util.List;
 
 /**
  *
@@ -27,4 +31,8 @@ public class PluginDeCustodiaLogicaEJB extends AbstractPluginLogicaEJB<IDocument
     return "Plugin de Custòdia";
   }
 
+  @Override
+  public List<Plugin> getAllPlugins(String entitatID) throws I18NException {
+    throw new UnsupportedOperationException(getName() + " no admet la cerca per entitat");
+  }
 }

@@ -889,9 +889,9 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
 
     custodiaInfo.setDataCustodia(new Timestamp(new Date().getTime()));
 
-    List<Plugin> plugins = pluginDeCustodiaLogicaEjb.getAllPlugins(entitatID);
+    List<Plugin> plugins = pluginDeCustodiaLogicaEjb.getAllPluginsSenseEntitat();
     if (plugins.size() == 0) {
-      log.warn("No hi ha plugins de custòdia en l'entitat " + entitatID);
+      log.warn("No hi ha plugins de custòdia!!!");
     } else {
       custodiaInfo.setPluginID(plugins.get(0).getPluginID());
     }
