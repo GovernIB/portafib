@@ -438,7 +438,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
         custodiaInfo = (CustodiaInfoJPA) custodiaInfoLogicaEjb.create(custodiaInfo);
 
         peticioDeFirma.setCustodiaInfoID(custodiaInfo.getCustodiaInfoID());
-        peticioDeFirma.setCustodiaInfo(null);
+        peticioDeFirma.setCustodiaInfo(custodiaInfo);
       }
     }
     
