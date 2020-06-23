@@ -32,6 +32,7 @@ import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.logic.utils.datasource.ByteArrayDataSource;
 import es.caib.portafib.logic.utils.datasource.FitxerIdDataSource;
+import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.fields.AnnexFields;
 import es.caib.portafib.model.fields.FirmaFields;
@@ -955,6 +956,14 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest,
       UsuariAplicacioJPA usrapp, EntitatJPA entitatJPA, 
       Set<Long> fitxersCreats, String languageUI) throws I18NException, I18NValidationException {
+
+    // Agafar perfil per defecte si no en tenim. #458
+    String profileCode = signatureRequest.getProfileCode();
+    if (profileCode == null || profileCode.trim().length() == 0) {
+      PerfilDeFirma perfil = configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirmaPerApiFirmaAsyncRest(usrapp.getUsuariAplicacioID());
+      profileCode = perfil.getCodi();
+      signatureRequest.setProfileCode(profileCode);
+    }
 
     // De Perfil de Firma i Configuracio de Firma
     // XYZ ZZZ ZZZ
