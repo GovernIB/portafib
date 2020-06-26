@@ -72,7 +72,7 @@ public class ExempleMultiple {
       final int nombreThreads;
       String nombreThreadsString = testProperties.getProperty("nombreThreads");
       if (nombreThreadsString != null) {
-        nombreThreads = Integer.valueOf(nombreThreadsString);
+        nombreThreads = Integer.parseInt(nombreThreadsString);
         if (nombreThreads < 1) {
           throw new Exception("nombreThreads ha de ser al manco 1 test.properties");
         }
@@ -83,7 +83,7 @@ public class ExempleMultiple {
       final int peticionsThread;
       String peticionsThreadString = testProperties.getProperty("peticionsThread");
       if (peticionsThreadString != null) {
-        peticionsThread = Integer.valueOf(peticionsThreadString);
+        peticionsThread = Integer.parseInt(peticionsThreadString);
         if (peticionsThread < 1) {
           throw new Exception("peticionsThread ha de ser al manco 1 test.properties");
         }

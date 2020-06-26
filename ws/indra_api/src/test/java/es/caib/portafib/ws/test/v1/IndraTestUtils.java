@@ -45,7 +45,13 @@ public abstract class IndraTestUtils {
     return "true".equals(testProperties.getProperty("wait_to_sign"));
   }
   
+  public static int getNombreClients() {
+    return Integer.parseInt(testProperties.getProperty("nombreClients"));
+  }
   
-  
+  public static int getNombrePeticionsClient() {
+    return Integer.parseInt(testProperties.getProperty("nombrePeticionsClient"));
+  }
+
 
 }
