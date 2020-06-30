@@ -163,7 +163,7 @@ public class GestioEntitatAdminController extends EntitatController implements C
 		    HttpServletRequest request) throws I18NException {
 	    EntitatFilterForm entitatFilterForm = super.getEntitatFilterForm(pagina, mav, request);
 
-		/**
+		/*
 		 * Cuando un FilterForm es nuevo?
 		 * Cuando se crea la sesión.
 		 * Un FilterForm representa la composición básica (títulos, botones columnas, etc...) de un listado.

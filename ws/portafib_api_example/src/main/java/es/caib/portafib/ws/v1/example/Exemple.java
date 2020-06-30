@@ -37,7 +37,7 @@ public class Exemple {
   
   public static final Logger log = Logger.getLogger(Exemple.class);
   
-  private static Properties testProperties = new Properties();
+  private static final Properties testProperties = new Properties();
   
   static {
     // Traduccions
@@ -126,7 +126,15 @@ public class Exemple {
         if (!custodiaInfoBean.isEditable()) {
           log.info("Avis: La custòdia per defecte NO ES MODIFICABLE");
         }
+
+        log.info("Custodia info: " + custodiaInfoBean.getCustodiaInfoID());
+        log.info("Titol petició: " + custodiaInfoBean.getTitolPeticio());
+        log.info("Plantilla: " + custodiaInfoBean.getNomPlantilla());
+        log.info("PluginID: " + custodiaInfoBean.getPluginID());
+        log.info("Missatge posició: " + custodiaInfoBean.getMissatgePosicioPaginaID());
       }
+      custodiaInfoBean = null;
+      //if (true) return;
 
       // Annexes
       

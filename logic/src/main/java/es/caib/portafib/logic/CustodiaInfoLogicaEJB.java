@@ -224,7 +224,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
         // Si entitat te alguna politica que no ofereix plantilla de Custòdia llavors hem de
         // retornar No es Permet
         CustodiaInformation ciEntitat = checkPotCustodiarE(entitatJPA, true, null, titol,
-            usuariAplicacioID, usuariEntitatID);
+                usuariAplicacioID, usuariEntitatID);
 
         if (ciEntitat.custodiaInfo == null) {
           return new CustodiaInformation(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
@@ -234,9 +234,21 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
       }
 
       // [ENTITAT] Opcional plantilla Entitat (Per defecte Actiu)
-      case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU:
-        return checkPotCustodiarE(entitatJPA, constructCustodiaInfo, custodiaSentByUser, titol,
-            usuariAplicacioID, usuariEntitatID);
+      case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU: {
+        CustodiaInformation ciEntitat = checkPotCustodiarE(entitatJPA, constructCustodiaInfo, custodiaSentByUser, titol,
+                usuariAplicacioID, usuariEntitatID);
+        log.info("AQUI ESTAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        log.info("AQUI ESTAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        log.info("AQUI ESTAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        log.info("AQUI ESTAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        log.info("AQUI ESTAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        if (ciEntitat.custodiaInfo == null) {
+          log.info("I ES NULL");
+          return new CustodiaInformation(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
+        } else {
+          return new CustodiaInformation(politicaCustodia, ciEntitat.custodiaInfo);
+        }
+      }
 
       // Obligatori Plantilla definida en Entitat, usuari-entitat o usuari-aplicació.
       case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO: {
