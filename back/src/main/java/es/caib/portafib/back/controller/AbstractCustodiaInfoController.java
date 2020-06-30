@@ -101,13 +101,11 @@ public abstract class AbstractCustodiaInfoController extends CustodiaInfoControl
     String redirectOnCustody = (String) request.getSession().getAttribute("redirectOnCustody");
 
     if (redirectOnCustody == null) {
-      log.warn("redirectOnCustody == NULL", new Exception());
-    }
-    {
+      return super.getRedirectWhenCancel(request, custodiaInfoID);
+    } else {
       request.getSession().removeAttribute("redirectOnCustody");
       return "redirect:" + redirectOnCustody;
     }
-
   }
 
   @Override
