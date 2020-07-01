@@ -237,13 +237,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU: {
         CustodiaInformation ciEntitat = checkPotCustodiarE(entitatJPA, constructCustodiaInfo, custodiaSentByUser, titol,
                 usuariAplicacioID, usuariEntitatID);
-        log.info("AQUI ESTAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        log.info("AQUI ESTAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        log.info("AQUI ESTAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        log.info("AQUI ESTAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        log.info("AQUI ESTAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         if (ciEntitat.custodiaInfo == null) {
-          log.info("I ES NULL");
           return new CustodiaInformation(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
         } else {
           return new CustodiaInformation(politicaCustodia, ciEntitat.custodiaInfo);
@@ -633,7 +627,24 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
       // [ENTITAT] Opcional plantilla Entitat (Per defecte NO Actiu)
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU:
         if (onCreatePeticio) {
-          return null;
+          CustodiaInfo custodiaPeticio = peticio.getCustodiaInfo();
+          if (custodiaPeticio == null) {
+            return null;
+          }
+          // Miram primer quina custòdia té l'entitat
+          CustodiaInfo custodiaEntitat = searchDefaultCustodyInfoE(peticio, entitatJPA, titol, usuariAplicacioID, usuariEntitatID,
+                  onCreatePeticio);
+          if (custodiaEntitat == null) {
+            return null;
+          }
+
+          // Si l'entitat té una custòdia, i la petició ha demanat aquesta custòdia, s'ha d'emprar.
+          // comprovarem al manco que el plugin sigui el mateix
+          if (custodiaEntitat.getPluginID() == custodiaPeticio.getPluginID()) {
+            // si es editable retornam el que ha enviat la petició de firma, sinó retornam la custòdia de l'entitat
+            return custodiaEntitat.isEditable() ? custodiaPeticio : custodiaPeticio;
+          }
+
         } // else ADDCUSTODY WEBUI
         // [ENTITAT] Opcional plantilla Entitat (Per defecte Actiu)
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU:

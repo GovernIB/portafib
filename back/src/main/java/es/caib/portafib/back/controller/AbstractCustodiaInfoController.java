@@ -124,9 +124,6 @@ public abstract class AbstractCustodiaInfoController extends CustodiaInfoControl
         .getCustodiaInfoForm(_jpa, __isView, request, mav);
 
     CustodiaInfoJPA custodia = custodiaInfoForm.getCustodiaInfo();
-    log.info("getCustodiaInfoForm");
-    log.info("isView? " + __isView);
-    log.info("custodiaInfoID" + custodia.getCustodiaInfoID());
 
     if (custodia.getCustodiaDocumentID() == null) {
       custodiaInfoForm.addHiddenField(CUSTODIADOCUMENTID);
@@ -162,11 +159,8 @@ public abstract class AbstractCustodiaInfoController extends CustodiaInfoControl
       throw new I18NException("genapp.comodi",
               " No hi ha petició de firma per la custodia " + custodia.getCustodiaInfoID());
     }
-
     PeticioDeFirma peticioDeFirma = list.get(0);
-    log.info("peticioDeFirma: " + peticioDeFirma.getPeticioDeFirmaID());
 
-    log.info("custodia.getNomPlantilla() " + custodia.getNomPlantilla());
     if (custodia.getNomPlantilla() != null) {
       // És una Plantilla
       custodiaInfoForm.addHiddenField(CustodiaInfoFields.CSV);
@@ -182,7 +176,6 @@ public abstract class AbstractCustodiaInfoController extends CustodiaInfoControl
 
     } else {
 
-      log.info("custodia.isEditable() " + custodia.isEditable());
       if (!custodia.isEditable()) {
         custodiaInfoForm.getReadOnlyFields().addAll(Arrays.asList(ALL_CUSTODIAINFO_FIELDS));
         Utils.hiddenEmptyFields(custodiaInfoForm, custodia,
@@ -215,8 +208,6 @@ public abstract class AbstractCustodiaInfoController extends CustodiaInfoControl
                   + I18NUtils.tradueix("origenpeticiodefirma."
                       + peticioDeFirma.getOrigenPeticioDeFirma()));
       }
-
-      log.info("politicaDeCustodia: " + politicaDeCustodia);
 
       switch (politicaDeCustodia) {
 

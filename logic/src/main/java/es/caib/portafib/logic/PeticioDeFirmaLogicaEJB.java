@@ -423,7 +423,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodyInfoOnCreatePeticio(peticioDeFirma,
           entitatJPA, usuariEntitat, usuariAplicacio);
       
-      log.info("\n\n ??????? XYZ ZZZ  getCustodyInfoOnCreatePeticio ci=" + ci+ "\n\n");
+      log.info("getCustodyInfoOnCreatePeticio ci=" + ci);
      
       if (ci == null) {
         

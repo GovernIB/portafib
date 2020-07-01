@@ -126,14 +126,13 @@ public class Exemple {
         if (!custodiaInfoBean.isEditable()) {
           log.info("Avis: La custòdia per defecte NO ES MODIFICABLE");
         }
-
         log.info("Custodia info: " + custodiaInfoBean.getCustodiaInfoID());
         log.info("Titol petició: " + custodiaInfoBean.getTitolPeticio());
         log.info("Plantilla: " + custodiaInfoBean.getNomPlantilla());
         log.info("PluginID: " + custodiaInfoBean.getPluginID());
-        log.info("Missatge posició: " + custodiaInfoBean.getMissatgePosicioPaginaID());
+        log.info("Missatge posició pagina: " + custodiaInfoBean.getMissatgePosicioPaginaID());
       }
-      custodiaInfoBean = null;
+      //custodiaInfoBean = null;
       //if (true) return;
 
       // Annexes
