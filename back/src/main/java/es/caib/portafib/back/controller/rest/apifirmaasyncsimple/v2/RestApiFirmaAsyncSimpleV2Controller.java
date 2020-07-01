@@ -33,6 +33,7 @@ import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.logic.utils.datasource.ByteArrayDataSource;
 import es.caib.portafib.logic.utils.datasource.FitxerIdDataSource;
 import es.caib.portafib.model.entity.PerfilDeFirma;
+import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.fields.AnnexFields;
 import es.caib.portafib.model.fields.FirmaFields;
@@ -706,8 +707,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       FirmaAsyncSimpleFile signedFile = new FirmaAsyncSimpleFile(fitxerJPA.getNom(),
           fitxerJPA.getMime(), FileSystemManager.getFileContent(fitxerJPA.getFitxerID()));
 
-      PeticioDeFirmaJPA peticioDeFirma = (PeticioDeFirmaJPA) peticioDeFirmaLogicaEjb
-          .findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
+      PeticioDeFirmaJPA peticioDeFirma = peticioDeFirmaLogicaEjb.findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
 
       int signOperation = peticioDeFirma.getTipusOperacioFirma();
       String signType = SignatureUtils.convertPortafibSignTypeToApiSignType(peticioDeFirma
@@ -861,7 +861,54 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     }
   }
 
+  /**
+   * @return El fitxer original de la petició
+   */
+  @RequestMapping(value = "/" + ApiFirmaAsyncSimple.ORIGINALFILEOFSIGNATUREREQUEST, method = RequestMethod.POST)
+  @ResponseBody
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public ResponseEntity<?> getOriginalFileOfSignatureRequest(HttpServletRequest request,
+      @RequestBody FirmaAsyncSimpleSignatureRequestInfo info) {
 
+    String error = autenticateUsrApp(request);
+    if (error != null) {
+      return generateServerError(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    // XYZ ZZZ ZZZ
+    // Check info i info.getlanguage
+    String languageUI = info.getLanguageUI();
+    try {
+      LoginInfo loginInfo = commonChecks();
+
+      long peticioDeFirmaID = info.getSignatureRequestID();
+
+      // Check propietari
+      checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, loginInfo);
+
+      PeticioDeFirma peticioDeFirma = peticioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirmaID);
+      FitxerJPA fitxerJPA = peticioDeFirma.getFitxerAFirmar();
+
+      FirmaAsyncSimpleFile originalFile = new FirmaAsyncSimpleFile(fitxerJPA.getNom(),
+          fitxerJPA.getMime(), FileSystemManager.getFileContent(fitxerJPA.getFitxerID()));
+
+      HttpHeaders headers = addAccessControllAllowOrigin();
+
+      return new ResponseEntity<FirmaAsyncSimpleFile>(originalFile, headers, HttpStatus.OK);
+
+    } catch (I18NException i18ne) {
+      String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+      return generateServerError(msg);
+
+    } catch (Throwable th) {
+      // XYZ ZZZ TRA
+      String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE
+          + ": " + th.getMessage();
+      log.error(msg, th);
+      return generateServerError(msg, th);
+    }
+  }
 
   @RequestMapping(value = "/" + ApiFirmaAsyncSimple.DELETESIGNATUREREQUEST, method = RequestMethod.POST)
   @ResponseBody

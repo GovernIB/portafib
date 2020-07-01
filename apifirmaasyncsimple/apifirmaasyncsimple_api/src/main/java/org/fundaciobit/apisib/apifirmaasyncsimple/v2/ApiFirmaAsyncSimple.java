@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleAvailableProfile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleDocumentTypeInformation;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleFile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleKeyValue;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithSignBlockList;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestInfo;
@@ -35,13 +36,15 @@ public interface ApiFirmaAsyncSimple {
 
   public static final String SIGNEDFILEOFSIGNATUREREQUEST = "getSignedFileOfSignatureRequest";
 
+  public static final String ORIGINALFILEOFSIGNATUREREQUEST = "getOriginalFileOfSignatureRequest";
+
   public static final String DELETESIGNATUREREQUEST = "deleteSignatureRequest";
   
   /**
    * 
    * @param languageUI
    * @return
-   * @throws AbstractFirmaAsyncSimpleException
+   * @throws AbstractApisIBException
    */
   public List<FirmaAsyncSimpleKeyValue> getAvailableLanguages(String languageUI)
       throws AbstractApisIBException;
@@ -80,6 +83,9 @@ public interface ApiFirmaAsyncSimple {
       FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException;
 
   public FirmaAsyncSimpleSignedFile getSignedFileOfSignatureRequest(
+      FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException;
+
+  public FirmaAsyncSimpleFile getOriginalFileOfSignatureRequest(
       FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException;
 
   public void deleteSignatureRequest(FirmaAsyncSimpleSignatureRequestInfo info)
