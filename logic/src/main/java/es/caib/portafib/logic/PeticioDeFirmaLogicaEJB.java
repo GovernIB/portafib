@@ -1786,7 +1786,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
                     msg = "S'ha intentat enviar correu a " + firmaJPA.getUsuariExternEmail()
                         + " però ha fallat: " + msg;
                     log.error(msg, i18ne);
-                    throw new PeticioHaDeSerRebutjadaException(i18ne);
+                    throw new PeticioHaDeSerRebutjadaException(msg);
                   }
 
                 break;
@@ -2631,11 +2631,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       try {
         peticioFinalitzada = startNextSign(peticioDeFirma, flux, estatDeFirma, events);
       } catch (PeticioHaDeSerRebutjadaException e) {
+        // Es correcte deixar rebutjada la firma actual? veure #473
 
-        String motiuDeRebuig = e.getMessage();
+        //String motiuDeRebuig = e.getMessage();
+        //rebutjar(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig, usernameLoguejat);
+        //return;
 
-        rebutjar(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig, usernameLoguejat);
-        return;
+        // de moment optam per rellançar una excepció com si hagués fallat la validació
+        throw new I18NException("genapp.comodi", e.getMessage());
       }
 
       // 7.- Enviar Avisos
