@@ -1755,26 +1755,8 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     } catch (Throwable ex) {
       error = true;
       throw manageException(ex, methodname, usuariAplicacio);
-    
-    /*catch (SoapFault sf) {
-      error = true;
-      throw sf;
-    } catch (I18NException i18n) {
-      String msg = LogicI18NUtils.getMessage(i18n, new Locale(usuariAplicacio.getIdiomaID()));
-      log.error("I18NException::" + msg, i18n);
-      throw createFaultErrorGeneral(msg);
-    } catch (ValidationException ve) {
-      String msg = LogicI18NUtils.getMessage(ve, new Locale(usuariAplicacio.getIdiomaID()));
-      log.error("ValidationException::" + msg, ve);
-      throw createFaultErrorGeneral(msg);
-    } catch (Throwable ex) {
-      log.error(ex.getMessage(), ex);
-      error = true;
-      log.error("Error cridant a " + methodname + ": " + ex.getMessage(), ex);
-      throw createFaultErrorGeneral(ex);
-      */
     } finally {
-      if (error == true) {
+      if (error) {
         // Esborrar fitxers
         for(FitxerJPA fitxer : files.values()) {
           long fitxerID = fitxer.getFitxerID();
@@ -1799,7 +1781,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
           + " per un usuari aplicació, per la qual cosa aquest tipus de document "
           + " hauria de ser negatiu (" + tipusDocumentID + ")" );
     }
-    return new Integer((int)(-1 * tipusDocumentID));   
+    return (int) (-1 * tipusDocumentID);
   }
    
    
@@ -2379,8 +2361,10 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       }
     }
     peticioDeFirma.setTipusFirmaID(nouTipus);
-    
-    peticioDeFirma.setAlgorismeDeFirmaID(SIGN_ALGORITHM_SHA1WITHRSA);
+
+    // Emprar algoritme de firma de l'entitat #435
+    int signAlgorithm = usuariAplicacio.getEntitat().getAlgorismeDeFirmaID();
+    peticioDeFirma.setAlgorismeDeFirmaID(signAlgorithm);
     
     peticioDeFirma.setModeDeFirma(SIGN_MODE_IMPLICIT);
 
