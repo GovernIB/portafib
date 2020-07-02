@@ -90,9 +90,9 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
       notificacioFilterForm.setGroupByFields(new ArrayList<Field<?>>());
       notificacioFilterForm.addGroupByField(BLOQUEJADA);
+      notificacioFilterForm.addGroupByField(USUARIAPLICACIOID);
       /*
       notificacioFilterForm.addGroupByField(DATACREACIO);
-      notificacioFilterForm.addGroupByField(USUARIAPLICACIOID);
        */
 
       //notificacioFilterForm.addFilterByField(DESCRIPCIO);
