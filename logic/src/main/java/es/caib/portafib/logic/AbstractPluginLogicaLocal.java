@@ -10,11 +10,24 @@ import es.caib.portafib.model.entity.Plugin;
 /**
  * 
  * @author anadal
- *
+ * @author areus
  */
 public interface AbstractPluginLogicaLocal<I> extends PluginLogicaLocal {
 
+  /**
+   * Retorna tots els plugins actius del tipus I associats a l'entitat indicada
+   * @param entitatID entitat
+   * @return llista de plugins
+   * @throws I18NException si es produeix qualsevol error
+   */
   public List<Plugin> getAllPlugins(String entitatID) throws I18NException;
+
+  /**
+   * Retorna tots els plugins actius del tipus I associats no associats a cap entitat
+   * @return llista de plugins
+   * @throws I18NException si es produeix qualsevol error
+   */
+  public List<Plugin> getAllPluginsSenseEntitat() throws I18NException;
 
   public I getInstanceByPluginID(long pluginID) throws I18NException;
 

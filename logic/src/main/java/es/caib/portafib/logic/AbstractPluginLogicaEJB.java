@@ -29,14 +29,19 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
   
   @Override
   public List<Plugin> getAllPlugins(String entitatID) throws I18NException {
-    
     Where where = getWhere(entitatID);
-
     return select(where);
-
   }
-  
-  
+
+  @Override
+  public List<Plugin> getAllPluginsSenseEntitat() throws I18NException {
+    Where where = Where.AND(
+            TIPUS.equal(getTipusDePlugin()),
+            ACTIU.equal(true),
+            ENTITATID.isNull());
+    return select(where);
+  }
+
   public Where getWhere(String entitatID) {
     return Where.AND(
         TIPUS.equal(getTipusDePlugin()),

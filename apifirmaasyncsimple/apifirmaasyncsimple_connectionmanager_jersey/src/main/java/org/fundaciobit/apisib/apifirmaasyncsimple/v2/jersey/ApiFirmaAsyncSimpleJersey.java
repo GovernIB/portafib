@@ -6,6 +6,7 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.ApiFirmaAsyncSimple;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleAvailableProfile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleDocumentTypeInformation;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleError;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleFile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleKeyValue;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithSignBlockList;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestInfo;
@@ -131,6 +132,17 @@ public class ApiFirmaAsyncSimpleJersey extends
         .getEntity(FirmaAsyncSimpleSignedFile.class);
 
     return signedFile;
+  }
+
+  @Override
+  public FirmaAsyncSimpleFile getOriginalFileOfSignatureRequest(
+      FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException {
+
+    ClientResponse response = commonCall(info, ORIGINALFILEOFSIGNATUREREQUEST);
+
+    FirmaAsyncSimpleFile originalFile = response.getEntity(FirmaAsyncSimpleFile.class);
+
+    return originalFile;
   }
 
   @Override

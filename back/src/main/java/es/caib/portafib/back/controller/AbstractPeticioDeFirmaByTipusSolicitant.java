@@ -57,7 +57,10 @@ import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NTranslation;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.OrderBy;
@@ -722,7 +725,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
   
   @RequestMapping(value = "/afegircustodiainfo/{peticioDeFirmaID}", method = RequestMethod.GET)
   public String afegirCustodia(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable long peticioDeFirmaID) throws Exception, I18NException {
+      @PathVariable long peticioDeFirmaID) throws I18NException {
 
     CustodiaInfo custodiaInfo;
     try {
@@ -749,11 +752,15 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
       return llistat(request, response);
     }
 
+    I18NTranslation messageTranslation  = new I18NTranslation("success.creation",
+            new I18NArgumentCode("custodiaInfo.custodiaInfo"),
+            new I18NArgumentCode("custodiaInfo.custodiaInfoID"),
+            new I18NArgumentString(String.valueOf(custodiaInfo.getCustodiaInfoID()))
+            );
+    HtmlUtils.saveMessageSuccess(request, I18NUtils.tradueix(messageTranslation));
     
     String redirectOnModify = getContextWeb() + "/list";
-    if (redirectOnModify != null) {
-      request.getSession().setAttribute("redirectOnCustody", redirectOnModify);
-    }
+    request.getSession().setAttribute("redirectOnCustody", redirectOnModify);
 
     return "redirect:" + getCustodiaContext() + "/"
         + custodiaInfo.getCustodiaInfoID() + "/edit";
@@ -2355,7 +2362,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
           /* FLUX EDITAR */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID,
               new AdditionalButton("/img/fluxicon.png", "fluxDeFirmes.editar",
-                  "javascript:goTo('" + request.getContextPath() + "/" + getFluxPath()
+                  "javascript:goTo('" + request.getContextPath() + getFluxPath() + "/"
                       + peticioDeFirma.getFluxDeFirmesID() + "/edit?redirectOnModify="
                       + getContextWeb() + "/list')", "btn-warning"));
       } else {
@@ -2365,7 +2372,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
                 + peticioDeFirmaID + "/edit", "btn-info"));
 
         filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-            "/img/fluxicon.png", "fluxDeFirmes.fluxDeFirmes", "/" + getFluxPath() + "/view/"
+            "/img/fluxicon.png", "fluxDeFirmes.fluxDeFirmes", getFluxPath() + "/view/"
                 + peticioDeFirma.getFluxDeFirmesID() + "?redirectOnModify=" + getContextWeb()
                 + "/list&readOnly=true", "btn-info"));
       }

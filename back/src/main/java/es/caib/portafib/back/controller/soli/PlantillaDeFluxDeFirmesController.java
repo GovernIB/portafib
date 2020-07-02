@@ -364,19 +364,12 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
       fluxDeFirmesFilterForm = new PlantillaDeFluxDeFirmesFilterForm(fluxDeFirmesFilterForm);
 
-      // codi comú
-      if (!Configuracio.isDesenvolupament()) {
-        fluxDeFirmesFilterForm.addHiddenField(FLUXDEFIRMESID);
-      }
-
       fluxDeFirmesFilterForm.setAddButtonVisible(false);
 
       fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.USUARIENTITATID);
       if (isUsuariEntitat()) {
         fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.USUARIAPLICACIOID);
       }
-
-      fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.FLUXDEFIRMESID);
 
       if (LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN)
           || LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN)) {

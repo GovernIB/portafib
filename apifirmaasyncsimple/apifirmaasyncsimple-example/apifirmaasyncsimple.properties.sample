@@ -42,6 +42,9 @@ usuariextern.2.language=es
 # Esperar a que es firmi?
 waittosign=true
 
+# Baixar fitxer original?
+downloadoriginalfile=true
+
 # Esborrar peticio de Firma al final
 deleteonfinish=false
 

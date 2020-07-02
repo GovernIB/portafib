@@ -26,8 +26,7 @@ public interface ConfiguracioUsuariAplicacioLogicaLocal extends
 
   public UsuariAplicacioConfiguracioJPA findByPrimaryKeyUnauthorized(Long _ID_);
   
-  public PerfilDeFirma getPerfilDeFirma(final String usuariAplicacioID, String codiPerfil,
-      final int usFirma) throws I18NException;
+  public PerfilDeFirma getPerfilDeFirma(final String usuariAplicacioID, String codiPerfil) throws I18NException;
 
   public UsuariAplicacioConfiguracioJPA getConfiguracioUsuariAplicacioPerUpgrade(
       String usuariAplicacioID, PerfilDeFirma perfilDeFirma,
@@ -47,6 +46,8 @@ public interface ConfiguracioUsuariAplicacioLogicaLocal extends
   
   public PerfilDeFirma getPerfilDeFirmaPerApiFirmaSimple(final String usuariAplicacioID,
       final boolean esFirmaEnServidor) throws I18NException;
+
+  public PerfilDeFirma getPerfilDeFirmaPerApiFirmaAsyncRest(final String usuariAplicacioID) throws I18NException;
 
   public PerfilConfiguracionsDeFirma getConfiguracioUsuariAplicacioPerPassarela(String usuariAplicacioID,
       PassarelaSignaturesSet signaturesSet, boolean esFirmaEnServidor) throws I18NException;

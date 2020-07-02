@@ -127,8 +127,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
 
   @Override
   @RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
-  public PerfilDeFirma getPerfilDeFirma(final String usuariAplicacioID, String codiPerfil,
-      final int usFirma) throws I18NException {
+  public PerfilDeFirma getPerfilDeFirma(final String usuariAplicacioID, String codiPerfil) throws I18NException {
 
     if (codiPerfil == null || codiPerfil.trim().length() == 0) {
       // XYZ ZZZ TRA Traduir
@@ -156,22 +155,6 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
         throw new I18NException("genapp.comodi", "El codi de perfil " + codiPerfil
             + " no està associat a l'usuari aplicació " + usuariAplicacioID
             + ". Consulti amb l'Administrador.");
-      }
-
-      // perfil = perfils.get(0);
-    }
-
-    // Cercar si tenim permis per aquell ús o si alguna de les configuracions
-    // és firma en servidor que s'hagi definit plugin de firma en servidor
-
-    Long[] configuracions = { perfilDeFirma.getConfiguracioDeFirma1ID(),
-        perfilDeFirma.getConfiguracioDeFirma2ID(), perfilDeFirma.getConfiguracioDeFirma3ID(),
-        perfilDeFirma.getConfiguracioDeFirma4ID(), perfilDeFirma.getConfiguracioDeFirma5ID() };
-
-    List<Long> configuracionsList = new ArrayList<Long>();
-    for (Long cfg : configuracions) {
-      if (cfg != null) {
-        configuracionsList.add(cfg);
       }
     }
 
@@ -300,13 +283,6 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
         "perfil.passarela.nomesunperfil", true);
   }
 
-  /**
-   * 
-   * @param usuariAplicacioID
-   * @param esFirmaEnServidor
-   * @return
-   * @throws I18NException
-   */
   @Override
   public PerfilDeFirma getPerfilDeFirmaPerApiFirmaSimple(final String usuariAplicacioID,
       final boolean esFirmaEnServidor) throws I18NException {
@@ -326,14 +302,18 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
         "perfil.apifirmasimple.perfilbuit", false);
   }
 
-  /**
-   * 
-   * @param usuariAplicacioID
-   * @param where
-   * @param nomus
-   * @return
-   * @throws I18NException
-   */
+  public PerfilDeFirma getPerfilDeFirmaPerApiFirmaAsyncRest(final String usuariAplicacioID) throws I18NException {
+
+    final Field<Boolean> usFirmaApiAsync = new PerfilsPerUsuariAplicacioQueryPath().PERFILDEFIRMA()
+              .CONFIGURACIODEFIRMA1().USENFIRMAASYNCREST2();
+
+    Where where = usFirmaApiAsync.equal(true);
+    final String nomus = "apifirmaasyncrest";
+
+    return getPerfilDeFirmaUnike(usuariAplicacioID, where, nomus,
+            "perfil.apifirmaasyncrest.perfilbuit", false);
+  }
+
   protected PerfilDeFirma getPerfilDeFirmaUnike(final String usuariAplicacioID, Where where,
       String nomus, String codiError, boolean onlyOneCondition) throws I18NException {
     // Hauria de retornar 1
@@ -409,9 +389,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
       String usuariAplicacioID, String codiPerfil,
       FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest) throws I18NException {
 
-    final int usFirma = ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR;
-
-    PerfilDeFirma perfilDeFirma = getPerfilDeFirma(usuariAplicacioID, codiPerfil, usFirma);
+    PerfilDeFirma perfilDeFirma = getPerfilDeFirma(usuariAplicacioID, codiPerfil);
 
     Map<String, Object> parameters = new HashMap<String, Object>();
     parameters.put("firmaSimpleSignDocumentRequest", firmaSimpleSignDocumentRequest);
@@ -437,7 +415,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
 
     final int usFirma = ConstantsV2.US_FIRMA_CONF_APP_FIRMAASYNCSIMPLEREST2;
 
-    PerfilDeFirma perfilDeFirma = getPerfilDeFirma(usuariAplicacioID, codiPerfil, usFirma);
+    PerfilDeFirma perfilDeFirma = getPerfilDeFirma(usuariAplicacioID, codiPerfil);
 
     Map<String, Object> parameters = new HashMap<String, Object>();
     parameters.put("signatureRequest", signatureRequest);

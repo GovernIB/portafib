@@ -695,9 +695,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
       codiPerfil = perfil.getCodi();
       commonInfo.setSignProfile(codiPerfil);
     } else {
-      perfil = configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma(usrAppID,
-          codiPerfil, esFirmaEnServidor ? ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR
-              : ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB);
+      perfil = configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma(usrAppID, codiPerfil);
     }
     return perfil;
   }

@@ -66,7 +66,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 /**
  * 
  * @author anadal(u80067)
- *
+ * @author areus
  */
 @Stateless(name = "CustodiaInfoLogicaEJB")
 @SecurityDomain("seycon")
@@ -116,16 +116,6 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
     return ci.custodiaInfo;
   }
 
-  /**
-   * 
-   * @param usuariEntitat
-   * @param usuariAplicacioID
-   * @param custodiaSentByUser
-   * @param titol
-   * @return
-   * @throws I18NException
-   * @throws I18NValidationException
-   */
   @Override
   public CustodiaInfo getCustodiaUE(EntitatJPA entitatJPA, UsuariEntitat usuariEntitat,
       String usuariAplicacioID, CustodiaInfoJPA custodiaSentByUser, String titol)
@@ -154,14 +144,6 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
     return ci.custodiaInfo;
   }
 
-  /**
-   * 
-   * @param usuariAplicacio
-   * @param entitatEjb
-   * @return
-   * @throws I18NException
-   * @throws I18NValidationException
-   */
   @Override
   public Integer getPoliticaDeCustodiaFinalPerUA(String usuariAplicacioID,
       EntitatJPA entitatJPA) throws I18NException {
@@ -178,14 +160,6 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
 
   }
 
-  /**
-   * 
-   * @param usuariAplicacio
-   * @param entitatEjb
-   * @return
-   * @throws I18NException
-   * @throws I18NValidationException
-   */
   @Override
   public Integer getPoliticaDeCustodiaFinalPerUA(UsuariAplicacio usuariAplicacio,
       EntitatJPA entitatJPA) throws I18NException {
@@ -203,15 +177,6 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
 
   }
 
-  /**
-   * 
-   * @param entitatID
-   * @param politicaCustodia
-   * @param name
-   * @return
-   * @throws I18NException
-   * @throws I18NValidationException
-   */
   protected Integer internalGetPoliticaDeCustodiaIDFinal(EntitatJPA entitatJPA,
       int politicaCustodia, String name) throws I18NException {
 
@@ -239,20 +204,6 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
 
   }
 
-  /**
-   * 
-   * @param entitatID
-   * @param politicaCustodia
-   * @param name
-   * @param includeCustodiaInfo
-   * @param custodiaSentByUser
-   * @param titol
-   * @param usuariAplicacioID
-   * @param usuariEntitatID
-   * @return
-   * @throws I18NException
-   * @throws I18NValidationException
-   */
   protected CustodiaInformation internalGetCustodiaInformation(EntitatJPA entitatJPA,
       int politicaCustodia, String name,
       // requerid per include
@@ -273,7 +224,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
         // Si entitat te alguna politica que no ofereix plantilla de Custòdia llavors hem de
         // retornar No es Permet
         CustodiaInformation ciEntitat = checkPotCustodiarE(entitatJPA, true, null, titol,
-            usuariAplicacioID, usuariEntitatID);
+                usuariAplicacioID, usuariEntitatID);
 
         if (ciEntitat.custodiaInfo == null) {
           return new CustodiaInformation(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
@@ -283,15 +234,15 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
       }
 
       // [ENTITAT] Opcional plantilla Entitat (Per defecte Actiu)
-      case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU:
-        return checkPotCustodiarE(entitatJPA, constructCustodiaInfo, custodiaSentByUser, titol,
-            usuariAplicacioID, usuariEntitatID);
-
-      // El que s´hagi definit dins l´Entitat
-      case ConstantsV2.POLITICA_CUSTODIA_POLITICA_DE_CUSTODIA_DEFINIDA_EN_ENTITAT:
-        // XYZ ZZZ TRA
-        throw new I18NException("genapp.comodi", "CUSTODIA_DEFINIDA_EN_ENTITAT ja s'hauria"
-            + " d'haver processat en un tros de codi anterior: " + name);
+      case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU: {
+        CustodiaInformation ciEntitat = checkPotCustodiarE(entitatJPA, constructCustodiaInfo, custodiaSentByUser, titol,
+                usuariAplicacioID, usuariEntitatID);
+        if (ciEntitat.custodiaInfo == null) {
+          return new CustodiaInformation(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
+        } else {
+          return new CustodiaInformation(politicaCustodia, ciEntitat.custodiaInfo);
+        }
+      }
 
       // Obligatori Plantilla definida en Entitat, usuari-entitat o usuari-aplicació.
       case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO: {
@@ -395,15 +346,8 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
     UsuariEntitatJPA usuariEntitat = usuariEntitatEjb.findByPrimaryKey(usuariEntitatID);
 
     return getPoliticaDeCustodiaFinalPerUE(usuariEntitat, entitatJPA);
-
   }
 
-  /**
-   * 
-   * @param usuariEntitat
-   * @return
-   * @throws I18NException
-   */
   @Override
   public Integer getPoliticaDeCustodiaFinalPerUE(UsuariEntitat usuariEntitat,
       EntitatJPA entitatJPA) throws I18NException {
@@ -418,21 +362,8 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
     final String name = "usuari-entitat";
 
     return internalGetPoliticaDeCustodiaIDFinal(entitatJPA, politicaCustodia, name);
-
   }
 
-  /**
-   * 
-   * @param entitat
-   * @param includeCustodiaInfo
-   * @param custodiaSentByUser2
-   * @param titol
-   * @param usuariAplicacioID
-   * @param usuariEntitatID
-   * @return
-   * @throws I18NException
-   * @throws I18NValidationException
-   */
   protected CustodiaInformation checkPotCustodiarE(EntitatJPA entitat,
       // requerid per include
       boolean includeCustodiaInfo, CustodiaInfoJPA custodiaSentByUser, String titol,
@@ -478,7 +409,6 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
                 usuariAplicacioID, usuariEntitatID);
           } else {
             custodiaInfo = null;
-            ;
           }
         }
         return new CustodiaInformation(politicaCustodia, custodiaInfo);
@@ -599,7 +529,6 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
       // Elimianm la info de custodia
       this.delete(custodiaInfo);
     }
-
   }
 
   public CustodiaInfo getCustodyInfoOnCreatePeticio(PeticioDeFirmaJPA peticio,
@@ -698,7 +627,24 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
       // [ENTITAT] Opcional plantilla Entitat (Per defecte NO Actiu)
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU:
         if (onCreatePeticio) {
-          return null;
+          CustodiaInfo custodiaPeticio = peticio.getCustodiaInfo();
+          if (custodiaPeticio == null) {
+            return null;
+          }
+          // Miram primer quina custòdia té l'entitat
+          CustodiaInfo custodiaEntitat = searchDefaultCustodyInfoE(peticio, entitatJPA, titol, usuariAplicacioID, usuariEntitatID,
+                  onCreatePeticio);
+          if (custodiaEntitat == null) {
+            return null;
+          }
+
+          // Si l'entitat té una custòdia, i la petició ha demanat aquesta custòdia, s'ha d'emprar.
+          // comprovarem al manco que el plugin sigui el mateix
+          if (custodiaEntitat.getPluginID() == custodiaPeticio.getPluginID()) {
+            // si es editable retornam el que ha enviat la petició de firma, sinó retornam la custòdia de l'entitat
+            return custodiaEntitat.isEditable() ? custodiaPeticio : custodiaPeticio;
+          }
+
         } // else ADDCUSTODY WEBUI
         // [ENTITAT] Opcional plantilla Entitat (Per defecte Actiu)
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU:
@@ -716,17 +662,14 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
         if (onCreatePeticio) {
           return peticio.getCustodiaInfo();
         } else {
-          CustodiaInfoJPA custodiaInfo = createCustodiaInfoLlibertatTotal(
+          return createCustodiaInfoLlibertatTotal(
               entitatJPA.getEntitatID(), titol, usuariAplicacioID, usuariEntitatID);
-
-          return custodiaInfo;
         }
 
         // Obligatori Plantilla definida en Entitat, usuari-entitat o usuari-aplicació.
       case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO: {
-        CustodiaInfoJPA custodiaInfo = generateCustodiaInfoDefinidaAContinuacioForUsuariEntitatUsuariAplicacio(
+        return generateCustodiaInfoDefinidaAContinuacioForUsuariEntitatUsuariAplicacio(
             titol, usuariAplicacioID, usuariEntitatID);
-        return custodiaInfo;
       }
 
       // Només Plantilles de l´Entitat (No editables)
@@ -786,38 +729,12 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
         if (onCreatePeticio) {
             return null;
           }
-      
 
         // Obligatori Plantilla definida en Entitat
       case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO: {
         CustodiaInfoJPA custodiaInfo;
         custodiaInfo = getCustodiaInfoOfEntitat(titol, usuariAplicacioID, usuariEntitatID,
             entitatJPA.getEntitatID());
-        /*
-         * Long defaultCustodiaInfoID = this.executeQueryOne(EntitatFields.CUSTODIAINFOID,
-         * EntitatFields.ENTITATID.equal(entitatJPA.getEntitatID()));
-         * 
-         * if (defaultCustodiaInfoID == null) { // L'entitat no ha definit custòdia return
-         * null; }
-         * 
-         * final CustodiaInfoLocal custodiaInfoEjb = this; CustodiaInfoJPA custodiaInfoEntitat
-         * = custodiaInfoEjb .findByPrimaryKey(defaultCustodiaInfoID);
-         * 
-         * 
-         * // Feim una còpia de la custòdia definida per entitat custodiaInfo =
-         * cloneCustodiaInfo(titol, usuariAplicacioID, usuariEntitatID, custodiaInfoEntitat); {
-         * // Check custodia CustodiaInfoBeanValidator custodiaValidator = new
-         * CustodiaInfoBeanValidator( codiBarresEjb, custodiaInfoEjb, entitatEjb,
-         * pluginDeCustodiaLogicaEjb, usuariAplicacioEjb, usuariEntitatEjb); final boolean
-         * isNou = true;
-         * 
-         * custodiaValidator.throwValidationExceptionIfErrors(custodiaInfo, isNou);
-         * 
-         * }
-         * 
-         * }
-         */
-
         return custodiaInfo;
       }
 
@@ -826,9 +743,8 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
         if (onCreatePeticio) {
           return peticio.getCustodiaInfo();
         } else {
-          CustodiaInfoJPA custodiaInfo = createCustodiaInfoLlibertatTotal(
+          return createCustodiaInfoLlibertatTotal(
               entitatJPA.getEntitatID(), titol, usuariAplicacioID, usuariEntitatID);
-          return custodiaInfo;
         }
 
         // =========================
@@ -889,9 +805,9 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
 
     custodiaInfo.setDataCustodia(new Timestamp(new Date().getTime()));
 
-    List<Plugin> plugins = pluginDeCustodiaLogicaEjb.getAllPlugins(entitatID);
+    List<Plugin> plugins = pluginDeCustodiaLogicaEjb.getAllPluginsSenseEntitat();
     if (plugins.size() == 0) {
-      log.warn("No hi ha plugins de custòdia en l'entitat " + entitatID);
+      log.warn("No hi ha plugins de custòdia!!!");
     } else {
       custodiaInfo.setPluginID(plugins.get(0).getPluginID());
     }
@@ -1049,7 +965,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
     es.caib.portafib.logic.utils.StampCustodiaInfo custodiaInfoStamp = null;
     if (custodiaInfo != null) {
 
-      /**
+      /*
        * Missatge de custòdia a mostrar en el document. {0} = URL {1} = custodiaID {2} =
        * custodiaPluginClassID {3} = data amb hora {4} = Special Value
        */
@@ -1251,43 +1167,35 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
 
     }
   }
-  
-  
-  // ZZZZ
+
   @Override
   public EntityManager getEntityManager() {
     return super.getEntityManager();
   }
-  
 
   @Override
   public CustodiaInfoJPA findByPrimaryKeyUnathorized(Long _ID_) {
-    return (CustodiaInfoJPA) super.findByPrimaryKey(_ID_);
+    return super.findByPrimaryKey(_ID_);
   }
 
   /**
    * 
    * @author anadal(u80067)
-   *
+   * @author areus
    */
-  protected class CustodiaInformation {
+  protected static class CustodiaInformation {
 
     public final int politicaCustodia;
-
     public final CustodiaInfo custodiaInfo;
 
     public CustodiaInformation(int politicaCustodia) {
-      super();
       this.politicaCustodia = politicaCustodia;
       this.custodiaInfo = null;
     }
 
     public CustodiaInformation(int politicaCustodia, CustodiaInfo custodiaInfo) {
-      super();
       this.politicaCustodia = politicaCustodia;
       this.custodiaInfo = custodiaInfo;
     }
-
   }
-
 }

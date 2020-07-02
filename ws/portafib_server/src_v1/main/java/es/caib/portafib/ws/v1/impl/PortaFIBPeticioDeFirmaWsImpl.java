@@ -47,6 +47,7 @@ import javax.xml.ws.WebServiceContext;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -110,27 +111,10 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
       @WebParam(name = "title") String title,
       @WebParam(name = "language") String language)
      throws WsI18NException, Throwable {
-    
-    /*
+
     UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
-
-    Integer politicaCustodia = entitatLogicaEjb.getPoliticaDeCustodiaFinalPerUA(userapp);
-    if (politicaCustodia == null) {
-      return null;
-    }
-
-    final String usuariEntitatID = null;
-    if (language.trim().length() == 0) {
-      language = userapp.getIdiomaID();
-    }
-    */
-    
-    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
-
     CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodiaUA(userapp, null, "usuari aplicació", userapp.getEntitat());
-
     return CustodiaInfoBean.toBean(ci);
-    
   }
 
   
@@ -344,9 +328,6 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
     FitxerJPA.enableEncryptedFileIDGeneration();
     try {
       FitxerBean fileToConvertInfo = peticioDeFirmaWs.getFitxerAFirmar();
-      
-      log.info(" XYZ ZZZ  fileToConvertInfo = " + fileToConvertInfo );
-      
       if (fileToConvertInfo == null) {
         throw new I18NException("genapp.validation.required",
             PeticioDeFirmaFields.FITXERAFIRMARID.fullName);
@@ -354,9 +335,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
       
       PeticioDeFirmaJPA peticioDeFirmaJPA = PeticioDeFirmaWs.toJPA(peticioDeFirmaWs,
           fitxerLogicaEjb, fitxersCreats);
-      
-      
-      
+
       String userapp = wsContext.getUserPrincipal().getName();
       
       // Nous camps a Firma i a Peticio de Firma #281
@@ -366,37 +345,32 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
 
       // Convertir Fitxers
       Long fitxerAFirmarID = peticioDeFirmaJPA.getFitxerAFirmarID();
-      {
 
-          File fileToConvert =  FileSystemManager.getFile(fitxerAFirmarID);
-          Fitxer fitxerConvertit = PdfUtils.convertToPDF(fileToConvert, JPAConversion.toJPA(fileToConvertInfo));
-  
-          if (fitxerConvertit == fileToConvertInfo) {
-            // Es un PDF.
-            // No feim res
-          } else {
-            // No és un PDF, ho substituim pel fitxer convertit
-  
-            // Actualitzam el Fitxer a firmar
-            InputStream is = fitxerConvertit.getData().getInputStream();            
-            FileOutputStream fos = new FileOutputStream(fileToConvert);
-            try {
-              FileSystemManager.copy(is,fos);
-            } finally {
-              try { is.close(); } catch(Throwable th) {}
-            }
-            fos.flush();
-            fos.close();
-            // Canviar BBDD
-            Fitxer f = fitxerLogicaEjb.findByPrimaryKey(fitxerAFirmarID);
-            f.setNom(f.getNom()+ ".pdf");
-            f.setMime(Constants.PDF_MIME_TYPE);
-            f.setTamany(fitxerConvertit.getTamany());
-            
-            fitxerLogicaEjb.update(f);
-          }
-        
+      File fileToConvert =  FileSystemManager.getFile(fitxerAFirmarID);
+      Fitxer fitxerToConvert = JPAConversion.toJPA(fileToConvertInfo);
+      Fitxer fitxerConvertit = PdfUtils.convertToPDF(fileToConvert, fitxerToConvert);
+
+      if (fitxerConvertit != fitxerToConvert) {
+        // No és un PDF, ho substituim pel fitxer convertit
+        // Actualitzam el Fitxer a firmar
+        InputStream is = fitxerConvertit.getData().getInputStream();
+        FileOutputStream fos = new FileOutputStream(fileToConvert);
+        try {
+          FileSystemManager.copy(is,fos);
+        } finally {
+          try { is.close(); } catch(IOException ignored) {}
+        }
+        fos.flush();
+        fos.close();
+        // Canviar BBDD
+        Fitxer f = fitxerLogicaEjb.findByPrimaryKey(fitxerAFirmarID);
+        f.setNom(f.getNom()+ ".pdf");
+        f.setMime(Constants.PDF_MIME_TYPE);
+        f.setTamany(fitxerConvertit.getTamany());
+
+        fitxerLogicaEjb.update(f);
       }
+
       // Final Convertir Fitxer
 
       peticioDeFirmaJPA.setSolicitantUsuariAplicacioID(userapp);

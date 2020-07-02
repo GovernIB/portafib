@@ -32,7 +32,13 @@
   </dependencyManagement>
 
   <repositories>
-    
+
+    <repository>
+      <id>github-governib-maven</id>
+      <name>GitHub GovernIB Maven Repository</name>
+      <url>https://governib.github.io/maven/maven/</url>
+    </repository>
+
     <repository>
       <id>maven-nuxeo</id>
       <name>Maven Nuxeo Repository</name>

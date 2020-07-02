@@ -505,10 +505,6 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
       final FirmaSimpleCommonInfo commonInfo = ti.getCommonInfo();
 
       final PerfilDeFirma perfilDeFirma = getPerfilDeFirma(commonInfo, esFirmaEnServidor);
-          
-          configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma(
-          usuariAplicacioID, ti.getCommonInfo().getSignProfile(), 
-          ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB);
       
       log.info(" XYZ ZZZ PERFILFIRMA FIRMA WEB = " + perfilDeFirma.getCodi());
       

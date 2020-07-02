@@ -178,24 +178,7 @@ public class PdfUtils implements ConstantsV2 {
     }
     return validacio;
   }
- 
-  /**
-   * 
-   * @param srcPDF
-   * @param dstPDF
-   * @param numFirmes
-   * @param posicioTaulaDeFirmes
-   * @param signantLabel
-   * @param resumLabel
-   * @param descLabel
-   * @param desc
-   * @param titolLabel
-   * @param titol
-   * @param urlLogo
-   * @param attachments
-   * @param attachmentsNames
-   * @throws Exception
-   */
+
   public static int add_TableSign_Attachments_CustodyInfo_PDF(File srcPDF, File dstPDF,
       final List<AttachedFile> attachmentsOrig, Long maxSize,
       StampTaulaDeFirmes taulaDeFirmesInfo, StampCustodiaInfo custodiaInfo,
@@ -674,166 +657,6 @@ public class PdfUtils implements ConstantsV2 {
 
   }
 
-  /* XYZ ZZZ ZZZ
-  public static int[] splitPDFRevisions(byte[] data) throws Exception {
-    int offSet = 0;
-    List<Integer> list = new ArrayList<Integer>();
-
-    int value;
-
-    while ((value = PdfUtils.indexOf(data, EOF_PDF, offSet)) != -1) {
-      list.add(value);
-      offSet = value + EOF_PDF.length;
-    }
-
-    return toIntArray(list);
-
-  }
-
-  public static int[] toIntArray(List<Integer> list) {
-    int[] ret = new int[list.size()];
-    int i = 0;
-    for (Integer e : list)
-      ret[i++] = e.intValue();
-    return ret;
-  }
-  */
-
-  /* XYZ ZZZ ZZZ
-  public static final PdfAConformanceLevel PDFA_CONFORMANCE_LEVEL = PdfAConformanceLevel.PDF_A_3B;
-
-  public static void forceCleanPdf(PdfReader reader, OutputStream destiPDFA,
-      List<AttachedFile> attachments) throws Exception {
-
-    
-    {
-      Document document = new Document(); //PageSize.A4);
-     
-      //OutputStream  destitmpPDFA = new FileOutputStream(tmpPDFA);
-  
-      PdfAWriter writer = PdfAWriter.getInstance(document, destiPDFA, PDFA_CONFORMANCE_LEVEL);
-
-
-      //PdfAWriter writer = PdfAWriter.getInstance(document, destiPDFA, PdfAConformanceLevel.PDF_A_1B);
-      
-     // writer.setPDFXConformance(PdfAWriter.PDFX1A2001);
-      // PDF_A_3B
-      // PdfAConformanceLevel.PDF_A_1B);
-  
-      writer.createXmpMetadata();
-  
-      int numberPages = reader.getNumberOfPages();
-  
-      document.setMargins(0, 0, 0, 0);
-      
-      // TODO: Actualitzt itext a la 5.5.13.1 les següents propietats donen error.
-      // TODO: D'altra banda, són estrictametn necessàries? Eviten que el fitxer aparegui com a PDF/A compliant
-      PdfDictionary outi = new PdfDictionary(PdfName.OUTPUTINTENT);
-      outi.put(PdfName.OUTPUTCONDITIONIDENTIFIER, new PdfString("sRGB IEC61966-2.1"));
-      outi.put(PdfName.INFO, new PdfString("sRGB IEC61966-2.1"));
-      outi.put(PdfName.S, PdfName.GTS_PDFA1);
-      writer.getExtraCatalog().put(PdfName.OUTPUTINTENTS, new PdfArray(outi));
-  
-      document.open();
-      for (int i = 0; i < numberPages; i++) {
-        int pageNumber = i + 1;
-        PdfImportedPage p = writer.getImportedPage(reader, pageNumber);
-        Image image = Image.getInstance(p);
-
-        Rectangle rect = reader.getPageSizeWithRotation(pageNumber);
-
-        image.setRotationDegrees(-rect.getRotation()); // Rectificam la rotació de la imatge (si és 0 no farà res)
-
-        document.setPageSize(rect);
-        document.newPage();
-        document.add(image);
-      }
-  
-      // 3.- Attach Files
-      if (attachments != null && attachments.size() != 0) {
-  
-        // PdfWriter writer = stamper.getWriter();
-        for (AttachedFile fa : attachments) {
-          File src = fa.getContent();
-          if (src != null && src.exists()) {
-            String name = fa.getName();
-            PdfFileSpecification fs = PdfFileSpecification.fileEmbedded(writer,
-                src.getAbsolutePath(), name, null);
-            writer.addFileAttachment(fa.getDescription(), fs);
-          }
-        }
-      }
-  
-      document.close();
-  
-      writer.flush();
-      writer.close();
-
-    }
-
-  }
-  */
-  
-  public static void show(Rectangle rect) {
-    System.out.print("llx: ");
-    System.out.print(rect.getLeft());
-    System.out.print(", lly: ");
-    System.out.print(rect.getBottom());
-    System.out.print(", urx: ");
-    System.out.print(rect.getRight());
-    System.out.print(", lly: ");
-    System.out.print(rect.getTop());
-    System.out.print(", rotation: ");
-   System.out.println(rect.getRotation());
-}
-  
-  
-  /**
-   * Extracts attachments from an existing PDF.
-   * @param src   the path to the existing PDF
-   * @param dest  where to put the extracted attachments
-   * @throws IOException
-   */
-  /*
-  public static List<FileAttached>  extractAttachments(PdfReader reader) throws IOException {
-      PdfArray array;
-      PdfDictionary annot;
-      PdfDictionary fs;
-      PdfDictionary refs;
-      String filename;
-      List<FileAttached> files = new ArrayList<FileAttached>();
-      for (int i = 1; i <= reader.getNumberOfPages(); i++) {
-          array = reader.getPageN(i).getAsArray(PdfName.ANNOTS);
-          if (array == null) continue;
-          for (int j = 0; j < array.size(); j++) {
-              annot = array.getAsDict(j);
-              if (PdfName.FILEATTACHMENT.equals(annot.getAsName(PdfName.SUBTYPE))) {
-                  fs = annot.getAsDict(PdfName.FS);
-                  refs = fs.getAsDict(PdfName.EF);
-                  for (PdfName name : refs.getKeys()) {
-                      File output = File.createTempFile("portafib_pdf_attached_", ".file");
-                      FileOutputStream fos = new FileOutputStream(output);
-                      fos.write(PdfReader.getStreamBytes((PRStream)refs.getAsStream(name)));
-                      fos.flush();
-                      fos.close();
-                      filename = fs.getAsString(name).toString();
-                      System.out.println(" FILENAME = " + filename);
-                      files.add(new FileAttached(filename, output));
-                  }
-              }
-          }
-      }
-      
-      
-      return files;
-      
-      
-  }
-  
-  */
-  
-  
-  
   public static List<AttachedFile> extractAttachments(PdfReader reader) throws IOException {
 
     PdfDictionary root = reader.getCatalog();
@@ -861,8 +684,6 @@ public class PdfUtils implements ConstantsV2 {
     return files;
   }
 
-  
-  
   private static AttachedFile extractAttachment(PdfDictionary filespec) throws IOException {
     String filename = filespec.getAsString(PdfName.F).toString();
     String description = filespec.getAsString(PdfName.DESC).toString();
@@ -912,7 +733,7 @@ public class PdfUtils implements ConstantsV2 {
   
   /**
    * 
-   * @param pdf
+   * @param pdfis
    * @return Si el fitxer no és PDF llavors retorna 0.
    */
   public static int getNumberOfSignaturesInPDF(InputStream pdfis)  {
@@ -1271,13 +1092,10 @@ public class PdfUtils implements ConstantsV2 {
   
   
   public static boolean isPdfA1(final byte[] metadata) {
-    //log.info(" XYZ ZZZ METADATA_A1(byte[])= " + metadata);
     if (metadata == null) {
       return false;
     }
     final String rdf = new String(metadata);
-    
-    //log.info(" XYZ ZZZ METADATA_A1(string) = ]" +  rdf +  "[");
     
     return rdf.replace("\n", "") //$NON-NLS-1$ //$NON-NLS-2$
           .replace("\r", "") //$NON-NLS-1$ //$NON-NLS-2$
@@ -1299,7 +1117,5 @@ public class PdfUtils implements ConstantsV2 {
               .replace(" ", "") //$NON-NLS-1$ //$NON-NLS-2$
                 .contains("pdfaid:part"); //$NON-NLS-1$
   }
-  
-  
-  
+
 }

@@ -11,6 +11,10 @@ nifsDestinataris=11223344T,12345678Z
 #nombreThreads=20
 #peticionsThread=50
 
+# Si val true, es cridarà l'operació atòmica createAndStart.
+# Sinó és cridarà create i després start
+createAndStart=false
+
 # Esperar a que es firmi?
 waittosign=true
 

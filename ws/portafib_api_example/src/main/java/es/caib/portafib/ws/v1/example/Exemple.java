@@ -37,7 +37,7 @@ public class Exemple {
   
   public static final Logger log = Logger.getLogger(Exemple.class);
   
-  private static Properties testProperties = new Properties();
+  private static final Properties testProperties = new Properties();
   
   static {
     // Traduccions
@@ -126,7 +126,14 @@ public class Exemple {
         if (!custodiaInfoBean.isEditable()) {
           log.info("Avis: La custòdia per defecte NO ES MODIFICABLE");
         }
+        log.info("Custodia info: " + custodiaInfoBean.getCustodiaInfoID());
+        log.info("Titol petició: " + custodiaInfoBean.getTitolPeticio());
+        log.info("Plantilla: " + custodiaInfoBean.getNomPlantilla());
+        log.info("PluginID: " + custodiaInfoBean.getPluginID());
+        log.info("Missatge posició pagina: " + custodiaInfoBean.getMissatgePosicioPaginaID());
       }
+      //custodiaInfoBean = null;
+      //if (true) return;
 
       // Annexes
       
@@ -165,15 +172,18 @@ public class Exemple {
       Long peticioDeFirmaID = null;
       try {
         // Crear peticio
-        peticioDeFirmaWs = api.createPeticioDeFirma(peticioDeFirmaWs);
-        //peticioDeFirmaWs = api.createAndStartPeticioDeFirma(peticioDeFirmaWs);
-        peticioDeFirmaID = peticioDeFirmaWs.getPeticioDeFirmaID();
-        log.info("Creada peticio amb ID = " + peticioDeFirmaID);
-
-        // Arrancar
-        api.startPeticioDeFirma(peticioDeFirmaID);
+        if (isCreateAndStart()) {
+          peticioDeFirmaWs = api.createAndStartPeticioDeFirma(peticioDeFirmaWs);
+          log.info("Creada i arrancada petició: " + peticioDeFirmaWs.getPeticioDeFirmaID());
+        } else {
+          peticioDeFirmaWs = api.createPeticioDeFirma(peticioDeFirmaWs);
+          log.info("Creada petició: " + peticioDeFirmaWs.getPeticioDeFirmaID());
+          api.startPeticioDeFirma(peticioDeFirmaWs.getPeticioDeFirmaID());
+          log.info("Arrancada petició: " + peticioDeFirmaWs.getPeticioDeFirmaID());
+        }
 
         // Obtenir petició de Firma
+        peticioDeFirmaID = peticioDeFirmaWs.getPeticioDeFirmaID();
         peticioDeFirmaWs = api.getPeticioDeFirma(peticioDeFirmaID);
 
         // Imprimir estat
@@ -278,11 +288,15 @@ public class Exemple {
      }
      return tmp.split(",");
   }
-  
+
   public static boolean isWaitToSign() {
     return "true".equals(testProperties.getProperty("waittosign"));
   }
-  
+
+  public static boolean isCreateAndStart() {
+    return "true".equals(testProperties.getProperty("createAndStart"));
+  }
+
   public static boolean isDeleteOnFinish() {
     return "true".equals(testProperties.getProperty("deleteonfinish"));
   }

@@ -231,8 +231,8 @@ public class ApiFirmaAsyncSimpleTester {
       String procedureCode = null;
       String procedureName = null;
       String additionalInformation = "Ninguna info";
-      Double additionalInformationEvaluable = Double.valueOf((double) System
-          .currentTimeMillis());
+      Double additionalInformationEvaluable = (double) System
+              .currentTimeMillis();
 
       List<FirmaAsyncSimpleMetadata> metadadaList = null;
 
@@ -330,6 +330,28 @@ public class ApiFirmaAsyncSimpleTester {
           System.out.println("El fitxer firmat s'ha guardat a "
               + fitxerFirmat.getAbsolutePath());
         }
+      }
+
+      if (isDownloadOriginalFile()) {
+
+        // Info document original
+        FirmaAsyncSimpleFile originalFile = api.getOriginalFileOfSignatureRequest(rinfo);
+
+        // Imprimir Informacio
+        System.out.println(" === ORIGINAL FILE  ===");
+
+        byte[] data = originalFile.getData();
+        System.out.println("Tamany del fitxer: " + data.length);
+
+        String prefix = "original_" + rinfo.getSignatureRequestID() + "_";
+        File fitxerOriginal = new File(prefix + originalFile.getNom());
+        FileOutputStream fos = new FileOutputStream(fitxerOriginal);
+        fos.write(data);
+        fos.flush();
+        fos.close();
+
+        System.out.println("El fitxer original s'ha guardat a "
+                + fitxerOriginal.getAbsolutePath());
       }
 
     } finally {
@@ -434,6 +456,10 @@ public class ApiFirmaAsyncSimpleTester {
 
   protected boolean isWaitToSign() {
     return "true".equals(testProperties.getProperty("waittosign"));
+  }
+
+  protected boolean isDownloadOriginalFile() {
+    return "true".equals(testProperties.getProperty("downloadoriginalfile"));
   }
 
   protected boolean isDeleteOnFinish() {
