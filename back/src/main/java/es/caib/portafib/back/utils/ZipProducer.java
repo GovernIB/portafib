@@ -1,19 +1,17 @@
 package es.caib.portafib.back.utils;
 
-import es.caib.portafib.utils.ConstantsV2;
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /**
  * Crea un Zip dins un fitxer temporal que després pot ser transferit
@@ -22,13 +20,10 @@ public class ZipProducer {
 
     private final Logger log = Logger.getLogger(getClass());
 
-    final ZipOutputStream zipOutputStream;
+    final ZipArchiveOutputStream zipOutputStream;
     final File zipFile;
 
     final Map<String, Integer> entryNameOcurrences = new HashMap<String, Integer>();
-
-    // Amb Java 1.6, els Zips no soporten codificacions de caràcters més enllà de Ascii.
-    final SafeCharsetEncoder encoder = SafeCharsetEncoder.getInstance(ConstantsV2.US_ASCII);
 
     boolean closed = false;
 
@@ -46,21 +41,19 @@ public class ZipProducer {
 
     private ZipProducer(File tempDirectory) throws IOException {
         zipFile = File.createTempFile("zip", ".zip", tempDirectory);
-        zipOutputStream = new ZipOutputStream(new FileOutputStream(zipFile));
+        zipOutputStream = new ZipArchiveOutputStream(zipFile);
     }
 
     public void addEntry(String entryName, File file) throws IOException {
         failIfClosed();
-
-        String safeEntryName = encoder.encode(entryName);
-        String entryNameWithCounter = updateWithOcurrences(safeEntryName);
+        String entryNameWithCounter = updateWithOcurrences(entryName);
 
         FileInputStream fis = new FileInputStream(file);
         try {
-            ZipEntry zipEntry = new ZipEntry(entryNameWithCounter);
-            zipOutputStream.putNextEntry(zipEntry);
-            FileSystemManager.copy(fis, zipOutputStream);
-            zipOutputStream.closeEntry();
+            ArchiveEntry entry = zipOutputStream.createArchiveEntry(file, entryNameWithCounter);
+            zipOutputStream.putArchiveEntry(entry);
+            IOUtils.copy(fis, zipOutputStream);
+            zipOutputStream.closeArchiveEntry();
         } finally {
             // Asseguram que tancam el fitxer que hem obert aquí.
             closeSilent(fis);
@@ -102,7 +95,7 @@ public class ZipProducer {
 
         FileInputStream inputStream = new FileInputStream(zipFile);
         try {
-            FileSystemManager.copy(inputStream, outputStream);
+            IOUtils.copy(inputStream, outputStream);
         } finally {
             // Asseguram que tancam el fitxer que hem obert aquí.
            closeSilent(inputStream);
@@ -126,9 +119,9 @@ public class ZipProducer {
     private void close() {
         if (!closed) {
             try {
-                zipOutputStream.flush();
+                zipOutputStream.finish();
             } catch (IOException io) {
-                log.error("Error ignorat fent flush del ZipOutputStream", io);
+                log.error("Error ignorat fent finish del ZipArchiveOutputStream", io);
             } finally {
                 closeSilent(zipOutputStream);
             }

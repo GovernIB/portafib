@@ -22,6 +22,8 @@ public class TestZipEntries {
       zipProducer.addEntry("Això és un fitxer.xml", new File("pom.xml"));
       zipProducer.addEntry("Aix_ és un fitxer.xml", new File("pom.xml"));
       zipProducer.addEntry("Això _s un fitxer.xml", new File("pom.xml"));
+      zipProducer.addEntry("pom.xml", new File("pom.xml"));
+      zipProducer.addEntry("pom.xml", new File("pom.xml"));
       try {
          FileOutputStream fileOutputStream = new FileOutputStream("prova.zip");
          zipProducer.transferTo(fileOutputStream);
