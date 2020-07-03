@@ -140,7 +140,7 @@ public class ApiFirmaAsyncSimpleTester {
 
           String nif = destinatarisBloc[j].trim();
 
-          if (nif == null || nif.trim().length() == 0) {
+          if (nif.trim().length() == 0) {
             throw new Exception("El destinatari " + j + " del bloc " + i
                 + " està buit o val null");
           }

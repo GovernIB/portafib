@@ -2368,7 +2368,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
             + " i ha expirat el temps. Tornau-ho a intentar (" + token + ")";
         throw new Exception(msg, new Exception());
       } else {
-        if (check == false) {
+        if (!check) {
           // TODO XYZ ZZZ traduir
           String msg = "Aquesta petició de firma (" + peticioDeFirmaID
               + ") esta bloquejada per un altre usuari."
@@ -2408,7 +2408,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
         }
       }
 
-      IPortaFIBDataSource signature = null;
+      IPortaFIBDataSource signature;
       try {
         signature = new FileDataSource(signatureFile2);
       } catch (Exception e1) {
@@ -2534,9 +2534,20 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       FitxerJPA fitxer = new FitxerJPA();
       fitxer.setDescripcio("");
       fitxer.setMime(validacioResponse.getMime());
-      // XYZ FALTA NOM DE FITXER ORIGINAL
-      fitxer
-          .setNom("PeticioFirma_" + peticioDeFirmaID + "." + validacioResponse.getExtension());
+
+      // Fixam el nom del fitxer d'acord amb el nom base original #476
+      String nomBaseOriginal = peticioDeFirma.getFitxerAFirmar().getNom();
+      if (nomBaseOriginal == null || nomBaseOriginal.trim().isEmpty()) {
+        log.warn("Nom del fitxer a firmar de la petició " + peticioDeFirmaID + " és buid: [" + nomBaseOriginal + "]");
+        nomBaseOriginal = "PeticioFirma_" + peticioDeFirmaID;
+      } else {
+        int lastPointIndex = nomBaseOriginal.lastIndexOf('.');
+        if (lastPointIndex != -1) {
+          nomBaseOriginal = nomBaseOriginal.substring(0, lastPointIndex);
+        }
+      }
+      fitxer.setNom(nomBaseOriginal + "-signat." + validacioResponse.getExtension());
+
       fitxer.setTamany(signatureFile2.length());
 
       fitxer = fitxerLogicaEjb.createFull(fitxer);
