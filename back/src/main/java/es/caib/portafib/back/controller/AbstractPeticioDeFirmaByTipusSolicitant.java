@@ -11,6 +11,7 @@ import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.reflist.IdiomaSuportatRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
+import es.caib.portafib.back.utils.ZipProducer;
 import es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal;
 import es.caib.portafib.ejb.UsuariAplicacioLocal;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;
@@ -37,7 +38,6 @@ import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariEntitat;
-import es.caib.portafib.model.fields.EstatDeFirmaQueryPath;
 import es.caib.portafib.model.fields.FluxDeFirmesFields;
 import es.caib.portafib.model.fields.GrupEntitatFields;
 import es.caib.portafib.model.fields.GrupEntitatUsuariEntitatFields;
@@ -67,7 +67,6 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.SelectConstant;
-import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
@@ -86,13 +85,11 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -105,17 +102,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /**
  * 
  * @author anadal(u80067)
  *
  */
-public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
-    AbstractPeticioDeFirmaController implements ConstantsV2 {
-
+public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPeticioDeFirmaController
+        implements ConstantsV2 {
 
   private static final int COLUMN_PETICIODEFIRMA_TITOL = -1;
 
@@ -1138,87 +1132,41 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends
 
     // seleccionats conté les peticioIDs
     String[] seleccionatsStr = filterForm.getSelectedItems();
-
     if (seleccionatsStr == null || seleccionatsStr.length == 0) {
-
       HtmlUtils.saveMessageWarning(request,
-          I18NUtils.tradueix("peticiodefirma.capseleccionat"));
-
+              I18NUtils.tradueix("peticiodefirma.capseleccionat"));
       response.sendRedirect(request.getContextPath() + getContextWeb() + "/list");
+      return;
+    }
 
-    } else {
-
-      // XYZ TODO Optimitzar emprant un fitxer temporal
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-      ZipOutputStream zos = new ZipOutputStream(baos);
-
-      for (int i = 0; i < seleccionatsStr.length; i++) {
-        Long peticioDeFirmaID;
-
+    ZipProducer zipProducer = ZipProducer.getInstance();
+    try {
+      for (String seleccionat : seleccionatsStr) {
+        long peticioDeFirmaID;
         try {
-          peticioDeFirmaID = Long.parseLong(seleccionatsStr[i]);
-
-        } catch (Throwable e) {
-          log.error("Error parsejant numero ]" + seleccionatsStr[i] + "[", e);
+          peticioDeFirmaID = Long.parseLong(seleccionat);
+        } catch (NumberFormatException e) {
+          log.error("Error parsejant numero ]" + seleccionat + "[", e);
           continue;
         }
 
-        FitxerJPA firmat = peticioDeFirmaLogicaEjb
-            .getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
-
-        try {
-
-          String fileName = peticioDeFirmaID + ".pdf";
-          File file = FileSystemManager.getFile(firmat.getFitxerID());
-
-          addToZipFile(file, fileName, zos);
-
-        } catch (Throwable e) {
-          log.error(
-              "Error fent zip del fitxer firmat amb id " + firmat.getFitxerID()
-                  + " de la petició de firma amb id = " + peticioDeFirmaID + ": "
-                  + e.getMessage(), e);
-        }
+        FitxerJPA firmat = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
+        File file = FileSystemManager.getFile(firmat.getFitxerID());
+        zipProducer.addEntry(firmat.getNom(), file);
       }
-      zos.close();
 
       response.setContentType("application/zip");
       response.setHeader("Content-Disposition", "inline; filename=\"fitxersfirmats.zip\"");
-      response.setContentLength(baos.size());
 
-      response.getOutputStream().write(baos.toByteArray());
+      ServletOutputStream outputStream = response.getOutputStream();
+      zipProducer.transferTo(outputStream);
+      outputStream.flush();
+      outputStream.close();
 
-      baos = null;
-
-      // System.gc();
-
-      response.getOutputStream().flush();
-
+    } finally {
+      zipProducer.cleanUp();
     }
   }
-
-  public static void addToZipFile(File file, String fileName, ZipOutputStream zos)
-      throws FileNotFoundException, IOException {
-
-    // System.out.println("Writing '" + fileName + "' to zip file");
-
-    FileInputStream fis = new FileInputStream(file);
-    ZipEntry zipEntry = new ZipEntry(fileName);
-    zos.putNextEntry(zipEntry);
-
-    FileSystemManager.copy(fis, zos);
-    /*
-     * byte[] bytes = new byte[1024]; int length; while ((length = fis.read(bytes)) >= 0) {
-     * zos.write(bytes, 0, length); }
-     */
-    zos.closeEntry();
-    fis.close();
-  }
-  
-  
-  
-  
 
   /**
    * Només per AdEn
