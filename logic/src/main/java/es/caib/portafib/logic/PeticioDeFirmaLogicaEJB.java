@@ -3875,7 +3875,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
   /**
    * Per depurar
    */
-  private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
   /**
    * Envia correus a la gent de les entitats que tenen definida una PropietatGlobal amb clau
@@ -4027,6 +4026,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
         }
 
         if (isDebug) {
+          
+          SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+            
           log.debug(peticioDeFirma.getTitol() + "\t " + sdf.format(inici) + "\t "
               + sdf.format(fi) + "\t " + dif + "\t "
               + ((firmes == null) ? "-" : String.valueOf(firmes)) + "\t "

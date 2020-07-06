@@ -733,7 +733,8 @@ public class PortafirmasIndraTest extends IndraTestUtils {
     if (cal == null) {
       return null;
     } else {
-      return DATEFORMAT.format(cal.getTime());
+      SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.S");
+      return dateFormat.format(cal.getTime());
     }
   }
   
@@ -1020,13 +1021,15 @@ public class PortafirmasIndraTest extends IndraTestUtils {
   }
   
   
-  public static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.S");
+  
   
   public static String toString(Calendar cal) {
     if (cal == null) {
       return null;
     }
-    return DATEFORMAT.format(cal.getTime());
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.S");
+    
+    return dateFormat.format(cal.getTime());
   }
   
   /**
