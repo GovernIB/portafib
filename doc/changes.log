@@ -1,4 +1,45 @@
 
+PortaFIB 2.0.10
+==============
+
+2020-07-07 Ús incorrecte de SimpleDateFormat #443
+
+2020-07-03 A la gestió de notificacions recuperar l'agrupació per usuari aplicació #474
+
+2020-07-03 Basar el nom de l'arxiu firmat de les peticions de firma amb el nom del fitxer original #476
+
+2020-07-02 L'api WS Portafirmas (Indra) sempre empra l'algoritme SHA1 #475
+
+2020-07-01 Afegir mètode per Descarrega d'originals a APiFirmaSimpleAsync #451
+
+2020-07-01 Quan la propietat "portafiburlforexternalsignatures" no està definida l'error no es propaga adequadament #473
+
+2020-07-01 La creació de peticions de firma amb l'api WS V1 reescriure innecessariament dos pics el fitxer #472
+
+2020-07-01 L'usuari entitat pot canviar el plugin de custodia encara que la política no li permeti #469
+
+2020-07-01 Simplificar opcions de custòdia #465
+
+2020-06-30 El botó de cancel·lar/tornar a la pàgina "/aden/peticio/custodiainfo/view/" no sempre funciona #471
+
+2020-06-23 L'API REST V2 ASYNC falla quan el profile és null o buid #458
+
+2020-06-22 Revisar les opcions de custòdia que apareixen per usuari aplicació #468
+
+2020-06-19 Quan es crida "createAndStartPeticioDeFirma" des de l'api WS V1 no funciona la custòdia #466
+
+2020-06-19 Error creant custòdia quan el sol·licitant té "llibertat total" #467
+
+2020-06-17 Afegir el id a llistat de plantilles de fluxos de firma #459
+
+2020-06-17 Compilació des de 0 falla si es defineix el profile -Pws-portafib-v1 #461
+
+2020-06-17 Tooltip amb el dia del build no s'actualitza si no es recompilen els JSP #460
+
+2020-06-17 El botó per modificar flux de firmes de l'Administrador Entitat no funciona #464
+
+2020-06-15 Activar la migració de sessions #463
+
 PortaFIB 2.0.9
 ==============
 
