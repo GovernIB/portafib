@@ -25,7 +25,7 @@ public class TestZipEntries {
       zipProducer.addEntry("pom.xml", new File("pom.xml"));
       zipProducer.addEntry("pom.xml", new File("pom.xml"));
       try {
-         FileOutputStream fileOutputStream = new FileOutputStream("prova.zip");
+         FileOutputStream fileOutputStream = new FileOutputStream("target" + File.separator + "prova.zip");
          zipProducer.transferTo(fileOutputStream);
          fileOutputStream.close();
       } finally {
