@@ -2,6 +2,8 @@
 PortaFIB 2.0.10
 ==============
 
+2020-07-08 Revisar misstage de petició de signatura externa #477
+
 2020-07-07 Ús incorrecte de SimpleDateFormat #443
 
 2020-07-03 A la gestió de notificacions recuperar l'agrupació per usuari aplicació #474
