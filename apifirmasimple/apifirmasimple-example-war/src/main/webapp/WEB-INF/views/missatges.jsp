@@ -1,4 +1,4 @@
-<%@page import="org.fundaciobit.pluginsib.signature.firmasimple.firmasimpleexemple.utils.HtmlUtils"%>
+<%@page import="org.fundaciobit.apisib.apifirmasimple.examplewar.v1.utils.HtmlUtils"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@ include file="/WEB-INF/views/include.jsp"%>

@@ -9,10 +9,8 @@
 
 <br/><br/>
 
-<div id="iframediv"></div>
-<script type="text/javascript"> 
-$("#iframediv").load("${urlToIFrameCode}")
-</script>
-
+<center>
+<iframe id="iframediv" src="${urlToIFrameCode}" width="600px" height="700px"></iframe>
+</center>
 
 <%@ include file="/WEB-INF/views/html_footer.jsp"%>

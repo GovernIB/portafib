@@ -98,9 +98,9 @@ public class AutoFirmaController {
     // form.setDescripcio(txt);
     form.setMotiu(txt);
 
-    form.setUsername("anadal");
-    form.setNif("12345678X");
-    form.setEmail("anadal@iibit.org");
+    form.setUsername("pruebas");
+    form.setNif("99999999R");
+    form.setEmail("pruebas@fundaciobit.org");
     form.setVisualitzacio(AutoFirmaForm.VISUALITZACIO_FULLVIEW);
 
     // TODO XYZ Això s'ha de fer a la part CLIENT !!!!!
@@ -109,9 +109,6 @@ public class AutoFirmaController {
     String location = new String(ptext, "UTF-8");
     
     form.setLocation(location);
-    
-    
-    
 
     ModelAndView mav = new ModelAndView("autoFirmaForm");
     mav.addObject(form);
@@ -224,7 +221,7 @@ public class AutoFirmaController {
       fileInfoSignatureArray = fileInfoSignatureList
           .toArray(new FirmaSimpleFileInfoSignature[fileInfoSignatureList.size()]);
 
-      final String relativeControllerBase = getRelativeControllerBase(request, CONTEXTWEB);
+      final String absoluteControllerBase = getAbsoluteControllerBase(request, CONTEXTWEB);
 
       // Esbrinam SI WEB O SERVER
       if (esWeb) {
@@ -242,9 +239,9 @@ public class AutoFirmaController {
         final String returnUrl;
         boolean isFullView = FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN.equals(view);
         if (isFullView) {
-          returnUrl = relativeControllerBase + "/finalWeb/" + transactionID;
+          returnUrl = absoluteControllerBase + "/finalWeb/" + transactionID;
         } else {
-          returnUrl = relativeControllerBase + "/finalWebIFrame/" + transactionID;
+          returnUrl = absoluteControllerBase + "/finalWebIFrame/" + transactionID;
         }
 
         FirmaSimpleStartTransactionRequest startTransactionInfo;
