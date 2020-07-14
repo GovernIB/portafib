@@ -219,7 +219,7 @@ public class AutoFirmaController {
 
       FirmaSimpleFileInfoSignature[] fileInfoSignatureArray;
       fileInfoSignatureArray = fileInfoSignatureList
-          .toArray(new FirmaSimpleFileInfoSignature[fileInfoSignatureList.size()]);
+          .toArray(new FirmaSimpleFileInfoSignature[0]);
 
       final String absoluteControllerBase = getAbsoluteControllerBase(request, CONTEXTWEB);
 
@@ -236,13 +236,9 @@ public class AutoFirmaController {
 
 
 
-        final String returnUrl;
+        final String returnUrl = absoluteControllerBase + "/finalWeb/" + transactionID;
+
         boolean isFullView = FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN.equals(view);
-        if (isFullView) {
-          returnUrl = absoluteControllerBase + "/finalWeb/" + transactionID;
-        } else {
-          returnUrl = absoluteControllerBase + "/finalWebIFrame/" + transactionID;
-        }
 
         FirmaSimpleStartTransactionRequest startTransactionInfo;
         startTransactionInfo = new FirmaSimpleStartTransactionRequest(transactionID,
@@ -357,22 +353,6 @@ public class AutoFirmaController {
     } catch (Exception e) {
       return null;
     }
-  }
-
-  @RequestMapping(value = "/finalWebIFrame/{transactionID}")
-  public ModelAndView finalProcesDeFirmaWebIFrame(HttpServletRequest request,
-      HttpServletResponse response, @PathVariable("transactionID") String transactionID)
-      throws Exception {
-
-    if (log.isDebugEnabled()) {
-      log.debug("ENTRA A finalProcesDeFirmaWebIFrame[" + transactionID + "]");
-    }
-
-    ModelAndView mav = new ModelAndView("firmasimpleweb_iframe_final");
-    mav.addObject("URL_FINAL", request.getContextPath() + CONTEXTWEB + "/finalWeb/"
-        + transactionID);
-    return mav;
-
   }
 
   @RequestMapping(value = "/finalWeb/{transactionID}")
@@ -629,7 +609,7 @@ public class AutoFirmaController {
   /**
    * Descàrrega del document firmat
    * 
-   * @param id
+   * @param signID
    * @param response
    * @throws Exception
    */
@@ -669,22 +649,6 @@ public class AutoFirmaController {
 
       output.close();
     }
-
-    /*
-     * String mime; String filename; if
-     * (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) { filename =
-     * "fitxerfirmat.pdf"; mime = PDF_MIME_TYPE; } else if
-     * (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) { filename =
-     * "firma.xml"; mime = "application/xml"; } else if
-     * (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) { filename =
-     * "firma.csig"; mime = "application/octet-stream"; } else if
-     * (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) { filename =
-     * "firma.smime.slc"; mime = "application/pkcs7-mime"; } else {
-     * log.warn("No es suporta el tipus de firma " + signType +
-     * ". Revisi el codi per suportar aquest tipus", new Exception()); filename
-     * = "fitxerfirmat.bin"; mime = "application/octet-stream"; }
-     */
-
   }
 
   @InitBinder("autoFirmaForm")
