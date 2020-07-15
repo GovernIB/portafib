@@ -418,15 +418,22 @@
 
   </dependencies>
 
-  <!-- Emprar només useCache al war en desenvolupament (profile build) -->
   <properties>
     <war.useCache>false</war.useCache>
+    <webXml.authMethod>BASIC</webXml.authMethod>
   </properties>
+
   <profiles>
     <profile>
       <id>build</id>
       <properties>
         <war.useCache>true</war.useCache>
+      </properties>
+    </profile>
+    <profile>
+      <id>back-client-cert</id>
+      <properties>
+        <webXml.authMethod>CLIENT-CERT</webXml.authMethod>
       </properties>
     </profile>
   </profiles>
@@ -440,6 +447,7 @@
         <version>3.1.0</version>
         <configuration>
           <useCache>${war.useCache}</useCache>
+          <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
           <webResources>
             <!-- Documents pdf que es troben dins /doc/pdf i han d'anar a WEBAPP/Documentacio -->
             <resource>
