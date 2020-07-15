@@ -1,3 +1,6 @@
+<%@page import="es.caib.portafib.back.utils.MenuItem"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="es.caib.portafib.utils.Configuracio"%>
 <%@page import="es.caib.portafib.utils.Constants"%>
 <%@page import="java.util.HashMap"%>
@@ -12,121 +15,92 @@
   <h5><fmt:message key="ROLE_ADMIN.menu" /></h5>
 <%!
 
-final String[] menu = {
-
-  "entitat.gestio",
-  /*
-  "altaentitat", // Alta d'Entitat"}
-  "deshabilitarentitat", // Deshabilitar Entitat"}
-  "modificaciodadesentitat", // Modificació de les dades d'una Entitat"}
-  */
-  "",
-  "administradorentitat.gestio",
-  /*
-  "altaadministradorentitat", // Alta d'un Administrador d'Entitat"}
-  "baixaadministradorentitat", // Baixa d'un Administrador d'Entitat"}
-  */
-  "",
-  "usuaripersona.alta",    
-  "usuaripersona.modificar",
-  //"altausuariaplicacio", // Alta d'Usuari-Aplicació"}
-  //"modificaciodadesusuariaplicacio", // Modificació de les dades d'un usuari-aplicació"}
-  //"gestiogeneralconfiguracio", // Gestió general de configuració"}
-  "",
-  "tipusdocument.gestio", // Gestió Tipus de Documents"}
-  "",
-  "moduldefirma.plantilla.plural", // /admin/modulDeFirma
-  "moduldefirmaenservidor.plantilla.plural", // /admin/modulDeFirma
-  "segelldetemps.plantilla.plural", // /admin/segelldetemps
-  "plugincustodia.gestio", // admin/plugincustodia
-  "validaciodefirmes.gestio",
-  "",
-  Configuracio.isCAIB()? "" : "usuariaplicacio.gestio",
-  //"",
-  //"fluxos.orfes",
-  "",
-  "propietatglobal.gestio",
-  "propietatSistema.menu",
-  "",
-  "fitxers.orfes",
-
-};
-
-public static final Map<String, String> mapping;
-
-
+private static final List<List<MenuItem>> menus  = new ArrayList<List<MenuItem>>();
+    
 static {
-  //Mapping to existent path
-  mapping = new HashMap<String, String>();
-
-  mapping.put("usuaripersona.alta", "/admin/usuariPersona/alta");
-  mapping.put("usuaripersona.modificar", "/admin/usuariPersona/modificar");
-
-  mapping.put("entitat.gestio", "/admin/entitat/list");
-
-  mapping.put("administradorentitat.gestio", "/admin/adminentitat/list");
-
-  mapping.put("usuariaplicacio.gestio", "/admin/usuariAplicacio/list");
-
-  mapping.put("tipusdocument.gestio", "/admin/gestiotipusdoc/list");
-
-  mapping.put("moduldefirma.plantilla.plural", "/admin/modulDeFirma/list");
-  mapping.put("moduldefirmaenservidor.plantilla.plural", "/admin/moduldefirmaenservidor/list");
-
-  mapping.put("segelldetemps.plantilla.plural", "/admin/segelldetemps/list");
-
-  mapping.put("plugincustodia.gestio", "/admin/plugincustodia/list");
   
-  mapping.put("validaciodefirmes.gestio", "/admin/validaciofirmes/list");
+  List<MenuItem> menu1;
   
+  boolean compactar= false;
   
-  mapping.put("propietatglobal.gestio", "/admin/propietatglobal/list");
+  menu1 = new ArrayList<MenuItem>();
 
-  mapping.put("propietatSistema.menu", "/admin/propietatsistema/list");
+  menu1.add(MenuItem.retallaDarrerPath("entitat.gestio", "/admin/entitat/list"));
 
-  mapping.put("fitxers.orfes", "/admin/fitxersorfes/list");
+  menu1.add(null);
+
+  menu1.add(MenuItem.retallaDarrerPath("administradorentitat.gestio", "/admin/adminentitat/list"));
+
+  menu1.add(null);
+
+  menu1.add(MenuItem.retallaDarrerPath("usuaripersona.alta", "/admin/usuariPersona/alta"));
+  menu1.add(MenuItem.retallaDarrerPath("usuaripersona.modificar", "/admin/usuariPersona/modificar"));
+  
+  menu1.add(null);
+  
+  menu1.add(MenuItem.retallaDarrerPath("tipusdocument.gestio", "/admin/gestiotipusdoc/list"));
+  
+  menu1.add(null);
+  
+  menu1.add(MenuItem.retallaDarrerPath("moduldefirma.plantilla.plural", "/admin/modulDeFirma/list"));
+  menu1.add(MenuItem.retallaDarrerPath("moduldefirmaenservidor.plantilla.plural", "/admin/moduldefirmaenservidor/list"));
+  menu1.add(MenuItem.retallaDarrerPath("segelldetemps.plantilla.plural", "/admin/segelldetemps/list"));
+  menu1.add(MenuItem.retallaDarrerPath("plugincustodia.gestio", "/admin/plugincustodia/list"));
+  menu1.add(MenuItem.retallaDarrerPath("validaciodefirmes.gestio", "/admin/validaciofirmes/list"));
+  
+  menu1.add(null);
+  
+  menu1.add(MenuItem.retallaDarrerPath(Configuracio.isCAIB()? "" : "usuariaplicacio.gestio", "/admin/usuariAplicacio/list"));
+  
+  menu1.add(null);
+  
+  menu1.add(MenuItem.retallaDarrerPath("propietatglobal.gestio", "/admin/propietatglobal/list"));
+  menu1.add(MenuItem.retallaDarrerPath("propietatSistema.menu", "/admin/propietatsistema/list"));
+  
+  menu1.add(null);
+  
+  menu1.add(MenuItem.retallaDarrerPath("fitxers.orfes", "/admin/fitxersorfes/list"));
+
+  menus.add(menu1);
 
 }
 
+
 %><%
 
-session.setAttribute("menu", menu);
+int count = 0;
 
-session.setAttribute("mapping", mapping);
-
-%>  
+for(List<MenuItem> menu : menus) {
+  session.setAttribute("menu", menu);
+%>
   <ul class="tree" style="margin: 3px; padding: 0px;">
-
-    <c:set var="lastItemEmpty" value="${false}"/>
-    
     <c:forEach var="item" items="${menu}" >
-    
+
     <c:if test="${empty item }">
-      <c:if test="${lastItemEmpty eq false }">  
-        <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
-      </c:if>
-      <c:set var="lastItemEmpty" value="${true}"/>
+    <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
     </c:if>
     <c:if test="${not empty item }">
-      <c:set var="lastItemEmpty" value="${false}"/>
-      <fmt:message var="traduccio" key="${item}" />
-      
-      <c:if test="${empty mapping[item]}">
-        <c:set var="theurl" value="/admin/${item}"/>
-      </c:if>
-      <c:if test="${not (empty mapping[item])}">
-        <c:set var="theurl" value="${mapping[item]}"/>
-      </c:if>
-      
+      <fmt:message var="traduccio" key="${item.label}" />
+      <c:set var="theurl" value="${item.url}"/>
+      <c:set var="theurlbase" value="${item.urlbase}"/>
+      <c:set var="match" value="${(fn:contains(urlActual, theurl))}"/>
       <li style="list-style-type: disc; list-style-position: inside;">
         <a href="<c:url value="${theurl}"/>">
-          <span style="${(fn:contains(urlActual, theurl))? "font-weight: bold;" : ""} ${(fn:endsWith(traduccio, '(*)'))? "color: red;" : ""}">${traduccio}</span>
+          <span style="${(match)?"font-weight: bold;":""} ${(fn:endsWith(traduccio, '(*)'))? "color: red;" : ""}">${traduccio}</span>
         </a>
       </li>
     </c:if>
-    
     </c:forEach>
 
   </ul>
+  
+  <%  
+ 
+  count++;
+  
+}  // final FOR 
+  %>
+
+
 </div>
 </sec:authorize>
