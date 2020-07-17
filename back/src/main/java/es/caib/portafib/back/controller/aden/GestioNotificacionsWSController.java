@@ -72,7 +72,7 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
   }
 
   // TODO XYZ ZZZ S'ha d'emprar el DateFormatter de GenApp 
-  public static final SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+  
 
   @Override
   public NotificacioWSFilterForm getNotificacioWSFilterForm(Integer pagina, ModelAndView mav,
@@ -128,9 +128,11 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       
       long[] times = notificacioLogicaEjb.getExecutionsInfo();
       
-      String lef = SDF.format(new Date(times[0]));
-      String le = SDF.format(new Date(times[1]));
-      String ne = SDF.format(new Date(times[2]));
+      SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+      
+      String lef = sdf.format(new Date(times[0]));
+      String le = sdf.format(new Date(times[1]));
+      String ne = sdf.format(new Date(times[2]));
 
       HtmlUtils.saveMessageSuccess(request,
           I18NUtils.tradueix("notificaciows.timer.estaarrancat", lef, le, ne));

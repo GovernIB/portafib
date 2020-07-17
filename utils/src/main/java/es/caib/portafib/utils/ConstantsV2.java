@@ -542,8 +542,5 @@ public interface ConstantsV2 {
   // Charsets emprats dins l'aplicació
   Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
   Charset UTF_8 = Charset.forName("UTF-8");
-
-  // Reemplaç per noms de fitxer que no es poden passar a ISO-8859-1 i per tant
-  // no es poden escriure dins la capçalera Content-Disposition
-  byte[] FILENAME_UNMAPPABLE_REPLACEMENT = "_".getBytes(ISO_8859_1);
+  Charset US_ASCII = Charset.forName("US-ASCII");
 }

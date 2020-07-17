@@ -22,7 +22,7 @@ import org.quartz.impl.triggers.CronTriggerImpl;
  */
 public abstract class AbstractTimerEJB implements AbstractTimerLocal {
   
-  public static final SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+ 
   
 
   @Resource
@@ -173,7 +173,8 @@ public abstract class AbstractTimerEJB implements AbstractTimerLocal {
 
       Date nextExecution = nextExecution();
       if (nextExecution != null) {
-        log.info("Primer enviament de " + getTimerName() + " sera " + SDF.format(nextExecution));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        log.info("Primer enviament de " + getTimerName() + " sera " + sdf.format(nextExecution));
       }
 
     } catch (ParseException e) {

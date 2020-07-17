@@ -251,10 +251,9 @@
             <role-name>PFI_ADMIN</role-name>
         </auth-constraint>
     </security-constraint>
-    
-    <!-- XXX   CLIENT-CERT,BASIC -->
+
 	<login-config>
-		<auth-method>BASIC</auth-method>
+		<auth-method>${webXml.authMethod}</auth-method>
 		<realm-name>Govern de les Illes Balears</realm-name>
 	</login-config>
 

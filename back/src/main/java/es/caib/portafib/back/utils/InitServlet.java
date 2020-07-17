@@ -225,6 +225,7 @@ public class InitServlet extends HttpServlet {
     log.info("PortaFIB Version: " + ver + " Build:" + Build.BUILD);
     log.info("platform encoding: " + System.getProperty("file.encoding"));
     log.info("default locale: " + Locale.getDefault());
+    log.info("temp dir: "+ System.getProperty("java.io.tmpdir"));
   }
   
   

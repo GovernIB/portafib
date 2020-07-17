@@ -17,8 +17,8 @@
        </bean>
 
        <!-- Scans the classpath of this application for @Components to deploy as beans -->
-       <context:component-scan base-package="org.fundaciobit.pluginsib.signature.firmasimple.firmasimpleexemple.controller" />
-       <context:component-scan base-package="org.fundaciobit.pluginsib.signature.firmasimple.firmasimpleexemple.form" />
+       <context:component-scan base-package="org.fundaciobit.apisib.apifirmasimple.examplewar.v1.controller" />
+       <context:component-scan base-package="org.fundaciobit.apisib.apifirmasimple.examplewar.v1.form" />
        
 
        <!-- Configures the @Controller programming model -->

@@ -17,17 +17,12 @@ import org.springframework.web.util.UriUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static es.caib.portafib.utils.ConstantsV2.FILENAME_UNMAPPABLE_REPLACEMENT;
 import static es.caib.portafib.utils.ConstantsV2.ISO_8859_1;
 
 /**
@@ -314,13 +309,7 @@ public class Utils {
     String utf8filename = UriUtils.encodePath(filename, "UTF-8");
 
     // Asseguram que el filename suggerit en ISO-8859-1 no té caràcters incompatibles
-    CharsetEncoder charsetEncoder = ISO_8859_1.newEncoder();
-    if (!charsetEncoder.canEncode(filename)) {
-      charsetEncoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
-      charsetEncoder.replaceWith(FILENAME_UNMAPPABLE_REPLACEMENT );
-      ByteBuffer buffer = charsetEncoder.encode(CharBuffer.wrap(filename));
-      filename = new String(buffer.array(), ISO_8859_1);
-    }
+    filename = SafeCharsetEncoder.getInstance(ISO_8859_1).encode(filename);
 
     // Implementació de RFC6266. La majoria de navegadors soporten la codificació en UTF-8 emprant
     // "filename*=", pels que no ho soportin, ficam "filename=" abans.
