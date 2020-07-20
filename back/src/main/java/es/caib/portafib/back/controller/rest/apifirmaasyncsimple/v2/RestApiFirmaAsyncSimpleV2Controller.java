@@ -1588,8 +1588,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     boolean avisWeb = false;
 
     java.lang.String expedientCodi = signatureRequest.getExpedientCode();
-    java.lang.String expedientNom = signatureRequest.getExpedientCode();
-    java.lang.String expedientUrl = signatureRequest.getExpedientCode();
+    java.lang.String expedientNom = signatureRequest.getExpedientName();
+    java.lang.String expedientUrl = signatureRequest.getExpedientUrl();
     java.lang.String procedimentCodi = signatureRequest.getProcedureCode();
     java.lang.String procedimentNom = signatureRequest.getProcedureName();
     java.lang.String informacioAddicional = signatureRequest.getAdditionalInformation();
