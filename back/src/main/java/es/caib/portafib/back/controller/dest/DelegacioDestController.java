@@ -1141,7 +1141,11 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
         // Per les delegacions si es posible empram TimeStamp
         EntitatJPA entitat = loginInfo.getEntitat();
-        boolean userRequiresTimeStamp = entitat.getPoliticaSegellatDeTemps() != ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR;
+
+        // S'ha d'emprar timestamp si és obligatori o si es l'opció per defecte
+        boolean userRequiresTimeStamp =
+                (entitat.getPoliticaSegellatDeTemps() == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI)
+                        || (entitat.getPoliticaSegellatDeTemps() == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI);
 
         ITimeStampGenerator timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat, userRequiresTimeStamp);
 
