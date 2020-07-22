@@ -26,10 +26,12 @@ http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
 
         <application-exception>
             <exception-class>org.fundaciobit.genapp.common.i18n.I18NException</exception-class>
+            <rollback>true</rollback>
         </application-exception>
 
         <application-exception>
             <exception-class>org.fundaciobit.genapp.common.i18n.I18NValidationException</exception-class>
+            <rollback>true</rollback>
         </application-exception>
 
     </assembly-descriptor>

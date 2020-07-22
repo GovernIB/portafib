@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -164,10 +165,6 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
     return jpa;
 
 	}
-	
-	
-	
-	
 
 	@Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
@@ -197,9 +194,7 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
     return ids;
 
   }
-	
-	
-	
+
 	@Override
 	public void assignarAutoritzacioADelegacio(Long delegacioID, FileInfoSignature signFileInfo,
 	    File firmat, String nom)  throws Exception, I18NException {
@@ -225,16 +220,13 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
 	  // TODO i si no existeix
     
     List<UsuariEntitatJPA> usuarisEntitat =
-        usuariEntitatLogicaEjb.findByPrimaryKeyFullWithEntitat(Arrays.asList(jpa.getDestinatariID()));
+        usuariEntitatLogicaEjb.findByPrimaryKeyFullWithEntitat(Collections.singletonList(jpa.getDestinatariID()));
       
     UsuariEntitatJPA destinatari = usuarisEntitat.get(0); 
     
     EntitatJPA entitat = entitatEjb.findByPrimaryKey(destinatari.getEntitatID());
-    
 
-    
     IPortaFIBDataSource originalData =  new FileDataSource(signFileInfo.getFileToSign());
-    IPortaFIBDataSource adaptedData = originalData;
     IPortaFIBDataSource signatureData = new FileDataSource(firmat);
     IPortaFIBDataSource documentDetachedData = null;
     
@@ -250,54 +242,16 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
     boolean signMode = SignatureUtils.convertApiSignMode2PortafibSignMode(signFileInfo.getSignMode());
     
     int signType= SignatureUtils.convertApiSignTypeToPortafibSignType(signFileInfo.getSignType());
-    
-    
-    
-    
-    
+
     String entitatID = entitat.getEntitatID();
-    
-    
-    
+
     ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
         validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma,
-        originalData, adaptedData, signatureData, documentDetachedData,
+        originalData, originalData, signatureData, documentDetachedData,
         signType, signMode, signFileInfo.getLanguageSign(),
         numFirmaPortaFIB, numFirmesOriginals, nifEsperat, ConstantsV2.TAULADEFIRMES_SENSETAULA);
 
     validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest);
-    
-
-    
-    /*
-	  List<UsuariEntitatJPA> usuarisEntitat =
-	    usuariEntitatLogicaEjb.findByPrimaryKeyFullWithEntitat(Arrays.asList(jpa.getDestinatariID()));
-	  
-	  UsuariEntitatJPA destinatari = usuarisEntitat.get(0); 
-	  
-	  
-	 
-	  final Map<Integer,Long>  fitxersByNumFirma = null;
-    final int numFirma = 1; // Només du 1 firma
-    final int numFirmesOriginals = 0; // Sabem que l'original no contenia cap altre firma
-    InformacioCertificat info;
-    // null == Indica que no s'ha de revisar si el document ha sigut modificat
-    info = PdfUtils.checkCertificatePADES(null, fitxersByNumFirma,
-        firmat, numFirma, numFirmesOriginals, false);
-    
-    
-    EntitatJPA entitat = entitatEjb.findByPrimaryKey(destinatari.getEntitatID());
-    
-
-    // Obtenir informació del certificat
-    if (entitat != null && entitat.isComprovarNifFirma()) {
-      // check expected nif
-      String nifFirmant = info.getNifResponsable();
-      String expectedNif = destinatari.getUsuariPersona().getNif();
-	    LogicUtils.checkExpectedNif(nifFirmant, expectedNif);
-    }
-    */
-
 	  
 	  
     // Crear fitxer en BBDD
@@ -307,20 +261,13 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
     fitxer.setNom(nom);
     fitxer.setTamany(firmat.length());
     fitxer = fitxerEjb.create(fitxer);
-    
-    
-    
+
     jpa.setFitxerAutoritzacioID(fitxer.getFitxerID());
     
     update(jpa);
     
-    
     // Això ha de ser lo darrer per si hi hagues algun error en les passes
     // anteriors
-    //FileSystemManager.sobreescriureFitxer(firmat, fitxer.getFitxerID());
     LogicUtils.sobreescriureFitxerChecked(firmat, fitxer.getFitxerID());
   }
-	
-	
-
 }
