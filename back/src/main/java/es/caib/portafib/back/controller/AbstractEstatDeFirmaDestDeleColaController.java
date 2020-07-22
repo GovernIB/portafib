@@ -61,6 +61,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.DoubleField;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.GroupByItem;
+import org.fundaciobit.genapp.common.query.GroupByValueItem;
 import org.fundaciobit.genapp.common.query.IntegerField;
 import org.fundaciobit.genapp.common.query.LongField;
 import org.fundaciobit.genapp.common.query.OrderBy;
@@ -584,8 +585,15 @@ import java.util.Set;
       // Field tipusDocumentID
       if (getRole().equals(ConstantsV2.ROLE_COLA)) {
 
+        // Agafam la llista de codis de persona que s'han emprat al group by
+        Set<String> personaIdInGroupBy = new HashSet<String>();
+        GroupByItem groupByItem = groupByItemsMap.get(DESTINATARIID);
+        for (GroupByValueItem groupByValueItem : groupByItem.getValues()) {
+          personaIdInGroupBy.add(groupByValueItem.getCodeLabel());
+        }
+
         _listSKV = this.usuariPersonaRefList.getReferenceList(
-            UsuariPersonaFields.USUARIPERSONAID, null);
+            UsuariPersonaFields.USUARIPERSONAID, UsuariPersonaFields.USUARIPERSONAID.in(personaIdInGroupBy));
         _tmp = Utils.listToMap(_listSKV);
         groupByItemsMap.get(DESTINATARIID).setCodeLabel(
             ColaboracioDelegacioFields.DESTINATARIID.fullName);
@@ -594,22 +602,18 @@ import java.util.Set;
       }
 
       {
+        // Agafam la llista de codis de tipus documental que s'han emprat al group by.
+        Set<Long> tipusIdInGroupBy = new HashSet<Long>();
+        GroupByItem groupByItem = groupByItemsMap.get(COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD);
+        for (GroupByValueItem groupByValueItem : groupByItem.getValues()) {
+          tipusIdInGroupBy.add(Long.valueOf(groupByValueItem.getCodeLabel()));
+        }
+
         _listSKV = this.tipusDocumentRefList.getReferenceList(
-            TipusDocumentFields.TIPUSDOCUMENTID, null);
+            TipusDocumentFields.TIPUSDOCUMENTID, TipusDocumentFields.TIPUSDOCUMENTID.in(tipusIdInGroupBy));
         _tmp = Utils.listToMap(_listSKV);
         fillValuesToGroupByItems(_tmp, groupByItemsMap, COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD, false);
       }
-
-      //Eliminar la info addicinal avaluable com a camp d'agrupació #434
-      /*{
-        _listSKV = estatDeFirmaEjb.executeQuery(
-             new SelectMultipleStringKeyValue(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD.select,
-                 COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD.select), getAdditionalCondition(request) );
-
-        _tmp = Utils.listToMap(_listSKV);
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD, false);
-      }*/
-
       return groupByItemsMap;
     }
 
@@ -618,7 +622,7 @@ import java.util.Set;
     public String finalRequest(HttpServletRequest request, HttpServletResponse response)
         throws I18NException {
       
-      log.info("\n\n XYZ ZZZ   ñññññññññ   PASSA PER finalRequest\n\n");
+      log.info("\n\n XYZ ZZZ PASSA PER finalRequest\n\n");
       
       return "redirect:" + getContextWeb() + "/list";
     }
@@ -638,15 +642,15 @@ import java.util.Set;
       
       
       Long count;
-      for(int x = 0; x < firmaIdArray.length; x++) {
+      for (String s : firmaIdArray) {
         if (isDebug) {
-          log.debug("Check firma amb id =]" +firmaIdArray[x] + "[");
+          log.debug("Check firma amb id =]" + s + "[");
         }
         count = estatDeFirmaEjb.count(Where.AND(
-             ESTATDEFIRMAID.equal(Long.parseLong(firmaIdArray[x])),
-             TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_FIRMAT)
-             ));
-        
+                ESTATDEFIRMAID.equal(Long.parseLong(s)),
+                TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_FIRMAT)
+        ));
+
         if (count == 0) {
           response.setStatus(HttpServletResponse.SC_NO_CONTENT);
           return;

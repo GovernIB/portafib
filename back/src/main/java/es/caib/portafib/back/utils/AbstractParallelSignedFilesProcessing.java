@@ -33,11 +33,6 @@ public abstract class AbstractParallelSignedFilesProcessing extends Thread {
 
   protected final HttpServletRequest request;
 
-  /**
-   * @param signaturesSetID
-   * @param peticioDeFirmaLogicaEjb
-   * @param modulDeFirmaEjb
-   */
   public AbstractParallelSignedFilesProcessing(HttpServletRequest request,
       String signaturesSetID, ModulDeFirmaWebLogicaLocal modulDeFirmaEjb) {
     super();
