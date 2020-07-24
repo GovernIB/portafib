@@ -1,0 +1,21 @@
+/* Portafib CSS Template */
+
+.disponible {
+    display: block;
+    visibility: visible;
+}
+
+.no-disponible {
+    display: none;
+    visibility: hidden;
+}
+
+.mainMenu .upper-right-corner {
+    z-index: 9;
+    float: right;
+}
+
+.mainMenu .upper-left-corner {
+    z-index: 9;
+    float: left;
+}
