@@ -14,8 +14,6 @@
     <artifactId>pluginsib-signatureweb</artifactId>
   </parent>
 
-  <url>http://maven.apache.org</url>
-
   <!-- Només serveix per indicar a maven que s'ha de compilar -->
   <profiles>
     <profile>

@@ -14,16 +14,6 @@
     <version>2.0.11</version>
   </parent>
 
-  <repositories>
-    <repository>
-      <id>thirdparty-releases</id>
-      <name>JBoss Thirdparty Releases</name>
-      <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
-    </repository>
-  </repositories>
-
-
-
   <dependencies>
 
     <!-- Internas -->

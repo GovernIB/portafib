@@ -19,8 +19,6 @@
     <org.springframework.version>3.1.2.RELEASE</org.springframework.version>
   </properties>
 
-  <url>http://maven.apache.org</url>
-
   <dependencies>
 
     <!-- ================  API implementation JERSEY ======================== -->

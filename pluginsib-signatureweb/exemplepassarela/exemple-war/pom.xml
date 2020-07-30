@@ -21,11 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <url>http://maven.apache.org</url>
-
     <dependencies>
-
-
         <dependency>
             <artifactId>pluginsib-signatureweb-signaturetester-ejb</artifactId>
             <groupId>org.fundaciobit.pluginsib.signatureweb.signaturetester</groupId>

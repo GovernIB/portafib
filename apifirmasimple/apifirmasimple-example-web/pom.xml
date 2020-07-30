@@ -10,7 +10,6 @@
     <packaging>war</packaging>
 
     <name>apifirmasimple-example-web</name>
-    <url>http://maven.apache.org</url>
 
     <properties>
         <java.version>11</java.version>
@@ -20,8 +19,6 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.source>${java.version}</maven.compiler.source>
     </properties>
-    
-
 
     <dependencies>
 
@@ -147,17 +144,10 @@
     </dependencies>
 
     <repositories>
-
         <repository>
             <id>github-governib-maven</id>
             <name>GitHub GovernIB Maven Repository</name>
             <url>https://governib.github.io/maven/maven/</url>
-        </repository>
-
-        <repository>
-            <id>springsource-milestones</id>
-            <name>SpringSource Milestones Proxy</name>
-            <url>https://oss.sonatype.org/content/repositories/springsource-milestones</url>
         </repository>
     </repositories>
 

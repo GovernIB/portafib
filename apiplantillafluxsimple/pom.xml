@@ -10,21 +10,6 @@
 
   <repositories>
 
-    <repository>
-      <id>maven-nuxeo</id>
-      <name>Maven Nuxeo Repository</name>
-      <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
-      <layout>default</layout>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </repository>
-
     <!-- Requerim PLUGINSIB -->
     <repository>
       <id>github-governib-maven-repos</id>

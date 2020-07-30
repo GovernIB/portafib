@@ -15,10 +15,9 @@
     <repository>
       <id>governib-maven-repos</id>
       <name>GovernIB Maven Repository</name>
-      <url>http://GovernIB.github.io/maven/maven/</url>
+      <url>https://governIB.github.io/maven/maven/</url>
     </repository>
   </repositories>
-
 
   <build>
 

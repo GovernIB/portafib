@@ -8,8 +8,6 @@
 
   <name>FundacioBit - PluginsIB - SignatureWeb - @firma Triphase Server</name>
 
-  <url>http://maven.apache.org</url>
-
   <parent>
     <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
     <version>3.0.0</version>

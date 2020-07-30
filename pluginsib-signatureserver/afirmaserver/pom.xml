@@ -14,9 +14,6 @@
     <artifactId>pluginsib-signatureserver</artifactId>
   </parent>
 
-  <url>http://maven.apache.org</url>
-
-
   <dependencies>
 
     <dependency>

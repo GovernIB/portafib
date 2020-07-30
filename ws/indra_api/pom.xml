@@ -17,28 +17,6 @@
 
   <repositories>
     <repository>
-      <id>maven-nuxeo</id>
-      <name>Maven Nuxeo Repository</name>
-      <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
-      <layout>default</layout>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </repository>
-
-    <repository>
-      <id>java.net-m2</id>
-      <name>java.net - Maven 2</name>
-      <url>https://repository.jboss.org/nexus/content/repositories/java.net-m2</url>
-    </repository>
-
-
-    <repository>
       <id>github-governib-maven</id>
       <name>GitHub GovernIB Maven Repository</name>
       <url>https://governib.github.io/maven/maven/</url>

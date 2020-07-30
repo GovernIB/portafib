@@ -14,8 +14,6 @@
     <artifactId>pluginsib-signatureweb</artifactId>
   </parent>
 
-  <url>http://maven.apache.org</url>
-
   <properties>
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
     <bouncycastle.version>1.53</bouncycastle.version>

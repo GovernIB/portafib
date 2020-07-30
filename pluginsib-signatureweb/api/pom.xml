@@ -13,23 +13,6 @@
     <artifactId>pluginsib-signatureweb</artifactId>
   </parent>
 
-  <repositories>
-    <repository>
-      <id>maven-nuxeo</id>
-      <name>Maven Nuxeo Repository</name>
-      <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
-      <layout>default</layout>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </repository>
-  </repositories>
-
   <dependencies>
 
     <dependency>
