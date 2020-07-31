@@ -226,27 +226,60 @@ INSERT INTO pfi_traduccio(traduccioid) VALUES (101);
 INSERT INTO pfi_traduccio(traduccioid) VALUES (111);
 INSERT INTO pfi_traduccio(traduccioid) VALUES (102);
 INSERT INTO pfi_traduccio(traduccioid) VALUES (122);
+INSERT INTO pfi_traduccio(traduccioid) VALUES (202);
+INSERT INTO pfi_traduccio(traduccioid) VALUES (222);
 
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (101, 'ca', 'Plugin de Firma de MiniApplet en Servidor');
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (101, 'es', 'Plugin de Firma de MiniApplet en Servidor');
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (111, 'ca', 'Plugin de Firma de MiniApplet en Servidor');
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (111, 'es', 'Plugin de Firma de MiniApplet en Servidor');
 
-INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (102, 'ca', 'Plugin de Firma de MiniApplet (Applet/JavaWebStart)');
-INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (102, 'es', 'Plugin de Firma de MiniApplet (Applet/JavaWebStart)');
-INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (122, 'ca', 'Plugin de Firma de MiniApplet (Applet/JavaWebStart)');
-INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (122, 'es', 'Plugin de Firma de MiniApplet (Applet/JavaWebStart)');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (102, 'ca', 'Plugin de Firma Web @firma Autofirma & Client @firma Mòbil');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (102, 'es', 'Plugin de Firma Web @firma Autofirma & Client @firma Mòbil');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (122, 'ca', 'Plugin de Firma Web @firma Autofirma & Client @firma Mòbil');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (122, 'es', 'Plugin de Firma Web @firma Autofirma & Client @firma Mòbil');
+
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (202, 'ca', 'Plugin de Firma de MiniApplet (Applet/JavaWebStart)');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (202, 'es', 'Plugin de Firma de MiniApplet (Applet/JavaWebStart)');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (222, 'ca', 'Plugin de Firma de MiniApplet (Applet/JavaWebStart)');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (222, 'es', 'Plugin de Firma de MiniApplet (Applet/JavaWebStart)');
 
 INSERT INTO pfi_plugin(
-            pluginid, nomid, descripciocurtaid, classe, propertiesadmin, 
+            pluginid, nomid, descripciocurtaid, classe, propertiesadmin,
             propertiesentitat, entitatid, actiu, tipus, politicadeus,
             politicamostrarpropietats, codi)
-            VALUES (1, 101, 111, 'org.fundaciobit.plugins.signatureweb.miniappletinserver.MiniAppletInServerSignatureWebPlugin', 'es.caib.portafib.plugins.signatureweb.miniappletinserver.base_dir=D:/dades/dades/CarpetesPersonals/Programacio/portafib-files/postgresql_1.1/MINIAPPLETINSERVER', NULL, NULL, false, 0, 0, 2, '1');
+            VALUES (1, 101, 111, 'org.fundaciobit.plugins.signatureweb.miniappletinserver.MiniAppletInServerSignatureWebPlugin', 'es.caib.portafib.plugins.signatureweb.miniappletinserver.base_dir=/portafib-files/MINIAPPLETINSERVER', NULL, NULL, false, 3, 0, 2, '1');
+
 INSERT INTO pfi_plugin(
-            pluginid, nomid, descripciocurtaid, classe, propertiesadmin, 
+            pluginid, nomid, descripciocurtaid, classe, propertiesadmin,
             propertiesentitat, entitatid, actiu, tipus, politicadeus,
             politicamostrarpropietats, codi)
-            VALUES (2, 102, 122, 'org.fundaciobit.plugins.signatureweb.miniappletinclient.MiniAppletInClientSignatureWebPlugin', NULL, NULL, NULL, true, 0, 0, 2, '2');
+            VALUES (2, 102, 122, 'org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.AfirmaTriphaseSignatureWebPlugin',
+            '
+es.caib.portafib.plugins.signatureweb.autofirma.debug=false
+
+# Opcional. Per defecte quan s''arranca AutoFirma des de Firefox s''usa el magatzem de certificats de Firefox.
+# Si aquesta propietat val true llavors en Windows carrega els certificats del magatzem del Sistema Operatiu
+es.caib.portafib.plugins.signatureweb.autofirma.firefoxinwindowsuseoskeystore=true
+
+es.caib.portafib.plugins.signatureweb.autofirma.timeoutbase=600
+
+# Opcional. Si val true mostrarà en la llista de llocs on descarregar Autofirma
+# un nou item per descarregar Autofirma per Windows XP
+es.caib.portafib.plugins.signatureweb.autofirma.downloadforwindowsxp=true
+
+# Opcional. Per afegir un nou fitxer de javascript
+#es.caib.portafib.plugins.signatureweb.autofirma.newjavascripturl=
+
+# Opcional. Per afegir un nou fitxer de CSS
+#es.caib.portafib.plugins.signatureweb.autofirma.newcssurl=
+', NULL, NULL, true, 0, 0, 2, '2');
+
+INSERT INTO pfi_plugin(
+            pluginid, nomid, descripciocurtaid, classe, propertiesadmin,
+            propertiesentitat, entitatid, actiu, tipus, politicadeus,
+            politicamostrarpropietats, codi)
+            VALUES (20, 202, 222, 'org.fundaciobit.plugins.signatureweb.miniappletinclient.MiniAppletInClientSignatureWebPlugin', NULL, NULL, NULL, true, 0, 0, 2, '20');
             
 -- =======================================
 -- 2015/11/25 Plantilla Plugin de Segellat de Temps
