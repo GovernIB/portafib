@@ -69,10 +69,11 @@ static {
 
 %><%
 
+
 int count = 0;
 
 for(List<MenuItem> menu : menus) {
-  session.setAttribute("menu", menu);
+  pageContext.setAttribute("menu", menu);
 %>
   <ul class="tree" style="margin: 3px; padding: 0px;">
     <c:forEach var="item" items="${menu}" >
