@@ -49,10 +49,11 @@ static {
   menu1.add(MenuItem.retallaDarrerPath("validaciodefirmes.gestio", "/admin/validaciofirmes/list"));
   
   menu1.add(null);
-  
-  menu1.add(MenuItem.retallaDarrerPath(Configuracio.isCAIB()? "" : "usuariaplicacio.gestio", "/admin/usuariAplicacio/list"));
-  
-  menu1.add(null);
+
+  if (!Configuracio.isCAIB()) {
+    menu1.add(MenuItem.retallaDarrerPath("usuariaplicacio.gestio", "/admin/usuariAplicacio/list"));
+    menu1.add(null);
+  }
   
   menu1.add(MenuItem.retallaDarrerPath("propietatglobal.gestio", "/admin/propietatglobal/list"));
   menu1.add(MenuItem.retallaDarrerPath("propietatSistema.menu", "/admin/propietatsistema/list"));
