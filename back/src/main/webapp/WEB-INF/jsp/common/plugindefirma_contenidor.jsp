@@ -3,46 +3,26 @@
 %><un:useConstants var="Constants" className="es.caib.portafib.utils.Constants"/>
 <%-- PANTALLA COMPLETA --%>
 <c:if test="${fullView}">
-<div id="fullview"></div>
-<script type="text/javascript" language="javascript"> 
-$("#fullview").load("${urlToSelectPluginPage}")
+<script type="text/javascript" language="javascript">
+    window.location.replace('${urlToSelectPluginPage}');
 </script>
 </c:if>
 <%-- DINS D'UN IFRAME --%>
 <c:if test="${!fullView}">
-<%--
-<table id="tablefull" width="100%" style="height:*;border-color: red;" border="1" cellpadding="0" cellspacing="0">
-<tr valign="top">
-<td>
-<div style="height: 100%">
---%>
-<%--  frameborder='3' --%>
 <iframe src="${urlToSelectPluginPage}" style="min-height:200px" frameborder='0' width="100%" height="400px"  id="myiframe" scrolling="auto">
 <p>NO IFRAME</p>
 </iframe>
-<%--
-</div>
-</td>
-</tr>
-</table>
---%>
 
-<script type="text/javascript" language="javascript"> 
-
+<script type="text/javascript" language="javascript">
     var lastSize = 0;
 
     function checkIframeSize() {
-        
         setTimeout(checkIframeSize, 1000);
-                
         var iframe = document.getElementById('myiframe');
-        
         var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
         var h1 = $(iframeDocument.body).height();
         var h2 = iframeDocument.body.scrollHeight;
-        //var h3 = $("#tablefull").height();
-
         var h = Math.max(h1,h2);
 
         var log = false;
@@ -72,6 +52,5 @@ $("#fullview").load("${urlToSelectPluginPage}")
     $(document).ready(function ()  {
         setTimeout(checkIframeSize, 1000);
       });
-
 </script>
 </c:if>
