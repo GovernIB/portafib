@@ -41,11 +41,23 @@
       <id>jboss-releases</id>
       <name>JBoss Releases Repository</name>
       <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
     </repository>
     <repository>
       <id>jboss-thirdparty-releases</id>
       <name>JBoss 3rd-party Repository</name>
       <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/</url>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
     </repository>
   </repositories>
 
