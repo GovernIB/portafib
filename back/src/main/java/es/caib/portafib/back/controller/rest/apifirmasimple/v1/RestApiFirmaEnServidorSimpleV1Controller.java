@@ -63,9 +63,10 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Created 06/02/18 10:10
+ * Controller REST per l'API de Firma Simple En Servidor
  *
  * @author anadal
+ * @author areus
  */
 @Controller
 @RequestMapping(value = RestApiFirmaEnServidorSimpleV1Controller.CONTEXT)
@@ -180,7 +181,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
 
-    if (fsur == null || fsur.getLanguageUI() == null) {
+    if (fsur.getLanguageUI() == null) {
       // XYZ ZZZ TRA
       return generateServerError("L'objecte FirmaSimpleUpgradeRequest o l'idioma valen null.");
     }
@@ -192,11 +193,6 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
       LoginInfo loginInfo = commonChecks();
 
       String usuariAplicacioID = loginInfo.getUsuariAplicacio().getUsuariAplicacioID();
-
-      // final PerfilDeFirma perfilDeFirma;
-      // perfilDeFirma = configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma(
-      // usuariAplicacioID, fsur.getProfileCode(),
-      // ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR);
 
       final PerfilDeFirma perfilDeFirma;
       {
@@ -277,25 +273,17 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
       return generateNoAvailablePlugin(fsur.getLanguageUI(), false,nape);
 
     } catch (I18NException i18ne) {
-
       // XYZ ZZZ
       String msg = I18NLogicUtils.getMessage(i18ne, new Locale(fsur.getLanguageUI()));
-
       log.error(msg, i18ne);
-
       return generateServerError(msg);
 
     } catch (Throwable th) {
-
       // XYZ ZZZ TRA
       String msg = "Error desconegut durant el procés d'actualització de firma: "
           + th.getMessage();
-
       log.error(msg, th);
-
       return generateServerError(msg, th);
-    } finally {
-      //System.gc();
     }
 
   }
@@ -306,9 +294,6 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
 
     ValidateSignatureResponse vsr = upgradeResponse.getValidacioResponse()
         .getValidateSignatureResponse();
-
-    // ValidateSignatureResponse vsr = validacioFirmesEjb.validateSignatureInServer(entitatID,
-    // config, signatureType, signedFile, documentDetachedFile, languageUI);
 
     FirmaSimpleUpgradedFileInfo upgradedFileInfo;
 
@@ -417,8 +402,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
     log.info("simpleSignaturesSet.getCommonInfo().getLanguageUI() ==> "
         + simpleSignature.getCommonInfo().getLanguageUI());
 
-    String virtualTransactionID = null;
-
+    String transactionID = null;
     try {
       LoginInfo loginInfo = commonChecks();
 
@@ -434,15 +418,10 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
 
       // ================== CODI COMU ==============
 
-      virtualTransactionID = internalGetTransacction();
+      transactionID = internalGetTransacction();
 
-      // Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = new HashMap<String,
-      // UsuariAplicacioConfiguracioJPA>();
-
-      String transactionID = "" + System.currentTimeMillis();
-      PassarelaSignaturesSet pss;
-      pss = convertRestBean2PassarelaBeanServer(transactionID, virtualTransactionID,
-          simpleSignature, pcf.perfilDeFirma, pcf.configBySignID);
+      PassarelaSignaturesSet pss = convertRestBean2PassarelaBeanServer(transactionID, simpleSignature,
+              pcf.perfilDeFirma, pcf.configBySignID);
 
       log.info("XYZ ZZZ  ======>   USERNAME = ]" + pss.getCommonInfoSignature().getUsername()
           + "[");
@@ -518,14 +497,13 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
 
       return generateServerError(msg, th);
     } finally {
-      if (virtualTransactionID != null) {
+      if (transactionID != null) {
         try {
-          File transactionFolder = getTransactionFolder(TIPUS_EN_SERVIDOR,
-              virtualTransactionID);
+          File transactionFolder = getTransactionFolder(TIPUS_EN_SERVIDOR, transactionID);
           org.apache.commons.io.FileUtils.deleteDirectory(transactionFolder);
         } catch (Exception e) {
           log.error("Error desconegut fent neteja dels fitxers "
-              + "de ApiFirmaEnServidorSimple de la transacció " + virtualTransactionID + ":"
+              + "de ApiFirmaEnServidorSimple de la transacció " + transactionID + ":"
               + e.getMessage(), e);
         }
       }
@@ -558,8 +536,6 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
 
     }
 
-    log.info("XYZ ZZZ validateSignature:: documentDetached => " + documentDetached);
-
     final int signOperation = fileInfo.getSignOperation();
     final String signAlgorithm = fileInfo.getSignAlgorithm();
     final int signaturesTableLocation = fileInfo.getSignaturesTableLocation();
@@ -570,26 +546,15 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
     // Internament ja es verifica si s'ha de passar
     ValidateSignatureResponse vsr = vcr.getValidateSignatureResponse();
 
-    // ELIMIMNAR !!!!!
-    // vsr = validacioFirmesEjb.validateSignatureInServer(entitatID, config, signType,
-    // signedFile.getData(), documentDetached, languageUI);
-
     if (vsr == null || vsr.getValidationStatus() == null) {
       // No s'ha fet validacio
       signatureFileInfo = new FirmaSimpleSignedFileInfo();
-
       signatureFileInfo.setSignOperation(signOperation);
-
       signatureFileInfo.setSignType(signType);
-
       signatureFileInfo.setSignAlgorithm(signAlgorithm);
-
       signatureFileInfo.setValidationInfo(new FirmaSimpleValidationInfo());
-
       signatureFileInfo.setEniPerfilFirma(eniPerfilFirma);
-
       signatureFileInfo.setTimeStampIncluded(timeStampIncluded);
-
       signatureFileInfo.setPolicyIncluded(policyIncluded);
 
       // SI es PADES llavors el signMode es attached
@@ -689,9 +654,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
       @RequestBody String languageUI) {
 
     log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableProfiles() => " + languageUI);
-
     return internalGetAvailableProfiles(request, languageUI);
-
   }
 
   protected FirmaSimpleSignDocumentsResponse processPassarelaResults(

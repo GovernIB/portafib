@@ -67,9 +67,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
- * @author anadal(u80067)
+ * Operacions comunes de les API de Firma Simple Web i En Servidor.
  *
+ * @author anadal(u80067)
+ * @author areus
  */
 public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
     RestFirmaUtils<K> {
@@ -80,9 +81,6 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
 
   @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
   public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
-
-  @EJB(mappedName = es.caib.portafib.ejb.CodiBarresLocal.JNDI_NAME)
-  private es.caib.portafib.ejb.CodiBarresLocal codiBarresEjb;
 
   public ResponseEntity<FirmaSimpleError> generateNoAvailablePlugin(String language,
       boolean firma, NoCompatibleSignaturePluginException ex) {
@@ -97,8 +95,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
     if (ex != null && ex.getMessage() != null) {
       msg = msg +  " (" + ex.getMessage() + ")";
     }
-    
-    
+
     return new ResponseEntity<FirmaSimpleError>(new FirmaSimpleError(msg,
         NoAvailablePluginException.class.getName()), HttpStatus.INTERNAL_SERVER_ERROR);
   }
@@ -113,17 +110,14 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
       is = fb.getData().getInputStream();
       byte[] data = IOUtils.toByteArray(is);
       return new FirmaSimpleFile(fb.getNom(), fb.getMime(), data);
-    } catch (Exception e) {
-      throw e;
     } finally {
       if (is != null) {
         try {
           is.close();
-        } catch (Exception e2) {
+        } catch (Exception ignored) {
         }
       }
     }
-
   }
 
   public FitxerBean convertFirmaSimpleFileToFitxerBean(FirmaSimpleFile asf, String type,
@@ -162,8 +156,6 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
     return folderTransaction;
   }
 
-
-
   public FirmaSimpleSignatureResult convertPassarelaSignatureResult2FirmaSimpleSignatureResult(
       PassarelaSignatureResult psr, PassarelaCommonInfoSignature commonInfo,
       PassarelaFileInfoSignature infoSignature, ValidacioCompletaResponse infoValidacio,
@@ -187,7 +179,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
       final boolean timeStampIncluded = infoSignature.isUseTimeStamp();
       final boolean policyIncluded = (commonInfo.getPolicyInfoSignature() != null);
 
-      /**
+      /*
        * eEMGDE.Firma.TipoFirma.FormatoFirma (eEMGDE17.1.1): TF01 (CSV), TF02 (XAdES internally
        * detached signature), TF03 (XAdES enveloped signature), TF04 (CAdES detached/explicit
        * signature), TF05 (CAdES attached/implicit signature), TF06 (PAdES)
@@ -350,19 +342,11 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
   }
 
   /**
-   * EN SERVIDOR
-   * 
-   * @param transactionID
-   * @param virtualTransactionID
-   * @param simpleSignature
-   * @param perfilFirma
-   * @param configEnServidor
-   * @return
-   * @throws I18NException
+   * Firma en Servidor
    */
   protected PassarelaSignaturesSet convertRestBean2PassarelaBeanServer(String transactionID,
-      final String virtualTransactionID, FirmaSimpleSignDocumentRequest simpleSignature,
-      PerfilDeFirma perfilFirma, Map<String, UsuariAplicacioConfiguracioJPA> configBySignID)
+      FirmaSimpleSignDocumentRequest simpleSignature, PerfilDeFirma perfilFirma,
+      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID)
       throws I18NException, I18NValidationException {
 
     final boolean esFirmaEnServidor = true;
@@ -373,48 +357,34 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
 
     LoginInfo loginInfo = LoginInfo.getInstance();
 
-    PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID,
-        virtualTransactionID, simpleSignaturesSet, esFirmaEnServidor, loginInfo, perfilFirma,
-        configBySignID);
+    PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID, simpleSignaturesSet, esFirmaEnServidor,
+            loginInfo, perfilFirma, configBySignID);
 
     return pss;
-
   }
 
   /**
-   * WEB
-   * 
-   * @param transactionID
-   * @param virtualTransactionID
-   * @param simpleSignature
-   * @param perfilWeb
-   * @return
-   * @throws I18NException
+   * Firma Web
    */
   protected PassarelaSignaturesSet convertRestBean2PassarelaBeanWeb(String transactionID,
-      final String virtualTransactionID, FirmaSimpleSignDocumentsRequest simpleSignaturesSet,
-      PerfilDeFirma perfilWeb, Map<String, UsuariAplicacioConfiguracioJPA> configBySignID)
-      throws I18NException, I18NValidationException {
+      FirmaSimpleSignDocumentsRequest simpleSignaturesSet, PerfilDeFirma perfilWeb,
+      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) throws I18NException {
 
     final boolean esFirmaEnServidor = false;
 
     LoginInfo loginInfo = LoginInfo.getInstance();
 
-    PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID,
-        virtualTransactionID, simpleSignaturesSet, esFirmaEnServidor, loginInfo, perfilWeb,
-        configBySignID);
+    PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID, simpleSignaturesSet, esFirmaEnServidor,
+            loginInfo, perfilWeb, configBySignID);
 
     return pss;
-
   }
 
   private PassarelaSignaturesSet convertRestBean2PassarelaBean(String transactionID,
-      final String virtualTransactionID, FirmaSimpleSignDocumentsRequest simpleSignaturesSet,
-      final boolean esFirmaEnServidor, LoginInfo loginInfo,
-      // UsuariAplicacioConfiguracioJPA configEnServidor,
+      FirmaSimpleSignDocumentsRequest simpleSignaturesSet, final boolean esFirmaEnServidor, LoginInfo loginInfo,
       PerfilDeFirma perfilFirma, Map<String, UsuariAplicacioConfiguracioJPA> configBySignID)
-      throws I18NException, I18NValidationException {
-    // throws Exception, I18NException {
+      throws I18NException {
+
     String languageUI = "ca";
 
     final String usuariAplicacioID = loginInfo.getUsuariAplicacio().getUsuariAplicacioID();
@@ -472,23 +442,19 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
             + sfis.getFileToSign());
         log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign().getNom() => "
             + sfis.getFileToSign().getNom());
-        log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign().getData(byte[]) => "
-            + sfis.getFileToSign().getData());
 
         FitxerBean fileToSign = convertFirmaSimpleFileToFitxerBean(sfis.getFileToSign(), type,
-            virtualTransactionID, signID);
+            transactionID, signID);
 
         log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign => " + fileToSign);
         log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign.getNom() => "
             + fileToSign.getNom());
-        log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign.getData() => "
-            + fileToSign.getData());
 
         // XYZ ZZZ FALTA ENCARA NO SUPORTAT
         FitxerBean prevSign = null;
         if (sfis.getPreviusSignatureDetachedFile() != null) {
           prevSign = convertFirmaSimpleFileToFitxerBean(
-              sfis.getPreviusSignatureDetachedFile(), type, virtualTransactionID, signID);
+              sfis.getPreviusSignatureDetachedFile(), type, transactionID, signID);
         }
 
         String name = sfis.getName();
@@ -628,8 +594,6 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
       PassarelaSignaturesSet pss = new PassarelaSignaturesSet(transactionID,
           expiryDate.getTime(), commonInfoSignature, fileInfoSignatureArray);
       return pss;
-    } catch (I18NException i18ne) {
-      throw i18ne;
     } catch (Exception e) {
       log.error(e.getMessage(), e);
       // XYZ ZZZ TRA
@@ -700,88 +664,12 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
     return perfil;
   }
 
-  /*
-   * protected RestLoginInfo commonChecks(boolean esFirmaEnServidor, String codiPerfil) throws
-   * I18NException {
-   * 
-   * LoginInfo loginInfo = commonChecks(esFirmaEnServidor);
-   * 
-   * // Checks usuari aplicacio final UsuariAplicacioJPA usuariAplicacio =
-   * loginInfo.getUsuariAplicacio(); final String usuariAplicacioID =
-   * usuariAplicacio.getUsuariAplicacioID(); log.info(" XYZ ZZZ Usuari-APP = " +
-   * usuariAplicacioID);
-   * 
-   * 
-   * final PerfilDeFirma perfilFirma = getPerfilDeFirma(esFirmaEnServidor, codiPerfil,
-   * usuariAplicacioID);
-   * 
-   * return new RestLoginInfo(loginInfo, perfilFirma);
-   * 
-   * }
-   * 
-   * protected PerfilDeFirma getPerfilDeFirma(boolean esFirmaEnServidor, String codiPerfil,
-   * final String usuariAplicacioID) throws I18NException { log.info(" XYZ ZZZ codiPerfil = " +
-   * codiPerfil); // Cercam informacio del Perfil final PerfilDeFirma perfilFirma; perfilFirma
-   * = configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma( usuariAplicacioID,
-   * codiPerfil, esFirmaEnServidor ? ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR :
-   * ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB);
-   * 
-   * log.info(" XYZ ZZZ PERFIL = " + perfilFirma); return perfilFirma; }
-   */
-  /*
-   * public ResponseEntity<?> internalGetAvailableProfiles(HttpServletRequest request, String
-   * locale, final boolean esFirmaEnServidor2) { String error = autenticate(request); if (error
-   * != null) { return generateServerError(error, HttpStatus.UNAUTHORIZED); }
-   * 
-   * try {
-   * 
-   * LoginInfo loginInfo = commonChecks();
-   * 
-   * String usuariAplicacioID = loginInfo.getUsuariAplicacio().getUsuariAplicacioID();
-   * log.info(" XYZ ZZZ Usuari-APP = " + usuariAplicacioID);
-   * 
-   * 
-   * // FALTA ELEGIR ELS PERFILS QUE TENGUIN API_FIRMASIMPLE Where w = null;
-   * List<PerfilDeFirma> perfils = commonAvailableProfiles(w);
-   * 
-   * 
-   * List<FirmaSimpleAvailableProfile> list = new ArrayList<FirmaSimpleAvailableProfile>();
-   * 
-   * for (PerfilDeFirma perfil : perfils) {
-   * 
-   * String codiPerfil = perfil.getCodi();
-   * 
-   * String descripcio = perfil.getDescripcio();
-   * 
-   * 
-   * // Falta llegir-ho de la BBDD FirmaSimpleAvailableProfile ap = new
-   * FirmaSimpleAvailableProfile(codiPerfil, perfil.getNom(), descripcio);
-   * 
-   * list.add(ap); }
-   * 
-   * FirmaSimpleAvailableProfiles fsap; fsap = new FirmaSimpleAvailableProfiles(list);
-   * 
-   * 
-   * HttpHeaders headers = addAccessControllAllowOrigin(); ResponseEntity<?> re = new
-   * ResponseEntity<FirmaSimpleAvailableProfiles>(fsap, headers, HttpStatus.OK);
-   * 
-   * return re;
-   * 
-   * } catch (Throwable th) {
-   * 
-   * // XYZ ZZZ Traduir String msg =
-   * "Error desconegut retornant el perfils d'un usuari aplicacio: " + th.getMessage();
-   * 
-   * log.error(msg, th);
-   * 
-   * return generateServerError(msg, th); } }
-   */
   /**
    * 
    * @author anadal
    *
    */
-  public class RestLoginInfo {
+  public static class RestLoginInfo {
 
     public final LoginInfo loginInfo;
 
@@ -792,7 +680,6 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
       this.loginInfo = loginInfo;
       this.perfilDeFirma = perfilDeFirma;
     }
-
   }
 
 }
