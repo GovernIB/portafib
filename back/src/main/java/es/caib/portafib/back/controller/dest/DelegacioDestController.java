@@ -80,7 +80,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -846,6 +845,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                 .deleteFull((ColaboracioDelegacioJPA) colaboracioDelegacio);
 
         borrarFitxers(fitxers);
+        cleanUpFitxerPlantilla(colaboracioDelegacio.getColaboracioDelegacioID());
     }
 
     @Override
@@ -1082,13 +1082,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
         // TODO Check Plantilla
 
-        final File base = FileSystemManager.getFilesPath();
-        File dstPDF = new File(base, FITXER_AUTORITZACIO_PREFIX + delegacioID + ".pdf");
-        if (dstPDF.exists()) {
-            if (!dstPDF.delete()) {
-                dstPDF.deleteOnExit();
-            }
-        }
+        File dstPDF = getFitxerPlantilla(delegacioID);
+        cleanUpFile(dstPDF);
 
         try {
             PdfReader reader = new PdfReader(new FileInputStream(plantillaPdf));
@@ -1216,119 +1211,111 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
         StatusSignaturesSet sss = ss.getStatusSignaturesSet();
 
-        StatusSignaturesSet statusError = null;
+        // Primera i unica firma
+        StatusSignature status = ss.getFileInfoSignatureArray()[0].getStatusSignature();
+        FileInfoSignature signFileInfo = ss.getFileInfoSignatureArray()[0];
+        Long delegacioID = new Long(signFileInfo.getSignID());
 
-        switch (sss.getStatus()) {
+        try {
+            StatusSignaturesSet statusError = null;
+            switch (sss.getStatus()) {
 
-            case StatusSignaturesSet.STATUS_FINAL_OK: {
-                // Revisam la primera i unica firma
-                StatusSignature status = ss.getFileInfoSignatureArray()[0].getStatusSignature();
-                // TODO check null
+                case StatusSignaturesSet.STATUS_FINAL_OK: {
 
-                if (status.getStatus() == StatusSignature.STATUS_FINAL_OK) {
+                    // TODO check null
+                    if (status.getStatus() == StatusSignature.STATUS_FINAL_OK) {
 
-                    FileInfoSignature signFileInfo = ss.getFileInfoSignatureArray()[0];
+                        try {
+                            File firmat = status.getSignedData();
 
-                    Long delegacioID = new Long(signFileInfo.getSignID());
+                            if (log.isDebugEnabled()) {
+                                log.debug("Ruta Fitxer Firmat: " + firmat.getAbsolutePath());
+                            }
 
-                    try {
-                        File firmat = status.getSignedData();
+                            colaboracioDelegacioLogicaEjb.assignarAutoritzacioADelegacio(delegacioID,
+                                    signFileInfo, firmat,
+                                    DelegacioDestController.FITXER_AUTORITZACIO_PREFIX + delegacioID + ".pdf");
 
-                        if (log.isDebugEnabled()) {
-                            log.debug("Ruta Fitxer Firmat: " + firmat.getAbsolutePath());
+                            // Enviar mail a delegat o col·laborador
+                            enviarNotificacioMailColaDele(request, colaboracioDelegacioEjb.findByPrimaryKey(delegacioID));
+
+                        } catch (Throwable e) {
+                            log.error(" CLASS = " + e.getClass());
+                            String msg;
+                            if (e instanceof I18NException) {
+                                I18NException i18ne = (I18NException) e;
+                                msg = I18NUtils.getMessage(i18ne);
+                                log.error("Error processant fitxer firmat (I18NException): " + msg, e);
+                            } else {
+                                msg = e.getMessage();
+                                log.error("Error processant fitxer firmat (Throwable): " + msg, e);
+                            }
+
+                            //  TODO Traduir
+                            String fullMsg = "S´ha produit un error processant el fitxer firmat ´" +
+                                    signFileInfo.getName() + "´: " + msg;
+
+                            HtmlUtils.saveMessageError(request, fullMsg);
                         }
-
-                        colaboracioDelegacioLogicaEjb.assignarAutoritzacioADelegacio(delegacioID,
-                                signFileInfo, firmat,
-                                DelegacioDestController.FITXER_AUTORITZACIO_PREFIX + delegacioID + ".pdf");
-
-                        // Enviar mail a delegat o col·laborador
-                        enviarNotificacioMailColaDele(request, colaboracioDelegacioEjb.findByPrimaryKey(delegacioID));
-
-                    } catch (Throwable e) {
-                        log.error(" CLASS = " + e.getClass());
-                        String msg;
-                        if (e instanceof I18NException) {
-                            I18NException i18ne = (I18NException) e;
-                            msg = I18NUtils.getMessage(i18ne);
-                            log.error("Error processant fitxer firmat (I18NException): " + msg, e);
-                        } else {
-                            msg = e.getMessage();
-                            log.error("Error processant fitxer firmat (Throwable): " + msg, e);
-                        }
-
-                        //  TODO Traduir
-                        String fullMsg = "S´ha produit un error processant el fitxer firmat ´" +
-                                signFileInfo.getName() + "´: " + msg;
-
-                        HtmlUtils.saveMessageError(request, fullMsg);
+                        status.setProcessed(true);
+                    } else {
+                        statusError = status;
                     }
-
-                    status.setProcessed(true);
-                } else {
-                    statusError = status;
                 }
-            }
-
-
-            break;
-
-            case StatusSignaturesSet.STATUS_FINAL_ERROR:
-
-                statusError = sss;
                 break;
 
+                case StatusSignaturesSet.STATUS_FINAL_ERROR:
+                    statusError = sss;
+                    break;
 
-            case StatusSignaturesSet.STATUS_CANCELLED:
-                if (sss.getErrorMsg() == null) {
-                    sss.setErrorMsg(I18NUtils.tradueix("plugindefirma.cancelat"));
-                }
-                statusError = sss;
-                break;
+                case StatusSignaturesSet.STATUS_CANCELLED:
+                    if (sss.getErrorMsg() == null) {
+                        sss.setErrorMsg(I18NUtils.tradueix("plugindefirma.cancelat"));
+                    }
+                    statusError = sss;
+                    break;
 
-            default:
-                String inconsistentState = "El mòdul de firma ha finalitzat inesperadament "
-                        + "(no ha establit l'estat final del procés de firma)";
-                sss.setErrorMsg(inconsistentState);
-                statusError = sss;
-                log.error(inconsistentState, new Exception());
-
-        }
-
-
-        if (statusError != null) {
-            // TODO Mostrar excepció per log
-            if (statusError.getErrorMsg() == null) {
-                statusError.setErrorMsg("Error desconegut ja que no s'ha definit el missatge de l'error !!!!!");
+                default:
+                    String inconsistentState = "El mòdul de firma ha finalitzat inesperadament "
+                            + "(no ha establit l'estat final del procés de firma)";
+                    sss.setErrorMsg(inconsistentState);
+                    statusError = sss;
+                    log.error(inconsistentState, new Exception());
             }
-            HtmlUtils.saveMessageError(request, statusError.getErrorMsg());
+
+            if (statusError != null) {
+                // TODO Mostrar excepció per log
+                if (statusError.getErrorMsg() == null) {
+                    statusError.setErrorMsg("Error desconegut ja que no s'ha definit el missatge de l'error !!!!!");
+                }
+                HtmlUtils.saveMessageError(request, statusError.getErrorMsg());
+            }
+
+            SignatureModuleController.closeSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
+
+        } finally {
+            cleanUpFitxerPlantilla(delegacioID);
         }
-
-
-        SignatureModuleController.closeSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
 
         return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
-
     }
 
-    @RequestMapping(value = "/source/{id}", method = RequestMethod.GET)
-    public void source(@PathVariable("id") Long id, HttpServletResponse response)
-            throws Exception {
+    private void cleanUpFitxerPlantilla(Long delegacioID) {
+        File file = getFitxerPlantilla(delegacioID);
+        cleanUpFile(file);
+    }
 
+    private File getFitxerPlantilla(Long delegacioID) {
         final File base = FileSystemManager.getFilesPath();
-        File dstPDF = new File(base, FITXER_AUTORITZACIO_PREFIX + id + ".pdf");
-        dstPDF.deleteOnExit();
+        return new File(base, FITXER_AUTORITZACIO_PREFIX + delegacioID + ".pdf");
+    }
 
-        response.setContentType(ConstantsV2.MIME_TYPE_PDF);
-        response.setHeader("Content-Disposition", "inline; filename=\"" + dstPDF.getName() + "\"");
-        response.setContentLength((int) dstPDF.length());
-
-        java.io.OutputStream output = response.getOutputStream();
-        InputStream input = new FileInputStream(dstPDF);
-
-        FileSystemManager.copy(input, output);
-
-        input.close();
+    private void cleanUpFile(File file) {
+        if (file.exists()) {
+            if (!file.delete()) {
+                log.warn("No s'ha pogut esborrar el fitxer: " + file.getAbsolutePath());
+            }
+        }
     }
 
     /**

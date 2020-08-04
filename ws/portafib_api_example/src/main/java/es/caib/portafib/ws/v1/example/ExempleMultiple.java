@@ -23,17 +23,18 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 
  * @author anadal
- *
+ * @author areus
  */
 public class ExempleMultiple {
 
   public static final Logger log = Logger.getLogger(ExempleMultiple.class);
 
-  private static Properties testProperties = new Properties();
+  private static final Properties testProperties = new Properties();
 
   static {
     // Traduccions
@@ -95,7 +96,7 @@ public class ExempleMultiple {
       final PortaFIBPeticioDeFirmaWs api;
       {
         // Adreça servidor
-        String endpoint = getEndPoint("PortaFIBPeticioDeFirma");;
+        String endpoint = getEndPoint("PortaFIBPeticioDeFirma");
         PortaFIBPeticioDeFirmaWsService service;
         URL wsdl = new URL(endpoint + "?wsdl");
         service = new PortaFIBPeticioDeFirmaWsService(wsdl);
@@ -147,65 +148,81 @@ public class ExempleMultiple {
         fitxerAFirmar = PeticioDeFirmaUtils.constructFitxerBeanFromFile(f, mime);
       }
 
-      final CountDownLatch createCountDown = new CountDownLatch(nombreThreads);
+      final CountDownLatch startCountDown = new CountDownLatch(1);
+      final CountDownLatch finalCountDown = new CountDownLatch(nombreThreads);
+
       final Long[][] peticionsID = new Long[nombreThreads][peticionsThread];
-      long currentNanoTime = System.nanoTime();
 
       for (int i = 1; i <= nombreThreads; i++) {
 
         final int threadNumber = i;
-        final String threadName = "[Thread " + i + "]";
+        Thread thread = new Thread("[Thread " + i + "]") {
 
-        Runnable runnable = new Runnable() {
           public void run() {
-            log.info(threadName + " iniciat");
+            try {
+              startCountDown.await();
+            } catch (InterruptedException ig) {
+              Thread.currentThread().interrupt();
+              log.warn(getName() + " acabam perquè ens han interromput");
+              return;
+            }
 
+            log.info(getName() + " iniciam!");
             try {
               for (int j = 1; j <= peticionsThread; j++) {
 
-                final String afegit = threadName + "(" + j + "/" + peticionsThread + ")";
+                final String afegit = getName() + "(" + j + "/" + peticionsThread + ")";
                 // Crear Peticio
                 log.info(afegit + " Generant petició");
 
                 Long peticioDeFirmaID = null;
                 try {
-
                   PeticioDeFirmaWs peticioDeFirmaWs = PeticioDeFirmaUtils.constructPeticioDeFirma(apiUE,
                         titol + afegit, remitent,
                         fitxerAFirmar, nifsDestinataris);
                   peticioDeFirmaWs.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_SENSETAULA);
 
                   log.info(afegit + " Enviant petició");
-                  // Crear peticio
-                  peticioDeFirmaWs = api.createPeticioDeFirma(peticioDeFirmaWs);
-                  peticioDeFirmaID = peticioDeFirmaWs.getPeticioDeFirmaID();
-                  log.info(afegit + " Creada petició ID=" + peticioDeFirmaID);
 
-                  // Arrancar
-                  api.startPeticioDeFirma(peticioDeFirmaID);
-                  log.info(afegit + " Arrancada peticio");
+                  if (isCreateAndStart()) {
+                    peticioDeFirmaWs = api.createAndStartPeticioDeFirma(peticioDeFirmaWs);
+                    log.info(afegit + " Creada i arrancada petició: " + peticioDeFirmaWs.getPeticioDeFirmaID());
+                  } else {
+                    peticioDeFirmaWs = api.createPeticioDeFirma(peticioDeFirmaWs);
+                    log.info(afegit + " Creada petició: " + peticioDeFirmaWs.getPeticioDeFirmaID());
+                    api.startPeticioDeFirma(peticioDeFirmaWs.getPeticioDeFirmaID());
+                    log.info(afegit + " Arrancada petició: " + peticioDeFirmaWs.getPeticioDeFirmaID());
+                  }
+
+                  peticioDeFirmaID = peticioDeFirmaWs.getPeticioDeFirmaID();
 
                 } catch (WsI18NException i18ne) {
-                  log.error(WsClientUtils.toString(i18ne));
+                  log.error(afegit + " Error WsI18NException: " + WsClientUtils.toString(i18ne));
                 } catch (WsValidationException ve) {
-                  log.error(WsClientUtils.toString(ve));
+                  log.error(afegit + " Error WsValidationException: " + WsClientUtils.toString(ve));
                 } finally {
                   peticionsID[threadNumber - 1][j - 1] = peticioDeFirmaID;
                 }
               }
 
             } finally {
-              log.info(threadName + " finalitzat");
-              createCountDown.countDown();
+              log.info(getName() + " finalitzat");
+              finalCountDown.countDown();
             }
           }
         };
 
-        Thread t = new Thread(runnable, threadName);
-        t.start();
+        thread.start();
       }
 
-      createCountDown.await();
+      long currentNanoTime = System.nanoTime();
+
+      // Donam la sortida!
+      startCountDown.countDown();
+      // Esperam que acabin!
+      finalCountDown.await();
+
+      long elapsedTime = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - currentNanoTime);
 
       int count = 0;
       int expectedCount = nombreThreads * peticionsThread;
@@ -217,7 +234,6 @@ public class ExempleMultiple {
         }
       }
 
-      long elapsedTime = (System.nanoTime() - currentNanoTime) / 1000000000;
       if (count == expectedCount) {
         log.info("Creades " + count + " peticions sense cap error en " + elapsedTime + "s");
       } else {
@@ -283,9 +299,10 @@ public class ExempleMultiple {
       System.err.println("Error desconegut: " + e.getMessage());
       e.printStackTrace();
     }
+  }
 
-
-
+  public static boolean isCreateAndStart() {
+    return "true".equals(testProperties.getProperty("createAndStart"));
   }
 
   public static boolean isDeleteOnFinish() {
