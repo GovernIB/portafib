@@ -1,4 +1,39 @@
 
+PortaFIB 2.0.11
+==============
+
+2020-08-04 Revisar si quan feim una Autoritzacio de Delegació s'esborren els fitxers temporals #110
+
+2020-08-03 No es netegen els fitxers temporals creats amb l'API Firma Simple Web #486
+
+2020-07-31 Actualitzar scripts de creació de dades inicials #462
+
+2020-07-31 Emprant API Firma Simple en mode FullView el plugin d'Autofirma no es carrega bé #485
+
+2020-07-30 Compilació amb Java 7 falla a qualcuns repositoris Maven #484
+
+2020-07-30 Modificar manual de instal·lació: Canvi de versió de JDK per compilar #483
+
+2020-07-24 Poder Amagar Panell lateral que conté el menú de forma dinàmica. #17
+
+2020-07-22 La firma per realitzar una delegació no té en compte totes les polítiques de segell de temps #437
+
+2020-07-22 Quan la validació d'una firma de delegació falla queda la delegació en un estat inconsistent #482
+
+2020-07-22 L'opció TOTS dels llistats s'hauria d'inhabilitar/canviar #446
+
+2020-07-22 Optimitzar la càrrega de Tipus Documentals #450
+
+2020-07-20 ExpedientName ni ExpedientUrl funcionen #481
+
+2020-07-17 Afegir Profile per generar BACK amb "ClientCert" #435
+
+2020-07-17 Millorar Menus d'Opcions de la Capa de Presentació. #337
+
+2020-07-14 Quan s'empra l'API Firma Simple amb VIEW_IFRAME no redirecciona adequadament a la finestra principal #479
+
+2020-07-10 L'exemple apifirmasimple-example-war no funciona correctament #478
+
 PortaFIB 2.0.10
 ==============
 
