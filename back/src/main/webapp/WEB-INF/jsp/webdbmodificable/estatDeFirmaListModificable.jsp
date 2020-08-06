@@ -61,9 +61,7 @@
       }
       return str;
     }
-  
-  
-  
+
   function rebutjar(url, estatID) {
 
     var motiusRebuig;
@@ -87,6 +85,18 @@
 
     <c:if test="${ estatDeFirmaFilterForm.visibleMultipleSelection}">
 
+     <%--  Boto de PROCESSAR --%>
+     var botoProcessar = '<button type="button" class="btn btn-small btn-warning" onclick="processarInici()">'
+         + '<i class="icon-tasks"></i><fmt:message key="carret.processar.inici" />'
+         + '</button>';
+
+     function processarInici() {
+       var url;
+       url = '<c:url value="${contexte}/processar/inici"/>';
+       document.estatDeFirma.action = url;
+       document.estatDeFirma.submit();
+     }
+
      <%--  Boto de FIRMA MULTIPLE --%>
      var botoFirmaMultiple = '<button type="button" class="btn btn-small btn-success" onclick="firmarseleccionats()">'
          + '<i class="icon-edit"></i><fmt:message key="firmarseleccionats" />'
@@ -98,8 +108,6 @@
        document.estatDeFirma.action = url;
        document.estatDeFirma.submit();
      }
-     
-     
 
      <%--  Boto de REBUIG MULTIPLE --%>
      var botoRebuigMultiple = '<button type="button" class="btn btn-small btn-danger" onclick="rebutjarseleccionats()">'
@@ -107,27 +115,35 @@
      + '</button>'
    
      function rebutjarseleccionats() {
-         var x;
-         
          var reason = prompt("<fmt:message key="motiurebutjar"/>","");
-         
          if (reason!=null) {      
            document.getElementById("motiu").value=reason;
            document.estatDeFirma.action = '<c:url value="${contexte}/rebutjarseleccionats"/>';
            document.estatDeFirma.submit();
          }
       }
-     
-     
+
      <%-- Afegir botons a l'esquerra --%>
-         
      var divEsquerra = document.getElementById('estatDeFirma_pagination_left');
-   
-     divEsquerra.innerHTML += botoFirmaMultiple + botoRebuigMultiple ;
-   
-  
+     divEsquerra.innerHTML += botoProcessar + botoFirmaMultiple + botoRebuigMultiple;
+
     </c:if>
   
   </c:if>
 
 </script>
+
+<c:if test="${not empty checkoutList}">
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var base = document.getElementById('${formName}_pagination');
+            base.style.visibility='hidden';
+        });
+
+        function processarExecutar() {
+            var url = '<c:url value="${contexte}/processar/executar"/>?url_user=' + encodeURIComponent(window.location.href);
+            document.estatDeFirma.action = url;
+            document.estatDeFirma.submit();
+        }
+    </script>
+</c:if>

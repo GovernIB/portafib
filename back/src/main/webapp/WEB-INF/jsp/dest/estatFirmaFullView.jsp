@@ -13,24 +13,51 @@
   <c:set var="estatID" value="${estatDeFirma.estatDeFirmaID}" />
   
   <c:if test="${empty estatDeFirma.tipusEstatDeFirmaFinalID }">
-  
-  <div style="text-align: center">
-    <c:if test="${ rolecontext eq 'revi' }" >
-       <a class="btn btn-success" href="#"
-      onclick="goTo('<c:url value="${contexte}/acceptar/${estatID}/${peticioID}"/>')"> <i
-      class="icon-check"></i> <fmt:message key="revisor.acceptar" /> </a> &nbsp;&nbsp; 
-    </c:if>
-    <c:if test="${ rolecontext eq 'dest' || rolecontext eq 'dele' || rolecontext eq 'common' }" >
-      <a class="btn btn-success" href="#"
-      onclick="firmar('<c:url value="${contexte}/firmar/${estatID}/${peticioID}"/>')"> <i
-      class="icon-edit"></i> <fmt:message key="firmar" /> </a> &nbsp;&nbsp; 
-    </c:if>
-    
-    <a class="btn btn-danger" href="#"
-      onclick="rebutjar('<c:url value="${contexte}/rebutjar/${estatID}/${peticioID}"/>')">
-      <i class="icon-remove"></i> <fmt:message key="rebutjar" /> </a>
+      <div style="text-align: center">     
+        <c:choose>
+            <%-- Comprovam que hi ha carret i que coincideix amb la petició --%>
+            <c:when test="${not empty carretEstatsPeticio && carretEstatsPeticio.estat eq estatDeFirma.estatDeFirmaID }">
+                
+                <fmt:message key="carret.processar.progress">
+                    <fmt:param value="${carretEstatsPeticio.position}" />
+                    <fmt:param value="${carretEstatsPeticio.total}" />
+                </fmt:message>
+                
+                <br />
+                
+                <a class="btn btn-success" href="#" onclick="goTo('<c:url value="${contexte}/processar/afegirFirmar"/>')">
+                  <i class="icon-edit"></i> <fmt:message key="carret.processar.firmar" /> </a>   
 
-  </div>
+                <a class="btn btn-warning" href="#" onclick="goTo('<c:url value="${contexte}/processar/ignorar"/>')">
+                  <i class="icon-edit"></i> <fmt:message key="carret.processar.ignorar" /> </a>   
+                             
+                <a class="btn btn-danger" href="#" onclick="rebutjar('<c:url value="${contexte}/processar/afegirRebutjar"/>')">
+                  <i class="icon-remove"></i> <fmt:message key="carret.processar.rebutjar" /> </a>            
+                                
+                <a class="btn" href="#" onclick="goTo('<c:url value="${contexte}/processar/cancelar"/>')">
+                  <i class="icon-off"></i> <fmt:message key="carret.processar.cancelar" /> </a>
+
+            </c:when>     
+            <c:otherwise>
+                <%-- Ens asseguram que eliminam instàncies obsoletes  --%>
+                <c:remove var="carretEstatsPeticio" scope="session" />
+                
+                <c:if test="${ rolecontext eq 'revi' }" >
+                   <a class="btn btn-success" href="#"
+                  onclick="goTo('<c:url value="${contexte}/acceptar/${estatID}/${peticioID}"/>')"> <i
+                  class="icon-check"></i> <fmt:message key="revisor.acceptar" /> </a> &nbsp;&nbsp; 
+                </c:if>
+                <c:if test="${ rolecontext eq 'dest' || rolecontext eq 'dele' || rolecontext eq 'common' }" >
+                  <a class="btn btn-success" href="#"
+                  onclick="firmar('<c:url value="${contexte}/firmar/${estatID}/${peticioID}"/>')"> <i
+                  class="icon-edit"></i> <fmt:message key="firmar" /> </a> &nbsp;&nbsp; 
+                </c:if>        
+                <a class="btn btn-danger" href="#"
+                  onclick="rebutjar('<c:url value="${contexte}/rebutjar/${estatID}/${peticioID}"/>')">
+                  <i class="icon-remove"></i> <fmt:message key="rebutjar" /> </a>            
+            </c:otherwise>      
+        </c:choose>
+      </div>
   </c:if>
 
   <div>
@@ -283,10 +310,7 @@
 
 
   function rebutjar(url) {
-    var x;
-    
     var reason = prompt("<fmt:message key="motiurebutjar"/>:","${pfi:escapeJavaScript(valorrebuig)}");
-    
     if (reason!=null) {
       document.location.href = url + "?motiu=" + encodeURIComponent(reason);
     }

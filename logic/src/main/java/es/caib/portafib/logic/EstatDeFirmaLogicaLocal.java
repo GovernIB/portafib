@@ -33,7 +33,7 @@ public interface EstatDeFirmaLogicaLocal extends EstatDeFirmaLocal {
   public EstatDeFirmaJPA createFull(EstatDeFirmaJPA estatDeFirma) throws I18NException;
 
   public Map<Long, PeticioDeFirma> getPeticioDeFirmaFromEstatDeFirmaID(
-      List<EstatDeFirma> estatDeFirmaList) throws I18NException;
+      List<Long> estatDeFirmaIDList) throws I18NException;
   
   public PeticioDeFirmaJPA getPeticioDeFirmaFromFirmaID(long firmaID) throws I18NException;
 

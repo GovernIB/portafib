@@ -59,17 +59,12 @@ public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
 	  Object[] requestObjects = tilesContext.getRequestObjects();
 	  if (requestObjects[0] instanceof HttpServletRequest) {
 	    HttpServletRequest httpRequest = (HttpServletRequest) requestObjects[0];
-	    
-	    
+
 	    Device currentDevice = DeviceUtils.getRequiredCurrentDevice(httpRequest);
 	    if(currentDevice.isMobile()) {
-	      
-	      log.info("\n\nXYZ ZZZ IS MOBILE = true \n\n");
-	      
+	      log.info("XYZ ZZZ IS MOBILE = true");
 	      httpRequest.getSession().setAttribute("isMobile", true);      
-        request.put("isMobile", true);
-	    } else {
-	      log.info("\n\nXYZ ZZZ IS MOBILE = false \n\n");
+	      request.put("isMobile", true);
 	    }
 
 	    // Error de Login

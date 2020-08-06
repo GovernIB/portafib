@@ -90,22 +90,16 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   /**
    * Retorn un map on les claus són els identificados dels estats de firma indicats i el valor la petició
    * de firma que li correspón.
-   * @param estatsDeFirma llista d'estats de firma
+   * @param estatDeFirmaIDList llista d'estats de firma
    * @return map amb clau id d'estat de firma i valor petició de firma.
    * @throws I18NException
    */
   @Override
   public Map<Long, PeticioDeFirma> getPeticioDeFirmaFromEstatDeFirmaID(
-      List<EstatDeFirma> estatsDeFirma) throws I18NException {
+      List<Long> estatDeFirmaIDList) throws I18NException {
 
-    if (estatsDeFirma == null || estatsDeFirma.isEmpty()) {
+    if (estatDeFirmaIDList == null || estatDeFirmaIDList.isEmpty()) {
       return Collections.emptyMap();
-    }
-
-    // Optimitzat per #447
-    List<Long> idsEstats = new ArrayList<Long>(estatsDeFirma.size());
-    for (EstatDeFirma estat: estatsDeFirma) {
-      idsEstats.add(estat.getEstatDeFirmaID());
     }
 
     /*
@@ -126,7 +120,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
                     "left join fetch p.firmaOriginalDetached " +
                     "left join fetch p.logoSegell " +
                     "where e.estatDeFirmaID IN (:idsEstats)");
-    query.setParameter("idsEstats", idsEstats);
+    query.setParameter("idsEstats", estatDeFirmaIDList);
 
     List<Object[]> list = (List<Object[]>) query.getResultList();
 

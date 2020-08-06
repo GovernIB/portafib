@@ -61,7 +61,8 @@ public class DestinatariExternEstatFirmaPendentController extends AbstractEstatD
   public ModelAndView rebutjar(HttpServletRequest request, HttpServletResponse response,
       @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
 
-    if (rebutjarInternal(request, response, estatDeFirmaID, peticioDeFirmaID)) {
+    String motiuDeRebuig = request.getParameter("motiu");
+    if (rebutjarInternal(request, response, estatDeFirmaID, peticioDeFirmaID, motiuDeRebuig)) {
       return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN + "/final", true));
     } else {
       String token = (String)request.getSession().getAttribute(DestinatariExternByTokenController.EXTERNAL_USER_TOKEN);
