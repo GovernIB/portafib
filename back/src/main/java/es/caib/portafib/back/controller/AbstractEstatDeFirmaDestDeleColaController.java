@@ -729,7 +729,20 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             Long peticioDeFirmaID = estatPeticio.getValue();
 
             UsuariAplicacioConfiguracioJPA config = configuracio(peticioDeFirmaID);
-            String filtreCertificats = (config != null ? config.getFiltreCertificats() : entitat.getFiltreCertificats());
+            
+            String filtreCertificats;
+            if (config == null) {
+              // Ve de web
+              filtreCertificats = entitat.getFiltreCertificats();
+            } else {
+              // Ve de UsrApp
+              filtreCertificats = config.getFiltreCertificats();
+              if(filtreCertificats == null || filtreCertificats.trim().length() == 0) {
+                // Si el filtre de UsrApp esta buit llavors elegim el de l'Entitat
+                filtreCertificats = entitat.getFiltreCertificats();
+              }
+            }
+            
             Properties filtreProperties = new Properties();
             if (filtreCertificats != null) {
                 try {
