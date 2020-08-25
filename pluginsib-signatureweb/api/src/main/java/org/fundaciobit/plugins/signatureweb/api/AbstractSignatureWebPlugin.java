@@ -125,10 +125,12 @@ public abstract class AbstractSignatureWebPlugin
   
   @Override
   public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet, Map<String,Object> parameters) {
-    final  boolean suportXAdES_T = false;
-    return AbstractSignatureServerPlugin.checkFilter(this, signaturesSet, suportXAdES_T, log);
+    return AbstractSignatureServerPlugin.checkFilter(this, signaturesSet, isSuportXadesT(), log);
   }
-  
+
+  protected boolean isSuportXadesT() {
+    return false;
+  }
  
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -136,18 +138,6 @@ public abstract class AbstractSignatureWebPlugin
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
-  /**
-   * 
-   * @param absolutePluginRequestPath
-   * @param relativePluginRequestPath
-   * @param query
-   * @param signaturesSet
-   * @param signatureIndex
-   * @param request
-   * @param uploadedFiles
-   * @param response
-   * @param locale
-   */
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
       String query, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, 
@@ -200,7 +190,6 @@ public abstract class AbstractSignatureWebPlugin
     }
 
   }
-
   
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -208,18 +197,6 @@ public abstract class AbstractSignatureWebPlugin
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
-  /**
-   * 
-   * @param absolutePluginRequestPath
-   * @param relativePluginRequestPath
-   * @param query
-   * @param signaturesSet
-   * @param signatureIndex
-   * @param request
-   * @param uploadedFiles
-   * @param response
-   * @param locale
-   */
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
       String query, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response, Locale languageUI) {

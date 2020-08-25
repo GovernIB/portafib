@@ -52,6 +52,12 @@
         <module>portafib</module>
       </modules>
     </profile>
+    <profile>
+      <id>fortress</id>
+      <modules>
+        <module>fortress</module>
+      </modules>
+    </profile>
   </profiles>
 
   <dependencies>

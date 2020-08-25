@@ -84,8 +84,6 @@ public interface ISignatureWebPlugin extends ISignaturePlugin {
    *          firma
    * @param request
    *          Petició de l'API Servlet
-   * @param uploadedFiles
-   *          Llistat de Fitxers que venen adjunts a la petició web
    * @param response
    *          Resposta de l'API Servlet
    */
@@ -110,8 +108,6 @@ public interface ISignatureWebPlugin extends ISignaturePlugin {
    *          firma
    * @param request
    *          Petició de l'API Servlet
-   * @param uploadedFiles
-   *          Llistat de Fitxers que venen adjunts a la petició web
    * @param response
    *          Resposta de l'API Servlet
    */

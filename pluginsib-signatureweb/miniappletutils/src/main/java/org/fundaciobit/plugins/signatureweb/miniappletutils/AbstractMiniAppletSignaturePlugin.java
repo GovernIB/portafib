@@ -172,18 +172,6 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
-  /**
-   * 
-   * @param absolutePluginRequestPath
-   * @param relativePluginRequestPath
-   * @param query
-   * @param signaturesSet
-   * @param signatureIndex
-   * @param request
-   * @param uploadedFiles
-   * @param response
-   * @param locale
-   */
   @Override
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
       String query, SignaturesSetWeb signaturesSet, int signatureIndex,
@@ -208,18 +196,6 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
-  /**
-   * 
-   * @param absolutePluginRequestPath
-   * @param relativePluginRequestPath
-   * @param query
-   * @param signaturesSet
-   * @param signatureIndex
-   * @param request
-   * @param uploadedFiles
-   * @param response
-   * @param locale
-   */
   @Override
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
       String query, SignaturesSetWeb signaturesSet, int signatureIndex,
@@ -246,17 +222,6 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
 
   public static final String TIMESTAMP_PAGE = "timestamp";
 
-  /**
-   * 
-   * @param absolutePluginRequestPath
-   * @param query
-   * @param signaturesSet
-   * @param signatureIndex
-   * @param request
-   * @param uploadedFiles
-   * @param response
-   * @throws Exception
-   */
   public void requestTimeStamp(String absolutePluginRequestPath,
       String relativePluginRequestPath, String query, SignaturesSetWeb signaturesSet,
       int signatureIndex, Locale locale, HttpServletRequest request,
@@ -265,9 +230,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
     final boolean isDebug = log.isDebugEnabled();
 
     try {
-
       InputStream is = request.getInputStream();
-
       byte[] inputRequest = FileUtils.toByteArray(is);
 
       if (isDebug) {
@@ -283,9 +246,12 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
       byte[] inputData = tsr.getMessageImprintDigest();
 
       BigInteger time = tsr.getNonce();
-      
-      log.info("XYZ ZZZ PLUGIN:requestTimeStamp() => NONCE REAL: " + time.toString());
-      log.info("XYZ ZZZ PLUGIN:requestTimeStamp() => NONCE LONG: " + time.longValue());
+      if (time != null) {
+        log.info("XYZ ZZZ PLUGIN:requestTimeStamp() => NONCE REAL: " + time.toString());
+        log.info("XYZ ZZZ PLUGIN:requestTimeStamp() => NONCE LONG: " + time.longValue());
+      } else {
+        log.info("XYZ ZZZ PLUGIN:requestTimeStamp() => NONCE IS NULL");
+      }
       
       
       FileInfoSignature fileInfo = signaturesSet.getFileInfoSignatureArray()[signatureIndex];
@@ -300,7 +266,10 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
 
         try {
           final Calendar cal = Calendar.getInstance();
-          cal.setTimeInMillis(time.longValue());
+          if (time != null) {
+            cal.setTimeInMillis(time.longValue());
+          }
+
           byte[] returnedData = timeStampGen.getTimeStamp(inputData, cal);
 
           if (isDebug && returnedData != null) {
@@ -309,6 +278,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
           }
 
           response.getOutputStream().write(returnedData);
+
         } catch (Exception e) {
           throw new Exception("Error greu cridant el TimeStampGenerator: " + e.getMessage(), e);          
         }

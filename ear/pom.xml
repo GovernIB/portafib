@@ -605,6 +605,17 @@
       </dependencies>
     </profile>
 
+    <!-- PROFILE PER INCLOURE Modul de FIRMA WEB DE ViaFirma fortress -->
+    <profile>
+      <id>fortress</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+          <artifactId>pluginsib-signatureweb-fortress</artifactId>
+          <version>3.0.0</version>
+        </dependency>
+      </dependencies>
+    </profile>
 
     <!-- FRONT WEB PORTAFIB AMB AUTENTICACIO CLIENT-CERT -->
     
