@@ -160,8 +160,7 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
                 log.info("iniciFirma");
             }
 
-            AccessToken accessToken = getApi().getAccessToken("", absolutePluginRequestPath,
-                    GRANT_TYPE_CLIENT_CREDENTIALS);
+            String token = getToken(absolutePluginRequestPath);
 
             int pos = relativePluginRequestPath.lastIndexOf("-1");
             String baseSignaturesSet = relativePluginRequestPath.substring(0, pos - 1);
@@ -175,8 +174,9 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
             signatureRequest.setSignatureConfigurations(configurationList);
             signatureRequest.setUserCode(signaturesSet.getCommonInfoSignature().getAdministrationID());
 
+
             SignatureRequestResponse signatureRequestResponse =
-                    getApi().signatureRequest(accessToken.getAccessToken(), signatureRequest);
+                    getApi().signatureRequest(token, signatureRequest);
             executionCodes.put(signaturesSet.getSignaturesSetID(), signatureRequestResponse.getExeCode());
             signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
 
@@ -214,11 +214,10 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
                 throw new Exception("No s'ha trobat exeCode");
             }
 
-            AccessToken accessToken = getApi().getAccessToken("", absolutePluginRequestPath,
-                    GRANT_TYPE_CLIENT_CREDENTIALS);
+            String token = getToken(absolutePluginRequestPath);
 
             List<SignatureResponse> signatureResponses =
-                    getApi().executeSignature(accessToken.getAccessToken(), exeCode);
+                    getApi().executeSignature(token, exeCode);
 
             SignatureAdapter adapter = new SignatureAdapter(signaturesSet);
             adapter.updateSignatureStatus(signatureResponses);
@@ -231,6 +230,19 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
             String msg = "Error executant firma ViaFirma-Fortress: " + e.getMessage();
             finishWithError(response, signaturesSet, msg, e);
         }
+    }
+
+    private long tokenExpireTime = 0L;
+
+    private AccessToken accessToken;
+
+    private synchronized String getToken(String absolutePluginRequestPath) throws Exception {
+        if (accessToken == null || System.currentTimeMillis() > tokenExpireTime) {
+            accessToken =  getApi().getAccessToken("", absolutePluginRequestPath,
+                    GRANT_TYPE_CLIENT_CREDENTIALS);
+            tokenExpireTime = System.currentTimeMillis() + (accessToken.getExpiresIn() - 60) * 1000;
+        }
+        return accessToken.getAccessToken();
     }
 
     protected void checkErrors(HttpServletRequest request) throws Exception {
