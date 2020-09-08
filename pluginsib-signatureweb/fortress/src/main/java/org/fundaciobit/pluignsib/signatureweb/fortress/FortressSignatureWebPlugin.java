@@ -65,6 +65,14 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
         return "true".equalsIgnoreCase(getPropertyRequired(FORTRESS_BASE_PROPERTIES + "debug"));
     }
 
+    public int getConnectTimeout() {
+        return Integer.parseInt(getProperty(FORTRESS_BASE_PROPERTIES + "connectTimeout", "60"));
+    }
+
+    public int getReadTimeout() {
+        return Integer.parseInt(getProperty(FORTRESS_BASE_PROPERTIES + "readTimeout", "60"));
+    }
+
     /////////
 
     private volatile FortressApi api;
@@ -77,6 +85,8 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
                     FortressApiConfiguration conf =
                             new FortressApiConfiguration(getUrl(), getClientId(), getClientSecret());
                     conf.setDebug(isDebug());
+                    conf.setConnectionTimeout(getConnectTimeout());
+                    conf.setReadTimeout(getReadTimeout());
                     api = result = new FortressApi(conf);
                 }
             }
@@ -232,17 +242,14 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
         }
     }
 
-    private long tokenExpireTime = 0L;
+    private volatile TokenHolder tokenHolder = new TokenHolder();
 
-    private AccessToken accessToken;
-
-    private synchronized String getToken(String absolutePluginRequestPath) throws Exception {
-        if (accessToken == null || System.currentTimeMillis() > tokenExpireTime) {
-            accessToken =  getApi().getAccessToken("", absolutePluginRequestPath,
-                    GRANT_TYPE_CLIENT_CREDENTIALS);
-            tokenExpireTime = System.currentTimeMillis() + (accessToken.getExpiresIn() - 60) * 1000;
+    private String getToken(String absolutePluginRequestPath) throws Exception {
+        if (tokenHolder.isExpired()) {
+            tokenHolder = new TokenHolder(getApi().getAccessToken("", absolutePluginRequestPath,
+                    GRANT_TYPE_CLIENT_CREDENTIALS));
         }
-        return accessToken.getAccessToken();
+        return tokenHolder.getToken();
     }
 
     protected void checkErrors(HttpServletRequest request) throws Exception {
