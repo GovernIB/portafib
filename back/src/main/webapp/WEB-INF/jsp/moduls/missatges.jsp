@@ -3,7 +3,7 @@
 %><%@ page contentType="text/html;charset=UTF-8" language="java"
 %><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
-<c:if test="${not empty missatges}">
+<c:if test="${not empty missatges && empty keepMessages}">
 
   <c:forEach items="${missatges}" var="tipusList" varStatus="status">
 
