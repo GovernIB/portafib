@@ -104,18 +104,32 @@ public class EstatFirmaPendentDestController extends EstatFirmaAbstractDestContr
     // ja el podem llevar de la sessió
     CarretHolder.removeCarret(request);
 
+    HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("carret.processar.finalitzat"));
+
     // Feim el rebuig primer
     Map<Long, String> estatsRebuig = carret.getEstatsRebuig();
+    int rebutjades = 0;
     for (Long estatId : estatsRebuig.keySet()) {
       String motiu = estatsRebuig.get(estatId);
       Long peticioId = carret.getEstatsPeticions().get(estatId);
-      rebutjarInternal(request, response, estatId, peticioId, motiu);
+      if (rebutjarInternal(request, response, estatId, peticioId, motiu)) {
+        rebutjades++;
+      }
+    }
+    if (rebutjades > 0) {
+      HtmlUtils.saveMessageSuccess(request,
+              I18NUtils.tradueix("carret.rebutjat.peticions", Integer.toString(rebutjades)));
+    }
+
+    int ignorades = carret.getEstatsIgnorats();
+    if (ignorades > 0) {
+      HtmlUtils.saveMessageSuccess(request,
+              I18NUtils.tradueix("carret.ignorat.peticions", Integer.toString(ignorades)));
     }
 
     Set<Long> estatsFirmar = carret.getEstatsFirmar();
     // No hi res que signar, ja hem acabat
     if (estatsFirmar.isEmpty()) {
-      HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("carret.processar.finalitzat"));
       return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
     }
 
@@ -125,6 +139,8 @@ public class EstatFirmaPendentDestController extends EstatFirmaAbstractDestContr
       estatsPeticioFirmar.put(estat, carret.getEstatsPeticions().get(estat));
     }
 
+    // Evitam que a les pàgines intermitges de seleccionar mòdul i signar es 'consumeixin' els missatges
+    request.getSession().setAttribute("keepMessages", "true");
     return firmarSeleccionatsInternal(request, response, estatsPeticioFirmar, baseUrl);
   }
 

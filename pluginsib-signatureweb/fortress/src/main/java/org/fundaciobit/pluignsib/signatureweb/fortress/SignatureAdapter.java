@@ -16,9 +16,25 @@ import org.fundaciobit.pluignsib.signatureweb.fortress.converter.SignatureConver
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SignatureAdapter {
+
+    private static final Map<String, Tsa.TimestampAlgorithm> TSA_HASHALGO_MAP
+            = new HashMap<String, Tsa.TimestampAlgorithm>(8);
+
+    static {
+        TSA_HASHALGO_MAP.put("SHA1", Tsa.TimestampAlgorithm.SHA1);
+        TSA_HASHALGO_MAP.put("SHA-1", Tsa.TimestampAlgorithm.SHA1);
+        TSA_HASHALGO_MAP.put("SHA256", Tsa.TimestampAlgorithm.SHA256);
+        TSA_HASHALGO_MAP.put("SHA-256", Tsa.TimestampAlgorithm.SHA256);
+        TSA_HASHALGO_MAP.put("SHA384", Tsa.TimestampAlgorithm.SHA384);
+        TSA_HASHALGO_MAP.put("SHA-384", Tsa.TimestampAlgorithm.SHA384);
+        TSA_HASHALGO_MAP.put("SHA512", Tsa.TimestampAlgorithm.SHA512);
+        TSA_HASHALGO_MAP.put("SHA-512", Tsa.TimestampAlgorithm.SHA512);
+    }
 
     private final SignaturesSet signaturesSet;
 
@@ -36,7 +52,9 @@ public class SignatureAdapter {
             SignatureConfiguration convert = converter.convert(fis);
             convert.setRef(Integer.toString(i));
             if (fis.getTimeStampGenerator() != null) {
-                convert.setTsa(getTsa(baseTimeStampUrl, i));
+                Tsa tsa = getTsa(baseTimeStampUrl, i);
+                tsa.setTimestampAlgorithm(TSA_HASHALGO_MAP.get(fis.getTimeStampGenerator().getTimeStampHashAlgorithm()));
+                convert.setTsa(tsa);
             }
             configurationList.add(convert);
         }

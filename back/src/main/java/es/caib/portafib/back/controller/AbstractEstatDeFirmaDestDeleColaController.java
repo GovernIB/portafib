@@ -1167,6 +1167,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     @RequestMapping(value = "/finalFirmaReal/{signaturesSetID}")
     public ModelAndView finalProcesDeFirmaReal(HttpServletRequest request, HttpServletResponse response,
                                                @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
+        // Ens asseguram que a la pàgina final sempre es mostren els missatges
+        request.getSession().removeAttribute("keepMessages");
 
         SignaturesSetWeb ss;
         ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
@@ -1217,10 +1219,6 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
 
-    /**
-     * @param request
-     * @param ss
-     */
     public void signPostProcessOfSignaturesSet(HttpServletRequest request, SignaturesSetWeb ss) {
 
         FileInfoSignature[] signedFiles = ss.getFileInfoSignatureArray();
@@ -1230,6 +1228,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         int[] originalNumberOfSignsArray = ((PortaFIBSignaturesSet) ss).getOriginalNumberOfSignsArray();
 
 
+        int signats = 0;
         for (int i = 0; i < signedFiles.length; i++) {
 
             final FileInfoSignature signedFile = signedFiles[i];
@@ -1241,6 +1240,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
                 // Potser ja s'han processat en el Thread   ParallelSignedFilesProcessing
                 if (status.isProcessed()) {
+                    if (status.getStatus() == StatusSignature.STATUS_FINAL_OK) {
+                        signats++;
+                    }
                     continue;
                 }
 
@@ -1268,6 +1270,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                                     LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID());
 
                             status.setProcessed(true);
+                            signats++;
 
                             if (isDebug) {
                                 log.debug("(FINAL)Processada Signature " + signedFile.getSignID() + " ...");
@@ -1337,6 +1340,11 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     }
                 }
             }
+        }
+
+        if (signats > 0) {
+            HtmlUtils.saveMessageSuccess(request,
+                    I18NUtils.tradueix("firmarseleccionats.firmat", Integer.toString(signats)));
         }
     }
 

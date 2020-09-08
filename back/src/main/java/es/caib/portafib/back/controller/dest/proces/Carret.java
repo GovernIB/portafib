@@ -91,4 +91,8 @@ public class Carret implements Serializable {
     public Map<Long, Long> getEstatsPeticions() {
         return estatsPeticions;
     }
+
+    public int getEstatsIgnorats() {
+        return getTotal() - getEstatsFirmar().size() - getEstatsRebuig().keySet().size();
+    }
 }

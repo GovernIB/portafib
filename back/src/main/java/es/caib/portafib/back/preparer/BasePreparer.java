@@ -38,129 +38,119 @@ import es.caib.portafib.utils.ConstantsV2;
 @Component
 public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
 
-  public static Map<String,I18NTranslation> loginErrorMessage = new HashMap<String,I18NTranslation>();
+    public static Map<String, I18NTranslation> loginErrorMessage = new HashMap<String, I18NTranslation>();
 
-  protected final Logger log = Logger.getLogger(getClass());
-  
-  @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
-  protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
+    protected final Logger log = Logger.getLogger(getClass());
 
-	@Override
-	public void execute(TilesRequestContext tilesContext, 
-	    AttributeContext attributeContext) throws PreparerException {
+    @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
+    protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
-	  Map<String, Object> request = tilesContext.getRequestScope();
-	  
-	   // Informació de Login
-    LoginInfo loginInfo = LoginInfo.getInstance();
+    @Override
+    public void execute(TilesRequestContext tilesContext,
+                        AttributeContext attributeContext) throws PreparerException {
 
-   	// URL 
-	  // TODO ficarho dins cache (veure Capperpare.java)
-	  Object[] requestObjects = tilesContext.getRequestObjects();
-	  if (requestObjects[0] instanceof HttpServletRequest) {
-	    HttpServletRequest httpRequest = (HttpServletRequest) requestObjects[0];
+        Map<String, Object> request = tilesContext.getRequestScope();
 
-	    Device currentDevice = DeviceUtils.getRequiredCurrentDevice(httpRequest);
-	    if(currentDevice.isMobile()) {
-	      log.info("XYZ ZZZ IS MOBILE = true");
-	      httpRequest.getSession().setAttribute("isMobile", true);      
-	      request.put("isMobile", true);
-	    }
+        // Informació de Login
+        LoginInfo loginInfo = LoginInfo.getInstance();
 
-	    // Error de Login
-	    final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
-	    
-	    I18NTranslation trans = loginErrorMessage.get(username);
-	    if (trans == null) {
-	      String msg = (String)httpRequest.getSession().getAttribute("loginerror");
-	      if (msg != null) {
-	        HtmlUtils.saveMessageError(httpRequest, msg);
-	      }
-	    } else {
-	      loginErrorMessage.remove(username);
-	      String msg = I18NUtils.tradueix(trans);
-	      HtmlUtils.saveMessageError(httpRequest, msg);
-	      httpRequest.getSession().setAttribute("loginerror", msg);
-	    }
+        // URL
+        // TODO ficarho dins cache (veure Capperpare.java)
+        Object[] requestObjects = tilesContext.getRequestObjects();
+        if (requestObjects[0] instanceof HttpServletRequest) {
+            HttpServletRequest httpRequest = (HttpServletRequest) requestObjects[0];
 
-	    request.put("urlActual", httpRequest.getServletPath());
+            Device currentDevice = DeviceUtils.getRequiredCurrentDevice(httpRequest);
+            if (currentDevice.isMobile()) {
+                log.info("XYZ ZZZ IS MOBILE = true");
+                httpRequest.getSession().setAttribute("isMobile", true);
+                request.put("isMobile", true);
+            }
 
-      // Compatibilitat IE8
-	    String userAgent = httpRequest.getHeader("User-Agent");
-	    if (userAgent != null) {
-	      int index = userAgent.toUpperCase().indexOf("MSIE");
-	      if (index != -1) {
-	        try {
-	           String ieversion = userAgent.substring(index + 4,userAgent.indexOf(";", index + 4));
-	           if (Float.parseFloat(ieversion) < 9.0f) {
-	             request.put("IE8", true);
-	           }
-	        } catch(Throwable e) {
-	          log.debug(e);
-	        }
-	      }
-	    }
-	  }
+            // Error de Login
+            final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
 
-    // Language
-    Locale loc = LocaleContextHolder.getLocale();
-    request.put("lang", loc.toString()); // LANG i si es necessari el country
-    request.put("onlylang", loc.getLanguage()); // només el LANG
+            I18NTranslation trans = loginErrorMessage.get(username);
+            if (trans == null) {
+                String msg = (String) httpRequest.getSession().getAttribute("loginerror");
+                if (msg != null) {
+                    HtmlUtils.saveMessageError(httpRequest, msg);
+                }
+            } else {
+                loginErrorMessage.remove(username);
+                String msg = I18NUtils.tradueix(trans);
+                HtmlUtils.saveMessageError(httpRequest, msg);
+                httpRequest.getSession().setAttribute("loginerror", msg);
+            }
 
-    // Posa dins la sessió la informació de Login    
-    request.put("loginInfo", loginInfo);
+            request.put("urlActual", httpRequest.getServletPath());
 
-    // Pipella
-    request.put("pipella", attributeContext.getAttribute("pipella"));
-
-    boolean containsRoleUser = false;
-    Set<GrantedAuthority> rolesSeycon = loginInfo.getRolesPerEntitat().get(null);
-    //log.info("BasePreparer:: rolesSeycon (" + rolesSeycon.size() + ")" );
-    for (GrantedAuthority ga : rolesSeycon) {
-      String rol = ga.getAuthority();
-      //log.info("     Seycon = " + rol);
-      if (ConstantsV2.ROLE_USER.equals(rol)) {
-        containsRoleUser = true;
-      }
-    }
-
-    if (containsRoleUser && loginInfo.getEntitatID() != null) {
-
-      // Avisos
-      Map<String,Long> avisos = new HashMap<String, Long>(); 
-      try {      
-        Set<GrantedAuthority> rolesInterns = loginInfo.getRoles(); 
-        Set<String> roles = new HashSet<String>();
-        for (GrantedAuthority grantedAuthority : rolesInterns) {
-          roles.add(grantedAuthority.getAuthority());
+            // Compatibilitat IE8
+            String userAgent = httpRequest.getHeader("User-Agent");
+            if (userAgent != null) {
+                int index = userAgent.toUpperCase().indexOf("MSIE");
+                if (index != -1) {
+                    try {
+                        String ieversion = userAgent.substring(index + 4, userAgent.indexOf(";", index + 4));
+                        if (Float.parseFloat(ieversion) < 9.0f) {
+                            request.put("IE8", true);
+                        }
+                    } catch (Throwable e) {
+                        log.debug(e);
+                    }
+                }
+            }
         }
-        
-        //log.info("BasePreparer::ROLES = " + roles);
-        //log.info("BasePreparer::ROLES = " + roles.size());
-        String usu_ent_actual = loginInfo.getUsuariEntitatID();
 
-        avisos = estatDeFirmaLogicaEjb.getNombreAvisosUsuariEntitat(usu_ent_actual, loginInfo.getEntitatID(), roles);
+        // Language
+        Locale loc = LocaleContextHolder.getLocale();
+        request.put("lang", loc.toString()); // LANG i si es necessari el country
+        request.put("onlylang", loc.getLanguage()); // només el LANG
 
-      } catch (I18NException e) {
-        log.error("Error intentant obtenir els avisos dels rols "
-            + I18NUtils.getMessage(e), e);
-      }
-      request.put("avisos", avisos);
-    }
+        // Posa dins la sessió la informació de Login
+        request.put("loginInfo", loginInfo);
 
-    
-    if (attributeContext.getAttribute("menu") != null) {
-      request.put("menu_tile", attributeContext.getAttribute("menu").toString());
-    }
-    request.put("contingut_tile", attributeContext.getAttribute("contingut").toString());
-    /*
-    Iterator<String> attribs = attributeContext.getAttributeNames();
-    while ( attribs.hasNext()) {
-      String at = attribs.next();
-      log.info(at  + "   -->   " + );
-    }
-    */
+        // Pipella
+        request.put("pipella", attributeContext.getAttribute("pipella"));
 
-    
+        boolean containsRoleUser = false;
+        Set<GrantedAuthority> rolesSeycon = loginInfo.getRolesPerEntitat().get(null);
+        //log.info("BasePreparer:: rolesSeycon (" + rolesSeycon.size() + ")" );
+        for (GrantedAuthority ga : rolesSeycon) {
+            String rol = ga.getAuthority();
+            //log.info("     Seycon = " + rol);
+            if (ConstantsV2.ROLE_USER.equals(rol)) {
+                containsRoleUser = true;
+            }
+        }
+
+        if (containsRoleUser && loginInfo.getEntitatID() != null) {
+
+            // Avisos
+            Map<String, Long> avisos = new HashMap<String, Long>();
+            try {
+                Set<GrantedAuthority> rolesInterns = loginInfo.getRoles();
+                Set<String> roles = new HashSet<String>();
+                for (GrantedAuthority grantedAuthority : rolesInterns) {
+                    roles.add(grantedAuthority.getAuthority());
+                }
+
+                String usu_ent_actual = loginInfo.getUsuariEntitatID();
+
+                avisos = estatDeFirmaLogicaEjb.getNombreAvisosUsuariEntitat(usu_ent_actual, loginInfo.getEntitatID(), roles);
+
+            } catch (I18NException e) {
+                log.error("Error intentant obtenir els avisos dels rols "
+                        + I18NUtils.getMessage(e), e);
+            }
+            request.put("avisos", avisos);
+        }
+
+
+        if (attributeContext.getAttribute("menu") != null) {
+            request.put("menu_tile", attributeContext.getAttribute("menu").toString());
+        }
+        request.put("contingut_tile", attributeContext.getAttribute("contingut").toString());
+
 	}
 }
