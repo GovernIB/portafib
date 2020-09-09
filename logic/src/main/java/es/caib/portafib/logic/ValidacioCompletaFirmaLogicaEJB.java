@@ -358,7 +358,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
               try {
                  certs = ValidationsCAdES.getCertificatesOfCadesSignature(eSignature, document);
               } finally {
-                try { eSignature.close(); } catch (IOException e1) {}
+                try { eSignature.close(); } catch (IOException ignored) {}
               }
               certificateLastSign = certs[0]; // És el primer o darrer ????
             }
@@ -371,7 +371,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
               try {
                 certs = ValidationsXAdES.getCertificatesOfXadesSignature(eSignature);
               } finally {
-                try { eSignature.close(); } catch (IOException e1) {}
+                try { eSignature.close(); } catch (IOException ignored) {}
               }
               certificateLastSign = certs[0]; // És el primer o darrer ????
             }
