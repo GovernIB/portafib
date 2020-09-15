@@ -84,7 +84,6 @@
                 <filter>
                   <artifact>org.fundaciobit.pluginsib.core:pluginsib-core</artifact>
                   <includes>
-                    <include>org/fundaciobit/pluginsib/core/utils/XTrustProvider*.*</include>
                     <include>org/fundaciobit/pluginsib/core/utils/CertificateUtils*.*</include>
                   </includes>
                 </filter>

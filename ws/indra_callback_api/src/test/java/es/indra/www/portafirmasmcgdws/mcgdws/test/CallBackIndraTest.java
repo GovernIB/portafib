@@ -25,11 +25,6 @@ public class CallBackIndraTest {
     try {
 
       String endPoint ="http://localhost:8080/portafib/portafirmascb/v0/PortafirmasCallBack";
-      /*
-      if (endPoint.startsWith("https")) {
-        XTrustProvider.install();
-      }
-      */      
 
       MCGDwsService service = new MCGDwsService();
       MCGDws api = service.getMCGDWS();

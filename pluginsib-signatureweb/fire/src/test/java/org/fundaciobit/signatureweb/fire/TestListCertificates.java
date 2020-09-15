@@ -21,16 +21,6 @@ public class TestListCertificates {
 
     try {
 
-      // XTrustProvider.install();
-      // System.setProperty("https.protocols", "TLSv1.1");
-      /*
-       * String javaVersion = System.getProperty("java.version"); // =>
-       * 1.6.0_33"
-       * 
-       * if (javaVersion.startsWith("1.6")) {
-       * System.setProperty("https.protocols", "TLSv1"); }
-       */
-
       Properties testProperties = new Properties();
       testProperties.load(new FileInputStream(new File("test.properties")));
 

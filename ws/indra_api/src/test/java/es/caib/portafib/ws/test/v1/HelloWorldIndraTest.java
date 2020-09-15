@@ -2,7 +2,6 @@ package es.caib.portafib.ws.test.v1;
 
 import junit.framework.Assert;
 
-import org.fundaciobit.pluginsib.core.utils.XTrustProvider;
 import org.junit.Test;
 
 import es.caib.portafib.ws.v1.HelloWorldIndraProxy;
@@ -15,18 +14,11 @@ import es.caib.portafib.ws.v1.HelloWorldIndraProxy;
  */
 public class HelloWorldIndraTest extends IndraTestUtils {
 
-  /**
-   * @param args
-   */
   @Test
   public void testEcho() throws Exception  {
 
       String endPoint =  getEndPoint("HelloWorldIndra");
       
-      if (endPoint.startsWith("https")) {
-        XTrustProvider.install();
-      }
-
       HelloWorldIndraProxy proxy = new HelloWorldIndraProxy(endPoint);
 
       String value = "Message";

@@ -10,7 +10,7 @@
 <div id="principal" class="mainMenu span3">
   <div id="mostrarMenu" class="upper-left-corner no-disponible">
             <a id="mostrar" href="#" data-toggle="tooltip" title="Mostrar Menu">
-                <i class="icon-plus"></i>
+                <i class="icon-fullscreen"></i>
             </a>
   </div>
   <div id="ocultarMenu" class="upper-right-corner disponible">

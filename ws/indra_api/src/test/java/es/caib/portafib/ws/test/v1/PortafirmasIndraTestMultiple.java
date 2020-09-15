@@ -8,7 +8,6 @@ import es.indra.www.portafirmasws.cws.ImportanceEnum;
 import es.indra.www.portafirmasws.cws.Result;
 import es.indra.www.portafirmasws.cws.SignModeEnum;
 import es.indra.www.portafirmasws.cws.UploadResponse;
-import org.fundaciobit.pluginsib.core.utils.XTrustProvider;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -36,9 +35,6 @@ public class PortafirmasIndraTestMultiple extends IndraTestUtils {
         app.setPassword(getPassword());
 
         final String endPoint = getEndPoint("CWS");
-        if (endPoint.startsWith("https")) {
-            XTrustProvider.install();
-        }
 
         final int NOMBRE_CLIENTS = getNombreClients();
         final int NOMBRE_PETICIONS_CLIENT = getNombrePeticionsClient();
