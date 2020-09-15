@@ -32,7 +32,6 @@ import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.pluginsib.core.utils.XTrustProvider;
 
 import javax.xml.ws.BindingProvider;
 import java.math.BigInteger;
@@ -87,10 +86,6 @@ public class NotificacioSenderApiIndra implements NotificacioSender {
 
          CallbackRequest cbRequest = createCallbackRequest(eventID, ua, fe);
 
-         if (endPoint.startsWith("https")) {
-            XTrustProvider.install();
-         }
-
          // Per optimització empram la copia local del WSDL. A testApi si que carregam l'WSDL de l'endpoint
          //URL wsdlLocation = new URL(endPoint + "?wsdl");
          URL wsdlLocation = MCGDwsService.class.getResource("/wsdl/PortafirmasCallBack.wsdl");
@@ -116,28 +111,26 @@ public class NotificacioSenderApiIndra implements NotificacioSender {
                      + e.getMessage()));
       }
 
-      // log.info("Version: " + cbresp.getVersion());
-
       if (cbresp.getReturn() > 0) {
          log.debug("WS Indra  Estat: OK");
          return;
       }
 
       ArrayOfLogMessage logs = cbresp.getLogMessages();
-      StringBuffer str = new StringBuffer();
+      StringBuilder str = new StringBuilder();
 
-      str.append("La petició Webservices a " + endPoint + " ha retornat un estat d´error ("
-            + cbresp.getReturn()
-            + "). Els missatges són:\n");
+      str.append("La petició Webservices a ").append(endPoint)
+              .append(" ha retornat un estat d´error (").append(cbresp.getReturn())
+              .append("). Els missatges són:\n");
 
       if (logs != null && logs.getItem() != null && logs.getItem().size() != 0) {
          int i = 0;
          for (LogMessage logMessage : logs.getItem()) {
-            str.append("-------------LOG[" + i + "]------------------\n");
-            str.append("Code = " + logMessage.getCode() + "\n");
-            str.append("Title = " + logMessage.getTitle() + "\n");
-            str.append("Severity = " + logMessage.getSeverity() + "\n");
-            str.append("Desc = " + logMessage.getDescription() + "\n");
+            str.append("-------------LOG[").append(i).append("]------------------\n");
+            str.append("Code = ").append(logMessage.getCode()).append("\n");
+            str.append("Title = ").append(logMessage.getTitle()).append("\n");
+            str.append("Severity = ").append(logMessage.getSeverity()).append("\n");
+            str.append("Desc = ").append(logMessage.getDescription()).append("\n");
             str.append("-------------------------------\n");
             i++;
          }
@@ -258,7 +251,7 @@ public class NotificacioSenderApiIndra implements NotificacioSender {
       Application application = new Application();
       application.setDocument(document);
       // Identificador de l'usuari aplicacio.
-      /** Pere Joseph:  És un integer perquè internament els identificadors
+      /* Pere Joseph:  És un integer perquè internament els identificadors
        *  sempre són integers o longs (Per el tema de Base de dades)
        */
       application.setId(ua.getUsuariAplicacioID().hashCode());

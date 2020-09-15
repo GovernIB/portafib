@@ -33,7 +33,6 @@ import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
 import org.fundaciobit.pluginsib.core.utils.Base64;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
-import org.fundaciobit.pluginsib.core.utils.XTrustProvider;
 import org.fundaciobit.pluginsib.utils.cxf.CXFUtils;
 import org.fundaciobit.pluginsib.utils.cxf.ClientHandler;
 import org.w3c.dom.Element;
@@ -302,10 +301,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
     final boolean suportXAdES_T = true;
 
-    final boolean isc = isIgnoreServerCertificates();
-    log.info("+ IgnoreServerCertificates = " + isc);
-    if (/* endpoint.toLowerCase().startsWith("https") && */isc) {
-      XTrustProvider.install();
+    if (isIgnoreServerCertificates()) {
+      throw new UnsupportedOperationException("La propietat [" + IGNORE_SERVER_CERTIFICATES + "] ja no està soportada." +
+              "Si necessita connectar a un servidor SSL amb un certificat no reconegut per la JVM, incorpori'l al trustStore.");
     }
 
     String error = checkFilter(this, signaturesSet, suportXAdES_T, this.log); 
@@ -316,7 +314,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     error = checkConnection(); 
     if (error != null) {
       return error; 
-    };
+    }
     
     return null; // OK
   }
@@ -1154,10 +1152,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
   /**
    * AQUEST MÈTODE ESTA DUPLICAT AL PLUGIN-INTEGR@
-   * 
-   * @param signature
-   * @return
-   * @throws SigningException
    */
   public static String getXAdESFormat(byte[] signature) throws Exception {
 
@@ -1310,10 +1304,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         log.info("ENDPOINT = " + endPoint);
       }
 
-      if (isIgnoreServerCertificates()) {
-        XTrustProvider.install();
-      }
-
       final ClientHandler clientHandler;
       clientHandler = CXFUtils.getClientHandler(this, AFIRMASERVER_BASE_PROPERTIES);
 
@@ -1359,10 +1349,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         log.info("ENDPOINT = " + endPoint);
       }
       
-      if (isIgnoreServerCertificates()) {
-        XTrustProvider.install();
-      }
-
       final ClientHandler clientHandler;
       clientHandler = CXFUtils.getClientHandler(this, AFIRMASERVER_BASE_PROPERTIES);
 

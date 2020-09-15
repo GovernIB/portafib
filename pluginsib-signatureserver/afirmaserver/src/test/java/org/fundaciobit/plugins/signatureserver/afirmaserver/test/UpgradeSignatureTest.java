@@ -38,8 +38,6 @@ public class UpgradeSignatureTest {
       plugin = new org.fundaciobit.plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin(
           propertyKeyBase, pluginProperties);
 
-      // XTrustProvider.install();
-
       // upgradePDF2PDF_LTV(plugin);
       
       // upgradeCADES2CADES_T(plugin);

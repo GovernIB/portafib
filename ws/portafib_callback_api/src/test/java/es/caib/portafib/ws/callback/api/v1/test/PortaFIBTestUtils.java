@@ -46,11 +46,6 @@ public abstract class PortaFIBTestUtils {
 
     final String endpoint = getEndPoint();
     
-    //if (endpoint.toLowerCase().startsWith("https")) {
-    //    XTrustProvider.install();
-    //}
-    
-
     PortaFIBCallBackWsService callbackService = new PortaFIBCallBackWsService(new URL(endpoint + "?wsdl"));
 
     PortaFIBCallBackWs callbackApi = callbackService.getPortaFIBCallBackWs();

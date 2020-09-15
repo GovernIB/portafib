@@ -15,7 +15,6 @@ import java.util.List;
 import javax.activation.DataHandler;
 
 import org.apache.axis.attachments.AttachmentPart;
-import org.fundaciobit.pluginsib.core.utils.XTrustProvider;
 import org.junit.Test;
 
 import es.caib.portafib.ws.test.v1.enterprise.DownloadDocumentPortafirmasHandler;
@@ -108,7 +107,7 @@ public class PortafirmasIndraTest extends IndraTestUtils {
   public static final int DOCUMENTO_RECHAZADO = 3;
 
 
-  public enum CodeBase { HELIUM, ENTERPRISE };
+  public enum CodeBase { HELIUM, ENTERPRISE }
 
   @Test
   public void testHeliumCode() throws Exception {
@@ -131,10 +130,6 @@ public class PortafirmasIndraTest extends IndraTestUtils {
 
       app.setUser(getUserName());
       app.setPassword(getPassword());
-
-      if (endPoint.startsWith("https")) {
-        XTrustProvider.install();
-      }
 
       //CwsProxy proxy = new CwsProxy(endPoint);
       // int peticioID = 132001;
@@ -176,12 +171,7 @@ public class PortafirmasIndraTest extends IndraTestUtils {
     app.setUser(getUserName());
     app.setPassword(getPassword());
 
-    if (endPoint.startsWith("https")) {
-      XTrustProvider.install();
-    }
-
     CwsProxy proxy = new CwsProxy(endPoint);
-    
    
     if (storeSignedFile != null && storeSignedFile.exists()) {
       storeSignedFile.delete();

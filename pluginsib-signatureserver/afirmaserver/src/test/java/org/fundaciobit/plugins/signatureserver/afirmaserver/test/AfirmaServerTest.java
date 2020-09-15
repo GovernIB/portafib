@@ -72,12 +72,6 @@ public class AfirmaServerTest extends TestCase {
 
     private File srcFile = null;
 
-    /**
-     * @param file
-     * @param mime
-     * @param dest
-     * @param destTS
-     */
     public TestFile(String fileName, String mime, String dest, String destTS) {
       super();
       this.fileName = fileName;
@@ -161,12 +155,8 @@ public class AfirmaServerTest extends TestCase {
       ISignatureServerPlugin plugin;
       plugin = new org.fundaciobit.plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin(
           propertyKeyBase, pluginProperties);
-      
-      
-      //XTrustProvider.install();
-      
+
       String TS_APPID = pluginProperties.getProperty(propertyKeyBase + "plugins.signatureserver.afirmaserver.applicationID_TimeStamp");
-      
 
       /*
        * IRubricGenerator rubricGenerator = new IRubricGenerator() {

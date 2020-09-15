@@ -24,9 +24,6 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.DefaultBoundedRangeModel;
 
-import org.fundaciobit.pluginsib.core.utils.XTrustProvider;
-
-
 /**
  * 
  * @author anadal
@@ -125,7 +122,6 @@ public class ProcessDeFirma extends Thread {
   public InputStream llegirPDF(String source, DefaultBoundedRangeModel lecturaProgress)
       throws Exception {
     System.out.println("llegirPDF[" + index + "]::Inicialitzant SSL.");
-    initSSL();
     URLConnection sourceConnection;
     URL sourceURL;
     System.out.println("llegirPDF[" + index + "]::Crear URL.");
@@ -532,10 +528,6 @@ public class ProcessDeFirma extends Thread {
 
     int expectedOutputBytes;
 
-    /**
-     * @param out
-     * @param out2
-     */
     public FilterOutput(OutputStream out, int readBytes) {
       super(out);
       this.readBytes = readBytes;
@@ -608,17 +600,7 @@ public class ProcessDeFirma extends Thread {
     
   }
   */
-  
-  public static boolean sslInitialized = false;
 
-  public static synchronized void initSSL() {
-    if (!sslInitialized) {
-      XTrustProvider.install();
-      sslInitialized = true;
-    }
-  }
-  
-  
   public final String tradueix(String code, String... params) {
     return I18NUtils.traduiex(parentPanel.getBundleUI(), code, params);
   }
