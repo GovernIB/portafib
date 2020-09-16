@@ -5,7 +5,6 @@ import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.ejb.FirmaLocal;
 import es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal;
 import es.caib.portafib.ejb.RebreAvisLocal;
-import es.caib.portafib.ejb.RoleUsuariEntitatLocal;
 import es.caib.portafib.ejb.UsuariEntitatEJB;
 import es.caib.portafib.ejb.UsuariEntitatFavoritLocal;
 import es.caib.portafib.ejb.UsuariEntitatLocal;
@@ -80,8 +79,8 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   @EJB(mappedName = UsuariEntitatFavoritLocal.JNDI_NAME)
   private UsuariEntitatFavoritLocal usuariEntitatFavoritEjb;
 
-  @EJB(mappedName = RoleUsuariEntitatLocal.JNDI_NAME)
-  private RoleUsuariEntitatLocal roleUsuariEntitatEjb;
+  @EJB(mappedName = RoleUsuariEntitatLogicaLocal.JNDI_NAME)
+  private RoleUsuariEntitatLogicaLocal roleUsuariEntitatLogicaEjb;
 
   @EJB(mappedName = RebreAvisLocal.JNDI_NAME)
   private RebreAvisLocal rebreAvisEjb;
@@ -248,7 +247,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
           vrol = vrol.trim();
           if (ConstantsV2.ROLE_SOLI.equals(vrol) || ConstantsV2.ROLE_DEST.equals(vrol) ||
               ConstantsV2.ROLE_DELE.equals(vrol) || ConstantsV2.ROLE_COLA.equals(vrol) ) {
-            roleUsuariEntitats.add((RoleUsuariEntitatJPA)roleUsuariEntitatEjb.
+            roleUsuariEntitats.add((RoleUsuariEntitatJPA) roleUsuariEntitatLogicaEjb.
                 create(vrol, usuariEntitatJPA.getUsuariEntitatID()));
           } else {
             log.error("ROL no valid: " + vrol);
@@ -409,7 +408,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
       usuariEntitatFavoritEjb.delete(Where.OR(UsuariEntitatFavoritFields.ORIGENID.equal(usuariEntitatID),UsuariEntitatFavoritFields.FAVORITID.equal(usuariEntitatID)));
   
       // Esborrar Roles
-      roleUsuariEntitatEjb.delete(RoleUsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID));
+      roleUsuariEntitatLogicaEjb.delete(RoleUsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID));
   
       // Esborrar plantilles de flux de firma d'usuari
       List<Long> plantilles = plantillaFluxDeFirmesEjb.executeQuery(
@@ -481,7 +480,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
       // 1.a Favorits amb ROLE roleID
       Where whereRole = null;
       if (roleID != null) {         
-        whereRole = UsuariEntitatFavoritFields.FAVORITID.in(roleUsuariEntitatEjb.getSubQuery(
+        whereRole = UsuariEntitatFavoritFields.FAVORITID.in(roleUsuariEntitatLogicaEjb.getSubQuery(
             RoleUsuariEntitatFields.USUARIENTITATID,
             RoleUsuariEntitatFields.ROLEID.equal(roleID)));
       }
@@ -608,7 +607,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     // 3.- Li afegim el ROLE de DESTINATARI
     RoleUsuariEntitatJPA roleUsr;
     roleUsr = new RoleUsuariEntitatJPA(ConstantsV2.ROLE_DEST, usuariEntitatExtern.getUsuariEntitatID());
-    roleUsuariEntitatEjb.create(roleUsr);
+    roleUsuariEntitatLogicaEjb.create(roleUsr);
     
     return usuariEntitatExtern;
   }
@@ -930,7 +929,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
       throws I18NException {
 
     UsuariEntitatQueryPath usuariEntitatQueryPath = new RoleUsuariEntitatQueryPath().USUARIENTITAT();
-    List<String> correusAdEn = roleUsuariEntitatEjb.executeQuery(
+    List<String> correusAdEn = roleUsuariEntitatLogicaEjb.executeQuery(
         usuariEntitatQueryPath.USUARIPERSONA().EMAIL(),
         Where.AND(
             RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_ADEN),

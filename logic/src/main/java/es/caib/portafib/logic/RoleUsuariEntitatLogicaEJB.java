@@ -2,6 +2,7 @@ package es.caib.portafib.logic;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -46,7 +47,14 @@ public class RoleUsuariEntitatLogicaEJB extends RoleUsuariEntitatEJB
 
   RoleUsuariEntitatLogicValidator<RoleUsuariEntitatJPA> validator = new RoleUsuariEntitatLogicValidator<RoleUsuariEntitatJPA>();
 
+  /* Necessari pq des del component de fluxes es usuaris puguin donar d'alta usuaris externs. */
   @Override
+  @PermitAll
+  public RoleUsuariEntitat create(RoleUsuariEntitat instance) throws I18NException {
+    return super.create(instance);
+  }
+
+    @Override
   @RolesAllowed({PFI_ADMIN, PFI_USER})
   public RoleUsuariEntitatJPA createFull(RoleUsuariEntitatJPA instance)
     throws Exception, I18NException, I18NValidationException {

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -101,32 +102,6 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
     
     return fitxers;
   }
-  
-  /*
-  private UsuariPersonaJPA checkBasic(String usuariPersonaID) throws I18NException {
-    
-    if (usuariPersonaID == null) {
-      // error.notfound=No s´ha trobat cap {0} amb {1} igual a {2}
-      throw new I18NException("error.notfound",
-          new I18NArgumentCode(_TABLE_TRANSLATION),
-          new I18NArgumentCode(USUARIPERSONAID.fullName),
-          new I18NArgumentString(usuariPersonaID)
-          );
-    }
-    
-    UsuariPersona ua = findByPrimaryKey(usuariPersonaID);
-    if (ua == null) {
-      // error.notfound=No s´ha trobat cap {0} amb {1} igual a {2}
-      throw new I18NException("error.notfound",
-          new I18NArgumentCode(_TABLE_TRANSLATION),
-          new I18NArgumentCode(USUARIPERSONAID.fullName),
-          new I18NArgumentString(usuariPersonaID)
-          );
-    }
-    
-    return (UsuariPersonaJPA)ua;
-  }
-*/
 
   @Override
   public Set<String>  getRolesOfLoggedUser() throws I18NException {
@@ -141,9 +116,6 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
     }
     return roles;
   }
-  
-  
-
 
   @Override
   public UsuariPersonaJPA createFull(UsuariPersonaJPA usuariPersonaJPA)
@@ -183,7 +155,14 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
 
     return (UsuariPersonaJPA)create(usuariPersonaJPA);
   }
-  
+
+  /* Necessari pq des del component de fluxes es usuaris puguin donar d'alta usuaris externs. */
+  @Override
+  @PermitAll
+  public UsuariPersona create(UsuariPersona instance) throws I18NException {
+    return super.create(instance);
+  }
+
   /**
    * Obtenim la informació de l'usuari del sistema d'autenticació.
    */
