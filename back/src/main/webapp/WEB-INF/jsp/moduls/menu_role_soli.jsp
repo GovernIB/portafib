@@ -34,18 +34,15 @@ static {
   menu1.add(MenuItem.retallaDarrerPath("peticiodefirma.rebutjada.plural", ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_REBUTJADA + "/list"));
   menu1.add(null);  
 
-  menu1.add(MenuItem.retallaDarrerPath("custodiaInfo.custodiaInfo.plural", "/soli/plantilla/list"));
+  menu1.add(MenuItem.retallaDarrerPath("custodiaInfo.custodiaInfo.plural", "/soli/peticio/custodiainfo/list"));
   menu1.add(null);
 
-  menu1.add(MenuItem.retallaDarrerPath("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/soli/peticio/custodiainfo/list"));
-
+  menu1.add(MenuItem.retallaDarrerPath("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/soli/plantilla/list"));
   menus.add(menu1);
-
 }
 
 
 %><%
-
 int count = 0;
 
 for(List<MenuItem> menu : menus) {
