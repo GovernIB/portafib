@@ -25,6 +25,7 @@ import org.fundaciobit.plugins.certificate.InformacioCertificat;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.validatesignature.api.SignatureDetailInfo;
 import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
+import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
@@ -58,6 +59,17 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
   @Override
   public ValidacioCompletaResponse validateCompletaFirma(
+          ValidacioCompletaRequest validacioRequest) throws ValidacioException {
+    try {
+      return internalValidateCompletaFirma(validacioRequest);
+    } catch (I18NException e) {
+      String message = I18NLogicUtils.getMessage(e, new Locale(validacioRequest.getLanguageUI()));
+      log.error("Rebut error de validació de firma: " + message);
+      throw new ValidacioException(message, e);
+    }
+  }
+
+  private ValidacioCompletaResponse internalValidateCompletaFirma(
       ValidacioCompletaRequest validacioRequest) throws I18NException {
 
     String signType;
@@ -134,6 +146,11 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         throw new I18NException("genapp.comodi",
             "Per aquesta transacció es requereix validació de la firma "
             + "però no s'ha definit cap Plugin de Validació.");
+
+      } else if (validateSignatureResponse.getValidationStatus().getStatus() != ValidationStatus.SIGNATURE_VALID) {
+        String msg = "La firma no és vàlida. Raó: " + validateSignatureResponse.getValidationStatus().getErrorMsg();
+        log.error(msg);
+        throw new I18NException("genapp.comodi", msg);
       }
 
       perfilDeFirma = validateSignatureResponse.getSignProfile();
@@ -218,7 +235,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
               try {
                 documentOriginal = ValidationsXAdES.getProcessedOriginalData(is);
               } finally {
-                try { is.close(); } catch (Exception e2) { }
+                try { is.close(); } catch (IOException ignored) { }
               }
             }
 
@@ -228,7 +245,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
               try {
                 documentOriginalExtret = ValidationsXAdES.getOriginalDocumentOfXadesAttachedSignature(is);
               } finally {
-                try { is.close(); } catch (Exception e2) { }
+                try { is.close(); } catch (IOException ignored) { }
               }
             }
 
@@ -264,12 +281,12 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
             InputStream is = validacioRequest.getSignatureData().getInputStream();
             byte[] documentOriginal = ValidationsCAdES.getOriginalDocumentOfCadesAttachedSignature(is);
-            try { is.close(); } catch (IOException e1) {}
+            try { is.close(); } catch (IOException ignored) {}
 
             try {
               is = originalBo.getInputStream();
               boolean isEquals = IOUtils.contentEquals(is, new ByteArrayInputStream(documentOriginal));
-              try { is.close(); } catch (IOException e1) {}
+              try { is.close(); } catch (IOException ignored) {}
               if (isEquals) {
                 log.debug("Pareix ser que el document adjunt en la firna CAdES Attached es igual al document original enviat");
                 checkDocumentModifications = true;

@@ -59,11 +59,11 @@ public class BitacolaLogicaEJB extends BitacolaEJB implements BitacolaLogicaLoca
     } catch (Throwable th) {
       String bitacolaString = "[" +
               "Usuari: " + principal.getName() +
-              "Entitat: " + info.getEntitatid() +
-              "ObjecteID: " + info.getObjecteid() +
-              "TipusObjecte: " + info.getTipusObjecte() +
-              "TipusOperacio: " + info.getTipusOperacio() +
-              "Descripcio: " + info.getDescripcio() +
+              ", Entitat: " + info.getEntitatid() +
+              ", ObjecteID: " + info.getObjecteid() +
+              ", TipusObjecte: " + info.getTipusObjecte() +
+              ", TipusOperacio: " + info.getTipusOperacio() +
+              ", Descripcio: " + info.getDescripcio() +
               "]";
       log.error("Error creant bitàcola: " + bitacolaString, th);
       return null;

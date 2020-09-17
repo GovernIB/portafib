@@ -15,6 +15,7 @@ import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.ValidacioCompletaFirmaLogicaLocal;
+import es.caib.portafib.logic.ValidacioException;
 import es.caib.portafib.logic.bitacola.InfoBitacola;
 import es.caib.portafib.logic.passarela.api.PassarelaCustodyInfo;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
@@ -906,9 +907,13 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
       // Aqui es fan totes les validacions completes !!!!!!
       ValidacioCompletaResponse validacioResponse;
+    try {
       validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest);
+    } catch (ValidacioException e) {
+      throw new I18NException("genapp.comodi", e.getMessage());
+    }
 
-      log.debug("VALIDACIO RESPONSE ==>  " + validacioResponse + "\n\n");
+    log.debug("VALIDACIO RESPONSE ==>  " + validacioResponse + "\n\n");
 
       return validacioResponse;
   }

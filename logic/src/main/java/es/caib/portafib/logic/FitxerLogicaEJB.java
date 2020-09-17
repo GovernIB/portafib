@@ -159,7 +159,7 @@ public class FitxerLogicaEJB extends FitxerEJB implements FitxerLogicaLocal {
 
     try {
       LogicUtils.sobreescriureFitxerChecked(tmp, fitxerID);
-    } catch (Exception e) {
+    } catch (IOException e) {
       // Si ha fallat el sobreescriure
       if (tmp.exists()) {
         if (!tmp.delete()) {

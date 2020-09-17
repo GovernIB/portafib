@@ -18,6 +18,6 @@ public interface ValidacioCompletaFirmaLogicaLocal {
   public static final String JNDI_NAME = "portafib/ValidacioCompletaFirmaLogicaEJB/local";
 
   public ValidacioCompletaResponse validateCompletaFirma(
-      ValidacioCompletaRequest validacioRequest) throws I18NException;
+      ValidacioCompletaRequest validacioRequest) throws ValidacioException;
 
 }

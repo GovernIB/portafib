@@ -39,9 +39,6 @@ public class PluginValidacioFirmesLogicaEJB extends
     return "Modul de Validació de Firmes";
   }
 
-  
-  
-  // XYZ ZZZ Això s'ha de cridar des de passarel.la i api firma simple
   @Override
   public ValidateSignatureResponse validateSignature(final String entitatID,
       String signType, IPortaFIBDataSource signatureDS, 
@@ -89,39 +86,10 @@ public class PluginValidacioFirmesLogicaEJB extends
       log.info("DocumentDetached bytes[] => " + ((documentDetached == null)? "NULL" : (""  +documentDetached.length)) + "\n\n");
     }
 
-    ValidateSignatureResponse vsresp = internalValidateSignature(pluginValidateSignatureID,
+    return internalValidateSignature(pluginValidateSignatureID,
         signType, signature, documentDetached, languageUI);
-
-    int status = vsresp.getValidationStatus().getStatus();
-    if (status != ValidationStatus.SIGNATURE_VALID) {
-      // XYZ ZZZ Traduir
-      String msg = "La firma no és vàlida. Raó: " + vsresp.getValidationStatus().getErrorMsg();
-      log.error(msg);
-      throw new I18NException("genapp.comodi", msg);
-    } else {
-
-      if (log.isDebugEnabled()) {
-        log.debug("FIRMA VALIDADA CORRECTAMENT");
-      }
-      return vsresp;
-    }
-
   }
-  
-  
-  
 
-
-  /**
-   * 
-   * @param pluginValidateSignatureID
-   * @param signType
-   * @param signature
-   * @param documentDetachedFile
-   * @param languageUI
-   * @return
-   * @throws I18NException
-   */
   protected ValidateSignatureResponse internalValidateSignature(
       Long pluginValidateSignatureID, String signType, byte[] signature,
       byte[] documentDetachedFile, String languageUI) throws I18NException {

@@ -10,6 +10,7 @@ import es.caib.portafib.logic.AbstractPluginLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaServidorLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsPublicLogicaLocal;
 import es.caib.portafib.logic.ValidacioCompletaFirmaLogicaLocal;
+import es.caib.portafib.logic.ValidacioException;
 import es.caib.portafib.logic.passarela.api.PassarelaCustodyInfo;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
@@ -284,19 +285,15 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
             validacioResponseBySignID.put(pfis.getSignID(), validacioResponse);
 
-          } catch (I18NException e) {
+          } catch (ValidacioException e) {
             status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
-            String msg = I18NLogicUtils.getMessage(e, new Locale(languageUI));
-
+            String msg = e.getMessage();
             log.error(msg, e);
-
             status.setErrorMsg(msg);
             Throwable cause = e.getCause();
-
             if (cause != null) {
               status.setErrorException(cause);
             }
-
           }
         }
       }
@@ -533,8 +530,12 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
     // Aqui es fan totes les validacions completes !!!!!!
     ValidacioCompletaResponse validacioResponse;
-    validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest);
-    
+    try {
+      validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest);
+    } catch (ValidacioException e) {
+      throw new I18NException("genapp.comodi", e.getMessage());
+    }
+
     if (modificatComprovarNifFirma) {
       validacioResponse.setCheckAdministrationIDOfSigner(false);
     }

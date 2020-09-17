@@ -1,6 +1,7 @@
 package es.caib.portafib.logic.utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,12 +63,12 @@ public class LogicUtils {
     }
   }
 
-  public static File sobreescriureFitxerChecked(File src, Long fitxerID) throws Exception {
+  public static File sobreescriureFitxerChecked(File src, Long fitxerID) throws IOException {
 
     if (!src.exists()) {
       String msg = "El fitxer origen [" + src.getAbsolutePath() + "] no existeix"; 
       log.error(msg);
-      throw new Exception(msg);
+      throw new IOException(msg);
     }
    
 
@@ -78,14 +79,14 @@ public class LogicUtils {
       String msg = "El fitxer resultant [" + dest.getAbsolutePath() 
           + "] no existeix. (Fitxer origen " + src.getAbsolutePath() + ")";  
       log.error(msg);
-      throw new Exception(msg);
+      throw new IOException(msg);
     }
 
     if (dest.length() != srcLength) {
       String msg = "La mida del fitxer destí després de fer el rename [" 
         + dest.getAbsolutePath() + "] és diferent a la del fitxer original"; 
       log.error(msg);
-      throw new Exception(msg);
+      throw new IOException(msg);
     }
 
     if (src.exists()) {
@@ -106,7 +107,7 @@ public class LogicUtils {
    * @param values llista de valors a comprovar dins l'IN
    * @return un where que el camp field està dins values.
    */
-  public static Where getSafeWhereIn( Field field, List values) {
+  public static <C> Where getSafeWhereIn(Field<C> field, List<C> values) {
     final int MAX_IN_SIZE = 1000;
     Where whereIn;
     if (values.size() < MAX_IN_SIZE) {

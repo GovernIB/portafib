@@ -1194,7 +1194,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
       long fitxerFinalAFirmarID = f.getFitxerID();
 
-      // dstPDF = FileSystemManager.sobreescriureFitxer(dstPDF, fitxerFinalAFirmarID);
       dstPDF = LogicUtils.sobreescriureFitxerChecked(dstPDF, fitxerFinalAFirmarID);
 
       if (log.isDebugEnabled()) {
@@ -1202,7 +1201,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       }
 
       return f;
-    } catch (Exception e) {
+    } catch (IOException e) {
       if (dstPDF != null && dstPDF.exists()) {
         if (!dstPDF.delete()) {
           dstPDF.deleteOnExit();
@@ -2511,8 +2510,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
           expectedNif, peticioDeFirma.getPosicioTaulaFirmesID());
 
       // Aqui es fan totes les validacions completes !!!!!!
-      ValidacioCompletaResponse validacioResponse;
-      validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest);
+      ValidacioCompletaResponse validacioResponse = null;
+      try {
+        validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest);
+      } catch (ValidacioException e) {
+        throw new I18NException("genapp.comodi", e.getMessage());
+      }
 
       // Nous camps a Firma i a Petició de Firma #281
       firma.setCheckAdministrationIdOfSigner(
