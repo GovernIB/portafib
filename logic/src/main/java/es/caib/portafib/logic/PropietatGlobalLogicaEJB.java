@@ -1,6 +1,7 @@
 package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.PropietatGlobalEJB;
+import java.util.List;
 import javax.ejb.Stateless;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
@@ -112,6 +113,26 @@ public class PropietatGlobalLogicaEJB extends PropietatGlobalEJB implements Prop
       return value;
     }
   }
+
+    @Override
+    public List<Long> getIdsProperty(String key) throws I18NException {
+        return getIdsProperty(null,key);
+    }
+
+    @Override
+    public List<Long> getIdsProperty(String entitatID, String key) throws I18NException {
+        
+        Where w;
+        if (entitatID == null) {
+            w = ENTITATID.isNull();
+        } else {
+            w = ENTITATID.equal(entitatID);
+        }
+        
+        List<Long> propietats = executeQuery(PROPIETATGLOBALID, Where.AND(CLAU.equal(key), w));
+        
+        return propietats;
+    }
 
 
 

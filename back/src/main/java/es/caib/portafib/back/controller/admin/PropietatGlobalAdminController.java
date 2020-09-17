@@ -29,7 +29,12 @@ import es.caib.portafib.jpa.PropietatGlobalJPA;
 import es.caib.portafib.logic.utils.PropietatsConstants;
 import es.caib.portafib.logic.utils.PropietatsConstants.Propietat;
 import es.caib.portafib.model.entity.PropietatGlobal;
+import es.caib.portafib.model.fields.PropietatGlobalFields;
 import es.caib.portafib.utils.ConstantsV2;
+import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 /**
  *
@@ -40,6 +45,9 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = "/admin/propietatglobal")
 @SessionAttributes(types = { PropietatGlobalForm.class, PropietatGlobalFilterForm.class })
 public class PropietatGlobalAdminController extends PropietatGlobalController {
+    
+  @EJB(mappedName = es.caib.portafib.logic.PropietatGlobalLogicaLocal.JNDI_NAME)
+  protected es.caib.portafib.logic.PropietatGlobalLogicaLocal propietatGlobalLogicaEjb;
 
   public static final int COLUMN_ESTAT_PROPIETAT = 1;
 
@@ -180,85 +188,174 @@ public class PropietatGlobalAdminController extends PropietatGlobalController {
     return propietatGlobalForm;
   }
 
-  @Override
-  public void postList(HttpServletRequest request, ModelAndView mav,
-      PropietatGlobalFilterForm filterForm, List<PropietatGlobal> list) throws I18NException {
+    @Override
+    public void postList(HttpServletRequest request, ModelAndView mav,
+            PropietatGlobalFilterForm filterForm, List<PropietatGlobal> list) throws I18NException {
 
-    filterForm.getAdditionalFields().remove(COLUMN_ESTAT_PROPIETAT);
+        filterForm.getAdditionalFields().remove(COLUMN_ESTAT_PROPIETAT);
 
-    HashMap<Long, String> map = new HashMap<Long, String>();
+        HashMap<Long, String> map = new HashMap<Long, String>();
 
-    Map<String, Propietat> propietats;
-    boolean isSistema = false;
-    switch (getTipusPropietat()) {
-      case PropietatsConstants.TIPUS_PROPIETAT_GLOBAL:
-        propietats = PropietatsConstants.propietatsGlobals;
-      break;
+        Map<String, Propietat> propietats;
+        boolean isSistema = false;
+        switch (getTipusPropietat()) {
+            case PropietatsConstants.TIPUS_PROPIETAT_GLOBAL:
+                propietats = PropietatsConstants.propietatsGlobals;
+                break;
 
-      case PropietatsConstants.TIPUS_PROPIETAT_ENTITAT:
-        propietats = PropietatsConstants.propietatsEntitat;
-      break;
+            case PropietatsConstants.TIPUS_PROPIETAT_ENTITAT:
+                propietats = PropietatsConstants.propietatsEntitat;
+                break;
 
-      case PropietatsConstants.TIPUS_PROPIETAT_SISTEMA:
-      default:
-        isSistema = true;
-        propietats = PropietatsConstants.propietatsSistema;
+            case PropietatsConstants.TIPUS_PROPIETAT_SISTEMA:
+            default:
+                isSistema = true;
+                propietats = PropietatsConstants.propietatsSistema;
+
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug("propietats SIZE => " + propietats.size());
+        }
+
+        for (PropietatGlobal pg : list) {
+
+            String clau = pg.getClau();
+
+            Propietat prop = propietats.get(clau);
+            if (prop == null) {
+
+                if (isSistema
+                        && (clau.startsWith("es.caib.portafib.hibernate.")
+                        || clau.startsWith("es.caib.portafib.plugins.certificate")
+                        || clau.startsWith("es.caib.portafib.plugins.userinformation")
+                        || clau.startsWith("es.caib.portafib.hibernate"))) {
+                    continue;
+                }
+
+                map.put(
+                        pg.getPropietatGlobalID(),
+                        "<b><a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Propietat Desconeguda\">????</a></b>");
+            } else {
+
+                if (!prop.activa) {
+
+                    // &#9745; OK Millor &#10004;
+                    // &#9746; ERR Millor &#9888;
+                    // Unknown
+                    map.put(
+                            pg.getPropietatGlobalID(),
+                            "<b><a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Propietat Obsoleta\">&#9888;</a></b>");
+
+                }
+            }
+
+        }
+
+        if (map.size() != 0) {
+            AdditionalField<Long, String> addfieldMOTIU = new AdditionalField<Long, String>();
+            addfieldMOTIU.setCodeName("=<b>&#9888;</b>");
+            addfieldMOTIU.setPosition(COLUMN_ESTAT_PROPIETAT);
+            // No omplirem els valors
+            addfieldMOTIU.setValueMap(map);
+            addfieldMOTIU.setEscapeXml(false);
+
+            filterForm.addAdditionalField(addfieldMOTIU);
+
+        }
 
     }
 
-    if (log.isDebugEnabled()) {
-      log.debug("propietats SIZE => " + propietats.size());
+    @Override
+    public void postValidate(HttpServletRequest request, PropietatGlobalForm propietatGlobalForm, BindingResult result) throws I18NException {
+
+        //super.postValidate(request, propietatGlobalForm, result); //To change body of generated methods, choose Tools | Templates.
+        if (result.hasErrors()) {
+
+            FieldError fe = result.getFieldError(PropietatGlobalFields.PROPIETATGLOBALID.fullName);
+
+            if (fe != null) {
+
+                java.lang.reflect.Field f;
+                try {
+                    f = getField(result.getClass(), "errors", true);
+
+                    f.setAccessible(true);
+                    List<?> errors22 = (List<?>) f.get(result);
+                    errors22.remove(fe);
+
+                } catch (Throwable e) {
+                    // TODO
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+        
+        Long idPropietat = propietatGlobalForm.getPropietatGlobal().getPropietatGlobalID();
+        String clau = propietatGlobalForm.getPropietatGlobal().getClau();
+        String entitat = propietatGlobalForm.getPropietatGlobal().getEntitatID();
+        
+        List<Long> ids = propietatGlobalLogicaEjb.getIdsProperty(entitat, clau);
+        
+        for (Long id:ids){
+            if ((idPropietat!=null) && !idPropietat.equals(id)){
+                 result.rejectValue(get(CLAU), "=Valor repetit",
+                    new Object[] { I18NUtils.tradueix(CLAU.fullName) },
+                    "Clau repetida amb codi " + id);
+            }
+        }
+        
+
     }
 
-    for (PropietatGlobal pg : list) {
+  
+   /**
+   * Gets an accessible {@link Field} by name, breaking scope if requested.
+   * Superclasses/interfaces will be considered.
+   * 
+   * @param cls
+   *          the {@link Class} to reflect, must not be {@code null}
+   * @param fieldName
+   *          the field name to obtain
+   * @param forceAccess
+   *          whether to break scope restrictions using the
+   *          {@link java.lang.reflect.AccessibleObject#setAccessible(boolean)} method.
+   *          {@code false} will only match {@code public} fields.
+   * @return the Field object
+   * @throws IllegalArgumentException
+   *           if the class is {@code null}, or the field name is blank or empty or is matched
+   *           at multiple places in the inheritance hierarchy
+   */
+  public static java.lang.reflect.Field getField(final Class<?> cls, final String fieldName,
+      final boolean forceAccess) {
 
-      String clau = pg.getClau();
-
-      Propietat prop = propietats.get(clau);
-      if (prop == null) {
-
-        if (isSistema
-            && (clau.startsWith("es.caib.portafib.hibernate.")
-                || clau.startsWith("es.caib.portafib.plugins.certificate")
-                || clau.startsWith("es.caib.portafib.plugins.userinformation") 
-                || clau.startsWith("es.caib.portafib.hibernate"))) {
-          continue;
+    // check up the superclass hierarchy
+    for (Class<?> acls = cls; acls != null; acls = acls.getSuperclass()) {
+      try {
+        final java.lang.reflect.Field field = acls.getDeclaredField(fieldName);
+        // getDeclaredField checks for non-public scopes as well
+        // and it returns accurate results
+        if (!java.lang.reflect.Modifier.isPublic(field.getModifiers())) {
+          if (forceAccess) {
+            field.setAccessible(true);
+          } else {
+            continue;
+          }
         }
-
-        map.put(
-            pg.getPropietatGlobalID(),
-            "<b><a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Propietat Desconeguda\">????</a></b>");
-      } else {
-
-        if (!prop.activa) {
-
-          // &#9745; OK Millor &#10004;
-
-          // &#9746; ERR Millor &#9888;
-
-          // Unknown
-
-          map.put(
-              pg.getPropietatGlobalID(),
-              "<b><a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Propietat Obsoleta\">&#9888;</a></b>");
-
-        }
+        return field;
+      } catch (final NoSuchFieldException ex) { // NOPMD
+        // ignore
       }
-
     }
 
-    if (map.size() != 0) {
-      AdditionalField<Long, String> addfieldMOTIU = new AdditionalField<Long, String>();
-      addfieldMOTIU.setCodeName("=<b>&#9888;</b>");
-      addfieldMOTIU.setPosition(COLUMN_ESTAT_PROPIETAT);
-      // No omplirem els valors
-      addfieldMOTIU.setValueMap(map);
-      addfieldMOTIU.setEscapeXml(false);
-
-      filterForm.addAdditionalField(addfieldMOTIU);
-
-    }
+    return null;
 
   }
+  
+  
+  
+  
 
 }
