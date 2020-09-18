@@ -1,4 +1,30 @@
 
+PortaFIB 2.0.12
+==============
+
+2020-09-18 Corregir tests #497
+
+2020-09-17 Comprovar claus repetides de Propietats Globals #137
+
+2020-09-17 Opcions girades dins el menú de sol·licitant #493
+
+2020-09-17 Quan validació de firma falla es llança I18NException que provoca rollback #490
+
+2020-09-16 Error donant d'alta usuari extern des de api de fluxes #492
+
+2020-09-15 Eliminar cridades a XTrustProvider.install #491
+
+2020-09-10 Netejar default.css #67
+
+2020-09-08 Quan es rebutja des de la vista completa no agafa correctament els caràcters especials #487
+
+2020-09-08 Implementar plugin de firma web per Viafirma-fortress #489
+
+2020-09-08 Destinatari: Poder revisar amb vista completa totes les firmes pendents #480
+
+2020-08-19 Quan la configuració de firma no té Filtre de Certificats hauria de collir la d'entitat #488
+
+
 PortaFIB 2.0.11
 ==============
 
