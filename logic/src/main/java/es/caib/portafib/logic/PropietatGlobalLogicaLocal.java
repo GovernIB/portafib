@@ -1,6 +1,7 @@
 package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.PropietatGlobalLocal;
+import java.util.List;
 
 import javax.ejb.Local;
 
@@ -46,6 +47,10 @@ public interface PropietatGlobalLogicaLocal extends PropietatGlobalLocal {
   public Long getLongPropertyByEntitat(String entitatID, String key) throws I18NException;
   
   public long getLongPropertyByEntitat(String entitatID, String key, long defaultValue) throws I18NException;
+
+  public List<Long> getIdsProperty(String key) throws I18NException;
+  
+  public List<Long> getIdsProperty(String entitatID, String key) throws I18NException;
 
 
   
