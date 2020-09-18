@@ -10,6 +10,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import es.caib.portafib.ws.api.v1.PortaFIBUsuariAplicacioWs;
@@ -72,9 +73,9 @@ public final class PortaFIBUsuariAplicacioTest extends PortaFIBTestUtils {
   @Test
   public void testVersio() throws Exception {
     if (isCAIB()) {
-      Assert.assertEquals("1.0.0-caib", usuariAplicacioAPI.getVersion());
+      Assert.assertEquals("2.0.12-caib", usuariAplicacioAPI.getVersion());
     } else {
-      Assert.assertEquals("1.0.0", usuariAplicacioAPI.getVersion());
+      Assert.assertEquals("2.0.12", usuariAplicacioAPI.getVersion());
     }
   }
 
@@ -83,13 +84,17 @@ public final class PortaFIBUsuariAplicacioTest extends PortaFIBTestUtils {
     Assert.assertEquals(1, usuariAplicacioAPI.getVersionWs());
   }
 
+  /* operació no soportada ja */
   @Test
+  @Ignore
   public void addRolAdmin() throws Exception {
     String usr = getTestAppUserName();
     usuariAplicacioAPI.addRolAdminToUsuariAplicacio(usr);
   }
 
+  /* operació no soportada ja */
   @Test
+  @Ignore
   public void addRolUser() throws Exception {
     String usr = getTestAppUserName();
     usuariAplicacioAPI.addRolUserToUsuariAplicacio(usr);

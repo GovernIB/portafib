@@ -93,14 +93,14 @@ public class TestJPA {
       prop.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
       prop.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
       // prop.put("javax.persistence.jdbc.url","jdbc:postgresql://192.168.35.151:5432/portafib");
-      prop.put("javax.persistence.jdbc.url", "jdbc:postgresql://localhost:5432/portafib11");
+      prop.put("javax.persistence.jdbc.url", "jdbc:postgresql://localhost:5432/portafib20");
       prop.put("javax.persistence.jdbc.user", "portafib");
       prop.put("javax.persistence.jdbc.password", "portafib");
       
 
       prop.put("hibernate.connection.driver_class", "org.postgresql.Driver");
       // prop.put("javax.persistence.jdbc.url","jdbc:postgresql://192.168.35.151:5432/portafib");
-      prop.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/portafib11");
+      prop.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/portafib20");
       prop.put("hibernate.connection.username", "portafib");
       prop.put("hibernate.connection.password", "portafib");
       

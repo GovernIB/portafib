@@ -9,6 +9,7 @@ import junit.framework.Assert;
 import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import es.caib.portafib.utils.Constants;
@@ -90,9 +91,9 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
 
     try {
       peticioDeFirmaAPI.createPeticioDeFirma(peticioDeFirmaWs);
-      Assert.fail("Hauria d'haver llançat una excepció: Validation");
-    } catch (WsValidationException ve) {
-      Assert.assertEquals(9, ve.getFaultInfo().getFieldFaults().size());
+      Assert.fail("Hauria d'haver llançat una excepció perquè falta el fitxer a firmar");
+    } catch (WsI18NException we) {
+      Assert.assertTrue(we.getMessage().contains("peticioDeFirma.fitxerAFirmarID"));
     }
 
     String titol = "Peticio de Test";
@@ -103,11 +104,13 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
 
     String[] nifsNoExisteix = new String[] { "87654321X" };
     try {
-      PeticioDeFirmaUtils.constructPeticioDeFirma(usuariEntitatAPI, titol, remitent,
+      peticioDeFirmaWs = PeticioDeFirmaUtils.constructPeticioDeFirma(usuariEntitatAPI, titol, remitent,
           fitxerAFirmar, nifsNoExisteix);
-      Assert.fail("Hauria d'haver llançat un error de nif desconegut");
-    } catch (WsI18NException i18n) {
-      log.info(i18n.getFaultInfo().getTranslation().getCode());
+      Assert.assertNull("El destinatari ha de ser null",
+              peticioDeFirmaWs.getFluxDeFirmes().getBlocsDeFirmes().get(0).getFirmes().get(0).getDestinatariID());
+    } catch (WsI18NException e) {
+      log.error("No hauria de llençar cap error", e);
+      Assert.fail("No hauria de llençar cap error");
     }
 
     String[] nifs = new String[] { getTestPersonaNif() };
@@ -193,9 +196,9 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
       Assert.assertEquals(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES, status);
       // Check fitxer
       fitxer = peticioDeFirmaAPI.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
-      Assert.assertTrue(
-          "El fitxer original i el fitxer d'una peticio iniciada no han de ser iguals",
-          fitxer.getTamany() != fitxerAFirmar.getTamany());
+      Assert.assertEquals(
+              "El fitxer original i el fitxer adaptat d'una peticó han de ser iguals si no es transforma",
+              fitxer.getTamany(), fitxerAFirmar.getTamany());
 
 
       if (isWaitToSign()) {
@@ -246,6 +249,7 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
 
 
   @Test
+  @Ignore
   public void testPeticioDeFirmaAmbCustodia() throws Exception {
     final String titol = "Peticio de Test amb Custodia";
     final String remitent = "Helium";

@@ -50,20 +50,14 @@ public final class PortaFIBUsuariEntitatTest extends PortaFIBTestUtils {
     
     
     String nif = getTestPersonaNif();
-    try {
-      String ueID = usuariEntitatAPI.getUsuariEntitatIDInMyEntitatByAdministrationID(nif);
-      
+
+    String ueID = usuariEntitatAPI.getUsuariEntitatIDInMyEntitatByAdministrationID(nif);
+    if (ueID != null) {
       UsuariEntitatBean ue = usuariEntitatAPI.getUsuariEntitat(ueID);
-      
+
       usuariEntitatAPI.deleteUsuariEntitat(ueID);
       usuariEntitatAPI.deleteUsuariPersona(ue.getUsuariPersonaID());
-      
-    } catch(WsI18NException e) {
-      System.out.println(e.getFaultInfo().getTranslation().getCode());
-      e.printStackTrace();
     }
-    
-    
 
     UsuariPersonaBean usuariPersonaBean = new UsuariPersonaBean();
 
@@ -223,7 +217,7 @@ public final class PortaFIBUsuariEntitatTest extends PortaFIBTestUtils {
       try {
         ue = usuariEntitatAPI.createUsuariEntitatSimple(nif, entitatID);
         usuariEntitatID = ue.getUsuariEntitatID();
-        Assert.assertEquals(true, ue.isActiu());
+        Assert.assertTrue(ue.isActiu());
         Assert.assertEquals(usuariEntitatID, entitatID + "_" + usuariPersonaID);
 
         // Llegir usuariEntitat
@@ -238,12 +232,12 @@ public final class PortaFIBUsuariEntitatTest extends PortaFIBTestUtils {
         // Desactivar
         usuariEntitatAPI.deactivateUsuariEntitat(usuariEntitatID);
         ue = usuariEntitatAPI.getUsuariEntitat(usuariEntitatID);
-        Assert.assertEquals(false, ue.isActiu());
+        Assert.assertFalse(ue.isActiu());
 
         // Activar
         usuariEntitatAPI.activateUsuariEntitat(usuariEntitatID);
         ue = usuariEntitatAPI.getUsuariEntitat(usuariEntitatID);
-        Assert.assertEquals(true, ue.isActiu());
+        Assert.assertTrue(ue.isActiu());
 
       } finally {
         log.info(" Borrant usuari Entitat 222 = " + usuariEntitatID);

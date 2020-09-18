@@ -297,7 +297,7 @@ public class PortafirmasIndraTest extends IndraTestUtils {
     docToSign.setContentType("application/pdf");
     // docToSign.setReference(reference); Només per annexes
     docToSign.setSignat(false);
-    docToSign.setTipus(310); // TipusDeDocument  CARTA tipus CAIB
+    docToSign.setTipus(-20); // TipusDeDocument
     docToSign.setTitol("Document a firmar " + fileName);
     return docToSign;
   }
