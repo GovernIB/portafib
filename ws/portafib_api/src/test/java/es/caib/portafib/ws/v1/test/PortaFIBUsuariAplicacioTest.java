@@ -73,9 +73,9 @@ public final class PortaFIBUsuariAplicacioTest extends PortaFIBTestUtils {
   @Test
   public void testVersio() throws Exception {
     if (isCAIB()) {
-      Assert.assertEquals("2.0.12-caib", usuariAplicacioAPI.getVersion());
+      Assert.assertEquals("2.0.13-caib", usuariAplicacioAPI.getVersion());
     } else {
-      Assert.assertEquals("2.0.12", usuariAplicacioAPI.getVersion());
+      Assert.assertEquals("2.0.13", usuariAplicacioAPI.getVersion());
     }
   }
 
