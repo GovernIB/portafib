@@ -1040,9 +1040,10 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     // Fitxer
     if (jpa.getLogoSegellID() != null) {
       // Logo de Segell de l'usuari Aplicacio
-      FitxerJPA logoSegell = fitxerLogicaEjb.findByPrimaryKey(jpa.getLogoSegellID());
-      logoSegell.setFitxerID(0);
-      FitxerJPA f = fitxerLogicaEjb.createFitxerField(logoSegell,
+      FitxerJPA logoSegellOrig = fitxerLogicaEjb.findByPrimaryKey(jpa.getLogoSegellID());
+      FitxerJPA logoSegellCopia = FitxerJPA.toJPA(logoSegellOrig);
+      logoSegellCopia.setFitxerID(0);
+      FitxerJPA f = fitxerLogicaEjb.createFitxerField(logoSegellCopia,
             new FitxerIdDataSource(jpa.getLogoSegellID()),
             fitxersCreats, PeticioDeFirmaFields.LOGOSEGELLID);
 
