@@ -1,0 +1,35 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="@string/connexio_header">
+
+        <EditTextPreference
+            app:key="server_baseurl"
+            app:title="@string/server_baseurl_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:key="client_alias_cert_sw"
+            app:title="@string/client_alias_cert_sw_title"
+            />
+
+        <EditTextPreference
+            app:key="client_alias_cert"
+            app:title="@string/client_alias_cert_title"
+            android:enabled="false"
+            android:selectable="false"
+            android:shouldDisableView="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/notificacions_header">
+
+        <SwitchPreferenceCompat
+            app:key="notificacions_sw"
+            app:title="@string/notificacions_sw_title"
+            app:defaultValue="false"
+            />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

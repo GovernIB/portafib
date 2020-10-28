@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PortaFIBapp</string>
+    <string name="title_activity_settings">Configuració</string>
+    <string name="server_baseurl_title">Adreça del servidor</string>
+    <string name="client_alias_cert_title">Certificat client</string>
+    <string name="connexio_header">Connexió</string>
+    <string name="client_alias_cert_sw_title">Seleccionar certificat client</string>
+    <string name="notificacions_sw_title">Notificacions actives</string>
+</resources>
