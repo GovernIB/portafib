@@ -2,7 +2,11 @@ package es.caib.portafib.app.worker;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -12,6 +16,8 @@ import androidx.work.WorkerParameters;
 
 import java.util.List;
 
+import es.caib.portafib.app.PreferenceHelper;
+import es.caib.portafib.app.R;
 import es.caib.portafib.app.client.NotificacioRest;
 import es.caib.portafib.app.client.RestClient;
 
@@ -28,17 +34,33 @@ public class ConsultaPendentsWorker extends Worker {
     @Override
     public Result doWork() {
         Log.i("consultaPedentWorker", "doWork");
-
         try {
-            List<NotificacioRest> notificacions = RestClient.getNotificacions(getApplicationContext());
-            for (int i = 0; i < notificacions.size(); i++) {
-                NotificacioRest notificacioRest = notificacions.get(i);
-                String title = notificacioRest.getPeticions().size() + " peticions pendents pel rol " + notificacioRest.getRol();
-                Notification notification = new NotificationCompat.Builder(getApplicationContext(), "portafibId")
-                        .setContentTitle(title)
+            Context context = getApplicationContext();
+
+            List<NotificacioRest> notificacions = RestClient.getNotificacions(context);
+            for (NotificacioRest notificacioRest : notificacions) {
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getUrl(notificacioRest)));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                PendingIntent pendingIntent = PendingIntent.getActivity(
+                        context,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+                String channelId = context.getString(R.string.channel_id);
+
+                Notification notification = new NotificationCompat.Builder(context, channelId)
+                        .setContentTitle(getLabel(notificacioRest))
                         .setSmallIcon(android.R.mipmap.sym_def_app_icon)
+                        .setContentIntent(pendingIntent)
+                        .setOnlyAlertOnce(true)
+                        .setAutoCancel(true)
                         .build();
-                notificationManager.notify(i, notification);
+
+                notificationManager.notify(notificacioRest.getRol().ordinal(), notification);
             }
 
             return Result.success();
@@ -48,5 +70,19 @@ public class ConsultaPendentsWorker extends Worker {
         }
     }
 
+    private String getLabel(NotificacioRest notificacioRest) {
+        Context context = getApplicationContext();
+        return context.getString(
+                R.string.notificacio_pendent_message,
+                context.getString(notificacioRest.getRol().resource()),
+                notificacioRest.getPeticions().size());
+    }
+
+    private String getUrl(NotificacioRest notificacioRest) {
+        Context context = getApplicationContext();
+        return PreferenceHelper.getServerBaseUrl(context)
+                + notificacioRest.getRol().url()
+                + "/list";
+    }
 
 }

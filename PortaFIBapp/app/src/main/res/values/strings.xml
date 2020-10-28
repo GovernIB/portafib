@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name">PortaFIBapp</string>
+    <string name="app_name" translatable="false">PortaFIBapp</string>
+
+    <string name="channel_id" translatable="false">es.caib.portafib.app</string>
+    <string name="channel_name" translatable="false">PortaFIBapp</string>
+
+    <string name="channel_description">PortaFIBapp notifications</string>
+
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
@@ -10,4 +16,14 @@
     <string name="client_alias_cert_sw_title">Select client certificate</string>
     <string name="notificacions_sw_title">Notificacions actives</string>
     <string name="notificacions_header">Notifications</string>
+    <string name="title_install_cert">Install certificate</string>
+
+    <string name="role_destinatari">Destinatari</string>
+    <string name="role_delegat">Delegat</string>
+    <string name="role_colaborador">Col·laborador</string>
+    <string name="role_solicitant">Sol·licitant</string>
+    <string name="role_revisor">Revisor</string>
+
+    <string name="notificacio_pendent_message">%1$s: You have %2$d pending petitions</string>
+
 </resources>

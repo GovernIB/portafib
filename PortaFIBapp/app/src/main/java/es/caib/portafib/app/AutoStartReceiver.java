@@ -5,6 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import es.caib.portafib.app.worker.WorkerHelper;
+
+/**
+ * Permet rebre la notificació de que s'ha iniciat el mòbil per inciar el procés que
+ * consulta les notificacions si està activat a les preferències.
+ */
 public class AutoStartReceiver extends BroadcastReceiver {
 
     @Override
@@ -15,7 +21,9 @@ public class AutoStartReceiver extends BroadcastReceiver {
         }
 
         Log.i("AutoStartReceiver", "onReceive");
-        context.sendBroadcast(new Intent(NotificacionsReceiver.ACTIVAR_NOTIFICACIONS));
+        if (PreferenceHelper.isNotificacioSw(context)) {
+            WorkerHelper.startWorker(context);
+        }
     }
 
 }

@@ -10,6 +10,8 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
+import es.caib.portafib.app.worker.WorkerHelper;
+
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -38,13 +40,17 @@ public class SettingsActivity extends AppCompatActivity {
             assert notificacionsSw != null;
             notificacionsSw.setOnPreferenceChangeListener(
                     (preference, newValue) -> {
-                        boolean actiu = (Boolean) newValue;
-                        //requireActivity().sendBroadcast(new Intent(actiu ? NotificacionsReceiver.ACTIVAR_NOTIFICACIONS));
+                        boolean actiu = (boolean) newValue;
+                        if (actiu) {
+                            WorkerHelper.startWorker(requireContext());
+                        } else {
+                            WorkerHelper.cancelWorker(requireContext());
+                        }
                         return true;
                     }
             );
 
-           SwitchPreferenceCompat clientAliasCertSw = findPreference("client_alias_cert_sw");
+            SwitchPreferenceCompat clientAliasCertSw = findPreference("client_alias_cert_sw");
             assert clientAliasCertSw != null;
             clientAliasCertSw.setOnPreferenceClickListener(
                     preference -> {
@@ -52,17 +58,16 @@ public class SettingsActivity extends AppCompatActivity {
 
                         if (!clientAliasCertSw.isChecked()) {
                             saveClientAliasCert(null);
-                            return false;
+                            return true;
                         }
 
                         KeyChain.choosePrivateKeyAlias(
-                                getActivity(),
+                                requireActivity(),
                                 this::saveClientAliasCert,
                                 null, null, null, -1, null);
-                        return false;
+                        return true;
                     }
             );
-
 
             EditTextPreference clientAliasCert = findPreference("client_alias_cert");
             assert clientAliasCert != null;
@@ -71,9 +76,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         private void saveClientAliasCert(String alias) {
-            Log.i("saveClientAliasCert", "Alias: " + alias);
             requireActivity().runOnUiThread(() -> {
-
                 SwitchPreferenceCompat clientAliasCertSw = findPreference("client_alias_cert_sw");
                 assert clientAliasCertSw != null;
                 clientAliasCertSw.setChecked(alias != null);

@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PortaFIBapp</string>
     <string name="title_activity_settings">Configuració</string>
     <string name="server_baseurl_title">Adreça del servidor</string>
     <string name="client_alias_cert_title">Certificat client</string>
     <string name="connexio_header">Connexió</string>
     <string name="client_alias_cert_sw_title">Seleccionar certificat client</string>
     <string name="notificacions_sw_title">Notificacions actives</string>
+    <string name="title_install_cert">Instal·lar certificat</string>
+    <string name="notificacions_header">Notificacions</string>
+    <string name="role_destinatari">Destinatari</string>
+    <string name="role_delegat">Delegat</string>
+    <string name="role_colaborador">Col·laborador</string>
+    <string name="role_solicitant">Sol·licitant</string>
+    <string name="role_revisor">Revisor</string>
+    <string name="notificacio_pendent_message">%1$s: Té %2$d peticions pendents</string>
+    <string name="channel_description">Notificacions de PortaFIBapp</string>
 </resources>

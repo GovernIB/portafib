@@ -1,8 +1,6 @@
 package es.caib.portafib.app.client;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import androidx.preference.PreferenceManager;
 import android.util.Log;
 
 import org.apache.commons.io.IOUtils;
@@ -20,28 +18,29 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 
+import es.caib.portafib.app.PreferenceHelper;
+import es.caib.portafib.app.Rol;
 
+/**
+ * TODO: fer inicialització de CookieManager i prepareSsl només una vegada
+ * TODO: millors traces en cas d'error
+ */
 public class RestClient {
 
     public static List<NotificacioRest> getNotificacions(Context context) throws Exception {
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        String baseUrl = preferences.getString("server_baseurl", null);
-        String alias = preferences.getString("client_alias_cert", null);
+        String baseUrl = PreferenceHelper.getServerBaseUrl(context);
+        String alias = PreferenceHelper.getClientAliasCert(context);
         Objects.requireNonNull(baseUrl, "No s'ha especificat url de servidor");
         Objects.requireNonNull(alias, "No s'ha especificat certificat");
 
-        if (!baseUrl.endsWith("/")) {
-            baseUrl = baseUrl + "/";
-        }
-
-        String url = baseUrl + "common/rest/usuarientitat/avisos/v1/list";
+        String url = baseUrl + "/common/rest/usuarientitat/avisos/v1/list";
 
         CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER));
         SSLContext sslContext = prepareSsl(context, alias);
@@ -89,7 +88,13 @@ public class RestClient {
         for (int i = 0; i < jArray.length(); i++) {
 
             JSONObject jObject = jArray.getJSONObject(i);
-            String rol = jObject.getString("rol");
+            String rolName = jObject.getString("rol");
+            Optional<Rol> rol = Rol.fromString(rolName);
+            if (!rol.isPresent()) {
+                Log.w("RestClient", "Role desconegut: " + rolName);
+                continue;
+            }
+
             JSONArray peticions = jObject.getJSONArray("peticions");
             List<Long> peticionsID = new ArrayList<>(peticions.length());
 
@@ -97,18 +102,15 @@ public class RestClient {
                 peticionsID.add(Long.parseLong(peticions.getString(p)));
             }
 
-            notificacions.add(new NotificacioRest(rol, peticionsID));
+            notificacions.add(new NotificacioRest(rol.get(), peticionsID));
 
         }
         return notificacions;
     }
 
     private static SSLContext prepareSsl(Context context, String alias) {
-
         Log.i("prepareSSl", "start");
-
         try {
-
             KeyManager km = KeyChainKeyManager.fromAlias(context, alias);
             KeyManager[] kms = new KeyManager[]{km};
 

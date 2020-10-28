@@ -5,21 +5,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.security.KeyChain;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import es.caib.portafib.app.worker.WorkerHelper;
+
+/**
+ * Pantalla principal.
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * Si les notificacions estan activades llançam el worker de consulta de notificacions.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("MainActivity", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.sendBroadcast(new Intent(NotificacionsReceiver.ACTIVAR_NOTIFICACIONS));
+        if (savedInstanceState == null) {
+            if (PreferenceHelper.isNotificacioSw(getApplicationContext())) {
+                WorkerHelper.startWorker(getApplicationContext());
+            }
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
@@ -32,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.settings_option:
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
+                return true;
+            case R.id.install_cert_option:
+                Intent installIntent = KeyChain.createInstallIntent();
+                startActivity(installIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

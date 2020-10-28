@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
     <item android:id="@+id/settings_option"
         android:title="@string/title_activity_settings"
          />
 
+    <item android:id="@+id/install_cert_option"
+        android:title="@string/title_install_cert"
+         />
 
 </menu>
