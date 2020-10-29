@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -18,8 +17,8 @@ import androidx.work.WorkerParameters;
 import java.util.List;
 
 import es.caib.portafib.app.R;
-import es.caib.portafib.app.client.NotificacioUtil;
 import es.caib.portafib.app.client.NotificacioRest;
+import es.caib.portafib.app.client.NotificacioUtil;
 import es.caib.portafib.app.client.RestClient;
 
 public class ConsultaPendentsWorker extends Worker {

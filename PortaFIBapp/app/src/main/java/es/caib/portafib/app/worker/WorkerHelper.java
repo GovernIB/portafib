@@ -4,18 +4,13 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
-import androidx.lifecycle.LiveData;
 import androidx.work.Constraints;
-import androidx.work.Data;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import es.caib.portafib.app.R;
@@ -51,18 +46,7 @@ public class WorkerHelper {
         workManager.cancelUniqueWork(UNIQUE_TASK_NAME);
     }
 
-    public static Data getLastWorkerData(Context context) {
-        WorkManager workManager = WorkManager.getInstance(context);
-        List<WorkInfo> workInfoList = workManager
-                .getWorkInfosForUniqueWorkLiveData(UNIQUE_TASK_NAME)
-                .getValue();
-        if (workInfoList == null || workInfoList.isEmpty()) {
-            Log.w("getLastWorkerData", "workInfoList: " + workInfoList);
-            return null;
-        }
-        return workInfoList.get(0).getOutputData();
-    }
-
+    // TODO: moure a l'inici de l'aplicació
     private static void createNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = context.getString(R.string.channel_id);
