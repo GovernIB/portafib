@@ -580,40 +580,40 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         Map<Field<?>, GroupByItem> groupByItemsMap = super.fillReferencesForList(filterForm,
                 request, mav, list, groupItems);
 
-        Map<String, String> _tmp;
-        List<StringKeyValue> _listSKV;
-
-        // Field tipusDocumentID
         if (getRole().equals(ConstantsV2.ROLE_COLA)) {
 
             // Agafam la llista de codis de persona que s'han emprat al group by
-            Set<String> personaIdInGroupBy = new HashSet<String>();
             GroupByItem groupByItem = groupByItemsMap.get(DESTINATARIID);
-            for (GroupByValueItem groupByValueItem : groupByItem.getValues()) {
-                personaIdInGroupBy.add(groupByValueItem.getCodeLabel());
-            }
+            if (groupByItem != null) {
+                Set<String> personaIdInGroupBy = new HashSet<String>();
+                for (GroupByValueItem groupByValueItem : groupByItem.getValues()) {
+                    personaIdInGroupBy.add(groupByValueItem.getCodeLabel());
+                }
 
-            _listSKV = this.usuariPersonaRefList.getReferenceList(
-                    UsuariPersonaFields.USUARIPERSONAID, UsuariPersonaFields.USUARIPERSONAID.in(personaIdInGroupBy));
-            _tmp = Utils.listToMap(_listSKV);
-            groupByItemsMap.get(DESTINATARIID).setCodeLabel(
-                    ColaboracioDelegacioFields.DESTINATARIID.fullName);
-            fillValuesToGroupByItems(_tmp, groupByItemsMap, DESTINATARIID, false);
+                List<StringKeyValue> _listSKV = this.usuariPersonaRefList.getReferenceList(
+                        UsuariPersonaFields.USUARIPERSONAID, UsuariPersonaFields.USUARIPERSONAID.in(personaIdInGroupBy));
+                Map<String, String> _tmp = Utils.listToMap(_listSKV);
+                groupByItemsMap.get(DESTINATARIID).setCodeLabel(
+                        ColaboracioDelegacioFields.DESTINATARIID.fullName);
+                fillValuesToGroupByItems(_tmp, groupByItemsMap, DESTINATARIID, false);
+            }
 
         }
 
         {
             // Agafam la llista de codis de tipus documental que s'han emprat al group by.
-            Set<Long> tipusIdInGroupBy = new HashSet<Long>();
             GroupByItem groupByItem = groupByItemsMap.get(COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD);
-            for (GroupByValueItem groupByValueItem : groupByItem.getValues()) {
-                tipusIdInGroupBy.add(Long.valueOf(groupByValueItem.getCodeLabel()));
-            }
+            if (groupByItem != null) {
+                Set<Long> tipusIdInGroupBy = new HashSet<Long>();
+                for (GroupByValueItem groupByValueItem : groupByItem.getValues()) {
+                    tipusIdInGroupBy.add(Long.valueOf(groupByValueItem.getCodeLabel()));
+                }
 
-            _listSKV = this.tipusDocumentRefList.getReferenceList(
-                    TipusDocumentFields.TIPUSDOCUMENTID, TipusDocumentFields.TIPUSDOCUMENTID.in(tipusIdInGroupBy));
-            _tmp = Utils.listToMap(_listSKV);
-            fillValuesToGroupByItems(_tmp, groupByItemsMap, COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD, false);
+                List<StringKeyValue> _listSKV = this.tipusDocumentRefList.getReferenceList(
+                        TipusDocumentFields.TIPUSDOCUMENTID, TipusDocumentFields.TIPUSDOCUMENTID.in(tipusIdInGroupBy));
+                Map<String, String> _tmp = Utils.listToMap(_listSKV);
+                fillValuesToGroupByItems(_tmp, groupByItemsMap, COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD, false);
+            }
         }
         return groupByItemsMap;
     }
