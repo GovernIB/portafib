@@ -1,16 +1,13 @@
 package es.caib.portafib.app;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.security.KeyChain;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import es.caib.portafib.app.worker.WorkerHelper;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Pantalla principal.
@@ -22,14 +19,8 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("MainActivity", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            if (PreferenceHelper.isNotificacioSw(getApplicationContext())) {
-                WorkerHelper.startWorker(getApplicationContext());
-            }
-        }
     }
 
     @Override

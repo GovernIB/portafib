@@ -6,18 +6,19 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Looper;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import java.util.List;
 
-import es.caib.portafib.app.PreferenceHelper;
 import es.caib.portafib.app.R;
+import es.caib.portafib.app.client.NotificacioUtil;
 import es.caib.portafib.app.client.NotificacioRest;
 import es.caib.portafib.app.client.RestClient;
 
@@ -37,10 +38,16 @@ public class ConsultaPendentsWorker extends Worker {
         try {
             Context context = getApplicationContext();
 
-            List<NotificacioRest> notificacions = RestClient.getNotificacions(context);
+            String jsonData = RestClient.getNotificacions(context);
+
+            List<NotificacioRest> notificacions = NotificacioUtil.fromJson(jsonData);
+
             for (NotificacioRest notificacioRest : notificacions) {
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getUrl(notificacioRest)));
+                String label = NotificacioUtil.getLabel(context, notificacioRest);
+                String url = NotificacioUtil.getUrl(context, notificacioRest);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
                 PendingIntent pendingIntent = PendingIntent.getActivity(
@@ -53,8 +60,8 @@ public class ConsultaPendentsWorker extends Worker {
                 String channelId = context.getString(R.string.channel_id);
 
                 Notification notification = new NotificationCompat.Builder(context, channelId)
-                        .setContentTitle(getLabel(notificacioRest))
-                        .setSmallIcon(android.R.mipmap.sym_def_app_icon)
+                        .setContentTitle(label)
+                        .setSmallIcon(R.drawable.baseline_assignment_24)
                         .setContentIntent(pendingIntent)
                         .setOnlyAlertOnce(true)
                         .setAutoCancel(true)
@@ -63,26 +70,13 @@ public class ConsultaPendentsWorker extends Worker {
                 notificationManager.notify(notificacioRest.getRol().ordinal(), notification);
             }
 
-            return Result.success();
+            Data outputData = new Data.Builder().putString("json", jsonData).build();
+            return Result.success(outputData);
+
         } catch (Exception e) {
             Log.e("consultaPedentWorker", "Error a doWork", e);
             return Result.failure();
         }
-    }
-
-    private String getLabel(NotificacioRest notificacioRest) {
-        Context context = getApplicationContext();
-        return context.getString(
-                R.string.notificacio_pendent_message,
-                context.getString(notificacioRest.getRol().resource()),
-                notificacioRest.getPeticions().size());
-    }
-
-    private String getUrl(NotificacioRest notificacioRest) {
-        Context context = getApplicationContext();
-        return PreferenceHelper.getServerBaseUrl(context)
-                + notificacioRest.getRol().url()
-                + "/list";
     }
 
 }

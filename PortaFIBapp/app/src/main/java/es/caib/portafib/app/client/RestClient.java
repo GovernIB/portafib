@@ -28,12 +28,13 @@ import es.caib.portafib.app.PreferenceHelper;
 import es.caib.portafib.app.Rol;
 
 /**
- * TODO: fer inicialització de CookieManager i prepareSsl només una vegada
+ * TODO: es podria fer prepareSsl només una vegada?
  * TODO: millors traces en cas d'error
  */
 public class RestClient {
 
-    public static List<NotificacioRest> getNotificacions(Context context) throws Exception {
+    public static String getNotificacions(Context context) throws Exception {
+        Log.i("RestClient", "getNotificacions");
 
         String baseUrl = PreferenceHelper.getServerBaseUrl(context);
         String alias = PreferenceHelper.getClientAliasCert(context);
@@ -42,13 +43,12 @@ public class RestClient {
 
         String url = baseUrl + "/common/rest/usuarientitat/avisos/v1/list";
 
-        CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER));
-        SSLContext sslContext = prepareSsl(context, alias);
+        prepareSsl(context, alias);
         HttpsURLConnection connection = (HttpsURLConnection) new URL(url).openConnection();
-        connection.setSSLSocketFactory(sslContext.getSocketFactory());
 
         connection.setRequestMethod("GET");
-        connection.setConnectTimeout(15000);
+        connection.setConnectTimeout(20_000);
+        connection.setReadTimeout(20_000);
 
         try {
             connection.connect();
@@ -58,14 +58,9 @@ public class RestClient {
                     "No es troba cap servidor " + url + ")");
         }
 
-        Log.i("restclient", "Principal: " + connection.getLocalPrincipal().getName());
-
         int code = connection.getResponseCode();
-
         if (code != 200) {
-
             if (connection.getResponseCode() == 404) {
-
                 throw new Exception("Per funcionar, aquesta aplicació requereix que el" +
                         " servidor de PortaFIB sigui una versió 1.1.3 o superior." +
                         " També revisi la configuració de l'adreça de PortaFIB així com l'usuari i contrasenya.");
@@ -81,35 +76,10 @@ public class RestClient {
             json = IOUtils.toString(in, StandardCharsets.UTF_8);
         }
 
-        JSONArray jArray = new JSONArray(json);
-
-        List<NotificacioRest> notificacions = new ArrayList<>(jArray.length());
-
-        for (int i = 0; i < jArray.length(); i++) {
-
-            JSONObject jObject = jArray.getJSONObject(i);
-            String rolName = jObject.getString("rol");
-            Optional<Rol> rol = Rol.fromString(rolName);
-            if (!rol.isPresent()) {
-                Log.w("RestClient", "Role desconegut: " + rolName);
-                continue;
-            }
-
-            JSONArray peticions = jObject.getJSONArray("peticions");
-            List<Long> peticionsID = new ArrayList<>(peticions.length());
-
-            for (int p = 0; p < peticions.length(); p++) {
-                peticionsID.add(Long.parseLong(peticions.getString(p)));
-            }
-
-            notificacions.add(new NotificacioRest(rol.get(), peticionsID));
-
-        }
-        return notificacions;
+       return json;
     }
 
-    private static SSLContext prepareSsl(Context context, String alias) {
-        Log.i("prepareSSl", "start");
+    private static void prepareSsl(Context context, String alias) {
         try {
             KeyManager km = KeyChainKeyManager.fromAlias(context, alias);
             KeyManager[] kms = new KeyManager[]{km};
@@ -117,7 +87,7 @@ public class RestClient {
             SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
             sslContext.init(kms, null, new SecureRandom());
 
-            return sslContext;
+            HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
 
         } catch (GeneralSecurityException exception) {
             Log.e("prepareSSl", "Error preparant sslContext", exception);
