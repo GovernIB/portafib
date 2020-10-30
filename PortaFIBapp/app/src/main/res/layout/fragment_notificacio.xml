@@ -8,8 +8,9 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:paddingVertical="32dp"
         android:clickable="true"
+        style="@android:style/Widget.Button"
         android:textAppearance="?attr/textAppearanceListItem"
         android:focusable="true" />
 

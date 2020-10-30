@@ -6,9 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -47,7 +47,7 @@ public class NotificacioFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
+            //recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
             List<NotificacioRest> notificacioRestList;
             String json = PreferenceHelper.getLastJsonResponse(context);
@@ -67,9 +67,15 @@ public class NotificacioFragment extends Fragment {
                             String jsonData = RestClient.getNotificacions(getContext());
                             PreferenceHelper.setLastJsonResponse(getContext(), jsonData);
                             List<NotificacioRest> list = NotificacioUtil.fromJson(jsonData);
-                            getActivity().runOnUiThread(() -> adapter.updateList(list));
-                        } catch (Exception e) {
+                            requireActivity().runOnUiThread(() -> adapter.updateList(list));
+                        } catch (Throwable e) {
                             Log.e("NotificacioFragment", "Error a onRefresh", e);
+                            PreferenceHelper.setLastJsonResponse(getContext(), null);
+                            requireActivity().runOnUiThread(() -> {
+                                adapter.updateList(Collections.emptyList());
+                                Toast toast = Toast.makeText(context, R.string.error_notificacions_message, Toast.LENGTH_LONG);
+                                toast.show();
+                            });
                         } finally {
                             swipeRefreshLayout.setRefreshing(false);
                         }
