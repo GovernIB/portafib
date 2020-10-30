@@ -14,7 +14,7 @@
     <string name="server_baseurl_title">Server address</string>
     <string name="client_alias_cert_title">Client certificate</string>
     <string name="client_alias_cert_sw_title">Select client certificate</string>
-    <string name="notificacions_sw_title">Notificacions actives</string>
+    <string name="notificacions_sw_title">Activate notifications</string>
     <string name="notificacions_header">Notifications</string>
     <string name="title_install_cert">Install certificate</string>
 

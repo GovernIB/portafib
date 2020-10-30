@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ public class NotificacioRecyclerViewAdapter extends RecyclerView.Adapter<Notific
         String label = NotificacioUtil.getLabel(holder.mContentView.getContext(), holder.mItem);
         String url = NotificacioUtil.getUrl(holder.mContentView.getContext(), holder.mItem);
         holder.mContentView.setText(label);
-        //holder.mContentView.setMovementMethod();
+        holder.mContentView.setMovementMethod(LinkMovementMethod.getInstance());
         holder.mContentView.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW);
             browserIntent.setData(Uri.parse(url));
