@@ -22,4 +22,13 @@ public class PreferenceHelper {
         return preferences.getString("client_alias_cert", null);
     }
 
+    public static String getLastJsonResponse(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString("last_json_response", null);
+    }
+
+    public static void setLastJsonResponse(Context context, String json) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        preferences.edit().putString("last_json_response", json).apply();
+    }
 }

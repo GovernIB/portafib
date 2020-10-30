@@ -11,11 +11,18 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_notificacion_list"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:name="es.caib.portafib.app.NotificacioFragment" />
+            android:layout_height="match_parent">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragment_notificacion_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:name="es.caib.portafib.app.NotificacioFragment" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

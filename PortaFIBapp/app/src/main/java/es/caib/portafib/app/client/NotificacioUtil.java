@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,33 +18,38 @@ import es.caib.portafib.app.Rol;
 
 public class NotificacioUtil {
 
-    public static List<NotificacioRest> fromJson(String json) throws JSONException {
+    public static List<NotificacioRest> fromJson(String json) {
 
-        JSONArray jArray = new JSONArray(json);
+        try {
+            JSONArray jArray = new JSONArray(json);
 
-        List<NotificacioRest> notificacions = new ArrayList<>(jArray.length());
+            List<NotificacioRest> notificacions = new ArrayList<>(jArray.length());
 
-        for (int i = 0; i < jArray.length(); i++) {
+            for (int i = 0; i < jArray.length(); i++) {
 
-            JSONObject jObject = jArray.getJSONObject(i);
-            String rolName = jObject.getString("rol");
-            Optional<Rol> rol = Rol.fromString(rolName);
-            if (!rol.isPresent()) {
-                Log.w("RestClient", "Role desconegut: " + rolName);
-                continue;
+                JSONObject jObject = jArray.getJSONObject(i);
+                String rolName = jObject.getString("rol");
+                Optional<Rol> rol = Rol.fromString(rolName);
+                if (!rol.isPresent()) {
+                    Log.w("RestClient", "Role desconegut: " + rolName);
+                    continue;
+                }
+
+                JSONArray peticions = jObject.getJSONArray("peticions");
+                List<Long> peticionsID = new ArrayList<>(peticions.length());
+
+                for (int p = 0; p < peticions.length(); p++) {
+                    peticionsID.add(peticions.getLong(p));
+                }
+
+                notificacions.add(new NotificacioRest(rol.get(), peticionsID));
+
             }
-
-            JSONArray peticions = jObject.getJSONArray("peticions");
-            List<Long> peticionsID = new ArrayList<>(peticions.length());
-
-            for (int p = 0; p < peticions.length(); p++) {
-                peticionsID.add(peticions.getLong(p));
-            }
-
-            notificacions.add(new NotificacioRest(rol.get(), peticionsID));
-
+            return notificacions;
+        } catch (JSONException e) {
+            Log.e("NotificacioUtil", "Error llegit JSON", e);
+            return Collections.emptyList();
         }
-        return notificacions;
     }
 
     public static String getLabel(Context context, NotificacioRest notificacioRest) {

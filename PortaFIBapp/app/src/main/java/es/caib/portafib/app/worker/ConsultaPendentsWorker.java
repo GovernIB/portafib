@@ -10,12 +10,12 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
-import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import java.util.List;
 
+import es.caib.portafib.app.PreferenceHelper;
 import es.caib.portafib.app.R;
 import es.caib.portafib.app.client.NotificacioRest;
 import es.caib.portafib.app.client.NotificacioUtil;
@@ -38,6 +38,7 @@ public class ConsultaPendentsWorker extends Worker {
             Context context = getApplicationContext();
 
             String jsonData = RestClient.getNotificacions(context);
+            PreferenceHelper.setLastJsonResponse(context, jsonData);
 
             List<NotificacioRest> notificacions = NotificacioUtil.fromJson(jsonData);
 
@@ -69,8 +70,7 @@ public class ConsultaPendentsWorker extends Worker {
                 notificationManager.notify(notificacioRest.getRol().ordinal(), notification);
             }
 
-            Data outputData = new Data.Builder().putString("json", jsonData).build();
-            return Result.success(outputData);
+            return Result.success();
 
         } catch (Exception e) {
             Log.e("consultaPedentWorker", "Error a doWork", e);

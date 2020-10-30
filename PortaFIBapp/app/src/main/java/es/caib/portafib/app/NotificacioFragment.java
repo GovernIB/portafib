@@ -1,29 +1,24 @@
 package es.caib.portafib.app;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.work.Data;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.json.JSONException;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.List;
 
 import es.caib.portafib.app.client.NotificacioRest;
 import es.caib.portafib.app.client.NotificacioUtil;
 import es.caib.portafib.app.client.RestClient;
-import es.caib.portafib.app.worker.WorkerHelper;
 
 /**
  * A fragment representing a list of Items.
@@ -52,43 +47,34 @@ public class NotificacioFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new NotificacioRecyclerViewAdapter(Collections.emptyList()));
+            recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
-            new GetNotificacionsAsyncTask(recyclerView).execute();
+            List<NotificacioRest> notificacioRestList;
+            String json = PreferenceHelper.getLastJsonResponse(context);
+            if (json != null) {
+                notificacioRestList = NotificacioUtil.fromJson(json);
+            } else {
+                notificacioRestList = Collections.emptyList();
+            }
+
+            NotificacioRecyclerViewAdapter adapter = new NotificacioRecyclerViewAdapter(notificacioRestList);
+            recyclerView.setAdapter(adapter);
+
+            SwipeRefreshLayout swipeRefreshLayout = requireActivity().findViewById(R.id.swipeRefreshLayout);
+            swipeRefreshLayout.setOnRefreshListener(() -> PortaFIBApplication.getInstance().getExecutorService().submit(
+                    () -> {
+                        try {
+                            String jsonData = RestClient.getNotificacions(getContext());
+                            PreferenceHelper.setLastJsonResponse(getContext(), jsonData);
+                            List<NotificacioRest> list = NotificacioUtil.fromJson(jsonData);
+                            getActivity().runOnUiThread(() -> adapter.updateList(list));
+                        } catch (Exception e) {
+                            Log.e("NotificacioFragment", "Error a onRefresh", e);
+                        } finally {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }));
         }
         return view;
-    }
-
-    public static class GetNotificacionsAsyncTask extends AsyncTask<Void, Void, List<NotificacioRest>> {
-
-        private final WeakReference<RecyclerView> recyclerViewRef;
-
-        public GetNotificacionsAsyncTask(RecyclerView recyclerView) {
-            this.recyclerViewRef = new WeakReference<>(recyclerView);
-        }
-
-        @Override
-        protected List<NotificacioRest> doInBackground(Void... voids) {
-            RecyclerView recyclerView = recyclerViewRef.get();
-            if (recyclerView != null) {
-                Context context = recyclerView.getContext();
-                try {
-                    String json = RestClient.getNotificacions(context);
-                    return NotificacioUtil.fromJson(json);
-                } catch (Exception e) {
-                    Log.e("GetNotificacionsAsyncTask", "Error obtenint notificacions", e);
-                }
-
-            }
-            return Collections.emptyList();
-        }
-
-        @Override
-        protected void onPostExecute(List<NotificacioRest> result) {
-            RecyclerView recyclerView = recyclerViewRef.get();
-            if (recyclerView != null) {
-                recyclerView.setAdapter(new NotificacioRecyclerViewAdapter(result));
-            }
-        }
     }
 }

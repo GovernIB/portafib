@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class NotificacioRecyclerViewAdapter extends RecyclerView.Adapter<NotificacioRecyclerViewAdapter.ViewHolder> {
 
-    private final List<NotificacioRest> mValues;
+    private List<NotificacioRest> mValues;
 
     public NotificacioRecyclerViewAdapter(List<NotificacioRest> items) {
         mValues = items;
@@ -51,6 +51,11 @@ public class NotificacioRecyclerViewAdapter extends RecyclerView.Adapter<Notific
     @Override
     public int getItemCount() {
         return mValues.size();
+    }
+
+    public void updateList(List<NotificacioRest> mValues) {
+        this.mValues = mValues;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
