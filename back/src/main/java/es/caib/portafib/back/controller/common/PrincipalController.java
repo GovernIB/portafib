@@ -44,40 +44,6 @@ public class PrincipalController implements ConstantsV2 {
       HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("app.benvingut"));      
       session.setAttribute("inicialitzat", true);
     }
-    /*
-    // Compatibilitat IE8
-    String userAgent = request.getHeader("User-Agent");
-    if (userAgent != null) {
-      int index = userAgent.toUpperCase().indexOf("MSIE");
-      if (index != -1) {
-        try {
-           String ieversion = userAgent.substring(index + 4,userAgent.indexOf(";", index + 4));
-           if (Float.parseFloat(ieversion) < 9.0f) {
-             HtmlUtils.saveMessageError(request, I18NUtils.tradueix("navegador.nosuportat"));
-           }
-        } catch(Throwable e) {
-          log.debug(e);
-        }
-      }
-    }
-    */
-    
-    /*
-    HtmlUtils.saveMessageInfo(request, "Prova info 2");    
-    
-    HtmlUtils.saveMessageError(request, "Prova error 1");
-    
-    HtmlUtils.saveMessageError(request, "Prova error 2");
-    
-    HtmlUtils.saveMessageWarning(request, "Prova warning 1");
-    
-    HtmlUtils.saveMessageWarning(request, "Prova warning 2");
-    
-    
-    HtmlUtils.saveMessageSuccess(request, "Prova SUCCES");
-    
-    HtmlUtils.saveMessageSuccess(request, "Prova SUCCES 22");
-    */
     
     if (initialized == null && Configuracio.isCAIB() && request.isUserInRole(ConstantsV2.ROLE_DEST)) {
       return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list", true));

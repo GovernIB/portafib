@@ -48,6 +48,10 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/principal.jsp"  />
     </definition>
 
+    <definition name="appinfo" extends="principal" >
+        <put-attribute name="contingut" value="/WEB-INF/jsp/appinfo.jsp"  />
+    </definition>
+
     <definition name="rebreAvisForm" extends="principal">
         <put-attribute name="titol" value="rebreAvis.rebreAvis" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/rebreAvisForm.jsp" />
