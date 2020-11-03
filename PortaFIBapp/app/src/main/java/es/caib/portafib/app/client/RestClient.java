@@ -3,9 +3,8 @@ package es.caib.portafib.app.client;
 import android.content.Context;
 import android.util.Log;
 
-import org.apache.commons.io.IOUtils;
-
-import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
@@ -62,12 +61,14 @@ public class RestClient {
             }
         }
 
-        String json;
-        try (InputStream in = connection.getInputStream()) {
-            json = IOUtils.toString(in, StandardCharsets.UTF_8);
+        StringBuilder jsonBuilder = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))
+        ) {
+            reader.lines().forEach(jsonBuilder::append);
         }
 
-       return json;
+        return jsonBuilder.toString();
     }
 
     private static void prepareSsl(Context context, String alias) {

@@ -2,7 +2,18 @@ plugins {
     id 'com.android.application'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
 android {
+    signingConfigs {
+        release {
+            storeFile file(properties.getProperty('signingKeystoreFile'))
+            storePassword properties.getProperty('signingKeystorePass')
+            keyAlias properties.getProperty('signingCertAlias')
+            keyPassword properties.getProperty('signingCertPass')
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -14,6 +25,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
 
     buildTypes {
@@ -30,11 +42,10 @@ android {
 
 dependencies {
     implementation 'es.caib.portafib:portafib-utils:2.0.12'
-    implementation 'commons-io:commons-io:2.8.0'
     implementation 'androidx.work:work-runtime:2.4.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.preference:preference:1.1.1'
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
