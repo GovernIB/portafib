@@ -19,3 +19,9 @@
     z-index: 9;
     float: left;
 }
+
+
+.aligncenter {
+    text-align: center;
+    margin: 1em;
+}
