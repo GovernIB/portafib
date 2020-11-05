@@ -49,12 +49,16 @@ public class NotificacioFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             //recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
-            List<NotificacioRest> notificacioRestList;
+            List<NotificacioRest> notificacioRestList = Collections.emptyList();
             String json = PreferenceHelper.getLastJsonResponse(context);
             if (json != null) {
-                notificacioRestList = NotificacioUtil.fromJson(json);
-            } else {
-                notificacioRestList = Collections.emptyList();
+                try {
+                    notificacioRestList = NotificacioUtil.fromJson(json);
+                } catch (Exception e) {
+                    String message = getString(R.string.error_notificacions_message, e.getMessage());
+                    Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
 
             NotificacioRecyclerViewAdapter adapter = new NotificacioRecyclerViewAdapter(notificacioRestList);
@@ -73,7 +77,8 @@ public class NotificacioFragment extends Fragment {
                             PreferenceHelper.setLastJsonResponse(getContext(), null);
                             requireActivity().runOnUiThread(() -> {
                                 adapter.updateList(Collections.emptyList());
-                                Toast toast = Toast.makeText(context, R.string.error_notificacions_message, Toast.LENGTH_LONG);
+                                String message = getString(R.string.error_notificacions_message, e.getMessage());
+                                Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
                                 toast.show();
                             });
                         } finally {

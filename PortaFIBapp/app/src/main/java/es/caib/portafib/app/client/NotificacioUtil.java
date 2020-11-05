@@ -17,7 +17,7 @@ import es.caib.portafib.app.Rol;
 
 public class NotificacioUtil {
 
-    public static List<NotificacioRest> fromJson(String json) {
+    public static List<NotificacioRest> fromJson(String json) throws Exception {
 
         try {
             JSONArray jArray = new JSONArray(json);
@@ -46,8 +46,8 @@ public class NotificacioUtil {
             }
             return notificacions;
         } catch (JSONException e) {
-            Log.e("NotificacioUtil", "Error llegit JSON", e);
-            return Collections.emptyList();
+            Log.e("NotificacioUtil", "Error parsejant JSON", e);
+            throw new Exception("Error parsejant JSON", e);
         }
     }
 

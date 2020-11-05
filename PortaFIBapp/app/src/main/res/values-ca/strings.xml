@@ -15,5 +15,5 @@
     <string name="role_revisor">Revisor</string>
     <string name="notificacio_pendent_message">%1$s: Té %2$d peticions pendents</string>
     <string name="channel_description">Notificacions de PortaFIBapp</string>
-    <string name="error_notificacions_message">S\'ha produit un error consultant les peticions pendents. Revisi la configuració</string>
+    <string name="error_notificacions_message">S\'ha produit un error consultant les peticions pendents. Revisi la configuració (%1$s)</string>
 </resources>

@@ -53,7 +53,7 @@ public class RestClient {
             if (connection.getResponseCode() == 404) {
                 throw new Exception("Per funcionar, aquesta aplicació requereix que el" +
                         " servidor de PortaFIB sigui una versió 1.1.3 o superior." +
-                        " També revisi la configuració de l'adreça de PortaFIB així com l'usuari i contrasenya.");
+                        " També revisi la configuració de l'adreça de PortaFIB així com el certificat.");
 
             } else {
                 throw new Exception("Error en la comunicació amb el servidor:  "
