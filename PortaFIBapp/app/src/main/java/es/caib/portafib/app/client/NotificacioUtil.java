@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import es.caib.portafib.app.PreferenceHelper;
 import es.caib.portafib.app.R;
@@ -29,8 +28,8 @@ public class NotificacioUtil {
 
                 JSONObject jObject = jArray.getJSONObject(i);
                 String rolName = jObject.getString("rol");
-                Optional<Rol> rol = Rol.fromString(rolName);
-                if (!rol.isPresent()) {
+                Rol rol = Rol.fromString(rolName);
+                if (rol == null) {
                     Log.w("RestClient", "Role desconegut: " + rolName);
                     continue;
                 }
@@ -42,7 +41,7 @@ public class NotificacioUtil {
                     peticionsID.add(peticions.getLong(p));
                 }
 
-                notificacions.add(new NotificacioRest(rol.get(), peticionsID));
+                notificacions.add(new NotificacioRest(rol, peticionsID));
 
             }
             return notificacions;

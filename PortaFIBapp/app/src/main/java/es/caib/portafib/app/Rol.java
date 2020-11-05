@@ -2,10 +2,8 @@ package es.caib.portafib.app;
 
 import androidx.annotation.NonNull;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -63,11 +61,15 @@ public enum Rol {
         return roleName;
     }
 
-    private static final Map<String, Rol> stringToEnum =
-            Stream.of(values()).collect(
-                    Collectors.toMap(Object::toString, e -> e));
+    private static final Map<String, Rol> stringToEnum = new HashMap<>();
 
-    public static Optional<Rol> fromString(String symbol) {
-        return Optional.ofNullable(stringToEnum.get(symbol));
+    static {
+        for (Rol rol: values()) {
+            stringToEnum.put(rol.toString(), rol);
+        }
+    }
+
+    public static Rol fromString(String symbol) {
+        return stringToEnum.get(symbol);
     }
 }

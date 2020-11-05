@@ -77,7 +77,8 @@ public class NotificacioFragment extends Fragment {
                                 toast.show();
                             });
                         } finally {
-                            swipeRefreshLayout.setRefreshing(false);
+                            requireActivity().runOnUiThread(
+                                    () -> swipeRefreshLayout.setRefreshing(false));
                         }
                     }));
         }

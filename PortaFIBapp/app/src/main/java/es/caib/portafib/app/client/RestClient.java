@@ -63,9 +63,11 @@ public class RestClient {
 
         StringBuilder jsonBuilder = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))
-        ) {
-            reader.lines().forEach(jsonBuilder::append);
+                new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+            String inputLine;
+            while ((inputLine = reader.readLine()) != null) {
+                jsonBuilder.append(inputLine);
+            }
         }
 
         return jsonBuilder.toString();

@@ -61,7 +61,7 @@ public class ConsultaPendentsWorker extends Worker {
 
                 Notification notification = new NotificationCompat.Builder(context, channelId)
                         .setContentTitle(label)
-                        .setSmallIcon(R.drawable.baseline_assignment_24)
+                        .setSmallIcon(R.drawable.baseline_assignment_black_24)
                         .setContentIntent(pendingIntent)
                         .setOnlyAlertOnce(true)
                         .setAutoCancel(true)
