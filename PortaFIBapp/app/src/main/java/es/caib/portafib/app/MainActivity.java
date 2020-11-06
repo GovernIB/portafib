@@ -6,13 +6,22 @@ import android.os.Bundle;
 import android.security.KeyChain;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
+import java.util.concurrent.ExecutorService;
 
 /**
  * Pantalla principal.
  */
 public class MainActivity extends AppCompatActivity {
+
+    private final ExecutorService executorService = PortaFIBApplication.getInstance().getExecutorService();
+
+    private NotificacioViewModel viewModel;
 
     /**
      * Si les notificacions estan activades llançam el worker de consulta de notificacions.
@@ -21,6 +30,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        viewModel = new ViewModelProvider(this).get(NotificacioViewModel.class);
+
+        TextView errorTextView = findViewById(R.id.errorTextView);
+        viewModel.getException().observe(this, e -> {
+            String message = getString(R.string.error_notificacions_message, e.getMessage());
+            errorTextView.setText(message);
+            errorTextView.setVisibility(View.VISIBLE);
+        });
     }
 
     @Override
@@ -34,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.update_option:
+                executorService.submit(viewModel::load);
+                return true;
             case R.id.settings_option:
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);

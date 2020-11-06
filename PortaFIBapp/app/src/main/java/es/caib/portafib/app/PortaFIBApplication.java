@@ -17,6 +17,7 @@ import es.caib.portafib.app.worker.WorkerHelper;
 public class PortaFIBApplication extends Application {
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(1);
+    private final CookieManager cookieManager = new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER);
 
     private static PortaFIBApplication sInstance;
 
@@ -30,7 +31,7 @@ public class PortaFIBApplication extends Application {
         super.onCreate();
         sInstance = this;
         createNotificationChannel();
-        CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER));
+        CookieHandler.setDefault(cookieManager);
         if (PreferenceHelper.isNotificacioSw(this)) {
             WorkerHelper.startWorker(this);
         }
@@ -53,5 +54,9 @@ public class PortaFIBApplication extends Application {
 
     public ExecutorService getExecutorService() {
         return executorService;
+    }
+
+    public CookieManager getCookieManager() {
+        return cookieManager;
     }
 }

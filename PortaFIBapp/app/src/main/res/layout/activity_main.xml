@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -18,11 +19,24 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment_notificacion_list"
+                android:name="es.caib.portafib.app.NotificacioFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:name="es.caib.portafib.app.NotificacioFragment" />
+                android:layout_height="match_parent">
+
+            </androidx.fragment.app.FragmentContainerView>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

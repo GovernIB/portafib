@@ -10,20 +10,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Collections;
 import java.util.List;
 
 import es.caib.portafib.app.client.NotificacioRest;
-import es.caib.portafib.app.client.NotificacioUtil;
 
 /**
- *
+ * Adapter per actualitzar la llista de avisos
  */
 public class NotificacioRecyclerViewAdapter extends RecyclerView.Adapter<NotificacioRecyclerViewAdapter.ViewHolder> {
 
-    private List<NotificacioRest> mValues;
+    private List<NotificacioRest> mValues = Collections.emptyList();
 
-    public NotificacioRecyclerViewAdapter(List<NotificacioRest> items) {
-        mValues = items;
+    public NotificacioRecyclerViewAdapter() {
     }
 
     @NonNull

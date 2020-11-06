@@ -6,24 +6,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import java.util.Collections;
-import java.util.List;
-
-import es.caib.portafib.app.client.NotificacioRest;
-import es.caib.portafib.app.client.NotificacioUtil;
-import es.caib.portafib.app.client.RestClient;
+import java.util.concurrent.ExecutorService;
 
 /**
  * A fragment representing a list of Items.
  */
 public class NotificacioFragment extends Fragment {
+
+    private final ExecutorService executorService = PortaFIBApplication.getInstance().getExecutorService();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -47,45 +44,25 @@ public class NotificacioFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            //recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
-            List<NotificacioRest> notificacioRestList = Collections.emptyList();
-            String json = PreferenceHelper.getLastJsonResponse(context);
-            if (json != null) {
-                try {
-                    notificacioRestList = NotificacioUtil.fromJson(json);
-                } catch (Exception e) {
-                    String message = getString(R.string.error_notificacions_message, e.getMessage());
-                    Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
-                    toast.show();
-                }
-            }
-
-            NotificacioRecyclerViewAdapter adapter = new NotificacioRecyclerViewAdapter(notificacioRestList);
+            NotificacioRecyclerViewAdapter adapter = new NotificacioRecyclerViewAdapter();
             recyclerView.setAdapter(adapter);
 
+            NotificacioViewModel viewModel = new ViewModelProvider(requireActivity()).get(NotificacioViewModel.class);
+            viewModel.getNotificacions().observe(getViewLifecycleOwner(), adapter::updateList);
+
             SwipeRefreshLayout swipeRefreshLayout = requireActivity().findViewById(R.id.swipeRefreshLayout);
-            swipeRefreshLayout.setOnRefreshListener(() -> PortaFIBApplication.getInstance().getExecutorService().submit(
+            swipeRefreshLayout.setOnRefreshListener(() -> executorService.submit(
                     () -> {
                         try {
-                            String jsonData = RestClient.getNotificacions(getContext());
-                            PreferenceHelper.setLastJsonResponse(getContext(), jsonData);
-                            List<NotificacioRest> list = NotificacioUtil.fromJson(jsonData);
-                            requireActivity().runOnUiThread(() -> adapter.updateList(list));
-                        } catch (Throwable e) {
-                            Log.e("NotificacioFragment", "Error a onRefresh", e);
-                            PreferenceHelper.setLastJsonResponse(getContext(), null);
-                            requireActivity().runOnUiThread(() -> {
-                                adapter.updateList(Collections.emptyList());
-                                String message = getString(R.string.error_notificacions_message, e.getMessage());
-                                Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
-                                toast.show();
-                            });
+                            viewModel.load();
                         } finally {
-                            requireActivity().runOnUiThread(
-                                    () -> swipeRefreshLayout.setRefreshing(false));
+                            requireActivity().runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
                         }
                     }));
+
+            // Feim la primera càrrega de dades al principi?
+            //executorService.submit(viewModel::load);
         }
         return view;
     }

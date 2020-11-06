@@ -2,7 +2,6 @@ package es.caib.portafib.app;
 
 import android.os.Bundle;
 import android.security.KeyChain;
-import android.util.Log;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,8 +53,6 @@ public class SettingsActivity extends AppCompatActivity {
             assert clientAliasCertSw != null;
             clientAliasCertSw.setOnPreferenceClickListener(
                     preference -> {
-                        Log.i("onPreferenceClick", "Checked: " + clientAliasCertSw.isChecked());
-
                         if (!clientAliasCertSw.isChecked()) {
                             saveClientAliasCert(null);
                             return true;

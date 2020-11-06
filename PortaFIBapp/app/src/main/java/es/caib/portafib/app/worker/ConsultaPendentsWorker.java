@@ -15,10 +15,9 @@ import androidx.work.WorkerParameters;
 
 import java.util.List;
 
-import es.caib.portafib.app.PreferenceHelper;
 import es.caib.portafib.app.R;
 import es.caib.portafib.app.client.NotificacioRest;
-import es.caib.portafib.app.client.NotificacioUtil;
+import es.caib.portafib.app.NotificacioUtil;
 import es.caib.portafib.app.client.RestClient;
 
 public class ConsultaPendentsWorker extends Worker {
@@ -37,11 +36,7 @@ public class ConsultaPendentsWorker extends Worker {
         try {
             Context context = getApplicationContext();
 
-            String jsonData = RestClient.getNotificacions(context);
-            PreferenceHelper.setLastJsonResponse(context, jsonData);
-
-            List<NotificacioRest> notificacions = NotificacioUtil.fromJson(jsonData);
-
+            List<NotificacioRest> notificacions = RestClient.getNotificacions(context);
             for (NotificacioRest notificacioRest : notificacions) {
 
                 String label = NotificacioUtil.getLabel(context, notificacioRest);
