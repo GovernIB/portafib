@@ -1,5 +1,6 @@
 package es.caib.portafib.app.client;
 
+import java.io.Serializable;
 import java.util.List;
 
 import es.caib.portafib.app.Rol;
@@ -7,7 +8,7 @@ import es.caib.portafib.app.Rol;
 /**
  * Created by anadal on 05/09/2017.
  */
-public class NotificacioRest {
+public class NotificacioRest implements Serializable {
 
     private final Rol rol;
     private final List<Long> peticions;

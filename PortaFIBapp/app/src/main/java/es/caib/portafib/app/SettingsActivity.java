@@ -9,6 +9,7 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
+import es.caib.portafib.app.client.SSLUtil;
 import es.caib.portafib.app.worker.WorkerHelper;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -34,6 +35,16 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+
+            EditTextPreference serverBaseUrl = findPreference("server_baseurl");
+            assert serverBaseUrl != null;
+            serverBaseUrl.setOnPreferenceChangeListener(
+                    ((preference, newValue) -> {
+                        String newBaseUrl = (String) newValue;
+                        PortaFIBApplication.getInstance().getRestClient().setBaseUrl(newBaseUrl);
+                        return true;
+                    })
+            );
 
             SwitchPreferenceCompat notificacionsSw = findPreference("notificacions_sw");
             assert notificacionsSw != null;
@@ -84,6 +95,7 @@ public class SettingsActivity extends AppCompatActivity {
                 clientAliasCert.setSummary(alias);
                 clientAliasCert.setShouldDisableView(alias == null);
             });
+            SSLUtil.prepareSsl(requireContext(), alias);
         }
     }
 }

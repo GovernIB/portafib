@@ -6,18 +6,18 @@ import android.app.NotificationManager;
 import android.os.Build;
 import android.util.Log;
 
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import es.caib.portafib.app.client.RestClient;
+import es.caib.portafib.app.client.SSLUtil;
 import es.caib.portafib.app.worker.WorkerHelper;
 
 public class PortaFIBApplication extends Application {
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(1);
-    private final CookieManager cookieManager = new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+
+    private RestClient restClient;
 
     private static PortaFIBApplication sInstance;
 
@@ -30,8 +30,18 @@ public class PortaFIBApplication extends Application {
         Log.i("PortaFIBApplication", "onCreate");
         super.onCreate();
         sInstance = this;
+        // Per versions superiors a 26 cal crear el canal de notificacions
         createNotificationChannel();
-        CookieHandler.setDefault(cookieManager);
+
+        String alias = PreferenceHelper.getClientAliasCert(this);
+        // Preparam l'SSL. S'ha de fer en background
+        executorService.submit(() -> SSLUtil.prepareSsl(this, alias));
+
+        // Instanciam el client rest
+        String baseUrl = PreferenceHelper.getServerBaseUrl(this);
+        restClient = new RestClient(baseUrl);
+
+        // Si les notificacions estan activades posam en marxa el worker!
         if (PreferenceHelper.isNotificacioSw(this)) {
             WorkerHelper.startWorker(this);
         }
@@ -56,7 +66,7 @@ public class PortaFIBApplication extends Application {
         return executorService;
     }
 
-    public CookieManager getCookieManager() {
-        return cookieManager;
+    public RestClient getRestClient() {
+        return restClient;
     }
 }

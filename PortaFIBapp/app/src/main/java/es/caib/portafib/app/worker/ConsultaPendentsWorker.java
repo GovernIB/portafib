@@ -15,12 +15,15 @@ import androidx.work.WorkerParameters;
 
 import java.util.List;
 
+import es.caib.portafib.app.PortaFIBApplication;
 import es.caib.portafib.app.R;
 import es.caib.portafib.app.client.NotificacioRest;
 import es.caib.portafib.app.NotificacioUtil;
 import es.caib.portafib.app.client.RestClient;
 
 public class ConsultaPendentsWorker extends Worker {
+
+    private final RestClient restClient = PortaFIBApplication.getInstance().getRestClient();
 
     private final NotificationManager notificationManager;
 
@@ -36,7 +39,7 @@ public class ConsultaPendentsWorker extends Worker {
         try {
             Context context = getApplicationContext();
 
-            List<NotificacioRest> notificacions = RestClient.getNotificacions(context);
+            List<NotificacioRest> notificacions = restClient.getNotificacions();
             for (NotificacioRest notificacioRest : notificacions) {
 
                 String label = NotificacioUtil.getLabel(context, notificacioRest);

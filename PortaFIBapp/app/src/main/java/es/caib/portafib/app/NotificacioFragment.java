@@ -2,12 +2,12 @@ package es.caib.portafib.app;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +37,6 @@ public class NotificacioFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.i("NotificacioFragment", "onCreateView");
         View view = inflater.inflate(R.layout.fragment_notificacio_list, container, false);
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -48,16 +47,17 @@ public class NotificacioFragment extends Fragment {
             NotificacioRecyclerViewAdapter adapter = new NotificacioRecyclerViewAdapter();
             recyclerView.setAdapter(adapter);
 
-            NotificacioViewModel viewModel = new ViewModelProvider(requireActivity()).get(NotificacioViewModel.class);
-            viewModel.getNotificacions().observe(getViewLifecycleOwner(), adapter::updateList);
+            FragmentActivity activity = requireActivity();
+            NotificacioViewModel viewModel = new ViewModelProvider(activity).get(NotificacioViewModel.class);
+            viewModel.getNotificacions().observe(activity, adapter::updateList);
 
-            SwipeRefreshLayout swipeRefreshLayout = requireActivity().findViewById(R.id.swipeRefreshLayout);
+            SwipeRefreshLayout swipeRefreshLayout = activity.findViewById(R.id.swipeRefreshLayout);
             swipeRefreshLayout.setOnRefreshListener(() -> executorService.submit(
                     () -> {
                         try {
                             viewModel.load();
                         } finally {
-                            requireActivity().runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+                            activity.runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
                         }
                     }));
 

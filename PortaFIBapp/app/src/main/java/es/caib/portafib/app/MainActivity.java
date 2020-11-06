@@ -1,6 +1,5 @@
 package es.caib.portafib.app;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.security.KeyChain;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.SavedStateViewModelFactory;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.concurrent.ExecutorService;
@@ -31,13 +31,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewModel = new ViewModelProvider(this).get(NotificacioViewModel.class);
+        SavedStateViewModelFactory factory = new SavedStateViewModelFactory(getApplication(), this);
+        viewModel = new ViewModelProvider(this, factory).get(NotificacioViewModel.class);
 
         TextView errorTextView = findViewById(R.id.errorTextView);
         viewModel.getException().observe(this, e -> {
-            String message = getString(R.string.error_notificacions_message, e.getMessage());
-            errorTextView.setText(message);
-            errorTextView.setVisibility(View.VISIBLE);
+            if (e != null) {
+                String message = getString(R.string.error_notificacions_message, e.getMessage());
+                errorTextView.setText(message);
+                errorTextView.setVisibility(View.VISIBLE);
+            } else {
+                errorTextView.setText(null);
+                errorTextView.setVisibility(View.INVISIBLE);
+            }
         });
     }
 
@@ -48,23 +54,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    @SuppressLint("NonConstantResourceId")
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.update_option:
-                executorService.submit(viewModel::load);
-                return true;
-            case R.id.settings_option:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.install_cert_option:
-                Intent installIntent = KeyChain.createInstallIntent();
-                startActivity(installIntent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int itemId = item.getItemId();
+        if (itemId == R.id.update_option) {
+            executorService.submit(viewModel::load);
+            return true;
+        } else if (itemId == R.id.settings_option) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (itemId == R.id.install_cert_option) {
+            Intent installIntent = KeyChain.createInstallIntent();
+            startActivity(installIntent);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }
