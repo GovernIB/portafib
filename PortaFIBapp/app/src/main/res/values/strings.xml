@@ -26,6 +26,6 @@
 
     <string name="notificacio_pendent_message">%1$s: You have %2$d pending petitions</string>
     <string name="error_notificacions_message">There was an error getting pending petitions, please review settings (%1$s)</string>
-    <string name="title_update">Update pending petitions</string>
+    <string name="title_update">Update petitions</string>
 
 </resources>

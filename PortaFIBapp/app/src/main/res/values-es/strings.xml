@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_description">Notificaciones de PortaFIBapp</string>
+    <string name="title_activity_settings">Configuración</string>
+    <string name="connexio_header">Conexión</string>
+    <string name="server_baseurl_title">Dirección del servidor</string>
+    <string name="client_alias_cert_title">Certificado cliente</string>
+    <string name="client_alias_cert_sw_title">Seleccionar certificado cliente</string>
+    <string name="notificacions_sw_title">Notificaciones activas</string>
+    <string name="notificacions_header">Notificaciones</string>
+    <string name="title_install_cert">Instalar certificado</string>
+    <string name="role_destinatari">Destinatario</string>
+    <string name="role_delegat">Delegado</string>
+    <string name="role_colaborador">Colaborador</string>
+    <string name="role_solicitant">Solicitante</string>
+    <string name="role_revisor">Revisor</string>
+    <string name="notificacio_pendent_message">%1$s: Tiene %2$d peticiones pendientes</string>
+    <string name="error_notificacions_message">Se ha producido un error consultando las peticiones pendientes. Revise la configuración (%1$s)</string>
+    <string name="title_update">Actualizar peticiones</string>
+</resources>
