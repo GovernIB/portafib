@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.SavedStateViewModelFactory;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.concurrent.ExecutorService;
@@ -31,8 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SavedStateViewModelFactory factory = new SavedStateViewModelFactory(getApplication(), this);
-        viewModel = new ViewModelProvider(this, factory).get(NotificacioViewModel.class);
+        viewModel = new ViewModelProvider(this).get(NotificacioViewModel.class);
 
         TextView errorTextView = findViewById(R.id.errorTextView);
         viewModel.getException().observe(this, e -> {
@@ -69,5 +67,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 }

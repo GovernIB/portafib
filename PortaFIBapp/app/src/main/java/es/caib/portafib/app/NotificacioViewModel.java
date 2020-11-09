@@ -3,6 +3,7 @@ package es.caib.portafib.app;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
 
 import java.util.Collections;
@@ -15,8 +16,8 @@ public class NotificacioViewModel extends ViewModel {
 
     private final RestClient restClient = PortaFIBApplication.getInstance().getRestClient();
 
-    private final MutableLiveData<List<NotificacioRest>> notificacions = new MutableLiveData<>();
-    private final MutableLiveData<Exception> exception = new MutableLiveData<>();
+    private final MutableLiveData<List<NotificacioRest>> notificacions; //= new MutableLiveData<>();
+    private final MutableLiveData<Exception> exception; //= new MutableLiveData<>();
 
     public MutableLiveData<List<NotificacioRest>> getNotificacions() {
         return notificacions;
@@ -24,6 +25,11 @@ public class NotificacioViewModel extends ViewModel {
 
     public MutableLiveData<Exception> getException() {
         return exception;
+    }
+
+    public NotificacioViewModel(SavedStateHandle savedStateHandle) {
+        notificacions = savedStateHandle.getLiveData("NOTIFICACIONS", Collections.emptyList());
+        exception = savedStateHandle.getLiveData("EXCEPTION", null);
     }
 
     public void load() {
