@@ -1,18 +1,22 @@
 package es.caib.portafib.app;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.security.KeyChain;
+import android.util.Log;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.EditTextPreference;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 
 import es.caib.portafib.app.client.SSLUtil;
 import es.caib.portafib.app.worker.WorkerHelper;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,17 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Log.i("onShared", "key:" + key);
+        PortaFIBApplication.getInstance().getRestClient().setEndpoint(
+                ServerUrlUtil.getRestEndpoint(this)
+        );
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
@@ -35,16 +50,6 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
-
-            EditTextPreference serverBaseUrl = findPreference("server_baseurl");
-            assert serverBaseUrl != null;
-            serverBaseUrl.setOnPreferenceChangeListener(
-                    ((preference, newValue) -> {
-                        String newBaseUrl = (String) newValue;
-                        PortaFIBApplication.getInstance().getRestClient().setBaseUrl(newBaseUrl);
-                        return true;
-                    })
-            );
 
             SwitchPreferenceCompat notificacionsSw = findPreference("notificacions_sw");
             assert notificacionsSw != null;

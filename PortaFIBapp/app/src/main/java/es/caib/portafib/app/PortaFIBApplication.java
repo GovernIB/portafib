@@ -38,8 +38,7 @@ public class PortaFIBApplication extends Application {
         executorService.submit(() -> SSLUtil.prepareSsl(this, alias));
 
         // Instanciam el client rest
-        String baseUrl = PreferenceHelper.getServerBaseUrl(this);
-        restClient = new RestClient(baseUrl);
+        restClient = new RestClient(ServerUrlUtil.getRestEndpoint(this));
 
         // Si les notificacions estan activades posam en marxa el worker!
         if (PreferenceHelper.isNotificacioSw(this)) {

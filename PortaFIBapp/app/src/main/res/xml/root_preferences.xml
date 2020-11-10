@@ -7,7 +7,7 @@
             app:key="server_baseurl"
             app:title="@string/server_baseurl_title"
             app:useSimpleSummaryProvider="true"
-            app:defaultValue="https://portafib2cc.fundaciobit.org/portafib"
+            app:defaultValue="https://proves.caib.es/portafib"
             />
 
         <SwitchPreferenceCompat
@@ -21,6 +21,19 @@
             android:enabled="false"
             android:selectable="false"
             android:shouldDisableView="true"/>
+
+        <SwitchPreferenceCompat
+            app:key="auth_server_sw"
+            app:title="@string/auth_server_sw_title"
+            />
+
+        <EditTextPreference
+            android:dependency="auth_server_sw"
+            app:key="auth_server_url"
+            app:title="@string/auth_server_url_title"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="https://autenticaciopre.caib.es/identify"
+            />
 
     </PreferenceCategory>
 

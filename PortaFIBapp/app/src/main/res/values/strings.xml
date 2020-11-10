@@ -27,5 +27,7 @@
     <string name="notificacio_pendent_message">%1$s: You have %2$d pending petitions</string>
     <string name="error_notificacions_message">There was an error getting pending petitions, please review settings (%1$s)</string>
     <string name="title_update">Update petitions</string>
+    <string name="auth_server_sw_title">Use authentication server</string>
+    <string name="auth_server_url_title">Auth server address</string>
 
 </resources>

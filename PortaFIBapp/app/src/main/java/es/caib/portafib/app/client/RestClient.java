@@ -26,11 +26,12 @@ import es.caib.portafib.app.Rol;
  */
 public class RestClient {
 
-    private volatile String baseUrl;
+    private volatile String endpoint;
     private CookieManager cookieManager;
 
-    public RestClient(String baseUrl) {
-        this.baseUrl = baseUrl;
+    public RestClient(String endpoint) {
+        Log.i("RestClient", "create:" + endpoint);
+        this.endpoint = endpoint;
         prepareCookies();
     }
 
@@ -39,18 +40,18 @@ public class RestClient {
         CookieHandler.setDefault(cookieManager);
     }
 
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
+    public void setEndpoint(String endpoint) {
+        Log.i("RestClient", "setEndpoint:" + endpoint);
+        this.endpoint = endpoint;
     }
 
     public List<NotificacioRest> getNotificacions() throws Exception {
         Log.i("RestClient", "getNotificacions");
-        Objects.requireNonNull(baseUrl, "No s'ha especificat url de servidor");
-        final String url = baseUrl + "/common/rest/usuarientitat/avisos/v1/list";
+        Objects.requireNonNull(endpoint, "No s'ha especificat url de servidor");
 
         // Netejam cookies ja que per defecte no s'esborren les cookies de sessió i ens caduquen
         cookieManager.getCookieStore().removeAll();
-        HttpsURLConnection connection = (HttpsURLConnection) new URL(url).openConnection();
+        HttpsURLConnection connection = (HttpsURLConnection) new URL(endpoint).openConnection();
         connection.setRequestMethod("GET");
         connection.setConnectTimeout(20_000);
         connection.setReadTimeout(20_000);
@@ -60,7 +61,7 @@ public class RestClient {
         } catch (Exception e) {
             Log.e("RestClient", "Error en la comunicació", e);
             throw new Exception("Error en la comunicació amb el servidor: " +
-                    "No es troba cap servidor " + url + ")");
+                    "No es troba cap servidor " + endpoint + ")");
         }
 
         int code = connection.getResponseCode();

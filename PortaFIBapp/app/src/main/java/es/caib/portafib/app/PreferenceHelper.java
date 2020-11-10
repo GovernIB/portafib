@@ -12,13 +12,9 @@ public class PreferenceHelper {
         return preferences.getBoolean("notificacions_sw", false);
     }
 
-    public static String getServerBaseUrl(Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString("server_baseurl", null);
-    }
-
     public static String getClientAliasCert(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getString("client_alias_cert", null);
     }
+
 }

@@ -14,8 +14,6 @@ public class NotificacioUtil {
     }
 
     public static String getUrl(Context context, NotificacioRest notificacioRest) {
-        return PreferenceHelper.getServerBaseUrl(context)
-                + notificacioRest.getRol().url()
-                + "/list";
+        return ServerUrlUtil.getUrl(context, notificacioRest.getRol().url() + "/list");
     }
 }

@@ -17,4 +17,6 @@
     <string name="notificacio_pendent_message">%1$s: Tiene %2$d peticiones pendientes</string>
     <string name="error_notificacions_message">Se ha producido un error consultando las peticiones pendientes. Revise la configuración (%1$s)</string>
     <string name="title_update">Actualizar peticiones</string>
+    <string name="auth_server_sw_title">Usar servidor de autenticación</string>
+    <string name="auth_server_url_title">Dirección del servidor de autenticación</string>
 </resources>
