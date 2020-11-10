@@ -50,7 +50,7 @@ que cal autoritzar la instal·lació d'aplicacions des de fonts desconegudes.</p
 </li>
 
 <li>
-<p>Picant els tres puntets veurem les opcions del menú, "Configuració" i "Instal·lar certificat".</p>
+<p>Picant els tres puntets veurem les opcions del menú, "Actualitzar peticions", "Configuració" i "Instal·lar certificat".</p>
 <p class="aligncenter"><img src="<c:url value="/img/appinfo/07_menu.jpg" />" alt="Menú"  /></p>
 </li>
 
@@ -77,8 +77,8 @@ Ho podem fer amb l'opció "Instal·lar certificat" del menú.
 </li>
 
 <li>
-<p>Si tenim l'adreça del servidor i el certificat client seleccionat, des de la pantalla principal podem "estirar" per avall, i s'actualitzarà la llista
-de peticions pendents per cada perfil que tenguem dins PortaFIB. </p>
+<p>Si tenim l'adreça del servidor i el certificat client seleccionat, des de la pantalla principal podem triar "Actualitzar peticions" al menú o estirar per avall,
+i s'actualitzarà la llista de peticions pendents per cada perfil que tenguem dins PortaFIB. </p>
 <p class="aligncenter"><img src="<c:url value="/img/appinfo/09_avisos.jpg" />" alt="Peticions pendents" /></p>
 </li>
 
