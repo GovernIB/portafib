@@ -13,6 +13,7 @@ import org.fundaciobit.genapp.common.web.form.BaseFilterForm;
 import org.fundaciobit.genapp.common.web.form.BaseForm;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.web.util.UriUtils;
+import sun.nio.cs.StandardCharsets;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
@@ -24,6 +25,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static es.caib.portafib.utils.ConstantsV2.ISO_8859_1;
+import static es.caib.portafib.utils.ConstantsV2.UTF_8;
 
 /**
  * 
@@ -298,15 +300,11 @@ public class Utils {
    * @param attachment si és true empra attachment, sinó inline
    * @param filename nom del fitxer suggerit
    * @return contingut de la capçalera.
-   * @throws Exception
    */
-  public static String getContentDispositionHeader(boolean attachment, String filename)
-          throws Exception {
+  public static String getContentDispositionHeader(boolean attachment, String filename) {
 
-    // Preparam el nom suggerit en UTF-8
-    // No podem emprar URLEncoder.encode perquè només és per paràmetres http i
-    // converteix els espais a "+" enlloc de a "%20"
-    String utf8filename = UriUtils.encodePath(filename, "UTF-8");
+    // Preparam el nom suggerit en UTF-8 emprant RFC5987
+    String utf8filename = EncoderUtils.headerEncode(filename, UTF_8);
 
     // Asseguram que el filename suggerit en ISO-8859-1 no té caràcters incompatibles
     filename = SafeCharsetEncoder.getInstance(ISO_8859_1).encode(filename);
