@@ -22,7 +22,7 @@ public class ServerUrlUtil {
 
         String authServerUrl = preferences.getString("auth_server_url", "");
         try {
-            return authServerUrl + "?success=" + URLEncoder.encode(serverUrl, "UTF-8");
+            return authServerUrl + URLEncoder.encode(serverUrl, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("No pot passar mai");
         }
