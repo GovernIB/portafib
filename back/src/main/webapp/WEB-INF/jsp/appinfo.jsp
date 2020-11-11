@@ -65,12 +65,18 @@ el nostre certificat per instal·lar-lo, i assignar-li un nom.</p><p>&nbsp;</p>
 
 <dl>
 <dt>Adreça del servidor</dt>
-<dd>La URL amb la que accedirem al servidor de PortaFIB. Serà una adreça de l'estil: https://intranet.caib.es/portafib</dd>
+<dd>La URL del servei de PortaFIB. Serà una adreça de l'estil: <em>https://intranet.caib.es/portafib</em></dd>
 <dt>Seleccionar certificat client</dt>
 <dd>Ens permetrà triar el certificat amb el que s'autenticarà PortaFIBApp. Si no hi ha cap certificat instal·lat caldrà que prèviament n'instal·lem un. 
 Ho podem fer amb l'opció "Instal·lar certificat" del menú.
 <dt>Certificat client</dt>
 <dd>Opció no editable. Una vegada activada l'opció "Seleccionar certificat client" apareixerà aquí el nom del certificat triat.
+<dt>Emprar servidor d'autenticaió</dt>
+<dd>En cas que l'autenticació per certificat es realitzi mitjançant un servidor, cal marcar aquesta opció, per poder introduïr l'adreça del servidor d'autenticació
+a l'opció següent.</dd>
+<dt>Adreça del servidor d'autenticació</dt>
+<dd>L'adreça del servidor que ha de validar el certificat digital i redireccionar cap a PortaFIB. Cal incloure el nom del paràmetre amb el que s'indicarà l'adreça del servei de PortaFIB.
+Serà una adreça de l'estil: <em>https://autenticacio.caib.es/identify?success=</em>
 <dt>Notificacions actives</dt>
 <dd>Si s'activa aquesta opció períodicament l'aplicació consultarà si hi ha tasques pendents i en cas afirmatiu ens enviarà una notificació.</dd>
 </dl>

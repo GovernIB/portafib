@@ -29,7 +29,7 @@ public class ConsultaPendentsWorker extends Worker {
 
     public ConsultaPendentsWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-        notificationManager = context.getSystemService(NotificationManager.class);
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @NonNull
