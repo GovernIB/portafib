@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.security.cert.X509Certificate;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -100,24 +101,14 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
    */
   protected final Map<String, Properties[]> timeStampCache = new HashMap<String, Properties[]>();
 
-  /**
-   *
-   */
   public FIReSignatureWebPlugin() {
     super();
   }
 
-  /**
-   * @param propertyKeyBase
-   * @param properties
-   */
   public FIReSignatureWebPlugin(String propertyKeyBase, Properties properties) {
     super(propertyKeyBase, properties);
   }
 
-  /**
-   * @param propertyKeyBase
-   */
   public FIReSignatureWebPlugin(String propertyKeyBase) {
     super(propertyKeyBase);
   }
@@ -179,6 +170,24 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     return getTraduccio("pluginname", locale);
   }
 
+  /**
+   * Indica quan l'origen dels certificats no és exclusivament de Clavefirma, és a dir,
+   * que és mode mixt o local, per tant l'usuari pot signar amb un certificat local.
+   */
+  private boolean isModeMixtOrLocal() {
+    String origin = getCertOrigin();
+    return (origin == null || origin.isEmpty() || "local".equals(origin));
+  }
+
+  /**
+   * Incida quan l'origen dels certificats no és ni mixt ni local, per tant només
+   * és el que es pugui accedir amb els proveidors de ClaveFirma.
+   */
+  private boolean isNotModeMixtOrLocal() {
+    String origin = getCertOrigin();
+    return origin != null && !origin.isEmpty() && !"local".equals(origin);
+  }
+
   @Override
   public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) {
 
@@ -208,9 +217,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       
     }
 
-    final String certOrigin = getCertOrigin();
-
-    if (!"clavefirma".equals(certOrigin)) {
+    if (isModeMixtOrLocal()) {
       // Si origin es local o no definit, llavors hem de controlar que no hi
       // hagi estampació de Taules ja que no seria posible
 
@@ -221,17 +228,15 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
           // XYZ ZZZ TODO Traduir
           String msg = "La signatura de la posició " + i
               + " requereix taula de firmes però només es posible si la propietat "
-              + getPropertyName(FIRE_BASE_PROPERTIES + "certOrigin") + " val 'clavefirma'";
+              + getPropertyName(FIRE_BASE_PROPERTIES + "certOrigin") + " està en mode mixt o local";
           if (isDebug()) {
             log.warn(msg);
           }
           return msg;
         }
       }
-    }
 
-    if ("clavefirma".equals(certOrigin)) {
-
+    } else {
       // Revisar si l'usuari està registrat a ClaveFirma i si té certificats
       // de firma en aquest entorn.
       CommonInfoSignature common = signaturesSet.getCommonInfoSignature();
@@ -254,13 +259,6 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     return super.filter(request, signaturesSet,  parameters);
   }
 
-  /**
-   * 
-   * @param username
-   * @param administrationID
-   * @param filter
-   * @return
-   */
   private String checkCertificates(String username, String administrationID, String filter) {
 
     try {
@@ -284,13 +282,12 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       } else {
         boolean passFilter;
         certificatsDisponibles = 0;
-        for (X509Certificate ci : map) {
+        for (X509Certificate cert : map) {
           try {
-            X509Certificate cert = ci;
             passFilter = MiniAppletUtils.matchFilter(cert, filter);
           } catch (Exception e) {
             log.error(
-                " Error comprovant filtre Certificat " + ci.getIssuerDN() + ": "
+                " Error comprovant filtre Certificat " + cert.getIssuerDN() + ": "
                     + e.getMessage(), e);
             passFilter = false;
           }
@@ -314,9 +311,8 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
         }
         return null;
       } else {
-        final String msg = "filter:: L'usuari  " + username + "(" + administrationID
+        return "filter:: L'usuari  " + username + "(" + administrationID
             + ")  té el" + " certificat bloquejat: " + se.getMessage();
-        return msg;
       }
     } catch (HttpNoUserException se) {
 
@@ -328,13 +324,12 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
         }
         return null;
       } else {
-        String msg = "filter:: L'usuari  "
+        return "filter:: L'usuari  "
             + username
             + "("
             + administrationID
             + ") no està "
             + "donat d'alta en el sistema ClaveFirma (passfilterwhennonregistereduser = false)";
-        return msg;
       }
     } catch (HttpWeakRegistryException we) {
 
@@ -346,10 +341,9 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
         }
         return null;
       } else {
-        String msg = "filter:: L'usuari  " + username + "(" + administrationID + ") està "
+        return "filter:: L'usuari  " + username + "(" + administrationID + ") està "
             + "registrat a ClaveFirma amb un registre dèbil "
             + "(passfilterwhenuserhasweakregistry = false)";
-        return msg;
       }
 
     } catch (Throwable e) {
@@ -437,22 +431,13 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
   /**
    * Inici del proces de firma
-   * 
-   * @param request
-   * @param absolutePluginRequestPath
-   * @param relativePluginRequestPath
-   * @param signaturesSet
-   * @return
-   * @throws Exception
    */
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
       String relativePluginRequestPath, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) throws Exception {
 
-    String certOrigin = getCertOrigin();
-
     // Verificam certificats si forçam ús de ClaveFirma
-    if ("clavefirma".equals(certOrigin)) {
+    if (isNotModeMixtOrLocal()) {
 
       List<X509Certificate> certificates;
       // En principi això ja no ha de llançar errors a no ser de usuari no
@@ -810,9 +795,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
         relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
 
     out.println("<br/><br/>");
-
     out.println("<center>");
-
     out.println("<h4>" + getTraduccio("generarnoucertificat.titol", locale) + "" + "</h4>");
 
     out.println("<div style=\"margin-top:30px;text-align: center; \">");
@@ -830,9 +813,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
         + getTraduccio("generarnoucertificat.boto", locale) + "</button>");
 
     out.println("</div>");
-
     out.println("<br/>");
-
     out.println("</center>");
 
     generateFooter(out, sai, signaturesSet);
@@ -856,16 +837,14 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       log.info("cancelAmbMissatge():: relativePath = " + relativePath);
     }
 
-    String codeTrans = relativePath.substring(index + 1, relativePath.length());
+    String codeTrans = relativePath.substring(index + 1);
 
     if (isDebug()) {
       log.info("cancelAmbMissatge():: codeTrans = " + codeTrans);
     }
 
     StatusSignaturesSet sss = signaturesSet.getStatusSignaturesSet();
-
-    signaturesSet.getCommonInfoSignature().getLanguageUI();
-
+    //signaturesSet.getCommonInfoSignature().getLanguageUI();
     sss.setErrorMsg(getTraduccio(codeTrans, locale));
     sss.setErrorException(null);
     sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
@@ -875,7 +854,6 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     } catch (IOException e) {
       log.error("Error fent redirect: " + e.getMessage(), e);
     }
-
   }
 
   // ----------------------------------------------------------------------------
@@ -956,22 +934,20 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
     final boolean debug = isDebug();
 
-    Map<Object, Object> params = null;
     if (debug) {
       log.info("firmarPre::absolutePluginRequestPath=" + absolutePluginRequestPath);
       log.info("firmarPre::relativePluginRequestPath=" + relativePluginRequestPath);
       log.info("firmarPre:: QUERY = |" + query + "|");
 
-      params = request.getParameterMap();
+      Map<Object, Object> params = request.getParameterMap();
       for (Object key : params.keySet()) {
         log.info("firmarPre():: param[" + key + "] = " + ((String[]) params.get(key))[0]);
       }
     }
 
     try {
-      final String certOrigin = getCertOrigin();
       X509Certificate certificate = null;
-      if ("clavefirma".equals(certOrigin)) {
+      if (isNotModeMixtOrLocal()) {
 
         FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
 
@@ -1040,7 +1016,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     if ("local".equals(certOrigin) || certOrigin == null) {
     
       String filtre = signaturesSet.getCommonInfoSignature().getFiltreCertificats();
-      if (debug) { log.info("firmar::FILTRE["+ filtre + "]"); };
+      if (debug) { log.info("firmar::FILTRE["+ filtre + "]"); }
       if (filtre != null && filtre.trim().length() != 0) {
         
         try {
@@ -1140,7 +1116,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       // llavors no necessitam valors per defecte
       final String signTypeClaveFirma = "PAdES"; // valor per defecte
       final String signAlgorithm = "SHA1withRSA"; // valor per defecte
-      final String extraparams = new String(); // valor per defecte
+      final String extraparams = ""; // valor per defecte
 
       createBatchResult = fireClient.createBatchProcess(subjectId, OPERATION_SIGN,
           signTypeClaveFirma, signAlgorithm, extraparams, upgrade, commonRemoteConfProperties);
@@ -1361,13 +1337,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
     final boolean showInNewWindow = false;
 
-    if (showInNewWindow) {
-      // OK
-    } else {
-      tancarFinestraURL = callBackURLOK;
-    }
-
-    response.setCharacterEncoding("utf-8");
+    response.setCharacterEncoding("UTF-8");
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
 
@@ -1573,7 +1543,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
               if (debug) {
                 log.info("firmarPostOk:: fisig.getSignType() => " + fileInfo.getSignType());
-                log.info("firmarPostOk:: allProp => " + allProp);
+                log.info("firmarPostOk:: allProp => " + Arrays.toString(allProp));
               }
 
               if (allProp == null) {
@@ -1655,9 +1625,6 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
         // ********** FINAL SMIME
 
-        // Buidar memòria
-        signedData = null;
-
         StatusSignature ss = fileInfo.getStatusSignature();
         ss.setSignedData(firmat);
         ss.setStatus(StatusSignature.STATUS_FINAL_OK);
@@ -1705,9 +1672,9 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
   }
 
   // Cache de certificats
-  private Map<String, List<X509Certificate>> cacheCertificates = new HashMap<String, List<X509Certificate>>();
+  private final Map<String, List<X509Certificate>> cacheCertificates = new HashMap<String, List<X509Certificate>>();
 
-  private Set<String> cacheUserWithoutClaveFirma = new HashSet<String>();
+  private final Set<String> cacheUserWithoutClaveFirma = new HashSet<String>();
 
   private long lastCacheUpdate = 0;
 
@@ -1728,12 +1695,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     }
 
     List<X509Certificate> certificates = cacheCertificates.get(userClaveFirma);
-
-    // final String appId = getPropertyRequired(PROPERTY_APPID);
-
     if (certificates == null) {
-
-      // certificates = listCertificatesStatic(userClaveFirma, appId, log);
 
       certificates = listCertificates(userClaveFirma);
 
@@ -1747,28 +1709,35 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       if (certificates != null) {
         cacheCertificates.put(userClaveFirma, certificates);
       }
-
     }
 
     return certificates;
   }
 
   public List<X509Certificate> listCertificates(String userClaveFirma) throws Exception {
-    List<X509Certificate> certificates = null;
     {
       final String appId = getAppID();
-
       // Listamos los certificados del usuario
       try {
-
         // Configura Properties de ConfigManager !!!!!
         initClaveFirma();
 
-        certificates = HttpCertificateList.getList(appId, userClaveFirma);
+        /*
+         TODO
+        FIRe 2.3 empra noms diferents de providers (clavefirma,clavefirmatest), però l'api de Clavefirma proporcionada
+        per fire-client 2.3 no permet especificar el provider, i sempre agafa "clavefirma".
+        Per tant de moment cal configurar FIRe perquè el provider "clavefirmatest" sigui "clavefirma" sinó, aquesta
+        cridada fallarà.
+        Estarà corregit a FIRe 2.4 sembla per aquest commit: https://github.com/ctt-gob-es/fire/commit/571aab55
+        Quan estigui caldrà afegir el provider a aquesta cridada, agafant-lo de certOrigin
+         */
+        List<X509Certificate> certificates = HttpCertificateList.getList(appId, userClaveFirma);
 
         if (certificates == null || certificates.isEmpty()) {
           certificates = null;
         }
+
+        return certificates;
 
       } catch (final HttpNetworkException e) {
         // XYZ ZZZ Traduir
@@ -1790,18 +1759,13 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
         }
       }
     }
-    return certificates;
   }
 
   protected FireClient instantiateFireClient() throws Exception {
     final String appId = getAppID();
+    final Properties prop = getFireProperties();
 
-    Properties prop = getFireProperties();
-
-    FireClient fireClient = new FireClient(appId, prop);
-
-    return fireClient;
-
+    return new FireClient(appId, prop);
   }
 
   protected Properties getFireProperties() throws Exception {
@@ -1864,20 +1828,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
     field.set(null, config);
 
-    {
-
-      field = es.gob.fire.client.ConfigManager.class.getDeclaredField("config");
-      field.setAccessible(true);
-
-      Properties configget = (Properties) field.get(null);
-
-      for (Object key : configget.keySet()) {
-        log.info("staticInit::PropertiesGET[" + key + "] => " + configget.get(key));
-      }
-    }
-
     initializedClaveFirma = true;
-
   }
 
   // ------------------------------------------------------------------
@@ -2016,7 +1967,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
           new Exception());
       return null;
     }
-  };
+  }
 
   /**
    * Obté l'usuari ClaveFirma a partir de l'username o NIF (administrationID)
@@ -2025,8 +1976,6 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
    *          (opcional)
    * @param administrationID
    *          És el NIF (obligatori)
-   * @return
-   * @throws Exception
    */
   public String getClaveFirmaUser(String username, String administrationID) throws Exception {
 
@@ -2087,11 +2036,8 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     internalResetAndClean(request);
 
     transactions.clear();
-
     generateCertificateTransactions.clear();
-
     timeStampCache.clear();
-    
   }
 
 }

@@ -31,7 +31,7 @@ public class TestListCertificates {
         System.out.println("CONFIG[" + key + "] => " + config.getProperty((String) key));
       }
 
-      final String packageBase = "org.fundaciobit.exemple.signaturewebplugins.7.";
+      final String packageBase = "es.caib.portafib.";
 
       FIReSignatureWebPlugin firePlugin = new FIReSignatureWebPlugin(packageBase, config);
 
