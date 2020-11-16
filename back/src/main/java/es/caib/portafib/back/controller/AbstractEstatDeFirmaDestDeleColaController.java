@@ -168,7 +168,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
     final Long[] ESTATS_INICIALS_DELE = new Long[]{ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR};
 
-    final Long[] ESTATS_INICIALS_REVI = new Long[]{ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR};
+    final Long[] ESTATS_INICIALS_REVI = new Long[]{ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR};
 
     // References
 
@@ -2406,15 +2406,14 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 }
             }
 
-
             // Revisors
-            if (role.equals(ConstantsV2.ROLE_REVI)) {
+            if (role.equals(ConstantsV2.ROLE_REVI)
+                    || role.equals(ConstantsV2.ROLE_DEST)
+                    || role.equals(ConstantsV2.ROLE_DELE)) {
 
                 Map<Long, String> mapCC = new HashMap<Long, String>();
 
                 boolean existeixenRevisors = false;
-
-
                 Map<Long, int[]> infoColaboradorsByEstat = infoColaboradorsDelegats(estatDeFirmaList,
                         ESTATS_INICIALS_REVI);
                 //mav.addObject("infoColaboradorsByEstat", infoColaboradorsByEstat);
@@ -2422,19 +2421,18 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 for (Long estatDeFirmaId : infoColaboradorsByEstat.keySet()) {
 
                     int[] valors = infoColaboradorsByEstat.get(estatDeFirmaId);
-                    StringBuffer str = new StringBuffer();
-
+                    StringBuilder str = new StringBuilder();
 
                     if (valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] != 0) {
                         str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.0")
-                                + ": " + valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2] + "/" + valors[0] + "</small><br/>\n");
+                                + ": " + valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] + "/" + valors[0] + "</small><br/>\n");
                     }
                     if (valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] != 0) {
                         str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.1")
-                                + ": " + valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT + 2] + "/" + valors[0] + "</small><br/>\n");
+                                + ": " + valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] + "/" + valors[0] + "</small><br/>\n");
                     }
                     if (valors[1] != 0) {
-                        str.append("<small>" + I18NUtils.tradueix("pendent")
+                        str.append("<small class=\"warning\">" + I18NUtils.tradueix("pendent")
                                 + ": " + valors[1] + "/" + valors[0] + "</small><br/>\n");
                     }
 
@@ -2456,7 +2454,6 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
                     if (adfieldDD == null) {
                         // NOVA COLUMNA si no esta creada
-
                         adfieldDD = new AdditionalField<Long, String>();
                         adfieldDD.setCodeName("revisor.short");
                         adfieldDD.setPosition(COLUMN_REVISORS);
@@ -2465,11 +2462,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
                         filterForm.addAdditionalField(adfieldDD);
                     }
-
                     adfieldDD.setValueMap(mapCC);
-
                 }
-
             } else {
                 if (ocultarColumnaColaboradors) {
                     filterForm.getAdditionalFields().remove(COLUMN_REVISORS);

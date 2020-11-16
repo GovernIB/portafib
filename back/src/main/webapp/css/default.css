@@ -218,6 +218,9 @@ small {
 	font-style:italic;
 	color:#999999;
 }
+small.warning {
+	color:#FF0000;
+}
 /* Podria ser util
 .accordion-group { background-color:#eee;}
 .accordion-inner { border:none;}*/
