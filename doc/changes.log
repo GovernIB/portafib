@@ -1,4 +1,26 @@
 
+PortaFIB 2.0.13
+==============
+
+2020-11-17 L'opció de clonar petició del sol·licitant perd la informació dels revisors #494
+
+2020-11-17 El nombre mínim de revisors i quins són obligatoris dins un flux de firma no està documentat #495
+
+2020-11-16 Donar informació al destinatari de les peticions que no es poden signar perquè no estan revisades #496
+
+2020-11-16 Actualitzar el plugin FIRe a la 2.3 #506
+
+2020-11-11 Demo de PortaFIBapp #502
+
+2020-11-11 Els caràcters amb "," al nom del fitxer firmat donen problema en davallar amb Chrome #507
+
+2020-10-29 Error carregant peticions pendents amb navegador mòbil #505
+
+2020-10-21 Error al enviar una peticio de firma via REST v2 a un usrapp amb logo #498
+
+2020-10-05 Poder ficar contrasenyes emprades en Plugins dins portafib-properties-service.xml #328
+
+
 PortaFIB 2.0.12
 ==============
 

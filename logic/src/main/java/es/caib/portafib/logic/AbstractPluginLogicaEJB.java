@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
@@ -97,36 +95,20 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
             }
 
             try {
-
-                //log.info("PROP");
                 StringWriter writer = new StringWriter();
                 prop.store(writer, "");
+
                 String propietats = writer.getBuffer().toString().replace("[\\=", "[=");
-                //log.info(propietats);
 
                 Map<String, Object> parameters = new HashMap<String, Object>();
                 parameters.put("SP", System.getProperties());
 
-                //log.info("CONTINGUT SP");
-                //log.info(parameters.get("SP"));
-                String plantilla = propietats;
+                String t = TemplateEngine.processExpressionLanguageSquareBrackets(propietats, parameters);
 
-                //log.info("Previo");
-                //log.info(plantilla);
-                //log.info("");
-                String t = TemplateEngine.processExpressionLanguageSquareBrackets(plantilla, parameters);
+                prop.load(new ByteArrayInputStream(t.getBytes(ConstantsV2.UTF_8)));
 
-                //log.info("Tranformada");
-                //log.info(t);
-                prop.load(new ByteArrayInputStream(t.getBytes()));
-
-                //log.info("PROP 2");
-                //writer = new StringWriter();
-                //prop.store(writer, "");
-                //propietats = writer.getBuffer().toString();
-                //log.info(propietats);
             } catch (IOException ex) {
-                Logger.getLogger(AbstractPluginLogicaEJB.class.getName()).log(Level.SEVERE, null, ex);
+                log.error("Error substituint propietats. Revisi la configuració del plugin " + pluginID, ex);
             }
 
             pluginInstance = (IPlugin) PluginsManager.instancePluginByClassName(plugin.getClasse(),
