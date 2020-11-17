@@ -449,15 +449,16 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             }
 
             // ===================  Cerca per informacio addicional avaluable
-            if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE) || role.equals(ConstantsV2.ROLE_REVI)) {
+            if (role.equals(ConstantsV2.ROLE_DEST)
+                    || role.equals(ConstantsV2.ROLE_DELE)
+                    || role.equals(ConstantsV2.ROLE_REVI)
+                    || role.equals(ConstantsV2.ROLE_COLA)) {
+
                 AdditionalField<String, String> addfieldInfoAddicAval = new AdditionalField<String, String>();
 
                 addfieldInfoAddicAval.setCodeName(PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE.fullName);
                 addfieldInfoAddicAval.setPosition(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE);
                 addfieldInfoAddicAval.setCodeName("informacioaddicionalavaluable.short");
-              /*
-              "=<i class=\"icon-info-sign\" title=\"" 
-              + I18NUtils.tradueix(PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE.fullName) + "\"></i>"*/
 
                 // No omplirem els valors
                 addfieldInfoAddicAval.setValueMap(new HashMap<String, String>());
