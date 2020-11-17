@@ -194,7 +194,7 @@
         <dependency>
           <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
           <artifactId>pluginsib-signatureweb-fire</artifactId>
-          <version>3.0.0</version>
+          <version>3.0.1</version>
         </dependency>
       </dependencies>
     </profile>

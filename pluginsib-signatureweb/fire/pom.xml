@@ -4,9 +4,9 @@
   <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
   <artifactId>pluginsib-signatureweb-fire</artifactId>
   <packaging>jar</packaging>
-  <version>3.0.0</version>
+  <version>3.0.1</version>
 
-  <name>FundacioBit - PluginsIB - SignatureWeb - FIRe_2.1</name>
+  <name>FundacioBit - PluginsIB - SignatureWeb - FIRe_2.3</name>
 
   <parent>
     <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
