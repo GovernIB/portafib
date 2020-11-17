@@ -25,6 +25,7 @@ import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.FluxDeFirmesJPA;
 import es.caib.portafib.jpa.MetadadaJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.jpa.RevisorDeFirmaJPA;
 import es.caib.portafib.jpa.TraduccioJPA;
 import es.caib.portafib.jpa.TraduccioMapJPA;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
@@ -3671,6 +3672,19 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
           firmaJPA.setFitxerFirmatID(null);
 
           firmaJPA.setTipusEstatDeFirmaFinalID(null);
+
+          // Els revisors de firma
+          Set<RevisorDeFirmaJPA> revisorDeFirmas = firmaOrig.getRevisorDeFirmas();
+          for (RevisorDeFirmaJPA revisorOrig : revisorDeFirmas) {
+
+            RevisorDeFirmaJPA revisorDeFirmaJPA = RevisorDeFirmaJPA.toJPA(revisorOrig);
+
+            revisorDeFirmaJPA.setRevisorDeFirmaID(0);
+            revisorDeFirmaJPA.setFirmaID(0);
+            revisorDeFirmaJPA.setUsuariEntitat(null);
+
+            firmaJPA.getRevisorDeFirmas().add(revisorDeFirmaJPA);
+           }
 
           blocDeFirmesJPA.getFirmas().add(firmaJPA);
         }
