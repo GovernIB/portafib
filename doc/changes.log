@@ -2,6 +2,8 @@
 PortaFIB 2.0.13
 ==============
 
+2020-11-17 NPE amb el role col·laborador quan les peticions tenen informació addicional avaluable #511
+
 2020-11-17 L'opció de clonar petició del sol·licitant perd la informació dels revisors #494
 
 2020-11-17 El nombre mínim de revisors i quins són obligatoris dins un flux de firma no està documentat #495
