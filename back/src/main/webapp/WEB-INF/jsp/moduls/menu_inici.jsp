@@ -1,5 +1,6 @@
 <%@page import="es.caib.portafib.back.security.LoginInfo"%>
 <%@page import="es.caib.portafib.logic.utils.PropietatGlobalUtil"%>
+<%@page import="es.caib.portafib.utils.Configuracio"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"
 %><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <%
@@ -8,8 +9,10 @@ Boolean autofirma = PropietatGlobalUtil.getAutofirmaAllowed(LoginInfo.getInstanc
 if (autofirma == null) {
   autofirma = request.isUserInRole("ROLE_AUTOFIRMA");
 }
-request.getSession().setAttribute("autofirma", autofirma);
+pageContext.setAttribute("autofirma", autofirma);
 
+String androidApk = Configuracio.getAndroidApk();
+pageContext.setAttribute("androidApk", androidApk);
 %>
 <c:set var="url" value="${urlActual}" />
 <div>
@@ -21,8 +24,6 @@ request.getSession().setAttribute("autofirma", autofirma);
         <span style="${(fn:contains(url, 'principal'))? "font-weight: bold;" : ""}"><fmt:message key="pagina.principal" /></span>
       </a>
     </li>
-
-    
     
     <c:if test="${not empty loginInfo.entitatID && autofirma}" >
     <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
@@ -57,9 +58,15 @@ request.getSession().setAttribute("autofirma", autofirma);
       <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/common/carrecs/list/1"/>" ><span style="${(fn:contains(url, 'carrecs/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" ><fmt:message key="carrec.llistat" /></span></a></li>
     </sec:authorize>
 
-
     <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
     <li style="list-style-type: disc; list-style-position: inside;"><a target="_blank" href="<c:url value="/doc/Manual_de_Usuari_de_PortaFIB.pdf"/>" ><fmt:message key="manualusuari" /></a></li>
+
+    <c:if test="${not empty androidApk}" >
+        <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
+        <li style="list-style-type: disc; list-style-position: inside;">
+            <a target="_blank" href="<c:url value="/common/app.html"/>" ><fmt:message key="appmobil" /></a>
+        </li>
+    </c:if>
    
   </ul>
 </div>
