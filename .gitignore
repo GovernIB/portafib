@@ -265,6 +265,7 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /back/src/main/webapp/WEB-INF/jsp/moduls/menu_user.jsp
 /apifirmasimple/apifirmasimple-example-console/apifirmaenservidorsimple.properties
 /apifirmasimple/apifirmasimple-example-console/apifirmawebsimple.properties
+/apifirmasimple/apifirmasimple-example-console/apifirmawebsimpleselenium.properties
 /apifirmasimple/apifirmasimple-example-console/results
 /apifirmasimple/apifirmasimple-example-console/signed_hola.pdf
 /apifirmasimple/apifirmasimple-example-console/signed_adaptat.pdf

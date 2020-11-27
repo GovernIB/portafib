@@ -1,0 +1,214 @@
+package org.fundaciobit.apisib.apifirmasimple.v1.test;
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaWebSimple;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
+import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaWebSimpleJersey;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ * Adaptació de {@link ApiFirmaWebSimpleTester} per automatitzar el test amb selenium
+ *
+ * @author areus
+ */
+public class ApiFirmaWebSimpleSeleniumTester {
+
+    public static final String PROFILE_WEB_PROPERTY = "PROFILE_WEB";
+
+    public static final String APIFIRMAWEBSIMPLESELENIUM_PROPERTIES = "apifirmawebsimpleselenium.properties";
+
+    public static void main(String[] args) {
+
+        Properties prop = new Properties();
+        try {
+            InputStream inputStream = new BufferedInputStream(new FileInputStream(APIFIRMAWEBSIMPLESELENIUM_PROPERTIES));
+            prop.load(inputStream);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("No s'ha trobat el fitxer: " + APIFIRMAWEBSIMPLESELENIUM_PROPERTIES);
+        } catch (IOException e) {
+            throw new RuntimeException("Error llegint fitxer: " + APIFIRMAWEBSIMPLESELENIUM_PROPERTIES);
+        }
+
+        final String perfil = prop.getProperty(PROFILE_WEB_PROPERTY);
+        if (perfil == null) {
+            System.err.println("La propietat " + PROFILE_WEB_PROPERTY + " està buida. Com l'usuari aplicació tengui més d'un " +
+                    "perfil definit no es podrà executar.");
+        }
+
+        String[] parts = prop.getProperty("files").split(",");
+
+        final FirmaSimpleFileInfoSignature[] filesToSign = new FirmaSimpleFileInfoSignature[parts.length];
+        for (int i = 0; i < parts.length; i++) {
+            String nom = prop.getProperty("file." + parts[i] + ".name");
+            String mime = prop.getProperty("file." + parts[i] + ".mime");
+            System.out.println("Nom : ]" + nom + "[");
+            System.out.println("Mime : ]" + mime + "[");
+
+            FirmaSimpleFile fileToSign = getSimpleFileFromResource(nom, mime);
+
+            String signID = parts[i];
+            String name = fileToSign.getNom();
+            String reason = "Per aprovar pressuposts - " + parts[i];
+            String location = "Palma";
+
+            int signNumber = 1;
+            String languageSign = "ca";
+            long tipusDocumentalID = 99; // =TD99
+
+            filesToSign[i] = new FirmaSimpleFileInfoSignature(fileToSign, signID, name, reason,
+                    location, signNumber, languageSign, tipusDocumentalID);
+        }
+
+        final String languageUI = "ca";
+        final String username = prop.getProperty("signer.username");
+        final String administrationID = prop.getProperty("signer.administrationid");
+        final String signerEmail = prop.getProperty("signer.email");
+        System.out.println("Signer.Username = |" + username + "|");
+        System.out.println("Signer.administrationid = |" + administrationID + "|");
+        System.out.println("Signer.email = |" + signerEmail + "|");
+
+        final FirmaSimpleCommonInfo commonInfo = new FirmaSimpleCommonInfo(perfil, languageUI, username, administrationID, signerEmail);
+        final ApiFirmaWebSimple api = getApiFirmaWebSimple(prop);
+
+        int NOMBRE_FIRMES = 1000;
+        final AtomicInteger firmesCorrectes = new AtomicInteger(0);
+
+        ExecutorService executor = Executors.newFixedThreadPool(20);
+
+        final ThreadLocal<WebDriver> tlWebDriver = new ThreadLocal<WebDriver>() {
+            @Override
+            protected WebDriver initialValue() {
+                return new HtmlUnitDriver(BrowserVersion.CHROME, true);
+            }
+        };
+
+        for (int i = 0; i < NOMBRE_FIRMES; i++) {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    String transactionID = null;
+                    try {
+                        transactionID = api.getTransactionID(commonInfo);
+
+                        for (FirmaSimpleFileInfoSignature firmaSimpleFileInfoSignature : filesToSign) {
+                            api.addFileToSign(new FirmaSimpleAddFileToSignRequest(transactionID, firmaSimpleFileInfoSignature));
+                        }
+
+                        FirmaSimpleStartTransactionRequest startTransactionInfo = new FirmaSimpleStartTransactionRequest(
+                                transactionID,
+                                "about:blank",
+                                FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN);
+
+                        final String redirectUrl = api.startTransaction(startTransactionInfo);
+
+                        final WebDriver driver = tlWebDriver.get();
+                        driver.get(redirectUrl);
+                        driver.findElement(By.id("plugin_fire")).click();
+                        driver.findElement(By.linkText("seleccionar")).click();
+                        driver.findElement(By.id("pin")).click();
+                        driver.findElement(By.id("pin")).sendKeys("1234");
+                        driver.findElement(By.cssSelector("#botonera > button:nth-child(1)")).click();
+
+                        FirmaSimpleGetTransactionStatusResponse fullTransactionStatus = api.getTransactionStatus(transactionID);
+                        FirmaSimpleStatus tStatus = fullTransactionStatus.getTransactionStatus();
+
+                        int status = tStatus.getStatus();
+                        switch (status) {
+                            case FirmaSimpleStatus.STATUS_INITIALIZING: // = 0;
+                                throw new Exception("S'ha rebut un estat inconsistent del proces de firma"
+                                        + " (inicialitzant). Pot ser el PLugin de Firma no està ben desenvolupat."
+                                        + " Consulti amb el seu administrador.");
+
+                            case FirmaSimpleStatus.STATUS_IN_PROGRESS: // = 1;
+                                throw new Exception("S'ha rebut un estat inconsistent del proces de firma"
+                                        + " (En Progrés). Pot ser el PLugin de Firma no està ben desenvolupat."
+                                        + " Consulti amb el seu administrador.");
+
+                            case FirmaSimpleStatus.STATUS_FINAL_ERROR: // = -1;
+                                System.err.println("Error durant la realització de les firmes: " + tStatus.getErrorMessage());
+                                break;
+
+                            case FirmaSimpleStatus.STATUS_CANCELLED: // = -2;
+                                System.err.println("Durant el proces de firmes, l'usuari ha cancelat la transacció.");
+                                break;
+
+                            case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
+                                //processStatusFileOfSign(api, transactionID, fullTransactionStatus);
+                                firmesCorrectes.incrementAndGet();
+                                break;
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (transactionID != null) {
+                            try {
+                                api.closeTransaction(transactionID);
+                            } catch (Throwable th) {
+                                th.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        System.out.println("Acabant de crear threads");
+
+        executor.shutdown();
+        try {
+            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        System.out.println("Nombre de firmes: " + NOMBRE_FIRMES);
+        System.out.println("Nombre de correctes: " + firmesCorrectes.get());
+    }
+
+    public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String mime) {
+
+        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("testfiles/" + fileName);
+        if (is == null) {
+            throw new RuntimeException("No s'ha trobat el recurs: " + fileName);
+        }
+
+        ByteArrayOutputStream fos = new ByteArrayOutputStream();
+        try {
+            FileUtils.copy(is, fos);
+        } catch (IOException ioException) {
+            throw new RuntimeException("Error llegint " + fileName);
+        }
+
+        return new FirmaSimpleFile(fileName, mime, fos.toByteArray());
+    }
+
+    protected static ApiFirmaWebSimple getApiFirmaWebSimple(Properties prop) {
+        // En entorns CAIB això ha de valer false
+        final boolean ignoreServerCertificates = true;
+        return new ApiFirmaWebSimpleJersey(prop.getProperty("endpoint"),
+                prop.getProperty("username"), prop.getProperty("password"), ignoreServerCertificates);
+    }
+
+}
