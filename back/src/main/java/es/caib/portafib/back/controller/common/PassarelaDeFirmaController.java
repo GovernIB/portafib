@@ -227,23 +227,10 @@ public class PassarelaDeFirmaController {
       log.debug(" ===finalProcesDeFirma() ==> signaturesSetID: " + transactionID);
     }
 
-    SignaturesSetWeb ss;
-    ss = SignatureModuleController.getSignaturesSetByID(request, transactionID,
+    SignaturesSetWeb ss = SignatureModuleController.getSignaturesSetByID(request, transactionID,
         modulDeFirmaPublicEjb);
 
-    // TODO CHECK NULL i MOSTRAR MISSATGE DE FIRMA CADUCADA
-    if (ss == null) {
-      int count = 0;
-      for (String key : SignatureModuleController.portaFIBSignaturesSets.keySet()) {
-        log.error(" SIGNATURES SET = " + key);
-        count++;
-      }
-
-      if (count == 0) {
-        log.error("SIGNATURES SET ES BUITTTT ");
-      }
-
-    }
+    // TODO Comprovar si ss és null i mostrar missatge de firma caducada
 
     PassarelaSignaturesSetWebInternalUse ssf = passarelaDeFirmaEjb.finalProcesDeFirma(
         transactionID, ss);

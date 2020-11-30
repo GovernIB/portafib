@@ -72,6 +72,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -961,7 +962,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
   private static final Map<String, PassarelaSignaturesSetWebInternalUse> passarelaSignaturesSets = new HashMap<String, PassarelaSignaturesSetWebInternalUse>();
 
-  private static long lastCheckFirmesCaducades = 0;
+  private static volatile long lastCheckFirmesCaducades = 0;
 
   /**
    * Fa neteja
@@ -976,21 +977,9 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     log.debug("Calling readSignaturesSet(" + transactionID + ")");
 
     synchronized (passarelaSignaturesSets) {
-
       PassarelaSignaturesSetWebInternalUse pss = passarelaSignaturesSets.get(transactionID);
       if (pss == null) {
         log.warn("La transacció " + transactionID + " no existeix !!!!!");
-
-        if (log.isDebugEnabled()) {
-          if (passarelaSignaturesSets.size() == 0) {
-            log.debug("passarelaSignaturesSets ESTA BUIT  !!!!!");
-          } else {
-            log.debug(" Contingut de  passarelaSignaturesSets:");
-            for (String id : passarelaSignaturesSets.keySet()) {
-              log.debug("  EXISTEIX ID :  " + id);
-            }
-          }
-        }
       }
       return pss;
     }
@@ -1024,7 +1013,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     Map<String, PassarelaSignaturesSetWebInternalUse> map = new HashMap<String, PassarelaSignaturesSetWebInternalUse>();
 
     synchronized (passarelaSignaturesSets) {
-
       for (Map.Entry<String, PassarelaSignaturesSetWebInternalUse> entry : passarelaSignaturesSets
           .entrySet()) {
         if (entry.getValue().getEntitatID().equals(entitatID)) {
@@ -1066,42 +1054,36 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
    */
   private void checkExpiredSignaturesSet() {
 
-    Long now = System.currentTimeMillis();
-
-    final long un_minut_en_ms = 60 * 60 * 1000;
+    long now = System.currentTimeMillis();
+    final long un_minut_en_ms = 3600000;
 
     if (now + un_minut_en_ms > lastCheckFirmesCaducades) {
       lastCheckFirmesCaducades = now;
-      List<PassarelaSignaturesSetWebInternalUse> keysToDelete = new ArrayList<PassarelaSignaturesSetWebInternalUse>();
-
-      Set<String> ids = passarelaSignaturesSets.keySet();
-      for (String id : ids) {
-        PassarelaSignaturesSetWebInternalUse ssf = passarelaSignaturesSets.get(id);
-        if (ssf == null) {
-          continue;
-        }
-        PassarelaSignaturesSet ss = ssf.getSignaturesSet();
-
-        if (now > ss.getExpiryDate().getTime()) {
-          keysToDelete.add(ssf);
-          SimpleDateFormat sdf = new SimpleDateFormat();
-          log.info("Passarel·la De Firma: Tancant SignatureSET amb ID = " + id
-              + " a causa de que està caducat " + "( ARA: " + sdf.format(new Date(now))
-              + " | CADUCITAT: " + sdf.format(ss.getExpiryDate()) + ")");
+      Set<PassarelaSignaturesSetWebInternalUse> setsToDelete = new HashSet<PassarelaSignaturesSetWebInternalUse>();
+      SimpleDateFormat sdf = new SimpleDateFormat();
+      synchronized (passarelaSignaturesSets) {
+        for (Map.Entry<String, PassarelaSignaturesSetWebInternalUse> entry: passarelaSignaturesSets.entrySet()) {
+          PassarelaSignaturesSetWebInternalUse ssf = entry.getValue();
+          if (ssf == null) {
+            continue;
+          }
+          if (now > ssf.getSignaturesSet().getExpiryDate().getTime()) {
+            log.info("Passarel·la De Firma: Tancant SignatureSET amb ID = " + entry.getKey()
+                    + " a causa de que està caducat " + "( ARA: " + sdf.format(new Date(now))
+                    + " | CADUCITAT: " + sdf.format(ssf.getSignaturesSet().getExpiryDate()) + ")");
+            setsToDelete.add(ssf);
+          }
         }
       }
 
-      if (keysToDelete.size() != 0) {
-        for (PassarelaSignaturesSetWebInternalUse pss : keysToDelete) {
-          deleteSignaturesSet(pss);
-
-          bitacolaLogicaEjb.createBitacola(
-                pss.getEntitatID(),
-                pss.getSignaturesSet().getSignaturesSetID(),
+      for (PassarelaSignaturesSetWebInternalUse ssf : setsToDelete) {
+        deleteSignaturesSet(ssf);
+        bitacolaLogicaEjb.createBitacola(
+                ssf.getEntitatID(),
+                ssf.getSignaturesSet().getSignaturesSetID(),
                 ConstantsV2.BITACOLA_TIPUS_FIRMASINCRONA,
                 ConstantsV2.BITACOLA_OP_ESBORRAR,
                 "Petició caducada");
-        }
       }
     }
   }

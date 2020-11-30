@@ -494,11 +494,10 @@ public class SignatureModuleController extends HttpServlet {
   // -------------------------------------------------------------------------
 
   // TODO MOURE A LOGIC ????
-  // XYZ fer private
-  public static final Map<String, PortaFIBSignaturesSet> portaFIBSignaturesSets = new HashMap<String, PortaFIBSignaturesSet>();
+  private static final Map<String, PortaFIBSignaturesSet> portaFIBSignaturesSets = new HashMap<String, PortaFIBSignaturesSet>();
 
 
-  private static long lastCheckFirmesCaducades = 0;
+  private static volatile long lastCheckFirmesCaducades = 0;
 
   public static void closeSignaturesSet(HttpServletRequest request, String signaturesSetID, ModulDeFirmaWebLogicaLocal modulDeFirmaEjb) {
     
@@ -527,26 +526,23 @@ public class SignatureModuleController extends HttpServlet {
         signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
       } catch (I18NException e) {
         log.error(I18NUtils.getMessage(e), e);
-        return;
       }
       if (signaturePlugin == null) {
         log.error(I18NUtils.tradueix("plugin.signatureweb.noexist", String.valueOf(pluginID)));
-      }
-      
-      try {
-        signaturePlugin.closeSignaturesSet(request, signaturesSetID);
-      } catch (Exception e) {
-        log.error("Error esborrant dades d'un SignaturesSet " + signaturesSetID 
-            + ": " + e.getMessage(), e);
+      } else {
+        try {
+          signaturePlugin.closeSignaturesSet(request, signaturesSetID);
+        } catch (Exception e) {
+          log.error("Error esborrant dades d'un SignaturesSet " + signaturesSetID
+                  + ": " + e.getMessage(), e);
+        }
       }
     }
     synchronized (portaFIBSignaturesSets) {
-      
       if (log.isDebugEnabled()) {
         log.info("SignatureModuleController::closeSignaturesSet() "
              + "=> Esborrant signaturesSetID = " + signaturesSetID);
       }
-      
       portaFIBSignaturesSets.remove(signaturesSetID);
     }
   }
@@ -647,32 +643,26 @@ public class SignatureModuleController extends HttpServlet {
     // Fer net peticions caducades SignaturesSet.getExpiryDate()
     // Check si existeix algun proces de firma caducat s'ha d'esborrar
     // Com a mínim cada minut es revisa si hi ha caducats
-    Long now = System.currentTimeMillis();
-    
-    final long un_minut_en_ms =  60 * 60 * 1000;
+    long now = System.currentTimeMillis();
+    final long un_minut_en_ms = 3600000;
     
     if (now + un_minut_en_ms > lastCheckFirmesCaducades) {
       lastCheckFirmesCaducades = now;
-      List<PortaFIBSignaturesSet> keysToDelete = new ArrayList<PortaFIBSignaturesSet>();
-      
-      Set<String> ids = portaFIBSignaturesSets.keySet();
-      for (String id : ids) {
-        PortaFIBSignaturesSet ss = portaFIBSignaturesSets.get(id);
-        if (ss != null && now > ss.getExpiryDate().getTime()) {
-          keysToDelete.add(ss);
-          SimpleDateFormat sdf = new SimpleDateFormat();
-          log.info("Tancant Signature SET amb ID = " + id + " a causa de que està caducat "
-              + "( ARA: " + sdf.format(new Date(now)) + " | CADUCITAT: " + sdf.format(ss.getExpiryDate()) + ")");
-        }
-      }
-      
-      if (keysToDelete.size() != 0) {
-        synchronized (portaFIBSignaturesSets) {
-
-          for (PortaFIBSignaturesSet pss : keysToDelete) {
-            closeSignaturesSet(request, pss, modulDeFirmaEjb);
+      SimpleDateFormat sdf = new SimpleDateFormat();
+      Set<PortaFIBSignaturesSet> setsToDelete = new HashSet<PortaFIBSignaturesSet>();
+      synchronized (portaFIBSignaturesSets) {
+        for (Map.Entry<String,PortaFIBSignaturesSet> entry : portaFIBSignaturesSets.entrySet()) {
+          PortaFIBSignaturesSet ss = entry.getValue();
+          if (ss != null && now > ss.getExpiryDate().getTime()) {
+            log.info("Tancarem Signature SET amb ID = " + entry.getKey() + " a causa de que està caducat "
+                    + "( ARA: " + sdf.format(new Date(now)) + " | CADUCITAT: " + sdf.format(ss.getExpiryDate()) + ")");
+            setsToDelete.add(ss);
           }
         }
+      }
+
+      for (PortaFIBSignaturesSet ss : setsToDelete) {
+        closeSignaturesSet(request, ss, modulDeFirmaEjb);
       }
     }
 
