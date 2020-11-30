@@ -94,7 +94,7 @@ public class ApiFirmaWebSimpleSeleniumTester {
         int NOMBRE_FIRMES = 1000;
         final AtomicInteger firmesCorrectes = new AtomicInteger(0);
 
-        ExecutorService executor = Executors.newFixedThreadPool(20);
+        ExecutorService executor = Executors.newFixedThreadPool(25);
 
         final ThreadLocal<WebDriver> tlWebDriver = new ThreadLocal<WebDriver>() {
             @Override
@@ -102,6 +102,8 @@ public class ApiFirmaWebSimpleSeleniumTester {
                 return new HtmlUnitDriver(BrowserVersion.CHROME, true);
             }
         };
+
+        long startTime = System.nanoTime();
 
         for (int i = 0; i < NOMBRE_FIRMES; i++) {
             executor.execute(new Runnable() {
@@ -117,7 +119,7 @@ public class ApiFirmaWebSimpleSeleniumTester {
 
                         FirmaSimpleStartTransactionRequest startTransactionInfo = new FirmaSimpleStartTransactionRequest(
                                 transactionID,
-                                "about:blank",
+                                "http://localhost:8080",
                                 FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN);
 
                         final String redirectUrl = api.startTransaction(startTransactionInfo);
@@ -125,10 +127,9 @@ public class ApiFirmaWebSimpleSeleniumTester {
                         final WebDriver driver = tlWebDriver.get();
                         driver.get(redirectUrl);
                         driver.findElement(By.id("plugin_fire")).click();
-                        driver.findElement(By.linkText("seleccionar")).click();
-                        driver.findElement(By.id("pin")).click();
+                        driver.findElement(By.cssSelector("a.button")).click();
                         driver.findElement(By.id("pin")).sendKeys("1234");
-                        driver.findElement(By.cssSelector("#botonera > button:nth-child(1)")).click();
+                        driver.findElement(By.cssSelector("button[type='submit']")).submit();
 
                         FirmaSimpleGetTransactionStatusResponse fullTransactionStatus = api.getTransactionStatus(transactionID);
                         FirmaSimpleStatus tStatus = fullTransactionStatus.getTransactionStatus();
@@ -174,7 +175,7 @@ public class ApiFirmaWebSimpleSeleniumTester {
             });
         }
 
-        System.out.println("Acabant de crear threads");
+        System.out.println("Acabant de crear tasques");
 
         executor.shutdown();
         try {
@@ -183,8 +184,10 @@ public class ApiFirmaWebSimpleSeleniumTester {
             Thread.currentThread().interrupt();
         }
 
-        System.out.println("Nombre de firmes: " + NOMBRE_FIRMES);
-        System.out.println("Nombre de correctes: " + firmesCorrectes.get());
+        long duration = System.nanoTime() - startTime;
+
+        System.out.printf("Nombre de firmes correctes: %d de %d.%n", firmesCorrectes.get(), NOMBRE_FIRMES);
+        System.out.printf("Duració: %d segons.%n", TimeUnit.NANOSECONDS.toSeconds(duration));
     }
 
     public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String mime) {
