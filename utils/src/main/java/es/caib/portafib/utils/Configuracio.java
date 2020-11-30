@@ -28,6 +28,16 @@ public class Configuracio implements ConstantsV2 {
     return System.getProperty(PORTAFIB_PROPERTY_BASE + "defaultlanguage", "ca");
   }
 
+  /**
+   * Permet indicar si volem mostrar als usuaris un enllaç cap a una APK de Android.
+   * Si no existeix o el valor és buid, no es mostrarà cap enllaç.
+   * Si el valor és "server", emprarà un APK distribuit amb l'aplicació.
+   * Si el valor és una ruta de fitxers, emprarà l'APK indicat a la ruta de fitxers.
+   */
+  public static String getAndroidApk() {
+    return System.getProperty(PORTAFIB_PROPERTY_BASE + "androidapk", null);
+  }
+
   public static byte[] getEncryptKey() {
     return System.getProperty(PORTAFIB_PROPERTY_BASE + "encryptkey", "portafibportafib").getBytes();
   }

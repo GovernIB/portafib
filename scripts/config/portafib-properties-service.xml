@@ -25,6 +25,18 @@
       es.caib.portafib.filesystemmanagerclass=org.fundaciobit.genapp.common.filesystem.ThreeFolderFileSystemManager
       -->
 
+      <!-- NOU A 2.0.13. APK ANDROID -->
+      <!--
+      Si volem que al menú d'usuari apareixi un link per davallar l'APP d'Android, fixar aquesta propietat.
+      Pot tenir dos valors:
+        - "server": l'APP que davallarà l'usuari serà l'APP que es distribueix per defecte dins l'EAR.
+        - ruta d'un fitxer: l'APP que davallarà l'usuari serà l'arxiu del servidor que s'indiqui.
+      Si la propietat no està definida no es mostrarà cap enllaç per davallar l'APP.
+
+      es.caib.portafib.androidapk=server
+      ò
+      es.caib.portafib.androidapk=/portafib/android/app-release.apk
+      -->
       es.caib.portafib.defaultlanguage=ca
 
       es.caib.portafib.development=false

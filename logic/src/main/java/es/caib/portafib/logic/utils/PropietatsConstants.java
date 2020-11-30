@@ -225,6 +225,10 @@ public class PropietatsConstants {
           "es.caib.portafib.encryptkey",
           "Clau per encriptar l'identificador del fitxers a descarregar (IMPORTANT tamany de 16 caràcters): es.caib.portafib.encryptkey=portafibportafib"),
       new Propietat(
+          true,
+          "es.caib.portafib.androidapk",
+          "Permet indicar si volem mostrar als usuaris un enllaç cap a una APK de Android. Si no existeix o el valor és buid, no es mostrarà cap enllaç. Si el valor és \"server\", emprarà un APK distribuit amb l'aplicació. Si el valor és una ruta de fitxers, emprarà l'APK indicat a la ruta de fitxers: es.caib.portafib.androidapk=server"),
+      new Propietat(
           false,
           "es.caib.portafib.name",
           " (PortaFIB 1.1.0 Deprecat 12/01/2016: Eliminada ja que no s'usava) Nom de l'aplicació PortaFIB: es.caib.portafib.name=PortaFIB"),

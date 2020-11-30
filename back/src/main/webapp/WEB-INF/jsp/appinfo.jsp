@@ -7,7 +7,7 @@
 
 <h2>PortaFIB App</h2>
 <p>Per obtenir el fitxer d'instal·lació de la App pitji al següent enllaç:
- <a href="<c:url value="/doc/portafibapp.apk"/>" title="PortaFIB App">PortaFIB App</a>
+ <a href="<c:url value="/common/appDownload"/>" title="PortaFIB App">PortaFIB App</a>
 </p>
 
 <h3>Instruccions d'instal·lació</h3>
