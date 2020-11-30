@@ -61,7 +61,7 @@ public class TestListCertificates {
           continue;
         }
 
-        if (list == null) {
+        if (list.isEmpty()) {
           System.err.println("   << NO TE CERTIFICATS >>");
         } else {
 

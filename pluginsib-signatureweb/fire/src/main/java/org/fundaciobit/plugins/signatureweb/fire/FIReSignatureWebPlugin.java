@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -1672,43 +1671,17 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
   }
 
   // Cache de certificats
-  private final Map<String, List<X509Certificate>> cacheCertificates = new HashMap<String, List<X509Certificate>>();
-
-  private final Set<String> cacheUserWithoutClaveFirma = new HashSet<String>();
-
-  private long lastCacheUpdate = 0;
+  private final CertificateCache certificateCache = new CertificateCache();
 
   public List<X509Certificate> listCertificates(String username, String administrationID)
       throws Exception, HttpCertificateBlockedException, HttpNoUserException {
 
-    long now = System.currentTimeMillis();
-    if ((lastCacheUpdate + 3600000) < now) {
-      // Fer net la cache cada Hora
-      cacheCertificates.clear();
-      cacheUserWithoutClaveFirma.clear();
-    }
-
     String userClaveFirma = getClaveFirmaUser(username, administrationID);
-    if (cacheUserWithoutClaveFirma.contains(userClaveFirma)) {
-      // L'usuari no està donat d'alta al sistema ClaveFirma
-      return null;
-    }
 
-    List<X509Certificate> certificates = cacheCertificates.get(userClaveFirma);
+    List<X509Certificate> certificates = certificateCache.getCachedCertificates(userClaveFirma);
     if (certificates == null) {
-
       certificates = listCertificates(userClaveFirma);
-
-      // ===== CACHE ==========
-
-      final boolean debug = isDebug();
-      if (debug) {
-        log.info(" CERTIFICATS == " + ((certificates == null) ? "NULL" : certificates.size()));
-      }
-
-      if (certificates != null) {
-        cacheCertificates.put(userClaveFirma, certificates);
-      }
+      certificateCache.setCachedCertificates(userClaveFirma, certificates);
     }
 
     return certificates;
@@ -1731,13 +1704,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
         Estarà corregit a FIRe 2.4 sembla per aquest commit: https://github.com/ctt-gob-es/fire/commit/571aab55
         Quan estigui caldrà afegir el provider a aquesta cridada, agafant-lo de certOrigin
          */
-        List<X509Certificate> certificates = HttpCertificateList.getList(appId, userClaveFirma);
-
-        if (certificates == null || certificates.isEmpty()) {
-          certificates = null;
-        }
-
-        return certificates;
+        return HttpCertificateList.getList(appId, userClaveFirma);
 
       } catch (final HttpNetworkException e) {
         // XYZ ZZZ Traduir
@@ -1745,16 +1712,13 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
             "Error contactant amb el Component Central pel Llistat de Certificats: "
                 + e.getMessage(), e);
       } catch (final Exception e) {
-
         if (e instanceof HttpCertificateBlockedException || e instanceof HttpNoUserException
             || e instanceof HttpWeakRegistryException) {
           throw e;
         } else {
           // XYZ ZZZ TODO TRADUIR
           String msg = "Error general llistant els certificats de l'usuari: " + e.getMessage();
-
           log.error(msg, e);
-
           throw new Exception(msg, e);
         }
       }
