@@ -7,6 +7,8 @@ target
 dependency-reduced-pom.xml
 test.log
 genapp.log
+.idea/
+*.iml
 
 plugins-signatureweb/miniappletutils/src/main/resources/applet/
 

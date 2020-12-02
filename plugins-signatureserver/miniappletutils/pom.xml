@@ -4,7 +4,7 @@
   <groupId>org.fundaciobit.plugins</groupId>
   <artifactId>plugin-signatureserver-miniappletutils</artifactId>
   <packaging>jar</packaging>
-  <version>2.0.1</version>
+  <version>2.0.2</version>
 
   <name>FundacioBit Plugins - SignatureServer - MiniAppletUtils</name>
 
