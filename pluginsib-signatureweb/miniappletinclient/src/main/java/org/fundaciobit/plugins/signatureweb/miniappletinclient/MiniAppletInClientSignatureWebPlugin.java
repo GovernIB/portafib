@@ -77,7 +77,9 @@ public class MiniAppletInClientSignatureWebPlugin extends
   @Override
   public void closeSignaturesSet(HttpServletRequest request, String id) {
     super.closeSignaturesSet(request, id);
-    elapsedTimes.remove(id);
+    synchronized (elapsedTimes) {
+      elapsedTimes.remove(id);
+    }
   };
 
   @Override
@@ -333,7 +335,11 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
         status.setStatus(StatusSignature.STATUS_FINAL_OK);
 
-        Long[] times = elapsedTimes.get(signaturesSet.getSignaturesSetID());
+        Long[] times;
+        synchronized (elapsedTimes) {
+          times = elapsedTimes.get(signaturesSet.getSignaturesSetID());
+        }
+
         if (times != null) {
           Long startTime = times[signatureIndex];
           if (startTime != null) {

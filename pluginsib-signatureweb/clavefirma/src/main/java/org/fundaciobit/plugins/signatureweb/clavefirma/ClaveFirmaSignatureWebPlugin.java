@@ -22,6 +22,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -88,9 +89,9 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   public static final String IGNORE_CERTIFICATE_FILTER = CLAVEFIRMA_BASE_PROPERTIES
       + "ignore_certificate_filter";
 
-  protected Map<String, ClaveFirmaSignInformation[]> transactions = new HashMap<String, ClaveFirmaSignInformation[]>();
+  protected Map<String, ClaveFirmaSignInformation[]> transactions = new ConcurrentHashMap<String, ClaveFirmaSignInformation[]>();
 
-  protected Map<String, String> generateCertificateTransactions = new HashMap<String, String>();
+  protected Map<String, String> generateCertificateTransactions = new ConcurrentHashMap<String, String>();
 
   /**
    * S'utilitza per guardar les propietats que s'utilitza per la firma SMIME o
@@ -98,7 +99,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
    * del mètode storeDocument() ja que CADES trifase no suporta nativament
    * Segellat de Temps.
    */
-  protected final Map<String, Properties[]> timeStampCache = new HashMap<String, Properties[]>();
+  protected final Map<String, Properties[]> timeStampCache = new ConcurrentHashMap<String, Properties[]>();
 
   /**
    *

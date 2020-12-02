@@ -1,5 +1,25 @@
 package org.fundaciobit.plugins.signatureweb.miniappletinserver;
 
+import org.apache.commons.fileupload.FileItem;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.AbstractTriFaseSigner;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerCAdESSigner;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerPAdESSigner;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerXAdESSigner;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
+import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.utils.EncrypterDecrypter;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
+import org.fundaciobit.pluginsib.core.utils.PublicCertificatePrivateKeyPair;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -14,31 +34,9 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileItem;
-import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.AbstractTriFaseSigner;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerCAdESSigner;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerPAdESSigner;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerXAdESSigner;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
-import org.fundaciobit.pluginsib.core.utils.EncrypterDecrypter;
-import org.fundaciobit.pluginsib.core.utils.FileUtils;
-import org.fundaciobit.pluginsib.core.utils.PublicCertificatePrivateKeyPair;
 
 /**
  *
@@ -93,9 +91,6 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     return miniappletInServerBasePath;
   }
 
-  
-  public Map<String, Map<String, List<String>>> missatges = new HashMap<String, Map<String, List<String>>>();
-  
   /**
    * 
    */
@@ -141,7 +136,6 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   @Override
   public void closeSignaturesSet(HttpServletRequest request, String id) {
-    missatges.remove(id);
     super.closeSignaturesSet(request, id);
   }
 
@@ -395,17 +389,12 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
                 
               }
 
-
-              File firmat = null;
-
-              firmat = File.createTempFile("MAISSigWebPlugin", "signedfile");
+              File firmat = File.createTempFile("MAISSigWebPlugin", "signedfile");
               
               FileOutputStream fos = new FileOutputStream(firmat);
               fos.write(signedData);
               fos.flush();
               fos.close();
-              // Buidar memòria
-              signedData = null;
 
               ss.setSignedData(firmat);
               ss.setStatus(StatusSignature.STATUS_FINAL_OK);
@@ -898,7 +887,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     } else if (len > size) {
       return pwd.substring(0, size);
     } else {
-      StringBuffer str = new StringBuffer();
+      StringBuilder str = new StringBuilder();
       for (int i = 0; i < size; i++) {
         str.append(pwd.charAt(i % len));        
       }

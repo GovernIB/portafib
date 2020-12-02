@@ -3,7 +3,6 @@ package org.fundaciobit.plugins.signatureweb.afirmatriphaseserver;
 import com.handinteractive.mobile.UAgentInfo;
 
 import es.gob.afirma.core.misc.AOUtil;
-//import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.signers.batch.server.BatchPostsigner;
 import es.gob.afirma.signers.batch.server.BatchPresigner;
 import es.gob.afirma.signers.tsp.pkcs7.CMSTimestamper;
@@ -63,8 +62,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.Set;
-
-//import es.gob.afirma.core.misc.Base64;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * 
@@ -73,9 +72,6 @@ import java.util.Set;
  */
 public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin
     implements DocumentManager {
-  
-  public static final boolean debugMemory = false;
-  
    
   public static final String AUTOFIRMA_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
       + "autofirma.";
@@ -85,37 +81,25 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     * quan aquesta demana Segellat de Temps. S'ha de fer a posteriori dins del mètode
     *  storeDocument() ja que CADES trifase no suporta nativament Segellat de Temps. 
     */
-   protected final Map<String, Properties[]> timeStampCache = new HashMap<String, Properties[]>();
+   private final Map<String, Properties[]> timeStampCache = new ConcurrentHashMap<String, Properties[]>();
 
-  /**
-   *
-   */
   public AfirmaTriphaseSignatureWebPlugin() {
     super();
   }
 
-  /**
-   * @param propertyKeyBase
-   * @param properties
-   */
   public AfirmaTriphaseSignatureWebPlugin(String propertyKeyBase, Properties properties) {
     super(propertyKeyBase, properties);
   }
 
-  /**
-   * @param propertyKeyBase
-   */
   public AfirmaTriphaseSignatureWebPlugin(String propertyKeyBase) {
     super(propertyKeyBase);
   }
   
-  
-  
+
   protected boolean isDebug() {
     return log.isDebugEnabled() || "true".equalsIgnoreCase(getProperty(AUTOFIRMA_BASE_PROPERTIES + "debug"));
   }
-  
-  
+
   protected Integer getTimeOutBase() {
     String timeoutbase = getProperty(AUTOFIRMA_BASE_PROPERTIES + "timeoutbase");
     
@@ -131,7 +115,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       return null;
     }
   }
-  
 
   @Override
   public String[] getSupportedSignatureTypes() {
@@ -196,16 +179,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   
   @Override
   public void closeSignaturesSet(HttpServletRequest request, String id) {
-    
     // TODO XYZ ZZZ Cada 5 minuts revisar Peticions Caducades
-
-    if (debugMemory) {
-      printMemoryInfo(id, null, "closeSignaturesSetPRE");
-    }
     internalCloseSignaturesSet(request, id);
-    if (debugMemory) {
-      printMemoryInfo(id, null, "closeSignaturesSetPOST");
-    }
   }
 
   protected void internalCloseSignaturesSet(HttpServletRequest request, String id) {
@@ -232,26 +207,11 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
-      String relativePluginRequestPath, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) throws Exception {
+      String relativePluginRequestPath, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) {
     addSignaturesSet(signaturesSet);
-    
-    if (debugMemory) {
-      printMemoryInfo(signaturesSet.getSignaturesSetID(), null, "SignDocuments");
-    }
 
     // Mostrar Index
     return relativePluginRequestPath + "/" + INDEX_HTML;
-  }
-
-  protected void printMemoryInfo(String signaturesSetID, Integer index, String titol) {
-    Runtime r = Runtime.getRuntime();
-    final long t = r.totalMemory();
-    final long used = t - r.freeMemory();
-    final float percent = (used * 100f)/ (float)t;
-    log.info("DMEM Memoria(titol/used/total/percent):\t"
-        + titol + "[" + signaturesSetID + "]"
-        + ( (index == null)?"":("{" +  index + "}")    )
-        + "\t" + used + "\t" + t + "\t" + + percent);
   }
 
   @Override
@@ -446,15 +406,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
   
-  public static final Map<String, Map<Integer, File>> imageRubricCache = new HashMap<String, Map<Integer, File>>();
+  private static final ConcurrentMap<String, Map<Integer, File>> imageRubricCache =
+          new ConcurrentHashMap<String, Map<Integer, File>>();
 
   public void rubricPageAutofirma(String relativePath,
       SignaturesSetWeb signaturesSet, int signatureIndex, HttpServletRequest request2,
       HttpServletResponse response) {
-    
-    if (debugMemory) {
-      printMemoryInfo(signaturesSet.getSignaturesSetID(), signatureIndex, "rubricPageAutofirmaPRE");
-    }
 
     Map<String, FileItem> uploadedFiles = readFilesFromRequest(request2, response, null);
 
@@ -476,25 +433,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       for (String name : uploadedFiles.keySet()) {
 
         FileItem uploadedFile = uploadedFiles.get(name);
+        X509Certificate cert = CertificateUtils.decodeCertificate(uploadedFile.getInputStream());
 
-        X509Certificate cert;
-        cert = CertificateUtils.decodeCertificate(uploadedFile.getInputStream());
+        imageRubricCache.putIfAbsent(signaturesSet.getSignaturesSetID(), new HashMap<Integer, File>(1));
+        Map<Integer, File> map = imageRubricCache.get(signaturesSet.getSignaturesSetID());
+        File rubric = map.get(signatureIndex);
 
-        File rubric = null;
-
-        Map<Integer, File> map;
-
-        synchronized (imageRubricCache) {
-          map = imageRubricCache.get(signaturesSet.getSignaturesSetID());
-          if (map == null) {
-            map = new HashMap<Integer, File>();
-            imageRubricCache.put(signaturesSet.getSignaturesSetID(), map);
-          } else {
-            rubric = map.get(signatureIndex);
-          }
-        }
-
-        final boolean incache = (rubric != null);
         if (rubric == null) {
 
           IRubricGenerator generator = fileInfo.getPdfVisibleSignature().getRubricGenerator();
@@ -550,15 +494,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           } else {
             rubric.deleteOnExit();
             log.warn("rubricPageAutofirma::No he pogut esborrar el fitxer temporal de rubrica: " + rubric.getAbsolutePath());
-          };
+          }
 
         }
-        
-        if (debugMemory) {
-          printMemoryInfo(signaturesSet.getSignaturesSetID(), signatureIndex, "rubricPageAutofirmaPOST-"
-            + (incache?"CACHE":"GENERATED"));
-        }
-
         break;
       }
 
@@ -624,10 +562,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   // ------------------ PAGINA INICIAL -----------------------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  
-  
-  public final Map<String, String> javascript = new HashMap<String, String>();
-  
+
+  private final Map<String, String> javascript = new ConcurrentHashMap<String, String>();
   
   @Override
   protected void getJavascriptCSS(HttpServletRequest request,
@@ -783,8 +719,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       StringBuilder configPropertiesStr1 = new StringBuilder();
 
       for (Object key : configProperties[i].keySet()) {
-        configPropertiesStr1
-            .append(key + "=" + configProperties[i].getProperty((String) key) + "\n");
+        configPropertiesStr1.append(key).append("=").append(configProperties[i].getProperty((String) key)).append("\n");
       }
       configPropertiesStr[i] = configPropertiesStr1.toString();
       
@@ -1718,7 +1653,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     // Afegir Filtre de Certificats
     String filtre = signaturesSet.getCommonInfoSignature().getFiltreCertificats();
-    if (debug) { log.info("AUTOFIRMA:: FILTRE["+ filtre + "]"); };
+    if (debug) { log.info("AUTOFIRMA:: FILTRE["+ filtre + "]"); }
     if (filtre != null && filtre.trim().length() != 0) {
       Properties propFiltre = new Properties();
       try {
@@ -2800,9 +2735,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   public String storeDocument(String id, final X509Certificate[] certChain, byte[] data,
       Properties config) throws IOException {
 
-    Item item = null;
-
-    item = decodeSignatureItemID(id);
+    Item item = decodeSignatureItemID(id);
 
     final String signaturesSetID = item.signaturesSetID;
     final int signatureIndex = item.index;
@@ -2984,13 +2917,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       xml = xml + "</signs>";
     }
 
-    // La classe és thread-safe i costa construir-la, per tant la passam a variable static i l'inicialitzam més amunt
-    //JAXBContext jaxbContext = JAXBContext.newInstance(Signs.class);
-
     Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-    
-    Signs customer = (Signs) jaxbUnmarshaller.unmarshal(new StringReader(xml));
-    return customer;
+    return (Signs) jaxbUnmarshaller.unmarshal(new StringReader(xml));
   }
 
   @Override

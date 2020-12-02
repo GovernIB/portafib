@@ -21,6 +21,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -80,9 +81,9 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   
   public static final String IGNORE_CERTIFICATE_FILTER = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "ignore_certificate_filter";
 
-  public Map<String, Map<String,MiniAppletInServerSIASigner>> processosDeFirma = new HashMap<String,Map<String,MiniAppletInServerSIASigner>>();
+  public Map<String, Map<String,MiniAppletInServerSIASigner>> processosDeFirma = new ConcurrentHashMap<String,Map<String,MiniAppletInServerSIASigner>>();
 
-  public Map<String, String> transactions = new HashMap<String, String>();
+  public Map<String, String> transactions = new ConcurrentHashMap<String, String>();
   
   /**
    *

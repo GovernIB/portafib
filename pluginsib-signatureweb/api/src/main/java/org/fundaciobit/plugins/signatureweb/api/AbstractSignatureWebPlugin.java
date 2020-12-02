@@ -39,7 +39,7 @@ public abstract class AbstractSignatureWebPlugin
 
   
 
-  private Map<String, SignaturesSetWeb> infoSign = new HashMap<String, SignaturesSetWeb>();
+  private final Map<String, SignaturesSetWeb> infoSign = new HashMap<String, SignaturesSetWeb>();
 
   /**
    * 
@@ -529,7 +529,9 @@ public abstract class AbstractSignatureWebPlugin
   
   
   protected int internalGetActiveTransactions() throws Exception {
-    return this.infoSign.size();
+    synchronized (infoSign) {
+      return this.infoSign.size();
+    }
   }
   
   
