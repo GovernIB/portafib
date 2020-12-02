@@ -1,6 +1,5 @@
 package org.fundaciobit.apisib.apifirmasimple.v1.test;
 
-import com.gargoylesoftware.htmlunit.BrowserVersion;
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaWebSimple;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
@@ -10,10 +9,10 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionS
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaWebSimpleJersey;
+import org.fundaciobit.apisib.apifirmasimple.v1.test.selenium.SignStrategy;
+import org.fundaciobit.apisib.apifirmasimple.v1.test.selenium.StrategyFactory;
+import org.fundaciobit.apisib.apifirmasimple.v1.test.selenium.StrategyType;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -21,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -55,6 +55,13 @@ public class ApiFirmaWebSimpleSeleniumTester {
             System.err.println("La propietat " + PROFILE_WEB_PROPERTY + " està buida. Com l'usuari aplicació tengui més d'un " +
                     "perfil definit no es podrà executar.");
         }
+
+        String strategy = prop.getProperty("strategy");
+        if (strategy == null || strategy.isEmpty()) {
+            throw new RuntimeException("Ha de fixar strategy a un dels valors " + Arrays.asList(StrategyType.values()));
+        }
+        final StrategyType strategyType = StrategyType.valueOf(strategy);
+        final SignStrategy signStrategy = StrategyFactory.getSignStrategy(strategyType);
 
         String[] parts = prop.getProperty("files").split(",");
 
@@ -91,17 +98,10 @@ public class ApiFirmaWebSimpleSeleniumTester {
         final FirmaSimpleCommonInfo commonInfo = new FirmaSimpleCommonInfo(perfil, languageUI, username, administrationID, signerEmail);
         final ApiFirmaWebSimple api = getApiFirmaWebSimple(prop);
 
-        int NOMBRE_FIRMES = 1000;
+        int NOMBRE_FIRMES = 1;
         final AtomicInteger firmesCorrectes = new AtomicInteger(0);
 
         ExecutorService executor = Executors.newFixedThreadPool(25);
-
-        final ThreadLocal<WebDriver> tlWebDriver = new ThreadLocal<WebDriver>() {
-            @Override
-            protected WebDriver initialValue() {
-                return new HtmlUnitDriver(BrowserVersion.CHROME, true);
-            }
-        };
 
         long startTime = System.nanoTime();
 
@@ -124,12 +124,7 @@ public class ApiFirmaWebSimpleSeleniumTester {
 
                         final String redirectUrl = api.startTransaction(startTransactionInfo);
 
-                        final WebDriver driver = tlWebDriver.get();
-                        driver.get(redirectUrl);
-                        driver.findElement(By.id("plugin_fire")).click();
-                        driver.findElement(By.cssSelector("a.button")).click();
-                        driver.findElement(By.id("pin")).sendKeys("1234");
-                        driver.findElement(By.cssSelector("button[type='submit']")).submit();
+                        signStrategy.sign(redirectUrl);
 
                         FirmaSimpleGetTransactionStatusResponse fullTransactionStatus = api.getTransactionStatus(transactionID);
                         FirmaSimpleStatus tStatus = fullTransactionStatus.getTransactionStatus();
@@ -188,6 +183,9 @@ public class ApiFirmaWebSimpleSeleniumTester {
 
         System.out.printf("Nombre de firmes correctes: %d de %d.%n", firmesCorrectes.get(), NOMBRE_FIRMES);
         System.out.printf("Duració: %d segons.%n", TimeUnit.NANOSECONDS.toSeconds(duration));
+
+        // Necessari per possibles applets o coses rares que hem d'instanciar
+        System.exit(0);
     }
 
     public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String mime) {
