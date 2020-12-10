@@ -19,12 +19,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.SAXException;
 
 import javax.xml.crypto.MarshalException;
 import javax.xml.crypto.dsig.Reference;
 import javax.xml.crypto.dsig.XMLSignature;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,8 +37,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-//import org.apache.jcp.xml.dsig.internal.dom.DOMReference;
 
 /**
  * 
@@ -70,7 +70,7 @@ public class ValidationsXAdES {
    * al mateix document al mateix nivell que la signatura.
    * @param signatureData datasource amb la firma
    * @return true si l'objecte firmat està inclòs com un element al mateix nivell que la firma. false en cas contrari.
-   * @throws I18NException
+   * @throws I18NException si es produeix un error com ara que el document no tengui cap firma.
    */
   public static boolean isXadesDettachedWithOriginalDocumentAsSibling(IPortaFIBDataSource signatureData) throws I18NException {
     InputStream in = signatureData.getInputStream();
@@ -189,7 +189,7 @@ public class ValidationsXAdES {
 
       XMLSignature xmlSign;
       try {
-        xmlSign = new XMLSignatureElement((Element) signatureNode).getXMLSignature();
+        xmlSign = new XMLSignatureElement(signatureNode).getXMLSignature();
       } catch (MarshalException e1) {
         throw new Exception("Error parsejant firma: " + e1.getMessage(), e1);
       }
@@ -225,7 +225,7 @@ public class ValidationsXAdES {
 
           } else {
 
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             for (int i = 0; i < nodeListObject.getLength(); i++) {
               Node children = nodeListObject.item(i);
               byte[] nodeValue = transformNode(children);
@@ -268,20 +268,30 @@ public class ValidationsXAdES {
    * Procesa document original per tal d'obtenir una representació del que s'ha signat, que bàsicament
    * seria el mateix, però sense la declaració xml.
    *
-   * @param in document original
+   * @param dataSource document original
    * @return document original sense la declaració xml.
    */
-  public static byte[] getProcessedOriginalData(InputStream in) throws I18NException {
+  public static byte[] getProcessedOriginalData(IPortaFIBDataSource dataSource) throws I18NException {
+    InputStream inputStream = dataSource.getInputStream();
     try {
       DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
       dbf.setNamespaceAware(true);
-      Document document = dbf.newDocumentBuilder().parse(in);
+
+        Document document = dbf.newDocumentBuilder().parse(inputStream);
       return UtilsXML.transformDOMtoString(document.getDocumentElement(), true).getBytes();
+    } catch (SAXException e) {
+      // el document no és XML
+      log.info("La firma no és correspon a un XML, retornam bytearray");
+      return dataSource.getByteArray();
     } catch (Exception e) {
       // XYZ ZZZ TRA
       throw new I18NException("genapp.comodi",
           "Error desconegut intentant procesar document original d´una firma XAdES: "
               + e.getMessage());
+    } finally {
+        try {
+            inputStream.close();
+        } catch (IOException ignored) {}
     }
   }
 
@@ -320,7 +330,7 @@ public class ValidationsXAdES {
 
     try {
 
-      org.apache.xml.security.Init.init();
+      //org.apache.xml.security.Init.init();
 
       // Transformación de la firma electrónica a objeto
       // org.w3c.dom.Document
@@ -334,42 +344,68 @@ public class ValidationsXAdES {
       List<X509Certificate> certificates = new ArrayList<X509Certificate>();
 
       // registro de los atributos de tipo ID
-      IdRegister.registerElements(doc.getDocumentElement());
+      //IdRegister.registerElements(doc.getDocumentElement());
       for (int i = 0; i < nl.getLength(); i++) {
         Element sigElement = (Element) nl.item(i);
         org.apache.xml.security.signature.XMLSignature signature = new org.apache.xml.security.signature.XMLSignature(
             sigElement, "");
 
-        // Obtención del certificado o clave pública de la firma para
-        // verificar su autenticidad y no repudio.
+        // Obtención del certificado o clave pública de la firma
         KeyInfo keyInfo = signature.getKeyInfo();
         if (keyInfo != null) {
-          X509Certificate cert = keyInfo.getX509Certificate();
-          if (cert != null) {
-            // Validamos la firma usando un certificado X509
+            X509Certificate cert = keyInfo.getX509Certificate();
+            if (cert == null) {
+              // No encontramos un Certificado intentamos obtener con la clave pública
+              PublicKey pk = keyInfo.getPublicKey();
+              CertificateFactory cf = CertificateFactory.getInstance("X509");
+              byte[] pubKeyAsBytes = pk.getEncoded();
+              cert = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(
+                  pubKeyAsBytes));
 
-          } else {
-            // No encontramos un Certificado intentamos validar por
-            // la cláve
-            // pública
-            PublicKey pk = keyInfo.getPublicKey();
-
-            CertificateFactory cf = CertificateFactory.getInstance("X509");
-            byte[] pubKeyAsBytes = pk.getEncoded();
-            cert = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(
-                pubKeyAsBytes));
-
-          }
-          certificates.add(cert);
+            }
+            certificates.add(cert);
         }
       }
 
-      return certificates.toArray(new X509Certificate[certificates.size()]);
+      return certificates.toArray(new X509Certificate[0]);
 
     } catch (Exception e) {
       // XYZ ZZZ TRA
+      log.error("Error obtenint certificats", e);
       throw new I18NException("genapp.comodi",
           "Error desconegut obtenint Certificats d'una firma XAdES: " + e.getMessage());
+    }
+  }
+
+  /**
+   * Retorna el nombre de signatures d'un fitxer XADES
+   *
+   * @param inputStream fitxer sigant.
+   * @return nombre de firmes
+   * @throws I18NException si es produeix un error desconegut determinant el nombre de firmes.
+   */
+  public static int getNumberOfXADESSignatures(InputStream inputStream) throws I18NException {
+    try {
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      dbf.setNamespaceAware(true);
+      dbf.setAttribute("http://xml.org/sax/features/namespaces", Boolean.TRUE);
+
+      DocumentBuilder db = dbf.newDocumentBuilder();
+      Document doc = db.parse(inputStream);
+      NodeList nl = doc.getElementsByTagNameNS(DSIGNNS, SIGNATURE_NODE_NAME);
+
+      return nl.getLength();
+    } catch (ParserConfigurationException e) {
+        log.error("Error determinant nombre de firmes", e);
+        throw new I18NException("genapp.comodi",
+                "Error desconegut determinant nombre de firmes XAdES: " + e.getMessage());
+    } catch (IOException e) {
+        log.error("Error determinant nombre de firmes", e);
+        throw new I18NException("genapp.comodi",
+                "Error desconegut determinant nombre de firmes XAdES: " + e.getMessage());
+    } catch (SAXException e) {
+        // no és un document XML
+        return 0;
     }
   }
 

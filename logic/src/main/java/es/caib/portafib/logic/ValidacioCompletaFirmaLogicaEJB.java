@@ -229,15 +229,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
           // Si és attached llavors validam
           if (validacioRequest.getSignMode() == ConstantsV2.SIGN_MODE_IMPLICIT) {
 
-            byte[] documentOriginal;
-            {
-              InputStream is = validacioRequest.getAdaptedData().getInputStream();
-              try {
-                documentOriginal = ValidationsXAdES.getProcessedOriginalData(is);
-              } finally {
-                try { is.close(); } catch (IOException ignored) { }
-              }
-            }
+            byte[] documentOriginal = ValidationsXAdES.getProcessedOriginalData(validacioRequest.getAdaptedData());
 
             byte[] documentOriginalExtret;
             {
