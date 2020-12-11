@@ -3,6 +3,7 @@ package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.jpa.PluginJPA;
+import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.utils.ConstantsV2;
@@ -16,6 +17,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import java.util.Locale;
 
 /**
  *
@@ -43,51 +45,55 @@ public class PluginValidacioFirmesLogicaEJB extends
   public ValidateSignatureResponse validateSignature(final String entitatID,
       String signType, IPortaFIBDataSource signatureDS, 
       IPortaFIBDataSource documentDetachedDS, String languageUI)
-      throws I18NException {
+      throws ValidacioException {
 
-    log.info(" =======  ENTRA DINS PLUGIN VALIDACIO DE FIRMES (EJB)  ======= \n\n");
+    try {
+      log.info(" =======  ENTRA DINS PLUGIN VALIDACIO DE FIRMES (EJB)  ======= \n\n");
 
-    Long pluginValidateSignatureID = entitatEjb.executeQueryOne(
-        EntitatFields.PLUGINVALIDAFIRMESID, EntitatFields.ENTITATID.equal(entitatID));
+      Long pluginValidateSignatureID = entitatEjb.executeQueryOne(
+          EntitatFields.PLUGINVALIDAFIRMESID, EntitatFields.ENTITATID.equal(entitatID));
 
-    if (pluginValidateSignatureID == null) {
-      // No s'ha de validar
-      return null;
-    }
+      if (pluginValidateSignatureID == null) {
+        // No s'ha de validar
+        return null;
+      }
 
-    byte[] documentDetached;
-    if (documentDetachedDS == null) {
-      documentDetached = null;
-    } else {
+      byte[] documentDetached;
+      if (documentDetachedDS == null) {
+        documentDetached = null;
+      } else {
+        try {
+          documentDetached = documentDetachedDS.getByteArray();
+        } catch (Exception e1) {
+          // XYZ ZZZ traduir missatge
+          String msg = "No s'ha pogut llegir el fitxer detached per la validació: "
+              + e1.getMessage();
+          throw new I18NException("genapp.comodi", msg);
+        }
+      }
+
+      byte[] signature;
       try {
-        documentDetached = documentDetachedDS.getByteArray();
+        signature = signatureDS.getByteArray();
       } catch (Exception e1) {
         // XYZ ZZZ traduir missatge
-        String msg = "No s'ha pogut llegir el fitxer detached per la validació: "
+        String msg = "No s'ha pogut llegir el fitxer de Firma per la validació: "
             + e1.getMessage();
-        log.error(msg, e1);
         throw new I18NException("genapp.comodi", msg);
       }
-    }
 
-    byte[] signature;
-    try {
-      signature = signatureDS.getByteArray();
-    } catch (Exception e1) {
-      // XYZ ZZZ traduir missatge
-      String msg = "No s'ha pogut llegir el fitxer de Firma per la validació: "
-          + e1.getMessage();
-      log.error(msg, e1);
-      throw new I18NException("genapp.comodi", msg);
-    }
-    
-    if (log.isDebugEnabled()) {
-      log.debug("Signature bytes[] => " + signature.length);
-      log.info("DocumentDetached bytes[] => " + ((documentDetached == null)? "NULL" : (""  +documentDetached.length)) + "\n\n");
-    }
+      if (log.isDebugEnabled()) {
+        log.debug("Signature bytes[] => " + signature.length);
+        log.info("DocumentDetached bytes[] => " + ((documentDetached == null)? "NULL" : (""  +documentDetached.length)) + "\n\n");
+      }
 
-    return internalValidateSignature(pluginValidateSignatureID,
-        signType, signature, documentDetached, languageUI);
+      return internalValidateSignature(pluginValidateSignatureID,
+          signType, signature, documentDetached, languageUI);
+    } catch (I18NException e) {
+      String message = I18NLogicUtils.getMessage(e, new Locale(languageUI));
+      log.error("Error al plugin de validació de firma: " + message);
+      throw new ValidacioException(message, e);
+    }
   }
 
   protected ValidateSignatureResponse internalValidateSignature(
@@ -134,7 +140,6 @@ public class PluginValidacioFirmesLogicaEJB extends
       PluginJPA plugin = findByPrimaryKey(pluginValidateSignatureID);
       String msg = "Error no controlat cridant al validador de firmes "
           + plugin.getNom().getTraduccio(languageUI).getValor() + ": " + e.getMessage();
-      log.error(msg, e);
       // XYZ ZZZ Traduir
       throw new I18NException("genapp.comodi", msg);
     }

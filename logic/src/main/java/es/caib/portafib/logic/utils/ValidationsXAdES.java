@@ -75,7 +75,9 @@ public class ValidationsXAdES {
   public static boolean isXadesDettachedWithOriginalDocumentAsSibling(IPortaFIBDataSource signatureData) throws I18NException {
     InputStream in = signatureData.getInputStream();
     try {
-       log.info("isXadesDettachedWithOriginalDocumentAsSibling?");
+        if (log.isDebugEnabled()) {
+            log.debug("isXadesDettachedWithOriginalDocumentAsSibling?");
+        }
 
        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
        dbf.setNamespaceAware(true);
@@ -93,13 +95,16 @@ public class ValidationsXAdES {
 
        Node parentNode = signatureNode.getParentNode();
        if (parentNode == document) {
-          log.info("No tenim node pare. Per tant no inclou el document.");
+          if (log.isDebugEnabled()) {
+            log.debug("No tenim node pare. Per tant no inclou el document.");
+          }
           return false;
        }
 
        // Tenim node pare, per tant anam bé
-       log.info("Tenim parentNode: " + parentNode.getNodeName());
-
+       if (log.isDebugEnabled()) {
+         log.debug("Tenim parentNode: " + parentNode.getNodeName());
+       }
        Element signedInfoNode = (Element) signatureNode.getElementsByTagNameNS(
              XMLSignature.XMLNS, "SignedInfo").item(0);
 
@@ -117,7 +122,9 @@ public class ValidationsXAdES {
           // la URI comença amb '#', cosa que indica que és una referència dins el mateix document
           if (type.isEmpty() || type.equals("http://www.w3.org/2000/09/xmldsig#Object")) {
              if (uri != null && uri.charAt(0) == '#') {
-                log.info("Afegim possible URI: " + uri);
+                if (log.isDebugEnabled()) {
+                  log.debug("Afegim possible URI: " + uri);
+                }
                 identificadors.add(uri.substring(1));
              }
           }
@@ -133,12 +140,16 @@ public class ValidationsXAdES {
                 id = sibling.getAttribute("id");
              }
              if (identificadors.contains(id)) {
-                log.info("Hem trobat el sibling amb l'identificador: " + id);
+                if (log.isDebugEnabled()) {
+                  log.debug("Hem trobat el sibling amb l'identificador: " + id);
+                }
                 return true;
              }
           }
        }
-       log.info("Sibling no trobat dins els identificadors possibles");
+       if (log.isDebugEnabled()) {
+         log.debug("Sibling no trobat dins els identificadors possibles");
+       }
        return false;
 
     } catch (Exception e) {
@@ -281,7 +292,7 @@ public class ValidationsXAdES {
       return UtilsXML.transformDOMtoString(document.getDocumentElement(), true).getBytes();
     } catch (SAXException e) {
       // el document no és XML
-      log.info("La firma no és correspon a un XML, retornam bytearray");
+      log.debug("La firma no és correspon a un XML, retornam bytearray");
       return dataSource.getByteArray();
     } catch (Exception e) {
       // XYZ ZZZ TRA

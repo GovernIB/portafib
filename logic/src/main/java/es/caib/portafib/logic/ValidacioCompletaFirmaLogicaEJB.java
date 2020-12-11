@@ -70,7 +70,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
   }
 
   private ValidacioCompletaResponse internalValidateCompletaFirma(
-      ValidacioCompletaRequest validacioRequest) throws I18NException {
+      ValidacioCompletaRequest validacioRequest) throws I18NException, ValidacioException {
 
     String signType;
     String mime;
@@ -112,7 +112,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
     String subjectCertificat = null;
     Boolean checkValidationSignature = null;
     String perfilDeFirma = null;
-    
+
     ValidateSignatureResponse validateSignatureResponse = null;
     if (validacioRequest.isValidarFitxerFirma()) {
 
@@ -136,11 +136,11 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         log.info("validateCompletaFirma :: getDocumentDetachedData() => "
           + documentDetached);
       }
-      
+
       validateSignatureResponse = validacioFirmesEjb.validateSignature(
           validacioRequest.getEntitatID(), signType, validacioRequest.getSignatureData(),
           documentDetached, validacioRequest.getLanguageUI());
-      
+
       if (validateSignatureResponse == null) {
         // XYZ ZZZ TRA
         throw new I18NException("genapp.comodi",
@@ -149,7 +149,6 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
       } else if (validateSignatureResponse.getValidationStatus().getStatus() != ValidationStatus.SIGNATURE_VALID) {
         String msg = "La firma no és vàlida. Raó: " + validateSignatureResponse.getValidationStatus().getErrorMsg();
-        log.error(msg);
         throw new I18NException("genapp.comodi", msg);
       }
 
@@ -162,7 +161,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         // Esbrinar informació de la darrera Firma
         InformacioCertificat info = null;
         Date signDate = null;
-        
+
         for (int i = 0; i < sdi.length; i++) {
           Date d = sdi[0].getSignDate();
           if (d == null) {
@@ -175,18 +174,18 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
               info = sdi[i].getCertificateInfo();
             }
           }
-          
-          
+
+
         }
-        
+
         if (signDate == null) {
           log.warn("No ha definit alguna de les dates de la firma cosa que "
               + "implica que la informació de la validació pot ser inconsistent."
               + " Omitim la cerca en aquest punt.");
         } else {
-        
+
           log.debug("NIF DE LA DARRERA FIRMA => " + info.getNifResponsable());
-  
+
           nifFirmant = info.getNifResponsable();
           numeroSerieCertificat = info.getNumeroSerie();
           emissorCertificat = info.getEmissorOrganitzacio();
@@ -207,25 +206,25 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
     if (validacioRequest.isCheckCanviatDocFirmat()) {
 
       switch(validacioRequest.getSignTypeID()) {
-        
-        
+
+
         case ConstantsV2.TIPUSFIRMA_PADES:
         {
           File tmpDir = new File(FileSystemManager.getFilesPath(), "COMPAREPDF");
           tmpDir.mkdirs();
-          
+
           int posTaulaDeFirmes = validacioRequest.getPosTaulaDeFirmes();
-          
+
           PdfComparator.compare(validacioRequest.getAdaptedData(),
               validacioRequest.getSignatureData(), tmpDir, posTaulaDeFirmes);
-          
+
           checkDocumentModifications = true;
         }
         break;
-        
-        // XAdES => #333 
+
+        // XAdES => #333
         case ConstantsV2.TIPUSFIRMA_XADES:
-          
+
           // Si és attached llavors validam
           if (validacioRequest.getSignMode() == ConstantsV2.SIGN_MODE_IMPLICIT) {
 
@@ -249,9 +248,9 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 checkDocumentModifications = true;
               } else {
                 // XYZ ZZZ TRA
-                throw new I18NException("genapp.comodi", 
+                throw new I18NException("genapp.comodi",
                     "Pareix ser que el document adjunt en la firna XAdES Attached NO es"
-                    + " igual al document original enviat");                
+                    + " igual al document original enviat");
               }
             } catch (Exception e) {
               throw new I18NException("genapp.comodi",
@@ -262,10 +261,10 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
             checkDocumentModifications = true;
           }
         break;
-        
-        // CAdES => #334 
+
+        // CAdES => #334
         case ConstantsV2.TIPUSFIRMA_CADES:
-          
+
           // Si és attached llavors validam
           if (validacioRequest.getSignMode() == ConstantsV2.SIGN_MODE_IMPLICIT) {
 
@@ -296,9 +295,9 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
             checkDocumentModifications = true;
           }
         break;
-        
-        
-        
+
+
+
         default:
         {
           String msg = "No esta implementat el xequeig de modificacio de fitxer signat"
@@ -353,7 +352,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
             break;
 
-            
+
             case ConstantsV2.TIPUSFIRMA_CADES: {
 
               byte[] document = null;
@@ -434,8 +433,8 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
               log.error("Error intentant descobrir si el certificat és de PSEUDONIM: " + e.getMessage() , e);
               log.error(certificateLastSign.toString());
               isPseudonymCertificate = false;
-            } 
-            
+            }
+
             if (isPseudonymCertificate) {
               // Acceptam "barco" ja que no tenim els Pseudonim amb que comparar
               checkAdministrationIDOfSigner = null;
@@ -449,13 +448,13 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 throw new I18NException(codeError);
               }
             }
-            
+
         } else {
-            
+
             LogicUtils.checkExpectedNif(nifFirmant, validacioRequest.getNifEsperat());
             checkAdministrationIDOfSigner = true;
-            
-          
+
+
         }
 
       }

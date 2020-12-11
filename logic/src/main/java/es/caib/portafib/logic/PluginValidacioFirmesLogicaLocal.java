@@ -21,6 +21,6 @@ public interface PluginValidacioFirmesLogicaLocal extends
 
   public ValidateSignatureResponse validateSignature(final String entitatID, String signType,
       IPortaFIBDataSource signature, IPortaFIBDataSource documentDetached, String languageUI)
-      throws I18NException;
+      throws ValidacioException;
 
 }
