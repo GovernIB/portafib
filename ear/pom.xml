@@ -393,22 +393,21 @@
 
         </exclusions>
       </dependency>
-      
-      <!--  Aquesta versió elimina el packages javax/xml/crypto/* 
-            i evita errors del tipus java.lang.ClassCastException: org.apache.jcp.xml.dsig.internal.dom.DOMXMLSignatureFactory cannot be cast to javax.xml.crypto.dsig.XMLSignatureFactory" -->
-          
-      <!--  Provoca errors: java.lang.ClassCastException: org.apache.xml.security.transforms.implementations.TransformC14NExclusive cannot be cast to org.apache.xml.security.transforms.TransformSpi
-      Utilitzarem la versió que incorpora JBOSS
-      -->
-      <!--
-      <dependency>
-        <groupId>org.apache.santuario</groupId>
-        <artifactId>xmlsec</artifactId>
-        <version>1.5.5-jboss-5</version>
-      </dependency>
-      -->
 
-      <!-- ====================================== -->
+    <!-- versió de xalan necessària per problemes de compatibilitat de afirma amb JBoss 5.2 -->
+    <dependency>
+      <groupId>xalan</groupId>
+      <artifactId>xalan</artifactId>
+      <version>2.7.0</version>
+      <exclusions>
+        <exclusion>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- ====================================== -->
       <!-- ===  PLUGINS DE SEGELLAT DE TEMPS  === -->
       <!-- ====================================== -->
 

@@ -51,6 +51,8 @@ import java.net.MalformedURLException;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.security.Provider;
+import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,7 +74,27 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin
     implements DocumentManager {
-   
+
+  static {
+      // Workaround per així com les llibreries d'afirma obtenen el provider DOM.
+      // Veure: https://github.com/ctt-gob-es/clienteafirma/issues/141
+      try {
+        Class<?> providerClass = Class.forName("org.apache.jcp.xml.dsig.internal.dom.XMLDSigRI");
+        Provider newProvider = (Provider) providerClass.getConstructor().newInstance();
+
+        Provider oldProvider = Security.getProvider(newProvider.getName());
+        if (oldProvider != null) {
+          Security.removeProvider(oldProvider.getName());
+        }
+
+        Security.insertProviderAt(newProvider, 1);
+
+        System.out.println("Configurat provider XMLDsig");
+      } catch (Exception e) {
+        System.err.println("No s'ha pogut configurar provider XMLDsig: " + e.getMessage());
+      }
+  }
+
   public static final String AUTOFIRMA_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
       + "autofirma.";
   
@@ -118,43 +140,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   @Override
   public String[] getSupportedSignatureTypes() {
-    
-    // Desactivar les firmes XAdES dels PLugins de Firma si estam en JBoss 5.2 #388
-    boolean acceptXAdES = false;
-    /*
-     
-    Aquest CODI NO FUNCIONA: Llança un error javax.management.InstanceNotFoundException: jboss.system:type=Server is not registered. 
-
-    try {
-      MBeanServer server = ManagementFactory.getPlatformMBeanServer();   
-      Hashtable<String, String> props = new Hashtable<String, String>();   
-      props.put("type", "Server");   
-      ObjectName name = new ObjectName("jboss.system", props);   
-      String version = (String) (server.getAttribute(name, "Version"));
-
-      log.info("\n\n\n\n  XYZ ZZZ ZZZ VERSION JBOSS => " + version + "\n\n\n\n");
-      
-      if (version.indexOf("5.1") != -1) {
-        // OK
-        acceptXAdES = true;
-      }
-
-    } catch(Throwable th) {
-      log.error("Error descobrint versió de JBOSS: " + th.getMessage(), th);
-    }
-    
-    log.info("\n\n\n\n XYZ ZZZ ZZZ acceptXAdES => " + acceptXAdES + "\n\n\n\n");
-    */
-    
-    if (acceptXAdES) {
-
       return new String[] { FileInfoSignature.SIGN_TYPE_PADES,
           FileInfoSignature.SIGN_TYPE_XADES, FileInfoSignature.SIGN_TYPE_CADES,
           FileInfoSignature.SIGN_TYPE_SMIME };
-    } else {
-      return new String[] { FileInfoSignature.SIGN_TYPE_PADES,
-          FileInfoSignature.SIGN_TYPE_CADES, FileInfoSignature.SIGN_TYPE_SMIME };
-    }
   }
 
   @Override
