@@ -44,9 +44,13 @@ import java.util.Set;
  *
  */
 public class ValidationsXAdES {
-  
-  
+
+  private static final DocumentBuilderFactory DBF;
+
   static {
+      DBF = DocumentBuilderFactory.newInstance();
+      DBF.setNamespaceAware(true);
+
     org.apache.xml.security.Init.init();
   }
 
@@ -79,10 +83,7 @@ public class ValidationsXAdES {
             log.debug("isXadesDettachedWithOriginalDocumentAsSibling?");
         }
 
-       DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-       dbf.setNamespaceAware(true);
-
-       Document document = dbf.newDocumentBuilder().parse(in);
+       Document document = DBF.newDocumentBuilder().parse(in);
 
        NodeList signNodeList = document.getElementsByTagNameNS(XMLSignature.XMLNS, ValidationsXAdES.SIGNATURE_NODE_NAME);
        if (signNodeList.getLength() == 0) {
@@ -180,9 +181,7 @@ public class ValidationsXAdES {
 
     try {
 
-      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-      dbf.setNamespaceAware(true);
-      Document eSignature = dbf.newDocumentBuilder().parse(in);
+      Document eSignature = DBF.newDocumentBuilder().parse(in);
 
       // LOGGER.debug(Language.getResIntegra(ILogConstantKeys.XS_LOG041));
       byte[] result = null;
@@ -285,10 +284,8 @@ public class ValidationsXAdES {
   public static byte[] getProcessedOriginalData(IPortaFIBDataSource dataSource) throws I18NException {
     InputStream inputStream = dataSource.getInputStream();
     try {
-      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-      dbf.setNamespaceAware(true);
 
-        Document document = dbf.newDocumentBuilder().parse(inputStream);
+        Document document = DBF.newDocumentBuilder().parse(inputStream);
       return UtilsXML.transformDOMtoString(document.getDocumentElement(), true).getBytes();
     } catch (SAXException e) {
       // el document no és XML
@@ -340,15 +337,9 @@ public class ValidationsXAdES {
       throws I18NException {
 
     try {
-
-      //org.apache.xml.security.Init.init();
-
       // Transformación de la firma electrónica a objeto
-      // org.w3c.dom.Document
-      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-      dbf.setNamespaceAware(true);
-      dbf.setAttribute("http://xml.org/sax/features/namespaces", Boolean.TRUE);
-      DocumentBuilder db = dbf.newDocumentBuilder();
+
+      DocumentBuilder db = DBF.newDocumentBuilder();
       Document doc = db.parse(eSignature);
       NodeList nl = doc.getElementsByTagNameNS(DSIGNNS, SIGNATURE_NODE_NAME);
 
@@ -397,11 +388,7 @@ public class ValidationsXAdES {
    */
   public static int getNumberOfXADESSignatures(InputStream inputStream) throws I18NException {
     try {
-      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-      dbf.setNamespaceAware(true);
-      dbf.setAttribute("http://xml.org/sax/features/namespaces", Boolean.TRUE);
-
-      DocumentBuilder db = dbf.newDocumentBuilder();
+      DocumentBuilder db = DBF.newDocumentBuilder();
       Document doc = db.parse(inputStream);
       NodeList nl = doc.getElementsByTagNameNS(DSIGNNS, SIGNATURE_NODE_NAME);
 

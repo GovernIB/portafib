@@ -88,29 +88,11 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
   private static final Map<String, String> hashAlgorithmMap = new HashMap<String, String>();
 
-  //protected static final List<SignatureFormatEnum> xadesFormats = new ArrayList<SignatureFormatEnum>();
-  
   static {
     hashAlgorithmMap.put("SHA1", "http://www.w3.org/2000/09/xmldsig#sha1");
     hashAlgorithmMap.put("SHA-256", "http://www.w3.org/2001/04/xmlenc#sha256");
     hashAlgorithmMap.put("SHA-384", "http://www.w3.org/2001/04/xmldsig-more#sha384");
     hashAlgorithmMap.put("SHA-512", "http://www.w3.org/2001/04/xmlenc#sha512");
-    
-    
-    
-//    xadesFormats.add(SignatureFormatEnum.XAdES);
-//    xadesFormats.add(SignatureFormatEnum.XAdES_BES);
-//    xadesFormats.add(SignatureFormatEnum.XAdES_EPES);
-//    xadesFormats.add(SignatureFormatEnum.XAdES_T);
-//    xadesFormats.add(SignatureFormatEnum.XAdES_X);
-//    xadesFormats.add(SignatureFormatEnum.XAdES_X1);
-//    xadesFormats.add(SignatureFormatEnum.XAdES_X2);
-//    xadesFormats.add(SignatureFormatEnum.XAdES_XL);
-//    xadesFormats.add(SignatureFormatEnum.XAdES_XL1);
-//    xadesFormats.add(SignatureFormatEnum.XAdES_XL2);
-//    xadesFormats.add(SignatureFormatEnum.XAdES_A);
-    
-    
   }
 
   public static final String AFIRMASERVER_BASE_PROPERTIES = SIGNATURESERVER_BASE_PROPERTY
@@ -136,35 +118,21 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   public static final String IGNORE_SERVER_CERTIFICATES = AFIRMASERVER_BASE_PROPERTIES
       + "ignoreservercertificates";
 
-  /**
-   * 
-   */
   public AfirmaServerSignatureServerPlugin() {
     super();
   }
 
-  /**
-   * @param propertyKeyBase
-   * @param properties
-   */
   public AfirmaServerSignatureServerPlugin(String propertyKeyBase, Properties properties) {
     super(propertyKeyBase, properties);
   }
 
-  /**
-   * @param propertyKeyBase
-   */
   public AfirmaServerSignatureServerPlugin(String propertyKeyBase) {
     super(propertyKeyBase);
   }
 
   protected boolean isIgnoreServerCertificates() {
     String val = getProperty(IGNORE_SERVER_CERTIFICATES);
-    if ("true".equalsIgnoreCase(val)) {
-      return true;
-    } else {
-      return false;
-    }
+    return "true".equalsIgnoreCase(val);
   }
 
   /**
@@ -174,21 +142,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
    */
   @Override
   public boolean acceptExternalTimeStampGenerator(String signType) {
-
     return false;
-    /*
-     * if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType) ||
-     * FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) { return true; } else { return
-     * false; }
-     */
-    /*
-     * if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) { return true; } else if
-     * (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) { // Per ara MiniApplet no suporta
-     * firma de XadesT return false; } else { log.warn("S'ha cridat a " +
-     * this.getClass().getName() +
-     * "::acceptExternalTimeStampGenerator amb un tipus de firma no controlat:" + signType);
-     * return false; }
-     */
   }
 
   /**
@@ -775,12 +729,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     ServerSignerResponse serSigRes = internalUpgradeSignature(upgSigReq);
 
     log.debug("Resultado evolución firma:");
-    if (serSigRes == null) {
-      throw new Exception("No se obtuvo respuesta en la invocación del servicio "
-          + "DSSAfirmaVerify de la plataforma @firma para evolucionar una firma "
-          + "electrónica al formato " + typeform.getType() + " - " 
-          + typeform.getFormat() + ".");
-    }
     if (log.isDebugEnabled()) {
       log.debug("SersigRes asyncResponse: " + serSigRes.getAsyncResponse());
       log.debug("SersigRes transactionId: " + serSigRes.getIdTransaction());
@@ -908,10 +856,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   /**
    * Tiquet (a.10) Afegir mètodes d'extensió de firma: upgradeSignature() i
    * supportUpgradeSignature() #167 https://github.com/GovernIB/portafib/issues/167
-   * 
-   * @param upgSigReq
-   * @return
-   * @throws Exception
+   *
    */
   private ServerSignerResponse internalUpgradeSignature(UpgradeSignatureRequest upgSigReq)
       throws Exception {
@@ -931,7 +876,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       throw new Exception("L´estructura UpgradeSignatureRequest està incompleta.");
     }
     
-    final boolean isXAdES = ((isXAdESObj == null)? false:isXAdESObj);
+    final boolean isXAdES = (isXAdESObj != null && isXAdESObj);
 
     boolean debug = isDebug();
 
@@ -1001,48 +946,20 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         keys.put(key.replace(":", "_").replace("/", "_").replace("@", "_"), value);
       }
 
-      String result = processExpressionLanguage(templateStr, keys);
-
-
-//      File fileGen = new File("D:\\dades\\dades\\CarpetesPersonals\\Programacio\\pluginsib-1.0\\plugins-validatesignature\\afirmacxf\\ORVE_firma0.xsig-XML_GENERATED.xml");
-//      FileOutputStream fos = new FileOutputStream(fileGen);
-//      fos.write(result.getBytes());
-//      fos.close();
-      
-      xmlInput = result;
-      
-
-      //new FileOutputStream("c:\\tmp\\esborrar_input_manual.xml").write(xmlInput.getBytes());
-      
-      
+      xmlInput = processExpressionLanguage(templateStr, keys);
     }
-
-      // String xmlOutput =
-      // Afirma5ServiceInvokerFacade.getInstance().invokeService(xmlInput,
-      // "DSSAfirmaVerify", "verify", upgSigReq.getApplicationId());
 
       String xmlOutput = cridadaWsUpgrade(xmlInput);
       
       if (isPrintXML()) {
         log.info("XMLOutput:\n" + xmlOutput);
-       
       }
-
-
-      //new FileOutputStream("c:\\tmp\\esborrar_output.xml").write(xmlOutput.getBytes());
-      
-      //boolean isXades = xadesFormats.contains(upgSigReq.getSignatureFormat());
       
       Map<String, Object> propertiesResult;
       
       if (isXAdES) {
-      
-        //System.out.println("Passa per manual - PARSE XML");
-        
         propertiesResult = ManualXAdESParserOfResponse.parseXAdES(xmlOutput);
-        
       } else {
-
         propertiesResult = transformersFacade.parseResponse(xmlOutput,
           "DSSAfirmaVerify", "verify", "1_0");
       }
@@ -1062,9 +979,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         }
         log.info(" ================================= ");
       }
-      
-      
-      //System.out.println(" propertiesResult = " + propertiesResult);
       
       if (propertiesResult == null) {
         throw new Exception("No s'ha obtingut cap propietat de la resposta xml:\n" + xmlOutput);
@@ -1104,8 +1018,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
           .getSignatureFormat().getUriFormat());
     }
     if (upgSigReq.getTargetSigner() != null) {
-      String encodedTargetSigner = null;
-      encodedTargetSigner = new String(Base64Coder.encodeBase64(upgSigReq.getTargetSigner()));
+      String encodedTargetSigner= new String(Base64Coder.encodeBase64(upgSigReq.getTargetSigner()));
       inputParameters.put("dss:OptionalInputs/afxp:TargetSigner", encodedTargetSigner);
     }
     if (upgSigReq.isIgnoreGracePeriod()) {
@@ -1142,8 +1055,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
           inputParameters.put("dss:SignatureObject/dss:SignaturePtr@WhichDocument",
               idSignaturePtr);
           inputParameters.put("dss:InputDocuments/dss:Document@ID", idSignaturePtr);
-          inputParameters.put("dss:InputDocuments/dss:Document/dss:Base64XML", new String(
-              Base64.encode((byte[]) signature)));
+          inputParameters.put("dss:InputDocuments/dss:Document/dss:Base64XML", Base64.encode(signature));
         }
         return true;
       }
@@ -1194,36 +1106,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     return SIGNFORMAT_EXPLICIT_DETACHED;
   }
 
-  /*
-   * Al utilitzar import net.java.xades.util.XMLUtils.isXMLFormat(bytesToSign); tal i com fa la
-   * capa de FACADE llavors llança aquest error.
-   * 
-   * 
-   * java.lang.VerifyError: (class: es/gob/afirma/utils/UtilsSignature, method:
-   * validatePAdESEnhancedOptionalAttributes signature: (Les/gob/afirma/signature
-   * /pades/PDFSignatureDictionary;Lorg/bouncycastle/asn1
-   * /cms/AttributeTable;Lorg/bouncycastle/asn1/cms/AttributeTable;Z)V) Incompatible argument
-   * to function at net.java.xades.util.XMLUtils.isXMLFormat(XMLUtils.java:535) at
-   * org.fundaciobit .plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin
-   * .signDocuments(AfirmaServerSignatureServerPlugin.java:376) at org.fundaciobit
-   * .plugins.signatureserver.afirmaserver.test.AfirmaServerTest.signFile
-   * (AfirmaServerTest.java:199) at org.fundaciobit.plugins.signatureserver.afirmaserver
-   * .test.AfirmaServerTest.main(AfirmaServerTest.java:105) Error Firma 1. MSG = Error firmant
-   * document hola.pdf (0)[java.lang.VerifyError]:(class: es/gob/afirma/utils/UtilsSignature,
-   * method: validatePAdESEnhancedOptionalAttributes signature: (Les/gob/afirma/signature
-   * /pades/PDFSignatureDictionary;Lorg/bouncycastle/asn1
-   * /cms/AttributeTable;Lorg/bouncycastle/asn1/cms/AttributeTable;Z)V) Incompatible argument
-   * to function java.lang.Exception: Error firmant document hola.pdf
-   * (0)[java.lang.VerifyError]:(class: es/gob/afirma/utils/UtilsSignature, method:
-   * validatePAdESEnhancedOptionalAttributes signature: (Les/gob/afirma/signature
-   * /pades/PDFSignatureDictionary;Lorg/bouncycastle/asn1
-   * /cms/AttributeTable;Lorg/bouncycastle/asn1/cms/AttributeTable;Z)V) Incompatible argument
-   * to function at org.fundaciobit.plugins.signatureserver
-   * .afirmaserver.test.AfirmaServerTest.signFile(AfirmaServerTest.java:216) at org
-   * .fundaciobit.plugins.signatureserver.afirmaserver.test.AfirmaServerTest .main
-   * (AfirmaServerTest.java:105)
-   */
-
   @Override
   public byte[] generateTimeStamp(String signaturesSetID, int signatureIndex,
       byte[] inputRequest) throws Exception {
@@ -1254,9 +1136,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
   private static void addSoftwareLibrary(File file) throws Exception {
     Method method = URLClassLoader.class
-        .getDeclaredMethod("addURL", new Class[] { URL.class });
+        .getDeclaredMethod("addURL", URL.class);
     method.setAccessible(true);
-    method.invoke(ClassLoader.getSystemClassLoader(), new Object[] { file.toURI().toURL() });
+    method.invoke(ClassLoader.getSystemClassLoader(), file.toURI().toURL());
   }
 
   protected TransformersFacade getTransformersFacade() throws Exception {
@@ -1443,9 +1325,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
     Writer out = new StringWriter();
     template.process(custodyParameters, out);
-    
-    String res = out.toString();
-    return res;
+
+      return out.toString();
     } catch(Exception e) {
       final String msg = "No s'ha pogut processar l'Expression Language " + plantilla 
         + ":" + e.getMessage();
