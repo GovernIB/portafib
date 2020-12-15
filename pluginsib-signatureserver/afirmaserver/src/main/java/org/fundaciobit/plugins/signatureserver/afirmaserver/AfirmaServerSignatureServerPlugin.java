@@ -432,7 +432,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
           applicationID = getPropertyRequired(APPLICATIONID_SENSE_SEGELLLAT_DE_TEMPS_PROPERTY);
         }
 
-        boolean isXML = CXFUtils.isXMLFormat(bytesToSign);
+        boolean isXML = XMLUtil.isXml(fileInfo.getFileToSign());
         if (debug) {
           log.info("Doc ES XML: " + isXML);
           log.info("applicationID = " + applicationID);
@@ -1034,7 +1034,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   private static boolean incorporateSignatureImplicit(Map<String, Object> inputParameters,
       byte[] signature) throws Exception {
 
-      if (!CXFUtils.isXMLFormat(signature)) {
+
+      if (!XMLUtil.isXml(signature)) {
         inputParameters.put("dss:SignatureObject/dss:Base64Signature",
             new String(Base64Coder.encodeBase64(signature)));
         return false;
@@ -1043,8 +1044,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         // NOTA: Si aquí posam  UTF_8 llavors en el JBOSS es produeix:
         // java.lang.Exception: Error en los parámetros de entrada.
         String typeOfESignature = getXAdESFormat(signature);
-        
-        //System.out.println("typeOfESignature = " + typeOfESignature);
         
         if (SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED.equals(typeOfESignature)) {
           inputParameters.put("dss:SignatureObject", new String(signature, UTF_8));

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<Peticion>
+    <Process>
+        <IdTel>TEL51</IdTel>
+        <NumRegEnt/>
+        <AnhoRegEnt/>
+        <FechaEntradaReg/>
+        <sIdOperador>04</sIdOperador>
+        <Nombre>Pruebàs</Nombre>
+        <Apellido1>Eidas</Apellido1>
+        <Apellido2>Certificado</Apellido2>
+        <NumIdentificador>99999999R</NumIdentificador>
+        <FileRequest>envio_baleares.xml</FileRequest>
+        <ClientSignature/>
+        <ServerSignature/>
+    </Process>
+    <FileAttachements>
+        <Filename>envio_baleares.xml</Filename>
+        <Signature>
+            <![CDATA[FIRMA]]>
+        </Signature>
+    </FileAttachements>
+</Peticion>

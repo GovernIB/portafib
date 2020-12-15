@@ -7,7 +7,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -25,12 +24,10 @@ import java.util.Map;
  */
 public class ManualXAdESParserOfResponse {
 
-  private static final DocumentBuilderFactory DBF = DocumentBuilderFactory.newInstance();
-
   public static Map<String,Object> parseXAdES(String inXMLStr) throws Exception {
     Map<String,Object> resultProperties = new HashMap<String, Object>();
 
-    DocumentBuilder db = DBF.newDocumentBuilder();
+    DocumentBuilder db = XMLUtil.DBF.newDocumentBuilder();
     InputSource is = new InputSource(new StringReader(inXMLStr));
 
       Document doc = db.parse(is);

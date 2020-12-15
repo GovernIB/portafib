@@ -42,7 +42,7 @@ public class MIMEInputStream extends FilterInputStream {
       //String mime = new String("MIME-Version: 1.0\r\n");
       
       //Inicialización de la cabecera
-      String mime = new String("");
+      String mime = "";
       mime = mime + "Content-Type: " + contentType + "\r\n";
       mime = mime + "Content-Transfer-Encoding: base64\r\n\r\n";
 
