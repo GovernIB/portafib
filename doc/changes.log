@@ -1,4 +1,22 @@
 
+PortaFIB 2.0.14
+==============
+
+2020-12-15 El plugin AfirmaServerSignatureServerPlugin no detecta correctament els documents XML #515
+
+2020-12-15 Reutilitzar instàncies de DocumentBuilderFactory #516
+
+2020-12-11 Quan validació de firma falla es llança I18NException que provoca rollback #490
+
+2020-12-11 Fer funcionar XAdES amb Plugin de Autofirma #389
+
+2020-12-10 Validació de document modificat XADES falla quan el fitxer signat no és XML #514
+
+2020-12-02 Possibles problemes de concurrència al procés de firma #509
+
+2020-11-30 Cache de consultes i certificats de FIRe no funciona #508
+
+
 PortaFIB 2.0.13
 ==============
 
