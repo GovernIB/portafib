@@ -40,7 +40,7 @@
     <dependency>
       <artifactId>apiplantillafluxsimple-jersey</artifactId>
       <groupId>org.fundaciobit.apisib.apiplantillafluxsimple</groupId>
-      <version>1.0.0</version>
+      <version>1.0.1</version>
       <scope>test</scope>
     </dependency>
 

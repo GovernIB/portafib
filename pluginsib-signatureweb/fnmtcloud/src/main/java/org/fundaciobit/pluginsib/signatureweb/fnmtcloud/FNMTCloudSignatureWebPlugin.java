@@ -15,12 +15,14 @@ import org.apache.http.impl.client.HttpClients;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.pluginsib.core.utils.Base64;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
 import org.fundaciobit.pluginsib.signatureweb.fnmtcloud.json.DigestAlgorithmIdentifier;
 import org.fundaciobit.pluginsib.signatureweb.fnmtcloud.json.DocumentAgreement;
 import org.fundaciobit.pluginsib.signatureweb.fnmtcloud.json.DocumentInfo;
@@ -31,11 +33,18 @@ import org.fundaciobit.pluginsib.signatureweb.fnmtcloud.json.PadesPolicyIdentifi
 import org.fundaciobit.pluginsib.signatureweb.fnmtcloud.json.PadesPolicyQualifier;
 import org.fundaciobit.pluginsib.signatureweb.fnmtcloud.json.SignatureRequest;
 import org.fundaciobit.pluginsib.signatureweb.fnmtcloud.json.Signer;
+import org.fundaciobit.pluginsib.signatureweb.fnmtcloud.json.ToBeTimestamped;
 import org.fundaciobit.pluginsib.signatureweb.fnmtcloud.json.Views;
 import org.fundaciobit.pluginsib.signatureweb.fnmtcloud.utils.OAuthTokenController;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+import org.bouncycastle.crypto.Digest;
+import org.bouncycastle.crypto.digests.SHA1Digest;
+import org.bouncycastle.crypto.digests.SHA256Digest;
+import org.bouncycastle.crypto.digests.SHA384Digest;
+import org.bouncycastle.crypto.digests.SHA512Digest;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
@@ -1048,9 +1057,52 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
       paramPAdES.setPolicyIdentifier(policyIdentifierBean);
       
       
+      //if (fileInfo.isUserRequiresTimeStamp()) {
+
+      if (fileInfo.getTimeStampGenerator() != null) {
+        // paramPAdES
+        
+        // IMPORTANT: PER ACTIVAR AQUEST CODI REVISAR METODE acceptExternalTimeStampGenerator
+
+        // XYZ ZZZ ZZZ
+        ToBeTimestamped toBeTimestamped = new ToBeTimestamped();
+        toBeTimestamped.setType("message_imprint");
+
+        ITimeStampGenerator tsgen = fileInfo.getTimeStampGenerator();
+
+        toBeTimestamped
+            .setDigestAlgorithm(getAlgorithmFNMT(tsgen.getTimeStampHashAlgorithm()));
+
+        byte[] dataToStamp = FileUtils.readFromFile(fileInfo.getFileToSign());
+
+        byte[] timestamp = generateDigestForTSA(dataToStamp, tsgen);
+
+        String timestampB64 = Base64.encode(timestamp);
+
+        toBeTimestamped.setDigestValue(timestampB64);
+
+        // ???? FALTA TX_EIDAS_4.1.4.0 - Obtener el hash de una firma para solicitar un sello
+        // de tiempo);
+        signer.setToBeTimestamped(toBeTimestamped);
+
+        // Timestamp timestampReq = new Timestamp();
+        // timestamp.setProviderId(???? FALTA !!!!!!);
+        // signatureRequest.setTimestamp(timestampReq);
+
+        /*
+         * List<String> timestampList = new ArrayList<String>();
+         * timestampList.add(timestampB64);
+         * 
+         * signer.setTimestamps(timestampList);
+         */
+
+      }
+
       signer.setParameters(paramPAdES);
       signatureRequest.setSigner(signer);
     }
+    
+    
     
     String html = getHtmlBodyContent(); 
     if (html != null) {
@@ -1816,11 +1868,8 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
    */
   @Override
   public boolean providesTimeStampGenerator(String signType) {
-    // XYZ ZZZ falkta implementar-ho !!!!!
-//    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-//      return true;
-//    }
-      return false;
+
+     return false;
     
   }
   
@@ -1842,6 +1891,12 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
 
   @Override
   public boolean acceptExternalTimeStampGenerator(String signType) {
+    // XYZ ZZZ ZZZ
+    
+//    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
+//      return true;
+//    }
+    
     return false;
   }
 
@@ -1868,6 +1923,7 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
   };
   
   
+  
 public String getAlgorithmPolicy(String algorithmPolicy) {
     
     
@@ -1876,6 +1932,55 @@ public String getAlgorithmPolicy(String algorithmPolicy) {
     
 
   };
+  
+  // --------------------------------------------
+  // -------- SEGELLAT DE TEMPS
+  // --------------------------------------------
+  
+  /**
+   * Method that builds the timestamp request.
+   * @return a bytes array that represents the timestamp request.
+   * @throws TSAServiceInvokerException If the method fails.
+   */
+  private byte[] generateDigestForTSA(byte[] dataToStamp, ITimeStampGenerator tsgen)
+      throws Exception {
+    String msgError = null;
+    log.info("Entra a generateTimeStampRequest");
+    try {
+
+      /**
+       * Attribute that represents the digest of the data to stamp.
+       */
+      String hashAlgorithm = tsgen.getTimeStampHashAlgorithm();
+
+      Digest digest;
+      if (hashAlgorithm.equals(FileInfoSignature.SIGN_ALGORITHM_SHA1)) {
+        digest = new SHA1Digest();
+
+      } else if (hashAlgorithm.equals(FileInfoSignature.SIGN_ALGORITHM_SHA256)) {
+        digest = new SHA256Digest();
+      } else if (hashAlgorithm.equals(FileInfoSignature.SIGN_ALGORITHM_SHA384)) {
+        digest = new SHA384Digest();
+      } else if (hashAlgorithm.equals(FileInfoSignature.SIGN_ALGORITHM_SHA512)) {
+        digest = new SHA512Digest();
+      } else {
+        throw new Exception("Hash pel segellat de temps desconegut: " + hashAlgorithm);
+      }
+
+
+      // Calculamos el resumen de los datos a sellar
+      digest.update(dataToStamp, 0, dataToStamp.length);
+      byte[] digestValue = new byte[digest.getDigestSize()];
+      digest.doFinal(digestValue, 0);
+
+      return digestValue;
+
+    } catch (IOException e) {
+      throw new Exception(msgError, e);
+    }
+  }
+  
+
 
 
 }

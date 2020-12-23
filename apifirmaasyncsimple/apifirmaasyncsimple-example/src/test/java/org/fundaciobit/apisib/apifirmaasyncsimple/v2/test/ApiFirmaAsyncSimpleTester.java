@@ -77,7 +77,7 @@ public class ApiFirmaAsyncSimpleTester {
       ApiFirmaAsyncSimple api = tester.getApiFirmaAsyncSimple();
 
       // ----------- Idiomes Disponibles
-      // tester.getIdiomesDisponibles(languageUI, api);
+      tester.getIdiomesDisponibles(languageUI, api);
 
       // ----------- Perfils Disponibles
       // tester.getPerfilsDisponibles(languageUI, api);
@@ -86,7 +86,7 @@ public class ApiFirmaAsyncSimpleTester {
       // tester.getTipusDeDocumentsDisponibles(languageUI, api);
 
       // ----------- Peticio de Firma
-      tester.createSignatureRequestAndStart(languageUI, api);
+      //tester.createSignatureRequestAndStart(languageUI, api);
 
     } catch (ApisIBClientException client) {
 
@@ -510,8 +510,16 @@ public class ApiFirmaAsyncSimpleTester {
     String username = testProperties.getProperty("username");
     System.out.println(" Connectant amb " + host + " emprant l'usuari " + username);
 
-    return new ApiFirmaAsyncSimpleJersey(host, username,
+    ApiFirmaAsyncSimpleJersey api;
+    
+    
+    api = new ApiFirmaAsyncSimpleJersey(host, username,
         testProperties.getProperty("password"));
+    
+    //api.setConnectionTimeoutMs(20000); // 20 segons
+    //api.setReadTimeoutMs(20000); // 20 segons
+     
+     return api;
 
   }
 

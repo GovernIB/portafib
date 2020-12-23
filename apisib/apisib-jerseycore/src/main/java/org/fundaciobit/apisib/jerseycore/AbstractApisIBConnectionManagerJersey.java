@@ -42,6 +42,12 @@ public abstract class AbstractApisIBConnectionManagerJersey<E extends ApisIBErro
   protected String password = null;
 
   protected boolean ignoreServerCertificates = false;
+  
+  protected Integer connectionTimeoutMs = null;
+  
+  protected Integer readTimeoutMs = null;
+  
+
 
   /**
    * @param endPointBase
@@ -66,6 +72,24 @@ public abstract class AbstractApisIBConnectionManagerJersey<E extends ApisIBErro
       boolean ignoreServerCertificates) {
     this(endPointBase, username, password);
     this.ignoreServerCertificates = ignoreServerCertificates;
+  }
+  
+
+  public Integer getReadTimeoutMs() {
+    return readTimeoutMs;
+  }
+
+  public void setReadTimeoutMs(Integer readTimeoutMs) {
+    this.readTimeoutMs = readTimeoutMs;
+  }
+  
+
+  public Integer getConnectionTimeoutMs() {
+    return connectionTimeoutMs;
+  }
+
+  public void setConnectionTimeoutMs(Integer connectionTimeoutMs) {
+    this.connectionTimeoutMs = connectionTimeoutMs;
   }
 
   /**
@@ -115,6 +139,14 @@ public abstract class AbstractApisIBConnectionManagerJersey<E extends ApisIBErro
       config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
 
       client = Client.create(config);
+      
+      if (this.getConnectionTimeoutMs() != null) {
+        client.setConnectTimeout(this.getConnectionTimeoutMs());
+      }
+
+      if (this.getReadTimeoutMs() != null) {
+         client.setReadTimeout(this.getReadTimeoutMs());
+      }
 
       if (this.username != null) {
         client.addFilter(new HTTPBasicAuthFilter(this.username, this.password));
@@ -221,5 +253,7 @@ public abstract class AbstractApisIBConnectionManagerJersey<E extends ApisIBErro
 
   
   protected abstract Class<E> getErrorClass();
+  
+  
   
 }
