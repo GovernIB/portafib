@@ -34,6 +34,8 @@ public interface ApiFirmaAsyncSimple {
 
   public static final String SIGNATUREREQUESTSTATE = "getSignatureRequestState";
 
+  public static final String URLTOVIEWFLOW = "getUrlToViewFlow";
+
   public static final String SIGNEDFILEOFSIGNATUREREQUEST = "getSignedFileOfSignatureRequest";
 
   public static final String ORIGINALFILEOFSIGNATUREREQUEST = "getOriginalFileOfSignatureRequest";
@@ -80,6 +82,9 @@ public interface ApiFirmaAsyncSimple {
       throws AbstractApisIBException;
 
   public FirmaAsyncSimpleSignatureRequestState getSignatureRequestState(
+      FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException;
+
+  public String getUrlToViewFlow(
       FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException;
 
   public FirmaAsyncSimpleSignedFile getSignedFileOfSignatureRequest(

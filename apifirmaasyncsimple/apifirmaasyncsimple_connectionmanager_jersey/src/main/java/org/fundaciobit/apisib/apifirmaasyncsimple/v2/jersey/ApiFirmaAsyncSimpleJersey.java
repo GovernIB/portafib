@@ -123,6 +123,18 @@ public class ApiFirmaAsyncSimpleJersey extends
   }
 
   @Override
+  public String getUrlToViewFlow(
+      FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException {
+
+    ClientResponse response = commonCall(info, URLTOVIEWFLOW);
+
+    String result = response.getEntity(String.class);
+    result = cleanString(result);
+
+    return result;
+  }
+
+  @Override
   public FirmaAsyncSimpleSignedFile getSignedFileOfSignatureRequest(
       FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException {
 

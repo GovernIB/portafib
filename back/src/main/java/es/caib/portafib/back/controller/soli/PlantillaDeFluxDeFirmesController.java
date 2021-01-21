@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import es.caib.portafib.back.security.LoginException;
 import org.fundaciobit.genapp.common.KeyValue.KeyValueComparator;
 import org.fundaciobit.genapp.common.crypt.FileIDEncrypter;
 import org.apache.commons.lang.StringUtils;
@@ -275,10 +276,10 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
   @RequestMapping(value = "/viewonlyflux/{fluxDeFirmesID}", method = RequestMethod.GET)
   public ModelAndView viewOnlyFluxDeFirmesGet(
-      @PathVariable("fluxDeFirmesID") java.lang.Long fluxDeFirmesID,
+      @PathVariable("fluxDeFirmesID") String fluxDeFirmesID,
       HttpServletRequest request, HttpServletResponse response) throws I18NException {
 
-    ModelAndView mav = viewFluxDeFirmesGet(String.valueOf(fluxDeFirmesID), request, response);
+    ModelAndView mav = viewFluxDeFirmesGet(fluxDeFirmesID, request, response);
     mav.addObject("onlyFlux", true);
     return mav;
   }
@@ -324,11 +325,6 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     return FLUXDEFIRMESID.in(subquery);
   }
 
-  /**
-   * 
-   * @param request
-   * @return
-   */
   public boolean isUsuariEntitat() {
     // L'usuari solicitant no pot gestionar Plantilles de Flux de Firmes
     // de usuaris-aplicacio
@@ -635,33 +631,39 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       form.setRedirectOnModify(redirectOnModify);
     }
 
-    List<UsuariEntitatJPA> users = null;
+    List<UsuariEntitatJPA> users = new ArrayList<UsuariEntitatJPA>();
 
     // Plantilla de Fluxos d'usuari i per fluxos de la peticio de firma
     PlantillaFluxDeFirmesJPA pff = form.getPlantillaFluxDeFirmes();
-    if ((pff == null) || (pff != null && pff.getUsuariAplicacioID() == null)) {
-      // Seleccionem l'usuari actual
-      LoginInfo loginInfo = LoginInfo.getInstance();
-      String currentUser = loginInfo.getUsuariEntitatID();
+    if (pff == null || pff.getUsuariAplicacioID() == null) {
 
-      if (!form.isReadOnly() && (pff != null && pff.getUsuariEntitatID() != null)) {
-        UsuariPersona up = loginInfo.getUsuariPersona();
-        String nom = up.getNom() + " " + up.getLlinatges();
-        Set<StringKeyValue> list = new HashSet<StringKeyValue>();
-        list.add(new StringKeyValue(currentUser, nom));
-        form.setListOfUsuariEntitatForUsuariEntitatID(list);
+      try {
+        // Seleccionem l'usuari actual
+        LoginInfo loginInfo = LoginInfo.getInstance();
+        String currentUser = loginInfo.getUsuariEntitatID();
 
-        if (pff != null && pff.getUsuariEntitatID() != null) {
-          pff.setUsuariEntitatID(currentUser);
+        if (!form.isReadOnly() && (pff != null && pff.getUsuariEntitatID() != null)) {
+          UsuariPersona up = loginInfo.getUsuariPersona();
+          String nom = up.getNom() + " " + up.getLlinatges();
+          Set<StringKeyValue> list = new HashSet<StringKeyValue>();
+          list.add(new StringKeyValue(currentUser, nom));
+          form.setListOfUsuariEntitatForUsuariEntitatID(list);
+
+          if (pff.getUsuariEntitatID() != null) {
+            pff.setUsuariEntitatID(currentUser);
+          }
         }
+
+        // Llista de posibles firmants
+
+        // Seleccionem tots els usuaris favorits (ja contenen usuari-persona)
+        final boolean incloureCarrecs = true;
+        users = usuariEntitatLogicaEjb.selectFavorits(currentUser,
+                null /* Constants.ROLE_DEST */, incloureCarrecs);
+
+      } catch (LoginException e) {
+        log.info("Visualització de plantilla per part d'un usuari extern");
       }
-
-      // Llista de posibles firmants
-
-      // Seleccionem tots els usuaris favorits (ja contenen usuari-persona)
-      final boolean incloureCarrecs = true;
-      users = usuariEntitatLogicaEjb.selectFavorits(currentUser,
-          null /* Constants.ROLE_DEST */, incloureCarrecs);
 
     } else {
 
@@ -676,9 +678,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
         entitatID = LoginInfo.getInstance().getEntitatID();
       }
 
-      if (entitatID == null) {
-        users = new ArrayList<UsuariEntitatJPA>();
-      } else {
+      if (entitatID != null) {
         // La gent que pot estar dins un flux d'usuari aplicació son:
         // (1) Tots els usuaris-entitat actius amb role ROLE_DEST de la meva entitat i
         // (2) Tots els càrrecs actius de la meva entitat

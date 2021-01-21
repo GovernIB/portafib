@@ -77,7 +77,7 @@ public class ApiFirmaAsyncSimpleTester {
       ApiFirmaAsyncSimple api = tester.getApiFirmaAsyncSimple();
 
       // ----------- Idiomes Disponibles
-      tester.getIdiomesDisponibles(languageUI, api);
+      //tester.getIdiomesDisponibles(languageUI, api);
 
       // ----------- Perfils Disponibles
       // tester.getPerfilsDisponibles(languageUI, api);
@@ -86,7 +86,7 @@ public class ApiFirmaAsyncSimpleTester {
       // tester.getTipusDeDocumentsDisponibles(languageUI, api);
 
       // ----------- Peticio de Firma
-      //tester.createSignatureRequestAndStart(languageUI, api);
+      tester.createSignatureRequestAndStart(languageUI, api);
 
     } catch (ApisIBClientException client) {
 
@@ -268,6 +268,10 @@ public class ApiFirmaAsyncSimpleTester {
       log.info("Creada peticio amb ID = " + peticioDeFirmaID2);
 
       rinfo = new FirmaAsyncSimpleSignatureRequestInfo(peticioDeFirmaID2, languageUI);
+
+      String url = api.getUrlToViewFlow(rinfo);
+
+      log.info("URL to view flow: " + url);
 
       if (isWaitToSign()) {
 

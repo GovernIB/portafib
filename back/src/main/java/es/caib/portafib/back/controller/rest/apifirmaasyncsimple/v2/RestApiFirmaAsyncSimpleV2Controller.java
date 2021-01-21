@@ -1,7 +1,9 @@
 package es.caib.portafib.back.controller.rest.apifirmaasyncsimple.v2;
 
+import es.caib.portafib.back.controller.common.PlantillaDeFluxDeFirmesRestController;
 import es.caib.portafib.back.controller.rest.RestFirmaUtils;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;
 import es.caib.portafib.jpa.CustodiaInfoJPA;
@@ -29,6 +31,7 @@ import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.PluginDeCustodiaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.logic.utils.datasource.ByteArrayDataSource;
 import es.caib.portafib.logic.utils.datasource.FitxerIdDataSource;
@@ -669,6 +672,57 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
       log.error(msg, th);
 
+      return generateServerError(msg, th);
+    }
+  }
+
+  @RequestMapping(value = "/" + ApiFirmaAsyncSimple.URLTOVIEWFLOW, method = RequestMethod.POST)
+  @ResponseBody
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public ResponseEntity<?> getUrlToViewFlow(HttpServletRequest request,
+      @RequestBody FirmaAsyncSimpleSignatureRequestInfo info) {
+
+    String error = autenticateUsrApp(request);
+    if (error != null) {
+      return generateServerError(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    // XYZ ZZZ ZZZ
+    // Check info i info.getlanguage
+    String languageUI = info.getLanguageUI();
+    try {
+      LoginInfo loginInfo = commonChecks();
+
+      long peticioDeFirmaID = info.getSignatureRequestID();
+
+      // Check propietari
+      checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, loginInfo);
+
+      long fluxDeFirmesId = peticioDeFirmaLogicaEjb.executeQueryOne(
+          PeticioDeFirmaFields.FLUXDEFIRMESID,
+          PeticioDeFirmaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
+
+
+      HttpHeaders headers = addAccessControllAllowOrigin();
+
+      String result = PropietatGlobalUtil.getUrlBaseForFlowTemplate()
+              + PlantillaDeFluxDeFirmesRestController.CONTEXT + "/viewonlyflux/"
+              + HibernateFileUtil.getEncrypter().encrypt(String.valueOf(fluxDeFirmesId));
+
+      return new ResponseEntity<String>(result, headers, HttpStatus.OK);
+
+    } catch (I18NException i18ne) {
+
+      String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+      return generateServerError(msg);
+
+    } catch (Throwable th) {
+
+      // XYZ ZZZ TRA
+      String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE
+          + ": " + th.getMessage();
+      log.error(msg, th);
       return generateServerError(msg, th);
     }
   }
