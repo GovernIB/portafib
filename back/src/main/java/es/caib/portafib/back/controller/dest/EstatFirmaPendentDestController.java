@@ -5,8 +5,12 @@ import es.caib.portafib.back.controller.dest.proces.CarretHolder;
 import es.caib.portafib.back.controller.dest.proces.ProcessarEstatsCheckoutController;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
 import es.caib.portafib.back.utils.Utils;
+import es.caib.portafib.model.entity.EstatDeFirma;
+import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.SubQuery;
+import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
@@ -38,6 +42,32 @@ public class EstatFirmaPendentDestController extends EstatFirmaAbstractDestContr
   @Override
   public int getFilterType() {
     return FILTRAR_PER_PENDENT;
+  }
+
+  /**
+   * Afegeix la condició addicional de que la firma a la que pertany l'estat de firma no tengui estats de firma
+   * que pertanyen a revisors que encara no han acceptat
+   */
+  @Override
+  public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
+
+    // Estats de firma inicials de revisors
+    Where eqTipusInicial = EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
+            .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR);
+
+    // Que encara no s'han resolt, o si s'han resolt no han estat acceptats
+    Where eqTipusFinal = Where.OR(EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull(),
+            EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.notEqual(ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT) );
+
+    // Seleccionam les firmes que estan en aquesta condició
+    SubQuery<EstatDeFirma, Long> subQuery = estatDeFirmaLogicaEjb.getSubQuery(
+            EstatDeFirmaFields.FIRMAID,
+            Where.AND(eqTipusInicial, eqTipusFinal));
+
+    // Afeim la condició que els estats de firma no es correspoen a firmes que estan en aquesta situació
+    return Where.AND(
+            super.getAdditionalCondition(request),
+            EstatDeFirmaFields.FIRMAID.notIn(subQuery));
   }
 
   // Métodes per accions amb el carret
