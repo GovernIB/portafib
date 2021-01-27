@@ -1,4 +1,5 @@
-<%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
+<%@ page contentType="text/html; charset=UTF-8" language="java"
+%><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <style>
 .radius {
 	-moz-border-radius: 10px;
@@ -6,8 +7,6 @@
 	border-radius: 10px;
 }
 </style>
-
-
 
 <c:set var="contexte" value="${fluxDeFirmesForm.contexte}" />
 
@@ -125,10 +124,47 @@
             <p class="text-error">
               <fmt:message key="avis.edicioflux" />
             </p>
-
             <br>
           </c:if>
 
+          <%-- LLEGENDA NOMÉS SI ESTAM VISUALITZANT EL FLUX --%>
+          <c:if test="${onlyFlux}">
+                <div style="float: right; font-size: 0.75em; border: 1px solid #000000;">
+                    <h6>Llegenda</h6>
+                    <p style="margin: 4px; text-align: left;">
+                        <span style="border: 2px solid #0000ff; margin: 2px; padding: 1px 4px;" class="radius">&nbsp;</span>
+                        <fmt:message key="llegenda.bloc" />
+                    </p>
+                    <p style="margin: 4px; text-align: left;">
+                        <span style="border: 2px solid #00ff00; margin: 2px; padding: 1px 4px;" class="radius">&nbsp;</span>
+                        <fmt:message key="llegenda.firma" />
+                    </p>
+                    <p style="margin: 4px; text-align: left;">
+                        <span style="border: 2px solid #ff0000; margin: 2px; padding: 1px 4px;" class="radius">&nbsp;</span>
+                        <fmt:message key="llegenda.revisio" />
+                    </p>
+                    <p style="margin: 4px; text-align: left;">
+                        <span style="background:#FFFFFF; border: 1px solid #000000; margin: 2px; padding: 1px 4px;">&nbsp;</span>
+                        <fmt:message key="llegenda.noiniciat" />
+                    </p>
+                    <p style="margin: 4px; text-align: left;">
+                        <span style="background:#C0F7FE; border: 1px solid #000000; margin: 2px; padding: 1px 4px;">&nbsp;</span>
+                        <fmt:message key="llegenda.enproces" />
+                    </p>
+                    <p style="margin: 4px; text-align: left;">
+                        <span style="background:#BBFFBB; border: 1px solid #000000; margin: 2px; padding: 1px 4px;">&nbsp;</span>
+                        <fmt:message key="llegenda.firmat" />
+                    </p>
+                    <p style="margin: 4px; text-align: left;">
+                        <span style="background:#D0D0D0; border: 1px solid #000000; margin: 2px; padding: 1px 4px;">&nbsp;</span>
+                        <fmt:message key="llegenda.descartat" />
+                    </p>
+                    <p style="margin: 4px; text-align: left;">
+                        <span style="background:#FF7575; border: 1px solid #000000; margin: 2px; padding: 1px 4px;">&nbsp;</span>
+                        <fmt:message key="llegenda.rebutjat" />
+                    </p>
+                </div>
+          </c:if>
 
           <%-- IMPORTANT: No eliminar cellpadding ni cellspacing ja que sino apareixen espais entre files. --%>
           <table cellpadding="0" cellspacing="0" style="padding:0px 0px 0px 0px; margin: 0px 0px 0px 0px; border-collapse: separate; border-spacing: 0px;">
