@@ -2922,7 +2922,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
     @RequestMapping(value = "/fullView/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
     public ModelAndView fullView(HttpServletRequest request, HttpServletResponse response,
-                                 @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
+                                 @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID)
+            throws I18NException {
 
         String view = getFullViewTile();
 
@@ -2982,10 +2983,13 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         // 1.- Fitxers a visualitzar
         procesFitxersAVeure(mav, peticioDeFirmaID, peticioDeFirma);
 
+        // Afegir informació sobre firmes prèvies #513
+        mav.addObject("signatures", peticioDeFirmaLogicaEjb.getOriginalSignatures(peticioDeFirma));
+
         // Traduccions
         // Estats Finals d'un EstatDeFirma
+        // TODO: això s'hauria de refactoritzar. No cal crear un map en cada petició. Guardar-ho al servletContext
         Map<Long, String> traduccions = new HashMap<Long, String>();
-
         traduccions.put(TIPUSESTATDEFIRMAFINAL_VALIDAT, "tipusestatdefirmafinal.0");
         traduccions.put(TIPUSESTATDEFIRMAFINAL_INVALIDAT, "tipusestatdefirmafinal.1");
         traduccions.put(TIPUSESTATDEFIRMAFINAL_FIRMAT, "tipusestatdefirmafinal.2");

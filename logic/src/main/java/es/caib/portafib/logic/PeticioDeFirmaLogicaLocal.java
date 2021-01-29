@@ -11,6 +11,7 @@ import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.InfoUser;
+import es.caib.portafib.logic.signatures.Signature;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Firma;
@@ -75,6 +76,26 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
 
   public FirmaJPA getLastSignOfPeticioDeFirma(Long peticioDeFirmaID) throws I18NException;
 
+  /**
+   * Obté la llista de firmes originals d'una petició de firmes prèvies a l'inici del flux. És a dir la llista
+   * de persones que havia firmat el document de la petició de firma quan es va crear la petició.
+   * @param peticioDeFirmaID identificador de la petició de firma
+   * @return la llista de firmes.
+   * @throws IllegalArgumentException si l'id de petició és null o no existeix.
+   * @throws I18NException si es produeix qualsevol error
+   */
+  public List<Signature> getOriginalSignatures(Long peticioDeFirmaID) throws I18NException;
+
+  /**
+   * Obté la llista de firmes originals d'una petició de firma.
+   * @see #getOriginalSignatures(Long)
+   * @param peticioDeFirma la petició de firma
+   * @return la llista de firmes.
+   * @throws IllegalArgumentException si la petició és null
+   * @throws I18NException si es produeix qualsevol error
+   */
+  public List<Signature> getOriginalSignatures(PeticioDeFirma peticioDeFirma) throws I18NException;
+
   public String lockPeticioDeFirma(long peticioDeFirmaID, String usuariEntitatID,
       long timeAliveToken);
 
@@ -90,7 +111,7 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
   /**
    * 
    * @param peticioDeFirmaID
-   * @param usuariEntitatID
+   * @param usuariEntitatId
    * @return true si la peticio no esta bloquejada o esta bloquejada per usuariEntitatID. false
    *         en altres cas
    */

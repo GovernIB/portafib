@@ -34,6 +34,9 @@ import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.validator.PeticioDeFirmaBeanValidator;
 import es.caib.portafib.logic.events.FirmaEventList;
 import es.caib.portafib.logic.events.FirmaEventManagerLocal;
+import es.caib.portafib.logic.signatures.Signature;
+import es.caib.portafib.logic.signatures.SignatureExtractor;
+import es.caib.portafib.logic.signatures.SignatureExtractorFactory;
 import es.caib.portafib.logic.utils.AttachedFile;
 import es.caib.portafib.logic.utils.CustodiaForStartPeticioDeFirma;
 import es.caib.portafib.logic.utils.EmailInfo;
@@ -242,7 +245,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
   @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
   protected ConfiguracioUsuariAplicacioLogicaLocal configuracioDeFirmaLogicaEjb;
 
-  private PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA> validator = new PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA>();
+  private final PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA> validator =
+          new PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA>();
 
   @Resource
   private SessionContext context;
@@ -2253,34 +2257,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       return null;
     }
 
-    /*
-     * Long fluxID = peticioDeFirma.getFluxDeFirmesID();
-     * 
-     * // Cercam tots els blocs de firma del flux Where wBase =
-     * BlocDeFirmesFields.FLUXDEFIRMESID.equal(fluxID);
-     * 
-     * SubQuery<BlocDeFirmes, Long> subQueryBlocs; subQueryBlocs =
-     * blocDeFirmesEjb.getSubQuery(BlocDeFirmesFields.BLOCDEFIRMESID, wBase);
-     * FirmaFields.BLOCDEFIRMAID.in(subQueryBlocs);
-     * 
-     * // Cercam la firma amb numfirmadocument not null i major. // Si ordenam aquestes firmes
-     * de forma descendent per numfirmadocument // el primer element d'aquesta llista serà la
-     * darrera firma
-     * 
-     * Where w = Where.AND(FirmaFields.NUMFIRMADOCUMENT.isNotNull(),
-     * FirmaFields.BLOCDEFIRMAID.in(subQueryBlocs));
-     * 
-     * 
-     * log.info("XXXX getLastSignOfPeticioDeFirma() : SQL = " + w.toSQL());
-     * 
-     * final Integer firstResult = null; final Integer maxResults = 1; List<Firma> firmes =
-     * firmaEjb.select(w, firstResult, maxResults, new OrderBy( FirmaFields.NUMFIRMADOCUMENT,
-     * OrderType.DESC));
-     * 
-     * if (firmes == null || firmes.size() == 0) { return null; } else { return (FirmaJPA)
-     * firmes.get(0); }
-     */
-
     LongField PETICIOID = new FirmaQueryPath().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA()
         .PETICIODEFIRMAID();
 
@@ -2301,6 +2277,32 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       return (FirmaJPA) firmes.get(0);
     }
 
+  }
+
+  @Override
+  public List<Signature> getOriginalSignatures(Long peticioDeFirmaID) throws I18NException {
+    if (peticioDeFirmaID == null) {
+      throw new IllegalArgumentException("peticioDeFirmaID is null");
+    }
+
+    PeticioDeFirmaJPA peticio = findByPrimaryKey(peticioDeFirmaID);
+    if (peticio == null) {
+      throw new IllegalArgumentException(peticioDeFirmaID + " is not a valid peticioDeFirmaID");
+    }
+
+    return getOriginalSignatures(peticio);
+  }
+
+  @Override
+  public List<Signature> getOriginalSignatures(PeticioDeFirma peticio) throws I18NException {
+    if (peticio == null) {
+      throw new IllegalArgumentException("peticioDeFirma is null");
+    }
+
+    SignatureExtractorFactory extractorFactory = SignatureExtractorFactory.getInstance();
+    SignatureExtractor extractor = extractorFactory.getExtractor(peticio.getTipusFirmaID());
+    IPortaFIBDataSource dataSource = new FitxerIdDataSource(peticio.getFitxerAFirmarID());
+    return extractor.extract(dataSource);
   }
 
   /**

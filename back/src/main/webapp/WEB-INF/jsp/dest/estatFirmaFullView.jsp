@@ -3,7 +3,29 @@
 <un:useConstants var="Constants" className="es.caib.portafib.utils.Constants" />
 <!--  INICI MENU -->
 <div class="mainMenu span5">
-  
+
+  <c:if test="${not empty signatures}">
+  <div>
+      <style>
+          .bs-docs-signatures:after {
+              content: "<fmt:message key="firmes.previes" />";
+          }
+      </style>
+      <form class="bs-docs-signatures bs-docs-example form-inline" style="margin-bottom: 5px;">
+        <ul style="list-style-type:square;">
+        <c:forEach var="signature" items="${signatures}">
+        <li>
+        <small>
+           <strong>${signature.signerName} (${signature.signerAdministrationId})<br />
+           <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${signature.signingTime}" /></strong>
+        </small>
+        </li>
+        </c:forEach>
+        </ul>
+      </form>
+  </div>
+  </c:if>
+
   <iframe scrolling="auto"
     src="<c:url value="/${rolecontext}/plantilla/viewonlyflux/${peticioDeFirma.fluxDeFirmesID}?readOnly=true"/>"
     style="width: 100%; height: 375px;"> </iframe>
@@ -62,11 +84,11 @@
 
   <div>
     <style>
-        .bs-docs-example:after {
+        .bs-docs-peticio:after {
         	content: "<fmt:message key="peticioDeFirma.peticioDeFirma" />";
         }
     </style>
-    <form class="bs-docs-example bs-docs-example form-inline" style="margin-bottom: 5px;">
+    <form class="bs-docs-peticio bs-docs-example form-inline" style="margin-bottom: 5px;">
       <small>
        <b> <fmt:message key="peticioDeFirma.titol" />:</b> 
            <c:out  value="${peticioDeFirma.titol}" /><br /> 
