@@ -44,12 +44,11 @@ private static final long serialVersionUID = 1703005582L;
     this.custodiaInfoID=custodiaInfoID;
 }
   /** Constructor dels valors Not Null */
-  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , int politicaDePluginFirmaWeb , int politicaCustodia) {
+  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , boolean actiu , java.lang.String idiomaID , int politicaDePluginFirmaWeb , int politicaCustodia) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.entitatID=entitatID;
     this.emailAdmin=emailAdmin;
     this.callbackVersio=callbackVersio;
-    this.callbackURL=callbackURL;
     this.actiu=actiu;
     this.idiomaID=idiomaID;
     this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;

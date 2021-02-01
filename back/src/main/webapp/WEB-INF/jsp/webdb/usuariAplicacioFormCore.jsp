@@ -96,7 +96,7 @@
         <tr id="usuariAplicacio_callbackURL_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CALLBACKURL])?'usuariAplicacio.callbackURL':__theForm.labels[UsuariAplicacioFields.CALLBACKURL]}" /> &nbsp;(*)
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CALLBACKURL])?'usuariAplicacio.callbackURL':__theForm.labels[UsuariAplicacioFields.CALLBACKURL]}" />
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.CALLBACKURL]}">
               <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioFields.CALLBACKURL]}" ></i>
               </c:if>

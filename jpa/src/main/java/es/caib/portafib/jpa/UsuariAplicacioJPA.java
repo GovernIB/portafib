@@ -45,7 +45,7 @@ private static final long serialVersionUID = -360699331L;
 	int callbackVersio;
 
   /** Adreça on esta implementat el servei de recepció de notificacions associades a les peticions de firma realitzades per aquest usuari-màquina */
-	@Column(name="callbackurl",nullable = false,length = 400)
+	@Column(name="callbackurl",length = 400)
 	java.lang.String callbackURL;
 
 	@Column(name="actiu",nullable = false,length = 1)
@@ -96,12 +96,11 @@ private static final long serialVersionUID = -360699331L;
     this.custodiaInfoID=custodiaInfoID;
 }
   /** Constructor dels valors Not Null */
-  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , int politicaDePluginFirmaWeb , int politicaCustodia) {
+  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , boolean actiu , java.lang.String idiomaID , int politicaDePluginFirmaWeb , int politicaCustodia) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.entitatID=entitatID;
     this.emailAdmin=emailAdmin;
     this.callbackVersio=callbackVersio;
-    this.callbackURL=callbackURL;
     this.actiu=actiu;
     this.idiomaID=idiomaID;
     this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;

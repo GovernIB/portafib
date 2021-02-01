@@ -490,7 +490,7 @@ SET default_with_oids = false;
     create table pfi_usuariaplicacio (
         usuariaplicacioid varchar(101) not null,
         actiu bool not null,
-        callbackurl varchar(400) not null,
+        callbackurl varchar(400),
         callbackversio int4 not null,
         custodiainfoid int8,
         descripcio varchar(255),

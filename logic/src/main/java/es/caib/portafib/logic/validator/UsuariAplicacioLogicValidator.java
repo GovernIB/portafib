@@ -30,6 +30,16 @@ public class UsuariAplicacioLogicValidator<T> extends UsuariAplicacioValidator<T
 
     super.validate(__vr, __target__, __isNou__, __custodiaInfoManager ,__entitatManager, __idiomaManager, __usuariAplicacioManager);
 
+    // Afegir per #520. Si la URL de callback no és obligatoria a nivell de base de dades cal comprovar
+    // que només pot ser buida quan s'ha especificat la versió "-1", no callback.
+    String callbackUrl = (String) __vr.getFieldValue(__target__, CALLBACKURL);
+    if (callbackUrl == null || callbackUrl.isEmpty()) {
+      int callbackVersion = (Integer) __vr.getFieldValue(__target__, CALLBACKVERSIO);
+      if (callbackVersion != -1) {
+        __vr.rejectValue(CALLBACKURL, "usuariaplicacio.error.notecallback");
+      }
+    }
+
     if (__isNou__ && __vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
       String userApp = (String)__vr.getFieldValue(__target__, USUARIAPLICACIOID);
 

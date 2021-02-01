@@ -7,9 +7,7 @@
 
   function onChangeCallbackVersio(select) {
   
-	 var value;
-     value = select.options[select.selectedIndex].value;
-
+	 var value = select.options[select.selectedIndex].value;
      var callBackUrl = document.getElementById("usuariAplicacio.callbackURL");
 
      if (value == '0') {
@@ -19,15 +17,11 @@
      } else if (value == '2') {
          callBackUrl.value="http://localhost:8080/portafib/cbrest/v1/event";
      } else {
-         <%-- Error de desenvolupament --%>
-         alert("ID de versiÃ³ desconeguda: " + value);
+         callBackUrl.value="";
      }
-
   }
-  
-  
 
-  // Politica de Custòdia (ocultar o mostrar valor)
+  // Politica de Custï¿½dia (ocultar o mostrar valor)
   onChangePoliticaCustodia(document.getElementById("<%=UsuariAplicacioFields.POLITICACUSTODIA.fullName.replace('.', '_') %>"));
 
   function onChangePoliticaCustodia(combo) {

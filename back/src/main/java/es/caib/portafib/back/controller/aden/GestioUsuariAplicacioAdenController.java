@@ -145,10 +145,9 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       usuariAplicacioForm.getUsuariAplicacio().setEmailAdmin(Utils.getLoggedUserEmail());
 
       UsuariAplicacioJPA aplicacio = usuariAplicacioForm.getUsuariAplicacio();
-      aplicacio.setCallbackVersio(1);
+      aplicacio.setCallbackVersio(-1);
       aplicacio.setIdiomaID(Configuracio.getDefaultLanguage());
       aplicacio.setActiu(true);
-      aplicacio.setCallbackURL("http://HOST:8080/portafib/cb/v1/PortaFIBCallBack");
       
       aplicacio.setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
 

@@ -22913,10 +22913,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>es</string> 
             <string>Callback URL</string> 
            </void> 
-          </void> 
-          <void property="notNullable"> 
-           <boolean>true</boolean> 
-          </void> 
+          </void>
           <void property="size"> 
            <int>400</int> 
           </void> 
