@@ -26,7 +26,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
@@ -1094,9 +1093,6 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
       if (timeout != null) {
         propertiesConfig.put("SOCKET_TIMEOUT", timeout);
       }
-
-      Security.addProvider(new BouncyCastleProvider());
-     
       
       gateWayAPI_Instance = new GateWayAPI();
       gateWayAPI_Instance.setConfig(propertiesConfig);

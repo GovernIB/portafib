@@ -5,12 +5,10 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.security.PdfPKCS7;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import org.apache.log4j.Logger;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +16,6 @@ import java.util.List;
 public class PadesSignatureExtractor implements SignatureExtractor {
 
     private static final Logger log = Logger.getLogger(PadesSignatureExtractor.class);
-
-    static {
-        Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME);
-        Security.addProvider(new BouncyCastleProvider());
-    }
 
     private final SignatureFactory signatureFactory = SignatureFactory.getInstance();
 

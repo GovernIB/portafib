@@ -33,12 +33,6 @@ import org.json.JSONTokener;
  */
 public class OAuthTokenController {
 
-  // static {
-  //
-  // Security.addProvider(new BouncyCastleProvider());
-  //
-  // }
-
   /**
    * Returns the URL to generate an authorization codes given a list of scope/s
    * 

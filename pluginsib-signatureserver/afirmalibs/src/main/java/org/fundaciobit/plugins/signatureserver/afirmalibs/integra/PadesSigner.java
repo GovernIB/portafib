@@ -1,80 +1,5 @@
 package org.fundaciobit.plugins.signatureserver.afirmalibs.integra;
 
-/*
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.pdf.AcroFields;
-import com.lowagie.text.pdf.PdfDate;
-import com.lowagie.text.pdf.PdfDictionary;
-import com.lowagie.text.pdf.PdfName;
-import com.lowagie.text.pdf.PdfNumber;
-import com.lowagie.text.pdf.PdfObject;
-import com.lowagie.text.pdf.PdfPKCS7;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.PdfSignature;
-import com.lowagie.text.pdf.PdfSignatureAppearance;
-import com.lowagie.text.pdf.PdfStamper;
-import com.lowagie.text.pdf.PdfString;
-import es.gob.afirma.i18n.Language;
-import es.gob.afirma.signature.SignatureConstants;
-import es.gob.afirma.signature.SignatureFormatDetector;
-import es.gob.afirma.signature.Signer;
-import es.gob.afirma.signature.SignerValidationInformation;
-import es.gob.afirma.signature.SigningException;
-import es.gob.afirma.signature.ValidationResult;
-import es.gob.afirma.signature.cades.CMSBuilder;
-import es.gob.afirma.signature.cades.P7ContentSignerParameters;
-import es.gob.afirma.signature.pades.PDFDocumentTimestampDictionary;
-import es.gob.afirma.signature.pades.PDFSignatureDictionary;
-import es.gob.afirma.signature.pades.PDFSignatureDictionaryRevisionComparator;
-import es.gob.afirma.signature.policy.SignaturePolicyException;
-import es.gob.afirma.signature.policy.SignaturePolicyManager;
-import es.gob.afirma.utils.CryptoUtil;
-import es.gob.afirma.utils.GenericUtils;
-import es.gob.afirma.utils.UtilsResources;
-import es.gob.afirma.utils.UtilsSignature;
-import es.gob.afirma.utils.UtilsTimestamp;
-*/
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.cert.X509Certificate;
-import java.util.Calendar;
-
-
-
-
-import org.apache.log4j.Logger;
-import org.bouncycastle.cms.CMSSignedData;
-import org.bouncycastle.tsp.TimeStampToken;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.security.Provider;
-import java.security.Security;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
-
-
-import org.bouncycastle.cert.X509CertificateHolder;
-import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
-import org.bouncycastle.cms.SignerInformation;
-/*
-import org.bouncycastle.cms.SignerInformationStore;
-import org.bouncycastle.tsp.TSPException;
-import org.bouncycastle.tsp.TimeStampToken;
-import org.bouncycastle.tsp.TimeStampTokenInfo;
-import org.bouncycastle.util.Store;
-import org.ietf.jgss.GSSException;
-import org.ietf.jgss.Oid;
-*/
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
-
 import com.aowagie.text.pdf.AcroFields;
 import com.aowagie.text.pdf.PdfDictionary;
 import com.aowagie.text.pdf.PdfName;
@@ -86,6 +11,26 @@ import com.aowagie.text.pdf.PdfSignature;
 import com.aowagie.text.pdf.PdfSignatureAppearance;
 import com.aowagie.text.pdf.PdfStamper;
 import com.aowagie.text.pdf.PdfString;
+import org.apache.log4j.Logger;
+import org.bouncycastle.cert.X509CertificateHolder;
+import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+import org.bouncycastle.cms.CMSSignedData;
+import org.bouncycastle.cms.SignerInformation;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.tsp.TimeStampToken;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.cert.X509Certificate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -98,13 +43,7 @@ public class PadesSigner {
   public static Logger LOGGER = Logger.getLogger(PadesSigner.class);
   
 
-  public PadesSigner() {
-    if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
-        Security.addProvider((Provider)new BouncyCastleProvider());
-    }
-}
-
-  
+  public PadesSigner() {}
 
   
   public byte[] upgrade(byte[] pdfDocument,

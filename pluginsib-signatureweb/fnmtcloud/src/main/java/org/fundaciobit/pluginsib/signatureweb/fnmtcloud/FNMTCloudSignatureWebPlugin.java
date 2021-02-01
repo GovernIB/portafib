@@ -1713,9 +1713,6 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
         .getInstance(TrustManagerFactory.getDefaultAlgorithm());
     trustManagerFactory.init(truststore);
 
-    // XYZ ZZZ ES NECESSSARI ????
-    //Security.addProvider(new BouncyCastleProvider());
-
     // For security reasons, you should avoid using SSL v2 and SSL v3.
     // JDK 1.6 => "SSLv3"; || JDK >1.7 => TLSv1.2
     final String protocol = this.getSslProtocol();

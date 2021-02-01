@@ -6,6 +6,7 @@ import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsTimerLocal;
 import es.caib.portafib.logic.misc.NotificacionsCallBackTimerLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
+import es.caib.portafib.logic.utils.ProviderRegistration;
 import es.caib.portafib.utils.Build;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
@@ -43,11 +44,16 @@ public class InitServlet extends HttpServlet {
 
   protected final Logger log = Logger.getLogger(getClass());
 
+  private final ProviderRegistration providerRegistration = new ProviderRegistration();
+
   @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
 
   @Override
   public void init(ServletConfig config) throws ServletException {
+
+    // Registrar providers
+    providerRegistration.register();
 
     // TODO pendent de Inicialitzar el sistema de info de IDIOMA
     try {
@@ -276,4 +282,10 @@ public class InitServlet extends HttpServlet {
     log.info("Test sistema de fitxers superat");
   }
 
+  @Override
+  public void destroy() {
+    log.info("Aturant PortaFIB");
+
+    providerRegistration.unregister();
+  }
 }

@@ -17,7 +17,6 @@ import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -495,9 +494,6 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
       IPortaFIBDataSource signedPDFData, int numFirmaPortaFIB, int numFirmesOriginals)
       throws I18NException {
 
-    Security.addProvider(new BouncyCastleProvider());
-    ArrayList<String> names;
-
     PdfReader reader;
     try {
       reader = new PdfReader(signedPDFData.getInputStream());
@@ -505,8 +501,9 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
       throw new I18NException(e1, "genapp", new I18NArgumentString(
           "Error llegint PDF firmat: " + e1.getMessage()));
     }
+
     AcroFields af = reader.getAcroFields();
-    names = af.getSignatureNames();
+    ArrayList<String> names = af.getSignatureNames();
 
     if (names == null || names.size() == 0) {
       // TODO XYZ ZZZ TRA

@@ -227,15 +227,6 @@ public abstract class AbstractTriFaseSigner extends MiniAppletClassLoader  {
   */
   
   /*
-  URLClassLoader child = new URLClassLoader (myJar.toURL(), PdfUtils.class.getClassLoader());
-  Class<?> classToLoad = Class.forName ("org.bouncycastle.jce.provider.BouncyCastleProvider", true, child);
-  //Method method = classToLoad.getDeclaredMethod ("myMethod");
-  Object instance = classToLoad.newInstance ();
-  //Object result = method.invoke (instance);
-  
-   */
-  
-  /*
   public Object invokePreSign() {
     
     

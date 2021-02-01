@@ -16,10 +16,8 @@ import org.bouncycastle.util.Store;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.security.Provider;
 import java.security.cert.X509Certificate;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 
@@ -29,11 +27,6 @@ import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
  *
  */
 public class ValidationsCAdES {
-
-  /**
-   * Attribute that represents the BouncyCastle provider.
-   */
-  public static final Provider BC_PROVIDER = new BouncyCastleProvider();
 
   public static byte[] getOriginalDocumentOfCadesAttachedSignature(InputStream eSignature)
       throws I18NException {

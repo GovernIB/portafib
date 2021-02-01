@@ -7,23 +7,32 @@ import es.caib.portafib.logic.signatures.Signature;
 import es.caib.portafib.logic.signatures.SignatureExtractor;
 import es.caib.portafib.logic.signatures.SignatureExtractorFactory;
 import es.caib.portafib.logic.signatures.XadesSignatureExtractor;
+import es.caib.portafib.logic.utils.ProviderRegistration;
 import es.caib.portafib.logic.utils.datasource.FileDataSource;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.security.Security;
 import java.util.List;
 
 public class TestSignatureExtractor {
 
-    static {
-        Security.addProvider(new BouncyCastleProvider());
+    private static final ProviderRegistration providerRegistration = new ProviderRegistration();
+
+    @BeforeClass
+    public static void setup() {
+        providerRegistration.register();
+    }
+
+    @AfterClass
+    public static void teardown() {
+        providerRegistration.unregister();
     }
 
     @Test(expected = IllegalArgumentException.class)
