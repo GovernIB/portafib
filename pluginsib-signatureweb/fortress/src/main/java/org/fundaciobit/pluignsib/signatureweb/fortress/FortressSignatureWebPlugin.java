@@ -2,7 +2,6 @@ package org.fundaciobit.pluignsib.signatureweb.fortress;
 
 import com.viafirma.fortress.sdk.FortressApi;
 import com.viafirma.fortress.sdk.configuration.FortressApiConfiguration;
-import com.viafirma.fortress.sdk.model.AccessToken;
 import com.viafirma.fortress.sdk.model.signature.SignatureConfiguration;
 import com.viafirma.fortress.sdk.model.signature.SignatureRequest;
 import com.viafirma.fortress.sdk.model.signature.SignatureRequestResponse;
@@ -32,19 +31,38 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
     public static final String FORTRESS_BASE_PROPERTIES = PLUGINSIB_SIGNATUREWEB_BASE_PROPERTY + "fortress.";
 
     private final Map<String, String> executionCodes = new ConcurrentHashMap<String, String>(20);
+    private FortressApi api;
 
     // Constructors per defecte
 
     public FortressSignatureWebPlugin() {
         super();
+        initApi();
     }
 
     public FortressSignatureWebPlugin(String propertyKeyBase) {
         super(propertyKeyBase);
+        initApi();
     }
 
     public FortressSignatureWebPlugin(String propertyKeyBase, Properties properties) {
         super(propertyKeyBase, properties);
+        initApi();
+    }
+
+    // Inicialització
+
+    private void initApi() {
+        try {
+            FortressApiConfiguration conf =
+                    new FortressApiConfiguration(getUrl(), getClientId(), getClientSecret());
+            conf.setDebug(isDebug());
+            conf.setConnectionTimeout(getConnectTimeout());
+            conf.setReadTimeout(getReadTimeout());
+            api = new FortressApi(conf);
+        } catch (Exception e) {
+            throw new RuntimeException("Error inicialitzant API", e);
+        }
     }
 
     // Propietats de configuració
@@ -75,25 +93,6 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
 
     /////////
 
-    private volatile FortressApi api;
-
-    public FortressApi getApi() throws Exception {
-        FortressApi result = api;
-        if (result == null) {
-            synchronized (this) {
-                if (api == null) {
-                    FortressApiConfiguration conf =
-                            new FortressApiConfiguration(getUrl(), getClientId(), getClientSecret());
-                    conf.setDebug(isDebug());
-                    conf.setConnectionTimeout(getConnectTimeout());
-                    conf.setReadTimeout(getReadTimeout());
-                    api = result = new FortressApi(conf);
-                }
-            }
-        }
-        return result;
-    }
-
     @Override
     public String getName(Locale locale) {
         return getTraduccio("pluginname", locale);
@@ -115,7 +114,7 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
     @Override
     public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
                                 String relativePluginRequestPath, SignaturesSetWeb signaturesSet,
-                                Map<String, Object> parameters) throws Exception {
+                                Map<String, Object> parameters) {
 
         addSignaturesSet(signaturesSet);
         return relativePluginRequestPath + "/" + INICI_FIRMA;
@@ -186,7 +185,7 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
 
 
             SignatureRequestResponse signatureRequestResponse =
-                    getApi().signatureRequest(token, signatureRequest);
+                    api.signatureRequest(token, signatureRequest);
             executionCodes.put(signaturesSet.getSignaturesSetID(), signatureRequestResponse.getExeCode());
             signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
 
@@ -196,7 +195,7 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
                 log.info("authcode: " + authCode);
                 log.info("callbackUrl: " + callbackUrl);
             }
-            String signatureAuthorizationUri = getApi().getSignatureAuthorizationUri(authCode, callbackUrl);
+            String signatureAuthorizationUri = api.getSignatureAuthorizationUri(authCode, callbackUrl);
 
             sendRedirect(response, signatureAuthorizationUri);
 
@@ -226,8 +225,7 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
 
             String token = getToken(absolutePluginRequestPath);
 
-            List<SignatureResponse> signatureResponses =
-                    getApi().executeSignature(token, exeCode);
+            List<SignatureResponse> signatureResponses = api.executeSignature(token, exeCode);
 
             SignatureAdapter adapter = new SignatureAdapter(signaturesSet);
             adapter.updateSignatureStatus(signatureResponses);
@@ -246,7 +244,7 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
 
     private String getToken(String absolutePluginRequestPath) throws Exception {
         if (tokenHolder.isExpired()) {
-            tokenHolder = new TokenHolder(getApi().getAccessToken("", absolutePluginRequestPath,
+            tokenHolder = new TokenHolder(api.getAccessToken("", absolutePluginRequestPath,
                     GRANT_TYPE_CLIENT_CREDENTIALS));
         }
         return tokenHolder.getToken();
@@ -279,7 +277,7 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
     }
 
     @Override
-    public void resetAndClean(HttpServletRequest request) throws Exception {
+    public void resetAndClean(HttpServletRequest request) {
         internalResetAndClean(request);
     }
 
