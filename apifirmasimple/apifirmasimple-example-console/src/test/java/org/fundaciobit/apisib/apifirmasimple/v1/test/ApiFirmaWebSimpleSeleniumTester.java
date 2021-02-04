@@ -156,13 +156,13 @@ public class ApiFirmaWebSimpleSeleniumTester {
                         }
 
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        System.out.printf("Error a la transacció %s: %s%n", transactionID, e.getMessage());
                     } finally {
                         if (transactionID != null) {
                             try {
                                 api.closeTransaction(transactionID);
                             } catch (Throwable th) {
-                                th.printStackTrace();
+                                System.out.printf("Error tancant transacció %s: %s%n", transactionID, th.getMessage());
                             }
                         }
                     }
