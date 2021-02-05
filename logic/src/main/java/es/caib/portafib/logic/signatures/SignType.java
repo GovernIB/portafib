@@ -1,16 +1,17 @@
 package es.caib.portafib.logic.signatures;
 
 import es.caib.portafib.utils.ConstantsV2;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public enum SignType {
 
-    PADES(ConstantsV2.TIPUSFIRMA_PADES),
-    XADES(ConstantsV2.TIPUSFIRMA_XADES),
-    CADES(ConstantsV2.TIPUSFIRMA_CADES),
-    SMIME(ConstantsV2.TIPUSFIRMA_SMIME);
+    PADES(ConstantsV2.TIPUSFIRMA_PADES, FileInfoSignature.SIGN_TYPE_PADES),
+    XADES(ConstantsV2.TIPUSFIRMA_XADES, FileInfoSignature.SIGN_TYPE_XADES),
+    CADES(ConstantsV2.TIPUSFIRMA_CADES, FileInfoSignature.SIGN_TYPE_CADES),
+    SMIME(ConstantsV2.TIPUSFIRMA_SMIME, null);
 
     private static final Map<Integer, SignType> ID_TO_ENUM = new HashMap<Integer, SignType>();
 
@@ -21,13 +22,19 @@ public enum SignType {
     }
 
     private final int typeId;
+    private final String typeName;
 
-    SignType(int typeId) {
+    SignType(int typeId, String typeName) {
         this.typeId = typeId;
+        this.typeName = typeName;
     }
 
     public int typeId() {
         return typeId;
+    }
+
+    public String typeName() {
+        return typeName;
     }
 
     public static SignType fromId(int typeId) {

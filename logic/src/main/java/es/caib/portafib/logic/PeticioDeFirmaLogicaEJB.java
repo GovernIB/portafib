@@ -34,9 +34,11 @@ import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.validator.PeticioDeFirmaBeanValidator;
 import es.caib.portafib.logic.events.FirmaEventList;
 import es.caib.portafib.logic.events.FirmaEventManagerLocal;
+import es.caib.portafib.logic.signatures.SignType;
 import es.caib.portafib.logic.signatures.Signature;
 import es.caib.portafib.logic.signatures.SignatureExtractor;
 import es.caib.portafib.logic.signatures.SignatureExtractorFactory;
+import es.caib.portafib.logic.signatures.SignatureValidation;
 import es.caib.portafib.logic.utils.AttachedFile;
 import es.caib.portafib.logic.utils.CustodiaForStartPeticioDeFirma;
 import es.caib.portafib.logic.utils.EmailInfo;
@@ -124,6 +126,8 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.plugins.documentcustody.api.CustodyException;
 import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 import org.fundaciobit.plugins.documentcustody.api.NotSupportedCustodyException;
+import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
+import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
 import org.hibernate.Hibernate;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
@@ -241,6 +245,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
   @EJB(mappedName = ValidacioCompletaFirmaLogicaLocal.JNDI_NAME)
   protected ValidacioCompletaFirmaLogicaLocal validacioCompletaLogicaEjb;
+
+  @EJB(mappedName = PluginValidacioFirmesLogicaLocal.JNDI_NAME)
+  protected PluginValidacioFirmesLogicaLocal validacioFirmesEjb;
 
   @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
   protected ConfiguracioUsuariAplicacioLogicaLocal configuracioDeFirmaLogicaEjb;
@@ -2294,7 +2301,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
   }
 
   @Override
-  public List<Signature> getOriginalSignatures(PeticioDeFirma peticio) throws I18NException {
+  public List<Signature> getOriginalSignatures(PeticioDeFirmaJPA peticio) throws I18NException {
     if (peticio == null) {
       throw new IllegalArgumentException("peticioDeFirma is null");
     }
@@ -2304,6 +2311,52 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
     IPortaFIBDataSource dataSource = new FitxerIdDataSource(peticio.getFitxerAFirmarID());
     return extractor.extract(dataSource);
   }
+
+  @Override
+  public SignatureValidation getOriginalSignaturesValidation(PeticioDeFirmaJPA peticio, String lang)
+          throws I18NException {
+    if (peticio == null) {
+      throw new IllegalArgumentException("peticioDeFirma is null");
+    }
+
+    IPortaFIBDataSource dataSource = new FitxerIdDataSource(peticio.getFitxerAFirmarID());
+
+    final String entitatID;
+    if (peticio.getSolicitantUsuariEntitat1() != null) {
+      entitatID = peticio.getSolicitantUsuariEntitat1().getEntitatID();
+    } else {
+      entitatID = peticio.getUsuariAplicacio().getEntitatID();
+    }
+
+    String signType = SignType.fromId(peticio.getTipusFirmaID()).typeName();
+    try {
+      ValidateSignatureResponse response =
+              validacioFirmesEjb.validateSignature(entitatID, signType, dataSource, null, lang);
+      if (response == null) {
+        // un respose null és la manera actual de dir que no hi ha plugin de validació
+        String message = I18NLogicUtils.tradueix(new Locale(lang), "peticiodefirma.error.nopluginvalidacio");
+        return SignatureValidation.error(message);
+      }
+
+      int status = response.getValidationStatus().getStatus();
+      switch (status) {
+        case ValidationStatus.SIGNATURE_VALID:
+          return SignatureValidation.valid();
+
+        case ValidationStatus.SIGNATURE_INVALID:
+          return SignatureValidation.invalid(response.getValidationStatus().getErrorMsg());
+
+        case ValidationStatus.SIGNATURE_ERROR:
+          return SignatureValidation.error(response.getValidationStatus().getErrorMsg());
+
+        default:
+          throw new IllegalStateException("Status de validació desconegut: " + status);
+      }
+    } catch (ValidacioException e) {
+      return SignatureValidation.error(e.getMessage());
+    }
+  }
+
 
   /**
    * Retorna els identificadors i index de les firmes realitzades de la petició

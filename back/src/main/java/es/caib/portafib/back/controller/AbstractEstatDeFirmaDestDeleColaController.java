@@ -6,6 +6,7 @@ import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.TipusDocumentRefList;
 import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
+import es.caib.portafib.back.helper.SignatureValidationHelper;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.AbstractParallelSignedFilesProcessing;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
@@ -29,6 +30,7 @@ import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
+import es.caib.portafib.logic.signatures.SignatureValidation;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
@@ -2985,6 +2987,13 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
         // Afegir informació sobre firmes prèvies #513
         mav.addObject("signatures", peticioDeFirmaLogicaEjb.getOriginalSignatures(peticioDeFirma));
+
+        if (request.getParameter("validar") != null) {
+            String lang = LoginInfo.getInstance().getUsuariPersona().getIdiomaID();
+            SignatureValidation validation =
+                    peticioDeFirmaLogicaEjb.getOriginalSignaturesValidation(peticioDeFirma, lang);
+            mav.addObject("signaturesValidation", new SignatureValidationHelper(validation));
+        }
 
         // Traduccions
         // Estats Finals d'un EstatDeFirma

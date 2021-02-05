@@ -12,6 +12,7 @@ import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.InfoUser;
 import es.caib.portafib.logic.signatures.Signature;
+import es.caib.portafib.logic.signatures.SignatureValidation;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Firma;
@@ -94,7 +95,18 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
    * @throws IllegalArgumentException si la petició és null
    * @throws I18NException si es produeix qualsevol error
    */
-  public List<Signature> getOriginalSignatures(PeticioDeFirma peticioDeFirma) throws I18NException;
+  public List<Signature> getOriginalSignatures(PeticioDeFirmaJPA peticioDeFirma) throws I18NException;
+
+  /**
+   * Obté l'estat de validació de les firmes originals
+   * @param peticioDeFirma la petició de firmes
+   * @param lang idioma per retornar missatges localitzats
+   * @return validació de les firmes
+   * @throws IllegalArgumentException si la petició és null
+   * @throws I18NException
+   */
+  public SignatureValidation getOriginalSignaturesValidation(PeticioDeFirmaJPA peticioDeFirma, String lang)
+          throws I18NException;
 
   public String lockPeticioDeFirma(long peticioDeFirmaID, String usuariEntitatID,
       long timeAliveToken);

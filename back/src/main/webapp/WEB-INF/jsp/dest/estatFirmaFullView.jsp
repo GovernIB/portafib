@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%><%@ include
   file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <un:useConstants var="Constants" className="es.caib.portafib.utils.Constants" />
+<c:set var="peticioID" value="${peticioDeFirma.peticioDeFirmaID}" />
+<c:set var="estatID" value="${estatDeFirma.estatDeFirmaID}" />
 <!--  INICI MENU -->
 <div class="mainMenu span5">
 
@@ -22,6 +24,23 @@
         </li>
         </c:forEach>
         </ul>
+        <c:choose>
+            <c:when test="${empty signaturesValidation}">
+               <c:url var="validatingUrl" value="${contexte}/fullView/${estatID}/${peticioID}">
+                 <c:param name="validar" value="1"/>
+               </c:url>
+               <a class="btn btn-small btn-warning" href="#" onclick="goTo('${validatingUrl}')">
+                  <i class="icon-check"></i> <fmt:message key="validar" /> </a>
+            </c:when>
+            <c:otherwise>
+                <p class="${signaturesValidation.statusStyle}">
+                    <strong>
+                        <c:out value="${signaturesValidation.status}" />&nbsp;
+                        <c:out value="${signaturesValidation.message}" />
+                    </strong>
+                </p>
+            </c:otherwise>
+        </c:choose>
       </form>
   </div>
   </c:if>
@@ -31,8 +50,6 @@
     style="width: 100%; height: 375px;"> </iframe>
 
   <br /> <br />
-  <c:set var="peticioID" value="${peticioDeFirma.peticioDeFirmaID}" />
-  <c:set var="estatID" value="${estatDeFirma.estatDeFirmaID}" />
   
   <c:if test="${empty estatDeFirma.tipusEstatDeFirmaFinalID }">
       <div style="text-align: center">     
