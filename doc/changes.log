@@ -1,4 +1,28 @@
 
+PortaFIB 2.0.15
+==============
+
+2021-02-05 A la vista completa visualitzar la validessa de firmes anteriors dels documents #500
+
+2021-02-04 Possible problema de concurrència al plugin de firmaweb Fortress #522
+
+2021-02-03 Actualitzar plugins validatesignature i validatecertificate #521
+
+2021-02-01 Revisar obligatorietat del camp "Callback URL" #520
+
+2021-02-01 Centralitzar registre (i eliminació) de BouncyCastleProvider #519
+
+2021-02-01 Visualitzar firmes prèvies en la vista preliminar #513
+
+2021-01-27 Fer que els destinataris puguin destriar les peticions de firma pendents de revisor #510
+
+2021-01-27 Afegir Llegenda de Colors als Flux de Firmes #49
+
+2021-01-21 Afegir nou mètode REST per pemetre visualitzar l'estat d'un flux de firmes d'una petició #518
+
+2020-12-23 Nous mètodes per control de timeouts en manager Jersey #517
+
+
 PortaFIB 2.0.14
 ==============
 
