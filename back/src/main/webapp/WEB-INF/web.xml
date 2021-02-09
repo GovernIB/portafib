@@ -74,26 +74,6 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>/static/*</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.gif</url-pattern>
-		<url-pattern>*.png</url-pattern>
-		<url-pattern>*.jpg</url-pattern>
-		<url-pattern>*.js</url-pattern>
-		<url-pattern>*.css</url-pattern>
-		<url-pattern>*.htm</url-pattern>
-		<url-pattern>*.txt</url-pattern>
-		<url-pattern>*.jar</url-pattern>
-		<url-pattern>*.pdf</url-pattern>
-		<url-pattern>*.properties</url-pattern>
-        <url-pattern>*.apk</url-pattern>
-	</servlet-mapping>
-
 	<!-- Spring 3 Configuration -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -150,13 +130,10 @@
 		</taglib>
 	</jsp-config>
 
-  
   <error-page>
     <error-code>401</error-code>
     <location>/indexcc.jsp?error=401</location>
   </error-page>
-   
-  
 
   <error-page>
 		<error-code>404</error-code>
@@ -180,13 +157,8 @@
  
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>portafib_back-public</web-resource-name>   
-
+            <web-resource-name>portafib_back-public</web-resource-name>
             <url-pattern>/carrecscaib/*</url-pattern>
-            <url-pattern>/css/*</url-pattern>
-            <url-pattern>/img/*</url-pattern>
-            <url-pattern>/js/*</url-pattern>
-            <url-pattern>/doc/*</url-pattern>
             <url-pattern>/error.jsp</url-pattern>
             <url-pattern>/index.jsp</url-pattern>
             <url-pattern>/indexcc.jsp</url-pattern>
@@ -275,8 +247,6 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-  
-  
 
   <filter>
     <filter-name>ClientCertAuthentication</filter-name>

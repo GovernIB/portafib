@@ -14,10 +14,6 @@
     <!-- <sec:logout logout-success-url="/index.jsp" />  -->
 
     <sec:intercept-url pattern="/carrecscaib/**" access="permitAll"/>
-    <sec:intercept-url pattern="/js/**" access="permitAll"/>
-    <sec:intercept-url pattern="/doc/**" access="permitAll"/>
-    <sec:intercept-url pattern="/img/**" access="permitAll"/>
-    <sec:intercept-url pattern="/css/**" access="permitAll"/>
     <sec:intercept-url pattern="/error.jsp" access="permitAll"/>        
     <sec:intercept-url pattern="/index.jsp" access="permitAll"/>
     <sec:intercept-url pattern="/indexcc.jsp" access="permitAll"/>
@@ -59,9 +55,7 @@
     <sec:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
     
     <sec:intercept-url pattern="/webdb/**" access="hasRole('ROLE_ADMIN')"/>
-    
-    
-    
+
     <!-- <sec:intercept-url pattern="/**" access="ROLE_ADMIN, ROLE_USER"/>
     
     hasRole('supervisor')" />
@@ -70,8 +64,7 @@
       <intercept-url pattern="/post.html" access="hasAnyRole('supervisor','teller')" />
   
         -->
-    
-    
+
     <sec:custom-filter position="PRE_AUTH_FILTER" ref="preauthFilter"/>
     <sec:session-management session-fixation-protection="migrateSession"/>
   </sec:http>
