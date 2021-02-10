@@ -12,8 +12,6 @@ import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.form.BaseFilterForm;
 import org.fundaciobit.genapp.common.web.form.BaseForm;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.springframework.web.util.UriUtils;
-import sun.nio.cs.StandardCharsets;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
@@ -287,7 +285,7 @@ public class Utils {
         fieldJava.setAccessible(true);
         if (fieldJava.get(obj) == null) {
           form.addHiddenField(field);
-        };
+        }
       } catch (Exception e) {
         log.error("Error extraient valors de camps: " + e.getMessage(), e);
       }

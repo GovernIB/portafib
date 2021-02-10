@@ -19,8 +19,19 @@ public class SignatureFactory {
         if (certificate == null) {
             throw new IllegalArgumentException("certificate is null");
         }
-        String signerName = CertificateUtils.getSubjectCorrectName(certificate);
-        String administrationId = CertificateUtils.getDNI(certificate);
-        return new Signature(certificate, signerName, administrationId, date);
+
+        Signature.Builder builder = new Signature.Builder(certificate, date)
+                .signerName(CertificateUtils.getSubjectCorrectName(certificate))
+                .signerAdministrationId(CertificateUtils.getDNI(certificate));
+
+        try {
+            String[] empresaNif = CertificateUtils.getEmpresaNIFNom(certificate);
+            if (empresaNif != null) {
+                builder.organizationAdministrationId(empresaNif[0])
+                        .organizationName(empresaNif[1]);
+            }
+        } catch (Exception ignore) {}
+
+        return builder.build();
     }
 }

@@ -87,6 +87,13 @@ public class TestSignatureExtractor {
 
         List<Signature> signatures = extractor.extract(dataSource);
         Assert.assertEquals(1, signatures.size());
+
+        Signature signature = signatures.get(0);
+        Assert.assertEquals("PRUEBAS EIDAS CERTIFICADO", signature.getSignerName());
+        Assert.assertEquals("99999999R", signature.getSignerAdministrationId());
+        Assert.assertNull(signature.getOrganizationName());
+        Assert.assertNull(signature.getOrganizationAdministrationId());
+
     }
 
     @Test
@@ -102,6 +109,24 @@ public class TestSignatureExtractor {
         Assert.assertEquals(2, signatures.size());
     }
 
+    @Test
+    public void testExtractPdfRepSigned() throws URISyntaxException, I18NException {
+
+        SignatureExtractorFactory extractorFactory = SignatureExtractorFactory.getInstance();
+        SignatureExtractor extractor = extractorFactory.getExtractor(SignType.PADES);
+
+        URL resource = getClass().getResource("/pdf_rep_signed.pdf");
+        IPortaFIBDataSource dataSource = new FileDataSource(new File(resource.toURI()));
+
+        List<Signature> signatures = extractor.extract(dataSource);
+        Assert.assertEquals(1, signatures.size());
+
+        Signature signature = signatures.get(0);
+        Assert.assertEquals("PRUEBASPF APELLIDOUNOPF APELLIDODOSPF", signature.getSignerName());
+        Assert.assertEquals("00000000T", signature.getSignerAdministrationId());
+        Assert.assertEquals("FNMT-RCM PRUEBAS", signature.getOrganizationName());
+        Assert.assertEquals("Q0000000J", signature.getOrganizationAdministrationId());
+    }
 
     @Test
     public void testExtractXadesCosigned() throws URISyntaxException, I18NException {

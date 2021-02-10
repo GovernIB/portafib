@@ -19,6 +19,12 @@
         <li>
         <small>
            <strong>${signature.signerName} (${signature.signerAdministrationId})<br />
+           <c:if test="${not empty signature.organizationName}">
+              <fmt:message key="firmes.representacio" >
+                <fmt:param value="${signature.organizationName}" />
+                <fmt:param value="${signature.organizationAdministrationId}" />
+              </fmt:message><br />
+           </c:if>
            <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${signature.signingTime}" /></strong>
         </small>
         </li>
