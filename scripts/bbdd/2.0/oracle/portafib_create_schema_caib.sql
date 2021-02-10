@@ -571,7 +571,6 @@
     create index pfi_estadistica_entitatid_fk_i on pfi_estadistica (entitatid);
     create index pfi_estatdefirma_firmaid_fk_i on pfi_estatdefirma (firmaid);
     create index pfi_estatdefirma_pk_i on pfi_estatdefirma (estatdefirmaid);
-    create index pfi_estatfirma_estatinid_fk_i on pfi_estatdefirma (tipusestatdefirmainicialid);
     create index pfi_estatfirma_coladele_fk_i on pfi_estatdefirma (colaboraciodelegacioid);
     create index pfi_estatfirma_usrentid_fk_i on pfi_estatdefirma (usuarientitatid);
     create index pfi_estatfirma_estatid_fk_i on pfi_estatdefirma (tipusestatdefirmafinalid);
@@ -1398,3 +1397,4 @@
     create index pfi_bitacola_enttipobj_i on pfi_bitacola (entitatid, tipusobjecte);
     create index pfi_bitacola_enttipope_i on pfi_bitacola (entitatid, tipusoperacio);
     create index pfi_notificacio_bloqreint_i on pfi_notificacio (bloquejada, reintents);
+    create index pfi_estatfirma_estats_i on pfi_estatdefirma (tipusestatdefirmainicialid, tipusestatdefirmafinalid);

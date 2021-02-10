@@ -7619,10 +7619,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
           <void property="groupBy"> 
            <boolean>true</boolean> 
-          </void> 
-          <void property="index"> 
-           <string>pfi_estatfirma_estatinid_fk_i</string> 
-          </void> 
+          </void>
           <void property="javaName"> 
            <string>tipusEstatDeFirmaInicialID</string> 
           </void> 

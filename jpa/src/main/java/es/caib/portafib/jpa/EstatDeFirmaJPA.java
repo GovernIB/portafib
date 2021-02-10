@@ -45,7 +45,6 @@ private static final long serialVersionUID = 1766648722L;
 	@Column(name="datafi",length = 29,precision = 6)
 	java.sql.Timestamp dataFi;
 
-	@Index(name="pfi_estatfirma_estatinid_fk_i")
 	@Column(name="tipusestatdefirmainicialid",nullable = false,length = 19)
 	long tipusEstatDeFirmaInicialID;
 
