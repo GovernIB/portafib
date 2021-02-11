@@ -98,7 +98,7 @@ public class ApiFirmaWebSimpleSeleniumTester {
         final FirmaSimpleCommonInfo commonInfo = new FirmaSimpleCommonInfo(perfil, languageUI, username, administrationID, signerEmail);
         final ApiFirmaWebSimple api = getApiFirmaWebSimple(prop);
 
-        int NOMBRE_FIRMES = 1;
+        int NOMBRE_FIRMES = 100;
         final AtomicInteger firmesCorrectes = new AtomicInteger(0);
 
         ExecutorService executor = Executors.newFixedThreadPool(25);
@@ -206,10 +206,8 @@ public class ApiFirmaWebSimpleSeleniumTester {
     }
 
     protected static ApiFirmaWebSimple getApiFirmaWebSimple(Properties prop) {
-        // En entorns CAIB això ha de valer false
-        final boolean ignoreServerCertificates = true;
         return new ApiFirmaWebSimpleJersey(prop.getProperty("endpoint"),
-                prop.getProperty("username"), prop.getProperty("password"), ignoreServerCertificates);
+                prop.getProperty("username"), prop.getProperty("password"));
     }
 
 }

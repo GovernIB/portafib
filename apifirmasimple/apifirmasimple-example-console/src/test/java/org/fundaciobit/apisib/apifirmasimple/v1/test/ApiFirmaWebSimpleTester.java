@@ -312,10 +312,8 @@ public class ApiFirmaWebSimpleTester {
   }
 
   protected static ApiFirmaWebSimple getApiFirmaWebSimple(Properties prop) throws Exception {
-    // En entorns CAIB això ha de valer false
-    final boolean ignoreServerCertificates = true;
     return new ApiFirmaWebSimpleJersey(prop.getProperty("endpoint"),
-        prop.getProperty("username"), prop.getProperty("password"), ignoreServerCertificates);
+        prop.getProperty("username"), prop.getProperty("password"));
   }
 
 }

@@ -60,12 +60,9 @@ public class ApiFirmaWebSimpleJersey extends
 
   
   /**
-   * 
-   * @param endPointBase
-   * @param username
-   * @param password
-   * @param ignoreServerCertificates
+   * Emprar ignoreServerCertificates amb valor true és insegur i ja no està suportat
    */
+  @Deprecated
   public ApiFirmaWebSimpleJersey(String endPointBase, String username, String password,
       boolean ignoreServerCertificates) {
     super(endPointBase, username, password, ignoreServerCertificates);

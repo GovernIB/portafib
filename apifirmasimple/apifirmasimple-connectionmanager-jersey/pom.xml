@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>apifirmasimple-jersey</artifactId>
   <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <packaging>jar</packaging>
 
   <name>FundacioBit - ApisIB - API Firma Simple - Connection Manager Jersey</name>
@@ -44,7 +44,7 @@
     <dependency>
       <artifactId>apisib-jerseycore</artifactId>
       <groupId>org.fundaciobit.apisib.jerseycore</groupId>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
     </dependency>
 
     <dependency>

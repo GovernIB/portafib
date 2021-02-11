@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>portafib-externalsignaturerest-jersey</artifactId>
   <groupId>es.caib.portafib</groupId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <packaging>jar</packaging>
 
   <name>PortaFIB - External Signature REST - Jersey Connection Manager</name>
@@ -45,7 +45,7 @@
     <dependency>
       <artifactId>apisib-jerseycore</artifactId>
       <groupId>org.fundaciobit.apisib.jerseycore</groupId>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
     </dependency>
 
     <dependency>
