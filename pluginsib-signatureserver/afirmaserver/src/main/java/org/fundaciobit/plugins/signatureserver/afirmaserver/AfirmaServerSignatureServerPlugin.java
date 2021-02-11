@@ -16,8 +16,8 @@ import es.gob.afirma.utils.DSSConstants.SignTypesURIs;
 import es.gob.afirma.utils.DSSConstants.SignatureForm;
 import es.gob.afirma.utils.DSSConstants.XmlSignatureMode;
 import es.gob.afirma.utils.GeneralConstants;
+import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
-import freemarker.template.Template;
 import net.java.xades.security.xml.XMLSignatureElement;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
@@ -28,6 +28,8 @@ import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
+import org.fundaciobit.plugins.signatureserver.afirmaserver.apiws.DSSSignature;
+import org.fundaciobit.plugins.signatureserver.afirmaserver.apiws.DSSSignatureService;
 import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
@@ -47,8 +49,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
@@ -61,6 +61,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.Semaphore;
 
 /**
  *
@@ -68,7 +69,6 @@ import java.util.Properties;
  * @author areus
  */
 public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPlugin  {
-  
 
   /** La firma està continguda dins del document: PADES, ODT, OOXML */
   public static final String SIGNFORMAT_IMPLICIT_ENVELOPED_ATTACHED = "implicit_enveloped/attached";
@@ -118,17 +118,145 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   public static final String IGNORE_SERVER_CERTIFICATES = AFIRMASERVER_BASE_PROPERTIES
       + "ignoreservercertificates";
 
+  public static final String MAX_SIGN_CONCURRENCY = AFIRMASERVER_BASE_PROPERTIES + "maxSignConcurrency";
+
+  public static final String MAX_UPGRADE_CONCURRENCY = AFIRMASERVER_BASE_PROPERTIES + "maxUpgradeConcurrency";
+
   public AfirmaServerSignatureServerPlugin() {
     super();
+    init();
   }
 
   public AfirmaServerSignatureServerPlugin(String propertyKeyBase, Properties properties) {
     super(propertyKeyBase, properties);
+    init();
   }
 
   public AfirmaServerSignatureServerPlugin(String propertyKeyBase) {
     super(propertyKeyBase);
+    init();
   }
+
+  //////////////////////////////////////////////////////
+
+  // Objectes reutlitzables i inicialitzacions
+  private TransformersFacade transformersFacade;
+  private Configuration configuration;
+  private DSSSignature apiSign;
+  private org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignature apiUpgrade;
+
+  private Semaphore signSemaphore;
+  private Semaphore upgradeSemaphore;
+
+  private void init() {
+    initTransformersFacade();
+    initConfiguration();
+    initApiSign();
+    initApiUpgrade();
+    initSemaphores();
+  }
+
+  private void initApiSign() {
+    try {
+      String endPoint = getProperty(ENDPOINT_SIGN);
+      if (endPoint == null || endPoint.isEmpty()) {
+        log.warn("Propietat " + ENDPOINT_SIGN + " no configurada.");
+        return;
+      }
+
+      boolean debug = isDebug();
+      if (debug) {
+        log.info("ENDPOINT SIGN = " + endPoint);
+      }
+
+      ClientHandler clientHandler = CXFUtils.getClientHandler(this, AFIRMASERVER_BASE_PROPERTIES);
+
+      DSSSignatureService service = new DSSSignatureService(new URL(endPoint + "?wsdl"));
+      apiSign = service.getDSSAfirmaSign();
+
+      Map<String, Object> reqContext = ((BindingProvider) apiSign).getRequestContext();
+      reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
+
+      clientHandler.addSecureHeader(apiSign);
+    } catch (Exception e) {
+      throw new RuntimeException("Error inicialitzant API SIGN", e);
+    }
+  }
+
+  private void initApiUpgrade() {
+    try {
+      String endPoint = getProperty(ENDPOINT_UPGRADE);
+      if (endPoint == null || endPoint.isEmpty()) {
+        log.warn("Propietat " + ENDPOINT_UPGRADE + " no configurada.");
+        return;
+      }
+
+      boolean debug = isDebug();
+      if (debug) {
+        log.info("ENDPOINT UPGRADE = " + endPoint);
+      }
+
+      ClientHandler clientHandler = CXFUtils.getClientHandler(this, AFIRMASERVER_BASE_PROPERTIES);
+
+      org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService service
+              = new org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService(
+              new URL(endPoint + "?wsdl"));
+      apiUpgrade = service.getDSSAfirmaVerify();
+
+      Map<String, Object> reqContext = ((BindingProvider) apiUpgrade).getRequestContext();
+      reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
+
+      clientHandler.addSecureHeader(apiUpgrade);
+    } catch (Exception e) {
+      throw new RuntimeException("Error inicialitzant API UPGRADE", e);
+    }
+  }
+
+  private void initConfiguration() {
+    configuration = new Configuration(Configuration.VERSION_2_3_23);
+    configuration.setDefaultEncoding("UTF-8");
+    configuration.setTemplateLoader(new ClassTemplateLoader(this.getClass(), "/"));
+  }
+
+  private void initSemaphores() {
+    int signSemaphorePermits = Integer.parseInt(getProperty(MAX_SIGN_CONCURRENCY, "100"));
+    log.info("Max sign concurrency: " + signSemaphorePermits);
+    signSemaphore = new Semaphore(signSemaphorePermits);
+
+    int upgradeSemaphorePermits = Integer.parseInt(getProperty(MAX_UPGRADE_CONCURRENCY, "100"));
+    log.info("Max upgrade concurrency: " + upgradeSemaphorePermits);
+    upgradeSemaphore = new Semaphore(upgradeSemaphorePermits);
+  }
+
+  private void initTransformersFacade() {
+    try {
+      String newClassPath = getPropertyRequired(TRANSFORMERSTEMPLATESPATH_PROPERTY);
+
+      if (isDebug()) {
+        log.debug("getTransformersFacade()::newClassPath=" + newClassPath);
+      }
+
+      addSoftwareLibrary(new File(newClassPath));
+
+      transformersFacade = TransformersFacade.getInstance();
+
+      Properties transfProp = (Properties) FieldUtils.readField(transformersFacade,
+              "transformersProperties", true);
+      transfProp.put("TransformersTemplatesPath", getPropertyRequired(TRANSFORMERSTEMPLATESPATH_PROPERTY));
+
+    } catch (Exception e) {
+      throw new RuntimeException("Error inicialitzant TransformersFacade", e);
+    }
+  }
+
+  private void addSoftwareLibrary(File file) throws Exception {
+    Method method = URLClassLoader.class
+            .getDeclaredMethod("addURL", URL.class);
+    method.setAccessible(true);
+    method.invoke(ClassLoader.getSystemClassLoader(), file.toURI().toURL());
+  }
+
+  //////////////////////////////////////////////////////
 
   protected boolean isIgnoreServerCertificates() {
     String val = getProperty(IGNORE_SERVER_CERTIFICATES);
@@ -260,17 +388,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
               "Si necessita connectar a un servidor SSL amb un certificat no reconegut per la JVM, incorpori'l al trustStore.");
     }
 
-    String error = checkFilter(this, signaturesSet, suportXAdES_T, this.log); 
-    if (error != null) {
-      return error;
-    }
-
-    error = checkConnection(); 
-    if (error != null) {
-      return error; 
-    }
-    
-    return null; // OK
+    return checkFilter(this, signaturesSet, suportXAdES_T, this.log);// OK
   }
 
   public String getAliasCertificate(SignaturesSet signaturesSet) throws Exception {
@@ -524,12 +642,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
           // inParams.put(DSSTagsRequest., );
         }
 
-        TransformersFacade transformersFacade = getTransformersFacade();
-
         if (debug) {
-
           StringBuilder inputProperties = new StringBuilder();
-
           for (String key : inParams.keySet()) {
 
             inputProperties.append(key).append(" => ");
@@ -545,14 +659,12 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
               inputProperties.append(" [ BINARY VALUE]");
             }
             inputProperties.append("\n");
-
           }
 
           log.info(" ============ INPUT PROPERTIES ==============\n" + inputProperties + "\n");
-
         }
 
-        // Construimos el XML que constituye la petici�n
+        // Construimos el XML que constituye la petición
         String xmlInput = transformersFacade.generateXml(inParams,
             GeneralConstants.DSS_AFIRMA_SIGN_REQUEST, GeneralConstants.DSS_AFIRMA_SIGN_METHOD,
             TransformersConstants.VERSION_10);
@@ -863,8 +975,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     ServerSignerResponse serSigRes = new ServerSignerResponse();
     String resultValidate = ValidateRequest.validateUpgradeSignatureRequest(upgSigReq);
 
-    TransformersFacade transformersFacade = getTransformersFacade();
-
     // try {
     if (resultValidate != null) {
       throw new Afirma5ServiceInvokerException(Language.getFormatResIntegra("IFWS020",
@@ -912,13 +1022,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         log.info("XMLInput:\n" + xmlInput);        
       }
 
-      //new FileOutputStream("c:\\tmp\\esborrar_input.xml").write(xmlInput.getBytes());
     } else {
-      
-      InputStream is = FileUtils.readResource(this.getClass(), "template_afirma_upgrade/xades_input_template.xml");
-      String templateStr = new String(FileUtils.toByteArray(is));
-      
-      
+
       Map<String,Object> keys = new HashMap<String, Object>();
       
       for(String key : inputParameters.keySet()) {
@@ -946,7 +1051,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         keys.put(key.replace(":", "_").replace("/", "_").replace("@", "_"), value);
       }
 
-      xmlInput = processExpressionLanguage(templateStr, keys);
+      xmlInput = processExpressionLanguage("template_afirma_upgrade/xades_input_template.xml", keys);
     }
 
       String xmlOutput = cridadaWsUpgrade(xmlInput);
@@ -1133,206 +1238,49 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
-  private static void addSoftwareLibrary(File file) throws Exception {
-    Method method = URLClassLoader.class
-        .getDeclaredMethod("addURL", URL.class);
-    method.setAccessible(true);
-    method.invoke(ClassLoader.getSystemClassLoader(), file.toURI().toURL());
-  }
-
-  protected TransformersFacade getTransformersFacade() throws Exception {
-
-    String newClassPath = getPropertyRequired(TRANSFORMERSTEMPLATESPATH_PROPERTY);
-
-    if (isDebug()) {
-      log.info("getTransformersFacade()::newClassPath=" + newClassPath);
-    }
-
-    addSoftwareLibrary(new File(newClassPath));
-
-    TransformersFacade transformersFacade = TransformersFacade.getInstance();
-
-    Properties transfProp = (Properties) FieldUtils.readField(transformersFacade,
-        "transformersProperties", true);
-
-    // S'obte d'una propietat
-    transfProp.put("TransformersTemplatesPath",
-        getPropertyRequired(TRANSFORMERSTEMPLATESPATH_PROPERTY));
-
-    return transformersFacade;
-  }
-
-  // Cache
-
-  protected org.fundaciobit.plugins.signatureserver.afirmaserver.apiws.DSSSignature apiSign = null;
-
-  protected long lastConnectionSign = 0;
-
-  public synchronized String cridadaWsSign(String inputXml) throws Exception {
-
-    // Cada 10 minuts refem la comunicació
-    long now = System.currentTimeMillis();
-    if (lastConnectionSign + 10 * 60 * 1000L < now) {
-      lastConnectionSign = now;
-      apiSign = null;
-    }
-
+  private String cridadaWsSign(String inputXml) throws Exception {
     if (apiSign == null) {
-
-      String endPoint = getPropertyRequired(ENDPOINT_SIGN);
-      boolean debug = isDebug();
-      if (debug) {
-        log.info("ENDPOINT = " + endPoint);
-      }
-
-      final ClientHandler clientHandler;
-      clientHandler = CXFUtils.getClientHandler(this, AFIRMASERVER_BASE_PROPERTIES);
-
-      if (debug) {
-        log.info("ClientHandler Class = " + clientHandler.getClass());
-      }
-
-      org.fundaciobit.plugins.signatureserver.afirmaserver.apiws.DSSSignatureService service;
-      service = new org.fundaciobit.plugins.signatureserver.afirmaserver.apiws.DSSSignatureService(
-          new java.net.URL(endPoint + "?wsdl"));
-      apiSign = service.getDSSAfirmaSign();
-
-      Map<String, Object> reqContext = ((BindingProvider) apiSign).getRequestContext();
-      reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
-
-      clientHandler.addSecureHeader(apiSign);
-
+      throw new Exception("API SIGN no configurada. Revisi la propietat " + ENDPOINT_SIGN);
     }
-
-    String xmlResposta = apiSign.sign(inputXml);
-
-    return xmlResposta;
-  }
-
-  protected org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignature apiUpgrade = null;
-
-  protected long lastConnectionUpgrade = 0;
-
-  public synchronized String cridadaWsUpgrade(String inputXml) throws Exception {
-
-    // Cada 10 minuts refem la comunicació
-    long now = System.currentTimeMillis();
-    if (lastConnectionUpgrade + 10 * 60 * 1000L < now) {
-      lastConnectionUpgrade = now;
-      apiUpgrade = null;
-    }
-
-    if (apiUpgrade == null) {
-
-      String endPoint = getPropertyRequired(ENDPOINT_UPGRADE);
-      boolean debug = isDebug();
-      if (debug) {
-        log.info("ENDPOINT = " + endPoint);
-      }
-      
-      final ClientHandler clientHandler;
-      clientHandler = CXFUtils.getClientHandler(this, AFIRMASERVER_BASE_PROPERTIES);
-
-      if (debug) {
-        log.info("ClientHandler Class = " + clientHandler.getClass());
-      }
-
-      org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService service;
-      service = new org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService(
-          new java.net.URL(endPoint + "?wsdl"));
-      apiUpgrade = service.getDSSAfirmaVerify();
-
-      Map<String, Object> reqContext = ((BindingProvider) apiUpgrade).getRequestContext();
-      reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
-
-      clientHandler.addSecureHeader(apiUpgrade);
-
-    }
-
-    String xmlResposta = apiUpgrade.verify(inputXml);
-
-    return xmlResposta;
-
-  }
-
-  /**
-   * Aquets mètode servirà per validar la comunicació amb el Servidor
-   * 
-   * @return
-   */
-  protected String checkConnection() {
-
+    signSemaphore.acquire();
     try {
+      return apiSign.sign(inputXml);
+    } finally {
+      signSemaphore.release();
+    }
+  }
 
-      String endpoint = getPropertyRequired(ENDPOINT_SIGN);
-      try {
-        log.info(" EndPoint = " + endpoint);
-
-        URL url = new URL(endpoint + "?wsdl");
-        URLConnection conn = url.openConnection();
-        conn.connect();
-        return null; // OK
-      } catch (Exception e) {
-        // XYZ ZZZ TODO traduir
-        String msg = "Error connectant amb " + endpoint + ":" + e.getMessage(); 
-        log.warn(msg, e);
-        return msg;
-      }
-
-    } catch (Throwable e) {
-      // XYZ ZZZ TODO traduir
-      String msg = "Error provant comunicació amb servidor: " + e.getMessage();
-      log.error(msg, e);
-      return msg;
+  private String cridadaWsUpgrade(String inputXml) throws Exception {
+    if (apiUpgrade == null) {
+      throw new Exception("API UPGRADE no configurada. Revisi la propietat " + ENDPOINT_UPGRADE);
     }
 
+    upgradeSemaphore.acquire();
+    try {
+      return apiUpgrade.verify(inputXml);
+    } finally {
+      upgradeSemaphore.release();
+    }
   }
 
   @Override
-  public void resetAndClean() throws Exception {
-    lastConnectionSign = 0;
-    lastConnectionUpgrade = 0;
-    
-    apiSign = null;
-    apiUpgrade = null;
-    
+  public void resetAndClean() {
   }
 
-  
-  public static String processExpressionLanguage(String plantilla,
-      Map<String, Object> custodyParameters) throws Exception {
-    return processExpressionLanguage(plantilla, custodyParameters, null);
-  }
-  
-  public static String processExpressionLanguage(String plantilla,
-      Map<String, Object> custodyParameters,  Locale locale) throws Exception {
+  public String processExpressionLanguage(String plantilla, Map<String, Object> custodyParameters) throws Exception {
     try {
-    if (custodyParameters == null) {
-      custodyParameters = new  HashMap<String, Object>();
-    }
-    
-    Configuration configuration;
+      if (custodyParameters == null) {
+        custodyParameters = new HashMap<String, Object>();
+      }
 
-    configuration = new Configuration(Configuration.VERSION_2_3_23);
-    configuration.setDefaultEncoding("UTF-8");
-    if (locale!= null) {
-      configuration.setLocale(locale);
-    }
-    Template template;
-    template = new Template("exampleTemplate", new StringReader(plantilla),
-        configuration);
-
-    Writer out = new StringWriter();
-    template.process(custodyParameters, out);
-
+      Writer out = new StringWriter();
+      configuration.getTemplate(plantilla).process(custodyParameters, out);
       return out.toString();
-    } catch(Exception e) {
-      final String msg = "No s'ha pogut processar l'Expression Language " + plantilla 
-        + ":" + e.getMessage();
+
+    } catch (Exception e) {
+      final String msg = "No s'ha pogut processar l'Expression Language " + plantilla
+              + ":" + e.getMessage();
       throw new Exception(msg, e);
     }
   }
-
-  
-  
 }

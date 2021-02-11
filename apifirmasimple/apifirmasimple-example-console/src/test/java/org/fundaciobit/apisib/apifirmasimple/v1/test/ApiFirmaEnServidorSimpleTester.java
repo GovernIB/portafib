@@ -69,7 +69,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
       //tester.testUpgradeSignatureXAdESOfBinary();
 
-      //tester.testUpgradeSignatureXAdESOfXML();
+      tester.testUpgradeSignatureXAdESOfXML();
 
       //tester.testUpgradeSignatureCAdES();
 

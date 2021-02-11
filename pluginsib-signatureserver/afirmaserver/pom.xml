@@ -4,7 +4,7 @@
   <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
   <artifactId>pluginsib-signatureserver-afirmaserver</artifactId>
   <packaging>jar</packaging>
-  <version>3.0.0</version>
+  <version>3.0.1</version>
 
   <name>FundacioBit - PluginsIB - SignatureServer - @firma Server</name>
 
