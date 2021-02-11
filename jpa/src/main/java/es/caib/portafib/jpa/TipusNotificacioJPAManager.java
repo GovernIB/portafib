@@ -66,7 +66,7 @@ public class TipusNotificacioJPAManager
 		return list.toArray(new TipusNotificacio[list.size()]);
 	};
 
-	public synchronized TipusNotificacio create( long _tipusNotificacioID_, java.lang.String _nom_, java.lang.String _descripcio_, java.lang.Boolean _esAvis_) throws I18NException {
+	public TipusNotificacio create( long _tipusNotificacioID_, java.lang.String _nom_, java.lang.String _descripcio_, java.lang.Boolean _esAvis_) throws I18NException {
 		TipusNotificacioJPA __bean =  new TipusNotificacioJPA(_tipusNotificacioID_,_nom_,_descripcio_,_esAvis_);
 		return create(__bean);
 	}

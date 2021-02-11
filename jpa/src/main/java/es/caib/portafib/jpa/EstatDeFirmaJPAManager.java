@@ -66,7 +66,7 @@ public class EstatDeFirmaJPAManager
 		return list.toArray(new EstatDeFirma[list.size()]);
 	};
 
-	public synchronized EstatDeFirma create( long _firmaID_, java.lang.String _usuariEntitatID_, java.sql.Timestamp _dataInici_, java.sql.Timestamp _dataFi_, long _tipusEstatDeFirmaInicialID_, java.lang.Long _tipusEstatDeFirmaFinalID_, java.lang.Long _colaboracioDelegacioID_, java.lang.String _descripcio_) throws I18NException {
+	public EstatDeFirma create( long _firmaID_, java.lang.String _usuariEntitatID_, java.sql.Timestamp _dataInici_, java.sql.Timestamp _dataFi_, long _tipusEstatDeFirmaInicialID_, java.lang.Long _tipusEstatDeFirmaFinalID_, java.lang.Long _colaboracioDelegacioID_, java.lang.String _descripcio_) throws I18NException {
 		EstatDeFirmaJPA __bean =  new EstatDeFirmaJPA(_firmaID_,_usuariEntitatID_,_dataInici_,_dataFi_,_tipusEstatDeFirmaInicialID_,_tipusEstatDeFirmaFinalID_,_colaboracioDelegacioID_,_descripcio_);
 		return create(__bean);
 	}

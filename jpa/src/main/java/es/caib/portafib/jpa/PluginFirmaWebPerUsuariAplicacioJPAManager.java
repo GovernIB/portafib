@@ -66,7 +66,7 @@ public class PluginFirmaWebPerUsuariAplicacioJPAManager
 		return list.toArray(new PluginFirmaWebPerUsuariAplicacio[list.size()]);
 	};
 
-	public synchronized PluginFirmaWebPerUsuariAplicacio create( java.lang.String _usuariAplicacioID_, long _pluginFirmaWebID_, int _accio_) throws I18NException {
+	public PluginFirmaWebPerUsuariAplicacio create( java.lang.String _usuariAplicacioID_, long _pluginFirmaWebID_, int _accio_) throws I18NException {
 		PluginFirmaWebPerUsuariAplicacioJPA __bean =  new PluginFirmaWebPerUsuariAplicacioJPA(_usuariAplicacioID_,_pluginFirmaWebID_,_accio_);
 		return create(__bean);
 	}

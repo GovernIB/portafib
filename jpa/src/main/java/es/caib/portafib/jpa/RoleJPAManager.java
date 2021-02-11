@@ -66,7 +66,7 @@ public class RoleJPAManager
 		return list.toArray(new Role[list.size()]);
 	};
 
-	public synchronized Role create( java.lang.String _roleID_, java.lang.String _nom_, java.lang.String _descripcio_) throws I18NException {
+	public Role create( java.lang.String _roleID_, java.lang.String _nom_, java.lang.String _descripcio_) throws I18NException {
 		RoleJPA __bean =  new RoleJPA(_roleID_,_nom_,_descripcio_);
 		return create(__bean);
 	}

@@ -66,7 +66,7 @@ public class RebreAvisJPAManager
 		return list.toArray(new RebreAvis[list.size()]);
 	};
 
-	public synchronized RebreAvis create( java.lang.String _usuariEntitatID_, long _tipusNotificacioID_, boolean _rebreAgrupat_) throws I18NException {
+	public RebreAvis create( java.lang.String _usuariEntitatID_, long _tipusNotificacioID_, boolean _rebreAgrupat_) throws I18NException {
 		RebreAvisJPA __bean =  new RebreAvisJPA(_usuariEntitatID_,_tipusNotificacioID_,_rebreAgrupat_);
 		return create(__bean);
 	}

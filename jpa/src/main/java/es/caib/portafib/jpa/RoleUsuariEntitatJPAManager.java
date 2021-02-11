@@ -66,7 +66,7 @@ public class RoleUsuariEntitatJPAManager
 		return list.toArray(new RoleUsuariEntitat[list.size()]);
 	};
 
-	public synchronized RoleUsuariEntitat create( java.lang.String _roleID_, java.lang.String _usuariEntitatID_) throws I18NException {
+	public RoleUsuariEntitat create( java.lang.String _roleID_, java.lang.String _usuariEntitatID_) throws I18NException {
 		RoleUsuariEntitatJPA __bean =  new RoleUsuariEntitatJPA(_roleID_,_usuariEntitatID_);
 		return create(__bean);
 	}

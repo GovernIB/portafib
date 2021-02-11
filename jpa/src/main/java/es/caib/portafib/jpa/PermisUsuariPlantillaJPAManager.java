@@ -66,7 +66,7 @@ public class PermisUsuariPlantillaJPAManager
 		return list.toArray(new PermisUsuariPlantilla[list.size()]);
 	};
 
-	public synchronized PermisUsuariPlantilla create( java.lang.String _usuariEntitatID_, long _plantillaFluxDeFirmesID_) throws I18NException {
+	public PermisUsuariPlantilla create( java.lang.String _usuariEntitatID_, long _plantillaFluxDeFirmesID_) throws I18NException {
 		PermisUsuariPlantillaJPA __bean =  new PermisUsuariPlantillaJPA(_usuariEntitatID_,_plantillaFluxDeFirmesID_);
 		return create(__bean);
 	}

@@ -66,7 +66,7 @@ public class AnnexJPAManager
 		return list.toArray(new Annex[list.size()]);
 	};
 
-	public synchronized Annex create( long _peticioDeFirmaID_, long _fitxerID_, boolean _adjuntar_, boolean _firmar_) throws I18NException {
+	public Annex create( long _peticioDeFirmaID_, long _fitxerID_, boolean _adjuntar_, boolean _firmar_) throws I18NException {
 		AnnexJPA __bean =  new AnnexJPA(_peticioDeFirmaID_,_fitxerID_,_adjuntar_,_firmar_);
 		return create(__bean);
 	}
