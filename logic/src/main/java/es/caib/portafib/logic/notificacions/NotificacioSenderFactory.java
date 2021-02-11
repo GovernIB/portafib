@@ -4,7 +4,7 @@ import es.caib.portafib.model.entity.UsuariAplicacio;
 
 public class NotificacioSenderFactory {
 
-   private static NotificacioSender[] senders = {
+   private static final NotificacioSender[] senders = {
          new NotificacioSenderApiIndra(),   // 0 - API Indra
          new NotificacioSenderApiPortafibWSv1(), // 1 - WS v1
          new NotificacioSenderApiPortafibRESTv1() // 2 - REST v1

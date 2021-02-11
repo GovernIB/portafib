@@ -22,6 +22,16 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
 
    private static final Logger log = Logger.getLogger(NotificacioSenderApiPortafibRESTv1.class);
 
+   private final Client client;
+   private final ObjectMapper mapper;
+
+   public NotificacioSenderApiPortafibRESTv1() {
+      client = Client.create();
+      client.setConnectTimeout(CONNECTION_TIMEOUT);
+      client.setReadTimeout(RECEIVE_TIMEOUT);
+      mapper = new ObjectMapper();
+   }
+
    @Override
    public void sendNotificacio(NotificacioInfo notificacioInfo, UsuariAplicacio ua) throws I18NException {
 
@@ -45,13 +55,7 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
 
       String json = null;
       try {
-         Client client = Client.create();
-         client.setConnectTimeout(CONNECTION_TIMEOUT);
-         client.setReadTimeout(RECEIVE_TIMEOUT);
-
          WebResource webResource = client.resource(endPoint);
-
-         ObjectMapper mapper = new ObjectMapper();
          json = mapper.writeValueAsString(event);
 
          if (log.isDebugEnabled()) {
@@ -82,11 +86,9 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
    @Override
    public void testApi(UsuariAplicacio usuariAplicacio) throws Exception {
       // Recupera Versió
-
       String urlStr = usuariAplicacio.getCallbackURL();
 
       int pos = urlStr.lastIndexOf("/");
-
       urlStr = urlStr.substring(0, pos) + "/versio";
 
       URL url = new URL(urlStr);
@@ -105,7 +107,6 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
       log.info("Testing OK. API WS PortaFIB v1. Usuari aplicació "
             + usuariAplicacio.getUsuariAplicacioID() + " amb URL " + urlStr
             + ". Cridada a getVersionWs() amb resultat " + output);
-
       conn.disconnect();
    }
 }
