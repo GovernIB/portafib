@@ -12,7 +12,6 @@ import org.fundaciobit.plugins.validatesignature.api.IValidateSignaturePlugin;
 import org.fundaciobit.plugins.validatesignature.api.SignatureRequestedInformation;
 import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureRequest;
 import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
-import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.ejb.EJB;
@@ -48,13 +47,14 @@ public class PluginValidacioFirmesLogicaEJB extends
       throws ValidacioException {
 
     try {
-      log.info(" =======  ENTRA DINS PLUGIN VALIDACIO DE FIRMES (EJB)  ======= \n\n");
+      log.info("validateSignature");
 
       Long pluginValidateSignatureID = entitatEjb.executeQueryOne(
           EntitatFields.PLUGINVALIDAFIRMESID, EntitatFields.ENTITATID.equal(entitatID));
 
       if (pluginValidateSignatureID == null) {
         // No s'ha de validar
+        log.info("pluginValidateSignatureID is null");
         return null;
       }
 
@@ -84,7 +84,7 @@ public class PluginValidacioFirmesLogicaEJB extends
 
       if (log.isDebugEnabled()) {
         log.debug("Signature bytes[] => " + signature.length);
-        log.info("DocumentDetached bytes[] => " + ((documentDetached == null)? "NULL" : (""  +documentDetached.length)) + "\n\n");
+        log.debug("DocumentDetached bytes[] => " + ((documentDetached == null)? "NULL" : (""+documentDetached.length)));
       }
 
       return internalValidateSignature(pluginValidateSignatureID,
@@ -129,13 +129,12 @@ public class PluginValidacioFirmesLogicaEJB extends
     ValidateSignatureResponse vsresp;
     try {
       vsresp = validator.validateSignature(vsr);
-
       if (vsresp == null || vsresp.getValidationStatus() == null) {
         // XYZ ZZZ TRA
         throw new Exception(
             "La resposta del validador o el camp estat del validador valen null");
       }
-
+      log.info("validateSignature status = " + vsresp.getValidationStatus().getStatus());
     } catch (Exception e) {
       PluginJPA plugin = findByPrimaryKey(pluginValidateSignatureID);
       String msg = "Error no controlat cridant al validador de firmes "
