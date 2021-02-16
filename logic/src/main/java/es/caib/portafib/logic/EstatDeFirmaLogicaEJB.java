@@ -20,7 +20,6 @@ import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.NotificacioWSFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -200,8 +199,15 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
           || ROLE_COLA.equals(rol)
           || ROLE_REVI.equals(rol)) {
 
-        Where whereIn = getWhereAvisosDestDeleColaRevi(usuariEntitatID, rol);
-        List<Long> peticioDeFirmaIDs = peticioDeFirmaEjb.executeQuery(PeticioDeFirmaFields.PETICIODEFIRMAID, whereIn);
+        Where where = getWhereAvisosDestDeleColaRevi(usuariEntitatID, rol);
+        //List<Long> peticioDeFirmaIDs = peticioDeFirmaEjb.executeQuery(PeticioDeFirmaFields.PETICIODEFIRMAID, whereIn);
+        List<Long> peticioDeFirmaIDs = executeQuery(new EstatDeFirmaQueryPath()
+                .FIRMA()
+                .BLOCDEFIRMES()
+                .FLUXDEFIRMES()
+                .PETICIODEFIRMA()
+                .PETICIODEFIRMAID(), where);
+
         if (peticioDeFirmaIDs.size() > 0) {
           if (log.isDebugEnabled()) {
             log.debug("Afegint avisos pel rol " + rol + " (" + peticioDeFirmaIDs.size()  + ")");
@@ -252,8 +258,9 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
           || ROLE_COLA.equals(rol)
           || ROLE_REVI.equals(rol)) {
 
-        Where whereIn = getWhereAvisosDestDeleColaRevi(usuariEntitatID, rol);
-        Long count = peticioDeFirmaEjb.count(whereIn);
+        Where where = getWhereAvisosDestDeleColaRevi(usuariEntitatID, rol);
+        //Long count = peticioDeFirmaEjb.count(whereIn);
+        Long count = count(where);
         if (count > 0) {
           avisos.put(rol, count);
         }
@@ -303,6 +310,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
 
     Where w4 = EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull();
 
+    /*
     LongField peticiodefirmaidField = new EstatDeFirmaQueryPath()
             .FIRMA()
             .BLOCDEFIRMES()
@@ -312,6 +320,8 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
 
     SubQuery<EstatDeFirma, Long> subQuery = this.getSubQuery(peticiodefirmaidField, Where.AND(w1, w2, w3, w4));
     return PeticioDeFirmaFields.PETICIODEFIRMAID.in(subQuery);
+     */
+    return Where.AND(w1, w2, w3, w4);
   }
 
   /**
