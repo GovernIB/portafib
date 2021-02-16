@@ -35,7 +35,6 @@ private static final long serialVersionUID = 1766648722L;
 	@Column(name="firmaid",nullable = false,length = 19)
 	long firmaID;
 
-	@Index(name="pfi_estatfirma_usrentid_fk_i")
 	@Column(name="usuarientitatid",nullable = false,length = 101)
 	java.lang.String usuariEntitatID;
 

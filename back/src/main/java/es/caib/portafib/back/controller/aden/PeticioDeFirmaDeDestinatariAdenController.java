@@ -142,10 +142,8 @@ public class PeticioDeFirmaDeDestinatariAdenController extends
     // NOTA: Una firma que conté un càrrec, en el moment que s'activa,
     // es converteix l'usuari-carrec en usuari-entitat
 
-    Where w = Where.AND(peticio.PETICIODEFIRMAID().isNotNull(),
     // Associam al usuariEntitatID destinatari
-        firmaQueryPath.USUARIENTITAT().USUARIENTITATID().equal(usuariEntitatID)
-    );
+    Where w = firmaQueryPath.USUARIENTITAT().USUARIENTITATID().equal(usuariEntitatID);
 
     return Where.AND(wParent, PETICIODEFIRMAID.in(firmaEjb.getSubQuery(peticio.PETICIODEFIRMAID(), w)));
   }

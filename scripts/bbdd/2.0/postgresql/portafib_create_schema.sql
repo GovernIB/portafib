@@ -826,8 +826,6 @@ SET default_with_oids = false;
 
     create index pfi_estatfirma_coladele_fk_i on pfi_estatdefirma (colaboraciodelegacioid);
 
-    create index pfi_estatfirma_usrentid_fk_i on pfi_estatdefirma (usuarientitatid);
-
     create index pfi_estatfirma_estatid_fk_i on pfi_estatdefirma (tipusestatdefirmafinalid);
 
     alter table pfi_estatdefirma 
@@ -1472,3 +1470,4 @@ SET default_with_oids = false;
     create index pfi_bitacola_enttipope_i on pfi_bitacola (entitatid, tipusoperacio);
     create index pfi_notificacio_bloqreint_i on pfi_notificacio (bloquejada, reintents);
     create index pfi_estatfirma_estats_i on pfi_estatdefirma (tipusestatdefirmainicialid, tipusestatdefirmafinalid);
+    create index pfi_estatfirma_usrestats_i on pfi_estatdefirma (usuarientitatid, tipusestatdefirmainicialid, tipusestatdefirmafinalid);
