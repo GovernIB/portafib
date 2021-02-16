@@ -863,8 +863,19 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
                   backgroundColorsOfFirma.put(firma.getFirmaID(), ROIG_F);
                   backgroundColorsOfBloc.put(bloc.getBlocDeFirmesID(), ROIG_B);
                 } else {
-                  // Descartat
-                  backgroundColorsOfFirma.put(firma.getFirmaID(), GRIS);
+                  boolean firmat = false;
+                  for (EstatDeFirmaJPA estat : estats) {
+                    if (estat.getTipusEstatDeFirmaFinalID() == TIPUSESTATDEFIRMAFINAL_FIRMAT) {
+                      firmat = true;
+                      break;
+                    }
+                  }
+                  if (firmat) {
+                    backgroundColorsOfFirma.put(firma.getFirmaID(), VERD);
+                  } else {
+                    // Descartat
+                    backgroundColorsOfFirma.put(firma.getFirmaID(), GRIS);
+                  }
                 }
               }
             } else {
