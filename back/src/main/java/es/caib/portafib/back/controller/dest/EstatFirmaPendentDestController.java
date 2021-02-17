@@ -50,24 +50,9 @@ public class EstatFirmaPendentDestController extends EstatFirmaAbstractDestContr
    */
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-
-    // Estats de firma inicials de revisors
-    Where eqTipusInicial = EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
-            .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR);
-
-    // Que encara no s'han resolt, o si s'han resolt no han estat acceptats
-    Where eqTipusFinal = Where.OR(EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull(),
-            EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.notEqual(ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT) );
-
-    // Seleccionam les firmes que estan en aquesta condició
-    SubQuery<EstatDeFirma, Long> subQuery = estatDeFirmaLogicaEjb.getSubQuery(
-            EstatDeFirmaFields.FIRMAID,
-            Where.AND(eqTipusInicial, eqTipusFinal));
-
-    // Afeim la condició que els estats de firma no es correspoen a firmes que estan en aquesta situació
     return Where.AND(
             super.getAdditionalCondition(request),
-            EstatDeFirmaFields.FIRMAID.notIn(subQuery));
+            getWhereNoPendentRevisor());
   }
 
   // Métodes per accions amb el carret

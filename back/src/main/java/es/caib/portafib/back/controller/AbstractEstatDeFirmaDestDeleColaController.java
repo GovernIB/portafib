@@ -72,6 +72,7 @@ import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
 import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.StringField;
+import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.utils.Utils;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
@@ -2887,6 +2888,24 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 EstatDeFirmaFields.USUARIENTITATID.equal(LoginInfo.getInstance().getUsuariEntitatID()));
     }
 
+    /** Emprat per els controladors que mostren firmes pendents que han de filtrar perquè no tenguin un revisor */
+    protected Where getWhereNoPendentRevisor() throws I18NException {
+        // Estats de firma inicials de revisors
+        Where eqTipusInicial = EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
+                .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR);
+
+        // Que encara no s'han resolt, o si s'han resolt no han estat acceptats
+        Where eqTipusFinal = Where.OR(EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull(),
+                EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.notEqual(ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT) );
+
+        // Seleccionam les firmes que estan en aquesta condició
+        SubQuery<EstatDeFirma, Long> subQuery = estatDeFirmaLogicaEjb.getSubQuery(
+                EstatDeFirmaFields.FIRMAID,
+                Where.AND(eqTipusInicial, eqTipusFinal));
+
+        // Afeim la condició que els estats de firma no es correspoen a firmes que estan en aquesta situació
+        return EstatDeFirmaFields.FIRMAID.notIn(subQuery);
+    }
 
     @RequestMapping(value = "/viewDocuments/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
     public ModelAndView viewDocumentsFullView(HttpServletRequest request, HttpServletResponse response,

@@ -200,7 +200,6 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
           || ROLE_REVI.equals(rol)) {
 
         Where where = getWhereAvisosDestDeleColaRevi(usuariEntitatID, rol);
-        //List<Long> peticioDeFirmaIDs = peticioDeFirmaEjb.executeQuery(PeticioDeFirmaFields.PETICIODEFIRMAID, whereIn);
         List<Long> peticioDeFirmaIDs = executeQuery(new EstatDeFirmaQueryPath()
                 .FIRMA()
                 .BLOCDEFIRMES()
@@ -259,7 +258,6 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
           || ROLE_REVI.equals(rol)) {
 
         Where where = getWhereAvisosDestDeleColaRevi(usuariEntitatID, rol);
-        //Long count = peticioDeFirmaEjb.count(whereIn);
         Long count = count(where);
         if (count > 0) {
           avisos.put(rol, count);
@@ -310,17 +308,24 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
 
     Where w4 = EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull();
 
-    /*
-    LongField peticiodefirmaidField = new EstatDeFirmaQueryPath()
-            .FIRMA()
-            .BLOCDEFIRMES()
-            .FLUXDEFIRMES()
-            .PETICIODEFIRMA()
-            .PETICIODEFIRMAID();
+    if (ConstantsV2.ROLE_DEST.equals(rol) || ConstantsV2.ROLE_DELE.equals(rol)) {
+      // Estats de firma inicials de revisors
+      Where eqTipusInicial = EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
+              .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR);
 
-    SubQuery<EstatDeFirma, Long> subQuery = this.getSubQuery(peticiodefirmaidField, Where.AND(w1, w2, w3, w4));
-    return PeticioDeFirmaFields.PETICIODEFIRMAID.in(subQuery);
-     */
+      // Que encara no s'han resolt, o si s'han resolt no han estat acceptats
+      Where eqTipusFinal = Where.OR(EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull(),
+              EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.notEqual(ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT) );
+
+      // Seleccionam les firmes que estan en aquesta condició
+      SubQuery<EstatDeFirma, Long> subQuery = getSubQuery(
+              EstatDeFirmaFields.FIRMAID,
+              Where.AND(eqTipusInicial, eqTipusFinal));
+
+      // Afegim la condició que els estats de firma no es correspoen a firmes que estan en aquesta situació
+      w4 = Where.AND(w4, EstatDeFirmaFields.FIRMAID.notIn(subQuery));
+    }
+
     return Where.AND(w1, w2, w3, w4);
   }
 

@@ -57,7 +57,7 @@
        
        <a ${href}><fmt:message key="${rol}" />
        <c:if test="${not(empty avisos[rol])}">
-         &nbsp; <span class="badge badge-warning">${avisos[rol]}</span>
+         &nbsp; <span id="avisos_${rol}" class="badge badge-warning">${avisos[rol]}</span>
        </c:if>
        </a>
     </li>
