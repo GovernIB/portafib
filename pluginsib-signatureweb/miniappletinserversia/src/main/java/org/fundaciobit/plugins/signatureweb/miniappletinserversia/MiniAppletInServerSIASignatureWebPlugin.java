@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.security.MessageDigest;
-import java.security.Security;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
@@ -57,33 +56,27 @@ import com.openlandsw.rss.gateway.StateTransaction;
  */
 public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
-  public static final String MINIAPPLETINSERVERSIA_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
+  private static final String MINIAPPLETINSERVERSIA_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
       + "miniappletinserversia.";
 
-  public static final String PROPERTY_URL_GATEWAY= MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "URL_GATEWAY";
-  
-  public static final String PROPERTY_AUTH_STORE = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "AUTH_STORE";
-  
-  public static final String PROPERTY_AUTH_STORE_PASS = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "AUTH_STORE_PASS";
-
-  public static final String PROPERTY_SSL_PROTOCOL = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "SSL_PROTOCOL";
-  public static final String PROPERTY_LOAD_BC_PROVIDER = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "LOAD_BC_PROVIDER";
-  public static final String PROPERTY_SOCKET_TIMEOUT = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "SOCKET_TIMEOUT";
-
-  public static final String PROPERTY_FORCE_SFDA = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "ForceSFDA";
+  private static final String PROPERTY_URL_GATEWAY= MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "URL_GATEWAY";
+  private static final String PROPERTY_AUTH_STORE = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "AUTH_STORE";
+  private static final String PROPERTY_AUTH_STORE_PASS = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "AUTH_STORE_PASS";
+  private static final String PROPERTY_SSL_PROTOCOL = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "SSL_PROTOCOL";
+  private static final String PROPERTY_LOAD_BC_PROVIDER = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "LOAD_BC_PROVIDER";
+  private static final String PROPERTY_SOCKET_TIMEOUT = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "SOCKET_TIMEOUT";
+  private static final String PROPERTY_FORCE_SFDA = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "ForceSFDA";
   
   private static final String PROPERTY_MAPPING_USERS_PATH = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "mappingusers";
-  
   private static final String PROPERTY_USERS_PATTERN = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "userspattern";
-
   private static final String PROPERTY_CALLBACK_HOST = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "callbackhost";
-  
-  public static final String IGNORE_CERTIFICATE_FILTER = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "ignore_certificate_filter";
+  private static final String IGNORE_CERTIFICATE_FILTER = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "ignore_certificate_filter";
+  private static final String SKIP_CERTIFICATE_SELECTION = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "skip_certificate_selection";
 
-  public Map<String, Map<String,MiniAppletInServerSIASigner>> processosDeFirma = new ConcurrentHashMap<String,Map<String,MiniAppletInServerSIASigner>>();
+  private final Map<String, Map<String,MiniAppletInServerSIASigner>> processosDeFirma = new ConcurrentHashMap<String,Map<String,MiniAppletInServerSIASigner>>();
 
-  public Map<String, String> transactions = new ConcurrentHashMap<String, String>();
-  
+  private final Map<String, String> transactions = new ConcurrentHashMap<String, String>();
+
   /**
    *
    */
@@ -106,12 +99,19 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     super(propertyKeyBase);
   }
 
+  private boolean skipCertificateSelection() {
+    return "true".equalsIgnoreCase(getProperty(SKIP_CERTIFICATE_SELECTION));
+  }
+
+  private boolean ignoreCertificateFilter() {
+    return "true".equalsIgnoreCase(getProperty(IGNORE_CERTIFICATE_FILTER));
+  }
+
   @Override
   public String getName(Locale locale) {
     return getTraduccio("pluginname", locale);
   }
 
-  
   @Override
   public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) {
    
@@ -135,50 +135,42 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   }
 
   public int filter(String username, String administrationID, String filter) {
-    
+
     int certificatsDisponibles = 0;
+
     try {
-      
       Map<String, CertificateInfo> map = listCertificates(username, administrationID);
       if (map != null && map.size() != 0) {
 
-        for (CertificateInfo ci : map.values()) {
+        if (ignoreCertificateFilter()) {
+          certificatsDisponibles = map.size();
+        } else {
+          for (CertificateInfo ci : map.values()) {
 
-          boolean passFilter;
-
-          if ("true".equals(getProperty(IGNORE_CERTIFICATE_FILTER))) {
-            passFilter = true;
-          } else {
-          
             try {
-               X509Certificate cert = CertificateUtils.decodeCertificate(new ByteArrayInputStream(ci.getCertificate()));
-               passFilter = MiniAppletUtils.matchFilter(cert, filter);
+              X509Certificate cert = CertificateUtils.decodeCertificate(new ByteArrayInputStream(ci.getCertificate()));
+              if (MiniAppletUtils.matchFilter(cert, filter)) {
+                certificatsDisponibles++;
+              }
             } catch (Exception e) {
-              log.error(" Error comprovant filtre Certificat " + ci.getDn_certificate() 
-                  + ": " + e.getMessage(), e);
-              passFilter = false;
+              log.error(" Error comprovant filtre Certificat " + ci.getDn_certificate()
+                      + ": " + e.getMessage(), e);
             }
           }
-          
-          if (passFilter) {
-            certificatsDisponibles++;
-          }
         }
-
-        return certificatsDisponibles;
-        
       }
-      
-    } catch(SafeCertGateWayException se) {
-      log.error("filter:: SafeCertGateWayException: CODE=" + se.getCode() 
-          + ": " + se.getMessage(), se);
-    } catch(Throwable e) {
+
+
+    } catch (SafeCertGateWayException se) {
+      log.error("filter:: SafeCertGateWayException: CODE=" + se.getCode()
+              + ": " + se.getMessage(), se);
+    } catch (Throwable e) {
       log.error("filter:: Unknown Error " + e.getMessage(), e);
     }
+
     return certificatsDisponibles;
   }
-  
-  
+
   @Override
   public String[] getSupportedSignatureTypes() {
     // XYZ TODO Falta Xades, CADes,  ...
@@ -219,17 +211,21 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     
     List<CertificateInfo> certificates = qcr.getCertificates();
 
-    if (certificates.size() != 0) {
-      // Mostrar llistat de certificats per a seleccionar-ne un
-      return relativePluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE;
-    } else {
-      // Mostrar pujada de certificat
+    // Si no té certificats el duim a la pàgina corresponent
+    if (certificates.size() == 0) {
       Locale locale = new Locale(commonInfoSignature.getLanguageUI());
       String warn = getTraduccio("warn.notecertificats", locale);
       saveMessageWarning(signatureSetID, warn);
       return relativePluginRequestPath + "/" + SENSE_CERTIFICATS_PAGE;
     }
 
+    // Si només en té un i tenim activada l'optimització anam directament a signar
+    if (certificates.size() == 1 && skipCertificateSelection()) {
+      return relativePluginRequestPath + "/" + FIRMAR_PRE_PAGE;
+    // Si en té més d'un, o l'optimització no està activada, anam a triar certificat.
+    } else {
+      return relativePluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE;
+    }
   }
 
 
@@ -241,15 +237,15 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
 
     if (query.startsWith(SELECT_CERTIFICATE_PAGE)) {
-      
       selectCertificateGET(absolutePluginRequestPath, relativePluginRequestPath,
           query, request, response, signaturesSet, signatureIndex, locale);
-
      
     } else if(query.startsWith(SENSE_CERTIFICATS_PAGE)) { 
       // S'ha de provar si funciona
       senseCertificats(absolutePluginRequestPath, relativePluginRequestPath, 
           request, response, signaturesSet, signatureIndex, locale);
+    } else if (query.startsWith(FIRMAR_PRE_PAGE)) {
+      firmarPre(absolutePluginRequestPath, relativePluginRequestPath, request, response, signaturesSet, locale);
     } else if (query.startsWith(FIRMAR_POST_PAGE)) {
       firmarPost(request, response, signaturesSet, locale);
     } else if (query.startsWith(CLOSE_SIA_PAGE)) {
@@ -273,19 +269,14 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
       SignaturesSetWeb signaturesSet, int signatureIndex, HttpServletRequest request,
      HttpServletResponse response, Locale locale)  {
 
-
     if (relativePath.startsWith(FIRMAR_PRE_PAGE)) {
-
       firmarPre(absolutePluginRequestPath, 
           relativePluginRequestPath, request, response, signaturesSet, locale);
-
     } else {
       super.requestPOST(absolutePluginRequestPath, 
           relativePluginRequestPath, relativePath, signaturesSet, signatureIndex,
           request, response, locale);
-      
     }
-
   }
   
   
@@ -301,10 +292,8 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   private void closeSIAPage(HttpServletResponse response, Locale locale) {
     PrintWriter out;
     try {
-
-      response.setCharacterEncoding("utf-8");
+      response.setCharacterEncoding("UTF-8");
       response.setContentType("text/html");
-
       out = response.getWriter();
 
       out.println("<html><head>" + "<script type=\"text/javascript\">" + "    window.close();"
@@ -314,10 +303,8 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     } catch (IOException e) {
       e.printStackTrace();
     }
-
   }
-  
-  
+
   
  //----------------------------------------------------------------------------
  // ----------------------------------------------------------------------------
@@ -368,23 +355,22 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
     final boolean debug = log.isDebugEnabled();
     try {
-            
-      // Conté el HASHCODE de
+
+      Map<String, CertificateInfo> mapCert = listCertificates(signaturesSet);
       String cert = request.getParameter("cert");
       if (debug) {
         log.debug("firmarPre:: PARAMETRE[cert] = " + cert);
+        log.debug("firmarPre:: KEY MAP => " + mapCert.keySet());
       }
 
-      // TODO Optimitzar ja s'ha llegit quan mostrava el certificat a elegir
-      Map<String, CertificateInfo> mapCert = listCertificates(signaturesSet);
-      
-      if (debug) {
-        log.debug("firmarPre:: mapCert.size() = " + mapCert.size());
-        for(String key : mapCert.keySet()) {
-          log.debug("firmarPre:: KEY MAP => " + key);
+      if (cert == null) {
+        if (mapCert.size() != 1) {
+          throw new Exception("L'usuari té " + mapCert.size() + " certificats i no s'ha indicat amb quin firmar");
+        } else {
+          // agafam l'únic que hi ha
+          cert = mapCert.keySet().iterator().next();
         }
       }
-
       
       CertificateInfo ci = mapCert.get(cert);
       byte[] certBytes = ci.getCertificate();
@@ -541,7 +527,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
       signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
 
-      response.setCharacterEncoding("utf-8");
+      response.setCharacterEncoding("UTF-8");
       response.setContentType("text/html");
       PrintWriter out = response.getWriter();
       
