@@ -6,6 +6,8 @@ public class StrategyFactory {
         switch (type) {
             case FIRE:
                 return new FIReSignStrategyImpl();
+            case SIA:
+                return new SIASignStrategyImpl();
             case MINIAPPLET:
                 return new MiniAppletSignStrategyImpl();
             default:

@@ -15,9 +15,6 @@ public class MiniAppletInServerSIASigner extends AbstractTriFaseSigner {
 
   final Properties params;
 
-  /**
-   * @param key
-   */
   public MiniAppletInServerSIASigner(final String algorithm, final Properties params) {
     super();
     this.algorithm = algorithm;
@@ -27,7 +24,6 @@ public class MiniAppletInServerSIASigner extends AbstractTriFaseSigner {
   @Override
   public byte[] step2_signHash(final String algorithm, final byte[] hashDocumentoParam)
       throws Exception {
-
     // NO FER RES
     throw new Exception("La firma es genera cridant al servidor de SIA");
 
@@ -40,5 +36,13 @@ public class MiniAppletInServerSIASigner extends AbstractTriFaseSigner {
   public Properties getParams() {
     return params;
   }
-  
+
+  /**
+   * Evita que la carrega es faci amb classloaders pensats per funcionar en applets.
+   * Veure #541.
+   */
+  @Override
+  public Class<?> loadClass(String name) throws Exception {
+    return Class.forName(name);
+  }
 }
