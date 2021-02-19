@@ -2,18 +2,36 @@ package org.fundaciobit.plugins.signatureweb.fire;
 
 import java.security.cert.X509Certificate;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Cache de certificats per emprar amb el Plugin FIRe.
+ * Els mètodes per accedir al cache estan sincronitzats.
+ */
 public class CertificateCache {
 
-    private final Map<String, CacheEntry> cache = new ConcurrentHashMap<String, CacheEntry>();
+    private final int timeToLive;
+    private final Map<String, CacheEntry> cache;
 
-    public CertificateCache() {
+    /**
+     * Construeix un nou cache de certificats
+     * @param maxSize tamany màxim del cache.
+     * @param timeToLive duració de les entrades al cache en segons.
+     */
+    public CertificateCache(final int maxSize, final int timeToLive) {
+        this.timeToLive = timeToLive;
+        this.cache = new LinkedHashMap<String, CacheEntry>(maxSize, 0.75f, true) {
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<String, CacheEntry> eldest) {
+                return size() > maxSize;
+            }
+        };
     }
 
-    public List<X509Certificate> getCachedCertificates(String username) {
+    public synchronized List<X509Certificate> getCachedCertificates(String username) {
         CacheEntry cacheEntry = cache.get(username);
         if (cacheEntry == null) {
             return null;
@@ -25,20 +43,20 @@ public class CertificateCache {
         return cacheEntry.getCertificates();
     }
 
-    public void setCachedCertificates(String username, List<X509Certificate> certificates) {
-        CacheEntry cacheEntry = new CacheEntry(certificates);
+    public synchronized void setCachedCertificates(String username, List<X509Certificate> certificates) {
+        CacheEntry cacheEntry = new CacheEntry(certificates, timeToLive);
         cache.put(username, cacheEntry);
     }
 
-    public static class CacheEntry {
+    private static class CacheEntry {
 
         private final List<X509Certificate> certificates;
         private final long expiryTime;
 
-        public CacheEntry(List<X509Certificate> certificates) {
+        public CacheEntry(List<X509Certificate> certificates, int timeToLive) {
             if (certificates == null) throw new IllegalArgumentException("certificates is null");
             this.certificates = Collections.unmodifiableList(certificates);
-            expiryTime = System.currentTimeMillis() + 3600000;
+            expiryTime = System.currentTimeMillis() + (timeToLive * 1000L);
         }
 
         public boolean isExpired() {

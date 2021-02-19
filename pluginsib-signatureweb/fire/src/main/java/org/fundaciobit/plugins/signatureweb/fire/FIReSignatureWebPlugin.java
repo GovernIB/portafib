@@ -64,7 +64,7 @@ import es.gob.fire.client.TransactionResult;
 /**
  * 
  * @author anadal
- *
+ * @author areus
  */
 public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
@@ -146,6 +146,14 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
   protected boolean showInfoWhenUserHasWeakRegistry() {
     return "true".equalsIgnoreCase(getProperty(FIRE_BASE_PROPERTIES
         + "showinfowhenuserhasweakregistry"));
+  }
+
+  protected int cacheMaxEntries() {
+    return Integer.parseInt(getProperty(FIRE_BASE_PROPERTIES + "cacheMaxEntries", "1000"));
+  }
+
+  protected int cacheMaxTimeToLive() {
+    return Integer.parseInt(getProperty(FIRE_BASE_PROPERTIES + "cacheMaxTimeToLive", "900"));
   }
 
   protected boolean isDebug() {
@@ -263,8 +271,8 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
     try {
 
-      List<X509Certificate> map = listCertificates(username, administrationID);
-      if (map == null || map.size() == 0) {
+      List<X509Certificate> list = listCertificates(username, administrationID);
+      if (list == null || list.size() == 0) {
         if (permetreGeneracioDeCertificat()) {
           return null; // OK
         } else {
@@ -278,11 +286,11 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       int certificatsDisponibles;
       if ("true".equalsIgnoreCase(getProperty(IGNORE_CERTIFICATE_FILTER))) {
         // Ignoram el filtre de certificats
-        certificatsDisponibles = map.size();
+        certificatsDisponibles = list.size();
       } else {
         boolean passFilter;
         certificatsDisponibles = 0;
-        for (X509Certificate cert : map) {
+        for (X509Certificate cert : list) {
           try {
             passFilter = MiniAppletUtils.matchFilter(cert, filter);
           } catch (Exception e) {
@@ -1672,17 +1680,27 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
   }
 
   // Cache de certificats
-  private final CertificateCache certificateCache = new CertificateCache();
+  private final boolean cacheEnabled = (cacheMaxEntries() > 0) && (cacheMaxTimeToLive() > 0);
+  private final CertificateCache certificateCache = new CertificateCache(cacheMaxEntries(), cacheMaxTimeToLive());
 
   public List<X509Certificate> listCertificates(String username, String administrationID)
       throws Exception, HttpCertificateBlockedException, HttpNoUserException {
 
     String userClaveFirma = getClaveFirmaUser(username, administrationID);
 
+    if (!cacheEnabled) {
+      return listCertificates(userClaveFirma);
+    }
+
     List<X509Certificate> certificates = certificateCache.getCachedCertificates(userClaveFirma);
     if (certificates == null) {
+      log.info("Cache missssss for " + userClaveFirma);
       certificates = listCertificates(userClaveFirma);
-      certificateCache.setCachedCertificates(userClaveFirma, certificates);
+      if (!certificates.isEmpty()) {
+        certificateCache.setCachedCertificates(userClaveFirma, certificates);
+      }
+    } else {
+      log.info("Cache hit for " + userClaveFirma + ": " + certificates.size());
     }
 
     return certificates;
