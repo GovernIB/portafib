@@ -707,8 +707,16 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
         if (certificate == null) {
           continue;
         }
-        String PROPERTY_SUBJECT = CertificateUtils
-            .getCN(certificate.getSubjectDN().toString());
+
+        String PROPERTY_ORGANIZATION = null;
+        try {
+          String[] empresaNif = CertificateUtils.getEmpresaNIFNom(certificate);
+          if (empresaNif != null) {
+            PROPERTY_ORGANIZATION = "REPR. " + empresaNif[1] + " (CIF: " + empresaNif[0] + ")";
+          }
+        } catch (Exception ignored) {}
+
+        String PROPERTY_SUBJECT = CertificateUtils.getCN(certificate.getSubjectDN().toString());
         String PROPERTY_ISSUER = CertificateUtils.getCN(certificate.getIssuerDN().toString());
         String PROPERTY_VALID_FROM = String.valueOf(certificate.getNotBefore().getTime());
         String PROPERTY_VALID_TO = String.valueOf(certificate.getNotAfter().getTime());
@@ -729,6 +737,9 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
         out.println("<label class=\"radio\">");
 
+        if (PROPERTY_ORGANIZATION != null) {
+          out.println("<b>" + PROPERTY_ORGANIZATION + "</b><br/>");
+        }
         out.println("<b>" + PROPERTY_SUBJECT + "</b><br/>");
         out.println("<i>" + PROPERTY_ISSUER + " </i><br/>");
         // Afegir dates
