@@ -8,6 +8,8 @@ public class StrategyFactory {
                 return new FIReSignStrategyImpl();
             case SIA:
                 return new SIASignStrategyImpl();
+            case VIAFIRMA:
+                return new ViafirmaSignStrategyImpl();
             case MINIAPPLET:
                 return new MiniAppletSignStrategyImpl();
             default:
