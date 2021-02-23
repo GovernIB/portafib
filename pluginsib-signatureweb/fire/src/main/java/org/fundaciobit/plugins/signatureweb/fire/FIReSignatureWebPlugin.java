@@ -1694,13 +1694,10 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
     List<X509Certificate> certificates = certificateCache.getCachedCertificates(userClaveFirma);
     if (certificates == null) {
-      log.info("Cache missssss for " + userClaveFirma);
       certificates = listCertificates(userClaveFirma);
       if (!certificates.isEmpty()) {
         certificateCache.setCachedCertificates(userClaveFirma, certificates);
       }
-    } else {
-      log.info("Cache hit for " + userClaveFirma + ": " + certificates.size());
     }
 
     return certificates;
