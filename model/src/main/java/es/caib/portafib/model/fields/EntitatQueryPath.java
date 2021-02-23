@@ -151,6 +151,10 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new LongField(getQueryPath(), EntitatFields.PLUGINRUBRICAID);
   }
 
+  public BooleanField VALIDARFIRMA() {
+    return new BooleanField(getQueryPath(), EntitatFields.VALIDARFIRMA);
+  }
+
   public BooleanField COMPROVARNIFFIRMA() {
     return new BooleanField(getQueryPath(), EntitatFields.COMPROVARNIFFIRMA);
   }

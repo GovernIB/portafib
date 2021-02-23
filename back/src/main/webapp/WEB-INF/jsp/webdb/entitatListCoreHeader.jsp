@@ -117,6 +117,9 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINRUBRICAID)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.PLUGINRUBRICAID)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.VALIDARFIRMA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.VALIDARFIRMA)}</th>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.COMPROVARNIFFIRMA)}</th>
         </c:if>

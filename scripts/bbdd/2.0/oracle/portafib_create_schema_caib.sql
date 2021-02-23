@@ -124,6 +124,7 @@
         suportweb varchar2(250 char),
         uspoliticadefirma number(10,0) not null,
         usuariaplicacioid varchar2(101 char),
+        validarfirma number(1,0) not null,
         web varchar2(250 char) not null
     );
 

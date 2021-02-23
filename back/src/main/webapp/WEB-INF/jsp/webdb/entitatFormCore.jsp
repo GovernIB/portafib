@@ -903,6 +903,28 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.VALIDARFIRMA)}">
+        <tr id="entitat_validarfirma_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.VALIDARFIRMA])?'entitat.validarfirma':__theForm.labels[EntitatFields.VALIDARFIRMA]}" />
+              <c:if test="${not empty __theForm.help[EntitatFields.VALIDARFIRMA]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.VALIDARFIRMA]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.VALIDARFIRMA)}" >
+              <form:errors path="entitat.validarfirma" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.VALIDARFIRMA)? 'false' : 'true'}" path="entitat.validarfirma" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.VALIDARFIRMA)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.entitat.validarfirma}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
         <tr id="entitat_comprovarNifFirma_rowid">
           <td>

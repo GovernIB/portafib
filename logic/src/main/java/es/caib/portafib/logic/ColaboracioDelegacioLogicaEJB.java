@@ -231,7 +231,7 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
 
         String nifEsperat = destinatari.getUsuariPersona().getNif();
 
-        final boolean validarFitxerFirma = (entitat.getPluginValidaFirmesID() != null);
+        final boolean validarFitxerFirma = entitat.isValidarfirma();
         final boolean checkCanviatDocFirmat = entitat.isCheckCanviatDocFirmat();
         final boolean comprovarNifFirma = true; // Forçam a que sigui true
 

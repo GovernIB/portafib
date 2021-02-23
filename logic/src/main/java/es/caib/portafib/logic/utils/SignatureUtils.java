@@ -796,17 +796,9 @@ public class SignatureUtils {
   public static boolean validarFirma(UsuariAplicacioConfiguracio configuracio,
       EntitatLocal entitatEjb, String entitatID) throws I18NException {
     Boolean validarFirma = configuracio.getValidarFirma();
-
     if (validarFirma == null) {
-
-      Long pluginID = entitatEjb.executeQueryOne(EntitatFields.PLUGINVALIDAFIRMESID,
+      validarFirma = entitatEjb.executeQueryOne(EntitatFields.VALIDARFIRMA,
           EntitatFields.ENTITATID.equal(entitatID));
-
-      if (pluginID == null) {
-        validarFirma = false;
-      } else {
-        validarFirma = true;
-      }
     }
 
     return validarFirma;

@@ -84,6 +84,10 @@ public class EntitatValidator<T> implements EntitatFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICASEGELLATDETEMPS)));
 
+    __vr.rejectIfEmptyOrWhitespace(__target__,VALIDARFIRMA, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(VALIDARFIRMA)));
+
     __vr.rejectIfEmptyOrWhitespace(__target__,COMPROVARNIFFIRMA, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(COMPROVARNIFFIRMA)));
