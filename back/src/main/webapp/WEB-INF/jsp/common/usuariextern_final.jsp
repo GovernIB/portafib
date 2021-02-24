@@ -6,7 +6,7 @@
 <center>
   <div class="alert ${(status eq 2)? 'alert-success':'alert-error'}">
     <h2>
-      <fmt:message key="usuariextern.token.${(status eq 2)? 'finalprocesdefirma':'.error.titol'}" />
+      <fmt:message key="usuariextern.token.${(status eq 2)? 'finalprocesdefirma':'error.titol'}" />
     </h2>
     
     <c:if test="${ not empty errorcode}" >
