@@ -23,16 +23,16 @@ public class Revisor extends Usuari {
         if (getTasksUrl().equals(webDriver.getCurrentUrl())) {
             webDriver.get(getTasksUrl());
         }
-        webDriver.findElement(By.xpath("//td[5]/div/a[2]")).click();
-        webDriver.findElement(By.linkText("Acceptar")).click();
+        webDriver.findElement(By.xpath("//table/tbody/tr/td[last()]/div/a[2]")).click();
+        webDriver.findElement(By.xpath("//table/tbody/tr/td[last()]/div/ul/li[4]/a")).click();
     }
 
     public void rebutjarDarrera(String motiu) {
         if (getTasksUrl().equals(webDriver.getCurrentUrl())) {
             webDriver.get(getTasksUrl());
         }
-        webDriver.findElement(By.xpath("//td[5]/div/a[2]")).click();
-        webDriver.findElement(By.linkText("Rebutjar")).click();
+        webDriver.findElement(By.xpath("//table/tbody/tr/td[last()]/div/a[2]")).click();
+        webDriver.findElement(By.xpath("//table/tbody/tr/td[last()]/div/ul/li[5]/a")).click();
         // TODO. Cercar alternativa https://github.com/SeleniumHQ/htmlunit-driver/issues/14
         Alert alert = webDriver.switchTo().alert();
         alert.sendKeys(motiu);
