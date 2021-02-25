@@ -117,6 +117,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
@@ -2083,7 +2084,20 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 .getPeticioDeFirmaFromEstatDeFirmaID(estatDeFirmaIDList);
 
         mav.addObject("peticionsByEstat", peticionsByEstat);
-
+        
+        // Obtenim anticipadament el camp informacioAddicionalAvaluable per evitar una consulta extra.
+        Map<Long, String> mapInfo = new HashMap<Long, String>();
+        mapInfo.clear();
+        
+        for (Entry<Long,PeticioDeFirma> en:peticionsByEstat.entrySet()){
+            Long key = en.getKey();
+            PeticioDeFirma pf = en.getValue();
+            if (pf.getInformacioAddicionalAvaluable()!=null){
+                mapInfo.put(key, pf.getInformacioAddicionalAvaluable().toString());
+            }
+        }
+        
+        
         // OBTENIR SI LES PETICONS TENEN ANNEXOS O NO AMB UNA SOLA VEGADA #447
         ////
         Set<Long> idsPeticio = new HashSet<Long>(peticionsByEstat.values().size());
@@ -2129,9 +2143,10 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             }
 
 
+            
             for (Long estatDeFirmaId : peticionsByEstat.keySet()) {
                 PeticioDeFirmaJPA pf = (PeticioDeFirmaJPA) peticionsByEstat.get(estatDeFirmaId);
-
+                
                 String pfTitol = pf.getTitol();
                 String pfTitolCut = "";
                 if (pfTitol != null) {
@@ -2184,42 +2199,25 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 }
             }
 
-
             // Informacio Addicional Avaluable
             {
 
-                DoubleField df = new EstatDeFirmaQueryPath().FIRMA().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA().INFORMACIOADDICIONALAVALUABLE();
-
-                SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(EstatDeFirmaFields.ESTATDEFIRMAID.select,
-                        df.select);
-
-                //Long count = estatDeFirmaEjb.count(Where.AND(EstatDeFirmaFields.ESTATDEFIRMAID.in(estatFirmaIDs),df.isNotNull()));
-
-                Where w = Where.AND(EstatDeFirmaFields.ESTATDEFIRMAID.in(estatFirmaIDs), df.isNotNull());
-
-                List<StringKeyValue> list = estatDeFirmaEjb.executeQuery(smskv, w);
-
-
-                if (list != null && list.size() > 0) {
+                if (mapInfo != null && !mapInfo.isEmpty()) {
                     // Si hi elements llevam la columna del items a OCULTAR
                     filterForm.getHiddenFields().remove(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
 
                     Map<Long, String> mapIAA;
                     mapIAA = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE).getValueMap();
-                    mapIAA.clear();
-
-                    for (StringKeyValue skv : list) {
-                        mapIAA.put(new Long(skv.getKey()), skv.getValue());
-                    }
-
-
+                    mapIAA.clear();   
+                    mapIAA.putAll(mapInfo);
+                   
                 } else {
                     // Si no hiha elments, l'afegim als items a ocultar
                     filterForm.addHiddenField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
                 }
 
             }
-
+            
 
             // DATA FI
             if (getFilterType() != FILTRAR_PER_PENDENT) {
