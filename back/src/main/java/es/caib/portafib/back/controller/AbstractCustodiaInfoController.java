@@ -238,6 +238,15 @@ public abstract class AbstractCustodiaInfoController extends CustodiaInfoControl
           custodiaInfoForm.setDeleteButtonVisible(true);
           break;
 
+        case ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE:
+          HtmlUtils.saveMessageWarning(request,
+                  "La petició es va crear amb custòdia, però actualment ja no és permet." +
+                          "L'únic canvi que es pot realitzar és esborrar la custòdia.");
+          custodiaInfoForm.getReadOnlyFields().addAll(Arrays.asList(ALL_CUSTODIAINFO_FIELDS));
+          custodiaInfoForm.setSaveButtonVisible(false);
+          custodiaInfoForm.setDeleteButtonVisible(true);
+          break;
+
         default:
           throw new I18NException("genapp.comodi", "Política de custòdia desconeguda: " + politicaDeCustodia);
       }

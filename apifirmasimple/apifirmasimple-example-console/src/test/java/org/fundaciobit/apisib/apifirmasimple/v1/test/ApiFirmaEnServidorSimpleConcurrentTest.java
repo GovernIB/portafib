@@ -12,6 +12,7 @@ import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -28,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author areus
  *
  */
-public class ApiFirmaEnServidorSimpleConcurrentTester {
+public class ApiFirmaEnServidorSimpleConcurrentTest {
 
   private static ApiFirmaEnServidorSimple api;
   private static Properties properties;
@@ -62,6 +63,7 @@ public class ApiFirmaEnServidorSimpleConcurrentTester {
   }
 
   @Test
+  @Ignore // No executar tests de càrrega automàticament!
   public void testConcurrent() {
 
     int NOMBRE_FIRMES = 100;

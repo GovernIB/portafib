@@ -305,12 +305,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
     return peticioDeFirma;
   }
 
-  /**
-   * 
-   * @param peticioDeFirma
-   *          Pot valer null. En aquest cas
-   * @return
-   */
   @Override
   public PeticioDeFirmaJPA createFull(PeticioDeFirmaJPA peticioDeFirma)
       throws I18NException, I18NValidationException {
@@ -411,7 +405,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
           peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA); // = 0
         }
 
-        usuariEntitatID = null;
         usuariEntitat = null;
 
         entitatJPA = entitatEjb.findByPrimaryKey(usuariAplicacio.getEntitatID());
@@ -511,7 +504,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
     // que aquest coincideix amb l'usuari
     PeticioDeFirmaJPA pf = (PeticioDeFirmaJPA) create(peticioDeFirma);
 
-    Long peticioDeFirmaID = pf.getPeticioDeFirmaID();
+    long peticioDeFirmaID = pf.getPeticioDeFirmaID();
 
     bitacolaLogicaEjb.createBitacola(entitatJPA.getEntitatID(), peticioDeFirmaID,
         BITACOLA_TIPUS_PETICIO, BITACOLA_OP_CREAR, PeticioDeFirmaBean.toBean(pf));
@@ -919,11 +912,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
   }
 
-  /**
-   * 
-   * @param peticioDeFirma
-   * @throws I18NException
-   */
   private FitxerJPA thingsToDoInXADESorCADESWhenStartsPeticioDeFirma(
       PeticioDeFirmaJPA peticioDeFirma) throws I18NException, I18NValidationException {
 
@@ -1088,9 +1076,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
         // TODO PASSAR A DEBUG
         log.info(" FILE ORIG = " + file.getAbsolutePath() + "\t" + file.exists() + "\t"
             + file.length() + "\t" + new Date(file.lastModified()));
-        // log.info(" FILE TEMP = " + fileTmp.getAbsolutePath() + "\t" + fileTmp.exists() +
-        // "\t"
-        // + fileTmp.length() + "\t" + new Date(fileTmp.lastModified()));
 
         Fitxer fileToConvertInfo = new FitxerBean();
         fileToConvertInfo.setMime(fitxer.getMime());
@@ -1214,7 +1199,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
       return f;
     } catch (IOException e) {
-      if (dstPDF != null && dstPDF.exists()) {
+      if (dstPDF.exists()) {
         if (!dstPDF.delete()) {
           dstPDF.deleteOnExit();
         }
@@ -1468,14 +1453,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
         // CAS 2: Si es el mateix usuari llavors no existeix bloqueig
         // Actualitzam la data (si és necessari) i retornam el token
         tokenStored.updateTime();
-        // bitacolaLogicaEjb.createBitacola("lock.updateTime", peticioDeFirmaID,
-        // usuariEntitatID);
         return tokenStored.getTokenString();
       } else {
         // CAS 3: Esta bloquejat per un altre usuari.
-        // TODO: S'ha de crear bitàcola de que no s'ha pogut crear el lock perquè està
-        // bloquejat?
-        // bitacolaLogicaEjb.createBitacola("lock.null", peticioDeFirmaID, usuariEntitatID);
         return null;
       }
     }
@@ -2477,10 +2457,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       IPortaFIBDataSource fitxerOriginal = new FitxerIdDataSource(
           peticioDeFirma.getFitxerAdaptatID());
 
-      // final Boolean checkCanviatDocFirmat = usuariEntitatEjb.executeQueryOne(
-      // new UsuariEntitatQueryPath().ENTITAT().CHECKCANVIATDOCFIRMAT(),
-      // UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma.getUsuariEntitatID()));
-
       Entitat entitat = findEntitatByPrimaryKeyPublic(entitatID);
 
       boolean validarFitxerFirma;
@@ -2491,14 +2467,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
 
         case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
-          validarFitxerFirma = entitat.getPluginValidaFirmesID() != null;
+          validarFitxerFirma = entitat.isValidarfirma();
           checkCanviatDocFirmat = entitat.isCheckCanviatDocFirmat();
           comprovarNifFirma = entitat.isComprovarNifFirma();
         break;
 
         case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
           if (confFirmaId == null) {
-            validarFitxerFirma = entitat.getPluginValidaFirmesID() != null;
+            validarFitxerFirma = entitat.isValidarfirma();
             checkCanviatDocFirmat = entitat.isCheckCanviatDocFirmat();
             comprovarNifFirma = entitat.isComprovarNifFirma();
           } else {
@@ -3255,7 +3231,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       // XYZ ZZZ TRA
       throw new I18NException("genapp.comodi",
           "L´usuari " + usernameLoguejat + " no té permisos sobre la petició de firma amb ID "
-              + String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
+              + peticioDeFirma.getPeticioDeFirmaID());
     }
 
     Long peticioDeFirmaID = peticioDeFirma.getPeticioDeFirmaID();
@@ -4084,13 +4060,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
           if (isDebug) {
             log.debug("diesSeguentAvis = " + diesSeguentAvis);
           }
-          ;
 
           dataSeguentAvis = new Date(
               inici.getTime() + (int) (diesSeguentAvis * 24 * 60 * 60 * 1000));
 
           enviarCorreu = (dataSeguentAvis.getTime() < now);
-
         }
 
         if (enviarCorreu) {
@@ -4202,7 +4176,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
         EmailInfo email = new EmailInfo();
         email.setEmail(iu.getEmail());
         email.setSubject(subject);
-        email.setMessage(html.toString());
+        email.setMessage(html);
         email.setHtml(true);
         email.setUsuariEntitatID(iu.getUsuariEntitat());
 
@@ -4219,7 +4193,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       }
 
     }
-    ; // Final For Entitats
+    // Final For Entitats
 
     return allUsuariEntitat.values();
   }
@@ -4242,7 +4216,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
     }
     return tmp;
 
-  };
+  }
 
   public static class InfoUser {
     final String usuariEntitat;

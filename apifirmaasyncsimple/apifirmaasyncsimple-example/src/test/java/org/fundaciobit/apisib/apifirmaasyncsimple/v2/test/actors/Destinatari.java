@@ -34,4 +34,16 @@ public class Destinatari extends Usuari {
         webDriver.findElement(By.id("pin")).sendKeys(pin);
         webDriver.findElement(By.cssSelector("button[type='submit']")).submit();
     }
+
+    public boolean colaboradorPendentDarrera() {
+        webDriver.get(getTasksUrl());
+        String textCola = webDriver.findElement(By.xpath("//table/tbody/tr[1]/td[7]/small")).getText();
+        return textCola.equals("Pendent: 1/1");
+    }
+
+    public boolean colaboradorValidatDarrera() {
+        webDriver.get(getTasksUrl());
+        String textCola = webDriver.findElement(By.xpath("//table/tbody/tr[1]/td[7]/small")).getText();
+        return textCola.equals("Validat: 1/1");
+    }
 }

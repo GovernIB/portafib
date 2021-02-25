@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?> 
-<java version="1.6.0_33" class="java.beans.XMLDecoder"> 
+<java version="1.6.0_33" class="java.beans.XMLDecoder">
  <object class="org.fundaciobit.genapp.Project"> 
   <void property="dataBaseInfo"> 
    <object class="org.fundaciobit.genapp.common.db.DataBaseInfo"> 
@@ -850,7 +850,7 @@
           <void property="digits"> 
            <int>0</int> 
           </void> 
-          <void property="javaName">
+          <void property="javaName"> 
            <string>entitatid</string> 
           </void> 
           <void property="javaType"> 
@@ -950,8 +950,8 @@
           </void> 
           <void property="index"> 
            <string>pfi_bitacola_data_i</string> 
-          </void>
-          <void property="javaName">
+          </void> 
+          <void property="javaName"> 
            <string>data</string> 
           </void> 
           <void property="javaType"> 
@@ -1006,7 +1006,7 @@
           <void property="groupBy"> 
            <boolean>true</boolean> 
           </void> 
-          <void property="javaName">
+          <void property="javaName"> 
            <string>tipusObjecte</string> 
           </void> 
           <void property="javaType"> 
@@ -1057,10 +1057,10 @@
           </void> 
           <void property="filter"> 
            <boolean>true</boolean> 
-          </void>
-          <void property="index">
-           <string>pfi_bitacola_objecteid_i</string>
-          </void>
+          </void> 
+          <void property="index"> 
+           <string>pfi_bitacola_objecteid_i</string> 
+          </void> 
           <void property="javaName"> 
            <string>objecteid</string> 
           </void> 
@@ -1085,7 +1085,7 @@
            <boolean>true</boolean> 
           </void> 
           <void property="size"> 
-           <int>100</int>
+           <int>100</int> 
           </void> 
           <void property="sqlName"> 
            <string>objecteid</string> 
@@ -1113,7 +1113,7 @@
           <void property="groupBy"> 
            <boolean>true</boolean> 
           </void> 
-          <void property="javaName">
+          <void property="javaName"> 
            <string>tipusOperacio</string> 
           </void> 
           <void property="javaType"> 
@@ -4279,7 +4279,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
     <void index="7"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="39"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="40"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -6486,6 +6486,52 @@ opcional incluso cuando se genera una firma EPES.</string>
         </void> 
         <void index="35"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>validarfirma</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>boolean</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Validar Firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>en</string> 
+            <string>Validate Signature</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Validar Firma</string> 
+           </void> 
+          </void> 
+          <void property="notNullable"> 
+           <boolean>true</boolean> 
+          </void> 
+          <void property="size"> 
+           <int>1</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>validarfirma</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>-7</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>4</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="36"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>true</string> 
           </void> 
@@ -6533,7 +6579,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="36"> 
+        <void index="37"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>true</string> 
@@ -6582,7 +6628,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="37"> 
+        <void index="38"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -6664,7 +6710,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="38"> 
+        <void index="39"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -7447,7 +7493,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
           <void property="groupBy"> 
            <boolean>true</boolean> 
-          </void>
+          </void> 
           <void property="javaName"> 
            <string>usuariEntitatID</string> 
           </void> 
@@ -7616,7 +7662,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
           <void property="groupBy"> 
            <boolean>true</boolean> 
-          </void>
+          </void> 
           <void property="javaName"> 
            <string>tipusEstatDeFirmaInicialID</string> 
           </void> 
@@ -11915,9 +11961,6 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="filter"> 
            <boolean>true</boolean> 
           </void> 
-          <void property="groupBy"> 
-           <boolean>true</boolean> 
-          </void> 
           <void property="foreignKeys"> 
            <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
             <void index="0"> 
@@ -11937,6 +11980,9 @@ opcional incluso cuando se genera una firma EPES.</string>
              </object> 
             </void> 
            </array> 
+          </void> 
+          <void property="groupBy"> 
+           <boolean>true</boolean> 
           </void> 
           <void property="index"> 
            <string>pfi_notifica_tiponotiid_fk_i</string> 
@@ -12003,7 +12049,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="filter"> 
            <boolean>true</boolean> 
           </void> 
-		  <void property="index"> 
+          <void property="index"> 
            <string>pfi_notificacio_datacreacio_i</string> 
           </void> 
           <void property="javaName"> 
@@ -12291,7 +12337,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="filter"> 
            <boolean>true</boolean> 
           </void> 
-          <void property="javaName">
+          <void property="javaName"> 
            <string>reintents</string> 
           </void> 
           <void property="javaType"> 
@@ -12336,14 +12382,14 @@ opcional incluso cuando se genera una firma EPES.</string>
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
-          </void>
-		  <void property="filter"> 
+          </void> 
+          <void property="filter"> 
            <boolean>true</boolean> 
-          </void>
-          <void property="index">
-           <string>pfi_notificacio_usrappid_i</string>
-          </void>
-          <void property="javaName">
+          </void> 
+          <void property="index"> 
+           <string>pfi_notificacio_usrappid_i</string> 
+          </void> 
+          <void property="javaName"> 
            <string>usuariAplicacioID</string> 
           </void> 
           <void property="javaType"> 
@@ -22907,7 +22953,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>es</string> 
             <string>Callback URL</string> 
            </void> 
-          </void>
+          </void> 
           <void property="size"> 
            <int>400</int> 
           </void> 

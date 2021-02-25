@@ -11,6 +11,7 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSigna
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithSignBlockList;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSigner;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.jersey.ApiFirmaAsyncSimpleJersey;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Colaborador;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Delegat;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Destinatari;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Revisor;
@@ -39,6 +40,7 @@ public class DestintariRevisorDelegatTest {
     private static Destinatari destinatariB;
     private static Revisor revisorA;
     private static Delegat delegatA;
+    private static Colaborador colaboradorA;
 
     @BeforeClass
     public static void setup() throws IOException {
@@ -53,6 +55,7 @@ public class DestintariRevisorDelegatTest {
         destinatariB = getDestinatari("destinatari.B", properties, baseUrl);
         revisorA = getRevisor("revisor.A", properties, baseUrl);
         delegatA = getDelegat("delegat.A", properties, baseUrl);
+        colaboradorA = getColaborador("colaborador.A", properties, baseUrl);
 
         api = new ApiFirmaAsyncSimpleJersey(
                 properties.getProperty("api.endpoint"),
@@ -82,6 +85,13 @@ public class DestintariRevisorDelegatTest {
         String username = properties.getProperty(prefix + ".username");
         String password = properties.getProperty(prefix + ".password");
         return new Revisor(administrationId, username, password, url);
+    }
+
+    private static Colaborador getColaborador(String prefix, Properties properties, String url) {
+        String administrationId = properties.getProperty(prefix + ".administrationId");
+        String username = properties.getProperty(prefix + ".username");
+        String password = properties.getProperty(prefix + ".password");
+        return new Colaborador(administrationId, username, password, url);
     }
 
     @Test
@@ -200,6 +210,29 @@ public class DestintariRevisorDelegatTest {
 
         Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
         Assert.assertEquals(delegacionsPendents, delegatA.tasquesPendents());
+
+        Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+    }
+
+    @Test
+    public void testCreateAndValidateColaborador() {
+
+        int firmesPendents = destinatariA.tasquesPendents();
+        int colaboracionsPendents = colaboradorA.tasquesPendents();
+
+        long peticio = crearPeticioDestinataris(destinatariA);
+
+        Assert.assertEquals(firmesPendents+1, destinatariA.tasquesPendents());
+        Assert.assertEquals(colaboracionsPendents+1, colaboradorA.tasquesPendents());
+        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+
+        Assert.assertTrue(destinatariA.colaboradorPendentDarrera());
+        colaboradorA.validarDarrera();
+        Assert.assertEquals(colaboracionsPendents, colaboradorA.tasquesPendents());
+        Assert.assertTrue(destinatariA.colaboradorValidatDarrera());
+
+        destinatariA.firmarDarreraPeticio();
+        Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
 
         Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
     }

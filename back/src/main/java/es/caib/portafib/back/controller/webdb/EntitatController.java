@@ -325,6 +325,9 @@ public class EntitatController
     }
 
 
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, VALIDARFIRMA);
+
+
       fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, COMPROVARNIFFIRMA);
 
 

@@ -798,7 +798,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
         }
 
-        final String signaturesSetID = String.valueOf(SignatureModuleController.generateUniqueSignaturesSetID());
+        final String signaturesSetID = SignatureModuleController.generateUniqueSignaturesSetID();
 
         CommonInfoSignature commonInfoSignature;
         {
@@ -1083,7 +1083,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
         EntitatJPA entitat = loginInfo.getEntitat();
 
-        final String signaturesSetID = String.valueOf(peticioDeFirmaID + "_" + estatDeFirmaID);
+        final String signaturesSetID = SignatureModuleController.generateUniqueSignaturesSetID();
 
         CommonInfoSignature commonInfoSignature;
         {

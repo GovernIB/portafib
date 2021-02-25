@@ -7,6 +7,7 @@ import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.jpa.PluginJPA;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebPublicLogicaLocal;
+import es.caib.portafib.logic.generator.IdGeneratorFactory;
 import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.PluginFields;
@@ -757,21 +758,11 @@ public class SignatureModuleController extends HttpServlet {
   }
   
   /**
-   * 
-   * @return
+   * Retorna un identificador únic pel signatureSet.
    */
-  public static long generateUniqueSignaturesSetID() {
-    long id;
-    synchronized (log) {
-      id = (System.currentTimeMillis() * 1000000L) + System.nanoTime() % 1000000L;
-      try {
-        Thread.sleep(10);
-      } catch (InterruptedException e) {
-      }
-    }
-    return id;
+  public static String generateUniqueSignaturesSetID() {
+    return IdGeneratorFactory.getGenerator().generate();
   }
-  
   
   /** Ha de ser igual que el RequestMapping de la Classe */
   public String getContextWeb() {

@@ -145,6 +145,7 @@ SET default_with_oids = false;
         suportweb varchar(250),
         uspoliticadefirma int4 not null,
         usuariaplicacioid varchar(101),
+        validarfirma bool not null,
         web varchar(250) not null,
         primary key (entitatid)
     );

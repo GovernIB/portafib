@@ -107,6 +107,9 @@ public interface Entitat extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public java.lang.Long getPluginRubricaID();
 	public void setPluginRubricaID(java.lang.Long _pluginRubricaID_);
 
+	public boolean isValidarfirma();
+	public void setValidarfirma(boolean _validarfirma_);
+
 	public boolean isComprovarNifFirma();
 	public void setComprovarNifFirma(boolean _comprovarNifFirma_);
 
