@@ -158,26 +158,19 @@ public class AutoFirmaController extends FitxerController
       break;
 
  }
-    
-    
-    
-    
-    long id;
-    id = SignatureModuleController.generateUniqueSignaturesSetID();
+
+    // Ve de #549
+    // Per compatibilitat amb les firmes ja generades, fixam l'id amb l'antic sistema
+    // que es generava amb el SignatureModuleController
+    long id = (System.currentTimeMillis() * 1000000L) + System.nanoTime() % 1000000L;
     form.setId(id);
     form.setUsuariEntitatID(loginInfo.getUsuariEntitatID());
 
     mav.addObject(form);
 
     return mav;
-
   }
 
-  
-  
-  
-  
-  
   @RequestMapping(value = "", method = RequestMethod.POST)
   public ModelAndView autofirmaPost(HttpServletRequest request, HttpServletResponse response,
       @ModelAttribute AutoFirmaForm form, BindingResult result)  {
@@ -260,18 +253,15 @@ public class AutoFirmaController extends FitxerController
     
     
     final int sign_number = 1;
-    
-    final String signaturesSetID= String.valueOf(id);
-    // Posam el mateix id ja que només es firma un sol fitxer
-    final String signatureID = signaturesSetID;
-    
+
+    // NOTA: per #549 el que feim es emprar l'identificador segur per la transacció
+    // mentre que com a signId posam l'id del fitxer que estam signant per identificar-lo
+    final String signaturesSetID= SignatureModuleController.generateUniqueSignaturesSetID();
+    final String signId = String.valueOf(id);
 
     // Ve d'un camp d'Autofirma que indica si l'usuari vol Segellat de Temps
     boolean userRequiresTimeStamp = form.isSegellDeTemps();
 
-    
-    
-    
     ITimeStampGenerator timeStampGenerator;
     timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb( 
         entitat, userRequiresTimeStamp );
@@ -286,7 +276,7 @@ public class AutoFirmaController extends FitxerController
     final String procedureName = null;
         
     
-    FileInfoSignature fis = SignatureUtils.getFileInfoSignature(signatureID,
+    FileInfoSignature fis = SignatureUtils.getFileInfoSignature(signId,
         pdfAdaptat, FileInfoSignature.PDF_MIME_TYPE,  idname,
         (int)form.getPosicioTaulaFirmesID(), reason, location, signerEmail, sign_number, 
         langSign, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
@@ -359,13 +349,9 @@ public class AutoFirmaController extends FitxerController
       @PathVariable("signaturesSetID") String signaturesSetID)throws Exception {
   
   
-    SignaturesSetWeb ss;
-    ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
-
+    SignaturesSetWeb ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
     StatusSignaturesSet sss = ss.getStatusSignaturesSet();
-    
     StatusSignaturesSet statusError = null;
-    
     String idDescarrega = null;
     
     switch(sss.getStatus()) {
@@ -373,14 +359,16 @@ public class AutoFirmaController extends FitxerController
       case StatusSignaturesSet.STATUS_FINAL_OK:
         {
           // Revisam la primera i unica firma
-          StatusSignature status = ss.getFileInfoSignatureArray()[0].getStatusSignature();
+          FileInfoSignature fileInfoSignature = ss.getFileInfoSignatureArray()[0];
+          StatusSignature status = fileInfoSignature.getStatusSignature();
           // TODO check null
-          
+
           if (status.getStatus() == StatusSignature.STATUS_FINAL_OK) {
   
             String usuariEntitat = LoginInfo.getInstance().getUsuariEntitatID();
-            
-            File firmat = getFitxerFirmatPath(usuariEntitat, Long.parseLong(signaturesSetID));
+
+            String signID = fileInfoSignature.getSignID();
+            File firmat = getFitxerFirmatPath(usuariEntitat, Long.parseLong(signID));
            
             // TODO Check que status.getSignedData() != null
             if (status.getSignedData() == null || !status.getSignedData().exists()) {
@@ -394,15 +382,8 @@ public class AutoFirmaController extends FitxerController
               FileUtils.moveFile(status.getSignedData(), firmat);
             }
             
-            idDescarrega = signaturesSetID;
-            
-            /*
-            FileOutputStream fos = new FileOutputStream(firmat);
-            fos.write(status.getSignedData());
-            fos.flush();
-            fos.close();
-            */
-            
+            idDescarrega = signID;
+
             status.setProcessed(true);
           } else {
             statusError = status;
@@ -859,10 +840,8 @@ public class AutoFirmaController extends FitxerController
 
     // TODO Falta ordenar segons criteris !!!
     Collections.sort(list, new Comparator<Fitxer>() {
-
       @Override
       public int compare(Fitxer o1, Fitxer o2) {
-        
         return (int)(Math.signum(o2.getFitxerID() - o1.getFitxerID()));
       }
     });
@@ -927,28 +906,23 @@ public class AutoFirmaController extends FitxerController
     String usuariEntitat = LoginInfo.getInstance().getUsuariEntitatID();
     filterForm.getAdditionalButtonsByPK().clear();
 
-    for(Fitxer f : list) {
+    I18NDateTimeFormat formatter = new I18NDateTimeFormat();
+
+    for (Fitxer f : list) {
       long id = f.getFitxerID();
-      long millis = id / 1000000L; 
-
-      I18NDateTimeFormat formatter = new I18NDateTimeFormat();
-      String date = formatter.format(new Date(millis));
-
-      mapPF.put(id, date);
-      
       File ffirmat = getFitxerFirmatPath(usuariEntitat, id);
+      if (ffirmat.exists()) {
+        Date fileDate = new Date(ffirmat.lastModified());
+        mapPF.put(id, formatter.format(fileDate));
 
-      if (ffirmat.exists()) {      
         String url = request.getContextPath() + getContextWeb() + "/download/{0}";
         String js = "javascript:var win = window.open('" + url +  "', '_blank'); win.focus();";
         filterForm.addAdditionalButtonByPK(id, new AdditionalButton(
           "icon-edit icon-white", "autofirma.fitxerfirmat", js,
           "btn btn-info"));
       }
-
     }
-  
-  
+
   }
   
   

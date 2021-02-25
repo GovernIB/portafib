@@ -3,6 +3,7 @@ package es.caib.portafib.back.controller.rest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import es.caib.portafib.logic.generator.IdGeneratorFactory;
 import org.fundaciobit.apisib.core.beans.ApisIBError;
 import org.fundaciobit.apisib.core.exceptions.ApisIBServerException;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -15,7 +16,7 @@ import es.caib.portafib.back.security.LoginInfo;
 /**
  * 
  * @author anadal
- *
+ * @author areus
  */
 public class RestUtilsErrorManager extends RestUtils {
 
@@ -45,17 +46,8 @@ public class RestUtilsErrorManager extends RestUtils {
         ApisIBServerException.class.getName(), sStackTrace), status);
   }
 
-  /**
-   *
-   * @param esFirmaEnServidor
-   * @return
-   * @throws I18NException
-   */
   protected LoginInfo commonChecks() throws I18NException {
-
     LoginInfo loginInfo = LoginInfo.getInstance();
-
-    //log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
 
     // Checks Globals
     if (loginInfo.getUsuariEntitat() != null) {
@@ -68,22 +60,9 @@ public class RestUtilsErrorManager extends RestUtils {
   }
   
   protected String internalGetTransacction() {
-    String transactionID;
-    synchronized (this) {
-      try {
-        Thread.sleep(100);
-      } catch (InterruptedException e) {
-      }
-
-      transactionID = System.currentTimeMillis() + "" + System.nanoTime();
-      transactionID = org.fundaciobit.pluginsib.core.utils.Base64.encode(transactionID)
-          .toLowerCase();
-      transactionID = transactionID.replaceAll("=", "");
-
-    }
-
+    String transactionID = IdGeneratorFactory.getGenerator().generate();
     if (log.isDebugEnabled()) {
-      log.info(" Creada transacció amb ID = |" + transactionID + "|");
+      log.debug("Creada transacció amb ID = [" + transactionID + "]");
     }
     return transactionID;
   }
