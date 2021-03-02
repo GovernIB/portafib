@@ -34,49 +34,36 @@ import org.apache.cxf.service.Service;
  * 
  * @author anadal Veure https://cxf.apache.org/docs/interceptors.html
  */
-
 public class PortaFIBInInterceptor extends AbstractPhaseInterceptor<Message> {
 
   protected static final javax.xml.namespace.QName QNAME = new javax.xml.namespace.QName("-1");
 
   protected final Log log = LogFactory.getLog(getClass());
 
-
   public PortaFIBInInterceptor() {
     // Veure https://cxf.apache.org/docs/interceptors.html
     super(Phase.PRE_INVOKE);
   }
 
-  //@SuppressWarnings("unchecked")
   public void handleMessage(Message message) throws Fault {
     
     boolean logEnable = log.isDebugEnabled(); 
    
     if (logEnable) {
       log.info(" ------------------ PortaFIBWSInInterceptor  --------------");
-      
-         
-      
       try {
-        
         Method method = getTargetMethod(message);
-        
-              
         log.info("  + Method NAME = " + method.getName());
         log.info("  + Method CLASS = " + method.getDeclaringClass());
-        
-  
+
         HttpServletRequest hsr = (HttpServletRequest)message.get("HTTP.REQUEST"); 
         log.info(" USR_1:  " +hsr.getRemoteUser());
-    
         log.info(" ROLE: PFI_ADMIN  " +hsr.isUserInRole(Constants.PFI_ADMIN));
         log.info(" ROLE: PFI_USER  " +hsr.isUserInRole(Constants.PFI_USER));
-        
       } catch (Exception e) {
        log.error(e.getMessage());
       }
 
-    
       log.info("PortaFIBInInterceptor::handleMessage() =>  Thread = "
         + Thread.currentThread().getId());
   }
@@ -98,12 +85,9 @@ public class PortaFIBInInterceptor extends AbstractPhaseInterceptor<Message> {
           + context.isUserInRole(Constants.PFI_ADMIN));
     }
 
-    UsuariAplicacioJPA usuariAplicacio = null;
+    UsuariAplicacioJPA usuariAplicacio;
     try {
-      UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
-      usuariAplicacioLogicaEjb = EjbManager.getUsuariAplicacioLogicaEJB();
-      usuariAplicacio = usuariAplicacioLogicaEjb.findByPrimaryKeyFull(userapp);
-      //usuariAplicacio = getUsuariAplicacioLogicaEjb().findUsuariAplicacioJPAFull(userapp);
+      usuariAplicacio = EjbManager.getUsuariAplicacioLogicaEJB().findByPrimaryKeyFull(userapp);
       if (usuariAplicacio != null) {
         log.info("PortaFIBInInterceptor::handleMessage() Usuari APP = "
             + usuariAplicacio.getUsuariAplicacioID());
@@ -156,18 +140,13 @@ public class PortaFIBInInterceptor extends AbstractPhaseInterceptor<Message> {
     UsuariAplicacioCache.put(usuariAplicacio);
   }
   
-  
-  
+
   private Method getTargetMethod(Message m) {
     BindingOperationInfo bop = m.getExchange().get(BindingOperationInfo.class);
-
-    
-    
     MethodDispatcher md = (MethodDispatcher) 
         m.getExchange().get(Service.class).get(MethodDispatcher.class.getName());
    
     return md.getMethod(bop);
-
 }
   
 
@@ -197,7 +176,6 @@ public class PortaFIBInInterceptor extends AbstractPhaseInterceptor<Message> {
         log.error("PortaFIBInInterceptor::handleFault(I18NException): " + msg);
         
         message.setContent(Exception.class,
-        // new WsI18NException(i18n.getTraduccio(), msg, cause));
             new WsI18NException(WsUtils.convertToWsTranslation(i18n.getTraduccio()), msg, cause));
       } else if (cause instanceof I18NValidationException) {
         log.error("PortaFIBInInterceptor::handleFault() - CAUSE.");
@@ -218,7 +196,6 @@ public class PortaFIBInInterceptor extends AbstractPhaseInterceptor<Message> {
     }
     super.handleFault(message);
   }
-
 
 
 }

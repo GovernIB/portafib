@@ -10,6 +10,10 @@ import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 import es.caib.portafib.ws.v1.utils.AuthenticatedBaseV1WsImpl;
 import es.caib.portafib.ws.v1.utils.JPAConversion;
+import org.apache.cxf.interceptor.InFaultInterceptors;
+import org.apache.cxf.interceptor.InInterceptors;
+import org.apache.cxf.interceptor.OutFaultInterceptors;
+import org.apache.cxf.interceptor.OutInterceptors;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.ws.WsI18NException;
@@ -40,8 +44,10 @@ import java.util.Set;
 @Stateless(name = PortaFIBUsuariAplicacioWsImpl.NAME + "Ejb")
 @RolesAllowed({ Constants.PFI_USER, Constants.PFI_ADMIN })
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-@org.apache.cxf.interceptor.InInterceptors(interceptors = { "es.caib.portafib.ws.utils.PortaFIBInInterceptor" })
-@org.apache.cxf.interceptor.InFaultInterceptors(interceptors = { "es.caib.portafib.ws.utils.PortaFIBInInterceptor" })
+@InInterceptors(interceptors = {"es.caib.portafib.ws.utils.PortaFIBInInterceptor"})
+@InFaultInterceptors(interceptors = {"es.caib.portafib.ws.utils.PortaFIBInInterceptor"})
+@OutInterceptors(interceptors = {"es.caib.portafib.ws.utils.PortaFIBOutInterceptor"})
+@OutFaultInterceptors(interceptors = {"es.caib.portafib.ws.utils.PortaFIBOutInterceptor"})
 @WebService(name = PortaFIBUsuariAplicacioWsImpl.NAME_WS, 
             portName = PortaFIBUsuariAplicacioWsImpl.NAME_WS,
             serviceName = PortaFIBUsuariAplicacioWsImpl.NAME_WS + "Service",

@@ -65,7 +65,7 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
 
       // La politica de Custòdia definida dins l´Entitat
       case ConstantsV2.POLITICA_CUSTODIA_POLITICA_DE_CUSTODIA_DEFINIDA_EN_ENTITAT: // = -1;
-        /**
+        /*
          * CustodiaInfo per Defecte de l'entitat diferent de NULL i editable = false
          */
         return CUSTODIA_NOMES_PLANTILLA_PER_DEFECTE; // = 1;
@@ -85,14 +85,14 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
       // [ENTITAT] Opcional plantilla Entitat (Per defecte NO Actiu)
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU: // =
         // HO FEIM PASSAR COM AQUESTA
-        /**
+        /*
          * CustodiaInfo per Defecte de l'entitat diferent de NULL i editable = false
          */
         return CUSTODIA_NOMES_PLANTILLA_PER_DEFECTE; // = 1;
 
       // Llibertat Total (selecció, edició i us)
       case ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL:
-        /**
+        /*
          * CustodiaInfo per Defecte de l'entitat diferent de NULL, editable = true i multiples
          * plantilles de custòdia disponible per l'entitat
          */
@@ -100,7 +100,7 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
 
         
       // CAS NO ES PERMET
-        /**
+        /*
          * CustodiaInfo per Defecte de l'entitat diferent de NULL, editable = true 
          * i només una plantilla de custòdia disponible per l'entitat 
          */
@@ -176,28 +176,6 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
     CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodiaUA(userapp, null, "usuari aplicació", userapp.getEntitat());
     
     return CustodiaInfoBean.toBean(ci);
-    
-    /* XYZ ZZZ
-    
-    
-    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
-    
-    Integer politicaCustodia = entitat.getPoliticaDeCustodiaFinalPerUA(userapp);
-    if (politicaCustodia == null) {
-      return null;
-    }
-
-    final String usuariEntitatID = null;
-    if (language.trim().length() == 0) {
-      language = userapp.getIdiomaID();
-    }
-    final String usuariAplicacioID = userapp.getUsuariAplicacioID();
-    es.caib.portafib.model.bean.CustodiaInfoBean cibModel = peticioDeFirmaLogicaEjb.constructDefaultCustodiaInfo(title, userapp.getEntitatID(),
-        usuariEntitatID, usuariAplicacioID, language);
-
-    return CustodiaInfoBean.toBean(cibModel); 
-    */
-
   }
 
   @RolesAllowed({ PFI_ADMIN, PFI_USER })

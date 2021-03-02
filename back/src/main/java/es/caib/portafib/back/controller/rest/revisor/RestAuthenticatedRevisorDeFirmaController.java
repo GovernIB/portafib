@@ -11,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import es.caib.portafib.back.security.LoginInfo;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.springframework.http.HttpHeaders;
@@ -129,7 +130,7 @@ public class RestAuthenticatedRevisorDeFirmaController extends RestUtils {
             HttpStatus.INTERNAL_SERVER_ERROR);
       }
 
-      final UsuariAplicacioJPA usuariAplicacio = usuariAplicacioCache.get();
+      final UsuariAplicacioJPA usuariAplicacio = LoginInfo.getInstance().getUsuariAplicacio();
 
       if (!peticio.getSolicitantUsuariAplicacioID().equals(usuariAplicacio.getUsuariAplicacioID())) {
         // XYZ ZZZ
@@ -159,7 +160,7 @@ public class RestAuthenticatedRevisorDeFirmaController extends RestUtils {
           RoleUsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID),
           RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_REVI)));
 
-      if (count == null || count.longValue() == 0) {
+      if (count == null || count == 0) {
         // XYZ ZZZ
         return generateServerError("L´UsuariEntitat " + usuariEntitatID
             + " no té el ROLE de Revisor de Firmes", null, HttpStatus.INTERNAL_SERVER_ERROR);

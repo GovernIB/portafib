@@ -84,43 +84,5 @@ public class WsUtils {
     return new WsI18NTranslation(translation.getCode(), args);
 
   }
-  
-  
-  public static void printInfoUserApp(WebServiceContext wsContext) {
-
-    try {
-
-      log.info("PortaFIBUsuariAplicacioWsImpl:printInfoUserApp()  Thread = "
-          + Thread.currentThread().getId());
-
-      log.info("PortaFIBUsuariAplicacioWsImpl:printInfoUserApp()  ThreadLocal Info = "
-          + UsuariAplicacioCache.get());
-
-      HttpServletRequest servRequest = (HttpServletRequest) wsContext.getMessageContext().get(
-          MessageContext.SERVLET_REQUEST);
-
-      log.info("PortaFIBUsuariAplicacioWsImpl:printInfoUserApp()  User = "
-          + servRequest.getUserPrincipal().getName());
-
-      // HttpSession session = (HttpSession) servRequest.getSession();
-      // servletContext = session.getServletContext();
-
-      /*
-       * usuariAplicacioLogicaEjb
-       * 
-       * UsuariAplicacioJPA usuariAplicacio = (UsuariAplicacioJPA)
-       * au.getDetails();
-       * 
-       * log.error("USUARI APLICACIO = " + usuariAplicacio);
-       * 
-       * log.error("USUARI APLICACIO FIND = " +
-       * usuariAplicacioEjb.findByPrimaryKeyFull
-       * (usuariAplicacio.getUsuariAplicacioID()));
-       */
-    } catch (Throwable e) {
-      log.error("Error executant printInfoUserApp", e);
-    }
-
-  }
 
 }

@@ -13,7 +13,7 @@ public class UsuariAplicacioCache {
 
   private static final ThreadLocal<UsuariAplicacioJPA> appInfo = new ThreadLocal<UsuariAplicacioJPA>();
 
-  public static final void put(UsuariAplicacioJPA appname) {
+  public static void put(UsuariAplicacioJPA appname) {
     appInfo.set(appname);
   }
 

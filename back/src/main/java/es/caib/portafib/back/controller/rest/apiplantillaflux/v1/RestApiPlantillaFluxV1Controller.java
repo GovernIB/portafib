@@ -181,8 +181,9 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     ResponseEntity<String> res = new ResponseEntity<String>(transactionID, headers,
         HttpStatus.OK);
 
+    final UsuariAplicacioJPA usuariAplicacio = LoginInfo.getInstance().getUsuariAplicacio();
     currentTransactions.put(transactionID,
-        new TransactionInfo(transactionID, usuariAplicacioCache.get(), transactionIDRequest));
+        new TransactionInfo(transactionID, usuariAplicacio, transactionIDRequest));
 
     return res;
 
@@ -642,7 +643,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
 
   protected FlowTemplateSimpleFlowTemplateList internalGetAll(String name, String description)
       throws I18NException, Exception {
-    String usuariAplicacioID = usuariAplicacioCache.get().getUsuariAplicacioID();
+
+    String usuariAplicacioID = LoginInfo.getInstance().getUsuariAplicacio().getUsuariAplicacioID();
 
     SelectMultipleStringKeyValue select = new SelectMultipleStringKeyValue(
         PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.select,
@@ -774,14 +776,14 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
       
       FlowTemplateSimpleStartTransactionRequest startTransactionInfo;
       startTransactionInfo = new FlowTemplateSimpleStartTransactionRequest(transactionID, editFlowTemplate.getReturnUrl());
-      
-      TransactionInfo info = new TransactionInfo(transactionID, usuariAplicacioCache.get(), transactionIDRequest);
+
+      final UsuariAplicacioJPA usuariAplicacio = LoginInfo.getInstance().getUsuariAplicacio();
+      TransactionInfo info = new TransactionInfo(transactionID, usuariAplicacio, transactionIDRequest);
       
       info.setStartTransactionInfo(startTransactionInfo);
       info.setFluxDeFirmesID(fluxDeFirmesID);
 
       currentTransactions.put(transactionID, info);
- 
 
       // String usuariAplicacioID = usuariAplicacioCache.get().getUsuariAplicacioID();
       // XYZ ZZZ ZZZ REVISAR CERTA CACHE PER SEGURETAT !!!!

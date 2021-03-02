@@ -93,11 +93,12 @@ public class FitxerLogicaEJB extends FitxerEJB implements FitxerLogicaLocal {
     }
 
     for (Long fileID : fitxerIDSet) {
-      try {
-        delete(fileID);
-      } catch (Throwable e) {
-        // TODO Enviar mail a ADMINISTRADOR
-        log.error("Error esborrant fitxer fent neteja: " + e.getMessage(), e);
+      if (!context.getRollbackOnly()) {
+        try {
+          delete(fileID);
+        } catch (Throwable e) {
+          log.error("Error esborrant fitxer fent neteja: " + e.getMessage(), e);
+        }
       }
       FileSystemManager.eliminarArxiu(fileID);
     }

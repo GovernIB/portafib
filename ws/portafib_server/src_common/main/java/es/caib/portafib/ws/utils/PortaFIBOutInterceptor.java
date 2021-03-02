@@ -21,16 +21,17 @@ public class PortaFIBOutInterceptor extends AbstractPhaseInterceptor<Message> {
     super(Phase.SEND);
   }
 
-  //@SuppressWarnings("unchecked")
+  @Override
   public void handleMessage(Message message) throws Fault {
+    log.info("PortaFIBOutInterceptor::handleMessage");
     UsuariAplicacioCache.remove();
   }
 
-/*
+
   @Override
   public void handleFault(Message message) {
-    log.error("PortaFIBOutInterceptor::handleFault(Message arg0)");
-    super.handleFault(message);
+    log.info("PortaFIBOutInterceptor::handleFault");
+    UsuariAplicacioCache.remove();
   }
-*/
+
 }

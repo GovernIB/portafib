@@ -37,10 +37,6 @@ public class RestUtils {
 
   protected final Logger log = Logger.getLogger(getClass());
 
-  protected final ThreadLocal<UsuariAplicacioJPA> usuariAplicacioCache = new ThreadLocal<UsuariAplicacioJPA>();
-
-  
-  
   public HttpHeaders addAccessControllAllowOrigin() {
     HttpHeaders headers = new HttpHeaders();
     headers.add("Access-Control-Allow-Origin", "*");
@@ -92,7 +88,7 @@ public class RestUtils {
 
         log.debug(" XYZ ZZZ autenticate::  LOGIN OK OK  OK  OK  OK OK ");
 
-        UsuariAplicacioLogicaLocal usuariAplicacioEjb = null;
+        UsuariAplicacioLogicaLocal usuariAplicacioEjb ;
         try {
           usuariAplicacioEjb = EjbManager.getUsuariAplicacioLogicaEJB();
         } catch (Throwable e) {
@@ -127,7 +123,6 @@ public class RestUtils {
               + " esta deshabilitada.";
           log.error(" XYZ ZZZ autenticate:: " + msg);
           return msg;
-
         }
 
         User user = new User(username, password, seyconAuthorities);
@@ -139,8 +134,6 @@ public class RestUtils {
         SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
 
         log.info("Inicialitzada Informació de UsuariAPLicacio dins de LoginInfo");
-
-        usuariAplicacioCache.set(usuariAplicacio);
 
         return null; // OK
 
@@ -163,10 +156,6 @@ public class RestUtils {
   public static boolean authenticateUsernamePassword(HttpServletRequest request, String username,
       String password, Set<String> roles, Logger log) {
     boolean autenticat;
-    //log.info("XYZ ZZZ autenticate::username: |" + username + "|");
-    // log.info("XYZ ZZZ autenticate::password: |" + password + "|");
-    //log.info("XYZ ZZZ autenticate:: PRE AUTENTICATE " + request.getUserPrincipal());
-
     // L'autenticació següent ens permet comprovarl l'usuari i recuperar el seus rols, però no l'emmagatzema
     // internament i per tant les cridades a altres capes (EJB) no mantenen l'autenticació.
     try {
@@ -209,8 +198,6 @@ public class RestUtils {
       autenticat = pwl.login(username, password);
     }
 
-    //log.info("XYZ ZZZ autenticate:: POST AUTENTICATE " + request.getUserPrincipal()
-    //    + " [ autenticat => " + autenticat + "]");
     return autenticat;
   }
 

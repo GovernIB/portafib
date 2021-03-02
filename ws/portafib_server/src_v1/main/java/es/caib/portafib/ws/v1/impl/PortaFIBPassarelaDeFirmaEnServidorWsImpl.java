@@ -10,6 +10,11 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.WebServiceContext;
 
+import es.caib.portafib.ws.utils.PortaFIBOutInterceptor;
+import org.apache.cxf.interceptor.InFaultInterceptors;
+import org.apache.cxf.interceptor.InInterceptors;
+import org.apache.cxf.interceptor.OutFaultInterceptors;
+import org.apache.cxf.interceptor.OutInterceptors;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
@@ -36,8 +41,10 @@ import es.caib.portafib.ws.v1.utils.PassarelaConversion;
 @Stateless(name = PortaFIBPassarelaDeFirmaEnServidorWsImpl.NAME + "Ejb")
 @RolesAllowed({ Constants.PFI_USER, Constants.PFI_ADMIN })
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-@org.apache.cxf.interceptor.InInterceptors(interceptors = { "es.caib.portafib.ws.utils.PortaFIBInInterceptor" })
-@org.apache.cxf.interceptor.InFaultInterceptors(interceptors = { "es.caib.portafib.ws.utils.PortaFIBInInterceptor" })
+@InInterceptors(interceptors = {"es.caib.portafib.ws.utils.PortaFIBInInterceptor"})
+@InFaultInterceptors(interceptors = {"es.caib.portafib.ws.utils.PortaFIBInInterceptor"})
+@OutInterceptors(interceptors = {"es.caib.portafib.ws.utils.PortaFIBOutInterceptor"})
+@OutFaultInterceptors(interceptors = {"es.caib.portafib.ws.utils.PortaFIBOutInterceptor"})
 @WebService(name = PortaFIBPassarelaDeFirmaEnServidorWsImpl.NAME_WS, portName = PortaFIBPassarelaDeFirmaEnServidorWsImpl.NAME_WS, serviceName = PortaFIBPassarelaDeFirmaEnServidorWsImpl.NAME_WS
     + "Service", endpointInterface = "es.caib.portafib.ws.v1.impl."
     + PortaFIBPassarelaDeFirmaEnServidorWsImpl.NAME_WS)
