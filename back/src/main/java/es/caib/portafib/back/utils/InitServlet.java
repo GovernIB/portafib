@@ -46,6 +46,8 @@ public class InitServlet extends HttpServlet {
 
   private final ProviderRegistration providerRegistration = new ProviderRegistration();
 
+  private Thread shutdownHook;
+
   @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
 
@@ -62,25 +64,36 @@ public class InitServlet extends HttpServlet {
       log.error("Error inicialitzant el sistema de sistema de fitxers: " + th.getMessage(), th);
     }
 
-    // Aturar Timer de NotificacionsWS a l'aturar Servidor
-    Runtime.getRuntime().addShutdownHook(new Thread() {
+    // Aturar Timers en aturar el servidor
+    shutdownHook = new Thread() {
       public void run() {
+        log.info("HOOK SHUTDOWN BEGIN");
         try {
-          log.info(" \n\n HOOK SHUTDOWN BEGIN => NotificacionsCallBackTimerLocal \n");
-          NotificacionsCallBackTimerLocal notifCallback;
-          notifCallback = (NotificacionsCallBackTimerLocal) new InitialContext()
-              .lookup(NotificacionsCallBackTimerLocal.JNDI_NAME);
-          notifCallback.stopScheduler();
-          log.info(" \n\n HOOK SHUTDOWN END => NotificacionsCallBackTimerLocal \n");
-
+          EnviarCorreusAgrupatsTimerLocal enviar = (EnviarCorreusAgrupatsTimerLocal) new InitialContext()
+                  .lookup(EnviarCorreusAgrupatsTimerLocal.JNDI_NAME);
+          enviar.stopScheduler();
         } catch (Exception e) {
-          // TODO: handle exception
-          log.error(
-              " \n\n HOOK SHUTDOWN NotificacionsCallBackTimerLocal ERROR: " + e.getMessage()
-                  + " \n", e);
+          log.error("HOOK SHUTDOWN EnviarCorreusAgrupatsTimerLocal ERROR: ", e);
+        }
+
+        try {
+          AvisosFirmesPendentsTimerLocal avisos = (AvisosFirmesPendentsTimerLocal) new InitialContext()
+                  .lookup(AvisosFirmesPendentsTimerLocal.JNDI_NAME);
+          avisos.stopScheduler();
+        } catch (Exception e) {
+          log.error("HOOK SHUTDOWN AvisosFirmesPendentsTimerLocal ERROR: ", e);
+        }
+
+        try {
+          NotificacionsCallBackTimerLocal notifCallback = (NotificacionsCallBackTimerLocal) new InitialContext()
+                  .lookup(NotificacionsCallBackTimerLocal.JNDI_NAME);
+          notifCallback.stopScheduler();
+        } catch (Exception e) {
+          log.error("HOOK SHUTDOWN NotificacionsCallBackTimerLocal ERROR: ", e);
         }
       }
-    });
+    };
+    Runtime.getRuntime().addShutdownHook(shutdownHook);
 
     // Sistema de Fitxers
     try {
@@ -169,8 +182,7 @@ public class InitServlet extends HttpServlet {
             + "exportdataplugins" + " !!!!!");
       } else {
         String[] plugins = pkgsTxt.replace(" ", "").split(",");
-
-        if (plugins == null || plugins.length == 0) {
+        if (plugins.length == 0) {
           log.warn("No existeixen Plugins de ExportData !!!!!");
         } else {
 
@@ -193,11 +205,9 @@ public class InitServlet extends HttpServlet {
 
     // Enviar Notificacions en Correus Agrupats
     try {
-      EnviarCorreusAgrupatsTimerLocal sinc;
-      sinc = (EnviarCorreusAgrupatsTimerLocal) new InitialContext()
+      EnviarCorreusAgrupatsTimerLocal enviar = (EnviarCorreusAgrupatsTimerLocal) new InitialContext()
           .lookup(EnviarCorreusAgrupatsTimerLocal.JNDI_NAME);
-
-      sinc.startScheduler();
+      enviar.startScheduler();
     } catch (Throwable th) {
       log.error("Error desconegut inicialitzant Timer d'enviament"
           + " de notificacions agrupades: " + th.getMessage(), th);
@@ -205,10 +215,9 @@ public class InitServlet extends HttpServlet {
 
     // AvisosFirmesPendents
     try {
-      AvisosFirmesPendentsTimerLocal sinc;
-      sinc = (AvisosFirmesPendentsTimerLocal) new InitialContext()
+      AvisosFirmesPendentsTimerLocal avisos = (AvisosFirmesPendentsTimerLocal) new InitialContext()
           .lookup(AvisosFirmesPendentsTimerLocal.JNDI_NAME);
-      sinc.startScheduler();
+      avisos.startScheduler();
     } catch (Throwable th) {
       log.error("Error desconegut inicialitzant Timer d'enviament d'avisos"
           + " de peticions de firma pendents: " + th.getMessage(), th);
@@ -216,8 +225,7 @@ public class InitServlet extends HttpServlet {
 
     // NotificacionCallBack
     try {
-      NotificacionsCallBackTimerLocal notifCallback;
-      notifCallback = (NotificacionsCallBackTimerLocal) new InitialContext()
+      NotificacionsCallBackTimerLocal notifCallback = (NotificacionsCallBackTimerLocal) new InitialContext()
           .lookup(NotificacionsCallBackTimerLocal.JNDI_NAME);
       notifCallback.startScheduler();
     } catch (Throwable th) {
@@ -285,6 +293,12 @@ public class InitServlet extends HttpServlet {
   @Override
   public void destroy() {
     log.info("Aturant PortaFIB");
+    try {
+      Runtime.getRuntime().removeShutdownHook(shutdownHook);
+      shutdownHook.run();
+    } catch (IllegalStateException e) {
+      log.info("Shutdown iniciat. Ja no podem llevar el shutdown hook");
+    }
 
     providerRegistration.unregister();
   }
