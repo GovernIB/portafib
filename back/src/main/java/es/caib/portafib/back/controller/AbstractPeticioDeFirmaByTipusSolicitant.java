@@ -24,6 +24,7 @@ import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
+import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
@@ -147,6 +148,9 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
 
   @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
   protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
+
+  @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME, beanName = "FirmaLogicaEJB")
+  protected FirmaLogicaLocal firmaLogicaEjb;
 
   @EJB(mappedName = es.caib.portafib.ejb.PermisGrupPlantillaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PermisGrupPlantillaLocal permisGrupPlantillaEjb;
@@ -367,7 +371,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
     
     
     final boolean isDebug = log.isDebugEnabled();
-    String usuariAplicacioID = null;
+    String usuariAplicacioID;
     int origenPeticioDeFirma;
     if (getTipusSolicitant() == TipusSolicitant.SOLICITANT_WEB) {
       usuariAplicacioID = null;
@@ -392,7 +396,6 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
       log.info("POST: Nom és " + nom);
       log.info("POST: Tipus és " + tipus);
     }
-    // Long fluxDeFirmesID = null;
 
     FluxDeFirmesJPA fluxDeFirmes;
     try {
@@ -416,11 +419,6 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
           if (isDebug) {
             log.debug("usuariEntitatPrimeraFirma == " + usuariEntitatPrimeraFirma);
           }
-          
-          
-          
-          
-          
 
           Set<BlocDeFirmesJPA> blocDeFirmes = new HashSet<BlocDeFirmesJPA>();
           int ordre = 0;
@@ -437,10 +435,11 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
             firma.setUsuariExternIdioma(usuariPersona.getIdiomaID());
             firma.setUsuariExternLlinatges(usuariPersona.getLlinatges());
             firma.setUsuariExternNom(usuariPersona.getNom());
+
+            firma.setUsuariExternNivellSeguretat(ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_TOKEN);
+            firma.setUsuariExternToken(firmaLogicaEjb.getUniqueTokenForFirma());
           }
-        
-          
-          
+
           
           Set<FirmaJPA> firmes = new HashSet<FirmaJPA>();
           firmes.add(firma);
@@ -449,32 +448,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
           bloc.setFirmas(firmes);
           bloc.setMinimDeFirmes(1);
           bloc.setOrdre(ordre);
-          // ordre++;
-
           blocDeFirmes.add(bloc);
-          // }
-
-          /*
-          
-          //int ordre = 0;
-          
-          BlocDeFirmesJPA bloc = new BlocDeFirmesJPA();
-          bloc.setFirmas(new HashSet<FirmaJPA>());
-          bloc.setMinimDeFirmes(0);
-          bloc.setOrdre(0);
-          
-          
-          
-         UsuariEntitatJPA usuariEntitat = usuariEntitatLogicaEjb.findByPrimaryKeyFull(usuariEntitatPrimeraFirma);
-          
-          final boolean persistence = false;
-          fluxDeFirmesLogicaEjb.afegirFirmaABloc(usuariEntitat, null, bloc, persistence);
-          
-          
-          Set<BlocDeFirmesJPA> blocDeFirmes = new HashSet<BlocDeFirmesJPA>();
-          blocDeFirmes.add(bloc);
- */ 
-          
 
           fluxDeFirmes = new FluxDeFirmesJPA();
           fluxDeFirmes.setNom(nom);
@@ -514,14 +488,13 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
           return "redirect:" + getContextWeb() + "/selectflux";
 
       }
-      /*
+
     } catch (I18NException e) {
       // TODO XYZ ZZZ TRA traduir icatch de I18NException
       String msg = "Error creant flux de firmes " + I18NUtils.getMessage(e);
       log.error(msg, e);
       HtmlUtils.saveMessageError(request, msg);
       return "redirect:" + getContextWeb() + "/selectflux";
-*/
     } catch (Exception e) {
       // TODO XYZ ZZZ TRA traduir icatch de I18NException
       String msg = "Error creant flux de firmes " + e.getMessage();
