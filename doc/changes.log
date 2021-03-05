@@ -1,4 +1,37 @@
 
+PortaFIB 2.0.16
+==============
+
+ - Netejar referències que queden en fer undeploy que eviten un GC de PermGen #552
+ - Error en la creació de firmes per usuari extern des del perfil solicitant #553
+ - Evitar ús de thread locals amb classes pròpies de l'aplicació o netejar-los #551
+ - La informació addicional de la peticó es carrega innecessàriament dins la llista de peticions pendents #544
+ - Automatitzar tests de firma en servidor #550
+ - Els identificadors creats per una transacció de firma no són suficientment aleatoris #549
+ - La pantalla d'error en la firma d'usuaris externs no mostra correctament el missatge #548
+ - Afegir tests amb més perfils d'usuari col·laborador #546
+ - Actualitzar pluginsib-userinformation-ldap a la versió 2.0.1 #547
+ - Permetre que l'activació o no de la validació dins l'entitat sigui independent de la definició del plugin #545
+ - Automatitzar tests dels plugins de firmaweb #523
+ - Error si es crea una petició amb custòdia i després es canvia la política a "no permès" #531
+ - A la llista de certificats del plugin SIA mostrar més avinent la informació de certificats de representant #543
+ - El cache de certificats del plugin MiniAppletInServerSIASignatureWebPlugin no funciona #540
+ - Permetre indicar un tamany màxim de cache i un timeout pel plugin FIRe #542
+ - El plugin de firma SIA crea un classloader nou per cada petició per fer la firma #541
+ - Al plugin de firma SIA permetre simplificar el flux quan l'usuari només té un certificat #529
+ - El nombre d'avisos d'un destinatari és incorrecte si té peticions de firma pendents de revisors #536
+ - Rendiment de la consulta de peticions pendents #535
+ - La informació del flux de firmes pinta com a descartades les firmes dels blocs anteriors #533
+ - Millorar logs de PluginValidacioFirmesLogicaEJB #538
+ - Revisar AfirmaServerSignatureServerPlugin per millorar rendiment i ús de memòria #527
+ - L'enviament de notificacions al callback REST reinstancia cada vegada el client jersey i el mapper #537
+ - Evitar construir cada vegada el client REST a AbstractApisIBConnectionManagerJersey #528
+ - Actualitzar versió d'Spring #534
+ - Les classes XXXJPAManager tenen un synchronized al mètode create #525
+ - Afegir informació sobre empresa representada a la informació de les firmes prèvies #532
+ - Els recursos CSS, imatges, etc no es cacheen bé al navegador #530
+
+
 PortaFIB 2.0.15
 ==============
 
