@@ -14,7 +14,7 @@ public class TestFortress {
 
     private static final Logger log = Logger.getLogger(TestFortress.class);
 
-    private static final String URL = "https://pre.firmacloud.com/fortress/";
+    public static final String ENDPOINT = "https://pre.firmacloud.com/fortress/";
     private static final String CLIENT_ID = "goib";
     private static final String CLIENT_SECRET = "b53dg34ffgac49f0939c9fd28bba2250";
 
@@ -23,7 +23,7 @@ public class TestFortress {
     @BeforeClass
     public static void setup() {
         FortressApiConfiguration conf =
-                new FortressApiConfiguration(URL, CLIENT_ID, CLIENT_SECRET);
+                new FortressApiConfiguration(ENDPOINT, CLIENT_ID, CLIENT_SECRET);
         conf.setDebug(true);
         api = new FortressApi(conf);
     }

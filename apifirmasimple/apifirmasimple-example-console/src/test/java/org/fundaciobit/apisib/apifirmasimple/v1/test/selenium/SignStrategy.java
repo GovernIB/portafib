@@ -14,6 +14,7 @@ public abstract class SignStrategy {
                 @Override
                 protected WebClient modifyWebClient(WebClient client) {
                     client.getOptions().setCssEnabled(false);
+                    client.getOptions().setSSLClientProtocols(new String[] { "TLSv1.2", "TLSv1.1", "TLSv1" });
                     return super.modifyWebClient(client);
                 }
             };

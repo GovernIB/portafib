@@ -10,13 +10,13 @@ public class ViafirmaSignStrategyImpl extends SignStrategy {
     @Override
     public void sign(String url) {
         WebDriver driver = getWebDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS) ;
+        driver.manage().timeouts().implicitlyWait(12, TimeUnit.SECONDS) ;
         driver.get(url);
         driver.findElement(By.id("plugin_viafirma")).click();
         driver.findElement(By.cssSelector(".v-textfield")).sendKeys("1234");
         driver.findElement(By.cssSelector(".primary")).click();
         try {
-            Thread.sleep(3000);
+            Thread.sleep(12000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
