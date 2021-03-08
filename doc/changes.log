@@ -2,6 +2,7 @@
 PortaFIB 2.0.16
 ==============
 
+ - Problema amb la connexió TLSv1.2 amb viafirma #554
  - Netejar referències que queden en fer undeploy que eviten un GC de PermGen #552
  - Error en la creació de firmes per usuari extern des del perfil solicitant #553
  - Evitar ús de thread locals amb classes pròpies de l'aplicació o netejar-los #551
