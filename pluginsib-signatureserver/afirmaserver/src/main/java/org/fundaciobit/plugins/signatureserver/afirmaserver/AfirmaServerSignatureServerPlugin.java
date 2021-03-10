@@ -54,7 +54,6 @@ import java.io.Writer;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
@@ -122,6 +121,13 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
   public static final String MAX_UPGRADE_CONCURRENCY = AFIRMASERVER_BASE_PROPERTIES + "maxUpgradeConcurrency";
 
+  public static final String CONNECT_TIMEOUT = AFIRMASERVER_BASE_PROPERTIES + "connectTimeout";
+  
+  public static final String READ_TIMEOUT = AFIRMASERVER_BASE_PROPERTIES + "readTimeout";
+  
+  public static final String BINDING_PROVIDER_CONNECT_TIMEOUT = "com.sun.xml.internal.ws.connect.timeout";
+  public static final String BINDING_PROVIDER_REQUEST_TIMEOUT = "com.sun.xml.internal.ws.request.timeout";
+  
   public AfirmaServerSignatureServerPlugin() {
     super();
     init();
@@ -156,6 +162,10 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     initSemaphores();
   }
 
+  
+  
+  
+  
   private void initApiSign() {
     try {
       String endPoint = getProperty(ENDPOINT_SIGN);
@@ -176,8 +186,11 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
       Map<String, Object> reqContext = ((BindingProvider) apiSign).getRequestContext();
       reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
-
+      reqContext.put(BINDING_PROVIDER_CONNECT_TIMEOUT, getConnectTimeout());
+      reqContext.put(BINDING_PROVIDER_REQUEST_TIMEOUT, getReadTimeout());
+      
       clientHandler.addSecureHeader(apiSign);
+      
     } catch (Exception e) {
       throw new RuntimeException("Error inicialitzant API SIGN", e);
     }
@@ -205,7 +218,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
       Map<String, Object> reqContext = ((BindingProvider) apiUpgrade).getRequestContext();
       reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
-
+      reqContext.put(BINDING_PROVIDER_CONNECT_TIMEOUT, getConnectTimeout());
+      reqContext.put(BINDING_PROVIDER_REQUEST_TIMEOUT, getReadTimeout());
+      
       clientHandler.addSecureHeader(apiUpgrade);
     } catch (Exception e) {
       throw new RuntimeException("Error inicialitzant API UPGRADE", e);
@@ -258,6 +273,14 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
   //////////////////////////////////////////////////////
 
+public int getConnectTimeout() {
+  return Integer.parseInt(getProperty(CONNECT_TIMEOUT, "60"));
+}
+
+public int getReadTimeout() {
+  return Integer.parseInt(getProperty(READ_TIMEOUT, "60"));
+}
+ 
   protected boolean isIgnoreServerCertificates() {
     String val = getProperty(IGNORE_SERVER_CERTIFICATES);
     return "true".equalsIgnoreCase(val);
