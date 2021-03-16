@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:intf="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:message name="verifyRequest">
+		<wsdl:part name="dssXML" type="xsd:string"/>
+	</wsdl:message>
+	<wsdl:message name="verifyResponse">
+		<wsdl:part name="verifyReturn" type="xsd:string"/>
+	</wsdl:message>
+	<wsdl:portType name="DSSSignature">
+		<wsdl:operation name="verify" parameterOrder="dssXML">
+			<wsdl:input message="impl:verifyRequest" name="verifyRequest"/>
+			<wsdl:output message="impl:verifyResponse" name="verifyResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="DSSAfirmaVerifySoapBinding" type="impl:DSSSignature">
+		<wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="verify">
+			<wsdlsoap:operation soapAction=""/>
+			<wsdl:input name="verifyRequest">
+				<wsdlsoap:body namespace="urn:oasis:names:tc:dss:1.0:core:schema" use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="verifyResponse">
+				<wsdlsoap:body namespace="urn:oasis:names:tc:dss:1.0:core:schema" use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="DSSSignatureService">
+		<wsdl:port binding="impl:DSSAfirmaVerifySoapBinding" name="DSSAfirmaVerify">
+			<wsdlsoap:address location="https://localhost/afirmaws/services/DSSAfirmaVerify"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:intf="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:message name="signResponse">
+		<wsdl:part name="signReturn" type="xsd:string"/>
+	</wsdl:message>
+	<wsdl:message name="signRequest">
+		<wsdl:part name="dssXML" type="xsd:string"/>
+	</wsdl:message>
+	<wsdl:portType name="DSSSignature">
+		<wsdl:operation name="sign" parameterOrder="dssXML">
+			<wsdl:input message="impl:signRequest" name="signRequest"/>
+			<wsdl:output message="impl:signResponse" name="signResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="DSSAfirmaSignSoapBinding" type="impl:DSSSignature">
+		<wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="sign">
+			<wsdlsoap:operation soapAction=""/>
+			<wsdl:input name="signRequest">
+				<wsdlsoap:body namespace="urn:oasis:names:tc:dss:1.0:core:schema" use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="signResponse">
+				<wsdlsoap:body namespace="urn:oasis:names:tc:dss:1.0:core:schema" use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="DSSSignatureService">
+		<wsdl:port binding="impl:DSSAfirmaSignSoapBinding" name="DSSAfirmaSign">
+			<wsdlsoap:address location="https://localhost/afirmaws/services/DSSAfirmaSign"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

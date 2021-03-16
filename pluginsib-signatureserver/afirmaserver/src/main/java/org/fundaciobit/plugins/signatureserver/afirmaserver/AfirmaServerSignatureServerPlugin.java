@@ -125,8 +125,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   
   public static final String READ_TIMEOUT = AFIRMASERVER_BASE_PROPERTIES + "readTimeout";
   
-  public static final String BINDING_PROVIDER_CONNECT_TIMEOUT = "com.sun.xml.internal.ws.connect.timeout";
-  public static final String BINDING_PROVIDER_REQUEST_TIMEOUT = "com.sun.xml.internal.ws.request.timeout";
+  public static final String BINDING_PROVIDER_CONNECT_TIMEOUT = "javax.xml.ws.client.connectionTimeout";
+  public static final String BINDING_PROVIDER_REQUEST_TIMEOUT = "javax.xml.ws.client.receiveTimeout";
   
   public AfirmaServerSignatureServerPlugin() {
     super();
@@ -163,9 +163,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   }
 
   
-  
-  
-  
   private void initApiSign() {
     try {
       String endPoint = getProperty(ENDPOINT_SIGN);
@@ -181,7 +178,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
       ClientHandler clientHandler = CXFUtils.getClientHandler(this, AFIRMASERVER_BASE_PROPERTIES);
 
-      DSSSignatureService service = new DSSSignatureService(new URL(endPoint + "?wsdl"));
+      URL wsdlUrl = getClass().getResource("/wsdl/DSSAfirmaSign.wsdl");
+      DSSSignatureService service = new DSSSignatureService(wsdlUrl);
       apiSign = service.getDSSAfirmaSign();
 
       Map<String, Object> reqContext = ((BindingProvider) apiSign).getRequestContext();
@@ -211,9 +209,10 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
       ClientHandler clientHandler = CXFUtils.getClientHandler(this, AFIRMASERVER_BASE_PROPERTIES);
 
+      URL wsdlUrl = getClass().getResource("/wsdl/DSSAfirmaVerify.wsdl");
       org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService service
               = new org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService(
-              new URL(endPoint + "?wsdl"));
+              wsdlUrl);
       apiUpgrade = service.getDSSAfirmaVerify();
 
       Map<String, Object> reqContext = ((BindingProvider) apiUpgrade).getRequestContext();
@@ -274,11 +273,11 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   //////////////////////////////////////////////////////
 
 public int getConnectTimeout() {
-  return Integer.parseInt(getProperty(CONNECT_TIMEOUT, "60"));
+  return Integer.parseInt(getProperty(CONNECT_TIMEOUT, "20000"));
 }
 
 public int getReadTimeout() {
-  return Integer.parseInt(getProperty(READ_TIMEOUT, "60"));
+  return Integer.parseInt(getProperty(READ_TIMEOUT, "20000"));
 }
  
   protected boolean isIgnoreServerCertificates() {
