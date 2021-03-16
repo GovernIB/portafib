@@ -9,12 +9,13 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionS
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaWebSimpleJersey;
-import org.fundaciobit.apisib.apifirmasimple.v1.test.selenium.StrategyFactory;
-import org.fundaciobit.apisib.apifirmasimple.v1.test.selenium.StrategyType;
+import org.fundaciobit.apisib.apifirmasimple.v1.test.selenium.SignStrategyFactory;
+import org.fundaciobit.apisib.apifirmasimple.v1.test.selenium.SignStrategyType;
 import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.FileReader;
@@ -42,11 +43,25 @@ public class FirmaWebPluginTest {
     }
 
     @Test
+    @Ignore // amb les versions compatibles amb Java 7 de selenium/htmlunit no hem pogut fer funcionar l'autofirma
+    public void testFirmaAutofirma() throws Exception {
+        String transactionID = getTransaction("99999999R");
+        try {
+            String redirectUrl = startTransaction(transactionID);
+            SignStrategyFactory.getSignStrategy(SignStrategyType.AUTOFIRMA).sign(redirectUrl);
+
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID));
+        } finally {
+            closeTransaction(transactionID);
+        }
+    }
+
+    @Test
     public void testFirmaFIRe() throws Exception {
         String transactionID = getTransaction("99999999R");
         try {
             String redirectUrl = startTransaction(transactionID);
-            StrategyFactory.getSignStrategy(StrategyType.FIRE).sign(redirectUrl);
+            SignStrategyFactory.getSignStrategy(SignStrategyType.FIRE).sign(redirectUrl);
 
             Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID));
         } finally {
@@ -59,7 +74,7 @@ public class FirmaWebPluginTest {
         String transactionID = getTransaction("11111111H");
         try {
             String redirectUrl = startTransaction(transactionID);
-            StrategyFactory.getSignStrategy(StrategyType.SIA).sign(redirectUrl);
+            SignStrategyFactory.getSignStrategy(SignStrategyType.SIA).sign(redirectUrl);
 
             Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID));
         } finally {
@@ -72,7 +87,7 @@ public class FirmaWebPluginTest {
         String transactionID = getTransaction("62800225J");
         try {
             String redirectUrl = startTransaction(transactionID);
-            StrategyFactory.getSignStrategy(StrategyType.VIAFIRMA).sign(redirectUrl);
+            SignStrategyFactory.getSignStrategy(SignStrategyType.VIAFIRMA).sign(redirectUrl);
 
             Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID));
         } finally {

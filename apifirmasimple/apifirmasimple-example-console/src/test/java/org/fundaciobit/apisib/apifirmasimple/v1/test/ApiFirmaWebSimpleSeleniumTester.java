@@ -10,8 +10,8 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactio
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaWebSimpleJersey;
 import org.fundaciobit.apisib.apifirmasimple.v1.test.selenium.SignStrategy;
-import org.fundaciobit.apisib.apifirmasimple.v1.test.selenium.StrategyFactory;
-import org.fundaciobit.apisib.apifirmasimple.v1.test.selenium.StrategyType;
+import org.fundaciobit.apisib.apifirmasimple.v1.test.selenium.SignStrategyFactory;
+import org.fundaciobit.apisib.apifirmasimple.v1.test.selenium.SignStrategyType;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 
 import java.io.BufferedInputStream;
@@ -58,10 +58,10 @@ public class ApiFirmaWebSimpleSeleniumTester {
 
         String strategy = prop.getProperty("strategy");
         if (strategy == null || strategy.isEmpty()) {
-            throw new RuntimeException("Ha de fixar strategy a un dels valors " + Arrays.asList(StrategyType.values()));
+            throw new RuntimeException("Ha de fixar strategy a un dels valors " + Arrays.asList(SignStrategyType.values()));
         }
-        final StrategyType strategyType = StrategyType.valueOf(strategy);
-        final SignStrategy signStrategy = StrategyFactory.getSignStrategy(strategyType);
+        final SignStrategyType strategyType = SignStrategyType.valueOf(strategy);
+        final SignStrategy signStrategy = SignStrategyFactory.getSignStrategy(strategyType);
 
         String[] parts = prop.getProperty("files").split(",");
 

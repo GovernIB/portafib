@@ -1,8 +1,8 @@
 package org.fundaciobit.apisib.apifirmasimple.v1.test.selenium;
 
-public class StrategyFactory {
+public class SignStrategyFactory {
 
-    public static SignStrategy getSignStrategy(StrategyType type) {
+    public static SignStrategy getSignStrategy(SignStrategyType type) {
         switch (type) {
             case FIRE:
                 return new FIReSignStrategyImpl();
@@ -10,6 +10,8 @@ public class StrategyFactory {
                 return new SIASignStrategyImpl();
             case VIAFIRMA:
                 return new ViafirmaSignStrategyImpl();
+            case AUTOFIRMA:
+                return new AutofirmaSignStrategyImpl();
             case MINIAPPLET:
                 return new MiniAppletSignStrategyImpl();
             default:
