@@ -127,33 +127,16 @@ public class PassarelaDeFirmaEnServidorEJB extends
       signaturesSetID = passarelaSignaturesSet.getSignaturesSetID();
       log.info("signDocuments: " + signaturesSetID);
 
-      // Guardar ZYX ZZZ
-      // storeSignaturesSet(new PassarelaSignaturesSetFull(entitatID,
-      // signaturesSet));
-
-      // XYZ ZZZ Ja s'ha mogut a passarela
-      // if (passarelaSignaturesSet.getCommonInfoSignature().getUsername() == null) {
-      // passarelaSignaturesSet.getCommonInfoSignature().setUsername(usrApp.getUsuariAplicacioID());
-      // }
-
       PassarelaFileInfoSignature[] fisArray = passarelaSignaturesSet
           .getFileInfoSignatureArray();
-      int[] originalNumberOfSignsArray2 = new int[fisArray.length];
 
-      for (int i = 0; i < fisArray.length; i++) {
-
-        PassarelaFileInfoSignature pfis = fisArray[i];
-
+      for (PassarelaFileInfoSignature pfis : fisArray) {
         final String signID = pfis.getSignID();
         File original = getFitxerOriginalPath(signaturesSetID, signID);
-
-        // obtenir ruta on guardar fitxer adaptat
         File adaptat = getFitxerAdaptatPath(signaturesSetID, signID);
 
-        originalNumberOfSignsArray2[i] = processFileToSign(locale, entitatID, pfis, original,
-            adaptat, usrApp);
-
-      } // Final de For
+        processFileToSign(locale, entitatID, pfis, original, adaptat, usrApp);
+      }
 
       // 1.- Cridar convertir PassarelaSignaturesSet a SignaturesSet
       Set<String> timeStampUrls = new HashSet<String>();
@@ -517,11 +500,10 @@ public class PassarelaDeFirmaEnServidorEJB extends
     
     final String expectedNif = null;
     boolean modificatComprovarNifFirma = false;
-    if (comprovarNifFirma == true) {
+    if (comprovarNifFirma) {
       comprovarNifFirma = false;
       modificatComprovarNifFirma = true;
     }
-    
 
     ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
         validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal, fitxerOriginal,
@@ -573,46 +555,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
     // / XYZ ZZZ TRA Falta Traducció
     throw new I18NException("genapp.comodi", "Tipus de Firma per upgrade desconegut: " + type);
-
-    /**
-     * Attribute that represents identifier for XML_DSIG.
-     */
-    // public static final String XML_DSIG = "urn:ietf:rfc:3275";
-
-    /**
-     * Attribute that represents identifier for CMS.
-     */
-    // public static final String CMS = "urn:ietf:rfc:3369";
-
-    /**
-     * Attribute that represents identifier for CMS(TST).
-     */
-    // public static final String CMS_TST = "urn:afirma:dss:1.0:profile:XSS:forms:CMSWithTST";
-
-    /**
-     * Attribute that represents identifier for PKCS7.
-     */
-    // public static final String PKCS7 = "urn:ietf:rfc:2315";
-
-    /**
-     * Attribute that represents identifier for XML_TST.
-     */
-    // public static final String XML_TST =
-    // "urn:oasis:names:tc:dss:1.0:core:schema:XMLTimeStampToken";
-
-    /**
-     * Attribute that represents identifier for ODF.
-     */
-    // public static final String ODF = "urn:afirma:dss:1.0:profile:XSS:forms:ODF";
-
   }
 
-  /**
-   * 
-   * @param i18nve
-   * @param msg
-   * @return
-   */
   private PassarelaSignatureInServerResults processError(Throwable i18nve, String msg) {
     PassarelaSignatureStatus pss = new PassarelaSignatureStatus();
 
