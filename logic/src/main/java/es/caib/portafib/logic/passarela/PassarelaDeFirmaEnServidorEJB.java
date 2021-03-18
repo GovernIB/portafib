@@ -683,8 +683,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
           signedFile.setMime(ConstantsV2.MIME_TYPE_BINARY);
         }
         signedFile.setTamany(ss.getSignedData().length());
-        signedFile.setData(new DataHandler(new javax.activation.FileDataSource(ss
-            .getSignedData())));
+        // Empram un TemporaryFileDataSource perquè el fitxer s'esborri quan ja no sigui necessari.
+        signedFile.setData(new DataHandler(new TemporaryFileDataSource(ss.getSignedData())));
         signedFile.setDescripcio("Signed Document");
 
       }
