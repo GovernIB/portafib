@@ -1,7 +1,6 @@
 package es.caib.portafib.logic;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,8 @@ import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.logic.utils.ConfiguracioApiFirmaAsyncUtils;
+import es.caib.portafib.logic.utils.ConfiguracioApiFirmaSimpleUtils;
 import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
 import es.caib.portafib.model.entity.PerfilsPerUsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
@@ -36,6 +37,10 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.utils.templateengine.TemplateEngine;
 import org.jboss.ejb3.annotation.SecurityDomain;
+
+import es.caib.portafib.logic.utils.ConfiguracioCommonUtils;
+import es.caib.portafib.logic.utils.ConfiguracioUsuariAplicacioPassarelaUtils;
+import es.caib.portafib.logic.utils.ConfiguracioUsuariAplicacioUpgradeUtils;
 
 /**
  * 
@@ -236,18 +241,25 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     final PassarelaCommonInfoSignature passarelaCommonInfoSignature = signaturesSet
         .getCommonInfoSignature();
 
-    final String langUI = signaturesSet.getCommonInfoSignature().getLanguageUI();
+    //final String langUI = signaturesSet.getCommonInfoSignature().getLanguageUI();
 
     for (PassarelaFileInfoSignature passarelaFileInfoSignature : signaturesSet
         .getFileInfoSignatureArray()) {
-
+ 
+     ConfiguracioUsuariAplicacioPassarelaUtils cfgUtils = new ConfiguracioUsuariAplicacioPassarelaUtils(
+                passarelaCommonInfoSignature, passarelaFileInfoSignature, usFirma);
+     
+     UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);
+        
+      /*
       Map<String, Object> parameters = new HashMap<String, Object>();
       parameters.put("passarelaFileInfoSignature", passarelaFileInfoSignature);
       parameters.put("passarelaCommonInfoSignature", passarelaCommonInfoSignature);
 
       UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID,
           perfilDeFirma, usFirma, langUI, parameters);
-
+      */
+      
       checkTePermisPerUsDeFirma(usuariAplicacioID, perfilDeFirma.getCodi(), usFirma, config);
 
       configBySignID.put(passarelaFileInfoSignature.getSignID(), config);
@@ -359,6 +371,14 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
       String usuariAplicacioID, PerfilDeFirma perfilDeFirma,
       FirmaSimpleUpgradeRequest firmaSimpleUpgradeRequest) throws I18NException {
 
+    boolean isUpgrade = true;
+    int usFirma = ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR;
+    ConfiguracioUsuariAplicacioUpgradeUtils cfgUtils = new ConfiguracioUsuariAplicacioUpgradeUtils(
+            isUpgrade, firmaSimpleUpgradeRequest, usFirma);
+    
+    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);  
+      
+    /*  
     Map<String, Object> parameters = new HashMap<String, Object>();
     parameters.put("firmaSimpleUpgradeRequest", firmaSimpleUpgradeRequest);
     parameters.put("isUpgrade", true);
@@ -366,7 +386,8 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
         ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR,
         firmaSimpleUpgradeRequest.getLanguageUI(), parameters);
-
+    */
+    
     Integer upgradeID = config.getUpgradeSignFormat();
 
     if (upgradeID == null) {
@@ -391,6 +412,14 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
 
     PerfilDeFirma perfilDeFirma = getPerfilDeFirma(usuariAplicacioID, codiPerfil);
 
+    boolean isUpgrade = false;
+    int usFirma = ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR;
+    ConfiguracioApiFirmaSimpleUtils cfgUtils = new ConfiguracioApiFirmaSimpleUtils(
+            isUpgrade, firmaSimpleSignDocumentRequest, usFirma);
+    
+    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);  
+    
+    /*
     Map<String, Object> parameters = new HashMap<String, Object>();
     parameters.put("firmaSimpleSignDocumentRequest", firmaSimpleSignDocumentRequest);
     parameters.put("isUpgrade", false);
@@ -398,7 +427,8 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
         ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR, firmaSimpleSignDocumentRequest
             .getCommonInfo().getLanguageUI(), parameters);
-
+    */
+    
     Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = new HashMap<String, UsuariAplicacioConfiguracioJPA>();
 
     configBySignID.put(firmaSimpleSignDocumentRequest.getFileInfoSignature().getSignID(),
@@ -417,12 +447,18 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
 
     PerfilDeFirma perfilDeFirma = getPerfilDeFirma(usuariAplicacioID, codiPerfil);
 
+    ConfiguracioApiFirmaAsyncUtils cfgUtils = new ConfiguracioApiFirmaAsyncUtils(signatureRequest, usFirma);
+    
+    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);  
+    
+    /*
     Map<String, Object> parameters = new HashMap<String, Object>();
     parameters.put("signatureRequest", signatureRequest);
 
     UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
         usFirma, signatureRequest.getLanguageUI(), parameters);
-
+    */
+    
     return config;
 
   }
@@ -432,6 +468,15 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
       String usuariAplicacioID, PerfilDeFirma perfilDeFirma,
       FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest) throws I18NException {
 
+    boolean isUpgrade = false;
+    int usFirma = ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB;
+      
+    ConfiguracioApiFirmaSimpleUtils cfgUtils = new ConfiguracioApiFirmaSimpleUtils(
+            isUpgrade, firmaSimpleSignDocumentRequest, usFirma);
+    
+    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);  
+    
+    /*
     Map<String, Object> parameters = new HashMap<String, Object>();
     parameters.put("firmaSimpleSignDocumentRequest", firmaSimpleSignDocumentRequest);
     parameters.put("isUpgrade", false);
@@ -439,11 +484,93 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
         ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB, firmaSimpleSignDocumentRequest
             .getCommonInfo().getLanguageUI(), parameters);
-
+    */
+    
     return config;
 
   }
+   
+    protected UsuariAplicacioConfiguracioJPA avaluarCondicio(String usuariAplicacioID,
+            PerfilDeFirma perfilDeFirma, ConfiguracioCommonUtils configuracioFirmaUtils)
+            throws I18NException {
 
+        String condicio = perfilDeFirma.getCondicio();
+        Long configID;
+
+        if (condicio == null || condicio.trim().length() == 0) {
+            configID = perfilDeFirma.getConfiguracioDeFirma1ID();
+        } else {
+            String errorOrConfig;
+            try {
+                errorOrConfig = TemplateEngine.processExpressionLanguage(condicio, configuracioFirmaUtils.getParameters());
+            } catch (IOException e) {
+                // XYZ ZZZ TRAD
+                throw new I18NException(e, "genapp.comodi", new I18NArgumentString(
+                        "Error processant condició del perfil " + perfilDeFirma.getCodi() + ": "
+                        + e.getMessage()));
+            }
+
+            long configPos;
+            try {
+                configPos = Long.parseLong(errorOrConfig.trim());
+            } catch (NumberFormatException e) {
+                // Signnifica que la condicio ha retornat un error
+                // XYZ ZZZ TRAD
+                throw new I18NException("genapp.comodi", new I18NArgumentString(
+                        "El processat de la condició del perfil " + perfilDeFirma.getCodi()
+                        + " ha retornat un missatge d´error: " + errorOrConfig));
+            }
+
+            if (configPos < 1 || configPos > 5) {
+                // XYZ ZZZ TRAD
+                throw new I18NException("genapp.comodi", new I18NArgumentString(
+                        "El processat de la condició del perfil " + perfilDeFirma.getCodi()
+                        + " ha retornat id de Configuració major que 3 o menor que 1: " + configPos));
+            }
+
+            switch ((int) configPos) {
+
+                case 1:
+                    configID = perfilDeFirma.getConfiguracioDeFirma1ID();
+                    break;
+
+                case 2:
+                    configID = perfilDeFirma.getConfiguracioDeFirma2ID();
+                    break;
+
+                case 3:
+                    configID = perfilDeFirma.getConfiguracioDeFirma3ID();
+                    break;
+
+                case 4:
+                    configID = perfilDeFirma.getConfiguracioDeFirma4ID();
+                    break;
+
+                case 5:
+                    configID = perfilDeFirma.getConfiguracioDeFirma5ID();
+                    break;
+
+                default:
+                    // XYZ ZZZ TRAD
+                    throw new I18NException("genapp.comodi", "El processat de la condició del perfil "
+                            + perfilDeFirma.getCodi()
+                            + " ha retornat id de Configuració major que 5 o menor que 1: " + configPos);
+            }
+
+            if (configID == null) {
+                // XYZ ZZZ TRAD
+                throw new I18NException("genapp.comodi", "La configuració " + configPos
+                        + " del perfil " + perfilDeFirma.getCodi() + " no està definida.");
+            }
+        }
+
+        UsuariAplicacioConfiguracioJPA config = (UsuariAplicacioConfiguracioJPA) findByPrimaryKey(configID);
+
+        checkTePermisPerUsDeFirma(usuariAplicacioID, perfilDeFirma.getCodi(), configuracioFirmaUtils.getUsFirma(), config);
+
+        return config;
+    }
+  
   /**
    * 
    * @param perfilDeFirma
@@ -451,6 +578,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
    * @return
    * @throws I18NException
    */
+  @Deprecated
   protected UsuariAplicacioConfiguracioJPA avaluarCondicio(String usuariAplicacioID,
       PerfilDeFirma perfilDeFirma, int usFirma, String lang, Map<String, Object> parameters)
       throws I18NException {
