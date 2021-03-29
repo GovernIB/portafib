@@ -129,7 +129,7 @@ import java.util.Set;
  */
 @Controller
 @SessionAttributes(types = {EstatDeFirmaFilterForm.class})
-public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDeFirmaController implements
+public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaController implements
         EstatDeFirmaFields, ConstantsV2 {
 
     @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
