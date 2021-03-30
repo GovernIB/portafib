@@ -1157,8 +1157,12 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   protected FluxDeFirmesJPA toJPA(FirmaAsyncSimpleSignatureBlock[] blocks, String entitatID,
       Set<Long> fitxersCreats, String languageUI, String titolPeticio) throws I18NException {
 
-    // Bean
-    FluxDeFirmesJPA jpa = new FluxDeFirmesJPA("Flux per Petició Async " + titolPeticio);
+    // #562
+    String nomFlux = "Flux per Petició Async " + titolPeticio;
+    if (nomFlux.length() > 255) {
+      nomFlux = nomFlux.substring(0, 255);
+    }
+    FluxDeFirmesJPA jpa = new FluxDeFirmesJPA(nomFlux);
 
     Set<BlocDeFirmesJPA> blocsDeFirmesJPA = new HashSet<BlocDeFirmesJPA>();
     for (int b = 0; b < blocks.length; b++) {

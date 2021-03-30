@@ -1941,9 +1941,13 @@ public class PortafirmasIndraImpl implements Cws, Constants {
 
       
     }
-    
-    FluxDeFirmesJPA fluxDeFirmes = new FluxDeFirmesJPA();
-    fluxDeFirmes.setNom("Flux de " + titol);
+
+    // #562
+    String nomFlux = "Flux de " + titol;
+    if (nomFlux.length() > 255) {
+      nomFlux = nomFlux.substring(0, 255);
+    }
+    FluxDeFirmesJPA fluxDeFirmes = new FluxDeFirmesJPA(nomFlux);
     fluxDeFirmes.setBlocDeFirmess(blocsPortaFIB);
     
     peticioDeFirma.setFluxDeFirmes(fluxDeFirmes);
