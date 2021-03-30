@@ -341,6 +341,7 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
           case (int) NOTIFICACIOAVIS_VALIDAT:
           case (int) NOTIFICACIOAVIS_DESCARTAT_PER_VALIDAR:
           case (int) NOTIFICACIOAVIS_REQUERIT_PER_VALIDAR:          
+          case (int) NOTIFICACIOAVIS_REQUERIT_PER_REVISAR:
             avisos.add(crearEmail(firmaEvent,  eventCode));
           break;
             
@@ -610,7 +611,7 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
   /**
    * Marca per mostrar avisos web
    * 
-   * @param peticioDeFirma
+   * @param peticioDeFirmaID identificador de la peticío de firma
    * @return true si existia la peticio iniciada per un usuari-entitat, false
    *         altres casos.
    * @throws Exception
