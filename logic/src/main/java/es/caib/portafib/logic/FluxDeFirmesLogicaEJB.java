@@ -14,6 +14,7 @@ import es.caib.portafib.jpa.validator.BlocDeFirmesBeanValidator;
 import es.caib.portafib.jpa.validator.BlocDeFirmesValidator;
 import es.caib.portafib.jpa.validator.FluxDeFirmesBeanValidator;
 import es.caib.portafib.jpa.validator.FluxDeFirmesValidator;
+import es.caib.portafib.logic.utils.BlocUtils;
 import es.caib.portafib.logic.utils.UsuariExtern;
 import es.caib.portafib.logic.validator.BlocDeFirmesLogicValidator;
 import es.caib.portafib.model.entity.FluxDeFirmes;
@@ -491,7 +492,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
 
   @Override
   public boolean afegirFirmaABloc(UsuariEntitatJPA usuariEntitat, UsuariExtern usuariExtern,
-      BlocDeFirmesJPA bloc, boolean persistence) throws I18NException {
+      BlocDeFirmesJPA bloc) throws I18NException {
 
     FirmaJPA firma = new FirmaJPA();
 
@@ -523,22 +524,17 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
 
     }
 
-    if (persistence) {
-      firma = (FirmaJPA) firmaLogicaEjb.create(firma);
-    }
+    firma = (FirmaJPA) firmaLogicaEjb.create(firma);
 
-    
-    log.error(" \n\n bloc.getMinimDeFirmes() => " +  bloc.getMinimDeFirmes() 
+    log.debug(" \n\n bloc.getMinimDeFirmes() => " +  bloc.getMinimDeFirmes()
                + "\n bloc.getFirmas().size() => " +  bloc.getFirmas().size()
                + "\n\n");
-    
-    
+
     bloc.getFirmas().add(firma);
-    if (bloc.getMinimDeFirmes() == bloc.getFirmas().size()) {
-      bloc.setMinimDeFirmes(bloc.getFirmas().size());
-      if (persistence) {
-        blocDeFirmesLogicaEjb.update(bloc);
-      }
+    int minimFirmes = BlocUtils.minimFirmes(bloc.getFirmas());
+    if (bloc.getMinimDeFirmes() < minimFirmes) {
+      bloc.setMinimDeFirmes(minimFirmes);
+      blocDeFirmesLogicaEjb.update(bloc);
     }
     return true;
   }

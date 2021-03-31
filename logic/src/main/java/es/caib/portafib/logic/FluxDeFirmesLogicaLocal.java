@@ -45,7 +45,7 @@ public interface FluxDeFirmesLogicaLocal extends FluxDeFirmesLocal {
       int blocOrdre) throws I18NException;
   
   public boolean afegirFirmaABloc(UsuariEntitatJPA usuariEntitat, UsuariExtern usuariExtern,
-      BlocDeFirmesJPA bloc, boolean persistence) throws I18NException;
+      BlocDeFirmesJPA bloc) throws I18NException;
 
   public FluxDeFirmesJPA updateFullPlantillaFluxUsuari(FluxDeFirmesJPA flux)
       throws I18NException, I18NValidationException;

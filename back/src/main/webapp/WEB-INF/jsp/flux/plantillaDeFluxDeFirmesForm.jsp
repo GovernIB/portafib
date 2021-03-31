@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java"
+%><%@page import="es.caib.portafib.logic.utils.BlocUtils"
+%><%@page import="es.caib.portafib.jpa.BlocDeFirmesJPA"
 %><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <style>
 .radius {
@@ -201,7 +203,9 @@
             </c:if>
 
             <c:forEach items="${fluxDeFirmesForm.fluxDeFirmes.blocDeFirmess}" var="bloc">
-
+              <%
+               BlocDeFirmesJPA bloc = (BlocDeFirmesJPA) pageContext.getAttribute("bloc");
+              %>
               <c:out value="${blocseparator}" escapeXml="false" />
               <tr>
                 <td colspan="2" style="text-align:center;">
@@ -238,23 +242,10 @@
                                     <i class="icon-plus-sign icon-white"></i> <fmt:message key="firma.nova" />                        
                                   </button>
                                   
-
-                                  
-                                  <%-- <br /> Calcul del menor valor admisible per MinimDeFirmes --%>
-                                  
-                                  <c:set var="minimposible" value="0"/>
-                                  <c:set var="tenoobligatories" value="0"/>
-                                  <c:forEach items="${bloc.firmas}" var="firma">
-                                    <c:if test="${not firma.obligatori}">
-                                      <c:set var="tenoobligatories" value="1"/>
-                                    </c:if>
-                                    <c:if test="${firma.obligatori}">
-                                      <c:set var="minimposible" value="${minimposible + 1}"/>
-                                    </c:if>
-                                  </c:forEach>
-                                  
-                                  <c:set var="minimposible" value="${minimposible + tenoobligatories}"/>
-                                  
+                                  <%-- Calcul del menor valor admisible per MinimDeFirmes --%>
+                                  <%
+                                  pageContext.setAttribute("minimBloc", BlocUtils.minimFirmes(bloc.getFirmas()));
+                                  %>
                                   <div class="btn-group" style="padding-top: 2px;">
                                     <button
                                       class="btn btn-info btn-mini dropdown-toggle"
@@ -263,9 +254,8 @@
                                       <fmt:message key="blocDeFirmes.minimDeFirmes" />
                                       : ${bloc.minimDeFirmes}<span class="caret"></span>
                                     </button>
-
                                     <ul class="dropdown-menu">
-                                      <c:forEach var="i" begin="${minimposible}"  end="${fn:length(bloc.firmas)}">
+                                      <c:forEach var="i" begin="${minimBloc}"  end="${fn:length(bloc.firmas)}">
                                         <li><a href="#"
                                           onclick="changeMinimDeFirmesNum('${bloc.blocDeFirmesID}', '${i}')">${i}</a>
                                         </li>

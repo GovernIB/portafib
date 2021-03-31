@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import es.caib.portafib.back.security.LoginException;
+import es.caib.portafib.logic.utils.BlocUtils;
 import org.fundaciobit.genapp.common.KeyValue.KeyValueComparator;
 import org.fundaciobit.genapp.common.crypt.FileIDEncrypter;
 import org.apache.commons.lang.StringUtils;
@@ -99,7 +100,6 @@ import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
-import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -234,7 +234,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       @PathVariable("fluxDeFirmesID") String fluxDeFirmesIDStr, HttpServletRequest request,
       HttpServletResponse response) throws I18NException {
 
-    java.lang.Long fluxDeFirmesID;
+    long fluxDeFirmesID;
 
     if (isPlantillaRest()) {
       FileIDEncrypter encrypter = HibernateFileUtil.getEncrypter();
@@ -615,7 +615,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       }
 
     }
-    ; // Final mode edició
+    // Final mode edició
 
     if (!isPlantillaRest()) {
       if (!LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN)
@@ -1565,14 +1565,12 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     if (bloc == null) {
       HtmlUtils.saveMessageError(request,
           I18NUtils.tradueix("error.notfound",
-              new String[] { I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
+                  I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
                   I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
-                  String.valueOf(blocID) }));
+                  String.valueOf(blocID)));
       return false;
     }
-    final boolean persistence = true;
-    return  fluxDeFirmesLogicaEjb.afegirFirmaABloc(usuariEntitat, usuariExtern, bloc, persistence);
-    
+    return  fluxDeFirmesLogicaEjb.afegirFirmaABloc(usuariEntitat, usuariExtern, bloc);
   }
   
   
@@ -1709,32 +1707,14 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     if (bloc == null) {
       HtmlUtils.saveMessageError(request,
           I18NUtils.tradueix("error.notfound",
-              new String[] { I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
+                  I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
                   I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
-                  String.valueOf(blocID) }));
+                  String.valueOf(blocID)));
       return getTileForm();
     }
 
-    int countObligatori = 0;
-    int countNoObligatori = 0;
-    for (FirmaJPA f : bloc.getFirmas()) {
-      if (f.isObligatori()) {
-        countObligatori++;
-      } else {
-        countNoObligatori++;
-      }
-    }
-
-    int afegit = (countNoObligatori == 0) ? 0 : 1;
-    if (minimDeFirmes >= (countObligatori + afegit)) {
-      // OK
-      bloc.setMinimDeFirmes(minimDeFirmes);
-      blocDeFirmesLogicaEjb.update(bloc);
-    } else {
-      // TODO Traduir
-      HtmlUtils.saveMessageWarning(request,
-          "No es posible canviar el mínim de firmes a " + minimDeFirmes + " en aquest bloc");
-    }
+    bloc.setMinimDeFirmes(minimDeFirmes);
+    saveMinimFirmesBloc(bloc);
 
     return getTileForm();
 
@@ -1750,24 +1730,17 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     if (bloc == null) {
       // error.notfound=No s´ha trobat cap {0} amb {1} igual a {2}
       HtmlUtils.saveMessageError(request,
-          I18NUtils.tradueix("error.notfound",
-              new String[] { I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
+              I18NUtils.tradueix("error.notfound",
+                  I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
                   I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
-                  String.valueOf(blocID) }));
+                  String.valueOf(blocID)));
       return getTileForm();
     }
 
     FirmaJPA firma = null;
-    int countObligatori = 0;
-    int countNoObligatori = 0;
     for (FirmaJPA f : bloc.getFirmas()) {
       if (f.getFirmaID() == firmaID) {
         firma = f;
-      }
-      if (f.isObligatori()) {
-        countObligatori++;
-      } else {
-        countNoObligatori++;
       }
     }
 
@@ -1775,51 +1748,29 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       // error.notfound=No s´ha trobat cap {0} amb {1} igual a {2}
       HtmlUtils.saveMessageError(request,
           I18NUtils.tradueix("error.notfound",
-              new String[] { I18NUtils.tradueix("firma.firma"),
-                  I18NUtils.tradueix("firma.firmaID"), String.valueOf(firmaID) }));
+                  I18NUtils.tradueix("firma.firma"),
+                  I18NUtils.tradueix("firma.firmaID"), String.valueOf(firmaID)));
       return getTileForm();
     }
 
-    boolean nouObligatori = !firma.isObligatori();
+    firma.setObligatori(!firma.isObligatori());
+    firmaLogicaEjb.update(firma);
 
-    // TODO Moure a EJB
-    int menorValorPerMinimDeFirmes;
-    if (nouObligatori == true) {
-      // Era una firma no obligatoria i ara volem que sigui obligatoria
-      // Revisar Minim del bloc
-      menorValorPerMinimDeFirmes = countObligatori + 1
-          + ((countNoObligatori - 1) == 0 ? 0 : 1);
+    saveMinimFirmesBloc(bloc);
 
-    } else {
-      // Era una firma obligatoria i ara volem que sigui no obligatoria
-      menorValorPerMinimDeFirmes = countObligatori - 1
-          + ((countNoObligatori + 1) == 0 ? 0 : 1);
+    return getTileForm();
+  }
 
-      // Podem llevar obligatori si Minim_Firmes > Firmes_obligatories + (1 si existeixen
-      // firmes no_obligatories)
-      if (menorValorPerMinimDeFirmes == 0) {
-        // TODO
-        HtmlUtils.saveMessageWarning(request,
-            "No es posible eliminar el flag Obligatori d'aquesta firma.");
-        return getTileForm();
-      }
-    }
-
-    if (bloc.getMinimDeFirmes() < menorValorPerMinimDeFirmes) {
-      bloc.setMinimDeFirmes(menorValorPerMinimDeFirmes);
-      blocDeFirmesLogicaEjb.update(bloc);
+  private void saveMinimFirmesBloc(BlocDeFirmesJPA bloc) throws I18NException {
+    int minimBloc = BlocUtils.minimFirmes(bloc.getFirmas());
+    if (bloc.getMinimDeFirmes() < minimBloc) {
+      bloc.setMinimDeFirmes(minimBloc);
     } else {
       if (bloc.getMinimDeFirmes() > bloc.getFirmas().size()) {
         bloc.setMinimDeFirmes(bloc.getFirmas().size());
-        blocDeFirmesLogicaEjb.update(bloc);
       }
     }
-
-    firma.setObligatori(nouObligatori);
-    firmaLogicaEjb.update(firma);
-
-    return getTileForm();
-
+    blocDeFirmesLogicaEjb.update(bloc);
   }
 
   @RequestMapping(value = "/eliminarFirma", method = RequestMethod.POST)
@@ -1833,21 +1784,16 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     if (bloc == null) {
       HtmlUtils.saveMessageError(request,
           I18NUtils.tradueix("error.notfound",
-              new String[] { I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
+                  I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
                   I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
-                  String.valueOf(blocID) }));
+                  String.valueOf(blocID)));
       return getTileForm();
     }
 
     FirmaJPA firma = null;
-    int countObligatori = 0;
     for (FirmaJPA f : bloc.getFirmas()) {
       if (f.getFirmaID() == firmaID) {
         firma = f;
-      } else {
-        if (f.isObligatori()) {
-          countObligatori++;
-        }
       }
     }
 
@@ -1855,8 +1801,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       // error.notfound=No s´ha trobat cap {0} amb {1} igual a {2}
       HtmlUtils.saveMessageError(request,
           I18NUtils.tradueix("error.notfound",
-              new String[] { I18NUtils.tradueix("firma.firma"),
-                  I18NUtils.tradueix("firma.firmaID"), String.valueOf(firmaID) }));
+                  I18NUtils.tradueix("firma.firma"),
+                  I18NUtils.tradueix("firma.firmaID"), String.valueOf(firmaID)));
       return getTileForm();
     }
 
@@ -1865,27 +1811,12 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     firmaLogicaEjb.deleteFull(firma);
     bloc.getFirmas().remove(firma);
 
-    boolean update = false;
-    if (countObligatori > bloc.getMinimDeFirmes()) {
-      bloc.setMinimDeFirmes(countObligatori);
-      update = true;
-    }
-
-    if (bloc.getMinimDeFirmes() > bloc.getFirmas().size()) {
-      bloc.setMinimDeFirmes(bloc.getFirmas().size());
-      update = true;
-    }
-
-    if (update) {
-      blocDeFirmesLogicaEjb.update(bloc);
-    }
+    saveMinimFirmesBloc(bloc);
 
     UsuariEntitatJPA ue = firma.getUsuariEntitat();
-
     eliminatUsuariDelFlux(seleccioUsuariForm, ue);
 
     return getTileForm();
-
   }
 
   private void eliminatUsuariDelFlux(SeleccioUsuariForm seleccioUsuariForm,
