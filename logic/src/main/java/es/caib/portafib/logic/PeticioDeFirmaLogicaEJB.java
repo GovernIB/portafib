@@ -3249,8 +3249,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       // Descartar tots els estat de firma actius associats al flux
       Long fluxDeFirmesID = peticioDeFirma.getFluxDeFirmesID();
       Set<Long> firmes = new HashSet<Long>();
-      List<EstatDeFirma> estatsDeFirma;
-      estatsDeFirma = estatDeFirmaLogicaEjb.getAllEstatDeFirmaActiuOfFlux(fluxDeFirmesID);
+      List<EstatDeFirma> estatsDeFirma = estatDeFirmaLogicaEjb.getAllEstatDeFirmaActiuOfFlux(fluxDeFirmesID);
       for (EstatDeFirma estat : estatsDeFirma) {
         // Actualitzam estat
         estat.setDataFi(now);
@@ -3260,11 +3259,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
         estatDeFirmaLogicaEjb.updateUnauthorized(estat);
 
         // Events
-        if (estat
-            .getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
-          events.descartat_per_firmar(peticioDeFirma, estatDeFirma);
+        if (estat.getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+          events.descartat_per_firmar(peticioDeFirma, estat);
         } else {
-          events.descartat_per_validar(peticioDeFirma, estatDeFirma);
+          events.descartat_per_validar(peticioDeFirma, estat);
         }
 
         firmes.add(estat.getFirmaID());
