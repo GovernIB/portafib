@@ -1,10 +1,5 @@
 package es.caib.portafib.logic;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import es.caib.portafib.ejb.UsuariAplicacioConfiguracioEJB;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
@@ -12,22 +7,18 @@ import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.ConfiguracioApiFirmaAsyncUtils;
 import es.caib.portafib.logic.utils.ConfiguracioApiFirmaSimpleUtils;
+import es.caib.portafib.logic.utils.ConfiguracioCommonUtils;
+import es.caib.portafib.logic.utils.ConfiguracioUsuariAplicacioPassarelaUtils;
+import es.caib.portafib.logic.utils.ConfiguracioUsuariAplicacioUpgradeUtils;
 import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
+import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.PerfilsPerUsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
-import es.caib.portafib.model.entity.PerfilDeFirma;
+import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 import es.caib.portafib.model.fields.PerfilsPerUsuariAplicacioFields;
 import es.caib.portafib.model.fields.PerfilsPerUsuariAplicacioQueryPath;
-import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
 import es.caib.portafib.utils.ConstantsV2;
-
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
-import javax.annotation.security.RunAs;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithSignBlockList;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
@@ -38,9 +29,15 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.utils.templateengine.TemplateEngine;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
-import es.caib.portafib.logic.utils.ConfiguracioCommonUtils;
-import es.caib.portafib.logic.utils.ConfiguracioUsuariAplicacioPassarelaUtils;
-import es.caib.portafib.logic.utils.ConfiguracioUsuariAplicacioUpgradeUtils;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
+import javax.annotation.security.RunAs;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -219,15 +216,11 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
   // @RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
   @PermitAll
   public PerfilConfiguracionsDeFirma getConfiguracioUsuariAplicacioPerPassarela(
-      String usuariAplicacioID, PassarelaSignaturesSet signaturesSet, boolean esFirmaEnServidor)
-      throws I18NException {
+          String usuariAplicacioID, PassarelaSignaturesSet signaturesSet, boolean esFirmaEnServidor)
+          throws I18NException {
 
     PerfilDeFirma perfilDeFirma = getPerfilDeFirmaPerPassarela(usuariAplicacioID,
-        esFirmaEnServidor);
-
-    // UsuariAplicacioConfiguracioJPA config =
-    // (UsuariAplicacioConfiguracioJPA)findByPrimaryKey(perfilDeFirma
-    // .getConfiguracioDeFirma1ID());
+            esFirmaEnServidor);
 
     final int usFirma;
     if (esFirmaEnServidor) {
@@ -239,35 +232,21 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = new HashMap<String, UsuariAplicacioConfiguracioJPA>();
 
     final PassarelaCommonInfoSignature passarelaCommonInfoSignature = signaturesSet
-        .getCommonInfoSignature();
-
-    //final String langUI = signaturesSet.getCommonInfoSignature().getLanguageUI();
+            .getCommonInfoSignature();
 
     for (PassarelaFileInfoSignature passarelaFileInfoSignature : signaturesSet
-        .getFileInfoSignatureArray()) {
- 
-     ConfiguracioUsuariAplicacioPassarelaUtils cfgUtils = new ConfiguracioUsuariAplicacioPassarelaUtils(
-                passarelaCommonInfoSignature, passarelaFileInfoSignature, usFirma);
-     
-     UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);
-        
-      /*
-      Map<String, Object> parameters = new HashMap<String, Object>();
-      parameters.put("passarelaFileInfoSignature", passarelaFileInfoSignature);
-      parameters.put("passarelaCommonInfoSignature", passarelaCommonInfoSignature);
+            .getFileInfoSignatureArray()) {
 
-      UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID,
-          perfilDeFirma, usFirma, langUI, parameters);
-      */
-      
+      ConfiguracioUsuariAplicacioPassarelaUtils cfgUtils = new ConfiguracioUsuariAplicacioPassarelaUtils(
+              passarelaCommonInfoSignature, passarelaFileInfoSignature, usFirma);
+
+      UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);
       checkTePermisPerUsDeFirma(usuariAplicacioID, perfilDeFirma.getCodi(), usFirma, config);
 
       configBySignID.put(passarelaFileInfoSignature.getSignID(), config);
-
     }
 
     return new PerfilConfiguracionsDeFirma(perfilDeFirma, configBySignID);
-
   }
 
   /**
@@ -279,6 +258,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
    */
   protected PerfilDeFirma getPerfilDeFirmaPerPassarela(final String usuariAplicacioID,
       final boolean esFirmaEnServidor) throws I18NException {
+    System.out.println(usuariAplicacioID + esFirmaEnServidor);
 
     final Field<Boolean> usFirmaPassarela;
     if (esFirmaEnServidor) {
@@ -376,17 +356,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     ConfiguracioUsuariAplicacioUpgradeUtils cfgUtils = new ConfiguracioUsuariAplicacioUpgradeUtils(
             isUpgrade, firmaSimpleUpgradeRequest, usFirma);
     
-    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);  
-      
-    /*  
-    Map<String, Object> parameters = new HashMap<String, Object>();
-    parameters.put("firmaSimpleUpgradeRequest", firmaSimpleUpgradeRequest);
-    parameters.put("isUpgrade", true);
-
-    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
-        ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR,
-        firmaSimpleUpgradeRequest.getLanguageUI(), parameters);
-    */
+    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);
     
     Integer upgradeID = config.getUpgradeSignFormat();
 
@@ -398,7 +368,6 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     }
 
     return config;
-
   }
 
   /**
@@ -417,17 +386,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     ConfiguracioApiFirmaSimpleUtils cfgUtils = new ConfiguracioApiFirmaSimpleUtils(
             isUpgrade, firmaSimpleSignDocumentRequest, usFirma);
     
-    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);  
-    
-    /*
-    Map<String, Object> parameters = new HashMap<String, Object>();
-    parameters.put("firmaSimpleSignDocumentRequest", firmaSimpleSignDocumentRequest);
-    parameters.put("isUpgrade", false);
-
-    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
-        ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR, firmaSimpleSignDocumentRequest
-            .getCommonInfo().getLanguageUI(), parameters);
-    */
+    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);
     
     Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = new HashMap<String, UsuariAplicacioConfiguracioJPA>();
 
@@ -450,17 +409,8 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     ConfiguracioApiFirmaAsyncUtils cfgUtils = new ConfiguracioApiFirmaAsyncUtils(signatureRequest, usFirma);
     
     UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);  
-    
-    /*
-    Map<String, Object> parameters = new HashMap<String, Object>();
-    parameters.put("signatureRequest", signatureRequest);
 
-    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
-        usFirma, signatureRequest.getLanguageUI(), parameters);
-    */
-    
     return config;
-
   }
 
   @Override
@@ -473,21 +423,8 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
       
     ConfiguracioApiFirmaSimpleUtils cfgUtils = new ConfiguracioApiFirmaSimpleUtils(
             isUpgrade, firmaSimpleSignDocumentRequest, usFirma);
-    
-    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);  
-    
-    /*
-    Map<String, Object> parameters = new HashMap<String, Object>();
-    parameters.put("firmaSimpleSignDocumentRequest", firmaSimpleSignDocumentRequest);
-    parameters.put("isUpgrade", false);
 
-    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
-        ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB, firmaSimpleSignDocumentRequest
-            .getCommonInfo().getLanguageUI(), parameters);
-    */
-    
-    return config;
-
+    return avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);
   }
    
     protected UsuariAplicacioConfiguracioJPA avaluarCondicio(String usuariAplicacioID,
@@ -564,104 +501,12 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
             }
         }
 
-        UsuariAplicacioConfiguracioJPA config = (UsuariAplicacioConfiguracioJPA) findByPrimaryKey(configID);
-
+        UsuariAplicacioConfiguracioJPA config = findByPrimaryKey(configID);
         checkTePermisPerUsDeFirma(usuariAplicacioID, perfilDeFirma.getCodi(), configuracioFirmaUtils.getUsFirma(), config);
 
         return config;
     }
-  
-  /**
-   * 
-   * @param perfilDeFirma
-   * @param parameters
-   * @return
-   * @throws I18NException
-   */
-  @Deprecated
-  protected UsuariAplicacioConfiguracioJPA avaluarCondicio(String usuariAplicacioID,
-      PerfilDeFirma perfilDeFirma, int usFirma, String lang, Map<String, Object> parameters)
-      throws I18NException {
 
-    parameters.put("usFirma", usFirma);
-    parameters.put("lang", lang);
-
-    String condicio = perfilDeFirma.getCondicio();
-    Long configID;
-
-    if (condicio == null || condicio.trim().length() == 0) {
-      configID = perfilDeFirma.getConfiguracioDeFirma1ID();
-    } else {
-      String errorOrConfig;
-      try {
-        errorOrConfig = TemplateEngine.processExpressionLanguage(condicio, parameters);
-      } catch (IOException e) {
-        // XYZ ZZZ TRAD
-        throw new I18NException(e, "genapp.comodi", new I18NArgumentString(
-            "Error processant condició del perfil " + perfilDeFirma.getCodi() + ": "
-                + e.getMessage()));
-      }
-
-      long configPos;
-      try {
-        configPos = Long.parseLong(errorOrConfig.trim());
-      } catch (NumberFormatException e) {
-        // Signnifica que la condicio ha retornat un error
-        // XYZ ZZZ TRAD
-        throw new I18NException("genapp.comodi", new I18NArgumentString(
-            "El processat de la condició del perfil " + perfilDeFirma.getCodi()
-                + " ha retornat un missatge d´error: " + errorOrConfig));
-      }
-
-      if (configPos < 1 || configPos > 5) {
-        // XYZ ZZZ TRAD
-        throw new I18NException("genapp.comodi", new I18NArgumentString(
-            "El processat de la condició del perfil " + perfilDeFirma.getCodi()
-                + " ha retornat id de Configuració major que 3 o menor que 1: " + configPos));
-      }
-
-      switch ((int) configPos) {
-
-        case 1:
-          configID = perfilDeFirma.getConfiguracioDeFirma1ID();
-        break;
-
-        case 2:
-          configID = perfilDeFirma.getConfiguracioDeFirma2ID();
-        break;
-
-        case 3:
-          configID = perfilDeFirma.getConfiguracioDeFirma3ID();
-        break;
-
-        case 4:
-          configID = perfilDeFirma.getConfiguracioDeFirma4ID();
-        break;
-
-        case 5:
-          configID = perfilDeFirma.getConfiguracioDeFirma5ID();
-        break;
-
-        default:
-          // XYZ ZZZ TRAD
-          throw new I18NException("genapp.comodi", "El processat de la condició del perfil "
-              + perfilDeFirma.getCodi()
-              + " ha retornat id de Configuració major que 5 o menor que 1: " + configPos);
-      }
-
-      if (configID == null) {
-        // XYZ ZZZ TRAD
-        throw new I18NException("genapp.comodi", "La configuració " + configPos
-            + " del perfil " + perfilDeFirma.getCodi() + " no està definida.");
-      }
-    }
-
-    UsuariAplicacioConfiguracioJPA config = (UsuariAplicacioConfiguracioJPA) findByPrimaryKey(configID);
-
-    checkTePermisPerUsDeFirma(usuariAplicacioID, perfilDeFirma.getCodi(), usFirma, config);
-
-    return config;
-  }
 
   @Override
   public void deleteFull(Long _ID_) throws I18NException {
