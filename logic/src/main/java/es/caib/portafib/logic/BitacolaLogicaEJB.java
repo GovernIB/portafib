@@ -10,6 +10,8 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import java.security.Principal;
 import java.sql.Timestamp;
 
@@ -26,6 +28,19 @@ public class BitacolaLogicaEJB extends BitacolaEJB implements BitacolaLogicaLoca
 
   @Override
   public BitacolaJPA createBitacola(InfoBitacola info) {
+    return doCreateBitacola(info);
+  }
+
+  /**
+   * Versió de la creació de bitàcola que crea una nova transacció en cas que calgui
+   */
+  @Override
+  @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+  public BitacolaJPA createBitacolaFailsafe(InfoBitacola info) {
+    return doCreateBitacola(info);
+  }
+
+  private BitacolaJPA doCreateBitacola(InfoBitacola info) {
     Principal principal = info.getPrincipal() == null ? context.getCallerPrincipal() : info.getPrincipal();
     try {
       Timestamp data = new Timestamp(System.currentTimeMillis());

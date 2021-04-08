@@ -2,6 +2,9 @@ package es.caib.portafib.logic.utils;
 
 import javax.naming.InitialContext;
 
+import es.caib.portafib.logic.misc.NotificacionsCallBackTimerLocal;
+import es.caib.portafib.logic.notificacions.NotificacioQueueTimerLocal;
+import es.caib.portafib.utils.Configuracio;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -11,7 +14,6 @@ import es.caib.portafib.logic.BitacolaLogicaLocal;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
-import es.caib.portafib.logic.NotificacioWSLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.logic.TipusDocumentLogicaLocal;
@@ -28,8 +30,7 @@ public final class EjbManager {
 
   protected static final Logger log = Logger.getLogger(EjbManager.class);
 
-  // EJB Notificacions
-  protected static NotificacioWSLogicaLocal notificacioLogicaEjb = null;
+  protected static NotificacionsCallBackTimerLocal notificacioTimerEjb = null;
 
   protected static PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb = null;
 
@@ -46,47 +47,35 @@ public final class EjbManager {
   protected static IdiomaLocal idiomaEjb;
   
   protected static TipusDocumentLogicaLocal tipusDocumentLogicaEjb;
-  
-  // Veure mètode getFluxDeFirmesEjb() per saber com es que no s'injecta
-  //@EJB(mappedName = "portafib/FluxDeFirmesLogicaEJB/local")  
+
   protected static FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
-  
-  
+
   protected static PropietatGlobalLogicaLocal propietatLogicaEjb;
 
   protected static BitacolaLogicaLocal bitacolaLogicaEjb;
   
 
-  public static NotificacioWSLogicaLocal getNotificacioLogicaEJB() throws I18NException {
-
-    synchronized (log) {
-      if (notificacioLogicaEjb == null) {
-        try {
-          notificacioLogicaEjb = (NotificacioWSLogicaLocal) new InitialContext()
-              .lookup("portafib/NotificacioLogicaEJB/local");
-        } catch (Throwable e) {
-          throwNewI18NException(e, "NotificacioLogicaLocal");
-        }
-      }
-    }
-    return notificacioLogicaEjb;
-  }
-  
-  
-  
-  public static void resetNotificacioLogicaEJB() {
-    synchronized (log) {
-      notificacioLogicaEjb = null;
-    }
-  }
-  
-  
-  
   private static void throwNewI18NException(Throwable e, String name) throws I18NException {
     throw new I18NException(e, "error.unknown",
       new I18NArgumentString("No puc instanciar " + name + ": " + e.getMessage()));
   }
   
+
+  public static NotificacionsCallBackTimerLocal getNotificacioTimerEjb() throws I18NException {
+    if (notificacioTimerEjb == null) {
+      try {
+        String jndiName = Configuracio.isNotificacionsQueue() ?
+                NotificacioQueueTimerLocal.JNDI_NAME :
+                NotificacionsCallBackTimerLocal.JNDI_NAME;
+
+        notificacioTimerEjb = (NotificacionsCallBackTimerLocal) new InitialContext()
+            .lookup(jndiName);
+      } catch (Throwable e) {
+        throwNewI18NException(e, "NotificacionsCallBackTimerLocal");
+      }
+    }
+    return notificacioTimerEjb;
+  }
 
   public static PeticioDeFirmaLogicaLocal getPeticioDeFirmaLogicaEJB() throws I18NException {
 
@@ -158,7 +147,6 @@ public final class EjbManager {
   
 
   public static ColaboracioDelegacioLogicaLocal getColaboracioDelegacioEJB() throws I18NException {
-
     if (colaboracioDelegacioLogicaEjb == null) {
       try {
         colaboracioDelegacioLogicaEjb = (ColaboracioDelegacioLogicaLocal) new InitialContext()
@@ -169,10 +157,7 @@ public final class EjbManager {
     }
     return colaboracioDelegacioLogicaEjb;
   }
-  
-  
-   
-  
+
   public static IdiomaLocal getIdiomaEJB() throws I18NException {
 
     if (idiomaEjb == null) {
@@ -186,10 +171,7 @@ public final class EjbManager {
     return idiomaEjb;
   }
   
-  
-  
- 
-  
+
   public static TipusDocumentLogicaLocal getTipusDocumentLogicaEJB() throws I18NException {
 
     final String name = "TipusDocumentLogica" + "EJB" ;
@@ -206,9 +188,7 @@ public final class EjbManager {
   
   /**
    * S'ha tengut que fer així ja que injectat a traves del tag @EJB, el jboss 
-   * llançava un error de dependències. 
-   * @return
-   * @throws Exception
+   * llançava un error de dependències.
    */
   public static FluxDeFirmesLogicaLocal getFluxDeFirmesEjb() throws I18NException  {
     if (fluxDeFirmesLogicaEjb == null) {

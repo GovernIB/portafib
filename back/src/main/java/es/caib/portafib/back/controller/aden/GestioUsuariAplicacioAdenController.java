@@ -14,6 +14,7 @@ import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.misc.NotificacionsCallBackTimerLocal;
+import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.PerfilsPerUsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariAplicacio;
@@ -81,9 +82,6 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
 
   @EJB(mappedName = es.caib.portafib.ejb.PerfilDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PerfilDeFirmaLocal usuariAplicacioPerfilEjb;
-
-  @EJB(mappedName = NotificacionsCallBackTimerLocal.JNDI_NAME)
-  protected NotificacionsCallBackTimerLocal notificacionsCallBackTimerEjb;
 
   @Autowired
   private UsuariAplicacioWebLogicValidator usuariAplicacioWebLogicValidator;
@@ -194,7 +192,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
 
   @Override
   public List<StringKeyValue> getReferenceListForCallbackVersio(HttpServletRequest request,
-      ModelAndView mav, Where where) throws I18NException {
+      ModelAndView mav, Where where) {
     List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
     // NOTA: Si és modifica aquest llistat, llavors s'ha de modificar també el fitxer
     // [portafib]/back/src/main/webapp/WEB-INF/jsp/webdbmodificable/usuariAplicacioFormModificable.jsp
@@ -322,10 +320,10 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
   @RequestMapping(value = "/validarurlcallback/{usuariAplicacioID}", method = RequestMethod.GET)
   public String validarURLCallBack(
       @PathVariable("usuariAplicacioID") java.lang.String usuariAplicacioID,
-      HttpServletRequest request, HttpServletResponse response) throws I18NException {
+      HttpServletRequest request, HttpServletResponse response) {
 
     try {
-      this.notificacionsCallBackTimerEjb.testCallBackAPI(usuariAplicacioID);
+      EjbManager.getNotificacioTimerEjb().testCallBackAPI(usuariAplicacioID);
 
       HtmlUtils.saveMessageSuccess(request, "Test OK");
 
@@ -398,7 +396,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
           map.put(key, "");
         } else {
 
-          StringBuffer str = new StringBuffer("<table>\n");
+          StringBuilder str = new StringBuilder("<table>\n");
           for (PerfilDeFirma perfil : perfils) {
             str.append(
             // Edit -> Link Nom i Codi
@@ -409,12 +407,6 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
                 + "/view/"
                 + perfil.getUsuariAplicacioPerfilID()
                 + "\"> "
-                /*
-                + ConfiguracioDeFirmaAdenController.CONTEXT_WEB
-                + "/"
-                + perfil.getConfiguracioDeFirma1ID()
-                + "/edit\"> "
-                */
                 + perfil.getNom()
                 + " (<b>"
                 + perfil.getCodi()
@@ -445,7 +437,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
   @RequestMapping(value = "/newconfig/{usuariAplicacioID}", method = RequestMethod.GET)
   public String newConfiguracioUsuariAplicacio(
       @PathVariable("usuariAplicacioID") String usuariAplicacioID, HttpServletRequest request,
-      HttpServletResponse response) throws Exception {
+      HttpServletResponse response) {
 
     request.getSession().setAttribute(
         PerfilsDeUsuariAplicacioAdenController.SESSION_USUARIAPLICACIOID, usuariAplicacioID);
@@ -475,7 +467,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
   @RequestMapping(value = "/desactivar/{usuariAplicacioID}", method = RequestMethod.GET)
   public ModelAndView desactivarUsuariEntitat(
       @PathVariable("usuariAplicacioID") String usuariAplicacioID, HttpServletRequest request,
-      HttpServletResponse response) throws Exception {
+      HttpServletResponse response) {
 
     activarDesactivarUsauriApp(usuariAplicacioID, request, false);
 
@@ -516,7 +508,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
    */
   @Override
   public List<StringKeyValue> getReferenceListForPoliticaDePluginFirmaWeb(
-      HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
+      HttpServletRequest request, ModelAndView mav, Where where) {
     return ConfiguracioUsuariEntitatController
         .staticGetReferenceListForPoliticaDePluginFirmaWeb();
   }

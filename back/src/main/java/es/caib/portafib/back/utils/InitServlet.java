@@ -3,7 +3,7 @@ package es.caib.portafib.back.utils;
 import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.logic.misc.AvisosFirmesPendentsTimerLocal;
 import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsTimerLocal;
-import es.caib.portafib.logic.misc.NotificacionsCallBackTimerLocal;
+import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.ProviderRegistration;
@@ -85,10 +85,8 @@ public class InitServlet extends HttpServlet {
         }
 
         try {
-          NotificacionsCallBackTimerLocal notifCallback = (NotificacionsCallBackTimerLocal) new InitialContext()
-                  .lookup(NotificacionsCallBackTimerLocal.JNDI_NAME);
-          notifCallback.stopScheduler();
-        } catch (Exception e) {
+          EjbManager.getNotificacioTimerEjb().stopScheduler();
+        } catch (Throwable e) {
           log.error("HOOK SHUTDOWN NotificacionsCallBackTimerLocal ERROR: ", e);
         }
       }
@@ -225,9 +223,7 @@ public class InitServlet extends HttpServlet {
 
     // NotificacionCallBack
     try {
-      NotificacionsCallBackTimerLocal notifCallback = (NotificacionsCallBackTimerLocal) new InitialContext()
-          .lookup(NotificacionsCallBackTimerLocal.JNDI_NAME);
-      notifCallback.startScheduler();
+      EjbManager.getNotificacioTimerEjb().startScheduler();
     } catch (Throwable th) {
       log.error("Error desconegut inicialitzant Timer d'enviament de Notificacions: "
           + th.getMessage(), th);
@@ -242,11 +238,7 @@ public class InitServlet extends HttpServlet {
     log.info("temp dir: "+ System.getProperty("java.io.tmpdir"));
   }
   
-  
-  /**
-   * 
-   * @throws Exception
-   */
+
   public void testTmpAndFileSystemManager() throws Exception {
 
     log.info("Inici test sistema de fitxers");

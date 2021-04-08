@@ -29,6 +29,14 @@ public class Configuracio implements ConstantsV2 {
   }
 
   /**
+   * Indica si s'ha d'emprar el notificador amb coa de missatges.
+   * @return true si s'ha d'emprar notificador amb coa, false en cas contrari
+   */
+  public static boolean isNotificacionsQueue() {
+    return Boolean.getBoolean(PORTAFIB_PROPERTY_BASE + "notificacions.queue");
+  }
+
+  /**
    * Permet indicar si volem mostrar als usuaris un enllaç cap a una APK de Android.
    * Si no existeix o el valor és buid, no es mostrarà cap enllaç.
    * Si el valor és "server", emprarà un APK distribuit amb l'aplicació.
@@ -49,8 +57,7 @@ public class Configuracio implements ConstantsV2 {
 
   /**
    * Indica si s'ha de validar el certificat emprant el Plugin de CheckCertificate quan 
-   * l'autenticació es realitza emprant ClientCert 
-   * @return
+   * l'autenticació es realitza emprant ClientCert
    */
   public static boolean checkCertificateInClientCert() {
     return  Boolean.getBoolean(PORTAFIB_PROPERTY_BASE + "checkcertificateinclientcert");

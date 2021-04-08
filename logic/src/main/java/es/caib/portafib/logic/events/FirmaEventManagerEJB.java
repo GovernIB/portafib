@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import es.caib.portafib.logic.utils.EjbManager;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -54,7 +56,6 @@ import es.caib.portafib.utils.ConstantsV2;
 public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2,
      UsuariEntitatFields {
 
-  @EJB(mappedName = NotificacionsCallBackTimerLocal.JNDI_NAME)
   private NotificacionsCallBackTimerLocal notifCallback;
 
   @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME, beanName = "PeticioDeFirmaEJB")
@@ -92,8 +93,17 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
   private static final String HREF_COLA = CONTEXT_COLA_ESTATFIRMA_PENDENT + LIST_APENDIX;
 
   private static final String HREF_REVI = CONTEXT_REVI_ESTATFIRMA_PENDENT + LIST_APENDIX;
-  
 
+  @PostConstruct
+  protected void init() {
+    try {
+      notifCallback = EjbManager.getNotificacioTimerEjb();
+    } catch (I18NException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
   public Map<FirmaEvent, Throwable> processList(FirmaEventList felist, boolean wakeUpTimer) throws I18NException {
 
     Map<FirmaEvent, Throwable> map = new HashMap<FirmaEvent, Throwable>();
@@ -113,7 +123,7 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
 
     for (FirmaEvent firmaEvent : list) {
       final int eventID = (int) firmaEvent.getEventID();
-      String href = null;
+      String href;
       switch (eventID) {
       
       
@@ -526,10 +536,6 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
     
     public final UsuariEntitatJPA usuariEntitat;
 
-    /**
-     * @param usuariEntitat
-     * @param agruparCorreus
-     */
     public DestinatariOfPeticioDeFirma(UsuariEntitatJPA usuariEntitat, boolean agruparCorreus) {
       super();
       this.usuariEntitat = usuariEntitat;
@@ -614,35 +620,14 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
    * @param peticioDeFirmaID identificador de la peticío de firma
    * @return true si existia la peticio iniciada per un usuari-entitat, false
    *         altres casos.
-   * @throws Exception
+   * @throws I18NException si es produeix un error
    */
-  private boolean avisWebDePeticioUsuariEntitatFinalitzada(Long peticioDeFirmaID)
+  private void avisWebDePeticioUsuariEntitatFinalitzada(Long peticioDeFirmaID)
       throws I18NException {
-
     log.debug("Entra dins avisarPeticioUsuariEntitatFinalitzada ");
-
-    
-    PeticioDeFirmaJPA pfue;
-    pfue = this.peticioDeFirmaEjb.findByPrimaryKey(peticioDeFirmaID);
-    
+    PeticioDeFirmaJPA pfue = peticioDeFirmaEjb.findByPrimaryKey(peticioDeFirmaID);
     pfue.setAvisWeb(true);
-    this.peticioDeFirmaEjb.update(pfue);
-    return true;
-
-    
-    
-    /*
-    PeticioDeFirmaUsuariEntitatJPA pfue;
-    pfue = this.peticioDeFirmaUsuariEntitatEjb.findByPrimaryKey(peticioDeFirma);
-
-    if (pfue == null) {
-      return false;
-    } else {
-      pfue.setAvisWeb(true);
-      this.peticioDeFirmaUsuariEntitatEjb.update(pfue);
-      return true;
-    }
-    */
+    peticioDeFirmaEjb.update(pfue);
   }
 
 }

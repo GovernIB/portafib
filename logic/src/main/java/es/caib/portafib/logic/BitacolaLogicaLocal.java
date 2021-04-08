@@ -18,6 +18,8 @@ public interface BitacolaLogicaLocal extends BitacolaLocal {
 
   BitacolaJPA createBitacola(InfoBitacola info);
 
+  BitacolaJPA createBitacolaFailsafe(InfoBitacola info);
+
   BitacolaJPA createBitacola(String entitatid, String objecteid, int tipusobjecte,
                                     int tipusoperacio);
 

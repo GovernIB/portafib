@@ -4,12 +4,14 @@ import es.caib.portafib.ejb.NotificacioWSEJB;
 import es.caib.portafib.jpa.NotificacioWSJPA;
 import es.caib.portafib.logic.events.FirmaEvent;
 import es.caib.portafib.logic.misc.NotificacionsCallBackTimerLocal;
+import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.NotificacioInfo;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.NotificacioWS;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.sql.Timestamp;
@@ -24,15 +26,18 @@ import java.sql.Timestamp;
 @SecurityDomain("seycon")
 public class NotificacioWSLogicaEJB extends NotificacioWSEJB 
   implements NotificacioWSLogicaLocal {
-  
-  @EJB(mappedName = NotificacionsCallBackTimerLocal.JNDI_NAME) // "portafib/BlocDeFirmesLogicaEJB/local")
+
   private NotificacionsCallBackTimerLocal notifCallback;
 
-  /**
-   * 
-   * @param firmaEvent
-   * @return
-   */
+  @PostConstruct
+  protected void init() {
+    try {
+      notifCallback = EjbManager.getNotificacioTimerEjb();
+    } catch (I18NException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   @Override
   public NotificacioInfo createFullFromFirmaEvent(FirmaEvent firmaEvent) throws I18NException {
     
@@ -73,7 +78,7 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB
         log.info("La notificacio " + notificacio.getNotificacioID() 
             + "esta en el numero màxim de reintents (Actual: " + notificacio.getReintents() 
             + "| Màxim permes: " + pause + "). Resetejam comptador de reintents a 0." );
-        notificacio.setReintents(0);;
+        notificacio.setReintents(0);
       }
 
       
@@ -148,7 +153,6 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB
    *     [1] => darrra execució completa
    *     [2] => darrera execució
    *     [3] => propera execució
-   * @return
    */
   @Override
   public long[] getExecutionsInfo() {

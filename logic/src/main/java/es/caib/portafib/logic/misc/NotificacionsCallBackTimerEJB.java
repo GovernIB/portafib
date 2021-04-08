@@ -8,6 +8,7 @@ import es.caib.portafib.logic.BitacolaLogicaLocal;
 import es.caib.portafib.logic.events.FirmaEvent;
 import es.caib.portafib.logic.notificacions.NotificacioSender;
 import es.caib.portafib.logic.notificacions.NotificacioSenderFactory;
+import es.caib.portafib.logic.notificacions.NotificacioUtils;
 import es.caib.portafib.logic.utils.EmailUtil;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.NotificacioInfo;
@@ -112,6 +113,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
     }
 
     try {
+      @SuppressWarnings("unchecked")
       Collection<Timer> timers = timerService.getTimers();
       for (Timer timer : timers) {
         if (isWakeUpTimer(timer)) {
@@ -167,6 +169,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
 
   @Override
   public void stopScheduler() {
+    @SuppressWarnings("unchecked")
     Collection<Timer> timers = timerService.getTimers();
     for (Timer timer : timers) {
       log.info("stopScheduler: Cancel·lant timer");
@@ -224,16 +227,8 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         where = Where.AND(where, NotificacioWSFields.REINTENTS.lessThan((int) (long) retryToPause));
       }
 
-      final long notificacionsPendents = notificacioEjb.count(where);
-      if (isDebug) {
-        log.debug("executeTask: Notificacions pendents: " + notificacionsPendents);
-      }
-      if (notificacionsPendents == 0) {
-        return;
-      }
-
-      // Temps màxim notificant, la meitat del temps programat, o com a màxim en qualsevol cas 2 minuts
-      final long maxTempsNotificant = Math.min( (notificacionsTimeLapse ) / 2, 120000);
+      // Temps màxim notificant, el temps programat manco 15 segons per assegurar que aturam a temps
+      final long maxTempsNotificant = notificacionsTimeLapse - 15000;
       long estimatedProcessTime = 50L;
       // Processam un màxim de 1000 notificacions pendents per execució
       int maximSeleccionats = Math.min( (int) (maxTempsNotificant / estimatedProcessTime), 1000);
@@ -245,6 +240,10 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         per (bloquejada, reintents) que farà la consulta molt més ràpida. */
 
       final int notificacionsSeleccionades = notificacions.size();
+      if (notificacionsSeleccionades == 0) {
+        return;
+      }
+
       log.info("executeTask: Notificacions seleccionades: " + notificacionsSeleccionades);
 
       // Processam les notificacions
@@ -259,15 +258,15 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         // Obte un NotificacioInfo a partir del notificacioWS.getDescripcio()
         processNotificacio((NotificacioWSJPA) notificacioWS);
 
-        // Estarem fent feina durant un temps màxim per no saturar el servidor, i evitar cridades concurrents
+        // Estarem fent feina durant un temps màxim per evitar cridades concurrents
         if ((System.currentTimeMillis() - now) > maxTempsNotificant) {
-          log.warn("executeTask: Fa més de " + maxTempsNotificant + " ms que feim Notificacions. Aturam per no saturar servidor!!!");
+          log.warn("executeTask: Fa més de " + maxTempsNotificant + " ms que feim Notificacions. Aturam per evitar solapar execucions");
           break;
         }
       }
 
       if (count > 0) {
-        log.info("executeTask: Processades " + count + "  de " + notificacionsSeleccionades + " selecionades d'un total de " + notificacionsPendents + " pendents");
+        log.info("executeTask: Processades " + count + "  de " + notificacionsSeleccionades + " selecionades");
       }
 
     } catch (Throwable e) {
@@ -341,30 +340,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
           }
         }
 
-        int operacio = -1;
-        switch ((int)notificacioInfo.getFirmaEvent().getEventID()) {
-          case (int) NOTIFICACIOAVIS_PETICIO_EN_PROCES:
-            operacio = BITACOLA_OP_NOTIFICAR_ENPROCES;
-            break;
-          case (int) NOTIFICACIOAVIS_PETICIO_PAUSADA:
-            operacio = BITACOLA_OP_NOTIFICAR_PAUSADA;
-            break;
-          case (int) NOTIFICACIOAVIS_PETICIO_REBUTJADA:
-            operacio = BITACOLA_OP_NOTIFICAR_REBUTJADA;
-            break;
-          case (int) NOTIFICACIOAVIS_FIRMA_PARCIAL:
-            operacio = BITACOLA_OP_NOTIFICAR_FIRMA_PARCIAL;
-            break;
-          case (int) NOTIFICACIOAVIS_PETICIO_FIRMADA:
-            operacio = BITACOLA_OP_NOTIFICAR_FINALITZADA;
-            break;
-          case (int) NOTIFICACIOAVIS_INVALIDAT:
-            operacio = BITACOLA_OP_NOTIFICAR_INVALIDADA;
-            break;
-          default:
-            log.warn("EventID desconegut: " + notificacioInfo.getFirmaEvent().getEventID());
-        }
-
+        int operacio = NotificacioUtils.getOpericioBitacolaForEventType(notificacioInfo.getFirmaEvent().getEventID());
         if (operacio != -1) {
           bitacolaLogicaEjb.createBitacola(
                   usuariAplicacio.getEntitatID(),
@@ -373,6 +349,8 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
                   operacio,
                   "Notificat Usuari-Aplicació: " + usuariAplicacio.getUsuariAplicacioID(),
                   notificacioInfo.getFirmaEvent());
+        } else {
+          log.warn("EventID no és correspon a cap operació de bitàcola: " + notificacioInfo.getFirmaEvent().getEventID());
         }
       }
 
