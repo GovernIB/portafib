@@ -135,15 +135,15 @@ body {font-family: Arial; font-size: 8;}
      <td>Petici&oacute;</td>
      <td>Firma</td>
      <td>Actor</td>
+     <td>Nombre</td>
    </tr>
 </thead>
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
 Set<PortaFIBEvent> llistat = PortaFIBEventStore.llistat;
+int count = 0;
 for(PortaFIBEvent info: llistat) {
-
-  
 %>
 <tr>
   <td><%=sdf.format(info.getEventDate())%></td>
@@ -199,7 +199,7 @@ for(PortaFIBEvent info: llistat) {
      <b>Name:</b> <%=actor.getName()%>
   <% } %>
   </td>
- 
+  <td><%= ++count %></td>
  </tr>
 
 <% } %>

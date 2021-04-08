@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response;
 
 import es.caib.portafib.callback.beans.v1.PortaFIBEvent;
 import es.caib.portafib.callback.beans.v1.tester.PortaFIBEventStore;
+import org.apache.log4j.Logger;
 
 /**
  * 
@@ -16,6 +17,8 @@ import es.caib.portafib.callback.beans.v1.tester.PortaFIBEventStore;
  */
 @Path("/v1")
 public class PortaFIBRestServiceV1 {
+
+  private final Logger log = Logger.getLogger(getClass());
 
   @javax.ws.rs.GET
   @Path("/versio")
@@ -28,14 +31,12 @@ public class PortaFIBRestServiceV1 {
   @Path("/event")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response event(PortaFIBEvent event) {
-
     try {
-      // Fer el que sigui en qualsevol altre aplicació
-      PortaFIBEventStore.llistat.add(event);
-
+      log.info("Rebut event");
+      PortaFIBEventStore.addEvent(event);
+      log.info("Event processat");
       return Response.status(200).entity("OK").build();
     } catch (Throwable th) {
-
       String msg = "Error desconegut processant event de Peticio de Firma REST: "
           + th.getMessage();
 
@@ -43,7 +44,6 @@ public class PortaFIBRestServiceV1 {
 
       return Response.status(500).entity(msg).build();
     }
-
   }
 
 }
