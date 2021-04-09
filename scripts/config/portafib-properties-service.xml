@@ -37,6 +37,14 @@
       ò
       es.caib.portafib.androidapk=/portafib/android/app-release.apk
       -->
+
+      <!-- NOU A 2.0.17. COA DE NOTIFICACIONS JMS -->
+      <!--
+      Si volem que les notificacions s'enviin mitjançant una coa JMS amb un MDB que les processarà en paral·lel.
+      -->
+      es.caib.portafib.notificacions.queue=false
+
+
       es.caib.portafib.defaultlanguage=ca
 
       es.caib.portafib.development=false

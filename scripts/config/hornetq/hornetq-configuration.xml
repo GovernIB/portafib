@@ -1,0 +1,30 @@
+<configuration>
+
+    <!-- fitxer %JBOSS%/server/default/deploy/hornetq/hornetq-configuration.xml -->
+    <!-- ............................. -->
+
+    <address-settings>
+
+        <!-- ........................... -->
+
+        <!-- Afegir al final de address-settings -->
+        <!-- coes portafib -->
+        <address-setting match="jms.queue.es.caib.portafib.PortaFIBMailsQueue">
+            <max-delivery-attempts>3</max-delivery-attempts>
+            <redelivery-delay>10000</redelivery-delay>
+        </address-setting>
+
+        <address-setting match="jms.queue.es.caib.portafib.PortaFIBNotificacionsErrorQueue">
+            <max-delivery-attempts>2000</max-delivery-attempts>
+            <redelivery-delay>300000</redelivery-delay>
+        </address-setting>
+
+        <address-setting match="jms.queue.es.caib.portafib.PortaFIBNotificacionsQueue">
+            <dead-letter-address>jms.queue.es.caib.portafib.PortaFIBNotificacionsErrorQueue</dead-letter-address>
+            <max-delivery-attempts>15</max-delivery-attempts>
+            <redelivery-delay>120000</redelivery-delay>
+        </address-setting>
+        <!-- /coes portafib -->
+
+    </address-settings>
+</configuration>

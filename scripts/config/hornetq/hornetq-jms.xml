@@ -1,0 +1,22 @@
+<configuration>
+
+    <!-- fitxer %JBOSS%/server/default/deploy/hornetq/hornetq-jms.xml -->
+    <!-- .............................................. -->
+
+    <!-- Aregir al final del document -->
+
+    <!-- coes portafib -->
+    <queue name="es.caib.portafib.PortaFIBMailsQueue">
+        <entry name="jms/es.caib.portafib.PortaFIBMailsQueue"/>
+    </queue>
+
+    <queue name="es.caib.portafib.PortaFIBNotificacionsErrorQueue">
+        <entry name="jms/es.caib.portafib.PortaFIBNotificacionsErrorQueue"/>
+    </queue>
+
+    <queue name="es.caib.portafib.PortaFIBNotificacionsQueue">
+        <entry name="jms/es.caib.portafib.PortaFIBNotificacionsQueue"/>
+    </queue>
+    <!-- /coes portafib -->
+
+</configuration>
