@@ -1,11 +1,7 @@
-<configuration>
+<configuration xmlns="urn:hornetq"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="urn:hornetq /schema/hornetq-jms.xsd">
 
-    <!-- fitxer %JBOSS%/server/default/deploy/hornetq/hornetq-jms.xml -->
-    <!-- .............................................. -->
-
-    <!-- Aregir al final del document -->
-
-    <!-- coes portafib -->
     <queue name="es.caib.portafib.PortaFIBMailsQueue">
         <entry name="jms/es.caib.portafib.PortaFIBMailsQueue"/>
     </queue>
@@ -17,6 +13,5 @@
     <queue name="es.caib.portafib.PortaFIBNotificacionsQueue">
         <entry name="jms/es.caib.portafib.PortaFIBNotificacionsQueue"/>
     </queue>
-    <!-- /coes portafib -->
 
 </configuration>
