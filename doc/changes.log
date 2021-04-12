@@ -1,3 +1,17 @@
+PortaFIB 2.0.17
+==============
+
+ - Les aplicacions que tarden molt a respondre poden colapsar l'enviament de notificacions #566
+ - Modificar tests de callbacks per simular condicions de servidors lents #567
+ - No es valida correctament el nombre mínim de firmes d'un bloc de firmes #564
+ - Quan un revisor rebutja una firma rep ell els correus de firmes descartades enlloc dels destintaris #563
+ - La creació de peticions de firma amb l'API REST v2 falla quan el títol té més de 232 caràcters #562
+ - No es genera el correu cap un revisor que se li assigna una firma per revisar #560
+ - Durant la firma en servidor queden fitxers temporals #539
+ - Normalitzar paràmetres emprats pels scripts de selecció de configuració de firma #555
+ - Afegir tests pel plugin d'autofirma #556
+ - Permetre indicar timeout als plugin firma en servidor @firma #524
+
 
 PortaFIB 2.0.16
 ==============
