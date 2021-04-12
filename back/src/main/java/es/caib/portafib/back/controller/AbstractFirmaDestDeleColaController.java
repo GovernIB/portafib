@@ -127,11 +127,12 @@ import java.util.Set;
  * @author anadal
  * @author areus
  */
-@Controller
-@SessionAttributes(types = {EstatDeFirmaFilterForm.class})
+//@Controller
+//@SessionAttributes(types = {EstatDeFirmaFilterForm.class})
 public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaController implements
         EstatDeFirmaFields, ConstantsV2 {
 
+    /*
     @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
     protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
 
@@ -1130,16 +1131,6 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
         return mav;
     }
 
-
-    /**
-     * Quan acaba el mòdul de firma mostram espera de validacions de firma
-     *
-     * @param request
-     * @param response
-     * @param signaturesSetID
-     * @return
-     * @throws Exception
-     */
     @RequestMapping(value = "/finalFirma/{signaturesSetID}")
     public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
                                            @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
@@ -1160,15 +1151,6 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
 
     }
 
-    /**
-     * Quan acaba el mòdul de firma
-     *
-     * @param request
-     * @param response
-     * @param signaturesSetID
-     * @return
-     * @throws Exception
-     */
     @RequestMapping(value = "/finalFirmaReal/{signaturesSetID}")
     public ModelAndView finalProcesDeFirmaReal(HttpServletRequest request, HttpServletResponse response,
                                                @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
@@ -1353,12 +1335,6 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
         }
     }
 
-    /**
-     * Serveix per anar processant les firmes finalitzades en cas de fer un firma
-     * multiple.
-     *
-     * @author anadal
-     */
     public class ParallelSignedFilesProcessing extends AbstractParallelSignedFilesProcessing {
 
         protected final PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
@@ -1390,19 +1366,12 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
 
     }
 
-    /**
-     * [0] conte peticioDeFirmaID, [1] conte estatDeFirmaID i [2] conté token
-     *
-     * @param encoded
-     * @return
-     */
     protected static SignatureID decodeSignatureID(String encoded) {
 
         String[] parts = encoded.split("\\|");
 
         return new SignatureID(Long.parseLong(parts[0]), Long.parseLong(parts[1]), parts[2]);
     }
-
 
     protected FileInfoFull prepareFirmaItem(HttpServletRequest request, Long estatDeFirmaID,
                                             Long peticioDeFirmaID, String langUI, Map<String, List<Long>> pluginsFirmaBySignatureID,
@@ -1873,9 +1842,6 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
         }
     }
 
-    /**
-     * @author anadal
-     */
     public static class FirmaItem {
         final CheckInfo checkInfo;
         final FileInfoSignature fileInfosignature;
@@ -1886,12 +1852,6 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
         }
     }
 
-    /**
-     * Retorna la configuració de firma d'una petició.
-     *
-     * @param peticioDeFirmaID
-     * @return
-     */
     private UsuariAplicacioConfiguracioJPA configuracio(Long peticioDeFirmaID) {
 
         UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio = null;
@@ -1978,11 +1938,6 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
         return peticioDeFirma;
     }
 
-    /**
-     * @param estatDeFirma
-     * @param request
-     * @return
-     */
     private FirmaJPA checkFirma(boolean checkSiEstaEnMarxa, EstatDeFirmaJPA estatDeFirma,
                                 HttpServletRequest request) {
         FirmaJPA firma = firmaEjb.findByPrimaryKeyUnauthorized(new Long(estatDeFirma.getFirmaID()));
@@ -2001,24 +1956,12 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
         }
     }
 
-
-    /**
-     * @param estatDeFirmaID
-     * @param request
-     * @return
-     */
     private EstatDeFirmaJPA checkEstatDeFirma(Long estatDeFirmaID, HttpServletRequest request) {
         boolean checkEstatsInicials = false;
         long[] estatsInicialsRequerits = new long[0];
         return checkEstatDeFirma(estatDeFirmaID, request, checkEstatsInicials, estatsInicialsRequerits);
     }
 
-
-    /**
-     * @param estatDeFirmaID
-     * @param request
-     * @return
-     */
     private EstatDeFirmaJPA checkEstatDeFirma(Long estatDeFirmaID, HttpServletRequest request,
                                               boolean checkEstatsInicials, long... estatsInicialsRequerits) {
 
@@ -2521,13 +2464,13 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
             PeticioDeFirmaJPA peticio = (PeticioDeFirmaJPA) peticionsByEstat.get(estatDeFirmaId);
             long peticioID = peticio.getPeticioDeFirmaID();
 
-            /* VEURE DOC */
+            // VEURE DOC
             filterForm.addAdditionalButtonByPK(estatDeFirmaId, new AdditionalButton(
                     "icon-file", "veuredoc",
                     "javascript:var win = window.open('" + request.getContextPath() + getContextWeb() + "/docfirmat/" + peticioID + "', '_blank'); win.focus();"
                     , "btn-info"));
 
-            /* DESCARREGAR DOC */
+            // DESCARREGAR DOC
             filterForm.addAdditionalButtonByPK(estatDeFirmaId, new AdditionalButton(
                     "icon-download-alt", "descarregardoc",
                     // getContextWeb() + "/docfirmat/" + peticioDeFirmaID,
@@ -2685,14 +2628,6 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
         }
     }
 
-    /**
-     * Retorna un map indexat per identificador d'estat de firma, i valor un string amb tots els motius de rebuig
-     * d'estats de firma que pertanyen a la mateixa firma que han estat invalidats.
-     *
-     * @param estatsDeFirma llistat d'estats de firma
-     * @return map d'identificador d'estat de firma i cadena amb els motius de rebuig concatenats.
-     * @throws I18NException
-     */
     public Map<Long, String> getRebuigDescriptionByEstat(List<EstatDeFirma> estatsDeFirma)
             throws I18NException {
         // Optimitzat per fer una única consulta enlloc de N, #447
@@ -2729,20 +2664,6 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
         return rebuigDescriptionByEstat;
     }
 
-    /**
-     * Calcula el nombre de estats de firma en els quals un colaborador o delegat ha intervegut.
-     * El map està indexat per l'identificador d'estat de firma (que provenden del parametre estatsDeFirma).
-     * Els estats de firma que es seleccionen són els que tenen un dels estats de firma inicial que es correspon
-     * amb el paràmetre estatsInicials, i corresponen a la mateixa firma que els estats de firma passats per paràmetre
-     * El valor del map, és:
-     * [0]: nombre total d'estats de firma (la suma dels elements següents)
-     * [1]: nombre d'estats de firma que no tenen estat final
-     * [N]: nombre d'estats de firma que tenen l'estat final corresponent a N-2
-     *
-     * @param estatsDeFirma  estats de firma dels quals agafar l'id de firma
-     * @param estatsInicials estats inicals a tenir en compte
-     * @return map d'id d'estat de firma amb el nombre d'estats de firma relacionats per estat final.
-     */
     protected Map<Long, int[]> infoColaboradorsDelegats(List<EstatDeFirma> estatsDeFirma,
                                                         Long[] estatsInicials) {
         if (estatsDeFirma == null || estatsDeFirma.isEmpty()) {
@@ -2886,7 +2807,7 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
                 EstatDeFirmaFields.USUARIENTITATID.equal(LoginInfo.getInstance().getUsuariEntitatID()));
     }
 
-    /** Emprat per els controladors que mostren firmes pendents que han de filtrar perquè no tenguin un revisor */
+    // Emprat per els controladors que mostren firmes pendents que han de filtrar perquè no tenguin un revisor
     protected Where getWhereNoPendentRevisor() throws I18NException {
         // Estats de firma inicials de revisors
         Where eqTipusInicial = EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
@@ -2937,7 +2858,6 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
 
         return mav;
     }
-
 
     @RequestMapping(value = "/fullView/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
     public ModelAndView fullView(HttpServletRequest request, HttpServletResponse response,
@@ -3219,12 +3139,6 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
         return ids;
     }
 
-    /**
-     * A partir d'una llista d'estatDeFirma retorna un map de (estatPeticioID, peticioDeFirmaID).
-     * @param estatDeFirmaIDList llista d'ids de d'estatDeFirma
-     * @return map les parelles (estatDeFirmaID, peticioDeFirmaID)
-     * @throws I18NException
-     */
     protected Map<Long, Long> getEstatsPeticioMap(List<Long> estatDeFirmaIDList) throws I18NException {
         EstatDeFirmaQueryPath efqp = new EstatDeFirmaQueryPath();
         SelectMultipleStringKeyValue smskv =
@@ -3243,6 +3157,8 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
         }
         return estatPeticio;
     }
+
+     */
 
 } // Final de Classe
 
