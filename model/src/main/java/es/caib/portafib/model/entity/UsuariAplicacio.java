@@ -38,6 +38,9 @@ public interface UsuariAplicacio extends org.fundaciobit.genapp.common.IGenAppEn
 	public java.lang.Long getCustodiaInfoID();
 	public void setCustodiaInfoID(java.lang.Long _custodiaInfoID_);
 
+	public boolean isCrearUsuaris();
+	public void setCrearUsuaris(boolean _crearUsuaris_);
+
   // Fitxer
   public <F extends Fitxer> F getLogoSegell();
 

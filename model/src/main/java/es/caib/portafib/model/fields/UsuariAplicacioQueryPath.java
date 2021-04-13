@@ -59,6 +59,10 @@ public class UsuariAplicacioQueryPath extends org.fundaciobit.genapp.common.quer
     return new LongField(getQueryPath(), UsuariAplicacioFields.CUSTODIAINFOID);
   }
 
+  public BooleanField CREARUSUARIS() {
+    return new BooleanField(getQueryPath(), UsuariAplicacioFields.CREARUSUARIS);
+  }
+
 
 
   @Override

@@ -24,6 +24,7 @@ public interface UsuariAplicacioFields extends java.io.Serializable {
 	 public static final IntegerField POLITICADEPLUGINFIRMAWEB = new IntegerField(_TABLE_MODEL, "politicaDePluginFirmaWeb", "politicadepluginfirmaweb");
 	 public static final IntegerField POLITICACUSTODIA = new IntegerField(_TABLE_MODEL, "politicaCustodia", "politicacustodia");
 	 public static final LongField CUSTODIAINFOID = new LongField(_TABLE_MODEL, "custodiaInfoID", "custodiainfoid");
+	 public static final BooleanField CREARUSUARIS = new BooleanField(_TABLE_MODEL, "crearUsuaris", "crearusuaris");
 
 
   public static final Field<?>[] ALL_USUARIAPLICACIO_FIELDS = {
@@ -38,7 +39,8 @@ public interface UsuariAplicacioFields extends java.io.Serializable {
     LOGOSEGELLID,
     POLITICADEPLUGINFIRMAWEB,
     POLITICACUSTODIA,
-    CUSTODIAINFOID
+    CUSTODIAINFOID,
+    CREARUSUARIS
   };
 
 

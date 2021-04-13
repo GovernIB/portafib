@@ -312,3 +312,25 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.CREARUSUARIS)}">
+        <tr id="usuariAplicacio_crearUsuaris_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CREARUSUARIS])?'usuariAplicacio.crearUsuaris':__theForm.labels[UsuariAplicacioFields.CREARUSUARIS]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioFields.CREARUSUARIS]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioFields.CREARUSUARIS]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CREARUSUARIS)}" >
+              <form:errors path="usuariAplicacio.crearUsuaris" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CREARUSUARIS)? 'false' : 'true'}" path="usuariAplicacio.crearUsuaris" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CREARUSUARIS)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.usuariAplicacio.crearUsuaris}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        

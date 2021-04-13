@@ -22,6 +22,7 @@ private static final long serialVersionUID = 1703005582L;
 	int politicaDePluginFirmaWeb;
 	int politicaCustodia;
 	java.lang.Long custodiaInfoID;
+	boolean crearUsuaris;
 
 
   /** Constructor Buit */
@@ -29,7 +30,7 @@ private static final long serialVersionUID = 1703005582L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , int politicaDePluginFirmaWeb , int politicaCustodia , java.lang.Long custodiaInfoID) {
+  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , int politicaDePluginFirmaWeb , int politicaCustodia , java.lang.Long custodiaInfoID , boolean crearUsuaris) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.entitatID=entitatID;
     this.emailAdmin=emailAdmin;
@@ -42,9 +43,10 @@ private static final long serialVersionUID = 1703005582L;
     this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
     this.politicaCustodia=politicaCustodia;
     this.custodiaInfoID=custodiaInfoID;
+    this.crearUsuaris=crearUsuaris;
 }
   /** Constructor dels valors Not Null */
-  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , boolean actiu , java.lang.String idiomaID , int politicaDePluginFirmaWeb , int politicaCustodia) {
+  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , boolean actiu , java.lang.String idiomaID , int politicaDePluginFirmaWeb , int politicaCustodia , boolean crearUsuaris) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.entitatID=entitatID;
     this.emailAdmin=emailAdmin;
@@ -53,6 +55,7 @@ private static final long serialVersionUID = 1703005582L;
     this.idiomaID=idiomaID;
     this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
     this.politicaCustodia=politicaCustodia;
+    this.crearUsuaris=crearUsuaris;
 }
   public UsuariAplicacioBean(UsuariAplicacio __bean) {
     this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
@@ -67,6 +70,7 @@ private static final long serialVersionUID = 1703005582L;
     this.setPoliticaDePluginFirmaWeb(__bean.getPoliticaDePluginFirmaWeb());
     this.setPoliticaCustodia(__bean.getPoliticaCustodia());
     this.setCustodiaInfoID(__bean.getCustodiaInfoID());
+    this.setCrearUsuaris(__bean.isCrearUsuaris());
     // Fitxer
     this.setLogoSegell(FitxerBean.toBean(__bean.getLogoSegell()));
 	}
@@ -155,6 +159,13 @@ private static final long serialVersionUID = 1703005582L;
 		this.custodiaInfoID = _custodiaInfoID_;
 	};
 
+	public boolean isCrearUsuaris() {
+		return(crearUsuaris);
+	};
+	public void setCrearUsuaris(boolean _crearUsuaris_) {
+		this.crearUsuaris = _crearUsuaris_;
+	};
+
 
 
   // ======================================
@@ -174,6 +185,7 @@ private static final long serialVersionUID = 1703005582L;
     __tmp.setPoliticaDePluginFirmaWeb(__bean.getPoliticaDePluginFirmaWeb());
     __tmp.setPoliticaCustodia(__bean.getPoliticaCustodia());
     __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
+    __tmp.setCrearUsuaris(__bean.isCrearUsuaris());
     // Fitxer
     __tmp.setLogoSegell(FitxerBean.toBean(__bean.getLogoSegell()));
 		return __tmp;

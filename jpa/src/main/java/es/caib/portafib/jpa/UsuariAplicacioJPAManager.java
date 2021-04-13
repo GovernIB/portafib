@@ -66,8 +66,8 @@ public class UsuariAplicacioJPAManager
 		return list.toArray(new UsuariAplicacio[list.size()]);
 	};
 
-	public UsuariAplicacio create( java.lang.String _usuariAplicacioID_, java.lang.String _entitatID_, java.lang.String _emailAdmin_, int _callbackVersio_, java.lang.String _callbackURL_, boolean _actiu_, java.lang.String _idiomaID_, java.lang.String _descripcio_, java.lang.Long _logoSegellID_, int _politicaDePluginFirmaWeb_, int _politicaCustodia_, java.lang.Long _custodiaInfoID_) throws I18NException {
-		UsuariAplicacioJPA __bean =  new UsuariAplicacioJPA(_usuariAplicacioID_,_entitatID_,_emailAdmin_,_callbackVersio_,_callbackURL_,_actiu_,_idiomaID_,_descripcio_,_logoSegellID_,_politicaDePluginFirmaWeb_,_politicaCustodia_,_custodiaInfoID_);
+	public UsuariAplicacio create( java.lang.String _usuariAplicacioID_, java.lang.String _entitatID_, java.lang.String _emailAdmin_, int _callbackVersio_, java.lang.String _callbackURL_, boolean _actiu_, java.lang.String _idiomaID_, java.lang.String _descripcio_, java.lang.Long _logoSegellID_, int _politicaDePluginFirmaWeb_, int _politicaCustodia_, java.lang.Long _custodiaInfoID_, boolean _crearUsuaris_) throws I18NException {
+		UsuariAplicacioJPA __bean =  new UsuariAplicacioJPA(_usuariAplicacioID_,_entitatID_,_emailAdmin_,_callbackVersio_,_callbackURL_,_actiu_,_idiomaID_,_descripcio_,_logoSegellID_,_politicaDePluginFirmaWeb_,_politicaCustodia_,_custodiaInfoID_,_crearUsuaris_);
 		return create(__bean);
 	}
 
