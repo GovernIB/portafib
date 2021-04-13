@@ -1,7 +1,5 @@
 package es.caib.portafib.back.controller.dest.proces;
 
-import org.apache.log4j.Logger;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,8 +13,6 @@ public class Carret implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Logger log = Logger.getLogger(getClass());
-
     private final Map<Long, Long> estatsPeticions;
     private final List<Long> estatsProcessar;
     private int index;
@@ -28,10 +24,8 @@ public class Carret implements Serializable {
         if (estatsPeticions == null || estatsPeticions.isEmpty()) {
             throw new IllegalArgumentException("estatsPeticions no pot ser null o buid");
         }
-        log.info(estatsPeticions);
         this.estatsPeticions = Collections.unmodifiableMap(estatsPeticions);
         this.estatsProcessar = Collections.unmodifiableList(new ArrayList<Long>(estatsPeticions.keySet()));
-        log.info(estatsProcessar);
         this.index = 0;
     }
 
