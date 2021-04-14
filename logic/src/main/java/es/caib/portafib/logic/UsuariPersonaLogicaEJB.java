@@ -119,7 +119,7 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
 
   @Override
   public UsuariPersonaJPA createFull(UsuariPersonaJPA usuariPersonaJPA)
-    throws I18NException, I18NValidationException, Exception {
+    throws I18NException, I18NValidationException {
     
     if (usuariPersonaJPA == null) {
       return null;

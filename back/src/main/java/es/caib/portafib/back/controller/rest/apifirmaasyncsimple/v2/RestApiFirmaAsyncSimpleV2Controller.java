@@ -28,8 +28,8 @@ import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
-import es.caib.portafib.logic.PluginDeCustodiaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
+import es.caib.portafib.logic.usuaris.CreateUsuariServiceLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
@@ -69,7 +69,6 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSigne
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSigner;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignerInfo;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleValidationInfo;
-import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
@@ -139,14 +138,14 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-  @EJB(mappedName = PluginDeCustodiaLogicaLocal.JNDI_NAME)
-  private PluginDeCustodiaLogicaLocal pluginDeCustodiaLogicaEjb;
-
   @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)
   private FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
   
-  @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
+  @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
   protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
+
+  @EJB(mappedName = CreateUsuariServiceLocal.JNDI_NAME)
+  protected CreateUsuariServiceLocal createUsuariServiceEjb;
 
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
@@ -319,8 +318,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   @Consumes(MediaType.APPLICATION_JSON)
   public ResponseEntity<?> createAndStartSignatureRequestWithFlowTemplateCode(
       HttpServletRequest request,
-      @RequestBody FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode signatureRequest)
-      throws AbstractApisIBException {
+      @RequestBody FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode signatureRequest) {
 
     String error = autenticateUsrApp(request);
     if (error != null) {
@@ -778,15 +776,11 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       
 
       // Obtenir de la petició de firma la informació de la POlitica de Firma Utilitzada
-      final Boolean policyIncluded;
+      final boolean policyIncluded;
       {
         UsuariAplicacioConfiguracioJPA config;
         config = configuracioUsuariAplicacioLogicaLocalEjb.findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
-        if (SignatureUtils.getPolicyInfoSignature(LoginInfo.getInstance().getEntitat(), config) == null) {
-          policyIncluded = false;
-        } else {
-          policyIncluded = true;
-        }
+        policyIncluded = SignatureUtils.getPolicyInfoSignature(LoginInfo.getInstance().getEntitat(), config) != null;
       }
 
       FirmaAsyncSimpleCustodyInfo custodyInfo;
@@ -1032,9 +1026,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
   /**
    * Check propietari de la peticio de firma
-   * 
-   * @param peticioDeFirmaID
-   * @throws I18NException
+   *
    */
   protected void checkIfPeticioDeFirmaIsPropertyOfUsrApp(long peticioDeFirmaID,
       String userapp, boolean hasRoleAdmin) throws I18NException {
@@ -1125,7 +1117,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     if (annexs != null && annexs.size() != 0) {
       Set<AnnexJPA> annexsJPA = new HashSet<AnnexJPA>();
       for (FirmaAsyncSimpleAnnex annexBean : annexs) {
-        annexsJPA.add(toJPA(annexBean, fitxerLogicaEjb, fitxersCreats));
+        annexsJPA.add(toJPA(annexBean, fitxersCreats));
       }
       jpa.setAnnexs(annexsJPA);
     }
@@ -1138,24 +1130,14 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       throw new I18NException("genapp.comodi", msg);
     } else {
       jpa.setFluxDeFirmes(toJPA(blocks, entitatJPA.getEntitatID(), fitxersCreats, 
-          languageUI, signatureRequest.getTitle()));
+          languageUI, signatureRequest.getTitle(), usrapp.isCrearUsuaris()));
     }
 
     return jpa;
   }
 
-  /**
-   * 
-   * @param blocks
-   * @param entitatID
-   * @param fitxersCreats
-   * @param languageUI
-   * @param titolPeticio
-   * @return
-   * @throws I18NException
-   */
   protected FluxDeFirmesJPA toJPA(FirmaAsyncSimpleSignatureBlock[] blocks, String entitatID,
-      Set<Long> fitxersCreats, String languageUI, String titolPeticio) throws I18NException {
+      Set<Long> fitxersCreats, String languageUI, String titolPeticio, boolean canCreate) throws I18NException {
 
     // #562
     String nomFlux = "Flux per Petició Async " + titolPeticio;
@@ -1167,7 +1149,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     Set<BlocDeFirmesJPA> blocsDeFirmesJPA = new HashSet<BlocDeFirmesJPA>();
     for (int b = 0; b < blocks.length; b++) {
       FirmaAsyncSimpleSignatureBlock bloc = blocks[b];
-      blocsDeFirmesJPA.add(toJPA(b, bloc, entitatID, fitxersCreats, languageUI));
+      blocsDeFirmesJPA.add(toJPA(b, bloc, entitatID, fitxersCreats, languageUI, canCreate));
     }
     jpa.setBlocDeFirmess(blocsDeFirmesJPA);
 
@@ -1175,7 +1157,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   }
 
   protected BlocDeFirmesJPA toJPA(int ordre, FirmaAsyncSimpleSignatureBlock bloc,
-      String entitatID, Set<Long> fitxersCreats, String languageUI) throws I18NException {
+      String entitatID, Set<Long> fitxersCreats, String languageUI, boolean canCreate) throws I18NException {
 
     if (bloc == null) {
       // XYZ ZZZ TRA
@@ -1197,7 +1179,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     Set<FirmaJPA> firmesJPA = new HashSet<FirmaJPA>();
     for (FirmaAsyncSimpleSignature firmaBean : firmants) {
 
-      firmesJPA.add(toJPA(firmaBean, entitatID, fitxersCreats, languageUI));
+      firmesJPA.add(toJPA(firmaBean, entitatID, fitxersCreats, languageUI, canCreate));
 
       jpa.setFirmas(firmesJPA);
     }
@@ -1206,7 +1188,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   }
 
   protected FirmaJPA toJPA(FirmaAsyncSimpleSignature firmaBean, String entitatID,
-      Set<Long> fitxersCreats, String languageUI) throws I18NException {
+      Set<Long> fitxersCreats, String languageUI, boolean canCreate) throws I18NException {
 
     if (firmaBean == null) {
       // XYZ ZZZ TRA
@@ -1234,7 +1216,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     int minimDeRevisors = firmaBean.getMinimumNumberOfRevisers();
 
     java.lang.String destinatariID = searchUser(firmaBean.getSigner(), entitatID,
-        FirmaFields.DESTINATARIID, languageUI);
+        FirmaFields.DESTINATARIID, languageUI, canCreate);
     java.lang.Long fitxerFirmatID = null;
     
     
@@ -1275,7 +1257,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
       for (FirmaAsyncSimpleReviser rev : revisors) {
         String usuariEntitatID = searchUser(rev, entitatID,
-            RevisorDeFirmaFields.USUARIENTITATID, languageUI);
+            RevisorDeFirmaFields.USUARIENTITATID, languageUI, false);//canCreate=false pq no cream automàticament revisors
         RevisorDeFirmaJPA revisor = new RevisorDeFirmaJPA(usuariEntitatID, 0, rev.isRequired());
         revisorsJPA.add(revisor);
       }
@@ -1284,15 +1266,10 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     return jpa;
   }
 
-  /**
-   * 
-   * @param person
-   * @param entitatID
-   * @param camp
-   * @return
-   * @throws I18NException
-   */
-  protected String searchUser(FirmaAsyncSimplePerson person, String entitatID, Field<?> camp, String languageUI)
+  protected String searchUser(FirmaAsyncSimplePerson person,
+                              String entitatID, Field<?> camp,
+                              String languageUI,
+                              boolean canCreate)
       throws I18NException {
 
     int count = 0;
@@ -1340,26 +1317,28 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
               + camp.fullName);
     }
 
-    UsuariEntitatJPA ue = null;
+    UsuariEntitatJPA ue;
     switch (type) {
 
       case 0: // NIF
-        ue = usuariEntitatLogicaEjb.findUsuariEntitatInternByNif(entitatID,
-            person.getAdministrationID());
+        ue = canCreate
+                ? createUsuariServiceEjb.getOrCreateByAdministrationId(person.getAdministrationID(), entitatID)
+                : usuariEntitatLogicaEjb.findUsuariEntitatInternByNif(entitatID, person.getAdministrationID());
         if (ue == null) {
           // XYZ ZZZ TRA
           throw new I18NException("genapp.comodi", "No existeix cap usuari amb NIF "
-              + person.getAdministrationID());
+              + person.getAdministrationID() + " i l'aplicació no té permís per crear-ne");
         }
       break;
 
       case 1: // Username
-        ue = usuariEntitatLogicaEjb.findUsuariEntitatByUsername(entitatID,
-            person.getUsername());
+        ue = canCreate
+                ? createUsuariServiceEjb.getOrCreateByUsername(person.getUsername(), entitatID)
+                : usuariEntitatLogicaEjb.findUsuariEntitatByUsername(entitatID, person.getUsername());
         if (ue == null) {
           // XYZ ZZZ TRA
           throw new I18NException("genapp.comodi", "No existeix cap usuari amb username "
-              + person.getUsername());
+              + person.getUsername() + " i l'aplicació no té permís per crear-ne");
         }
 
       break;
@@ -1514,8 +1493,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
   }
 
-  protected AnnexJPA toJPA(FirmaAsyncSimpleAnnex annexBean, FitxerLogicaLocal fitxerEjb,
-      Set<Long> fitxersCreats) throws I18NException, I18NValidationException {
+  protected AnnexJPA toJPA(FirmaAsyncSimpleAnnex annexBean, Set<Long> fitxersCreats) throws I18NException, I18NValidationException {
     if (annexBean == null) {
       return null;
     }
@@ -1530,7 +1508,6 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     jpa.setFitxer(null);
 
     return jpa;
-
   }
 
   protected MetadadaJPA toJPA(FirmaAsyncSimpleMetadata metadada) {
@@ -1605,13 +1582,10 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
       case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO:
         Long infoCust = entitatJPA.getCustodiaInfoID();
-
-        CustodiaInfoJPA custodia = custodiaInfoLogicaEjb.findByPrimaryKey(infoCust);
-        return custodia;
+        return custodiaInfoLogicaEjb.findByPrimaryKey(infoCust);
 
       default:
       case ConstantsV2.POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT:
-
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU:
       case ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL:
         // XYZ ZZZ TRA

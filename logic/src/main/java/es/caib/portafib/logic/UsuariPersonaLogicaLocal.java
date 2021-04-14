@@ -27,7 +27,7 @@ public interface UsuariPersonaLogicaLocal extends UsuariPersonaLocal {
   public Set<Long> deleteFull(String usuariPersonaID) throws I18NException;
 
   public UsuariPersonaJPA createFull(UsuariPersonaJPA usuariPersonaJPA) throws I18NException,
-      I18NValidationException, Exception;
+      I18NValidationException;
 
   public UserInfo checkAdministrationIDInUserInformationPlugin(String nif) throws I18NException;
   

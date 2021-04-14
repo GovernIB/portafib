@@ -1,5 +1,7 @@
 package es.caib.portafib.utils;
 
+import java.util.Locale;
+
 /**
  * 
  * @author anadal
@@ -26,6 +28,11 @@ public class Configuracio implements ConstantsV2 {
 
   public static String getDefaultLanguage() {
     return System.getProperty(PORTAFIB_PROPERTY_BASE + "defaultlanguage", "ca");
+  }
+
+  public static Locale getDefaultLocale() {
+    String defaultLanguage = System.getProperty(PORTAFIB_PROPERTY_BASE + "defaultlanguage", "ca");
+    return new Locale(defaultLanguage);
   }
 
   /**

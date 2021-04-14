@@ -54,7 +54,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
-import javax.ejb.Startup;
 import javax.ejb.Stateless;
 
 import java.util.ArrayList;
@@ -72,7 +71,6 @@ import java.util.UUID;
  */
 @Stateless(name = "UsuariEntitatLogicaEJB")
 @SecurityDomain("seycon")
-@Startup
 public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     UsuariEntitatLogicaLocal, ConstantsV2 {
 

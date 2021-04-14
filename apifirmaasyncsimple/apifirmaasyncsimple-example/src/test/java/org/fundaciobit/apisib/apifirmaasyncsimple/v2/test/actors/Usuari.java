@@ -15,13 +15,15 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 public abstract class Usuari {
 
-    protected final String administrationId;
+    private final String administrationId;
+    private final String username;
+
     protected final WebDriver webDriver;
     protected final String baseUrl;
 
     protected Usuari(String administrationId, final String username, final String password, String baseUrl) {
         this.administrationId = administrationId;
-
+        this.username = username;
         webDriver = new HtmlUnitDriver(BrowserVersion.CHROME, true) {
             @Override
             protected WebClient modifyWebClient(WebClient client) {
@@ -62,5 +64,9 @@ public abstract class Usuari {
 
     public String getAdministrationId() {
         return administrationId;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
