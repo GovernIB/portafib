@@ -14,7 +14,7 @@
     LoginInfo.getInstance().setNeedConfigUser(false);
   %>
   <c:redirect
-    url="/common/configuracio/usuaripersona/${loginInfo.usuariPersona.usuariPersonaID }/edit" />
+    url="/common/configuracio/usuaripersona/${loginInfo.usuariPersona.usuariPersonaID}/edit" />
 </c:if>
 
 <c:if test="${not empty loginInfo.entitatID}">

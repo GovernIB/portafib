@@ -49,13 +49,10 @@ import java.util.TreeSet;
 public class AuthenticationSuccessListener implements
     ApplicationListener<InteractiveAuthenticationSuccessEvent> {
   
-  protected final Logger log = Logger.getLogger(getClass());
-  
-  
-  /* public static final Set<String> allowedApplicationContexts = new HashSet<String>(); */
+  private final Logger log = Logger.getLogger(getClass());
 
   @Override
-  public synchronized void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
+  public void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
 
     SecurityContext sc = SecurityContextHolder.getContext();
     Authentication au = sc.getAuthentication();
@@ -89,11 +86,11 @@ public class AuthenticationSuccessListener implements
     Collection<GrantedAuthority> seyconAuthorities = user.getAuthorities();
     boolean containsRoleUser = false;
     boolean containsRoleAdmin = false;
+    boolean containsRoleAny = false;
     for (GrantedAuthority grantedAuthority : seyconAuthorities) {
       String rol = grantedAuthority.getAuthority();
-
-      if (isDebug) { 
-        log.debug("Rol SEYCON : " + rol);
+      if (ConstantsV2.ROLE_ANY.equals(rol)) {
+        containsRoleAny = true;
       }
       if (ConstantsV2.ROLE_USER.equals(rol)) {
         containsRoleUser = true;
@@ -103,7 +100,7 @@ public class AuthenticationSuccessListener implements
       }
     }
 
-    UsuariPersonaLogicaLocal usuariPersonaEjb = null;
+    UsuariPersonaLogicaLocal usuariPersonaEjb;
     try {
       usuariPersonaEjb = EjbManager.getUsuariPersonaLogicaEJB();
     } catch (Throwable e) {
@@ -115,7 +112,7 @@ public class AuthenticationSuccessListener implements
     UsuariPersonaJPA usuariPersona = usuariPersonaEjb.findByPrimaryKeyFull(name);
     boolean necesitaConfigurar = false;
     
-    if (usuariPersona == null) {
+    if (usuariPersona == null && (containsRoleUser || containsRoleAdmin)) {
       // Revisar si és un Administrador que entra per primera vegada 
       if (isDebug) { 
         log.debug("Configuracio.getDefaultEntity() = ]" + PropietatGlobalUtil.getDefaultEntity() + "[");
@@ -190,13 +187,8 @@ public class AuthenticationSuccessListener implements
             necesitaConfigurar = true;
             
             UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
-            
             try {
               usuariEntitatLogicaEjb = EjbManager.getUsuariEntitatLogicaEJB();
-                  /*
-                  (UsuariEntitatLogicaLocal) new InitialContext()
-                  .lookup("portafib/UsuariEntitatLogicaEJB/local");
-                  */
             } catch (Exception e) {
               // TODO traduccio
               throw new LoginException("No puc accedir al gestor d´obtenció de" +
@@ -230,90 +222,6 @@ public class AuthenticationSuccessListener implements
            log.error("Error llegint informació del plugin de Login: " + msg, e);
         }
       }
-      
-      /*   NO ESBORRAR !!!!
-      if (usuariPersona == null) {
-
-        // =======================================================
-        // Revisar si és un Usuari-Aplicació que ataca via REST
-        // =======================================================
-        
-//        HttpServletRequest request =  ((ServletRequestAttributes) RequestContextHolder.
-//                    currentRequestAttributes()).
-//                    getRequest();
-//        
-        // TODO Mirar Classe es.caib.portafib.back.controller.apifirmawebsimple.v1.RestApiFirmaWebSimpleV1Controller
-        // CONTEXT = /common/rest/apifirmawebsimple/v1  => ServletPath
-//        String servletPath = request.getServletPath();
-//        boolean found = false;
-        
-//        for (String baseServletPath : allowedApplicationContexts) {
-//          if (servletPath.startsWith(baseServletPath)) {
-//            log.info("TROBADA BASE AUTORITZADA " + baseServletPath + " per RUTA " + servletPath);
-//            found = true;
-//            break;
-//          }
-//        }
-//        
-//        if (!found) {
-//        
-//          log.info(" +++++++++++++++++ SERVLET REQUEST INFO ++++++++++++++++++++++\n");
-//          log.info(" ++++ Scheme: " + request.getScheme() + "\n");
-//          log.info(" ++++ ServerName: " + request.getServerName() + "\n");
-//          log.info(" ++++ ServerPort: " + request.getServerPort() + "\n");
-//          log.info(" ++++ PathInfo: " + request.getPathInfo() + "\n");
-//          log.info(" ++++ PathTrans: " + request.getPathTranslated() + "\n");
-//          log.info(" ++++ ContextPath: " + request.getContextPath() + "\n");
-//          log.info(" ++++ ServletPath: " + request.getServletPath() + "\n");
-//          log.info(" ++++ getRequestURI: " + request.getRequestURI() + "\n");
-//          log.info(" ++++ getRequestURL: " + request.getRequestURL() + "\n");
-//          log.info(" ++++ getQueryString: " + request.getQueryString() + "\n");
-//          log.info(" ++++ javax.servlet.forward.request_uri: "
-//            + (String) request.getAttribute("javax.servlet.forward.request_uri")  + "\n");
-//          log.info(" ===============================================================");
-//          // XYZ ZZZ TRA Traduir
-//          throw new LoginException("Esta intentant accedir a una zona no permesa amb un usuari aplicació");
-//        }
-
-
-        UsuariAplicacioLogicaLocal usuariAplicacioEjb = null;
-        try {
-          usuariAplicacioEjb = EjbManager.getUsuariAplicacioLogicaEJB();
-        } catch (Throwable e) {
-          // XYZ ZZZ TRA traduccio
-          throw new LoginException("No puc accedir al EJB d'usuari-aplicacio: " + e.getMessage(), e);
-        }
-
-        
-        UsuariAplicacioJPA usuariAplicacio = usuariAplicacioEjb.findByPrimaryKeyFull(name);
-        if (usuariAplicacio == null) {
-          throw new LoginException("L'usuari " + name
-              + " està autenticat però no s'ha donat d'alta en PortaFIB");
-        }
-        
-        EntitatJPA entitat = usuariAplicacio.getEntitat();
-        if (entitat != null) {
-          // Check deshabilitada
-          if (!entitat.isActiva()) {        
-            throw new LoginException("L'entitat " + entitat.getNom() 
-                +  " a la que està associat l'usuari-aplicacio " + name + " esta deshabilitada.");
-          }
-        }
-        
-        // create a new authentication token for usuariAplicacio
-        LoginInfo loginInfo = new LoginInfo(user, usuariAplicacio, 
-            entitat, seyconAuthorities);
-
-        // and set the authentication of the current Session context
-        SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
-        
-        log.info("XYZ ZZZ ZZZ Inicialitzada Informació de UsuariAplicacio dins de LoginInfo");
-        
-        return;
-        
-      }
-       */
-      
     }
     
 
@@ -337,9 +245,9 @@ public class AuthenticationSuccessListener implements
         usuariEntitats = new HashSet<UsuariEntitatJPA>();
     }
 
-    if (!containsRoleUser && usuariEntitats.size() != 0) {
+    if (!(containsRoleUser || containsRoleAny) && usuariEntitats.size() != 0) {
       // L'usuari " + name + " està assignat a una o varies 
-      // entitats però no té el rol PFI_USER";
+      // entitats però no té el rol PFI_USER ni tothom" ;
       I18NTranslation translation = new I18NTranslation("error.sensepfiuser", name);
       log.error("");
       log.error(I18NUtils.tradueix(translation));
@@ -356,7 +264,7 @@ public class AuthenticationSuccessListener implements
     // Seleccionam l'entitat per defecte i verificam que les entitats disponibles siguin correctes
     Map<String, EntitatJPA> entitats = new HashMap<String, EntitatJPA>();
     Map<String, Set<GrantedAuthority>> rolesPerEntitat = new HashMap<String, Set<GrantedAuthority>>();
-    rolesPerEntitat.put((String)null, new HashSet<GrantedAuthority>(seyconAuthorities));
+    rolesPerEntitat.put(null, new HashSet<GrantedAuthority>(seyconAuthorities));
     Map<String, UsuariEntitatJPA> usuariEntitatPerEntitatID = new HashMap<String, UsuariEntitatJPA>();
     Entitat entitatPredeterminada = null;
     for (UsuariEntitatJPA usuariEntitat : usuariEntitats) {
@@ -395,15 +303,9 @@ public class AuthenticationSuccessListener implements
       if (entitatPredeterminada == null) {
         entitatPredeterminada = entitat;
       }
-      // Cercam Rols Virtuals ROLE_USER de PortaFIB
-      if (containsRoleUser) {        
+      // Cercam Rols Virtuals ROLE_USER / ROLE_ANY de PortaFIB
+      if (containsRoleUser || containsRoleAny) {
         Set<RoleUsuariEntitatJPA> rolesEntitat = usuariEntitat.getRoleUsuariEntitats();
-       /* if (rolesEntitat == null || rolesEntitat.size() == 0) {
-          // TODO traduccio
-          throw new LoginException("L'usuari " + name
-              + " té el rol SEYCON ROLE_USER però no té definits rols PORTAFIB per l'entitat "
-              + entitat.getNom() + ": " + rolesEntitat);
-        }*/
         Set<GrantedAuthority> rolesPortaFIB = new TreeSet<GrantedAuthority>(GRANTEDAUTHORITYCOMPARATOR);
         rolesPortaFIB.addAll(seyconAuthorities);
         boolean usuariAplicacioPerPerticionsIsNull = (entitat.getUsuariAplicacioID() == null);
@@ -446,10 +348,10 @@ public class AuthenticationSuccessListener implements
 
     
     if (entitats.size() == 0 && !containsRoleAdmin) {
-      
+
       if (usuariEntitats.size() == 0) {
         // L'usuari " + name + " no té cap entitat associada. Consulti amb l'Administrador
-        I18NTranslation translation = new I18NTranslation("error.senseentitat", name);        
+        I18NTranslation translation = new I18NTranslation("error.senseentitat", name);
         BasePreparer.loginErrorMessage.put(name, translation);
       } else {
         // Les entitats a les que pertany estan desactivades
@@ -467,9 +369,7 @@ public class AuthenticationSuccessListener implements
       }
     }
 
-    LoginInfo loginInfo;
-    // create a new authentication token
-    loginInfo = new LoginInfo(user, usuariPersona, entitatIDActual,
+    LoginInfo loginInfo = new LoginInfo(user, usuariPersona, entitatIDActual,
         entitats, rolesPerEntitat, usuariEntitatPerEntitatID, necesitaConfigurar);
 
     // and set the authentication of the current Session context
@@ -481,9 +381,7 @@ public class AuthenticationSuccessListener implements
     log.debug(" =================================================================");
 
   }
-  
-  
-  
+
   public static final Comparator<GrantedAuthority> GRANTEDAUTHORITYCOMPARATOR = new Comparator<GrantedAuthority>() {
     @Override
     public int compare(GrantedAuthority o1, GrantedAuthority o2) {

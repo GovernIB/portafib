@@ -13,7 +13,6 @@ import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
-import es.caib.portafib.back.security.LoginException;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -42,13 +41,7 @@ public class LoginInfo {
   String entitatIDActual;
   
   boolean needConfigUser;
-  
-  
-  /**
-   * @param usuari
-   * @param entitatActual
-   * @param roles
-   */
+
   public LoginInfo(User springSecurityUser, UsuariPersonaJPA usuariPersona, String entitatIDActual,
       Map<String, EntitatJPA> entitats, Map<String, Set<GrantedAuthority>> rolesPerEntitat,
       Map<String, UsuariEntitatJPA> usuariEntitatPerEntitatID, boolean needConfigUser) {
@@ -67,11 +60,6 @@ public class LoginInfo {
   
   /**
    * Login per usuari aplicacio
-   * 
-   * @param springSecurityUser
-   * @param usuariAplicacio
-   * @param entitat
-   * @param roles
    */
   public LoginInfo(User springSecurityUser, UsuariAplicacioJPA usuariAplicacio,
       EntitatJPA entitat, Collection<GrantedAuthority> roles) {
@@ -83,7 +71,7 @@ public class LoginInfo {
     }
 
     Map<String, Set<GrantedAuthority>> rolesPerEntitat = new HashMap<String, Set<GrantedAuthority>>();
-    rolesPerEntitat.put((String) null, new HashSet<GrantedAuthority>(roles));
+    rolesPerEntitat.put(null, new HashSet<GrantedAuthority>(roles));
     if (entitat != null) {
       rolesPerEntitat.put(entitat.getEntitatID(), new HashSet<GrantedAuthority>(roles));
     }
@@ -108,8 +96,6 @@ public class LoginInfo {
     this.needConfigUser = false;
 
   }
-  
-  
 
   public UsuariPersonaJPA getUsuariPersona() {
     return usuariPersona;
@@ -122,8 +108,7 @@ public class LoginInfo {
   /**
    * Aquest és l'únic mètode necessari per canviar d'entitat a part
    * d'actualitzar el token
-   * 
-   * @param novaEntitatID
+   *
    */
   public void setEntitatID(String novaEntitatID) {
     EntitatJPA novaEntitat = this.entitats.get(novaEntitatID);
@@ -196,19 +181,9 @@ public class LoginInfo {
   }
 
   public UsernamePasswordAuthenticationToken generateToken() {
-    UsernamePasswordAuthenticationToken authToken;
     Set<GrantedAuthority> roles = getRoles();
-    /*
-    Set<GrantedAuthority> roles;
-    if (this.entitatIDActual == null) {
-      roles = new HashSet<GrantedAuthority>();
-      roles.add(new SimpleGrantedAuthority(Constants.ROLE_ADMIN));
-    } else {
-      roles = getRoles();
-    }
-    */
-    authToken = new UsernamePasswordAuthenticationToken(this.springSecurityUser, "",
-        roles);
+    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+            this.springSecurityUser, "", roles);
     authToken.setDetails(this);
     return authToken;
   }

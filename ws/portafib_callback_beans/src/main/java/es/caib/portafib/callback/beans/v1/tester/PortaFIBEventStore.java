@@ -33,12 +33,13 @@ public class PortaFIBEventStore {
   public static void addEvent(PortaFIBEvent portaFIBEvent) {
 
     Random random = new Random();
-    int sort = random.nextInt(10);
 
     // Un 10% de les peticions donen un error
+    /*
+    int sort = random.nextInt(10);
     if (sort == 0) {
       throw new RuntimeException("Ha donat un error");
-    }
+    }*/
 
     // La resta tarda entre 0,5 i 1,5 segons
     try {

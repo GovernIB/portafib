@@ -3,6 +3,7 @@
 <%@page import="java.util.List"%>
 <%@page import="es.caib.portafib.utils.Configuracio"
 %><%@page import="es.caib.portafib.utils.ConstantsV2"
+%><%@page import="es.caib.portafib.back.security.LoginInfo"
 %><%@page import="java.util.HashMap"
 %><%@page import="java.util.Map"
 %><%@page contentType="text/html;charset=UTF-8" language="java"
@@ -11,48 +12,25 @@
 
 <div>
   <h5><fmt:message key="ROLE_DEST.menu" /></h5>
-
-   <%!
-
-private static final List<List<MenuItem>> menus  = new ArrayList<List<MenuItem>>();
-    
-static {
-  
-  List<MenuItem> menu1;
-  
-  boolean compactar= false;
-  
-  menu1 = new ArrayList<MenuItem>();
+  <%
+  List<MenuItem> menu1 = new ArrayList<MenuItem>(10);
 
   if (Configuracio.isDesenvolupament()){
     menu1.add(MenuItem.retallaDarrerPath("solicituddefirma.llistat.totes.plural", ConstantsV2.CONTEXT_DEST_ESTATFIRMA  + "/list"));
     menu1.add(null);
   }
-
   menu1.add(MenuItem.retallaDarrerPath("solicituddefirma.llistat.pendent.plural", ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list"));
   menu1.add(MenuItem.retallaDarrerPath("solicituddefirma.llistat.acceptada.plural", ConstantsV2.CONTEXT_DEST_ESTATFIRMA_FIRMAT + "/list"));
   menu1.add(MenuItem.retallaDarrerPath("solicituddefirma.llistat.noacceptada.plural", ConstantsV2.CONTEXT_DEST_ESTATFIRMA_REBUTJAT + "/list"));
 
-  menu1.add(null);
+  if (LoginInfo.getInstance().hasRole("ROLE_USER")) {
+    menu1.add(null);
+    menu1.add(MenuItem.retallaDarrerPath("colaboracio.gestio", "/dest/colaborador/list"));
+    menu1.add(null);
+    menu1.add(MenuItem.retallaDarrerPath("delegacio.gestio", "/dest/delegat/list"));
+  }
 
-  menu1.add(MenuItem.retallaDarrerPath("colaboracio.gestio", "/dest/colaborador/list"));
-
-  menu1.add(null);
-
-  menu1.add(MenuItem.retallaDarrerPath("delegacio.gestio", "/dest/delegat/list"));  
-
-
-  menus.add(menu1);
-
-}
-
-
-%><%
-
-int count = 0;
-
-for(List<MenuItem> menu : menus) {
-  pageContext.setAttribute("menu", menu);
+  pageContext.setAttribute("menu", menu1);
 %>
   <ul class="tree" style="margin: 3px; padding: 0px;">
     <c:forEach var="item" items="${menu}" >
@@ -72,18 +50,7 @@ for(List<MenuItem> menu : menus) {
       </li>
     </c:if>
     </c:forEach>
-
   </ul>
-  
-  <%  
- 
-  count++;
-  
-}  // final FOR 
-  %>
-  
-  
-  
-  
+
 </div>
 </sec:authorize>

@@ -2,7 +2,6 @@ package es.caib.portafib.back.preparer;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -68,19 +67,21 @@ public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
             }
 
             // Error de Login
-            final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
+            if (loginInfo.getUsuariPersona() != null) {
+                final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
 
-            I18NTranslation trans = loginErrorMessage.get(username);
-            if (trans == null) {
-                String msg = (String) httpRequest.getSession().getAttribute("loginerror");
-                if (msg != null) {
+                I18NTranslation trans = loginErrorMessage.get(username);
+                if (trans == null) {
+                    String msg = (String) httpRequest.getSession().getAttribute("loginerror");
+                    if (msg != null) {
+                        HtmlUtils.saveMessageError(httpRequest, msg);
+                    }
+                } else {
+                    loginErrorMessage.remove(username);
+                    String msg = I18NUtils.tradueix(trans);
                     HtmlUtils.saveMessageError(httpRequest, msg);
+                    httpRequest.getSession().setAttribute("loginerror", msg);
                 }
-            } else {
-                loginErrorMessage.remove(username);
-                String msg = I18NUtils.tradueix(trans);
-                HtmlUtils.saveMessageError(httpRequest, msg);
-                httpRequest.getSession().setAttribute("loginerror", msg);
             }
 
             request.put("urlActual", httpRequest.getServletPath());
@@ -113,18 +114,18 @@ public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
         // Pipella
         request.put("pipella", attributeContext.getAttribute("pipella"));
 
-        boolean containsRoleUser = false;
+        boolean isUserOrAny = false;
         Set<GrantedAuthority> rolesSeycon = loginInfo.getRolesPerEntitat().get(null);
         //log.info("BasePreparer:: rolesSeycon (" + rolesSeycon.size() + ")" );
         for (GrantedAuthority ga : rolesSeycon) {
             String rol = ga.getAuthority();
             //log.info("     Seycon = " + rol);
-            if (ConstantsV2.ROLE_USER.equals(rol)) {
-                containsRoleUser = true;
+            if (ConstantsV2.ROLE_USER.equals(rol) || ConstantsV2.ROLE_ANY.equals(rol)) {
+                isUserOrAny = true;
             }
         }
 
-        if (containsRoleUser && loginInfo.getEntitatID() != null) {
+        if (isUserOrAny && loginInfo.getEntitatID() != null) {
 
             // Avisos
             Map<String, Long> avisos = new HashMap<String, Long>();

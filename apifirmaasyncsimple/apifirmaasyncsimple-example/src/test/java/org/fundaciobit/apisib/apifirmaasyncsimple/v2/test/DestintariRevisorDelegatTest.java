@@ -201,9 +201,6 @@ public class DestintariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
 
         Assert.assertEquals(firmesA, destinatariA.tasquesPendents());
         Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
-
-        destinatariB.tasquesPendents();
-        destinatariB.firmarDarreraPeticio();
     }
 
     @Test

@@ -4,12 +4,14 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import es.caib.portafib.utils.Configuracio;
 import org.apache.log4j.Logger;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.util.WebUtils;
 
 import es.caib.portafib.back.security.LoginInfo;
+
 /**
  * 
  * @author anadal
@@ -24,16 +26,15 @@ public class PortaFIBSessionLocaleResolver extends SessionLocaleResolver {
     LoginInfo loginInfo = null;
     try {
       loginInfo = LoginInfo.getInstance();  
-    } catch (Exception e) {
-    }
+    } catch (Exception ignore) {}
     
     if (loginInfo != null) {
       try {
-        String idioma;      
-        if (loginInfo.getUsuariPersona() == null) {
-          idioma = loginInfo.getUsuariAplicacio().getIdiomaID();
-        } else {
+        String idioma = Configuracio.getDefaultLanguage();
+        if (loginInfo.getUsuariPersona() != null) {
           idioma = loginInfo.getUsuariPersona().getIdiomaID();
+        } else if (loginInfo.getUsuariAplicacio() != null) {
+          idioma = loginInfo.getUsuariAplicacio().getIdiomaID();
         }
         Locale loc = new Locale(idioma);
         LocaleContextHolder.setLocale(loc);
@@ -50,9 +51,7 @@ public class PortaFIBSessionLocaleResolver extends SessionLocaleResolver {
     
     return super.determineDefaultLocale(request);  
   }
-  
-  
-  
+
   public static void setLocaleManually(HttpServletRequest request, String idioma) {
     Locale loc = new Locale(idioma);
     LocaleContextHolder.setLocale(loc);

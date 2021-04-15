@@ -195,6 +195,7 @@
         <auth-constraint>
             <role-name>PFI_USER</role-name>
             <role-name>PFI_ADMIN</role-name>
+            <role-name>tothom</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -202,7 +203,6 @@
         <web-resource-collection>
             <web-resource-name>portafib_back-user</web-resource-name>
             <url-pattern>/soli/*</url-pattern>
-            <url-pattern>/dest/*</url-pattern>
             <url-pattern>/dele/*</url-pattern>
             <url-pattern>/cola/*</url-pattern>
             <url-pattern>/revi/*</url-pattern>
@@ -210,6 +210,17 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>PFI_USER</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>portafib_back-dest</web-resource-name>
+            <url-pattern>/dest/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>PFI_USER</role-name>
+            <role-name>tothom</role-name>
         </auth-constraint>
     </security-constraint>
 

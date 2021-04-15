@@ -11,7 +11,7 @@
   <%
    LoginInfo.getInstance().setNeedConfigUser(false);
   %>
-  <c:redirect url="/common/configuracio/usuaripersona/${loginInfo.usuariPersona.usuariPersonaID }/edit"/>
+  <c:redirect url="/common/configuracio/usuaripersona/${loginInfo.usuariPersona.usuariPersonaID}/edit"/>
 </c:if>
 
 <c:if test="${not empty loginInfo.entitatID}" >
@@ -43,38 +43,29 @@
 
     <c:forEach var="rolG" items="${loginInfo.roles}">
     <c:set var="rol" value="${rolG.authority}"/>
-    <c:if test="${not( (rol eq 'ROLE_USER') || (rol eq 'ROLE_AUTOFIRMA') )}">
-    <li class="${(pipella eq rol)?'active' : '' }${(rol eq 'ROLE_COLA')?' dropdown' : '' }">
-    
-    <c:url var="linktab" value="/canviarPipella/${rol}"/>
-    <c:set var="href" value="href=\"${linktab}\"" />
-    
-        <%-- MMMENU  
-       <c:if test="${rol eq 'ROLE_COLA' }">
-            <c:set var="href" value="href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\""/>
-       </c:if>
-       --%>
-       
-       <a ${href}><fmt:message key="${rol}" />
-       <c:if test="${not(empty avisos[rol])}">
-         &nbsp; <span id="avisos_${rol}" class="badge badge-warning">${avisos[rol]}</span>
-       </c:if>
-       </a>
-    </li>
-    
-    
-     <c:if test="${rol eq 'ROLE_ADEN' }">
-       <li class="${(pipella eq 'ROLE_ADEN2')?'active' : '' }">
-          <c:url var="linktab" value="/canviarPipella/ROLE_ADEN2"/>
-          <c:set var="href" value="href=\"${linktab}\"" />
-          <a ${href}><fmt:message key="ROLE_ADEN2" />
-          <c:if test="${not(empty avisos['ROLE_ADEN2'])}">
-            &nbsp; <span class="badge badge-warning">${avisos['ROLE_ADEN2']}</span>
-          </c:if>
-          </a>
-          
-       </li>
-     </c:if>
+    <c:if test="${not( (rol eq 'ROLE_ANY') || (rol eq 'ROLE_USER')  || (rol eq 'ROLE_AUTOFIRMA') )}">
+        <li class="${(pipella eq rol)?'active' : '' }${(rol eq 'ROLE_COLA')?' dropdown' : '' }">
+           <c:url var="linktab" value="/canviarPipella/${rol}"/>
+           <c:set var="href" value="href=\"${linktab}\"" />
+           <a ${href}><fmt:message key="${rol}" />
+           <c:if test="${not(empty avisos[rol])}">
+             &nbsp; <span id="avisos_${rol}" class="badge badge-warning">${avisos[rol]}</span>
+           </c:if>
+           </a>
+        </li>
+
+        <c:if test="${rol eq 'ROLE_ADEN' }">
+            <li class="${(pipella eq 'ROLE_ADEN2')?'active' : '' }">
+              <c:url var="linktab" value="/canviarPipella/ROLE_ADEN2"/>
+              <c:set var="href" value="href=\"${linktab}\"" />
+              <a ${href}><fmt:message key="ROLE_ADEN2" />
+              <c:if test="${not(empty avisos['ROLE_ADEN2'])}">
+                &nbsp; <span class="badge badge-warning">${avisos['ROLE_ADEN2']}</span>
+              </c:if>
+              </a>
+
+            </li>
+        </c:if>
     
     </c:if>  
     </c:forEach>

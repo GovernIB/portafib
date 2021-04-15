@@ -107,8 +107,11 @@ public interface ConstantsV2 {
   // ------------------ ROLES VIRTUALS
   // Administrador PortaFIB
   public static final String ROLE_ADMIN = "ROLE_ADMIN";
-  // ROLE USER - SEYCON
-  public static final String ROLE_USER = "ROLE_USER";  
+  // ROLE USER
+  public static final String ROLE_USER = "ROLE_USER";
+  // ROLE Any (tothom)
+  public static final String ROLE_ANY = "ROLE_ANY";
+
   // Destinatari
   public static final String ROLE_DEST = "ROLE_DEST";
   // Delegat
