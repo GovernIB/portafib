@@ -2479,7 +2479,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
             comprovarNifFirma = entitat.isComprovarNifFirma();
           } else {
             UsuariAplicacioConfiguracio configuracio = configuracioDeFirmaLogicaEjb
-                .findByPrimaryKey(confFirmaId);
+                .findByPrimaryKeyUnauthorized(confFirmaId);
 
             validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb,
                 entitatID);

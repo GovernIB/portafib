@@ -1535,7 +1535,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 boolean userRequiresTimeStamp = peticioDeFirma.isSegellatDeTemps();
                 UsuariAplicacioConfiguracioJPA configuracioDefirma = null;
                 if (peticioDeFirma.getConfiguracioDeFirmaID() != null) {
-                    configuracioDefirma = configuracioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
+                    configuracioDefirma = configuracioDeFirmaLogicaEjb.findByPrimaryKeyUnauthorized(peticioDeFirma.getConfiguracioDeFirmaID());
                 }
                 policyInfoSignature = SignatureUtils.getPolicyInfoSignature(entitat, configuracioDefirma);
                 reason = getReasonDestinatariDelegat(entitat, peticioDeFirma, firma, estatDeFirma, up,
