@@ -554,8 +554,7 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("colaboracioDelegacioID");
-
+    initDisallowedFields(binder, "colaboracioDelegacio.colaboracioDelegacioID");
   }
 
   public ColaboracioDelegacioWebValidator getWebValidator() {

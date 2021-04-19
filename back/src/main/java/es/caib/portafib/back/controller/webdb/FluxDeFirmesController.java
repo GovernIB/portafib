@@ -482,8 +482,7 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("fluxDeFirmesID");
-
+    initDisallowedFields(binder, "fluxDeFirmes.fluxDeFirmesID");
   }
 
   public FluxDeFirmesWebValidator getWebValidator() {

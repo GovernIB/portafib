@@ -527,8 +527,7 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("bitacolaID");
-
+    initDisallowedFields(binder, "bitacola.bitacolaID");
   }
 
   public BitacolaWebValidator getWebValidator() {

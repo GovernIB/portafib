@@ -511,8 +511,7 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("propietatGlobalID");
-
+    initDisallowedFields(binder, "propietatGlobal.propietatGlobalID");
   }
 
   public PropietatGlobalWebValidator getWebValidator() {

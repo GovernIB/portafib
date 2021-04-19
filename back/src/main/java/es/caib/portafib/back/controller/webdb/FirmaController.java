@@ -604,8 +604,7 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("firmaID");
-
+    initDisallowedFields(binder, "firma.firmaID");
   }
 
   public FirmaWebValidator getWebValidator() {

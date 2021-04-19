@@ -549,8 +549,7 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("pluginCridadaID");
-
+    initDisallowedFields(binder, "pluginCridada.pluginCridadaID");
   }
 
   public PluginCridadaWebValidator getWebValidator() {

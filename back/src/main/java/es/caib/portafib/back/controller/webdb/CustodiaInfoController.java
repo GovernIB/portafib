@@ -653,8 +653,7 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("custodiaInfoID");
-
+    initDisallowedFields(binder, "custodiaInfo.custodiaInfoID");
   }
 
   public CustodiaInfoWebValidator getWebValidator() {

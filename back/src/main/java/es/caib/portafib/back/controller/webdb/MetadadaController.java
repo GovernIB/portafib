@@ -531,8 +531,7 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("metadadaID");
-
+    initDisallowedFields(binder, "metadada.metadadaID");
   }
 
   public MetadadaWebValidator getWebValidator() {

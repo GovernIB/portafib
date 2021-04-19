@@ -629,8 +629,7 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("pluginID");
-
+    initDisallowedFields(binder, "plugin.pluginID");
   }
 
   public PluginWebValidator getWebValidator() {

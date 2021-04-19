@@ -2171,8 +2171,9 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   public void initBinderForm(WebDataBinder binder) {
     super.initBinderForm(binder);
 
-    binder.setDisallowedFields(FLUXDEFIRMESID.fullName,
-        PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.fullName);
+    initDisallowedFields(binder,
+            FLUXDEFIRMESID.fullName,
+            PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.fullName);
   }
 
 }

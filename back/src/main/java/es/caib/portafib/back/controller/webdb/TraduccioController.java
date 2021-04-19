@@ -482,8 +482,7 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("traduccioID");
-
+    initDisallowedFields(binder, "traduccio.traduccioID");
   }
 
   public TraduccioWebValidator getWebValidator() {
