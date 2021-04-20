@@ -42,7 +42,6 @@ public class GestioNotificacioCorreuController extends RebreAvisController {
   protected es.caib.portafib.logic.UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
 
-
   @Override
   public String getTileForm() {
     return "rebreAvisForm";
@@ -74,8 +73,6 @@ public class GestioNotificacioCorreuController extends RebreAvisController {
     return rebreAvisForm;
   }
 
-
-  
   @Override
   public RebreAvisFilterForm getRebreAvisFilterForm(Integer pagina, ModelAndView mav,
       HttpServletRequest request) throws I18NException {
@@ -168,19 +165,25 @@ public class GestioNotificacioCorreuController extends RebreAvisController {
     return USUARIENTITATID.equal(LoginInfo.getInstance().getUsuariEntitatID());
   }
 
-
   /**
    * LLançam un avis si l'usuariEntitat te marcat rebre totes les notificacions
    * que ja té
    */
-  private void teConfiguratNotificacions(HttpServletRequest request, String  ueID) throws I18NException {
-
+  private void teConfiguratNotificacions(HttpServletRequest request, String  ueID) {
      UsuariEntitatJPA usuariEntitatJPA = usuariEntitatLogicaEjb.findByPrimaryKey(ueID);
-
      if(usuariEntitatJPA.isRebreTotsElsAvisos()){
         HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("notificaciocorreu.avis"));
      }
-
   }
 
+  /**
+   * Sobreescrivim per seguretat. Evitam que es carregui un avís que no és de l'usuari en qüestío, i per
+   * tant no les podrà editar ni borrar si no són seus.
+   */
+  @Override
+  public RebreAvisJPA findByPrimaryKey(HttpServletRequest request, Long id) throws I18NException {
+    RebreAvisJPA rebreAvis = super.findByPrimaryKey(request, id);
+    String ueID = LoginInfo.getInstance().getUsuariEntitatID();
+    return rebreAvis.getUsuariEntitatID().equals(ueID) ? rebreAvis : null;
+  }
 }
