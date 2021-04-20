@@ -444,7 +444,7 @@ public class RebreAvisController
       return null;
     }
     try {
-      RebreAvis rebreAvis = rebreAvisEjb.findByPrimaryKey(id);
+      RebreAvis rebreAvis = findByPrimaryKey(request, id);
       if (rebreAvis == null) {
         String __msg =createMessageError(request, "error.notfound", id);
         return getRedirectWhenDelete(request, id, new Exception(__msg));

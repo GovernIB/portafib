@@ -472,7 +472,7 @@ public class TipusDocumentController
       return null;
     }
     try {
-      TipusDocument tipusDocument = tipusDocumentEjb.findByPrimaryKey(tipusDocumentID);
+      TipusDocument tipusDocument = findByPrimaryKey(request, tipusDocumentID);
       if (tipusDocument == null) {
         String __msg =createMessageError(request, "error.notfound", tipusDocumentID);
         return getRedirectWhenDelete(request, tipusDocumentID, new Exception(__msg));

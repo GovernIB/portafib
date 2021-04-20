@@ -444,7 +444,7 @@ public class RevisorDeFirmaController
       return null;
     }
     try {
-      RevisorDeFirma revisorDeFirma = revisorDeFirmaEjb.findByPrimaryKey(revisorDeFirmaID);
+      RevisorDeFirma revisorDeFirma = findByPrimaryKey(request, revisorDeFirmaID);
       if (revisorDeFirma == null) {
         String __msg =createMessageError(request, "error.notfound", revisorDeFirmaID);
         return getRedirectWhenDelete(request, revisorDeFirmaID, new Exception(__msg));

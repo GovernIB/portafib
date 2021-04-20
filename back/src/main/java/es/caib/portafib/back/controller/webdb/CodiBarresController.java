@@ -388,7 +388,7 @@ public class CodiBarresController
       return null;
     }
     try {
-      CodiBarres codiBarres = codiBarresEjb.findByPrimaryKey(codiBarresID);
+      CodiBarres codiBarres = findByPrimaryKey(request, codiBarresID);
       if (codiBarres == null) {
         String __msg =createMessageError(request, "error.notfound", codiBarresID);
         return getRedirectWhenDelete(request, codiBarresID, new Exception(__msg));

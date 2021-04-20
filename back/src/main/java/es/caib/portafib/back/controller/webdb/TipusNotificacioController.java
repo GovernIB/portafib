@@ -391,7 +391,7 @@ public class TipusNotificacioController
       return null;
     }
     try {
-      TipusNotificacio tipusNotificacio = tipusNotificacioEjb.findByPrimaryKey(tipusNotificacioID);
+      TipusNotificacio tipusNotificacio = findByPrimaryKey(request, tipusNotificacioID);
       if (tipusNotificacio == null) {
         String __msg =createMessageError(request, "error.notfound", tipusNotificacioID);
         return getRedirectWhenDelete(request, tipusNotificacioID, new Exception(__msg));

@@ -545,7 +545,7 @@ public class UsuariAplicacioController
       return null;
     }
     try {
-      UsuariAplicacio usuariAplicacio = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
+      UsuariAplicacio usuariAplicacio = findByPrimaryKey(request, usuariAplicacioID);
       if (usuariAplicacio == null) {
         String __msg =createMessageError(request, "error.notfound", usuariAplicacioID);
         return getRedirectWhenDelete(request, usuariAplicacioID, new Exception(__msg));

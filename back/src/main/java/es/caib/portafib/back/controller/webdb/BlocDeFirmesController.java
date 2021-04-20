@@ -417,7 +417,7 @@ public class BlocDeFirmesController
       return null;
     }
     try {
-      BlocDeFirmes blocDeFirmes = blocDeFirmesEjb.findByPrimaryKey(blocDeFirmesID);
+      BlocDeFirmes blocDeFirmes = findByPrimaryKey(request, blocDeFirmesID);
       if (blocDeFirmes == null) {
         String __msg =createMessageError(request, "error.notfound", blocDeFirmesID);
         return getRedirectWhenDelete(request, blocDeFirmesID, new Exception(__msg));

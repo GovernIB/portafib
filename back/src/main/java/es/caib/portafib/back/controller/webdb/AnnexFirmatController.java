@@ -455,7 +455,7 @@ public class AnnexFirmatController
       return null;
     }
     try {
-      AnnexFirmat annexFirmat = annexFirmatEjb.findByPrimaryKey(annexfirmatID);
+      AnnexFirmat annexFirmat = findByPrimaryKey(request, annexfirmatID);
       if (annexFirmat == null) {
         String __msg =createMessageError(request, "error.notfound", annexfirmatID);
         return getRedirectWhenDelete(request, annexfirmatID, new Exception(__msg));

@@ -441,7 +441,7 @@ public class PermisUsuariPlantillaController
       return null;
     }
     try {
-      PermisUsuariPlantilla permisUsuariPlantilla = permisUsuariPlantillaEjb.findByPrimaryKey(permisUsuariPlantillaID);
+      PermisUsuariPlantilla permisUsuariPlantilla = findByPrimaryKey(request, permisUsuariPlantillaID);
       if (permisUsuariPlantilla == null) {
         String __msg =createMessageError(request, "error.notfound", permisUsuariPlantillaID);
         return getRedirectWhenDelete(request, permisUsuariPlantillaID, new Exception(__msg));

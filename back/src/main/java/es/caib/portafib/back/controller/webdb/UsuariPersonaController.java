@@ -434,7 +434,7 @@ public class UsuariPersonaController
       return null;
     }
     try {
-      UsuariPersona usuariPersona = usuariPersonaEjb.findByPrimaryKey(usuariPersonaID);
+      UsuariPersona usuariPersona = findByPrimaryKey(request, usuariPersonaID);
       if (usuariPersona == null) {
         String __msg =createMessageError(request, "error.notfound", usuariPersonaID);
         return getRedirectWhenDelete(request, usuariPersonaID, new Exception(__msg));

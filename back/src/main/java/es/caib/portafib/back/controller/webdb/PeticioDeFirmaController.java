@@ -764,7 +764,7 @@ public class PeticioDeFirmaController
       return null;
     }
     try {
-      PeticioDeFirma peticioDeFirma = peticioDeFirmaEjb.findByPrimaryKey(peticioDeFirmaID);
+      PeticioDeFirma peticioDeFirma = findByPrimaryKey(request, peticioDeFirmaID);
       if (peticioDeFirma == null) {
         String __msg =createMessageError(request, "error.notfound", peticioDeFirmaID);
         return getRedirectWhenDelete(request, peticioDeFirmaID, new Exception(__msg));

@@ -441,7 +441,7 @@ public class ModulDeFirmaPerTipusDeDocumentController
       return null;
     }
     try {
-      ModulDeFirmaPerTipusDeDocument modulDeFirmaPerTipusDeDocument = modulDeFirmaPerTipusDeDocumentEjb.findByPrimaryKey(iD);
+      ModulDeFirmaPerTipusDeDocument modulDeFirmaPerTipusDeDocument = findByPrimaryKey(request, iD);
       if (modulDeFirmaPerTipusDeDocument == null) {
         String __msg =createMessageError(request, "error.notfound", iD);
         return getRedirectWhenDelete(request, iD, new Exception(__msg));

@@ -441,7 +441,7 @@ public class GrupEntitatUsuariEntitatController
       return null;
     }
     try {
-      GrupEntitatUsuariEntitat grupEntitatUsuariEntitat = grupEntitatUsuariEntitatEjb.findByPrimaryKey(grupEntitatUsuariEntitatID);
+      GrupEntitatUsuariEntitat grupEntitatUsuariEntitat = findByPrimaryKey(request, grupEntitatUsuariEntitatID);
       if (grupEntitatUsuariEntitat == null) {
         String __msg =createMessageError(request, "error.notfound", grupEntitatUsuariEntitatID);
         return getRedirectWhenDelete(request, grupEntitatUsuariEntitatID, new Exception(__msg));

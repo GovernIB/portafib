@@ -388,7 +388,7 @@ public class FluxDeFirmesController
       return null;
     }
     try {
-      FluxDeFirmes fluxDeFirmes = fluxDeFirmesEjb.findByPrimaryKey(fluxDeFirmesID);
+      FluxDeFirmes fluxDeFirmes = findByPrimaryKey(request, fluxDeFirmesID);
       if (fluxDeFirmes == null) {
         String __msg =createMessageError(request, "error.notfound", fluxDeFirmesID);
         return getRedirectWhenDelete(request, fluxDeFirmesID, new Exception(__msg));

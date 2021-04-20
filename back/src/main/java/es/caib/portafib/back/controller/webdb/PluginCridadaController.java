@@ -455,7 +455,7 @@ public class PluginCridadaController
       return null;
     }
     try {
-      PluginCridada pluginCridada = pluginCridadaEjb.findByPrimaryKey(pluginCridadaID);
+      PluginCridada pluginCridada = findByPrimaryKey(request, pluginCridadaID);
       if (pluginCridada == null) {
         String __msg =createMessageError(request, "error.notfound", pluginCridadaID);
         return getRedirectWhenDelete(request, pluginCridadaID, new Exception(__msg));

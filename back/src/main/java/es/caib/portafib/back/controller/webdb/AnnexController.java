@@ -437,7 +437,7 @@ public class AnnexController
       return null;
     }
     try {
-      Annex annex = annexEjb.findByPrimaryKey(annexID);
+      Annex annex = findByPrimaryKey(request, annexID);
       if (annex == null) {
         String __msg =createMessageError(request, "error.notfound", annexID);
         return getRedirectWhenDelete(request, annexID, new Exception(__msg));

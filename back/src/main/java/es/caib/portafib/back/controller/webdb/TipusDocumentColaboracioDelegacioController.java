@@ -441,7 +441,7 @@ public class TipusDocumentColaboracioDelegacioController
       return null;
     }
     try {
-      TipusDocumentColaboracioDelegacio tipusDocumentColaboracioDelegacio = tipusDocumentColaboracioDelegacioEjb.findByPrimaryKey(id);
+      TipusDocumentColaboracioDelegacio tipusDocumentColaboracioDelegacio = findByPrimaryKey(request, id);
       if (tipusDocumentColaboracioDelegacio == null) {
         String __msg =createMessageError(request, "error.notfound", id);
         return getRedirectWhenDelete(request, id, new Exception(__msg));

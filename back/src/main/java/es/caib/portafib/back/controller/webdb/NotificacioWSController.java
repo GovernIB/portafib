@@ -420,7 +420,7 @@ public class NotificacioWSController
       return null;
     }
     try {
-      NotificacioWS notificacioWS = notificacioWSEjb.findByPrimaryKey(notificacioID);
+      NotificacioWS notificacioWS = findByPrimaryKey(request, notificacioID);
       if (notificacioWS == null) {
         String __msg =createMessageError(request, "error.notfound", notificacioID);
         return getRedirectWhenDelete(request, notificacioID, new Exception(__msg));

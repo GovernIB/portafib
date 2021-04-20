@@ -437,7 +437,7 @@ public class EstadisticaController
       return null;
     }
     try {
-      Estadistica estadistica = estadisticaEjb.findByPrimaryKey(estadisticaID);
+      Estadistica estadistica = findByPrimaryKey(request, estadisticaID);
       if (estadistica == null) {
         String __msg =createMessageError(request, "error.notfound", estadisticaID);
         return getRedirectWhenDelete(request, estadisticaID, new Exception(__msg));

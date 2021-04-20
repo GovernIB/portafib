@@ -441,7 +441,7 @@ public class PerfilsPerUsuariAplicacioController
       return null;
     }
     try {
-      PerfilsPerUsuariAplicacio perfilsPerUsuariAplicacio = perfilsPerUsuariAplicacioEjb.findByPrimaryKey(perfilsPerUsrAppID);
+      PerfilsPerUsuariAplicacio perfilsPerUsuariAplicacio = findByPrimaryKey(request, perfilsPerUsrAppID);
       if (perfilsPerUsuariAplicacio == null) {
         String __msg =createMessageError(request, "error.notfound", perfilsPerUsrAppID);
         return getRedirectWhenDelete(request, perfilsPerUsrAppID, new Exception(__msg));

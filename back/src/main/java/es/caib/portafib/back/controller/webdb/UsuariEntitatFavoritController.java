@@ -437,7 +437,7 @@ public class UsuariEntitatFavoritController
       return null;
     }
     try {
-      UsuariEntitatFavorit usuariEntitatFavorit = usuariEntitatFavoritEjb.findByPrimaryKey(iD);
+      UsuariEntitatFavorit usuariEntitatFavorit = findByPrimaryKey(request, iD);
       if (usuariEntitatFavorit == null) {
         String __msg =createMessageError(request, "error.notfound", iD);
         return getRedirectWhenDelete(request, iD, new Exception(__msg));

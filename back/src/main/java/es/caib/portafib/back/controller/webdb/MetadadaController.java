@@ -437,7 +437,7 @@ public class MetadadaController
       return null;
     }
     try {
-      Metadada metadada = metadadaEjb.findByPrimaryKey(metadadaID);
+      Metadada metadada = findByPrimaryKey(request, metadadaID);
       if (metadada == null) {
         String __msg =createMessageError(request, "error.notfound", metadadaID);
         return getRedirectWhenDelete(request, metadadaID, new Exception(__msg));

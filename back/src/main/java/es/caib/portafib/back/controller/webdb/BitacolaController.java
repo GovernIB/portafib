@@ -433,7 +433,7 @@ public class BitacolaController
       return null;
     }
     try {
-      Bitacola bitacola = bitacolaEjb.findByPrimaryKey(bitacolaID);
+      Bitacola bitacola = findByPrimaryKey(request, bitacolaID);
       if (bitacola == null) {
         String __msg =createMessageError(request, "error.notfound", bitacolaID);
         return getRedirectWhenDelete(request, bitacolaID, new Exception(__msg));

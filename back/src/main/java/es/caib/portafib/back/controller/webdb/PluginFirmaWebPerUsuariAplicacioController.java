@@ -461,7 +461,7 @@ public class PluginFirmaWebPerUsuariAplicacioController
       return null;
     }
     try {
-      PluginFirmaWebPerUsuariAplicacio pluginFirmaWebPerUsuariAplicacio = pluginFirmaWebPerUsuariAplicacioEjb.findByPrimaryKey(pluginfirmawebperusrappid);
+      PluginFirmaWebPerUsuariAplicacio pluginFirmaWebPerUsuariAplicacio = findByPrimaryKey(request, pluginfirmawebperusrappid);
       if (pluginFirmaWebPerUsuariAplicacio == null) {
         String __msg =createMessageError(request, "error.notfound", pluginfirmawebperusrappid);
         return getRedirectWhenDelete(request, pluginfirmawebperusrappid, new Exception(__msg));

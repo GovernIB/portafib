@@ -559,7 +559,7 @@ public class CustodiaInfoController
       return null;
     }
     try {
-      CustodiaInfo custodiaInfo = custodiaInfoEjb.findByPrimaryKey(custodiaInfoID);
+      CustodiaInfo custodiaInfo = findByPrimaryKey(request, custodiaInfoID);
       if (custodiaInfo == null) {
         String __msg =createMessageError(request, "error.notfound", custodiaInfoID);
         return getRedirectWhenDelete(request, custodiaInfoID, new Exception(__msg));

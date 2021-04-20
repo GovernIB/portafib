@@ -441,7 +441,7 @@ public class RoleUsuariEntitatController
       return null;
     }
     try {
-      RoleUsuariEntitat roleUsuariEntitat = roleUsuariEntitatEjb.findByPrimaryKey(id);
+      RoleUsuariEntitat roleUsuariEntitat = findByPrimaryKey(request, id);
       if (roleUsuariEntitat == null) {
         String __msg =createMessageError(request, "error.notfound", id);
         return getRedirectWhenDelete(request, id, new Exception(__msg));

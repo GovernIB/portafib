@@ -388,7 +388,7 @@ public class FitxerController
       return null;
     }
     try {
-      Fitxer fitxer = fitxerEjb.findByPrimaryKey(fitxerID);
+      Fitxer fitxer = findByPrimaryKey(request, fitxerID);
       if (fitxer == null) {
         String __msg =createMessageError(request, "error.notfound", fitxerID);
         return getRedirectWhenDelete(request, fitxerID, new Exception(__msg));

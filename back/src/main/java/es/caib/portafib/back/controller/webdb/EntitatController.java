@@ -726,7 +726,7 @@ public class EntitatController
       return null;
     }
     try {
-      Entitat entitat = entitatEjb.findByPrimaryKey(entitatID);
+      Entitat entitat = findByPrimaryKey(request, entitatID);
       if (entitat == null) {
         String __msg =createMessageError(request, "error.notfound", entitatID);
         return getRedirectWhenDelete(request, entitatID, new Exception(__msg));

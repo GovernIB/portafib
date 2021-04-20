@@ -468,7 +468,7 @@ public class PlantillaFluxDeFirmesController
       return null;
     }
     try {
-      PlantillaFluxDeFirmes plantillaFluxDeFirmes = plantillaFluxDeFirmesEjb.findByPrimaryKey(fluxDeFirmesID);
+      PlantillaFluxDeFirmes plantillaFluxDeFirmes = findByPrimaryKey(request, fluxDeFirmesID);
       if (plantillaFluxDeFirmes == null) {
         String __msg =createMessageError(request, "error.notfound", fluxDeFirmesID);
         return getRedirectWhenDelete(request, fluxDeFirmesID, new Exception(__msg));

@@ -388,7 +388,7 @@ public class RoleController
       return null;
     }
     try {
-      Role role = roleEjb.findByPrimaryKey(roleID);
+      Role role = findByPrimaryKey(request, roleID);
       if (role == null) {
         String __msg =createMessageError(request, "error.notfound", roleID);
         return getRedirectWhenDelete(request, roleID, new Exception(__msg));

@@ -528,7 +528,7 @@ public class UsuariEntitatController
       return null;
     }
     try {
-      UsuariEntitat usuariEntitat = usuariEntitatEjb.findByPrimaryKey(usuariEntitatID);
+      UsuariEntitat usuariEntitat = findByPrimaryKey(request, usuariEntitatID);
       if (usuariEntitat == null) {
         String __msg =createMessageError(request, "error.notfound", usuariEntitatID);
         return getRedirectWhenDelete(request, usuariEntitatID, new Exception(__msg));

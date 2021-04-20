@@ -505,7 +505,7 @@ public class EstatDeFirmaController
       return null;
     }
     try {
-      EstatDeFirma estatDeFirma = estatDeFirmaEjb.findByPrimaryKey(estatDeFirmaID);
+      EstatDeFirma estatDeFirma = findByPrimaryKey(request, estatDeFirmaID);
       if (estatDeFirma == null) {
         String __msg =createMessageError(request, "error.notfound", estatDeFirmaID);
         return getRedirectWhenDelete(request, estatDeFirmaID, new Exception(__msg));

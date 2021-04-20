@@ -497,7 +497,7 @@ public class PerfilDeFirmaController
       return null;
     }
     try {
-      PerfilDeFirma perfilDeFirma = perfilDeFirmaEjb.findByPrimaryKey(usuariAplicacioPerfilID);
+      PerfilDeFirma perfilDeFirma = findByPrimaryKey(request, usuariAplicacioPerfilID);
       if (perfilDeFirma == null) {
         String __msg =createMessageError(request, "error.notfound", usuariAplicacioPerfilID);
         return getRedirectWhenDelete(request, usuariAplicacioPerfilID, new Exception(__msg));

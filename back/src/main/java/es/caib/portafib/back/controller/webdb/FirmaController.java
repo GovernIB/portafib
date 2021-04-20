@@ -510,7 +510,7 @@ public class FirmaController
       return null;
     }
     try {
-      Firma firma = firmaEjb.findByPrimaryKey(firmaID);
+      Firma firma = findByPrimaryKey(request, firmaID);
       if (firma == null) {
         String __msg =createMessageError(request, "error.notfound", firmaID);
         return getRedirectWhenDelete(request, firmaID, new Exception(__msg));

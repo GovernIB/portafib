@@ -391,7 +391,7 @@ public class IdiomaController
       return null;
     }
     try {
-      Idioma idioma = idiomaEjb.findByPrimaryKey(idiomaID);
+      Idioma idioma = findByPrimaryKey(request, idiomaID);
       if (idioma == null) {
         String __msg =createMessageError(request, "error.notfound", idiomaID);
         return getRedirectWhenDelete(request, idiomaID, new Exception(__msg));

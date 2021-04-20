@@ -460,7 +460,7 @@ public class ColaboracioDelegacioController
       return null;
     }
     try {
-      ColaboracioDelegacio colaboracioDelegacio = colaboracioDelegacioEjb.findByPrimaryKey(colaboracioDelegacioID);
+      ColaboracioDelegacio colaboracioDelegacio = findByPrimaryKey(request, colaboracioDelegacioID);
       if (colaboracioDelegacio == null) {
         String __msg =createMessageError(request, "error.notfound", colaboracioDelegacioID);
         return getRedirectWhenDelete(request, colaboracioDelegacioID, new Exception(__msg));

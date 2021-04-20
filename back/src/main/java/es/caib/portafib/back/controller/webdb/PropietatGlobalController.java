@@ -417,7 +417,7 @@ public class PropietatGlobalController
       return null;
     }
     try {
-      PropietatGlobal propietatGlobal = propietatGlobalEjb.findByPrimaryKey(propietatGlobalID);
+      PropietatGlobal propietatGlobal = findByPrimaryKey(request, propietatGlobalID);
       if (propietatGlobal == null) {
         String __msg =createMessageError(request, "error.notfound", propietatGlobalID);
         return getRedirectWhenDelete(request, propietatGlobalID, new Exception(__msg));
