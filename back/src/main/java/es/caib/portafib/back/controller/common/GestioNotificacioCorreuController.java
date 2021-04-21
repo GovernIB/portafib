@@ -6,12 +6,15 @@ import es.caib.portafib.back.form.webdb.RebreAvisForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.RebreAvisJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.logic.RebreAvisLogicaLocal;
+import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.model.entity.RebreAvis;
 import es.caib.portafib.model.fields.RebreAvisFields;
 import es.caib.portafib.model.fields.TipusNotificacioFields;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.GroupByItem;
 import org.fundaciobit.genapp.common.query.SubQuery;
@@ -38,9 +41,11 @@ import java.util.Map;
 @RequestMapping(value = "/common/rebreAvis")
 public class GestioNotificacioCorreuController extends RebreAvisController {
 
-  @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
-  protected es.caib.portafib.logic.UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
+  @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
+  protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
+  @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
+  protected RebreAvisLogicaLocal rebreAvisLogicaEjb;
 
   @Override
   public String getTileForm() {
@@ -182,8 +187,23 @@ public class GestioNotificacioCorreuController extends RebreAvisController {
    */
   @Override
   public RebreAvisJPA findByPrimaryKey(HttpServletRequest request, Long id) throws I18NException {
-    RebreAvisJPA rebreAvis = super.findByPrimaryKey(request, id);
+    RebreAvisJPA rebreAvis = rebreAvisLogicaEjb.findByPrimaryKey(id);;
     String ueID = LoginInfo.getInstance().getUsuariEntitatID();
     return rebreAvis.getUsuariEntitatID().equals(ueID) ? rebreAvis : null;
+  }
+
+  @Override
+  public RebreAvisJPA create(HttpServletRequest request, RebreAvisJPA rebreAvis) throws Exception, I18NException, I18NValidationException {
+    return (RebreAvisJPA) rebreAvisLogicaEjb.create(rebreAvis);
+  }
+
+  @Override
+  public RebreAvisJPA update(HttpServletRequest request, RebreAvisJPA rebreAvis) throws Exception, I18NException, I18NValidationException {
+    return (RebreAvisJPA) rebreAvisLogicaEjb.update(rebreAvis);
+  }
+
+  @Override
+  public void delete(HttpServletRequest request, RebreAvis rebreAvis) throws Exception, I18NException {
+    rebreAvisLogicaEjb.delete(rebreAvis);
   }
 }

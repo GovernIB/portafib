@@ -33,14 +33,14 @@ pageContext.setAttribute("androidApk", androidApk);
       </a>
     </li>
     </c:if>
-    
-   <sec:authorize access="hasRole('ROLE_USER')">
 
-       <%-- RebreAvis --%>
-       <sec:authorize access="hasAnyRole('ROLE_SOLI', 'ROLE_DEST', 'ROLE_COLA', 'ROLE_DELE')">
-          <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
-          <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/common/rebreAvis/list/1"/>" ><span style="${(fn:contains(url, 'rebreAvis/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" ><fmt:message key="notificaciocorreu.plural" /></span></a></li>
-       </sec:authorize>
+   <%-- RebreAvis --%>
+   <sec:authorize access="hasAnyRole('ROLE_SOLI', 'ROLE_DEST', 'ROLE_COLA', 'ROLE_DELE')">
+      <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
+      <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/common/rebreAvis/list/1"/>" ><span style="${(fn:contains(url, 'rebreAvis/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" ><fmt:message key="notificaciocorreu.plural" /></span></a></li>
+   </sec:authorize>
+
+   <sec:authorize access="hasRole('ROLE_USER')">
 
        <c:if test="${not empty loginInfo.usuariPersona}" >
            <hr  style="margin-top: 6px;  margin-bottom: 6px;" />

@@ -2,10 +2,13 @@ package es.caib.portafib.logic;
 
 import java.util.Locale;
 import es.caib.portafib.ejb.RebreAvisEJB;
+import es.caib.portafib.jpa.RebreAvisJPA;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
+import es.caib.portafib.model.entity.RebreAvis;
 import es.caib.portafib.model.fields.RebreAvisFields;
 import es.caib.portafib.utils.Configuracio;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -38,4 +41,27 @@ public class RebreAvisLogicaEJB extends RebreAvisEJB implements RebreAvisLogicaL
 
   }
 
+  @Override
+  @RolesAllowed({"PFI_ADMIN","PFI_USER", "tothom"})
+  public void delete(RebreAvis instance) {
+    super.delete(instance);
+  }
+
+  @Override
+  @RolesAllowed({"PFI_ADMIN","PFI_USER", "tothom"})
+  public RebreAvis create(RebreAvis instance) throws I18NException {
+    return super.create(instance);
+  }
+
+  @Override
+  @RolesAllowed({"PFI_ADMIN","PFI_USER", "tothom"})
+  public RebreAvis update(RebreAvis instance) throws I18NException {
+    return super.update(instance);
+  }
+
+  @Override
+  @RolesAllowed({"PFI_ADMIN","PFI_USER", "tothom"})
+  public RebreAvisJPA findByPrimaryKey(Long _ID_) {
+    return super.findByPrimaryKey(_ID_);
+  }
 }

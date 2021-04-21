@@ -52,6 +52,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -109,7 +110,12 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   
   private UsuariEntitatLogicValidator<UsuariEntitatJPA> validator = new UsuariEntitatLogicValidator<UsuariEntitatJPA>();
 
-  
+  @Override
+  @RolesAllowed({"PFI_ADMIN","PFI_USER", "tothom"})
+  public UsuariEntitatJPA findByPrimaryKey(String _ID_) {
+    return super.findByPrimaryKey(_ID_);
+  }
+
   @Override
   public UsuariEntitatJPA findByPrimaryKeyFull(String usuariEntitatID)  {
     return findByPrimaryKeyFull(this, usuariEntitatID); 
