@@ -19,6 +19,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -53,6 +54,18 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
 
   @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
+
+  @Override
+  @RolesAllowed({"PFI_ADMIN","PFI_USER", "tothom"})
+  public UsuariPersona update(UsuariPersona instance) throws I18NException {
+    return super.update(instance);
+  }
+
+  @Override
+  @RolesAllowed({"PFI_ADMIN","PFI_USER", "tothom"})
+  public UsuariPersonaJPA findByPrimaryKey(String _ID_) {
+    return super.findByPrimaryKey(_ID_);
+  }
 
   @Override
   public UsuariPersonaJPA findByPrimaryKeyFull(String _usuariPersonaID_) {

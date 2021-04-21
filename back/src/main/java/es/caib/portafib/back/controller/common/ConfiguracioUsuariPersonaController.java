@@ -6,12 +6,14 @@ import es.caib.portafib.back.reflist.IdiomaSuportatRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
+import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,18 +34,19 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
 
   @EJB(mappedName = PropietatGlobalLogicaLocal.JNDI_NAME)
   protected PropietatGlobalLogicaLocal propietatEjb;
-  
-  
+
+  @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
+  protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
+
   @Override
   public String getTileForm() {
     return "configuracioUsuariPersonaForm";
   }
-  
+
   @PostConstruct
   public void init() {
     this.idiomaRefList = new IdiomaSuportatRefList(this.idiomaRefList);
   }
-
 
   @Override
   public UsuariPersonaForm getUsuariPersonaForm(UsuariPersonaJPA _jpa, boolean __isView,
@@ -52,8 +55,7 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
       UsuariPersonaForm form = super.getUsuariPersonaForm(_jpa,__isView, request, mav);
 
       // Obtenim l'usuari persona logueat
-      LoginInfo loginInfo = LoginInfo.getInstance();
-      UsuariPersonaJPA usuari = loginInfo.getUsuariPersona();
+      UsuariPersonaJPA usuari = LoginInfo.getInstance().getUsuariPersona();
 
       // Obtenim l'usuaripersona carregat al form
       UsuariPersona up = form.getUsuariPersona();
@@ -67,7 +69,7 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
       // Només de lectura
       form.addReadOnlyField(NIF);
       form.addReadOnlyField(USUARIPERSONAID);
-     
+
       if (Configuracio.isCAIB() || request.isUserInRole(ConstantsV2.ROLE_ADMIN)
           || PropietatGlobalUtil.getDefaultEntity() != null) {
         // Podem modificar el nom i llinatge
@@ -88,10 +90,10 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
       // Ocultam boto Cancelar i esborrar
       form.setCancelButtonVisible(false);
       form.setDeleteButtonVisible(false);
-      
+
       // Posar titol
       form.setTitleCode("configuracio_usuari_persona");
-      
+
       return form;
   }
 
@@ -99,14 +101,7 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
   public String getRedirectWhenModified(HttpServletRequest request, UsuariPersonaForm usuariPersonaForm, Throwable __e) {
     return "redirect:" + getContextWeb() +"/"+usuariPersonaForm.getUsuariPersona().getUsuariPersonaID()+"/edit";
   }
-  
-  /*
-  @Override
-  public void preList(HttpServletRequest request, ModelAndView mav, 
-      UsuariPersonaFilterForm filterForm)  throws Exception {
-      throw new Exception("Pagina no disponible");
-  }
-  */
+
   @Override
   public boolean isActiveList() {
     return false;
@@ -117,10 +112,22 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
     return false;
   }
 
-
   @Override
   public boolean isActiveDelete() {
     return false;
   }
 
+  @Override
+  public UsuariPersonaJPA findByPrimaryKey(HttpServletRequest request, String usuariPersonaID) throws I18NException {
+    UsuariPersonaJPA currentUser = LoginInfo.getInstance().getUsuariPersona();
+    if (currentUser == null || !currentUser.getUsuariPersonaID().equals(usuariPersonaID)) {
+      return null;
+    }
+    return usuariPersonaLogicaEjb.findByPrimaryKey(usuariPersonaID);
+  }
+
+  @Override
+  public UsuariPersonaJPA update(HttpServletRequest request, UsuariPersonaJPA usuariPersona) throws Exception, I18NException, I18NValidationException {
+    return (UsuariPersonaJPA) usuariPersonaLogicaEjb.update(usuariPersona);
+  }
 }
