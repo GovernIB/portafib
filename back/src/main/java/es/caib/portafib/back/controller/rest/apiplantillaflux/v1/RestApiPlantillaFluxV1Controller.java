@@ -523,7 +523,14 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
         FlowTemplateSimpleSigner signer = new FlowTemplateSimpleSigner();
 
         if (firmaJPA.getUsuariExternEmail() == null) {
-          signer.setIntermediateServerUsername(firmaJPA.getDestinatariID());
+
+          // No és usuari extern: és un usuri entitat que pot ser un càrrec
+          if (firmaJPA.getUsuariEntitat().getCarrec() == null) {
+            signer.setIntermediateServerUsername(firmaJPA.getDestinatariID());
+          } else {
+            signer.setPositionInTheCompany(firmaJPA.getDestinatariID());
+          }
+
         } else {
 
           String administrationId = firmaJPA.getUsuariEntitat().getUsuariPersona().getNif();

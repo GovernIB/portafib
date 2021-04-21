@@ -8,6 +8,7 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSigna
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestBase;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestInfo;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestState;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithSignBlockList;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSigner;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.jersey.ApiFirmaAsyncSimpleJersey;
@@ -33,6 +34,15 @@ public class ApiFirmaAsyncTestBase {
                 properties.getProperty("api.username"),
                 properties.getProperty("api.password"));
         apiProfile = properties.getProperty("api.profile");
+    }
+
+    protected long crearPeticioWithFlow(String flow) {
+        try {
+            return api.createAndStartSignatureRequestWithFlowTemplateCode(
+                    getRequestWithFlowTemplateCode("hola.pdf", "application/pdf", flow));
+        } catch (AbstractApisIBException e) {
+            throw new RuntimeException("Error creant petició: " + e.getMessage(), e);
+        }
     }
 
     protected long crearPeticioDestinataris(Destinatari... destinataris) {
@@ -90,6 +100,11 @@ public class ApiFirmaAsyncTestBase {
         } catch (AbstractApisIBException e) {
             throw new RuntimeException("Error esborrant petició", e);
         }
+    }
+
+    private FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode getRequestWithFlowTemplateCode(
+            String fileName, String mime, String flowTemplate) {
+        return new FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode(getRequestBase(fileName, mime), flowTemplate);
     }
 
     private FirmaAsyncSimpleSignatureRequestWithSignBlockList getRequestWithSequentialBlockList(

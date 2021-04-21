@@ -25,6 +25,8 @@ public class DestintariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
     private static Delegat delegatA;
     private static Colaborador colaboradorA;
 
+    private static String flowTemplate;
+
     @BeforeClass
     public static void setup() throws IOException {
         Properties properties = new Properties();
@@ -39,6 +41,8 @@ public class DestintariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
         revisorA = getRevisor("revisor.A", properties, baseUrl);
         delegatA = getDelegat("delegat.A", properties, baseUrl);
         colaboradorA = getColaborador("colaborador.A", properties, baseUrl);
+
+        flowTemplate = properties.getProperty("flowTemplate");
 
         initApi(properties);
     }
@@ -71,6 +75,23 @@ public class DestintariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
         String username = properties.getProperty(prefix + ".username");
         String password = properties.getProperty(prefix + ".password");
         return new Colaborador(administrationId, username, password, url);
+    }
+
+    @Test
+    public void testCreateWithFlow() {
+
+        int firmes = destinatariA.tasquesPendents();
+
+        long peticio = crearPeticioWithFlow(flowTemplate);
+
+        Assert.assertEquals(firmes + 1, destinatariA.tasquesPendents());
+        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+
+        destinatariA.firmarDarreraPeticio();
+
+        // després de signar, hi torna haver el mateix nombre de firmes pendents i l'estat de la petició és signed.
+        Assert.assertEquals(firmes, destinatariA.tasquesPendents());
+        Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
     }
 
     @Test
