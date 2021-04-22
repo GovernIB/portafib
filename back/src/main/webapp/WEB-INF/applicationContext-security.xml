@@ -41,9 +41,11 @@
     <sec:intercept-url pattern="/canviarPipella/**" access="hasAnyRole('ROLE_ANY', 'ROLE_USER', 'ROLE_ADMIN')"/>
 
     <sec:intercept-url pattern="/soli/**" access="hasRole('ROLE_SOLI')"/>
-    
+
+    <sec:intercept-url pattern="/dest/colaborador/**" access="hasRole('ROLE_USER') and hasRole('ROLE_DEST')"/>
+    <sec:intercept-url pattern="/dest/delegat/**" access="hasRole('ROLE_USER') and hasRole('ROLE_DEST')"/>
     <sec:intercept-url pattern="/dest/**" access="hasRole('ROLE_DEST')"/>
-    
+
     <sec:intercept-url pattern="/dele/**" access="hasRole('ROLE_DELE')"/>
     
     <sec:intercept-url pattern="/cola/**" access="hasRole('ROLE_COLA')"/>

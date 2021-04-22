@@ -1,6 +1,10 @@
 package es.caib.portafib.back.controller.aden;
 
 import javax.ejb.EJB;
+
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.jpa.ColaboracioDelegacioJPA;
+import es.caib.portafib.jpa.UsuariEntitatJPA;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -27,10 +31,6 @@ public class ColaboracioDeCarrecAdenController extends DelegacioDestController {
   @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME)
   protected UsuariEntitatLocal usuariEntitatEjb;
 
-  /**
-   * 
-   * @return
-   */
   @Override
   public boolean esDelegat() {
     return false;
@@ -40,7 +40,17 @@ public class ColaboracioDeCarrecAdenController extends DelegacioDestController {
   public boolean esDeCarrec() {
     return true;
   }
-  
+
+  /**
+   * Indica si l'usuari actual pot accedir a aquesta colaboracio delegacio.
+   * En aquest cas, si és d'un càrrec de la mateixa entitat.
+   */
+  protected boolean userCanAccess(ColaboracioDelegacioJPA colaDele) {
+    String entitatId = LoginInfo.getInstance().getEntitatID();
+    UsuariEntitatJPA destinatari = usuariEntitatEjb.findByPrimaryKey(colaDele.getDestinatariID());
+
+    return (destinatari.getCarrec() != null && destinatari.getEntitatID().equals(entitatId));
+  }
   
   @Override
   public String getTileForm() {

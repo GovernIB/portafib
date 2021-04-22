@@ -32,6 +32,7 @@ import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
+import es.caib.portafib.model.fields.ColaboracioDelegacioQueryPath;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
@@ -514,8 +515,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                     // Tipus de Documents ja no es poden modificar
                     colaboracioDelegacioForm.setTipusReadOnly(true);
                     // Ja no és editable
+
                     HtmlUtils.saveMessageWarning(request,
-                            I18NUtils.tradueix(getEntityNameCode() + ".noeditable"));
+                            I18NUtils.tradueix(esDelegat() ? "delegacio" : "colaboracio" + ".noeditable"));
 
                     // Es pot esborrar? Per esbrinar-ho calcularem el nombre de estatsDeFirma
                     // associats
@@ -669,8 +671,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
         Where w;
         if (esDeCarrec()) {
-            es.caib.portafib.model.fields.ColaboracioDelegacioQueryPath cdqp;
-            cdqp = new es.caib.portafib.model.fields.ColaboracioDelegacioQueryPath();
+            ColaboracioDelegacioQueryPath cdqp = new ColaboracioDelegacioQueryPath();
             w = Where.AND(
                     cdqp.DESTINATARI().CARREC().isNotNull(),
                     cdqp.DESTINATARI().ENTITATID().equal(LoginInfo.getInstance().getEntitatID())
@@ -678,7 +679,6 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         } else {
             w = DESTINATARIID.equal(LoginInfo.getInstance().getUsuariEntitatID());
         }
-
 
         return Where.AND(w, ESDELEGAT.equal(esDelegat()));
 
@@ -807,27 +807,17 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     public ColaboracioDelegacioJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long colaboracioDelegacioID)
             throws I18NException {
 
-        ColaboracioDelegacioJPA colaboracioDelegacio = colaboracioDelegacioLogicaEjb
-                .findByPrimaryKeyFull(colaboracioDelegacioID);
+        ColaboracioDelegacioJPA colaDele = colaboracioDelegacioLogicaEjb.findByPrimaryKeyFull(colaboracioDelegacioID);
+        return userCanAccess(colaDele) ? colaDele : null;
+    }
 
-        try {
-            Set<TipusDocumentColaboracioDelegacioJPA> tipus;
-            tipus = colaboracioDelegacio.getTipusDocumentColaboracioDelegacios();
-
-            if (log.isDebugEnabled()) {
-                if (tipus == null || tipus.size() == 0) {
-                    log.info(" DDC::findByPrimaryKey TIPUS esta BUIT: " + tipus);
-                } else {
-                    log.info(" DDC::findByPrimaryKey TIPUS conté: " + +tipus.size());
-                }
-            }
-
-        } catch (Exception e) {
-            log.warn("Error checking tipus de document" + e.getMessage(), e);
-        }
-
-        return colaboracioDelegacio;
-
+    /**
+     * Indica si l'usuari actual pot accedir a aquesta colaboracio delegacio. En aquest cas, si ésdestintari.
+     * Les subclasses l'han de sobreescriure.
+     */
+    protected boolean userCanAccess(ColaboracioDelegacioJPA colaDele) {
+        String currentUsuariEntitat = LoginInfo.getInstance().getUsuariEntitatID();
+        return colaDele.getDestinatariID().equals(currentUsuariEntitat);
     }
 
     @Override
@@ -916,24 +906,6 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     @Override
     public ColaboracioDelegacioJPA update(HttpServletRequest request, ColaboracioDelegacioJPA colaboracioDelegacio)
             throws I18NException {
-        if (log.isDebugEnabled()) {
-            try {
-                Set<TipusDocumentColaboracioDelegacioJPA> tipus;
-                tipus = colaboracioDelegacio.getTipusDocumentColaboracioDelegacios();
-
-                if (log.isDebugEnabled()) {
-                    if (tipus == null || tipus.size() == 0) {
-                        log.debug(" +++++ UPDATE TIPUS esta BUIT: " + tipus);
-                    } else {
-                        log.debug(" +++++ UPDATE TIPUS conté: " + +tipus.size());
-                    }
-                }
-
-            } catch (Exception e) {
-                log.warn("Error checking tipus de document" + e.getMessage(), e);
-            }
-        }
-
         return colaboracioDelegacioLogicaEjb.updateFull(colaboracioDelegacio);
     }
 
@@ -951,8 +923,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             return mav;
         }
 
-        ColaboracioDelegacioJPA delegacio;
-        delegacio = colaboracioDelegacioEjb.findByPrimaryKey(delegacioID);
+        ColaboracioDelegacioJPA delegacio = findByPrimaryKey(request, delegacioID);
 
         if (delegacio == null) {
             createMessageError(request, "error.notfound", delegacioID);
@@ -961,7 +932,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
         delegacio.setActiva(false);
         delegacio.setMotiuDeshabilitada(motiu);
-        colaboracioDelegacioEjb.update(delegacio);
+        update(request,delegacio);
 
         return mav;
 
@@ -972,8 +943,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             @PathVariable("delegacioColaboracioID") Long delegacioColaboracioID,
             HttpServletRequest request, HttpServletResponse response) throws I18NException {
 
-        ColaboracioDelegacioJPA deleColaJPA;
-        deleColaJPA = colaboracioDelegacioLogicaEjb.findByPrimaryKeyFull(delegacioColaboracioID);
+        // TODO findByPrimaryKey
+        ColaboracioDelegacioJPA deleColaJPA = findByPrimaryKey(request, delegacioColaboracioID);
 
         if (deleColaJPA == null || deleColaJPA.isActiva()) {
             createMessageError(request, "error.notfound", delegacioColaboracioID);
@@ -992,7 +963,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
         deleColaJPA.setActiva(true);
 
-        colaboracioDelegacioEjb.update(deleColaJPA);
+        update(request, deleColaJPA);
 
         return new ModelAndView(new RedirectView(getContextWeb() + "/"
                 + delegacioColaboracioID + "/edit", true));
@@ -1004,14 +975,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             @PathVariable("delegacioID") Long delegacioID,
             HttpServletRequest request, HttpServletResponse response) throws I18NException {
 
-
-        Long count = colaboracioDelegacioLogicaEjb.count(
-                Where.AND(
-                        COLABORACIODELEGACIOID.equal(delegacioID),
-                        FITXERAUTORITZACIOID.isNotNull()
-                ));
-
-        if (count == 0) {
+        ColaboracioDelegacioJPA deleColaJPA = findByPrimaryKey(request, delegacioID);
+        if (deleColaJPA == null || deleColaJPA.getFitxerAutoritzacioID() == null) {
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         } else {
             response.setStatus(HttpServletResponse.SC_OK);
@@ -1030,8 +995,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                                                     @RequestParam("url_user") String baseUrlFull) throws I18NException {
 
 
-        ColaboracioDelegacioJPA delegacio;
-        delegacio = colaboracioDelegacioLogicaEjb.findByPrimaryKeyFull(delegacioID);
+        ColaboracioDelegacioJPA delegacio = findByPrimaryKey(request, delegacioID);
 
         if (delegacio == null || !delegacio.isEsDelegat()
                 || delegacio.getFitxerAutoritzacioID() != null) {
@@ -1068,10 +1032,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             documents = docs.toString();
         }
 
-        UsuariEntitatJPA destinatari;
-        destinatari = usuariEntitatLogicaEjb.findByPrimaryKeyFull(delegacio.getDestinatariID());
-        UsuariEntitatJPA delegat;
-        delegat = usuariEntitatLogicaEjb.findByPrimaryKeyFull(delegacio.getColaboradorDelegatID());
+        UsuariEntitatJPA destinatari = usuariEntitatLogicaEjb.findByPrimaryKeyFull(delegacio.getDestinatariID());
+        UsuariEntitatJPA delegat = usuariEntitatLogicaEjb.findByPrimaryKeyFull(delegacio.getColaboradorDelegatID());
 
         // TODO Check destinatari i delegat
 
@@ -1206,9 +1168,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
                                            @PathVariable("signaturesSetID") String signaturesSetID) {
 
-        SignaturesSetWeb ss;
-        ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
-
+        SignaturesSetWeb ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
         StatusSignaturesSet sss = ss.getStatusSignaturesSet();
 
         // Primera i unica firma

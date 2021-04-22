@@ -215,7 +215,18 @@
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>portafib_back-dest</web-resource-name>
+            <web-resource-name>portafib_back-dest-user</web-resource-name>
+            <url-pattern>/dest/colaborador/*</url-pattern>
+            <url-pattern>/dest/delegat/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>PFI_USER</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>portafib_back-dest-tothom</web-resource-name>
             <url-pattern>/dest/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>

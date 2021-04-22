@@ -75,6 +75,14 @@ implements ConstantsV2 {
     return false;
   }
 
+  /**
+   * Indica si l'usuari actual pot accedir a aquesta colaboracio delegacio. En aquest cas, si es el colaborador/delegat.
+   */
+  protected boolean userCanAccess(ColaboracioDelegacioJPA colaDele) {
+    String currentUsuariEntitat = LoginInfo.getInstance().getUsuariEntitatID();
+    return colaDele.getColaboradorDelegatID().equals(currentUsuariEntitat);
+  }
+
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
     Where w =  Where.AND(
