@@ -117,6 +117,12 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   }
 
   @Override
+  @RolesAllowed({"PFI_ADMIN","PFI_USER", "tothom"})
+  public UsuariEntitat update(UsuariEntitat instance) throws I18NException {
+    return super.update(instance);
+  }
+
+  @Override
   public UsuariEntitatJPA findByPrimaryKeyFull(String usuariEntitatID)  {
     return findByPrimaryKeyFull(this, usuariEntitatID); 
   }
@@ -156,15 +162,6 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     return ue;
   }
 
-  
-  
-  @PostConstruct
-  public void init() {
-    // Funciona quan és crida per primera vegada a uns dels mètodes de l'EJB
-  }
-  
-  
-  
   @Override
   public UsuariPersonaJPA create(UsuariPersonaJPA usuariPersonaJPA
     , Set<String> virtualRoles)
@@ -178,9 +175,6 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     return usuariEntitatJPA.getUsuariPersona();
     
   }
-  
-  
-  
 
   @Override
   public UsuariEntitatJPA create(UsuariPersonaJPA usuariPersonaJPA,
@@ -272,8 +266,6 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     return usuariEntitatJPA;
   }
   
-
-
 
 	@Override
 	public List<UsuariEntitatJPA> findByPrimaryKeyFullWithEntitat(

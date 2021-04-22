@@ -54,7 +54,6 @@
           ${loginInfo.usuariPersona.nom}&nbsp;${loginInfo.usuariPersona.llinatges}
           <span class="caret"></span>
         </a>
-        <sec:authorize access="hasRole('ROLE_USER')">
         <c:if test="${loginInfo.usuariPersona.usuariIntern}">
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
           <li><a tabindex="-1" href="<c:url value="/common/configuracio/usuaripersona/${pageContext.request.userPrincipal.name}/edit"/>"><fmt:message key="configuracio" /></a></li>
@@ -64,7 +63,6 @@
           </c:if>
         </ul>
         </c:if>
-        </sec:authorize>
       </li>
    </c:if> 
 

@@ -5,7 +5,9 @@ import es.caib.portafib.back.controller.webdb.UsuariEntitatController;
 import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.logic.EntitatLogicaLocal;
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
+import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
@@ -13,6 +15,7 @@ import es.caib.portafib.utils.ConstantsPortaFIB.POLITICA_CUSTODIA;
 import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
@@ -35,19 +38,20 @@ import java.util.List;
 @RequestMapping(value = "/common/configuracio/usuarientitat")
 public class ConfiguracioUsuariEntitatController extends UsuariEntitatController {
 
-  @EJB(mappedName = "portafib/EntitatEJB/local")
-  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
-  
-  
+  @EJB(mappedName = EntitatLogicaLocal.JNDI_NAME)
+  protected EntitatLogicaLocal entitatLogicaEjb;
+
   @EJB(mappedName = PropietatGlobalLogicaLocal.JNDI_NAME)
   protected PropietatGlobalLogicaLocal propietatEjb;
+
+  @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
+  protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
   @Override
   public String getTileForm() {
     return "configuracioUsuariEntitatForm";
   }
 
-  
   @Override
   public UsuariEntitatForm getUsuariEntitatForm(UsuariEntitatJPA _jpa, boolean __isView,
       HttpServletRequest request, ModelAndView mav) throws I18NException {
@@ -61,7 +65,6 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
 
     // Obtenim l'usuarientitat carregat al form
     UsuariEntitat ue = usuariEntitatForm.getUsuariEntitat();
-    UsuariPersona up = loginInfo.getUsuariPersona();
 
     // Comprovam que no es modifiqui un usuari que no es amb el que t'has
     // logueat
@@ -105,6 +108,7 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
         I18NUtils.tradueix("configuracio_usuari_entitat.help.email"));
 
     // Fixam la llista de usuaripersona amb l'usuari persona indicat
+    UsuariPersona up = loginInfo.getUsuariPersona();
     StringKeyValue skvUP = new StringKeyValue(up.getUsuariPersonaID(), up.getNom() + " "
         + up.getLlinatges() + " (" + up.getNif() + ")");
     List<StringKeyValue> lskvUP = new ArrayList<StringKeyValue>(1);
@@ -112,7 +116,7 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
     usuariEntitatForm.setListOfUsuariPersonaForUsuariPersonaID(lskvUP);
 
     // Fixam la llista d'entitats amb l'entitat actual
-    Entitat entitat = entitatEjb.findByPrimaryKey(ue.getEntitatID());
+    Entitat entitat = entitatLogicaEjb.findByPrimaryKeyPublic(ue.getEntitatID());
     StringKeyValue skvEntitat = new StringKeyValue(entitat.getEntitatID(), entitat.getNom());
     List<StringKeyValue> lskvEntitat = new ArrayList<StringKeyValue>(1);
     lskvEntitat.add(skvEntitat);
@@ -136,7 +140,11 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
   public boolean isActiveFormNew() {
     return false;
   }
-  
+
+  @Override
+  public boolean isActiveDelete() {
+    return false;
+  }
 
   @Override
   public boolean isActiveList() {
@@ -160,9 +168,6 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
     return GestioEntitatAdminController.staticGetReferenceListForPoliticaCustodia(POLITICA_CUSTODIA.POLITICA_CUSTODIA_USUARI_ENTITAT);
   }
 
-  
-
-
   /**
    * #173
    */
@@ -183,6 +188,17 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
 
     return __tmp;
   }
-  
-  
+
+  @Override
+  public UsuariEntitatJPA findByPrimaryKey(HttpServletRequest request, String usuariEntitatID) throws I18NException {
+    if (!LoginInfo.getInstance().getUsuariEntitatID().equals(usuariEntitatID)) {
+      return null;
+    }
+    return usuariEntitatLogicaEjb.findByPrimaryKey(usuariEntitatID);
+  }
+
+  @Override
+  public UsuariEntitatJPA update(HttpServletRequest request, UsuariEntitatJPA usuariEntitat) throws Exception, I18NException, I18NValidationException {
+    return (UsuariEntitatJPA) usuariEntitatLogicaEjb.update(usuariEntitat);
+  }
 }

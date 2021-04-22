@@ -43,15 +43,13 @@ pageContext.setAttribute("androidApk", androidApk);
    <c:if test="${not empty loginInfo.usuariPersona}" >
        <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
        <li style="list-style-type: disc; list-style-position: inside;" ><a href="<c:url value="/common/configuracio/usuaripersona/${loginInfo.usuariPersona.usuariPersonaID}/edit"/>" ><span style="${(fn:contains(url, 'configuracio/usuaripersona') && fn:contains(url, '/edit'))? "font-weight: bold;" : ""}" ><fmt:message key="inici.configuracio.usuaripersona" /></span></a></li>
+
+       <c:if test="${not empty loginInfo.entitatID}" >
+            <li style="list-style-type: disc; list-style-position: inside;" ><a href="<c:url value="/common/configuracio/usuarientitat/${loginInfo.usuariEntitatID}/edit"/>" ><span style="${(fn:contains(url, 'configuracio/usuarientitat') && fn:contains(url, '/edit'))? "font-weight: bold;" : ""}" ><fmt:message key="inici.configuracio.usuarientitat" /></span></a></li>
+       </c:if>
    </c:if>
 
    <sec:authorize access="hasRole('ROLE_USER')">
-
-       <c:if test="${not empty loginInfo.usuariPersona}" >
-           <c:if test="${not empty loginInfo.entitatID}" >
-                <li style="list-style-type: disc; list-style-position: inside;" ><a href="<c:url value="/common/configuracio/usuarientitat/${loginInfo.usuariEntitatID}/edit"/>" ><span style="${(fn:contains(url, 'configuracio/usuarientitat') && fn:contains(url, '/edit'))? "font-weight: bold;" : ""}" ><fmt:message key="inici.configuracio.usuarientitat" /></span></a></li>
-           </c:if>
-       </c:if>
 
        <sec:authorize access="hasAnyRole('ROLE_SOLI', 'ROLE_DEST', 'ROLE_ADEN')">
           <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
