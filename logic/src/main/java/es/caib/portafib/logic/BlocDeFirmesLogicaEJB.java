@@ -55,7 +55,6 @@ public class BlocDeFirmesLogicaEJB extends BlocDeFirmesEJB
   @Override
   public BlocDeFirmesJPA createFull(BlocDeFirmesJPA blocDeFirmesJPA) throws I18NException, I18NValidationException {
     Set<FirmaJPA> firmes = blocDeFirmesJPA.getFirmas();
-    //blocDeFirmesJPA.setFirmas(null);
 
     blocDeFirmesJPA.setBlocDeFirmesID(0);
     BlocDeFirmes blocBD = create(blocDeFirmesJPA);

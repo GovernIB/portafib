@@ -20,7 +20,7 @@ public class Revisor extends Usuari {
     }
 
     public void acceptarDarrera() {
-        if (getTasksUrl().equals(webDriver.getCurrentUrl())) {
+        if (!getTasksUrl().equals(webDriver.getCurrentUrl())) {
             webDriver.get(getTasksUrl());
         }
         webDriver.findElement(By.xpath("//table/tbody/tr/td[last()]/div/a[2]")).click();
@@ -28,7 +28,7 @@ public class Revisor extends Usuari {
     }
 
     public void rebutjarDarrera(String motiu) {
-        if (getTasksUrl().equals(webDriver.getCurrentUrl())) {
+        if (!getTasksUrl().equals(webDriver.getCurrentUrl())) {
             webDriver.get(getTasksUrl());
         }
         webDriver.findElement(By.xpath("//table/tbody/tr/td[last()]/div/a[2]")).click();

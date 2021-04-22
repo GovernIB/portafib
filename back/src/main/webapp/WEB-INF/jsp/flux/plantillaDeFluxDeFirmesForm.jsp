@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java"
 %><%@page import="es.caib.portafib.logic.utils.BlocUtils"
+%><%@page import="es.caib.portafib.logic.utils.FirmaUtils"
 %><%@page import="es.caib.portafib.jpa.BlocDeFirmesJPA"
+%><%@page import="es.caib.portafib.jpa.FirmaJPA"
 %><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <style>
 .radius {
@@ -287,7 +289,9 @@
                           <td width="100%">
                             <span style="text-align: center;">
                               <c:forEach items="${bloc.firmas}" var="firma">
-
+                                <%
+                                FirmaJPA firma = (FirmaJPA) pageContext.getAttribute("firma");
+                                %>
                                 <c:set var="background"
                                   value="${fluxDeFirmesForm.backgroundColorsOfFirma[firma.firmaID]}" />
                                 <c:if test="${not empty background}">
@@ -383,19 +387,10 @@
                                       <c:if test="${ not empty firma.revisorDeFirmas}">
                                         <br/>
                                        
-                                        <c:set var="minimposible" value="0"/>
-                                        <c:set var="tenoobligatories" value="0"/>
-                                        <c:forEach var="revisor" items="${firma.revisorDeFirmas}">
-                                          <c:if test="${not revisor.obligatori}">
-                                            <c:set var="tenoobligatories" value="1"/>
-                                          </c:if>
-                                          <c:if test="${revisor.obligatori}">
-                                            <c:set var="minimposible" value="${minimposible + 1}"/>
-                                          </c:if>
-                                        </c:forEach>
-                                  
-                                        <c:set var="minimposible" value="${minimposible + tenoobligatories}"/>
-                                        
+                                        <%-- Calcul del menor valor admisible per MinimDeFirmes --%>
+                                        <%
+                                          pageContext.setAttribute("minimRevisors", FirmaUtils.minimRevisors(firma.getRevisorDeFirmas()));
+                                        %>
                                         
                                         <div class="btn-group" style="padding-top: 2px;">
                                           <button
@@ -407,7 +402,7 @@
                                           </button>
       
                                           <ul class="dropdown-menu">
-                                            <c:forEach var="i" begin="${minimposible}" end="${fn:length(firma.revisorDeFirmas)}">
+                                            <c:forEach var="i" begin="${minimRevisors}" end="${fn:length(firma.revisorDeFirmas)}">
                                               <li><a href="#"
                                                 onclick="changeMinimDeRevisors('${bloc.blocDeFirmesID}', '${firma.firmaID}', '${i}')">${i}</a>
                                               </li>

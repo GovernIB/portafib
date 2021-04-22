@@ -78,6 +78,34 @@ public class DestintariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
     }
 
     @Test
+    public void testCreateAndDelete()  {
+        int firmes = destinatariA.tasquesPendents();
+        long peticio = crearPeticioDestinataris(destinatariA);
+
+        Assert.assertEquals(firmes + 1, destinatariA.tasquesPendents());
+        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+
+        deletePeticio(peticio);
+
+        Assert.assertEquals(firmes, destinatariA.tasquesPendents());
+    }
+
+    @Test
+    public void testCreateAndDelete2()  {
+
+        int revisions = revisorA.tasquesPendents();
+
+        long peticio = crearPeticioDestinariRevisor(destinatariA, revisorA);
+
+        Assert.assertEquals(revisions + 1, revisorA.tasquesPendents());
+        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+
+        deletePeticio(peticio);
+
+        Assert.assertEquals(revisions, revisorA.tasquesPendents());
+    }
+
+    @Test
     public void testCreateWithFlow() {
 
         int firmes = destinatariA.tasquesPendents();
@@ -95,7 +123,7 @@ public class DestintariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
     }
 
     @Test
-    public void testCreateAndSign()  {
+    public void testCreateAndSignA()  {
 
         int firmes = destinatariA.tasquesPendents();
         long peticio = crearPeticioDestinataris(destinatariA);
@@ -108,6 +136,23 @@ public class DestintariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
 
         // després de signar, hi torna haver el mateix nombre de firmes pendents i l'estat de la petició és signed.
         Assert.assertEquals(firmes, destinatariA.tasquesPendents());
+        Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+    }
+
+    @Test
+    public void testCreateAndSignB()  {
+
+        int firmes = destinatariB.tasquesPendents();
+        long peticio = crearPeticioDestinataris(destinatariB);
+
+        // el nombre de firmes pendents s'ha incrementat en un i l'estat de la petició és running....
+        Assert.assertEquals(firmes + 1, destinatariB.tasquesPendents());
+        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+
+        destinatariB.firmarDarreraPeticio();
+
+        // després de signar, hi torna haver el mateix nombre de firmes pendents i l'estat de la petició és signed.
+        Assert.assertEquals(firmes, destinatariB.tasquesPendents());
         Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
     }
 

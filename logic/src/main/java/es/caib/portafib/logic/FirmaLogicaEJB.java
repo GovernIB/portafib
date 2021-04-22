@@ -108,10 +108,8 @@ public class FirmaLogicaEJB extends FirmaEJB implements FirmaLogicaLocal {
 
   public FirmaJPA createFull(FirmaJPA firma) throws I18NException {
     // TODO validar
-    
+
     Set<RevisorDeFirmaJPA> revisors = firma.getRevisorDeFirmas();
-    firma.setRevisorDeFirmas(null);
-    
     FirmaJPA f = (FirmaJPA) create(firma);
 
     if (revisors != null && revisors.size() != 0) {

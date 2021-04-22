@@ -23,7 +23,7 @@ public class Destinatari extends Usuari {
     }
 
     public void firmarDarreraPeticio() {
-        if (getTasksUrl().equals(webDriver.getCurrentUrl())) {
+        if (!getTasksUrl().equals(webDriver.getCurrentUrl())) {
             webDriver.get(getTasksUrl());
         }
         webDriver.findElement(By.id("selectedItems1")).click();

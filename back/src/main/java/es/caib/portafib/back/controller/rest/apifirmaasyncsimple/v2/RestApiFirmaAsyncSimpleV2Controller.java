@@ -1249,20 +1249,15 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
     List<FirmaAsyncSimpleReviser> revisors = firmaBean.getRevisers();
 
-    if (revisors == null || revisors.size() == 0) {
-      jpa.setRevisorDeFirmas(null);
-    } else {
-
-      Set<RevisorDeFirmaJPA> revisorsJPA = new HashSet<RevisorDeFirmaJPA>();
-
+    if (revisors != null && revisors.size() > 0) {
       for (FirmaAsyncSimpleReviser rev : revisors) {
         String usuariEntitatID = searchUser(rev, entitatID,
             RevisorDeFirmaFields.USUARIENTITATID, languageUI, false);//canCreate=false pq no cream automàticament revisors
         RevisorDeFirmaJPA revisor = new RevisorDeFirmaJPA(usuariEntitatID, 0, rev.isRequired());
-        revisorsJPA.add(revisor);
+        jpa.getRevisorDeFirmas().add(revisor);
       }
-      jpa.setRevisorDeFirmas(revisorsJPA);
     }
+
     return jpa;
   }
 

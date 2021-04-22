@@ -19,7 +19,7 @@ public class Colaborador extends Usuari {
     }
 
     public void validarDarrera() {
-        if (getTasksUrl().equals(webDriver.getCurrentUrl())) {
+        if (!getTasksUrl().equals(webDriver.getCurrentUrl())) {
             webDriver.get(getTasksUrl());
         }
         webDriver.findElement(By.xpath("//table/tbody/tr/td[last()]/div/a[2]")).click();
