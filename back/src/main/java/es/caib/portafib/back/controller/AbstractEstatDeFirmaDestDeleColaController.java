@@ -30,6 +30,8 @@ import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
+import es.caib.portafib.logic.signatures.Signature;
+import es.caib.portafib.logic.signatures.SignatureServiceLocal;
 import es.caib.portafib.logic.signatures.SignatureValidation;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
@@ -164,6 +166,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
     @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
     protected RevisorDeFirmaLocal revisorDeFirmaEjb;
+
+    @EJB(mappedName = SignatureServiceLocal.JNDI_NAME)
+    protected SignatureServiceLocal signatureServiceEjb;
 
 
     final Long[] ESTATS_INICIALS_COLA = new Long[]{
@@ -3002,14 +3007,18 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         // 1.- Fitxers a visualitzar
         procesFitxersAVeure(mav, peticioDeFirmaID, peticioDeFirma);
 
-        // Afegir informació sobre firmes prèvies #513
-        mav.addObject("signatures", peticioDeFirmaLogicaEjb.getOriginalSignatures(peticioDeFirma));
 
+        List<FitxerJPA> fitxers = new ArrayList<FitxerJPA>();
+        fitxers.add(peticioDeFirma.getFitxerAFirmar());
+        for (AnnexJPA annex : peticioDeFirma.getAnnexs()) {
+            fitxers.add(annex.getFitxer());
+        }
+
+        // Afegir informació sobre firmes prèvies #513 #501
+        Map<Long, List<Signature>> signatures = processSignatures(fitxers);
+        mav.addObject("signatures", signatures);
         if (request.getParameter("validar") != null) {
-            String lang = LoginInfo.getInstance().getUsuariPersona().getIdiomaID();
-            SignatureValidation validation =
-                    peticioDeFirmaLogicaEjb.getOriginalSignaturesValidation(peticioDeFirma, lang);
-            mav.addObject("signaturesValidation", new SignatureValidationHelper(validation));
+            mav.addObject("signaturesValidation", processSignaturesValidation(fitxers, signatures));
         }
 
         // Traduccions
@@ -3059,7 +3068,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         mav.addObject("fitxers", fitxers);
     }
 
-    public String processFileType(FitxerJPA f) {
+    private String processFileType(FitxerJPA f) {
         String mime = f.getMime();
 
         if (mime.equals(ConstantsV2.MIME_TYPE_PDF)) {
@@ -3075,6 +3084,31 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         }
 
         return String.valueOf(ConstantsV2.DOC_BIN);
+    }
+
+    private Map<Long, List<Signature>> processSignatures(List<FitxerJPA> fitxers) throws I18NException {
+        Map<Long, List<Signature>> signatures = new HashMap<Long, List<Signature>>();
+        for (FitxerJPA fitxer: fitxers) {
+            List<Signature> signatureList = signatureServiceEjb.getSignatures(fitxer);
+            signatures.put(fitxer.getFitxerID(), signatureList);
+        }
+        return signatures;
+    }
+
+    private Map<Long, SignatureValidationHelper> processSignaturesValidation(List<FitxerJPA> fitxers, Map<Long, List<Signature>> signatures)
+            throws I18NException {
+        String lang = LoginInfo.getInstance().getUsuariPersona().getIdiomaID();
+        String entitat = LoginInfo.getInstance().getEntitatID();
+
+        Map<Long, SignatureValidationHelper> signaturesValidation = new HashMap<Long, SignatureValidationHelper>();
+        for (FitxerJPA fitxer: fitxers) {
+            List<Signature> signatureList = signatures.get(fitxer.getFitxerID());
+            if (signatureList != null && !signatureList.isEmpty()) {
+                SignatureValidation validation = signatureServiceEjb.getSignaturesValidation(fitxer, entitat, lang);
+                signaturesValidation.put(fitxer.getFitxerID(), new SignatureValidationHelper(validation));
+            }
+        }
+        return signaturesValidation;
     }
 
     public String getFullViewTile() {

@@ -1,5 +1,7 @@
 package es.caib.portafib.logic.signatures;
 
+import es.caib.portafib.model.entity.Fitxer;
+
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -29,7 +31,7 @@ public class SignatureExtractorFactory {
         return EXTRACTOR_MAP.get(signType);
     }
 
-    public SignatureExtractor getExtractor(int signTypeId) {
-        return getExtractor(SignType.fromId(signTypeId));
+    public SignatureExtractor getExtractor(Fitxer fitxer) {
+        return getExtractor(SignType.fromFile(fitxer));
     }
 }

@@ -20,7 +20,8 @@ public class SignatureFactory {
             throw new IllegalArgumentException("certificate is null");
         }
 
-        Signature.Builder builder = new Signature.Builder(certificate, date)
+        Signature.Builder builder = new Signature.Builder()
+                .signingTime(date)
                 .signerName(CertificateUtils.getSubjectCorrectName(certificate))
                 .signerAdministrationId(CertificateUtils.getDNI(certificate));
 

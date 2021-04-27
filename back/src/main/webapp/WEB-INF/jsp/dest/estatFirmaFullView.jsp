@@ -6,51 +6,6 @@
 <!--  INICI MENU -->
 <div class="mainMenu span5">
 
-  <c:if test="${not empty signatures}">
-  <div>
-      <style>
-          .bs-docs-signatures:after {
-              content: "<fmt:message key="firmes.previes" />";
-          }
-      </style>
-      <form class="bs-docs-signatures bs-docs-example form-inline" style="margin-bottom: 5px;">
-        <ul style="list-style-type:square;">
-        <c:forEach var="signature" items="${signatures}">
-        <li>
-        <small>
-           <strong>${signature.signerName} (${signature.signerAdministrationId})<br />
-           <c:if test="${not empty signature.organizationName}">
-              <fmt:message key="firmes.representacio" >
-                <fmt:param value="${signature.organizationName}" />
-                <fmt:param value="${signature.organizationAdministrationId}" />
-              </fmt:message><br />
-           </c:if>
-           <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${signature.signingTime}" /></strong>
-        </small>
-        </li>
-        </c:forEach>
-        </ul>
-        <c:choose>
-            <c:when test="${empty signaturesValidation}">
-               <c:url var="validatingUrl" value="${contexte}/fullView/${estatID}/${peticioID}">
-                 <c:param name="validar" value="1"/>
-               </c:url>
-               <a class="btn btn-small btn-warning" href="#" onclick="goTo('${validatingUrl}')">
-                  <i class="icon-check"></i> <fmt:message key="validar" /> </a>
-            </c:when>
-            <c:otherwise>
-                <p class="${signaturesValidation.statusStyle}">
-                    <strong>
-                        <c:out value="${signaturesValidation.status}" />&nbsp;
-                        <c:out value="${signaturesValidation.message}" />
-                    </strong>
-                </p>
-            </c:otherwise>
-        </c:choose>
-      </form>
-  </div>
-  </c:if>
-
   <iframe scrolling="auto"
     src="<c:url value="/${rolecontext}/plantilla/viewonlyflux/${peticioDeFirma.fluxDeFirmesID}?readOnly=true"/>"
     style="width: 100%; height: 375px;"> </iframe>

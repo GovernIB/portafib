@@ -1,11 +1,9 @@
 package es.caib.portafib.logic.signatures;
 
-import java.security.cert.X509Certificate;
 import java.util.Date;
 
 public class Signature {
 
-    private final X509Certificate certificate;
     private final String signerName;
     private final String signerAdministrationId;
     private final String organizationName;
@@ -13,17 +11,16 @@ public class Signature {
     private final Date signingTime;
 
     protected static class Builder {
-        private final X509Certificate certificate;
-        private final Date signingTime;
 
+        private Date signingTime;
         private String signerName;
         private String signerAdministrationId;
         private String organizationName;
         private String organizationAdministrationId;
 
-        public Builder(X509Certificate certificate, Date signingTime) {
-            this.certificate = certificate;
+        public Builder signingTime(Date signingTime) {
             this.signingTime = signingTime;
+            return this;
         }
 
         public Builder signerName(String signerName) {
@@ -52,16 +49,11 @@ public class Signature {
     }
 
     private Signature(Builder builder) {
-        this.certificate = builder.certificate;
         this.signingTime = builder.signingTime;
         this.signerName = builder.signerName;
         this.signerAdministrationId = builder.signerAdministrationId;
         this.organizationAdministrationId = builder.organizationAdministrationId;
         this.organizationName = builder.organizationName;
-    }
-
-    public X509Certificate getCertificate() {
-        return certificate;
     }
 
     public String getSignerName() {
