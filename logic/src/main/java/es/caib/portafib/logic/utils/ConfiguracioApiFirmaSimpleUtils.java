@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.caib.portafib.logic.utils;
 
 import java.util.HashMap;
@@ -15,46 +10,34 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentReq
  */
 public class ConfiguracioApiFirmaSimpleUtils extends ConfiguracioCommonUtils {
 
-    public static String CONFIGURACIO_FIRMA_SIMPLE_SIGN_DOCUMENT_REQUEST = "firmaSimpleSignDocumentRequest";
-    public static String CONFIGURACIO_FIRMA_SIMPLE_ISUPGRADE = "isUpgrade";
-    
-    public ConfiguracioApiFirmaSimpleUtils(boolean isUpgrade, FirmaSimpleSignDocumentRequest firmaSimpleSigndocumentRequest, int usFirma) {
-        super(usFirma, ((firmaSimpleSigndocumentRequest!=null)
-                &&(firmaSimpleSigndocumentRequest.getCommonInfo()!=null))?firmaSimpleSigndocumentRequest.getCommonInfo().getLanguageUI():null);
-        this.isUpgrade = isUpgrade;
+    private static final String CONFIGURACIO_FIRMA_SIMPLE_SIGN_DOCUMENT_REQUEST = "firmaSimpleSignDocumentRequest";
+
+    private final FirmaSimpleSignDocumentRequest firmaSimpleSigndocumentRequest;
+
+    public ConfiguracioApiFirmaSimpleUtils(int usFirma, FirmaSimpleSignDocumentRequest firmaSimpleSigndocumentRequest) {
+        super(usFirma);
         this.firmaSimpleSigndocumentRequest = firmaSimpleSigndocumentRequest;
     }
 
-    private boolean isUpgrade;
-    private FirmaSimpleSignDocumentRequest firmaSimpleSigndocumentRequest;
-
-    public boolean isIsUpgrade() {
-        return isUpgrade;
+    @Override
+    protected String getLang() {
+        return firmaSimpleSigndocumentRequest.getCommonInfo().getLanguageUI();
     }
 
-    public void setIsUpgrade(boolean isUpgrade) {
-        this.isUpgrade = isUpgrade;
+    @Override
+    protected long getTamanyFitxer() {
+        return firmaSimpleSigndocumentRequest.getFileInfoSignature().getFileToSign().getData().length;
     }
 
-    public FirmaSimpleSignDocumentRequest getFirmaSimpleSigndocumentRequest() {
-        return firmaSimpleSigndocumentRequest;
-    }
-
-    public void setFirmaSimpleSigndocumentRequest(FirmaSimpleSignDocumentRequest firmaSimpleSigndocumentRequest) {
-        this.firmaSimpleSigndocumentRequest = firmaSimpleSigndocumentRequest;
+    @Override
+    protected String getMimeFitxer() {
+        return firmaSimpleSigndocumentRequest.getFileInfoSignature().getFileToSign().getMime();
     }
 
     @Override
     protected Map<String, Object> getConfigParameters() {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put(CONFIGURACIO_FIRMA_SIMPLE_SIGN_DOCUMENT_REQUEST, getFirmaSimpleSigndocumentRequest());
-        parameters.put(CONFIGURACIO_FIRMA_SIMPLE_ISUPGRADE, isIsUpgrade());
+        parameters.put(CONFIGURACIO_FIRMA_SIMPLE_SIGN_DOCUMENT_REQUEST, firmaSimpleSigndocumentRequest);
         return parameters;
     }
-
-    @Override
-    protected Long getConfigID() {
-        return null;
-    }
-    
 }

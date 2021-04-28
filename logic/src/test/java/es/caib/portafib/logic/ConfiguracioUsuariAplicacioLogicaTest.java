@@ -6,8 +6,11 @@ import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
+import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.utils.ConstantsV2;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -131,7 +134,7 @@ public class ConfiguracioUsuariAplicacioLogicaTest {
                 .when(configuracioUsuariAplicacioLogica).findByPrimaryKey(Long.valueOf(CONFIGURACIO_FIRMA_1));
 
         UsuariAplicacioConfiguracioJPA result = configuracioUsuariAplicacioLogica
-                .getConfiguracioUsuariAplicacioPerUpgrade(USUARI_APLICACIO_ID, perfil, null);
+                .getConfiguracioUsuariAplicacioPerUpgrade(USUARI_APLICACIO_ID, perfil, getFirmaSimpleUpgradeRequest());
 
         Assert.assertEquals(CONFIGURACIO_FIRMA_1, result.getUsuariAplicacioConfigID());
     }
@@ -149,7 +152,7 @@ public class ConfiguracioUsuariAplicacioLogicaTest {
                 .when(configuracioUsuariAplicacioLogica).findByPrimaryKey(Long.valueOf(CONFIGURACIO_FIRMA_2));
 
         UsuariAplicacioConfiguracioJPA result = configuracioUsuariAplicacioLogica
-                .getConfiguracioUsuariAplicacioPerUpgrade(USUARI_APLICACIO_ID, perfil, null);
+                .getConfiguracioUsuariAplicacioPerUpgrade(USUARI_APLICACIO_ID, perfil, getFirmaSimpleUpgradeRequest());
 
         Assert.assertEquals(CONFIGURACIO_FIRMA_2, result.getUsuariAplicacioConfigID());
     }
@@ -177,7 +180,7 @@ public class ConfiguracioUsuariAplicacioLogicaTest {
         PerfilDeFirma perfil = new PerfilDeFirmaJPA();
         perfil.setNom("perfil test");
         perfil.setCondicio(
-                "<#if usFirma == " + usFirma + ">\n" +
+                "<#if usFirma == " + usFirma + " && tamanyFitxer == 100 && mimeFitxer == \"application/pdf\">\n" +
                 "     2\n" +
                 "<#else>\n" +
                 "     1\n" +
@@ -190,9 +193,16 @@ public class ConfiguracioUsuariAplicacioLogicaTest {
     private PassarelaSignaturesSet getPassarelaSignaturesSet() {
         PassarelaFileInfoSignature fileInfoSignature = new PassarelaFileInfoSignature();
         fileInfoSignature.setSignID("signId");
+        fileInfoSignature.setFileToSign(new FitxerBean("prova.pdf", null, 100, "application/pdf"));
         PassarelaFileInfoSignature[] fileInfoSignatures = {fileInfoSignature};
         return new PassarelaSignaturesSet(
                 "id", new Date(), new PassarelaCommonInfoSignature(), fileInfoSignatures);
     }
 
+    private FirmaSimpleUpgradeRequest getFirmaSimpleUpgradeRequest() {
+        FirmaSimpleUpgradeRequest firmaSimpleUpgradeRequest = new FirmaSimpleUpgradeRequest();
+        FirmaSimpleFile signature = new FirmaSimpleFile("prova.pdf", "application/pdf", new byte[100]);
+        firmaSimpleUpgradeRequest.setSignature(signature);
+        return firmaSimpleUpgradeRequest;
+    }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.caib.portafib.logic.utils;
 
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
@@ -16,47 +11,39 @@ import java.util.Map;
  */
 public class ConfiguracioUsuariAplicacioPassarelaUtils extends ConfiguracioCommonUtils {
 
-    public static String CONFIGURACIO_PASSARELA_FILE_INFO_SIGNATURE = "passarelaFileInfoSignature";
-    public static String CONFIGURACIO_PASSARELA_COMMON_INFO_SIGNATURE = "passarelaCommonInfoSignature";
+    private static final String CONFIGURACIO_PASSARELA_FILE_INFO_SIGNATURE = "passarelaFileInfoSignature";
+    private static final String CONFIGURACIO_PASSARELA_COMMON_INFO_SIGNATURE = "passarelaCommonInfoSignature";
 
-    public ConfiguracioUsuariAplicacioPassarelaUtils(PassarelaCommonInfoSignature passarelaCommonInfoSignature, PassarelaFileInfoSignature passarelaFileInfoSignature, int usFirma) {
-        super(usFirma, (passarelaCommonInfoSignature!=null)?passarelaCommonInfoSignature.getLanguageUI():null);
+    private final PassarelaCommonInfoSignature passarelaCommonInfoSignature;
+    private final PassarelaFileInfoSignature passarelaFileInfoSignature;
+
+    public ConfiguracioUsuariAplicacioPassarelaUtils(int usFirma, PassarelaCommonInfoSignature passarelaCommonInfoSignature, PassarelaFileInfoSignature passarelaFileInfoSignature) {
+        super(usFirma);
         this.passarelaCommonInfoSignature = passarelaCommonInfoSignature;
         this.passarelaFileInfoSignature = passarelaFileInfoSignature;
     }
-    
-    private PassarelaCommonInfoSignature passarelaCommonInfoSignature;
-    private PassarelaFileInfoSignature passarelaFileInfoSignature;
 
-    
-    public PassarelaCommonInfoSignature getPassarelaCommonInfoSignature() {
-        return passarelaCommonInfoSignature;
+    @Override
+    protected String getLang() {
+        return passarelaCommonInfoSignature.getLanguageUI();
     }
 
-    public void setPassarelaCommonInfoSignature(PassarelaCommonInfoSignature passarelaCommonInfoSignature) {
-        this.passarelaCommonInfoSignature = passarelaCommonInfoSignature;
+    @Override
+    protected long getTamanyFitxer() {
+        return passarelaFileInfoSignature.getFileToSign().getTamany();
     }
 
-    public PassarelaFileInfoSignature getPassarelaFileInfoSignature() {
-        return passarelaFileInfoSignature;
+    @Override
+    protected String getMimeFitxer() {
+        return passarelaFileInfoSignature.getFileToSign().getMime();
     }
-
-    public void setPassarelaFileInfoSignature(PassarelaFileInfoSignature passarelaFileInfoSignature) {
-        this.passarelaFileInfoSignature = passarelaFileInfoSignature;
-    }
-    
 
     @Override
     protected Map<String, Object> getConfigParameters() {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put(CONFIGURACIO_PASSARELA_FILE_INFO_SIGNATURE, getPassarelaFileInfoSignature());
-        parameters.put(CONFIGURACIO_PASSARELA_COMMON_INFO_SIGNATURE, getPassarelaCommonInfoSignature());
+        parameters.put(CONFIGURACIO_PASSARELA_FILE_INFO_SIGNATURE, passarelaFileInfoSignature);
+        parameters.put(CONFIGURACIO_PASSARELA_COMMON_INFO_SIGNATURE, passarelaCommonInfoSignature);
         return parameters;
-    }
-
-    @Override
-    protected Long getConfigID() {
-        return null;
     }
     
 }

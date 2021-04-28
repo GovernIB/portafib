@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.caib.portafib.logic.utils;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithSignBlockList;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
 
 /**
  *
@@ -16,35 +12,36 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentReq
  */
 public class ConfiguracioApiFirmaAsyncUtils extends ConfiguracioCommonUtils {
 
-    public static String CONFIGURACIO_FIRMA_SIGNATURE_REQUEST = "signatureRequest";
+    private static final String CONFIGURACIO_FIRMA_SIGNATURE_REQUEST = "signatureRequest";
+    private static final int US_FIRMA = ConstantsV2.US_FIRMA_CONF_APP_FIRMAASYNCSIMPLEREST2;
 
-    public ConfiguracioApiFirmaAsyncUtils(FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest, int usFirma) {
-        super(usFirma, (signatureRequest!=null)?signatureRequest.getLanguageUI():null);
-        this.signatureRequest = signatureRequest;
-    }
-    
-    private FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest;
+    private final FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest;
 
-    public FirmaAsyncSimpleSignatureRequestWithSignBlockList getSignatureRequest() {
-        return signatureRequest;
-    }
-
-    public void setSignatureRequest(FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest) {
+    public ConfiguracioApiFirmaAsyncUtils(FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest) {
+        super(US_FIRMA);
         this.signatureRequest = signatureRequest;
     }
 
+    @Override
+    protected String getLang() {
+        return signatureRequest.getLanguageUI();
+    }
+
+    @Override
+    protected long getTamanyFitxer() {
+        return signatureRequest.getFileToSign().getData().length;
+    }
+
+    @Override
+    protected String getMimeFitxer() {
+        return signatureRequest.getFileToSign().getMime();
+    }
 
     @Override
     protected Map<String, Object> getConfigParameters() {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put(CONFIGURACIO_FIRMA_SIGNATURE_REQUEST, getSignatureRequest());
-       
+        parameters.put(CONFIGURACIO_FIRMA_SIGNATURE_REQUEST, signatureRequest);
         return parameters;
-    }
-
-    @Override
-    protected Long getConfigID() {
-        return null;
     }
     
 }

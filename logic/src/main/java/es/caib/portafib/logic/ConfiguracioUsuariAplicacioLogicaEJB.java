@@ -222,12 +222,9 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     PerfilDeFirma perfilDeFirma = getPerfilDeFirmaPerPassarela(usuariAplicacioID,
             esFirmaEnServidor);
 
-    final int usFirma;
-    if (esFirmaEnServidor) {
-      usFirma = ConstantsV2.US_FIRMA_CONF_APP_PASSARELAFIRMASERVIDOR;
-    } else {
-      usFirma = ConstantsV2.US_FIRMA_CONF_APP_PASSARELAFIRMAWEB;
-    }
+    final int usFirma = esFirmaEnServidor
+            ? ConstantsV2.US_FIRMA_CONF_APP_PASSARELAFIRMASERVIDOR
+            : ConstantsV2.US_FIRMA_CONF_APP_PASSARELAFIRMAWEB;
 
     Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = new HashMap<String, UsuariAplicacioConfiguracioJPA>();
 
@@ -238,7 +235,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
             .getFileInfoSignatureArray()) {
 
       ConfiguracioUsuariAplicacioPassarelaUtils cfgUtils = new ConfiguracioUsuariAplicacioPassarelaUtils(
-              passarelaCommonInfoSignature, passarelaFileInfoSignature, usFirma);
+              usFirma, passarelaCommonInfoSignature, passarelaFileInfoSignature);
 
       UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);
       checkTePermisPerUsDeFirma(usuariAplicacioID, perfilDeFirma.getCodi(), usFirma, config);
@@ -351,10 +348,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
       String usuariAplicacioID, PerfilDeFirma perfilDeFirma,
       FirmaSimpleUpgradeRequest firmaSimpleUpgradeRequest) throws I18NException {
 
-    boolean isUpgrade = true;
-    int usFirma = ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR;
-    ConfiguracioUsuariAplicacioUpgradeUtils cfgUtils = new ConfiguracioUsuariAplicacioUpgradeUtils(
-            isUpgrade, firmaSimpleUpgradeRequest, usFirma);
+    ConfiguracioUsuariAplicacioUpgradeUtils cfgUtils = new ConfiguracioUsuariAplicacioUpgradeUtils(firmaSimpleUpgradeRequest);
     
     UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);
     
@@ -381,10 +375,10 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
 
     PerfilDeFirma perfilDeFirma = getPerfilDeFirma(usuariAplicacioID, codiPerfil);
 
-    boolean isUpgrade = false;
-    int usFirma = ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR;
     ConfiguracioApiFirmaSimpleUtils cfgUtils = new ConfiguracioApiFirmaSimpleUtils(
-            isUpgrade, firmaSimpleSignDocumentRequest, usFirma);
+            ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR,
+            firmaSimpleSignDocumentRequest
+    );
     
     UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);
     
@@ -402,11 +396,9 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
       String usuariAplicacioID, String codiPerfil,
       FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest) throws I18NException {
 
-    final int usFirma = ConstantsV2.US_FIRMA_CONF_APP_FIRMAASYNCSIMPLEREST2;
-
     PerfilDeFirma perfilDeFirma = getPerfilDeFirma(usuariAplicacioID, codiPerfil);
 
-    ConfiguracioApiFirmaAsyncUtils cfgUtils = new ConfiguracioApiFirmaAsyncUtils(signatureRequest, usFirma);
+    ConfiguracioApiFirmaAsyncUtils cfgUtils = new ConfiguracioApiFirmaAsyncUtils(signatureRequest);
     
     UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);  
 
@@ -418,11 +410,9 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
       String usuariAplicacioID, PerfilDeFirma perfilDeFirma,
       FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest) throws I18NException {
 
-    boolean isUpgrade = false;
-    int usFirma = ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB;
-      
     ConfiguracioApiFirmaSimpleUtils cfgUtils = new ConfiguracioApiFirmaSimpleUtils(
-            isUpgrade, firmaSimpleSignDocumentRequest, usFirma);
+            ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB,
+            firmaSimpleSignDocumentRequest);
 
     return avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);
   }
