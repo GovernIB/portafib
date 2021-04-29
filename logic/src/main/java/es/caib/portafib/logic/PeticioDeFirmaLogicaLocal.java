@@ -7,6 +7,7 @@ import java.util.Set;
 
 import es.caib.portafib.ejb.PeticioDeFirmaLocal;
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.EstatDeFirmaJPA;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
@@ -110,7 +111,7 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
   public void marcarRevisant(EstatDeFirma estatDeFirma, Firma firma,
       PeticioDeFirma peticioDeFirma) throws I18NException;
 
-  public void acceptar(EstatDeFirma estatDeFirma, Firma firma, PeticioDeFirma peticioDeFirma)
+  public void acceptar(EstatDeFirmaJPA estatDeFirma, FirmaJPA firma, PeticioDeFirmaJPA peticioDeFirma)
       throws I18NException;
 
   public void validar(EstatDeFirma estatDeFirma, Firma firma, PeticioDeFirma peticioDeFirma)

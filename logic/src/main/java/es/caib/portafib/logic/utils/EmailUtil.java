@@ -38,9 +38,6 @@ public class EmailUtil {
    *          Contenido a enviar
    * @param from
    *          Indica la procedencia del mensaje
-   * @param type
-   *          Indica el con que de que tipo es el destinatario, Copia, Copia
-   *          Oculta, etc
    * @param isHtml
    *          Decide si el contenido del mensaje a de ser visualizado en html o
    *          no
@@ -99,10 +96,7 @@ public class EmailUtil {
       if (emailInfos == null || emailInfos.size() == 0) {
         return;
       }
-  
-      // Esperarem a començar l'enviament mig segon per cada email 
-      long date = new Date().getTime() + emailInfos.size() * 500;
-  
+
       InitialContext ic = new InitialContext();
       final Queue queue = (Queue) ic.lookup(ConstantsV2.MAIL_QUEUE);
       final QueueConnectionFactory factory;
@@ -110,19 +104,16 @@ public class EmailUtil {
       final QueueConnection connection = factory.createQueueConnection();
       final QueueSession session = connection.createQueueSession(false,
           QueueSession.AUTO_ACKNOWLEDGE);
-  
-      // TODO Cridar configuracio
+
       // Temps entre enviaments de correu, per no saturar el servidor
-      final Integer sleep = 5;
-  
-      int counter = 0;
+      // Enviarem un correu cada 100 milisegons
+      long date = new Date().getTime();
+      long sleep = 100;
+      long counter = 0;
+
       for (EmailInfo emailInfo : emailInfos) {
-        counter++;
-  
         ObjectMessage message = session.createObjectMessage();
-  
-        // Esperamos x segundos entre cada mensaje
-        message.setLongProperty("JMS_JBOSS_SCHEDULED_DELIVERY", date + sleep * counter);
+        message.setLongProperty("JMS_JBOSS_SCHEDULED_DELIVERY", date + (sleep * ++counter));
         message.setObject(emailInfo);
         final QueueSender sender = session.createSender(queue);
         sender.send(message);

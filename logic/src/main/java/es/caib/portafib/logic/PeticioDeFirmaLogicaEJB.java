@@ -32,6 +32,7 @@ import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.validator.PeticioDeFirmaBeanValidator;
+import es.caib.portafib.logic.events.EstatDeFirmaEventHelper;
 import es.caib.portafib.logic.events.FirmaEventList;
 import es.caib.portafib.logic.events.FirmaEventManagerLocal;
 import es.caib.portafib.logic.utils.AttachedFile;
@@ -85,7 +86,6 @@ import es.caib.portafib.model.fields.MetadadaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.PropietatGlobalFields;
-import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields;
@@ -124,6 +124,7 @@ import org.fundaciobit.plugins.documentcustody.api.NotSupportedCustodyException;
 import org.hibernate.Hibernate;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
@@ -242,11 +243,18 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
   @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
   protected ConfiguracioUsuariAplicacioLogicaLocal configuracioDeFirmaLogicaEjb;
 
+  @Resource
+  private SessionContext context;
+
   private final PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA> validator =
           new PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA>();
 
-  @Resource
-  private SessionContext context;
+  private EstatDeFirmaEventHelper estatDeFirmaEventHelper;
+
+  @PostConstruct
+  protected void init() {
+    estatDeFirmaEventHelper = new EstatDeFirmaEventHelper(bitacolaLogicaEjb, estatDeFirmaLogicaEjb);
+  }
 
   @Override
   public List<PeticioDeFirmaJPA> selectFull(Where where) throws I18NException {
@@ -1547,19 +1555,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
     Set<BlocDeFirmesJPA> blocs = flux.getBlocDeFirmess();
 
-    TreeSet<BlocDeFirmesJPA> blocsOrdenats;
-    blocsOrdenats = new TreeSet<BlocDeFirmesJPA>(new BlocDeFirmesComparator());
+    TreeSet<BlocDeFirmesJPA> blocsOrdenats = new TreeSet<BlocDeFirmesJPA>(new BlocDeFirmesComparator());
     blocsOrdenats.addAll(blocs);
-    final boolean debug = log.isDebugEnabled();
 
     log.debug(" ========== startNextSign");
     Timestamp now = new Timestamp(System.currentTimeMillis());
 
-    String entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
-
     for (BlocDeFirmesJPA blocDeFirmesJPA : blocsOrdenats) {
 
-      if (debug) {
+      if (log.isDebugEnabled()) {
         log.debug("----- Bloc " + blocDeFirmesJPA.getBlocDeFirmesID());
       }
 
@@ -1619,15 +1623,19 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
           log.debug("  Bloc amb  firmes pendent: NO FER RES");
           return false;
         } else {
-          if (debug) {
+          if (log.isDebugEnabled()) {
             log.debug(" Bloc Verge te " + firmes.size() + " firmes ");
           }
           // Es un bloc verge, per la qual cosa cream els estats de firma
           // associades a les firmes
           for (FirmaJPA firmaJPA : firmes) {
 
-            if (debug) {
+            if (log.isDebugEnabled()) {
               log.debug("  +++ Firma " + firmaJPA.getFirmaID());
+            }
+
+            for (RevisorDeFirma revisorDeFirma : firmaJPA.getRevisorDeFirmas()) {
+              estatDeFirmaEventHelper.requeritPerRevisar(peticioDeFirma, revisorDeFirma, events);
             }
 
             String destinatariReal;
@@ -1673,62 +1681,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
             }
 
             // S'envia directament al DESTINATARI
-            EstatDeFirmaJPA estatDeFirmaDest = new EstatDeFirmaJPA();
-            estatDeFirmaDest.setDataInici(new Timestamp(System.currentTimeMillis()));
-            estatDeFirmaDest.setDescripcio("");
-            estatDeFirmaDest.setFirmaID(firmaJPA.getFirmaID());
-            estatDeFirmaDest.setTipusEstatDeFirmaInicialID(
-                ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
-            estatDeFirmaDest.setUsuariEntitatID(destinatariReal);
-            estatDeFirmaDest = (EstatDeFirmaJPA) estatDeFirmaLogicaEjb
-                .createFull(estatDeFirmaDest);
-
-            if (firmaJPA.getUsuariExternEmail() != null) {
-
-              // Usuari Extern
-              switch (firmaJPA.getUsuariExternNivellSeguretat()) {
-
-                case ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_TOKEN:
-                  // Enviar-li correu amb TOKEN
-
-                  try {
-                    sendMailToExternalUser(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
-                        peticioDeFirma.getTitol(), firmaJPA);
-                  } catch (I18NException i18ne) {
-
-                    Locale loc = new Locale("ca");
-                    String msg = I18NCommonUtils.getMessage((I18NException) i18ne, loc);
-
-                    // XYZ ZZZ TRA
-                    msg = "S'ha intentat enviar correu a " + firmaJPA.getUsuariExternEmail()
-                        + " però ha fallat: " + msg;
-                    log.error(msg, i18ne);
-                    throw new PeticioHaDeSerRebutjadaException(msg);
-                  }
-
-                break;
-
-                case ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_CERTIFICATE:
-                case ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_PASSWORD:
-                  // XYZ ZZZ XYZ
-                  throw new I18NException("genapp.comodi",
-                      "Encara no es suporta el nivell de seguretat "
-                          + firmaJPA.getUsuariExternNivellSeguretat());
-                default:
-                  // XYZ ZZZ XYZ
-                  throw new I18NException("genapp.comodi", "Nivell de seguretat desconegut"
-                      + firmaJPA.getUsuariExternNivellSeguretat());
-              }
-
-            } else {
-              events.requerit_per_firmar(peticioDeFirma, estatDeFirmaDest);
-            }
-
-            // TODO BITACOLA
-
-            if (debug) {
-              log.debug("   == Nou estat per Destinatari " + firmaJPA.getDestinatariID());
-            }
+            estatDeFirmaEventHelper.requeritPerSignar(peticioDeFirma, firmaJPA, events, destinatariReal);
 
             // (a) Seleccionam els tipus de documents per aquesta delegacio,
             // (a.1) El que tenguin el tipus que s'ajusti al tipus de la peticio
@@ -1766,79 +1719,32 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
             Where w = Where.OR(w1, w2);
 
-            if (debug) {
+            if (log.isDebugEnabled()) {
               log.debug("  Seleccio de COLABORADORS/DELEGATS: " + w.toSQL());
             }
 
             List<ColaboracioDelegacio> llistaColaDele = colaboracioDelegacioEjb.select(w);
-
-            if (debug) {
-              log.debug("   == # COLABORADORS/DELEGATS " + llistaColaDele.size());
-
-              for (ColaboracioDelegacio cd : llistaColaDele) {
-                log.debug("       + " + (cd.isEsDelegat() ? "DELE" : "COLA") + "["
-                    + cd.getColaboracioDelegacioID() + "] : " + cd.getColaboradorDelegatID()
-                    + "  =>  " + cd.getDestinatariID());
-              }
-            }
 
             for (ColaboracioDelegacio colaboracioDelegacio : llistaColaDele) {
               EstatDeFirmaJPA estatDeFirmaColaDele = new EstatDeFirmaJPA();
               estatDeFirmaColaDele.setDataInici(new Timestamp(System.currentTimeMillis()));
               estatDeFirmaColaDele.setDescripcio("");
               estatDeFirmaColaDele.setFirmaID(firmaJPA.getFirmaID());
-              long tipusEstat;
-              if (colaboracioDelegacio.isEsDelegat()) {
-                tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR;
-              } else {
-                tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR;
-              }
+              long tipusEstat = colaboracioDelegacio.isEsDelegat()
+                      ? ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR
+                      : ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR;
               estatDeFirmaColaDele.setTipusEstatDeFirmaInicialID(tipusEstat);
-              estatDeFirmaColaDele
-                  .setUsuariEntitatID(colaboracioDelegacio.getColaboradorDelegatID());
-              estatDeFirmaColaDele
-                  .setColaboracioDelegacioID(colaboracioDelegacio.getColaboracioDelegacioID());
+              estatDeFirmaColaDele.setUsuariEntitatID(colaboracioDelegacio.getColaboradorDelegatID());
+              estatDeFirmaColaDele.setColaboracioDelegacioID(colaboracioDelegacio.getColaboracioDelegacioID());
               estatDeFirmaColaDele = estatDeFirmaLogicaEjb.createFull(estatDeFirmaColaDele);
               if (tipusEstat == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
                 events.requerit_per_firmar(peticioDeFirma, estatDeFirmaColaDele);
               } else {
                 events.requerit_per_validar(peticioDeFirma, estatDeFirmaColaDele);
               }
-              if (debug) {
+              if (log.isDebugEnabled()) {
                 log.debug("   == Nou estat per COLA/DELE "
                     + colaboracioDelegacio.getColaboradorDelegatID());
-              }
-            }
-
-            // TODO Falten avisos
-          }
-
-          // ================================================
-          // - - - - - - REQUERIT PER REVISAR - - - - - -
-          // ================================================
-          {
-
-            List<RevisorDeFirma> revisors = revisorDeFirmaEjb
-                .select(RevisorDeFirmaFields.FIRMAID.in(firmaIDs));
-
-            for (RevisorDeFirma revisorDeFirma : revisors) {
-              EstatDeFirmaJPA estatDeFirmaRevisor = new EstatDeFirmaJPA();
-              estatDeFirmaRevisor.setDataInici(new Timestamp(System.currentTimeMillis()));
-              estatDeFirmaRevisor.setDescripcio("");
-              estatDeFirmaRevisor.setFirmaID(revisorDeFirma.getFirmaID());
-              long tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR;
-
-              estatDeFirmaRevisor.setTipusEstatDeFirmaInicialID(tipusEstat);
-              // XYZ ZZZ Falten càrrecs
-              estatDeFirmaRevisor.setUsuariEntitatID(revisorDeFirma.getUsuariEntitatID());
-              estatDeFirmaRevisor.setColaboracioDelegacioID(null);
-              estatDeFirmaRevisor = estatDeFirmaLogicaEjb.createFull(estatDeFirmaRevisor);
-
-              events.requerit_per_revisar(peticioDeFirma, estatDeFirmaRevisor);
-
-              if (debug) {
-                log.debug("   == Nou estat per REVISOR " + revisorDeFirma.getUsuariEntitatID()
-                    + " (" + revisorDeFirma.getRevisorDeFirmaID() + ")");
               }
             }
           }
@@ -1863,8 +1769,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
     // Avisam de la firma final
     events.peticio_firmada(peticioDeFirma);
 
-    bitacolaLogicaEjb.createBitacola(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
-        BITACOLA_TIPUS_PETICIO, BITACOLA_OP_FINALITZAR);
+    bitacolaLogicaEjb.createBitacola(
+            peticioDeFirma.getUsuariAplicacio().getEntitatID(),
+            peticioDeFirma.getPeticioDeFirmaID(),
+            BITACOLA_TIPUS_PETICIO,
+            BITACOLA_OP_FINALITZAR);
 
     return true;
   }
@@ -1872,49 +1781,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
   @Override
   public void sendMailToExternalUser(String entitatId, long peticioDeFirmaID,
       String titolPeticio, FirmaJPA firmaJPA) throws I18NException {
-
-    String urlPortaFIB = PropietatGlobalUtil.getPortafibUrlForExternalSignatures();
-
-    // XYZ ZZZ ZZZ TRA
-    if (urlPortaFIB == null) {
-      throw new I18NException("genapp.comodi",
-          "No puc obtenir la URL base de PortaFIB a partir de la propietat"
-              + " PortafibUrlForExternalSignatures. Consulti amb l'administrador de PortaFIB.");
-    }
-
-    final String urlToken = urlPortaFIB + ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN + "/"
-        + firmaJPA.getUsuariExternToken();
-
-    Locale loc = new Locale(firmaJPA.getUsuariExternIdioma());
-
-    String base = I18NCommonUtils.tradueix(loc, "usuariextern.email.subject", titolPeticio);
-    String subject = "PORTAFIB: " + base;
-    String message = I18NCommonUtils.tradueix(loc, "usuariextern.email.body", base, urlToken);
-    boolean isHtml = true;
-
-    String from = PropietatGlobalUtil.getAppEmail();
-    String recipient = firmaJPA.getUsuariExternEmail();
-    log.info("Enviant correu a usuari extern (" + recipient + ")");
-
-    try {
-      EmailUtil.postMail(subject, message, isHtml, from, recipient);
-
-      // Bitacola
-      bitacolaLogicaEjb.createBitacola(entitatId, peticioDeFirmaID, BITACOLA_TIPUS_PETICIO,
-          BITACOLA_OP_EMAIL_USUARI_EXTERN, "OK:" + recipient);
-
-    } catch (Throwable e) {
-
-      // Bitacola
-      bitacolaLogicaEjb.createBitacola(entitatId, peticioDeFirmaID, BITACOLA_TIPUS_PETICIO,
-          BITACOLA_OP_EMAIL_USUARI_EXTERN, "ERROR:" + recipient + ":" + e.getMessage());
-
-      if (e instanceof I18NException) {
-        throw (I18NException) e;
-      } else {
-        throw new I18NException("genapp.comodi", e.getMessage());
-      }
-    }
+    estatDeFirmaEventHelper.doSendEmailToExternalUser(entitatId, peticioDeFirmaID, titolPeticio, firmaJPA);
   }
 
   protected void descartarEstatsDeFirma(Long[] firmaIDs, final String msg,
@@ -2255,14 +2122,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
         // TODO XYZ ZZZ traduir
         String msg = "Ha tardat massa temps en firmar la petició " + peticioDeFirmaID
             + " i ha expirat el temps. Tornau-ho a intentar (" + token + ")";
-        throw new Exception(msg, new Exception());
+        throw new Exception(msg);
       } else {
         if (!check) {
           // TODO XYZ ZZZ traduir
           String msg = "Aquesta petició de firma (" + peticioDeFirmaID
               + ") esta bloquejada per un altre usuari."
               + " Tornau-ho a intentar en un parell de minuts (" + token + ")";
-          throw new Exception(msg, new Exception());
+          throw new Exception(msg);
         }
       }
 
@@ -2511,7 +2378,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
               firmes_no_obligatories_no_firmades);
 
           if (firmesIDsList != null && firmesIDsList.size() > 0) {
-            final Long[] firmaIDs = firmesIDsList.toArray(new Long[firmesIDsList.size()]);
+            final Long[] firmaIDs = firmesIDsList.toArray(new Long[0]);
             log.info("Descartant els estats de firma de les firmes "
                 + Arrays.toString(firmaIDs) + " a causa de que la firma no és necessaria "
                 + " al haver arribat al minim de firmes requerides.");
@@ -2869,7 +2736,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
   }
 
   @Override
-  public void acceptar(EstatDeFirma estatDeFirma, Firma firma, PeticioDeFirma peticioDeFirma)
+  public void acceptar(EstatDeFirmaJPA estatDeFirma, FirmaJPA firma, PeticioDeFirmaJPA peticioDeFirma)
       throws I18NException {
 
     Timestamp now = new Timestamp(System.currentTimeMillis());
@@ -2877,6 +2744,23 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
     estatDeFirma.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT);
     estatDeFirma.setDescripcio("El document ha sigut acceptat pel revisor de Firmes");
     estatDeFirmaLogicaEjb.update(estatDeFirma);
+
+    // TODO. Mirar si hem arribat al mínim de revisors i descartar la resta.
+
+    long count = estatDeFirmaLogicaEjb.countRevisorsPendentsFirma(firma.getFirmaID());
+    if (count == 0) {
+      FirmaEventList events = new FirmaEventList();
+      try {
+        List<EstatDeFirma> estatsDeFirmaPendents = estatDeFirmaLogicaEjb.getEstatsDeFirmaPendentsFirma(firma.getFirmaID());
+        for (EstatDeFirma estatDeFirmaPendent : estatsDeFirmaPendents) {
+          estatDeFirmaEventHelper.avisarUsuari(peticioDeFirma, firma, (EstatDeFirmaJPA) estatDeFirmaPendent, events);
+        }
+      } catch (PeticioHaDeSerRebutjadaException e) {
+        throw new I18NException("genapp.comodi", e.getMessage());
+      }
+
+      firmaEventManagerEjb.processList(events, false);
+    }
   }
 
   @Override

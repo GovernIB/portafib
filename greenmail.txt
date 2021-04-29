@@ -1,0 +1,10 @@
+
+Per arrancar un servidor de email de proves:
+
+docker pull greenmail/standalone:1.6.3
+docker run -d -p 3025:3025 -p 3110:3110 -p 38080:8080 -e GREENMAIL_OPTS="-Dgreenmail.setup.test.all -Dgreenmail.hostname=0.0.0.0 -Dgreenmail.auth.disabled -Dgreenmail.verbose" --name greenmail greenmail/standalone:1.6.3
+
+Configurar el portafib-mail-service.xml amb:
+
+    <property name="mail.smtp.host" value="localhost"/>
+    <property name="mail.smtp.port" value="3025"/>

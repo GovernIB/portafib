@@ -3,12 +3,14 @@ package org.fundaciobit.apisib.apifirmaasyncsimple.v2.test;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Colaborador;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Delegat;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Destinatari;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Inbox;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Revisor;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import javax.mail.Session;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
@@ -17,13 +19,15 @@ import static org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimp
 import static org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestState.SIGNATURE_REQUEST_STATE_RUNNING;
 import static org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestState.SIGNATURE_REQUEST_STATE_SIGNED;
 
-public class DestintariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
+public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
 
     private static Destinatari destinatariA;
     private static Destinatari destinatariB;
     private static Revisor revisorA;
     private static Delegat delegatA;
     private static Colaborador colaboradorA;
+
+    private static Session session;
 
     private static String flowTemplate;
 
@@ -43,6 +47,8 @@ public class DestintariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
         colaboradorA = getColaborador("colaborador.A", properties, baseUrl);
 
         flowTemplate = properties.getProperty("flowTemplate");
+
+        session = Session.getInstance(properties);
 
         initApi(properties);
     }
@@ -78,31 +84,43 @@ public class DestintariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
     }
 
     @Test
-    public void testCreateAndDelete()  {
+    public void testCreateAndDelete() {
+
+        Inbox destInbox = new Inbox(session, "pruebas@fundaciobit.org", "x");
+        int mails = destInbox.getMessages(500);
+
         int firmes = destinatariA.tasquesPendents();
         long peticio = crearPeticioDestinataris(destinatariA);
-
-        Assert.assertEquals(firmes + 1, destinatariA.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
-
-        deletePeticio(peticio);
-
-        Assert.assertEquals(firmes, destinatariA.tasquesPendents());
+        try {
+            Assert.assertEquals(firmes + 1, destinatariA.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+            Assert.assertEquals(mails + 1, destInbox.getMessages(500));
+        } finally {
+            deletePeticio(peticio);
+            Assert.assertEquals(firmes, destinatariA.tasquesPendents());
+        }
     }
 
     @Test
     public void testCreateAndDelete2()  {
 
+        Inbox destInbox = new Inbox(session, "pruebas@fundaciobit.org", "x");
+        Inbox reviInbox = new Inbox(session, "revi1@fundaciobit.org", "x");
+
         int revisions = revisorA.tasquesPendents();
+        int mailsRevisor = reviInbox.getMessages(500);
+        int mailsDestinatari = destInbox.getMessages(500);
 
         long peticio = crearPeticioDestinariRevisor(destinatariA, revisorA);
-
-        Assert.assertEquals(revisions + 1, revisorA.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
-
-        deletePeticio(peticio);
-
-        Assert.assertEquals(revisions, revisorA.tasquesPendents());
+        try {
+            Assert.assertEquals(revisions + 1, revisorA.tasquesPendents());
+            Assert.assertEquals(mailsRevisor + 1, reviInbox.getMessages(500));
+            Assert.assertEquals(mailsDestinatari, destInbox.getMessages(500));
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+            Assert.assertEquals(revisions, revisorA.tasquesPendents());
+        }
     }
 
     @Test
@@ -111,15 +129,19 @@ public class DestintariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
         int firmes = destinatariA.tasquesPendents();
 
         long peticio = crearPeticioWithFlow(flowTemplate);
+        try {
 
-        Assert.assertEquals(firmes + 1, destinatariA.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+            Assert.assertEquals(firmes + 1, destinatariA.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
-        destinatariA.firmarDarreraPeticio();
+            destinatariA.firmarDarreraPeticio();
 
-        // després de signar, hi torna haver el mateix nombre de firmes pendents i l'estat de la petició és signed.
-        Assert.assertEquals(firmes, destinatariA.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+            // després de signar, hi torna haver el mateix nombre de firmes pendents i l'estat de la petició és signed.
+            Assert.assertEquals(firmes, destinatariA.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
     }
 
     @Test
@@ -188,14 +210,24 @@ public class DestintariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
     @Test
     public void testCreateWithRevisorAcceptar() {
 
+        Inbox destInbox = new Inbox(session, "pruebas@fundaciobit.org", "x");
+        Inbox reviInbox = new Inbox(session, "revi1@fundaciobit.org", "x");
+
         int revisionsPendents = revisorA.tasquesPendents();
         int firmesPendents = destinatariA.tasquesPendents();
         int delegacionsPendents = delegatA.tasquesPendents();
 
+        int mailsRevisor = reviInbox.getMessages(500);
+        int mailsDestinatari = destInbox.getMessages(500);
+
         long peticio = crearPeticioDestinariRevisor(destinatariA, revisorA);
 
         Assert.assertEquals(revisionsPendents+1, revisorA.tasquesPendents());
+        Assert.assertEquals(mailsRevisor+1, reviInbox.getMessages(500));
+
         Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+        Assert.assertEquals(mailsDestinatari, destInbox.getMessages(500));
+
         Assert.assertEquals(delegacionsPendents, delegatA.tasquesPendents());
         Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
@@ -203,6 +235,8 @@ public class DestintariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
 
         Assert.assertEquals(revisionsPendents, revisorA.tasquesPendents());
         Assert.assertEquals(firmesPendents+1, destinatariA.tasquesPendents());
+        Assert.assertEquals(mailsDestinatari+1, destInbox.getMessages(500));
+
         Assert.assertEquals(delegacionsPendents+1, delegatA.tasquesPendents());
         Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 

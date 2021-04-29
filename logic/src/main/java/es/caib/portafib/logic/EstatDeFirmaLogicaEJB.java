@@ -437,5 +437,22 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
 
     return (List<Object[]>) query.getResultList();
   }
-  
+
+  @Override
+  public long countRevisorsPendentsFirma(long firmaID) throws I18NException {
+    return count(Where.AND(
+            EstatDeFirmaFields.FIRMAID.equal(firmaID),
+            EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.equal(TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR),
+            EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull()
+            ));
+  }
+
+  @Override
+  public List<EstatDeFirma> getEstatsDeFirmaPendentsFirma(long firmaID) throws I18NException {
+    return select(Where.AND(
+            EstatDeFirmaFields.FIRMAID.equal(firmaID),
+            EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
+            EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull()
+            ));
+  }
 }
