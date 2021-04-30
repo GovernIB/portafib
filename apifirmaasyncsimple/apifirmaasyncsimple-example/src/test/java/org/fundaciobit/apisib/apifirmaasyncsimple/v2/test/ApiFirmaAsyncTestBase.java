@@ -54,11 +54,11 @@ public class ApiFirmaAsyncTestBase {
         }
     }
 
-    protected long crearPeticioDestinatarisParallel(int minSigners, Destinatari... destinataris) {
+    protected long crearPeticioDestinatarisParallel(int minSigners, int obligatoris, Destinatari... destinataris) {
         try {
             return api.createAndStartSignatureRequestWithSignBlockList(
                     getRequestWithParallelBlockList("hola.pdf", "application/pdf",
-                            minSigners, destinataris));
+                            minSigners, obligatoris, destinataris));
         } catch (AbstractApisIBException e) {
             throw new RuntimeException("Error creant petició: " + e.getMessage(), e);
         }
@@ -136,9 +136,9 @@ public class ApiFirmaAsyncTestBase {
     }
 
     private FirmaAsyncSimpleSignatureRequestWithSignBlockList getRequestWithParallelBlockList(
-            String fileName, String mime, int minSigners, Destinatari... destinataris) {
+            String fileName, String mime, int minSigners, int obligatoris, Destinatari... destinataris) {
         return new FirmaAsyncSimpleSignatureRequestWithSignBlockList(
-                getRequestBase(fileName, mime), getParallelBlocks(minSigners, destinataris));
+                getRequestBase(fileName, mime), getParallelBlocks(minSigners, obligatoris, destinataris));
     }
 
     private FirmaAsyncSimpleSignatureRequestWithSignBlockList getRequestWithParallelBlockList(
@@ -196,12 +196,14 @@ public class ApiFirmaAsyncTestBase {
         return blocks;
     }
 
-    private FirmaAsyncSimpleSignatureBlock[] getParallelBlocks(int minSigners, Destinatari... destinataris) {
+    private FirmaAsyncSimpleSignatureBlock[] getParallelBlocks(int minSigners, int obligatoris,
+                                                               Destinatari... destinataris) {
 
         FirmaAsyncSimpleSignatureBlock[] blocks = new FirmaAsyncSimpleSignatureBlock[1];
         List<FirmaAsyncSimpleSignature> signatureList = new ArrayList<FirmaAsyncSimpleSignature>(destinataris.length);
-        for (Destinatari dest : destinataris) {
-            signatureList.add(getSimpleSignature(dest, false));
+        for (int i = 0; i < destinataris.length; i++) {
+            Destinatari dest = destinataris[i];
+            signatureList.add(getSimpleSignature(dest, (i < obligatoris)));
         }
         blocks[0] = new FirmaAsyncSimpleSignatureBlock(minSigners, signatureList);
         return blocks;

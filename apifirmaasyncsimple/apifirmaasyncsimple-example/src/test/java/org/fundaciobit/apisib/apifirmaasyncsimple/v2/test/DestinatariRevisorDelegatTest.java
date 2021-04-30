@@ -436,7 +436,7 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
         int firmesB = destinatariB.tasquesPendents();
         int firmesC = destinatariC.tasquesPendents();
 
-        long peticio = crearPeticioDestinatarisParallel(3, destinatariA, destinatariB, destinatariC);
+        long peticio = crearPeticioDestinatarisParallel(3, 0, destinatariA, destinatariB, destinatariC);
         try {
             Assert.assertEquals(firmesA + 1, destinatariA.tasquesPendents());
             destinatariA.firmarDarreraPeticio();
@@ -455,6 +455,7 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
             deletePeticio(peticio);
         }
     }
+
     @Test
     public void testCreateThreeOptionalSignersMinimTwo() {
 
@@ -462,8 +463,7 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
         int firmesB = destinatariB.tasquesPendents();
         int firmesC = destinatariC.tasquesPendents();
 
-        long peticio = crearPeticioDestinatarisParallel(2, destinatariA, destinatariB, destinatariC);
-        System.out.println(peticio);
+        long peticio = crearPeticioDestinatarisParallel(2, 0, destinatariA, destinatariB, destinatariC);
         try {
             Assert.assertEquals(firmesA + 1, destinatariA.tasquesPendents());
             destinatariA.firmarDarreraPeticio();
@@ -475,6 +475,33 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
             // Ja està siganda i el darrer ja no té la firma pendent
             Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
             Assert.assertEquals(firmesC, destinatariC.tasquesPendents());
+
+        } finally {
+            deletePeticio(peticio);
+        }
+    }
+
+    @Test
+    public void testCreateOnRequiredTwoOptionalSignersMinimTwo() {
+
+        int firmesA = destinatariA.tasquesPendents();
+        int firmesB = destinatariB.tasquesPendents();
+        int firmesC = destinatariC.tasquesPendents();
+
+        long peticio = crearPeticioDestinatarisParallel(2, 1, destinatariA, destinatariB, destinatariC);
+        try {
+            Assert.assertEquals(firmesB + 1, destinatariB.tasquesPendents());
+            destinatariB.firmarDarreraPeticio();
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+
+            // el C ja no la té pendent, perquè és opcional i ja ha signat l'altre opcional
+            Assert.assertEquals(firmesC, destinatariC.tasquesPendents());
+
+            // Falta l'A per signar-la que és obligat
+            Assert.assertEquals(firmesA + 1, destinatariA.tasquesPendents());
+            destinatariA.firmarDarreraPeticio();
+
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
 
         } finally {
             deletePeticio(peticio);
