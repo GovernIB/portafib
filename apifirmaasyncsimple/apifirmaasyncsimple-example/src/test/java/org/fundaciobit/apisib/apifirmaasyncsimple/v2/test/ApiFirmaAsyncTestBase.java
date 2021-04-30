@@ -54,6 +54,16 @@ public class ApiFirmaAsyncTestBase {
         }
     }
 
+    protected long crearPeticioDestinatarisParallel(int minSigners, Destinatari... destinataris) {
+        try {
+            return api.createAndStartSignatureRequestWithSignBlockList(
+                    getRequestWithParallelBlockList("hola.pdf", "application/pdf",
+                            minSigners, destinataris));
+        } catch (AbstractApisIBException e) {
+            throw new RuntimeException("Error creant petició: " + e.getMessage(), e);
+        }
+    }
+
     protected long crearPeticioDestinariRevisor(Destinatari destinatari, Revisor revisor) {
         try {
             return api.createAndStartSignatureRequestWithSignBlockList(
@@ -126,6 +136,12 @@ public class ApiFirmaAsyncTestBase {
     }
 
     private FirmaAsyncSimpleSignatureRequestWithSignBlockList getRequestWithParallelBlockList(
+            String fileName, String mime, int minSigners, Destinatari... destinataris) {
+        return new FirmaAsyncSimpleSignatureRequestWithSignBlockList(
+                getRequestBase(fileName, mime), getParallelBlocks(minSigners, destinataris));
+    }
+
+    private FirmaAsyncSimpleSignatureRequestWithSignBlockList getRequestWithParallelBlockList(
             String fileName, String mime, Destinatari dest1, Revisor revi1, Destinatari dest2, Revisor revi2) {
         return new FirmaAsyncSimpleSignatureRequestWithSignBlockList(
                 getRequestBase(fileName, mime), getParallelBlocks(dest1, revi1, dest2, revi2));
@@ -180,6 +196,17 @@ public class ApiFirmaAsyncTestBase {
         return blocks;
     }
 
+    private FirmaAsyncSimpleSignatureBlock[] getParallelBlocks(int minSigners, Destinatari... destinataris) {
+
+        FirmaAsyncSimpleSignatureBlock[] blocks = new FirmaAsyncSimpleSignatureBlock[1];
+        List<FirmaAsyncSimpleSignature> signatureList = new ArrayList<FirmaAsyncSimpleSignature>(destinataris.length);
+        for (Destinatari dest : destinataris) {
+            signatureList.add(getSimpleSignature(dest, false));
+        }
+        blocks[0] = new FirmaAsyncSimpleSignatureBlock(minSigners, signatureList);
+        return blocks;
+    }
+
     private FirmaAsyncSimpleSignatureBlock[] getParallelBlocks(Destinatari dest1, Revisor revi1,
                                                                Destinatari dest2, Revisor revi2) {
 
@@ -194,8 +221,12 @@ public class ApiFirmaAsyncTestBase {
     }
 
     private FirmaAsyncSimpleSignature getSimpleSignature(Destinatari destinatari) {
+        return getSimpleSignature(destinatari, true);
+    }
+
+    private FirmaAsyncSimpleSignature getSimpleSignature(Destinatari destinatari, boolean required) {
         return new FirmaAsyncSimpleSignature(
-                getSimpleSigner(destinatari), true, null, 0, null);
+                getSimpleSigner(destinatari), required, null, 0, null);
     }
 
     private FirmaAsyncSimpleSignature getSimpleSignature(Destinatari destinatari, Revisor reviser) {

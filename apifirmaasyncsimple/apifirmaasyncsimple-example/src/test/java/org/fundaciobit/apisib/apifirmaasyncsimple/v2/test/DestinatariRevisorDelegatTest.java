@@ -23,6 +23,7 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
 
     private static Destinatari destinatariA;
     private static Destinatari destinatariB;
+    private static Destinatari destinatariC;
     private static Revisor revisorA;
     private static Delegat delegatA;
     private static Colaborador colaboradorA;
@@ -42,6 +43,7 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
 
         destinatariA = getDestinatari("destinatari.A", properties, baseUrl);
         destinatariB = getDestinatari("destinatari.B", properties, baseUrl);
+        destinatariC = getDestinatari("destinatari.C", properties, baseUrl);
         revisorA = getRevisor("revisor.A", properties, baseUrl);
         delegatA = getDelegat("delegat.A", properties, baseUrl);
         colaboradorA = getColaborador("colaborador.A", properties, baseUrl);
@@ -150,15 +152,19 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
         int firmes = destinatariA.tasquesPendents();
         long peticio = crearPeticioDestinataris(destinatariA);
 
-        // el nombre de firmes pendents s'ha incrementat en un i l'estat de la petició és running....
-        Assert.assertEquals(firmes + 1, destinatariA.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+        try {
+            // el nombre de firmes pendents s'ha incrementat en un i l'estat de la petició és running....
+            Assert.assertEquals(firmes + 1, destinatariA.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
-        destinatariA.firmarDarreraPeticio();
+            destinatariA.firmarDarreraPeticio();
 
-        // després de signar, hi torna haver el mateix nombre de firmes pendents i l'estat de la petició és signed.
-        Assert.assertEquals(firmes, destinatariA.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+            // després de signar, hi torna haver el mateix nombre de firmes pendents i l'estat de la petició és signed.
+            Assert.assertEquals(firmes, destinatariA.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
     }
 
     @Test
@@ -167,15 +173,19 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
         int firmes = destinatariB.tasquesPendents();
         long peticio = crearPeticioDestinataris(destinatariB);
 
-        // el nombre de firmes pendents s'ha incrementat en un i l'estat de la petició és running....
-        Assert.assertEquals(firmes + 1, destinatariB.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+        try {
+            // el nombre de firmes pendents s'ha incrementat en un i l'estat de la petició és running....
+            Assert.assertEquals(firmes + 1, destinatariB.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
-        destinatariB.firmarDarreraPeticio();
+            destinatariB.firmarDarreraPeticio();
 
-        // després de signar, hi torna haver el mateix nombre de firmes pendents i l'estat de la petició és signed.
-        Assert.assertEquals(firmes, destinatariB.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+            // després de signar, hi torna haver el mateix nombre de firmes pendents i l'estat de la petició és signed.
+            Assert.assertEquals(firmes, destinatariB.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
     }
 
     @Test
@@ -185,26 +195,30 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
 
         long peticio = crearPeticioDestinataris(destinatariA, destinatariB);
 
-        // Les firmes pendents del primer destintari s'ha incrementat, la del segon, no.
-        Assert.assertEquals(firmesA + 1, destinatariA.tasquesPendents());
-        Assert.assertEquals(firmesB, destinatariB.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+        try {
+            // Les firmes pendents del primer destintari s'ha incrementat, la del segon, no.
+            Assert.assertEquals(firmesA + 1, destinatariA.tasquesPendents());
+            Assert.assertEquals(firmesB, destinatariB.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
-        destinatariA.firmarDarreraPeticio();
+            destinatariA.firmarDarreraPeticio();
 
-        // Les firmes pendents del primer destintari torna a ser el mateix, la del segon s'ha increementat
-        Assert.assertEquals(firmesA, destinatariA.tasquesPendents());
-        Assert.assertEquals(firmesB + 1, destinatariB.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+            // Les firmes pendents del primer destintari torna a ser el mateix, la del segon s'ha increementat
+            Assert.assertEquals(firmesA, destinatariA.tasquesPendents());
+            Assert.assertEquals(firmesB + 1, destinatariB.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
-        destinatariB.firmarDarreraPeticio();
+            destinatariB.firmarDarreraPeticio();
 
-        // Les firmes pendents del primer destintari i segon, tornen ser les mateixes
-        Assert.assertEquals(firmesA, destinatariA.tasquesPendents());
-        Assert.assertEquals(firmesB, destinatariB.tasquesPendents());
+            // Les firmes pendents del primer destintari i segon, tornen ser les mateixes
+            Assert.assertEquals(firmesA, destinatariA.tasquesPendents());
+            Assert.assertEquals(firmesB, destinatariB.tasquesPendents());
 
-        // i l'estat de la peticó és signat
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+            // i l'estat de la peticó és signat
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
     }
 
     @Test
@@ -222,29 +236,33 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
 
         long peticio = crearPeticioDestinariRevisor(destinatariA, revisorA);
 
-        Assert.assertEquals(revisionsPendents+1, revisorA.tasquesPendents());
-        Assert.assertEquals(mailsRevisor+1, reviInbox.getMessages(500));
+        try {
+            Assert.assertEquals(revisionsPendents+1, revisorA.tasquesPendents());
+            Assert.assertEquals(mailsRevisor+1, reviInbox.getMessages(500));
 
-        Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
-        Assert.assertEquals(mailsDestinatari, destInbox.getMessages(500));
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+            Assert.assertEquals(mailsDestinatari, destInbox.getMessages(500));
 
-        Assert.assertEquals(delegacionsPendents, delegatA.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+            Assert.assertEquals(delegacionsPendents, delegatA.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
-        revisorA.acceptarDarrera();
+            revisorA.acceptarDarrera();
 
-        Assert.assertEquals(revisionsPendents, revisorA.tasquesPendents());
-        Assert.assertEquals(firmesPendents+1, destinatariA.tasquesPendents());
-        Assert.assertEquals(mailsDestinatari+1, destInbox.getMessages(500));
+            Assert.assertEquals(revisionsPendents, revisorA.tasquesPendents());
+            Assert.assertEquals(firmesPendents+1, destinatariA.tasquesPendents());
+            Assert.assertEquals(mailsDestinatari+1, destInbox.getMessages(500));
 
-        Assert.assertEquals(delegacionsPendents+1, delegatA.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+            Assert.assertEquals(delegacionsPendents+1, delegatA.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
-        destinatariA.firmarDarreraPeticio();
+            destinatariA.firmarDarreraPeticio();
 
-        Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
-        Assert.assertEquals(delegacionsPendents, delegatA.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+            Assert.assertEquals(delegacionsPendents, delegatA.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
     }
 
     @Test
@@ -257,17 +275,21 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
 
         long peticio = crearPeticioDestinariRevisor(destinatariA, revisorA);
 
-        Assert.assertEquals(revisionsPendents+1, revisorA.tasquesPendents());
-        Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
-        Assert.assertEquals(delegacionsPendents, delegatA.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+        try {
+            Assert.assertEquals(revisionsPendents+1, revisorA.tasquesPendents());
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+            Assert.assertEquals(delegacionsPendents, delegatA.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
-        revisorA.rebutjarDarrera("test");
+            revisorA.rebutjarDarrera("test");
 
-        Assert.assertEquals(revisionsPendents, revisorA.tasquesPendents());
-        Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
-        Assert.assertEquals(delegacionsPendents, delegatA.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_REJECTED, statusPeticio(peticio));
+            Assert.assertEquals(revisionsPendents, revisorA.tasquesPendents());
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+            Assert.assertEquals(delegacionsPendents, delegatA.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_REJECTED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
     }
 
     @Test
@@ -279,28 +301,32 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
 
         long peticio = crearPeticioDestinariRevisorDestintariRevisor(destinatariB, revisorA, destinatariA, revisorA);
 
-        Assert.assertEquals(revisionsPendents+1, revisorA.tasquesPendents());
-        Assert.assertEquals(firmesA, destinatariA.tasquesPendents());
-        Assert.assertEquals(firmesB, destinatariB.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+        try {
+            Assert.assertEquals(revisionsPendents+1, revisorA.tasquesPendents());
+            Assert.assertEquals(firmesA, destinatariA.tasquesPendents());
+            Assert.assertEquals(firmesB, destinatariB.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
-        revisorA.acceptarDarrera();
-        Assert.assertEquals(revisionsPendents, revisorA.tasquesPendents());
-        Assert.assertEquals(firmesB+1, destinatariB.tasquesPendents());
+            revisorA.acceptarDarrera();
+            Assert.assertEquals(revisionsPendents, revisorA.tasquesPendents());
+            Assert.assertEquals(firmesB+1, destinatariB.tasquesPendents());
 
-        destinatariB.firmarDarreraPeticio();
+            destinatariB.firmarDarreraPeticio();
 
-        Assert.assertEquals(revisionsPendents+1, revisorA.tasquesPendents());
-        Assert.assertEquals(firmesB, destinatariB.tasquesPendents());
+            Assert.assertEquals(revisionsPendents+1, revisorA.tasquesPendents());
+            Assert.assertEquals(firmesB, destinatariB.tasquesPendents());
 
-        revisorA.acceptarDarrera();
-        Assert.assertEquals(revisionsPendents, revisorA.tasquesPendents());
-        Assert.assertEquals(firmesA+1, destinatariA.tasquesPendents());
+            revisorA.acceptarDarrera();
+            Assert.assertEquals(revisionsPendents, revisorA.tasquesPendents());
+            Assert.assertEquals(firmesA+1, destinatariA.tasquesPendents());
 
-        destinatariA.firmarDarreraPeticio();
+            destinatariA.firmarDarreraPeticio();
 
-        Assert.assertEquals(firmesA, destinatariA.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+            Assert.assertEquals(firmesA, destinatariA.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
     }
 
     @Test
@@ -314,46 +340,66 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
                 destinatariB, revisorA,
                 destinatariA, null);
 
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+        try {
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
-        Assert.assertEquals(revisionsPendents+1, revisorA.tasquesPendents());
-        Assert.assertEquals(firmesA+1, destinatariA.tasquesPendents());
-        Assert.assertEquals(firmesB, destinatariB.tasquesPendents());
+            Assert.assertEquals(revisionsPendents+1, revisorA.tasquesPendents());
+            Assert.assertEquals(firmesA+1, destinatariA.tasquesPendents());
+            Assert.assertEquals(firmesB, destinatariB.tasquesPendents());
 
-        destinatariA.firmarDarreraPeticio();
-        Assert.assertEquals(firmesA, destinatariA.tasquesPendents());
+            destinatariA.firmarDarreraPeticio();
+            Assert.assertEquals(firmesA, destinatariA.tasquesPendents());
 
-        revisorA.acceptarDarrera();
+            revisorA.acceptarDarrera();
 
-        Assert.assertEquals(revisionsPendents, revisorA.tasquesPendents());
-        Assert.assertEquals(firmesB+1, destinatariB.tasquesPendents());
+            Assert.assertEquals(revisionsPendents, revisorA.tasquesPendents());
+            Assert.assertEquals(firmesB+1, destinatariB.tasquesPendents());
 
-        destinatariB.firmarDarreraPeticio();
+            destinatariB.firmarDarreraPeticio();
 
-        Assert.assertEquals(firmesB, destinatariB.tasquesPendents());
+            Assert.assertEquals(firmesB, destinatariB.tasquesPendents());
 
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
     }
 
     @Test
     public void testCreateAndSignDelegat() {
 
+        Inbox destInbox = new Inbox(session, "pruebas@fundaciobit.org", "x");
+        Inbox deleInbox = new Inbox(session, "persona@fundaciobit.org", "x");
+
         int firmesPendents = destinatariA.tasquesPendents();
         int delegacionsPendents = delegatA.tasquesPendents();
 
+        int mailsDestinatari = destInbox.getMessages(300);
+        int mailsDelegat = deleInbox.getMessages(300);
+
         long peticio = crearPeticioDestinataris(destinatariA);
+        try {
+            Assert.assertEquals(firmesPendents + 1, destinatariA.tasquesPendents());
+            Assert.assertEquals(delegacionsPendents + 1, delegatA.tasquesPendents());
 
-        Assert.assertEquals(firmesPendents+1, destinatariA.tasquesPendents());
-        Assert.assertEquals(delegacionsPendents+1, delegatA.tasquesPendents());
+            Assert.assertEquals(++mailsDelegat, deleInbox.getMessages(300));
+            Assert.assertEquals(++mailsDestinatari, destInbox.getMessages(300));
 
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
-        delegatA.firmarDarreraPeticio();
+            delegatA.firmarDarreraPeticio();
 
-        Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
-        Assert.assertEquals(delegacionsPendents, delegatA.tasquesPendents());
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+            Assert.assertEquals(delegacionsPendents, delegatA.tasquesPendents());
 
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+            // mail de descartat + mail de firma parcial
+            Assert.assertEquals(mailsDestinatari + 2, destInbox.getMessages(300));
+
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
+
     }
 
     @Test
@@ -363,19 +409,75 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
         int colaboracionsPendents = colaboradorA.tasquesPendents();
 
         long peticio = crearPeticioDestinataris(destinatariA);
+        try {
 
-        Assert.assertEquals(firmesPendents+1, destinatariA.tasquesPendents());
-        Assert.assertEquals(colaboracionsPendents+1, colaboradorA.tasquesPendents());
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+            Assert.assertEquals(firmesPendents + 1, destinatariA.tasquesPendents());
+            Assert.assertEquals(colaboracionsPendents + 1, colaboradorA.tasquesPendents());
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
-        Assert.assertTrue(destinatariA.colaboradorPendentDarrera());
-        colaboradorA.validarDarrera();
-        Assert.assertEquals(colaboracionsPendents, colaboradorA.tasquesPendents());
-        Assert.assertTrue(destinatariA.colaboradorValidatDarrera());
+            Assert.assertTrue(destinatariA.colaboradorPendentDarrera());
+            colaboradorA.validarDarrera();
+            Assert.assertEquals(colaboracionsPendents, colaboradorA.tasquesPendents());
+            Assert.assertTrue(destinatariA.colaboradorValidatDarrera());
 
-        destinatariA.firmarDarreraPeticio();
-        Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+            destinatariA.firmarDarreraPeticio();
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
 
-        Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
+    }
+
+    @Test
+    public void testCreateThreeOptionalSignersMinimThree() {
+
+        int firmesA = destinatariA.tasquesPendents();
+        int firmesB = destinatariB.tasquesPendents();
+        int firmesC = destinatariC.tasquesPendents();
+
+        long peticio = crearPeticioDestinatarisParallel(3, destinatariA, destinatariB, destinatariC);
+        try {
+            Assert.assertEquals(firmesA + 1, destinatariA.tasquesPendents());
+            destinatariA.firmarDarreraPeticio();
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+
+            Assert.assertEquals(firmesB + 1, destinatariB.tasquesPendents());
+            destinatariB.firmarDarreraPeticio();
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+
+            Assert.assertEquals(firmesC + 1, destinatariC.tasquesPendents());
+            destinatariC.firmarDarreraPeticio();
+
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+
+        } finally {
+            deletePeticio(peticio);
+        }
+    }
+    @Test
+    public void testCreateThreeOptionalSignersMinimTwo() {
+
+        int firmesA = destinatariA.tasquesPendents();
+        int firmesB = destinatariB.tasquesPendents();
+        int firmesC = destinatariC.tasquesPendents();
+
+        long peticio = crearPeticioDestinatarisParallel(2, destinatariA, destinatariB, destinatariC);
+        System.out.println(peticio);
+        try {
+            Assert.assertEquals(firmesA + 1, destinatariA.tasquesPendents());
+            destinatariA.firmarDarreraPeticio();
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+
+            Assert.assertEquals(firmesB + 1, destinatariB.tasquesPendents());
+            destinatariB.firmarDarreraPeticio();
+
+            // Ja està siganda i el darrer ja no té la firma pendent
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+            Assert.assertEquals(firmesC, destinatariC.tasquesPendents());
+
+        } finally {
+            deletePeticio(peticio);
+        }
     }
 }

@@ -1794,7 +1794,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       estat.setDataFi(now);
       estat.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
       estat.setDescripcio(msg);
-      estat = estatDeFirmaLogicaEjb.update(estat);
+      estat = estatDeFirmaLogicaEjb.updateUnauthorized(estat);
       if (estat
           .getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
         events.descartat_per_firmar(peticioDeFirma, estat);
@@ -2342,7 +2342,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
         estat.setDataFi(now);
         estat.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
         estat.setDescripcio("Alguna altra persona ja ha firmat la peticio");
-        estat = estatDeFirmaLogicaEjb.update(estat);
+        estat = estatDeFirmaLogicaEjb.updateUnauthorized(estat);
         if (estat
             .getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
           events.descartat_per_firmar(peticioDeFirma, estat);
