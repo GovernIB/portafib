@@ -73,6 +73,16 @@ public class ApiFirmaAsyncTestBase {
         }
     }
 
+    protected long crearPeticioDestinariRevisors(Destinatari destinatari, int minRevisers, int obligatoris, Revisor... revisors) {
+        try {
+            return api.createAndStartSignatureRequestWithSignBlockList(
+                    getRequestWithSequentialBlockList("hola.pdf", "application/pdf",
+                            destinatari, minRevisers, obligatoris, revisors));
+        } catch (AbstractApisIBException e) {
+            throw new RuntimeException("Error creant petició", e);
+        }
+    }
+
     protected long crearPeticioDestinariRevisorDestintariRevisor(Destinatari dest1, Revisor revi1,
                                                                  Destinatari dest2, Revisor revi2) {
         try {
@@ -127,6 +137,12 @@ public class ApiFirmaAsyncTestBase {
             String fileName, String mime, Destinatari destinatari, Revisor revisor) {
         return new FirmaAsyncSimpleSignatureRequestWithSignBlockList(
                 getRequestBase(fileName, mime), getSequentialBlocks(destinatari, revisor));
+    }
+
+    private FirmaAsyncSimpleSignatureRequestWithSignBlockList getRequestWithSequentialBlockList(
+            String fileName, String mime, Destinatari destinatari, int minRevisers, int obligatoris, Revisor... revisors) {
+        return new FirmaAsyncSimpleSignatureRequestWithSignBlockList(
+                getRequestBase(fileName, mime), getSequentialBlocks(destinatari, minRevisers, obligatoris, revisors));
     }
 
     private FirmaAsyncSimpleSignatureRequestWithSignBlockList getRequestWithSequentialBlockList(
@@ -185,6 +201,15 @@ public class ApiFirmaAsyncTestBase {
         return blocks;
     }
 
+    private FirmaAsyncSimpleSignatureBlock[] getSequentialBlocks(Destinatari destinatari,
+                                                                 int minRevisers, int obligatoris, Revisor... revisors) {
+        FirmaAsyncSimpleSignatureBlock[] blocks = new FirmaAsyncSimpleSignatureBlock[1];
+
+        blocks[0] = new FirmaAsyncSimpleSignatureBlock(1,
+                Collections.singletonList(getSimpleSignature(destinatari, minRevisers, obligatoris, revisors)));
+        return blocks;
+    }
+
     private FirmaAsyncSimpleSignatureBlock[] getSequentialBlocks(Destinatari dest1, Revisor revi1,
                                                                  Destinatari dest2, Revisor revi2) {
 
@@ -202,8 +227,7 @@ public class ApiFirmaAsyncTestBase {
         FirmaAsyncSimpleSignatureBlock[] blocks = new FirmaAsyncSimpleSignatureBlock[1];
         List<FirmaAsyncSimpleSignature> signatureList = new ArrayList<FirmaAsyncSimpleSignature>(destinataris.length);
         for (int i = 0; i < destinataris.length; i++) {
-            Destinatari dest = destinataris[i];
-            signatureList.add(getSimpleSignature(dest, (i < obligatoris)));
+            signatureList.add(getSimpleSignature(destinataris[i], (i < obligatoris)));
         }
         blocks[0] = new FirmaAsyncSimpleSignatureBlock(minSigners, signatureList);
         return blocks;
@@ -240,6 +264,20 @@ public class ApiFirmaAsyncTestBase {
         return signature;
     }
 
+    private FirmaAsyncSimpleSignature getSimpleSignature(Destinatari destinatari, int minRevisers, int obligatoris,
+                                                         Revisor... revisers) {
+        FirmaAsyncSimpleSignature signature = getSimpleSignature(destinatari);
+        if (revisers.length > 0) {
+            signature.setMinimumNumberOfRevisers(minRevisers);
+            List<FirmaAsyncSimpleReviser> reviserList = new ArrayList<FirmaAsyncSimpleReviser>(revisers.length);
+            for (int i = 0; i < revisers.length; i++) {
+                reviserList.add(getSimpleReviser(revisers[i], (i < obligatoris)));
+            }
+            signature.setRevisers(reviserList);
+        }
+        return signature;
+    }
+
     private FirmaAsyncSimpleSigner getSimpleSigner(Destinatari destinatari) {
         FirmaAsyncSimpleSigner signer = new FirmaAsyncSimpleSigner();
         if (destinatari.getAdministrationId() != null) {
@@ -251,9 +289,13 @@ public class ApiFirmaAsyncTestBase {
     }
 
     private FirmaAsyncSimpleReviser getSimpleReviser(Revisor revisor) {
+        return getSimpleReviser(revisor, true);
+    }
+
+    private FirmaAsyncSimpleReviser getSimpleReviser(Revisor revisor, boolean required) {
         FirmaAsyncSimpleReviser reviser = new FirmaAsyncSimpleReviser();
         reviser.setAdministrationID(revisor.getAdministrationId());
-        reviser.setRequired(true);
+        reviser.setRequired(required);
         return reviser;
     }
 }

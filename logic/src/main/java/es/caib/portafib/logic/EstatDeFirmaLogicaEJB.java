@@ -309,18 +309,13 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     Where w4 = EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull();
 
     if (ConstantsV2.ROLE_DEST.equals(rol) || ConstantsV2.ROLE_DELE.equals(rol)) {
-      // Estats de firma inicials de revisors
-      Where eqTipusInicial = EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
-              .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR);
 
-      // Que encara no s'han resolt, o si s'han resolt no han estat acceptats
-      Where eqTipusFinal = Where.OR(EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull(),
-              EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.notEqual(ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT) );
-
-      // Seleccionam les firmes que estan en aquesta condició
+      // Seleccionam les firmes que tenen estats de firma de revisió que encara no s'han resolt
       SubQuery<EstatDeFirma, Long> subQuery = getSubQuery(
               EstatDeFirmaFields.FIRMAID,
-              Where.AND(eqTipusInicial, eqTipusFinal));
+              Where.AND(EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
+                      .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR),
+                      EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull()));
 
       // Afegim la condició que els estats de firma no es correspoen a firmes que estan en aquesta situació
       w4 = Where.AND(w4, EstatDeFirmaFields.FIRMAID.notIn(subQuery));
@@ -439,8 +434,8 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   }
 
   @Override
-  public long countRevisorsPendentsFirma(long firmaID) throws I18NException {
-    return count(Where.AND(
+  public List<EstatDeFirma> getRevisorsPendentsFirma(long firmaID) throws I18NException {
+    return select(Where.AND(
             EstatDeFirmaFields.FIRMAID.equal(firmaID),
             EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.equal(TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR),
             EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull()

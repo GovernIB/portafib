@@ -1,7 +1,7 @@
 package org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 public class Revisor extends Usuari {
 
@@ -32,10 +32,17 @@ public class Revisor extends Usuari {
             webDriver.get(getTasksUrl());
         }
         webDriver.findElement(By.xpath("//table/tbody/tr/td[last()]/div/a[2]")).click();
-        webDriver.findElement(By.xpath("//table/tbody/tr/td[last()]/div/ul/li[5]/a")).click();
         // TODO. Cercar alternativa https://github.com/SeleniumHQ/htmlunit-driver/issues/14
+        /*
+        webDriver.findElement(By.xpath("//table/tbody/tr/td[last()]/div/ul/li[5]/a")).click();
         Alert alert = webDriver.switchTo().alert();
         alert.sendKeys(motiu);
-        alert.accept();
+        alert.accept();*/
+        /* Alternativa, agafam la URL de fullView, i canviam l'acció per rebutjar, i afegim el motiu */
+        WebElement element = webDriver.findElement(By.xpath("//table/tbody/tr/td[last()]/div/ul/li[3]/a"));
+        String hrefVistaCompleta = element.getAttribute("href");
+        String hrefRebutjar = hrefVistaCompleta.replace("fullView", "rebutjar")
+                + "?motiu=" + motiu;
+        webDriver.get(hrefRebutjar);
     }
 }

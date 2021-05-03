@@ -25,6 +25,8 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
     private static Destinatari destinatariB;
     private static Destinatari destinatariC;
     private static Revisor revisorA;
+    private static Revisor revisorB;
+    private static Revisor revisorC;
     private static Delegat delegatA;
     private static Colaborador colaboradorA;
 
@@ -45,6 +47,8 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
         destinatariB = getDestinatari("destinatari.B", properties, baseUrl);
         destinatariC = getDestinatari("destinatari.C", properties, baseUrl);
         revisorA = getRevisor("revisor.A", properties, baseUrl);
+        revisorB = getRevisor("revisor.B", properties, baseUrl);
+        revisorC = getRevisor("revisor.C", properties, baseUrl);
         delegatA = getDelegat("delegat.A", properties, baseUrl);
         colaboradorA = getColaborador("colaborador.A", properties, baseUrl);
 
@@ -266,7 +270,6 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
     }
 
     @Test
-    @Ignore // Rebutjar no funciona amb versió HtmlUnit https://github.com/SeleniumHQ/htmlunit-driver/issues/14
     public void testCreateWithRevisorRebutjar() {
 
         int revisionsPendents = revisorA.tasquesPendents();
@@ -507,4 +510,155 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
             deletePeticio(peticio);
         }
     }
+
+    @Test
+    public void testCreateWithTwoRequiredRevisors() {
+
+        int revisorAPendents = revisorA.tasquesPendents();
+        int revisorBPendents = revisorB.tasquesPendents();
+        int firmesPendents = destinatariA.tasquesPendents();
+
+        long peticio = crearPeticioDestinariRevisors(destinatariA, 2, 2, revisorA, revisorB);
+
+        try {
+            Assert.assertEquals(revisorAPendents+1, revisorA.tasquesPendents());
+            Assert.assertEquals(revisorBPendents+1, revisorB.tasquesPendents());
+
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+
+            revisorA.acceptarDarrera();
+
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+
+            revisorB.acceptarDarrera();
+
+            Assert.assertEquals(revisorAPendents, revisorA.tasquesPendents());
+            Assert.assertEquals(revisorBPendents, revisorA.tasquesPendents());
+            Assert.assertEquals(firmesPendents + 1, destinatariA.tasquesPendents());
+
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
+
+            destinatariA.firmarDarreraPeticio();
+
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
+    }
+
+    @Test
+    public void testCreateWithTwoRequiredRevisorsRebutjaPrimer() {
+
+        int revisorAPendents = revisorA.tasquesPendents();
+        int revisorBPendents = revisorB.tasquesPendents();
+        int firmesPendents = destinatariA.tasquesPendents();
+
+        long peticio = crearPeticioDestinariRevisors(destinatariA, 2, 2, revisorA, revisorB);
+
+        try {
+            Assert.assertEquals(revisorAPendents+1, revisorA.tasquesPendents());
+            Assert.assertEquals(revisorBPendents+1, revisorB.tasquesPendents());
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+
+            revisorA.rebutjarDarrera("test");
+
+            Assert.assertEquals(revisorBPendents, revisorB.tasquesPendents());
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_REJECTED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
+    }
+
+    @Test
+    public void testCreateWithTwoRequiredRevisorsRebutjaSegon() {
+
+        int revisorAPendents = revisorA.tasquesPendents();
+        int revisorBPendents = revisorB.tasquesPendents();
+        int firmesPendents = destinatariA.tasquesPendents();
+
+        long peticio = crearPeticioDestinariRevisors(destinatariA, 2, 2, revisorA, revisorB);
+
+        try {
+            Assert.assertEquals(revisorAPendents+1, revisorA.tasquesPendents());
+            Assert.assertEquals(revisorBPendents+1, revisorB.tasquesPendents());
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+
+            revisorA.acceptarDarrera();
+            revisorB.rebutjarDarrera("test");
+
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_REJECTED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
+    }
+
+    @Test
+    public void testCreateWithTwoOptionalRevisors() {
+
+        int revisorAPendents = revisorA.tasquesPendents();
+        int revisorBPendents = revisorB.tasquesPendents();
+        int firmesPendents = destinatariA.tasquesPendents();
+
+        long peticio = crearPeticioDestinariRevisors(destinatariA, 1, 0, revisorA, revisorB);
+
+        try {
+            Assert.assertEquals(revisorAPendents+1, revisorA.tasquesPendents());
+            Assert.assertEquals(revisorBPendents+1, revisorB.tasquesPendents());
+
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+
+            revisorA.acceptarDarrera();
+
+            // El segon revisor no fa falta, el destintari ja pot signar
+            Assert.assertEquals(revisorBPendents, revisorB.tasquesPendents());
+            Assert.assertEquals(firmesPendents+1, destinatariA.tasquesPendents());
+
+            destinatariA.firmarDarreraPeticio();
+
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
+    }
+
+    @Test
+    public void testCreateWithTwoOptionalOneRequiredRevisors() {
+
+        int revisorAPendents = revisorA.tasquesPendents();
+        int revisorBPendents = revisorB.tasquesPendents();
+        int revisorCPendents = revisorC.tasquesPendents();
+        int firmesPendents = destinatariA.tasquesPendents();
+
+        long peticio = crearPeticioDestinariRevisors(destinatariA, 2, 1, revisorA, revisorB, revisorC);
+
+        try {
+            Assert.assertEquals(revisorAPendents+1, revisorA.tasquesPendents());
+            Assert.assertEquals(revisorBPendents+1, revisorB.tasquesPendents());
+            Assert.assertEquals(revisorCPendents+1, revisorC.tasquesPendents());
+
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+
+            revisorB.acceptarDarrera();
+
+            // El segon revisor no fa falta
+            Assert.assertEquals(revisorCPendents, revisorC.tasquesPendents());
+
+            // Però encara no podem signar perquè falta el revisor obligatori
+            Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
+
+            revisorA.acceptarDarrera();
+
+            Assert.assertEquals(firmesPendents+1, destinatariA.tasquesPendents());
+            destinatariA.firmarDarreraPeticio();
+
+            Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
+        } finally {
+            deletePeticio(peticio);
+        }
+    }
+
 }

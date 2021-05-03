@@ -6,8 +6,12 @@ import es.caib.portafib.model.entity.RevisorDeFirma;
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 
+import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.Where;
 import org.jboss.ejb3.annotation.SecurityDomain;
+
+import java.util.List;
 
 /**
  *
@@ -30,4 +34,10 @@ public class RevisorDeFirmaLogicaEJB extends RevisorDeFirmaEJB implements Reviso
     return super.update(instance);
   }
 
+  @Override
+  public List<RevisorDeFirma> getRevisorsFirma(long firmaID) throws I18NException {
+    return select(Where.AND(
+            RevisorDeFirmaFields.FIRMAID.equal(firmaID)
+    ));
+  }
 }

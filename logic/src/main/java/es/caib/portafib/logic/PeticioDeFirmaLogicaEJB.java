@@ -6,7 +6,6 @@ import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.ejb.IdiomaLocal;
 import es.caib.portafib.ejb.PeticioDeFirmaEJB;
 import es.caib.portafib.ejb.PropietatGlobalLocal;
-import es.caib.portafib.ejb.RevisorDeFirmaLocal;
 import es.caib.portafib.ejb.RoleUsuariEntitatLocal;
 import es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioLocal;
 import es.caib.portafib.ejb.TipusDocumentLocal;
@@ -146,6 +145,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -231,8 +231,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
   @EJB(mappedName = PropietatGlobalLocal.JNDI_NAME, beanName = "PropietatGlobalEJB")
   protected PropietatGlobalLocal propietatGlobalEjb;
 
-  @EJB(mappedName = RevisorDeFirmaLocal.JNDI_NAME)
-  protected RevisorDeFirmaLocal revisorDeFirmaEjb;
+  @EJB(mappedName = RevisorDeFirmaLogicaLocal.JNDI_NAME)
+  protected RevisorDeFirmaLogicaLocal revisorDeFirmaLogicaEjb;
 
   @EJB(mappedName = EstadisticaLogicaLocal.JNDI_NAME)
   protected EstadisticaLogicaLocal estadisticaEjb;
@@ -2137,7 +2137,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       PeticioDeFirmaJPA peticioDeFirma = findByPrimaryKeyForCustody(peticioDeFirmaID);
       EstatDeFirmaJPA estatDeFirma = estatDeFirmaLogicaEjb
           .findByPrimaryKeyUnauthorized(estatDeFirmaID);
-      Long firmaID = (Long) estatDeFirma.getFirmaID();
+      Long firmaID = estatDeFirma.getFirmaID();
       FirmaJPA firma = firmaLogicaEjb.findByPrimaryKeyUnauthorized(firmaID);
 
       // Checks
@@ -2739,16 +2739,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
   public void acceptar(EstatDeFirmaJPA estatDeFirma, FirmaJPA firma, PeticioDeFirmaJPA peticioDeFirma)
       throws I18NException {
 
-    Timestamp now = new Timestamp(System.currentTimeMillis());
-    estatDeFirma.setDataFi(now);
+    estatDeFirma.setDataFi(new Timestamp(System.currentTimeMillis()));
     estatDeFirma.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT);
     estatDeFirma.setDescripcio("El document ha sigut acceptat pel revisor de Firmes");
     estatDeFirmaLogicaEjb.update(estatDeFirma);
 
-    // TODO. Mirar si hem arribat al mínim de revisors i descartar la resta.
-
-    long count = estatDeFirmaLogicaEjb.countRevisorsPendentsFirma(firma.getFirmaID());
-    if (count == 0) {
+    int revisorsPendents = processarRevisorsPendents(firma);
+    if (revisorsPendents == 0) {
       FirmaEventList events = new FirmaEventList();
       try {
         List<EstatDeFirma> estatsDeFirmaPendents = estatDeFirmaLogicaEjb.getEstatsDeFirmaPendentsFirma(firma.getFirmaID());
@@ -2761,6 +2758,51 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
       firmaEventManagerEjb.processList(events, false);
     }
+  }
+
+  private int processarRevisorsPendents(FirmaJPA firma) throws I18NException {
+    List<EstatDeFirma> estatsRevisorsPendents = estatDeFirmaLogicaEjb.getRevisorsPendentsFirma(firma.getFirmaID());
+
+    if (estatsRevisorsPendents.isEmpty()) {
+      return 0;
+    }
+
+    Set<String> revisorsPendents = new HashSet<String>(estatsRevisorsPendents.size());
+    for (EstatDeFirma estatRevisor : estatsRevisorsPendents) {
+      revisorsPendents.add(estatRevisor.getUsuariEntitatID());
+    }
+
+    List<RevisorDeFirma> revisors = revisorDeFirmaLogicaEjb.getRevisorsFirma(firma.getFirmaID());
+
+    Set<String> revisorsOpcionalsPendents = new HashSet<String>();
+    int obligatoris_i_opcionals_acceptats = 0;
+    for (RevisorDeFirma revisor : revisors) {
+      if (revisor.isObligatori()) {
+        obligatoris_i_opcionals_acceptats++;
+      } else {
+        if (!revisorsPendents.contains(revisor.getUsuariEntitatID())) {
+          obligatoris_i_opcionals_acceptats++;
+        } else {
+          revisorsOpcionalsPendents.add(revisor.getUsuariEntitatID());
+        }
+      }
+    }
+
+    if (obligatoris_i_opcionals_acceptats >= firma.getMinimDeRevisors()) {
+      // Cancel·lam els Estats de Firma de Revisors pendents opcionals
+      for (Iterator<EstatDeFirma> iterator = estatsRevisorsPendents.iterator(); iterator.hasNext(); ) {
+        EstatDeFirma estatRevisor = iterator.next();
+        if (revisorsOpcionalsPendents.contains(estatRevisor.getUsuariEntitatID())) {
+          estatRevisor.setDataFi(new Timestamp(System.currentTimeMillis()));
+          estatRevisor.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
+          estatRevisor.setDescripcio("Revisió no necessària");
+          estatDeFirmaLogicaEjb.update(estatRevisor);
+          iterator.remove();
+        }
+      }
+    }
+
+    return estatsRevisorsPendents.size();
   }
 
   @Override

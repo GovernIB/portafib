@@ -62,11 +62,7 @@ public interface EstatDeFirmaLogicaLocal extends EstatDeFirmaLocal {
   List<Object[]> getCountColaboracioDelegacioByFirmaIDAndTipusEstatFinal(
           String usuariEntitatID, Collection<Long> idsFirma, Long[] estatsInicials);
 
-  /**
-   * Retorna el nombre de revisors d'una firma (EstatDeFirma en del tipus assingat per revisar) que encara no han
-   * donat l'ok (estat de firma finalés null)
-   */
-  long countRevisorsPendentsFirma(long firmaID) throws I18NException;
+  List<EstatDeFirma> getRevisorsPendentsFirma(long firmaID) throws I18NException;
 
   List<EstatDeFirma> getEstatsDeFirmaPendentsFirma(long firmaID) throws I18NException;
 
