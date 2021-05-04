@@ -1,3 +1,23 @@
+PortaFIB 2.0.18
+==============
+
+ - Els missatges d'error d'usuari extern no sempre es veuren correctament. #582
+ - Controlar si s'ha arribat al mínim de revisors quan un revisor accepta #578
+ - Els destintaris poden rebre un correu d'avís abans de tenir la peticó disponible per firma #561
+ - Quan un destintari sense PFI_USER és la darrera firma d'un bloc amb firmes opcionals falla "CallerUnauthorized" #580
+ - Afegir tamany firma i tipus mime com a valors predefiniits per avaluar les condicions de configuració de firma #568
+ - Permetre a la vista completa mostrar informació de firmes anteriors dels annexos #501
+ - Revisar validació del nombre mínim de revisors #565
+ - Evitar que els usuaris sense PFI_USER accedexin a la gestió de col·laboradors o delegats #577
+ - Permetre gestionar la configuració de l'usuari entitat als usuaris que no tenen PFI_USER #575
+ - El mètode getFlowTemplateInfo retorna els codis de càrrec dins el camp que no toca #576
+ - Permetre gestionar la configuració de l'usuari persona als usuaris que no tenen PFI_USER #574
+ - Permetre gestionar els avisos als destinataris que no tenen PFI_USER #571
+ - Dins la gestió dels tipus de notificació que vol rebre un usuari no es valida que sigui de l'usuari en curs #573
+ - Actualitzar versió GenApp per millores seguretat #572
+ - Permetre entrar com a destinatari sense el rol especific PFI_USER #557
+ - Permetre als usuaris aplicació insertar usuaris del sistema d'autenticació que no estan dins PortaFIB #569
+
 PortaFIB 2.0.17
 ==============
 
