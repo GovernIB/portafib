@@ -7,7 +7,6 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Inbox;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Revisor;
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.mail.Session;
