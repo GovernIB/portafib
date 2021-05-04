@@ -5,7 +5,7 @@ import es.caib.portafib.ws.api.v1.PortaFIBUsuariEntitatWsService;
 import es.caib.portafib.ws.api.v1.UsuariPersonaBean;
 import es.caib.portafib.ws.api.v1.WsI18NException;
 import es.caib.portafib.ws.api.v1.WsValidationException;
-import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Destinatari;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.DestinatariUsuari;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -22,8 +22,8 @@ import static org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimp
 
 public class CrearDestinatariTest extends ApiFirmaAsyncTestBase {
 
-    private Destinatari destinatariNou;
-    private Destinatari destinatariSenseNif;
+    private DestinatariUsuari destinatariNou;
+    private DestinatariUsuari destinatariSenseNif;
 
     private static PortaFIBUsuariEntitatWs usuariEntitatWs;
     private static String baseUrl;
@@ -55,8 +55,8 @@ public class CrearDestinatariTest extends ApiFirmaAsyncTestBase {
 
     @Before
     public void setupBefore() {
-        destinatariNou = new Destinatari("11223344T", "test", "test", "x", baseUrl);
-        destinatariSenseNif = new Destinatari(null, "test", "test", "x", baseUrl);
+        destinatariNou = new DestinatariUsuari("11223344T", "test", "test", "x", baseUrl);
+        destinatariSenseNif = new DestinatariUsuari(null, "test", "test", "x", baseUrl);
     }
 
     @Test

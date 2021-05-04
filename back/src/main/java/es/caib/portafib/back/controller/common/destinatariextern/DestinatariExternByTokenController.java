@@ -81,8 +81,6 @@ public class DestinatariExternByTokenController {
     
     PortaFIBSessionLocaleResolver.setLocaleManually(request, idiomaID);
 
-    
-
     try {
       LoginInfo loginInfo = LoginInfo.getInstance();
 
@@ -94,8 +92,11 @@ public class DestinatariExternByTokenController {
       // OK
     }
 
+    // registram l'usuari
+    registrarUsuari(request, token, firma, username);
+
     if (firma.getTipusEstatDeFirmaFinalID() != null) {
-      return showErrorPage(token, "usuariextern.token.error.firma.japrocessada", 
+      return showErrorPage(token, "usuariextern.token.error.firma.japrocessada",
           token, String.valueOf(firma.getTipusEstatDeFirmaFinalID()));
     }
 
@@ -116,74 +117,15 @@ public class DestinatariExternByTokenController {
       final long estatInicial = ef.getTipusEstatDeFirmaInicialID();
       if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
 
-        // FER LOGIN
-        Set<String> roles = new HashSet<String>();
+        request.getSession()
+            .setAttribute(EXTERNAL_USER_ESTATFIRMAID, ef.getEstatDeFirmaID());
 
-        if (log.isDebugEnabled()) {
-          log.debug("token::[usuariPersonaLogicaEjb.getRolesOfLoggedUser()] roles.size() => "
-            + roles.size());
-          log.info("token::[usuariPersonaLogicaEjb.getRolesOfLoggedUser()] roles.contains(ConstantsV2.PFI_USER) => "
-            + roles.contains(ConstantsV2.PFI_USER));
-        }
+        // redirect a pantalla completa de firma
+        String redirect = ConstantsV2.CONTEXT_EXTERNALUSER_ESTATDEFIRMA + "/fullView/"
+            + ef.getEstatDeFirmaID() + "/" + peticio.getPeticioDeFirmaID(); //+ "?lang=" + idiomaID;
 
-        {
+        return new ModelAndView(new RedirectView(redirect, true));
 
-          // registram l'usuari
-
-          Collection<GrantedAuthority> springAuthorities = new ArrayList<GrantedAuthority>();
-          springAuthorities.add(new SimpleGrantedAuthority(ConstantsV2.ROLE_DEST));
-
-          final String password = "";
-          User user = new User(username, password, springAuthorities);
-
-          UsuariEntitatJPA usuariEntitat = firma.getUsuariEntitat();
-
-          UsuariPersonaJPA usuariPersona = usuariEntitat.getUsuariPersona();
-          String entitatIDActual = usuariEntitat.getEntitatID();
-
-          Map<String, EntitatJPA> entitats = new HashMap<String, EntitatJPA>();
-          entitats.put(entitatIDActual, usuariEntitat.getEntitat());
-
-          Map<String, Set<GrantedAuthority>> rolesPerEntitat;
-          rolesPerEntitat = new HashMap<String, Set<GrantedAuthority>>();
-          rolesPerEntitat.put(entitatIDActual,
-              new HashSet<GrantedAuthority>(springAuthorities));
-          rolesPerEntitat.put(null, new HashSet<GrantedAuthority>(springAuthorities));
-
-          Map<String, UsuariEntitatJPA> usuariEntitatPerEntitatID;
-          usuariEntitatPerEntitatID = new HashMap<String, UsuariEntitatJPA>();
-          usuariEntitatPerEntitatID.put(entitatIDActual, usuariEntitat);
-
-          final boolean needConfigUser = false;
-
-          // create a new authentication token for usuariAplicacio
-
-          //usuariPersona.setIdiomaID(idiomaID);
-          
-          LoginInfo loginInfo = new LoginInfo(user, usuariPersona, entitatIDActual, entitats,
-              rolesPerEntitat, usuariEntitatPerEntitatID, needConfigUser);
-
-          // log.info("Pre LoginInfo.getInstance() => " + LoginInfo.getInstance());
-
-          // and set the authentication of the current Session context
-          SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
-
-          log.info("POST LoginInfo.getInstance() => " + LoginInfo.getInstance());
-
-          log.info("Inicialitzada Informació de Usuari Extern dins de LoginInfo");
-          
-          request.getSession().setAttribute(EXTERNAL_USER_TOKEN, token);
-          request.getSession()
-              .setAttribute(EXTERNAL_USER_ESTATFIRMAID, ef.getEstatDeFirmaID());
-
-          // redirect a pantalla completa de firma
-          String redirect = ConstantsV2.CONTEXT_EXTERNALUSER_ESTATDEFIRMA + "/fullView/"
-              + ef.getEstatDeFirmaID() + "/" + peticio.getPeticioDeFirmaID(); //+ "?lang=" + idiomaID;
-
-          ModelAndView model = new ModelAndView(new RedirectView(redirect, true));
-
-          return model;
-        }
       }
     }
 
@@ -197,7 +139,53 @@ public class DestinatariExternByTokenController {
 
   }
 
-  
+  private void registrarUsuari(HttpServletRequest request, String token, FirmaJPA firma, String username) {
+    Collection<GrantedAuthority> springAuthorities = new ArrayList<GrantedAuthority>();
+    springAuthorities.add(new SimpleGrantedAuthority(ConstantsV2.ROLE_DEST));
+
+    final String password = "";
+    User user = new User(username, password, springAuthorities);
+
+    UsuariEntitatJPA usuariEntitat = firma.getUsuariEntitat();
+
+    UsuariPersonaJPA usuariPersona = usuariEntitat.getUsuariPersona();
+    String entitatIDActual = usuariEntitat.getEntitatID();
+
+    Map<String, EntitatJPA> entitats = new HashMap<String, EntitatJPA>();
+    entitats.put(entitatIDActual, usuariEntitat.getEntitat());
+
+    Map<String, Set<GrantedAuthority>> rolesPerEntitat;
+    rolesPerEntitat = new HashMap<String, Set<GrantedAuthority>>();
+    rolesPerEntitat.put(entitatIDActual,
+        new HashSet<GrantedAuthority>(springAuthorities));
+    rolesPerEntitat.put(null, new HashSet<GrantedAuthority>(springAuthorities));
+
+    Map<String, UsuariEntitatJPA> usuariEntitatPerEntitatID;
+    usuariEntitatPerEntitatID = new HashMap<String, UsuariEntitatJPA>();
+    usuariEntitatPerEntitatID.put(entitatIDActual, usuariEntitat);
+
+    final boolean needConfigUser = false;
+
+    // create a new authentication token for usuariAplicacio
+
+    //usuariPersona.setIdiomaID(idiomaID);
+
+    LoginInfo loginInfo = new LoginInfo(user, usuariPersona, entitatIDActual, entitats,
+        rolesPerEntitat, usuariEntitatPerEntitatID, needConfigUser);
+
+    // log.info("Pre LoginInfo.getInstance() => " + LoginInfo.getInstance());
+
+    // and set the authentication of the current Session context
+    SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
+
+    log.info("POST LoginInfo.getInstance() => " + LoginInfo.getInstance());
+
+    log.info("Inicialitzada Informació de Usuari Extern dins de LoginInfo");
+
+    request.getSession().setAttribute(EXTERNAL_USER_TOKEN, token);
+  }
+
+
   protected ModelAndView showErrorPage(String token, String errorcode, String ... params) {
     return finalPageWithMessage(token, ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT, errorcode, params);
   }

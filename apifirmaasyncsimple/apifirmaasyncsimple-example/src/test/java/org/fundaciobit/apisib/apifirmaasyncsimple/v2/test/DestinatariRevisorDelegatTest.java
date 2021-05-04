@@ -2,7 +2,7 @@ package org.fundaciobit.apisib.apifirmaasyncsimple.v2.test;
 
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Colaborador;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Delegat;
-import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Destinatari;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.DestinatariUsuari;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Inbox;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Revisor;
 import org.junit.Assert;
@@ -20,9 +20,9 @@ import static org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimp
 
 public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
 
-    private static Destinatari destinatariA;
-    private static Destinatari destinatariB;
-    private static Destinatari destinatariC;
+    private static DestinatariUsuari destinatariA;
+    private static DestinatariUsuari destinatariB;
+    private static DestinatariUsuari destinatariC;
     private static Revisor revisorA;
     private static Revisor revisorB;
     private static Revisor revisorC;
@@ -58,12 +58,12 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
         initApi(properties);
     }
 
-    private static Destinatari getDestinatari(String prefix, Properties properties, String url) {
+    private static DestinatariUsuari getDestinatari(String prefix, Properties properties, String url) {
         String administrationId = properties.getProperty(prefix + ".administrationId");
         String username = properties.getProperty(prefix + ".username");
         String password = properties.getProperty(prefix + ".password");
         String pin = properties.getProperty(prefix + ".pin");
-        return new Destinatari(administrationId, username, password, pin, url);
+        return new DestinatariUsuari(administrationId, username, password, pin, url);
     }
 
     private static Delegat getDelegat(String prefix, Properties properties, String url) {
@@ -92,14 +92,14 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
     public void testCreateAndDelete() {
 
         Inbox destInbox = new Inbox(session, "pruebas@fundaciobit.org", "x");
-        int mails = destInbox.getMessages(500);
+        int mails = destInbox.getMessageCount(500);
 
         int firmes = destinatariA.tasquesPendents();
         long peticio = crearPeticioDestinataris(destinatariA);
         try {
             Assert.assertEquals(firmes + 1, destinatariA.tasquesPendents());
             Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
-            Assert.assertEquals(mails + 1, destInbox.getMessages(500));
+            Assert.assertEquals(mails + 1, destInbox.getMessageCount(500));
         } finally {
             deletePeticio(peticio);
             Assert.assertEquals(firmes, destinatariA.tasquesPendents());
@@ -113,14 +113,14 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
         Inbox reviInbox = new Inbox(session, "revi1@fundaciobit.org", "x");
 
         int revisions = revisorA.tasquesPendents();
-        int mailsRevisor = reviInbox.getMessages(500);
-        int mailsDestinatari = destInbox.getMessages(500);
+        int mailsRevisor = reviInbox.getMessageCount(500);
+        int mailsDestinatari = destInbox.getMessageCount(500);
 
         long peticio = crearPeticioDestinariRevisor(destinatariA, revisorA);
         try {
             Assert.assertEquals(revisions + 1, revisorA.tasquesPendents());
-            Assert.assertEquals(mailsRevisor + 1, reviInbox.getMessages(500));
-            Assert.assertEquals(mailsDestinatari, destInbox.getMessages(500));
+            Assert.assertEquals(mailsRevisor + 1, reviInbox.getMessageCount(500));
+            Assert.assertEquals(mailsDestinatari, destInbox.getMessageCount(500));
             Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
         } finally {
             deletePeticio(peticio);
@@ -234,17 +234,17 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
         int firmesPendents = destinatariA.tasquesPendents();
         int delegacionsPendents = delegatA.tasquesPendents();
 
-        int mailsRevisor = reviInbox.getMessages(500);
-        int mailsDestinatari = destInbox.getMessages(500);
+        int mailsRevisor = reviInbox.getMessageCount(500);
+        int mailsDestinatari = destInbox.getMessageCount(500);
 
         long peticio = crearPeticioDestinariRevisor(destinatariA, revisorA);
 
         try {
             Assert.assertEquals(revisionsPendents+1, revisorA.tasquesPendents());
-            Assert.assertEquals(mailsRevisor+1, reviInbox.getMessages(500));
+            Assert.assertEquals(mailsRevisor+1, reviInbox.getMessageCount(500));
 
             Assert.assertEquals(firmesPendents, destinatariA.tasquesPendents());
-            Assert.assertEquals(mailsDestinatari, destInbox.getMessages(500));
+            Assert.assertEquals(mailsDestinatari, destInbox.getMessageCount(500));
 
             Assert.assertEquals(delegacionsPendents, delegatA.tasquesPendents());
             Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
@@ -253,7 +253,7 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
 
             Assert.assertEquals(revisionsPendents, revisorA.tasquesPendents());
             Assert.assertEquals(firmesPendents+1, destinatariA.tasquesPendents());
-            Assert.assertEquals(mailsDestinatari+1, destInbox.getMessages(500));
+            Assert.assertEquals(mailsDestinatari+1, destInbox.getMessageCount(500));
 
             Assert.assertEquals(delegacionsPendents+1, delegatA.tasquesPendents());
             Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
@@ -376,16 +376,16 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
         int firmesPendents = destinatariA.tasquesPendents();
         int delegacionsPendents = delegatA.tasquesPendents();
 
-        int mailsDestinatari = destInbox.getMessages(300);
-        int mailsDelegat = deleInbox.getMessages(300);
+        int mailsDestinatari = destInbox.getMessageCount(300);
+        int mailsDelegat = deleInbox.getMessageCount(300);
 
         long peticio = crearPeticioDestinataris(destinatariA);
         try {
             Assert.assertEquals(firmesPendents + 1, destinatariA.tasquesPendents());
             Assert.assertEquals(delegacionsPendents + 1, delegatA.tasquesPendents());
 
-            Assert.assertEquals(++mailsDelegat, deleInbox.getMessages(300));
-            Assert.assertEquals(++mailsDestinatari, destInbox.getMessages(300));
+            Assert.assertEquals(++mailsDelegat, deleInbox.getMessageCount(300));
+            Assert.assertEquals(++mailsDestinatari, destInbox.getMessageCount(300));
 
             Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
@@ -395,7 +395,7 @@ public class DestinatariRevisorDelegatTest extends ApiFirmaAsyncTestBase {
             Assert.assertEquals(delegacionsPendents, delegatA.tasquesPendents());
 
             // mail de descartat + mail de firma parcial
-            Assert.assertEquals(mailsDestinatari + 2, destInbox.getMessages(300));
+            Assert.assertEquals(mailsDestinatari + 2, destInbox.getMessageCount(300));
 
             Assert.assertEquals(SIGNATURE_REQUEST_STATE_SIGNED, statusPeticio(peticio));
         } finally {

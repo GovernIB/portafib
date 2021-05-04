@@ -1,6 +1,6 @@
 package org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors;
 
-public class Delegat extends Destinatari {
+public class Delegat extends DestinatariUsuari {
 
     public Delegat(String administrationId, String username, String password, String pin, String baseUrl) {
         super(administrationId, username, password, pin, baseUrl);

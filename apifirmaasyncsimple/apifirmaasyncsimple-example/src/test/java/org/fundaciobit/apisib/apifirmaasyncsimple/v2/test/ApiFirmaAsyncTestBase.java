@@ -1,6 +1,7 @@
 package org.fundaciobit.apisib.apifirmaasyncsimple.v2.test;
 
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.ApiFirmaAsyncSimple;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleExternalSigner;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleFile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleReviser;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignature;
@@ -13,6 +14,8 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSigna
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSigner;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.jersey.ApiFirmaAsyncSimpleJersey;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Destinatari;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.DestinatariExtern;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.DestinatariUsuari;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.test.actors.Revisor;
 import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
@@ -280,11 +283,17 @@ public class ApiFirmaAsyncTestBase {
 
     private FirmaAsyncSimpleSigner getSimpleSigner(Destinatari destinatari) {
         FirmaAsyncSimpleSigner signer = new FirmaAsyncSimpleSigner();
-        if (destinatari.getAdministrationId() != null) {
-            signer.setAdministrationID(destinatari.getAdministrationId());
-        } else {
-            signer.setUsername(destinatari.getUsername());
+        if (destinatari instanceof DestinatariUsuari) {
+            DestinatariUsuari dest = (DestinatariUsuari) destinatari;
+            if (dest.getAdministrationId() != null) {
+                signer.setAdministrationID(dest.getAdministrationId());
+            } else {
+                signer.setUsername(dest.getUsername());
+            }
+        } else if (destinatari instanceof DestinatariExtern) {
+            signer.setExternalSigner(getExternalSigner((DestinatariExtern) destinatari));
         }
+
         return signer;
     }
 
@@ -297,5 +306,16 @@ public class ApiFirmaAsyncTestBase {
         reviser.setAdministrationID(revisor.getAdministrationId());
         reviser.setRequired(required);
         return reviser;
+    }
+
+    private FirmaAsyncSimpleExternalSigner getExternalSigner(DestinatariExtern destinatari) {
+        FirmaAsyncSimpleExternalSigner externalSigner = new FirmaAsyncSimpleExternalSigner();
+        externalSigner.setAdministrationId(destinatari.getAdministrationId());
+        externalSigner.setEmail(destinatari.getEmail());
+        externalSigner.setLanguage("ca");
+        externalSigner.setName(destinatari.getName());
+        externalSigner.setSurnames(destinatari.getSurnames());
+        externalSigner.setSecurityLevel(FirmaAsyncSimpleExternalSigner.SECURITY_LEVEL_TOKEN);
+        return externalSigner;
     }
 }

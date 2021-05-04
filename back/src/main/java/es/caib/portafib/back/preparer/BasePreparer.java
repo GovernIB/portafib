@@ -10,6 +10,7 @@ import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
+import es.caib.portafib.back.security.LoginException;
 import org.apache.log4j.Logger;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.context.TilesRequestContext;
@@ -51,7 +52,13 @@ public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
         Map<String, Object> request = tilesContext.getRequestScope();
 
         // Informació de Login
-        LoginInfo loginInfo = LoginInfo.getInstance();
+        LoginInfo loginInfo;
+        try {
+            loginInfo = LoginInfo.getInstance();
+        } catch (LoginException e) {
+            log.warn("Informació de login incorrecte a BasePreparer: " + e.getMessage());
+            return;
+        }
 
         // URL
         // TODO ficarho dins cache (veure Capperpare.java)

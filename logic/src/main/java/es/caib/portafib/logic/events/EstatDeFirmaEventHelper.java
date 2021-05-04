@@ -9,6 +9,7 @@ import es.caib.portafib.logic.utils.EmailUtil;
 import es.caib.portafib.logic.utils.PeticioHaDeSerRebutjadaException;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.RevisorDeFirma;
+import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
@@ -132,13 +133,9 @@ public class EstatDeFirmaEventHelper {
                             peticioDeFirma.getPeticioDeFirmaID(),
                             peticioDeFirma.getTitol(), firmaJPA);
                 } catch (I18NException i18ne) {
-
-                    Locale loc = new Locale("ca");
-                    String msg = I18NCommonUtils.getMessage(i18ne, loc);
-
                     // XYZ ZZZ TRA
-                    msg = "S'ha intentat enviar correu a " + firmaJPA.getUsuariExternEmail()
-                            + " però ha fallat: " + msg;
+                    String msg = "S'ha intentat enviar correu a " + firmaJPA.getUsuariExternEmail()
+                            + " però ha fallat: " + I18NCommonUtils.getMessage(i18ne, Configuracio.getDefaultLocale());
                     log.error(msg, i18ne);
                     throw new PeticioHaDeSerRebutjadaException(msg);
                 }
