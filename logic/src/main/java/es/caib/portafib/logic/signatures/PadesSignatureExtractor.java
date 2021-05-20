@@ -6,9 +6,12 @@ import com.itextpdf.text.pdf.security.PdfPKCS7;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,9 @@ public class PadesSignatureExtractor implements SignatureExtractor {
 
             for (String name : signatureNames) {
                 PdfPKCS7 pk = af.verifySignature(name);
-                X509Certificate cert = pk.getSigningCertificate();
+                // Sembla que IText no parseji bé el X509Certificate, per això obtenim el seus bytes i el recarregam
+                byte[] certificateBytes = pk.getSigningCertificate().getEncoded();
+                X509Certificate cert = CertificateUtils.decodeCertificate(new ByteArrayInputStream(certificateBytes));
                 signatureList.add(signatureFactory.getSignature(cert, pk.getSignDate().getTime()));
             }
 
@@ -44,6 +49,14 @@ public class PadesSignatureExtractor implements SignatureExtractor {
             log.error("Error obtenint signatures PADES", e);
             throw new I18NException("genapp.comodi",
                     "Error desconegut obtenint Certificats d'una firma PADES: " + e.getMessage());
+        } catch (CertificateEncodingException e) {
+            log.error("Error obtenint signatures PADES", e);
+            throw new I18NException("genapp.comodi",
+                    "Error desconegut parsejant Certificats d'una firma PADES: " + e.getMessage());
+        } catch (Exception e) {
+            log.error("Error obtenint signatures PADES", e);
+            throw new I18NException("genapp.comodi",
+                    "Error desconegut parsejant Certificats d'una firma PADES: " + e.getMessage());
         } finally {
             try {
                 inputStream.close();

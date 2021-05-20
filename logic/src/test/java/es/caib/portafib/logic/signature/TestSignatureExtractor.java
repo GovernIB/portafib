@@ -129,6 +129,25 @@ public class TestSignatureExtractor {
     }
 
     @Test
+    public void testExtractPdfRepSigned2() throws URISyntaxException, I18NException {
+
+        SignatureExtractorFactory extractorFactory = SignatureExtractorFactory.getInstance();
+        SignatureExtractor extractor = extractorFactory.getExtractor(SignType.PADES);
+
+        URL resource = getClass().getResource("/pdf_rep_signed2.pdf");
+        IPortaFIBDataSource dataSource = new FileDataSource(new File(resource.toURI()));
+
+        List<Signature> signatures = extractor.extract(dataSource);
+        Assert.assertEquals(1, signatures.size());
+
+        Signature signature = signatures.get(0);
+        Assert.assertEquals("JUAN ANTONIO CÁMARA ESPAÑOL", signature.getSignerName());
+        Assert.assertEquals("00000000T", signature.getSignerAdministrationId());
+        Assert.assertEquals("[SOLO PRUEBAS] ENTIDAD", signature.getOrganizationName());
+        Assert.assertEquals("R0599999J", signature.getOrganizationAdministrationId());
+    }
+
+    @Test
     public void testExtractXadesCosigned() throws URISyntaxException, I18NException {
 
         SignatureExtractorFactory extractorFactory = SignatureExtractorFactory.getInstance();
@@ -204,6 +223,25 @@ public class TestSignatureExtractor {
     }
 
     @Test
+    public void testExtractXadesRepSigned() throws URISyntaxException, I18NException {
+
+        SignatureExtractorFactory extractorFactory = SignatureExtractorFactory.getInstance();
+        SignatureExtractor extractor = extractorFactory.getExtractor(SignType.XADES);
+
+        URL resource = getClass().getResource("/xades_attached_rep_sample_xml.xsig");
+        IPortaFIBDataSource dataSource = new FileDataSource(new File(resource.toURI()));
+
+        List<Signature> signatures = extractor.extract(dataSource);
+        Assert.assertEquals(1, signatures.size());
+
+        Signature signature = signatures.get(0);
+        Assert.assertEquals("JUAN ANTONIO CÁMARA ESPAÑOL", signature.getSignerName());
+        Assert.assertEquals("00000000T", signature.getSignerAdministrationId());
+        Assert.assertEquals("[SOLO PRUEBAS] ENTIDAD", signature.getOrganizationName());
+        Assert.assertEquals("R0599999J", signature.getOrganizationAdministrationId());
+    }
+
+    @Test
     public void testExtractAllCades1Sign() throws URISyntaxException, I18NException {
 
         SignatureExtractorFactory extractorFactory = SignatureExtractorFactory.getInstance();
@@ -249,6 +287,25 @@ public class TestSignatureExtractor {
 
         List<Signature> signatures = extractor.extract(dataSource);
         Assert.assertEquals(0, signatures.size());
+    }
+
+    @Test
+    public void testExtractCadesRepSigned() throws URISyntaxException, I18NException {
+
+        SignatureExtractorFactory extractorFactory = SignatureExtractorFactory.getInstance();
+        SignatureExtractor extractor = extractorFactory.getExtractor(SignType.CADES);
+
+        URL resource = getClass().getResource("/Document.txt_rep_asigned.csig");
+        IPortaFIBDataSource dataSource = new FileDataSource(new File(resource.toURI()));
+
+        List<Signature> signatures = extractor.extract(dataSource);
+        Assert.assertEquals(1, signatures.size());
+
+        Signature signature = signatures.get(0);
+        Assert.assertEquals("JUAN ANTONIO CÁMARA ESPAÑOL", signature.getSignerName());
+        Assert.assertEquals("00000000T", signature.getSignerAdministrationId());
+        Assert.assertEquals("[SOLO PRUEBAS] ENTIDAD", signature.getOrganizationName());
+        Assert.assertEquals("R0599999J", signature.getOrganizationAdministrationId());
     }
 
 }
