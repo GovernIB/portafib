@@ -11,7 +11,7 @@ import org.openqa.selenium.WebDriver;
 public class AutofirmaSignStrategyImpl extends SignStrategy {
 
     @Override
-    public void sign(String url) {
+    public void sign(String url, String pin) {
         WebDriver driver = getWebDriver();
         driver.get(url);
         driver.findElement(By.id("plugin_autofirma")).click();

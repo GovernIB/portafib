@@ -586,14 +586,16 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
 
       final String username = commonInfo.getUsername();
       final String administrationID = commonInfo.getAdministrationID();
+      final String organizationID = commonInfo.getOrganizationID();
+
       PassarelaCommonInfoSignature commonInfoSignature = new PassarelaCommonInfoSignature(
-          languageUI, filtreCertificats, username, administrationID, null, policyInfoSignature);
+          languageUI, filtreCertificats, username, administrationID, organizationID, null, policyInfoSignature);
 
       // OBJECTE FINAL
 
-      PassarelaSignaturesSet pss = new PassarelaSignaturesSet(transactionID,
-          expiryDate.getTime(), commonInfoSignature, fileInfoSignatureArray);
-      return pss;
+      return new PassarelaSignaturesSet(transactionID, expiryDate.getTime(),
+              commonInfoSignature, fileInfoSignatureArray);
+
     } catch (Exception e) {
       log.error(e.getMessage(), e);
       // XYZ ZZZ TRA

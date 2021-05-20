@@ -9,12 +9,12 @@
   <modules>
 
     <!-- Llibreries de Firma Simple, Firma Asincrona Simple, Firma Web i Firma en Servidor --> 
-    <module>pluginsib-signatureserver</module>
-    <module>pluginsib-signatureweb</module>
     <module>apisib</module>
     <module>apifirmasimple</module>
     <module>apifirmaasyncsimple</module>
     <module>apiplantillafluxsimple</module>
+    <module>pluginsib-signatureserver</module>
+    <module>pluginsib-signatureweb</module>
 
     <!-- PortaFIB -->
     <module>utils</module>
@@ -86,6 +86,7 @@
     <plugins.signatureserver.version>3.0.0</plugins.signatureserver.version>
     <plugins.signatureweb.version>3.0.0</plugins.signatureweb.version>
     <plugins.signatureweb.autofirma.version>3.0.1</plugins.signatureweb.autofirma.version>
+    <apifirmasimple.version>1.0.3</apifirmasimple.version>
 
     <spring.version>3.1.4.RELEASE</spring.version>
     <springsecurity.version>3.1.4.RELEASE</springsecurity.version>

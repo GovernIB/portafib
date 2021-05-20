@@ -37,31 +37,16 @@ public class ValidacioCompletaRequest {
 
   protected String nifEsperat;
 
+  protected String cifEsperat;
+
   protected int posTaulaDeFirmes;
 
-  /**
-   * 
-   * @param entitatID
-   * @param validarFitxerFirma
-   * @param checkCanviatDocFirmat
-   * @param comprovarNifFirma
-   * @param originalData
-   * @param signatureData
-   * @param documentDetachedData
-   * @param signTypeID
-   * @param languageUI
-   * @param fitxersByNumFirma
-   * @param numFirmaPortaFIB
-   * @param numFirmesOriginals
-   * @param nifEsperat
-   */
   public ValidacioCompletaRequest(String entitatID, boolean validarFitxerFirma,
       boolean checkCanviatDocFirmat, boolean comprovarNifFirma,
       IPortaFIBDataSource originalData, IPortaFIBDataSource adaptedData,
       IPortaFIBDataSource signatureData, IPortaFIBDataSource documentDetachedData,
       int signTypeID, boolean signMode, String languageUI, int numFirmaPortaFIB,
       int numFirmesOriginals, String nifEsperat, int posTaulaDeFirmes) {
-    super();
     this.entitatID = entitatID;
     this.validarFitxerFirma = validarFitxerFirma;
     this.checkCanviatDocFirmat = checkCanviatDocFirmat;
@@ -76,6 +61,30 @@ public class ValidacioCompletaRequest {
     this.numFirmaPortaFIB = numFirmaPortaFIB;
     this.numFirmesOriginals = numFirmesOriginals;
     this.nifEsperat = nifEsperat;
+    this.posTaulaDeFirmes = posTaulaDeFirmes;
+  }
+
+  public ValidacioCompletaRequest(String entitatID, boolean validarFitxerFirma,
+      boolean checkCanviatDocFirmat, boolean comprovarNifFirma,
+      IPortaFIBDataSource originalData, IPortaFIBDataSource adaptedData,
+      IPortaFIBDataSource signatureData, IPortaFIBDataSource documentDetachedData,
+      int signTypeID, boolean signMode, String languageUI, int numFirmaPortaFIB,
+      int numFirmesOriginals, String nifEsperat, String cifEsperat, int posTaulaDeFirmes) {
+    this.entitatID = entitatID;
+    this.validarFitxerFirma = validarFitxerFirma;
+    this.checkCanviatDocFirmat = checkCanviatDocFirmat;
+    this.comprovarNifFirma = comprovarNifFirma;
+    this.originalData = originalData;
+    this.adaptedData = adaptedData;
+    this.signatureData = signatureData;
+    this.documentDetachedData = documentDetachedData;
+    this.signTypeID = signTypeID;
+    this.signMode = signMode;
+    this.languageUI = languageUI;
+    this.numFirmaPortaFIB = numFirmaPortaFIB;
+    this.numFirmesOriginals = numFirmesOriginals;
+    this.nifEsperat = nifEsperat;
+    this.cifEsperat = cifEsperat;
     this.posTaulaDeFirmes = posTaulaDeFirmes;
   }
 
@@ -173,6 +182,14 @@ public class ValidacioCompletaRequest {
 
   public void setNifEsperat(String nifEsperat) {
     this.nifEsperat = nifEsperat;
+  }
+
+  public String getCifEsperat() {
+    return cifEsperat;
+  }
+
+  public void setCifEsperat(String cifEsperat) {
+    this.cifEsperat = cifEsperat;
   }
 
   public boolean getSignMode() {

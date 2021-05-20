@@ -892,8 +892,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       final boolean signMode = SignatureUtils.convertApiSignMode2PortafibSignMode(fis
           .getSignMode());
 
-      String expectedNif = ssf.getSignaturesSet().getCommonInfoSignature()
-          .getAdministrationID();
+      String expectedNif = ssf.getSignaturesSet().getCommonInfoSignature().getAdministrationID();
+      String expectedCif = ssf.getSignaturesSet().getCommonInfoSignature().getOrganizationID();
 
       // En passarel.la no hi ha flux de firma
       final int numFirmaPortaFIB = 1;
@@ -904,7 +904,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
           validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal, adaptat,
           signature, documentDetached, signTypeID, signMode, languageUI, 
-          numFirmaPortaFIB, numFirmesOriginals, expectedNif, posTaulaDeFirmes);
+          numFirmaPortaFIB, numFirmesOriginals, expectedNif, expectedCif, posTaulaDeFirmes);
 
       // Aqui es fan totes les validacions completes !!!!!!
       ValidacioCompletaResponse validacioResponse;

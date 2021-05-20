@@ -91,6 +91,7 @@ public class ApiFirmaWebSimpleSeleniumTester {
         final String username = prop.getProperty("signer.username");
         final String administrationID = prop.getProperty("signer.administrationid");
         final String signerEmail = prop.getProperty("signer.email");
+        final String signerPin = prop.getProperty("signer.pin");
         System.out.println("Signer.Username = |" + username + "|");
         System.out.println("Signer.administrationid = |" + administrationID + "|");
         System.out.println("Signer.email = |" + signerEmail + "|");
@@ -124,7 +125,7 @@ public class ApiFirmaWebSimpleSeleniumTester {
 
                         final String redirectUrl = api.startTransaction(startTransactionInfo);
 
-                        signStrategy.sign(redirectUrl);
+                        signStrategy.sign(redirectUrl, signerPin);
 
                         FirmaSimpleGetTransactionStatusResponse fullTransactionStatus = api.getTransactionStatus(transactionID);
                         FirmaSimpleStatus tStatus = fullTransactionStatus.getTransactionStatus();
@@ -174,7 +175,9 @@ public class ApiFirmaWebSimpleSeleniumTester {
 
         executor.shutdown();
         try {
-            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
+            if (!executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS)) {
+                executor.shutdownNow();
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

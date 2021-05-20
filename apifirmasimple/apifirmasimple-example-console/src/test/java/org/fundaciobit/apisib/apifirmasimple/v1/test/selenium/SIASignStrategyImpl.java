@@ -8,11 +8,11 @@ import org.openqa.selenium.WebDriver;
  */
 public class SIASignStrategyImpl extends SignStrategy {
     @Override
-    public void sign(String url) {
+    public void sign(String url, String pin) {
         WebDriver driver = getWebDriver();
         driver.get(url);
         driver.findElement(By.id("plugin_sia")).click();
-        driver.findElement(By.id("pin")).sendKeys("FBit123123");
+        driver.findElement(By.id("pin")).sendKeys(pin);
         driver.findElement(By.id("btnFirmar")).click();
     }
 }

@@ -106,6 +106,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
     // (a) Validar el Fitxer de la Firma
     String nifFirmant = null;
+    String cifFirmant = null;
     BigInteger numeroSerieCertificat = null;
     String emissorCertificat = null;
     String subjectCertificat = null;
@@ -155,37 +156,36 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
       SignatureDetailInfo[] sdi = validateSignatureResponse.getSignatureDetailInfo();
 
-      if (sdi != null) {
+      if (sdi != null && sdi.length > 0) {
 
         // Esbrinar informació de la darrera Firma
-        InformacioCertificat info = null;
-        Date signDate = null;
+        InformacioCertificat info = sdi[0].getCertificateInfo();
+        Date signDate = sdi[0].getSignDate();
 
-        for (int i = 0; i < sdi.length; i++) {
-          Date d = sdi[0].getSignDate();
-          if (d == null) {
-            signDate = null;
-            info = null;
-            break;
-          } else {
-            if (signDate == null || d.getTime() > signDate.getTime()) {
-              signDate = d;
-              info = sdi[i].getCertificateInfo();
+        if (sdi.length > 1) {
+          for (SignatureDetailInfo signatureDetailInfo : sdi) {
+            Date d = signatureDetailInfo.getSignDate();
+            if (d == null) {
+              info = null;
+              break;
+            } else {
+              if (signDate == null || d.getTime() > signDate.getTime()) {
+                signDate = d;
+                info = signatureDetailInfo.getCertificateInfo();
+              }
             }
           }
-
-
         }
 
-        if (signDate == null) {
+        if (info == null) {
           log.warn("No ha definit alguna de les dates de la firma cosa que "
               + "implica que la informació de la validació pot ser inconsistent."
               + " Omitim la cerca en aquest punt.");
         } else {
-
           log.debug("NIF DE LA DARRERA FIRMA => " + info.getNifResponsable());
-
+          log.debug("CIF DE LA DARRERA FIRMA => " + info.getUnitatOrganitzativaNifCif());
           nifFirmant = info.getNifResponsable();
+          cifFirmant = info.getUnitatOrganitzativaNifCif();
           numeroSerieCertificat = info.getNumeroSerie();
           emissorCertificat = info.getEmissorOrganitzacio();
           subjectCertificat = info.getSubject();
@@ -295,8 +295,6 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
           }
         break;
 
-
-
         default:
         {
           String msg = "No esta implementat el xequeig de modificacio de fitxer signat"
@@ -313,7 +311,6 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
       }
 
     }
-
 
     // =================================================
 
@@ -404,6 +401,12 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
         if (nifFirmant == null) {
           nifFirmant = CertificateUtils.getDNI(certificateLastSign);
+          try {
+            String[] empresaNif = CertificateUtils.getEmpresaNIFNom(certificateLastSign);
+            if (empresaNif != null) {
+              cifFirmant = empresaNif[0];
+            }
+          } catch (Exception ignored) {}
 
           if (numeroSerieCertificat == null) {
             numeroSerieCertificat = certificateLastSign.getSerialNumber();
@@ -421,6 +424,8 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         if (log.isDebugEnabled()) {
           log.debug("ValidacioCompleta::nifFirmant: " + nifFirmant);
           log.debug("ValidacioCompleta::getNifEsperat(): " + validacioRequest.getNifEsperat());
+          log.debug("ValidacioCompleta::cifFirmant: " + cifFirmant);
+          log.debug("ValidacioCompleta::getCifEsperat(): " + validacioRequest.getCifEsperat());
         }
 
         if (nifFirmant == null) {
@@ -451,9 +456,10 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         } else {
 
             LogicUtils.checkExpectedNif(nifFirmant, validacioRequest.getNifEsperat());
+            if (validacioRequest.getCifEsperat() != null) {
+              LogicUtils.checkExpectedCif(cifFirmant, validacioRequest.getCifEsperat());
+            }
             checkAdministrationIDOfSigner = true;
-
-
         }
 
       }
@@ -481,15 +487,6 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
     return resposta;
   }
 
-
-  /**
-   * 
-   * @param signedPDFData
-   * @param numFirmaPortaFIB
-   * @param numFirmesOriginals
-   * @return
-   * @throws I18NException
-   */
   public static X509Certificate getLastCertificateOfSignedPdf(
       IPortaFIBDataSource signedPDFData, int numFirmaPortaFIB, int numFirmesOriginals)
       throws I18NException {
@@ -521,20 +518,25 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
     }
 
     // ================ Validar el certificat de la darrera firma
-
     String name = names.get(numFirmaPortaFIB + numFirmesOriginals - 1); // names.size() - 1
 
-    PdfPKCS7 pk = af.verifySignature(name);
- 
-    X509Certificate cert = pk.getSigningCertificate();
-    
-    if (log.isDebugEnabled()) {
-      log.debug("getLastCertificateOfSignedPdf()::PdfPKCS7 pk = " + pk);
-      log.debug("getLastCertificateOfSignedPdf()::PdfPKCS7 X509Certificate.cert = " + cert.getSubjectDN());
-      log.debug("getLastCertificateOfSignedPdf()::PdfPKCS7 X509Certificate.getSubjectDN() = " + cert.getSubjectDN());
-    }
+    try {
+      PdfPKCS7 pk = af.verifySignature(name);
+      // Sembla que IText no parseji bé el X509Certificate, per això obtenim el seus bytes i el recarregam
+      byte[] certificateBytes = pk.getSigningCertificate().getEncoded();
+      X509Certificate cert = CertificateUtils.decodeCertificate(new ByteArrayInputStream(certificateBytes));
 
-    return cert;
+      if (log.isDebugEnabled()) {
+        log.debug("getLastCertificateOfSignedPdf()::PdfPKCS7 pk = " + pk);
+        log.debug("getLastCertificateOfSignedPdf()::PdfPKCS7 X509Certificate.cert = " + cert.getSubjectDN());
+        log.debug("getLastCertificateOfSignedPdf()::PdfPKCS7 X509Certificate.getSubjectDN() = " + cert.getSubjectDN());
+      }
+
+      return cert;
+    } catch (Exception e) {
+      throw new I18NException("genapp.comodi",
+              "Error desconegut parsejant Certificats d'una firma PADES: " + e.getMessage());
+    }
   }
 
 }

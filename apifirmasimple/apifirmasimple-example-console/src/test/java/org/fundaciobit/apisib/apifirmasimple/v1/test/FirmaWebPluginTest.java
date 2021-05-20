@@ -6,6 +6,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaWebSimpleJersey;
@@ -47,10 +48,11 @@ public class FirmaWebPluginTest {
     public void testFirmaAutofirma() throws Exception {
         String transactionID = getTransaction("99999999R");
         try {
-            String redirectUrl = startTransaction(transactionID);
-            SignStrategyFactory.getSignStrategy(SignStrategyType.AUTOFIRMA).sign(redirectUrl);
+            String redirectUrl = startTransaction(transactionID, "test.pdf", "application/pdf");
+            SignStrategyFactory.getSignStrategy(SignStrategyType.AUTOFIRMA).sign(redirectUrl, "1234");
 
-            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID));
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[0]);
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[1]);
         } finally {
             closeTransaction(transactionID);
         }
@@ -60,10 +62,67 @@ public class FirmaWebPluginTest {
     public void testFirmaFIRe() throws Exception {
         String transactionID = getTransaction("99999999R");
         try {
-            String redirectUrl = startTransaction(transactionID);
-            SignStrategyFactory.getSignStrategy(SignStrategyType.FIRE).sign(redirectUrl);
+            String redirectUrl = startTransaction(transactionID, "test.pdf", "application/pdf");
+            SignStrategyFactory.getSignStrategy(SignStrategyType.FIRE).sign(redirectUrl, "1234");
 
-            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID));
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[0]);
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[1]);
+        } finally {
+            closeTransaction(transactionID);
+        }
+    }
+
+    @Test
+    public void testFirmaFIReAlreadySigned() throws Exception {
+        String transactionID = getTransaction("99999999R");
+        try {
+            String redirectUrl = startTransaction(transactionID, "test_signed.pdf", "application/pdf");
+            SignStrategyFactory.getSignStrategy(SignStrategyType.FIRE).sign(redirectUrl, "1234");
+
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[0]);
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[1]);
+        } finally {
+            closeTransaction(transactionID);
+        }
+    }
+
+    @Test
+    public void testFirmaFIReRepresentantIncorrecte() throws Exception {
+        String transactionID = getTransaction("00000000T", "CACA");
+        try {
+            String redirectUrl = startTransaction(transactionID, "test.pdf", "application/pdf");
+            SignStrategyFactory.getSignStrategy(SignStrategyType.FIRE).sign(redirectUrl, "eGvYCspCVdayZ37x");
+
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[0]);
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_ERROR, getStatus(transactionID)[1]);
+        } finally {
+            closeTransaction(transactionID);
+        }
+    }
+
+    @Test
+    public void testFirmaFIReRepresentantCorrecte() throws Exception {
+        String transactionID = getTransaction("00000000T", "R0599999J");
+        try {
+            String redirectUrl = startTransaction(transactionID, "test.pdf", "application/pdf");
+            SignStrategyFactory.getSignStrategy(SignStrategyType.FIRE).sign(redirectUrl, "eGvYCspCVdayZ37x");
+
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[0]);
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[1]);
+        } finally {
+            closeTransaction(transactionID);
+        }
+    }
+
+    @Test
+    public void testFirmaFIReRepresentantCorrecteAlreadySigned() throws Exception {
+        String transactionID = getTransaction("00000000T", "R0599999J");
+        try {
+            String redirectUrl = startTransaction(transactionID, "test_signed.pdf", "application/pdf");
+            SignStrategyFactory.getSignStrategy(SignStrategyType.FIRE).sign(redirectUrl, "eGvYCspCVdayZ37x");
+
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[0]);
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[1]);
         } finally {
             closeTransaction(transactionID);
         }
@@ -73,10 +132,11 @@ public class FirmaWebPluginTest {
     public void testFirmaSIA() throws Exception {
         String transactionID = getTransaction("11111111H");
         try {
-            String redirectUrl = startTransaction(transactionID);
-            SignStrategyFactory.getSignStrategy(SignStrategyType.SIA).sign(redirectUrl);
+            String redirectUrl = startTransaction(transactionID, "test.pdf", "application/pdf");
+            SignStrategyFactory.getSignStrategy(SignStrategyType.SIA).sign(redirectUrl, "FBit123123");
 
-            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID));
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[0]);
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[1]);
         } finally {
             closeTransaction(transactionID);
         }
@@ -86,10 +146,11 @@ public class FirmaWebPluginTest {
     public void testFirmaViafirma() throws Exception {
         String transactionID = getTransaction("62800225J");
         try {
-            String redirectUrl = startTransaction(transactionID);
-            SignStrategyFactory.getSignStrategy(SignStrategyType.VIAFIRMA).sign(redirectUrl);
+            String redirectUrl = startTransaction(transactionID, "test.pdf", "application/pdf");
+            SignStrategyFactory.getSignStrategy(SignStrategyType.VIAFIRMA).sign(redirectUrl, "1234");
 
-            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID));
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[0]);
+            Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[1]);
         } finally {
             closeTransaction(transactionID);
         }
@@ -102,10 +163,14 @@ public class FirmaWebPluginTest {
         return api.getTransactionID(getCommonInfo(nif));
     }
 
-    private String startTransaction(String transactionID) throws Exception {
+    private String getTransaction(String nif, String cif) throws AbstractApisIBException {
+        return api.getTransactionID(getCommonInfo(nif, cif));
+    }
+
+    private String startTransaction(String transactionID, String file, String mime) throws Exception {
         api.addFileToSign(
                 new FirmaSimpleAddFileToSignRequest(transactionID,
-                        getFileInfoSignature("test.pdf", "application/pdf")));
+                        getFileInfoSignature(file, mime)));
 
         FirmaSimpleStartTransactionRequest startTransactionInfo = new FirmaSimpleStartTransactionRequest(
                 transactionID,
@@ -115,10 +180,11 @@ public class FirmaWebPluginTest {
         return api.startTransaction(startTransactionInfo);
     }
 
-    private int getStatus(String transactionID) throws AbstractApisIBException {
+    private int[] getStatus(String transactionID) throws AbstractApisIBException {
         FirmaSimpleGetTransactionStatusResponse fullTransactionStatus = api.getTransactionStatus(transactionID);
         FirmaSimpleStatus tStatus = fullTransactionStatus.getTransactionStatus();
-        return tStatus.getStatus();
+        FirmaSimpleSignatureStatus firmaSimpleSignatureStatus = fullTransactionStatus.getSignaturesStatusList().get(0);
+        return new int[] {tStatus.getStatus(), firmaSimpleSignatureStatus.getStatus().getStatus()};
     }
 
     private void closeTransaction(String transactionID) throws AbstractApisIBException {
@@ -126,7 +192,13 @@ public class FirmaWebPluginTest {
     }
 
     private FirmaSimpleCommonInfo getCommonInfo(String administrationID) {
-        return new FirmaSimpleCommonInfo(apiProfile, "ca", null, administrationID, "test@fundaciobit.org");
+        return new FirmaSimpleCommonInfo(apiProfile, "ca", null, administrationID,
+                "test@fundaciobit.org");
+    }
+
+    private FirmaSimpleCommonInfo getCommonInfo(String administrationID, String organizationID) {
+        return new FirmaSimpleCommonInfo(apiProfile, "ca", null, administrationID,
+                organizationID, "test@fundaciobit.org");
     }
 
     private FirmaSimpleFileInfoSignature getFileInfoSignature(String fileName, String mime) throws Exception {

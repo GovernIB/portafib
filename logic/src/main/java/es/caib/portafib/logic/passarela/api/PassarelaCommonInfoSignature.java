@@ -32,9 +32,14 @@ public class PassarelaCommonInfoSignature {
   String username;
 
   /**
-   * En firma en servidor no s'utilitza
+   * NIF de la persona que signa. En firma en servidor no s'utilitza
    */
   String administrationID;
+
+  /**
+   * CIF de l'empresa en cas de que la signatura es realitzi amb certificat de representant.
+   */
+  String organizationID;
 
   /**
    * En firma en servidor no s'utilitza
@@ -51,27 +56,12 @@ public class PassarelaCommonInfoSignature {
   
   PassarelaPolicyInfoSignature policyInfoSignature = null;
 
-  /**
-   * 
-   */
   public PassarelaCommonInfoSignature() {
   }
 
-
-
-  /**
-   * @param languageUI
-   * @param filtreCertificats
-   * @param username
-   * @param administrationID
-   * @param urlFinal
-   * @param browserSupportsJava
-   * @param policyInfoSignature
-   */
   public PassarelaCommonInfoSignature(String languageUI, String filtreCertificats,
       String username, String administrationID, String urlFinal, 
       PassarelaPolicyInfoSignature policyInfoSignature) {
-    super();
     this.languageUI = languageUI;
     this.filtreCertificats = filtreCertificats;
     this.username = username;
@@ -80,7 +70,17 @@ public class PassarelaCommonInfoSignature {
     this.policyInfoSignature = policyInfoSignature;
   }
 
-
+  public PassarelaCommonInfoSignature(String languageUI, String filtreCertificats,
+                                      String username, String administrationID, String organizationID,
+                                      String urlFinal, PassarelaPolicyInfoSignature policyInfoSignature) {
+    this.languageUI = languageUI;
+    this.filtreCertificats = filtreCertificats;
+    this.username = username;
+    this.administrationID = administrationID;
+    this.organizationID = organizationID;
+    this.urlFinal = urlFinal;
+    this.policyInfoSignature = policyInfoSignature;
+  }
 
   public String getLanguageUI() {
     return languageUI;
@@ -122,6 +122,14 @@ public class PassarelaCommonInfoSignature {
     this.administrationID = administrationID;
   }
 
+  public String getOrganizationID() {
+    return organizationID;
+  }
+
+  public void setOrganizationID(String organizationID) {
+    this.organizationID = organizationID;
+  }
+
   public PassarelaPolicyInfoSignature getPolicyInfoSignature() {
     return policyInfoSignature;
   }
@@ -130,12 +138,9 @@ public class PassarelaCommonInfoSignature {
     this.policyInfoSignature = policyInfoSignature;
   }
 
-
-
   public List<Long> getAcceptedPlugins() {
     return acceptedPlugins;
   }
-
 
   public void setAcceptedPlugins(List<Long> acceptedPlugins) {
     this.acceptedPlugins = acceptedPlugins;

@@ -28,7 +28,7 @@ import java.security.Permission;
 public class MiniAppletSignStrategyImpl extends SignStrategy {
 
     @Override
-    public void sign(String url) {
+    public void sign(String url, String pin) {
         System.out.println(url);
         WebDriver driver = getWebDriver();
         driver.get(url);

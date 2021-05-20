@@ -25,5 +25,5 @@ public abstract class SignStrategy {
         return tlWebDriver.get();
     }
 
-    public abstract void sign(String url);
+    public abstract void sign(String url, String pin);
 }

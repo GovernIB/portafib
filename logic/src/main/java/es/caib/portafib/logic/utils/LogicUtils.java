@@ -63,6 +63,36 @@ public class LogicUtils {
     }
   }
 
+  public static void checkExpectedCif(String cifFirmant, String expectedCif)
+      throws I18NException {
+    if (cifFirmant == null) {
+      final String codeError = "error.no_cif_en_certificat";
+      if (Configuracio.isDesenvolupament()) {
+        // Només mostram l'error pel LOG
+        // TODO S'ha de crear un idioma per defecte dins configuracio
+        log.error(I18NLogicUtils.tradueix(new Locale("ca"), codeError), new Exception());
+      } else {
+        throw new I18NException(codeError);
+      }
+    } else {
+
+      if (!expectedCif.equals(cifFirmant)) {
+        // =S´ha firmat amb un certificat on el cif associat és {0}, però es requeria el cif
+        // {1}
+        final String codeError = "error.firmat_amb_cif_incorrecte";
+        if (Configuracio.isDesenvolupament()) {
+          // Només mostram l'error pel LOG
+          // TODO S'ha de crear un idioma per defecte dins configuracio
+          log.error(
+              I18NLogicUtils.tradueix(new Locale("ca"), codeError, cifFirmant, expectedCif),
+              new Exception());
+        } else {
+          throw new I18NException(codeError, cifFirmant, expectedCif);
+        }
+      }
+    }
+  }
+
   public static File sobreescriureFitxerChecked(File src, Long fitxerID) throws IOException {
 
     if (!src.exists()) {

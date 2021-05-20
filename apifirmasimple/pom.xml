@@ -3,7 +3,7 @@
 
   <artifactId>apifirmasimple</artifactId>
   <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
-  <version>1.0.0</version>  
+  <version>1.0.3</version>  
   <packaging>pom</packaging>
 
   <name>FundacioBit - ApisIB - API Firma Simple</name>

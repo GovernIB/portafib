@@ -20,7 +20,11 @@ public class FirmaSimpleCommonInfo {
 
   protected String username;
 
+  // Inidica el NIF de la persona que signarà
   protected String administrationID;
+
+  // Indica el CIF de l'empresa si és un certificat de representant
+  protected String organizationID;
 
   protected String signerEmail;
 
@@ -37,6 +41,15 @@ public class FirmaSimpleCommonInfo {
     this.languageUI = languageUI;
     this.username = username;
     this.administrationID = administrationID;
+    this.signerEmail = signerEmail;
+  }
+
+  public FirmaSimpleCommonInfo(String signProfile, String languageUI, String username, String administrationID, String organizationID, String signerEmail) {
+    this.signProfile = signProfile;
+    this.languageUI = languageUI;
+    this.username = username;
+    this.administrationID = administrationID;
+    this.organizationID = organizationID;
     this.signerEmail = signerEmail;
   }
 
@@ -62,6 +75,14 @@ public class FirmaSimpleCommonInfo {
 
   public void setAdministrationID(String administrationID) {
     this.administrationID = administrationID;
+  }
+
+  public String getOrganizationID() {
+    return organizationID;
+  }
+
+  public void setOrganizationID(String organizationID) {
+    this.organizationID = organizationID;
   }
 
   public String getSignProfile() {
