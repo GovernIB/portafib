@@ -1120,14 +1120,16 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     final String transactionId;
     try {
 
-      // Com que cada firma defieix el l'operacio, tipus, algorisme,...
-      // llavors no necessitam valors per defecte
+      // Com que cada firma defieix l'operacio i tipus..., és igual el valor per defecte
       final String signTypeClaveFirma = "PAdES"; // valor per defecte
-      final String signAlgorithm = "SHA1withRSA"; // valor per defecte
+      final String operation = OPERATION_SIGN; // valor per defecte
       final String extraparams = ""; // valor per defecte
 
-      createBatchResult = fireClient.createBatchProcess(subjectId, OPERATION_SIGN,
-          signTypeClaveFirma, signAlgorithm, extraparams, upgrade, commonRemoteConfProperties);
+      // però en el cas de l'algoritme només en podem agafar un. així que agafam el primer
+      final String signAlgorithm = convertSignAlgorithm(fileInfoArray[0].getSignAlgorithm()).toString();
+
+      createBatchResult = fireClient.createBatchProcess(subjectId, operation,
+              signTypeClaveFirma, signAlgorithm, extraparams, upgrade, commonRemoteConfProperties);
 
       // Del resultado obtenemos:
       // - El identificador de transaccion necesario para operar con el lote.
