@@ -13,8 +13,8 @@ public class ViafirmaSignStrategyImpl extends SignStrategy {
         driver.manage().timeouts().implicitlyWait(12, TimeUnit.SECONDS) ;
         driver.get(url);
         driver.findElement(By.id("plugin_viafirma")).click();
-        driver.findElement(By.cssSelector(".v-textfield")).sendKeys(pin);
-        driver.findElement(By.cssSelector(".primary")).click();
+        driver.findElement(By.id("verify-code")).sendKeys(pin);
+        driver.findElement(By.id("verify-button")).click();
         try {
             Thread.sleep(12000);
         } catch (InterruptedException e) {

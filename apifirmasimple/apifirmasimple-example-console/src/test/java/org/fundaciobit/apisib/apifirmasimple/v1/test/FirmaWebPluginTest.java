@@ -143,6 +143,7 @@ public class FirmaWebPluginTest {
     }
 
     @Test
+    @Ignore //TODO: versió disponible de html unit sembla que no funciona bé amb el framework Vaadin que empra viafirma
     public void testFirmaViafirma() throws Exception {
         String transactionID = getTransaction("62800225J");
         try {
