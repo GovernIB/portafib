@@ -1,3 +1,14 @@
+PortaFIB 2.0.19
+==============
+
+ - API Firma Simple en Servidor no retorna els perfils ENI esperats  #595
+ - El test testFirmaViafirma no s'executa correctament #598
+ - Problema de concurrència entre l'arrancada dels timers i l'encoament de missatges #599
+ - El plugin FIRe no agafa correctament l'algoritme de firma #596
+ - Plugin FIRe no pot obtenir certificats si el sevidor està amb TLSv1.2 #583
+ - A la comprovació del NIF firmant comprovar també els CIFs en certificats de representant #584
+ - Actualitzar pluginsib-core per solventar parseig certificats #593
+
 PortaFIB 2.0.18
 ==============
 
