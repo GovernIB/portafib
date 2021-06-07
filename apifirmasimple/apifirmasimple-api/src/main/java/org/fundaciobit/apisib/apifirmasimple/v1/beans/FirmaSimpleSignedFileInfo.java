@@ -60,6 +60,20 @@ public class FirmaSimpleSignedFileInfo {
   // CONTRAFIRMA
   public static final int SIGN_OPERATION_COUNTERSIGN = 2;
 
+  public static final String SIGNPROFILE_BES = "AdES-BES";
+  public static final String SIGNPROFILE_EPES = "AdES-EPES";
+  public static final String SIGNPROFILE_T = "AdES-T";
+  public static final String SIGNPROFILE_C = "AdES-C";
+  public static final String SIGNPROFILE_X = "AdES-X";
+  public static final String SIGNPROFILE_X1 = "AdES-X1";
+  public static final String SIGNPROFILE_X2 = "AdES-X2";
+  public static final String SIGNPROFILE_XL = "AdES-XL";
+  public static final String SIGNPROFILE_XL1 = "AdES-XL1";
+  public static final String SIGNPROFILE_XL2 = "AdES-XL2";
+  public static final String SIGNPROFILE_A = "AdES-A";
+  public static final String SIGNPROFILE_PADES_LTV = "PAdES-LTV";
+  public static final String SIGNPROFILE_PADES_BASIC = "PAdES-Basic";
+
   /**
    * eEMGDE.Firma.Firmante.EnCalidadDe(eEMGDE17.5.3): Firmante; Cofirmante; Contrafirmante
    *
@@ -96,13 +110,9 @@ public class FirmaSimpleSignedFileInfo {
   protected String eniTipoFirma;
 
   /**
-   * - eEMGDE.Firma.TipoFirma.PerfilFirma (eEMGDE17.1.2): 1.- Para las firmas XADES y CADES:
-   * EPES, T, C, X, XL, A, BASELINE B-Level, BASELINE T-Level, BASELINE LT-Level, BASELINE
-   * LTA-Level. 2.- Para las firmas PADES: EPES, LTV, BASELINE B-Level, BASELINE T
+   * - eEMGDE.Firma.TipoFirma.PerfilFirma (eEMGDE17.1.2):
    * 
-   * Perfil empleado en una firma con certificado electrónico. Los posibles valores asignables
-   * son los siguientes: EPES T C X XL A BASELINE B-Level BASELINE LT-Level BASELINE LTA-Level
-   * BASELINE T-Level LTV
+   * Perfil empleado en una firma con certificado electrónico. Ver constates <code>SIGNPROFILE_</code>
    * 
    * - MetadataConstants.ENI_PERFIL_FIRMA = "eni:perfil_firma";
    */
@@ -241,7 +251,7 @@ public class FirmaSimpleSignedFileInfo {
   }
 
   public static String toString(FirmaSimpleSignedFileInfo sfi) {
-    StringBuffer str = new StringBuffer("  + INFORMACIO:");
+    StringBuilder str = new StringBuilder("  + INFORMACIO:");
 
     String operation;
     switch (sfi.getSignOperation()) {
@@ -259,11 +269,11 @@ public class FirmaSimpleSignedFileInfo {
       default:
         operation = "DESCONEGUDA (" + sfi.getSignOperation() + ")";
     }
-    str.append("\n").append("      * Operacio:\t" + operation);
+    str.append("\n").append("      * Operacio:\t").append(operation);
 
-    str.append("\n").append("      * Tipus:\t" + sfi.getSignType());
+    str.append("\n").append("      * Tipus:\t").append(sfi.getSignType());
 
-    str.append("\n").append("      * Algorisme:\t" + sfi.getSignAlgorithm());
+    str.append("\n").append("      * Algorisme:\t").append(sfi.getSignAlgorithm());
 
     str.append("\n").append("      * Mode:\t");
     if (sfi.getSignMode() == null) {
@@ -290,14 +300,13 @@ public class FirmaSimpleSignedFileInfo {
         posicioTaulaDeFirmes = "Desconeguda(" + sfi.getSignaturesTableLocation() + ")";
 
     }
-    str.append("\n").append("      * Posicio Taula De Firmes:\t" + posicioTaulaDeFirmes);
+    str.append("\n").append("      * Posicio Taula De Firmes:\t").append(posicioTaulaDeFirmes);
 
-    str.append("\n").append(
-        "      * Inclou Politica de Firmes(o sigui es EPES):\t" + sfi.isPolicyIncluded());
-    str.append("\n").append("      * Inclou Segell de Temps:\t" + sfi.isTimeStampIncluded());
+    str.append("\n").append("      * Inclou Politica de Firmes(o sigui es EPES):\t").append(sfi.isPolicyIncluded());
+    str.append("\n").append("      * Inclou Segell de Temps:\t").append(sfi.isTimeStampIncluded());
 
-    str.append("\n").append("      * eniTipoFirma:\t" + sfi.getEniTipoFirma());
-    str.append("\n").append("      * eniPerfilFirma:\t" + sfi.getEniPerfilFirma());
+    str.append("\n").append("      * eniTipoFirma:\t").append(sfi.getEniTipoFirma());
+    str.append("\n").append("      * eniPerfilFirma:\t").append(sfi.getEniPerfilFirma());
     if (sfi.getSignerInfo() != null) {
       str.append("\n").append("      * Informacio del Firmant:\t");
       str.append("\n").append(sfi.getSignerInfo().toString());
@@ -308,37 +317,26 @@ public class FirmaSimpleSignedFileInfo {
     if (custody != null) {
 
       str.append("\n").append("  + CUSTODIA:");
-      str.append("\n").append("      * custodyID: " + custody.getCustodyID());
-      str.append("\n").append("      * CSV: " + custody.getCsv());
-      str.append("\n").append("      * CSVValidationWeb: " + custody.getCsvValidationWeb());
-      str.append("\n").append("      * ValidationFileUrl: " + custody.getValidationFileUrl());
-      str.append("\n").append(
-          "      * CSVGenerationDefinition(eEMGDE17.4): "
-              + custody.getCsvGenerationDefinition());
-      str.append("\n").append(
-          "      * originalFileDirectURL: " + custody.getOriginalFileDirectURL());
-      str.append("\n").append(
-          "      * printableFileDirectUrl: " + custody.getPrintableFileDirectUrl());
-      str.append("\n").append("      * eniFileDirectUrl: " + custody.getEniFileDirectUrl());
+      str.append("\n").append("      * custodyID: ").append(custody.getCustodyID());
+      str.append("\n").append("      * CSV: ").append(custody.getCsv());
+      str.append("\n").append("      * CSVValidationWeb: ").append(custody.getCsvValidationWeb());
+      str.append("\n").append("      * ValidationFileUrl: ").append(custody.getValidationFileUrl());
+      str.append("\n").append("      * CSVGenerationDefinition(eEMGDE17.4): ").append(custody.getCsvGenerationDefinition());
+      str.append("\n").append("      * originalFileDirectURL: ").append(custody.getOriginalFileDirectURL());
+      str.append("\n").append("      * printableFileDirectUrl: ").append(custody.getPrintableFileDirectUrl());
+      str.append("\n").append("      * eniFileDirectUrl: ").append(custody.getEniFileDirectUrl());
     }
 
     FirmaSimpleValidationInfo validationInfo = sfi.getValidationInfo();
     if (validationInfo != null) {
 
       str.append("\n").append("  + VALIDACIO:");
-      str.append("\n").append(
-          "      * CheckAdministrationIDOfSigner: "
-              + null2Str(validationInfo.getCheckAdministrationIDOfSigner()));
-      str.append("\n").append(
-          "      * CheckDocumentModifications: "
-              + null2Str(validationInfo.getCheckDocumentModifications()));
-      str.append("\n").append(
-          "      * CheckValidationSignature: "
-              + null2Str(validationInfo.getCheckValidationSignature()));
+      str.append("\n").append("      * CheckAdministrationIDOfSigner: ").append(null2Str(validationInfo.getCheckAdministrationIDOfSigner()));
+      str.append("\n").append("      * CheckDocumentModifications: ").append(null2Str(validationInfo.getCheckDocumentModifications()));
+      str.append("\n").append("      * CheckValidationSignature: ").append(null2Str(validationInfo.getCheckValidationSignature()));
 
       if (validationInfo.getNoCheckValidationReason() != null) {
-        str.append("\n").append(
-            "      * No Validation reason: " + validationInfo.getNoCheckValidationReason());
+        str.append("\n").append("      * No Validation reason: ").append(validationInfo.getNoCheckValidationReason());
       }
 
     }
@@ -350,11 +348,9 @@ public class FirmaSimpleSignedFileInfo {
   public static String null2Str(Boolean b) {
     if (b == null) {
       return "-";
-    } else if (b == true) {
-      return "SI";
-    } else {
-      return "NO";
     }
+
+    return b ? "SI" : "NO";
   }
 
 }
