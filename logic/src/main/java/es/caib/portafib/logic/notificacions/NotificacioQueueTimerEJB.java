@@ -142,6 +142,7 @@ public class NotificacioQueueTimerEJB implements NotificacioQueueTimerLocal {
   }
 
   private void executeTask() {
+    log.debug("executeTask");
     try {
       lastExecution = lastFullExecution = System.currentTimeMillis();
 
@@ -150,6 +151,8 @@ public class NotificacioQueueTimerEJB implements NotificacioQueueTimerLocal {
       if (notificacions > 0) {
         long duration = System.currentTimeMillis() - lastExecution;
         log.info("executeTask: Encoades " + notificacions + " notificacions en " + duration + "ms");
+      } else {
+        log.debug("executeTask: No hi havia notificacions pendents d'encoar");
       }
 
     } catch (Throwable e) {

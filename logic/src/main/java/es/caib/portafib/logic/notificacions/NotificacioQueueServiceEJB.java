@@ -28,7 +28,7 @@ import java.util.List;
 
 
 /**
- * 
+ * Servei per gestionar el pas de notificacions a la coa.
  * @author areus
  */
 @Stateless
@@ -54,24 +54,23 @@ public class NotificacioQueueServiceEJB implements NotificacioQueueServiceLocal 
 
   @Override
   @TransactionTimeout(60)
+  @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   public long encolarNotificacionsPendents() throws I18NException {
     Connection connection = null;
+    Session session = null;
+    MessageProducer messageProducer = null;
     try {
       connection = connectionFactory.createConnection();
-      Session session = connection.createSession(true, Session.SESSION_TRANSACTED);
-      MessageProducer messageProducer = session.createProducer(queue);
+      session = connection.createSession(true, Session.SESSION_TRANSACTED);
+      messageProducer = session.createProducer(queue);
 
       List<NotificacioWS> notificacionsPendents = getNotificacionsPendents();
 
       for (NotificacioWS notificacio : notificacionsPendents) {
         TextMessage message = session.createTextMessage(notificacio.getDescripcio());
         messageProducer.send(message);
-
         notificacioEjb.delete(notificacio);
       }
-
-      messageProducer.close();
-      session.close();
 
       return notificacionsPendents.size();
 
@@ -79,6 +78,8 @@ public class NotificacioQueueServiceEJB implements NotificacioQueueServiceLocal 
       log.error("Error a la capa JMS", jmsException);
       throw new I18NException("genapp.comodi", "Error en la capa JMS: " + jmsException.getMessage());
     } finally {
+      if (messageProducer != null) try { messageProducer.close(); } catch (JMSException ignored) {}
+      if (session != null) try { session.close(); } catch (JMSException ignored) {}
       if (connection != null) try { connection.close(); } catch (JMSException ignored) {}
     }
   }
