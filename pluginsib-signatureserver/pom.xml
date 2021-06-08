@@ -10,7 +10,7 @@
   <parent>
     <groupId>es.caib.portafib</groupId>
     <artifactId>portafib</artifactId>
-    <version>2.0.19</version>
+    <version>2.0.20</version>
   </parent>
 
   <properties>
