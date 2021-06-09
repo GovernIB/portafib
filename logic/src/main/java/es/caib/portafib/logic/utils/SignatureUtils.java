@@ -130,12 +130,17 @@ public class SignatureUtils {
       UsuariAplicacioConfiguracioJPA config, String languageUI, String username,
       String administrationID) {
 
-    String filtreCertificats = config != null ? config.getFiltreCertificats() : entitat
-        .getFiltreCertificats();
+    String filtreCertificats = getFiltreCertificats(entitat, config);
 
     return new CommonInfoSignature(languageUI,
         CommonInfoSignature.cleanFiltreCertificats(filtreCertificats), username,
         administrationID);
+  }
+
+  public static String getFiltreCertificats(EntitatJPA entitat, UsuariAplicacioConfiguracioJPA config) {
+    return config != null && config.getFiltreCertificats() != null && !config.getFiltreCertificats().trim().isEmpty()
+            ? config.getFiltreCertificats()
+            : entitat.getFiltreCertificats();
   }
 
   /**
