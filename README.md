@@ -3,13 +3,13 @@
 
 ***Versions***
 
-> - Versió Estable: Tag [__portafib-1.1.5__](../../tree/81d55bc567e6f131f5ff13f9337a040a23127797) (branca [portafib-1.1](../../tree/portafib-1.1))<br/>
-> - Versió en Desenvolupament: __portafib-2.0.0__ (branca [portafib-2.0](../../tree/portafib-2.0))
+> - Versió Estable: Tag [__portafib-2.0.19__](../../tree/portafib-2.0.19_2021-06-07)<br/>
+> - Versió en Desenvolupament: __portafib-2.0.20__ (branca [portafib-2.0](../../tree/portafib-2.0))
 
 
 ***Documentació***
 
-[Documentació de branca estable](../../tree/portafib-1.1/README.md#documentaci%C3%B3)
+[Documentació de branca estable](../../tree/portafib-2.0/README.md#documentaci%C3%B3)
 
 
 ***Descripció***
