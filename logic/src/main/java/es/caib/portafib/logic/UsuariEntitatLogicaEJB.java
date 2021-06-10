@@ -920,6 +920,10 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     return usuariEntitatJPA;
   }
 
+  /**
+   * Retorna la llista de emails de tots els administradors d'entitat d'una entitat determinada que estan actius
+   * i que tenen activat l'opció de rebre tots els avisos.
+   */
   @Override
   public List<String> getEmailsOfAdministradorsEntitatByEntitat(String entitatID)
       throws I18NException {
@@ -930,7 +934,8 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
         Where.AND(
             RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_ADEN),
             usuariEntitatQueryPath.ENTITATID().equal(entitatID),
-            usuariEntitatQueryPath.ACTIU().equal(true)
+            usuariEntitatQueryPath.ACTIU().equal(true),
+            usuariEntitatQueryPath.REBRETOTSELSAVISOS().equal(true)
         )
       );
     // Eliminam duplicats    

@@ -270,30 +270,25 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
 
 
   
-  protected void enviarCorreuAdmistradors(String message, String entitatID)
-     throws Exception, I18NException {
+  protected void enviarCorreuAdmistradors(String message, String entitatID) throws I18NException {
     
-    List<String> recipientsList;
-    recipientsList = usuariEntitatNonSecureLogicaEjb.getEmailsOfAdministradorsEntitatByEntitat(entitatID);
-    
-    String[] recipients = recipientsList.toArray(new String[recipientsList.size()]);
+    List<String> recipientsList = usuariEntitatNonSecureLogicaEjb.getEmailsOfAdministradorsEntitatByEntitat(entitatID);
+
     if (log.isDebugEnabled()) {
-      log.info("Enviarà correu a " +  Arrays.toString(recipients)+ " amb el missatge: " + message);
+      log.info("Enviarà correu a " +  recipientsList + " amb el missatge: " + message);
     }
     
     final boolean isHtml = false;
     // Com que si alguna de les adreces falla, llavors tot el bloc falla, 
     // s'enviaram els correus un a un
-    for (int i = 0; i < recipients.length; i++) {
+    for (String recipient : recipientsList) {
       try {
         EmailUtil.postMail("PORTAFIB: Actualització de Càrrecs/Usuaris requereix la seva actuació", message, isHtml,
-          PropietatGlobalUtil.getAppEmail(), recipients[i]);
-      } catch(Exception e) {
-        log.error("Error enviant missatge a " + recipients[i], e);
+                PropietatGlobalUtil.getAppEmail(), recipient);
+      } catch (Exception e) {
+        log.error("Error enviant missatge a " + recipient, e);
       }
     }
-
-    
   }
 
 
