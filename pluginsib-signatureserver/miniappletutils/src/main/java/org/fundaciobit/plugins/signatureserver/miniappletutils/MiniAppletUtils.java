@@ -227,7 +227,7 @@ public class MiniAppletUtils {
     // En xades no te sentit el camp 'mode'
     miniAppletProperties.remove(MiniAppletConstants.PROPERTY_SIGN_MODE);
     
-    /**
+    /*
      * addKeyInfoKeyValue 
      *       - true  -> Incluye el nodo KeyValue dentro de KeyInfo de XAdES (comportamiento por defecto).
              - false -> No incluye el nodo KeyValue dentro de KeyInfo de XAdES.
@@ -263,8 +263,7 @@ public class MiniAppletUtils {
     }
     
     final String mime = fileInfo.getMimeType();
-    if (mime != null && !mime.equals("application/octet-stream") 
-        && !mime.equals("application/octet-stream")
+    if (mime != null && !mime.equals("application/octet-stream")
         && !mime.equals("application/binary")
         && !mime.equals("unknown/unknown")) {
         miniAppletProperties.setProperty("mimeType",mime);
@@ -371,29 +370,33 @@ public class MiniAppletUtils {
   public static boolean matchFilter(X509Certificate certificate, String filter)
       throws IOException, Exception, NoSuchMethodException, InstantiationException,
       IllegalAccessException, InvocationTargetException {
+    // si el filtre és buid, podem retornar true directament
+    if (filter == null || filter.trim().isEmpty()) {
+      return true;
+    }
+
     Properties propertyFilters = new Properties();
     propertyFilters.load(new StringReader(filter));
 
     MiniAppletClassLoader macl = new MiniAppletClassLoader();
 
-    // CertFilterManager certFilterManager = new
-    // CertFilterManager(propertyFilters);
-    Class<?> certFilterManagerClass = macl
-        .loadClass("es.gob.afirma.keystores.filters.CertFilterManager");
+    // CertFilterManager certFilterManager = new CertFilterManager(propertyFilters);
+    Class<?> certFilterManagerClass = macl.loadClass("es.gob.afirma.keystores.filters.CertFilterManager");
     Constructor<?> contructor = certFilterManagerClass.getConstructor(Properties.class);
     Object certFilterManager = contructor.newInstance(propertyFilters);
-
     
     // List<CertificateFilter> filtres = certFilterManager.getFilters();
     Method method2 = macl.getMethod(certFilterManagerClass, "getFilters");
-    List<? extends Object> filtres = (List<? extends Object>) method2
-        .invoke(certFilterManager);
+    List<?> filtres = (List<?>) method2.invoke(certFilterManager);
+
+    // Si no hi ha cap filtre, directament retornam true
+    if (filtres.isEmpty()) {
+      return true;
+    }
 
     // Es fa una OR entre tots els filtres
-    for (Object object : filtres) {
-
+    for (Object object: filtres) {
       // boolean match = filter.matches(certificate1);
-      //Method methodMatches = macl.getMethod(object.getClass(), "matches");
       Method methodMatches = object.getClass().getMethod("matches", X509Certificate.class);
       Boolean match = (Boolean) methodMatches.invoke(object, certificate);
       if (match) {

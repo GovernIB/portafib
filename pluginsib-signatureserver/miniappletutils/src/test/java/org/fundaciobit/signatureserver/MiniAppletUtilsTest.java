@@ -13,9 +13,8 @@ import java.security.cert.X509Certificate;
  */
 public class MiniAppletUtilsTest {
 
-
     @Test
-    public void testDNIe() throws Exception {
+    public void testDNIeAmbFiltreCoincident() throws Exception {
         InputStream certstream = MiniAppletUtilsTest.class.getResourceAsStream("/Ciudadano_firma_activo.cer");
         assert certstream != null;
         X509Certificate certificate1 = CertificateUtils.decodeCertificate(certstream);
@@ -28,12 +27,22 @@ public class MiniAppletUtilsTest {
     }
 
     @Test
-    public void testDNIeNofilters() throws Exception {
+    public void testDNIeSenseFiltre() throws Exception {
         InputStream certstream = MiniAppletUtilsTest.class.getResourceAsStream("/Ciudadano_firma_activo.cer");
         assert certstream != null;
         X509Certificate certificate1 = CertificateUtils.decodeCertificate(certstream);
 
-        String filter = "";
+        // Quan no tenim cap filtre, hauria de passar? La implementació que hi ha fins ara diu que no.
+        Assert.assertTrue(MiniAppletUtils.matchFilter(certificate1, null));
+    }
+
+    @Test
+    public void testDNIeAmbFiltreExcloent() throws Exception {
+        InputStream certstream = MiniAppletUtilsTest.class.getResourceAsStream("/Ciudadano_firma_activo.cer");
+        assert certstream != null;
+        X509Certificate certificate1 = CertificateUtils.decodeCertificate(certstream);
+
+        String filter = "filters.1=issuer.rfc2254:(cn=AC CACA)";
 
         // Quan no tenim cap filtre, hauria de passar? La implementació que hi ha fins ara diu que no.
         Assert.assertFalse(MiniAppletUtils.matchFilter(certificate1, filter));
