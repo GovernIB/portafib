@@ -50,7 +50,6 @@ import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -79,7 +78,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   private UsuariEntitatFavoritLocal usuariEntitatFavoritEjb;
 
   @EJB(mappedName = RoleUsuariEntitatLogicaLocal.JNDI_NAME)
-  private RoleUsuariEntitatLogicaLocal roleUsuariEntitatLogicaEjb;
+  protected RoleUsuariEntitatLogicaLocal roleUsuariEntitatLogicaEjb;
 
   @EJB(mappedName = RebreAvisLocal.JNDI_NAME)
   private RebreAvisLocal rebreAvisEjb;
@@ -108,7 +107,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
   
-  private UsuariEntitatLogicValidator<UsuariEntitatJPA> validator = new UsuariEntitatLogicValidator<UsuariEntitatJPA>();
+  private final UsuariEntitatLogicValidator<UsuariEntitatJPA> validator = new UsuariEntitatLogicValidator<UsuariEntitatJPA>();
 
   @Override
   @RolesAllowed({"PFI_ADMIN","PFI_USER", "tothom"})
@@ -132,7 +131,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     UsuariEntitatJPA ue;
     
     try {
-      ue = (UsuariEntitatJPA) usuariEntitatEjb.findByPrimaryKey(usuariEntitatID);
+      ue = usuariEntitatEjb.findByPrimaryKey(usuariEntitatID);
     } catch (javax.ejb.EJBAccessException e) {
       
       List<UsuariEntitat> list; 
@@ -163,17 +162,11 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   }
 
   @Override
-  public UsuariPersonaJPA create(UsuariPersonaJPA usuariPersonaJPA
-    , Set<String> virtualRoles)
+  public UsuariPersonaJPA create(UsuariPersonaJPA usuariPersonaJPA, Set<String> virtualRoles)
     throws I18NException, I18NValidationException, Exception {
     
-    UsuariEntitatJPA usuariEntitatJPA = null;
-    
-    usuariEntitatJPA =  create( usuariPersonaJPA,
-         usuariEntitatJPA, virtualRoles);
-    
+    UsuariEntitatJPA usuariEntitatJPA = create(usuariPersonaJPA,null, virtualRoles);
     return usuariEntitatJPA.getUsuariPersona();
-    
   }
 
   @Override
@@ -235,9 +228,6 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
       usuariEntitatJPA = (UsuariEntitatJPA)this.create(usuariEntitatJPA);
       
       // 2.3- Afegim Info dels Rols assignats a l'Usuari-Entitat
-      //log.info("EJB virtualRoles: " + virtualRoles );
-      //log.info("EJB virtualRoles.size() : " + virtualRoles == null? -1 : virtualRoles.size()  );
-      
       if (virtualRoles != null && virtualRoles.size() != 0) {
         Set<RoleUsuariEntitatJPA> roleUsuariEntitats = new HashSet<RoleUsuariEntitatJPA>();
         
@@ -251,9 +241,6 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
             log.error("ROL no valid: " + vrol);
           }
         }
-        
-        //log.info("EJB roleUsuariEntitats: " + roleUsuariEntitats );
-        //log.info("EJB roleUsuariEntitats.size() : " +roleUsuariEntitats.size()  );
         
         usuariEntitatJPA.setRoleUsuariEntitats(roleUsuariEntitats);
       }
@@ -274,7 +261,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
 	  // TODO millorar amb una sentencia USUARIENTITATID.in(listOfUsuariEntitatID)
 		List<UsuariEntitatJPA> listOfUsuariEntitat = new ArrayList<UsuariEntitatJPA>();
 		for (String usuariEntitatID : listOfUsuariEntitatID) {
-			UsuariEntitatJPA ue = (UsuariEntitatJPA) findByPrimaryKey(usuariEntitatID);
+			UsuariEntitatJPA ue = findByPrimaryKey(usuariEntitatID);
 			if (ue != null) {
 				Hibernate.initialize(ue.getUsuariPersona());
 				Hibernate.initialize(ue.getEntitat());
@@ -689,13 +676,10 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   @Override
   public UsuariPersonaJPA findUsuariPersonaExternaByNif(String nif) throws I18NException {
     
-    if (nif == null || nif.trim().length() == 0) {
+    if (nif == null || nif.isEmpty()) {
       return null;
     }
-    
-    StringField nifField = new UsuariEntitatQueryPath().USUARIPERSONA().NIF();
-    BooleanField usuariInternField = new UsuariEntitatQueryPath().USUARIPERSONA().USUARIINTERN();
-    
+
     List<UsuariPersona> list = usuariPersonaLogicaEjb.select(Where.AND(
         UsuariPersonaFields.NIF.equal(nif),
         UsuariPersonaFields.USUARIINTERN.equal(false)
@@ -704,10 +688,8 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     if (list.size() == 0) {
       return null;
     } else {
-      UsuariPersonaJPA up = (UsuariPersonaJPA)list.get(0);
-      return up;
+      return (UsuariPersonaJPA)list.get(0);
     }
-    
   }
   
   
@@ -890,7 +872,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
       throw new I18NException("error.notfound",
           new I18NArgumentCode(isCarrec? "carrec" : _TABLE_TRANSLATION),
           new I18NArgumentCode(isCarrec? "carrec.id": USUARIENTITATID.fullName),
-          new I18NArgumentString(usuariEntitatID)
+          new I18NArgumentString(null)
           );
     }
     
