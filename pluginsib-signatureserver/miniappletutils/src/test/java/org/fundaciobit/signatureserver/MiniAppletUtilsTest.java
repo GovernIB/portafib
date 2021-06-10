@@ -1,65 +1,42 @@
 package org.fundaciobit.signatureserver;
 
-import java.io.File;
-import java.io.FileInputStream;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.io.InputStream;
 import java.security.cert.X509Certificate;
 
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 /**
- * 
  * @author anadal
- *
  */
-public class MiniAppletUtilsTest extends TestCase {
-  /**
-   * Create the test case
-   *
-   * @param testName
-   *          name of the test case
-   */
-  public MiniAppletUtilsTest(String testName) {
-    super(testName);
-  }
+public class MiniAppletUtilsTest {
 
-  /**
-   * @return the suite of tests being tested
-   */
-  public static Test suite() {
-    return new TestSuite(MiniAppletUtilsTest.class);
-  }
 
-  /**
-   * Rigourous Test :-)
-   */
-  public void testApp() {
-    assertTrue(true);
-    main(null);
-  }
+    @Test
+    public void testDNIe() throws Exception {
+        InputStream certstream = MiniAppletUtilsTest.class.getResourceAsStream("/Ciudadano_firma_activo.cer");
+        assert certstream != null;
+        X509Certificate certificate1 = CertificateUtils.decodeCertificate(certstream);
 
-  public static void main(String[] args) {
+        String filter =
+                "filters=nonexpired:\n" +
+                "filters.1=issuer.rfc2254:|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003)(cn=AC DNIE 004)";
 
-    try {
-      String filePath = "DNIe_firma.cer";
-      InputStream certstream = new FileInputStream(new File(filePath));
-      X509Certificate certificate1 = CertificateUtils.decodeCertificate(certstream);
-
-      String filter = "filter=issuer.rfc2254:|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003)";
-
-      Boolean match = MiniAppletUtils.matchFilter(certificate1, filter);
-
-      System.out.println(" FINAL :: match => " + match);
-
-    } catch (Exception e) {
-      e.printStackTrace();
+        Assert.assertTrue(MiniAppletUtils.matchFilter(certificate1, filter));
     }
 
-  }
+    @Test
+    public void testDNIeNofilters() throws Exception {
+        InputStream certstream = MiniAppletUtilsTest.class.getResourceAsStream("/Ciudadano_firma_activo.cer");
+        assert certstream != null;
+        X509Certificate certificate1 = CertificateUtils.decodeCertificate(certstream);
+
+        String filter = "";
+
+        // Quan no tenim cap filtre, hauria de passar? La implementació que hi ha fins ara diu que no.
+        Assert.assertFalse(MiniAppletUtils.matchFilter(certificate1, filter));
+    }
 
 }

@@ -367,10 +367,6 @@ public class MiniAppletUtils {
 
     }
   }
-  
-  
-  
-  
 
   public static boolean matchFilter(X509Certificate certificate, String filter)
       throws IOException, Exception, NoSuchMethodException, InstantiationException,
@@ -397,7 +393,8 @@ public class MiniAppletUtils {
     for (Object object : filtres) {
 
       // boolean match = filter.matches(certificate1);
-      Method methodMatches = macl.getMethod(object.getClass(), "matches");
+      //Method methodMatches = macl.getMethod(object.getClass(), "matches");
+      Method methodMatches = object.getClass().getMethod("matches", X509Certificate.class);
       Boolean match = (Boolean) methodMatches.invoke(object, certificate);
       if (match) {
         return true;

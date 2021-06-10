@@ -13,10 +13,7 @@ import org.fundaciobit.pluginsib.core.utils.FileUtils;
  */
 public class MiniAppletClassLoader {
 
-
-  
   private URLClassLoader miniAppletClassLoader = null;
-  
   
   public URLClassLoader getMiniAppletClassLoader() {
     
@@ -25,28 +22,23 @@ public class MiniAppletClassLoader {
       Class<?> cls = this.getClass();
       
       URL[] urls = new URL[] { 
-        FileUtils.getResourceAsURL(cls, "applet/miniapplet.jar"),
-        //FileUtils.getResourceAsURL(cls, "applet/miniappletui.jar")
+        FileUtils.getResourceAsURL(cls, "applet/miniapplet.jar")
       };
       
       miniAppletClassLoader = new URLClassLoader(urls, String.class.getClassLoader());
     }
 
     return miniAppletClassLoader;
-
   }
   
   // XYZ 
   public URLClassLoader getMiniAppletClassLoader2() {
-    
-    
+
     {
-     
       Class<?> cls = this.getClass();
       
       URL[] urls = new URL[] { 
-        FileUtils.getResourceAsURL(cls, "applet/miniapplet.jar"),
-        //FileUtils.getResourceAsURL(cls, "applet/miniappletui.jar")
+        FileUtils.getResourceAsURL(cls, "applet/miniapplet.jar")
       };
       
       miniAppletClassLoader = new URLClassLoader(urls);
@@ -70,8 +62,7 @@ public class MiniAppletClassLoader {
   
   public Method getMethod(Class<?> cls, String methodName) throws Exception {
     Method method = null;
-    
-    
+
     for(Method m : cls.getMethods()) {
       if (m.getName().equals(methodName)) {
         method = m;
@@ -85,7 +76,5 @@ public class MiniAppletClassLoader {
     }
     return method;
   }
-  
-  
   
 }
