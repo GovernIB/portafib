@@ -132,7 +132,7 @@
           </c:if>
 
           <%-- LLEGENDA NOMÉS SI ESTAM VISUALITZANT EL FLUX --%>
-          <c:if test="${onlyFlux}">
+          <c:if test="${readOnly}">
                 <div style="float: right; font-size: 0.75em; border: 1px solid #000000;">
                     <h6>Llegenda</h6>
                     <p style="margin: 4px; text-align: left;">

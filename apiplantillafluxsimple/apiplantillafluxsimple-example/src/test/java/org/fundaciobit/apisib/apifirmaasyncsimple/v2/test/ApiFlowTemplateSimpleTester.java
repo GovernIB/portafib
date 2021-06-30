@@ -63,7 +63,7 @@ public class ApiFlowTemplateSimpleTester {
       final boolean saveOnServer = isSaveOnServer(prop);
       if ((lastKey =testCrearFluxDeFirma(api, languageUI, saveOnServer)) == null) {
         return;
-      };
+      }
 
       // Llistar Plantilles
      
@@ -76,7 +76,7 @@ public class ApiFlowTemplateSimpleTester {
       //lastKey = llistarFluxDeFirmesAmbFiltre(api, languageUI, name, description);
 
       // Mostrar Flux de Firmes
-      // mostarFluxDeFirmes(api, languageUI, lastKey);
+      mostarFluxDeFirmes(api, languageUI, lastKey);
       
       // Editar Flux de Firmes
       //lastKey = "kWuDt8W-mTGUEawp66KjdA==";
