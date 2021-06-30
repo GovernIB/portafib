@@ -5,7 +5,9 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRe
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
@@ -19,9 +21,13 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.Properties;
 
 public class FirmaWebPluginTest {
@@ -49,10 +55,24 @@ public class FirmaWebPluginTest {
         String transactionID = getTransaction("99999999R");
         try {
             String redirectUrl = startTransaction(transactionID, "test.pdf", "application/pdf");
-            SignStrategyFactory.getSignStrategy(SignStrategyType.AUTOFIRMA).sign(redirectUrl, "1234");
+
+            //SignStrategyFactory.getSignStrategy(SignStrategyType.AUTOFIRMA).sign(redirectUrl, "1234");
+
+            // Enlloc de automatitzar-ho obrim el navegador i esperam
+            Desktop.getDesktop().browse(URI.create(redirectUrl));
+            Thread.sleep(20000);
 
             Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[0]);
             Assert.assertEquals(FirmaSimpleStatus.STATUS_FINAL_OK, getStatus(transactionID)[1]);
+
+            // Guardam el fitxer i l'obrim per comprovar que ha anat bé
+            File signedFile = new File("test-autofirma-signed.pdf");
+            FileOutputStream fileOutputStream = new FileOutputStream(signedFile);
+            fileOutputStream.write(getSignedData(transactionID));
+            fileOutputStream.close();
+
+            Desktop.getDesktop().open(signedFile);
+
         } finally {
             closeTransaction(transactionID);
         }
@@ -190,6 +210,11 @@ public class FirmaWebPluginTest {
 
     private void closeTransaction(String transactionID) throws AbstractApisIBException {
         api.closeTransaction(transactionID);
+    }
+
+    private byte[] getSignedData(String transactionID) throws AbstractApisIBException {
+        FirmaSimpleSignatureResult result = api.getSignatureResult(new FirmaSimpleGetSignatureResultRequest(transactionID, "1"));
+        return result.getSignedFile().getData();
     }
 
     private FirmaSimpleCommonInfo getCommonInfo(String administrationID) {
