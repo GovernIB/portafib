@@ -150,6 +150,7 @@
               
               var el = document.getElementById(ids[index]);
               el.style.display = 'block';
+              el.style.webkitTransform = 'scale(1.0001)';
   
               var f = document.getElementById('filename');
               f.innerHTML = filenames[index];
