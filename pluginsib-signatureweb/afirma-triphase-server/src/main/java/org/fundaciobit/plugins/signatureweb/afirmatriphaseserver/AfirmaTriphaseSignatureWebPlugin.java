@@ -706,20 +706,17 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       // Convertir Properties a String
       StringBuilder configPropertiesStr1 = new StringBuilder();
 
-      for (Object key : configProperties[i].keySet()) {
-        configPropertiesStr1.append(key).append("=").append(configProperties[i].getProperty((String) key)).append("\n");
+      for (String key : configProperties[i].stringPropertyNames()) {
+        String value = configProperties[i].getProperty(key);
+        configPropertiesStr1.append(key)
+                .append("=")
+                // Les propietats es llegeixen després amb US-ASCII per tant cal escapar els valors.
+                // Veure #411
+                .append(StringEscapeUtils.escapeJava(value))
+                .append("\n");
       }
       configPropertiesStr[i] = configPropertiesStr1.toString();
-      
-      // XYZ ZZZ Pel problema 
-      //          - https://github.com/GovernIB/portafib/issues/144
-      //          - Plugin Autofirma: Acentos en Reason no aparecen bien al firmar #144
-      // Properties p = new Properties();
-      // ByteArrayOutputStream baos;
-      // p.store(baos, "UTF-8");
-      
-      // XYZ ZZZ ZZZ
-      //if (debug) 
+
       {
         log.info("\n\n XYZ ZZZ ZZZ ============ PROPERTIES @FIRMA AUTOFIRMA[" + i + "] ================\n"
           + configPropertiesStr[i] + "\n\n");
@@ -839,11 +836,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         configProperties[i].remove(FORMAT_BATCH);
         configProperties[i].remove(FORMAT_MOBILE);
 
-        // @firma llegeix els extraParams amb un Properties.load sobre un String.getBytes. El primer espera
-        // ISO-8859-1, el segon genera ISO-8859-1 o UTF-8 en funció de la plataforma. Cosa que és impossible de quadrar.
-        // Amb l'escapeJava genera ASCII escapant els caràcters unicode, per tant el getBytes no  espanyarà res.
-        // Veure #411
-        String extraParamsB64 = encodeB64(StringEscapeUtils.escapeJava(configPropertiesStr[i]));
+        String extraParamsB64 = encodeB64(configPropertiesStr[i]);
 
         batch.append(
             "  <singlesign Id=\"" + signatureFullID + "\">\r\n" + //$NON-NLS-1$
