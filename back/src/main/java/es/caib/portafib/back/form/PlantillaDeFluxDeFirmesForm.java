@@ -35,9 +35,11 @@ public class PlantillaDeFluxDeFirmesForm extends FluxDeFirmesForm {
 
   private boolean readOnly = false;
 
-  private Map<Long, String> backgroundColorsOfBloc = new HashMap<Long, String>();
+  private final Map<Long, String> backgroundColorsOfBloc = new HashMap<Long, String>();
 
-  private Map<Long, String> backgroundColorsOfFirma = new HashMap<Long, String>();
+  private final Map<Long, String> backgroundColorsOfFirma = new HashMap<Long, String>();
+
+  private final Map<Long, String> backgroundColorsOfRevisor = new HashMap<Long, String>();
 
   private List<StringKeyValue> listOfFluxDeFirmesForFluxDeFirmesID = new ArrayList<StringKeyValue>();
 
@@ -100,16 +102,12 @@ public class PlantillaDeFluxDeFirmesForm extends FluxDeFirmesForm {
     return backgroundColorsOfBloc;
   }
 
-  public void setBackgroundColorsOfBloc(Map<Long, String> backgroundColorsOfBloc) {
-    this.backgroundColorsOfBloc = backgroundColorsOfBloc;
-  }
-
   public Map<Long, String> getBackgroundColorsOfFirma() {
     return backgroundColorsOfFirma;
   }
 
-  public void setBackgroundColorsOfFirma(Map<Long, String> backgroundColorsOfFirma) {
-    this.backgroundColorsOfFirma = backgroundColorsOfFirma;
+  public Map<Long, String> getBackgroundColorsOfRevisor() {
+    return backgroundColorsOfRevisor;
   }
 
   public PlantillaFluxDeFirmesJPA getPlantillaFluxDeFirmes() {

@@ -789,12 +789,13 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     final String VERD = "BBFFBB";
     final String ROIG_B = "FAE7EC"; // "E37795"; //"FFA4A4"; // "FF6666";
     final String ROIG_F = "FF7575";
+    final String ROIG_R = "FF5050";
     final String GRIS = "D0D0D0";
     final String VERMELL = "FF0000";
 
-    Map<Long, String> backgroundColorsOfBloc = new HashMap<Long, String>();
-
-    Map<Long, String> backgroundColorsOfFirma = new HashMap<Long, String>();
+    Map<Long, String> backgroundColorsOfBloc = form.getBackgroundColorsOfBloc();
+    Map<Long, String> backgroundColorsOfFirma = form.getBackgroundColorsOfFirma();
+    Map<Long, String> backgroundColorsOfRevisor = form.getBackgroundColorsOfRevisor();
 
     final boolean isDebug = log.isDebugEnabled();
 
@@ -876,6 +877,29 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
               // Firmat
               backgroundColorsOfFirma.put(firma.getFirmaID(), VERD);
             }
+
+            // Afegir revisors
+            for (RevisorDeFirmaJPA revisor: firma.getRevisorDeFirmas()) {
+              for (EstatDeFirmaJPA estat : firma.getEstatDeFirmas()) {
+                if (estat.getTipusEstatDeFirmaInicialID() == TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR
+                        && estat.getUsuariEntitatID().equals(revisor.getUsuariEntitatID())) {
+                  String color = BLAU;
+                  if (estat.getTipusEstatDeFirmaFinalID() != null) {
+                    if (estat.getTipusEstatDeFirmaFinalID().equals(TIPUSESTATDEFIRMAFINAL_ACCEPTAT)) {
+                      color = VERD;
+                    } else {
+                      if (estat.getTipusEstatDeFirmaFinalID().equals(TIPUSESTATDEFIRMAFINAL_REBUTJAT)) {
+                        color = ROIG_R;
+                      } else {
+                        color = GRIS;
+                      }
+                    }
+                  }
+                  backgroundColorsOfRevisor.put(revisor.getRevisorDeFirmaID(), color);
+                  break;
+                }
+              }
+            }
           }
         }
         if (isDebug) {
@@ -884,9 +908,6 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
         }
       }
     }
-
-    form.setBackgroundColorsOfBloc(backgroundColorsOfBloc);
-    form.setBackgroundColorsOfFirma(backgroundColorsOfFirma);
 
   }
 

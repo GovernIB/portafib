@@ -426,7 +426,10 @@
                                   
                                   
                                   <c:forEach var="revisor" items="${firma.revisorDeFirmas}">
-                                  <%-- XYZ ZZZ FALTA BACKGROUND segons estat --%>
+                                  <c:set var="background" value="${fluxDeFirmesForm.backgroundColorsOfRevisor[revisor.revisorDeFirmaID]}" />
+                                  <c:if test="${not empty background}">
+                                    <c:set var="background">background:#${background};</c:set>
+                                  </c:if>
                                   <div class="radius" style="${background} ${backgroundimage} float:right; border: 2px solid #ff0000; margin: 4px; padding: 8px; text-align: left">
                                      
                                      <label class="checkbox inline" style="padding-left: 0px;padding-top: 0px;">
