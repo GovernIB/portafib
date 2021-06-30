@@ -2,6 +2,9 @@ package org.fundaciobit.apisib.apifirmasimple.v1.test.selenium;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitWebElement;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,7 +17,16 @@ public class ViafirmaSignStrategyImpl extends SignStrategy {
         driver.get(url);
         driver.findElement(By.id("plugin_viafirma")).click();
         driver.findElement(By.id("verify-code")).sendKeys(pin);
-        driver.findElement(By.id("verify-button")).click();
+
+        // Woraround. Amb Vaddin (el framework que empra fortress) no va bé només fer click
+        // cal fer un dblClick, i per fer-lo cal emprar l'api interna de htmlunit.
+
+        WebElement element = driver.findElement(By.id("verify-button"));
+
+        HtmlUnitWebElement huElement = (HtmlUnitWebElement) element;
+        HtmlUnitDriver huDriver = (HtmlUnitDriver) driver;
+        huDriver.getMouse().doubleClick(huElement.getCoordinates());
+
         try {
             Thread.sleep(12000);
         } catch (InterruptedException e) {
