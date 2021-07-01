@@ -24,6 +24,7 @@ public class CrearDestinatariTest extends ApiFirmaAsyncTestBase {
 
     private DestinatariUsuari destinatariNou;
     private DestinatariUsuari destinatariSenseNif;
+    private DestinatariUsuari destinatariInexistent;
 
     private static PortaFIBUsuariEntitatWs usuariEntitatWs;
     private static String baseUrl;
@@ -57,6 +58,7 @@ public class CrearDestinatariTest extends ApiFirmaAsyncTestBase {
     public void setupBefore() {
         destinatariNou = new DestinatariUsuari("11223344T", "test", "test", "x", baseUrl);
         destinatariSenseNif = new DestinatariUsuari(null, "test", "test", "x", baseUrl);
+        destinatariInexistent  = new DestinatariUsuari(null, "test-inexistent", "test", "x", baseUrl);
     }
 
     @Test
@@ -96,6 +98,17 @@ public class CrearDestinatariTest extends ApiFirmaAsyncTestBase {
                 deletePeticio(peticio);
             }
             cleanUpDestinatari(destinatariSenseNif.getUsername());
+        }
+    }
+
+
+    @Test
+    public void testFailCreate()  {
+        try {
+            crearPeticioDestinataris(destinatariInexistent);
+            Assert.fail("no hauria d'haver pogut crear");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
