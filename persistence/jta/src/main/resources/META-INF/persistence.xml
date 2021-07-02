@@ -60,6 +60,7 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 			<property name="hibernate.jdbc.batch_size" value="10"/>
 			<property name="hibernate.order_updates" value="true"/>
 			<property name="hibernate.order_inserts" value="true"/>
+			<property name="hibernate.jdbc.wrap_result_sets" value="true"/>
 
             <property name="hibernate.dialect" value="${es.caib.portafib.hibernate.dialect}" />
             <property name="hibernate.query.substitutions" value="${es.caib.portafib.hibernate.query.substitutions}"/>
