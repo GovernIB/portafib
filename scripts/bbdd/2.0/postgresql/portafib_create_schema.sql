@@ -493,6 +493,7 @@ SET default_with_oids = false;
         actiu bool not null,
         callbackurl varchar(400),
         callbackversio int4 not null,
+        crearusuaris bool not null,
         custodiainfoid int8,
         descripcio varchar(255),
         emailadmin varchar(100) not null,

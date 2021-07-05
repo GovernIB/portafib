@@ -429,6 +429,7 @@
         actiu number(1,0) not null,
         callbackurl varchar2(400 char),
         callbackversio number(10,0) not null,
+        crearusuaris number(1,0) not null,
         custodiainfoid number(19,0),
         descripcio varchar2(255 char),
         emailadmin varchar2(100 char) not null,
