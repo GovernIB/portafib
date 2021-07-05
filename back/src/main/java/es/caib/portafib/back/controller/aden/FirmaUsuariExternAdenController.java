@@ -154,7 +154,7 @@ public class FirmaUsuariExternAdenController extends FirmaController {
       additionalField.setCodeName(
           PeticioDeFirmaFields._TABLE_MODEL + "." + PeticioDeFirmaFields._TABLE_MODEL);
       additionalField.setPosition(COLUMN_PETICIO_FIRMA);
-      additionalField.setEscapeXml(false);
+      additionalField.setEscapeXml(true);
       // Els valors s'ompliran al mètode postList()
       additionalField.setValueMap(new HashMap<Long, String>());
       firmaFilterForm.addAdditionalField(additionalField);

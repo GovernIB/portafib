@@ -56,6 +56,7 @@ import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
@@ -2039,7 +2040,11 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
 		if (pfTitol != null) {
 			pfTitolCut = (pfTitol.length() > titleLength) ? pfTitol.substring(0, titleLength) + "..." : pfTitol;
 		}
-		String pfTitolView =(titleLength>0)?"<a href=\"#\" data-toggle=\"tooltip\" title=\"" + pfTitol + "\">" + pfTitolCut + "</a>":pfTitol;
+
+		pfTitol = StringEscapeUtils.escapeXml(pfTitol);
+        pfTitolCut = StringEscapeUtils.escapeXml(pfTitolCut);
+
+        String pfTitolView =(titleLength>0)?"<a href=\"#\" data-toggle=\"tooltip\" title=\"" + pfTitol + "\">" + pfTitolCut + "</a>":pfTitol;
 		mapPF.put(pk, pfTitolView);
 	}
     
