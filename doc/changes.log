@@ -1,3 +1,17 @@
+PortaFIB 2.0.20
+==============
+
+ - Escapar correctament els camps que poden tenir contingut xml als llistats #609
+ - Revisar comportament drivers Oracle amb propietat hibernate.jdbc.wrap_result_sets #608
+ - Incidència amb la visualització de documents a la vista completa amb chrome #601
+ - A la visualització del flux de firmes del solicitant no apareix informació d'estat ni llegenda #603
+ - A la visualització d'un flux de firma no es destrien els revisors que han validat #604
+ - El test testFirmaViafirma no s'executa correctament #598
+ - Les propietats per Autofirma no s'escapen correctament #606
+ - El mètode MiniAppletUtils.matchFilter no funciona correctament #602
+ - Fer que l'Agent només envii correus als Administradors d'Entitat si tenen activat rebre tots els avisos #605
+ - En alguns casos no s'agafa correctament el filtre de certificats d'una petició de firma #600
+
 PortaFIB 2.0.19
 ==============
 
