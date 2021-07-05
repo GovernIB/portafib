@@ -26,12 +26,12 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,IdiomaFields.IDIOMAID)}">
           <td>
-          ${idioma.idiomaID}
+          <c:out value="${idioma.idiomaID}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,IdiomaFields.NOM)}">
           <td>
-          ${idioma.nom}
+          <c:out value="${idioma.nom}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,IdiomaFields.SUPORTAT)}">
@@ -41,7 +41,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,IdiomaFields.ORDRE)}">
           <td>
-          ${idioma.ordre}
+          <c:out value="${idioma.ordre}" />
           </td>
         </c:if>
 

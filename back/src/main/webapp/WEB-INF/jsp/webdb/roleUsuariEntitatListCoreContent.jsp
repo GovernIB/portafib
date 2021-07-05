@@ -26,7 +26,7 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RoleUsuariEntitatFields.ID)}">
           <td>
-          ${roleUsuariEntitat.id}
+          <c:out value="${roleUsuariEntitat.id}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RoleUsuariEntitatFields.ROLEID)}">

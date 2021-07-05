@@ -26,7 +26,7 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentFields.TIPUSDOCUMENTID)}">
           <td>
-          ${tipusDocument.tipusDocumentID}
+          <c:out value="${tipusDocument.tipusDocumentID}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentFields.NOMID)}">
@@ -47,7 +47,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentFields.DESCRIPCIO)}">
           <td>
-          ${tipusDocument.descripcio}
+          <c:out value="${tipusDocument.descripcio}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentFields.USUARIAPLICACIOID)}">

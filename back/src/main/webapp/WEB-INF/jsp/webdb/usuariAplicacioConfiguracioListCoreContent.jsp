@@ -26,12 +26,12 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID)}">
           <td>
-          ${usuariAplicacioConfiguracio.usuariAplicacioConfigID}
+          <c:out value="${usuariAplicacioConfiguracio.usuariAplicacioConfigID}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.NOM)}">
           <td>
-          ${usuariAplicacioConfiguracio.nom}
+          <c:out value="${usuariAplicacioConfiguracio.nom}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.ENTITATID)}">
@@ -79,7 +79,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.FILTRECERTIFICATS)}">
           <td>
-          ${usuariAplicacioConfiguracio.filtreCertificats}
+          <c:out value="${usuariAplicacioConfiguracio.filtreCertificats}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.TIPUSOPERACIOFIRMA)}">
@@ -120,22 +120,22 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER)}">
           <td>
-          ${usuariAplicacioConfiguracio.policyIdentifier}
+          <c:out value="${usuariAplicacioConfiguracio.policyIdentifier}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH)}">
           <td>
-          ${usuariAplicacioConfiguracio.policyIdentifierHash}
+          <c:out value="${usuariAplicacioConfiguracio.policyIdentifierHash}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM)}">
           <td>
-          ${usuariAplicacioConfiguracio.policyIdentifierHashAlgorithm}
+          <c:out value="${usuariAplicacioConfiguracio.policyIdentifierHashAlgorithm}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT)}">
           <td>
-          ${usuariAplicacioConfiguracio.policyUrlDocument}
+          <c:out value="${usuariAplicacioConfiguracio.policyUrlDocument}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
@@ -172,7 +172,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
           <td>
-          ${usuariAplicacioConfiguracio.propietatsTaulaFirmes}
+          <c:out value="${usuariAplicacioConfiguracio.propietatsTaulaFirmes}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}">
@@ -193,7 +193,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB)}">
           <td>
-          ${usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb}
+          <c:out value="${usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID)}">

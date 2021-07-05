@@ -26,7 +26,7 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.ESTADISTICAID)}">
           <td>
-          ${estadistica.estadisticaID}
+          <c:out value="${estadistica.estadisticaID}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.DATA)}">
@@ -50,22 +50,22 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.VALOR)}">
           <td>
-          ${estadistica.valor}
+          <c:out value="${estadistica.valor}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.USUARIAPLICACIOID)}">
           <td>
-          ${estadistica.usuariAplicacioID}
+          <c:out value="${estadistica.usuariAplicacioID}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.USUARIENTITATID)}">
           <td>
-          ${estadistica.usuariEntitatID}
+          <c:out value="${estadistica.usuariEntitatID}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.PARAMETRES)}">
           <td>
-          ${estadistica.parametres}
+          <c:out value="${estadistica.parametres}" />
           </td>
         </c:if>
 

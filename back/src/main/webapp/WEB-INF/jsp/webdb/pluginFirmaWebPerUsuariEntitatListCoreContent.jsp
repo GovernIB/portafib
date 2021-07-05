@@ -26,7 +26,7 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFirmaWebPerUsuariEntitatFields.PLUGINFIRMAWEBPERUSRENTID)}">
           <td>
-          ${pluginFirmaWebPerUsuariEntitat.pluginFirmaWebPerUsrEntID}
+          <c:out value="${pluginFirmaWebPerUsuariEntitat.pluginFirmaWebPerUsrEntID}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFirmaWebPerUsuariEntitatFields.USUARIENTITATID)}">

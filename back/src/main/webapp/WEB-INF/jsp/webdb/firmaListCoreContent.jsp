@@ -26,7 +26,7 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.FIRMAID)}">
           <td>
-          ${firma.firmaID}
+          <c:out value="${firma.firmaID}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.DESTINATARIID)}">
@@ -59,47 +59,47 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.NUMFIRMADOCUMENT)}">
           <td>
-          ${firma.numFirmaDocument}
+          <c:out value="${firma.numFirmaDocument}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CAIXAPAGINA)}">
           <td>
-          ${firma.caixaPagina}
+          <c:out value="${firma.caixaPagina}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CAIXAX)}">
           <td>
-          ${firma.caixaX}
+          <c:out value="${firma.caixaX}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CAIXAY)}">
           <td>
-          ${firma.caixaY}
+          <c:out value="${firma.caixaY}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CAIXAAMPLE)}">
           <td>
-          ${firma.caixaAmple}
+          <c:out value="${firma.caixaAmple}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CAIXAALT)}">
           <td>
-          ${firma.caixaAlt}
+          <c:out value="${firma.caixaAlt}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.NUMEROSERIECERTIFICAT)}">
           <td>
-          ${firma.numeroSerieCertificat}
+          <c:out value="${firma.numeroSerieCertificat}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.EMISSORCERTIFICAT)}">
           <td>
-          ${firma.emissorCertificat}
+          <c:out value="${firma.emissorCertificat}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.NOMCERTIFICAT)}">
           <td>
-          ${firma.nomCertificat}
+          <c:out value="${firma.nomCertificat}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.TIPUSESTATDEFIRMAFINALID)}">
@@ -117,12 +117,12 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.MOTIU)}">
           <td>
-          ${firma.motiu}
+          <c:out value="${firma.motiu}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.MINIMDEREVISORS)}">
           <td>
-          ${firma.minimDeRevisors}
+          <c:out value="${firma.minimDeRevisors}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CHECKADMINISTRATIONIDOFSIGNER)}">
@@ -148,32 +148,32 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.PERFILDEFIRMA)}">
           <td>
-          ${firma.perfilDeFirma}
+          <c:out value="${firma.perfilDeFirma}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNNOM)}">
           <td>
-          ${firma.usuariExternNom}
+          <c:out value="${firma.usuariExternNom}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNLLINATGES)}">
           <td>
-          ${firma.usuariExternLlinatges}
+          <c:out value="${firma.usuariExternLlinatges}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNEMAIL)}">
           <td>
-          ${firma.usuariExternEmail}
+          <c:out value="${firma.usuariExternEmail}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNIDIOMA)}">
           <td>
-          ${firma.usuariExternIdioma}
+          <c:out value="${firma.usuariExternIdioma}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNTOKEN)}">
           <td>
-          ${firma.usuariExternToken}
+          <c:out value="${firma.usuariExternToken}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNNIVELLSEGURETAT)}">

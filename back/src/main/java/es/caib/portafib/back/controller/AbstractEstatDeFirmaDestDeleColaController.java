@@ -58,6 +58,7 @@ import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
@@ -2146,6 +2147,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 if (pfTitol != null) {
                     pfTitolCut = (pfTitol.length() > titleLength) ? pfTitol.substring(0, titleLength) + "..." : pfTitol;
                 }
+
+                pfTitol = StringEscapeUtils.escapeXml(pfTitol);
+                pfTitolCut = StringEscapeUtils.escapeXml(pfTitolCut);
 
                 String pfTitolView = (titleLength > 0) ? "<a href=\"#\" data-toggle=\"tooltip\" title=\"" + pfTitol + "\">" + pfTitolCut + "</a>" : pfTitol;
 

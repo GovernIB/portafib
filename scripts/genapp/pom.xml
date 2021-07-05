@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.fundaciobit.genapp</groupId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <artifactId>genapp-run</artifactId>
   <packaging>pom</packaging>
 
@@ -35,7 +35,7 @@
     <dependency>
       <groupId>org.fundaciobit.genapp</groupId>
       <artifactId>genapp-core</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.3</version>
     </dependency>
 
     <!--  WEB -->
@@ -61,7 +61,7 @@
     <dependency>
       <groupId>org.fundaciobit.genapp</groupId>
       <artifactId>genapp-web</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.3</version>
     </dependency>
 
     <!-- GEN -->
@@ -107,7 +107,7 @@
     <dependency>
       <groupId>org.fundaciobit.genapp</groupId>
       <artifactId>genapp-gen</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.3</version>
     </dependency>
 
   </dependencies>

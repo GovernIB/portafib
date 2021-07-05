@@ -26,17 +26,17 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusNotificacioFields.TIPUSNOTIFICACIOID)}">
           <td>
-          ${tipusNotificacio.tipusNotificacioID}
+          <c:out value="${tipusNotificacio.tipusNotificacioID}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusNotificacioFields.NOM)}">
           <td>
-          ${tipusNotificacio.nom}
+          <c:out value="${tipusNotificacio.nom}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusNotificacioFields.DESCRIPCIO)}">
           <td>
-          ${tipusNotificacio.descripcio}
+          <c:out value="${tipusNotificacio.descripcio}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusNotificacioFields.ESAVIS)}">

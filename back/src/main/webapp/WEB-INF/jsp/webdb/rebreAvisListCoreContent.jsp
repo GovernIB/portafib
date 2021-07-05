@@ -26,7 +26,7 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RebreAvisFields.ID)}">
           <td>
-          ${rebreAvis.id}
+          <c:out value="${rebreAvis.id}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RebreAvisFields.USUARIENTITATID)}">

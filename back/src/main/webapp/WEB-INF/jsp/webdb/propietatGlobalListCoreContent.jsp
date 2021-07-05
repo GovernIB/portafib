@@ -26,17 +26,17 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PropietatGlobalFields.PROPIETATGLOBALID)}">
           <td>
-          ${propietatGlobal.propietatGlobalID}
+          <c:out value="${propietatGlobal.propietatGlobalID}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PropietatGlobalFields.CLAU)}">
           <td>
-          ${propietatGlobal.clau}
+          <c:out value="${propietatGlobal.clau}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PropietatGlobalFields.VALOR)}">
           <td>
-          ${propietatGlobal.valor}
+          <c:out value="${propietatGlobal.valor}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PropietatGlobalFields.ENTITATID)}">
@@ -49,7 +49,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PropietatGlobalFields.DESCRIPCIO)}">
           <td>
-          ${propietatGlobal.descripcio}
+          <c:out value="${propietatGlobal.descripcio}" />
           </td>
         </c:if>
 

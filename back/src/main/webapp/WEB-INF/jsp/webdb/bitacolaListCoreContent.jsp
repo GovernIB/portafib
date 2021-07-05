@@ -26,17 +26,17 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.BITACOLAID)}">
           <td>
-          ${bitacola.bitacolaID}
+          <c:out value="${bitacola.bitacolaID}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.ENTITATID)}">
           <td>
-          ${bitacola.entitatid}
+          <c:out value="${bitacola.entitatid}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.USUARIID)}">
           <td>
-          ${bitacola.usuariid}
+          <c:out value="${bitacola.usuariid}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.DATA)}">
@@ -52,7 +52,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.OBJECTEID)}">
           <td>
-          ${bitacola.objecteid}
+          <c:out value="${bitacola.objecteid}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.TIPUSOPERACIO)}">
@@ -65,12 +65,12 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.DESCRIPCIO)}">
           <td>
-          ${bitacola.descripcio}
+          <c:out value="${bitacola.descripcio}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.OBJECTESERIALITZAT)}">
           <td>
-          ${bitacola.objecteSerialitzat}
+          <c:out value="${bitacola.objecteSerialitzat}" />
           </td>
         </c:if>
 

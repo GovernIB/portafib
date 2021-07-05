@@ -26,12 +26,12 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BlocDeFirmesFields.BLOCDEFIRMESID)}">
           <td>
-          ${blocDeFirmes.blocDeFirmesID}
+          <c:out value="${blocDeFirmes.blocDeFirmesID}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BlocDeFirmesFields.ORDRE)}">
           <td>
-          ${blocDeFirmes.ordre}
+          <c:out value="${blocDeFirmes.ordre}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BlocDeFirmesFields.DATAFINALITZACIO)}">
@@ -47,7 +47,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BlocDeFirmesFields.MINIMDEFIRMES)}">
           <td>
-          ${blocDeFirmes.minimDeFirmes}
+          <c:out value="${blocDeFirmes.minimDeFirmes}" />
           </td>
         </c:if>
 

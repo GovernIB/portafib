@@ -26,12 +26,12 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FluxDeFirmesFields.FLUXDEFIRMESID)}">
           <td>
-          ${fluxDeFirmes.fluxDeFirmesID}
+          <c:out value="${fluxDeFirmes.fluxDeFirmesID}" />
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FluxDeFirmesFields.NOM)}">
           <td>
-          ${fluxDeFirmes.nom}
+          <c:out value="${fluxDeFirmes.nom}" />
           </td>
         </c:if>
 
