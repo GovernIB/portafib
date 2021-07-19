@@ -1,6 +1,6 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@page import="java.util.Set"%>
+<%@page import="java.util.List"%>
 <%@page import="es.caib.portafib.utils.Constants"%>
 <%@page import="es.caib.portafib.callback.beans.v1.PortaFIBEvent"%>
 <%@page import="es.caib.portafib.callback.beans.v1.Actor"%>
@@ -141,7 +141,7 @@ body {font-family: Arial; font-size: 8;}
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-Set<PortaFIBEvent> llistat = PortaFIBEventStore.llistat;
+List<PortaFIBEvent> llistat = PortaFIBEventStore.llistat;
 int count = 0;
 for(PortaFIBEvent info: llistat) {
 %>

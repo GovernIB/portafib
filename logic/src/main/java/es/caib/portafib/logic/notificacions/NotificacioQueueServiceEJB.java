@@ -5,6 +5,7 @@ import es.caib.portafib.jpa.NotificacioWSJPA;
 import es.caib.portafib.logic.utils.NotificacioInfo;
 import es.caib.portafib.model.entity.NotificacioWS;
 import es.caib.portafib.model.fields.NotificacioWSFields;
+import es.caib.portafib.utils.ConstantsV2;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.OrderBy;
@@ -68,6 +69,10 @@ public class NotificacioQueueServiceEJB implements NotificacioQueueServiceLocal 
 
       for (NotificacioWS notificacio : notificacionsPendents) {
         TextMessage message = session.createTextMessage(notificacio.getDescripcio());
+        if (notificacio.getTipusNotificacioID() == ConstantsV2.NOTIFICACIOAVIS_PETICIO_FIRMADA) {
+          message.setLongProperty("JMS_JBOSS_SCHEDULED_DELIVERY", System.currentTimeMillis() + 30000);
+          message.setLongProperty("_HQ_SCHED_DELIVERY", System.currentTimeMillis() + 30000);
+        }
         messageProducer.send(message);
         notificacioEjb.delete(notificacio);
       }
