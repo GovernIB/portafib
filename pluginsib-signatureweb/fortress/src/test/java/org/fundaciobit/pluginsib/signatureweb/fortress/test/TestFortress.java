@@ -5,6 +5,7 @@ import com.viafirma.fortress.sdk.FortressApi;
 import com.viafirma.fortress.sdk.configuration.FortressApiConfiguration;
 import com.viafirma.fortress.sdk.model.AccessToken;
 import org.apache.log4j.Logger;
+import org.fundaciobit.pluignsib.signatureweb.fortress.api.FortressApiExt;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -25,7 +26,7 @@ public class TestFortress {
         FortressApiConfiguration conf =
                 new FortressApiConfiguration(ENDPOINT, CLIENT_ID, CLIENT_SECRET);
         conf.setDebug(true);
-        api = new FortressApi(conf);
+        api = new FortressApiExt(conf);
     }
 
     @Test

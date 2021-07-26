@@ -10,6 +10,7 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
+import org.fundaciobit.pluignsib.signatureweb.fortress.api.FortressApiExt;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,7 +60,7 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
             conf.setDebug(isDebug());
             conf.setConnectionTimeout(getConnectTimeout());
             conf.setReadTimeout(getReadTimeout());
-            api = new FortressApi(conf);
+            api = new FortressApiExt(conf);
         } catch (Exception e) {
             throw new RuntimeException("Error inicialitzant API", e);
         }
