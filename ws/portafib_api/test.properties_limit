@@ -1,8 +1,0 @@
-
-test_host=http://192.168.35.47:8080/portafib/ws/v1/
-# Indica si es un servidor CAIB (true) o no CAIB (false)
-iscaib=true
-test_usr=limit_app
-test_pwd=limit_app
-test_nif=11223344T
-waittosign=true

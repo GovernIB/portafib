@@ -118,10 +118,8 @@ public class PeticioDeFirmaUtils {
    */
   public static FitxerBean constructFitxerBeanFromResource(String name, String mime) throws Exception  {
     String filename = name;
-    if (name.startsWith("/")) {
-      filename = name.substring(1);
-    } else {
-      name = '/' + name; 
+    if (name.contains("/")) {
+      filename = name.substring(name.lastIndexOf("/") + 1);
     }
     InputStream is = PeticioDeFirmaUtils.class.getResourceAsStream(name);
     

@@ -1,0 +1,218 @@
+package es.caib.portafib.it.ws;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+import org.apache.log4j.Logger;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import es.caib.portafib.ws.api.v1.PortaFIBUsuariAplicacioWs;
+import es.caib.portafib.ws.api.v1.UsuariAplicacioBean;
+import es.caib.portafib.ws.api.v1.UsuariAplicacioFilterWs;
+import es.caib.portafib.ws.api.v1.WsFieldValidationError;
+import es.caib.portafib.ws.api.v1.WsI18NException;
+import es.caib.portafib.ws.api.v1.WsValidationException;
+import es.caib.portafib.ws.api.v1.utils.WsClientUtils;
+
+/**
+ * 
+ * @author anadal
+ * 
+ */
+public final class PortaFIBUsuariAplicacioTest extends PortaFIBTestUtils {
+
+  public static final Logger log = Logger.getLogger(PortaFIBUsuariAplicacioTest.class);
+  
+  protected static PortaFIBUsuariAplicacioWs usuariAplicacioAPI;
+
+  /**
+   * S'executa una vegada abans de l'execució de tots els tests d'aquesta classe
+   *
+   * @throws Exception
+   */
+  @BeforeClass
+  public static void setUpBeforeClass() throws Exception {
+    usuariAplicacioAPI = getUsuariAplicacioApi();
+  }
+
+  /**
+   * S'executa una vegada al final de l'execució de tots els tests d'aquesta
+   * classe
+   * 
+   * @throws Exception
+   */
+  @AfterClass
+  public static void tearDownAfterClass() throws Exception {
+  }
+
+  /**
+   * S'executa abans de cada test
+   * 
+   * @throws Exception
+   */
+  @Before
+  public void setUp() throws Exception {
+  }
+
+  /**
+   * S'executa despres de per cada test
+   * 
+   * @throws Exception
+   */
+  @After
+  public void tearDown() throws Exception {
+  }
+
+  @Test
+  public void testVersio() throws Exception {
+    if (isCAIB()) {
+      Assert.assertEquals("2.0.21-caib", usuariAplicacioAPI.getVersion());
+    } else {
+      Assert.assertEquals("2.0.21", usuariAplicacioAPI.getVersion());
+    }
+  }
+
+  @Test
+  public void testVersioWs() throws Exception {
+    Assert.assertEquals(1, usuariAplicacioAPI.getVersionWs());
+  }
+
+  /* operació no soportada ja */
+  @Test
+  @Ignore
+  public void addRolAdmin() throws Exception {
+    String usr = getTestAppUserName();
+    usuariAplicacioAPI.addRolAdminToUsuariAplicacio(usr);
+  }
+
+  /* operació no soportada ja */
+  @Test
+  @Ignore
+  public void addRolUser() throws Exception {
+    String usr = getTestAppUserName();
+    usuariAplicacioAPI.addRolUserToUsuariAplicacio(usr);
+  }
+
+  @Test
+  public void deleteUsuariAplicacio() throws Exception {
+    // No llança cap error si l'usuari no existeix
+    usuariAplicacioAPI.deleteUsuariAplicacio("usuariAplicacioID_inexistent");
+  }
+
+  @Test
+  public void createUsuariAplicacio() throws Exception {
+    UsuariAplicacioBean usuariAplicacioBean = new UsuariAplicacioBean();
+    
+    try {
+      usuariAplicacioAPI.createUsuariAplicacio(usuariAplicacioBean);
+      Assert.fail();
+    } catch (WsValidationException ve) {
+      Assert.assertEquals(isCAIB() ? 5 : 6, ve.getFaultInfo().getFieldFaults().size());
+    }
+
+    String entitatID = usuariAplicacioAPI.getEntitatID();
+
+    usuariAplicacioBean.setEntitatID(entitatID);
+    usuariAplicacioBean.setIdiomaID("ca");
+    usuariAplicacioBean.setCallbackURL("any");
+    usuariAplicacioBean.setCallbackVersio(1);
+    usuariAplicacioBean.setContrasenya("anypwd");
+    usuariAplicacioBean.setEmailAdmin("any@mail.com");
+
+    usuariAplicacioBean.setUsuariAplicacioID(getTestAppUserName());
+    try {
+      usuariAplicacioAPI.createUsuariAplicacio(usuariAplicacioBean);
+      Assert.fail();
+    } catch (WsValidationException ve) {
+      Assert.assertEquals(ve.getFaultInfo().getFieldFaults().size(), 1);
+
+      WsFieldValidationError fve = ve.getFaultInfo().getFieldFaults().get(0);
+
+      Assert.assertEquals("genapp.validation.unique", fve.getTranslation().getCode());
+    }
+
+    usuariAplicacioBean.setUsuariAplicacioID("1234567890");
+    try {
+      usuariAplicacioAPI.createUsuariAplicacio(usuariAplicacioBean);
+      Assert.fail();
+    } catch (WsValidationException ve) {
+      Assert.assertEquals(ve.getFaultInfo().getFieldFaults().size(), 1);
+
+      WsFieldValidationError fve = ve.getFaultInfo().getFieldFaults().get(0);
+
+      String expected = isCAIB()? "usuariaplicacio.usuarinoseycon" : "usuariaplicacio.errorprefix"; 
+      
+      Assert.assertEquals(expected, fve.getTranslation().getCode());
+
+    }
+
+    if (!isCAIB()) {
+    
+      String id = entitatID + "_1234567890";
+      usuariAplicacioBean.setUsuariAplicacioID(id);
+      
+      try {
+        usuariAplicacioAPI.createUsuariAplicacio(usuariAplicacioBean);
+        UsuariAplicacioBean createdUser;
+        createdUser = usuariAplicacioAPI.getUsuariAplicacio(usuariAplicacioBean.getUsuariAplicacioID());
+        if (isCAIB()) {
+          Assert.fail("En mode CAIB no es poden crear usuaris aplicació");
+        }
+  
+        Assert.assertEquals(id, createdUser.getUsuariAplicacioID());
+  
+        Assert.assertEquals("", createdUser.getContrasenya());
+      } catch(WsValidationException ve) {
+        if (isCAIB()) {
+          Assert.assertEquals(1, ve.getFaultInfo().getFieldFaults().size());
+        } else {
+          throw ve;
+        }
+        
+      } finally {
+        usuariAplicacioAPI.deleteUsuariAplicacio(id);
+      }
+    }
+
+  }
+
+  @Test
+  public void testList() throws Exception  {
+    // Llistar usuaris aplicació
+   
+    UsuariAplicacioFilterWs filtre = new UsuariAplicacioFilterWs();
+    
+    List<UsuariAplicacioBean> listOriginal = usuariAplicacioAPI.listUsuariAplicacio(filtre);
+    
+    for (UsuariAplicacioBean ua : listOriginal) {
+      String id = ua.getUsuariAplicacioID();
+      System.out.println(id);
+    }
+    
+    String username = getTestAppUserName();
+    String usr2 = username.substring(1, username.length() - 1);
+    System.out.println(usr2);
+    filtre.setFilterByUsuariAplicacioID("%" + usr2 + "%");
+    listOriginal = usuariAplicacioAPI.listUsuariAplicacio(filtre);
+    
+   
+    List<String> ids = new ArrayList<String>();
+    for (UsuariAplicacioBean ua : listOriginal) {
+      String id = ua.getUsuariAplicacioID();
+      ids.add(id);
+    }
+    
+    if (!ids.contains(username)) {
+      Assert.fail("La cerca per id ha fallat. Expected " + username + " dins " + ids.toString());
+    }
+
+  }
+
+}

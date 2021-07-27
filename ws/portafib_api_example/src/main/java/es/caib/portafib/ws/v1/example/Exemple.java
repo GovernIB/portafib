@@ -140,7 +140,7 @@ public class Exemple {
       AnnexBean annex;
       if (getFitxerAAnnexar() == null) {
         annex = PeticioDeFirmaUtils.constructAnnexBeanFromResource(
-            "annex.txt", "text/plain", true, true);
+            "/annex.txt", "text/plain", true, true);
       } else {
         annex = PeticioDeFirmaUtils.constructAnnexBeanFromFile(
             new File(getFitxerAAnnexar()), Constants.PDF_MIME_TYPE, true, true);
@@ -150,7 +150,7 @@ public class Exemple {
       FitxerBean fitxerAFirmar;
       if (getFitxerAFirmar() == null) {
         fitxerAFirmar = PeticioDeFirmaUtils.constructFitxerBeanFromResource(
-             "test.pdf", Constants.PDF_MIME_TYPE);
+             "/test.pdf", Constants.PDF_MIME_TYPE);
       } else {
         File f = new File(getFitxerAFirmar());
         String mime =  "application/octet-stream";
