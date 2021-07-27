@@ -57,27 +57,6 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.jvnet.hudson</groupId>
-      <artifactId>netx</artifactId>
-      <version>0.5-hudson-2</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-swing</artifactId>
-      <version>2.3.0</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-htmlunit-driver</artifactId>
-      <version>2.52.0</version>
-      <scope>test</scope>
-    </dependency>
-
   </dependencies>
 
 </project>
