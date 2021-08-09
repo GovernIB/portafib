@@ -1,33 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<datasources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.ironjacamar.org/doc/schema"
+             xsi:schemaLocation="http://www.ironjacamar.org/doc/schema
+             http://www.ironjacamar.org/doc/schema/datasources_1_2.xsd">
 
-<datasources>
-  <local-tx-datasource>
-    <jndi-name>es.caib.seycon.db.wl</jndi-name>
-
-	<!--   =========== ORACLE ============ -->
-    <!--
-    <connection-url>jdbc:oracle:thin:@oracle_host:1521:bbdd</connection-url>
-    <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
-    <user-name>SEYCON</user-name>
-    <password>SEYCON</password>
-	
-	<valid-connection-checker-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleValidConnectionChecker</valid-connection-checker-class-name>
-    <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
-	
-	<min-pool-size>1</min-pool-size>
-    <max-pool-size>5</max-pool-size>
-	-->
-	
-	
-    <!--   =========== POSTGRESQL ============ -->
-	
-    <connection-url>jdbc:postgresql://localhost:5432/seycon</connection-url>
-    <driver-class>org.postgresql.Driver</driver-class>
-    <user-name>seycon</user-name>
-    <password>seycon</password>
-    
-
-
-  </local-tx-datasource>
-
+  <datasource jndi-name="java:/es.caib.seycon.db.wl" pool-name="seyconDS">
+    <connection-url>jdbc:oracle:thin:@localhost:1521:xe</connection-url>
+    <driver>oracle</driver>
+    <security>
+      <user-name>seycon</user-name>
+      <password>seycon</password>
+    </security>
+  </datasource>
 </datasources>
