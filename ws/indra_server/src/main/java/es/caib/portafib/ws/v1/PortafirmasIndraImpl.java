@@ -255,7 +255,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
    * @param application
    * @throws Exception
    */
-  protected UsuariAplicacioJPA checkUserPassword(Application application) throws SoapFault {
+  private UsuariAplicacioJPA checkUserPassword(Application application) throws SoapFault {
 
     // NOTA: Sempre application és not null.
     String user = application.getUser();
@@ -335,21 +335,21 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     return usuariAplicacio;
   }
 
-  public SoapFault createFaultNoAutenticat() {
+  private SoapFault createFaultNoAutenticat() {
     return createFault(1, "Aplicación no autorizada");
   }
 
-  public SoapFault createFaultErrorGeneral(Throwable th) {
+  private SoapFault createFaultErrorGeneral(Throwable th) {
     return createFault(99, "Error general de los servicios web de portafirmas: "
         + th.getClass().getName());
   }
   
-  public SoapFault createFaultErrorGeneral(String msg) {
+  private SoapFault createFaultErrorGeneral(String msg) {
     return createFault(99, "Error general de los servicios web de portafirmas: "
         + msg);
   }
   
-  public SoapFault createFaultNullPointer() {
+  private SoapFault createFaultNullPointer() {
     return  createFault(99, "Error general de los servicios" +
     		" web de portafirmas: java.lang.NullPointerException");
   }
