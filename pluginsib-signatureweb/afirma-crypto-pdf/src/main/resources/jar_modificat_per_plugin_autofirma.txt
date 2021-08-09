@@ -1,5 +1,0 @@
-
-Aquest jar ha sigut modificat a causa del requeriment de poder descarregar 
-imatges d'un servidor que s'utilitza`an en la rúbrica.
-Aquest codi adaptat el podeu trobar a
- https://github.com/GovernIB/portafib/tree/portafib-2.0/pluginsib-signatureweb/afirma-crypto-pdf

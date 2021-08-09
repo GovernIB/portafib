@@ -252,20 +252,6 @@
       <scope>provided</scope>
     </dependency>
 
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.2</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
-      <artifactId>pluginsib-signatureserver-api</artifactId>
-      <version>3.0.0</version>
-      <scope>test</scope>
-    </dependency>
-
   </dependencies>
 
 </project>
