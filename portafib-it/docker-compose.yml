@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  oracle-db:
+    build: target/classes/oracle11
+    ports:
+      - "1521:1521"
+  jboss52:
+    build: target/classes/jboss52
+    ports:
+      - "8080:8080"
+    depends_on:
+      - oracle-db
+      - mail-service
+    secrets:
+      - keystore.p12
+      - keystore-sia.p12
+      - secret.properties
+  mail-service:
+    image: greenmail/standalone:1.6.4
+    ports:
+      - "3025:3025"
+      - "3110:3110"
+    environment:
+      - GREENMAIL_OPTS=-Dgreenmail.setup.test.all -Dgreenmail.hostname=0.0.0.0 -Dgreenmail.auth.disabled -Dgreenmail.verbose
+secrets:
+  keystore.p12:
+    file: keystore.p12
+  keystore-sia.p12:
+    file: keystore-sia.p12
+  secret.properties:
+    file: secret.properties

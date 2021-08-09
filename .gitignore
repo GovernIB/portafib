@@ -325,3 +325,6 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /apifirmasimple/apifirmasimple-example-web/compile.bat
 /apifirmasimple/z_esborrar
 /VIDEOS
+/portafib-it/secret.properties
+/portafib-it/keystore-sia.p12
+/portafib-it/keystore.p12

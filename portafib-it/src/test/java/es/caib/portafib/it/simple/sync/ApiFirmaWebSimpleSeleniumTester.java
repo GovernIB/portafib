@@ -104,7 +104,7 @@ public class ApiFirmaWebSimpleSeleniumTester {
         int NOMBRE_FIRMES = 1;
         final AtomicInteger firmesCorrectes = new AtomicInteger(0);
 
-        ExecutorService executor = Executors.newFixedThreadPool(25);
+        ExecutorService executor = Executors.newFixedThreadPool(1);
 
         long startTime = System.nanoTime();
 
