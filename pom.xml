@@ -87,7 +87,7 @@
 
     <spring.version>3.1.4.RELEASE</spring.version>
     <springsecurity.version>3.1.4.RELEASE</springsecurity.version>
-    <cxf.version>2.2.12</cxf.version>
+    <cxf.version>3.2.12</cxf.version>
     <bouncycastle.version>1.51</bouncycastle.version>
     <hibernate.version>3.3.2.GA</hibernate.version>
     <hibernate.annotations.version>3.4.0.GA</hibernate.annotations.version>
