@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure>
+    <deployment>
+        <dependencies>
+            <module name="org.apache.cxf" export="true"/>
+            <module name="org.apache.cxf.impl" export="true"/>
+            <module name="org.apache.ws.security"/>
+            <module name="org.apache.xerces" />
+            <module name="org.apache.santuario.xmlsec" />
+            <module name="org.bouncycastle" />
+        </dependencies>
+    </deployment>
+</jboss-deployment-structure>
