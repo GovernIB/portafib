@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<datasources>
-  <local-tx-datasource>
-    <jndi-name>es.caib.portafib.db</jndi-name>
+<datasources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.ironjacamar.org/doc/schema"
+             xsi:schemaLocation="http://www.ironjacamar.org/doc/schema
+             http://www.ironjacamar.org/doc/schema/datasources_1_2.xsd">
 
-    <connection-url>jdbc:oracle:thin:@localhost:1521:xe</connection-url>
-    <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+<datasource jndi-name="java:/es.caib.portafib.db" pool-name="portafibDS">
+  <connection-url>jdbc:oracle:thin:@localhost:1521:xe</connection-url>
+  <driver>oracle</driver>
+  <new-connection-sql>BEGIN EXECUTE IMMEDIATE 'ALTER SESSION SET CURRENT_SCHEMA = portafib'; END;
+  </new-connection-sql>
+  <security>
     <user-name>portafib</user-name>
     <password>portafib</password>
-
-	<valid-connection-checker-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleValidConnectionChecker</valid-connection-checker-class-name>
-    <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
-	<min-pool-size>1</min-pool-size>
-    <max-pool-size>10</max-pool-size>
-  </local-tx-datasource>
+  </security>
+</datasource>
 </datasources>

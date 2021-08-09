@@ -1,10 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<datasources>
-    <local-tx-datasource>
-        <jndi-name>es.caib.portafib.db</jndi-name>
+<datasources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.ironjacamar.org/doc/schema"
+             xsi:schemaLocation="http://www.ironjacamar.org/doc/schema
+             http://www.ironjacamar.org/doc/schema/datasources_1_2.xsd">
+
+    <datasource jndi-name="java:/es.caib.portafib.db" pool-name="portafibDS">
         <connection-url>jdbc:postgresql://localhost:5432/portafib</connection-url>
-        <driver-class>org.postgresql.Driver</driver-class>
-        <user-name>portafib</user-name>
-        <password>portafib</password>
-    </local-tx-datasource>
+        <driver>postgresql</driver>
+        <security>
+            <user-name>portafib</user-name>
+            <password>portafib</password>
+        </security>
+    </datasource>
+
 </datasources>
