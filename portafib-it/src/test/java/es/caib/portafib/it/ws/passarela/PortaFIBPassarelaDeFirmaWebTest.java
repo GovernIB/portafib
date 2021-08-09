@@ -29,7 +29,7 @@ public class PortaFIBPassarelaDeFirmaWebTest extends PortaFIBTestUtils {
 
   @Test
   public void testVersio() {
-    Assert.assertEquals("2.0.21-caib", passarelaDeFirmaWebAPI.getVersion());
+    Assert.assertEquals("2.1.0-caib", passarelaDeFirmaWebAPI.getVersion());
   }
 
 

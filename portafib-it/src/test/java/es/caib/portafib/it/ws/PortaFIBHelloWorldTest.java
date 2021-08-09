@@ -28,9 +28,9 @@ public class PortaFIBHelloWorldTest extends PortaFIBTestUtils {
   @Test
   public void testVersio() throws Exception {
     if (isCAIB()) {
-      Assert.assertEquals("2.0.21-caib", helloWorldApi.getVersion());
+      Assert.assertEquals("2.1.0-caib", helloWorldApi.getVersion());
     } else {
-      Assert.assertEquals("2.0.21", helloWorldApi.getVersion());
+      Assert.assertEquals("2.1.0", helloWorldApi.getVersion());
     }
   }
 
