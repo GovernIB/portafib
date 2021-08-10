@@ -407,10 +407,10 @@ public class TestPDFUtils implements ConstantsV2 {
 
         log.info(" --- FINAL ----");
 
-      } catch (Exception e) {
-        e.printStackTrace();
       } catch (I18NException e) {
         log.info(" Error = " + I18NLogicUtils.getMessage(e, new Locale("ca")));
+        e.printStackTrace();
+      } catch (Exception e) {
         e.printStackTrace();
       }
     }

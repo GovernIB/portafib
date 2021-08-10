@@ -979,11 +979,10 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
       response.getWriter().write(json);
       
-    } catch (Exception e) {
-      log.error(e.getMessage(), e);
-    
     } catch (I18NException e) {
       log.error(I18NUtils.getMessage(e), e);
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
     }
 
     
