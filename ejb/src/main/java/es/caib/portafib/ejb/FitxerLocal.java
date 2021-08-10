@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.IFitxerManager;
 @Local
 public interface FitxerLocal extends IFitxerManager {
 
- public static final String JNDI_NAME = "portafib/FitxerEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/FitxerEJB";
+
   public FitxerJPA findByPrimaryKey(Long _ID_);
 }

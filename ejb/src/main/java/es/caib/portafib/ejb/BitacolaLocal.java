@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.IBitacolaManager;
 @Local
 public interface BitacolaLocal extends IBitacolaManager {
 
- public static final String JNDI_NAME = "portafib/BitacolaEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/BitacolaEJB";
+
   public BitacolaJPA findByPrimaryKey(Long _ID_);
 }

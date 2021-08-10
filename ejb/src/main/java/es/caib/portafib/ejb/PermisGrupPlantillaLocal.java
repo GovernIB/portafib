@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.IPermisGrupPlantillaManager;
 @Local
 public interface PermisGrupPlantillaLocal extends IPermisGrupPlantillaManager {
 
- public static final String JNDI_NAME = "portafib/PermisGrupPlantillaEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/PermisGrupPlantillaEJB";
+
   public PermisGrupPlantillaJPA findByPrimaryKey(Long _ID_);
 }

@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.ICustodiaInfoManager;
 @Local
 public interface CustodiaInfoLocal extends ICustodiaInfoManager {
 
- public static final String JNDI_NAME = "portafib/CustodiaInfoEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/CustodiaInfoEJB";
+
   public CustodiaInfoJPA findByPrimaryKey(Long _ID_);
 }

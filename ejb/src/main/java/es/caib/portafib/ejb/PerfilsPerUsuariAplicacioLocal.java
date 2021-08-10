@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.IPerfilsPerUsuariAplicacioManager;
 @Local
 public interface PerfilsPerUsuariAplicacioLocal extends IPerfilsPerUsuariAplicacioManager {
 
- public static final String JNDI_NAME = "portafib/PerfilsPerUsuariAplicacioEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/PerfilsPerUsuariAplicacioEJB";
+
   public PerfilsPerUsuariAplicacioJPA findByPrimaryKey(Long _ID_);
 }

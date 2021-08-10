@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.IPluginCridadaManager;
 @Local
 public interface PluginCridadaLocal extends IPluginCridadaManager {
 
- public static final String JNDI_NAME = "portafib/PluginCridadaEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/PluginCridadaEJB";
+
   public PluginCridadaJPA findByPrimaryKey(Long _ID_);
 }

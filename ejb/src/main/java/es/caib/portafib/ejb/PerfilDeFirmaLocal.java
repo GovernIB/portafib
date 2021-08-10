@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.IPerfilDeFirmaManager;
 @Local
 public interface PerfilDeFirmaLocal extends IPerfilDeFirmaManager {
 
- public static final String JNDI_NAME = "portafib/PerfilDeFirmaEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/PerfilDeFirmaEJB";
+
   public PerfilDeFirmaJPA findByPrimaryKey(Long _ID_);
 }

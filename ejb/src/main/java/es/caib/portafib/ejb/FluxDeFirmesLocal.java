@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.IFluxDeFirmesManager;
 @Local
 public interface FluxDeFirmesLocal extends IFluxDeFirmesManager {
 
- public static final String JNDI_NAME = "portafib/FluxDeFirmesEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/FluxDeFirmesEJB";
+
   public FluxDeFirmesJPA findByPrimaryKey(Long _ID_);
 }

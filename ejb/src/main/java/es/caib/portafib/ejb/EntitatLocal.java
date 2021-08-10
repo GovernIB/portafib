@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.IEntitatManager;
 @Local
 public interface EntitatLocal extends IEntitatManager {
 
- public static final String JNDI_NAME = "portafib/EntitatEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/EntitatEJB";
+
   public EntitatJPA findByPrimaryKey(String _ID_);
 }

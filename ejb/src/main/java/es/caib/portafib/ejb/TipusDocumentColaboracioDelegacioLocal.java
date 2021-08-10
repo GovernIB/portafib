@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.ITipusDocumentColaboracioDelegacioManager;
 @Local
 public interface TipusDocumentColaboracioDelegacioLocal extends ITipusDocumentColaboracioDelegacioManager {
 
- public static final String JNDI_NAME = "portafib/TipusDocumentColaboracioDelegacioEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/TipusDocumentColaboracioDelegacioEJB";
+
   public TipusDocumentColaboracioDelegacioJPA findByPrimaryKey(Long _ID_);
 }

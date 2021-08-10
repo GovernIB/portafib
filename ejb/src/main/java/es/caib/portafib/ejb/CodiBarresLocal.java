@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.ICodiBarresManager;
 @Local
 public interface CodiBarresLocal extends ICodiBarresManager {
 
- public static final String JNDI_NAME = "portafib/CodiBarresEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/CodiBarresEJB";
+
   public CodiBarresJPA findByPrimaryKey(String _ID_);
 }

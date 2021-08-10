@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.IRevisorDeFirmaManager;
 @Local
 public interface RevisorDeFirmaLocal extends IRevisorDeFirmaManager {
 
- public static final String JNDI_NAME = "portafib/RevisorDeFirmaEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/RevisorDeFirmaEJB";
+
   public RevisorDeFirmaJPA findByPrimaryKey(Long _ID_);
 }

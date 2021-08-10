@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.ITipusDocumentManager;
 @Local
 public interface TipusDocumentLocal extends ITipusDocumentManager {
 
- public static final String JNDI_NAME = "portafib/TipusDocumentEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/TipusDocumentEJB";
+
   public TipusDocumentJPA findByPrimaryKey(Long _ID_);
 }

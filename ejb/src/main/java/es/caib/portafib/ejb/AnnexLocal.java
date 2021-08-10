@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.IAnnexManager;
 @Local
 public interface AnnexLocal extends IAnnexManager {
 
- public static final String JNDI_NAME = "portafib/AnnexEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/AnnexEJB";
+
   public AnnexJPA findByPrimaryKey(Long _ID_);
 }

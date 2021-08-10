@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.IIdiomaManager;
 @Local
 public interface IdiomaLocal extends IIdiomaManager {
 
- public static final String JNDI_NAME = "portafib/IdiomaEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/IdiomaEJB";
+
   public IdiomaJPA findByPrimaryKey(String _ID_);
 }

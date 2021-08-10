@@ -9,6 +9,7 @@ import es.caib.portafib.model.dao.IMetadadaManager;
 @Local
 public interface MetadadaLocal extends IMetadadaManager {
 
- public static final String JNDI_NAME = "portafib/MetadadaEJB/local";
+  public static final String JNDI_NAME = "java:app/portafib-ejb/MetadadaEJB";
+
   public MetadadaJPA findByPrimaryKey(Long _ID_);
 }
