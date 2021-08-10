@@ -50,9 +50,8 @@ public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
 
   public static final String CONTEXTWEB = "/soli/peticiomassiva";
 
-  @EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local")
+  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
-
 
   @RequestMapping(value = "", method = RequestMethod.GET)
   public ModelAndView peticioMassivaGet(HttpServletRequest request) throws I18NException {

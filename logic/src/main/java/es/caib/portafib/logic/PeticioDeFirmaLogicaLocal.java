@@ -31,10 +31,7 @@ import org.fundaciobit.genapp.common.query.Where;
 @Local
 public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
 
-  public static final String BEAN_NAME = "PeticioDeFirmaLogicaEJB";
-  
-  public static final String JNDI_NAME = "portafib/" + BEAN_NAME + "/local";
-  
+  String JNDI_NAME = "java:app/portafib-logic/PeticioDeFirmaLogicaEJB";
   
 
   public PeticioDeFirmaJPA findByPrimaryKeyFull(Long peticioDeFirmaID);

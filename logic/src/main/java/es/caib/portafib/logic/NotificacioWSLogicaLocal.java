@@ -16,8 +16,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface NotificacioWSLogicaLocal extends NotificacioWSLocal {
-  
-  public static final String JNDI_NAME = "portafib/NotificacioLogicaEJB/local";
+
+  String JNDI_NAME = "java:app/portafib-logic/NotificacioWSLogicaEJB";
 
   public NotificacioInfo createFullFromFirmaEvent(FirmaEvent firmaEvent) throws I18NException;
 

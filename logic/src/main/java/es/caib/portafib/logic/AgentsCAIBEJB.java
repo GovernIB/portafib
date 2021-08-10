@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import es.caib.portafib.ejb.UsuariAplicacioLocal;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.utils.EmailUtil;
@@ -53,13 +54,13 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
   @EJB(mappedName = UsuariPersonaNonSecureLogicaLocal.JNDI_NAME)
   protected UsuariPersonaNonSecureLogicaLocal usuariPersonaLogicaNonSecuredEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
+  @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME)
+  protected UsuariAplicacioLocal usuariAplicacioEjb;
 
   @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
   protected FirmaLogicaLocal firmaLogicaEjb;
 
-  @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
+  @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
   private EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
   @Override

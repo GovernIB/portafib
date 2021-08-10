@@ -160,7 +160,7 @@ import java.util.concurrent.TimeUnit;
  * @author anadal(u80067)
  * @author areus
  */
-@Stateless(name = PeticioDeFirmaLogicaLocal.BEAN_NAME)
+@Stateless
 @SecurityDomain("seycon")
 public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
     implements PeticioDeFirmaLogicaLocal, ConstantsV2 {
@@ -174,10 +174,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
   @EJB(mappedName = FitxerLogicaLocal.JNDI_NAME)
   private FitxerLogicaLocal fitxerLogicaEjb;
 
-  @EJB(mappedName = "portafib/FirmaEventManagerEJB/local")
+  @EJB(mappedName = FirmaEventManagerLocal.JNDI_NAME)
   private FirmaEventManagerLocal firmaEventManagerEjb;
 
-  @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
+  @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
   private EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
   @EJB(mappedName = BlocDeFirmesLogicaLocal.JNDI_NAME) // , beanName = "BlocDeFirmesEJB")
@@ -195,7 +195,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
   @EJB(mappedName = RoleUsuariEntitatLocal.JNDI_NAME, beanName = "RoleUsuariEntitatEJB")
   protected RoleUsuariEntitatLocal roleUsuariEntitatEjb;
 
-  @EJB(mappedName = "portafib/MetadadaLogicaEJB/local")
+  @EJB(mappedName = MetadadaLogicaLocal.JNDI_NAME)
   protected MetadadaLogicaLocal metadadaLogicaEjb;
 
   @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME, beanName = "UsuariEntitatEJB")

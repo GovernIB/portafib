@@ -11,8 +11,8 @@ import es.caib.portafib.ejb.PluginLocal;
  */
 @Local
 public interface PluginLogicaLocal extends PluginLocal {
-  
-  public static final String JNDI_NAME = "portafib/PluginLogicaEJB/local";
+
+  String JNDI_NAME = "java:app/portafib-logic/PluginLogicaEJB";
   
   public boolean deleteOfCache(Long pluginID);
   

@@ -23,8 +23,8 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
  */
 @Local
 public interface EstatDeFirmaLogicaLocal extends EstatDeFirmaLocal {
-  
-  public static final String JNDI_NAME = "portafib/EstatDeFirmaLogicaEJB/local";
+
+  String JNDI_NAME = "java:app/portafib-logic/EstatDeFirmaLogicaEJB";
 
   public EstatDeFirmaJPA findByPrimaryKeyUnauthorized(Long id);
   

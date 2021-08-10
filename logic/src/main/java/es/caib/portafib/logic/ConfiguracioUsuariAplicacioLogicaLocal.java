@@ -22,7 +22,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 public interface ConfiguracioUsuariAplicacioLogicaLocal extends
     UsuariAplicacioConfiguracioLocal {
 
-  public static final String JNDI_NAME = "portafib/ConfiguracioUsuariAplicacioLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/ConfiguracioUsuariAplicacioLogicaEJB";
 
   public UsuariAplicacioConfiguracioJPA findByPrimaryKeyUnauthorized(Long _ID_);
   

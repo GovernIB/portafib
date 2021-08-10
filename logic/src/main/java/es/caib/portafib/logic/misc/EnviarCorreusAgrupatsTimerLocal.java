@@ -10,6 +10,6 @@ import javax.ejb.Local;
 @Local
 public interface EnviarCorreusAgrupatsTimerLocal extends AbstractTimerLocal {
 
-  public static final String JNDI_NAME = "portafib/EnviarCorreusAgrupatsTimerEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/EnviarCorreusAgrupatsTimerEJB";
 
 }

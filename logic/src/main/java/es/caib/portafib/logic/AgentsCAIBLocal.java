@@ -13,8 +13,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface AgentsCAIBLocal {
-  
-  public static final String JNDI_NAME = "portafib/AgentsCAIBEJB/local";
+
+  String JNDI_NAME = "java:app/portafib-logic/AgentsCAIBEJB";
 
   public UsuariEntitat processarCarrecCAIB(String tipus,
       String codusu, String nomrol,String valordomini, String agentsql, String nom);

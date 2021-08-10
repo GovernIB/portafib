@@ -9,6 +9,7 @@ import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.jpa.UsuariEntitatFavoritJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.model.entity.UsuariEntitatFavorit;
 
@@ -53,8 +54,8 @@ public class GestioUsuariEntitatFavoritController extends UsuariEntitatFavoritCo
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
 
-  @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
-  protected es.caib.portafib.logic.UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
+  @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
+  protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
   @Autowired
   protected SeleccioUsuariValidator seleccioUsuariValidator;

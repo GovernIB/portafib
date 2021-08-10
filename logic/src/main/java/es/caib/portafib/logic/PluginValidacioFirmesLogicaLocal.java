@@ -17,7 +17,7 @@ import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 public interface PluginValidacioFirmesLogicaLocal extends
     AbstractPluginLogicaLocal<IValidateSignaturePlugin> {
 
-  public static final String JNDI_NAME = "portafib/PluginValidacioFirmesLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/PluginValidacioFirmesLogicaEJB";
 
   public ValidateSignatureResponse validateSignature(final String entitatID, String signType,
       IPortaFIBDataSource signature, IPortaFIBDataSource documentDetached, String languageUI)

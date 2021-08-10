@@ -23,7 +23,7 @@ import org.fundaciobit.genapp.common.query.Where;
 @Local
 public interface UsuariEntitatLogicaLocal extends UsuariEntitatLocal {
 
-  public static final String JNDI_NAME = "portafib/UsuariEntitatLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/UsuariEntitatLogicaEJB";
 
   public UsuariEntitatJPA findByPrimaryKeyFull(String usuariEntitatID);
 

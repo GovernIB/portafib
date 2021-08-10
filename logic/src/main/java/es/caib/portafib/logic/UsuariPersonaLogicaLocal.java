@@ -19,8 +19,8 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
  */
 @Local
 public interface UsuariPersonaLogicaLocal extends UsuariPersonaLocal {
-  
-  public static String JNDI_NAME = "portafib/UsuariPersonaLogicaEJB/local";
+
+  String JNDI_NAME = "java:app/portafib-logic/UsuariPersonaLogicaEJB";
 
   public UsuariPersonaJPA findByPrimaryKeyFull(String paramString);
 

@@ -10,6 +10,7 @@ import es.caib.portafib.back.form.webdb.UsuariPersonaForm;
 import es.caib.portafib.back.reflist.IdiomaSuportatRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
+import es.caib.portafib.ejb.UsuariEntitatLocal;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
@@ -60,10 +61,10 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
+  @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME)
+  protected UsuariEntitatLocal usuariEntitatEjb;
   
-  @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
+  @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
   
   @Autowired

@@ -17,7 +17,7 @@ import java.util.Set;
 public interface ModulDeFirmaWebLogicaLocal extends
     AbstractPluginLogicaLocal<ISignatureWebPlugin> {
 
-  String JNDI_NAME = "portafib/ModulDeFirmaWebLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/ModulDeFirmaWebLogicaEJB";
 
   /**
    * Retorna els plugins de firma web usables per un usuari aplicació en firma síncrona/passarel·la,

@@ -19,8 +19,8 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
  */
 @Local
 public interface ColaboracioDelegacioLogicaLocal extends ColaboracioDelegacioLocal {
-  
-  public static final String JNDI_NAME = "portafib/ColaboracioDelegacioLogicaEJB/local";
+
+	String JNDI_NAME = "java:app/portafib-logic/ColaboracioDelegacioLogicaEJB";
 
   public ColaboracioDelegacioJPA findByPrimaryKeyFull(Long _ID_);
  

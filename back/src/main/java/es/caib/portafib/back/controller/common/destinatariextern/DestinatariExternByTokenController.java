@@ -52,7 +52,7 @@ public class DestinatariExternByTokenController {
 
   protected Logger log = Logger.getLogger(this.getClass());
 
-  @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
+  @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
   protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)

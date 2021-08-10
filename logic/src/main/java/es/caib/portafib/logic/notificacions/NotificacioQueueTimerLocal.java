@@ -12,6 +12,6 @@ import javax.ejb.Local;
 @Local
 public interface NotificacioQueueTimerLocal extends NotificacionsCallBackTimerLocal {
 
-  String JNDI_NAME = "portafib/NotificacioQueueTimerEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/NotificacioQueueTimerEJB";
   
 }

@@ -17,8 +17,8 @@ import java.util.Set;
  */
 @Local
 public interface FitxerLogicaLocal extends FitxerLocal {
-  
-  public static final String JNDI_NAME = "portafib/FitxerLogicaEJB/local";
+
+  String JNDI_NAME = "java:app/portafib-logic/FitxerLogicaEJB";
 
   public FitxerJPA createFull(FitxerJPA fitxer) throws I18NException, I18NValidationException;
 

@@ -29,7 +29,7 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 @Local
 public interface CustodiaInfoLogicaLocal extends CustodiaInfoLocal {
 
-  public static final String JNDI_NAME = "portafib/CustodiaInfoLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/CustodiaInfoLogicaEJB";
   
   public CustodiaInfoJPA findByPrimaryKeyUnathorized(Long _ID_);
 

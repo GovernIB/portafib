@@ -15,6 +15,8 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 @Local
 public interface FirmaEventManagerLocal extends Serializable {
 
+  String JNDI_NAME = "java:app/portafib-logic/FirmaEventManagerEJB";
+
   public Map<FirmaEvent, Throwable> processList(FirmaEventList felist, boolean wakeUpTimer) throws I18NException;
   
 }

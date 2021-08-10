@@ -14,7 +14,7 @@ import javax.ejb.Local;
 @Local
 public interface BitacolaLogicaLocal extends BitacolaLocal {
 
-  String JNDI_NAME = "portafib/BitacolaLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/BitacolaLogicaEJB";
 
   BitacolaJPA createBitacola(InfoBitacola info);
 

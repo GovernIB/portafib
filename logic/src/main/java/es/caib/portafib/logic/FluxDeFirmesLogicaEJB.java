@@ -1,6 +1,9 @@
 package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.FluxDeFirmesEJB;
+import es.caib.portafib.ejb.PermisGrupPlantillaLocal;
+import es.caib.portafib.ejb.PermisUsuariPlantillaLocal;
+import es.caib.portafib.ejb.PeticioDeFirmaLocal;
 import es.caib.portafib.ejb.UsuariEntitatLocal;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;
 import es.caib.portafib.jpa.FirmaJPA;
@@ -9,7 +12,6 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
 import es.caib.portafib.jpa.RevisorDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.jpa.validator.BlocDeFirmesBeanValidator;
 import es.caib.portafib.jpa.validator.BlocDeFirmesValidator;
 import es.caib.portafib.jpa.validator.FluxDeFirmesBeanValidator;
@@ -60,30 +62,28 @@ import java.util.Set;
 public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
     implements FluxDeFirmesLogicaLocal, FluxDeFirmesFields {
 
-  @EJB(mappedName = "portafib/BlocDeFirmesLogicaEJB/local")
+  @EJB(mappedName = BlocDeFirmesLogicaLocal.JNDI_NAME)
   private BlocDeFirmesLogicaLocal blocDeFirmesLogicaEjb;
 
-  @EJB(mappedName = "portafib/UsuariEntitatEJB/local", beanName = "UsuariEntitatEJB")
+  @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME, beanName = "UsuariEntitatEJB")
   protected UsuariEntitatLocal usuariEntitatEjb;
 
-  @EJB(mappedName = "portafib/FirmaLogicaEJB/local", beanName = "FirmaLogicaEJB")
+  @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME, beanName = "FirmaLogicaEJB")
   private FirmaLogicaLocal firmaLogicaEjb;
 
-  @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local", beanName = "PeticioDeFirmaEJB")
-  protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
+  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME, beanName = "PeticioDeFirmaEJB")
+  protected PeticioDeFirmaLocal peticioDeFirmaEjb;
 
   @EJB(mappedName = PlantillaFluxDeFirmesLogicaLocal.JNDI_NAME, beanName = "PlantillaFluxDeFirmesLogicaEJB")
   protected PlantillaFluxDeFirmesLogicaLocal plantillaFluxDeFirmesLogicaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PermisUsuariPlantillaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PermisUsuariPlantillaLocal permisUsuariPlantillaEjb;
+  @EJB(mappedName = PermisUsuariPlantillaLocal.JNDI_NAME)
+  protected PermisUsuariPlantillaLocal permisUsuariPlantillaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PermisGrupPlantillaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PermisGrupPlantillaLocal permisGrupPlantillaEjb;
+  @EJB(mappedName = PermisGrupPlantillaLocal.JNDI_NAME)
+  protected PermisGrupPlantillaLocal permisGrupPlantillaEjb;
 
   protected FluxDeFirmesValidator<FluxDeFirmesJPA> validatorFlux = new FluxDeFirmesValidator<FluxDeFirmesJPA>();
-
-  protected BlocDeFirmesValidator<BlocDeFirmesJPA> validatorBloc = new BlocDeFirmesValidator<BlocDeFirmesJPA>();
 
   @PermitAll
   @Override

@@ -14,7 +14,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 @Local
 public interface PropietatGlobalLogicaLocal extends PropietatGlobalLocal {
 
-  public static final String JNDI_NAME = "portafib/PropietatGlobalLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/PropietatGlobalLogicaEJB";
   
   // === PROPIETATS GLOBALS
 

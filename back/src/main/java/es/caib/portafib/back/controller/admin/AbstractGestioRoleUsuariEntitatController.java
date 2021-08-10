@@ -47,10 +47,10 @@ public abstract class AbstractGestioRoleUsuariEntitatController extends RoleUsua
   public static final String USUARI_PERSONA_HOLDER =
       "AbstractGestioRoleUsuariEntitatController_USUARI_PERSONA_HOLDER";
   
-  @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
+  @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-  @EJB(mappedName = "portafib/RoleUsuariEntitatLogicaEJB/local")
+  @EJB(mappedName = RoleUsuariEntitatLogicaLocal.JNDI_NAME)
   protected RoleUsuariEntitatLogicaLocal roleUsuariEntitatLogicaEjb;
 
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)

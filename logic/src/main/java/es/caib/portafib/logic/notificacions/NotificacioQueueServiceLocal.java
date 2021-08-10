@@ -13,6 +13,8 @@ import javax.ejb.Local;
 @Local
 public interface NotificacioQueueServiceLocal {
 
+  String JNDI_NAME = "java:app/portafib-logic/NotificacioQueueServiceEJB";
+
   long encolarNotificacionsPendents() throws I18NException;
 
   long recrearNotificacio(NotificacioInfo info) throws I18NException;

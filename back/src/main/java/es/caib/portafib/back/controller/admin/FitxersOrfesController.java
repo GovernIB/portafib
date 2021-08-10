@@ -7,6 +7,13 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
+import es.caib.portafib.ejb.AnnexFirmatLocal;
+import es.caib.portafib.ejb.AnnexLocal;
+import es.caib.portafib.ejb.ColaboracioDelegacioLocal;
+import es.caib.portafib.ejb.EntitatLocal;
+import es.caib.portafib.ejb.FirmaLocal;
+import es.caib.portafib.ejb.PeticioDeFirmaLocal;
+import es.caib.portafib.ejb.UsuariPersonaLocal;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.OrderBy;
@@ -39,26 +46,26 @@ import es.caib.portafib.model.fields.UsuariPersonaFields;
 @SessionAttributes(types = { FitxerForm.class, FitxerFilterForm.class })
 public class FitxersOrfesController extends FitxerController {
   
-  @EJB(mappedName = "portafib/AnnexEJB/local")
-  protected es.caib.portafib.ejb.AnnexLocal annexEjb;
+  @EJB(mappedName = AnnexLocal.JNDI_NAME)
+  protected AnnexLocal annexEjb;
   
-  @EJB(mappedName = "portafib/ColaboracioDelegacioEJB/local")
-  protected es.caib.portafib.ejb.ColaboracioDelegacioLocal colaboracioDelegacioEjb;
+  @EJB(mappedName = ColaboracioDelegacioLocal.JNDI_NAME)
+  protected ColaboracioDelegacioLocal colaboracioDelegacioEjb;
   
-  @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
-  protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
+  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
+  protected PeticioDeFirmaLocal peticioDeFirmaEjb;
   
-  @EJB(mappedName = "portafib/FirmaEJB/local")
-  protected es.caib.portafib.ejb.FirmaLocal firmaEjb;
+  @EJB(mappedName = FirmaLocal.JNDI_NAME)
+  protected FirmaLocal firmaEjb;
   
-  @EJB(mappedName = "portafib/AnnexFirmatEJB/local")
-  protected es.caib.portafib.ejb.AnnexFirmatLocal annexFirmatEjb;
+  @EJB(mappedName = AnnexFirmatLocal.JNDI_NAME)
+  protected AnnexFirmatLocal annexFirmatEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+  @EJB(mappedName = EntitatLocal.JNDI_NAME)
+  protected EntitatLocal entitatEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariPersonaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariPersonaLocal usuariPersonaEjb;
+  @EJB(mappedName = UsuariPersonaLocal.JNDI_NAME)
+  protected UsuariPersonaLocal usuariPersonaEjb;
 
   @Override
   public String getTileList() {

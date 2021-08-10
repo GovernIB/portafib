@@ -5,6 +5,8 @@ import es.caib.portafib.back.controller.webdb.EntitatController;
 import es.caib.portafib.back.form.webdb.CustodiaInfoRefList;
 import es.caib.portafib.back.form.webdb.EntitatFilterForm;
 import es.caib.portafib.back.form.webdb.EntitatForm;
+import es.caib.portafib.ejb.PropietatGlobalLocal;
+import es.caib.portafib.ejb.UsuariAplicacioLocal;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.logic.EntitatLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatsConstants;
@@ -55,14 +57,14 @@ import java.util.Set;
 @RequestMapping(value = "/admin/entitat")
 public class GestioEntitatAdminController extends EntitatController implements ConstantsV2, ConstantsPortaFIB {
 
-  @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
-  protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
+  @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME)
+  protected UsuariAplicacioLocal usuariAplicacioEjb;
 
   @EJB(mappedName = EntitatLogicaLocal.JNDI_NAME)
   protected EntitatLogicaLocal entitatLogicaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.PropietatGlobalLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PropietatGlobalLocal propietatGlobalEjb;
+  @EJB(mappedName = PropietatGlobalLocal.JNDI_NAME)
+  protected PropietatGlobalLocal propietatGlobalEjb;
 
   @Override
   public String getTileForm() {

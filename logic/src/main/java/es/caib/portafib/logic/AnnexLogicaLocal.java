@@ -16,8 +16,8 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
  */
 @Local
 public interface AnnexLogicaLocal extends AnnexLocal {
-  
-  public static final String JNDI_NAME = "portafib/AnnexLogicaEJB/local";
+
+  String JNDI_NAME = "java:app/portafib-logic/AnnexLogicaEJB";
 
   public Set<Long> deleteFull(long annexID) throws I18NException;
 

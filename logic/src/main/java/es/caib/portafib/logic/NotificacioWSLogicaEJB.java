@@ -22,7 +22,7 @@ import java.sql.Timestamp;
  * @author anadal
  *
  */
-@Stateless(name = "NotificacioLogicaEJB")
+@Stateless(name = "NotificacioWSLogicaEJB")
 @SecurityDomain("seycon")
 public class NotificacioWSLogicaEJB extends NotificacioWSEJB 
   implements NotificacioWSLogicaLocal {

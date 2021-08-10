@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface SignatureServiceLocal {
 
-    String JNDI_NAME = "portafib/SignatureServiceEJB/local";
+    String JNDI_NAME = "java:app/portafib-logic/SignatureServiceEJB";
 
     List<Signature> getSignatures(Fitxer fitxer) throws I18NException;
 

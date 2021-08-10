@@ -36,7 +36,7 @@ public class BlocDeFirmesLogicaEJB extends BlocDeFirmesEJB
   @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
   protected FirmaLogicaLocal firmaLogicaEjb;
   
-  @EJB(mappedName = "portafib/UsuariEntitatEJB/local", beanName = "UsuariEntitatEJB")
+  @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME, beanName = "UsuariEntitatEJB")
   private UsuariEntitatLocal usuariEntitatEjb;
 
   @Override

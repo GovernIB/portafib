@@ -4,6 +4,7 @@ package es.caib.portafib.back.controller.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.caib.portafib.ejb.UsuariAplicacioLocal;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
@@ -42,10 +43,10 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 @RequestMapping(value = "/admin/gestiotipusdoc")
 public class GestioTipusDocumentAdminController extends TipusDocumentController {
 
-	@EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
-	protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
+	@EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME)
+	protected UsuariAplicacioLocal usuariAplicacioEjb;
 
-	@EJB(mappedName = "portafib/TipusDocumentLogicaEJB/local")
+	@EJB(mappedName = TipusDocumentLogicaLocal.JNDI_NAME)
 	protected TipusDocumentLogicaLocal tipusDocumentLogicaEjb;
 
 	@PostConstruct

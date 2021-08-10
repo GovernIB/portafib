@@ -1,5 +1,7 @@
 package es.caib.portafib.back.controller.rest.tipusdocumental;
 
+import es.caib.portafib.ejb.IdiomaLocal;
+import es.caib.portafib.ejb.TipusDocumentLocal;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import es.caib.portafib.back.controller.rest.RestUtils;
 import es.caib.portafib.jpa.TipusDocumentJPA;
 import es.caib.portafib.jpa.TraduccioMapJPA;
-import es.caib.portafib.logic.EntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.model.entity.TipusDocument;
@@ -40,22 +41,15 @@ import java.util.Locale;
 @RequestMapping(value = "/public/rest")
 public class RestTipusDocumentalController extends RestUtils {
 
-  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
+  @EJB(mappedName = TipusDocumentLocal.JNDI_NAME)
+  protected TipusDocumentLocal tipusDocumentEjb;
 
-  @EJB(mappedName = "portafib/UsuariAplicacioLogicaEJB/local")
+  @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
   protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
 
-  @EJB(mappedName = "portafib/EntitatLogicaEJB/local")
-  protected EntitatLogicaLocal entitatLogicaEjb;
+  @EJB(mappedName = IdiomaLocal.JNDI_NAME)
+  protected IdiomaLocal idiomaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
-
-  /**
-   * Obtiene los {@link es.caib.dir3caib.persistence.model.Unidad} por
-   * denominacion
-   */
   @RequestMapping(value = "/tipusdocument/v1/list", method = RequestMethod.GET)
   @ResponseBody
   public ResponseEntity<?> tipusDocumental(
@@ -142,7 +136,7 @@ public class RestTipusDocumentalController extends RestUtils {
    * @author anadal
    *
    */
-  public class TipusDocumentRest {
+  public static class TipusDocumentRest {
 
     protected long tipusDocumentID;
 
@@ -150,19 +144,10 @@ public class RestTipusDocumentalController extends RestUtils {
 
     protected Long tipusDocumentNTI;
 
-    /**
-       * 
-       */
     public TipusDocumentRest() {
       super();
     }
 
-    /**
-     * 
-     * @param tipusDocumentID
-     * @param nom
-     * @param tipusDocumentNTI
-     */
     public TipusDocumentRest(long tipusDocumentID, String nom, Long tipusDocumentNTI) {
       super();
       this.tipusDocumentID = tipusDocumentID;

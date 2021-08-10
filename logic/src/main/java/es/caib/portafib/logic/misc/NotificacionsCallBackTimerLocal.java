@@ -10,7 +10,7 @@ import javax.ejb.Local;
 @Local
 public interface NotificacionsCallBackTimerLocal /* extends AbstractTimerLocal */ {
 
-  public static final String JNDI_NAME = "portafib/NotificacionsCallBackTimerEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/NotificacionsCallBackTimerEJB";
 
   /**
    * 

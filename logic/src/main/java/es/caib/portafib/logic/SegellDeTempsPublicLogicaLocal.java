@@ -10,6 +10,6 @@ import javax.ejb.Local;
 @Local
 public interface SegellDeTempsPublicLogicaLocal extends SegellDeTempsLogicaLocal {
 
-  public static final String JNDI_NAME = "portafib/SegellDeTempsPublicLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/SegellDeTempsPublicLogicaEJB";
 
 }

@@ -13,6 +13,8 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 @Local
 public interface MetadadaLogicaLocal extends MetadadaLocal {
 
+  String JNDI_NAME = "java:app/portafib-logic/MetadadaLogicaEJB";
+
   public MetadadaJPA createFull(MetadadaJPA metadada) throws I18NException;
 
 }

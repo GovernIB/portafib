@@ -21,13 +21,13 @@ import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 @Local
 public interface SegellDeTempsLogicaLocal extends AbstractPluginLogicaLocal<ITimeStampPlugin> {
 
+  String JNDI_NAME = "java:app/portafib-logic/SegellDeTempsLogicaEJB";
+
   /*
    * Si es modifica el valor d'aquesta constant llavors s'ha d'adaptar el web.xml del projecte
    * back.
    */
   public static final String CONTEXTWEB_FOR_TIMESTAMP_GENERATOR_PER_FIRMA_EN_SERVIDOR = "/common/timestampgenerator";
-
-  public static final String JNDI_NAME = "portafib/SegellDeTempsLogicaEJB/local";
 
   public String getTimeStampUrl(String basePath, Long pluginID);
 

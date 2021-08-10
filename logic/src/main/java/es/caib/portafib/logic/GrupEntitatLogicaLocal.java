@@ -12,10 +12,8 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
  */
 @Local
 public interface GrupEntitatLogicaLocal extends GrupEntitatLocal {
-  
- 
 
-  public static final String JNDI_NAME = "portafib/GrupEntitatLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/GrupEntitatLogicaEJB";
 
   public void deleteFull(Long grupEntitatID) throws I18NException ;
 

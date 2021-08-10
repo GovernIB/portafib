@@ -17,7 +17,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 @Local
 public interface EntitatLogicaLocal extends EntitatLocal {
 
-  public static final String JNDI_NAME = "portafib/EntitatLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/EntitatLogicaEJB";
 
   public void deleteFull(String entitatID) throws I18NException;
   

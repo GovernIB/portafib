@@ -61,13 +61,11 @@ public class PortaFIBUsuariAplicacioWsImpl extends AuthenticatedBaseV1WsImpl
 
   public static final String NAME_WS = NAME + "Ws";
 
-  @EJB(mappedName = "portafib/UsuariAplicacioLogicaEJB/local")
+  @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
   protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
   
-  @EJB(mappedName = "portafib/FitxerLogicaEJB/local")
+  @EJB(mappedName = FitxerLogicaLocal.JNDI_NAME)
   private FitxerLogicaLocal fitxerLogicaEjb;
-
-
 
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
@@ -95,14 +93,6 @@ public class PortaFIBUsuariAplicacioWsImpl extends AuthenticatedBaseV1WsImpl
 
     return bean;
   }
-  
-  
-  /**
-   * 
-   * @WebParam(name = "usuariAplicacioBean", mode = WebParam.Mode.INOUT )
-   *   javax.xml.ws.Holder<UsuariAplicacioBean> usuariAplicacioBeanHolder)
-   */
-  
 
   @WebMethod
   @RolesAllowed({ PFI_ADMIN })

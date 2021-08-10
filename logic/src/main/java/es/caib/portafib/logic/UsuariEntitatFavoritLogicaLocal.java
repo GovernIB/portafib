@@ -11,5 +11,6 @@ import javax.ejb.Local;
 @Local
 public interface UsuariEntitatFavoritLogicaLocal extends UsuariEntitatFavoritLocal {
 
+    String JNDI_NAME = "java:app/portafib-logic/UsuariEntitatFavoritLogicaEJB";
 
 }

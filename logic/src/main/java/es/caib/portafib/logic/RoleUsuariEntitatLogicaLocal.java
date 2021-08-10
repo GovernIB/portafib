@@ -21,8 +21,8 @@ import org.fundaciobit.genapp.common.query.Where;
  */
 @Local
 public interface RoleUsuariEntitatLogicaLocal extends RoleUsuariEntitatLocal {
-  
-  public static final String JNDI_NAME = "portafib/RoleUsuariEntitatLogicaEJB/local";
+
+	String JNDI_NAME = "java:app/portafib-logic/RoleUsuariEntitatLogicaEJB";
   
 	public void deleteFull(String usuariEntitatID, String roleID)
 	   throws Exception, I18NException;

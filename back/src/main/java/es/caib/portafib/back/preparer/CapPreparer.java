@@ -30,9 +30,8 @@ public class CapPreparer extends ViewPreparerSupport implements IdiomaFields {
   
   protected final Logger log = Logger.getLogger(getClass());
   
-  @EJB(mappedName = "portafib/IdiomaEJB/local")
+  @EJB(mappedName = IdiomaLocal.JNDI_NAME)
   private IdiomaLocal idiomaEjb;
-  
   
   public static String menuLogOutUrl = null;
   

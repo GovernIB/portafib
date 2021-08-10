@@ -13,6 +13,6 @@ import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 public interface PluginDeCustodiaLogicaLocal extends
     AbstractPluginLogicaLocal<IDocumentCustodyPlugin> {
 
-  public static final String JNDI_NAME = "portafib/PluginDeCustodiaLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/PluginDeCustodiaLogicaEJB";
 
 }

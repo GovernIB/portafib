@@ -11,7 +11,9 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
  */
 @Local
 public interface TipusDocumentLogicaLocal extends TipusDocumentLocal {
-	
+
+  String JNDI_NAME = "java:app/portafib-logic/TipusDocumentLogicaEJB";
+
   public void deleteFull(TipusDocumentJPA tipusDocument) throws Exception, I18NException;
   public TipusDocumentJPA create(TipusDocumentJPA tipusDocument, boolean generateID) throws Exception, I18NException;
 }

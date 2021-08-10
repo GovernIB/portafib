@@ -13,7 +13,7 @@ import javax.ejb.Local;
 @Local
 public interface UsuariAplicacioConfiguracioLogicaLocal extends UsuariAplicacioConfiguracioLocal {
 
-   String JNDI_NAME = "portafib/UsuariAplicacioConfiguracioLogicaEJB/local";
+   String JNDI_NAME = "java:app/portafib-logic/UsuariAplicacioConfiguracioLogicaEJB";
 
    @Override
    void delete(UsuariAplicacioConfiguracio instance);

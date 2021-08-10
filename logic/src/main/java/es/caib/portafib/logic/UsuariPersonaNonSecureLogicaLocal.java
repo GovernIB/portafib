@@ -10,7 +10,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface UsuariPersonaNonSecureLogicaLocal extends UsuariPersonaLogicaLocal {
-  
-  String JNDI_NAME = "portafib/UsuariPersonaNonSecureLogicaEJB/local";
+
+  String JNDI_NAME = "java:app/portafib-logic/UsuariPersonaNonSecureLogicaEJB";
 
 }

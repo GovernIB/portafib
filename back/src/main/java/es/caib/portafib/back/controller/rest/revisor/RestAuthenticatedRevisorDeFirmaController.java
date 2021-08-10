@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.ejb.RevisorDeFirmaLocal;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.springframework.http.HttpHeaders;
@@ -56,16 +57,16 @@ public class RestAuthenticatedRevisorDeFirmaController extends RestUtils {
   @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
   protected FirmaLogicaLocal firmaLogicaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
+  @EJB(mappedName = RevisorDeFirmaLocal.JNDI_NAME)
+  protected RevisorDeFirmaLocal revisorDeFirmaEjb;
 
-  @EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local")
+  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
 
-  @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
+  @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-  @EJB(mappedName = "portafib/RoleUsuariEntitatLogicaEJB/local")
+  @EJB(mappedName = RoleUsuariEntitatLogicaLocal.JNDI_NAME)
   protected RoleUsuariEntitatLogicaLocal roleUsuariEntitatLogicaEjb;
 
   @RequestMapping(value = "/" + ApiRestRevisorDeFirma.ADD_REVISOR_DE_FIRMA, method = RequestMethod.POST)

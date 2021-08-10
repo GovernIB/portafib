@@ -28,10 +28,8 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.hibernate.Hibernate;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
-import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,14 +42,10 @@ import java.util.Set;
  * @author anadal
  * 
  */
-@Stateless(name = UsuariAplicacioLogicaLocal.BEAN_NAME)
+@Stateless
 @SecurityDomain(ConstantsV2.SECURITY_DOMAIN)
 public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
     UsuariAplicacioLogicaLocal {
-    
-    
-  @Resource
-  SessionContext ctx;
 
   @EJB(mappedName = EntitatLocal.JNDI_NAME, beanName = "EntitatEJB")
   protected EntitatLocal entitatEjb;
@@ -62,7 +56,7 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
   @EJB(mappedName = TipusDocumentLocal.JNDI_NAME, beanName = "TipusDocumentEJB")
   protected TipusDocumentLocal tipusDocumentEjb;
 
-  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME, beanName = PeticioDeFirmaLogicaLocal.BEAN_NAME)
+  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME, beanName = "PeticioDeFirmaLogicaEJB")
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
   
   @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)

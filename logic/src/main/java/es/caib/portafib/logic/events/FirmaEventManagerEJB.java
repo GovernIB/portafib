@@ -70,13 +70,13 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
   @EJB(mappedName = EstatDeFirmaLocal.JNDI_NAME, beanName = "EstatDeFirmaEJB")
   private EstatDeFirmaLocal estatDeFirmaEjb;
 
-  @EJB(mappedName = "portafib/RebreAvisLogicaEJB/local")
+  @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
   private RebreAvisLogicaLocal rebreAvisLogicaEjb;
   
-  @EJB(mappedName = "portafib/TipusNotificacioEJB/local")
+  @EJB(mappedName = TipusNotificacioLocal.JNDI_NAME)
   private TipusNotificacioLocal tipusNotificacioEjb;
 
-  @EJB(mappedName = "portafib/NotificacioLogicaEJB/local")
+  @EJB(mappedName = NotificacioWSLogicaLocal.JNDI_NAME)
   protected NotificacioWSLogicaLocal notificacioLogicaEjb;
 
   protected final Logger log = Logger.getLogger(getClass());

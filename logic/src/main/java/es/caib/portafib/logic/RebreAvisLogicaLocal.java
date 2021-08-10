@@ -11,7 +11,7 @@ import javax.ejb.Local;
 @Local
 public interface RebreAvisLogicaLocal extends RebreAvisLocal {
 
-  String JNDI_NAME = "portafib/RebreAvisLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/RebreAvisLogicaEJB";
 
   boolean isAgruparCorreus(final String usuariEntitatId, final long eventID);
 

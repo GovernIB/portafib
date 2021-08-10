@@ -26,7 +26,7 @@ import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 @Local
 public interface PassarelaDeFirmaWebLocal extends AbstractPassarelaDeFirmaLocal {
 
-  public static final String JNDI_NAME = "portafib/PassarelaDeFirmaWebEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/PassarelaDeFirmaWebEJB";
 
   public static final String PASSARELA_CONTEXTPATH = "/public/passarela";
 

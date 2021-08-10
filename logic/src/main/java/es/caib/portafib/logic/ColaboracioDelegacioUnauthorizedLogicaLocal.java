@@ -11,4 +11,5 @@ import javax.ejb.Local;
 public interface ColaboracioDelegacioUnauthorizedLogicaLocal 
    extends ColaboracioDelegacioLogicaLocal {
 
+    String JNDI_NAME = "java:app/portafib-logic/ColaboracioDelegacioUnauthorizedLogicaEJB";
 }

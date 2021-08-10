@@ -15,8 +15,8 @@ import java.util.List;
  */
 @Local
 public interface RevisorDeFirmaLogicaLocal extends RevisorDeFirmaLocal {
-  
-  String JNDI_NAME = "portafib/RevisorDeFirmaLogicaEJB/local";
+
+  String JNDI_NAME = "java:app/portafib-logic/RevisorDeFirmaLogicaEJB";
 
   List<RevisorDeFirma> getRevisorsFirma(long firmaID) throws I18NException;
 

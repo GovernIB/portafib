@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.caib.portafib.ejb.RoleUsuariEntitatLocal;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -58,15 +59,14 @@ public class SearchJSONController {
 
   protected static final Logger log = Logger.getLogger(SearchJSONController.class);
 
-  @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
+  @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
  
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.RoleUsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.RoleUsuariEntitatLocal roleUsuariEntitatEjb;
-
+  @EJB(mappedName = RoleUsuariEntitatLocal.JNDI_NAME)
+  protected RoleUsuariEntitatLocal roleUsuariEntitatEjb;
 
   @Autowired
   protected UsuariEntitatJSONRefList usuariEntitatRefList;

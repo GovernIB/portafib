@@ -5,6 +5,7 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import es.caib.portafib.ejb.GrupEntitatLocal;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.SelectConstant;
@@ -41,11 +42,11 @@ public class GestioUsuarisDeGrupController extends GrupEntitatUsuariEntitatContr
 
   public static final String _GRUPENTITATID_ = "grupEntitatId";
 
-  @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
+  @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.GrupEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.GrupEntitatLocal grupEntitatEjb;
+  @EJB(mappedName = GrupEntitatLocal.JNDI_NAME)
+  protected GrupEntitatLocal grupEntitatEjb;
   
   @PostConstruct
   public void init() {

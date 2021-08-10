@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import es.caib.portafib.ejb.AnnexEJB;
+import es.caib.portafib.ejb.AnnexFirmatLocal;
 import es.caib.portafib.ejb.FitxerLocal;
 import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.model.entity.Annex;
@@ -29,11 +30,11 @@ public class AnnexLogicaEJB extends AnnexEJB implements AnnexLogicaLocal,
     AnnexFields {
 
 
-  @EJB(mappedName = "portafib/FitxerEJB/local")
+  @EJB(mappedName = FitxerLocal.JNDI_NAME)
   private FitxerLocal fitxerEjb;
 
-  @EJB(mappedName = "portafib/AnnexFirmatEJB/local")
-  protected es.caib.portafib.ejb.AnnexFirmatLocal annexFirmatEjb;
+  @EJB(mappedName = AnnexFirmatLocal.JNDI_NAME)
+  protected AnnexFirmatLocal annexFirmatEjb;
   
   
   @Override

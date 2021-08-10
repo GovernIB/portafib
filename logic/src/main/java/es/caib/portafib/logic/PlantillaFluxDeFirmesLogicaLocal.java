@@ -13,7 +13,7 @@ import javax.ejb.Local;
 @Local
 public interface PlantillaFluxDeFirmesLogicaLocal extends PlantillaFluxDeFirmesLocal {
 
-  public static final String JNDI_NAME = "portafib/PlantillaFluxDeFirmesLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/PlantillaFluxDeFirmesLogicaEJB";
 
   public PlantillaFluxDeFirmesJPA findByPrimaryKeyFull(Long PlantillaFluxDeFirmesID);
 

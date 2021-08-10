@@ -23,7 +23,7 @@ import org.fundaciobit.genapp.common.query.Where;
 @Local
 public interface FluxDeFirmesLogicaLocal extends FluxDeFirmesLocal {
 
-  public static final String JNDI_NAME = "portafib/FluxDeFirmesLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/FluxDeFirmesLogicaEJB";
 
   public List<FluxDeFirmesJPA> selectPlantilla(Where paramWhere) throws I18NException;
 

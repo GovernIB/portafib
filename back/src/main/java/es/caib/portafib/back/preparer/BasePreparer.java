@@ -42,7 +42,7 @@ public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
 
     protected final Logger log = Logger.getLogger(getClass());
 
-    @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
+    @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
     protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
     @Override

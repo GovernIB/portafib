@@ -16,6 +16,8 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
+import es.caib.portafib.ejb.EstatDeFirmaLocal;
+import es.caib.portafib.ejb.UsuariAplicacioLocal;
 import es.caib.portafib.jpa.ColaboracioDelegacioJPA;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.FitxerJPA;
@@ -129,17 +131,17 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
     public static final ValueComparator valueComparator = new ValueComparator();
 
-    @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
+    @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
     protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-    @EJB(mappedName = "portafib/ColaboracioDelegacioLogicaEJB/local")
+    @EJB(mappedName = ColaboracioDelegacioLogicaLocal.JNDI_NAME)
     protected ColaboracioDelegacioLogicaLocal colaboracioDelegacioLogicaEjb;
 
-    @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
-    protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
+    @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME)
+    protected UsuariAplicacioLocal usuariAplicacioEjb;
 
-    @EJB(mappedName = "portafib/EstatDeFirmaEJB/local")
-    protected es.caib.portafib.ejb.EstatDeFirmaLocal estatDeFirmaEjb;
+    @EJB(mappedName = EstatDeFirmaLocal.JNDI_NAME)
+    protected EstatDeFirmaLocal estatDeFirmaEjb;
 
     @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
     protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;

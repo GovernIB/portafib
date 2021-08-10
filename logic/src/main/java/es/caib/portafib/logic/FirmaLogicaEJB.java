@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import es.caib.portafib.ejb.AnnexFirmatLocal;
 import es.caib.portafib.ejb.EstatDeFirmaLocal;
 import es.caib.portafib.ejb.FirmaEJB;
 import es.caib.portafib.ejb.FitxerLocal;
+import es.caib.portafib.ejb.RevisorDeFirmaLocal;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.RevisorDeFirmaJPA;
 import es.caib.portafib.model.entity.AnnexFirmat;
@@ -33,17 +35,17 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 @SecurityDomain("seycon")
 public class FirmaLogicaEJB extends FirmaEJB implements FirmaLogicaLocal {
 
-  @EJB(mappedName = "portafib/EstatDeFirmaEJB/local")
+  @EJB(mappedName = EstatDeFirmaLocal.JNDI_NAME)
   private EstatDeFirmaLocal estatDeFirmaEjb;
 
-  @EJB(mappedName = "portafib/FitxerEJB/local")
+  @EJB(mappedName = FitxerLocal.JNDI_NAME)
   private FitxerLocal fitxerEjb;
 
-  @EJB(mappedName = "portafib/AnnexFirmatEJB/local")
-  protected es.caib.portafib.ejb.AnnexFirmatLocal annexFirmatEjb;
+  @EJB(mappedName = AnnexFirmatLocal.JNDI_NAME)
+  protected AnnexFirmatLocal annexFirmatEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
+  @EJB(mappedName = RevisorDeFirmaLocal.JNDI_NAME)
+  protected RevisorDeFirmaLocal revisorDeFirmaEjb;
   
   @Override
   @PermitAll

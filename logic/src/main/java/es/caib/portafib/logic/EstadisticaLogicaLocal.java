@@ -15,7 +15,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 @Local
 public interface EstadisticaLogicaLocal extends EstadisticaLocal {
 
-  public static final String JNDI_NAME = "portafib/EstadisticaLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/EstadisticaLogicaEJB";
 
   public Estadistica createUnauthorized(Estadistica estadistica) throws I18NException;
 }

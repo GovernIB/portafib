@@ -5,6 +5,7 @@ import javax.ejb.EJBAccessException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import es.caib.portafib.ejb.IdiomaLocal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,8 +22,8 @@ import es.caib.portafib.model.entity.Idioma;
 public class DesenvolupamentController {
 
   
-  @EJB(mappedName = "portafib/IdiomaEJB/local")
-  private es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  @EJB(mappedName = IdiomaLocal.JNDI_NAME)
+  private IdiomaLocal idiomaEjb;
   
   @RequestMapping(value = "/deletemethod")
   public ModelAndView deleteMethod(HttpServletRequest request,

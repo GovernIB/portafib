@@ -14,6 +14,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import es.caib.portafib.ejb.EstatDeFirmaLocal;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -52,26 +53,25 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
         implements ColaboracioDelegacioLogicaLocal {
 
     @EJB(mappedName = RoleUsuariEntitatLocal.JNDI_NAME)
-    protected es.caib.portafib.ejb.RoleUsuariEntitatLocal roleUsuariEntitatEjb;
+    protected RoleUsuariEntitatLocal roleUsuariEntitatEjb;
 
-    @EJB(mappedName = "portafib/EstatDeFirmaEJB/local")
-    protected es.caib.portafib.ejb.EstatDeFirmaLocal estatDeFirmaEjb;
+    @EJB(mappedName = EstatDeFirmaLocal.JNDI_NAME)
+    protected EstatDeFirmaLocal estatDeFirmaEjb;
 
     @EJB(mappedName = TipusDocumentColaboracioDelegacioLocal.JNDI_NAME)
-    protected es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioLocal tipusDocumentColaboracioDelegacioEjb;
+    protected TipusDocumentColaboracioDelegacioLocal tipusDocumentColaboracioDelegacioEjb;
 
     @EJB(mappedName = FitxerLocal.JNDI_NAME)
     private FitxerLocal fitxerEjb;
 
-    @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
-    protected es.caib.portafib.logic.UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
+    @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
+    protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
     @EJB(mappedName = EntitatLocal.JNDI_NAME)
-    protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+    protected EntitatLocal entitatEjb;
 
     @EJB(mappedName = ValidacioCompletaFirmaLogicaLocal.JNDI_NAME)
     protected ValidacioCompletaFirmaLogicaLocal validacioCompletaLogicaEjb;
-
 
     @Override
     public ColaboracioDelegacioJPA findByPrimaryKeyFull(Long _ID_) {

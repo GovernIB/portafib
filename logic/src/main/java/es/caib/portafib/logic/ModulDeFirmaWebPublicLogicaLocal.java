@@ -10,6 +10,6 @@ import javax.ejb.Local;
 @Local
 public interface ModulDeFirmaWebPublicLogicaLocal extends ModulDeFirmaWebLogicaLocal {
 
-  public static final String JNDI_NAME = "portafib/ModulDeFirmaWebPublicLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/ModulDeFirmaWebPublicLogicaEJB";
 
 }

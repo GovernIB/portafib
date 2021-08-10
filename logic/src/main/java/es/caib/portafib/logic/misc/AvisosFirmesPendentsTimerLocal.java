@@ -10,6 +10,6 @@ import javax.ejb.Local;
 @Local
 public interface AvisosFirmesPendentsTimerLocal extends AbstractTimerLocal {
 
-  public static final String JNDI_NAME = "portafib/AvisosFirmesPendentsTimerEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/AvisosFirmesPendentsTimerEJB";
 
 }

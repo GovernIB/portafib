@@ -19,7 +19,7 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 @Local
 public interface BlocDeFirmesLogicaLocal extends BlocDeFirmesLocal {
 
-  public static final String JNDI_NAME = "portafib/BlocDeFirmesLogicaEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/BlocDeFirmesLogicaEJB";
   
   public Set<Long> deleteFull(Long blocDeFirmaID) throws I18NException;
   

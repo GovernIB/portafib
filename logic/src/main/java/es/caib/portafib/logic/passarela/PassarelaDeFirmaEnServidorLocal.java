@@ -22,28 +22,14 @@ import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 @Local
 public interface PassarelaDeFirmaEnServidorLocal extends AbstractPassarelaDeFirmaLocal {
 
-  public static final String JNDI_NAME = "portafib/PassarelaDeFirmaEnServidorEJB/local";
+  String JNDI_NAME = "java:app/portafib-logic/PassarelaDeFirmaEnServidorEJB";
 
-  /**
-   * NOTA: Qualsevol error s'ha de retornar en ApiDeFirmaServidorResults
-   * 
-   * @param signaturesSet
-   * @param entitatID
-   * @param usrApp
-   * @return resultats o errors segons com hagi finalitzat
-   */
-  public PassarelaSignatureInServerResults signDocuments(PassarelaSignaturesSet signaturesSet,
+  PassarelaSignatureInServerResults signDocuments(PassarelaSignaturesSet signaturesSet,
       EntitatJPA entitat, UsuariAplicacioJPA usrApp, 
       PerfilDeFirma perfilDeFirma, Map<String, UsuariAplicacioConfiguracioJPA> configBySignID)
          throws NoCompatibleSignaturePluginException;
 
-  /**
-   * 
-   * @param signature
-   * @param signTypeForm
-   * @return
-   */
-  public UpgradeResponse upgradeSignature(FirmaSimpleFile signature, FirmaSimpleFile detachedDocument,
+  UpgradeResponse upgradeSignature(FirmaSimpleFile signature, FirmaSimpleFile detachedDocument,
       FirmaSimpleFile targetCertificate, SignatureTypeFormEnumForUpgrade signTypeForm,
       UsuariAplicacioJPA usrApp, PerfilDeFirma perfil, UsuariAplicacioConfiguracio config, 
       EntitatJPA entitat, String languageUI) throws NoCompatibleSignaturePluginException, I18NException;

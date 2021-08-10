@@ -16,9 +16,7 @@ import java.util.Set;
 @Local
 public interface UsuariAplicacioLogicaLocal extends UsuariAplicacioLocal {
 
-  public static final String BEAN_NAME = "UsuariAplicacioLogicaEJB";
-
-  public static final String JNDI_NAME = "portafib/" + BEAN_NAME + "/local";
+  String JNDI_NAME = "java:app/portafib-logic/UsuariAplicacioLogicaEJB";
 
   public UsuariAplicacioJPA findByPrimaryKeyFull(String _usuariAplicacioID_);
 

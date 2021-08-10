@@ -3,6 +3,7 @@ package es.caib.portafib.back.controller.admin;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
+import es.caib.portafib.ejb.PeticioDeFirmaLocal;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Where;
@@ -31,23 +32,19 @@ import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
 @SessionAttributes(types = { FluxDeFirmesForm.class, FluxDeFirmesFilterForm.class })
 public class FluxDeFirmesOrfesController extends FluxDeFirmesController {
 
-  @EJB(mappedName = "portafib/FluxDeFirmesLogicaEJB/local")
+  @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)
   private FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
-  
-  
-  @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
-  protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
+
+  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
+  protected PeticioDeFirmaLocal peticioDeFirmaEjb;
 
   @EJB(mappedName = PlantillaFluxDeFirmesLocal.JNDI_NAME)
   private PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;
-
 
   @Override
   public String getTileList() {
     return "fluxDeFirmesOrfes";
   }
-  
-
 
   @Override
   public boolean isActiveFormNew() {

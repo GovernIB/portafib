@@ -18,6 +18,8 @@ import org.fundaciobit.genapp.common.query.Where;
 @Local
 public interface WebServicesMethodsLocal extends PeticioDeFirmaLogicaLocal {
 
+  String JNDI_NAME = "java:app/portafib-logic/WebServicesMethodsEJB";
+
   public PeticioDeFirmaJPA createAndStartPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma, String usuariAplicacioID)
     throws Exception, I18NException, I18NValidationException;
 

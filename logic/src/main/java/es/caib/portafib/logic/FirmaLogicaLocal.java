@@ -17,8 +17,8 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
  */
 @Local
 public interface FirmaLogicaLocal extends FirmaLocal {
-  
-  public static final String JNDI_NAME = "portafib/FirmaLogicaEJB/local";
+
+  String JNDI_NAME = "java:app/portafib-logic/FirmaLogicaEJB";
 
   public Set<Long> deleteFull(long firmaID) throws I18NException;
 

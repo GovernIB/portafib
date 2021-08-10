@@ -22,7 +22,7 @@ import javax.ejb.EJB;
 public abstract class PortaFIBFilesBaseController<I extends IGenAppEntity, PK extends Object, F extends BaseForm>
    extends CommonFilesBaseController<I, PK, F, Fitxer> {
 
-  @EJB(mappedName = "portafib/FitxerEJB/local")
+  @EJB(mappedName = FitxerLocal.JNDI_NAME)
   protected FitxerLocal fitxerEjb;
 
   protected final Logger log = Logger.getLogger(getClass());
@@ -35,11 +35,6 @@ public abstract class PortaFIBFilesBaseController<I extends IGenAppEntity, PK ex
     return new PortaFIBFilesFormManager(fitxerEjb);
   }
 
-  /**
-   * 
-   * @param arxiu
-   * @return
-   */
   public boolean deleteFile(Long fileID) {
     if (fileID != null) {
       Fitxer file = null;

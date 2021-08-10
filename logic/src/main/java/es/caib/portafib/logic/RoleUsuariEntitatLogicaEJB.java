@@ -7,6 +7,8 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import es.caib.portafib.ejb.RoleLocal;
+import es.caib.portafib.ejb.UsuariEntitatLocal;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
@@ -36,16 +38,16 @@ import es.caib.portafib.utils.ConstantsV2;
 public class RoleUsuariEntitatLogicaEJB extends RoleUsuariEntitatEJB
 		implements RoleUsuariEntitatLogicaLocal, ConstantsV2 {
 
-	@EJB(mappedName = "portafib/UsuariEntitatEJB/local")
-	protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
+  @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME)
+  protected UsuariEntitatLocal usuariEntitatEjb;
 	
-  @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
+  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
   private PeticioDeFirmaLocal peticioDeFirmaEjb;
 	
-  @EJB(mappedName = es.caib.portafib.ejb.RoleLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.RoleLocal roleEjb;
+  @EJB(mappedName = RoleLocal.JNDI_NAME)
+  protected RoleLocal roleEjb;
 
-  RoleUsuariEntitatLogicValidator<RoleUsuariEntitatJPA> validator = new RoleUsuariEntitatLogicValidator<RoleUsuariEntitatJPA>();
+  private final RoleUsuariEntitatLogicValidator<RoleUsuariEntitatJPA> validator = new RoleUsuariEntitatLogicValidator<RoleUsuariEntitatJPA>();
 
   /* Necessari pq des del component de fluxes es usuaris puguin donar d'alta usuaris externs. */
   @Override

@@ -56,19 +56,19 @@ import java.util.Set;
 public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   implements EstatDeFirmaLogicaLocal, ConstantsV2 {
 
-  @EJB(mappedName = "portafib/FirmaEJB/local", beanName = "FirmaEJB")
+  @EJB(mappedName = FirmaLocal.JNDI_NAME, beanName = "FirmaEJB")
   private FirmaLocal firmaEjb;
 
-  @EJB(mappedName = "portafib/BlocDeFirmesEJB/local", beanName = "BlocDeFirmesEJB")
+  @EJB(mappedName = BlocDeFirmesLocal.JNDI_NAME, beanName = "BlocDeFirmesEJB")
   private BlocDeFirmesLocal blocDeFirmesEjb;
 
-  @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local", beanName = "PeticioDeFirmaEJB")
+  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME, beanName = "PeticioDeFirmaEJB")
   protected PeticioDeFirmaLocal peticioDeFirmaEjb;
   
   @EJB(mappedName = NotificacioWSLocal.JNDI_NAME, beanName = "NotificacioWSEJB")
   protected NotificacioWSLocal notificacioWSEjb;
 
-  @EJB(mappedName = "portafib/UsuariAplicacioEJB/local", beanName = "UsuariAplicacioEJB")
+  @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME, beanName = "UsuariAplicacioEJB")
   protected UsuariAplicacioLocal usuariAplicacioEjb;
 
   @Override

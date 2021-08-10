@@ -1,6 +1,8 @@
 package es.caib.portafib.ws.v1;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
+import es.caib.portafib.ejb.AnnexFirmatLocal;
+import es.caib.portafib.ejb.TipusDocumentLocal;
 import es.caib.portafib.jpa.AnnexFirmatJPA;
 import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;
@@ -200,41 +202,35 @@ public class PortafirmasIndraImpl implements Cws, Constants {
 
   protected Logger log = Logger.getLogger(getClass());
 
-  @EJB(mappedName = "portafib/UsuariAplicacioLogicaEJB/local")
+  @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
   private UsuariAplicacioLogicaLocal usuariAplicacioEjb;
 
-  @EJB(mappedName = "portafib/IdiomaEJB/local")
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
-
-  @EJB(mappedName = "portafib/TipusDocumentLogicaEJB/local")
+  @EJB(mappedName = TipusDocumentLogicaLocal.JNDI_NAME)
   protected TipusDocumentLogicaLocal tipusDocumentLogicaEjb;
 
-  @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local", beanName = "UsuariEntitatLogicaEJB")
+  @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME, beanName = "UsuariEntitatLogicaEJB")
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-  @EJB(mappedName = "portafib/RoleUsuariEntitatEJB/local", beanName = "RoleUsuariEntitatEJB")
-  protected es.caib.portafib.ejb.RoleUsuariEntitatLocal roleUsuariEntitatEjb;
-
-  @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
+  @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
   protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
   
-  @EJB(mappedName = "portafib/TipusDocumentEJB/local", beanName = "TipusDocumentEJB")
-  protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
+  @EJB(mappedName = TipusDocumentLocal.JNDI_NAME, beanName = "TipusDocumentEJB")
+  protected TipusDocumentLocal tipusDocumentEjb;
   
-  @EJB(mappedName = "portafib/WebServicesMethodsEJB/local")
+  @EJB(mappedName = WebServicesMethodsLocal.JNDI_NAME)
   protected WebServicesMethodsLocal webServicesMethodsEjb;
   
-  @EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local", beanName = "PeticioDeFirmaLogicaEJB")
+  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME, beanName = "PeticioDeFirmaLogicaEJB")
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
   
-  @EJB(mappedName = "portafib/FitxerLogicaEJB/local")
+  @EJB(mappedName = FitxerLogicaLocal.JNDI_NAME)
   protected FitxerLogicaLocal fitxerLogicaEjb;
   
-  @EJB(mappedName = "portafib/FirmaLogicaEJB/local")
+  @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
   protected FirmaLogicaLocal firmaLogicaEjb;
   
-  @EJB(mappedName = "portafib/AnnexFirmatEJB/local")
-  protected es.caib.portafib.ejb.AnnexFirmatLocal annexFirmatEjb;
+  @EJB(mappedName = AnnexFirmatLocal.JNDI_NAME)
+  protected AnnexFirmatLocal annexFirmatEjb;
   
   @Resource
   WebServiceContext wsContext;
