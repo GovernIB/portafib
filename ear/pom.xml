@@ -661,6 +661,7 @@
                   <groupId>es.caib.portafib</groupId>
                   <artifactId>portafib-ws-indra-callback-server</artifactId>
                   <contextRoot>portafib/portafirmascb</contextRoot>
+                  <bundleFileName>portafib-ws-indra-callback-server.jar</bundleFileName>
                 </webModule>
               </modules>
             </configuration>
@@ -693,6 +694,7 @@
                 <ejbModule>
                   <groupId>es.caib.portafib</groupId>
                   <artifactId>portafib-ws-indra-server</artifactId>
+                  <bundleFileName>portafib-ws-indra-server.jar</bundleFileName>
                 </ejbModule>
               </modules>
             </configuration>
@@ -780,16 +782,19 @@
                 <ejbModule>
                   <groupId>es.caib.portafib</groupId>
                   <artifactId>portafib-ws-callback-server</artifactId>
+                  <bundleFileName>portafib-ws-callback-server.jar</bundleFileName>
                 </ejbModule>
                 <webModule>
                   <groupId>es.caib.portafib</groupId>
                   <artifactId>portafib-ws-callback-server-web</artifactId>
                   <contextRoot>portafib/portafibcb</contextRoot>
+                  <bundleFileName>portafib-ws-callback-server-web.war</bundleFileName>
                 </webModule>
                 <webModule>
                   <groupId>es.caib.portafib</groupId>
                   <artifactId>portafib-callback-server-rest</artifactId>
                   <contextRoot>portafib/cbrest</contextRoot>
+                  <bundleFileName>portafib-callback-server-rest.war</bundleFileName>
                 </webModule>
               </modules>
             </configuration>
@@ -868,21 +873,25 @@
               <groupId>es.caib.portafib</groupId>
               <artifactId>portafib-back</artifactId>
               <contextRoot>portafib</contextRoot>
+              <bundleFileName>portafib-back.war</bundleFileName>
             </webModule>
 
             <ejbModule>
               <groupId>es.caib.portafib</groupId>
               <artifactId>portafib-ejb</artifactId>
+              <bundleFileName>portafib-ejb.jar</bundleFileName>
             </ejbModule>
 
             <ejbModule>
               <groupId>es.caib.portafib</groupId>
               <artifactId>portafib-logic</artifactId>
+              <bundleFileName>portafib-logic.jar</bundleFileName>
             </ejbModule>
 
             <jarModule>
               <groupId>es.caib.portafib</groupId>
               <artifactId>portafib-persistence-jta</artifactId>
+              <bundleFileName>portafib-persistence-jta.jar</bundleFileName>
             </jarModule>
 
             <!-- Sempre l'afegim, però podria passar que el jar estas buit 
@@ -890,6 +899,7 @@
             <ejbModule>
               <groupId>es.caib.portafib</groupId>
               <artifactId>portafib-ws-server</artifactId>
+              <bundleFileName>portafib-ws-server.jar</bundleFileName>
             </ejbModule>
 
           </modules>
