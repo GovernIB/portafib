@@ -12,7 +12,6 @@
 <%@page import="org.jboss.web.tomcat.security.login.WebAuthentication"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="es.caib.portafib.hibernate.HibernateFileUtil"%>
-<%@page import="es.caib.portafib.hibernate.HibernateUtil"%>
 <%@page import="es.caib.portafib.logic.utils.PropietatGlobalUtil"%><%@page
   import="org.apache.log4j.Logger"%><%@page
   import="es.caib.portafib.utils.Configuracio"%><%@ page
