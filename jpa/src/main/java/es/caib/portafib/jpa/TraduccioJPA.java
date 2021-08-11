@@ -3,25 +3,26 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import org.hibernate.annotations.Cascade;
-import javax.persistence.SequenceGenerator;
-import java.util.Map;
-import javax.persistence.Id;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.LazyCollection;
-import javax.persistence.GenerationType;
-import org.hibernate.annotations.Index;
+import javax.persistence.Entity;
 import javax.persistence.JoinTable;
 import org.hibernate.annotations.ForeignKey;
-import java.util.HashMap;
-import java.util.HashSet;
-import javax.persistence.OneToMany;
-import javax.persistence.Entity;
-import org.hibernate.annotations.CollectionOfElements;
-import java.util.Set;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import java.util.Set;
+import java.util.HashMap;
+import org.hibernate.annotations.Cascade;
+import java.util.HashSet;
+import javax.persistence.GenerationType;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.GeneratedValue;
+import org.hibernate.annotations.Index;
+import javax.persistence.SequenceGenerator;
+import java.util.Map;
+import javax.persistence.FetchType;
+import javax.persistence.ElementCollection;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import javax.persistence.Id;
 
 
 @Entity
@@ -168,11 +169,11 @@ private static final long serialVersionUID = -326205279L;
 	}
 
 
-  @CollectionOfElements(fetch= FetchType.EAGER,targetElement = es.caib.portafib.jpa.TraduccioMapJPA.class)
+  @ElementCollection(fetch = FetchType.EAGER, targetClass = es.caib.portafib.jpa.TraduccioMapJPA.class)
   @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
   @LazyCollection(value= LazyCollectionOption.FALSE)
   @JoinTable(name="pfi_traducciomap",joinColumns={@JoinColumn(name="traducciomapid")})
-  @org.hibernate.annotations.MapKey(columns={@Column(name="idiomaid")})
+  @MapKeyColumn(name = "idiomaid")
   @ForeignKey(name="pfi_traducmap_traduccio_fk") 
   private Map<String, es.caib.portafib.jpa.TraduccioMapJPA> traduccions =  new HashMap<String, es.caib.portafib.jpa.TraduccioMapJPA>();
 
@@ -238,25 +239,25 @@ private static final long serialVersionUID = -326205279L;
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugin_descripciocurtaids) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugin_descripciocurtaids())) ) {
       __tmp.setPlugin_descripciocurtaids(PluginJPA.copyJPA(__jpa.getPlugin_descripciocurtaids(), __alreadyCopied,"TraduccioJPA"));
     }
-    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracio_motiudelegacioids) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracio_motiudelegacioids())) ) {
-      __tmp.setUsuariAplicacioConfiguracio_motiudelegacioids(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracio_motiudelegacioids(), __alreadyCopied,"TraduccioJPA"));
-    }
-    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracio_firmatperformatids) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracio_firmatperformatids())) ) {
-      __tmp.setUsuariAplicacioConfiguracio_firmatperformatids(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracio_firmatperformatids(), __alreadyCopied,"TraduccioJPA"));
-    }
     if(!"TipusDocumentJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocuments) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocuments())) ) {
       __tmp.setTipusDocuments(TipusDocumentJPA.copyJPA(__jpa.getTipusDocuments(), __alreadyCopied,"TraduccioJPA"));
+    }
+    if(!"EntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_motiudelegacioids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_motiudelegacioids())) ) {
+      __tmp.setEntitat_motiudelegacioids(EntitatJPA.copyJPA(__jpa.getEntitat_motiudelegacioids(), __alreadyCopied,"TraduccioJPA"));
     }
     if(!"PluginJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugin_nomids) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugin_nomids())) ) {
       __tmp.setPlugin_nomids(PluginJPA.copyJPA(__jpa.getPlugin_nomids(), __alreadyCopied,"TraduccioJPA"));
     }
-    if(!"EntitatJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_motiudelegacioids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_motiudelegacioids())) ) {
-      __tmp.setEntitat_motiudelegacioids(EntitatJPA.copyJPA(__jpa.getEntitat_motiudelegacioids(), __alreadyCopied,"TraduccioJPA"));
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracio_firmatperformatids) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracio_firmatperformatids())) ) {
+      __tmp.setUsuariAplicacioConfiguracio_firmatperformatids(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracio_firmatperformatids(), __alreadyCopied,"TraduccioJPA"));
+    }
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracio_motiudelegacioids) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracio_motiudelegacioids())) ) {
+      __tmp.setUsuariAplicacioConfiguracio_motiudelegacioids(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracio_motiudelegacioids(), __alreadyCopied,"TraduccioJPA"));
     }
     if(!"EntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_firmatperformatids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_firmatperformatids())) ) {
