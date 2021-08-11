@@ -7,7 +7,7 @@
             <module name="org.apache.ws.security"/>
             <module name="org.apache.xerces" />
             <module name="org.apache.santuario.xmlsec" />
-            <module name="org.bouncycastle" />
+            <module name="org.bouncycastle" export="true"/>
         </dependencies>
     </deployment>
 </jboss-deployment-structure>
