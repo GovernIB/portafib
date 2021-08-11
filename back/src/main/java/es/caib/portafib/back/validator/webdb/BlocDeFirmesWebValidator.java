@@ -2,6 +2,7 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -26,10 +27,10 @@ public class BlocDeFirmesWebValidator  implements Validator, BlocDeFirmesFields 
   protected BlocDeFirmesValidator<Object> validator = new BlocDeFirmesValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/BlocDeFirmesEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.BlocDeFirmesLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.BlocDeFirmesLocal blocDeFirmesEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/FluxDeFirmesEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.FluxDeFirmesLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.FluxDeFirmesLocal fluxDeFirmesEjb;
 
 

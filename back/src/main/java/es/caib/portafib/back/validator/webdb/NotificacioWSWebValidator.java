@@ -2,6 +2,7 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -26,10 +27,10 @@ public class NotificacioWSWebValidator  implements Validator, NotificacioWSField
   protected NotificacioWSValidator<Object> validator = new NotificacioWSValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/NotificacioWSEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.NotificacioWSLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.NotificacioWSLocal notificacioWSEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/TipusNotificacioEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.TipusNotificacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusNotificacioLocal tipusNotificacioEjb;
 
 

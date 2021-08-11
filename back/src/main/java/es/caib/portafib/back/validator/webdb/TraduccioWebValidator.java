@@ -2,6 +2,7 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -26,7 +27,7 @@ public class TraduccioWebValidator  implements Validator, TraduccioFields {
   protected TraduccioValidator<Object> validator = new TraduccioValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/TraduccioEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.TraduccioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TraduccioLocal traduccioEjb;
 
 

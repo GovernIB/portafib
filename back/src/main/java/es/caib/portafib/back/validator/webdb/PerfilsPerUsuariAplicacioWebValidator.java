@@ -2,6 +2,7 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -26,13 +27,13 @@ public class PerfilsPerUsuariAplicacioWebValidator  implements Validator, Perfil
   protected PerfilsPerUsuariAplicacioValidator<Object> validator = new PerfilsPerUsuariAplicacioValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/PerfilDeFirmaEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.PerfilDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PerfilDeFirmaLocal perfilDeFirmaEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/PerfilsPerUsuariAplicacioEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal perfilsPerUsuariAplicacioEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
 
 

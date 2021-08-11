@@ -2,6 +2,7 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -26,28 +27,28 @@ public class PeticioDeFirmaWebValidator  implements Validator, PeticioDeFirmaFie
   protected PeticioDeFirmaValidator<Object> validator = new PeticioDeFirmaValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/CustodiaInfoEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/FluxDeFirmesEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.FluxDeFirmesLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.FluxDeFirmesLocal fluxDeFirmesEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/IdiomaEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.PeticioDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/TipusDocumentEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/UsuariAplicacioConfiguracioEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal usuariAplicacioConfiguracioEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/UsuariEntitatEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
 
 

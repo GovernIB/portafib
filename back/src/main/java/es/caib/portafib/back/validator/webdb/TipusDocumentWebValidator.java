@@ -2,6 +2,7 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -26,13 +27,13 @@ public class TipusDocumentWebValidator  implements Validator, TipusDocumentField
   protected TipusDocumentValidator<Object> validator = new TipusDocumentValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/TipusDocumentEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/TraduccioEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.TraduccioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TraduccioLocal traduccioEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
 
 

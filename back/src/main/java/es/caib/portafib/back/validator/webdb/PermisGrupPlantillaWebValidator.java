@@ -2,6 +2,7 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -26,13 +27,13 @@ public class PermisGrupPlantillaWebValidator  implements Validator, PermisGrupPl
   protected PermisGrupPlantillaValidator<Object> validator = new PermisGrupPlantillaValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/GrupEntitatEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.GrupEntitatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.GrupEntitatLocal grupEntitatEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/PermisGrupPlantillaEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.PermisGrupPlantillaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PermisGrupPlantillaLocal permisGrupPlantillaEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/PlantillaFluxDeFirmesEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;
 
 

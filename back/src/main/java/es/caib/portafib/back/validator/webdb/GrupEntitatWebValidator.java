@@ -2,6 +2,7 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -26,10 +27,10 @@ public class GrupEntitatWebValidator  implements Validator, GrupEntitatFields {
   protected GrupEntitatValidator<Object> validator = new GrupEntitatValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/EntitatEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/GrupEntitatEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.GrupEntitatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.GrupEntitatLocal grupEntitatEjb;
 
 

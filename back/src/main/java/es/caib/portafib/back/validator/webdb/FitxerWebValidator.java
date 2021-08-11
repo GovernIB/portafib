@@ -2,6 +2,7 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -26,7 +27,7 @@ public class FitxerWebValidator  implements Validator, FitxerFields {
   protected FitxerValidator<Object> validator = new FitxerValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/FitxerEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.FitxerLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.FitxerLocal fitxerEjb;
 
 

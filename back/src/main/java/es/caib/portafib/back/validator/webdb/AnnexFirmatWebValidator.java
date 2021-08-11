@@ -2,6 +2,7 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -27,13 +28,13 @@ public class AnnexFirmatWebValidator  implements Validator, AnnexFirmatFields {
   protected AnnexFirmatValidator<Object> validator = new AnnexFirmatValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/AnnexEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.AnnexLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.AnnexLocal annexEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/AnnexFirmatEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.AnnexFirmatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.AnnexFirmatLocal annexFirmatEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/FirmaEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.FirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.FirmaLocal firmaEjb;
 
 

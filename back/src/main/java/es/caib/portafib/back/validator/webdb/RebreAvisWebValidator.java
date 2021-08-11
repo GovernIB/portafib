@@ -2,6 +2,7 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -26,13 +27,13 @@ public class RebreAvisWebValidator  implements Validator, RebreAvisFields {
   protected RebreAvisValidator<Object> validator = new RebreAvisValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/RebreAvisEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.RebreAvisLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.RebreAvisLocal rebreAvisEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/TipusNotificacioEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.TipusNotificacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusNotificacioLocal tipusNotificacioEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/UsuariEntitatEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
 
 

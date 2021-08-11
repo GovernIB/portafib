@@ -2,6 +2,7 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -26,16 +27,16 @@ public class UsuariAplicacioConfiguracioWebValidator  implements Validator, Usua
   protected UsuariAplicacioConfiguracioValidator<Object> validator = new UsuariAplicacioConfiguracioValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/EntitatEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/PluginEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.PluginLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PluginLocal pluginEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/TraduccioEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.TraduccioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TraduccioLocal traduccioEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/UsuariAplicacioConfiguracioEJB/local")
+  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal usuariAplicacioConfiguracioEjb;
 
 
