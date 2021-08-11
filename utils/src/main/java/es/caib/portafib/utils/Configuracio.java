@@ -1,5 +1,8 @@
 package es.caib.portafib.utils;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.Locale;
 
 /**
@@ -9,6 +12,14 @@ import java.util.Locale;
  */
 public class Configuracio implements ConstantsV2 {
 
+  static {
+    String propertyFileName = System.getProperty("es.caib.portafib.properties");
+    try (Reader reader = new FileReader(propertyFileName)){
+      System.getProperties().load(reader);
+    } catch (IOException ioe) {
+      throw new RuntimeException(ioe);
+    }
+  }
 
   public static boolean isCAIB() {
     return Boolean.getBoolean(PORTAFIB_PROPERTY_BASE + "iscaib");
