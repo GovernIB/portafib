@@ -273,9 +273,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
       // ROLS ADEN
       if (ROLE_ADEN.equals(rol)) {
         // Revisar si hi ha notificacion que donen errors
-        Where whereAvisosAden = getWhereAvisosAden(entitatID);
-        log.warn(whereAvisosAden.toSQL());
-        Long count = notificacioWSEjb.count(whereAvisosAden);
+        Long count = notificacioWSEjb.count(getWhereAvisosAden(entitatID));
         if (count > 0) {
           avisos.put(ROLE_ADEN2, count);
         }
