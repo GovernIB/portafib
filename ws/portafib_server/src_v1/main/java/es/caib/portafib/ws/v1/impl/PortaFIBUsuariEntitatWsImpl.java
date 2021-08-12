@@ -29,8 +29,8 @@ import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
 import org.fundaciobit.pluginsib.userinformation.UserInfo;
 import org.jboss.ejb3.annotation.SecurityDomain;
-import org.jboss.wsf.spi.annotation.TransportGuarantee;
-import org.jboss.wsf.spi.annotation.WebContext;
+import org.jboss.ws.api.annotation.TransportGuarantee;
+import org.jboss.ws.api.annotation.WebContext;
 
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
@@ -64,7 +64,7 @@ import java.util.Set;
             serviceName = PortaFIBUsuariEntitatWsImpl.NAME_WS + "Service",
             endpointInterface = "es.caib.portafib.ws.v1.impl." + PortaFIBUsuariEntitatWsImpl.NAME_WS)
 @WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
-    + PortaFIBUsuariEntitatWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "WSBASIC")
+    + PortaFIBUsuariEntitatWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "BASIC")
 public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl implements PortaFIBUsuariEntitatWs {
 
   public static final String NAME = "PortaFIBUsuariEntitat";

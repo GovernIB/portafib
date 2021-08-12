@@ -9,8 +9,8 @@ import javax.validation.constraints.Null;
 
 import es.caib.portafib.utils.Constants;
 import org.jboss.ejb3.annotation.SecurityDomain;
-import org.jboss.wsf.spi.annotation.TransportGuarantee;
-import org.jboss.wsf.spi.annotation.WebContext;
+import org.jboss.ws.api.annotation.TransportGuarantee;
+import org.jboss.ws.api.annotation.WebContext;
 
 import es.caib.portafib.ws.v1.utils.BaseV1WsImpl;
 

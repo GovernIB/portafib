@@ -22,8 +22,8 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
 import org.jboss.ejb3.annotation.SecurityDomain;
-import org.jboss.wsf.spi.annotation.TransportGuarantee;
-import org.jboss.wsf.spi.annotation.WebContext;
+import org.jboss.ws.api.annotation.TransportGuarantee;
+import org.jboss.ws.api.annotation.WebContext;
 
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
@@ -52,7 +52,7 @@ import es.caib.portafib.ws.v1.utils.PassarelaConversion;
     + "Service", endpointInterface = "es.caib.portafib.ws.v1.impl."
     + PortaFIBPassarelaDeFirmaWebWsImpl.NAME_WS)
 @WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
-    + PortaFIBPassarelaDeFirmaWebWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "WSBASIC")
+    + PortaFIBPassarelaDeFirmaWebWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "BASIC")
 public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarelaDeFirmaWsImpl
     implements PortaFIBPassarelaDeFirmaWebWs, Constants {
 
