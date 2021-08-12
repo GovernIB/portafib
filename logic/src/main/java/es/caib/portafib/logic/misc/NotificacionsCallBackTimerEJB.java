@@ -25,6 +25,7 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -63,6 +64,7 @@ import static es.caib.portafib.utils.ConstantsV2.NOTIFICACIOAVIS_PETICIO_REBUTJA
 @Stateless(name = "NotificacionsCallBackTimerEJB")
 @SecurityDomain("seycon")
 @RunAs(ConstantsV2.PFI_ADMIN)
+@PermitAll
 public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimerLocal {
 
   @Resource

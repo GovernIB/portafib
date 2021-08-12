@@ -1,5 +1,6 @@
 package es.caib.portafib.logic.misc;
 
+import javax.annotation.security.RolesAllowed;
 import javax.annotation.security.RunAs;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -17,6 +18,7 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 @Stateless(name = "EnviarCorreusAgrupatsTimerEJB")
 @SecurityDomain("seycon")
 @RunAs("PFI_ADMIN")
+@RolesAllowed("PFI_ADMIN")
 public class EnviarCorreusAgrupatsTimerEJB extends AbstractTimerEJB implements
     EnviarCorreusAgrupatsTimerLocal {
 

@@ -13,6 +13,8 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.ejb3.annotation.TransactionTimeout;
 
 import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
+import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -34,6 +36,7 @@ import java.util.List;
  */
 @Stateless
 @SecurityDomain("seycon")
+@RolesAllowed(ConstantsV2.PFI_ADMIN)
 public class NotificacioQueueServiceEJB implements NotificacioQueueServiceLocal {
 
   private static final Logger log = Logger.getLogger(NotificacioQueueServiceEJB.class);
@@ -44,7 +47,7 @@ public class NotificacioQueueServiceEJB implements NotificacioQueueServiceLocal 
   @Resource(mappedName="java:/JmsXA")
   ConnectionFactory connectionFactory;
 
-  @Resource(mappedName="jms/es.caib.portafib.PortaFIBNotificacionsQueue")
+  @Resource(mappedName="java:/jms/es.caib.portafib.PortaFIBNotificacionsQueue")
   private Queue queue;
 
   private List<NotificacioWS> getNotificacionsPendents() throws I18NException {

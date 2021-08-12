@@ -2,6 +2,7 @@ package es.caib.portafib.jpa;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -81,6 +82,7 @@ public abstract class AbstractPortaFIBJPAManager<I extends IGenAppEntity, PK ext
   //public abstract Select<I> getSelectAll(); 
   
   @SuppressWarnings("unchecked")
+  @PermitAll
   public List<I> select(Where where, OrderBy ... orderBy) throws I18NException {
     return select(where, null, null, orderBy);
   }

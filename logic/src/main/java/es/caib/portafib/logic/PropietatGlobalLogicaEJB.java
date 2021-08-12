@@ -2,6 +2,7 @@ package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.PropietatGlobalEJB;
 import java.util.List;
+import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
@@ -14,6 +15,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  */
 @Stateless(name = "PropietatGlobalLogicaEJB")
 @SecurityDomain("seycon")
+@PermitAll
 public class PropietatGlobalLogicaEJB extends PropietatGlobalEJB implements PropietatGlobalLogicaLocal {
 
   @Override

@@ -68,6 +68,7 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
   }
 
   @Override
+  @PermitAll
   public UsuariPersonaJPA findByPrimaryKeyFull(String _usuariPersonaID_) {
     UsuariPersonaJPA upJPA = findByPrimaryKey(_usuariPersonaID_);
     if (upJPA != null) {

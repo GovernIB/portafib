@@ -3,6 +3,7 @@ package es.caib.portafib.logic.misc;
 import java.util.Arrays;
 import java.util.Collection;
 
+import javax.annotation.security.RolesAllowed;
 import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -23,6 +24,7 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 @Stateless(name = "AvisosFirmesPendentsTimerEJB")
 @SecurityDomain("seycon")
 @RunAs("PFI_ADMIN")
+@RolesAllowed("PFI_ADMIN")
 public class AvisosFirmesPendentsTimerEJB extends AbstractTimerEJB implements
     AvisosFirmesPendentsTimerLocal {
   

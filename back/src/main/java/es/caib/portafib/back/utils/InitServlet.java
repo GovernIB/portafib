@@ -38,7 +38,7 @@ import java.util.Locale;
  * @author anadal
  * 
  */
-@RunAs("PFI_USER")
+@RunAs("PFI_ADMIN")
 @Component
 public class InitServlet extends HttpServlet {
 

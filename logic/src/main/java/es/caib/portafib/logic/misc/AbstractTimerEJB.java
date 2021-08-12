@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.SessionContext;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
@@ -20,6 +21,7 @@ import org.quartz.impl.triggers.CronTriggerImpl;
  * @author anadal
  *
  */
+@RolesAllowed("PFI_ADMIN")
 public abstract class AbstractTimerEJB implements AbstractTimerLocal {
   
  

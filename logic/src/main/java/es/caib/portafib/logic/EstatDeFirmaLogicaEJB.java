@@ -31,6 +31,8 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.hibernate.Hibernate;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
@@ -77,11 +79,13 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   }
   
   @Override
+  @PermitAll
   public EstatDeFirmaJPA findByPrimaryKeyUnauthorized(Long id) {
     return this.findByPrimaryKey(id);
   }
   
   @Override
+  @PermitAll
   public EstatDeFirma updateUnauthorized(EstatDeFirma instance) throws I18NException {
     return super.update(instance);
   }
@@ -239,6 +243,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
    * @throws I18NException si es produeix qualsevol error a la lògica.
    */
   @Override
+  @RolesAllowed("PFI_USER")
   public Map<String, Long> getNombreAvisosUsuariEntitat(String usuariEntitatID,
       String entitatID, Set<String> roles) throws I18NException {
     Map<String, Long> avisos = new HashMap<String, Long>();
@@ -268,7 +273,9 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
       // ROLS ADEN
       if (ROLE_ADEN.equals(rol)) {
         // Revisar si hi ha notificacion que donen errors
-        Long count = notificacioWSEjb.count(getWhereAvisosAden(entitatID));
+        Where whereAvisosAden = getWhereAvisosAden(entitatID);
+        log.warn(whereAvisosAden.toSQL());
+        Long count = notificacioWSEjb.count(whereAvisosAden);
         if (count > 0) {
           avisos.put(ROLE_ADEN2, count);
         }

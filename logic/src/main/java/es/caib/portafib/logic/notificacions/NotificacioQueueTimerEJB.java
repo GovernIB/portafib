@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -25,6 +26,7 @@ import java.util.concurrent.Semaphore;
 @Stateless
 @SecurityDomain("seycon")
 @RunAs(ConstantsV2.PFI_ADMIN)
+@PermitAll
 public class NotificacioQueueTimerEJB implements NotificacioQueueTimerLocal {
 
   @Resource
