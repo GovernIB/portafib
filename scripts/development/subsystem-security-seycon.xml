@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<subsystem xmlns="urn:jboss:domain:security:2.0">
+    <security-domains>
+        <!-- .... -->
+        <security-domain name="seycon">
+            <authentication>
+                <login-module code="Database" flag="required">
+                    <module-option name="dsJndiName" value="java:/es.caib.seycon.db.wl"/>
+                    <module-option name="principalsQuery" value="select USU_PASS from SC_WL_USUARI where USU_CODI = ?"/>
+                    <module-option name="rolesQuery" value="select UGR_CODGRU,'Roles' from SC_WL_USUGRU where UGR_CODUSU = ?"/>
+                </login-module>
+            </authentication>
+        </security-domain>
+        <!-- .... -->
+    </security-domains>
+</subsystem>
