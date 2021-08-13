@@ -1,0 +1,16 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<jboss:ejb-jar xmlns:jboss="http://www.jboss.com/xml/ns/javaee"
+			   xmlns="http://java.sun.com/xml/ns/javaee"
+			   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			   xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/j2ee/schema/jboss-ejb3-2_0.xsd"
+			   xmlns:s="urn:security:1.1"
+			   version="3.1"
+			   impl-version="2.0">
+	<assembly-descriptor>
+		<s:security>
+			<ejb-name>*</ejb-name>
+			<s:security-domain>seycon</s:security-domain>
+			<s:missing-method-permissions-deny-access>false</s:missing-method-permissions-deny-access>
+		</s:security>
+	</assembly-descriptor>
+</jboss:ejb-jar>
