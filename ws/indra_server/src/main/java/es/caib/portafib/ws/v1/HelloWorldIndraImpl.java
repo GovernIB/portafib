@@ -6,17 +6,13 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.jboss.wsf.spi.annotation.TransportGuarantee;
-import org.jboss.wsf.spi.annotation.WebContext;
+import org.jboss.ws.api.annotation.TransportGuarantee;
+import org.jboss.ws.api.annotation.WebContext;
 /**
  * 
  * @author anadal
  *
  */
-//@WebService(endpointInterface = "es.caib.portafib.ws.v1.HelloWorldIndra")
-//@SOAPBinding(style = SOAPBinding.Style.RPC)
-
-
 @RunAs("PFI_USER")
 @Stateless(name="HelloWorldIndra")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
@@ -27,7 +23,6 @@ import org.jboss.wsf.spi.annotation.WebContext;
     serviceName = "HelloWorldIndraService",    
     endpointInterface = "es.caib.portafib.ws.v1.HelloWorldIndra"
 )
-
 @WebContext
 (
     contextRoot="/portafib/portafirmasws/web/services",
