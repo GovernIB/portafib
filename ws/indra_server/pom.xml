@@ -64,13 +64,6 @@
       <scope>provided</scope>
     </dependency>
 
-    <dependency>  
-      <groupId>org.jboss.jbossas</groupId>  
-      <artifactId>jboss-as-tomcat</artifactId>  
-      <version>5.0.1.GA</version>  
-      <scope>provided</scope>
-    </dependency> 
-
     <dependency>
       <groupId>es.caib.portafib</groupId>
       <artifactId>portafib-ejb</artifactId>

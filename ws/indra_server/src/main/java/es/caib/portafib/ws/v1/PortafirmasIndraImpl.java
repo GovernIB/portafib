@@ -143,8 +143,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceContext;
@@ -242,10 +241,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     RESULT_OK.setCode(0);
     RESULT_OK.setMessage("OK");
   }
-  
-  
 
-  
   /**
    * 
    * @param application
@@ -256,11 +252,10 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     // NOTA: Sempre application és not null.
     String user = application.getUser();
     String password = application.getPassword();
+    HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 
     UsuariAplicacioJPA usuariAplicacio = usuariAplicacioEjb.findByPrimaryKeyFull(user);
     if (usuariAplicacio == null) {
-      MessageContext mctx = wsContext.getMessageContext();
-      HttpServletRequest request = (HttpServletRequest)mctx.get(MessageContext.SERVLET_REQUEST);
       log.error("Usuari incorrecte ]" + user + "[. Remote address: " + request.getRemoteHost());
       throw createFaultNoAutenticat();
     }
@@ -281,35 +276,13 @@ public class PortafirmasIndraImpl implements Cws, Constants {
 
     boolean isOK;
       
-    // Autenticam directament sobre seycon: Aquest usuari ha d'apareixer
-    // dins la BBDD de seycon, però ha d'estar donat d'alta dins la
-    // taula d'usuaris aplicacio
+    // Autenticam manualment amb l'API dels Servlets
     try {
-      LoginContext lc = new LoginContext("client-login",
-          new PassiveCallbackHandler(user, password));
-      lc.login();
-
-      try {
-        // L'autenticació "client-login" permet al client autenticar-se per atacar EJBs. El moment efectiu de
-        // l'autenticació no es realitza amb el login, sinó que aquesta es produeix amb l'accés al recurs.
-        // Amb aquesta invocació d'un mètode forçam que es realitzi l'autenticació efectiva
-        // Si falla llançarà un EJBAccessException
-        usuariAplicacioEjb.findByPrimaryKey(user);
-      } catch (IllegalArgumentException iae) {
-        // Per qualque motiu desconegut, la implementació de LoginModule de seycon no es lliga correctament
-        // al context quan s'efectua una primera autenticació amb èxit. En canvi, si és una autenticació cacheada
-        // si que la lliga correctament.
-        log.info("Workaround per bug en autenticació seycon: " + iae.getMessage());
-      }
-
+      request.login(user, password);
       isOK = true;
-    } catch (LoginException le) {
+    } catch (ServletException se) {
       // Authentication failed.      
-      log.error("Login ERROR: " + le.getMessage());
-      isOK = false;
-    } catch (EJBAccessException eae) {
-      // Authentication failed.
-      log.error("Login ERROR: " + eae.getMessage());
+      log.error("Login ERROR: " + se.getMessage());
       isOK = false;
     }
 
@@ -318,8 +291,6 @@ public class PortafirmasIndraImpl implements Cws, Constants {
         log.debug(" Autenticat usuari aplicacio " + user);
       }
     } else {
-      MessageContext mctx = wsContext.getMessageContext();
-      HttpServletRequest request = (HttpServletRequest)mctx.get(MessageContext.SERVLET_REQUEST);
       final String msg = "Contrasenya no vàlida per l'usuari ]" + user 
         + "[ o no té rols assignats per les operacions requerides."
         +	"Remote address: " + request.getRemoteHost();
@@ -356,8 +327,6 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     return sf;
   }
   
-  
-  
   private SoapFault manageException(Throwable th, String methodname,
       UsuariAplicacioJPA usuariAplicacio) {
     
@@ -380,10 +349,6 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     log.error("EXCEPTION: Error cridant a " + methodname + ": " + th.getMessage(), th);
     return createFaultErrorGeneral(th);
   }
-  
-  
-  
-  
 
   public static final String VERSION = "1.0";
 

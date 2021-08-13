@@ -1,6 +1,5 @@
 package es.caib.portafib.ws.v1;
 
-import javax.annotation.security.RunAs;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -13,7 +12,6 @@ import org.jboss.ws.api.annotation.WebContext;
  * @author anadal
  *
  */
-@RunAs("PFI_USER")
 @Stateless(name="HelloWorldIndra")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 @WebService
