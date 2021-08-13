@@ -3,8 +3,6 @@ package es.caib.portafib.ws.v1.impl;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.validation.constraints.Null;
-
 
 /**
  * 
@@ -15,7 +13,7 @@ import javax.validation.constraints.Null;
 public interface PortaFIBHelloWorldWs {
   
   @WebMethod
-  public String echo(@WebParam (name ="echo") @Null String echo);
+  public String echo(@WebParam (name ="echo") String echo);
   
   
   @WebMethod

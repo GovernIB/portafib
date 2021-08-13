@@ -5,7 +5,6 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import javax.validation.constraints.Null;
 
 import es.caib.portafib.utils.Constants;
 import org.jboss.ejb3.annotation.SecurityDomain;
@@ -43,7 +42,7 @@ public class PortaFIBHelloWorldWsImpl extends BaseV1WsImpl {
   public static final String NAME_WS = NAME + "Ws";
   
   @WebMethod
-  public String echo(@WebParam (name ="echo") @Null String echo) {
+  public String echo(@WebParam (name ="echo") String echo) {
     log.info("PortaFIBHelloWorldWsImpl :: echo = " + echo);
     return echo;
   }
