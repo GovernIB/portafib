@@ -82,7 +82,7 @@ public final class EjbManager {
     if (peticioDeFirmaLogicaEjb == null) {
       try {
         peticioDeFirmaLogicaEjb = (PeticioDeFirmaLogicaLocal) new InitialContext()
-            .lookup("portafib/PeticioDeFirmaLogicaEJB/local");
+            .lookup(PeticioDeFirmaLogicaLocal.JNDI_NAME);
       } catch (Throwable e) {
         throwNewI18NException(e, "PeticioDeFirmaLogicaLocal");
       }
@@ -95,7 +95,7 @@ public final class EjbManager {
     if (firmaLogicaEjb == null) {
       try {
         firmaLogicaEjb = (FirmaLogicaLocal) new InitialContext()
-            .lookup("portafib/FirmaLogicaEJB/local");
+            .lookup(FirmaLogicaLocal.JNDI_NAME);
       } catch (Throwable e) {
         throwNewI18NException(e, "FirmaLogicaLocal");
       }
@@ -108,7 +108,7 @@ public final class EjbManager {
     if (usuariAplicacioLogicaEjb == null) {
       try {
         usuariAplicacioLogicaEjb = (UsuariAplicacioLogicaLocal) new InitialContext()
-            .lookup("portafib/UsuariAplicacioLogicaEJB/local");
+            .lookup(UsuariAplicacioLogicaLocal.JNDI_NAME);
       } catch (Throwable e) {
         throwNewI18NException(e, "UsuariAplicacioLogicaLocal");
       }
@@ -121,7 +121,7 @@ public final class EjbManager {
     if (usuariEntitatLogicaEjb == null) {
       try {
         usuariEntitatLogicaEjb = (UsuariEntitatLogicaLocal) new InitialContext()
-            .lookup("portafib/UsuariEntitatLogicaEJB/local");
+            .lookup(UsuariEntitatLogicaLocal.JNDI_NAME);
       } catch (Throwable e) {
         throwNewI18NException(e, "UsuariEntitatLogicaLocal");
       }
@@ -150,7 +150,7 @@ public final class EjbManager {
     if (colaboracioDelegacioLogicaEjb == null) {
       try {
         colaboracioDelegacioLogicaEjb = (ColaboracioDelegacioLogicaLocal) new InitialContext()
-            .lookup("portafib/ColaboracioDelegacioLogicaEJB/local");
+            .lookup(ColaboracioDelegacioLogicaLocal.JNDI_NAME);
       } catch (Throwable e) {
         throwNewI18NException(e, "ColaboracioDelegacioLogicaEJB");
       }
@@ -163,7 +163,7 @@ public final class EjbManager {
     if (idiomaEjb == null) {
       try {
         idiomaEjb = (IdiomaLocal) new InitialContext()
-            .lookup("portafib/IdiomaEJB/local");
+            .lookup(IdiomaLocal.JNDI_NAME);
       } catch (Throwable e) {
         throwNewI18NException(e, "IdiomaEJB");
       }
@@ -174,13 +174,12 @@ public final class EjbManager {
 
   public static TipusDocumentLogicaLocal getTipusDocumentLogicaEJB() throws I18NException {
 
-    final String name = "TipusDocumentLogica" + "EJB" ;
     if (tipusDocumentLogicaEjb == null) {
       try {
         tipusDocumentLogicaEjb = (TipusDocumentLogicaLocal) new InitialContext()
-            .lookup("portafib/" + name + "/local");
+            .lookup(TipusDocumentLogicaLocal.JNDI_NAME);
       } catch (Throwable e) {
-        throwNewI18NException(e, name);
+        throwNewI18NException(e, "TipusDocumentLogicaEJB");
       }
     }
     return tipusDocumentLogicaEjb;
@@ -194,7 +193,7 @@ public final class EjbManager {
     if (fluxDeFirmesLogicaEjb == null) {
       try {
         fluxDeFirmesLogicaEjb = (FluxDeFirmesLogicaLocal) new InitialContext()
-            .lookup("portafib/FluxDeFirmesLogicaEJB/local");
+            .lookup(FluxDeFirmesLogicaLocal.JNDI_NAME);
         } catch (Throwable e) {
         throwNewI18NException(e, "FluxDeFirmesLogicaEjb");
       }
