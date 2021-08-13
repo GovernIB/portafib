@@ -5,8 +5,8 @@ import es.caib.portafib.callback.beans.v1.PortaFIBEvent;
 import es.caib.portafib.callback.beans.v1.tester.PortaFIBEventStore;
 import es.caib.portafib.ws.utils.VersionsWs;
 import org.apache.log4j.Logger;
-import org.jboss.wsf.spi.annotation.TransportGuarantee;
-import org.jboss.wsf.spi.annotation.WebContext;
+import org.jboss.ws.api.annotation.TransportGuarantee;
+import org.jboss.ws.api.annotation.WebContext;
 
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
