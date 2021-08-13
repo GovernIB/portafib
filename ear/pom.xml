@@ -661,7 +661,7 @@
                   <groupId>es.caib.portafib</groupId>
                   <artifactId>portafib-ws-indra-callback-server</artifactId>
                   <contextRoot>portafib/portafirmascb</contextRoot>
-                  <bundleFileName>portafib-ws-indra-callback-server.jar</bundleFileName>
+                  <bundleFileName>portafib-ws-indra-callback-server.war</bundleFileName>
                 </webModule>
               </modules>
             </configuration>
