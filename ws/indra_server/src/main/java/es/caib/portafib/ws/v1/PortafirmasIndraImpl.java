@@ -137,7 +137,7 @@ import javax.activation.DataSource;
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
-import javax.ejb.EJBAccessException;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebResult;
@@ -233,7 +233,9 @@ public class PortafirmasIndraImpl implements Cws, Constants {
   
   @Resource
   WebServiceContext wsContext;
-  
+
+  @Resource
+  SessionContext sessionContext;
 
   public static final Result RESULT_OK = new Result();
 
@@ -1723,7 +1725,9 @@ public class PortafirmasIndraImpl implements Cws, Constants {
           long fitxerID = fitxer.getFitxerID();
           if (fitxerID != 0) {
             try {
-              fitxerLogicaEjb.delete(fitxerID);
+              if (!sessionContext.getRollbackOnly()) {
+                fitxerLogicaEjb.delete(fitxerID);
+              }
               FileSystemManager.eliminarArxiu(fitxerID);
             } catch (Exception e) {
               log.error("Error esborrant fitxer amb ID " + fitxerID 
