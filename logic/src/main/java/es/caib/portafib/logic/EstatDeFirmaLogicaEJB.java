@@ -243,7 +243,6 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
    * @throws I18NException si es produeix qualsevol error a la lògica.
    */
   @Override
-  @RolesAllowed("PFI_USER")
   public Map<String, Long> getNombreAvisosUsuariEntitat(String usuariEntitatID,
       String entitatID, Set<String> roles) throws I18NException {
     Map<String, Long> avisos = new HashMap<String, Long>();
