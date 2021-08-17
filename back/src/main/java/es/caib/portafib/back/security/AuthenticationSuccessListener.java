@@ -5,6 +5,7 @@ import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.EjbManager;
@@ -63,11 +64,21 @@ public class AuthenticationSuccessListener implements
     }
     
     User user = (User) au.getPrincipal();
-    
     String name = user.getUsername();
-    log.debug(" =================================================================");
+
+    try {
+      UsuariAplicacioLogicaLocal usuariAplicacioEjb = EjbManager.getUsuariAplicacioLogicaEJB();
+      if (usuariAplicacioEjb.findByPrimaryKey(name) != null) {
+        log.info(" ============ Login Aplicacio: " + name);
+        return;
+      }
+    } catch (I18NException e) {
+      throw new LoginException("No puc accedir al gestor d´obtenció de" +
+              " informació de usuari per " + name + ": " + e.getMessage(), e);
+    }
+
     log.info(" ============ Login Usuari: " + name);
-    
+
     try {
       LoginInfo loginInfo = LoginInfo.getInstance();
 
