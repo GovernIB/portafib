@@ -5,25 +5,21 @@ import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.utils.EjbManager;
-import es.caib.portafib.utils.Constants;
 
+import es.caib.portafib.utils.ConstantsV2;
 import org.apache.log4j.Logger;
 import org.fundaciobit.pluginsib.core.utils.Base64;
-import org.jboss.web.tomcat.security.login.WebAuthentication;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -155,50 +151,27 @@ public class RestUtils {
 
   public static boolean authenticateUsernamePassword(HttpServletRequest request, String username,
       String password, Set<String> roles, Logger log) {
-    boolean autenticat;
-    // L'autenticació següent ens permet comprovarl l'usuari i recuperar el seus rols, però no l'emmagatzema
-    // internament i per tant les cridades a altres capes (EJB) no mantenen l'autenticació.
+
     try {
-      LoginContext lc = new LoginContext(Constants.SECURITY_DOMAIN,
-          new PassiveCallbackHandler(username, password));
-      lc.login();
-
-      Set<Principal> principalsCred = lc.getSubject().getPrincipals();
-      if (principalsCred == null ||principalsCred.isEmpty()) {
-        log.warn(" getPrincipals() == BUIT");
-      } else {
-        for (Principal object : principalsCred) {
-          log.debug(" getPrincipals() == " + object.getName() + "(" + object.getClass() + ")");
-          if ("Roles".equals(object.getName())
-              && object instanceof org.jboss.security.SimpleGroup) {
-            org.jboss.security.SimpleGroup sg = (org.jboss.security.SimpleGroup)object;
-            //iterable
-            Enumeration<Principal> enumPrinc = sg.members();
-            while(enumPrinc.hasMoreElements()) {
-              Principal rol = enumPrinc.nextElement();
-              log.debug("           ROL: " + rol.getName());
-              roles.add(rol.getName());
-            }
-          }
-        }
+      if (request.getUserPrincipal() == null) {
+        request.login(username, password);
       }
-      
-     
-      autenticat = true;
-    } catch (LoginException le) {
-      // Authentication failed.
-      log.error("Login ERROR: " + le.getMessage(), le);
-      autenticat = false;
-    }
 
-    // Amb l'autenticació addicional següent, no podem recuperar els rols, però les credencials es mantenen per
-    // les capes internes.
-    if (autenticat) {
-      WebAuthentication pwl = new WebAuthentication();
-      autenticat = pwl.login(username, password);
-    }
+      if (request.isUserInRole(ConstantsV2.PFI_USER)) {
+        log.debug("has PFI_USER");
+        roles.add(ConstantsV2.PFI_USER);
+      }
 
-    return autenticat;
+      if (request.isUserInRole(ConstantsV2.PFI_ADMIN)) {
+        log.debug("has PFI_ADMIN");
+        roles.add(ConstantsV2.PFI_ADMIN);
+      }
+
+      return true;
+    } catch (ServletException se) {
+      log.info("Login ERROR: " + se.getMessage(), se);
+      return false;
+    }
   }
 
 }

@@ -260,6 +260,11 @@
 		<description>Usuari de PortaFIB</description>
 		<role-name>PFI_USER</role-name>
 	</security-role>
+
+    <security-role>
+		<description>Qualsevol usuari autenticat</description>
+		<role-name>tothom</role-name>
+	</security-role>
     
     <security-role>
         <description>Apareix Opció AutoFIRMA de PortaFIB</description>
