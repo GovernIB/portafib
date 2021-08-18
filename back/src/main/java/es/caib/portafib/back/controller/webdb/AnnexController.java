@@ -23,7 +23,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -382,7 +381,7 @@ public class AnnexController
    * Editar un Annex existent
    */
   @RequestMapping(value = "/{annexID}/edit", method = RequestMethod.POST)
-  public String editarAnnexPost(@ModelAttribute @Valid AnnexForm annexForm,
+  public String editarAnnexPost(@ModelAttribute AnnexForm annexForm,
       BindingResult result, SessionStatus status, HttpServletRequest request,
       HttpServletResponse response) throws I18NException {
 

@@ -23,7 +23,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -391,7 +390,7 @@ public class GrupEntitatUsuariEntitatController
    * Editar un GrupEntitatUsuariEntitat existent
    */
   @RequestMapping(value = "/{grupEntitatUsuariEntitatID}/edit", method = RequestMethod.POST)
-  public String editarGrupEntitatUsuariEntitatPost(@ModelAttribute @Valid GrupEntitatUsuariEntitatForm grupEntitatUsuariEntitatForm,
+  public String editarGrupEntitatUsuariEntitatPost(@ModelAttribute GrupEntitatUsuariEntitatForm grupEntitatUsuariEntitatForm,
       BindingResult result, SessionStatus status, HttpServletRequest request,
       HttpServletResponse response) throws I18NException {
 

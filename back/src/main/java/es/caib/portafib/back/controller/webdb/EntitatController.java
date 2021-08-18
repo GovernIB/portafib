@@ -23,7 +23,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -671,7 +670,7 @@ public class EntitatController
    * Editar un Entitat existent
    */
   @RequestMapping(value = "/{entitatID}/edit", method = RequestMethod.POST)
-  public String editarEntitatPost(@ModelAttribute @Valid EntitatForm entitatForm,
+  public String editarEntitatPost(@ModelAttribute EntitatForm entitatForm,
       BindingResult result, SessionStatus status, HttpServletRequest request,
       HttpServletResponse response) throws I18NException {
 

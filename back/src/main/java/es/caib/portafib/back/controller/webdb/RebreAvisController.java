@@ -23,7 +23,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -394,7 +393,7 @@ public class RebreAvisController
    * Editar un RebreAvis existent
    */
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-  public String editarRebreAvisPost(@ModelAttribute @Valid RebreAvisForm rebreAvisForm,
+  public String editarRebreAvisPost(@ModelAttribute RebreAvisForm rebreAvisForm,
       BindingResult result, SessionStatus status, HttpServletRequest request,
       HttpServletResponse response) throws I18NException {
 

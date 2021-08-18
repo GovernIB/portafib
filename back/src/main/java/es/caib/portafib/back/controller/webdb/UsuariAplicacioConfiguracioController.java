@@ -23,7 +23,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -665,7 +664,7 @@ public class UsuariAplicacioConfiguracioController
    * Editar un UsuariAplicacioConfiguracio existent
    */
   @RequestMapping(value = "/{usuariAplicacioConfigID}/edit", method = RequestMethod.POST)
-  public String editarUsuariAplicacioConfiguracioPost(@ModelAttribute @Valid UsuariAplicacioConfiguracioForm usuariAplicacioConfiguracioForm,
+  public String editarUsuariAplicacioConfiguracioPost(@ModelAttribute UsuariAplicacioConfiguracioForm usuariAplicacioConfiguracioForm,
       BindingResult result, SessionStatus status, HttpServletRequest request,
       HttpServletResponse response) throws I18NException {
 

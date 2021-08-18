@@ -23,7 +23,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -387,7 +386,7 @@ public class MetadadaController
    * Editar un Metadada existent
    */
   @RequestMapping(value = "/{metadadaID}/edit", method = RequestMethod.POST)
-  public String editarMetadadaPost(@ModelAttribute @Valid MetadadaForm metadadaForm,
+  public String editarMetadadaPost(@ModelAttribute MetadadaForm metadadaForm,
       BindingResult result, SessionStatus status, HttpServletRequest request,
       HttpServletResponse response) throws I18NException {
 

@@ -23,7 +23,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -447,7 +446,7 @@ public class PerfilDeFirmaController
    * Editar un PerfilDeFirma existent
    */
   @RequestMapping(value = "/{usuariAplicacioPerfilID}/edit", method = RequestMethod.POST)
-  public String editarPerfilDeFirmaPost(@ModelAttribute @Valid PerfilDeFirmaForm perfilDeFirmaForm,
+  public String editarPerfilDeFirmaPost(@ModelAttribute PerfilDeFirmaForm perfilDeFirmaForm,
       BindingResult result, SessionStatus status, HttpServletRequest request,
       HttpServletResponse response) throws I18NException {
 

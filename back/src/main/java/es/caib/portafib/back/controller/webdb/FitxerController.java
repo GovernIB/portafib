@@ -21,7 +21,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -338,7 +337,7 @@ public class FitxerController
    * Editar un Fitxer existent
    */
   @RequestMapping(value = "/{fitxerID}/edit", method = RequestMethod.POST)
-  public String editarFitxerPost(@ModelAttribute @Valid FitxerForm fitxerForm,
+  public String editarFitxerPost(@ModelAttribute FitxerForm fitxerForm,
       BindingResult result, SessionStatus status, HttpServletRequest request,
       HttpServletResponse response) throws I18NException {
 
