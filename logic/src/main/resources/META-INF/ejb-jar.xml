@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee"
+<ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
-         version="3.0">
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+        http://xmlns.jcp.org/xml/ns/javaee/ejb-jar_3_2.xsd"
+         version="3.2">
+
+    <interceptors>
+        <interceptor>
+            <interceptor-class>es.caib.portafib.ejb.interceptors.LogInterceptor</interceptor-class>
+        </interceptor>
+    </interceptors>
+
     <assembly-descriptor>
 
         <!-- Log de les cridades a PeticioDeFirmaLogicaEJB ja que és l'EJB més crític #220 -->
