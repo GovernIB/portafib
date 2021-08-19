@@ -63,14 +63,12 @@ public class CrearDestinatariTest extends ApiFirmaAsyncTestBase {
 
     @Test
     public void testCreateAndDelete()  {
-
-        int firmes = destinatariNou.tasquesPendents();
         long peticio = 0;
         try {
             peticio = crearPeticioDestinataris(destinatariNou);
 
             // el nombre de firmes pendents s'ha incrementat en un i l'estat de la petició és running....
-            Assert.assertEquals(firmes + 1, destinatariNou.tasquesPendents());
+            Assert.assertEquals(1, destinatariNou.tasquesPendents());
             Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
         } finally {
@@ -83,14 +81,12 @@ public class CrearDestinatariTest extends ApiFirmaAsyncTestBase {
 
     @Test
     public void testCreateAndDeleteSenseNif()  {
-
-        int firmes = destinatariSenseNif.tasquesPendents();
         long peticio = 0;
         try {
             peticio = crearPeticioDestinataris(destinatariSenseNif);
 
             // el nombre de firmes pendents s'ha incrementat en un i l'estat de la petició és running....
-            Assert.assertEquals(firmes + 1, destinatariSenseNif.tasquesPendents());
+            Assert.assertEquals(1, destinatariSenseNif.tasquesPendents());
             Assert.assertEquals(SIGNATURE_REQUEST_STATE_RUNNING, statusPeticio(peticio));
 
         } finally {
@@ -100,7 +96,6 @@ public class CrearDestinatariTest extends ApiFirmaAsyncTestBase {
             cleanUpDestinatari(destinatariSenseNif.getUsername());
         }
     }
-
 
     @Test
     public void testFailCreate()  {
