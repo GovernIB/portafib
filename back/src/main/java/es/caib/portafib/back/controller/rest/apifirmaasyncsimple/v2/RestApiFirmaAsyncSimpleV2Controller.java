@@ -1407,7 +1407,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
         ue = usuariEntitatLogicaEjb.findUsuariEntitatExternByNif(entitatID, nif);
         if (ue == null) {
           log.warn("No existeix cap usuari entitat extern amb NIF "
-              + person.getAdministrationID() + ". El cream." );
+              + nif + ". El cream." );
           
           // L'hem de crear persona i usuari entitat extern
           UsuariPersonaJPA persona = new UsuariPersonaJPA();
