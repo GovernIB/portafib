@@ -10,6 +10,7 @@ import es.caib.portafib.logic.utils.ProviderRegistration;
 import es.caib.portafib.utils.Build;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.crypt.AlgorithmEncrypter;
 import org.fundaciobit.genapp.common.crypt.FileIDEncrypter;
@@ -293,5 +294,8 @@ public class InitServlet extends HttpServlet {
     }
 
     providerRegistration.unregister();
+
+    // Evitar memory leak de Log4j
+    LogManager.shutdown();
   }
 }
