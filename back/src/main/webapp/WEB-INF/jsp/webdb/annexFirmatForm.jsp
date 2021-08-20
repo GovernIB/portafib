@@ -5,7 +5,7 @@
   <%@include file="annexFirmatFormTitle.jsp" %>
 
 
-<form:form modelAttribute="annexFirmatForm" method="${method}"
+<form:form modelAttribute="annexFirmatForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${annexFirmatForm.contexte}"/>

@@ -5,7 +5,7 @@
   <%@include file="custodiaInfoFormTitle.jsp" %>
 
 
-<form:form modelAttribute="custodiaInfoForm" method="${method}"
+<form:form modelAttribute="custodiaInfoForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${custodiaInfoForm.contexte}"/>

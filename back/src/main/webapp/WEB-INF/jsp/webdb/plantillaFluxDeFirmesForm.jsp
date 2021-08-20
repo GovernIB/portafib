@@ -5,7 +5,7 @@
   <%@include file="plantillaFluxDeFirmesFormTitle.jsp" %>
 
 
-<form:form modelAttribute="plantillaFluxDeFirmesForm" method="${method}"
+<form:form modelAttribute="plantillaFluxDeFirmesForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${plantillaFluxDeFirmesForm.contexte}"/>

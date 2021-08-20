@@ -5,7 +5,7 @@
   <%@include file="notificacioWSFormTitle.jsp" %>
 
 
-<form:form modelAttribute="notificacioWSForm" method="${method}"
+<form:form modelAttribute="notificacioWSForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${notificacioWSForm.contexte}"/>

@@ -5,7 +5,7 @@
   <%@include file="bitacolaFormTitle.jsp" %>
 
 
-<form:form modelAttribute="bitacolaForm" method="${method}"
+<form:form modelAttribute="bitacolaForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${bitacolaForm.contexte}"/>

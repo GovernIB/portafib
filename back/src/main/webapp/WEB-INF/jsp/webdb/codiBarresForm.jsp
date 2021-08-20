@@ -5,7 +5,7 @@
   <%@include file="codiBarresFormTitle.jsp" %>
 
 
-<form:form modelAttribute="codiBarresForm" method="${method}"
+<form:form modelAttribute="codiBarresForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${codiBarresForm.contexte}"/>

@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
 <form:form name="pluginCridada" cssClass="form-search"  modelAttribute="pluginCridadaFilterForm" 
-        method="${method}"  enctype="multipart/form-data">
+        method="${(empty method)?'post':method}"  enctype="multipart/form-data">
 
   <%@include file="pluginCridadaListCommon.jsp" %>
   <div id="${formName}_listheader" class="filterLine lead" style="margin-bottom:10px">

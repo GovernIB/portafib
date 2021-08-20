@@ -5,7 +5,7 @@
   <%@include file="modulDeFirmaPerTipusDeDocumentFormTitle.jsp" %>
 
 
-<form:form modelAttribute="modulDeFirmaPerTipusDeDocumentForm" method="${method}"
+<form:form modelAttribute="modulDeFirmaPerTipusDeDocumentForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${modulDeFirmaPerTipusDeDocumentForm.contexte}"/>

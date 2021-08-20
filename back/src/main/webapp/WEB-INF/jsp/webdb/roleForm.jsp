@@ -5,7 +5,7 @@
   <%@include file="roleFormTitle.jsp" %>
 
 
-<form:form modelAttribute="roleForm" method="${method}"
+<form:form modelAttribute="roleForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${roleForm.contexte}"/>

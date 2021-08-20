@@ -5,7 +5,7 @@
   <%@include file="propietatGlobalFormTitle.jsp" %>
 
 
-<form:form modelAttribute="propietatGlobalForm" method="${method}"
+<form:form modelAttribute="propietatGlobalForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${propietatGlobalForm.contexte}"/>

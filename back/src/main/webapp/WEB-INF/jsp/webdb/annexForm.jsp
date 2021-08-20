@@ -5,7 +5,7 @@
   <%@include file="annexFormTitle.jsp" %>
 
 
-<form:form modelAttribute="annexForm" method="${method}"
+<form:form modelAttribute="annexForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${annexForm.contexte}"/>

@@ -5,7 +5,7 @@
   <%@include file="tipusNotificacioFormTitle.jsp" %>
 
 
-<form:form modelAttribute="tipusNotificacioForm" method="${method}"
+<form:form modelAttribute="tipusNotificacioForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${tipusNotificacioForm.contexte}"/>

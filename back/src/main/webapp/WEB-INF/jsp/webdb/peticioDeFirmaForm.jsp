@@ -5,7 +5,7 @@
   <%@include file="peticioDeFirmaFormTitle.jsp" %>
 
 
-<form:form modelAttribute="peticioDeFirmaForm" method="${method}"
+<form:form modelAttribute="peticioDeFirmaForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${peticioDeFirmaForm.contexte}"/>

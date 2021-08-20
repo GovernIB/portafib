@@ -5,7 +5,7 @@
   <%@include file="firmaFormTitle.jsp" %>
 
 
-<form:form modelAttribute="firmaForm" method="${method}"
+<form:form modelAttribute="firmaForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${firmaForm.contexte}"/>

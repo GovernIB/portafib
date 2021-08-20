@@ -5,7 +5,7 @@
   <%@include file="blocDeFirmesFormTitle.jsp" %>
 
 
-<form:form modelAttribute="blocDeFirmesForm" method="${method}"
+<form:form modelAttribute="blocDeFirmesForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${blocDeFirmesForm.contexte}"/>

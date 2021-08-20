@@ -5,7 +5,7 @@
   <%@include file="estadisticaFormTitle.jsp" %>
 
 
-<form:form modelAttribute="estadisticaForm" method="${method}"
+<form:form modelAttribute="estadisticaForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${estadisticaForm.contexte}"/>

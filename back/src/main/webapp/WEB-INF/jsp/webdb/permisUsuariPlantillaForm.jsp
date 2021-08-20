@@ -5,7 +5,7 @@
   <%@include file="permisUsuariPlantillaFormTitle.jsp" %>
 
 
-<form:form modelAttribute="permisUsuariPlantillaForm" method="${method}"
+<form:form modelAttribute="permisUsuariPlantillaForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${permisUsuariPlantillaForm.contexte}"/>

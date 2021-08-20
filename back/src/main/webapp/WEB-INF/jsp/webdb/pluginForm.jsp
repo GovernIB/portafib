@@ -5,7 +5,7 @@
   <%@include file="pluginFormTitle.jsp" %>
 
 
-<form:form modelAttribute="pluginForm" method="${method}"
+<form:form modelAttribute="pluginForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${pluginForm.contexte}"/>

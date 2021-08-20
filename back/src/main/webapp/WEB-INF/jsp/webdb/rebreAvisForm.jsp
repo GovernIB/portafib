@@ -5,7 +5,7 @@
   <%@include file="rebreAvisFormTitle.jsp" %>
 
 
-<form:form modelAttribute="rebreAvisForm" method="${method}"
+<form:form modelAttribute="rebreAvisForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${rebreAvisForm.contexte}"/>

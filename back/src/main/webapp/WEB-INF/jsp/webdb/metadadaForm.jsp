@@ -5,7 +5,7 @@
   <%@include file="metadadaFormTitle.jsp" %>
 
 
-<form:form modelAttribute="metadadaForm" method="${method}"
+<form:form modelAttribute="metadadaForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${metadadaForm.contexte}"/>

@@ -5,7 +5,7 @@
   <%@include file="usuariAplicacioConfiguracioFormTitle.jsp" %>
 
 
-<form:form modelAttribute="usuariAplicacioConfiguracioForm" method="${method}"
+<form:form modelAttribute="usuariAplicacioConfiguracioForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${usuariAplicacioConfiguracioForm.contexte}"/>

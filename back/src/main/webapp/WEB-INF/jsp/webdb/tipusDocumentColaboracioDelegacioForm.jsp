@@ -5,7 +5,7 @@
   <%@include file="tipusDocumentColaboracioDelegacioFormTitle.jsp" %>
 
 
-<form:form modelAttribute="tipusDocumentColaboracioDelegacioForm" method="${method}"
+<form:form modelAttribute="tipusDocumentColaboracioDelegacioForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${tipusDocumentColaboracioDelegacioForm.contexte}"/>

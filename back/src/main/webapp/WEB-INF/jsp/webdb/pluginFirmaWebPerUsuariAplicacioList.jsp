@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
 <form:form name="pluginFirmaWebPerUsuariAplicacio" cssClass="form-search"  modelAttribute="pluginFirmaWebPerUsuariAplicacioFilterForm" 
-        method="${method}"  enctype="multipart/form-data">
+        method="${(empty method)?'post':method}"  enctype="multipart/form-data">
 
   <%@include file="pluginFirmaWebPerUsuariAplicacioListCommon.jsp" %>
   <div id="${formName}_listheader" class="filterLine lead" style="margin-bottom:10px">

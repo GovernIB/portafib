@@ -5,7 +5,7 @@
   <%@include file="idiomaFormTitle.jsp" %>
 
 
-<form:form modelAttribute="idiomaForm" method="${method}"
+<form:form modelAttribute="idiomaForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${idiomaForm.contexte}"/>

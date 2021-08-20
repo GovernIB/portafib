@@ -5,7 +5,7 @@
   <%@include file="fitxerFormTitle.jsp" %>
 
 
-<form:form modelAttribute="fitxerForm" method="${method}"
+<form:form modelAttribute="fitxerForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${fitxerForm.contexte}"/>

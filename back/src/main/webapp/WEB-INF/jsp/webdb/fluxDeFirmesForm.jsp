@@ -5,7 +5,7 @@
   <%@include file="fluxDeFirmesFormTitle.jsp" %>
 
 
-<form:form modelAttribute="fluxDeFirmesForm" method="${method}"
+<form:form modelAttribute="fluxDeFirmesForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${fluxDeFirmesForm.contexte}"/>

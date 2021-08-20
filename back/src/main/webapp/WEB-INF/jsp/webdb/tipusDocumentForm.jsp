@@ -5,7 +5,7 @@
   <%@include file="tipusDocumentFormTitle.jsp" %>
 
 
-<form:form modelAttribute="tipusDocumentForm" method="${method}"
+<form:form modelAttribute="tipusDocumentForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${tipusDocumentForm.contexte}"/>

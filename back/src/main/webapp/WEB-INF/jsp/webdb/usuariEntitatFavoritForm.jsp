@@ -5,7 +5,7 @@
   <%@include file="usuariEntitatFavoritFormTitle.jsp" %>
 
 
-<form:form modelAttribute="usuariEntitatFavoritForm" method="${method}"
+<form:form modelAttribute="usuariEntitatFavoritForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${usuariEntitatFavoritForm.contexte}"/>

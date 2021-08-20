@@ -5,7 +5,7 @@
   <%@include file="pluginCridadaFormTitle.jsp" %>
 
 
-<form:form modelAttribute="pluginCridadaForm" method="${method}"
+<form:form modelAttribute="pluginCridadaForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${pluginCridadaForm.contexte}"/>
