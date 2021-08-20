@@ -84,8 +84,8 @@
     <plugins.signatureweb.version>3.1.0-SNAPSHOT</plugins.signatureweb.version>
     <apifirmasimple.version>1.0.3</apifirmasimple.version>
 
-    <spring.version>3.1.4.RELEASE</spring.version>
-    <springsecurity.version>3.1.4.RELEASE</springsecurity.version>
+    <spring.version>3.2.18.RELEASE</spring.version>
+    <springsecurity.version>3.2.10.RELEASE</springsecurity.version>
     <cxf.version>3.2.12</cxf.version>
     <bouncycastle.version>1.51</bouncycastle.version>
     <hibernate.version>5.3.17.Final</hibernate.version>
