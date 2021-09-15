@@ -194,7 +194,7 @@ SET default_with_oids = false;
         motiu varchar(255),
         nomcertificat varchar(1000),
         numfirmadocument int4,
-        numeroseriecertificat numeric(19, 2),
+        numeroseriecertificat numeric,
         obligatori bool not null,
         perfildefirma varchar(50),
         tipusestatdefirmafinalid int8,
