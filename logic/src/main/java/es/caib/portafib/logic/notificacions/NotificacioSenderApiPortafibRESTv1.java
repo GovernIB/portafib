@@ -71,6 +71,10 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
          }
 
          String output = response.getEntity(String.class);
+         if (!output.equals("OK")) {
+            throw new Exception("Error Cridant a Servei Rest(" + endPoint + "): " +
+                    output + "[" + response.getStatus() + "]");
+         }
 
          if (log.isDebugEnabled()) {
             log.info("Resposta cridada REST a métode event(): ]" + output + "[ \n");
@@ -103,6 +107,9 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
       BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 
       String output = IOUtils.toString(br);
+      if (!output.equals("1")) {
+         throw new Exception("Error, s'esperava el valor '1' però s'ha obtengut: " + output);
+      }
 
       log.info("Testing OK. API WS PortaFIB v1. Usuari aplicació "
             + usuariAplicacio.getUsuariAplicacioID() + " amb URL " + urlStr
