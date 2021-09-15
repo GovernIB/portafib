@@ -136,6 +136,7 @@ import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
+import javax.ejb.EJBAccessException;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebResult;
