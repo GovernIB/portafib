@@ -8,7 +8,9 @@ import es.caib.portafib.callback.beans.v1.PortaFIBEvent;
 import es.caib.portafib.callback.beans.v1.Sign;
 import es.caib.portafib.callback.beans.v1.SigningRequest;
 import es.caib.portafib.utils.ConstantsV2;
+import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -52,6 +54,7 @@ public class TestCallbackRestV1 {
       }
 
       String output = response.getEntity(String.class);
+      Assert.assertEquals("OK", output);
       System.out.println("Resposta cridada REST a mètode event(): ]" + output + "[ \n");
 
     } catch (Exception e) {
@@ -77,12 +80,10 @@ public class TestCallbackRestV1 {
 
     BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 
-    String output;
-    System.out.print("VERSIO REST CALLBACK ]");
-    while ((output = br.readLine()) != null) {
-      System.out.println(output);
-    }
-    System.out.println("[");
+    String output = IOUtils.toString(br);
+    Assert.assertEquals("1", output);
+    System.out.print("VERSIO REST CALLBACK ]" + output + "[");
+
     conn.disconnect();
   }
 
