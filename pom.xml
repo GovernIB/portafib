@@ -82,6 +82,7 @@
     <version_txt_file>./versio.txt</version_txt_file>
     <portafib.version>2.0.21</portafib.version>
     <plugins.version>2.0.0</plugins.version>
+    <pluginsib-core.version>2.0.2</pluginsib-core.version>
     <plugins.signatureserver.version>3.0.0</plugins.signatureserver.version>
     <plugins.signatureweb.version>3.0.0</plugins.signatureweb.version>
     <plugins.signatureweb.autofirma.version>3.0.1</plugins.signatureweb.autofirma.version>
