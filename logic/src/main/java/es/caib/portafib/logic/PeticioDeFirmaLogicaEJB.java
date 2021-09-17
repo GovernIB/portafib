@@ -2758,6 +2758,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
       firmaEventManagerEjb.processList(events, false);
     }
+
+    String entitatID = usuariAplicacioEjb
+            .findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID()).getEntitatID();
+    bitacolaLogicaEjb.createBitacola(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
+            BITACOLA_TIPUS_PETICIO, BITACOLA_OP_ACCEPTAR);
   }
 
   private int processarRevisorsPendents(FirmaJPA firma) throws I18NException {
