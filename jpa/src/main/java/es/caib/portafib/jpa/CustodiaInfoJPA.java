@@ -3,19 +3,19 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Id;
-import javax.persistence.GenerationType;
-import org.hibernate.annotations.Index;
-import org.hibernate.annotations.ForeignKey;
-import java.util.HashSet;
-import javax.persistence.OneToMany;
 import javax.persistence.Entity;
-import java.util.Set;
-import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import org.hibernate.annotations.ForeignKey;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import java.util.Set;
+import java.util.HashSet;
+import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
+import org.hibernate.annotations.Index;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
 
 
 @Entity
@@ -656,10 +656,6 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitats) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitats())) ) {
       __tmp.setEntitats(EntitatJPA.copyJPA(__jpa.getEntitats(), __alreadyCopied,"CustodiaInfoJPA"));
     }
-    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
-      __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"CustodiaInfoJPA"));
-    }
     if(!"UsuariAplicacioJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacios())) ) {
       __tmp.setUsuariAplicacios(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacios(), __alreadyCopied,"CustodiaInfoJPA"));
@@ -668,10 +664,22 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitats())) ) {
       __tmp.setUsuariEntitats(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitats(), __alreadyCopied,"CustodiaInfoJPA"));
     }
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
+      __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"CustodiaInfoJPA"));
+    }
     // Copia de beans complexes (IMP)
     if(!"EntitatJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat()) ) ) {
       __tmp.setEntitat(EntitatJPA.copyJPA(__jpa.getEntitat(), __alreadyCopied,"CustodiaInfoJPA"));
+    }
+    if(!"CodiBarresJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.codiBarres) || org.hibernate.Hibernate.isInitialized(__jpa.getCodiBarres()) ) ) {
+      __tmp.setCodiBarres(CodiBarresJPA.copyJPA(__jpa.getCodiBarres(), __alreadyCopied,"CustodiaInfoJPA"));
+    }
+    if(!"UsuariAplicacioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
+      __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"CustodiaInfoJPA"));
     }
     if(!"UsuariEntitatJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
@@ -680,14 +688,6 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
     if(!"PluginJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugin) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugin()) ) ) {
       __tmp.setPlugin(PluginJPA.copyJPA(__jpa.getPlugin(), __alreadyCopied,"CustodiaInfoJPA"));
-    }
-    if(!"UsuariAplicacioJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
-      __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"CustodiaInfoJPA"));
-    }
-    if(!"CodiBarresJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.codiBarres) || org.hibernate.Hibernate.isInitialized(__jpa.getCodiBarres()) ) ) {
-      __tmp.setCodiBarres(CodiBarresJPA.copyJPA(__jpa.getCodiBarres(), __alreadyCopied,"CustodiaInfoJPA"));
     }
 
     return __tmp;

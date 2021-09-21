@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <subsystem xmlns="urn:jboss:domain:mail:3.0">
+
+  <!-- ..... -->
+
   <mail-session name="es.caib.portafib.mail" jndi-name="java:/es.caib.portafib.mail" from="portafib@portafib.com">
     <smtp-server outbound-socket-binding-ref="mail-smtp"/>
   </mail-session>
+
+  <!-- ..... -->
+
 </subsystem>

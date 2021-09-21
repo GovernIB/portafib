@@ -79,6 +79,7 @@ public class UsuariAplicacioValidator<T> implements UsuariAplicacioFields {
       }
     }
     
+    //class java.lang.Class
     if (__vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
       String val = String.valueOf(__vr.getFieldValue(__target__,USUARIAPLICACIOID));
       if (val != null && val.trim().length() != 0) {
@@ -106,6 +107,7 @@ public class UsuariAplicacioValidator<T> implements UsuariAplicacioFields {
       }
     }
     
+    //class java.lang.Class
     if (__vr.getFieldErrorCount(EMAILADMIN) == 0) {
       String val = String.valueOf(__vr.getFieldValue(__target__,EMAILADMIN));
       if (val != null && val.trim().length() != 0) {

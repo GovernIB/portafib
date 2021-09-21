@@ -3,17 +3,17 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import java.util.HashSet;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Entity;
-import java.util.Set;
+import javax.persistence.ManyToOne;
 import org.hibernate.annotations.Index;
+import javax.persistence.SequenceGenerator;
+import org.hibernate.annotations.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.OneToMany;
+import java.util.Set;
+import javax.persistence.Id;
 
 
 @Entity
@@ -440,9 +440,9 @@ private static final long serialVersionUID = -360699331L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
-    if(!"PluginFirmaWebPerUsuariAplicacioJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginFirmaWebPerUsuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginFirmaWebPerUsuariAplicacios())) ) {
-      __tmp.setPluginFirmaWebPerUsuariAplicacios(PluginFirmaWebPerUsuariAplicacioJPA.copyJPA(__jpa.getPluginFirmaWebPerUsuariAplicacios(), __alreadyCopied,"UsuariAplicacioJPA"));
+    if(!"TipusDocumentJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocuments) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocuments())) ) {
+      __tmp.setTipusDocuments(TipusDocumentJPA.copyJPA(__jpa.getTipusDocuments(), __alreadyCopied,"UsuariAplicacioJPA"));
     }
     if(!"PlantillaFluxDeFirmesJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plantillaFluxDeFirmess) || org.hibernate.Hibernate.isInitialized(__jpa.getPlantillaFluxDeFirmess())) ) {
@@ -452,14 +452,6 @@ private static final long serialVersionUID = -360699331L;
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitats) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitats())) ) {
       __tmp.setEntitats(EntitatJPA.copyJPA(__jpa.getEntitats(), __alreadyCopied,"UsuariAplicacioJPA"));
     }
-    if(!"TipusDocumentJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocuments) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocuments())) ) {
-      __tmp.setTipusDocuments(TipusDocumentJPA.copyJPA(__jpa.getTipusDocuments(), __alreadyCopied,"UsuariAplicacioJPA"));
-    }
-    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
-      __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"UsuariAplicacioJPA"));
-    }
     if(!"CustodiaInfoJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfos) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfos())) ) {
       __tmp.setCustodiaInfos(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfos(), __alreadyCopied,"UsuariAplicacioJPA"));
@@ -468,7 +460,19 @@ private static final long serialVersionUID = -360699331L;
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.perfilsPerUsuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getPerfilsPerUsuariAplicacios())) ) {
       __tmp.setPerfilsPerUsuariAplicacios(PerfilsPerUsuariAplicacioJPA.copyJPA(__jpa.getPerfilsPerUsuariAplicacios(), __alreadyCopied,"UsuariAplicacioJPA"));
     }
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
+      __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"UsuariAplicacioJPA"));
+    }
+    if(!"PluginFirmaWebPerUsuariAplicacioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginFirmaWebPerUsuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginFirmaWebPerUsuariAplicacios())) ) {
+      __tmp.setPluginFirmaWebPerUsuariAplicacios(PluginFirmaWebPerUsuariAplicacioJPA.copyJPA(__jpa.getPluginFirmaWebPerUsuariAplicacios(), __alreadyCopied,"UsuariAplicacioJPA"));
+    }
     // Copia de beans complexes (IMP)
+    if(!"IdiomaJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.idioma) || org.hibernate.Hibernate.isInitialized(__jpa.getIdioma()) ) ) {
+      __tmp.setIdioma(IdiomaJPA.copyJPA(__jpa.getIdioma(), __alreadyCopied,"UsuariAplicacioJPA"));
+    }
     if(!"EntitatJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat()) ) ) {
       __tmp.setEntitat(EntitatJPA.copyJPA(__jpa.getEntitat(), __alreadyCopied,"UsuariAplicacioJPA"));
@@ -476,10 +480,6 @@ private static final long serialVersionUID = -360699331L;
     if(!"CustodiaInfoJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfo) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfo()) ) ) {
       __tmp.setCustodiaInfo(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfo(), __alreadyCopied,"UsuariAplicacioJPA"));
-    }
-    if(!"IdiomaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.idioma) || org.hibernate.Hibernate.isInitialized(__jpa.getIdioma()) ) ) {
-      __tmp.setIdioma(IdiomaJPA.copyJPA(__jpa.getIdioma(), __alreadyCopied,"UsuariAplicacioJPA"));
     }
 
     return __tmp;
