@@ -1,3 +1,16 @@
+PortaFIB 2.0.21
+==============
+
+ - Poder definir manualment forma d'extreure NIF de Certificat #666
+ - Certificat de Firma Professional no reconeix correctament el NIF #665
+ - Les acceptacions per part de Revisors no deixen constància a la bitàcola #610
+ - El notificador REST només comprova l'status HTTP però no la resposta #668
+ - Pareix que certs numeros de serie excedeixen el tamany de BBDD #667
+ - Amb l'API WS Indra, quan es produeix un error de base de dades creant una petició no s'esborren els fitxers #650
+ - Problema amb la connexió TLSv1.2 amb viafirma #554
+ - Unificar els tests d'integració amb un únic mòdul i automatitzar-ho #613
+ - Quan s'empra l'enviament de notificacions amb coes, retrassar l'enviament de petició finalitzada #611
+
 PortaFIB 2.0.20
 ==============
 
