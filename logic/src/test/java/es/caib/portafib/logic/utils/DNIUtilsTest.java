@@ -34,6 +34,16 @@ public class DNIUtilsTest {
         Assert.assertEquals("99999999R", DNIUtils.getDNI(cert));
     }
 
+    @Test
+    public void testBeworPatternWithNewLines() throws Exception, I18NException {
+
+        Mockito.doReturn("\r\n\r\n\r^IDCFJ-([0-9]{8}[A-Z])$\n\r\n\r")
+                .when(EjbManager.propietatLogicaEjb).getProperty(("es.caib.portafib.dniPattern"));
+
+        X509Certificate cert = certificateFixture();
+        Assert.assertEquals("99999999R", DNIUtils.getDNI(cert));
+    }
+
     private X509Certificate certificateFixture() throws Exception {
         InputStream is = getClass().getResourceAsStream("/bewor_pf.cer");
         X509Certificate cert = CertificateUtils.decodeCertificate(is);

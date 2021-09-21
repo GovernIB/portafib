@@ -16,10 +16,10 @@ public class DNIUtils {
             return CertificateUtils.getDNI(certificate);
         }
 
-        String[] patterns = dniPattern.split(",");
-        List<String> patternsList = new ArrayList<String>();
+        String[] patterns = dniPattern.split("[\r\n]+");
+        List<String> patternsList = new ArrayList<String>(Arrays.asList(patterns));
         patternsList.add(CertificateUtils.DEFAULT_DNI_PATTERN);
-        patternsList.addAll(Arrays.asList(patterns));
+
         return CertificateUtils.getDNI(certificate, patternsList);
     }
 }
