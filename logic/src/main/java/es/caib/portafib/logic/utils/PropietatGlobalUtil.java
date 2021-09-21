@@ -40,9 +40,11 @@ public class PropietatGlobalUtil implements ConstantsV2 {
   
   /**
    * Nou a 2.0.21. Opcional.
-   * Llista de expressions regulars, separades per "," que s'empraran per extreure el NIF/NIE de dins el serialNumber
+   * Llista de expressions regulars, separades per bots de línia que s'empraran per extreure el NIF/NIE de dins el serialNumber
    * del Subject dels certificats. el NIF/NIE ha d'estar dins el primer grup.
-   * Exemple: <code>^IDCES-([0-9]{8}[A-Z])$, ^PNOES-([0-9]{8}[A-Z])$, ^([0-9]{8}[A-Z])$</code>
+   * Exemple: <code>^IDCES-([0-9]{8}[A-Z])$<br />
+   * ^PNOES-([0-9]{8}[A-Z])$<br />
+   * ^([0-9]{8}[A-Z])$</code>
    */
   public static String getDniPattern() {
     return getString("dniPattern");

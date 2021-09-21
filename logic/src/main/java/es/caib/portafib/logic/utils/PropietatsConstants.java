@@ -163,7 +163,7 @@ public class PropietatsConstants {
       new Propietat(
           true,
           "es.caib.portafib.dniPattern",
-          "Nou a la versió 2.0.21. Opcional. Llista de expressions regulars, separades per \",\" que s'empraran per extreure el NIF/NIE de dins el serialNumber del Subject dels certificats. el NIF/NIE ha d'estar dins el primer grup. Exemple: \"^IDCES-([0-9]{8}[A-Z])$, ^PNOES-([0-9]{8}[A-Z])$, ^([0-9]{8}[A-Z])$\"")
+          "Nou a la versió 2.0.21. Opcional. Llista de expressions regulars, separades per bots de línia que s'empraran per extreure el NIF/NIE de dins el serialNumber del Subject dels certificats. el NIF/NIE ha d'estar dins el primer grup. Exemple: \"^IDCES-([0-9]{8}[A-Z])$\", \"^PNOES-([0-9]{8}[A-Z])$\", \"^([0-9]{8}[A-Z])$\"")
 
   };
 
