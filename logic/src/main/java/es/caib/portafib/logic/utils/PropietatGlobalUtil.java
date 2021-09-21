@@ -39,6 +39,16 @@ public class PropietatGlobalUtil implements ConstantsV2 {
   
   
   /**
+   * Nou a 2.0.21. Opcional.
+   * Llista de expressions regulars, separades per "," que s'empraran per extreure el NIF/NIE de dins el serialNumber
+   * del Subject dels certificats. el NIF/NIE ha d'estar dins el primer grup.
+   * Exemple: <code>^IDCES-([0-9]{8}[A-Z])$, ^PNOES-([0-9]{8}[A-Z])$, ^([0-9]{8}[A-Z])$</code>
+   */
+  public static String getDniPattern() {
+    return getString("dniPattern");
+  }
+
+  /**
    * @return Si val true indica que les validacions per tipus XAdes i CAdes s'han de fer si o
    *         si, i en el cas de no haver-hi validador, llavors llançar un error. Si val false i
    *         no hi ha validador per algun tipus de xequeig (validador de firma, de nif firmant
@@ -492,8 +502,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
    * aquesta propietat podem decidir si aquest usuari-entitat es crearà activat (true) o
    * desactivat (false o no definit).
    *
-   * @param entitatID
-   * @return
    */
   public static boolean isActiveUsuariEntitatAfterAgentSeyconCreation() {
     final String partialPropertyName = "activeusuarientitatafteragentseyconcreation";

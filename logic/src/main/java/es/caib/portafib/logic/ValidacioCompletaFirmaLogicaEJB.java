@@ -4,6 +4,7 @@ import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.security.PdfPKCS7;
 
+import es.caib.portafib.logic.utils.DNIUtils;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfComparator;
@@ -400,7 +401,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         }
 
         if (nifFirmant == null) {
-          nifFirmant = CertificateUtils.getDNI(certificateLastSign);
+          nifFirmant = DNIUtils.getDNI(certificateLastSign);
           try {
             String[] empresaNif = CertificateUtils.getEmpresaNIFNom(certificateLastSign);
             if (empresaNif != null) {
