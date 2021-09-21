@@ -161,7 +161,7 @@ public class PortaFIBRubricGenerator implements IRubricGenerator {
       
       final String emissor = CertificateUtils.getCN(cert.getIssuerDN().toString());
       
-      final  String nif = CertificateUtils.getDNI(cert);
+      final  String nif = DNIUtils.getDNI(cert);
       
       final Long nifLen = new Long((nif== null || nif.trim().length() == 0)? 0 : nif.length());
       

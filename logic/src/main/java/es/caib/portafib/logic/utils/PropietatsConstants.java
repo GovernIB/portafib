@@ -159,7 +159,11 @@ public class PropietatsConstants {
       new Propietat(
           true,
           "es.caib.portafib.compactmenuoptionsofaden",
-          "Nou a la versió 2.0.1. Opcional. Per defecte false. Per entorn CAIB sempre val true. En entorn NO CAIB si val true indica que varies opcions del menú d’Administrador d’Entitat associades a Llistat de Peticions de Firma no es mostraran.")
+          "Nou a la versió 2.0.1. Opcional. Per defecte false. Per entorn CAIB sempre val true. En entorn NO CAIB si val true indica que varies opcions del menú d’Administrador d’Entitat associades a Llistat de Peticions de Firma no es mostraran."),
+      new Propietat(
+          true,
+          "es.caib.portafib.dniPattern",
+          "Nou a la versió 2.0.21. Opcional. Llista de expressions regulars, separades per \",\" que s'empraran per extreure el NIF/NIE de dins el serialNumber del Subject dels certificats. el NIF/NIE ha d'estar dins el primer grup. Exemple: \"^IDCES-([0-9]{8}[A-Z])$, ^PNOES-([0-9]{8}[A-Z])$, ^([0-9]{8}[A-Z])$\"")
 
   };
 
