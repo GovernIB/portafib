@@ -3,12 +3,10 @@ package es.caib.portafib.back.utils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.web.controller.CommonBaseController;
+import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.List;
-
-import static es.caib.portafib.back.utils.Utils.STRINGKEYVALUECOMPARATOR;
 
 /**
  * @author areus
@@ -21,8 +19,8 @@ public class TestUtils {
    public void testSortEmptyStringKeyValueList() {
       log.info("testSortEmptyStringKeyValueList");
 
-      List<StringKeyValue> list1 = CommonBaseController.EMPTY_STRINGKEYVALUE_LIST;
-      Collections.sort(list1, STRINGKEYVALUECOMPARATOR);
+      List<StringKeyValue> list1 = CommonBaseController.EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      Assert.assertTrue(list1.isEmpty());
    }
 
 }
