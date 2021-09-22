@@ -3,19 +3,19 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Id;
-import javax.persistence.GenerationType;
-import org.hibernate.annotations.Index;
-import org.hibernate.annotations.ForeignKey;
-import java.util.HashSet;
-import javax.persistence.OneToMany;
 import javax.persistence.Entity;
-import java.util.Set;
-import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import org.hibernate.annotations.ForeignKey;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import java.util.Set;
+import java.util.HashSet;
+import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
+import org.hibernate.annotations.Index;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
 
 
 @Entity
@@ -354,24 +354,24 @@ private static final long serialVersionUID = -877725275L;
     }
     // Copia de beans complexes (IMP)
     if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.configuracioDeFirma1) || org.hibernate.Hibernate.isInitialized(__jpa.getConfiguracioDeFirma1()) ) ) {
-      __tmp.setConfiguracioDeFirma1(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getConfiguracioDeFirma1(), __alreadyCopied,"PerfilDeFirmaJPA"));
-    }
-    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.configuracioDeFirma2) || org.hibernate.Hibernate.isInitialized(__jpa.getConfiguracioDeFirma2()) ) ) {
       __tmp.setConfiguracioDeFirma2(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getConfiguracioDeFirma2(), __alreadyCopied,"PerfilDeFirmaJPA"));
+    }
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.configuracioDeFirma1) || org.hibernate.Hibernate.isInitialized(__jpa.getConfiguracioDeFirma1()) ) ) {
+      __tmp.setConfiguracioDeFirma1(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getConfiguracioDeFirma1(), __alreadyCopied,"PerfilDeFirmaJPA"));
     }
     if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.configuracioDeFirma5) || org.hibernate.Hibernate.isInitialized(__jpa.getConfiguracioDeFirma5()) ) ) {
       __tmp.setConfiguracioDeFirma5(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getConfiguracioDeFirma5(), __alreadyCopied,"PerfilDeFirmaJPA"));
     }
     if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.configuracioDeFirma3) || org.hibernate.Hibernate.isInitialized(__jpa.getConfiguracioDeFirma3()) ) ) {
-      __tmp.setConfiguracioDeFirma3(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getConfiguracioDeFirma3(), __alreadyCopied,"PerfilDeFirmaJPA"));
-    }
-    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.configuracioDeFirma4) || org.hibernate.Hibernate.isInitialized(__jpa.getConfiguracioDeFirma4()) ) ) {
       __tmp.setConfiguracioDeFirma4(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getConfiguracioDeFirma4(), __alreadyCopied,"PerfilDeFirmaJPA"));
+    }
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.configuracioDeFirma3) || org.hibernate.Hibernate.isInitialized(__jpa.getConfiguracioDeFirma3()) ) ) {
+      __tmp.setConfiguracioDeFirma3(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getConfiguracioDeFirma3(), __alreadyCopied,"PerfilDeFirmaJPA"));
     }
 
     return __tmp;

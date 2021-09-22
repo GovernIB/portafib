@@ -105,6 +105,7 @@ public class EntitatValidator<T> implements EntitatFields {
       }
     }
     
+    //class java.lang.Class
     if (__vr.getFieldErrorCount(ENTITATID) == 0) {
       String val = String.valueOf(__vr.getFieldValue(__target__,ENTITATID));
       if (val != null && val.trim().length() != 0) {
@@ -180,6 +181,7 @@ public class EntitatValidator<T> implements EntitatFields {
       }
     }
     
+    //class java.lang.Class
     if (__vr.getFieldErrorCount(SUPORTEMAIL) == 0) {
       String val = String.valueOf(__vr.getFieldValue(__target__,SUPORTEMAIL));
       if (val != null && val.trim().length() != 0) {

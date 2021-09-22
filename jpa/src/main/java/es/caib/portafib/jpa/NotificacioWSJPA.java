@@ -3,17 +3,18 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
-import org.hibernate.annotations.Index;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.GeneratedValue;
+import org.hibernate.annotations.Index;
+import javax.persistence.SequenceGenerator;
+import org.hibernate.annotations.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import org.hibernate.annotations.Type;
+import javax.persistence.Id;
 
 
 @Entity
@@ -48,14 +49,16 @@ private static final long serialVersionUID = 1184441005L;
 	java.sql.Timestamp dataEnviament;
 
 	@Column(name="descripcio",length = 2147483647)
-  @Lob
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
 	java.lang.String descripcio;
 
 	@Column(name="bloquejada",length = 1)
 	boolean bloquejada;
 
 	@Column(name="error",length = 2147483647)
-  @Lob
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
 	java.lang.String error;
 
 	@Column(name="dataerror",length = 35,precision = 6)

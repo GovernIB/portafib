@@ -3,18 +3,18 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import java.util.HashSet;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Entity;
-import java.util.Set;
-import org.hibernate.annotations.Index;
+import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
+import org.hibernate.annotations.Index;
+import javax.persistence.SequenceGenerator;
+import org.hibernate.annotations.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.OneToMany;
+import java.util.Set;
+import javax.persistence.Id;
 
 
 @Entity
