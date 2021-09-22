@@ -66,13 +66,9 @@ public class TestJPA {
   public static final Logger log = Logger.getLogger(TestJPA.class);
 
   public static void main(String[] args) {
-    
     new TestJPA().main();
   }
-  
- 
-  
-  @Test
+
   public void main() {
     try {
       log.info(">>>>>>>>>>>>  Hello World!");
