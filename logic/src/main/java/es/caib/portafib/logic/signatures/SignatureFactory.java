@@ -1,5 +1,6 @@
 package es.caib.portafib.logic.signatures;
 
+import es.caib.portafib.logic.utils.DNIUtils;
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 
 import java.security.cert.X509Certificate;
@@ -23,7 +24,7 @@ public class SignatureFactory {
         Signature.Builder builder = new Signature.Builder()
                 .signingTime(date)
                 .signerName(CertificateUtils.getSubjectCorrectName(certificate))
-                .signerAdministrationId(CertificateUtils.getDNI(certificate));
+                .signerAdministrationId(DNIUtils.getDNI(certificate));
 
         try {
             String[] empresaNif = CertificateUtils.getEmpresaNIFNom(certificate);

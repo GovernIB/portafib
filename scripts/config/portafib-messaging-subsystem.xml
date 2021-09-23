@@ -18,5 +18,7 @@
 
         <jms-queue name="es.caib.portafib.PortaFIBMailsQueue" entries="java:/jms/es.caib.portafib.PortaFIBMailsQueue"
                    durable="true"/>
+				   
+	    <!-- ..... -->
     </server>
 </subsystem>

@@ -45,10 +45,10 @@ public class UsuariEntitatLogicaEJBTest {
 
         Mockito.verify(mockEntityManager).createQuery("select roleUsuariEntitat.usuariEntitat.usuariPersona.email " +
                 "from RoleUsuariEntitatJPA roleUsuariEntitat " +
-                "where (  ( ( roleUsuariEntitat.roleID = ? ) ) " +
-                " AND  ( ( roleUsuariEntitat.usuariEntitat.entitatID = ? ) ) " +
-                " AND  ( ( roleUsuariEntitat.usuariEntitat.actiu = ? ) ) " +
-                " AND  ( ( roleUsuariEntitat.usuariEntitat.rebreTotsElsAvisos = ? ) )  )");
+                "where (  ( ( roleUsuariEntitat.roleID = ?1 ) ) " +
+                " AND  ( ( roleUsuariEntitat.usuariEntitat.entitatID = ?2 ) ) " +
+                " AND  ( ( roleUsuariEntitat.usuariEntitat.actiu = ?3 ) ) " +
+                " AND  ( ( roleUsuariEntitat.usuariEntitat.rebreTotsElsAvisos = ?4 ) )  )");
 
         Mockito.verify(mockQuery).setParameter(1, ConstantsV2.ROLE_ADEN);
         Mockito.verify(mockQuery).setParameter(2, "fundaciobit");

@@ -1,5 +1,6 @@
 package es.caib.portafib.logic.signature;
 
+import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.logic.signatures.CadesSignatureExtractor;
 import es.caib.portafib.logic.signatures.PadesSignatureExtractor;
 import es.caib.portafib.logic.signatures.SignType;
@@ -7,6 +8,7 @@ import es.caib.portafib.logic.signatures.Signature;
 import es.caib.portafib.logic.signatures.SignatureExtractor;
 import es.caib.portafib.logic.signatures.SignatureExtractorFactory;
 import es.caib.portafib.logic.signatures.XadesSignatureExtractor;
+import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.ProviderRegistration;
 import es.caib.portafib.logic.utils.datasource.FileDataSource;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
@@ -15,8 +17,10 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
@@ -26,8 +30,14 @@ public class TestSignatureExtractor {
     private static final ProviderRegistration providerRegistration = new ProviderRegistration();
 
     @BeforeClass
-    public static void setup() {
+    public static void setup() throws Exception {
         providerRegistration.register();
+
+        // Necessari pq per davall s'empra el mètode DNIUtils.getDNI que cerca la propietat de base de dades dniPattern
+        PropietatGlobalLogicaLocal mock = Mockito.mock(PropietatGlobalLogicaLocal.class);
+        Field field = EjbManager.class.getDeclaredField("propietatLogicaEjb");
+        field.setAccessible(true);
+        field.set(null, mock);
     }
 
     @AfterClass

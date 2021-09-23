@@ -3,13 +3,14 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
-import org.hibernate.annotations.Index;
+import javax.persistence.Lob;
 import javax.persistence.GeneratedValue;
+import org.hibernate.annotations.Index;
+import javax.persistence.SequenceGenerator;
+import org.hibernate.annotations.Type;
+import javax.persistence.Id;
 
 
 @Entity
@@ -52,7 +53,8 @@ private static final long serialVersionUID = 1492894118L;
 	java.lang.String descripcio;
 
 	@Column(name="objecteserialitzat",length = 2147483647)
-  @Lob
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
 	java.lang.String objecteSerialitzat;
 
 

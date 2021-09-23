@@ -3,17 +3,18 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
-import org.hibernate.annotations.Index;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.GeneratedValue;
+import org.hibernate.annotations.Index;
+import javax.persistence.SequenceGenerator;
+import org.hibernate.annotations.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import org.hibernate.annotations.Type;
+import javax.persistence.Id;
 
 
 @Entity
@@ -47,7 +48,8 @@ private static final long serialVersionUID = -1618108326L;
 	java.lang.String metodePlugin;
 
 	@Column(name="parametrestext",length = 2147483647)
-  @Lob
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
 	java.lang.String parametresText;
 
 	@Index(name="pfi_plugcrida_paramfitxer_fk_i")
@@ -56,7 +58,8 @@ private static final long serialVersionUID = -1618108326L;
 
   /** conte error si falla i dades resultat si va bé. */
 	@Column(name="retorntext",length = 2147483647)
-  @Lob
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
 	java.lang.String retornText;
 
 	@Index(name="pfi_plugcrida_retorfitxer_fk_i")

@@ -12,6 +12,7 @@ import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.login.LoginException;
 
+import es.caib.portafib.logic.utils.DNIUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
@@ -128,7 +129,7 @@ public class BaseCertLoginModule extends org.jboss.security.auth.spi.BaseCertLog
           log.debug("Empram el certificat " + cert);
         }
         // TODO fer-ho amb IB-KEY
-        String dni = CertificateUtils.getDNI(cert);
+        String dni = DNIUtils.getDNI(cert);
         UsuariPersonaJPA usuariPersona;
         if (dni != null) {
           log.info(" Feim el Login emprant el DNI " + dni);

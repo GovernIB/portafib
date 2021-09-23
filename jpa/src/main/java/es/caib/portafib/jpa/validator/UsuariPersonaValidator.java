@@ -67,6 +67,7 @@ public class UsuariPersonaValidator<T> implements UsuariPersonaFields {
       }
     }
     
+    //class java.lang.Class
     if (__vr.getFieldErrorCount(USUARIPERSONAID) == 0) {
       String val = String.valueOf(__vr.getFieldValue(__target__,USUARIPERSONAID));
       if (val != null && val.trim().length() != 0) {
@@ -102,6 +103,7 @@ public class UsuariPersonaValidator<T> implements UsuariPersonaFields {
       }
     }
     
+    //class java.lang.Class
     if (__vr.getFieldErrorCount(EMAIL) == 0) {
       String val = String.valueOf(__vr.getFieldValue(__target__,EMAIL));
       if (val != null && val.trim().length() != 0) {
@@ -121,6 +123,7 @@ public class UsuariPersonaValidator<T> implements UsuariPersonaFields {
       }
     }
     
+    //class java.lang.Class
     if (__vr.getFieldErrorCount(NIF) == 0) {
       String val = String.valueOf(__vr.getFieldValue(__target__,NIF));
       if (val != null && val.trim().length() != 0) {
