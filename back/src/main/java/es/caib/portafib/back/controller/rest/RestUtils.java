@@ -157,12 +157,12 @@ public class RestUtils {
         request.login(username, password);
       }
 
-      if (request.isUserInRole(ConstantsV2.PFI_USER)) {
+      if (request.isUserInRole(ConstantsV2.ROLE_USER)) {
         log.debug("has PFI_USER");
         roles.add(ConstantsV2.PFI_USER);
       }
 
-      if (request.isUserInRole(ConstantsV2.PFI_ADMIN)) {
+      if (request.isUserInRole(ConstantsV2.ROLE_ADMIN)) {
         log.debug("has PFI_ADMIN");
         roles.add(ConstantsV2.PFI_ADMIN);
       }
