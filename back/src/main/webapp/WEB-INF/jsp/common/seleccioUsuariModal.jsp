@@ -1,6 +1,6 @@
 <%@page import="es.caib.portafib.utils.Configuracio"
 %><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
-<%--  ======  AQUI COMENÇA MODAL DE SELECCIÓ D'USUARI ============ --%>
+<%--  ======  AQUI COMENï¿½A MODAL DE SELECCIï¿½ D'USUARI ============ --%>
 
 <style type="text/css">
 .modal-body {
@@ -20,7 +20,7 @@
 <div id="selectUser${usuarimodalconfig}Modal" class="modal hide fade"
   style="width: 640px;">
   <form:form modelAttribute="seleccioUsuariForm" action="${theURL}"
-    method="${method}" name="seleccioUsuari${usuarimodalconfig}Form"
+    method="post" name="seleccioUsuari${usuarimodalconfig}Form"
     id="seleccioUsuari${usuarimodalconfig}Form">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

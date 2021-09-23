@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
 
-<form:form modelAttribute="seleccioUsuariForm" method="${method}" name="seleccioUsuariForm">
+<form:form modelAttribute="seleccioUsuariForm" method="post" name="seleccioUsuariForm">
 
 
 

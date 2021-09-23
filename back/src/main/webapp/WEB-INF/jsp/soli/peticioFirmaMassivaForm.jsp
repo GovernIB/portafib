@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
-<form:form modelAttribute="peticioFirmaMassivaForm" method="${method}" name="peticioFirmaMassivaForm" enctype="multipart/form-data">
+<form:form modelAttribute="peticioFirmaMassivaForm" method="post" name="peticioFirmaMassivaForm" enctype="multipart/form-data">
 
 <h3 class="tabs_involved">
   <fmt:message key="peticioFirmaMassiva.titol" />

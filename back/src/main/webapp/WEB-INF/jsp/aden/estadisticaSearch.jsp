@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
 <form:form name="estadistica" cssClass="form-horizontal"  modelAttribute="estadisticaFilterForm"
-        method="${method}" enctype="multipart/form-data">
+        method="post" enctype="multipart/form-data">
 
   <c:set var="contexte" value="${estadisticaFilterForm.contexte}"/>
   <c:set var="__theFilterForm" value="${estadisticaFilterForm}" />

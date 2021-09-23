@@ -4,7 +4,7 @@
 
 
 <form:form name="fluxDeFirmes" cssClass="form-search"  modelAttribute="fluxDeFirmesFilterForm" 
-        method="${method}"  enctype="multipart/form-data">
+        method="post"  enctype="multipart/form-data">
 
   <%@include file="../webdb/fluxDeFirmesListCommon.jsp" %>
   <div class="filterLine lead" style="margin-bootom:10px">

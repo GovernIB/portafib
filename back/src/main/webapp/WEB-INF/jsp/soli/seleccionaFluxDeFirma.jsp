@@ -12,7 +12,7 @@
 
 <h4><fmt:message key="selectflux.title" /></h4>
 <c:url var="theAction" value="${contexte}/selectflux" />
-<form:form modelAttribute="seleccioFluxDeFirmesForm" method="${method}" action="${theAction}" name="seleccioFluxDeFirmesForm">
+<form:form modelAttribute="seleccioFluxDeFirmesForm" method="post" action="${theAction}" name="seleccioFluxDeFirmesForm">
 
 <table class="table table-condensed table-bordered table-striped" style="width:auto;"> 
 <tr>

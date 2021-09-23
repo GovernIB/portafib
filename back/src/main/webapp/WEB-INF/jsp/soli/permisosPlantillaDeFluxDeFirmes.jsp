@@ -4,7 +4,7 @@
 
 <sec:authorize access="hasRole('ROLE_ADEN')">
  <c:if test="${ empty plantillaFluxDeFirmesForm.plantillaFluxDeFirmes.compartir}">
-<form:form modelAttribute="plantillaFluxDeFirmesForm" method="${method}"
+<form:form modelAttribute="plantillaFluxDeFirmesForm" method="post"
   enctype="multipart/form-data">
   
   <c:set var="contexte" value="${plantillaFluxDeFirmesForm.contexte}"/>

@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
-<form:form modelAttribute="seleccioNifForm" method="${method}" name="seleccioNifForm">
+<form:form modelAttribute="seleccioNifForm" method="post" name="seleccioNifForm">
 
 <h3 class="tabs_involved">
   <fmt:message key="${seleccioNifForm.titol}" />

@@ -1,11 +1,11 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
-<form:form modelAttribute="seleccioCarrecForm" method="${method}" name="seleccioCarrecForm">
+<form:form modelAttribute="seleccioCarrecForm" method="post" name="seleccioCarrecForm">
 <h3 class="tabs_involved">
   <fmt:message key="${seleccioCarrecForm.titol}" />
 </h3>
 
-<!-- Usuari-Entitat Càrrec-->
+<!-- Usuari-Entitat Cï¿½rrec-->
 <table class="table table-condensed table-bordered" style="width:auto;">
 <tbody>
   <tr>

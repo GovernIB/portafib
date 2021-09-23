@@ -41,7 +41,7 @@
 </c:if>
 
 <form:form name="fluxDeFirmesForm" action="${action}" modelAttribute="fluxDeFirmesForm"
-  method="${method}" enctype="multipart/form-data">
+  method="post" enctype="multipart/form-data">
 
   <c:if test="${not onlyFlux}">
 
@@ -538,7 +538,7 @@
 <!-- Modal Per demanar NIF de  USUARI EXTERN tabindex="-1" role="dialog" aria-labelledby="consultaNifUsuariExternLabel" aria-hidden="true"-->
 
 <div class="modal hide fade" id="consultaNifUsuariExtern" >
-  <form:form action="#" method="${method}" id="consultaNifUsuariExternForm">
+  <form:form action="#" method="post" id="consultaNifUsuariExternForm">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       <h3>

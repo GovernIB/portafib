@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
  <un:useConstants var="Constants" className="es.caib.portafib.utils.Constants" />
  
-<form:form modelAttribute="autoFirmaForm" method="${method}"
+<form:form modelAttribute="autoFirmaForm" method="post"
   enctype="multipart/form-data">
  
   
@@ -81,7 +81,7 @@
             <td>
               <form:select path="idioma"> 
                 <form:option value="es">Castellano</form:option>
-                <form:option value="ca">Català</form:option>
+                <form:option value="ca">Catalï¿½</form:option>
               </form:select>
             </td>
          </tr>
