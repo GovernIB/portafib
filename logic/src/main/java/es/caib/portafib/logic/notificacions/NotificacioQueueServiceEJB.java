@@ -73,8 +73,7 @@ public class NotificacioQueueServiceEJB implements NotificacioQueueServiceLocal 
       for (NotificacioWS notificacio : notificacionsPendents) {
         TextMessage message = session.createTextMessage(notificacio.getDescripcio());
         if (notificacio.getTipusNotificacioID() == ConstantsV2.NOTIFICACIOAVIS_PETICIO_FIRMADA) {
-          message.setLongProperty("JMS_JBOSS_SCHEDULED_DELIVERY", System.currentTimeMillis() + 30000);
-          message.setLongProperty("_HQ_SCHED_DELIVERY", System.currentTimeMillis() + 30000);
+          message.setLongProperty("_AMQ_SCHED_DELIVERY", System.currentTimeMillis() + 30000);
         }
         messageProducer.send(message);
         notificacioEjb.delete(notificacio);
