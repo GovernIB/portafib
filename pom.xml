@@ -73,6 +73,14 @@
       <version>1.2.14</version>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>2.3.1</version>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
   <properties>
@@ -101,8 +109,8 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.1</version>
           <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
+            <source>11</source>
+            <target>11</target>
             <encoding>UTF-8</encoding>
           </configuration>
         </plugin>

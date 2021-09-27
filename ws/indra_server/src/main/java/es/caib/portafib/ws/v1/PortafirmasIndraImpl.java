@@ -1,6 +1,5 @@
 package es.caib.portafib.ws.v1;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import es.caib.portafib.ejb.AnnexFirmatLocal;
 import es.caib.portafib.ejb.TipusDocumentLocal;
 import es.caib.portafib.jpa.AnnexFirmatJPA;
@@ -145,6 +144,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
@@ -1983,9 +1983,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
           Where w =EstatDeFirmaFields.FIRMAID.equal(firma.getFirmaID()); 
           Timestamp maxDate = estatDeFirmaLogicaEjb.max(EstatDeFirmaFields.DATAFI, w);
           if (maxDate != null) {
-            GregorianCalendar gc = (GregorianCalendar)GregorianCalendar.getInstance();
-            gc.setTimeInMillis(maxDate.getTime());
-            signer.setDate(new XMLGregorianCalendarImpl(gc));
+            signer.setDate(toXML(maxDate));
           }
           
           if (estat == TIPUSESTATDEFIRMAFINAL_FIRMAT) {
@@ -2347,19 +2345,12 @@ public class PortafirmasIndraImpl implements Cws, Constants {
   
   
   
-  private XMLGregorianCalendarImpl toXML(Timestamp time) {
-
+  private XMLGregorianCalendar toXML(Timestamp time) {
     GregorianCalendar gregCal = (GregorianCalendar)GregorianCalendar.getInstance();
-
     gregCal.setTimeInMillis(time.getTime());
-
-    XMLGregorianCalendarImpl xmlGregCal = new XMLGregorianCalendarImpl(gregCal);
-
-    return xmlGregCal;
+    return DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(gregCal);
   }
-  
-  
-  
+
   private DocumentAttributes peticioDeFirma2DocumentAttributes(
       PeticioDeFirmaJPA peticioDeFirma) throws Exception, I18NException {
     

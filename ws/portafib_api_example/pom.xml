@@ -27,8 +27,8 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
+            <source>11</source>
+            <target>11</target>
             <encoding>UTF-8</encoding>
           </configuration>
         </plugin>
@@ -116,6 +116,13 @@
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.14</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.xml.ws</groupId>
+      <artifactId>jaxws-api</artifactId>
+      <version>2.3.1</version>
+      <scope>provided</scope>
     </dependency>
 
   </dependencies>
