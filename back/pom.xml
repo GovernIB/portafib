@@ -109,13 +109,6 @@
       <version>${plugins.version}</version>
       <scope>provided</scope>
     </dependency>
-    
-    <dependency>
-      <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
-      <artifactId>pluginsib-documentcustody-api</artifactId>
-      <version>4.0.0</version>
-      <scope>provided</scope>
-    </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.genapp</groupId>
@@ -231,13 +224,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.jboss.security</groupId>
-      <artifactId>jboss-security-spi</artifactId>
-      <version>2.0.4.SP7</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
       <version>${spring.version}</version>
@@ -254,20 +240,7 @@
       <artifactId>spring-beans</artifactId>
       <version>${spring.version}</version>
     </dependency>
-
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-expression</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-aop</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
-
-
+    
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
@@ -345,36 +318,9 @@
     </dependency>
 
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-orm</artifactId>
-      <version>${spring.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.apache.xerces</groupId>
-          <artifactId>xml-apis</artifactId>
-        </exclusion>
-
-      </exclusions>
-    </dependency>
-    
-    
-    <dependency>
         <groupId>org.springframework.mobile</groupId>
         <artifactId>spring-mobile-device</artifactId>
         <version>1.1.5.RELEASE</version>
-    </dependency>
-    
-
-    <dependency>
-      <groupId>cglib</groupId>
-      <artifactId>cglib</artifactId>
-      <version>2.2.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>jfree</groupId>
-      <artifactId>jfreechart</artifactId>
-      <version>1.0.13</version>
     </dependency>
 
   </dependencies>

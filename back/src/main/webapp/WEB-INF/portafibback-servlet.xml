@@ -107,10 +107,10 @@
     </bean>
 
     <bean id="mappingJacksonHttpMessageConverter"
-          class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
       <property name="supportedMediaTypes" value="application/json" />
       <property name="objectMapper">
-        <bean class="org.codehaus.jackson.map.ObjectMapper">
+        <bean class="com.fasterxml.jackson.databind.ObjectMapper">
            <property name="serializationInclusion" value="NON_NULL"/>
         </bean>
       </property>
