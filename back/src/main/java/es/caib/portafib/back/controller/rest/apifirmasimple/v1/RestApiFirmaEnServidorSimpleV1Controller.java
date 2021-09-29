@@ -34,7 +34,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeResponse
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradedFileInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleValidationInfo;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.certificate.InformacioCertificat;
+import org.fundaciobit.pluginsib.validatecertificate.InformacioCertificat;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;

@@ -26,8 +26,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.certificate.ICertificatePlugin;
-import org.fundaciobit.plugins.certificate.ResultatValidacio;
+import org.fundaciobit.pluginsib.validatecertificate.ICertificatePlugin;
+import org.fundaciobit.pluginsib.validatecertificate.ResultatValidacio;
 import org.fundaciobit.pluginsib.documentconverter.IDocumentConverterPlugin;
 import org.fundaciobit.pluginsib.documentconverter.InputDocumentNotSupportedException;
 import org.fundaciobit.pluginsib.documentconverter.OutputDocumentNotSupportedException;
@@ -42,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,22 +59,6 @@ import java.util.Vector;
 public class PdfUtils implements ConstantsV2 {
 
   protected static Logger log = Logger.getLogger(PdfUtils.class);
-
-  public static final byte[] EOF_PDF;
-
-  static {
-    byte[] tmp;
-    try {
-      tmp = "%%EOF".getBytes("UTF-8");
-    } catch (Throwable e) {
-      tmp = "%%EOF".getBytes();
-    }
-    EOF_PDF = tmp;
-
-    log.info("Numero màxim de firmants per taula de firmes: "
-        + ConstantsV2.MAX_FIRMES_PER_TAULA);
-  }
-
 
   public static Fitxer convertToPDF(File fileToConvert, Fitxer fileToConvertInfo) throws I18NException {
 

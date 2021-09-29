@@ -1,7 +1,7 @@
 package es.caib.portafib.logic.utils;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.plugins.certificate.ICertificatePlugin;
+import org.fundaciobit.pluginsib.validatecertificate.ICertificatePlugin;
 import org.fundaciobit.pluginsib.documentconverter.IDocumentConverterPlugin;
 import org.fundaciobit.pluginsib.userinformation.IUserInformationPlugin;
 import org.fundaciobit.pluginsib.core.utils.PluginsManager;

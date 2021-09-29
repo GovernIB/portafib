@@ -258,13 +258,13 @@
       <dependency>
         <groupId>org.fundaciobit.pluginsib.validatecertificate</groupId>
         <artifactId>pluginsib-validatecertificate-afirmacxf</artifactId>				  
-        <version>2.0.3</version>
+        <version>${plugins.validatecertificate.version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.fundaciobit.pluginsib.validatecertificate</groupId>
         <artifactId>pluginsib-validatecertificate-fake</artifactId>
-        <version>2.0.0</version>
+        <version>${plugins.validatecertificate.version}</version>
       </dependency>
 
 
@@ -385,14 +385,14 @@
       <dependency>
         <groupId>org.fundaciobit.pluginsib.validatesignature</groupId>
         <artifactId>pluginsib-validatesignature-api</artifactId>
-        <version>2.0.0</version>
+        <version>${plugins.validatesignature.version}</version>
       </dependency>
       
       <dependency>
         <groupId>org.fundaciobit.pluginsib.validatesignature</groupId>
         <artifactId>pluginsib-validatesignature-afirmacxf</artifactId>
-        <version>2.0.5</version>
-
+        <version>${plugins.validatesignature.version}</version>
+        <!--
         <exclusions> 
           <exclusion>  
             <groupId>xerces</groupId>
@@ -433,7 +433,8 @@
             <groupId>com.sun.xml.security</groupId>
             <artifactId>xml-security-impl</artifactId>
           </exclusion>
-        </exclusions> 
+        </exclusions>
+        -->
       </dependency>
 
     <dependency>

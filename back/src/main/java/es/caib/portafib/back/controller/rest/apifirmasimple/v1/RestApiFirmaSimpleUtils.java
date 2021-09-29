@@ -42,7 +42,7 @@ import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.plugins.certificate.InformacioCertificat;
+import org.fundaciobit.pluginsib.validatecertificate.InformacioCertificat;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
