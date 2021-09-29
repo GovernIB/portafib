@@ -61,7 +61,7 @@ import org.fundaciobit.plugins.documentcustody.api.SignatureCustody;
 import org.fundaciobit.pluginsib.barcode.IBarcodePlugin;
 import org.fundaciobit.pluginsib.core.utils.MetadataFormatException;
 import org.fundaciobit.pluginsib.core.utils.PluginsManager;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 /**
  * 
@@ -69,7 +69,6 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  * @author areus
  */
 @Stateless(name = "CustodiaInfoLogicaEJB")
-@SecurityDomain("seycon")
 public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
     implements CustodiaInfoLogicaLocal, ConstantsV2 {
 

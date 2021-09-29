@@ -49,7 +49,7 @@ import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForU
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
 import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
 import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.activation.DataHandler;
 import javax.annotation.security.RunAs;
@@ -74,7 +74,6 @@ import java.util.Set;
  * @author areus
  */
 @Stateless(name = "PassarelaDeFirmaEnServidorEJB")
-@SecurityDomain("seycon")
 @RunAs("PFI_USER")
 public class PassarelaDeFirmaEnServidorEJB extends
     AbstractPassarelaDeFirmaEJB<ISignatureServerPlugin> implements

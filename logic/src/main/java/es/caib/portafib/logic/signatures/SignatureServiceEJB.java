@@ -9,7 +9,7 @@ import es.caib.portafib.model.entity.Fitxer;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
 import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -20,7 +20,6 @@ import java.util.Locale;
 
 @Stateless
 @Local(SignatureServiceLocal.class)
-@SecurityDomain("seycon")
 public class SignatureServiceEJB implements SignatureServiceLocal {
 
     @EJB(mappedName = PluginValidacioFirmesLogicaLocal.JNDI_NAME)

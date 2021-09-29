@@ -27,7 +27,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.utils.templateengine.TemplateEngine;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -45,7 +45,6 @@ import java.util.Map;
  *
  */
 @Stateless(name = "ConfiguracioUsuariAplicacioLogicaEJB")
-@SecurityDomain("seycon")
 @RunAs("PFI_USER")
 public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfiguracioEJB
     implements ConfiguracioUsuariAplicacioLogicaLocal, UsuariAplicacioConfiguracioFields {

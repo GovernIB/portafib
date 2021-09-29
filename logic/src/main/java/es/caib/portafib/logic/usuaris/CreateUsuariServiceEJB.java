@@ -10,7 +10,7 @@ import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.pluginsib.userinformation.UserInfo;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -19,7 +19,6 @@ import java.util.Collections;
 
 @Stateless
 @Local(CreateUsuariServiceLocal.class)
-@SecurityDomain("seycon")
 public class CreateUsuariServiceEJB implements CreateUsuariServiceLocal {
 
     @EJB

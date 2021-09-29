@@ -10,7 +10,7 @@ import javax.ejb.Stateless;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 /**
  * 
@@ -18,7 +18,6 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  *
  */
 @Stateless(name = "GrupEntitatLogicaEJB")
-@SecurityDomain("seycon")
 public class GrupEntitatLogicaEJB extends GrupEntitatEJB 
   implements GrupEntitatLogicaLocal, GrupEntitatFields {
 

@@ -34,7 +34,7 @@ import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.i18n.I18NTranslation;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Where;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 /**
  *
@@ -42,7 +42,6 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  *
  */
 @Stateless(name = "UsuariPersonaLogicaEJB")
-@SecurityDomain("seycon")
 public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
     UsuariPersonaLogicaLocal {
   

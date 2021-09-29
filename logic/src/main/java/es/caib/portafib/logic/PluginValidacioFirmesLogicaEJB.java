@@ -12,7 +12,7 @@ import org.fundaciobit.plugins.validatesignature.api.IValidateSignaturePlugin;
 import org.fundaciobit.plugins.validatesignature.api.SignatureRequestedInformation;
 import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureRequest;
 import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -23,7 +23,6 @@ import java.util.Locale;
  * @author anadal
  */
 @Stateless(name = "PluginValidacioFirmesLogicaEJB")
-@SecurityDomain("seycon")
 public class PluginValidacioFirmesLogicaEJB extends
     AbstractPluginLogicaEJB<IValidateSignaturePlugin> implements PluginValidacioFirmesLogicaLocal {
 

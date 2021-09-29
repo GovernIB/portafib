@@ -12,8 +12,6 @@ public interface ConstantsV2 {
 
   public static final String PORTAFIB_PROPERTY_BASE = "es.caib.portafib.";
 
-  public static final String SECURITY_DOMAIN = "seycon";
-
   public static final String MAIL_SERVICE = "java:/es.caib.portafib.mail";
 
   public static final String MAIL_QUEUE = "jms/es.caib.portafib.PortaFIBMailsQueue";

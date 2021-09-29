@@ -2,7 +2,6 @@
 package es.caib.portafib.ejb;
 
 import javax.ejb.Stateless;
-import org.jboss.ejb3.annotation.SecurityDomain;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.Estadistica;
@@ -10,7 +9,6 @@ import es.caib.portafib.jpa.EstadisticaJPA;
 import es.caib.portafib.jpa.EstadisticaJPAManager;
 
 @Stateless(name = "EstadisticaEJB")
-@SecurityDomain("seycon")
 public class EstadisticaEJB extends EstadisticaJPAManager implements EstadisticaLocal {
 
   @Override

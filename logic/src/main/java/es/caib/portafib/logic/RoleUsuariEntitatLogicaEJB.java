@@ -16,7 +16,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.hibernate.Hibernate;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import es.caib.portafib.ejb.PeticioDeFirmaLocal;
 import es.caib.portafib.ejb.RoleUsuariEntitatEJB;
@@ -34,7 +34,6 @@ import es.caib.portafib.utils.ConstantsV2;
  * @author anadal
  */
 @Stateless(name = "RoleUsuariEntitatLogicaEJB")
-@SecurityDomain("seycon")
 public class RoleUsuariEntitatLogicaEJB extends RoleUsuariEntitatEJB
 		implements RoleUsuariEntitatLogicaLocal, ConstantsV2 {
 

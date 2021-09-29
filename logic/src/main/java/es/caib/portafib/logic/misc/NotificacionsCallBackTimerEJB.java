@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Where;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
@@ -63,7 +63,6 @@ import static es.caib.portafib.utils.ConstantsV2.NOTIFICACIOAVIS_PETICIO_REBUTJA
  * @author areus
  */
 @Stateless(name = "NotificacionsCallBackTimerEJB")
-@SecurityDomain("seycon")
 @RunAs(ConstantsV2.PFI_ADMIN)
 @PermitAll
 public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimerLocal {

@@ -29,7 +29,7 @@ import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.hibernate.Hibernate;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -54,7 +54,6 @@ import java.util.Set;
  * traslladar-se a un altre EJB d'avisos.
  */
 @Stateless(name = "EstatDeFirmaLogicaEJB")
-@SecurityDomain("seycon")
 public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   implements EstatDeFirmaLogicaLocal, ConstantsV2 {
 

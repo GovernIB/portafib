@@ -2,7 +2,6 @@
 package es.caib.portafib.ejb;
 
 import javax.ejb.Stateless;
-import org.jboss.ejb3.annotation.SecurityDomain;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.PluginCridada;
@@ -10,7 +9,6 @@ import es.caib.portafib.jpa.PluginCridadaJPA;
 import es.caib.portafib.jpa.PluginCridadaJPAManager;
 
 @Stateless(name = "PluginCridadaEJB")
-@SecurityDomain("seycon")
 public class PluginCridadaEJB extends PluginCridadaJPAManager implements PluginCridadaLocal {
 
   @Override

@@ -7,7 +7,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import es.caib.portafib.utils.Constants;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;
 
@@ -18,7 +18,6 @@ import es.caib.portafib.ws.v1.utils.BaseV1WsImpl;
  * @author anadal
  * 
  */
-@SecurityDomain(Constants.SECURITY_DOMAIN)
 @Stateless(name= PortaFIBHelloWorldWsImpl.NAME + "Ejb")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 @WebService

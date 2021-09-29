@@ -16,7 +16,7 @@ import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -30,7 +30,6 @@ import java.util.Set;
  * @author areus
  */
 @Stateless(name = "ModulDeFirmaWebLogicaEJB")
-@SecurityDomain("seycon")
 public class ModulDeFirmaWebLogicaEJB extends AbstractPluginLogicaEJB<ISignatureWebPlugin>
     implements ModulDeFirmaWebLogicaLocal {
 

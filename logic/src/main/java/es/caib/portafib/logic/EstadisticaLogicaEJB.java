@@ -6,7 +6,7 @@ import es.caib.portafib.model.entity.Estadistica;
 import javax.ejb.Stateless;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 /**
  * 
@@ -14,7 +14,6 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  *
  */
 @Stateless(name = "EstadisticaLogicaEJB")
-@SecurityDomain("seycon")
 public class EstadisticaLogicaEJB extends EstadisticaEJB implements EstadisticaLogicaLocal {
 
   @Override

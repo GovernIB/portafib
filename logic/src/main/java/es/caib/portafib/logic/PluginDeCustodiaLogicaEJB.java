@@ -7,7 +7,7 @@ import javax.ejb.Stateless;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import java.util.List;
 
@@ -17,7 +17,6 @@ import java.util.List;
  *
  */
 @Stateless(name = "PluginDeCustodiaLogicaEJB")
-@SecurityDomain("seycon")
 public class PluginDeCustodiaLogicaEJB extends AbstractPluginLogicaEJB<IDocumentCustodyPlugin>
     implements PluginDeCustodiaLogicaLocal {
 

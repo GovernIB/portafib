@@ -21,7 +21,7 @@ import org.apache.cxf.interceptor.OutInterceptors;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;
 
@@ -40,7 +40,6 @@ import es.caib.portafib.ws.v1.utils.PassarelaConversion;
  * @author anadal
  *
  */
-@SecurityDomain(Constants.SECURITY_DOMAIN)
 @Stateless(name = PortaFIBPassarelaDeFirmaWebWsImpl.NAME + "Ejb")
 @RolesAllowed({ Constants.PFI_USER, Constants.PFI_ADMIN })
 @SOAPBinding(style = SOAPBinding.Style.RPC)

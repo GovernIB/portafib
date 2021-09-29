@@ -9,12 +9,9 @@ import es.caib.portafib.utils.ConstantsV2;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.OrderBy;
-import org.jboss.ejb3.annotation.SecurityDomain;
-import org.jboss.ejb3.annotation.TransactionTimeout;
 
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
-import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -35,7 +32,6 @@ import java.util.List;
  * @author areus
  */
 @Stateless
-@SecurityDomain("seycon")
 @RolesAllowed(ConstantsV2.PFI_ADMIN)
 public class NotificacioQueueServiceEJB implements NotificacioQueueServiceLocal {
 
@@ -57,7 +53,6 @@ public class NotificacioQueueServiceEJB implements NotificacioQueueServiceLocal 
   }
 
   @Override
-  @TransactionTimeout(60)
   @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   public long encolarNotificacionsPendents() throws I18NException {
     Connection connection = null;

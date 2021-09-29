@@ -48,7 +48,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
@@ -70,7 +70,6 @@ import java.util.UUID;
  * 
  */
 @Stateless(name = "UsuariEntitatLogicaEJB")
-@SecurityDomain("seycon")
 public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     UsuariEntitatLogicaLocal, ConstantsV2 {
 

@@ -45,7 +45,7 @@ import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.RebreAvisFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.utils.ConstantsV2;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 /**
  * 
@@ -53,7 +53,6 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  *
  */
 @Stateless(name = "FirmaEventManagerEJB")
-@SecurityDomain("seycon")
 @RunAs("PFI_USER")
 public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2,
      UsuariEntitatFields {

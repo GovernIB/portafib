@@ -3,7 +3,7 @@ package es.caib.portafib.logic.notificacions;
 import es.caib.portafib.logic.utils.NotificacioInfo;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.log4j.Logger;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.Resource;
 import javax.annotation.security.RunAs;
@@ -20,7 +20,6 @@ import javax.jms.TextMessage;
                 @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
                 @ActivationConfigProperty(propertyName = "destination",
                         propertyValue = "jms/es.caib.portafib.PortaFIBNotificacionsErrorQueue")})
-@SecurityDomain("seycon")
 @RunAs(ConstantsV2.PFI_ADMIN)
 public class NotificacioErrorMDB implements MessageListener {
 

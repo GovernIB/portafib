@@ -9,7 +9,7 @@ import javax.ejb.Stateless;
 import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import java.util.List;
 
@@ -19,7 +19,6 @@ import java.util.List;
  *
  */
 @Stateless(name = "RevisorDeFirmaLogicaEJB")
-@SecurityDomain("seycon")
 public class RevisorDeFirmaLogicaEJB extends RevisorDeFirmaEJB implements RevisorDeFirmaLogicaLocal {
 
   @Override

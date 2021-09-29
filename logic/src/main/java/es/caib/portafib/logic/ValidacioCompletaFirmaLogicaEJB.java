@@ -27,7 +27,7 @@ import org.fundaciobit.plugins.validatesignature.api.SignatureDetailInfo;
 import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
 import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -49,7 +49,6 @@ import java.util.Locale;
  *
  */
 @Stateless(name = "ValidacioCompletaFirmaLogicaEJB")
-@SecurityDomain("seycon")
 public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLogicaLocal {
 
   protected static final Logger log = Logger.getLogger(ValidacioCompletaFirmaLogicaEJB.class);

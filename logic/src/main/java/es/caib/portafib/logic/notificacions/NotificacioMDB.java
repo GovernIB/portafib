@@ -8,7 +8,7 @@ import es.caib.portafib.logic.utils.NotificacioInfo;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.log4j.Logger;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -31,7 +31,6 @@ import static es.caib.portafib.utils.ConstantsV2.BITACOLA_TIPUS_PETICIO;
                 @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
                 @ActivationConfigProperty(propertyName = "destination",
                         propertyValue = "jms/es.caib.portafib.PortaFIBNotificacionsQueue")})
-@SecurityDomain("seycon")
 @RunAs(ConstantsV2.PFI_ADMIN)
 public class NotificacioMDB implements MessageListener {
 

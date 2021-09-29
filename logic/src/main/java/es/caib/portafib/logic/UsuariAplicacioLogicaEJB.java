@@ -26,7 +26,7 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
 import org.fundaciobit.genapp.common.query.Where;
 import org.hibernate.Hibernate;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
@@ -43,7 +43,6 @@ import java.util.Set;
  * 
  */
 @Stateless
-@SecurityDomain(ConstantsV2.SECURITY_DOMAIN)
 public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
     UsuariAplicacioLogicaLocal {
 

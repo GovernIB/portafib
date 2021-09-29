@@ -32,7 +32,7 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.IntegerField;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.userinformation.UserInfo;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 /**
  * 
@@ -40,7 +40,6 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  *
  */
 @Stateless(name = "AgentsCAIBEJB")
-@SecurityDomain("seycon")
 @RunAs("PFI_USER")
 public class AgentsCAIBEJB implements AgentsCAIBLocal {
 

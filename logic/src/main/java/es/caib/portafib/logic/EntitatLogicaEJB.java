@@ -18,7 +18,7 @@ import javax.ejb.Stateless;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 /**
  * 
@@ -26,7 +26,6 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  *
  */
 @Stateless(name = "EntitatLogicaEJB")
-@SecurityDomain("seycon")
 public class EntitatLogicaEJB extends EntitatEJB implements EntitatLogicaLocal, EntitatFields {
 
   @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME)

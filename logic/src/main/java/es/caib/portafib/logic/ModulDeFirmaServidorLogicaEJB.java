@@ -5,14 +5,13 @@ import es.caib.portafib.utils.ConstantsV2;
 import javax.ejb.Stateless;
 
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 /**
  *
  * @author anadal
  */
 @Stateless(name = "ModulDeFirmaServidorLogicaEJB")
-@SecurityDomain("seycon")
 public class ModulDeFirmaServidorLogicaEJB extends
     AbstractPluginLogicaEJB<ISignatureServerPlugin> implements ModulDeFirmaServidorLogicaLocal {
 

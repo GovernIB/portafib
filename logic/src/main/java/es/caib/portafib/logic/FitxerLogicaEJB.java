@@ -13,7 +13,7 @@ import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.Resource;
 import javax.annotation.security.RunAs;
@@ -30,7 +30,6 @@ import java.util.Set;
  *
  */
 @Stateless(name = "FitxerLogicaEJB")
-@SecurityDomain("seycon")
 @RunAs("PFI_USER")
 public class FitxerLogicaEJB extends FitxerEJB implements FitxerLogicaLocal {
 

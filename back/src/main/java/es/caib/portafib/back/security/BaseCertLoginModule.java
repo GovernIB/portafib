@@ -59,8 +59,7 @@ public class BaseCertLoginModule extends org.jboss.security.auth.spi.BaseCertLog
    * option: securityDomain - the name of the SecurityDomain to obtain the trust
    * and keystore from. option: verifier - the class name of the
    * X509CertificateVerifier to use for verification of the login certificate
-   * 
-   * @see SecurityDomain
+   *
    * @see X509CertificateVerifier
    * 
    * @param subject

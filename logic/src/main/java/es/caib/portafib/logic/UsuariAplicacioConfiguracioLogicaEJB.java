@@ -5,7 +5,7 @@ import es.caib.portafib.model.bean.UsuariAplicacioConfiguracioBean;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -16,7 +16,6 @@ import javax.ejb.Stateless;
  * @author areus
  */
 @Stateless(name = "UsuariAplicacioConfiguracioLogicaEJB")
-@SecurityDomain("seycon")
 public class UsuariAplicacioConfiguracioLogicaEJB extends UsuariAplicacioConfiguracioEJB
       implements UsuariAplicacioConfiguracioLogicaLocal {
 

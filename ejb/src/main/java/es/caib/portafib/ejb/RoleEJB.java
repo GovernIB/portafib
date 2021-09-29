@@ -2,7 +2,6 @@
 package es.caib.portafib.ejb;
 
 import javax.ejb.Stateless;
-import org.jboss.ejb3.annotation.SecurityDomain;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.Role;
@@ -10,7 +9,6 @@ import es.caib.portafib.jpa.RoleJPA;
 import es.caib.portafib.jpa.RoleJPAManager;
 
 @Stateless(name = "RoleEJB")
-@SecurityDomain("seycon")
 public class RoleEJB extends RoleJPAManager implements RoleLocal {
 
   @Override

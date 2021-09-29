@@ -5,7 +5,7 @@ import es.caib.portafib.jpa.BitacolaJPA;
 import es.caib.portafib.jpa.validator.BitacolaBeanValidator;
 import es.caib.portafib.logic.bitacola.InfoBitacola;
 import es.caib.portafib.logic.jaxb.JAXBUtil;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
@@ -20,7 +20,6 @@ import java.sql.Timestamp;
  * @author areus
  */
 @Stateless(name = "BitacolaLogicaEJB")
-@SecurityDomain("seycon")
 public class BitacolaLogicaEJB extends BitacolaEJB implements BitacolaLogicaLocal {
 
   @Resource

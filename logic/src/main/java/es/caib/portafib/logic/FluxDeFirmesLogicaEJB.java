@@ -42,7 +42,7 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.hibernate.Hibernate;
 import org.hibernate.LazyInitializationException;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
@@ -58,7 +58,6 @@ import java.util.Set;
  *
  */
 @Stateless(name = "FluxDeFirmesLogicaEJB")
-@SecurityDomain("seycon")
 public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
     implements FluxDeFirmesLogicaLocal, FluxDeFirmesFields {
 

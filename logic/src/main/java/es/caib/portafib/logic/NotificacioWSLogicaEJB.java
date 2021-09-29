@@ -9,7 +9,7 @@ import es.caib.portafib.logic.utils.NotificacioInfo;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.NotificacioWS;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -23,7 +23,6 @@ import java.sql.Timestamp;
  *
  */
 @Stateless(name = "NotificacioWSLogicaEJB")
-@SecurityDomain("seycon")
 public class NotificacioWSLogicaEJB extends NotificacioWSEJB 
   implements NotificacioWSLogicaLocal {
 

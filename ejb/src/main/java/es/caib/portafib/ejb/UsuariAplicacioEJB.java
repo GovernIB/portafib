@@ -2,7 +2,6 @@
 package es.caib.portafib.ejb;
 
 import javax.ejb.Stateless;
-import org.jboss.ejb3.annotation.SecurityDomain;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.UsuariAplicacio;
@@ -10,7 +9,6 @@ import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPAManager;
 
 @Stateless(name = "UsuariAplicacioEJB")
-@SecurityDomain("seycon")
 public class UsuariAplicacioEJB extends UsuariAplicacioJPAManager implements UsuariAplicacioLocal {
 
   @Override

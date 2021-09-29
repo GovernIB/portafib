@@ -54,7 +54,7 @@ import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
 import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -85,7 +85,6 @@ import java.util.Set;
  * @author areus
  */
 @Stateless(name = "PassarelaDeFirmaWebEJB")
-@SecurityDomain("seycon")
 @RunAs("PFI_USER")
 public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatureWebPlugin>
     implements PassarelaDeFirmaWebLocal {

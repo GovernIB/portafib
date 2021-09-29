@@ -15,7 +15,7 @@ import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Where;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 /**
  * 
@@ -23,7 +23,6 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  *
  */
 @Stateless(name = "WebServicesMethodsEJB")
-@SecurityDomain("seycon")
 public class WebServicesMethodsEJB extends PeticioDeFirmaLogicaEJB implements
     WebServicesMethodsLocal {
 

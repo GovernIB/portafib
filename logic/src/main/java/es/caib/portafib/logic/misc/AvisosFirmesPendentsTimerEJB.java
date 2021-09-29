@@ -10,7 +10,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.InfoUser;
@@ -22,7 +22,6 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
  *
  */
 @Stateless(name = "AvisosFirmesPendentsTimerEJB")
-@SecurityDomain("seycon")
 @RunAs("PFI_ADMIN")
 @RolesAllowed("PFI_ADMIN")
 public class AvisosFirmesPendentsTimerEJB extends AbstractTimerEJB implements

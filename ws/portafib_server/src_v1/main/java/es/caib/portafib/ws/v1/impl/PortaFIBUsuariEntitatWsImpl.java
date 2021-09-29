@@ -28,7 +28,7 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
 import org.fundaciobit.pluginsib.userinformation.UserInfo;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;
 
@@ -51,7 +51,6 @@ import java.util.Set;
  * @author anadal
  * 
  */
-@SecurityDomain(Constants.SECURITY_DOMAIN)
 @Stateless(name = PortaFIBUsuariEntitatWsImpl.NAME + "Ejb")
 @RolesAllowed({ Constants.PFI_USER, Constants.PFI_ADMIN })
 @SOAPBinding(style = SOAPBinding.Style.RPC)

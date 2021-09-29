@@ -6,7 +6,7 @@ import es.caib.portafib.model.entity.Plugin;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.pluginsib.core.IPlugin;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -20,7 +20,6 @@ import java.util.Map;
  *
  */
 @Stateless(name = "PluginLogicaEJB")
-@SecurityDomain("seycon")
 public class PluginLogicaEJB extends PluginEJB implements PluginLogicaLocal {
 
   private static final Map<Long, IPlugin> pluginsCache = new HashMap<Long, IPlugin>();

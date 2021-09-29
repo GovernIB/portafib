@@ -19,7 +19,7 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import es.caib.portafib.ejb.ColaboracioDelegacioEJB;
 import es.caib.portafib.ejb.EntitatLocal;
@@ -48,7 +48,6 @@ import es.caib.portafib.utils.ConstantsV2;
  * @author anadal
  */
 @Stateless(name = "ColaboracioDelegacioLogicaEJB")
-@SecurityDomain("seycon")
 public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
         implements ColaboracioDelegacioLogicaLocal {
 

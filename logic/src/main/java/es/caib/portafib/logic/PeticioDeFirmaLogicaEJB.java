@@ -121,7 +121,7 @@ import org.fundaciobit.plugins.documentcustody.api.CustodyException;
 import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 import org.fundaciobit.plugins.documentcustody.api.NotSupportedCustodyException;
 import org.hibernate.Hibernate;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -161,7 +161,6 @@ import java.util.concurrent.TimeUnit;
  * @author areus
  */
 @Stateless
-@SecurityDomain("seycon")
 public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
     implements PeticioDeFirmaLogicaLocal, ConstantsV2 {
 

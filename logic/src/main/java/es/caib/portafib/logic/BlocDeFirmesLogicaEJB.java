@@ -13,7 +13,7 @@ import es.caib.portafib.model.entity.Firma;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.hibernate.Hibernate;
-import org.jboss.ejb3.annotation.SecurityDomain;
+
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
@@ -28,7 +28,6 @@ import java.util.Set;
  *
  */
 @Stateless(name = "BlocDeFirmesLogicaEJB")
-@SecurityDomain("seycon")
 public class BlocDeFirmesLogicaEJB extends BlocDeFirmesEJB 
   implements BlocDeFirmesLogicaLocal {
 
