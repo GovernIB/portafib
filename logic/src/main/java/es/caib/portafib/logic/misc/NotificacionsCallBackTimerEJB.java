@@ -31,6 +31,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
+import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -97,7 +98,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
   public void startScheduler() {
     stopScheduler();
     long timelapse = PropietatGlobalUtil.getNotificacionsTimeLapse();
-    Timer timer = timerService.createTimer(timelapse, timelapse, "normal");
+    Timer timer = timerService.createIntervalTimer(timelapse, timelapse, new TimerConfig("normal", false));
     log.info("startScheduler: Proper enviament programat serà " + timer.getNextTimeout());
     nextExecution = timer.getNextTimeout().getTime();
   }
@@ -126,7 +127,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
 
       log.info("wakeUp: Reprogamam els timers");
       startScheduler();
-      Timer timer = timerService.createTimer(2000, "wakeUp");
+      Timer timer = timerService.createSingleActionTimer(2000, new TimerConfig("wakeUp", false));
       log.info("wakeUp: Programat wakeUp per " + timer.getNextTimeout());
 
     } finally {

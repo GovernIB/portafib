@@ -9,6 +9,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.SessionContext;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
+import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -90,13 +91,12 @@ public abstract class AbstractTimerEJB implements AbstractTimerLocal {
 
     TimerService timerService = context.getTimerService();
 
-    
     // 10:57:35,613 WARN  [loggerI18N] [com.arjuna.ats.internal.jta.transaction.arjunacore.lastResource.multipleWarning]
     // [com.arjuna.ats.internal.jta.transaction.arjunacore.lastResource.multipleWarning] 
     // Multiple last resources have been added to the current transaction. This is transactionally unsafe and
     // should not be relied upon. Current resource is 
     // org.jboss.resource.connectionmanager.TxConnectionManager$LocalXAResource@5e7a92ad
-    Timer timer2 = timerService.createTimer(nextFireAt, getTimerName());
+    Timer timer2 = timerService.createSingleActionTimer(nextFireAt, new TimerConfig(getTimerName(), false));
 
 
     if (log.isDebugEnabled()) {

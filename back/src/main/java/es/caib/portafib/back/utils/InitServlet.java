@@ -47,8 +47,6 @@ public class InitServlet extends HttpServlet {
 
   private final ProviderRegistration providerRegistration = new ProviderRegistration();
 
-  private Thread shutdownHook;
-
   @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
 
@@ -64,35 +62,6 @@ public class InitServlet extends HttpServlet {
     } catch (Throwable th) {
       log.error("Error inicialitzant el sistema de sistema de fitxers: " + th.getMessage(), th);
     }
-
-    // Aturar Timers en aturar el servidor
-    shutdownHook = new Thread() {
-      public void run() {
-        log.info("HOOK SHUTDOWN BEGIN");
-        try {
-          EnviarCorreusAgrupatsTimerLocal enviar = (EnviarCorreusAgrupatsTimerLocal) new InitialContext()
-                  .lookup(EnviarCorreusAgrupatsTimerLocal.JNDI_NAME);
-          enviar.stopScheduler();
-        } catch (Exception e) {
-          log.error("HOOK SHUTDOWN EnviarCorreusAgrupatsTimerLocal ERROR: ", e);
-        }
-
-        try {
-          AvisosFirmesPendentsTimerLocal avisos = (AvisosFirmesPendentsTimerLocal) new InitialContext()
-                  .lookup(AvisosFirmesPendentsTimerLocal.JNDI_NAME);
-          avisos.stopScheduler();
-        } catch (Exception e) {
-          log.error("HOOK SHUTDOWN AvisosFirmesPendentsTimerLocal ERROR: ", e);
-        }
-
-        try {
-          EjbManager.getNotificacioTimerEjb().stopScheduler();
-        } catch (Throwable e) {
-          log.error("HOOK SHUTDOWN NotificacionsCallBackTimerLocal ERROR: ", e);
-        }
-      }
-    };
-    Runtime.getRuntime().addShutdownHook(shutdownHook);
 
     // Sistema de Fitxers
     try {
@@ -286,15 +255,7 @@ public class InitServlet extends HttpServlet {
   @Override
   public void destroy() {
     log.info("Aturant PortaFIB");
-    try {
-      Runtime.getRuntime().removeShutdownHook(shutdownHook);
-      shutdownHook.run();
-    } catch (IllegalStateException e) {
-      log.info("Shutdown iniciat. Ja no podem llevar el shutdown hook");
-    }
-
     providerRegistration.unregister();
-
     // Evitar memory leak de Log4j
     LogManager.shutdown();
   }
