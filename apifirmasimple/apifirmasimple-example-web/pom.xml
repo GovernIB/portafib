@@ -12,12 +12,9 @@
     <name>apifirmasimple-example-web</name>
 
     <properties>
-        <java.version>11</java.version>
         <spring.version>5.0.0.RELEASE</spring.version>
         <cglib.version>2.2.2</cglib.version>
         <hibernate.version>5.3.15.Final</hibernate.version>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
     </properties>
 
     <dependencies>
@@ -155,15 +152,6 @@
         <finalName>apifirmasimple</finalName>
         
         <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
