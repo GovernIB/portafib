@@ -5,7 +5,7 @@
   <artifactId>apisib</artifactId>
   <version>1.0.0</version>
   <packaging>pom</packaging>
-  <name>FundacioBit - ApisIB</name>
+  <name>FundacioBit - ApisIB - Core</name>
   <modules>
     <module>apisib-core</module>
     <module>apisib-jerseycore</module>

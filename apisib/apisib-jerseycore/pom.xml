@@ -7,7 +7,7 @@
   <version>1.0.2</version>
   <packaging>jar</packaging>
 
-  <name>FundacioBit - ApisIB - Connection Manager Jersey Core</name>
+  <name>FundacioBit - ApisIB - Core - Connection Manager Jersey Core</name>
 
   <parent>
     <groupId>org.fundaciobit.apisib</groupId>
