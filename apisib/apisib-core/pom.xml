@@ -6,7 +6,7 @@
   <artifactId>apisib-core</artifactId>
   <version>1.0.0</version>
   <packaging>jar</packaging>
-  <name>FundacioBit - ApisIB - Core</name>
+  <name>FundacioBit - ApisIB - Core - API</name>
 
   <parent>
     <groupId>org.fundaciobit.apisib</groupId>
