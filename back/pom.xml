@@ -343,6 +343,12 @@
         <webXml.authMethod>CLIENT-CERT</webXml.authMethod>
       </properties>
     </profile>
+    <profile>
+      <id>keycloak</id>
+      <properties>
+        <webXml.authMethod>KEYCLOAK</webXml.authMethod>
+      </properties>
+    </profile>
   </profiles>
 
   <build>

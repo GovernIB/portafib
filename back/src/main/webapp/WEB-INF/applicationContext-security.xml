@@ -67,7 +67,7 @@
     <sec:custom-filter position="PRE_AUTH_FILTER"
                        ref="preauthFilter"/>
     <sec:session-management
-            session-fixation-protection="migrateSession"/>
+            session-fixation-protection="none"/>
   </sec:http>
 
   <sec:authentication-manager alias="authenticationManager">

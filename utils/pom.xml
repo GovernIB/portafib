@@ -21,6 +21,11 @@
     <build_file>src/main/java/es/caib/portafib/utils/Build.java</build_file>
     <build>${maven.build.timestamp}</build>
     <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
+
+    <!-- versions en sintonia amb les emprades a JBoss EAP 7.2 + Keycloak 6 per LoginModule -->
+    <keycloak.version>6.0.1</keycloak.version>
+    <picketbox.version>5.0.2.Final</picketbox.version>
+    <jboss-logging.version>3.3.2.Final</jboss-logging.version>
   </properties>
 
   <build>
@@ -43,6 +48,29 @@
     </plugins>
 
   </build>
+
+  <!-- dependències per LoginModule -->
+  <dependencies>
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-adapter-core</artifactId>
+      <version>${keycloak.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.picketbox</groupId>
+      <artifactId>picketbox</artifactId>
+      <version>${picketbox.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.logging</groupId>
+      <artifactId>jboss-logging</artifactId>
+      <version>${jboss-logging.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+  </dependencies>
 
   <profiles>
     <profile>

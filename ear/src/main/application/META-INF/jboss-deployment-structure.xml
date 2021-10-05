@@ -8,6 +8,7 @@
             <module name="org.apache.xerces" />
             <module name="org.apache.santuario.xmlsec" export="true"/>
             <module name="org.bouncycastle" export="true"/>
+            <module name="org.keycloak.keycloak-adapter-core" optional="true" />
         </dependencies>
     </deployment>
 </jboss-deployment-structure>

@@ -274,10 +274,37 @@
 
       <dependency>
         <groupId>org.fundaciobit.pluginsib.userinformation</groupId>
+        <artifactId>pluginsib-userinformation-keycloak</artifactId>
+        <version>2.0.1</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-multipart-provider</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxb-provider</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson2-provider</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.fundaciobit.pluginsib.userinformation</groupId>
         <artifactId>pluginsib-userinformation-database</artifactId>				  
         <version>2.0.0</version>
       </dependency>
-
 
       <dependency>
         <groupId>org.fundaciobit.pluginsib.userinformation</groupId>

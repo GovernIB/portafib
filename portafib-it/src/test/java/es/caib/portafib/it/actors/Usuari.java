@@ -17,20 +17,26 @@ public abstract class Usuari {
 
     private final String administrationId;
     private final String username;
+    private final String password;
 
     protected final WebDriver webDriver;
     protected final String baseUrl;
 
+    protected boolean logged = false;
+
     protected Usuari(String administrationId, final String username, final String password, String baseUrl) {
         this.administrationId = administrationId;
         this.username = username;
+        this.password = password;
         webDriver = new HtmlUnitDriver(BrowserVersion.CHROME, true) {
             @Override
             protected WebClient modifyWebClient(WebClient client) {
+                /*
                 CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
                 credentialsProvider.setCredentials(AuthScope.ANY,
                         new UsernamePasswordCredentials(username, password));
                 client.setCredentialsProvider(credentialsProvider);
+                 */
                 client.setIncorrectnessListener(new IncorrectnessListener() {
                     @Override
                     public void notify(String message, Object origin) { /*no op*/ }
@@ -40,11 +46,21 @@ public abstract class Usuari {
                 return super.modifyWebClient(client);
             }
         };
-
         this.baseUrl = baseUrl;
     }
 
+    protected void login() {
+        if (!logged) {
+            webDriver.get(baseUrl);
+            webDriver.findElement(By.id("username")).sendKeys(username);
+            webDriver.findElement(By.id("password")).sendKeys(password);
+            webDriver.findElement(By.id("kc-login")).click();
+            logged = true;
+        }
+    }
+
     public int tasquesPendents() {
+        login();
         webDriver.get(getTasksUrl());
         try {
             WebElement element = webDriver.findElement(By.id("avisos_" + getRoleName()));

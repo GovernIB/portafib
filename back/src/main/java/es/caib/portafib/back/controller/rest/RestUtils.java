@@ -6,7 +6,6 @@ import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.utils.EjbManager;
 
-import es.caib.portafib.utils.ConstantsV2;
 import org.apache.log4j.Logger;
 import org.fundaciobit.pluginsib.core.utils.Base64;
 import org.springframework.http.HttpHeaders;
@@ -15,11 +14,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
-import javax.servlet.ServletException;
+import javax.security.auth.login.LoginContext;
 import javax.servlet.http.HttpServletRequest;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -153,23 +154,26 @@ public class RestUtils {
       String password, Set<String> roles, Logger log) {
 
     try {
-      if (request.getUserPrincipal() == null) {
-        request.login(username, password);
-      }
+      LoginContext lc = new LoginContext("seycon", new PassiveCallbackHandler(username, password));
+      lc.login();
 
-      if (request.isUserInRole(ConstantsV2.ROLE_USER)) {
-        log.debug("has PFI_USER");
-        roles.add(ConstantsV2.PFI_USER);
-      }
-
-      if (request.isUserInRole(ConstantsV2.ROLE_ADMIN)) {
-        log.debug("has PFI_ADMIN");
-        roles.add(ConstantsV2.PFI_ADMIN);
+      Set<Principal> principalsCred = lc.getSubject().getPrincipals();
+      for (Principal object : principalsCred) {
+        if ("Roles".equals(object.getName())
+                && object instanceof org.jboss.security.SimpleGroup) {
+          org.jboss.security.SimpleGroup sg = (org.jboss.security.SimpleGroup)object;
+          Enumeration<Principal> enumPrinc = sg.members();
+          while(enumPrinc.hasMoreElements()) {
+            Principal rol = enumPrinc.nextElement();
+            roles.add(rol.getName());
+          }
+        }
       }
 
       return true;
-    } catch (ServletException se) {
-      log.info("Login ERROR: " + se.getMessage(), se);
+
+    } catch (Exception e) {
+      log.info("Login ERROR: " + e.getMessage(), e);
       return false;
     }
   }
