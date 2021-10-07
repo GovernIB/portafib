@@ -1,0 +1,272 @@
+{
+  "realm": "GOIB",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "goib-default",
+      "description": "Autenticación de aplicaciones (entorno de desarrollo local)",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": false,
+      "rootUrl": "/goib-default",
+      "redirectUris": [
+        "*"
+      ],
+      "adminUrl": "/goib-default",
+      "webOrigins": [
+        "*"
+      ],
+      "attributes": {
+        "login_theme": "keycloak"
+      }
+    },
+    {
+      "clientId": "goib-ws",
+      "description": "Autenticación de servicios API REST (entorno de desarrollo local)",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "e73e8e95-d88c-42bf-a76b-273be6708018",
+      "bearerOnly" : true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "redirectUris": [
+        "*"
+      ],
+      "webOrigins": [
+        "*"
+      ]
+    }
+  ],
+  "users" : [ {
+    "username" : "$app",
+    "enabled" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "app"
+    } ],
+    "clientRoles" : {
+      "goib-ws" : [ "PFI_USER" ]
+    }
+  }, {
+    "username" : "$appadmin",
+    "enabled" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "appadmin"
+    } ],
+    "clientRoles" : {
+      "goib-ws" : [ "PFI_ADMIN" ]
+    }
+  }, {
+    "username" : "$appindra",
+    "enabled" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "appindra"
+    } ],
+    "clientRoles" : {
+      "goib-ws" : [ "PFI_USER" ]
+    }
+  }, {
+    "username" : "admin",
+    "enabled" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "admin"
+    } ],
+    "clientRoles" : {
+      "goib-default" : [ "PFI_ADMIN" ]
+    }
+  }, {
+    "username" : "$entitat",
+    "enabled" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "entitat"
+    } ],
+    "clientRoles" : {
+      "goib-ws" : [ "PFI_USER" ]
+    }
+  }, {
+    "username" : "aden1",
+    "enabled" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "aden1"
+    } ],
+    "clientRoles" : {
+      "goib-default" : [ "PFI_USER" ]
+    }
+  }, {
+    "username" : "ciudadano",
+    "enabled" : true,
+    "email" : "ciudadano@fundaciobit.org",
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "ciudadano"
+    } ],
+    "clientRoles" : {
+      "goib-default" : [ "tothom" ]
+    }
+  }, {
+    "username" : "cola1",
+    "enabled" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "cola1"
+    } ],
+    "clientRoles" : {
+      "goib-default" : [ "PFI_USER" ]
+    }
+  }, {
+    "username" : "persona",
+    "enabled" : true,
+    "email" : "persona@fundaciobit.org",
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "persona"
+    } ],
+    "clientRoles" : {
+      "goib-default" : [ "PFI_USER" ]
+    }
+  }, {
+    "username" : "pruebas",
+    "enabled" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "pruebas"
+    } ],
+    "clientRoles" : {
+      "goib-default" : [ "PFI_USER" ]
+    }
+  }, {
+    "username" : "revi1",
+    "enabled" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "revi1"
+    } ],
+    "clientRoles" : {
+      "goib-default" : [ "PFI_USER" ]
+    }
+  }, {
+    "username" : "revi2",
+    "enabled" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "revi2"
+    } ],
+    "clientRoles" : {
+      "goib-default" : [ "PFI_USER" ]
+    }
+  }, {
+    "username" : "revi3",
+    "enabled" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "revi3"
+    } ],
+    "clientRoles" : {
+      "goib-default" : [ "PFI_USER" ]
+    }
+  }, {
+    "username" : "taimi",
+    "enabled" : true,
+    "firstName" : "Taimi",
+    "email" : "taimi@fundaciobit.org",
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "taimi"
+    } ],
+    "clientRoles" : {
+      "goib-default" : [ "tothom" ]
+    }
+  }, {
+    "username" : "test",
+    "enabled" : true,
+    "firstName" : "Usuari de Test",
+    "email" : "test@fundaciobit.org",
+    "attributes" : {
+      "nif" : [ "11223344T" ]
+    },
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "test"
+    } ],
+    "clientRoles" : {
+      "goib-ws" : [ "PFI_USER" ],
+      "goib-default" : [ "tothom" ]
+
+    }
+  }, {
+    "username" : "viafirmo",
+    "enabled" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "viafirmo"
+    } ],
+    "clientRoles" : {
+      "goib-default" : [ "PFI_USER" ]
+    }
+  }, {
+    "username" : "service-account-goib-ws",
+    "enabled" : true,
+    "emailVerified" : false,
+    "email" : "service-account-goib-ws@placeholder.org",
+    "serviceAccountClientId" : "goib-ws",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "offline_access" ],
+    "clientRoles" : {
+      "realm-management" : [ "view-authorization", "view-realm", "view-users" ],
+      "goib-ws" : [ "uma_protection" ],
+      "account" : [ "manage-account", "view-profile" ]
+    }
+  } ],
+  "roles": {
+    "client": {
+      "goib-default": [
+        {
+          "name": "PFI_ADMIN",
+          "description": "Administració PortaFIB",
+          "composite": false,
+          "clientRole": true
+        },
+        {
+          "name": "PFI_USER",
+          "description": "Usuari PortaFIB",
+          "composite": false,
+          "clientRole": true
+        },
+        {
+          "name": "tothom",
+          "description": "Qualsevol usuari",
+          "composite": false,
+          "clientRole": true
+        }
+      ],
+      "goib-ws": [
+        {
+          "name": "PFI_ADMIN",
+          "description": "Administració PortaFIB",
+          "composite": false,
+          "clientRole": true
+        },
+        {
+          "name": "PFI_USER",
+          "description": "Usuari PortaFIB",
+          "composite": false,
+          "clientRole": true
+        }
+      ]
+    }
+  }
+}

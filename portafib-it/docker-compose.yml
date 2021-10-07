@@ -4,6 +4,10 @@ services:
     build: target/classes/oracle11
     ports:
       - "1521:1521"
+  keycloak:
+    build: target/classes/keycloak
+    ports:
+      - "8180:8180"
   jboss52:
     build: target/classes/jboss52
     ports:
