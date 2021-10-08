@@ -89,4 +89,5 @@ COPY deployments ${JBOSS_HOME}/standalone/deployments/
 EXPOSE 8080 8443 9990
 ENTRYPOINT ["/bin/bash", "-c"]
 
-CMD ["bin/standalone.sh -c standalone-full.xml -b 0.0.0.0 -bmanagement 0.0.0.0"]
+# Fixar els protocols HTTPS a TLSv1.2 es per mor de: https://github.com/GovernIB/pluginsib-signatureweb/issues/1
+CMD ["bin/standalone.sh -c standalone-full.xml -Dhttps.protocols=TLSv1.2 -b 0.0.0.0 -bmanagement 0.0.0.0"]
