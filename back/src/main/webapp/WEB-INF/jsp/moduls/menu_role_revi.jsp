@@ -53,7 +53,7 @@ for(List<MenuItem> menu : menus) {
       <c:set var="match" value="${(fn:contains(urlActual, theurl))}"/>
       <li style="list-style-type: disc; list-style-position: inside;">
         <a href="<c:url value="${theurl}"/>">
-          <span style="${(match)?"font-weight: bold;":""} ${(fn:endsWith(traduccio, '(*)'))? "color: red;" : ""}">${traduccio}</span>
+          <span style="${match?"font-weight: bold;":""} ${(fn:endsWith(traduccio, '(*)'))? "color: red;" : ""}">${traduccio}</span>
         </a>
       </li>
     </c:if>
