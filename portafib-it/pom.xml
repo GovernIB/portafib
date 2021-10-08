@@ -13,8 +13,6 @@
     <name>PortaFIB Integration Tests</name>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -209,7 +207,7 @@
                                     <version>${project.version}</version>
                                     <type>ear</type>
                                     <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.outputDirectory}/jboss52/config</outputDirectory>
+                                    <outputDirectory>${project.build.outputDirectory}/jboss72/deployments</outputDirectory>
                                     <destFileName>portafib.ear</destFileName>
                                 </artifactItem>
                             </artifactItems>

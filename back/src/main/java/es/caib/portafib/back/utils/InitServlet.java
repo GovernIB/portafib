@@ -197,7 +197,6 @@ public class InitServlet extends HttpServlet {
     } catch (Throwable th) {
       log.error("Error desconegut inicialitzant Timer d'enviament de Notificacions: "
           + th.getMessage(), th);
-      throw new ServletException(th);
     }
 
     // Mostrar Versió

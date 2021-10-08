@@ -1,0 +1,4 @@
+embed-server --server-config=${server.config:standalone-full.xml}
+module add --name=com.oracle --resources=ojdbc11-${ORACLE_JDBC_VERSION}.jar --dependencies=javax.api,javax.transaction.api
+/subsystem=datasources/jdbc-driver=oracle:add(driver-module-name=com.oracle,driver-name=oracle,driver-xa-datasource-class-name=oracle.jdbc.xa.client.OracleXADataSource)
+stop-embedded-server

@@ -1,0 +1,13 @@
+{
+  "realm" : "GOIB",
+  "resource" : "goib-ws",
+  "auth-server-url" : "http://keycloak:8180/auth",
+  "ssl-required" : "external",
+  "use-resource-role-mappings" : true,
+  "verify-token-audience" : true,
+  "enable-basic-auth": true,
+  "principal-attribute": "preferred_username",
+  "credentials" : {
+      "secret" : "e73e8e95-d88c-42bf-a76b-273be6708018"
+  }
+}

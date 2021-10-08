@@ -8,13 +8,16 @@ services:
     build: target/classes/keycloak
     ports:
       - "8180:8180"
-  jboss52:
-    build: target/classes/jboss52
+  jboss72:
+    build: target/classes/jboss72
     ports:
       - "8080:8080"
+      - "8443:8443"
+      - "9990:9990"
     depends_on:
       - oracle-db
       - mail-service
+      - keycloak
     secrets:
       - keystore.p12
       - keystore-sia.p12

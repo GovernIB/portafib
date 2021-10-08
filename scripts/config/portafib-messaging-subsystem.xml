@@ -13,6 +13,7 @@
 
         <jms-queue name="es.caib.portafib.PortaFIBNotificacionsQueue"
                    entries="java:/jms/es.caib.portafib.PortaFIBNotificacionsQueue" durable="true"/>
+
         <jms-queue name="es.caib.portafib.PortaFIBNotificacionsErrorQueue"
                    entries="java:/jms/es.caib.portafib.PortaFIBNotificacionsErrorQueue" durable="true"/>
 

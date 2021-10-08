@@ -1,0 +1,5 @@
+embed-server --server-config=${server.config:standalone-full.xml}
+/subsystem=keycloak/realm=GOIB:add(auth-server-url=${KEYCLOAK_URI}/auth,ssl-required=EXTERNAL)
+/subsystem=keycloak/secure-deployment=portafib-back.war:\
+add(realm=GOIB,resource=goib-default,use-resource-role-mappings=true,public-client=true,verify-token-audience=true,principal-attribute=preferred_username)
+stop-embedded-server

@@ -1,0 +1,17 @@
+embed-server --server-config=${server.config:standalone-full.xml}
+
+jms-queue add --queue-address=es.caib.portafib.PortaFIBNotificacionsQueue \
+--entries=[java:/jms/es.caib.portafib.PortaFIBNotificacionsQueue] --durable=true
+jms-queue add --queue-address=es.caib.portafib.PortaFIBNotificacionsErrorQueue \
+--entries=[java:/jms/es.caib.portafib.PortaFIBNotificacionsErrorQueue] --durable=true
+jms-queue add --queue-address=es.caib.portafib.PortaFIBMailsQueue \
+--entries=[java:/jms/es.caib.portafib.PortaFIBMailsQueue] --durable=true
+
+/subsystem=messaging-activemq/server=default/address-setting=jms.queue.es.caib.portafib.PortaFIBNotificacionsQueue/:\
+add(dead-letter-address=jms.queue.es.caib.portafib.PortaFIBNotificacionsErrorQueue,redelivery-delay=120000,max-delivery-attempts=15)
+/subsystem=messaging-activemq/server=default/address-setting=jms.queue.es.caib.portafib.PortaFIBNotificacionsErrorQueue/:\
+add(redelivery-delay=300000,max-delivery-attempts=2000)
+/subsystem=messaging-activemq/server=default/address-setting=jms.queue.es.caib.portafib.PortaFIBMailsQueue/:\
+add(redelivery-delay=10000,max-delivery-attempts=3)
+
+stop-embedded-server

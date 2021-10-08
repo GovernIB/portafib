@@ -1,0 +1,16 @@
+embed-server --server-config=${server.config:standalone-full.xml}
+
+/subsystem=security/security-domain=seycon:add(cache-type=default)
+/subsystem=security/security-domain=seycon/authentication=classic:add
+
+/subsystem=security/security-domain=seycon/authentication=classic/login-module=keycloak:\
+add(code=org.keycloak.adapters.jaas.DirectAccessGrantsLoginModule,flag=required,\
+module=org.keycloak.keycloak-adapter-core,module-options=[("keycloak-config-file"=>"/opt/jboss/config/keycloak.json")])
+
+/subsystem=security/security-domain=seycon/authentication=classic/login-module=convert:\
+add(code=es.caib.portafib.utils.ConvertKeycloakRolesLoginModule,flag=required)
+/subsystem=security/security-domain=seycon/authentication=classic/login-module=client:\
+add(code=Client,flag=required)
+
+stop-embedded-server
+

@@ -125,12 +125,12 @@ es.caib.portafib.plugins.signatureweb.autofirma.downloadforwindowsxp=true
 
 # Opcional. Per afegir un nou fitxer de CSS
 #es.caib.portafib.plugins.signatureweb.autofirma.newcssurl='),NULL,0);
-INSERT INTO PFI_PLUGIN (PLUGINID,ACTIU,CLASSE,CODI,DESCRIPCIOCURTAID,ENTITATID,NOMID,ORDRE,POLITICADEUS,POLITICAMOSTRARPROPIETATS,PROPERTIESADMIN,PROPERTIESENTITAT,TIPUS) VALUES (1086,1,'org.fundaciobit.pluignsib.signatureweb.fortress.FortressSignatureWebPlugin','viafirma',1085,'fundaciobit',1084,1,1,2,TO_CLOB('# Adreça base del sevidor de viafirma fortress
+INSERT INTO PFI_PLUGIN (PLUGINID,ACTIU,CLASSE,CODI,DESCRIPCIOCURTAID,ENTITATID,NOMID,ORDRE,POLITICADEUS,POLITICAMOSTRARPROPIETATS,PROPERTIESADMIN,PROPERTIESENTITAT,TIPUS) VALUES (1086,1,'org.fundaciobit.pluginsib.signatureweb.fortress.FortressSignatureWebPlugin','viafirma',1085,'fundaciobit',1084,1,1,2,TO_CLOB('# Adreça base del sevidor de viafirma fortress
 es.caib.portafib.pluginsib.signatureweb.fortress.url=https://pre.firmacloud.com/fortress/
 
 # dades d''autenticació del sistema
-es.caib.portafib.pluginsib.signatureweb.fortress.client_id=[=SP["fortress.client_id"]]
-es.caib.portafib.pluginsib.signatureweb.fortress.client_secret=[=SP["fortress.client_secret"]]
+es.caib.portafib.pluginsib.signatureweb.fortress.client_id=[=SP["es.caib.portafib.fortress.client_id"]]
+es.caib.portafib.pluginsib.signatureweb.fortress.client_secret=[=SP["es.caib.portafib.fortress.client_secret"]]
 
 es.caib.portafib.pluginsib.signatureweb.fortress.debug=true'),NULL,0);
 INSERT INTO PFI_PLUGIN (PLUGINID,ACTIU,CLASSE,CODI,DESCRIPCIOCURTAID,ENTITATID,NOMID,ORDRE,POLITICADEUS,POLITICAMOSTRARPROPIETATS,PROPERTIESADMIN,PROPERTIESENTITAT,TIPUS) VALUES (1146,1,'org.fundaciobit.plugins.signatureweb.fire.FIReSignatureWebPlugin','fire',1145,'fundaciobit',1144,NULL,1,2,TO_CLOB('# Exemple per configurar FIRe dins Plantilles de mòduls de Firma Web de Portafib
@@ -146,7 +146,7 @@ es.caib.portafib.plugins.signatureweb.fire.appName=PortaFIB
 es.caib.portafib.plugins.signatureweb.fire.fireUrl=https://firepre.caib.es/fire-signature/fireService
 
 es.caib.portafib.plugins.signatureweb.fire.javax.net.ssl.keyStore=/run/secrets/keystore.p12
-es.caib.portafib.plugins.signatureweb.fire.javax.net.ssl.keyStorePassword=[=SP["keystore.password"]]
+es.caib.portafib.plugins.signatureweb.fire.javax.net.ssl.keyStorePassword=[=SP["es.caib.portafib.keystore.password"]]
 es.caib.portafib.plugins.signatureweb.fire.javax.net.ssl.keyStoreType=PKCS12
 
 es.caib.portafib.plugins.signatureweb.fire.javax.net.ssl.trustStore=all
@@ -181,8 +181,8 @@ es.caib.portafib.plugins.signatureserver.afirmaserver.endpoint_upgrade=https://a
 es.caib.portafib.plugins.signatureserver.afirmaserver.connectTimeout=5000
 es.caib.portafib.plugins.signatureserver.afirmaserver.readTimeout=5000
 
-es.caib.portafib.plugins.signatureserver.afirmaserver.authorization.username=[=SP["afirma.username"]]
-es.caib.portafib.plugins.signatureserver.afirmaserver.authorization.password=[=SP["afirma.password"]]
+es.caib.portafib.plugins.signatureserver.afirmaserver.authorization.username=[=SP["es.caib.portafib.afirma.username"]]
+es.caib.portafib.plugins.signatureserver.afirmaserver.authorization.password=[=SP["es.caib.portafib.afirma.password"]]
 '),NULL,3);
 INSERT INTO PFI_PLUGIN (PLUGINID,ACTIU,CLASSE,CODI,DESCRIPCIOCURTAID,ENTITATID,NOMID,ORDRE,POLITICADEUS,POLITICAMOSTRARPROPIETATS,PROPERTIESADMIN,PROPERTIESENTITAT,TIPUS) VALUES (84446,1,'org.fundaciobit.plugins.validatesignature.afirmacxf.AfirmaCxfValidateSignaturePlugin','valida_afirma',84445,'fundaciobit',84444,NULL,1,2,TO_CLOB('# Class org.fundaciobit.plugins.validatesignature.afirmacxf.AfirmaCxfValidateSignaturePlugin
 
@@ -197,12 +197,12 @@ es.caib.portafib.plugins.validatesignature.afirmacxf.applicationID=CAIBDEV2.PORT
 es.caib.portafib.plugins.validatesignature.afirmacxf.endpoint=https://afirmades2.caib.es/afirmaws/services/DSSAfirmaVerify
 
 # USERNAME-PASSWORD Token
-es.caib.portafib.plugins.validatesignature.afirmacxf.authorization.username=[=SP["afirma.username"]]
-es.caib.portafib.plugins.validatesignature.afirmacxf.authorization.password=[=SP["afirma.password"]]
+es.caib.portafib.plugins.validatesignature.afirmacxf.authorization.username=[=SP["es.caib.portafib.afirma.username"]]
+es.caib.portafib.plugins.validatesignature.afirmacxf.authorization.password=[=SP["es.caib.portafib.afirma.password"]]
 '),NULL,4);
 INSERT INTO PFI_PLUGIN (PLUGINID,ACTIU,CLASSE,CODI,DESCRIPCIOCURTAID,ENTITATID,NOMID,ORDRE,POLITICADEUS,POLITICAMOSTRARPROPIETATS,PROPERTIESADMIN,PROPERTIESENTITAT,TIPUS) VALUES (145833,1,'org.fundaciobit.plugins.signatureweb.miniappletinserversia.MiniAppletInServerSIASignatureWebPlugin','sia',145832,'fundaciobit',145831,NULL,1,2,TO_CLOB('es.caib.portafib.plugins.signatureweb.miniappletinserversia.URL_GATEWAY=https://gateway.pre.sia.es/rss-gateway/HESS/OperationGateWayRSS
 es.caib.portafib.plugins.signatureweb.miniappletinserversia.AUTH_STORE=/run/secrets/keystore-sia.p12
-es.caib.portafib.plugins.signatureweb.miniappletinserversia.AUTH_STORE_PASS=[=SP["keystore-sia.password"]]
+es.caib.portafib.plugins.signatureweb.miniappletinserversia.AUTH_STORE_PASS=[=SP["es.caib.portafib.keystore-sia.password"]]
 es.caib.portafib.plugins.signatureweb.miniappletinserversia.SSL_PROTOCOL=TLSv1
 es.caib.portafib.plugins.signatureweb.miniappletinserversia.ForceSFDA=false
 
@@ -235,7 +235,7 @@ es.caib.portafib.plugins.timestamp.afirmarfc.url_rfc=https://des-tsafirma.redsar
 #Ruta y clave del certificado para la autenticación del servicio RFC3161 + HTTPS
 #Este certificado debe ser el certificado de autenticación HTTPS cliente dado de alta para su aplicación para el servicio RFC3161 + HTTPS (partes píblica y privada)
 es.caib.portafib.plugins.timestamp.afirmarfc.auth.cert.p12.path==/run/secrets/keystore.p12
-es.caib.portafib.plugins.timestamp.afirmarfc.auth.cert.p12.password=[=SP["keystore.password"]]
+es.caib.portafib.plugins.timestamp.afirmarfc.auth.cert.p12.password=[=SP["es.caib.portafib.keystore.password"]]
 '),NULL,1);
 
 INSERT INTO PFI_PROPIETATGLOBAL (PROPIETATGLOBALID,CLAU,DESCRIPCIO,ENTITATID,VALOR) VALUES (1,'es.caib.portafib.editableuser','Si està a true permet als usuaris editar l''email  dels usuari-persona i usuaris-entitats, així com el logo dels usuaris-entitat. En cas contrari, únicament és l''administrador d''entitat que pot fer canvis en aquest camps',NULL,'false');

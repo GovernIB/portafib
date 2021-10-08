@@ -1,0 +1,5 @@
+embed-server --server-config=${server.config:standalone-full.xml}
+/system-property=es.caib.portafib.properties:add(value=/opt/jboss/config/portafib.properties)
+/system-property=es.caib.portafib.system.properties:add(value=/run/secrets/secret.properties)
+/system-property=es.caib.portafib.hibernate.dialect:add(value=org.hibernate.dialect.Oracle10gDialect)
+stop-embedded-server

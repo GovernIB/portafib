@@ -1,0 +1,11 @@
+embed-server --server-config=${server.config:standalone-full.xml}
+
+/subsystem=mail/mail-session=es.caib.portafib.mail:add(jndi-name=java:/es.caib.portafib.mail,from=portafib@portafib.com)
+/subsystem=mail/mail-session=es.caib.portafib.mail/server=smtp:add(outbound-socket-binding-ref=mail-smtp)
+
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=mail-smtp:\
+write-attribute(name=host,value=mail-service)
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=mail-smtp:\
+write-attribute(name=port,value=3025)
+
+stop-embedded-server
