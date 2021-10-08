@@ -13,7 +13,12 @@ import java.util.Locale;
 public class Configuracio implements ConstantsV2 {
 
   static {
-    String propertyFileName = System.getProperty("es.caib.portafib.properties");
+    loadPropertiesFromKey("es.caib.portafib.properties");
+    loadPropertiesFromKey("es.caib.portafib.system.properties");
+  }
+
+  private static void loadPropertiesFromKey(String key) {
+    String propertyFileName = System.getProperty(key);
     try (Reader reader = new FileReader(propertyFileName)){
       System.getProperties().load(reader);
     } catch (IOException ioe) {
