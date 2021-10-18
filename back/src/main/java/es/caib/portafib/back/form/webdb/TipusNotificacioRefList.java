@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.TipusNotificacioLocal;
+import es.caib.portafib.ejb.TipusNotificacioService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.TipusNotificacioFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class TipusNotificacioRefList extends RefListBase
     implements TipusNotificacioFields {
 
-  @EJB(mappedName = TipusNotificacioLocal.JNDI_NAME)
-  private TipusNotificacioLocal tipusNotificacioEjb;
+  @EJB(mappedName = TipusNotificacioService.JNDI_NAME)
+  private TipusNotificacioService tipusNotificacioEjb;
 
   public TipusNotificacioRefList(TipusNotificacioRefList __clone) {
     super(__clone);

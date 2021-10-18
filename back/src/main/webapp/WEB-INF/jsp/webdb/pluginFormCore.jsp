@@ -8,13 +8,13 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.CODI])?'plugin.codi':__theForm.labels[PluginFields.CODI]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[PluginFields.CODI]}">
-              <i class="icon-info-sign" title="${__theForm.help[PluginFields.CODI]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PluginFields.CODI]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="plugin.codi" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.CODI)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PluginFields.CODI)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="plugin.codi"   />
+            <form:errors path="plugin.codi" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.CODI)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,PluginFields.CODI)? ' uneditable-input' : ''}"  style="" maxlength="255" path="plugin.codi"   />
 
            </td>
         </tr>
@@ -26,24 +26,26 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.NOMID])?'plugin.nomID':__theForm.labels[PluginFields.NOMID]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[PluginFields.NOMID]}">
-              <i class="icon-info-sign" title="${__theForm.help[PluginFields.NOMID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PluginFields.NOMID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-       <form:errors path="plugin.nom" cssClass="errorField alert alert-error" />
-       <div class="tabbable">
-         <ul class="nav nav-tabs" style="margin-bottom: 3px;">
+       <form:errors path="plugin.nom" cssClass="errorField alert alert-danger" />
+       <div class="row-fluid  col-md-8">
+         <ul class="nav nav-tabs" style="margin: 0 15px -1px;">
              <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
-               <li class="${(counter.index == 0)? 'active':''}"  ><a href="#${counter.index}_tab_nom_${idioma.idiomaID}" data-toggle="tab">${idioma.nom}</a></li>
-           </c:forEach>
+            <li class="nav-item ">
+                 <a class="nav-link ${(counter.index == 0)? 'active':''}" href="#${counter.index}_tab_nom_${idioma.idiomaID}" data-toggle="tab">${idioma.nom}</a>
+            </li>
+          </c:forEach>
            
          </ul>
-         <div class="tab-content">
+         <div class="tab-content well well-white" style="padding:8px;margin:0px;">
            <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
            <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="${counter.index}_tab_nom_${idioma.idiomaID}">
-               <form:errors path="plugin.nom.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-error"/>
-               <form:input path="plugin.nom.traduccions['${idioma.idiomaID}'].valor" readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.NOMID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PluginFields.NOMID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="4000" />
+               <form:errors path="plugin.nom.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-danger"/>
+               <form:input path="plugin.nom.traduccions['${idioma.idiomaID}'].valor" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,PluginFields.NOMID)? ' uneditable-input' : ''}" readonly="${gen:contains(__theForm.readOnlyFields ,PluginFields.NOMID)}" maxlength="4000" />
            </div>
            </c:forEach>
          </div>
@@ -59,24 +61,26 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.DESCRIPCIOCURTAID])?'plugin.descripcioCurtaID':__theForm.labels[PluginFields.DESCRIPCIOCURTAID]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[PluginFields.DESCRIPCIOCURTAID]}">
-              <i class="icon-info-sign" title="${__theForm.help[PluginFields.DESCRIPCIOCURTAID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PluginFields.DESCRIPCIOCURTAID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-       <form:errors path="plugin.descripcioCurta" cssClass="errorField alert alert-error" />
-       <div class="tabbable">
-         <ul class="nav nav-tabs" style="margin-bottom: 3px;">
+       <form:errors path="plugin.descripcioCurta" cssClass="errorField alert alert-danger" />
+       <div class="row-fluid  col-md-8">
+         <ul class="nav nav-tabs" style="margin: 0 15px -1px;">
              <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
-               <li class="${(counter.index == 0)? 'active':''}"  ><a href="#${counter.index}_tab_descripcioCurta_${idioma.idiomaID}" data-toggle="tab">${idioma.nom}</a></li>
-           </c:forEach>
+            <li class="nav-item ">
+                 <a class="nav-link ${(counter.index == 0)? 'active':''}" href="#${counter.index}_tab_descripcioCurta_${idioma.idiomaID}" data-toggle="tab">${idioma.nom}</a>
+            </li>
+          </c:forEach>
            
          </ul>
-         <div class="tab-content">
+         <div class="tab-content well well-white" style="padding:8px;margin:0px;">
            <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
            <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="${counter.index}_tab_descripcioCurta_${idioma.idiomaID}">
-               <form:errors path="plugin.descripcioCurta.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-error"/>
-               <form:input path="plugin.descripcioCurta.traduccions['${idioma.idiomaID}'].valor" readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.DESCRIPCIOCURTAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PluginFields.DESCRIPCIOCURTAID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="4000" />
+               <form:errors path="plugin.descripcioCurta.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-danger"/>
+               <form:input path="plugin.descripcioCurta.traduccions['${idioma.idiomaID}'].valor" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,PluginFields.DESCRIPCIOCURTAID)? ' uneditable-input' : ''}" readonly="${gen:contains(__theForm.readOnlyFields ,PluginFields.DESCRIPCIOCURTAID)}" maxlength="4000" />
            </div>
            </c:forEach>
          </div>
@@ -92,13 +96,13 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.CLASSE])?'plugin.classe':__theForm.labels[PluginFields.CLASSE]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[PluginFields.CLASSE]}">
-              <i class="icon-info-sign" title="${__theForm.help[PluginFields.CLASSE]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PluginFields.CLASSE]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="plugin.classe" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.CLASSE)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PluginFields.CLASSE)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="plugin.classe"   />
+            <form:errors path="plugin.classe" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.CLASSE)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,PluginFields.CLASSE)? ' uneditable-input' : ''}"  style="" maxlength="255" path="plugin.classe"   />
 
            </td>
         </tr>
@@ -110,13 +114,13 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.ORDRE])?'plugin.ordre':__theForm.labels[PluginFields.ORDRE]}" />
               <c:if test="${not empty __theForm.help[PluginFields.ORDRE]}">
-              <i class="icon-info-sign" title="${__theForm.help[PluginFields.ORDRE]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PluginFields.ORDRE]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="plugin.ordre" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.ORDRE)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PluginFields.ORDRE)? 'input-mini uneditable-input' : 'input-mini'}"   path="plugin.ordre"   />
+            <form:errors path="plugin.ordre" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.ORDRE)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,PluginFields.ORDRE)? ' uneditable-input' : ''}"  style=""  path="plugin.ordre"   />
 
            </td>
         </tr>
@@ -128,20 +132,24 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.TIPUS])?'plugin.tipus':__theForm.labels[PluginFields.TIPUS]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[PluginFields.TIPUS]}">
-              <i class="icon-info-sign" title="${__theForm.help[PluginFields.TIPUS]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PluginFields.TIPUS]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="plugin.tipus" cssClass="errorField alert alert-error" />
+          <form:errors path="plugin.tipus" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFields.TIPUS)}" >
           <form:hidden path="plugin.tipus"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.plugin.tipus,__theForm.listOfValuesForTipus)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.plugin.tipus,__theForm.listOfValuesForTipus)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginFields.TIPUS)}" >
-          <form:select id="plugin_tipus"  onchange="if(typeof onChangeTipus == 'function') {  onChangeTipus(this); };"  cssClass="input-xxlarge" path="plugin.tipus">
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="plugin_tipus"  onchange="if(typeof onChangeTipus == 'function') {  onChangeTipus(this); };"  cssClass="form-control col-md-8" path="plugin.tipus">
             <c:forEach items="${__theForm.listOfValuesForTipus}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
           </form:select>
           </c:if>
@@ -155,22 +163,28 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.PROPERTIESADMIN])?'plugin.propertiesAdmin':__theForm.labels[PluginFields.PROPERTIESADMIN]}" />
               <c:if test="${not empty __theForm.help[PluginFields.PROPERTIESADMIN]}">
-              <i class="icon-info-sign" title="${__theForm.help[PluginFields.PROPERTIESADMIN]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PluginFields.PROPERTIESADMIN]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-              <form:errors path="plugin.propertiesAdmin" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.PROPERTIESADMIN)? 'true' : 'false'}" path="plugin.propertiesAdmin"  />
-              <div class="btn-group" style="vertical-align: top;">
-              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('plugin.propertiesAdmin'); ta.wrap='off';" >No Wrap</a></li>
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('plugin.propertiesAdmin'); ta.wrap='soft';">Soft Wrap</a></li>
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('plugin.propertiesAdmin'); ta.wrap='hard';">Hard Wrap</a></li>
-              </ul>
-              </div>
-           </td>
+              <form:errors path="plugin.propertiesAdmin" cssClass="errorField alert alert-danger" />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.PROPERTIESADMIN)? 'true' : 'false'}" path="plugin.propertiesAdmin"  />
+      <div id="dropdownMenuButton_propertiesAdmin" style="vertical-align:top;display:inline;position:relative;">
+        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_propertiesAdmin" class="dropdown-menu">
+          <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('plugin.propertiesAdmin'); ta.wrap='off';" >No Wrap</a>
+          <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('plugin.propertiesAdmin'); ta.wrap='soft';">Soft Wrap</a>
+          <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('plugin.propertiesAdmin'); ta.wrap='hard';">Hard Wrap</a>
+        </div>
+      </div>
+      <script type="text/javascript">
+			$('#dropdownMenuButton_propertiesAdmin').on('click', function(){
+					var valor = ($('#dropdownMenuContainer_propertiesAdmin').css('display') != 'none') ? 'none' : 'block';
+                 $('#dropdownMenuContainer_propertiesAdmin').css('display', valor);
+                 return false;
+				});
+      </script>           </td>
         </tr>
         </c:if>
         
@@ -180,22 +194,28 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.PROPERTIESENTITAT])?'plugin.propertiesEntitat':__theForm.labels[PluginFields.PROPERTIESENTITAT]}" />
               <c:if test="${not empty __theForm.help[PluginFields.PROPERTIESENTITAT]}">
-              <i class="icon-info-sign" title="${__theForm.help[PluginFields.PROPERTIESENTITAT]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PluginFields.PROPERTIESENTITAT]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-              <form:errors path="plugin.propertiesEntitat" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.PROPERTIESENTITAT)? 'true' : 'false'}" path="plugin.propertiesEntitat"  />
-              <div class="btn-group" style="vertical-align: top;">
-              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('plugin.propertiesEntitat'); ta.wrap='off';" >No Wrap</a></li>
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('plugin.propertiesEntitat'); ta.wrap='soft';">Soft Wrap</a></li>
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('plugin.propertiesEntitat'); ta.wrap='hard';">Hard Wrap</a></li>
-              </ul>
-              </div>
-           </td>
+              <form:errors path="plugin.propertiesEntitat" cssClass="errorField alert alert-danger" />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.PROPERTIESENTITAT)? 'true' : 'false'}" path="plugin.propertiesEntitat"  />
+      <div id="dropdownMenuButton_propertiesEntitat" style="vertical-align:top;display:inline;position:relative;">
+        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_propertiesEntitat" class="dropdown-menu">
+          <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('plugin.propertiesEntitat'); ta.wrap='off';" >No Wrap</a>
+          <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('plugin.propertiesEntitat'); ta.wrap='soft';">Soft Wrap</a>
+          <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('plugin.propertiesEntitat'); ta.wrap='hard';">Hard Wrap</a>
+        </div>
+      </div>
+      <script type="text/javascript">
+			$('#dropdownMenuButton_propertiesEntitat').on('click', function(){
+					var valor = ($('#dropdownMenuContainer_propertiesEntitat').css('display') != 'none') ? 'none' : 'block';
+                 $('#dropdownMenuContainer_propertiesEntitat').css('display', valor);
+                 return false;
+				});
+      </script>           </td>
         </tr>
         </c:if>
         
@@ -205,20 +225,24 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.POLITICADEUS])?'plugin.politicaDeUs':__theForm.labels[PluginFields.POLITICADEUS]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[PluginFields.POLITICADEUS]}">
-              <i class="icon-info-sign" title="${__theForm.help[PluginFields.POLITICADEUS]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PluginFields.POLITICADEUS]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="plugin.politicaDeUs" cssClass="errorField alert alert-error" />
+          <form:errors path="plugin.politicaDeUs" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFields.POLITICADEUS)}" >
           <form:hidden path="plugin.politicaDeUs"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.plugin.politicaDeUs,__theForm.listOfValuesForPoliticaDeUs)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.plugin.politicaDeUs,__theForm.listOfValuesForPoliticaDeUs)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginFields.POLITICADEUS)}" >
-          <form:select id="plugin_politicaDeUs"  onchange="if(typeof onChangePoliticaDeUs == 'function') {  onChangePoliticaDeUs(this); };"  cssClass="input-xxlarge" path="plugin.politicaDeUs">
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="plugin_politicaDeUs"  onchange="if(typeof onChangePoliticaDeUs == 'function') {  onChangePoliticaDeUs(this); };"  cssClass="form-control col-md-8" path="plugin.politicaDeUs">
             <c:forEach items="${__theForm.listOfValuesForPoliticaDeUs}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
           </form:select>
           </c:if>
@@ -232,23 +256,34 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.ENTITATID])?'plugin.entitatID':__theForm.labels[PluginFields.ENTITATID]}" />
               <c:if test="${not empty __theForm.help[PluginFields.ENTITATID]}">
-              <i class="icon-info-sign" title="${__theForm.help[PluginFields.ENTITATID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PluginFields.ENTITATID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="plugin.entitatID" cssClass="errorField alert alert-error" />
+          <form:errors path="plugin.entitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFields.ENTITATID)}" >
           <form:hidden path="plugin.entitatID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.plugin.entitatID,__theForm.listOfEntitatForEntitatID)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.plugin.entitatID,__theForm.listOfEntitatForEntitatID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginFields.ENTITATID)}" >
-          <form:select id="plugin_entitatID"  onchange="if(typeof onChangeEntitatID == 'function') {  onChangeEntitatID(this); };"  cssClass="input-xxlarge" path="plugin.entitatID">
-          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
-          <form:option value="" ></form:option>
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="plugin_entitatID"  onchange="if(typeof onChangeEntitatID == 'function') {  onChangeEntitatID(this); };"  cssClass="form-control col-md-8" path="plugin.entitatID">
             <c:forEach items="${__theForm.listOfEntitatForEntitatID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
+            <%-- El camp pot ser null, per la qual cosa afegim una entrada buida si no s'ha definit abans --%>
+            <c:if test="${not containEmptyValue}">
+              <c:if test="${empty __theForm.plugin.entitatID }">
+                  <form:option value="" selected="true" ></form:option>
+              </c:if>
+              <c:if test="${not empty __theForm.plugin.entitatID }">
+                  <form:option value="" ></form:option>
+              </c:if>
+            </c:if>
           </form:select>
           </c:if>
            </td>
@@ -261,14 +296,14 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.ACTIU])?'plugin.actiu':__theForm.labels[PluginFields.ACTIU]}" />
               <c:if test="${not empty __theForm.help[PluginFields.ACTIU]}">
-              <i class="icon-info-sign" title="${__theForm.help[PluginFields.ACTIU]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PluginFields.ACTIU]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginFields.ACTIU)}" >
-              <form:errors path="plugin.actiu" cssClass="errorField alert alert-error" />
-              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,PluginFields.ACTIU)? 'false' : 'true'}" path="plugin.actiu" />
+              <form:errors path="plugin.actiu" cssClass="errorField alert alert-danger" />
+              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,PluginFields.ACTIU)? 'false' : 'true'}" path="plugin.actiu"  style="width:1%"/>
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFields.ACTIU)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.plugin.actiu}" />
@@ -283,20 +318,24 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.POLITICAMOSTRARPROPIETATS])?'plugin.politicaMostrarPropietats':__theForm.labels[PluginFields.POLITICAMOSTRARPROPIETATS]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[PluginFields.POLITICAMOSTRARPROPIETATS]}">
-              <i class="icon-info-sign" title="${__theForm.help[PluginFields.POLITICAMOSTRARPROPIETATS]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PluginFields.POLITICAMOSTRARPROPIETATS]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="plugin.politicaMostrarPropietats" cssClass="errorField alert alert-error" />
+          <form:errors path="plugin.politicaMostrarPropietats" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFields.POLITICAMOSTRARPROPIETATS)}" >
           <form:hidden path="plugin.politicaMostrarPropietats"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.plugin.politicaMostrarPropietats,__theForm.listOfValuesForPoliticaMostrarPropietats)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.plugin.politicaMostrarPropietats,__theForm.listOfValuesForPoliticaMostrarPropietats)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginFields.POLITICAMOSTRARPROPIETATS)}" >
-          <form:select id="plugin_politicaMostrarPropietats"  onchange="if(typeof onChangePoliticaMostrarPropietats == 'function') {  onChangePoliticaMostrarPropietats(this); };"  cssClass="input-xxlarge" path="plugin.politicaMostrarPropietats">
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="plugin_politicaMostrarPropietats"  onchange="if(typeof onChangePoliticaMostrarPropietats == 'function') {  onChangePoliticaMostrarPropietats(this); };"  cssClass="form-control col-md-8" path="plugin.politicaMostrarPropietats">
             <c:forEach items="${__theForm.listOfValuesForPoliticaMostrarPropietats}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
           </form:select>
           </c:if>

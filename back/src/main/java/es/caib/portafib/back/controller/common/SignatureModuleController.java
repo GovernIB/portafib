@@ -4,7 +4,7 @@ import es.caib.portafib.back.security.LoginException;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.back.utils.Utils;
-import es.caib.portafib.jpa.PluginJPA;
+import es.caib.portafib.persistence.PluginJPA;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebPublicLogicaLocal;
 import es.caib.portafib.logic.generator.IdGeneratorFactory;

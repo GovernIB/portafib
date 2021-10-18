@@ -34,9 +34,9 @@ import es.caib.portafib.back.form.webdb.UsuariAplicacioForm;
 import es.caib.portafib.back.validator.webdb.UsuariAplicacioWebValidator;
 
 import es.caib.portafib.model.entity.Fitxer;
-import es.caib.portafib.jpa.FitxerJPA;
+import es.caib.portafib.persistence.FitxerJPA;
 import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.*;
 
@@ -52,8 +52,8 @@ import es.caib.portafib.model.fields.*;
 public class UsuariAplicacioController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<UsuariAplicacio, java.lang.String, UsuariAplicacioForm> implements UsuariAplicacioFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariAplicacioService usuariAplicacioEjb;
 
   @Autowired
   private UsuariAplicacioWebValidator usuariAplicacioWebValidator;
@@ -331,54 +331,54 @@ public class UsuariAplicacioController
     if (usuariAplicacioForm.getListOfEntitatForEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForEntitatID(request, mav, usuariAplicacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       usuariAplicacioForm.setListOfEntitatForEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (usuariAplicacioForm.getListOfValuesForCallbackVersio() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForCallbackVersio(request, mav, usuariAplicacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       usuariAplicacioForm.setListOfValuesForCallbackVersio(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (usuariAplicacioForm.getListOfIdiomaForIdiomaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForIdiomaID(request, mav, usuariAplicacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       usuariAplicacioForm.setListOfIdiomaForIdiomaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (usuariAplicacioForm.getListOfValuesForPoliticaDePluginFirmaWeb() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPoliticaDePluginFirmaWeb(request, mav, usuariAplicacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       usuariAplicacioForm.setListOfValuesForPoliticaDePluginFirmaWeb(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (usuariAplicacioForm.getListOfValuesForPoliticaCustodia() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPoliticaCustodia(request, mav, usuariAplicacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       usuariAplicacioForm.setListOfValuesForPoliticaCustodia(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (usuariAplicacioForm.getListOfCustodiaInfoForCustodiaInfoID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForCustodiaInfoID(request, mav, usuariAplicacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       usuariAplicacioForm.setListOfCustodiaInfoForCustodiaInfoID(_listSKV);
     }
     
@@ -503,7 +503,7 @@ public class UsuariAplicacioController
     try {
       this.setFilesFormToEntity(afm, usuariAplicacio, usuariAplicacioForm); // FILE
       preValidate(request, usuariAplicacioForm, result);
-      getWebValidator().validate(usuariAplicacio, result);
+      getWebValidator().validate(usuariAplicacioForm, result);
       postValidate(request, usuariAplicacioForm, result);
 
       if (result.hasErrors()) {
@@ -544,7 +544,7 @@ public class UsuariAplicacioController
       return null;
     }
     try {
-      UsuariAplicacio usuariAplicacio = findByPrimaryKey(request, usuariAplicacioID);
+      UsuariAplicacio usuariAplicacio = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
       if (usuariAplicacio == null) {
         String __msg =createMessageError(request, "error.notfound", usuariAplicacioID);
         return getRedirectWhenDelete(request, usuariAplicacioID, new Exception(__msg));
@@ -638,7 +638,7 @@ public java.lang.String stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder);
+
   }
 
   public UsuariAplicacioWebValidator getWebValidator() {
@@ -720,7 +720,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForEntitatID(HttpServletRequest request,
        ModelAndView mav, UsuariAplicacioForm usuariAplicacioForm, Where where)  throws I18NException {
     if (usuariAplicacioForm.isHiddenField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (usuariAplicacioForm.isReadOnlyField(ENTITATID)) {
@@ -735,7 +735,7 @@ public java.lang.String stringToPK(String value) {
        List<UsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioFilterForm.isHiddenField(ENTITATID)
       && !usuariAplicacioFilterForm.isGroupByField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(ENTITATID)) {
@@ -759,7 +759,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForCallbackVersio(HttpServletRequest request,
        ModelAndView mav, UsuariAplicacioForm usuariAplicacioForm, Where where)  throws I18NException {
     if (usuariAplicacioForm.isHiddenField(CALLBACKVERSIO)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForCallbackVersio(request, mav, where);
   }
@@ -770,7 +770,7 @@ public java.lang.String stringToPK(String value) {
        List<UsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioFilterForm.isHiddenField(CALLBACKVERSIO)
       && !usuariAplicacioFilterForm.isGroupByField(CALLBACKVERSIO)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForCallbackVersio(request, mav, Where.AND(where,_w));
@@ -790,7 +790,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForIdiomaID(HttpServletRequest request,
        ModelAndView mav, UsuariAplicacioForm usuariAplicacioForm, Where where)  throws I18NException {
     if (usuariAplicacioForm.isHiddenField(IDIOMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (usuariAplicacioForm.isReadOnlyField(IDIOMAID)) {
@@ -805,7 +805,7 @@ public java.lang.String stringToPK(String value) {
        List<UsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioFilterForm.isHiddenField(IDIOMAID)
       && !usuariAplicacioFilterForm.isGroupByField(IDIOMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(IDIOMAID)) {
@@ -829,7 +829,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPoliticaDePluginFirmaWeb(HttpServletRequest request,
        ModelAndView mav, UsuariAplicacioForm usuariAplicacioForm, Where where)  throws I18NException {
     if (usuariAplicacioForm.isHiddenField(POLITICADEPLUGINFIRMAWEB)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForPoliticaDePluginFirmaWeb(request, mav, where);
   }
@@ -840,7 +840,7 @@ public java.lang.String stringToPK(String value) {
        List<UsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioFilterForm.isHiddenField(POLITICADEPLUGINFIRMAWEB)
       && !usuariAplicacioFilterForm.isGroupByField(POLITICADEPLUGINFIRMAWEB)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForPoliticaDePluginFirmaWeb(request, mav, Where.AND(where,_w));
@@ -860,7 +860,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
        ModelAndView mav, UsuariAplicacioForm usuariAplicacioForm, Where where)  throws I18NException {
     if (usuariAplicacioForm.isHiddenField(POLITICACUSTODIA)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForPoliticaCustodia(request, mav, where);
   }
@@ -871,7 +871,7 @@ public java.lang.String stringToPK(String value) {
        List<UsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioFilterForm.isHiddenField(POLITICACUSTODIA)
       && !usuariAplicacioFilterForm.isGroupByField(POLITICACUSTODIA)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForPoliticaCustodia(request, mav, Where.AND(where,_w));
@@ -896,7 +896,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
        ModelAndView mav, UsuariAplicacioForm usuariAplicacioForm, Where where)  throws I18NException {
     if (usuariAplicacioForm.isHiddenField(CUSTODIAINFOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (usuariAplicacioForm.isReadOnlyField(CUSTODIAINFOID)) {
@@ -911,7 +911,7 @@ public java.lang.String stringToPK(String value) {
        List<UsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioFilterForm.isHiddenField(CUSTODIAINFOID)
       && !usuariAplicacioFilterForm.isGroupByField(CUSTODIAINFOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(CUSTODIAINFOID)) {

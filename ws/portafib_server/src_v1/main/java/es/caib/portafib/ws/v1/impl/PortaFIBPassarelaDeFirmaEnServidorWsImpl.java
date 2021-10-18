@@ -22,7 +22,7 @@ import org.fundaciobit.genapp.common.ws.WsValidationException;
 import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;
 
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
 import es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal;

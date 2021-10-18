@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal;
+import es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.ModulDeFirmaPerTipusDeDocumentFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class ModulDeFirmaPerTipusDeDocumentRefList extends RefListBase
     implements ModulDeFirmaPerTipusDeDocumentFields {
 
-  @EJB(mappedName = ModulDeFirmaPerTipusDeDocumentLocal.JNDI_NAME)
-  private ModulDeFirmaPerTipusDeDocumentLocal modulDeFirmaPerTipusDeDocumentEjb;
+  @EJB(mappedName = ModulDeFirmaPerTipusDeDocumentService.JNDI_NAME)
+  private ModulDeFirmaPerTipusDeDocumentService modulDeFirmaPerTipusDeDocumentEjb;
 
   public ModulDeFirmaPerTipusDeDocumentRefList(ModulDeFirmaPerTipusDeDocumentRefList __clone) {
     super(__clone);

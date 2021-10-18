@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+    <persistence-unit name="portafibPULocal" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.persistence.HibernatePersistenceProvider</provider>
+
+		<class>es.caib.portafib.persistence.AnnexJPA</class>
+		<class>es.caib.portafib.persistence.AnnexFirmatJPA</class>
+		<class>es.caib.portafib.persistence.BitacolaJPA</class>
+		<class>es.caib.portafib.persistence.BlocDeFirmesJPA</class>
+		<class>es.caib.portafib.persistence.CodiBarresJPA</class>
+		<class>es.caib.portafib.persistence.ColaboracioDelegacioJPA</class>
+		<class>es.caib.portafib.persistence.CustodiaInfoJPA</class>
+		<class>es.caib.portafib.persistence.EntitatJPA</class>
+		<class>es.caib.portafib.persistence.EstadisticaJPA</class>
+		<class>es.caib.portafib.persistence.EstatDeFirmaJPA</class>
+		<class>es.caib.portafib.persistence.FirmaJPA</class>
+		<class>es.caib.portafib.persistence.FitxerJPA</class>
+		<class>es.caib.portafib.persistence.FluxDeFirmesJPA</class>
+		<class>es.caib.portafib.persistence.GrupEntitatJPA</class>
+		<class>es.caib.portafib.persistence.GrupEntitatUsuariEntitatJPA</class>
+		<class>es.caib.portafib.persistence.IdiomaJPA</class>
+		<class>es.caib.portafib.persistence.MetadadaJPA</class>
+		<class>es.caib.portafib.persistence.ModulDeFirmaPerTipusDeDocumentJPA</class>
+		<class>es.caib.portafib.persistence.NotificacioWSJPA</class>
+		<class>es.caib.portafib.persistence.PerfilDeFirmaJPA</class>
+		<class>es.caib.portafib.persistence.PerfilsPerUsuariAplicacioJPA</class>
+		<class>es.caib.portafib.persistence.PermisGrupPlantillaJPA</class>
+		<class>es.caib.portafib.persistence.PermisUsuariPlantillaJPA</class>
+		<class>es.caib.portafib.persistence.PeticioDeFirmaJPA</class>
+		<class>es.caib.portafib.persistence.PlantillaFluxDeFirmesJPA</class>
+		<class>es.caib.portafib.persistence.PluginJPA</class>
+		<class>es.caib.portafib.persistence.PluginCridadaJPA</class>
+		<class>es.caib.portafib.persistence.PluginFirmaWebPerUsuariAplicacioJPA</class>
+		<class>es.caib.portafib.persistence.PluginFirmaWebPerUsuariEntitatJPA</class>
+		<class>es.caib.portafib.persistence.PropietatGlobalJPA</class>
+		<class>es.caib.portafib.persistence.RebreAvisJPA</class>
+		<class>es.caib.portafib.persistence.RevisorDeFirmaJPA</class>
+		<class>es.caib.portafib.persistence.RoleJPA</class>
+		<class>es.caib.portafib.persistence.RoleUsuariEntitatJPA</class>
+		<class>es.caib.portafib.persistence.TipusDocumentJPA</class>
+		<class>es.caib.portafib.persistence.TipusDocumentColaboracioDelegacioJPA</class>
+		<class>es.caib.portafib.persistence.TipusNotificacioJPA</class>
+		<class>es.caib.portafib.persistence.TraduccioJPA</class>
+		<class>es.caib.portafib.persistence.TraduccioMapJPA</class>
+		<class>es.caib.portafib.persistence.UsuariAplicacioJPA</class>
+		<class>es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA</class>
+		<class>es.caib.portafib.persistence.UsuariEntitatJPA</class>
+		<class>es.caib.portafib.persistence.UsuariEntitatFavoritJPA</class>
+		<class>es.caib.portafib.persistence.UsuariPersonaJPA</class>
+
+        <!-- Desactivar cache -->
+        <shared-cache-mode>NONE</shared-cache-mode>
+        <!-- Desactivar validació -->
+        <validation-mode>NONE</validation-mode>
+
+        <properties>
+         
+        </properties>
+    </persistence-unit>
+</persistence>

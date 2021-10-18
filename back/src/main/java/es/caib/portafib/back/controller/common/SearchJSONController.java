@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.caib.portafib.ejb.RoleUsuariEntitatLocal;
+import es.caib.portafib.ejb.RoleUsuariEntitatService;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -28,8 +28,8 @@ import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
 import es.caib.portafib.back.reflist.CarrecJSONRefList;
 import es.caib.portafib.back.reflist.UsuariEntitatJSONRefList;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
@@ -65,8 +65,8 @@ public class SearchJSONController {
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
   
-  @EJB(mappedName = RoleUsuariEntitatLocal.JNDI_NAME)
-  protected RoleUsuariEntitatLocal roleUsuariEntitatEjb;
+  @EJB(mappedName = RoleUsuariEntitatService.JNDI_NAME)
+  protected RoleUsuariEntitatService roleUsuariEntitatEjb;
 
   @Autowired
   protected UsuariEntitatJSONRefList usuariEntitatRefList;

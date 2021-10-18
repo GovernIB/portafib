@@ -1,6 +1,6 @@
 <%@page import="es.caib.portafib.back.security.LoginInfo"
 %><%@ page contentType="text/html;charset=UTF-8" language="java"
-%><%@include file="/WEB-INF/jsp/moduls/includes.jsp"
+%><%@ page pageEncoding="UTF-8"%><%@include file="/WEB-INF/jsp/moduls/includes.jsp"
 %>
 <un:useConstants var="LoginInfo" className="es.caib.portafib.back.security.LoginInfo" />
 <un:useConstants var="Constants" className="es.caib.portafib.utils.Constants" />
@@ -30,13 +30,13 @@
 
 
   <!--  PIPELLES -->
-  <div class="row-fluid ${isMobile?'container-mobile main-mobile':'container main'}" >
+  <div class="row-fluid ${isMobile?'container-mobile main-mobile':'container main'}"  style="margin-bottom:0px; max-width: none;" >
     
-    <ul class="nav nav-tabs ${isMobile?'custom-submenu-mobile':'custom-submenu'}">
+    <ul class="nav nav-tabs ${isMobile?'custom-submenu-mobile':'custom-submenu'}" style="margin-bottom:0px;margin-left:40px;">
 
     <c:if test="${loginInfo.usuariPersona.usuariIntern }">
-    <li ${(empty pipella)?'class="active"' : '' } >
-        <a href="<c:url value="/canviarPipella/"/>"><fmt:message key="inici" /></a>
+    <li class="nav-item" ${(empty pipella)?'class="active"' : '' } >
+        <a class="nav-link ${(empty pipella)?'active' : '' }" href="<c:url value="/canviarPipella/"/>"><fmt:message key="inici" /></a>
     </li> 
     </c:if>
 
@@ -44,10 +44,10 @@
     <c:forEach var="rolG" items="${loginInfo.roles}">
     <c:set var="rol" value="${rolG.authority}"/>
     <c:if test="${not( (rol eq 'ROLE_ANY') || (rol eq 'ROLE_USER')  || (rol eq 'ROLE_AUTOFIRMA') )}">
-        <li class="${(pipella eq rol)?'active' : '' }${(rol eq 'ROLE_COLA')?' dropdown' : '' }">
+        <li class='nav-item ${(rol eq 'ROLE_COLA')?' dropdown' : '' }' ">
            <c:url var="linktab" value="/canviarPipella/${rol}"/>
            <c:set var="href" value="href=\"${linktab}\"" />
-           <a ${href}><fmt:message key="${rol}" />
+           <a class="nav-link ${(pipella eq 'ROLE_USER')?'active' : '' }" ${href}><fmt:message key="${rol}" />
            <c:if test="${not(empty avisos[rol])}">
              &nbsp; <span id="avisos_${rol}" class="badge badge-warning">${avisos[rol]}</span>
            </c:if>
@@ -55,11 +55,11 @@
         </li>
 
         <c:if test="${rol eq 'ROLE_ADEN' }">
-            <li class="${(pipella eq 'ROLE_ADEN2')?'active' : '' }">
+            <li  class="nav-item">
               <c:url var="linktab" value="/canviarPipella/ROLE_ADEN2"/>
               <c:set var="href" value="href=\"${linktab}\"" />
-              <a ${href}><fmt:message key="ROLE_ADEN2" />
-              <c:if test="${not(empty avisos['ROLE_ADEN2'])}">
+              <a class="nav-link ${(pipella eq 'ROLE_ADEN')?'active' : '' }" ${href}><fmt:message key="ROLE_ADEN2" />
+              <c:if test="${not(empty avisos['ROLE_ADEN'])}">
                 &nbsp; <span class="badge badge-warning">${avisos['ROLE_ADEN2']}</span>
               </c:if>
               </a>
@@ -71,14 +71,14 @@
     </c:forEach>
 
     <sec:authorize access="hasRole('ROLE_ADMIN')">
-    <li ${(pipella eq 'webdb')?'class="active"' : '' }>
-       <a href="<c:url value="/canviarPipella/webdb"/>"> WebDatabase</a>
+    <li  class="nav-item">
+       <a class="nav-link ${(pipella eq 'ROLE_ADMIN')?'active' : '' }" href="<c:url value="/canviarPipella/webdb"/>"> WebDatabase</a>
     </li>
     </sec:authorize>
 
     <c:if test="${pfi:isDesenvolupament()}">
-    <li ${(pipella eq 'desenvolupament')?'class="active"' : '' }>
-       <a href="<c:url value="/canviarPipella/desenvolupament"/>"> Desenvolupament</a>
+    <li  class="nav-item">
+       <a class="nav-link ${(pipella eq 'desenvolupament')?'active' : '' }" href="<c:url value="/canviarPipella/desenvolupament"/>"> Desenvolupament</a>
     </li>
     </c:if>
      
@@ -86,7 +86,7 @@
 
 
     <!-- INICI MENU + CONTINGUT -->
-    <div class="well well-white" style="padding:10px">
+    <div class="well well-white" style="background-color:#FFFFFF;margin-right:20px;padding:10px;">
     <tiles:insertAttribute name="menu_i_contingut" >
        <%--  <tiles:insertTemplate template="/WEB-INF/jsp/moduls/menu_i_contingut.jsp"/>  --%>
        <tiles:putAttribute name="menu" value="${menu_tile}" />

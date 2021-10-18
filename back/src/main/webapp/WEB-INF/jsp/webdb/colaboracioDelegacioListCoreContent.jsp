@@ -26,7 +26,7 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.COLABORACIODELEGACIOID)}">
           <td>
-          <c:out value="${colaboracioDelegacio.colaboracioDelegacioID}" />
+          ${colaboracioDelegacio.colaboracioDelegacioID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.DESTINATARIID)}">
@@ -52,12 +52,12 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.MOTIU)}">
           <td>
-          <c:out value="${colaboracioDelegacio.motiu}" />
+          ${colaboracioDelegacio.motiu}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.DESCRIPCIO)}">
           <td>
-          <c:out value="${colaboracioDelegacio.descripcio}" />
+          ${colaboracioDelegacio.descripcio}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.DATAINICI)}">
@@ -78,7 +78,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.MOTIUDESHABILITADA)}">
           <td>
-          <c:out value="${colaboracioDelegacio.motiuDeshabilitada}" />
+          ${colaboracioDelegacio.motiuDeshabilitada}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.FITXERAUTORITZACIOID)}">

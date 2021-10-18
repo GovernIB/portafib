@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.PluginFirmaWebPerUsuariAplicacioLocal;
+import es.caib.portafib.ejb.PluginFirmaWebPerUsuariAplicacioService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.PluginFirmaWebPerUsuariAplicacioFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class PluginFirmaWebPerUsuariAplicacioRefList extends RefListBase
     implements PluginFirmaWebPerUsuariAplicacioFields {
 
-  @EJB(mappedName = PluginFirmaWebPerUsuariAplicacioLocal.JNDI_NAME)
-  private PluginFirmaWebPerUsuariAplicacioLocal pluginFirmaWebPerUsuariAplicacioEjb;
+  @EJB(mappedName = PluginFirmaWebPerUsuariAplicacioService.JNDI_NAME)
+  private PluginFirmaWebPerUsuariAplicacioService pluginFirmaWebPerUsuariAplicacioEjb;
 
   public PluginFirmaWebPerUsuariAplicacioRefList(PluginFirmaWebPerUsuariAplicacioRefList __clone) {
     super(__clone);

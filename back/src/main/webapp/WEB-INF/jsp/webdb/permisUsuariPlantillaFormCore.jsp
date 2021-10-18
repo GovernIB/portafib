@@ -8,20 +8,24 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PermisUsuariPlantillaFields.USUARIENTITATID])?'permisUsuariPlantilla.usuariEntitatID':__theForm.labels[PermisUsuariPlantillaFields.USUARIENTITATID]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[PermisUsuariPlantillaFields.USUARIENTITATID]}">
-              <i class="icon-info-sign" title="${__theForm.help[PermisUsuariPlantillaFields.USUARIENTITATID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PermisUsuariPlantillaFields.USUARIENTITATID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="permisUsuariPlantilla.usuariEntitatID" cssClass="errorField alert alert-error" />
+          <form:errors path="permisUsuariPlantilla.usuariEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PermisUsuariPlantillaFields.USUARIENTITATID)}" >
           <form:hidden path="permisUsuariPlantilla.usuariEntitatID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.permisUsuariPlantilla.usuariEntitatID,__theForm.listOfUsuariEntitatForUsuariEntitatID)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.permisUsuariPlantilla.usuariEntitatID,__theForm.listOfUsuariEntitatForUsuariEntitatID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PermisUsuariPlantillaFields.USUARIENTITATID)}" >
-          <form:select id="permisUsuariPlantilla_usuariEntitatID"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };"  cssClass="input-xxlarge" path="permisUsuariPlantilla.usuariEntitatID">
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="permisUsuariPlantilla_usuariEntitatID"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };"  cssClass="form-control col-md-8" path="permisUsuariPlantilla.usuariEntitatID">
             <c:forEach items="${__theForm.listOfUsuariEntitatForUsuariEntitatID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
           </form:select>
           </c:if>
@@ -35,20 +39,24 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID])?'permisUsuariPlantilla.plantillaFluxDeFirmesID':__theForm.labels[PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID]}">
-              <i class="icon-info-sign" title="${__theForm.help[PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="permisUsuariPlantilla.plantillaFluxDeFirmesID" cssClass="errorField alert alert-error" />
+          <form:errors path="permisUsuariPlantilla.plantillaFluxDeFirmesID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID)}" >
           <form:hidden path="permisUsuariPlantilla.plantillaFluxDeFirmesID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.permisUsuariPlantilla.plantillaFluxDeFirmesID,__theForm.listOfPlantillaFluxDeFirmesForPlantillaFluxDeFirmesID)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.permisUsuariPlantilla.plantillaFluxDeFirmesID,__theForm.listOfPlantillaFluxDeFirmesForPlantillaFluxDeFirmesID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID)}" >
-          <form:select id="permisUsuariPlantilla_plantillaFluxDeFirmesID"  onchange="if(typeof onChangePlantillaFluxDeFirmesID == 'function') {  onChangePlantillaFluxDeFirmesID(this); };"  cssClass="input-xxlarge" path="permisUsuariPlantilla.plantillaFluxDeFirmesID">
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="permisUsuariPlantilla_plantillaFluxDeFirmesID"  onchange="if(typeof onChangePlantillaFluxDeFirmesID == 'function') {  onChangePlantillaFluxDeFirmesID(this); };"  cssClass="form-control col-md-8" path="permisUsuariPlantilla.plantillaFluxDeFirmesID">
             <c:forEach items="${__theForm.listOfPlantillaFluxDeFirmesForPlantillaFluxDeFirmesID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
           </form:select>
           </c:if>

@@ -4,7 +4,7 @@ import es.caib.portafib.back.controller.webdb.UsuariPersonaController;
 import es.caib.portafib.back.form.webdb.UsuariPersonaForm;
 import es.caib.portafib.back.reflist.IdiomaSuportatRefList;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;

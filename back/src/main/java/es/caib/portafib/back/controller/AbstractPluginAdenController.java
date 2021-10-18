@@ -21,9 +21,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.PluginJPA;
-import es.caib.portafib.jpa.TraduccioJPA;
-import es.caib.portafib.jpa.TraduccioMapJPA;
+import es.caib.portafib.persistence.PluginJPA;
+import es.caib.portafib.persistence.TraduccioJPA;
+import es.caib.portafib.persistence.TraduccioMapJPA;
 import es.caib.portafib.logic.AbstractPluginLogicaLocal;
 import es.caib.portafib.model.entity.Plugin;
 

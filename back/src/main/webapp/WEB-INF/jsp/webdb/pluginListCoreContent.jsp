@@ -26,12 +26,12 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.PLUGINID)}">
           <td>
-          <c:out value="${plugin.pluginID}" />
+          ${plugin.pluginID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.CODI)}">
           <td>
-          <c:out value="${plugin.codi}" />
+          ${plugin.codi}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.NOMID)}">
@@ -52,12 +52,12 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.CLASSE)}">
           <td>
-          <c:out value="${plugin.classe}" />
+          ${plugin.classe}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.ORDRE)}">
           <td>
-          <c:out value="${plugin.ordre}" />
+          ${plugin.ordre}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.TIPUS)}">
@@ -70,12 +70,12 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.PROPERTIESADMIN)}">
           <td>
-          <c:out value="${plugin.propertiesAdmin}" />
+          ${plugin.propertiesAdmin}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.PROPERTIESENTITAT)}">
           <td>
-          <c:out value="${plugin.propertiesEntitat}" />
+          ${plugin.propertiesEntitat}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.POLITICADEUS)}">

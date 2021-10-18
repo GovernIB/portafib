@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.NotificacioWS;
-import es.caib.portafib.jpa.NotificacioWSJPA;
-import es.caib.portafib.jpa.NotificacioWSJPAManager;
+import es.caib.portafib.persistence.NotificacioWSJPA;
+import es.caib.portafib.persistence.NotificacioWSJPAManager;
 
 @Stateless(name = "NotificacioWSEJB")
-public class NotificacioWSEJB extends NotificacioWSJPAManager implements NotificacioWSLocal {
+public class NotificacioWSEJB extends NotificacioWSJPAManager implements NotificacioWSService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

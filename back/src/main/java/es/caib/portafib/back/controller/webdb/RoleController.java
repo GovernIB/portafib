@@ -31,7 +31,7 @@ import es.caib.portafib.back.form.webdb.RoleForm;
 
 import es.caib.portafib.back.validator.webdb.RoleWebValidator;
 
-import es.caib.portafib.jpa.RoleJPA;
+import es.caib.portafib.persistence.RoleJPA;
 import es.caib.portafib.model.entity.Role;
 import es.caib.portafib.model.fields.*;
 
@@ -47,8 +47,8 @@ import es.caib.portafib.model.fields.*;
 public class RoleController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Role, java.lang.String> implements RoleFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.RoleLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.RoleLocal roleEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.RoleService.JNDI_NAME)
+  protected es.caib.portafib.ejb.RoleService roleEjb;
 
   @Autowired
   private RoleWebValidator roleWebValidator;
@@ -349,7 +349,7 @@ public class RoleController
 
     try {
       preValidate(request, roleForm, result);
-      getWebValidator().validate(role, result);
+      getWebValidator().validate(roleForm, result);
       postValidate(request, roleForm, result);
 
       if (result.hasErrors()) {
@@ -387,7 +387,7 @@ public class RoleController
       return null;
     }
     try {
-      Role role = findByPrimaryKey(request, roleID);
+      Role role = roleEjb.findByPrimaryKey(roleID);
       if (role == null) {
         String __msg =createMessageError(request, "error.notfound", roleID);
         return getRedirectWhenDelete(request, roleID, new Exception(__msg));
@@ -481,7 +481,7 @@ public java.lang.String stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder);
+
   }
 
   public RoleWebValidator getWebValidator() {

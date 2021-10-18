@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.UsuariEntitatFavoritLocal;
+import es.caib.portafib.ejb.UsuariEntitatFavoritService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.UsuariEntitatFavoritFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class UsuariEntitatFavoritRefList extends RefListBase
     implements UsuariEntitatFavoritFields {
 
-  @EJB(mappedName = UsuariEntitatFavoritLocal.JNDI_NAME)
-  private UsuariEntitatFavoritLocal usuariEntitatFavoritEjb;
+  @EJB(mappedName = UsuariEntitatFavoritService.JNDI_NAME)
+  private UsuariEntitatFavoritService usuariEntitatFavoritEjb;
 
   public UsuariEntitatFavoritRefList(UsuariEntitatFavoritRefList __clone) {
     super(__clone);

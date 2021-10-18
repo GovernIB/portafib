@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.IdiomaValidator;
+import es.caib.portafib.persistence.validator.IdiomaValidator;
 
 import es.caib.portafib.back.form.webdb.IdiomaForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.Idioma;
 
 
 /**
@@ -20,15 +24,16 @@ import es.caib.portafib.back.form.webdb.IdiomaForm;
  * @author anadal
  */
 @Component
-public class IdiomaWebValidator  implements Validator, IdiomaFields {
+public class IdiomaWebValidator extends AbstractWebValidator<IdiomaForm, Idioma>
+     implements Validator, IdiomaFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected IdiomaValidator<Object> validator = new IdiomaValidator<Object>();
+  protected IdiomaValidator<Idioma> validator = new IdiomaValidator<Idioma>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
 
 
 
@@ -37,28 +42,50 @@ public class IdiomaWebValidator  implements Validator, IdiomaFields {
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return IdiomaForm.class.isAssignableFrom(clazz);
+  public Idioma getBeanOfForm(IdiomaForm form) {
+    return  form.getIdioma();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<IdiomaForm> getClassOfForm() {
+    return IdiomaForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(IdiomaForm __form, Idioma __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<IdiomaForm> wvr;
+    wvr = new WebValidationResult<IdiomaForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(IdiomaForm __form, Idioma __bean, Errors errors,
+    WebValidationResult<IdiomaForm> wvr, boolean isNou) {
 
-    validator.validate(wvr, target,
+    BeanValidatorResult<Idioma> __vr = new BeanValidatorResult<Idioma>();
+    validator.validate(__vr, __bean,
       isNou, idiomaEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -66,11 +93,11 @@ public class IdiomaWebValidator  implements Validator, IdiomaFields {
     return field.fullName;
   }
 
-  public IdiomaValidator<Object> getValidator() {
+  public IdiomaValidator<Idioma> getValidator() {
     return validator;
   }
 
-  public void setValidator(IdiomaValidator<Object> validator) {
+  public void setValidator(IdiomaValidator<Idioma> validator) {
     this.validator = validator;
   }
 

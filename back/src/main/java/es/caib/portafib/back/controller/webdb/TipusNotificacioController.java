@@ -31,7 +31,7 @@ import es.caib.portafib.back.form.webdb.TipusNotificacioForm;
 
 import es.caib.portafib.back.validator.webdb.TipusNotificacioWebValidator;
 
-import es.caib.portafib.jpa.TipusNotificacioJPA;
+import es.caib.portafib.persistence.TipusNotificacioJPA;
 import es.caib.portafib.model.entity.TipusNotificacio;
 import es.caib.portafib.model.fields.*;
 
@@ -47,8 +47,8 @@ import es.caib.portafib.model.fields.*;
 public class TipusNotificacioController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<TipusNotificacio, java.lang.Long> implements TipusNotificacioFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.TipusNotificacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TipusNotificacioLocal tipusNotificacioEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.TipusNotificacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.TipusNotificacioService tipusNotificacioEjb;
 
   @Autowired
   private TipusNotificacioWebValidator tipusNotificacioWebValidator;
@@ -352,7 +352,7 @@ public class TipusNotificacioController
 
     try {
       preValidate(request, tipusNotificacioForm, result);
-      getWebValidator().validate(tipusNotificacio, result);
+      getWebValidator().validate(tipusNotificacioForm, result);
       postValidate(request, tipusNotificacioForm, result);
 
       if (result.hasErrors()) {
@@ -390,7 +390,7 @@ public class TipusNotificacioController
       return null;
     }
     try {
-      TipusNotificacio tipusNotificacio = findByPrimaryKey(request, tipusNotificacioID);
+      TipusNotificacio tipusNotificacio = tipusNotificacioEjb.findByPrimaryKey(tipusNotificacioID);
       if (tipusNotificacio == null) {
         String __msg =createMessageError(request, "error.notfound", tipusNotificacioID);
         return getRedirectWhenDelete(request, tipusNotificacioID, new Exception(__msg));
@@ -435,7 +435,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -484,7 +484,7 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder);
+
   }
 
   public TipusNotificacioWebValidator getWebValidator() {

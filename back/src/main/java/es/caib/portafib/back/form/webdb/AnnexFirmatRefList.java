@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.AnnexFirmatLocal;
+import es.caib.portafib.ejb.AnnexFirmatService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.AnnexFirmatFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class AnnexFirmatRefList extends RefListBase
     implements AnnexFirmatFields {
 
-  @EJB(mappedName = AnnexFirmatLocal.JNDI_NAME)
-  private AnnexFirmatLocal annexFirmatEjb;
+  @EJB(mappedName = AnnexFirmatService.JNDI_NAME)
+  private AnnexFirmatService annexFirmatEjb;
 
   public AnnexFirmatRefList(AnnexFirmatRefList __clone) {
     super(__clone);

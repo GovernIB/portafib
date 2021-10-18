@@ -7,13 +7,13 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
-import es.caib.portafib.ejb.AnnexFirmatLocal;
-import es.caib.portafib.ejb.AnnexLocal;
-import es.caib.portafib.ejb.ColaboracioDelegacioLocal;
-import es.caib.portafib.ejb.EntitatLocal;
-import es.caib.portafib.ejb.FirmaLocal;
-import es.caib.portafib.ejb.PeticioDeFirmaLocal;
-import es.caib.portafib.ejb.UsuariPersonaLocal;
+import es.caib.portafib.ejb.AnnexFirmatService ;
+import es.caib.portafib.ejb.AnnexService ;
+import es.caib.portafib.ejb.ColaboracioDelegacioService ;
+import es.caib.portafib.ejb.EntitatService ;
+import es.caib.portafib.ejb.FirmaService ;
+import es.caib.portafib.ejb.PeticioDeFirmaService ;
+import es.caib.portafib.ejb.UsuariPersonaService ;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.OrderBy;
@@ -46,26 +46,26 @@ import es.caib.portafib.model.fields.UsuariPersonaFields;
 @SessionAttributes(types = { FitxerForm.class, FitxerFilterForm.class })
 public class FitxersOrfesController extends FitxerController {
   
-  @EJB(mappedName = AnnexLocal.JNDI_NAME)
-  protected AnnexLocal annexEjb;
+  @EJB(mappedName = AnnexService .JNDI_NAME)
+  protected AnnexService  annexEjb;
   
-  @EJB(mappedName = ColaboracioDelegacioLocal.JNDI_NAME)
-  protected ColaboracioDelegacioLocal colaboracioDelegacioEjb;
+  @EJB(mappedName = ColaboracioDelegacioService .JNDI_NAME)
+  protected ColaboracioDelegacioService  colaboracioDelegacioEjb;
   
-  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
-  protected PeticioDeFirmaLocal peticioDeFirmaEjb;
+  @EJB(mappedName = PeticioDeFirmaService .JNDI_NAME)
+  protected PeticioDeFirmaService  peticioDeFirmaEjb;
   
-  @EJB(mappedName = FirmaLocal.JNDI_NAME)
-  protected FirmaLocal firmaEjb;
+  @EJB(mappedName = FirmaService .JNDI_NAME)
+  protected FirmaService  firmaEjb;
   
-  @EJB(mappedName = AnnexFirmatLocal.JNDI_NAME)
-  protected AnnexFirmatLocal annexFirmatEjb;
+  @EJB(mappedName = AnnexFirmatService .JNDI_NAME)
+  protected AnnexFirmatService  annexFirmatEjb;
   
-  @EJB(mappedName = EntitatLocal.JNDI_NAME)
-  protected EntitatLocal entitatEjb;
+  @EJB(mappedName = EntitatService .JNDI_NAME)
+  protected EntitatService  entitatEjb;
   
-  @EJB(mappedName = UsuariPersonaLocal.JNDI_NAME)
-  protected UsuariPersonaLocal usuariPersonaEjb;
+  @EJB(mappedName = UsuariPersonaService .JNDI_NAME)
+  protected UsuariPersonaService  usuariPersonaEjb;
 
   @Override
   public String getTileList() {

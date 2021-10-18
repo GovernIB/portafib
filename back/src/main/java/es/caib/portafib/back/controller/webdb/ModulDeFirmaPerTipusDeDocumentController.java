@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.ModulDeFirmaPerTipusDeDocumentForm;
 
 import es.caib.portafib.back.validator.webdb.ModulDeFirmaPerTipusDeDocumentWebValidator;
 
-import es.caib.portafib.jpa.ModulDeFirmaPerTipusDeDocumentJPA;
+import es.caib.portafib.persistence.ModulDeFirmaPerTipusDeDocumentJPA;
 import es.caib.portafib.model.entity.ModulDeFirmaPerTipusDeDocument;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class ModulDeFirmaPerTipusDeDocumentController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<ModulDeFirmaPerTipusDeDocument, java.lang.Long> implements ModulDeFirmaPerTipusDeDocumentFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal modulDeFirmaPerTipusDeDocumentEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentService.JNDI_NAME)
+  protected es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentService modulDeFirmaPerTipusDeDocumentEjb;
 
   @Autowired
   private ModulDeFirmaPerTipusDeDocumentWebValidator modulDeFirmaPerTipusDeDocumentWebValidator;
@@ -274,18 +274,18 @@ public class ModulDeFirmaPerTipusDeDocumentController
     if (modulDeFirmaPerTipusDeDocumentForm.getListOfTipusDocumentForTipusDocumentID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusDocumentID(request, mav, modulDeFirmaPerTipusDeDocumentForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       modulDeFirmaPerTipusDeDocumentForm.setListOfTipusDocumentForTipusDocumentID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (modulDeFirmaPerTipusDeDocumentForm.getListOfPluginForPluginID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPluginID(request, mav, modulDeFirmaPerTipusDeDocumentForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       modulDeFirmaPerTipusDeDocumentForm.setListOfPluginForPluginID(_listSKV);
     }
     
@@ -402,7 +402,7 @@ public class ModulDeFirmaPerTipusDeDocumentController
 
     try {
       preValidate(request, modulDeFirmaPerTipusDeDocumentForm, result);
-      getWebValidator().validate(modulDeFirmaPerTipusDeDocument, result);
+      getWebValidator().validate(modulDeFirmaPerTipusDeDocumentForm, result);
       postValidate(request, modulDeFirmaPerTipusDeDocumentForm, result);
 
       if (result.hasErrors()) {
@@ -440,7 +440,7 @@ public class ModulDeFirmaPerTipusDeDocumentController
       return null;
     }
     try {
-      ModulDeFirmaPerTipusDeDocument modulDeFirmaPerTipusDeDocument = findByPrimaryKey(request, iD);
+      ModulDeFirmaPerTipusDeDocument modulDeFirmaPerTipusDeDocument = modulDeFirmaPerTipusDeDocumentEjb.findByPrimaryKey(iD);
       if (modulDeFirmaPerTipusDeDocument == null) {
         String __msg =createMessageError(request, "error.notfound", iD);
         return getRedirectWhenDelete(request, iD, new Exception(__msg));
@@ -485,7 +485,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -534,7 +534,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "modulDeFirmaPerTipusDeDocument.ID");
+    binder.setDisallowedFields("ID");
+
   }
 
   public ModulDeFirmaPerTipusDeDocumentWebValidator getWebValidator() {
@@ -593,7 +594,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusDocumentID(HttpServletRequest request,
        ModelAndView mav, ModulDeFirmaPerTipusDeDocumentForm modulDeFirmaPerTipusDeDocumentForm, Where where)  throws I18NException {
     if (modulDeFirmaPerTipusDeDocumentForm.isHiddenField(TIPUSDOCUMENTID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (modulDeFirmaPerTipusDeDocumentForm.isReadOnlyField(TIPUSDOCUMENTID)) {
@@ -608,7 +609,7 @@ public java.lang.Long stringToPK(String value) {
        List<ModulDeFirmaPerTipusDeDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (modulDeFirmaPerTipusDeDocumentFilterForm.isHiddenField(TIPUSDOCUMENTID)
       && !modulDeFirmaPerTipusDeDocumentFilterForm.isGroupByField(TIPUSDOCUMENTID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(TIPUSDOCUMENTID)) {
@@ -632,7 +633,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
        ModelAndView mav, ModulDeFirmaPerTipusDeDocumentForm modulDeFirmaPerTipusDeDocumentForm, Where where)  throws I18NException {
     if (modulDeFirmaPerTipusDeDocumentForm.isHiddenField(PLUGINID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (modulDeFirmaPerTipusDeDocumentForm.isReadOnlyField(PLUGINID)) {
@@ -647,7 +648,7 @@ public java.lang.Long stringToPK(String value) {
        List<ModulDeFirmaPerTipusDeDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (modulDeFirmaPerTipusDeDocumentFilterForm.isHiddenField(PLUGINID)
       && !modulDeFirmaPerTipusDeDocumentFilterForm.isGroupByField(PLUGINID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PLUGINID)) {

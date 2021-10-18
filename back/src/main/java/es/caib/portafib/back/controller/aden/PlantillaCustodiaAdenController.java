@@ -27,7 +27,7 @@ import es.caib.portafib.back.controller.webdb.CustodiaInfoController;
 import es.caib.portafib.back.form.webdb.CustodiaInfoFilterForm;
 import es.caib.portafib.back.form.webdb.CustodiaInfoForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.CustodiaInfoJPA;
+import es.caib.portafib.persistence.CustodiaInfoJPA;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
@@ -45,8 +45,8 @@ import es.caib.portafib.utils.ConstantsV2;
 @SessionAttributes(types = { CustodiaInfoForm.class, CustodiaInfoFilterForm.class })
 public class PlantillaCustodiaAdenController extends CustodiaInfoController {
   
-  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
   
   @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
   protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;

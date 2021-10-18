@@ -26,12 +26,12 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.NOTIFICACIOID)}">
           <td>
-          <c:out value="${notificacioWS.notificacioID}" />
+          ${notificacioWS.notificacioID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.PETICIODEFIRMAID)}">
           <td>
-          <c:out value="${notificacioWS.peticioDeFirmaID}" />
+          ${notificacioWS.peticioDeFirmaID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.TIPUSNOTIFICACIOID)}">
@@ -50,7 +50,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.DESCRIPCIO)}">
           <td>
-          <c:out value="${notificacioWS.descripcio}" />
+          ${notificacioWS.descripcio}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.BLOQUEJADA)}">
@@ -62,7 +62,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.ERROR)}">
           <td>
-          <c:out value="${notificacioWS.error}" />
+          ${notificacioWS.error}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.DATAERROR)}">
@@ -70,12 +70,12 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.REINTENTS)}">
           <td>
-          <c:out value="${notificacioWS.reintents}" />
+          ${notificacioWS.reintents}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.USUARIAPLICACIOID)}">
           <td>
-          <c:out value="${notificacioWS.usuariAplicacioID}" />
+          ${notificacioWS.usuariAplicacioID}
           </td>
         </c:if>
 

@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.Idioma;
-import es.caib.portafib.jpa.IdiomaJPA;
-import es.caib.portafib.jpa.IdiomaJPAManager;
+import es.caib.portafib.persistence.IdiomaJPA;
+import es.caib.portafib.persistence.IdiomaJPAManager;
 
 @Stateless(name = "IdiomaEJB")
-public class IdiomaEJB extends IdiomaJPAManager implements IdiomaLocal {
+public class IdiomaEJB extends IdiomaJPAManager implements IdiomaService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

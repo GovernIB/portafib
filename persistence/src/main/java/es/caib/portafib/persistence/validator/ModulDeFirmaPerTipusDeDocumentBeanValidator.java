@@ -1,0 +1,55 @@
+package es.caib.portafib.persistence.validator;
+
+import es.caib.portafib.persistence.ModulDeFirmaPerTipusDeDocumentJPA;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import java.util.List;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.validation.AbstractBeanValidator;
+
+/**
+ *  ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! 
+ * @author GenApp
+ * @author anadal
+ */
+public class ModulDeFirmaPerTipusDeDocumentBeanValidator 
+      extends AbstractBeanValidator<ModulDeFirmaPerTipusDeDocumentJPA> {
+
+
+  // EJB's
+  protected final es.caib.portafib.model.dao.IModulDeFirmaPerTipusDeDocumentManager __modulDeFirmaPerTipusDeDocumentManager;
+
+  protected final es.caib.portafib.model.dao.IPluginManager __pluginManager;
+
+  protected final es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager;
+
+
+  public final ModulDeFirmaPerTipusDeDocumentValidator<ModulDeFirmaPerTipusDeDocumentJPA> _validator;
+
+
+  public ModulDeFirmaPerTipusDeDocumentBeanValidator(es.caib.portafib.model.dao.IModulDeFirmaPerTipusDeDocumentManager __modulDeFirmaPerTipusDeDocumentManager,
+     es.caib.portafib.model.dao.IPluginManager __pluginManager,
+     es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager) { 
+    this.__modulDeFirmaPerTipusDeDocumentManager = __modulDeFirmaPerTipusDeDocumentManager;
+    this.__pluginManager = __pluginManager;
+    this.__tipusDocumentManager = __tipusDocumentManager;
+    _validator = new ModulDeFirmaPerTipusDeDocumentValidator<ModulDeFirmaPerTipusDeDocumentJPA>();
+  }
+
+  public ModulDeFirmaPerTipusDeDocumentBeanValidator(ModulDeFirmaPerTipusDeDocumentValidator<ModulDeFirmaPerTipusDeDocumentJPA> _validator,
+     es.caib.portafib.model.dao.IModulDeFirmaPerTipusDeDocumentManager __modulDeFirmaPerTipusDeDocumentManager,
+     es.caib.portafib.model.dao.IPluginManager __pluginManager,
+     es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager) {
+    this.__modulDeFirmaPerTipusDeDocumentManager = __modulDeFirmaPerTipusDeDocumentManager;
+    this.__pluginManager = __pluginManager;
+    this.__tipusDocumentManager = __tipusDocumentManager;
+    this._validator = _validator;
+  }
+
+  @Override
+  public List<I18NFieldError> validate(ModulDeFirmaPerTipusDeDocumentJPA target, boolean isNou) throws I18NException {
+    BeanValidatorResult<ModulDeFirmaPerTipusDeDocumentJPA> _bvr_ = new BeanValidatorResult<ModulDeFirmaPerTipusDeDocumentJPA>();
+    _validator.validate(_bvr_, target, isNou, __modulDeFirmaPerTipusDeDocumentManager, __pluginManager, __tipusDocumentManager);
+    return _bvr_.getErrors();
+  }
+}

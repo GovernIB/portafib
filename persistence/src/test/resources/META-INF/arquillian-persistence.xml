@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+    <persistence-unit name="carpetaPU" transaction-type="JTA">
+        <jta-data-source>java:jboss/datasources/carpetaDS</jta-data-source>
+
+        <class>es.caib.carpeta.persistence.UnitatOrganica</class>
+        <class>es.caib.carpeta.persistence.Procediment</class>
+
+        <class>es.caib.carpeta.persistence.Acceso</class>
+        <class>es.caib.carpeta.persistence.Archivo</class>
+        <class>es.caib.carpeta.persistence.Auditoria</class>
+        <class>es.caib.carpeta.persistence.Aviso</class>
+        <class>es.caib.carpeta.persistence.Enlace</class>
+        <class>es.caib.carpeta.persistence.Entidad</class>
+        <class>es.caib.carpeta.persistence.Estadistica</class>
+        <class>es.caib.carpeta.persistence.Log</class>
+        <class>es.caib.carpeta.persistence.Plugin</class>
+        <class>es.caib.carpeta.persistence.PropiedadGlobal</class>
+        <class>es.caib.carpeta.persistence.PropiedadPlugin</class>
+        <class>es.caib.carpeta.persistence.Usuario</class>
+        <class>es.caib.carpeta.persistence.UsuarioEntidad</class>
+
+        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+        <validation-mode>CALLBACK</validation-mode>
+
+        <properties>
+            <property name="hibernate.show_sql" value="false"/>
+        </properties>
+    </persistence-unit>
+</persistence>

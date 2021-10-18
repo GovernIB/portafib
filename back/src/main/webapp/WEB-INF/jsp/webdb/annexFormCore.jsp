@@ -8,20 +8,24 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFields.PETICIODEFIRMAID])?'annex.peticioDeFirmaID':__theForm.labels[AnnexFields.PETICIODEFIRMAID]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[AnnexFields.PETICIODEFIRMAID]}">
-              <i class="icon-info-sign" title="${__theForm.help[AnnexFields.PETICIODEFIRMAID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[AnnexFields.PETICIODEFIRMAID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="annex.peticioDeFirmaID" cssClass="errorField alert alert-error" />
+          <form:errors path="annex.peticioDeFirmaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,AnnexFields.PETICIODEFIRMAID)}" >
           <form:hidden path="annex.peticioDeFirmaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.annex.peticioDeFirmaID,__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.annex.peticioDeFirmaID,__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.PETICIODEFIRMAID)}" >
-          <form:select id="annex_peticioDeFirmaID"  onchange="if(typeof onChangePeticioDeFirmaID == 'function') {  onChangePeticioDeFirmaID(this); };"  cssClass="input-xxlarge" path="annex.peticioDeFirmaID">
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="annex_peticioDeFirmaID"  onchange="if(typeof onChangePeticioDeFirmaID == 'function') {  onChangePeticioDeFirmaID(this); };"  cssClass="form-control col-md-8" path="annex.peticioDeFirmaID">
             <c:forEach items="${__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
           </form:select>
           </c:if>
@@ -35,34 +39,48 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFields.FITXERID])?'annex.fitxerID':__theForm.labels[AnnexFields.FITXERID]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[AnnexFields.FITXERID]}">
-              <i class="icon-info-sign" title="${__theForm.help[AnnexFields.FITXERID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[AnnexFields.FITXERID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-              <form:errors path="annex.fitxerID" cssClass="errorField alert alert-error" />
-              <div class="fileupload fileupload-new" data-provides="fileupload" style="margin-bottom: 0px">
-                <div class="input-append">
-                <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)}" >
-                    <div class="uneditable-input span3">
-                      <i class="icon-file fileupload-exists"></i>
-                      <span class="fileupload-preview"></span>
-                    </div>
-                    <span class="btn btn-file">
-                      <span class="fileupload-new"><fmt:message key="genapp.form.file.select"/></span>
-                      <span class="fileupload-exists"><fmt:message key="genapp.form.file.change"/></span>
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)? 'input uneditable-input' : 'input'}"  path="fitxerID" type="file" />
-                    </span>
-                    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><fmt:message key="genapp.form.file.unselect"/></a>
-                    <span class="add-on">&nbsp;</span>
-                </c:if>
-                <c:if test="${not empty __theForm.annex.fitxer}">
-                    <span class="add-on">
-                        <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.annex.fitxer)}"/>">${__theForm.annex.fitxer.nom}</a>
-                    </span>
-                </c:if>
+              <form:errors path="annex.fitxerID" cssClass="errorField alert alert-danger" />
+            <c:if test="${gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)}" >
+              <a target="_blank" href="<c:url value="${pfi:fileUrl(fitxerID.fitxerID)}"/>">${fitxerID.fitxerID.nom}</a>
+            </c:if>
+            <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)}" >
+              <div class="input-group">
+                <div class="custom-file col-md-8">
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)? 'true' : 'false'}" cssClass="custom-file-input form-control ${gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)? ' uneditable-input' : ''}"   path="fitxerID" type="file" />
+                  <label class="custom-file-label" for="fitxerID">
+                  </label>
                 </div>
+                <c:choose>
+                <c:when test="${not empty __theForm.annex.fitxer}">
+                <div class="input-group-append">
+                  <span class="input-group-text" id="">
+                  <small>              <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.annex.fitxer)}"/>">${__theForm.annex.fitxer.nom}</a>
+</small>
+                  </span>
+                </div>
+                </c:when>
+                <c:otherwise>
+                <div class="input-group-append input-group-append-file">
+                  <span class="input-group-text" id="fitxerID-custom-file-label" style="display:none">
+                  <small></small>
+                  </span>
+                </div>
+                <script type="text/javascript">
+					$('#fitxerID').on('change', function(){
+						var ruta = $('#fitxerID').val(); 
+						var rutaArray = ruta.split('\\');
+						$('#fitxerID-custom-file-label').css('display','block');
+						$('#fitxerID-custom-file-label small').html(rutaArray[rutaArray.length - 1]);
+					});
+				</script>                </c:otherwise>
+                </c:choose>
               </div>
+            </c:if>
            </td>
         </tr>
         </c:if>
@@ -73,14 +91,14 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFields.ADJUNTAR])?'annex.adjuntar':__theForm.labels[AnnexFields.ADJUNTAR]}" />
               <c:if test="${not empty __theForm.help[AnnexFields.ADJUNTAR]}">
-              <i class="icon-info-sign" title="${__theForm.help[AnnexFields.ADJUNTAR]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[AnnexFields.ADJUNTAR]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.ADJUNTAR)}" >
-              <form:errors path="annex.adjuntar" cssClass="errorField alert alert-error" />
-              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,AnnexFields.ADJUNTAR)? 'false' : 'true'}" path="annex.adjuntar" />
+              <form:errors path="annex.adjuntar" cssClass="errorField alert alert-danger" />
+              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,AnnexFields.ADJUNTAR)? 'false' : 'true'}" path="annex.adjuntar"  style="width:1%"/>
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,AnnexFields.ADJUNTAR)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.annex.adjuntar}" />
@@ -95,14 +113,14 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFields.FIRMAR])?'annex.firmar':__theForm.labels[AnnexFields.FIRMAR]}" />
               <c:if test="${not empty __theForm.help[AnnexFields.FIRMAR]}">
-              <i class="icon-info-sign" title="${__theForm.help[AnnexFields.FIRMAR]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[AnnexFields.FIRMAR]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.FIRMAR)}" >
-              <form:errors path="annex.firmar" cssClass="errorField alert alert-error" />
-              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,AnnexFields.FIRMAR)? 'false' : 'true'}" path="annex.firmar" />
+              <form:errors path="annex.firmar" cssClass="errorField alert alert-danger" />
+              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,AnnexFields.FIRMAR)? 'false' : 'true'}" path="annex.firmar"  style="width:1%"/>
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,AnnexFields.FIRMAR)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.annex.firmar}" />

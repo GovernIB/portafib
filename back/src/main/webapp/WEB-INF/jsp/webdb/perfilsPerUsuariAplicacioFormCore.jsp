@@ -8,20 +8,24 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID])?'perfilsPerUsuariAplicacio.perfilDeFirmaID':__theForm.labels[PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID]}">
-              <i class="icon-info-sign" title="${__theForm.help[PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="perfilsPerUsuariAplicacio.perfilDeFirmaID" cssClass="errorField alert alert-error" />
+          <form:errors path="perfilsPerUsuariAplicacio.perfilDeFirmaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID)}" >
           <form:hidden path="perfilsPerUsuariAplicacio.perfilDeFirmaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.perfilsPerUsuariAplicacio.perfilDeFirmaID,__theForm.listOfPerfilDeFirmaForPerfilDeFirmaID)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.perfilsPerUsuariAplicacio.perfilDeFirmaID,__theForm.listOfPerfilDeFirmaForPerfilDeFirmaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID)}" >
-          <form:select id="perfilsPerUsuariAplicacio_perfilDeFirmaID"  onchange="if(typeof onChangePerfilDeFirmaID == 'function') {  onChangePerfilDeFirmaID(this); };"  cssClass="input-xxlarge" path="perfilsPerUsuariAplicacio.perfilDeFirmaID">
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="perfilsPerUsuariAplicacio_perfilDeFirmaID"  onchange="if(typeof onChangePerfilDeFirmaID == 'function') {  onChangePerfilDeFirmaID(this); };"  cssClass="form-control col-md-8" path="perfilsPerUsuariAplicacio.perfilDeFirmaID">
             <c:forEach items="${__theForm.listOfPerfilDeFirmaForPerfilDeFirmaID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
           </form:select>
           </c:if>
@@ -35,20 +39,24 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID])?'perfilsPerUsuariAplicacio.usuariAplicacioID':__theForm.labels[PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID]}">
-              <i class="icon-info-sign" title="${__theForm.help[PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="perfilsPerUsuariAplicacio.usuariAplicacioID" cssClass="errorField alert alert-error" />
+          <form:errors path="perfilsPerUsuariAplicacio.usuariAplicacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID)}" >
           <form:hidden path="perfilsPerUsuariAplicacio.usuariAplicacioID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.perfilsPerUsuariAplicacio.usuariAplicacioID,__theForm.listOfUsuariAplicacioForUsuariAplicacioID)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.perfilsPerUsuariAplicacio.usuariAplicacioID,__theForm.listOfUsuariAplicacioForUsuariAplicacioID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID)}" >
-          <form:select id="perfilsPerUsuariAplicacio_usuariAplicacioID"  onchange="if(typeof onChangeUsuariAplicacioID == 'function') {  onChangeUsuariAplicacioID(this); };"  cssClass="input-xxlarge" path="perfilsPerUsuariAplicacio.usuariAplicacioID">
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="perfilsPerUsuariAplicacio_usuariAplicacioID"  onchange="if(typeof onChangeUsuariAplicacioID == 'function') {  onChangeUsuariAplicacioID(this); };"  cssClass="form-control col-md-8" path="perfilsPerUsuariAplicacio.usuariAplicacioID">
             <c:forEach items="${__theForm.listOfUsuariAplicacioForUsuariAplicacioID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
           </form:select>
           </c:if>

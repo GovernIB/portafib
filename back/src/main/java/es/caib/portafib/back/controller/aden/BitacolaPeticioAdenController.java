@@ -3,7 +3,7 @@ package es.caib.portafib.back.controller.aden;
 import java.util.ArrayList;
 import es.caib.portafib.back.form.webdb.BitacolaFilterForm;
 import es.caib.portafib.back.form.webdb.BitacolaForm;
-import es.caib.portafib.ejb.UsuariEntitatLocal;
+import es.caib.portafib.ejb.UsuariEntitatService;
 import es.caib.portafib.model.fields.BitacolaFields;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -38,8 +38,8 @@ public class BitacolaPeticioAdenController extends AbstractBitacolaAdenControlle
     public static final String SESSION_PETICIOID = "bitacolapeticio_peticioID";
     public static final String SESSION_RETURNPATH = "bitacolapeticio_returnPath";
 
-    @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME)
-    protected UsuariEntitatLocal usuariEntitatEjb;
+    @EJB(mappedName = UsuariEntitatService.JNDI_NAME)
+    protected UsuariEntitatService usuariEntitatEjb;
 
     @Override
     public boolean isActiveDelete() {

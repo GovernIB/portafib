@@ -15,7 +15,7 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
 import org.springframework.stereotype.Component;
 
-import es.caib.portafib.ejb.UsuariEntitatLocal;
+import es.caib.portafib.ejb.UsuariEntitatService;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 
@@ -27,8 +27,8 @@ import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 @Component
 public class UsuariEntitatJSONRefList extends RefListBase {
   
-  @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME)
-  private UsuariEntitatLocal usuariEntitatEjb;
+  @EJB(mappedName = UsuariEntitatService.JNDI_NAME)
+  private UsuariEntitatService usuariEntitatEjb;
 
 
   /**

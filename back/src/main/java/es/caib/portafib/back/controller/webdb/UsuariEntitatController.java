@@ -34,9 +34,9 @@ import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
 import es.caib.portafib.back.validator.webdb.UsuariEntitatWebValidator;
 
 import es.caib.portafib.model.entity.Fitxer;
-import es.caib.portafib.jpa.FitxerJPA;
+import es.caib.portafib.persistence.FitxerJPA;
 import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.fields.*;
 
@@ -52,8 +52,8 @@ import es.caib.portafib.model.fields.*;
 public class UsuariEntitatController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<UsuariEntitat, java.lang.String, UsuariEntitatForm> implements UsuariEntitatFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariEntitatService usuariEntitatEjb;
 
   @Autowired
   private UsuariEntitatWebValidator usuariEntitatWebValidator;
@@ -323,45 +323,45 @@ public class UsuariEntitatController
     if (usuariEntitatForm.getListOfUsuariPersonaForUsuariPersonaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariPersonaID(request, mav, usuariEntitatForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       usuariEntitatForm.setListOfUsuariPersonaForUsuariPersonaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (usuariEntitatForm.getListOfEntitatForEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForEntitatID(request, mav, usuariEntitatForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       usuariEntitatForm.setListOfEntitatForEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (usuariEntitatForm.getListOfValuesForPoliticaDePluginFirmaWeb() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPoliticaDePluginFirmaWeb(request, mav, usuariEntitatForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       usuariEntitatForm.setListOfValuesForPoliticaDePluginFirmaWeb(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (usuariEntitatForm.getListOfValuesForPoliticaCustodia() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPoliticaCustodia(request, mav, usuariEntitatForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       usuariEntitatForm.setListOfValuesForPoliticaCustodia(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (usuariEntitatForm.getListOfCustodiaInfoForCustodiaInfoID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForCustodiaInfoID(request, mav, usuariEntitatForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       usuariEntitatForm.setListOfCustodiaInfoForCustodiaInfoID(_listSKV);
     }
     
@@ -486,7 +486,7 @@ public class UsuariEntitatController
     try {
       this.setFilesFormToEntity(afm, usuariEntitat, usuariEntitatForm); // FILE
       preValidate(request, usuariEntitatForm, result);
-      getWebValidator().validate(usuariEntitat, result);
+      getWebValidator().validate(usuariEntitatForm, result);
       postValidate(request, usuariEntitatForm, result);
 
       if (result.hasErrors()) {
@@ -527,7 +527,7 @@ public class UsuariEntitatController
       return null;
     }
     try {
-      UsuariEntitat usuariEntitat = findByPrimaryKey(request, usuariEntitatID);
+      UsuariEntitat usuariEntitat = usuariEntitatEjb.findByPrimaryKey(usuariEntitatID);
       if (usuariEntitat == null) {
         String __msg =createMessageError(request, "error.notfound", usuariEntitatID);
         return getRedirectWhenDelete(request, usuariEntitatID, new Exception(__msg));
@@ -621,7 +621,7 @@ public java.lang.String stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder);
+
   }
 
   public UsuariEntitatWebValidator getWebValidator() {
@@ -703,7 +703,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariPersonaID(HttpServletRequest request,
        ModelAndView mav, UsuariEntitatForm usuariEntitatForm, Where where)  throws I18NException {
     if (usuariEntitatForm.isHiddenField(USUARIPERSONAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (usuariEntitatForm.isReadOnlyField(USUARIPERSONAID)) {
@@ -718,7 +718,7 @@ public java.lang.String stringToPK(String value) {
        List<UsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariEntitatFilterForm.isHiddenField(USUARIPERSONAID)
       && !usuariEntitatFilterForm.isGroupByField(USUARIPERSONAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIPERSONAID)) {
@@ -742,7 +742,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForEntitatID(HttpServletRequest request,
        ModelAndView mav, UsuariEntitatForm usuariEntitatForm, Where where)  throws I18NException {
     if (usuariEntitatForm.isHiddenField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (usuariEntitatForm.isReadOnlyField(ENTITATID)) {
@@ -757,7 +757,7 @@ public java.lang.String stringToPK(String value) {
        List<UsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariEntitatFilterForm.isHiddenField(ENTITATID)
       && !usuariEntitatFilterForm.isGroupByField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(ENTITATID)) {
@@ -781,7 +781,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPoliticaDePluginFirmaWeb(HttpServletRequest request,
        ModelAndView mav, UsuariEntitatForm usuariEntitatForm, Where where)  throws I18NException {
     if (usuariEntitatForm.isHiddenField(POLITICADEPLUGINFIRMAWEB)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForPoliticaDePluginFirmaWeb(request, mav, where);
   }
@@ -792,7 +792,7 @@ public java.lang.String stringToPK(String value) {
        List<UsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariEntitatFilterForm.isHiddenField(POLITICADEPLUGINFIRMAWEB)
       && !usuariEntitatFilterForm.isGroupByField(POLITICADEPLUGINFIRMAWEB)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForPoliticaDePluginFirmaWeb(request, mav, Where.AND(where,_w));
@@ -812,7 +812,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
        ModelAndView mav, UsuariEntitatForm usuariEntitatForm, Where where)  throws I18NException {
     if (usuariEntitatForm.isHiddenField(POLITICACUSTODIA)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForPoliticaCustodia(request, mav, where);
   }
@@ -823,7 +823,7 @@ public java.lang.String stringToPK(String value) {
        List<UsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariEntitatFilterForm.isHiddenField(POLITICACUSTODIA)
       && !usuariEntitatFilterForm.isGroupByField(POLITICACUSTODIA)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForPoliticaCustodia(request, mav, Where.AND(where,_w));
@@ -848,7 +848,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
        ModelAndView mav, UsuariEntitatForm usuariEntitatForm, Where where)  throws I18NException {
     if (usuariEntitatForm.isHiddenField(CUSTODIAINFOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (usuariEntitatForm.isReadOnlyField(CUSTODIAINFOID)) {
@@ -863,7 +863,7 @@ public java.lang.String stringToPK(String value) {
        List<UsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariEntitatFilterForm.isHiddenField(CUSTODIAINFOID)
       && !usuariEntitatFilterForm.isGroupByField(CUSTODIAINFOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(CUSTODIAINFOID)) {

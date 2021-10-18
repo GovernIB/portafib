@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.ModulDeFirmaPerTipusDeDocument;
-import es.caib.portafib.jpa.ModulDeFirmaPerTipusDeDocumentJPA;
-import es.caib.portafib.jpa.ModulDeFirmaPerTipusDeDocumentJPAManager;
+import es.caib.portafib.persistence.ModulDeFirmaPerTipusDeDocumentJPA;
+import es.caib.portafib.persistence.ModulDeFirmaPerTipusDeDocumentJPAManager;
 
 @Stateless(name = "ModulDeFirmaPerTipusDeDocumentEJB")
-public class ModulDeFirmaPerTipusDeDocumentEJB extends ModulDeFirmaPerTipusDeDocumentJPAManager implements ModulDeFirmaPerTipusDeDocumentLocal {
+public class ModulDeFirmaPerTipusDeDocumentEJB extends ModulDeFirmaPerTipusDeDocumentJPAManager implements ModulDeFirmaPerTipusDeDocumentService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

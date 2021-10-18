@@ -5,12 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.Fitxer;
-import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.jpa.FitxerJPAManager;
+import es.caib.portafib.persistence.FitxerJPA;
+import es.caib.portafib.persistence.FitxerJPAManager;
 
 @Stateless(name = "FitxerEJB")
-public class FitxerEJB extends FitxerJPAManager implements FitxerLocal {
-
+public class FitxerEJB extends FitxerJPAManager implements FitxerService {
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
 	public void delete(Fitxer instance) {

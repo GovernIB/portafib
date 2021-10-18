@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.PluginForm;
 
 import es.caib.portafib.back.validator.webdb.PluginWebValidator;
 
-import es.caib.portafib.jpa.PluginJPA;
+import es.caib.portafib.persistence.PluginJPA;
 import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.model.fields.*;
 
@@ -49,11 +49,11 @@ import es.caib.portafib.model.fields.*;
 public class PluginController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Plugin, java.lang.Long> implements PluginFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PluginLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PluginLocal pluginEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PluginService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PluginService pluginEjb;
 
   @Autowired
   private PluginWebValidator pluginWebValidator;
@@ -294,18 +294,18 @@ public class PluginController
     PluginForm pluginForm = getPluginForm(null, false, request, mav);
     
     if (pluginForm.getPlugin().getNom() == null){
-      es.caib.portafib.jpa.TraduccioJPA trad = new es.caib.portafib.jpa.TraduccioJPA();
+      es.caib.portafib.persistence.TraduccioJPA trad = new es.caib.portafib.persistence.TraduccioJPA();
       for (es.caib.portafib.model.entity.Idioma idioma : pluginForm.getIdiomesTraduccio()) {
-        trad.addTraduccio(idioma.getIdiomaID(), new es.caib.portafib.jpa.TraduccioMapJPA());
+        trad.addTraduccio(idioma.getIdiomaID(), new es.caib.portafib.persistence.TraduccioMapJPA());
       }
       pluginForm.getPlugin().setNom(trad);
     }
 
     
     if (pluginForm.getPlugin().getDescripcioCurta() == null){
-      es.caib.portafib.jpa.TraduccioJPA trad = new es.caib.portafib.jpa.TraduccioJPA();
+      es.caib.portafib.persistence.TraduccioJPA trad = new es.caib.portafib.persistence.TraduccioJPA();
       for (es.caib.portafib.model.entity.Idioma idioma : pluginForm.getIdiomesTraduccio()) {
-        trad.addTraduccio(idioma.getIdiomaID(), new es.caib.portafib.jpa.TraduccioMapJPA());
+        trad.addTraduccio(idioma.getIdiomaID(), new es.caib.portafib.persistence.TraduccioMapJPA());
       }
       pluginForm.getPlugin().setDescripcioCurta(trad);
     }
@@ -343,36 +343,36 @@ public class PluginController
     if (pluginForm.getListOfValuesForTipus() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipus(request, mav, pluginForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       pluginForm.setListOfValuesForTipus(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (pluginForm.getListOfValuesForPoliticaDeUs() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPoliticaDeUs(request, mav, pluginForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       pluginForm.setListOfValuesForPoliticaDeUs(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (pluginForm.getListOfEntitatForEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForEntitatID(request, mav, pluginForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       pluginForm.setListOfEntitatForEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (pluginForm.getListOfValuesForPoliticaMostrarPropietats() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPoliticaMostrarPropietats(request, mav, pluginForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       pluginForm.setListOfValuesForPoliticaMostrarPropietats(_listSKV);
     }
     
@@ -496,7 +496,7 @@ public class PluginController
 
     try {
       preValidate(request, pluginForm, result);
-      getWebValidator().validate(plugin, result);
+      getWebValidator().validate(pluginForm, result);
       postValidate(request, pluginForm, result);
 
       if (result.hasErrors()) {
@@ -534,7 +534,7 @@ public class PluginController
       return null;
     }
     try {
-      Plugin plugin = findByPrimaryKey(request, pluginID);
+      Plugin plugin = pluginEjb.findByPrimaryKey(pluginID);
       if (plugin == null) {
         String __msg =createMessageError(request, "error.notfound", pluginID);
         return getRedirectWhenDelete(request, pluginID, new Exception(__msg));
@@ -579,7 +579,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -628,7 +628,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "plugin.pluginID");
+    binder.setDisallowedFields("pluginID");
+
   }
 
   public PluginWebValidator getWebValidator() {
@@ -688,7 +689,7 @@ public java.lang.Long stringToPK(String value) {
        List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFilterForm.isHiddenField(NOMID)
       && !pluginFilterForm.isGroupByField(NOMID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(NOMID)) {
@@ -713,7 +714,7 @@ public java.lang.Long stringToPK(String value) {
        List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFilterForm.isHiddenField(DESCRIPCIOCURTAID)
       && !pluginFilterForm.isGroupByField(DESCRIPCIOCURTAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(DESCRIPCIOCURTAID)) {
@@ -737,7 +738,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipus(HttpServletRequest request,
        ModelAndView mav, PluginForm pluginForm, Where where)  throws I18NException {
     if (pluginForm.isHiddenField(TIPUS)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForTipus(request, mav, where);
   }
@@ -748,7 +749,7 @@ public java.lang.Long stringToPK(String value) {
        List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFilterForm.isHiddenField(TIPUS)
       && !pluginFilterForm.isGroupByField(TIPUS)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForTipus(request, mav, Where.AND(where,_w));
@@ -769,7 +770,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPoliticaDeUs(HttpServletRequest request,
        ModelAndView mav, PluginForm pluginForm, Where where)  throws I18NException {
     if (pluginForm.isHiddenField(POLITICADEUS)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForPoliticaDeUs(request, mav, where);
   }
@@ -780,7 +781,7 @@ public java.lang.Long stringToPK(String value) {
        List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFilterForm.isHiddenField(POLITICADEUS)
       && !pluginFilterForm.isGroupByField(POLITICADEUS)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForPoliticaDeUs(request, mav, Where.AND(where,_w));
@@ -800,7 +801,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForEntitatID(HttpServletRequest request,
        ModelAndView mav, PluginForm pluginForm, Where where)  throws I18NException {
     if (pluginForm.isHiddenField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (pluginForm.isReadOnlyField(ENTITATID)) {
@@ -815,7 +816,7 @@ public java.lang.Long stringToPK(String value) {
        List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFilterForm.isHiddenField(ENTITATID)
       && !pluginFilterForm.isGroupByField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(ENTITATID)) {
@@ -840,7 +841,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPoliticaMostrarPropietats(HttpServletRequest request,
        ModelAndView mav, PluginForm pluginForm, Where where)  throws I18NException {
     if (pluginForm.isHiddenField(POLITICAMOSTRARPROPIETATS)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForPoliticaMostrarPropietats(request, mav, where);
   }
@@ -851,7 +852,7 @@ public java.lang.Long stringToPK(String value) {
        List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFilterForm.isHiddenField(POLITICAMOSTRARPROPIETATS)
       && !pluginFilterForm.isGroupByField(POLITICAMOSTRARPROPIETATS)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForPoliticaMostrarPropietats(request, mav, Where.AND(where,_w));

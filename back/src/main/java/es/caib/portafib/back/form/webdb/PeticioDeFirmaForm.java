@@ -4,7 +4,7 @@ import java.util.List;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import es.caib.portafib.back.form.PortaFIBBaseForm;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 
 /**
  *  ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! 

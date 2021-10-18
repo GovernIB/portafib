@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.EstatDeFirma;
-import es.caib.portafib.jpa.EstatDeFirmaJPA;
-import es.caib.portafib.jpa.EstatDeFirmaJPAManager;
+import es.caib.portafib.persistence.EstatDeFirmaJPA;
+import es.caib.portafib.persistence.EstatDeFirmaJPAManager;
 
 @Stateless(name = "EstatDeFirmaEJB")
-public class EstatDeFirmaEJB extends EstatDeFirmaJPAManager implements EstatDeFirmaLocal {
+public class EstatDeFirmaEJB extends EstatDeFirmaJPAManager implements EstatDeFirmaService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

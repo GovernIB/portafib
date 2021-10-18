@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.RevisorDeFirmaLocal;
+import es.caib.portafib.ejb.RevisorDeFirmaService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class RevisorDeFirmaRefList extends RefListBase
     implements RevisorDeFirmaFields {
 
-  @EJB(mappedName = RevisorDeFirmaLocal.JNDI_NAME)
-  private RevisorDeFirmaLocal revisorDeFirmaEjb;
+  @EJB(mappedName = RevisorDeFirmaService.JNDI_NAME)
+  private RevisorDeFirmaService revisorDeFirmaEjb;
 
   public RevisorDeFirmaRefList(RevisorDeFirmaRefList __clone) {
     super(__clone);

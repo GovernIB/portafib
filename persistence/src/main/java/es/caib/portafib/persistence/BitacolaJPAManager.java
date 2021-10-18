@@ -1,0 +1,96 @@
+
+package es.caib.portafib.persistence;
+import java.util.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import es.caib.portafib.model.entity.*;
+import es.caib.portafib.model.fields.*;
+import es.caib.portafib.model.dao.*;
+import org.fundaciobit.genapp.common.query.TableName;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+
+
+public class BitacolaJPAManager
+         extends AbstractJPAManager<Bitacola, Long>
+         implements BitacolaIJPAManager, IBitacolaManager, BitacolaFields {
+
+
+
+
+    private static final long serialVersionUID = 1518198567L;
+
+    public static final TableName<Bitacola> _TABLENAME =  new TableName<Bitacola>("BitacolaJPA");
+
+
+    @PersistenceContext
+    protected EntityManager __em;
+
+    public BitacolaJPAManager() {
+    }
+
+    protected BitacolaJPAManager(EntityManager __em) {
+      this.__em = __em;
+    }
+
+    @Override
+    public EntityManager getEntityManager() {
+      return this.__em;
+    }
+    public Class<?> getJPAClass() {
+        return BitacolaJPA. class;
+    }
+
+
+
+    public TableName<Bitacola> getTableName() {
+        return _TABLENAME;
+    }
+
+
+    @Override
+    protected String getTableNameVariable() {
+        return _TABLE_MODEL;
+    }
+
+
+    public Bitacola[] listToArray(List<Bitacola> list)  {
+        if(list == null) { return null; };
+        return list.toArray(new Bitacola[list.size()]);
+    };
+
+    public synchronized Bitacola create( java.lang.String _entitatid_, java.lang.String _usuariid_, java.sql.Timestamp _data_, int _tipusObjecte_, java.lang.String _objecteid_, int _tipusOperacio_, java.lang.String _descripcio_, java.lang.String _objecteSerialitzat_) throws I18NException {
+        BitacolaJPA __bean =  new BitacolaJPA(_entitatid_,_usuariid_,_data_,_tipusObjecte_,_objecteid_,_tipusOperacio_,_descripcio_,_objecteSerialitzat_);
+        return create(__bean);
+    }
+
+
+
+ public void delete(long _bitacolaID_) {
+   delete(findByPrimaryKey(_bitacolaID_));
+ }
+
+
+
+
+    public Bitacola findByPrimaryKey(long _bitacolaID_) {
+        return __em.find(BitacolaJPA.class, _bitacolaID_);  
+    }
+    @Override
+    protected Bitacola getJPAInstance(Bitacola __bean) {
+        return convertToJPA(__bean);
+    }
+
+
+    public static BitacolaJPA convertToJPA(Bitacola __bean) {
+      if (__bean == null) {
+        return null;
+      }
+      if(__bean instanceof BitacolaJPA) {
+        return (BitacolaJPA)__bean;
+      }
+      
+      return BitacolaJPA.toJPA(__bean);
+    }
+
+
+}

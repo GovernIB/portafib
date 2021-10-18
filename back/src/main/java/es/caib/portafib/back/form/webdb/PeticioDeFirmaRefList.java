@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.PeticioDeFirmaLocal;
+import es.caib.portafib.ejb.PeticioDeFirmaService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class PeticioDeFirmaRefList extends RefListBase
     implements PeticioDeFirmaFields {
 
-  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
-  private PeticioDeFirmaLocal peticioDeFirmaEjb;
+  @EJB(mappedName = PeticioDeFirmaService.JNDI_NAME)
+  private PeticioDeFirmaService peticioDeFirmaEjb;
 
   public PeticioDeFirmaRefList(PeticioDeFirmaRefList __clone) {
     super(__clone);

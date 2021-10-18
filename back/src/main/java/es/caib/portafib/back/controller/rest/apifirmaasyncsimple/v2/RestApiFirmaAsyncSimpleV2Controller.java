@@ -4,24 +4,24 @@ import es.caib.portafib.back.controller.common.PlantillaDeFluxDeFirmesRestContro
 import es.caib.portafib.back.controller.rest.RestFirmaUtils;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.hibernate.HibernateFileUtil;
-import es.caib.portafib.jpa.AnnexJPA;
-import es.caib.portafib.jpa.BlocDeFirmesJPA;
-import es.caib.portafib.jpa.CustodiaInfoJPA;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.EstatDeFirmaJPA;
-import es.caib.portafib.jpa.FirmaJPA;
-import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.jpa.FluxDeFirmesJPA;
-import es.caib.portafib.jpa.MetadadaJPA;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
-import es.caib.portafib.jpa.RevisorDeFirmaJPA;
-import es.caib.portafib.jpa.TipusDocumentJPA;
-import es.caib.portafib.jpa.TraduccioMapJPA;
-import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.persistence.AnnexJPA;
+import es.caib.portafib.persistence.BlocDeFirmesJPA;
+import es.caib.portafib.persistence.CustodiaInfoJPA;
+import es.caib.portafib.persistence.EntitatJPA;
+import es.caib.portafib.persistence.EstatDeFirmaJPA;
+import es.caib.portafib.persistence.FirmaJPA;
+import es.caib.portafib.persistence.FitxerJPA;
+import es.caib.portafib.persistence.FluxDeFirmesJPA;
+import es.caib.portafib.persistence.MetadadaJPA;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
+import es.caib.portafib.persistence.PlantillaFluxDeFirmesJPA;
+import es.caib.portafib.persistence.RevisorDeFirmaJPA;
+import es.caib.portafib.persistence.TipusDocumentJPA;
+import es.caib.portafib.persistence.TraduccioMapJPA;
+import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.FirmaLogicaLocal;
@@ -120,8 +120,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
   protected ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentService.JNDI_NAME)
+  protected es.caib.portafib.ejb.TipusDocumentService tipusDocumentEjb;
 
   @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
@@ -132,8 +132,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   @EJB(mappedName = FitxerLogicaLocal.JNDI_NAME)
   protected FitxerLogicaLocal fitxerLogicaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
 
   @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;

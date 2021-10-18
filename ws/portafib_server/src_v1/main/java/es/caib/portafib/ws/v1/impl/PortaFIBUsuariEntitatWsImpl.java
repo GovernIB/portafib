@@ -1,9 +1,9 @@
 package es.caib.portafib.ws.v1.impl;
 
-import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.persistence.FitxerJPA;
+import es.caib.portafib.persistence.RoleUsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.RoleUsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
@@ -79,8 +79,8 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl imple
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.EntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.EntitatService entitatEjb;
 
   @Resource
   private WebServiceContext wsContext;

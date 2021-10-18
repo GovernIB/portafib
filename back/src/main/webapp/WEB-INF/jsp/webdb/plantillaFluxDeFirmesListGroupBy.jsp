@@ -35,61 +35,110 @@
   
   <div id="GroupDiv" class="well" style="${displayGroupDiv} padding: 1px; margin-right: 4px;  float: left; ">
       
-      <div class="pull-right" style="padding-left:2px">
+      <div class="float-right" style="padding-left:2px">
             <div class="span10">
-               <i title="<fmt:message key="genapp.form.hidegroupby"/>" onclick="document.getElementById('GroupDiv').style.display='none'; document.getElementById('GroupButton').style.display='inline';" class="icon-remove"></i>
+               <i title="<fmt:message key="genapp.form.hidegroupby"/>" onclick="document.getElementById('GroupDiv').style.display='none'; document.getElementById('GroupButton').style.display='inline';" class="fas fa-trash"></i>
             </div>
       </div>
 
 
-      <ul class="tree" style="margin:3px; padding:0px; float: left; ">
-
-        <li>
-          <a href="#" role="branch" class="tree-toggle" data-toggle="branch" data-value=" "><b><fmt:message key="genapp.form.groupby"/></b></a>
-          <ul class="branch in">
-              <c:if test="${IE8}">
-                <c:set var="linkItem" value="onclick=\"groupByFieldValue(' ',' ')\"" />
-              </c:if>
-              <li><a href="#" role="leaf" data-value="" ${linkItem} >&raquo; <span style="${(__theFilterForm.groupBy eq null)? "font-weight: bold;" : ""}"><fmt:message key="genapp.form.groupby.noneitem"/></span></a></li>
-
-
-              <c:forEach  var="groupby_item"  items="${groupby_items}"> 
-                <li>
-                  <a href="#" role="branch" class="tree-toggle ${groupby_item.selected? "" : "closed"}" data-toggle="branch" data-value="${groupby_item.value}">
-                    <span style="${groupby_item.selected? "font-weight: bold;" : ""}">
-                    <c:set var="code" value="${(empty __theFilterForm.labels[groupby_item.field])? groupby_item.codeLabel:__theFilterForm.labels[groupby_item.field]}" />
+      <div id="tree"></div>
+      
+      <script>
+      
+      
+      <c:set var="expandID" value="-" />
+      
+      var treedata =
+            [{
+                "id": '-1',
+                "text": "<b><fmt:message key="genapp.form.groupby"/></b>",
+                "field": null,
+                "hasChildren": true,
+                "children": [{
+                        "id": '${groupby_item.value}',
+                        "text": "&#8811; <span style='${(__theFilterForm.groupBy eq null)? "font-weight: bold;" : ""}'><fmt:message key="genapp.form.groupby.noneitem"/></span>",
+                        "field": ' ',
+                        "hasChildren": false,
+                        "children": []
+                    }
+                    
+                    <c:forEach  var="groupby_item"  items="${groupby_items}">
+                    
+                        <c:set var="code" value="${(empty __theFilterForm.labels[groupby_item.field])? groupby_item.codeLabel:__theFilterForm.labels[groupby_item.field]}" />
                         <c:if test="${!fn:startsWith(code,'=')}" >
-                        <fmt:message key="${code}">
+                        <fmt:message var="thetext" key="${code}">
                               <fmt:param><fmt:message key="${groupby_item.codeParamLabel}"/></fmt:param>
                         </fmt:message>
                         </c:if>
                         <c:if test="${fn:startsWith(code,'=')}" >
-                        <c:out value="${fn:substringAfter(code, '=')}" escapeXml="false" />
+                        <c:set var="thetext" value="${fn:substringAfter(code, '=')}" />
                         </c:if>
-                    </span>
-                  </a>
-                  <%-- AQUI VANS ELS VALUES --%>
-                  <ul class="${(groupby_item.selected || IE8)? "branch in" : "branch"}">
-                  <c:forEach  var="groupbyvalue_item"  items="${groupby_item.values}">
-                    <li>
-                      <c:if test="${IE8}">
-                        <c:set var="linkItem" value="onclick=\"groupByFieldValue('${groupby_item.value}','${groupbyvalue_item.value}')\"" />
-                      </c:if>
-                      <a href="#" role="leaf" data-value="${groupbyvalue_item.value}" ${linkItem} >
-                        &raquo; <span style="${groupbyvalue_item.selected? "font-weight: bold;" : ""}" >
-                          ${ (empty groupbyvalue_item.codeLabel) ? buit : groupbyvalue_item.codeLabel } (${groupbyvalue_item.count})
-                      </span>
-                      </a>
-                    </li>
-                  </c:forEach>
-                  </ul>
-                </li>
-              </c:forEach>
+                    
+                    ,{
+                        "id": '${groupby_item.value}',
+                        "text": "<span style='${groupby_item.selected? "font-weight: bold;" : ""}'>${thetext}</span>",
+                        "field": '${groupby_item.value}',
+                        "hasChildren": true,
+                        "children": [
+                            
+                            <c:set var="counterG" value="0" />
+                            
+                            <c:forEach  var="groupbyvalue_item"  items="${groupby_item.values}">
+                            
+                            
+                            
+                            <c:if test="${counterG ne 0}">,</c:if>
+                            <c:set var="counterG" value="${counterG + 1}" />
+                            {
+                                "id": '${groupby_item.value}_${counterG}',
+                                "text": "<span style='${groupbyvalue_item.selected? "font-weight: bold;" : ""}' >${ (empty groupbyvalue_item.codeLabel) ? buit : groupbyvalue_item.codeLabel } (${groupbyvalue_item.count})</span>",
+                                "field": '${groupby_item.value}',
+                                "value" : '${groupbyvalue_item.value}',
+                                "hasChildren": false,
+                                "children": []
+                            }
+                            
+                          </c:forEach>
+                            
+                        ]
+                    }   
+                    
+                    <c:if test="${groupby_item.selected}" >
+                        <c:set var="expandID" value="${groupby_item.value}"/>
+                    </c:if>
+                    
+                    </c:forEach>
 
-          </ul>
-        </li>
-      </ul>
+                ]
+            }];
 
+      var tree = $('#tree').tree({
+          dataSource: treedata,
+          primaryKey: 'id',
+          uiLibrary: 'bootstrap4',
+          select: function (e, node, id) {
+              var nodedata = tree.getDataById(id);
+              if (!nodedata.hasChildren) {
+                  groupByFieldValue(nodedata.field, nodedata.value);                  
+              }
+          },
+          icons: {
+              expand: '<i class="far fa-plus-square"></i>',
+              collapse: '<i class="far fa-minus-square"></i>'
+          }
+        });
+      
+       <c:if test="${expandID ne '-'}" >
+          var node = tree.getNodeById('${expandID}');
+          tree.expand(node);
+          
+          node = tree.getNodeById('-1');
+          tree.expand(node);
+       </c:if>
+      
+      
+      </script>
   </div>
  </c:if>
  

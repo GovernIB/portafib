@@ -3,7 +3,7 @@ package es.caib.portafib.back.controller.common;
 import java.util.Map;
 
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 

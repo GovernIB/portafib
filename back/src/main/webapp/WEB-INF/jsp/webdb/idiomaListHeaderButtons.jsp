@@ -25,15 +25,15 @@
       <c:if test="${fn:length(__theFilterForm.filterByFields) > 0}">
       <c:set var="displayFilterBut" value="${__theFilterForm.visibleFilterBy?'display:none;':''}" />
       <a id="FilterButton" style="${displayFilterBut}" title="<fmt:message key="genapp.form.filterby"/>" onclick="document.getElementById('FilterDiv').style.display = 'inherit'; document.getElementById('FilterButton').style.display = 'none';" class="btn" role="button" data-toggle="modal">
-         <i class="icon-search"></i>
+         <i class="fas fa-search"></i>
       </a>
       </c:if>
       <%-- FILTRAR PER BOTO - FINAL  --%>
      
       <%-- BOTO DE NOU ELEMENT EN LLISTAT  --%>
     <c:if test="${__theFilterForm.addButtonVisible}">
-      <a class="btn btn-small pull-right" role="button" data-toggle="modal"
-        href="<c:url value="${contexte}/new"/>"> <i class="icon-plus-sign"></i>
+      <a class="btn btn-sm btn-success float-right"  style="color: white;" role="button" 
+        href="<c:url value="${contexte}/new"/>"> <i class="fas fa-plus-circle"></i>
        <fmt:message key="genapp.createtitle" >
          <fmt:param value="${entityname}"/>
        </fmt:message>
@@ -41,10 +41,10 @@
     </c:if>
       <%-- BOTO DE ESBORRAT MULTIPLE  --%>
     <c:if test="${__theFilterForm.deleteSelectedButtonVisible && __theFilterForm.visibleMultipleSelection && not empty idiomaItems}">
-      <a class="btn btn-danger btn-small pull-right" style="color: white;" href="#myModal"
+      <a class="btn btn-danger btn-sm float-right" style="color: white;" href="#myModal"
         onclick="openModalSubmit('<c:url value="${contexte}/deleteSelected"/>','show', 'idioma');"
         title="<fmt:message key="genapp.delete"/>">
-        <i class="icon-trash icon-white"></i>
+        <i class="fas fa-trash icon-white"></i>
         <fmt:message key="genapp.delete.selected" />
       </a>
     </c:if>
@@ -55,7 +55,7 @@
         <c:url var="thehref" value="${thelink}"/>
         <c:url var="thelink" value=""/>
       </c:if>
-<a class="btn btn-small ${button.type} pull-right" style="${(empty button.type)? '' : 'color: white;'}"  href="${thehref}" onclick="${thelink}" title="<fmt:message key="${button.codeText}"/>">
+<a class="btn btn-sm ${button.type} float-right" style="${(empty button.type)? '' : 'color: white;'}"  href="${thehref}" onclick="${thelink}" title="<fmt:message key="${button.codeText}"/>">
          <i class="${button.icon}"></i>
          <fmt:message key="${button.codeText}"/>
       </a>

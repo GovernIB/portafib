@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.MetadadaLocal;
+import es.caib.portafib.ejb.MetadadaService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.MetadadaFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class MetadadaRefList extends RefListBase
     implements MetadadaFields {
 
-  @EJB(mappedName = MetadadaLocal.JNDI_NAME)
-  private MetadadaLocal metadadaEjb;
+  @EJB(mappedName = MetadadaService.JNDI_NAME)
+  private MetadadaService metadadaEjb;
 
   public MetadadaRefList(MetadadaRefList __clone) {
     super(__clone);

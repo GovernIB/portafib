@@ -1,7 +1,7 @@
 package es.caib.portafib.back.utils;
 
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.model.entity.UsuariPersona;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.StringKeyValue;

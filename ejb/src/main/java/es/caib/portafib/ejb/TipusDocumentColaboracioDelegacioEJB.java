@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.TipusDocumentColaboracioDelegacio;
-import es.caib.portafib.jpa.TipusDocumentColaboracioDelegacioJPA;
-import es.caib.portafib.jpa.TipusDocumentColaboracioDelegacioJPAManager;
+import es.caib.portafib.persistence.TipusDocumentColaboracioDelegacioJPA;
+import es.caib.portafib.persistence.TipusDocumentColaboracioDelegacioJPAManager;
 
 @Stateless(name = "TipusDocumentColaboracioDelegacioEJB")
-public class TipusDocumentColaboracioDelegacioEJB extends TipusDocumentColaboracioDelegacioJPAManager implements TipusDocumentColaboracioDelegacioLocal {
+public class TipusDocumentColaboracioDelegacioEJB extends TipusDocumentColaboracioDelegacioJPAManager implements TipusDocumentColaboracioDelegacioService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

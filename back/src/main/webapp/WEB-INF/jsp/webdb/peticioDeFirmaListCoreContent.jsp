@@ -26,22 +26,22 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.PETICIODEFIRMAID)}">
           <td>
-          <c:out value="${peticioDeFirma.peticioDeFirmaID}" />
+          ${peticioDeFirma.peticioDeFirmaID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.TITOL)}">
           <td>
-          <c:out value="${peticioDeFirma.titol}" />
+          ${peticioDeFirma.titol}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.DESCRIPCIO)}">
           <td>
-          <c:out value="${peticioDeFirma.descripcio}" />
+          ${peticioDeFirma.descripcio}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.MOTIU)}">
           <td>
-          <c:out value="${peticioDeFirma.motiu}" />
+          ${peticioDeFirma.motiu}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.FITXERAFIRMARID)}">
@@ -75,7 +75,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT)}">
           <td>
-          <c:out value="${peticioDeFirma.descripcioTipusDocument}" />
+          ${peticioDeFirma.descripcioTipusDocument}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.DATASOLICITUD)}">
@@ -133,7 +133,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.MOTIUDEREBUIG)}">
           <td>
-          <c:out value="${peticioDeFirma.motiuDeRebuig}" />
+          ${peticioDeFirma.motiuDeRebuig}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.IDIOMAID)}">
@@ -170,47 +170,47 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.REMITENTNOM)}">
           <td>
-          <c:out value="${peticioDeFirma.remitentNom}" />
+          ${peticioDeFirma.remitentNom}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.REMITENTDESCRIPCIO)}">
           <td>
-          <c:out value="${peticioDeFirma.remitentDescripcio}" />
+          ${peticioDeFirma.remitentDescripcio}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.EXPEDIENTCODI)}">
           <td>
-          <c:out value="${peticioDeFirma.expedientCodi}" />
+          ${peticioDeFirma.expedientCodi}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.EXPEDIENTNOM)}">
           <td>
-          <c:out value="${peticioDeFirma.expedientNom}" />
+          ${peticioDeFirma.expedientNom}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.EXPEDIENTURL)}">
           <td>
-          <c:out value="${peticioDeFirma.expedientUrl}" />
+          ${peticioDeFirma.expedientUrl}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.PROCEDIMENTCODI)}">
           <td>
-          <c:out value="${peticioDeFirma.procedimentCodi}" />
+          ${peticioDeFirma.procedimentCodi}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.PROCEDIMENTNOM)}">
           <td>
-          <c:out value="${peticioDeFirma.procedimentNom}" />
+          ${peticioDeFirma.procedimentNom}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.INFORMACIOADDICIONAL)}">
           <td>
-          <c:out value="${peticioDeFirma.informacioAddicional}" />
+          ${peticioDeFirma.informacioAddicional}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE)}">
           <td>
-          <c:out value="${peticioDeFirma.informacioAddicionalAvaluable}" />
+          ${peticioDeFirma.informacioAddicionalAvaluable}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.LOGOSEGELLID)}">

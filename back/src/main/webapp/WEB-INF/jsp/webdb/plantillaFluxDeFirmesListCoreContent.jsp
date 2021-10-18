@@ -34,7 +34,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PlantillaFluxDeFirmesFields.DESCRIPCIO)}">
           <td>
-          <c:out value="${plantillaFluxDeFirmes.descripcio}" />
+          ${plantillaFluxDeFirmes.descripcio}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PlantillaFluxDeFirmesFields.USUARIENTITATID)}">

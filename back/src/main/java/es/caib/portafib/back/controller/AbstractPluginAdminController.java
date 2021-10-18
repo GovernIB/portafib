@@ -26,7 +26,7 @@ import es.caib.portafib.back.controller.webdb.PluginController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.PluginJPA;
+import es.caib.portafib.persistence.PluginJPA;
 import es.caib.portafib.logic.PluginLogicaLocal;
 import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.model.fields.PluginFields;

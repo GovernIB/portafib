@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.Estadistica;
-import es.caib.portafib.jpa.EstadisticaJPA;
-import es.caib.portafib.jpa.EstadisticaJPAManager;
+import es.caib.portafib.persistence.EstadisticaJPA;
+import es.caib.portafib.persistence.EstadisticaJPAManager;
 
 @Stateless(name = "EstadisticaEJB")
-public class EstadisticaEJB extends EstadisticaJPAManager implements EstadisticaLocal {
+public class EstadisticaEJB extends EstadisticaJPAManager implements EstadisticaService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

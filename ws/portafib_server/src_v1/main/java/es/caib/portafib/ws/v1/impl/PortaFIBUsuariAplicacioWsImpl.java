@@ -1,7 +1,7 @@
 package es.caib.portafib.ws.v1.impl;
 
-import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.persistence.FitxerJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.model.entity.UsuariAplicacio;

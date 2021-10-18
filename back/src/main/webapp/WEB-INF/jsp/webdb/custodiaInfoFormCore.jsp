@@ -8,13 +8,13 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.NOMPLANTILLA])?'custodiaInfo.nomPlantilla':__theForm.labels[CustodiaInfoFields.NOMPLANTILLA]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.NOMPLANTILLA]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.NOMPLANTILLA]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.NOMPLANTILLA]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="custodiaInfo.nomPlantilla" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.nomPlantilla"   />
+            <form:errors path="custodiaInfo.nomPlantilla" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.nomPlantilla"   />
 
            </td>
         </tr>
@@ -26,13 +26,13 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CUSTODIADOCUMENTID])?'custodiaInfo.custodiaDocumentID':__theForm.labels[CustodiaInfoFields.CUSTODIADOCUMENTID]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CUSTODIADOCUMENTID]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CUSTODIADOCUMENTID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CUSTODIADOCUMENTID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="custodiaInfo.custodiaDocumentID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.custodiaDocumentID"   />
+            <form:errors path="custodiaInfo.custodiaDocumentID" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.custodiaDocumentID"   />
 
            </td>
         </tr>
@@ -44,20 +44,24 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.PLUGINID])?'custodiaInfo.pluginID':__theForm.labels[CustodiaInfoFields.PLUGINID]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.PLUGINID]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.PLUGINID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.PLUGINID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="custodiaInfo.pluginID" cssClass="errorField alert alert-error" />
+          <form:errors path="custodiaInfo.pluginID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PLUGINID)}" >
           <form:hidden path="custodiaInfo.pluginID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.pluginID,__theForm.listOfPluginForPluginID)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.pluginID,__theForm.listOfPluginForPluginID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PLUGINID)}" >
-          <form:select id="custodiaInfo_pluginID"  onchange="if(typeof onChangePluginID == 'function') {  onChangePluginID(this); };"  cssClass="input-xxlarge" path="custodiaInfo.pluginID">
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="custodiaInfo_pluginID"  onchange="if(typeof onChangePluginID == 'function') {  onChangePluginID(this); };"  cssClass="form-control col-md-8" path="custodiaInfo.pluginID">
             <c:forEach items="${__theForm.listOfPluginForPluginID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
           </form:select>
           </c:if>
@@ -71,22 +75,28 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS])?'custodiaInfo.custodiaPluginParameters':__theForm.labels[CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-              <form:errors path="custodiaInfo.custodiaPluginParameters" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)? 'true' : 'false'}" path="custodiaInfo.custodiaPluginParameters"  />
-              <div class="btn-group" style="vertical-align: top;">
-              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.custodiaPluginParameters'); ta.wrap='off';" >No Wrap</a></li>
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.custodiaPluginParameters'); ta.wrap='soft';">Soft Wrap</a></li>
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.custodiaPluginParameters'); ta.wrap='hard';">Hard Wrap</a></li>
-              </ul>
-              </div>
-           </td>
+              <form:errors path="custodiaInfo.custodiaPluginParameters" cssClass="errorField alert alert-danger" />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)? 'true' : 'false'}" path="custodiaInfo.custodiaPluginParameters"  />
+      <div id="dropdownMenuButton_custodiaPluginParameters" style="vertical-align:top;display:inline;position:relative;">
+        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_custodiaPluginParameters" class="dropdown-menu">
+          <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.custodiaPluginParameters'); ta.wrap='off';" >No Wrap</a>
+          <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.custodiaPluginParameters'); ta.wrap='soft';">Soft Wrap</a>
+          <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.custodiaPluginParameters'); ta.wrap='hard';">Hard Wrap</a>
+        </div>
+      </div>
+      <script type="text/javascript">
+			$('#dropdownMenuButton_custodiaPluginParameters').on('click', function(){
+					var valor = ($('#dropdownMenuContainer_custodiaPluginParameters').css('display') != 'none') ? 'none' : 'block';
+                 $('#dropdownMenuContainer_custodiaPluginParameters').css('display', valor);
+                 return false;
+				});
+      </script>           </td>
         </tr>
         </c:if>
         
@@ -96,14 +106,14 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CUSTODIAR])?'custodiaInfo.custodiar':__theForm.labels[CustodiaInfoFields.CUSTODIAR]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CUSTODIAR]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CUSTODIAR]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CUSTODIAR]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAR)}" >
-              <form:errors path="custodiaInfo.custodiar" cssClass="errorField alert alert-error" />
-              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAR)? 'false' : 'true'}" path="custodiaInfo.custodiar" />
+              <form:errors path="custodiaInfo.custodiar" cssClass="errorField alert alert-danger" />
+              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAR)? 'false' : 'true'}" path="custodiaInfo.custodiar"  style="width:1%"/>
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAR)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.custodiaInfo.custodiar}" />
@@ -118,13 +128,13 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.PAGINES])?'custodiaInfo.pagines':__theForm.labels[CustodiaInfoFields.PAGINES]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.PAGINES]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.PAGINES]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.PAGINES]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="custodiaInfo.pagines" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.pagines"   />
+            <form:errors path="custodiaInfo.pagines" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.pagines"   />
 
            </td>
         </tr>
@@ -136,22 +146,28 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.MISSATGE])?'custodiaInfo.missatge':__theForm.labels[CustodiaInfoFields.MISSATGE]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.MISSATGE]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.MISSATGE]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.MISSATGE]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-              <form:errors path="custodiaInfo.missatge" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.MISSATGE)? 'true' : 'false'}" path="custodiaInfo.missatge"  />
-              <div class="btn-group" style="vertical-align: top;">
-              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.missatge'); ta.wrap='off';" >No Wrap</a></li>
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.missatge'); ta.wrap='soft';">Soft Wrap</a></li>
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.missatge'); ta.wrap='hard';">Hard Wrap</a></li>
-              </ul>
-              </div>
-           </td>
+              <form:errors path="custodiaInfo.missatge" cssClass="errorField alert alert-danger" />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.MISSATGE)? 'true' : 'false'}" path="custodiaInfo.missatge"  />
+      <div id="dropdownMenuButton_missatge" style="vertical-align:top;display:inline;position:relative;">
+        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_missatge" class="dropdown-menu">
+          <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.missatge'); ta.wrap='off';" >No Wrap</a>
+          <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.missatge'); ta.wrap='soft';">Soft Wrap</a>
+          <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.missatge'); ta.wrap='hard';">Hard Wrap</a>
+        </div>
+      </div>
+      <script type="text/javascript">
+			$('#dropdownMenuButton_missatge').on('click', function(){
+					var valor = ($('#dropdownMenuContainer_missatge').css('display') != 'none') ? 'none' : 'block';
+                 $('#dropdownMenuContainer_missatge').css('display', valor);
+                 return false;
+				});
+      </script>           </td>
         </tr>
         </c:if>
         
@@ -161,20 +177,24 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.MISSATGEPOSICIOPAGINAID])?'custodiaInfo.missatgePosicioPaginaID':__theForm.labels[CustodiaInfoFields.MISSATGEPOSICIOPAGINAID]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.MISSATGEPOSICIOPAGINAID]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.MISSATGEPOSICIOPAGINAID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.MISSATGEPOSICIOPAGINAID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="custodiaInfo.missatgePosicioPaginaID" cssClass="errorField alert alert-error" />
+          <form:errors path="custodiaInfo.missatgePosicioPaginaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.MISSATGEPOSICIOPAGINAID)}" >
           <form:hidden path="custodiaInfo.missatgePosicioPaginaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.missatgePosicioPaginaID,__theForm.listOfValuesForMissatgePosicioPaginaID)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.missatgePosicioPaginaID,__theForm.listOfValuesForMissatgePosicioPaginaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.MISSATGEPOSICIOPAGINAID)}" >
-          <form:select id="custodiaInfo_missatgePosicioPaginaID"  onchange="if(typeof onChangeMissatgePosicioPaginaID == 'function') {  onChangeMissatgePosicioPaginaID(this); };"  cssClass="input-xxlarge" path="custodiaInfo.missatgePosicioPaginaID">
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="custodiaInfo_missatgePosicioPaginaID"  onchange="if(typeof onChangeMissatgePosicioPaginaID == 'function') {  onChangeMissatgePosicioPaginaID(this); };"  cssClass="form-control col-md-8" path="custodiaInfo.missatgePosicioPaginaID">
             <c:forEach items="${__theForm.listOfValuesForMissatgePosicioPaginaID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
           </form:select>
           </c:if>
@@ -188,20 +208,24 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CODIBARRESID])?'custodiaInfo.codiBarresID':__theForm.labels[CustodiaInfoFields.CODIBARRESID]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CODIBARRESID]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CODIBARRESID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CODIBARRESID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="custodiaInfo.codiBarresID" cssClass="errorField alert alert-error" />
+          <form:errors path="custodiaInfo.codiBarresID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESID)}" >
           <form:hidden path="custodiaInfo.codiBarresID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.codiBarresID,__theForm.listOfCodiBarresForCodiBarresID)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.codiBarresID,__theForm.listOfCodiBarresForCodiBarresID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESID)}" >
-          <form:select id="custodiaInfo_codiBarresID"  onchange="if(typeof onChangeCodiBarresID == 'function') {  onChangeCodiBarresID(this); };"  cssClass="input-xxlarge" path="custodiaInfo.codiBarresID">
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="custodiaInfo_codiBarresID"  onchange="if(typeof onChangeCodiBarresID == 'function') {  onChangeCodiBarresID(this); };"  cssClass="form-control col-md-8" path="custodiaInfo.codiBarresID">
             <c:forEach items="${__theForm.listOfCodiBarresForCodiBarresID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
           </form:select>
           </c:if>
@@ -215,20 +239,24 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID])?'custodiaInfo.codiBarresPosicioPaginaID':__theForm.labels[CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="custodiaInfo.codiBarresPosicioPaginaID" cssClass="errorField alert alert-error" />
+          <form:errors path="custodiaInfo.codiBarresPosicioPaginaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID)}" >
           <form:hidden path="custodiaInfo.codiBarresPosicioPaginaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.codiBarresPosicioPaginaID,__theForm.listOfValuesForCodiBarresPosicioPaginaID)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.codiBarresPosicioPaginaID,__theForm.listOfValuesForCodiBarresPosicioPaginaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID)}" >
-          <form:select id="custodiaInfo_codiBarresPosicioPaginaID"  onchange="if(typeof onChangeCodiBarresPosicioPaginaID == 'function') {  onChangeCodiBarresPosicioPaginaID(this); };"  cssClass="input-xxlarge" path="custodiaInfo.codiBarresPosicioPaginaID">
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="custodiaInfo_codiBarresPosicioPaginaID"  onchange="if(typeof onChangeCodiBarresPosicioPaginaID == 'function') {  onChangeCodiBarresPosicioPaginaID(this); };"  cssClass="form-control col-md-8" path="custodiaInfo.codiBarresPosicioPaginaID">
             <c:forEach items="${__theForm.listOfValuesForCodiBarresPosicioPaginaID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
           </form:select>
           </c:if>
@@ -242,13 +270,13 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CODIBARRESTEXT])?'custodiaInfo.codiBarresText':__theForm.labels[CustodiaInfoFields.CODIBARRESTEXT]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CODIBARRESTEXT]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CODIBARRESTEXT]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CODIBARRESTEXT]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="custodiaInfo.codiBarresText" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.codiBarresText"   />
+            <form:errors path="custodiaInfo.codiBarresText" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.codiBarresText"   />
 
            </td>
         </tr>
@@ -260,23 +288,34 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.USUARIENTITATID])?'custodiaInfo.usuariEntitatID':__theForm.labels[CustodiaInfoFields.USUARIENTITATID]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.USUARIENTITATID]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.USUARIENTITATID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.USUARIENTITATID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="custodiaInfo.usuariEntitatID" cssClass="errorField alert alert-error" />
+          <form:errors path="custodiaInfo.usuariEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.USUARIENTITATID)}" >
           <form:hidden path="custodiaInfo.usuariEntitatID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.usuariEntitatID,__theForm.listOfUsuariEntitatForUsuariEntitatID)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.usuariEntitatID,__theForm.listOfUsuariEntitatForUsuariEntitatID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.USUARIENTITATID)}" >
-          <form:select id="custodiaInfo_usuariEntitatID"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };"  cssClass="input-xxlarge" path="custodiaInfo.usuariEntitatID">
-          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
-          <form:option value="" ></form:option>
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="custodiaInfo_usuariEntitatID"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };"  cssClass="form-control col-md-8" path="custodiaInfo.usuariEntitatID">
             <c:forEach items="${__theForm.listOfUsuariEntitatForUsuariEntitatID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
+            <%-- El camp pot ser null, per la qual cosa afegim una entrada buida si no s'ha definit abans --%>
+            <c:if test="${not containEmptyValue}">
+              <c:if test="${empty __theForm.custodiaInfo.usuariEntitatID }">
+                  <form:option value="" selected="true" ></form:option>
+              </c:if>
+              <c:if test="${not empty __theForm.custodiaInfo.usuariEntitatID }">
+                  <form:option value="" ></form:option>
+              </c:if>
+            </c:if>
           </form:select>
           </c:if>
            </td>
@@ -289,23 +328,34 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.USUARIAPLICACIOID])?'custodiaInfo.usuariAplicacioID':__theForm.labels[CustodiaInfoFields.USUARIAPLICACIOID]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.USUARIAPLICACIOID]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.USUARIAPLICACIOID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.USUARIAPLICACIOID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="custodiaInfo.usuariAplicacioID" cssClass="errorField alert alert-error" />
+          <form:errors path="custodiaInfo.usuariAplicacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.USUARIAPLICACIOID)}" >
           <form:hidden path="custodiaInfo.usuariAplicacioID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.usuariAplicacioID,__theForm.listOfUsuariAplicacioForUsuariAplicacioID)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.usuariAplicacioID,__theForm.listOfUsuariAplicacioForUsuariAplicacioID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.USUARIAPLICACIOID)}" >
-          <form:select id="custodiaInfo_usuariAplicacioID"  onchange="if(typeof onChangeUsuariAplicacioID == 'function') {  onChangeUsuariAplicacioID(this); };"  cssClass="input-xxlarge" path="custodiaInfo.usuariAplicacioID">
-          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
-          <form:option value="" ></form:option>
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="custodiaInfo_usuariAplicacioID"  onchange="if(typeof onChangeUsuariAplicacioID == 'function') {  onChangeUsuariAplicacioID(this); };"  cssClass="form-control col-md-8" path="custodiaInfo.usuariAplicacioID">
             <c:forEach items="${__theForm.listOfUsuariAplicacioForUsuariAplicacioID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
+            <%-- El camp pot ser null, per la qual cosa afegim una entrada buida si no s'ha definit abans --%>
+            <c:if test="${not containEmptyValue}">
+              <c:if test="${empty __theForm.custodiaInfo.usuariAplicacioID }">
+                  <form:option value="" selected="true" ></form:option>
+              </c:if>
+              <c:if test="${not empty __theForm.custodiaInfo.usuariAplicacioID }">
+                  <form:option value="" ></form:option>
+              </c:if>
+            </c:if>
           </form:select>
           </c:if>
            </td>
@@ -318,23 +368,34 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.ENTITATID])?'custodiaInfo.entitatID':__theForm.labels[CustodiaInfoFields.ENTITATID]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.ENTITATID]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.ENTITATID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.ENTITATID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="custodiaInfo.entitatID" cssClass="errorField alert alert-error" />
+          <form:errors path="custodiaInfo.entitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENTITATID)}" >
           <form:hidden path="custodiaInfo.entitatID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.entitatID,__theForm.listOfEntitatForEntitatID)}"  />
+          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.entitatID,__theForm.listOfEntitatForEntitatID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENTITATID)}" >
-          <form:select id="custodiaInfo_entitatID"  onchange="if(typeof onChangeEntitatID == 'function') {  onChangeEntitatID(this); };"  cssClass="input-xxlarge" path="custodiaInfo.entitatID">
-          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
-          <form:option value="" ></form:option>
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="custodiaInfo_entitatID"  onchange="if(typeof onChangeEntitatID == 'function') {  onChangeEntitatID(this); };"  cssClass="form-control col-md-8" path="custodiaInfo.entitatID">
             <c:forEach items="${__theForm.listOfEntitatForEntitatID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
             </c:forEach>
+            <%-- El camp pot ser null, per la qual cosa afegim una entrada buida si no s'ha definit abans --%>
+            <c:if test="${not containEmptyValue}">
+              <c:if test="${empty __theForm.custodiaInfo.entitatID }">
+                  <form:option value="" selected="true" ></form:option>
+              </c:if>
+              <c:if test="${not empty __theForm.custodiaInfo.entitatID }">
+                  <form:option value="" ></form:option>
+              </c:if>
+            </c:if>
           </form:select>
           </c:if>
            </td>
@@ -347,13 +408,13 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.TITOLPETICIO])?'custodiaInfo.titolPeticio':__theForm.labels[CustodiaInfoFields.TITOLPETICIO]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.TITOLPETICIO]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.TITOLPETICIO]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.TITOLPETICIO]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="custodiaInfo.titolPeticio" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.titolPeticio"   />
+            <form:errors path="custodiaInfo.titolPeticio" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.titolPeticio"   />
 
            </td>
         </tr>
@@ -365,32 +426,36 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.DATACUSTODIA])?'custodiaInfo.dataCustodia':__theForm.labels[CustodiaInfoFields.DATACUSTODIA]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.DATACUSTODIA]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.DATACUSTODIA]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.DATACUSTODIA]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-              <form:errors path="custodiaInfo.dataCustodia" cssClass="errorField alert alert-error" />
-              <div id="dataCustodia" class="input-append">
-                <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DATACUSTODIA)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DATACUSTODIA)? 'input-medium uneditable-input' : 'input-medium'}"  path="custodiaInfo.dataCustodia" />
-                <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DATACUSTODIA)}" >
-                <span class="add-on">
-                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                  </i>
-                </span>
-              </c:if>
-              </div>
-              <script type="text/javascript">                
-                $(function() {
-                  $('#dataCustodia').datetimepicker({
-                    language: '${lang}',
-                    pick12HourFormat: <c:out value="${fn:contains(gen:getDateTimePattern(), 'a')?'true' : 'false'}"/>,
-                    format:  '${gen:getJSDateTimePattern()}',
-                    pickTime: true,
-                    weekStart: ${gen:getFirstDayOfTheWeek()}
-                  });
+              <form:errors path="custodiaInfo.dataCustodia" cssClass="errorField alert alert-danger" />
+    <div class="container">
+      <div class="row">
+            <div class="form-group">
+                <div class="input-group date" id="custodiaInfo_dataCustodia" data-target-input="nearest">
+                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DATACUSTODIA)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#custodiaInfo_dataCustodia" path="custodiaInfo.dataCustodia" />
+                    <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DATACUSTODIA)}" >
+                    <div class="input-group-append"  data-target="#custodiaInfo_dataCustodia"  data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    </c:if>
+                </div>
+            </div>
+          <script type="text/javascript">
+            $(function () {
+                $('#custodiaInfo_dataCustodia').datetimepicker({
+                    format: '${gen:getJSDateTimePattern()}',
+                    locale: '${lang}',
+                    icons: {
+                       time: 'far fa-clock'
+                    }
                 });
-              </script>
+            });
+          </script>        </div>
+      </div>
            </td>
         </tr>
         </c:if>
@@ -401,14 +466,14 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.EDITABLE])?'custodiaInfo.editable':__theForm.labels[CustodiaInfoFields.EDITABLE]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.EDITABLE]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.EDITABLE]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.EDITABLE]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EDITABLE)}" >
-              <form:errors path="custodiaInfo.editable" cssClass="errorField alert alert-error" />
-              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EDITABLE)? 'false' : 'true'}" path="custodiaInfo.editable" />
+              <form:errors path="custodiaInfo.editable" cssClass="errorField alert alert-danger" />
+              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EDITABLE)? 'false' : 'true'}" path="custodiaInfo.editable"  style="width:1%"/>
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EDITABLE)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.custodiaInfo.editable}" />
@@ -423,13 +488,13 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CSV])?'custodiaInfo.csv':__theForm.labels[CustodiaInfoFields.CSV]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CSV]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CSV]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CSV]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="custodiaInfo.csv" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSV)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSV)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.csv"   />
+            <form:errors path="custodiaInfo.csv" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSV)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSV)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csv"   />
 
            </td>
         </tr>
@@ -441,7 +506,7 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CSVVALIDATIONWEB])?'custodiaInfo.csvValidationWeb':__theForm.labels[CustodiaInfoFields.CSVVALIDATIONWEB]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CSVVALIDATIONWEB]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CSVVALIDATIONWEB]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CSVVALIDATIONWEB]}" ></i>
               </c:if>
              </label>
             </td>
@@ -456,8 +521,8 @@
 
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB))}">
 
-            <form:errors path="custodiaInfo.csvValidationWeb" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.csvValidationWeb"   />
+            <form:errors path="custodiaInfo.csvValidationWeb" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csvValidationWeb"   />
 
            </c:if>
 
@@ -471,7 +536,7 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CSVGENERATIONDEFINITION])?'custodiaInfo.csvGenerationDefinition':__theForm.labels[CustodiaInfoFields.CSVGENERATIONDEFINITION]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CSVGENERATIONDEFINITION]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CSVGENERATIONDEFINITION]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CSVGENERATIONDEFINITION]}" ></i>
               </c:if>
              </label>
             </td>
@@ -486,8 +551,8 @@
 
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION))}">
 
-            <form:errors path="custodiaInfo.csvGenerationDefinition" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.csvGenerationDefinition"   />
+            <form:errors path="custodiaInfo.csvGenerationDefinition" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csvGenerationDefinition"   />
 
            </c:if>
 
@@ -501,7 +566,7 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.URLFITXERCUSTODIAT])?'custodiaInfo.urlFitxerCustodiat':__theForm.labels[CustodiaInfoFields.URLFITXERCUSTODIAT]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.URLFITXERCUSTODIAT]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.URLFITXERCUSTODIAT]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.URLFITXERCUSTODIAT]}" ></i>
               </c:if>
              </label>
             </td>
@@ -516,8 +581,8 @@
 
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT))}">
 
-            <form:errors path="custodiaInfo.urlFitxerCustodiat" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.urlFitxerCustodiat"   />
+            <form:errors path="custodiaInfo.urlFitxerCustodiat" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.urlFitxerCustodiat"   />
 
            </c:if>
 
@@ -531,7 +596,7 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.ORIGINALFILEDIRECTURL])?'custodiaInfo.originalFileDirectUrl':__theForm.labels[CustodiaInfoFields.ORIGINALFILEDIRECTURL]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.ORIGINALFILEDIRECTURL]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.ORIGINALFILEDIRECTURL]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.ORIGINALFILEDIRECTURL]}" ></i>
               </c:if>
              </label>
             </td>
@@ -546,8 +611,8 @@
 
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL))}">
 
-            <form:errors path="custodiaInfo.originalFileDirectUrl" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.originalFileDirectUrl"   />
+            <form:errors path="custodiaInfo.originalFileDirectUrl" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.originalFileDirectUrl"   />
 
            </c:if>
 
@@ -561,7 +626,7 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.PRINTABLEFILEDIRECTURL])?'custodiaInfo.printableFileDirectUrl':__theForm.labels[CustodiaInfoFields.PRINTABLEFILEDIRECTURL]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.PRINTABLEFILEDIRECTURL]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.PRINTABLEFILEDIRECTURL]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.PRINTABLEFILEDIRECTURL]}" ></i>
               </c:if>
              </label>
             </td>
@@ -576,8 +641,8 @@
 
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL))}">
 
-            <form:errors path="custodiaInfo.printableFileDirectUrl" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.printableFileDirectUrl"   />
+            <form:errors path="custodiaInfo.printableFileDirectUrl" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.printableFileDirectUrl"   />
 
            </c:if>
 
@@ -591,7 +656,7 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.ENIFILEDIRECTURL])?'custodiaInfo.eniFileDirectUrl':__theForm.labels[CustodiaInfoFields.ENIFILEDIRECTURL]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.ENIFILEDIRECTURL]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.ENIFILEDIRECTURL]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.ENIFILEDIRECTURL]}" ></i>
               </c:if>
              </label>
             </td>
@@ -606,8 +671,8 @@
 
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL))}">
 
-            <form:errors path="custodiaInfo.eniFileDirectUrl" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.eniFileDirectUrl"   />
+            <form:errors path="custodiaInfo.eniFileDirectUrl" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.eniFileDirectUrl"   />
 
            </c:if>
 
@@ -621,13 +686,13 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.EXPEDIENTARXIUID])?'custodiaInfo.expedientArxiuId':__theForm.labels[CustodiaInfoFields.EXPEDIENTARXIUID]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.EXPEDIENTARXIUID]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.EXPEDIENTARXIUID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.EXPEDIENTARXIUID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="custodiaInfo.expedientArxiuId" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EXPEDIENTARXIUID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EXPEDIENTARXIUID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="250" path="custodiaInfo.expedientArxiuId"   />
+            <form:errors path="custodiaInfo.expedientArxiuId" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EXPEDIENTARXIUID)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EXPEDIENTARXIUID)? ' uneditable-input' : ''}"  style="" maxlength="250" path="custodiaInfo.expedientArxiuId"   />
 
            </td>
         </tr>
@@ -639,13 +704,13 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.DOCUMENTARXIUID])?'custodiaInfo.documentArxiuId':__theForm.labels[CustodiaInfoFields.DOCUMENTARXIUID]}" />
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.DOCUMENTARXIUID]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.DOCUMENTARXIUID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.DOCUMENTARXIUID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="custodiaInfo.documentArxiuId" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DOCUMENTARXIUID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DOCUMENTARXIUID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="250" path="custodiaInfo.documentArxiuId"   />
+            <form:errors path="custodiaInfo.documentArxiuId" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DOCUMENTARXIUID)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DOCUMENTARXIUID)? ' uneditable-input' : ''}"  style="" maxlength="250" path="custodiaInfo.documentArxiuId"   />
 
            </td>
         </tr>

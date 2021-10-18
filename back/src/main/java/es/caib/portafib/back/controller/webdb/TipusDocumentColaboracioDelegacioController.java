@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.TipusDocumentColaboracioDelegacioForm;
 
 import es.caib.portafib.back.validator.webdb.TipusDocumentColaboracioDelegacioWebValidator;
 
-import es.caib.portafib.jpa.TipusDocumentColaboracioDelegacioJPA;
+import es.caib.portafib.persistence.TipusDocumentColaboracioDelegacioJPA;
 import es.caib.portafib.model.entity.TipusDocumentColaboracioDelegacio;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class TipusDocumentColaboracioDelegacioController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<TipusDocumentColaboracioDelegacio, java.lang.Long> implements TipusDocumentColaboracioDelegacioFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioLocal tipusDocumentColaboracioDelegacioEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioService tipusDocumentColaboracioDelegacioEjb;
 
   @Autowired
   private TipusDocumentColaboracioDelegacioWebValidator tipusDocumentColaboracioDelegacioWebValidator;
@@ -274,18 +274,18 @@ public class TipusDocumentColaboracioDelegacioController
     if (tipusDocumentColaboracioDelegacioForm.getListOfColaboracioDelegacioForColaboracioDelegacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForColaboracioDelegacioID(request, mav, tipusDocumentColaboracioDelegacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       tipusDocumentColaboracioDelegacioForm.setListOfColaboracioDelegacioForColaboracioDelegacioID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (tipusDocumentColaboracioDelegacioForm.getListOfTipusDocumentForTipusDocumentID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusDocumentID(request, mav, tipusDocumentColaboracioDelegacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       tipusDocumentColaboracioDelegacioForm.setListOfTipusDocumentForTipusDocumentID(_listSKV);
     }
     
@@ -402,7 +402,7 @@ public class TipusDocumentColaboracioDelegacioController
 
     try {
       preValidate(request, tipusDocumentColaboracioDelegacioForm, result);
-      getWebValidator().validate(tipusDocumentColaboracioDelegacio, result);
+      getWebValidator().validate(tipusDocumentColaboracioDelegacioForm, result);
       postValidate(request, tipusDocumentColaboracioDelegacioForm, result);
 
       if (result.hasErrors()) {
@@ -440,7 +440,7 @@ public class TipusDocumentColaboracioDelegacioController
       return null;
     }
     try {
-      TipusDocumentColaboracioDelegacio tipusDocumentColaboracioDelegacio = findByPrimaryKey(request, id);
+      TipusDocumentColaboracioDelegacio tipusDocumentColaboracioDelegacio = tipusDocumentColaboracioDelegacioEjb.findByPrimaryKey(id);
       if (tipusDocumentColaboracioDelegacio == null) {
         String __msg =createMessageError(request, "error.notfound", id);
         return getRedirectWhenDelete(request, id, new Exception(__msg));
@@ -485,7 +485,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -534,7 +534,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "tipusDocumentColaboracioDelegacio.id");
+    binder.setDisallowedFields("id");
+
   }
 
   public TipusDocumentColaboracioDelegacioWebValidator getWebValidator() {
@@ -593,7 +594,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForColaboracioDelegacioID(HttpServletRequest request,
        ModelAndView mav, TipusDocumentColaboracioDelegacioForm tipusDocumentColaboracioDelegacioForm, Where where)  throws I18NException {
     if (tipusDocumentColaboracioDelegacioForm.isHiddenField(COLABORACIODELEGACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (tipusDocumentColaboracioDelegacioForm.isReadOnlyField(COLABORACIODELEGACIOID)) {
@@ -608,7 +609,7 @@ public java.lang.Long stringToPK(String value) {
        List<TipusDocumentColaboracioDelegacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentColaboracioDelegacioFilterForm.isHiddenField(COLABORACIODELEGACIOID)
       && !tipusDocumentColaboracioDelegacioFilterForm.isGroupByField(COLABORACIODELEGACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(COLABORACIODELEGACIOID)) {
@@ -632,7 +633,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusDocumentID(HttpServletRequest request,
        ModelAndView mav, TipusDocumentColaboracioDelegacioForm tipusDocumentColaboracioDelegacioForm, Where where)  throws I18NException {
     if (tipusDocumentColaboracioDelegacioForm.isHiddenField(TIPUSDOCUMENTID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (tipusDocumentColaboracioDelegacioForm.isReadOnlyField(TIPUSDOCUMENTID)) {
@@ -647,7 +648,7 @@ public java.lang.Long stringToPK(String value) {
        List<TipusDocumentColaboracioDelegacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentColaboracioDelegacioFilterForm.isHiddenField(TIPUSDOCUMENTID)
       && !tipusDocumentColaboracioDelegacioFilterForm.isGroupByField(TIPUSDOCUMENTID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(TIPUSDOCUMENTID)) {

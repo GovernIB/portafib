@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.TipusDocumentForm;
 
 import es.caib.portafib.back.validator.webdb.TipusDocumentWebValidator;
 
-import es.caib.portafib.jpa.TipusDocumentJPA;
+import es.caib.portafib.persistence.TipusDocumentJPA;
 import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.fields.*;
 
@@ -49,11 +49,11 @@ import es.caib.portafib.model.fields.*;
 public class TipusDocumentController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<TipusDocument, java.lang.Long> implements TipusDocumentFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentService.JNDI_NAME)
+  protected es.caib.portafib.ejb.TipusDocumentService tipusDocumentEjb;
 
   @Autowired
   private TipusDocumentWebValidator tipusDocumentWebValidator;
@@ -258,9 +258,9 @@ public class TipusDocumentController
     TipusDocumentForm tipusDocumentForm = getTipusDocumentForm(null, false, request, mav);
     
     if (tipusDocumentForm.getTipusDocument().getNom() == null){
-      es.caib.portafib.jpa.TraduccioJPA trad = new es.caib.portafib.jpa.TraduccioJPA();
+      es.caib.portafib.persistence.TraduccioJPA trad = new es.caib.portafib.persistence.TraduccioJPA();
       for (es.caib.portafib.model.entity.Idioma idioma : tipusDocumentForm.getIdiomesTraduccio()) {
-        trad.addTraduccio(idioma.getIdiomaID(), new es.caib.portafib.jpa.TraduccioMapJPA());
+        trad.addTraduccio(idioma.getIdiomaID(), new es.caib.portafib.persistence.TraduccioMapJPA());
       }
       tipusDocumentForm.getTipusDocument().setNom(trad);
     }
@@ -298,18 +298,18 @@ public class TipusDocumentController
     if (tipusDocumentForm.getListOfValuesForTipusDocumentBaseID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusDocumentBaseID(request, mav, tipusDocumentForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       tipusDocumentForm.setListOfValuesForTipusDocumentBaseID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (tipusDocumentForm.getListOfUsuariAplicacioForUsuariAplicacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariAplicacioID(request, mav, tipusDocumentForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       tipusDocumentForm.setListOfUsuariAplicacioForUsuariAplicacioID(_listSKV);
     }
     
@@ -433,7 +433,7 @@ public class TipusDocumentController
 
     try {
       preValidate(request, tipusDocumentForm, result);
-      getWebValidator().validate(tipusDocument, result);
+      getWebValidator().validate(tipusDocumentForm, result);
       postValidate(request, tipusDocumentForm, result);
 
       if (result.hasErrors()) {
@@ -471,7 +471,7 @@ public class TipusDocumentController
       return null;
     }
     try {
-      TipusDocument tipusDocument = findByPrimaryKey(request, tipusDocumentID);
+      TipusDocument tipusDocument = tipusDocumentEjb.findByPrimaryKey(tipusDocumentID);
       if (tipusDocument == null) {
         String __msg =createMessageError(request, "error.notfound", tipusDocumentID);
         return getRedirectWhenDelete(request, tipusDocumentID, new Exception(__msg));
@@ -516,7 +516,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -565,7 +565,7 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder);
+
   }
 
   public TipusDocumentWebValidator getWebValidator() {
@@ -625,7 +625,7 @@ public java.lang.Long stringToPK(String value) {
        List<TipusDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentFilterForm.isHiddenField(NOMID)
       && !tipusDocumentFilterForm.isGroupByField(NOMID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(NOMID)) {
@@ -649,7 +649,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusDocumentBaseID(HttpServletRequest request,
        ModelAndView mav, TipusDocumentForm tipusDocumentForm, Where where)  throws I18NException {
     if (tipusDocumentForm.isHiddenField(TIPUSDOCUMENTBASEID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForTipusDocumentBaseID(request, mav, where);
   }
@@ -660,7 +660,7 @@ public java.lang.Long stringToPK(String value) {
        List<TipusDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentFilterForm.isHiddenField(TIPUSDOCUMENTBASEID)
       && !tipusDocumentFilterForm.isGroupByField(TIPUSDOCUMENTBASEID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForTipusDocumentBaseID(request, mav, Where.AND(where,_w));
@@ -717,7 +717,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
        ModelAndView mav, TipusDocumentForm tipusDocumentForm, Where where)  throws I18NException {
     if (tipusDocumentForm.isHiddenField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (tipusDocumentForm.isReadOnlyField(USUARIAPLICACIOID)) {
@@ -732,7 +732,7 @@ public java.lang.Long stringToPK(String value) {
        List<TipusDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentFilterForm.isHiddenField(USUARIAPLICACIOID)
       && !tipusDocumentFilterForm.isGroupByField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIAPLICACIOID)) {

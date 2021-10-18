@@ -4,9 +4,9 @@ import es.caib.portafib.back.controller.webdb.NotificacioWSController;
 import es.caib.portafib.back.form.webdb.NotificacioWSFilterForm;
 import es.caib.portafib.back.form.webdb.NotificacioWSForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.ejb.PeticioDeFirmaLocal;
-import es.caib.portafib.ejb.UsuariAplicacioLocal;
-import es.caib.portafib.jpa.NotificacioWSJPA;
+import es.caib.portafib.ejb.PeticioDeFirmaService;
+import es.caib.portafib.ejb.UsuariAplicacioService;
+import es.caib.portafib.persistence.NotificacioWSJPA;
 import es.caib.portafib.logic.NotificacioWSLogicaLocal;
 import es.caib.portafib.model.entity.NotificacioWS;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -51,11 +50,11 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
   @EJB(mappedName = NotificacioWSLogicaLocal.JNDI_NAME)
   protected NotificacioWSLogicaLocal notificacioLogicaEjb;
   
-  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
-  protected PeticioDeFirmaLocal peticioDeFirmaEjb;
+  @EJB(mappedName = PeticioDeFirmaService.JNDI_NAME)
+  protected PeticioDeFirmaService peticioDeFirmaEjb;
 
-  @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME)
-  protected UsuariAplicacioLocal usuariAplicacioEjb;
+  @EJB(mappedName = UsuariAplicacioService.JNDI_NAME)
+  protected UsuariAplicacioService usuariAplicacioEjb;
 
   @Override
   public boolean isActiveFormNew() {

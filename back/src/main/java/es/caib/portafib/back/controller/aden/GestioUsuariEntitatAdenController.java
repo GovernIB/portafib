@@ -10,9 +10,9 @@ import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
 import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
-import es.caib.portafib.ejb.EntitatLocal;
-import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.ejb.EntitatService;
+import es.caib.portafib.persistence.RoleUsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.logic.RoleUsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
@@ -78,8 +78,8 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
   @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-  @EJB(mappedName = EntitatLocal.JNDI_NAME)
-  protected EntitatLocal entitatEjb;
+  @EJB(mappedName = EntitatService.JNDI_NAME)
+  protected EntitatService entitatEjb;
   
   
   @EJB(mappedName = RoleUsuariEntitatLogicaLocal.JNDI_NAME)

@@ -34,9 +34,9 @@ import es.caib.portafib.back.form.webdb.AnnexForm;
 import es.caib.portafib.back.validator.webdb.AnnexWebValidator;
 
 import es.caib.portafib.model.entity.Fitxer;
-import es.caib.portafib.jpa.FitxerJPA;
+import es.caib.portafib.persistence.FitxerJPA;
 import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
-import es.caib.portafib.jpa.AnnexJPA;
+import es.caib.portafib.persistence.AnnexJPA;
 import es.caib.portafib.model.entity.Annex;
 import es.caib.portafib.model.fields.*;
 
@@ -52,8 +52,8 @@ import es.caib.portafib.model.fields.*;
 public class AnnexController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<Annex, java.lang.Long, AnnexForm> implements AnnexFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.AnnexLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.AnnexLocal annexEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.AnnexService.JNDI_NAME)
+  protected es.caib.portafib.ejb.AnnexService annexEjb;
 
   @Autowired
   private AnnexWebValidator annexWebValidator;
@@ -268,9 +268,9 @@ public class AnnexController
     if (annexForm.getListOfPeticioDeFirmaForPeticioDeFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPeticioDeFirmaID(request, mav, annexForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       annexForm.setListOfPeticioDeFirmaForPeticioDeFirmaID(_listSKV);
     }
     
@@ -395,7 +395,7 @@ public class AnnexController
     try {
       this.setFilesFormToEntity(afm, annex, annexForm); // FILE
       preValidate(request, annexForm, result);
-      getWebValidator().validate(annex, result);
+      getWebValidator().validate(annexForm, result);
       postValidate(request, annexForm, result);
 
       if (result.hasErrors()) {
@@ -436,7 +436,7 @@ public class AnnexController
       return null;
     }
     try {
-      Annex annex = findByPrimaryKey(request, annexID);
+      Annex annex = annexEjb.findByPrimaryKey(annexID);
       if (annex == null) {
         String __msg =createMessageError(request, "error.notfound", annexID);
         return getRedirectWhenDelete(request, annexID, new Exception(__msg));
@@ -481,7 +481,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -530,7 +530,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "annex.annexID");
+    binder.setDisallowedFields("annexID");
+
   }
 
   public AnnexWebValidator getWebValidator() {
@@ -611,7 +612,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPeticioDeFirmaID(HttpServletRequest request,
        ModelAndView mav, AnnexForm annexForm, Where where)  throws I18NException {
     if (annexForm.isHiddenField(PETICIODEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (annexForm.isReadOnlyField(PETICIODEFIRMAID)) {
@@ -626,7 +627,7 @@ public java.lang.Long stringToPK(String value) {
        List<Annex> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (annexFilterForm.isHiddenField(PETICIODEFIRMAID)
       && !annexFilterForm.isGroupByField(PETICIODEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PETICIODEFIRMAID)) {

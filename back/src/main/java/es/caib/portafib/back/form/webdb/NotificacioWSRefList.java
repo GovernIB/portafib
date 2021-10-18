@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.NotificacioWSLocal;
+import es.caib.portafib.ejb.NotificacioWSService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.NotificacioWSFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class NotificacioWSRefList extends RefListBase
     implements NotificacioWSFields {
 
-  @EJB(mappedName = NotificacioWSLocal.JNDI_NAME)
-  private NotificacioWSLocal notificacioWSEjb;
+  @EJB(mappedName = NotificacioWSService.JNDI_NAME)
+  private NotificacioWSService notificacioWSEjb;
 
   public NotificacioWSRefList(NotificacioWSRefList __clone) {
     super(__clone);

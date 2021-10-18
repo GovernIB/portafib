@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.RebreAvisValidator;
+import es.caib.portafib.persistence.validator.RebreAvisValidator;
 
 import es.caib.portafib.back.form.webdb.RebreAvisForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.RebreAvis;
 
 
 /**
@@ -20,21 +24,22 @@ import es.caib.portafib.back.form.webdb.RebreAvisForm;
  * @author anadal
  */
 @Component
-public class RebreAvisWebValidator  implements Validator, RebreAvisFields {
+public class RebreAvisWebValidator extends AbstractWebValidator<RebreAvisForm, RebreAvis>
+     implements Validator, RebreAvisFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected RebreAvisValidator<Object> validator = new RebreAvisValidator<Object>();
+  protected RebreAvisValidator<RebreAvis> validator = new RebreAvisValidator<RebreAvis>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.RebreAvisLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.RebreAvisLocal rebreAvisEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.RebreAvisService.JNDI_NAME)
+  protected es.caib.portafib.ejb.RebreAvisService rebreAvisEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.TipusNotificacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TipusNotificacioLocal tipusNotificacioEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.TipusNotificacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.TipusNotificacioService tipusNotificacioEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariEntitatService usuariEntitatEjb;
 
 
 
@@ -43,28 +48,50 @@ public class RebreAvisWebValidator  implements Validator, RebreAvisFields {
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return RebreAvisForm.class.isAssignableFrom(clazz);
+  public RebreAvis getBeanOfForm(RebreAvisForm form) {
+    return  form.getRebreAvis();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<RebreAvisForm> getClassOfForm() {
+    return RebreAvisForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(RebreAvisForm __form, RebreAvis __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<RebreAvisForm> wvr;
+    wvr = new WebValidationResult<RebreAvisForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(RebreAvisForm __form, RebreAvis __bean, Errors errors,
+    WebValidationResult<RebreAvisForm> wvr, boolean isNou) {
 
-    validator.validate(wvr, target,
+    BeanValidatorResult<RebreAvis> __vr = new BeanValidatorResult<RebreAvis>();
+    validator.validate(__vr, __bean,
       isNou, rebreAvisEjb, tipusNotificacioEjb, usuariEntitatEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -72,11 +99,11 @@ public class RebreAvisWebValidator  implements Validator, RebreAvisFields {
     return field.fullName;
   }
 
-  public RebreAvisValidator<Object> getValidator() {
+  public RebreAvisValidator<RebreAvis> getValidator() {
     return validator;
   }
 
-  public void setValidator(RebreAvisValidator<Object> validator) {
+  public void setValidator(RebreAvisValidator<RebreAvis> validator) {
     this.validator = validator;
   }
 

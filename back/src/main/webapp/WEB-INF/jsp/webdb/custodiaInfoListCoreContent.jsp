@@ -26,17 +26,17 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAINFOID)}">
           <td>
-          <c:out value="${custodiaInfo.custodiaInfoID}" />
+          ${custodiaInfo.custodiaInfoID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.NOMPLANTILLA)}">
           <td>
-          <c:out value="${custodiaInfo.nomPlantilla}" />
+          ${custodiaInfo.nomPlantilla}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIADOCUMENTID)}">
           <td>
-          <c:out value="${custodiaInfo.custodiaDocumentID}" />
+          ${custodiaInfo.custodiaDocumentID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.PLUGINID)}">
@@ -49,7 +49,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)}">
           <td>
-          <c:out value="${custodiaInfo.custodiaPluginParameters}" />
+          ${custodiaInfo.custodiaPluginParameters}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAR)}">
@@ -59,12 +59,12 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.PAGINES)}">
           <td>
-          <c:out value="${custodiaInfo.pagines}" />
+          ${custodiaInfo.pagines}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.MISSATGE)}">
           <td>
-          <c:out value="${custodiaInfo.missatge}" />
+          ${custodiaInfo.missatge}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.MISSATGEPOSICIOPAGINAID)}">
@@ -93,7 +93,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CODIBARRESTEXT)}">
           <td>
-          <c:out value="${custodiaInfo.codiBarresText}" />
+          ${custodiaInfo.codiBarresText}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.USUARIENTITATID)}">
@@ -122,7 +122,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.TITOLPETICIO)}">
           <td>
-          <c:out value="${custodiaInfo.titolPeticio}" />
+          ${custodiaInfo.titolPeticio}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.DATACUSTODIA)}">
@@ -135,7 +135,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CSV)}">
           <td>
-          <c:out value="${custodiaInfo.csv}" />
+          ${custodiaInfo.csv}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CSVVALIDATIONWEB)}">
@@ -188,12 +188,12 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.EXPEDIENTARXIUID)}">
           <td>
-          <c:out value="${custodiaInfo.expedientArxiuId}" />
+          ${custodiaInfo.expedientArxiuId}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.DOCUMENTARXIUID)}">
           <td>
-          <c:out value="${custodiaInfo.documentArxiuId}" />
+          ${custodiaInfo.documentArxiuId}
           </td>
         </c:if>
 

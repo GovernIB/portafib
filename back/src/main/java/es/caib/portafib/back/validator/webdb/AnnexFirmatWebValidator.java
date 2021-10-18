@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.AnnexFirmatValidator;
+import es.caib.portafib.persistence.validator.AnnexFirmatValidator;
 
 import es.caib.portafib.back.form.webdb.AnnexFirmatForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.AnnexFirmat;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 
@@ -21,21 +25,22 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
  * @author anadal
  */
 @Component
-public class AnnexFirmatWebValidator  implements Validator, AnnexFirmatFields {
+public class AnnexFirmatWebValidator extends AbstractWebValidator<AnnexFirmatForm, AnnexFirmat>
+     implements Validator, AnnexFirmatFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected AnnexFirmatValidator<Object> validator = new AnnexFirmatValidator<Object>();
+  protected AnnexFirmatValidator<AnnexFirmat> validator = new AnnexFirmatValidator<AnnexFirmat>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.AnnexLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.AnnexLocal annexEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.AnnexService.JNDI_NAME)
+  protected es.caib.portafib.ejb.AnnexService annexEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.AnnexFirmatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.AnnexFirmatLocal annexFirmatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.AnnexFirmatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.AnnexFirmatService annexFirmatEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.FirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.FirmaLocal firmaEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.FirmaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.FirmaService firmaEjb;
 
 
 
@@ -44,30 +49,43 @@ public class AnnexFirmatWebValidator  implements Validator, AnnexFirmatFields {
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return AnnexFirmatForm.class.isAssignableFrom(clazz);
+  public AnnexFirmat getBeanOfForm(AnnexFirmatForm form) {
+    return  form.getAnnexFirmat();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<AnnexFirmatForm> getClassOfForm() {
+    return AnnexFirmatForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(AnnexFirmatForm __form, AnnexFirmat __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<AnnexFirmatForm> wvr;
+    wvr = new WebValidationResult<AnnexFirmatForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(AnnexFirmatForm __form, AnnexFirmat __bean, Errors errors,
+    WebValidationResult<AnnexFirmatForm> wvr, boolean isNou) {
 
     if (isNou) { // Creacio
       // ================ CREATION
       // Fitxers 
-      CommonsMultipartFile fitxerID = ((AnnexFirmatForm)target).getFitxerID();
+      CommonsMultipartFile fitxerID = ((AnnexFirmatForm)__form).getFitxerID();
       if (fitxerID == null || fitxerID.isEmpty()) {
         errors.rejectValue(get(FITXERID), "genapp.validation.required",
           new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(FITXERID)) },
@@ -75,8 +93,17 @@ public class AnnexFirmatWebValidator  implements Validator, AnnexFirmatFields {
       }
 
     }
-    validator.validate(wvr, target,
+    BeanValidatorResult<AnnexFirmat> __vr = new BeanValidatorResult<AnnexFirmat>();
+    validator.validate(__vr, __bean,
       isNou, annexEjb, annexFirmatEjb, firmaEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -84,11 +111,11 @@ public class AnnexFirmatWebValidator  implements Validator, AnnexFirmatFields {
     return field.fullName;
   }
 
-  public AnnexFirmatValidator<Object> getValidator() {
+  public AnnexFirmatValidator<AnnexFirmat> getValidator() {
     return validator;
   }
 
-  public void setValidator(AnnexFirmatValidator<Object> validator) {
+  public void setValidator(AnnexFirmatValidator<AnnexFirmat> validator) {
     this.validator = validator;
   }
 

@@ -12,8 +12,8 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Where;
 import org.hibernate.Hibernate;
 
-import es.caib.portafib.jpa.PortaFIBJPADaoManagers;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.persistence.PortaFIBJPADaoManagers;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.model.PortaFIBDaoManager;
 import es.caib.portafib.model.dao.IUsuariEntitatManager;
 import es.caib.portafib.model.dao.IUsuariPersonaManager;

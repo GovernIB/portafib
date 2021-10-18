@@ -1,11 +1,11 @@
 package es.caib.portafib.ws.v1.utils;
 
-import es.caib.portafib.jpa.AnnexJPA;
-import es.caib.portafib.jpa.FirmaJPA;
-import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.persistence.AnnexJPA;
+import es.caib.portafib.persistence.FirmaJPA;
+import es.caib.portafib.persistence.FitxerJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.logic.utils.datasource.DataHandlerDataSource;
 import es.caib.portafib.model.fields.AnnexFields;

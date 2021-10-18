@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.BlocDeFirmes;
-import es.caib.portafib.jpa.BlocDeFirmesJPA;
-import es.caib.portafib.jpa.BlocDeFirmesJPAManager;
+import es.caib.portafib.persistence.BlocDeFirmesJPA;
+import es.caib.portafib.persistence.BlocDeFirmesJPAManager;
 
 @Stateless(name = "BlocDeFirmesEJB")
-public class BlocDeFirmesEJB extends BlocDeFirmesJPAManager implements BlocDeFirmesLocal {
+public class BlocDeFirmesEJB extends BlocDeFirmesJPAManager implements BlocDeFirmesService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

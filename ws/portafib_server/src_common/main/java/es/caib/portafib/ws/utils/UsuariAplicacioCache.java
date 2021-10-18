@@ -1,7 +1,7 @@
 package es.caib.portafib.ws.utils;
 
 
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
 
 /**
  * 

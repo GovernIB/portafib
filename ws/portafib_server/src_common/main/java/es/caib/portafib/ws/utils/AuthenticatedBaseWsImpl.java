@@ -22,8 +22,8 @@ public abstract class AuthenticatedBaseWsImpl extends BaseWsImpl {
   @EJB(mappedName = FitxerLogicaLocal.JNDI_NAME)
   protected FitxerLogicaLocal fitxerLogicaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
 
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------

@@ -3,7 +3,7 @@ package es.caib.portafib.back.controller.admin;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
-import es.caib.portafib.ejb.PeticioDeFirmaLocal;
+import es.caib.portafib.ejb.PeticioDeFirmaService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Where;
@@ -16,7 +16,7 @@ import es.caib.portafib.back.controller.webdb.FluxDeFirmesController;
 
 import es.caib.portafib.back.form.webdb.FluxDeFirmesFilterForm;
 import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
-import es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal;
+import es.caib.portafib.ejb.PlantillaFluxDeFirmesService;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.model.entity.FluxDeFirmes;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
@@ -35,11 +35,11 @@ public class FluxDeFirmesOrfesController extends FluxDeFirmesController {
   @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)
   private FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
 
-  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
-  protected PeticioDeFirmaLocal peticioDeFirmaEjb;
+  @EJB(mappedName = PeticioDeFirmaService.JNDI_NAME)
+  protected PeticioDeFirmaService peticioDeFirmaEjb;
 
-  @EJB(mappedName = PlantillaFluxDeFirmesLocal.JNDI_NAME)
-  private PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;
+  @EJB(mappedName = PlantillaFluxDeFirmesService.JNDI_NAME)
+  private PlantillaFluxDeFirmesService plantillaFluxDeFirmesEjb;
 
   @Override
   public String getTileList() {

@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.PermisUsuariPlantillaForm;
 
 import es.caib.portafib.back.validator.webdb.PermisUsuariPlantillaWebValidator;
 
-import es.caib.portafib.jpa.PermisUsuariPlantillaJPA;
+import es.caib.portafib.persistence.PermisUsuariPlantillaJPA;
 import es.caib.portafib.model.entity.PermisUsuariPlantilla;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class PermisUsuariPlantillaController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<PermisUsuariPlantilla, java.lang.Long> implements PermisUsuariPlantillaFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.PermisUsuariPlantillaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PermisUsuariPlantillaLocal permisUsuariPlantillaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PermisUsuariPlantillaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PermisUsuariPlantillaService permisUsuariPlantillaEjb;
 
   @Autowired
   private PermisUsuariPlantillaWebValidator permisUsuariPlantillaWebValidator;
@@ -274,18 +274,18 @@ public class PermisUsuariPlantillaController
     if (permisUsuariPlantillaForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, permisUsuariPlantillaForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       permisUsuariPlantillaForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (permisUsuariPlantillaForm.getListOfPlantillaFluxDeFirmesForPlantillaFluxDeFirmesID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPlantillaFluxDeFirmesID(request, mav, permisUsuariPlantillaForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       permisUsuariPlantillaForm.setListOfPlantillaFluxDeFirmesForPlantillaFluxDeFirmesID(_listSKV);
     }
     
@@ -402,7 +402,7 @@ public class PermisUsuariPlantillaController
 
     try {
       preValidate(request, permisUsuariPlantillaForm, result);
-      getWebValidator().validate(permisUsuariPlantilla, result);
+      getWebValidator().validate(permisUsuariPlantillaForm, result);
       postValidate(request, permisUsuariPlantillaForm, result);
 
       if (result.hasErrors()) {
@@ -440,7 +440,7 @@ public class PermisUsuariPlantillaController
       return null;
     }
     try {
-      PermisUsuariPlantilla permisUsuariPlantilla = findByPrimaryKey(request, permisUsuariPlantillaID);
+      PermisUsuariPlantilla permisUsuariPlantilla = permisUsuariPlantillaEjb.findByPrimaryKey(permisUsuariPlantillaID);
       if (permisUsuariPlantilla == null) {
         String __msg =createMessageError(request, "error.notfound", permisUsuariPlantillaID);
         return getRedirectWhenDelete(request, permisUsuariPlantillaID, new Exception(__msg));
@@ -485,7 +485,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -534,7 +534,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "permisUsuariPlantilla.permisUsuariPlantillaID");
+    binder.setDisallowedFields("permisUsuariPlantillaID");
+
   }
 
   public PermisUsuariPlantillaWebValidator getWebValidator() {
@@ -593,7 +594,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, PermisUsuariPlantillaForm permisUsuariPlantillaForm, Where where)  throws I18NException {
     if (permisUsuariPlantillaForm.isHiddenField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (permisUsuariPlantillaForm.isReadOnlyField(USUARIENTITATID)) {
@@ -608,7 +609,7 @@ public java.lang.Long stringToPK(String value) {
        List<PermisUsuariPlantilla> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (permisUsuariPlantillaFilterForm.isHiddenField(USUARIENTITATID)
       && !permisUsuariPlantillaFilterForm.isGroupByField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {
@@ -632,7 +633,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPlantillaFluxDeFirmesID(HttpServletRequest request,
        ModelAndView mav, PermisUsuariPlantillaForm permisUsuariPlantillaForm, Where where)  throws I18NException {
     if (permisUsuariPlantillaForm.isHiddenField(PLANTILLAFLUXDEFIRMESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (permisUsuariPlantillaForm.isReadOnlyField(PLANTILLAFLUXDEFIRMESID)) {
@@ -647,7 +648,7 @@ public java.lang.Long stringToPK(String value) {
        List<PermisUsuariPlantilla> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (permisUsuariPlantillaFilterForm.isHiddenField(PLANTILLAFLUXDEFIRMESID)
       && !permisUsuariPlantillaFilterForm.isGroupByField(PLANTILLAFLUXDEFIRMESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PLANTILLAFLUXDEFIRMESID)) {

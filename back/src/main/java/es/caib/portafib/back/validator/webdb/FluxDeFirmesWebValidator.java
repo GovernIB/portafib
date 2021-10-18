@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.FluxDeFirmesValidator;
+import es.caib.portafib.persistence.validator.FluxDeFirmesValidator;
 
 import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.FluxDeFirmes;
 
 
 /**
@@ -20,15 +24,16 @@ import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
  * @author anadal
  */
 @Component
-public class FluxDeFirmesWebValidator  implements Validator, FluxDeFirmesFields {
+public class FluxDeFirmesWebValidator extends AbstractWebValidator<FluxDeFirmesForm, FluxDeFirmes>
+     implements Validator, FluxDeFirmesFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected FluxDeFirmesValidator<Object> validator = new FluxDeFirmesValidator<Object>();
+  protected FluxDeFirmesValidator<FluxDeFirmes> validator = new FluxDeFirmesValidator<FluxDeFirmes>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.FluxDeFirmesLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.FluxDeFirmesLocal fluxDeFirmesEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.FluxDeFirmesService.JNDI_NAME)
+  protected es.caib.portafib.ejb.FluxDeFirmesService fluxDeFirmesEjb;
 
 
 
@@ -37,28 +42,50 @@ public class FluxDeFirmesWebValidator  implements Validator, FluxDeFirmesFields 
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return FluxDeFirmesForm.class.isAssignableFrom(clazz);
+  public FluxDeFirmes getBeanOfForm(FluxDeFirmesForm form) {
+    return  form.getFluxDeFirmes();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<FluxDeFirmesForm> getClassOfForm() {
+    return FluxDeFirmesForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(FluxDeFirmesForm __form, FluxDeFirmes __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<FluxDeFirmesForm> wvr;
+    wvr = new WebValidationResult<FluxDeFirmesForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(FluxDeFirmesForm __form, FluxDeFirmes __bean, Errors errors,
+    WebValidationResult<FluxDeFirmesForm> wvr, boolean isNou) {
 
-    validator.validate(wvr, target,
+    BeanValidatorResult<FluxDeFirmes> __vr = new BeanValidatorResult<FluxDeFirmes>();
+    validator.validate(__vr, __bean,
       isNou, fluxDeFirmesEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -66,11 +93,11 @@ public class FluxDeFirmesWebValidator  implements Validator, FluxDeFirmesFields 
     return field.fullName;
   }
 
-  public FluxDeFirmesValidator<Object> getValidator() {
+  public FluxDeFirmesValidator<FluxDeFirmes> getValidator() {
     return validator;
   }
 
-  public void setValidator(FluxDeFirmesValidator<Object> validator) {
+  public void setValidator(FluxDeFirmesValidator<FluxDeFirmes> validator) {
     this.validator = validator;
   }
 

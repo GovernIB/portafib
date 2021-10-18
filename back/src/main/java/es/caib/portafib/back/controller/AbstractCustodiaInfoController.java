@@ -29,9 +29,9 @@ import es.caib.portafib.back.form.webdb.CustodiaInfoForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
-import es.caib.portafib.ejb.PeticioDeFirmaLocal;
-import es.caib.portafib.jpa.CustodiaInfoJPA;
-import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.ejb.PeticioDeFirmaService;
+import es.caib.portafib.persistence.CustodiaInfoJPA;
+import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.validator.CustodiaInfoLogicValidator;
 import es.caib.portafib.model.entity.CustodiaInfo;
@@ -50,10 +50,10 @@ import es.caib.portafib.utils.ConstantsV2;
 public abstract class AbstractCustodiaInfoController extends CustodiaInfoController implements
     ConstantsV2 {
 
-  protected CustodiaInfoLogicValidator<Object> validator = new CustodiaInfoLogicValidator<Object>();
+  protected CustodiaInfoLogicValidator<CustodiaInfo> validator = new CustodiaInfoLogicValidator<>();
 
-  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
-  protected PeticioDeFirmaLocal peticioDeFirmaEjb;
+  @EJB(mappedName = PeticioDeFirmaService.JNDI_NAME)
+  protected PeticioDeFirmaService peticioDeFirmaEjb;
 
   @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
   protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;

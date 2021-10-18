@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.BitacolaLocal;
+import es.caib.portafib.ejb.BitacolaService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.BitacolaFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class BitacolaRefList extends RefListBase
     implements BitacolaFields {
 
-  @EJB(mappedName = BitacolaLocal.JNDI_NAME)
-  private BitacolaLocal bitacolaEjb;
+  @EJB(mappedName = BitacolaService.JNDI_NAME)
+  private BitacolaService bitacolaEjb;
 
   public BitacolaRefList(BitacolaRefList __clone) {
     super(__clone);

@@ -31,7 +31,7 @@ import es.caib.portafib.back.form.webdb.TraduccioForm;
 
 import es.caib.portafib.back.validator.webdb.TraduccioWebValidator;
 
-import es.caib.portafib.jpa.TraduccioJPA;
+import es.caib.portafib.persistence.TraduccioJPA;
 import es.caib.portafib.model.entity.Traduccio;
 import es.caib.portafib.model.fields.*;
 
@@ -47,8 +47,8 @@ import es.caib.portafib.model.fields.*;
 public class TraduccioController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Traduccio, java.lang.Long> implements TraduccioFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.TraduccioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TraduccioLocal traduccioEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.TraduccioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.TraduccioService traduccioEjb;
 
   @Autowired
   private TraduccioWebValidator traduccioWebValidator;
@@ -349,7 +349,7 @@ public class TraduccioController
 
     try {
       preValidate(request, traduccioForm, result);
-      getWebValidator().validate(traduccio, result);
+      getWebValidator().validate(traduccioForm, result);
       postValidate(request, traduccioForm, result);
 
       if (result.hasErrors()) {
@@ -387,7 +387,7 @@ public class TraduccioController
       return null;
     }
     try {
-      Traduccio traduccio = findByPrimaryKey(request, traduccioID);
+      Traduccio traduccio = traduccioEjb.findByPrimaryKey(traduccioID);
       if (traduccio == null) {
         String __msg =createMessageError(request, "error.notfound", traduccioID);
         return getRedirectWhenDelete(request, traduccioID, new Exception(__msg));
@@ -432,7 +432,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -481,7 +481,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "traduccio.traduccioID");
+    binder.setDisallowedFields("traduccioID");
+
   }
 
   public TraduccioWebValidator getWebValidator() {

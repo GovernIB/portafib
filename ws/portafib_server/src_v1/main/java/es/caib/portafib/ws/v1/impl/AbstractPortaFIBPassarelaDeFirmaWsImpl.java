@@ -11,7 +11,7 @@ import javax.jws.WebParam;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.model.entity.CustodiaInfo;
@@ -35,8 +35,8 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
   @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal.JNDI_NAME)
   private es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal passarelaDeFirmaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PluginLocal.JNDI_NAME)
-  private es.caib.portafib.ejb.PluginLocal pluginEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PluginService.JNDI_NAME)
+  private es.caib.portafib.ejb.PluginService pluginEjb;
 
   @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
   private CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;

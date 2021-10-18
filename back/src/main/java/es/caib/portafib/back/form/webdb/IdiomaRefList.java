@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.IdiomaLocal;
+import es.caib.portafib.ejb.IdiomaService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.IdiomaFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class IdiomaRefList extends RefListBase
     implements IdiomaFields {
 
-  @EJB(mappedName = IdiomaLocal.JNDI_NAME)
-  private IdiomaLocal idiomaEjb;
+  @EJB(mappedName = IdiomaService.JNDI_NAME)
+  private IdiomaService idiomaEjb;
 
   public IdiomaRefList(IdiomaRefList __clone) {
     super(__clone);

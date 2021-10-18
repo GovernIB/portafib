@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.UsuariEntitat;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPAManager;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPAManager;
 
 @Stateless(name = "UsuariEntitatEJB")
-public class UsuariEntitatEJB extends UsuariEntitatJPAManager implements UsuariEntitatLocal {
+public class UsuariEntitatEJB extends UsuariEntitatJPAManager implements UsuariEntitatService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

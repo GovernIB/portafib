@@ -34,9 +34,9 @@ import es.caib.portafib.back.form.webdb.AnnexFirmatForm;
 import es.caib.portafib.back.validator.webdb.AnnexFirmatWebValidator;
 
 import es.caib.portafib.model.entity.Fitxer;
-import es.caib.portafib.jpa.FitxerJPA;
+import es.caib.portafib.persistence.FitxerJPA;
 import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
-import es.caib.portafib.jpa.AnnexFirmatJPA;
+import es.caib.portafib.persistence.AnnexFirmatJPA;
 import es.caib.portafib.model.entity.AnnexFirmat;
 import es.caib.portafib.model.fields.*;
 
@@ -52,8 +52,8 @@ import es.caib.portafib.model.fields.*;
 public class AnnexFirmatController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<AnnexFirmat, java.lang.Long, AnnexFirmatForm> implements AnnexFirmatFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.AnnexFirmatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.AnnexFirmatLocal annexFirmatEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.AnnexFirmatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.AnnexFirmatService annexFirmatEjb;
 
   @Autowired
   private AnnexFirmatWebValidator annexFirmatWebValidator;
@@ -277,18 +277,18 @@ public class AnnexFirmatController
     if (annexFirmatForm.getListOfAnnexForAnnexID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForAnnexID(request, mav, annexFirmatForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       annexFirmatForm.setListOfAnnexForAnnexID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (annexFirmatForm.getListOfFirmaForFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForFirmaID(request, mav, annexFirmatForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       annexFirmatForm.setListOfFirmaForFirmaID(_listSKV);
     }
     
@@ -413,7 +413,7 @@ public class AnnexFirmatController
     try {
       this.setFilesFormToEntity(afm, annexFirmat, annexFirmatForm); // FILE
       preValidate(request, annexFirmatForm, result);
-      getWebValidator().validate(annexFirmat, result);
+      getWebValidator().validate(annexFirmatForm, result);
       postValidate(request, annexFirmatForm, result);
 
       if (result.hasErrors()) {
@@ -454,7 +454,7 @@ public class AnnexFirmatController
       return null;
     }
     try {
-      AnnexFirmat annexFirmat = findByPrimaryKey(request, annexfirmatID);
+      AnnexFirmat annexFirmat = annexFirmatEjb.findByPrimaryKey(annexfirmatID);
       if (annexFirmat == null) {
         String __msg =createMessageError(request, "error.notfound", annexfirmatID);
         return getRedirectWhenDelete(request, annexfirmatID, new Exception(__msg));
@@ -499,7 +499,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -548,7 +548,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "annexFirmat.annexfirmatID");
+    binder.setDisallowedFields("annexfirmatID");
+
   }
 
   public AnnexFirmatWebValidator getWebValidator() {
@@ -629,7 +630,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForAnnexID(HttpServletRequest request,
        ModelAndView mav, AnnexFirmatForm annexFirmatForm, Where where)  throws I18NException {
     if (annexFirmatForm.isHiddenField(ANNEXID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (annexFirmatForm.isReadOnlyField(ANNEXID)) {
@@ -644,7 +645,7 @@ public java.lang.Long stringToPK(String value) {
        List<AnnexFirmat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (annexFirmatFilterForm.isHiddenField(ANNEXID)
       && !annexFirmatFilterForm.isGroupByField(ANNEXID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(ANNEXID)) {
@@ -668,7 +669,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForFirmaID(HttpServletRequest request,
        ModelAndView mav, AnnexFirmatForm annexFirmatForm, Where where)  throws I18NException {
     if (annexFirmatForm.isHiddenField(FIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (annexFirmatForm.isReadOnlyField(FIRMAID)) {
@@ -683,7 +684,7 @@ public java.lang.Long stringToPK(String value) {
        List<AnnexFirmat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (annexFirmatFilterForm.isHiddenField(FIRMAID)
       && !annexFirmatFilterForm.isGroupByField(FIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(FIRMAID)) {

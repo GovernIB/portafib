@@ -47,8 +47,8 @@ public class InitServlet extends HttpServlet {
 
   private final ProviderRegistration providerRegistration = new ProviderRegistration();
 
-  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
 
   @Override
   public void init(ServletConfig config) throws ServletException {

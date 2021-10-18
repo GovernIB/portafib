@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.MetadadaForm;
 
 import es.caib.portafib.back.validator.webdb.MetadadaWebValidator;
 
-import es.caib.portafib.jpa.MetadadaJPA;
+import es.caib.portafib.persistence.MetadadaJPA;
 import es.caib.portafib.model.entity.Metadada;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class MetadadaController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Metadada, java.lang.Long> implements MetadadaFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.MetadadaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.MetadadaLocal metadadaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.MetadadaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.MetadadaService metadadaEjb;
 
   @Autowired
   private MetadadaWebValidator metadadaWebValidator;
@@ -270,18 +270,18 @@ public class MetadadaController
     if (metadadaForm.getListOfPeticioDeFirmaForPeticioDeFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPeticioDeFirmaID(request, mav, metadadaForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       metadadaForm.setListOfPeticioDeFirmaForPeticioDeFirmaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (metadadaForm.getListOfValuesForTipusMetadadaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusMetadadaID(request, mav, metadadaForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       metadadaForm.setListOfValuesForTipusMetadadaID(_listSKV);
     }
     
@@ -398,7 +398,7 @@ public class MetadadaController
 
     try {
       preValidate(request, metadadaForm, result);
-      getWebValidator().validate(metadada, result);
+      getWebValidator().validate(metadadaForm, result);
       postValidate(request, metadadaForm, result);
 
       if (result.hasErrors()) {
@@ -436,7 +436,7 @@ public class MetadadaController
       return null;
     }
     try {
-      Metadada metadada = findByPrimaryKey(request, metadadaID);
+      Metadada metadada = metadadaEjb.findByPrimaryKey(metadadaID);
       if (metadada == null) {
         String __msg =createMessageError(request, "error.notfound", metadadaID);
         return getRedirectWhenDelete(request, metadadaID, new Exception(__msg));
@@ -481,7 +481,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -530,7 +530,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "metadada.metadadaID");
+    binder.setDisallowedFields("metadadaID");
+
   }
 
   public MetadadaWebValidator getWebValidator() {
@@ -589,7 +590,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPeticioDeFirmaID(HttpServletRequest request,
        ModelAndView mav, MetadadaForm metadadaForm, Where where)  throws I18NException {
     if (metadadaForm.isHiddenField(PETICIODEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (metadadaForm.isReadOnlyField(PETICIODEFIRMAID)) {
@@ -604,7 +605,7 @@ public java.lang.Long stringToPK(String value) {
        List<Metadada> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (metadadaFilterForm.isHiddenField(PETICIODEFIRMAID)
       && !metadadaFilterForm.isGroupByField(PETICIODEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PETICIODEFIRMAID)) {
@@ -628,7 +629,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusMetadadaID(HttpServletRequest request,
        ModelAndView mav, MetadadaForm metadadaForm, Where where)  throws I18NException {
     if (metadadaForm.isHiddenField(TIPUSMETADADAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForTipusMetadadaID(request, mav, where);
   }
@@ -639,7 +640,7 @@ public java.lang.Long stringToPK(String value) {
        List<Metadada> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (metadadaFilterForm.isHiddenField(TIPUSMETADADAID)
       && !metadadaFilterForm.isGroupByField(TIPUSMETADADAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForTipusMetadadaID(request, mav, Where.AND(where,_w));

@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.BitacolaValidator;
+import es.caib.portafib.persistence.validator.BitacolaValidator;
 
 import es.caib.portafib.back.form.webdb.BitacolaForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.Bitacola;
 
 
 /**
@@ -20,15 +24,16 @@ import es.caib.portafib.back.form.webdb.BitacolaForm;
  * @author anadal
  */
 @Component
-public class BitacolaWebValidator  implements Validator, BitacolaFields {
+public class BitacolaWebValidator extends AbstractWebValidator<BitacolaForm, Bitacola>
+     implements Validator, BitacolaFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected BitacolaValidator<Object> validator = new BitacolaValidator<Object>();
+  protected BitacolaValidator<Bitacola> validator = new BitacolaValidator<Bitacola>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.BitacolaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.BitacolaLocal bitacolaEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.BitacolaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.BitacolaService bitacolaEjb;
 
 
 
@@ -37,28 +42,50 @@ public class BitacolaWebValidator  implements Validator, BitacolaFields {
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return BitacolaForm.class.isAssignableFrom(clazz);
+  public Bitacola getBeanOfForm(BitacolaForm form) {
+    return  form.getBitacola();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<BitacolaForm> getClassOfForm() {
+    return BitacolaForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(BitacolaForm __form, Bitacola __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<BitacolaForm> wvr;
+    wvr = new WebValidationResult<BitacolaForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(BitacolaForm __form, Bitacola __bean, Errors errors,
+    WebValidationResult<BitacolaForm> wvr, boolean isNou) {
 
-    validator.validate(wvr, target,
+    BeanValidatorResult<Bitacola> __vr = new BeanValidatorResult<Bitacola>();
+    validator.validate(__vr, __bean,
       isNou, bitacolaEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -66,11 +93,11 @@ public class BitacolaWebValidator  implements Validator, BitacolaFields {
     return field.fullName;
   }
 
-  public BitacolaValidator<Object> getValidator() {
+  public BitacolaValidator<Bitacola> getValidator() {
     return validator;
   }
 
-  public void setValidator(BitacolaValidator<Object> validator) {
+  public void setValidator(BitacolaValidator<Bitacola> validator) {
     this.validator = validator;
   }
 

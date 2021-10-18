@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.BlocDeFirmesForm;
 
 import es.caib.portafib.back.validator.webdb.BlocDeFirmesWebValidator;
 
-import es.caib.portafib.jpa.BlocDeFirmesJPA;
+import es.caib.portafib.persistence.BlocDeFirmesJPA;
 import es.caib.portafib.model.entity.BlocDeFirmes;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class BlocDeFirmesController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<BlocDeFirmes, java.lang.Long> implements BlocDeFirmesFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.BlocDeFirmesLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.BlocDeFirmesLocal blocDeFirmesEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.BlocDeFirmesService.JNDI_NAME)
+  protected es.caib.portafib.ejb.BlocDeFirmesService blocDeFirmesEjb;
 
   @Autowired
   private BlocDeFirmesWebValidator blocDeFirmesWebValidator;
@@ -259,9 +259,9 @@ public class BlocDeFirmesController
     if (blocDeFirmesForm.getListOfFluxDeFirmesForFluxDeFirmesID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForFluxDeFirmesID(request, mav, blocDeFirmesForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       blocDeFirmesForm.setListOfFluxDeFirmesForFluxDeFirmesID(_listSKV);
     }
     
@@ -378,7 +378,7 @@ public class BlocDeFirmesController
 
     try {
       preValidate(request, blocDeFirmesForm, result);
-      getWebValidator().validate(blocDeFirmes, result);
+      getWebValidator().validate(blocDeFirmesForm, result);
       postValidate(request, blocDeFirmesForm, result);
 
       if (result.hasErrors()) {
@@ -416,7 +416,7 @@ public class BlocDeFirmesController
       return null;
     }
     try {
-      BlocDeFirmes blocDeFirmes = findByPrimaryKey(request, blocDeFirmesID);
+      BlocDeFirmes blocDeFirmes = blocDeFirmesEjb.findByPrimaryKey(blocDeFirmesID);
       if (blocDeFirmes == null) {
         String __msg =createMessageError(request, "error.notfound", blocDeFirmesID);
         return getRedirectWhenDelete(request, blocDeFirmesID, new Exception(__msg));
@@ -461,7 +461,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -510,7 +510,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "blocDeFirmes.blocDeFirmesID");
+    binder.setDisallowedFields("blocDeFirmesID");
+
   }
 
   public BlocDeFirmesWebValidator getWebValidator() {
@@ -569,7 +570,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForFluxDeFirmesID(HttpServletRequest request,
        ModelAndView mav, BlocDeFirmesForm blocDeFirmesForm, Where where)  throws I18NException {
     if (blocDeFirmesForm.isHiddenField(FLUXDEFIRMESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (blocDeFirmesForm.isReadOnlyField(FLUXDEFIRMESID)) {
@@ -584,7 +585,7 @@ public java.lang.Long stringToPK(String value) {
        List<BlocDeFirmes> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (blocDeFirmesFilterForm.isHiddenField(FLUXDEFIRMESID)
       && !blocDeFirmesFilterForm.isGroupByField(FLUXDEFIRMESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(FLUXDEFIRMESID)) {

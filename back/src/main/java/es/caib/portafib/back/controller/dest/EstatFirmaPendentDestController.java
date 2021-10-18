@@ -5,11 +5,9 @@ import es.caib.portafib.back.controller.dest.proces.CarretHolder;
 import es.caib.portafib.back.controller.dest.proces.ProcessarEstatsCheckoutController;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
 import es.caib.portafib.back.utils.Utils;
-import es.caib.portafib.model.entity.EstatDeFirma;
-import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;

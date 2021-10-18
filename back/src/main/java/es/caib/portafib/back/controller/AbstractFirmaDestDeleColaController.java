@@ -1,125 +1,10 @@
 package es.caib.portafib.back.controller;
 
-import es.caib.portafib.back.controller.common.SignatureModuleController;
-import es.caib.portafib.back.controller.webdb.EstatDeFirmaController;
-import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
-import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
-import es.caib.portafib.back.form.webdb.TipusDocumentRefList;
-import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
-import es.caib.portafib.back.helper.SignatureValidationHelper;
-import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.back.utils.AbstractParallelSignedFilesProcessing;
-import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
-import es.caib.portafib.ejb.AnnexLocal;
-import es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal;
-import es.caib.portafib.ejb.RevisorDeFirmaLocal;
-import es.caib.portafib.jpa.AnnexJPA;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.EstatDeFirmaJPA;
-import es.caib.portafib.jpa.FirmaJPA;
-import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
-import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
-import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
-import es.caib.portafib.logic.FirmaLogicaLocal;
-import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
-import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
-import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
-import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
-import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
-import es.caib.portafib.logic.signatures.SignatureValidation;
-import es.caib.portafib.logic.utils.PdfUtils;
-import es.caib.portafib.logic.utils.PropietatGlobalUtil;
-import es.caib.portafib.logic.utils.SignatureUtils;
-import es.caib.portafib.model.entity.ColaboracioDelegacio;
-import es.caib.portafib.model.entity.EstatDeFirma;
-import es.caib.portafib.model.entity.Fitxer;
-import es.caib.portafib.model.entity.PeticioDeFirma;
-import es.caib.portafib.model.entity.UsuariPersona;
-import es.caib.portafib.model.fields.AnnexFields;
-import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
-import es.caib.portafib.model.fields.ColaboracioDelegacioQueryPath;
-import es.caib.portafib.model.fields.EstatDeFirmaFields;
-import es.caib.portafib.model.fields.EstatDeFirmaQueryPath;
-import es.caib.portafib.model.fields.FirmaFields;
-import es.caib.portafib.model.fields.ModulDeFirmaPerTipusDeDocumentFields;
-import es.caib.portafib.model.fields.ModulDeFirmaPerTipusDeDocumentQueryPath;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
-import es.caib.portafib.model.fields.RevisorDeFirmaFields;
-import es.caib.portafib.model.fields.RevisorDeFirmaQueryPath;
-import es.caib.portafib.model.fields.TipusDocumentFields;
-import es.caib.portafib.model.fields.UsuariPersonaFields;
-import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
-import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.ConstantsV2;
-import org.fundaciobit.genapp.common.KeyValue;
-import org.fundaciobit.genapp.common.StringKeyValue;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.DoubleField;
-import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.GroupByItem;
-import org.fundaciobit.genapp.common.query.GroupByValueItem;
-import org.fundaciobit.genapp.common.query.IntegerField;
-import org.fundaciobit.genapp.common.query.LongField;
-import org.fundaciobit.genapp.common.query.OrderBy;
-import org.fundaciobit.genapp.common.query.OrderType;
-import org.fundaciobit.genapp.common.query.Select;
-import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
-import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
-import org.fundaciobit.genapp.common.query.StringField;
-import org.fundaciobit.genapp.common.query.SubQuery;
-import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.genapp.common.utils.Utils;
-import org.fundaciobit.genapp.common.web.HtmlUtils;
-import org.fundaciobit.genapp.common.web.form.AdditionalButton;
-import org.fundaciobit.genapp.common.web.form.AdditionalField;
-import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mobile.device.Device;
-import org.springframework.mobile.device.DeviceUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Set;
+import es.caib.portafib.back.controller.webdb.EstatDeFirmaController;
+import es.caib.portafib.model.fields.EstatDeFirmaFields;
+import es.caib.portafib.utils.ConstantsV2;
+
 
 /**
  * Controller per gestionar un EstatDeFirma
@@ -157,14 +42,14 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
     @EJB(mappedName = SegellDeTempsLogicaLocal.JNDI_NAME)
     protected SegellDeTempsLogicaLocal segellDeTempsEjb;
 
-    @EJB(mappedName = es.caib.portafib.ejb.AnnexLocal.JNDI_NAME)
-    protected AnnexLocal annexEjb;
+    @EJB(mappedName = es.caib.portafib.ejb.AnnexService.JNDI_NAME)
+    protected AnnexService annexEjb;
 
     @EJB(mappedName = es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal.JNDI_NAME)
     protected ModulDeFirmaPerTipusDeDocumentLocal modulDeFirmaPerTipusDeDocumentEjb;
 
-    @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
-    protected RevisorDeFirmaLocal revisorDeFirmaEjb;
+    @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaService.JNDI_NAME)
+    protected RevisorDeFirmaService revisorDeFirmaEjb;
 
 
     final Long[] ESTATS_INICIALS_COLA = new Long[]{

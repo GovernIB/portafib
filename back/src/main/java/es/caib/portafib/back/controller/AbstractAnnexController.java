@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import es.caib.portafib.back.controller.webdb.AnnexController;
 import es.caib.portafib.back.form.webdb.AnnexFilterForm;
 import es.caib.portafib.back.form.webdb.AnnexForm;
-import es.caib.portafib.jpa.AnnexJPA;
+import es.caib.portafib.persistence.AnnexJPA;
 import es.caib.portafib.logic.AnnexLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.model.entity.Annex;

@@ -34,9 +34,9 @@ import es.caib.portafib.back.form.webdb.PluginCridadaForm;
 import es.caib.portafib.back.validator.webdb.PluginCridadaWebValidator;
 
 import es.caib.portafib.model.entity.Fitxer;
-import es.caib.portafib.jpa.FitxerJPA;
+import es.caib.portafib.persistence.FitxerJPA;
 import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
-import es.caib.portafib.jpa.PluginCridadaJPA;
+import es.caib.portafib.persistence.PluginCridadaJPA;
 import es.caib.portafib.model.entity.PluginCridada;
 import es.caib.portafib.model.fields.*;
 
@@ -52,8 +52,8 @@ import es.caib.portafib.model.fields.*;
 public class PluginCridadaController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<PluginCridada, java.lang.Long, PluginCridadaForm> implements PluginCridadaFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.PluginCridadaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PluginCridadaLocal pluginCridadaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PluginCridadaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PluginCridadaService pluginCridadaEjb;
 
   @Autowired
   private PluginCridadaWebValidator pluginCridadaWebValidator;
@@ -277,18 +277,18 @@ public class PluginCridadaController
     if (pluginCridadaForm.getListOfEntitatForEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForEntitatID(request, mav, pluginCridadaForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       pluginCridadaForm.setListOfEntitatForEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (pluginCridadaForm.getListOfPluginForPluginID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPluginID(request, mav, pluginCridadaForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       pluginCridadaForm.setListOfPluginForPluginID(_listSKV);
     }
     
@@ -413,7 +413,7 @@ public class PluginCridadaController
     try {
       this.setFilesFormToEntity(afm, pluginCridada, pluginCridadaForm); // FILE
       preValidate(request, pluginCridadaForm, result);
-      getWebValidator().validate(pluginCridada, result);
+      getWebValidator().validate(pluginCridadaForm, result);
       postValidate(request, pluginCridadaForm, result);
 
       if (result.hasErrors()) {
@@ -454,7 +454,7 @@ public class PluginCridadaController
       return null;
     }
     try {
-      PluginCridada pluginCridada = findByPrimaryKey(request, pluginCridadaID);
+      PluginCridada pluginCridada = pluginCridadaEjb.findByPrimaryKey(pluginCridadaID);
       if (pluginCridada == null) {
         String __msg =createMessageError(request, "error.notfound", pluginCridadaID);
         return getRedirectWhenDelete(request, pluginCridadaID, new Exception(__msg));
@@ -499,7 +499,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -548,7 +548,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "pluginCridada.pluginCridadaID");
+    binder.setDisallowedFields("pluginCridadaID");
+
   }
 
   public PluginCridadaWebValidator getWebValidator() {
@@ -641,7 +642,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForEntitatID(HttpServletRequest request,
        ModelAndView mav, PluginCridadaForm pluginCridadaForm, Where where)  throws I18NException {
     if (pluginCridadaForm.isHiddenField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (pluginCridadaForm.isReadOnlyField(ENTITATID)) {
@@ -656,7 +657,7 @@ public java.lang.Long stringToPK(String value) {
        List<PluginCridada> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginCridadaFilterForm.isHiddenField(ENTITATID)
       && !pluginCridadaFilterForm.isGroupByField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(ENTITATID)) {
@@ -681,7 +682,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
        ModelAndView mav, PluginCridadaForm pluginCridadaForm, Where where)  throws I18NException {
     if (pluginCridadaForm.isHiddenField(PLUGINID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (pluginCridadaForm.isReadOnlyField(PLUGINID)) {
@@ -696,7 +697,7 @@ public java.lang.Long stringToPK(String value) {
        List<PluginCridada> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginCridadaFilterForm.isHiddenField(PLUGINID)
       && !pluginCridadaFilterForm.isGroupByField(PLUGINID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PLUGINID)) {

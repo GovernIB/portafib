@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.RebreAvis;
-import es.caib.portafib.jpa.RebreAvisJPA;
-import es.caib.portafib.jpa.RebreAvisJPAManager;
+import es.caib.portafib.persistence.RebreAvisJPA;
+import es.caib.portafib.persistence.RebreAvisJPAManager;
 
 @Stateless(name = "RebreAvisEJB")
-public class RebreAvisEJB extends RebreAvisJPAManager implements RebreAvisLocal {
+public class RebreAvisEJB extends RebreAvisJPAManager implements RebreAvisService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

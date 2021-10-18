@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.EstatDeFirmaLocal;
+import es.caib.portafib.ejb.EstatDeFirmaService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class EstatDeFirmaRefList extends RefListBase
     implements EstatDeFirmaFields {
 
-  @EJB(mappedName = EstatDeFirmaLocal.JNDI_NAME)
-  private EstatDeFirmaLocal estatDeFirmaEjb;
+  @EJB(mappedName = EstatDeFirmaService.JNDI_NAME)
+  private EstatDeFirmaService estatDeFirmaEjb;
 
   public EstatDeFirmaRefList(EstatDeFirmaRefList __clone) {
     super(__clone);

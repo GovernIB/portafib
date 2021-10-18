@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.Firma;
-import es.caib.portafib.jpa.FirmaJPA;
-import es.caib.portafib.jpa.FirmaJPAManager;
+import es.caib.portafib.persistence.FirmaJPA;
+import es.caib.portafib.persistence.FirmaJPAManager;
 
 @Stateless(name = "FirmaEJB")
-public class FirmaEJB extends FirmaJPAManager implements FirmaLocal {
+public class FirmaEJB extends FirmaJPAManager implements FirmaService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

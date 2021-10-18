@@ -1,7 +1,7 @@
 package es.caib.portafib.testjpa;
 
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-import es.caib.portafib.jpa.PortaFIBJPADaoManagers;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
+import es.caib.portafib.persistence.PortaFIBJPADaoManagers;
 import es.caib.portafib.model.IPortaFIBDaoManagers;
 import es.caib.portafib.model.PortaFIBDaoManager;
 import es.caib.portafib.model.dao.IEstatDeFirmaManager;

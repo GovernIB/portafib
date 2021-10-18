@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import es.caib.portafib.ejb.GrupEntitatLocal;
-import es.caib.portafib.ejb.PermisGrupPlantillaLocal;
-import es.caib.portafib.ejb.PermisUsuariPlantillaLocal;
+import es.caib.portafib.ejb.GrupEntitatService;
+import es.caib.portafib.ejb.PermisGrupPlantillaService;
+import es.caib.portafib.ejb.PermisUsuariPlantillaService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
@@ -35,10 +35,10 @@ import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.PlantillaFluxDeFirmesFilterForm;
 import es.caib.portafib.back.form.webdb.PlantillaFluxDeFirmesForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.PermisGrupPlantillaJPA;
-import es.caib.portafib.jpa.PermisUsuariPlantillaJPA;
-import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.persistence.PermisGrupPlantillaJPA;
+import es.caib.portafib.persistence.PermisUsuariPlantillaJPA;
+import es.caib.portafib.persistence.PlantillaFluxDeFirmesJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.logic.PlantillaFluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.model.entity.GrupEntitat;
@@ -65,14 +65,14 @@ public class PermisosPlantillaDeFluxDeFirmesController extends PlantillaFluxDeFi
   @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-  @EJB(mappedName = PermisUsuariPlantillaLocal.JNDI_NAME)
-  protected PermisUsuariPlantillaLocal permisUsuariPlantillaEjb;
+  @EJB(mappedName = PermisUsuariPlantillaService.JNDI_NAME)
+  protected PermisUsuariPlantillaService permisUsuariPlantillaEjb;
   
-  @EJB(mappedName = PermisGrupPlantillaLocal.JNDI_NAME)
-  protected PermisGrupPlantillaLocal permisGrupPlantillaEjb;
+  @EJB(mappedName = PermisGrupPlantillaService.JNDI_NAME)
+  protected PermisGrupPlantillaService permisGrupPlantillaEjb;
   
-  @EJB(mappedName = GrupEntitatLocal.JNDI_NAME)
-  protected GrupEntitatLocal grupEntitatEjb;
+  @EJB(mappedName = GrupEntitatService.JNDI_NAME)
+  protected GrupEntitatService grupEntitatEjb;
 
   @Override
   protected ModelAndView editAndViewPlantillaFluxDeFirmesGet(

@@ -1,6 +1,6 @@
 package es.caib.portafib.ws.v1.impl;
 
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.model.entity.UsuariEntitat;
 
 /**

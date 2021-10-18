@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -68,20 +67,20 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.MappingOrder;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.webdb.PlantillaFluxDeFirmesWebValidator;
-import es.caib.portafib.ejb.PeticioDeFirmaLocal;
-import es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal;
-import es.caib.portafib.ejb.RoleUsuariEntitatLocal;
-import es.caib.portafib.ejb.UsuariAplicacioLocal;
+import es.caib.portafib.ejb.PeticioDeFirmaService;
+import es.caib.portafib.ejb.PlantillaFluxDeFirmesService;
+import es.caib.portafib.ejb.RoleUsuariEntitatService;
+import es.caib.portafib.ejb.UsuariAplicacioService;
 import es.caib.portafib.hibernate.HibernateFileUtil;
-import es.caib.portafib.jpa.BlocDeFirmesJPA;
-import es.caib.portafib.jpa.EstatDeFirmaJPA;
-import es.caib.portafib.jpa.FirmaJPA;
-import es.caib.portafib.jpa.FluxDeFirmesJPA;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
-import es.caib.portafib.jpa.RevisorDeFirmaJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.persistence.BlocDeFirmesJPA;
+import es.caib.portafib.persistence.EstatDeFirmaJPA;
+import es.caib.portafib.persistence.FirmaJPA;
+import es.caib.portafib.persistence.FluxDeFirmesJPA;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
+import es.caib.portafib.persistence.PlantillaFluxDeFirmesJPA;
+import es.caib.portafib.persistence.RevisorDeFirmaJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.BlocDeFirmesLogicaLocal;
 import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
@@ -127,15 +126,15 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     COMPARTIR_PLANTILLA = new FluxDeFirmesQueryPath().PLANTILLAFLUXDEFIRMES().COMPARTIR();
   }
 
-  @EJB(mappedName = PlantillaFluxDeFirmesLocal.JNDI_NAME)
-  private PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;
+  @EJB(mappedName = PlantillaFluxDeFirmesService.JNDI_NAME)
+  private PlantillaFluxDeFirmesService plantillaFluxDeFirmesEjb;
 
   @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
  
-  @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME)
-  protected UsuariAplicacioLocal usuariAplicacioEjb;
+  @EJB(mappedName = UsuariAplicacioService.JNDI_NAME)
+  protected UsuariAplicacioService usuariAplicacioEjb;
 
   @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
   protected FirmaLogicaLocal firmaLogicaEjb;
@@ -146,11 +145,11 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   @EJB(mappedName = BlocDeFirmesLogicaLocal.JNDI_NAME)
   protected BlocDeFirmesLogicaLocal blocDeFirmesLogicaEjb;
 
-  @EJB(mappedName = RoleUsuariEntitatLocal.JNDI_NAME)
-  protected RoleUsuariEntitatLocal roleUsuariEntitatEjb;
+  @EJB(mappedName = RoleUsuariEntitatService.JNDI_NAME)
+  protected RoleUsuariEntitatService roleUsuariEntitatEjb;
 
-  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
-  protected PeticioDeFirmaLocal peticioDeFirmaEjb;
+  @EJB(mappedName = PeticioDeFirmaService.JNDI_NAME)
+  protected PeticioDeFirmaService peticioDeFirmaEjb;
 
   @EJB(mappedName = RevisorDeFirmaLogicaLocal.JNDI_NAME)
   protected RevisorDeFirmaLogicaLocal revisorDeFirmaLogicaEjb;

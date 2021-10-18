@@ -1,7 +1,7 @@
 package es.caib.portafib.back.form.webdb;
 
 import es.caib.portafib.back.form.PortaFIBBaseForm;
-import es.caib.portafib.jpa.IdiomaJPA;
+import es.caib.portafib.persistence.IdiomaJPA;
 
 /**
  *  ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! 

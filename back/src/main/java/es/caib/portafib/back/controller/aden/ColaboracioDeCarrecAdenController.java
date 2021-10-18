@@ -3,8 +3,8 @@ package es.caib.portafib.back.controller.aden;
 import javax.ejb.EJB;
 
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.ColaboracioDelegacioJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.persistence.ColaboracioDelegacioJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -13,7 +13,7 @@ import es.caib.portafib.back.controller.dest.DelegacioDestController;
 import es.caib.portafib.back.form.dest.ColaboracioDelegacioDestForm;
 import es.caib.portafib.back.form.webdb.ColaboracioDelegacioFilterForm;
 import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
-import es.caib.portafib.ejb.UsuariEntitatLocal;
+import es.caib.portafib.ejb.UsuariEntitatService;
 
 import es.caib.portafib.back.form.SeleccioUsuariForm;
 /**
@@ -28,8 +28,8 @@ import es.caib.portafib.back.form.SeleccioUsuariForm;
 public class ColaboracioDeCarrecAdenController extends DelegacioDestController {
 
   
-  @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME)
-  protected UsuariEntitatLocal usuariEntitatEjb;
+  @EJB(mappedName = UsuariEntitatService.JNDI_NAME)
+  protected UsuariEntitatService usuariEntitatEjb;
 
   @Override
   public boolean esDelegat() {

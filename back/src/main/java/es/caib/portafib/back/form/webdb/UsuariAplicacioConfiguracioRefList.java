@@ -11,8 +11,8 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal;
-import es.caib.portafib.ejb.TraduccioLocal;
+import es.caib.portafib.ejb.UsuariAplicacioConfiguracioService;
+import es.caib.portafib.ejb.TraduccioService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -26,11 +26,11 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class UsuariAplicacioConfiguracioRefList extends RefListBase
     implements UsuariAplicacioConfiguracioFields {
 
-  @EJB(mappedName = UsuariAplicacioConfiguracioLocal.JNDI_NAME)
-  private UsuariAplicacioConfiguracioLocal usuariAplicacioConfiguracioEjb;
+  @EJB(mappedName = UsuariAplicacioConfiguracioService.JNDI_NAME)
+  private UsuariAplicacioConfiguracioService usuariAplicacioConfiguracioEjb;
 
-  @EJB(mappedName = TraduccioLocal.JNDI_NAME)
-  private TraduccioLocal traduccioEjb;
+  @EJB(mappedName = TraduccioService.JNDI_NAME)
+  private TraduccioService traduccioEjb;
   public UsuariAplicacioConfiguracioRefList(UsuariAplicacioConfiguracioRefList __clone) {
     super(__clone);
     this.usuariAplicacioConfiguracioEjb = __clone.usuariAplicacioConfiguracioEjb;
@@ -55,13 +55,21 @@ public class UsuariAplicacioConfiguracioRefList extends RefListBase
     List<StringKeyValue> _list = new java.util.ArrayList<StringKeyValue>(traduccions.size());
     final String _lang = org.fundaciobit.genapp.common.web.i18n.I18NUtils.getLocale().getLanguage();
     for (es.caib.portafib.model.entity.Traduccio traduccio : traduccions) {
-      es.caib.portafib.jpa.TraduccioJPA traduccioJPA = (es.caib.portafib.jpa.TraduccioJPA) traduccio;
+      es.caib.portafib.persistence.TraduccioJPA traduccioJPA = (es.caib.portafib.persistence.TraduccioJPA) traduccio;
       String key = keysMap.get(String.valueOf(traduccioJPA.getTraduccioID()));
-      String value = traduccioJPA.getTraduccio(_lang).getValor();
+      es.caib.portafib.persistence.TraduccioMapJPA _tm = traduccioJPA.getTraduccio(_lang);
+      String value;
+      if (_tm == null) {
+          value = "NO_TRADUCCIO_PER_CODI_" + traduccio.getTraduccioID() + "_[" + _lang + "]";
+      } else {
+          value= _tm.getValor();
+      }
       StringKeyValue skv = new StringKeyValue(key, value);
       _list.add(skv);
     }
-    java.util.Collections.sort(_list, new org.fundaciobit.genapp.common.KeyValue.KeyValueComparator<String>());
+    if (!_list.isEmpty()) {
+      java.util.Collections.sort(_list, new org.fundaciobit.genapp.common.KeyValue.KeyValueComparator<String>());
+    }
     return _list;
 
   }

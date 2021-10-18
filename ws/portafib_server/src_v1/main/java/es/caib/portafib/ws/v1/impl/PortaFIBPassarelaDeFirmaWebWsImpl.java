@@ -25,7 +25,7 @@ import org.fundaciobit.genapp.common.ws.WsValidationException;
 import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;
 
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
@@ -65,14 +65,14 @@ public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarela
   @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal.JNDI_NAME)
   protected es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal passarelaDeFirmaWebEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.EntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.EntitatService entitatEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PluginLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PluginLocal pluginEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PluginService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PluginService pluginEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoService.JNDI_NAME)
+  protected es.caib.portafib.ejb.CustodiaInfoService custodiaInfoEjb;
   
   @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
   public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;

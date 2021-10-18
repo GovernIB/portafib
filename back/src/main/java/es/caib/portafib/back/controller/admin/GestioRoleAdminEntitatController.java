@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
-import es.caib.portafib.ejb.EntitatLocal;
+import es.caib.portafib.ejb.EntitatService;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
@@ -44,8 +44,8 @@ import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.persistence.EntitatJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
@@ -82,8 +82,8 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
   @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
   
-  @EJB(mappedName = EntitatLocal.JNDI_NAME)
-  protected EntitatLocal entitatEjb;
+  @EJB(mappedName = EntitatService.JNDI_NAME)
+  protected EntitatService entitatEjb;
   
   @Autowired
   protected UsuariPersonaRefList personaRefList;

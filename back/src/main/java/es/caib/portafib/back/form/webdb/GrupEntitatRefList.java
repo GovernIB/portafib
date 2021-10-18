@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.GrupEntitatLocal;
+import es.caib.portafib.ejb.GrupEntitatService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.GrupEntitatFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class GrupEntitatRefList extends RefListBase
     implements GrupEntitatFields {
 
-  @EJB(mappedName = GrupEntitatLocal.JNDI_NAME)
-  private GrupEntitatLocal grupEntitatEjb;
+  @EJB(mappedName = GrupEntitatService.JNDI_NAME)
+  private GrupEntitatService grupEntitatEjb;
 
   public GrupEntitatRefList(GrupEntitatRefList __clone) {
     super(__clone);

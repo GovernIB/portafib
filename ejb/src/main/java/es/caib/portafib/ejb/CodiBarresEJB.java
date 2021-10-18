@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.CodiBarres;
-import es.caib.portafib.jpa.CodiBarresJPA;
-import es.caib.portafib.jpa.CodiBarresJPAManager;
+import es.caib.portafib.persistence.CodiBarresJPA;
+import es.caib.portafib.persistence.CodiBarresJPAManager;
 
 @Stateless(name = "CodiBarresEJB")
-public class CodiBarresEJB extends CodiBarresJPAManager implements CodiBarresLocal {
+public class CodiBarresEJB extends CodiBarresJPAManager implements CodiBarresService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

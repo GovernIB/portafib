@@ -8,13 +8,13 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusNotificacioFields.TIPUSNOTIFICACIOID])?'tipusNotificacio.tipusNotificacioID':__theForm.labels[TipusNotificacioFields.TIPUSNOTIFICACIOID]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[TipusNotificacioFields.TIPUSNOTIFICACIOID]}">
-              <i class="icon-info-sign" title="${__theForm.help[TipusNotificacioFields.TIPUSNOTIFICACIOID]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[TipusNotificacioFields.TIPUSNOTIFICACIOID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="tipusNotificacio.tipusNotificacioID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.TIPUSNOTIFICACIOID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.TIPUSNOTIFICACIOID)? 'input-large uneditable-input' : 'input-large'}"   path="tipusNotificacio.tipusNotificacioID"   />
+            <form:errors path="tipusNotificacio.tipusNotificacioID" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.TIPUSNOTIFICACIOID)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.TIPUSNOTIFICACIOID)? ' uneditable-input' : ''}"  style=""  path="tipusNotificacio.tipusNotificacioID"   />
 
            </td>
         </tr>
@@ -26,13 +26,13 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusNotificacioFields.NOM])?'tipusNotificacio.nom':__theForm.labels[TipusNotificacioFields.NOM]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[TipusNotificacioFields.NOM]}">
-              <i class="icon-info-sign" title="${__theForm.help[TipusNotificacioFields.NOM]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[TipusNotificacioFields.NOM]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="tipusNotificacio.nom" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="tipusNotificacio.nom"   />
+            <form:errors path="tipusNotificacio.nom" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.NOM)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="tipusNotificacio.nom"   />
 
            </td>
         </tr>
@@ -44,22 +44,28 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusNotificacioFields.DESCRIPCIO])?'tipusNotificacio.descripcio':__theForm.labels[TipusNotificacioFields.DESCRIPCIO]}" />
               <c:if test="${not empty __theForm.help[TipusNotificacioFields.DESCRIPCIO]}">
-              <i class="icon-info-sign" title="${__theForm.help[TipusNotificacioFields.DESCRIPCIO]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[TipusNotificacioFields.DESCRIPCIO]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-              <form:errors path="tipusNotificacio.descripcio" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.DESCRIPCIO)? 'true' : 'false'}" path="tipusNotificacio.descripcio"  />
-              <div class="btn-group" style="vertical-align: top;">
-              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('tipusNotificacio.descripcio'); ta.wrap='off';" >No Wrap</a></li>
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('tipusNotificacio.descripcio'); ta.wrap='soft';">Soft Wrap</a></li>
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('tipusNotificacio.descripcio'); ta.wrap='hard';">Hard Wrap</a></li>
-              </ul>
-              </div>
-           </td>
+              <form:errors path="tipusNotificacio.descripcio" cssClass="errorField alert alert-danger" />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.DESCRIPCIO)? 'true' : 'false'}" path="tipusNotificacio.descripcio"  />
+      <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
+        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">
+          <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('tipusNotificacio.descripcio'); ta.wrap='off';" >No Wrap</a>
+          <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('tipusNotificacio.descripcio'); ta.wrap='soft';">Soft Wrap</a>
+          <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('tipusNotificacio.descripcio'); ta.wrap='hard';">Hard Wrap</a>
+        </div>
+      </div>
+      <script type="text/javascript">
+			$('#dropdownMenuButton_descripcio').on('click', function(){
+					var valor = ($('#dropdownMenuContainer_descripcio').css('display') != 'none') ? 'none' : 'block';
+                 $('#dropdownMenuContainer_descripcio').css('display', valor);
+                 return false;
+				});
+      </script>           </td>
         </tr>
         </c:if>
         
@@ -69,13 +75,13 @@
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusNotificacioFields.ESAVIS])?'tipusNotificacio.esAvis':__theForm.labels[TipusNotificacioFields.ESAVIS]}" />
               <c:if test="${not empty __theForm.help[TipusNotificacioFields.ESAVIS]}">
-              <i class="icon-info-sign" title="${__theForm.help[TipusNotificacioFields.ESAVIS]}" ></i>
+              <i class="fas fa-info-circle" title="${__theForm.help[TipusNotificacioFields.ESAVIS]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.ESAVIS)}" >
-              <form:select cssClass="input-medium" onchange="if(typeof onChangeEsAvis == 'function') {  onChangeEsAvis(this); };"  path="tipusNotificacio.esAvis">
+              <form:select cssClass="form-control col-md-6" onchange="if(typeof onChangeEsAvis == 'function') {  onChangeEsAvis(this); };"  path="tipusNotificacio.esAvis">
                 <form:option value=""><fmt:message key="genapp.checkbox." /></form:option>
                 <form:option value="true" ><fmt:message key="genapp.checkbox.true" /></form:option>
                 <form:option value="false" ><fmt:message key="genapp.checkbox.false" /></form:option>

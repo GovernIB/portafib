@@ -5,9 +5,9 @@ import es.caib.portafib.back.controller.webdb.EntitatController;
 import es.caib.portafib.back.form.webdb.CustodiaInfoRefList;
 import es.caib.portafib.back.form.webdb.EntitatFilterForm;
 import es.caib.portafib.back.form.webdb.EntitatForm;
-import es.caib.portafib.ejb.PropietatGlobalLocal;
-import es.caib.portafib.ejb.UsuariAplicacioLocal;
-import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.ejb.PropietatGlobalService;
+import es.caib.portafib.ejb.UsuariAplicacioService;
+import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.logic.EntitatLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatsConstants;
 import es.caib.portafib.logic.utils.PropietatsConstants.Propietat;
@@ -57,14 +57,14 @@ import java.util.Set;
 @RequestMapping(value = "/admin/entitat")
 public class GestioEntitatAdminController extends EntitatController implements ConstantsV2, ConstantsPortaFIB {
 
-  @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME)
-  protected UsuariAplicacioLocal usuariAplicacioEjb;
+  @EJB(mappedName = UsuariAplicacioService.JNDI_NAME)
+  protected UsuariAplicacioService usuariAplicacioEjb;
 
   @EJB(mappedName = EntitatLogicaLocal.JNDI_NAME)
   protected EntitatLogicaLocal entitatLogicaEjb;
   
-  @EJB(mappedName = PropietatGlobalLocal.JNDI_NAME)
-  protected PropietatGlobalLocal propietatGlobalEjb;
+  @EJB(mappedName = PropietatGlobalService.JNDI_NAME)
+  protected PropietatGlobalService propietatGlobalEjb;
 
   @Override
   public String getTileForm() {
@@ -255,7 +255,7 @@ public class GestioEntitatAdminController extends EntitatController implements C
     throw e;
   }
   
-  public EntitatLogicValidator<Object> entitatLogicValidator = new EntitatLogicValidator<Object>();
+  public EntitatLogicValidator<Entitat> entitatLogicValidator = new EntitatLogicValidator<Entitat>();
   
   
   @Override

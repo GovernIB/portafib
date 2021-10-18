@@ -26,27 +26,27 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FitxerFields.FITXERID)}">
           <td>
-          <c:out value="${fitxer.fitxerID}" />
+          ${fitxer.fitxerID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FitxerFields.NOM)}">
           <td>
-          <c:out value="${fitxer.nom}" />
+          ${fitxer.nom}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FitxerFields.DESCRIPCIO)}">
           <td>
-          <c:out value="${fitxer.descripcio}" />
+          ${fitxer.descripcio}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FitxerFields.TAMANY)}">
           <td>
-          <c:out value="${fitxer.tamany}" />
+          ${fitxer.tamany}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FitxerFields.MIME)}">
           <td>
-          <c:out value="${fitxer.mime}" />
+          ${fitxer.mime}
           </td>
         </c:if>
 

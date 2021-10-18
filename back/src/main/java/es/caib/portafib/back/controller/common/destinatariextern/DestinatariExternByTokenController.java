@@ -2,11 +2,11 @@ package es.caib.portafib.back.controller.common.destinatariextern;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSessionLocaleResolver;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.FirmaJPA;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.persistence.EntitatJPA;
+import es.caib.portafib.persistence.FirmaJPA;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;

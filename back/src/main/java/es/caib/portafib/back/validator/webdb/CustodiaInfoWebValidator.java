@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.CustodiaInfoValidator;
+import es.caib.portafib.persistence.validator.CustodiaInfoValidator;
 
 import es.caib.portafib.back.form.webdb.CustodiaInfoForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.CustodiaInfo;
 
 
 /**
@@ -20,30 +24,31 @@ import es.caib.portafib.back.form.webdb.CustodiaInfoForm;
  * @author anadal
  */
 @Component
-public class CustodiaInfoWebValidator  implements Validator, CustodiaInfoFields {
+public class CustodiaInfoWebValidator extends AbstractWebValidator<CustodiaInfoForm, CustodiaInfo>
+     implements Validator, CustodiaInfoFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected CustodiaInfoValidator<Object> validator = new CustodiaInfoValidator<Object>();
+  protected CustodiaInfoValidator<CustodiaInfo> validator = new CustodiaInfoValidator<CustodiaInfo>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.CodiBarresLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CodiBarresLocal codiBarresEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.CodiBarresService.JNDI_NAME)
+  protected es.caib.portafib.ejb.CodiBarresService codiBarresEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoService.JNDI_NAME)
+  protected es.caib.portafib.ejb.CustodiaInfoService custodiaInfoEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.EntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.EntitatService entitatEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PluginLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PluginLocal pluginEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.PluginService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PluginService pluginEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariAplicacioService usuariAplicacioEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariEntitatService usuariEntitatEjb;
 
 
 
@@ -52,28 +57,50 @@ public class CustodiaInfoWebValidator  implements Validator, CustodiaInfoFields 
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return CustodiaInfoForm.class.isAssignableFrom(clazz);
+  public CustodiaInfo getBeanOfForm(CustodiaInfoForm form) {
+    return  form.getCustodiaInfo();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<CustodiaInfoForm> getClassOfForm() {
+    return CustodiaInfoForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(CustodiaInfoForm __form, CustodiaInfo __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<CustodiaInfoForm> wvr;
+    wvr = new WebValidationResult<CustodiaInfoForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(CustodiaInfoForm __form, CustodiaInfo __bean, Errors errors,
+    WebValidationResult<CustodiaInfoForm> wvr, boolean isNou) {
 
-    validator.validate(wvr, target,
+    BeanValidatorResult<CustodiaInfo> __vr = new BeanValidatorResult<CustodiaInfo>();
+    validator.validate(__vr, __bean,
       isNou, codiBarresEjb, custodiaInfoEjb, entitatEjb, pluginEjb, usuariAplicacioEjb, usuariEntitatEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -81,11 +108,11 @@ public class CustodiaInfoWebValidator  implements Validator, CustodiaInfoFields 
     return field.fullName;
   }
 
-  public CustodiaInfoValidator<Object> getValidator() {
+  public CustodiaInfoValidator<CustodiaInfo> getValidator() {
     return validator;
   }
 
-  public void setValidator(CustodiaInfoValidator<Object> validator) {
+  public void setValidator(CustodiaInfoValidator<CustodiaInfo> validator) {
     this.validator = validator;
   }
 

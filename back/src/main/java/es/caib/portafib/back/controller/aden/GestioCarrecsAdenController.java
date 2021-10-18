@@ -11,11 +11,11 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.back.validator.SelectCarrecValidator;
-import es.caib.portafib.ejb.BlocDeFirmesLocal;
-import es.caib.portafib.ejb.EntitatLocal;
-import es.caib.portafib.ejb.FirmaLocal;
-import es.caib.portafib.ejb.UsuariEntitatFavoritLocal;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.ejb.BlocDeFirmesService;
+import es.caib.portafib.ejb.EntitatService;
+import es.caib.portafib.ejb.FirmaService;
+import es.caib.portafib.ejb.UsuariEntitatFavoritService;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.model.entity.UsuariEntitat;
@@ -73,8 +73,8 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
 
   public static final StringField USUARI_PERSONA_FIELD = new UsuariEntitatQueryPath().USUARIPERSONA().NIF();
 
-  @EJB(mappedName = UsuariEntitatFavoritLocal.JNDI_NAME)
-  protected UsuariEntitatFavoritLocal usuariEntitatFavoritEjb;
+  @EJB(mappedName = UsuariEntitatFavoritService.JNDI_NAME)
+  protected UsuariEntitatFavoritService usuariEntitatFavoritEjb;
   
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
@@ -82,14 +82,14 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
   @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-  @EJB(mappedName = EntitatLocal.JNDI_NAME)
-  protected EntitatLocal entitatEjb;
+  @EJB(mappedName = EntitatService.JNDI_NAME)
+  protected EntitatService entitatEjb;
 
-  @EJB(mappedName = BlocDeFirmesLocal.JNDI_NAME)
-  protected BlocDeFirmesLocal blocDeFirmesEjb;
+  @EJB(mappedName = BlocDeFirmesService.JNDI_NAME)
+  protected BlocDeFirmesService blocDeFirmesEjb;
 
-  @EJB(mappedName = FirmaLocal.JNDI_NAME)
-  protected FirmaLocal firmaEjb;
+  @EJB(mappedName = FirmaService.JNDI_NAME)
+  protected FirmaService firmaEjb;
 
   @Autowired
   protected SelectCarrecValidator selectCarrecValidator;

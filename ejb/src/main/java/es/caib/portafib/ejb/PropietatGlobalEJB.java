@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.PropietatGlobal;
-import es.caib.portafib.jpa.PropietatGlobalJPA;
-import es.caib.portafib.jpa.PropietatGlobalJPAManager;
+import es.caib.portafib.persistence.PropietatGlobalJPA;
+import es.caib.portafib.persistence.PropietatGlobalJPAManager;
 
 @Stateless(name = "PropietatGlobalEJB")
-public class PropietatGlobalEJB extends PropietatGlobalJPAManager implements PropietatGlobalLocal {
+public class PropietatGlobalEJB extends PropietatGlobalJPAManager implements PropietatGlobalService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

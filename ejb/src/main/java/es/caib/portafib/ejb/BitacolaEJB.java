@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.Bitacola;
-import es.caib.portafib.jpa.BitacolaJPA;
-import es.caib.portafib.jpa.BitacolaJPAManager;
+import es.caib.portafib.persistence.BitacolaJPA;
+import es.caib.portafib.persistence.BitacolaJPAManager;
 
 @Stateless(name = "BitacolaEJB")
-public class BitacolaEJB extends BitacolaJPAManager implements BitacolaLocal {
+public class BitacolaEJB extends BitacolaJPAManager implements BitacolaService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.PluginValidator;
+import es.caib.portafib.persistence.validator.PluginValidator;
 
 import es.caib.portafib.back.form.webdb.PluginForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.Plugin;
 
 
 /**
@@ -20,21 +24,22 @@ import es.caib.portafib.back.form.webdb.PluginForm;
  * @author anadal
  */
 @Component
-public class PluginWebValidator  implements Validator, PluginFields {
+public class PluginWebValidator extends AbstractWebValidator<PluginForm, Plugin>
+     implements Validator, PluginFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected PluginValidator<Object> validator = new PluginValidator<Object>();
+  protected PluginValidator<Plugin> validator = new PluginValidator<Plugin>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.EntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.EntitatService entitatEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PluginLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PluginLocal pluginEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.PluginService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PluginService pluginEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.TraduccioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TraduccioLocal traduccioEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.TraduccioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.TraduccioService traduccioEjb;
 
 
 
@@ -43,45 +48,54 @@ public class PluginWebValidator  implements Validator, PluginFields {
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return PluginForm.class.isAssignableFrom(clazz);
+  public Plugin getBeanOfForm(PluginForm form) {
+    return  form.getPlugin();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<PluginForm> getClassOfForm() {
+    return PluginForm.class;
+  }
+
+  @Override
+  public void validate(PluginForm __form, Plugin __bean, Errors errors) {
 
 java.util.List<Field<?>> _ignoreFields = new java.util.ArrayList<Field<?>>();
 _ignoreFields.add(NOMID);
 _ignoreFields.add(DESCRIPCIOCURTAID);
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors, _ignoreFields);
+    WebValidationResult<PluginForm> wvr;
+    wvr = new WebValidationResult<PluginForm>(errors, _ignoreFields);
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
 
-    validate(target, errors, wvr, isNou);
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(PluginForm __form, Plugin __bean, Errors errors,
+    WebValidationResult<PluginForm> wvr, boolean isNou) {
 
   {
-    es.caib.portafib.jpa.PluginJPA plugin;
-    if (target instanceof PluginForm) {
-      plugin = ((PluginForm)target).getPlugin();
-    } else {
-      plugin = (es.caib.portafib.jpa.PluginJPA)target;
-    }
+      es.caib.portafib.persistence.PluginJPA __jpa;
+      __jpa = (es.caib.portafib.persistence.PluginJPA)__bean;
     {
       // IF CAMP ES NOT NULL verificar que totes les traduccions son not null
-      es.caib.portafib.jpa.TraduccioJPA tradJPA = plugin.getNom();
+      es.caib.portafib.persistence.TraduccioJPA tradJPA = __jpa.getNom();
       if (tradJPA != null) {
         // TODO ERROR
-        java.util.Map<String,es.caib.portafib.jpa.TraduccioMapJPA> _trad = tradJPA.getTraduccions();
+        java.util.Map<String,es.caib.portafib.persistence.TraduccioMapJPA> _trad = tradJPA.getTraduccions();
         int countNotNull = 0;
         for (String _idioma : _trad.keySet()) {
-          es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
+          es.caib.portafib.persistence.TraduccioMapJPA _map = _trad.get(_idioma);
           if (_map == null || (_map.getValor() == null || _map.getValor().length() == 0 )) {
           } else {
             countNotNull++;
@@ -92,7 +106,7 @@ _ignoreFields.add(DESCRIPCIOCURTAID);
             // OK Tot esta ple
           } else {
             for (String _idioma : _trad.keySet()) {
-              es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
+              es.caib.portafib.persistence.TraduccioMapJPA _map = _trad.get(_idioma);
               if (_map == null || (_map.getValor() == null || _map.getValor().length() == 0 )) {
                 errors.rejectValue("plugin.nom", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(NOMID.fullName)}, null);
                 errors.rejectValue("plugin.nom.traduccions["+ _idioma +"].valor",
@@ -106,13 +120,13 @@ _ignoreFields.add(DESCRIPCIOCURTAID);
     }
     {
       // IF CAMP ES NOT NULL verificar que totes les traduccions son not null
-      es.caib.portafib.jpa.TraduccioJPA tradJPA = plugin.getDescripcioCurta();
+      es.caib.portafib.persistence.TraduccioJPA tradJPA = __jpa.getDescripcioCurta();
       if (tradJPA != null) {
         // TODO ERROR
-        java.util.Map<String,es.caib.portafib.jpa.TraduccioMapJPA> _trad = tradJPA.getTraduccions();
+        java.util.Map<String,es.caib.portafib.persistence.TraduccioMapJPA> _trad = tradJPA.getTraduccions();
         int countNotNull = 0;
         for (String _idioma : _trad.keySet()) {
-          es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
+          es.caib.portafib.persistence.TraduccioMapJPA _map = _trad.get(_idioma);
           if (_map == null || (_map.getValor() == null || _map.getValor().length() == 0 )) {
           } else {
             countNotNull++;
@@ -123,7 +137,7 @@ _ignoreFields.add(DESCRIPCIOCURTAID);
             // OK Tot esta ple
           } else {
             for (String _idioma : _trad.keySet()) {
-              es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
+              es.caib.portafib.persistence.TraduccioMapJPA _map = _trad.get(_idioma);
               if (_map == null || (_map.getValor() == null || _map.getValor().length() == 0 )) {
                 errors.rejectValue("plugin.descripcioCurta", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(DESCRIPCIOCURTAID.fullName)}, null);
                 errors.rejectValue("plugin.descripcioCurta.traduccions["+ _idioma +"].valor",
@@ -137,8 +151,17 @@ _ignoreFields.add(DESCRIPCIOCURTAID);
     }
 
   }
-    validator.validate(wvr, target,
+    BeanValidatorResult<Plugin> __vr = new BeanValidatorResult<Plugin>();
+    validator.validate(__vr, __bean,
       isNou, entitatEjb, pluginEjb, traduccioEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -146,11 +169,11 @@ _ignoreFields.add(DESCRIPCIOCURTAID);
     return field.fullName;
   }
 
-  public PluginValidator<Object> getValidator() {
+  public PluginValidator<Plugin> getValidator() {
     return validator;
   }
 
-  public void setValidator(PluginValidator<Object> validator) {
+  public void setValidator(PluginValidator<Plugin> validator) {
     this.validator = validator;
   }
 

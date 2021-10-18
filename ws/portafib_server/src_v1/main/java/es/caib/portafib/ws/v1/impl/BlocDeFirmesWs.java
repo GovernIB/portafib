@@ -5,8 +5,8 @@ import java.util.Set;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
-import es.caib.portafib.jpa.BlocDeFirmesJPA;
-import es.caib.portafib.jpa.FirmaJPA;
+import es.caib.portafib.persistence.BlocDeFirmesJPA;
+import es.caib.portafib.persistence.FirmaJPA;
 import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.model.entity.BlocDeFirmes;
 import es.caib.portafib.ws.v1.utils.JPAConversion;

@@ -1,7 +1,7 @@
 package es.caib.portafib.back.controller.dest;
 
 import es.caib.portafib.back.controller.AbstractFirmaDestDeleColaController;
-import es.caib.portafib.utils.ConstantsV2;
+
 
 /**
  * @author anadal

@@ -3,7 +3,7 @@ package es.caib.portafib.back.form.webdb;
 import java.util.List;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import es.caib.portafib.back.form.PortaFIBBaseForm;
-import es.caib.portafib.jpa.BitacolaJPA;
+import es.caib.portafib.persistence.BitacolaJPA;
 
 /**
  *  ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! 

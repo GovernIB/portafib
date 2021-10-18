@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.PropietatGlobalForm;
 
 import es.caib.portafib.back.validator.webdb.PropietatGlobalWebValidator;
 
-import es.caib.portafib.jpa.PropietatGlobalJPA;
+import es.caib.portafib.persistence.PropietatGlobalJPA;
 import es.caib.portafib.model.entity.PropietatGlobal;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class PropietatGlobalController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<PropietatGlobal, java.lang.Long> implements PropietatGlobalFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.PropietatGlobalLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PropietatGlobalLocal propietatGlobalEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PropietatGlobalService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PropietatGlobalService propietatGlobalEjb;
 
   @Autowired
   private PropietatGlobalWebValidator propietatGlobalWebValidator;
@@ -259,9 +259,9 @@ public class PropietatGlobalController
     if (propietatGlobalForm.getListOfEntitatForEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForEntitatID(request, mav, propietatGlobalForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       propietatGlobalForm.setListOfEntitatForEntitatID(_listSKV);
     }
     
@@ -378,7 +378,7 @@ public class PropietatGlobalController
 
     try {
       preValidate(request, propietatGlobalForm, result);
-      getWebValidator().validate(propietatGlobal, result);
+      getWebValidator().validate(propietatGlobalForm, result);
       postValidate(request, propietatGlobalForm, result);
 
       if (result.hasErrors()) {
@@ -416,7 +416,7 @@ public class PropietatGlobalController
       return null;
     }
     try {
-      PropietatGlobal propietatGlobal = findByPrimaryKey(request, propietatGlobalID);
+      PropietatGlobal propietatGlobal = propietatGlobalEjb.findByPrimaryKey(propietatGlobalID);
       if (propietatGlobal == null) {
         String __msg =createMessageError(request, "error.notfound", propietatGlobalID);
         return getRedirectWhenDelete(request, propietatGlobalID, new Exception(__msg));
@@ -461,7 +461,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -510,7 +510,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "propietatGlobal.propietatGlobalID");
+    binder.setDisallowedFields("propietatGlobalID");
+
   }
 
   public PropietatGlobalWebValidator getWebValidator() {
@@ -569,7 +570,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForEntitatID(HttpServletRequest request,
        ModelAndView mav, PropietatGlobalForm propietatGlobalForm, Where where)  throws I18NException {
     if (propietatGlobalForm.isHiddenField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (propietatGlobalForm.isReadOnlyField(ENTITATID)) {
@@ -584,7 +585,7 @@ public java.lang.Long stringToPK(String value) {
        List<PropietatGlobal> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (propietatGlobalFilterForm.isHiddenField(ENTITATID)
       && !propietatGlobalFilterForm.isGroupByField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(ENTITATID)) {

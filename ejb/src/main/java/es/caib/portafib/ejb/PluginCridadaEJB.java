@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.PluginCridada;
-import es.caib.portafib.jpa.PluginCridadaJPA;
-import es.caib.portafib.jpa.PluginCridadaJPAManager;
+import es.caib.portafib.persistence.PluginCridadaJPA;
+import es.caib.portafib.persistence.PluginCridadaJPAManager;
 
 @Stateless(name = "PluginCridadaEJB")
-public class PluginCridadaEJB extends PluginCridadaJPAManager implements PluginCridadaLocal {
+public class PluginCridadaEJB extends PluginCridadaJPAManager implements PluginCridadaService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

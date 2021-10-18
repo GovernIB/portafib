@@ -4,8 +4,10 @@ import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
+import es.caib.portafib.back.form.webdb.UsuariAplicacioForm;
 import es.caib.portafib.back.validator.webdb.UsuariAplicacioWebValidator;
 import es.caib.portafib.logic.validator.UsuariAplicacioLogicValidator;
+import es.caib.portafib.model.entity.UsuariAplicacio;
 
 
 /**
@@ -16,14 +18,14 @@ import es.caib.portafib.logic.validator.UsuariAplicacioLogicValidator;
 @Component
 public class UsuariAplicacioWebLogicValidator extends UsuariAplicacioWebValidator {
 
-  protected UsuariAplicacioLogicValidator<Object> validatorLogic = new UsuariAplicacioLogicValidator<Object>();
+  protected UsuariAplicacioLogicValidator validatorLogic = new UsuariAplicacioLogicValidator();
 
   
   @Override
-  public void validate(Object target, Errors errors,
-      WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(UsuariAplicacioForm __form, UsuariAplicacio __bean, Errors errors,
+      WebValidationResult<UsuariAplicacioForm> wvr, boolean isNou) {
     
-    validatorLogic.validate(wvr, target,
+    validatorLogic.validate(wvr, __bean,
         isNou, custodiaInfoEjb, entitatEjb, idiomaEjb, usuariAplicacioEjb);
 
   } // Final de mètode

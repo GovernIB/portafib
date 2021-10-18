@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.PluginCridadaValidator;
+import es.caib.portafib.persistence.validator.PluginCridadaValidator;
 
 import es.caib.portafib.back.form.webdb.PluginCridadaForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.PluginCridada;
 
 
 /**
@@ -20,21 +24,22 @@ import es.caib.portafib.back.form.webdb.PluginCridadaForm;
  * @author anadal
  */
 @Component
-public class PluginCridadaWebValidator  implements Validator, PluginCridadaFields {
+public class PluginCridadaWebValidator extends AbstractWebValidator<PluginCridadaForm, PluginCridada>
+     implements Validator, PluginCridadaFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected PluginCridadaValidator<Object> validator = new PluginCridadaValidator<Object>();
+  protected PluginCridadaValidator<PluginCridada> validator = new PluginCridadaValidator<PluginCridada>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.EntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.EntitatService entitatEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PluginLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PluginLocal pluginEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.PluginService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PluginService pluginEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PluginCridadaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PluginCridadaLocal pluginCridadaEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.PluginCridadaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PluginCridadaService pluginCridadaEjb;
 
 
 
@@ -43,32 +48,54 @@ public class PluginCridadaWebValidator  implements Validator, PluginCridadaField
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return PluginCridadaForm.class.isAssignableFrom(clazz);
+  public PluginCridada getBeanOfForm(PluginCridadaForm form) {
+    return  form.getPluginCridada();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<PluginCridadaForm> getClassOfForm() {
+    return PluginCridadaForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(PluginCridadaForm __form, PluginCridada __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<PluginCridadaForm> wvr;
+    wvr = new WebValidationResult<PluginCridadaForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(PluginCridadaForm __form, PluginCridada __bean, Errors errors,
+    WebValidationResult<PluginCridadaForm> wvr, boolean isNou) {
 
     if (isNou) { // Creacio
       // ================ CREATION
       // Fitxers 
     }
-    validator.validate(wvr, target,
+    BeanValidatorResult<PluginCridada> __vr = new BeanValidatorResult<PluginCridada>();
+    validator.validate(__vr, __bean,
       isNou, entitatEjb, pluginEjb, pluginCridadaEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -76,11 +103,11 @@ public class PluginCridadaWebValidator  implements Validator, PluginCridadaField
     return field.fullName;
   }
 
-  public PluginCridadaValidator<Object> getValidator() {
+  public PluginCridadaValidator<PluginCridada> getValidator() {
     return validator;
   }
 
-  public void setValidator(PluginCridadaValidator<Object> validator) {
+  public void setValidator(PluginCridadaValidator<PluginCridada> validator) {
     this.validator = validator;
   }
 

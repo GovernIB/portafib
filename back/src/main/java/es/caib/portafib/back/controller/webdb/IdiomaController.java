@@ -31,7 +31,7 @@ import es.caib.portafib.back.form.webdb.IdiomaForm;
 
 import es.caib.portafib.back.validator.webdb.IdiomaWebValidator;
 
-import es.caib.portafib.jpa.IdiomaJPA;
+import es.caib.portafib.persistence.IdiomaJPA;
 import es.caib.portafib.model.entity.Idioma;
 import es.caib.portafib.model.fields.*;
 
@@ -47,8 +47,8 @@ import es.caib.portafib.model.fields.*;
 public class IdiomaController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Idioma, java.lang.String> implements IdiomaFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
 
   @Autowired
   private IdiomaWebValidator idiomaWebValidator;
@@ -352,7 +352,7 @@ public class IdiomaController
 
     try {
       preValidate(request, idiomaForm, result);
-      getWebValidator().validate(idioma, result);
+      getWebValidator().validate(idiomaForm, result);
       postValidate(request, idiomaForm, result);
 
       if (result.hasErrors()) {
@@ -390,7 +390,7 @@ public class IdiomaController
       return null;
     }
     try {
-      Idioma idioma = findByPrimaryKey(request, idiomaID);
+      Idioma idioma = idiomaEjb.findByPrimaryKey(idiomaID);
       if (idioma == null) {
         String __msg =createMessageError(request, "error.notfound", idiomaID);
         return getRedirectWhenDelete(request, idiomaID, new Exception(__msg));
@@ -484,7 +484,7 @@ public java.lang.String stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder);
+
   }
 
   public IdiomaWebValidator getWebValidator() {

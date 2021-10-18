@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.EstadisticaForm;
 
 import es.caib.portafib.back.validator.webdb.EstadisticaWebValidator;
 
-import es.caib.portafib.jpa.EstadisticaJPA;
+import es.caib.portafib.persistence.EstadisticaJPA;
 import es.caib.portafib.model.entity.Estadistica;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class EstadisticaController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Estadistica, java.lang.Long> implements EstadisticaFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.EstadisticaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EstadisticaLocal estadisticaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.EstadisticaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.EstadisticaService estadisticaEjb;
 
   @Autowired
   private EstadisticaWebValidator estadisticaWebValidator;
@@ -270,18 +270,18 @@ public class EstadisticaController
     if (estadisticaForm.getListOfValuesForTipus() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipus(request, mav, estadisticaForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       estadisticaForm.setListOfValuesForTipus(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (estadisticaForm.getListOfEntitatForEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForEntitatID(request, mav, estadisticaForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       estadisticaForm.setListOfEntitatForEntitatID(_listSKV);
     }
     
@@ -398,7 +398,7 @@ public class EstadisticaController
 
     try {
       preValidate(request, estadisticaForm, result);
-      getWebValidator().validate(estadistica, result);
+      getWebValidator().validate(estadisticaForm, result);
       postValidate(request, estadisticaForm, result);
 
       if (result.hasErrors()) {
@@ -436,7 +436,7 @@ public class EstadisticaController
       return null;
     }
     try {
-      Estadistica estadistica = findByPrimaryKey(request, estadisticaID);
+      Estadistica estadistica = estadisticaEjb.findByPrimaryKey(estadisticaID);
       if (estadistica == null) {
         String __msg =createMessageError(request, "error.notfound", estadisticaID);
         return getRedirectWhenDelete(request, estadisticaID, new Exception(__msg));
@@ -481,7 +481,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -530,7 +530,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "estadistica.estadisticaID");
+    binder.setDisallowedFields("estadisticaID");
+
   }
 
   public EstadisticaWebValidator getWebValidator() {
@@ -589,7 +590,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipus(HttpServletRequest request,
        ModelAndView mav, EstadisticaForm estadisticaForm, Where where)  throws I18NException {
     if (estadisticaForm.isHiddenField(TIPUS)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForTipus(request, mav, where);
   }
@@ -600,7 +601,7 @@ public java.lang.Long stringToPK(String value) {
        List<Estadistica> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (estadisticaFilterForm.isHiddenField(TIPUS)
       && !estadisticaFilterForm.isGroupByField(TIPUS)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForTipus(request, mav, Where.AND(where,_w));
@@ -621,7 +622,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForEntitatID(HttpServletRequest request,
        ModelAndView mav, EstadisticaForm estadisticaForm, Where where)  throws I18NException {
     if (estadisticaForm.isHiddenField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (estadisticaForm.isReadOnlyField(ENTITATID)) {
@@ -636,7 +637,7 @@ public java.lang.Long stringToPK(String value) {
        List<Estadistica> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (estadisticaFilterForm.isHiddenField(ENTITATID)
       && !estadisticaFilterForm.isGroupByField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(ENTITATID)) {

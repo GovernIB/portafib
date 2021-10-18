@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.CustodiaInfoForm;
 
 import es.caib.portafib.back.validator.webdb.CustodiaInfoWebValidator;
 
-import es.caib.portafib.jpa.CustodiaInfoJPA;
+import es.caib.portafib.persistence.CustodiaInfoJPA;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class CustodiaInfoController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<CustodiaInfo, java.lang.Long> implements CustodiaInfoFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoService.JNDI_NAME)
+  protected es.caib.portafib.ejb.CustodiaInfoService custodiaInfoEjb;
 
   @Autowired
   private CustodiaInfoWebValidator custodiaInfoWebValidator;
@@ -347,63 +347,63 @@ public class CustodiaInfoController
     if (custodiaInfoForm.getListOfPluginForPluginID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPluginID(request, mav, custodiaInfoForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       custodiaInfoForm.setListOfPluginForPluginID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (custodiaInfoForm.getListOfValuesForMissatgePosicioPaginaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForMissatgePosicioPaginaID(request, mav, custodiaInfoForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       custodiaInfoForm.setListOfValuesForMissatgePosicioPaginaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (custodiaInfoForm.getListOfCodiBarresForCodiBarresID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForCodiBarresID(request, mav, custodiaInfoForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       custodiaInfoForm.setListOfCodiBarresForCodiBarresID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (custodiaInfoForm.getListOfValuesForCodiBarresPosicioPaginaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForCodiBarresPosicioPaginaID(request, mav, custodiaInfoForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       custodiaInfoForm.setListOfValuesForCodiBarresPosicioPaginaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (custodiaInfoForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, custodiaInfoForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       custodiaInfoForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (custodiaInfoForm.getListOfUsuariAplicacioForUsuariAplicacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariAplicacioID(request, mav, custodiaInfoForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       custodiaInfoForm.setListOfUsuariAplicacioForUsuariAplicacioID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (custodiaInfoForm.getListOfEntitatForEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForEntitatID(request, mav, custodiaInfoForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       custodiaInfoForm.setListOfEntitatForEntitatID(_listSKV);
     }
     
@@ -520,7 +520,7 @@ public class CustodiaInfoController
 
     try {
       preValidate(request, custodiaInfoForm, result);
-      getWebValidator().validate(custodiaInfo, result);
+      getWebValidator().validate(custodiaInfoForm, result);
       postValidate(request, custodiaInfoForm, result);
 
       if (result.hasErrors()) {
@@ -558,7 +558,7 @@ public class CustodiaInfoController
       return null;
     }
     try {
-      CustodiaInfo custodiaInfo = findByPrimaryKey(request, custodiaInfoID);
+      CustodiaInfo custodiaInfo = custodiaInfoEjb.findByPrimaryKey(custodiaInfoID);
       if (custodiaInfo == null) {
         String __msg =createMessageError(request, "error.notfound", custodiaInfoID);
         return getRedirectWhenDelete(request, custodiaInfoID, new Exception(__msg));
@@ -603,7 +603,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -652,7 +652,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "custodiaInfo.custodiaInfoID");
+    binder.setDisallowedFields("custodiaInfoID");
+
   }
 
   public CustodiaInfoWebValidator getWebValidator() {
@@ -711,7 +712,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
        ModelAndView mav, CustodiaInfoForm custodiaInfoForm, Where where)  throws I18NException {
     if (custodiaInfoForm.isHiddenField(PLUGINID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (custodiaInfoForm.isReadOnlyField(PLUGINID)) {
@@ -726,7 +727,7 @@ public java.lang.Long stringToPK(String value) {
        List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (custodiaInfoFilterForm.isHiddenField(PLUGINID)
       && !custodiaInfoFilterForm.isGroupByField(PLUGINID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PLUGINID)) {
@@ -750,7 +751,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForMissatgePosicioPaginaID(HttpServletRequest request,
        ModelAndView mav, CustodiaInfoForm custodiaInfoForm, Where where)  throws I18NException {
     if (custodiaInfoForm.isHiddenField(MISSATGEPOSICIOPAGINAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForMissatgePosicioPaginaID(request, mav, where);
   }
@@ -761,7 +762,7 @@ public java.lang.Long stringToPK(String value) {
        List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (custodiaInfoFilterForm.isHiddenField(MISSATGEPOSICIOPAGINAID)
       && !custodiaInfoFilterForm.isGroupByField(MISSATGEPOSICIOPAGINAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForMissatgePosicioPaginaID(request, mav, Where.AND(where,_w));
@@ -783,7 +784,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForCodiBarresID(HttpServletRequest request,
        ModelAndView mav, CustodiaInfoForm custodiaInfoForm, Where where)  throws I18NException {
     if (custodiaInfoForm.isHiddenField(CODIBARRESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (custodiaInfoForm.isReadOnlyField(CODIBARRESID)) {
@@ -798,7 +799,7 @@ public java.lang.Long stringToPK(String value) {
        List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (custodiaInfoFilterForm.isHiddenField(CODIBARRESID)
       && !custodiaInfoFilterForm.isGroupByField(CODIBARRESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(CODIBARRESID)) {
@@ -822,7 +823,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForCodiBarresPosicioPaginaID(HttpServletRequest request,
        ModelAndView mav, CustodiaInfoForm custodiaInfoForm, Where where)  throws I18NException {
     if (custodiaInfoForm.isHiddenField(CODIBARRESPOSICIOPAGINAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForCodiBarresPosicioPaginaID(request, mav, where);
   }
@@ -833,7 +834,7 @@ public java.lang.Long stringToPK(String value) {
        List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (custodiaInfoFilterForm.isHiddenField(CODIBARRESPOSICIOPAGINAID)
       && !custodiaInfoFilterForm.isGroupByField(CODIBARRESPOSICIOPAGINAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForCodiBarresPosicioPaginaID(request, mav, Where.AND(where,_w));
@@ -855,7 +856,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, CustodiaInfoForm custodiaInfoForm, Where where)  throws I18NException {
     if (custodiaInfoForm.isHiddenField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (custodiaInfoForm.isReadOnlyField(USUARIENTITATID)) {
@@ -870,7 +871,7 @@ public java.lang.Long stringToPK(String value) {
        List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (custodiaInfoFilterForm.isHiddenField(USUARIENTITATID)
       && !custodiaInfoFilterForm.isGroupByField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {
@@ -895,7 +896,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
        ModelAndView mav, CustodiaInfoForm custodiaInfoForm, Where where)  throws I18NException {
     if (custodiaInfoForm.isHiddenField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (custodiaInfoForm.isReadOnlyField(USUARIAPLICACIOID)) {
@@ -910,7 +911,7 @@ public java.lang.Long stringToPK(String value) {
        List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (custodiaInfoFilterForm.isHiddenField(USUARIAPLICACIOID)
       && !custodiaInfoFilterForm.isGroupByField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIAPLICACIOID)) {
@@ -935,7 +936,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForEntitatID(HttpServletRequest request,
        ModelAndView mav, CustodiaInfoForm custodiaInfoForm, Where where)  throws I18NException {
     if (custodiaInfoForm.isHiddenField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (custodiaInfoForm.isReadOnlyField(ENTITATID)) {
@@ -950,7 +951,7 @@ public java.lang.Long stringToPK(String value) {
        List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (custodiaInfoFilterForm.isHiddenField(ENTITATID)
       && !custodiaInfoFilterForm.isGroupByField(ENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(ENTITATID)) {

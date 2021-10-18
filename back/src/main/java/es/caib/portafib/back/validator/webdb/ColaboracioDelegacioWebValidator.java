@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.ColaboracioDelegacioValidator;
+import es.caib.portafib.persistence.validator.ColaboracioDelegacioValidator;
 
 import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.ColaboracioDelegacio;
 
 
 /**
@@ -20,18 +24,19 @@ import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
  * @author anadal
  */
 @Component
-public class ColaboracioDelegacioWebValidator  implements Validator, ColaboracioDelegacioFields {
+public class ColaboracioDelegacioWebValidator extends AbstractWebValidator<ColaboracioDelegacioForm, ColaboracioDelegacio>
+     implements Validator, ColaboracioDelegacioFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected ColaboracioDelegacioValidator<Object> validator = new ColaboracioDelegacioValidator<Object>();
+  protected ColaboracioDelegacioValidator<ColaboracioDelegacio> validator = new ColaboracioDelegacioValidator<ColaboracioDelegacio>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.ColaboracioDelegacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.ColaboracioDelegacioLocal colaboracioDelegacioEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.ColaboracioDelegacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.ColaboracioDelegacioService colaboracioDelegacioEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariEntitatService usuariEntitatEjb;
 
 
 
@@ -40,32 +45,54 @@ public class ColaboracioDelegacioWebValidator  implements Validator, Colaboracio
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return ColaboracioDelegacioForm.class.isAssignableFrom(clazz);
+  public ColaboracioDelegacio getBeanOfForm(ColaboracioDelegacioForm form) {
+    return  form.getColaboracioDelegacio();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<ColaboracioDelegacioForm> getClassOfForm() {
+    return ColaboracioDelegacioForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(ColaboracioDelegacioForm __form, ColaboracioDelegacio __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<ColaboracioDelegacioForm> wvr;
+    wvr = new WebValidationResult<ColaboracioDelegacioForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(ColaboracioDelegacioForm __form, ColaboracioDelegacio __bean, Errors errors,
+    WebValidationResult<ColaboracioDelegacioForm> wvr, boolean isNou) {
 
     if (isNou) { // Creacio
       // ================ CREATION
       // Fitxers 
     }
-    validator.validate(wvr, target,
+    BeanValidatorResult<ColaboracioDelegacio> __vr = new BeanValidatorResult<ColaboracioDelegacio>();
+    validator.validate(__vr, __bean,
       isNou, colaboracioDelegacioEjb, usuariEntitatEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -73,11 +100,11 @@ public class ColaboracioDelegacioWebValidator  implements Validator, Colaboracio
     return field.fullName;
   }
 
-  public ColaboracioDelegacioValidator<Object> getValidator() {
+  public ColaboracioDelegacioValidator<ColaboracioDelegacio> getValidator() {
     return validator;
   }
 
-  public void setValidator(ColaboracioDelegacioValidator<Object> validator) {
+  public void setValidator(ColaboracioDelegacioValidator<ColaboracioDelegacio> validator) {
     this.validator = validator;
   }
 

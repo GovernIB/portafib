@@ -26,17 +26,17 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.ENTITATID)}">
           <td>
-          <c:out value="${entitat.entitatID}" />
+          ${entitat.entitatID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.NOM)}">
           <td>
-          <c:out value="${entitat.nom}" />
+          ${entitat.nom}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.DESCRIPCIO)}">
           <td>
-          <c:out value="${entitat.descripcio}" />
+          ${entitat.descripcio}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.ACTIVA)}">
@@ -46,7 +46,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.WEB)}">
           <td>
-          <c:out value="${entitat.web}" />
+          ${entitat.web}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.FAVICONID)}">
@@ -79,12 +79,12 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.ADREZAHTML)}">
           <td>
-          <c:out value="${entitat.adrezaHtml}" />
+          ${entitat.adrezaHtml}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.FILTRECERTIFICATS)}">
           <td>
-          <c:out value="${entitat.filtreCertificats}" />
+          ${entitat.filtreCertificats}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PDFAUTORITZACIODELEGACIOID)}">
@@ -96,17 +96,17 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SUPORTTELEFON)}">
           <td>
-          <c:out value="${entitat.suportTelefon}" />
+          ${entitat.suportTelefon}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SUPORTWEB)}">
           <td>
-          <c:out value="${entitat.suportWeb}" />
+          ${entitat.suportWeb}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SUPORTEMAIL)}">
           <td>
-          <c:out value="${entitat.suportEmail}" />
+          ${entitat.suportEmail}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.USUARIAPLICACIOID)}">
@@ -119,17 +119,17 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.MAXUPLOADSIZE)}">
           <td>
-          <c:out value="${entitat.maxUploadSize}" />
+          ${entitat.maxUploadSize}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.MAXSIZEFITXERADAPTAT)}">
           <td>
-          <c:out value="${entitat.maxSizeFitxerAdaptat}" />
+          ${entitat.maxSizeFitxerAdaptat}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.MAXFILESTOSIGNATSAMETIME)}">
           <td>
-          <c:out value="${entitat.maxFilesToSignAtSameTime}" />
+          ${entitat.maxFilesToSignAtSameTime}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.USPOLITICADEFIRMA)}">
@@ -142,17 +142,17 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLICYIDENTIFIER)}">
           <td>
-          <c:out value="${entitat.policyIdentifier}" />
+          ${entitat.policyIdentifier}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLICYIDENTIFIERHASH)}">
           <td>
-          <c:out value="${entitat.policyIdentifierHash}" />
+          ${entitat.policyIdentifierHash}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)}">
           <td>
-          <c:out value="${entitat.policyIdentifierHashAlgorithm}" />
+          ${entitat.policyIdentifierHashAlgorithm}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLICYURLDOCUMENT)}">
@@ -221,7 +221,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PROPIETATSTAULAFIRMES)}">
           <td>
-          <c:out value="${entitat.propietatsTaulaFirmes}" />
+          ${entitat.propietatsTaulaFirmes}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLITICASEGELLATDETEMPS)}">

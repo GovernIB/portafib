@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.Metadada;
-import es.caib.portafib.jpa.MetadadaJPA;
-import es.caib.portafib.jpa.MetadadaJPAManager;
+import es.caib.portafib.persistence.MetadadaJPA;
+import es.caib.portafib.persistence.MetadadaJPAManager;
 
 @Stateless(name = "MetadadaEJB")
-public class MetadadaEJB extends MetadadaJPAManager implements MetadadaLocal {
+public class MetadadaEJB extends MetadadaJPAManager implements MetadadaService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

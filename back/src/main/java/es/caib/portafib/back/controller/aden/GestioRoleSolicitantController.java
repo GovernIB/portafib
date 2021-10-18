@@ -23,7 +23,7 @@ import es.caib.portafib.back.form.webdb.RoleUsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.RoleUsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.utils.ConstantsV2;
 

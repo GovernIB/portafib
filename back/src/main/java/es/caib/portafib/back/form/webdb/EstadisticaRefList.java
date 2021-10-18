@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.EstadisticaLocal;
+import es.caib.portafib.ejb.EstadisticaService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.EstadisticaFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class EstadisticaRefList extends RefListBase
     implements EstadisticaFields {
 
-  @EJB(mappedName = EstadisticaLocal.JNDI_NAME)
-  private EstadisticaLocal estadisticaEjb;
+  @EJB(mappedName = EstadisticaService.JNDI_NAME)
+  private EstadisticaService estadisticaEjb;
 
   public EstadisticaRefList(EstadisticaRefList __clone) {
     super(__clone);

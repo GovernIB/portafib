@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.PluginCridadaLocal;
+import es.caib.portafib.ejb.PluginCridadaService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.PluginCridadaFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class PluginCridadaRefList extends RefListBase
     implements PluginCridadaFields {
 
-  @EJB(mappedName = PluginCridadaLocal.JNDI_NAME)
-  private PluginCridadaLocal pluginCridadaEjb;
+  @EJB(mappedName = PluginCridadaService.JNDI_NAME)
+  private PluginCridadaService pluginCridadaEjb;
 
   public PluginCridadaRefList(PluginCridadaRefList __clone) {
     super(__clone);

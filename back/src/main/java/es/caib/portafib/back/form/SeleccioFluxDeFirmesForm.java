@@ -1,7 +1,7 @@
 package es.caib.portafib.back.form;
 
 import java.util.List;
-import es.caib.portafib.jpa.FluxDeFirmesJPA;
+import es.caib.portafib.persistence.FluxDeFirmesJPA;
 
 /**
  * 

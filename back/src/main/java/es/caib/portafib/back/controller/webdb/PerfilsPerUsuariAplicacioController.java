@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.PerfilsPerUsuariAplicacioForm;
 
 import es.caib.portafib.back.validator.webdb.PerfilsPerUsuariAplicacioWebValidator;
 
-import es.caib.portafib.jpa.PerfilsPerUsuariAplicacioJPA;
+import es.caib.portafib.persistence.PerfilsPerUsuariAplicacioJPA;
 import es.caib.portafib.model.entity.PerfilsPerUsuariAplicacio;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class PerfilsPerUsuariAplicacioController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<PerfilsPerUsuariAplicacio, java.lang.Long> implements PerfilsPerUsuariAplicacioFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal perfilsPerUsuariAplicacioEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioService perfilsPerUsuariAplicacioEjb;
 
   @Autowired
   private PerfilsPerUsuariAplicacioWebValidator perfilsPerUsuariAplicacioWebValidator;
@@ -274,18 +274,18 @@ public class PerfilsPerUsuariAplicacioController
     if (perfilsPerUsuariAplicacioForm.getListOfPerfilDeFirmaForPerfilDeFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPerfilDeFirmaID(request, mav, perfilsPerUsuariAplicacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       perfilsPerUsuariAplicacioForm.setListOfPerfilDeFirmaForPerfilDeFirmaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (perfilsPerUsuariAplicacioForm.getListOfUsuariAplicacioForUsuariAplicacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariAplicacioID(request, mav, perfilsPerUsuariAplicacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       perfilsPerUsuariAplicacioForm.setListOfUsuariAplicacioForUsuariAplicacioID(_listSKV);
     }
     
@@ -402,7 +402,7 @@ public class PerfilsPerUsuariAplicacioController
 
     try {
       preValidate(request, perfilsPerUsuariAplicacioForm, result);
-      getWebValidator().validate(perfilsPerUsuariAplicacio, result);
+      getWebValidator().validate(perfilsPerUsuariAplicacioForm, result);
       postValidate(request, perfilsPerUsuariAplicacioForm, result);
 
       if (result.hasErrors()) {
@@ -440,7 +440,7 @@ public class PerfilsPerUsuariAplicacioController
       return null;
     }
     try {
-      PerfilsPerUsuariAplicacio perfilsPerUsuariAplicacio = findByPrimaryKey(request, perfilsPerUsrAppID);
+      PerfilsPerUsuariAplicacio perfilsPerUsuariAplicacio = perfilsPerUsuariAplicacioEjb.findByPrimaryKey(perfilsPerUsrAppID);
       if (perfilsPerUsuariAplicacio == null) {
         String __msg =createMessageError(request, "error.notfound", perfilsPerUsrAppID);
         return getRedirectWhenDelete(request, perfilsPerUsrAppID, new Exception(__msg));
@@ -485,7 +485,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -534,7 +534,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "perfilsPerUsuariAplicacio.perfilsPerUsrAppID");
+    binder.setDisallowedFields("perfilsPerUsrAppID");
+
   }
 
   public PerfilsPerUsuariAplicacioWebValidator getWebValidator() {
@@ -593,7 +594,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPerfilDeFirmaID(HttpServletRequest request,
        ModelAndView mav, PerfilsPerUsuariAplicacioForm perfilsPerUsuariAplicacioForm, Where where)  throws I18NException {
     if (perfilsPerUsuariAplicacioForm.isHiddenField(PERFILDEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (perfilsPerUsuariAplicacioForm.isReadOnlyField(PERFILDEFIRMAID)) {
@@ -608,7 +609,7 @@ public java.lang.Long stringToPK(String value) {
        List<PerfilsPerUsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (perfilsPerUsuariAplicacioFilterForm.isHiddenField(PERFILDEFIRMAID)
       && !perfilsPerUsuariAplicacioFilterForm.isGroupByField(PERFILDEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PERFILDEFIRMAID)) {
@@ -632,7 +633,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
        ModelAndView mav, PerfilsPerUsuariAplicacioForm perfilsPerUsuariAplicacioForm, Where where)  throws I18NException {
     if (perfilsPerUsuariAplicacioForm.isHiddenField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (perfilsPerUsuariAplicacioForm.isReadOnlyField(USUARIAPLICACIOID)) {
@@ -647,7 +648,7 @@ public java.lang.Long stringToPK(String value) {
        List<PerfilsPerUsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (perfilsPerUsuariAplicacioFilterForm.isHiddenField(USUARIAPLICACIOID)
       && !perfilsPerUsuariAplicacioFilterForm.isGroupByField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIAPLICACIOID)) {

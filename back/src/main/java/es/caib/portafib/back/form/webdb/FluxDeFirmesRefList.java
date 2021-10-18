@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.FluxDeFirmesLocal;
+import es.caib.portafib.ejb.FluxDeFirmesService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.FluxDeFirmesFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class FluxDeFirmesRefList extends RefListBase
     implements FluxDeFirmesFields {
 
-  @EJB(mappedName = FluxDeFirmesLocal.JNDI_NAME)
-  private FluxDeFirmesLocal fluxDeFirmesEjb;
+  @EJB(mappedName = FluxDeFirmesService.JNDI_NAME)
+  private FluxDeFirmesService fluxDeFirmesEjb;
 
   public FluxDeFirmesRefList(FluxDeFirmesRefList __clone) {
     super(__clone);

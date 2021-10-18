@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.PlantillaFluxDeFirmesForm;
 
 import es.caib.portafib.back.validator.webdb.PlantillaFluxDeFirmesWebValidator;
 
-import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
+import es.caib.portafib.persistence.PlantillaFluxDeFirmesJPA;
 import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class PlantillaFluxDeFirmesController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<PlantillaFluxDeFirmes, java.lang.Long> implements PlantillaFluxDeFirmesFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PlantillaFluxDeFirmesService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PlantillaFluxDeFirmesService plantillaFluxDeFirmesEjb;
 
   @Autowired
   private PlantillaFluxDeFirmesWebValidator plantillaFluxDeFirmesWebValidator;
@@ -292,27 +292,27 @@ public class PlantillaFluxDeFirmesController
     if (plantillaFluxDeFirmesForm.getListOfFluxDeFirmesForFluxDeFirmesID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForFluxDeFirmesID(request, mav, plantillaFluxDeFirmesForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       plantillaFluxDeFirmesForm.setListOfFluxDeFirmesForFluxDeFirmesID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (plantillaFluxDeFirmesForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, plantillaFluxDeFirmesForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       plantillaFluxDeFirmesForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (plantillaFluxDeFirmesForm.getListOfUsuariAplicacioForUsuariAplicacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariAplicacioID(request, mav, plantillaFluxDeFirmesForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       plantillaFluxDeFirmesForm.setListOfUsuariAplicacioForUsuariAplicacioID(_listSKV);
     }
     
@@ -429,7 +429,7 @@ public class PlantillaFluxDeFirmesController
 
     try {
       preValidate(request, plantillaFluxDeFirmesForm, result);
-      getWebValidator().validate(plantillaFluxDeFirmes, result);
+      getWebValidator().validate(plantillaFluxDeFirmesForm, result);
       postValidate(request, plantillaFluxDeFirmesForm, result);
 
       if (result.hasErrors()) {
@@ -467,7 +467,7 @@ public class PlantillaFluxDeFirmesController
       return null;
     }
     try {
-      PlantillaFluxDeFirmes plantillaFluxDeFirmes = findByPrimaryKey(request, fluxDeFirmesID);
+      PlantillaFluxDeFirmes plantillaFluxDeFirmes = plantillaFluxDeFirmesEjb.findByPrimaryKey(fluxDeFirmesID);
       if (plantillaFluxDeFirmes == null) {
         String __msg =createMessageError(request, "error.notfound", fluxDeFirmesID);
         return getRedirectWhenDelete(request, fluxDeFirmesID, new Exception(__msg));
@@ -512,7 +512,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -561,7 +561,7 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder);
+
   }
 
   public PlantillaFluxDeFirmesWebValidator getWebValidator() {
@@ -620,7 +620,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForFluxDeFirmesID(HttpServletRequest request,
        ModelAndView mav, PlantillaFluxDeFirmesForm plantillaFluxDeFirmesForm, Where where)  throws I18NException {
     if (plantillaFluxDeFirmesForm.isHiddenField(FLUXDEFIRMESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (plantillaFluxDeFirmesForm.isReadOnlyField(FLUXDEFIRMESID)) {
@@ -635,7 +635,7 @@ public java.lang.Long stringToPK(String value) {
        List<PlantillaFluxDeFirmes> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (plantillaFluxDeFirmesFilterForm.isHiddenField(FLUXDEFIRMESID)
       && !plantillaFluxDeFirmesFilterForm.isGroupByField(FLUXDEFIRMESID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(FLUXDEFIRMESID)) {
@@ -659,7 +659,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, PlantillaFluxDeFirmesForm plantillaFluxDeFirmesForm, Where where)  throws I18NException {
     if (plantillaFluxDeFirmesForm.isHiddenField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (plantillaFluxDeFirmesForm.isReadOnlyField(USUARIENTITATID)) {
@@ -674,7 +674,7 @@ public java.lang.Long stringToPK(String value) {
        List<PlantillaFluxDeFirmes> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (plantillaFluxDeFirmesFilterForm.isHiddenField(USUARIENTITATID)
       && !plantillaFluxDeFirmesFilterForm.isGroupByField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {
@@ -699,7 +699,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
        ModelAndView mav, PlantillaFluxDeFirmesForm plantillaFluxDeFirmesForm, Where where)  throws I18NException {
     if (plantillaFluxDeFirmesForm.isHiddenField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (plantillaFluxDeFirmesForm.isReadOnlyField(USUARIAPLICACIOID)) {
@@ -714,7 +714,7 @@ public java.lang.Long stringToPK(String value) {
        List<PlantillaFluxDeFirmes> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (plantillaFluxDeFirmesFilterForm.isHiddenField(USUARIAPLICACIOID)
       && !plantillaFluxDeFirmesFilterForm.isGroupByField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIAPLICACIOID)) {

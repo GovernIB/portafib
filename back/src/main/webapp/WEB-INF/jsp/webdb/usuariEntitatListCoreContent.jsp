@@ -26,12 +26,12 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.USUARIENTITATID)}">
           <td>
-          <c:out value="${usuariEntitat.usuariEntitatID}" />
+          ${usuariEntitat.usuariEntitatID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.CARREC)}">
           <td>
-          <c:out value="${usuariEntitat.carrec}" />
+          ${usuariEntitat.carrec}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.USUARIPERSONAID)}">
@@ -57,7 +57,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.EMAIL)}">
           <td>
-          <c:out value="${usuariEntitat.email}" />
+          ${usuariEntitat.email}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.LOGOSEGELLID)}">

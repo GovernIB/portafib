@@ -1,6 +1,6 @@
 package es.caib.portafib.back.controller;
 
-import es.caib.portafib.ejb.FitxerLocal;
+import es.caib.portafib.ejb.FitxerService;
 import es.caib.portafib.model.entity.Fitxer;
 
 import org.apache.log4j.Logger;
@@ -22,8 +22,8 @@ import javax.ejb.EJB;
 public abstract class PortaFIBFilesBaseController<I extends IGenAppEntity, PK extends Object, F extends BaseForm>
    extends CommonFilesBaseController<I, PK, F, Fitxer> {
 
-  @EJB(mappedName = FitxerLocal.JNDI_NAME)
-  protected FitxerLocal fitxerEjb;
+  @EJB(mappedName = FitxerService.JNDI_NAME)
+  protected FitxerService fitxerEjb;
 
   protected final Logger log = Logger.getLogger(getClass());
 

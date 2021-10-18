@@ -36,11 +36,11 @@ import es.caib.portafib.apisib.externalsignaturerest.api.v1.ExternalSignaturePer
 import es.caib.portafib.apisib.externalsignaturerest.api.v1.ExternalSignaturePeticio;
 import es.caib.portafib.back.controller.rest.RestUtilsErrorManager;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.ejb.EntitatLocal;
-import es.caib.portafib.ejb.PeticioDeFirmaLocal;
-import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.ejb.EntitatService;
+import es.caib.portafib.ejb.PeticioDeFirmaService;
+import es.caib.portafib.persistence.RoleUsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
@@ -67,14 +67,14 @@ public class RestFirmaExternaController extends RestUtilsErrorManager {
   @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-  @EJB(mappedName = EntitatLocal.JNDI_NAME)
-  protected EntitatLocal entitatEjb;
+  @EJB(mappedName = EntitatService.JNDI_NAME)
+  protected EntitatService entitatEjb;
 
   @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
   protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
-  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
-  protected PeticioDeFirmaLocal peticioDeFirmaEjb;
+  @EJB(mappedName = PeticioDeFirmaService.JNDI_NAME)
+  protected PeticioDeFirmaService peticioDeFirmaEjb;
 
   @RequestMapping(value = "/" + ApiExternalSignature.GETAVISOSPETICIOPERROL, method = RequestMethod.POST)
   @ResponseBody

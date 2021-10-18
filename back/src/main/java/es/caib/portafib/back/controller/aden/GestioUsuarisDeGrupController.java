@@ -5,7 +5,7 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import es.caib.portafib.ejb.GrupEntitatLocal;
+import es.caib.portafib.ejb.GrupEntitatService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.SelectConstant;
@@ -28,7 +28,7 @@ import es.caib.portafib.back.form.webdb.GrupEntitatUsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.GrupEntitatUsuariEntitatForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.GrupEntitatUsuariEntitatJPA;
+import es.caib.portafib.persistence.GrupEntitatUsuariEntitatJPA;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.model.entity.GrupEntitat;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
@@ -45,8 +45,8 @@ public class GestioUsuarisDeGrupController extends GrupEntitatUsuariEntitatContr
   @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
   
-  @EJB(mappedName = GrupEntitatLocal.JNDI_NAME)
-  protected GrupEntitatLocal grupEntitatEjb;
+  @EJB(mappedName = GrupEntitatService.JNDI_NAME)
+  protected GrupEntitatService grupEntitatEjb;
   
   @PostConstruct
   public void init() {

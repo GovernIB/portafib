@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.RoleUsuariEntitatForm;
 
 import es.caib.portafib.back.validator.webdb.RoleUsuariEntitatWebValidator;
 
-import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
+import es.caib.portafib.persistence.RoleUsuariEntitatJPA;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class RoleUsuariEntitatController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<RoleUsuariEntitat, java.lang.Long> implements RoleUsuariEntitatFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.RoleUsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.RoleUsuariEntitatLocal roleUsuariEntitatEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.RoleUsuariEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.RoleUsuariEntitatService roleUsuariEntitatEjb;
 
   @Autowired
   private RoleUsuariEntitatWebValidator roleUsuariEntitatWebValidator;
@@ -274,18 +274,18 @@ public class RoleUsuariEntitatController
     if (roleUsuariEntitatForm.getListOfRoleForRoleID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForRoleID(request, mav, roleUsuariEntitatForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       roleUsuariEntitatForm.setListOfRoleForRoleID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (roleUsuariEntitatForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, roleUsuariEntitatForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       roleUsuariEntitatForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
     }
     
@@ -402,7 +402,7 @@ public class RoleUsuariEntitatController
 
     try {
       preValidate(request, roleUsuariEntitatForm, result);
-      getWebValidator().validate(roleUsuariEntitat, result);
+      getWebValidator().validate(roleUsuariEntitatForm, result);
       postValidate(request, roleUsuariEntitatForm, result);
 
       if (result.hasErrors()) {
@@ -440,7 +440,7 @@ public class RoleUsuariEntitatController
       return null;
     }
     try {
-      RoleUsuariEntitat roleUsuariEntitat = findByPrimaryKey(request, id);
+      RoleUsuariEntitat roleUsuariEntitat = roleUsuariEntitatEjb.findByPrimaryKey(id);
       if (roleUsuariEntitat == null) {
         String __msg =createMessageError(request, "error.notfound", id);
         return getRedirectWhenDelete(request, id, new Exception(__msg));
@@ -485,7 +485,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -534,7 +534,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "roleUsuariEntitat.id");
+    binder.setDisallowedFields("id");
+
   }
 
   public RoleUsuariEntitatWebValidator getWebValidator() {
@@ -593,7 +594,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForRoleID(HttpServletRequest request,
        ModelAndView mav, RoleUsuariEntitatForm roleUsuariEntitatForm, Where where)  throws I18NException {
     if (roleUsuariEntitatForm.isHiddenField(ROLEID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (roleUsuariEntitatForm.isReadOnlyField(ROLEID)) {
@@ -608,7 +609,7 @@ public java.lang.Long stringToPK(String value) {
        List<RoleUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (roleUsuariEntitatFilterForm.isHiddenField(ROLEID)
       && !roleUsuariEntitatFilterForm.isGroupByField(ROLEID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(ROLEID)) {
@@ -632,7 +633,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, RoleUsuariEntitatForm roleUsuariEntitatForm, Where where)  throws I18NException {
     if (roleUsuariEntitatForm.isHiddenField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (roleUsuariEntitatForm.isReadOnlyField(USUARIENTITATID)) {
@@ -647,7 +648,7 @@ public java.lang.Long stringToPK(String value) {
        List<RoleUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (roleUsuariEntitatFilterForm.isHiddenField(USUARIENTITATID)
       && !roleUsuariEntitatFilterForm.isGroupByField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {

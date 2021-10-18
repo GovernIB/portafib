@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.RebreAvisLocal;
+import es.caib.portafib.ejb.RebreAvisService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.RebreAvisFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class RebreAvisRefList extends RefListBase
     implements RebreAvisFields {
 
-  @EJB(mappedName = RebreAvisLocal.JNDI_NAME)
-  private RebreAvisLocal rebreAvisEjb;
+  @EJB(mappedName = RebreAvisService.JNDI_NAME)
+  private RebreAvisService rebreAvisEjb;
 
   public RebreAvisRefList(RebreAvisRefList __clone) {
     super(__clone);

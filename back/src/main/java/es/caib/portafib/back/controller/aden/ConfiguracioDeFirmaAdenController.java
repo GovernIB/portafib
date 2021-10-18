@@ -6,7 +6,7 @@ import es.caib.portafib.back.controller.webdb.UsuariAplicacioConfiguracioControl
 import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
+import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.UsuariAplicacioConfiguracioLogicaLocal;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.fields.PluginFields;

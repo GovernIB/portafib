@@ -24,7 +24,7 @@ import es.caib.portafib.back.form.webdb.RoleUsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.RoleUsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.model.entity.RevisorDeFirma;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
@@ -47,8 +47,8 @@ import es.caib.portafib.utils.ConstantsV2;
     SeleccioUsuariForm.class })
 public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitatController {
 
-  @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.RevisorDeFirmaService revisorDeFirmaEjb;
 
   @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
   protected FirmaLogicaLocal firmaLogicaEjb;

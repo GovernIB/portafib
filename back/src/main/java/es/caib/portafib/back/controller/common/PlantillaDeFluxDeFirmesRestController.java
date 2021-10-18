@@ -29,7 +29,7 @@ import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.FluxDeFirmesFilterForm;
 import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
 
 /**
  * 

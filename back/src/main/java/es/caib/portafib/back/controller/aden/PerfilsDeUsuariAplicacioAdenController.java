@@ -4,7 +4,7 @@ import es.caib.portafib.back.controller.webdb.PerfilsPerUsuariAplicacioControlle
 import es.caib.portafib.back.form.webdb.PerfilsPerUsuariAplicacioForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.PerfilsPerUsuariAplicacioJPA;
+import es.caib.portafib.persistence.PerfilsPerUsuariAplicacioJPA;
 import es.caib.portafib.model.fields.PerfilDeFirmaQueryPath;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import org.fundaciobit.genapp.common.StringKeyValue;

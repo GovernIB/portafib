@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.PermisGrupPlantilla;
-import es.caib.portafib.jpa.PermisGrupPlantillaJPA;
-import es.caib.portafib.jpa.PermisGrupPlantillaJPAManager;
+import es.caib.portafib.persistence.PermisGrupPlantillaJPA;
+import es.caib.portafib.persistence.PermisGrupPlantillaJPAManager;
 
 @Stateless(name = "PermisGrupPlantillaEJB")
-public class PermisGrupPlantillaEJB extends PermisGrupPlantillaJPAManager implements PermisGrupPlantillaLocal {
+public class PermisGrupPlantillaEJB extends PermisGrupPlantillaJPAManager implements PermisGrupPlantillaService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

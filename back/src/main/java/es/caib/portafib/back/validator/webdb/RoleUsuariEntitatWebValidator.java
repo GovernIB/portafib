@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.RoleUsuariEntitatValidator;
+import es.caib.portafib.persistence.validator.RoleUsuariEntitatValidator;
 
 import es.caib.portafib.back.form.webdb.RoleUsuariEntitatForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.RoleUsuariEntitat;
 
 
 /**
@@ -20,21 +24,22 @@ import es.caib.portafib.back.form.webdb.RoleUsuariEntitatForm;
  * @author anadal
  */
 @Component
-public class RoleUsuariEntitatWebValidator  implements Validator, RoleUsuariEntitatFields {
+public class RoleUsuariEntitatWebValidator extends AbstractWebValidator<RoleUsuariEntitatForm, RoleUsuariEntitat>
+     implements Validator, RoleUsuariEntitatFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected RoleUsuariEntitatValidator<Object> validator = new RoleUsuariEntitatValidator<Object>();
+  protected RoleUsuariEntitatValidator<RoleUsuariEntitat> validator = new RoleUsuariEntitatValidator<RoleUsuariEntitat>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.RoleLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.RoleLocal roleEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.RoleService.JNDI_NAME)
+  protected es.caib.portafib.ejb.RoleService roleEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.RoleUsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.RoleUsuariEntitatLocal roleUsuariEntitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.RoleUsuariEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.RoleUsuariEntitatService roleUsuariEntitatEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariEntitatService usuariEntitatEjb;
 
 
 
@@ -43,28 +48,50 @@ public class RoleUsuariEntitatWebValidator  implements Validator, RoleUsuariEnti
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return RoleUsuariEntitatForm.class.isAssignableFrom(clazz);
+  public RoleUsuariEntitat getBeanOfForm(RoleUsuariEntitatForm form) {
+    return  form.getRoleUsuariEntitat();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<RoleUsuariEntitatForm> getClassOfForm() {
+    return RoleUsuariEntitatForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(RoleUsuariEntitatForm __form, RoleUsuariEntitat __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<RoleUsuariEntitatForm> wvr;
+    wvr = new WebValidationResult<RoleUsuariEntitatForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(RoleUsuariEntitatForm __form, RoleUsuariEntitat __bean, Errors errors,
+    WebValidationResult<RoleUsuariEntitatForm> wvr, boolean isNou) {
 
-    validator.validate(wvr, target,
+    BeanValidatorResult<RoleUsuariEntitat> __vr = new BeanValidatorResult<RoleUsuariEntitat>();
+    validator.validate(__vr, __bean,
       isNou, roleEjb, roleUsuariEntitatEjb, usuariEntitatEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -72,11 +99,11 @@ public class RoleUsuariEntitatWebValidator  implements Validator, RoleUsuariEnti
     return field.fullName;
   }
 
-  public RoleUsuariEntitatValidator<Object> getValidator() {
+  public RoleUsuariEntitatValidator<RoleUsuariEntitat> getValidator() {
     return validator;
   }
 
-  public void setValidator(RoleUsuariEntitatValidator<Object> validator) {
+  public void setValidator(RoleUsuariEntitatValidator<RoleUsuariEntitat> validator) {
     this.validator = validator;
   }
 

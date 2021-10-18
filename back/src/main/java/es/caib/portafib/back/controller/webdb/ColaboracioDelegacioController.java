@@ -34,9 +34,9 @@ import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
 import es.caib.portafib.back.validator.webdb.ColaboracioDelegacioWebValidator;
 
 import es.caib.portafib.model.entity.Fitxer;
-import es.caib.portafib.jpa.FitxerJPA;
+import es.caib.portafib.persistence.FitxerJPA;
 import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
-import es.caib.portafib.jpa.ColaboracioDelegacioJPA;
+import es.caib.portafib.persistence.ColaboracioDelegacioJPA;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.fields.*;
 
@@ -52,8 +52,8 @@ import es.caib.portafib.model.fields.*;
 public class ColaboracioDelegacioController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<ColaboracioDelegacio, java.lang.Long, ColaboracioDelegacioForm> implements ColaboracioDelegacioFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.ColaboracioDelegacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.ColaboracioDelegacioLocal colaboracioDelegacioEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.ColaboracioDelegacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.ColaboracioDelegacioService colaboracioDelegacioEjb;
 
   @Autowired
   private ColaboracioDelegacioWebValidator colaboracioDelegacioWebValidator;
@@ -282,18 +282,18 @@ public class ColaboracioDelegacioController
     if (colaboracioDelegacioForm.getListOfUsuariEntitatForDestinatariID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForDestinatariID(request, mav, colaboracioDelegacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       colaboracioDelegacioForm.setListOfUsuariEntitatForDestinatariID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (colaboracioDelegacioForm.getListOfUsuariEntitatForColaboradorDelegatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForColaboradorDelegatID(request, mav, colaboracioDelegacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       colaboracioDelegacioForm.setListOfUsuariEntitatForColaboradorDelegatID(_listSKV);
     }
     
@@ -418,7 +418,7 @@ public class ColaboracioDelegacioController
     try {
       this.setFilesFormToEntity(afm, colaboracioDelegacio, colaboracioDelegacioForm); // FILE
       preValidate(request, colaboracioDelegacioForm, result);
-      getWebValidator().validate(colaboracioDelegacio, result);
+      getWebValidator().validate(colaboracioDelegacioForm, result);
       postValidate(request, colaboracioDelegacioForm, result);
 
       if (result.hasErrors()) {
@@ -459,7 +459,7 @@ public class ColaboracioDelegacioController
       return null;
     }
     try {
-      ColaboracioDelegacio colaboracioDelegacio = findByPrimaryKey(request, colaboracioDelegacioID);
+      ColaboracioDelegacio colaboracioDelegacio = colaboracioDelegacioEjb.findByPrimaryKey(colaboracioDelegacioID);
       if (colaboracioDelegacio == null) {
         String __msg =createMessageError(request, "error.notfound", colaboracioDelegacioID);
         return getRedirectWhenDelete(request, colaboracioDelegacioID, new Exception(__msg));
@@ -504,7 +504,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -553,7 +553,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "colaboracioDelegacio.colaboracioDelegacioID");
+    binder.setDisallowedFields("colaboracioDelegacioID");
+
   }
 
   public ColaboracioDelegacioWebValidator getWebValidator() {
@@ -635,7 +636,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForDestinatariID(HttpServletRequest request,
        ModelAndView mav, ColaboracioDelegacioForm colaboracioDelegacioForm, Where where)  throws I18NException {
     if (colaboracioDelegacioForm.isHiddenField(DESTINATARIID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (colaboracioDelegacioForm.isReadOnlyField(DESTINATARIID)) {
@@ -650,7 +651,7 @@ public java.lang.Long stringToPK(String value) {
        List<ColaboracioDelegacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (colaboracioDelegacioFilterForm.isHiddenField(DESTINATARIID)
       && !colaboracioDelegacioFilterForm.isGroupByField(DESTINATARIID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(DESTINATARIID)) {
@@ -674,7 +675,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForColaboradorDelegatID(HttpServletRequest request,
        ModelAndView mav, ColaboracioDelegacioForm colaboracioDelegacioForm, Where where)  throws I18NException {
     if (colaboracioDelegacioForm.isHiddenField(COLABORADORDELEGATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (colaboracioDelegacioForm.isReadOnlyField(COLABORADORDELEGATID)) {
@@ -689,7 +690,7 @@ public java.lang.Long stringToPK(String value) {
        List<ColaboracioDelegacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (colaboracioDelegacioFilterForm.isHiddenField(COLABORADORDELEGATID)
       && !colaboracioDelegacioFilterForm.isGroupByField(COLABORADORDELEGATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(COLABORADORDELEGATID)) {

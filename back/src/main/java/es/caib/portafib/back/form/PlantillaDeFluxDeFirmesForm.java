@@ -9,7 +9,7 @@ import java.util.Set;
 import org.fundaciobit.genapp.common.StringKeyValue;
 
 import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
-import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
+import es.caib.portafib.persistence.PlantillaFluxDeFirmesJPA;
 
 /**
  *

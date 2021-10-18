@@ -1,10 +1,10 @@
 package es.caib.portafib.ws.v1.impl;
 
-import es.caib.portafib.jpa.AnnexJPA;
-import es.caib.portafib.jpa.CustodiaInfoJPA;
-import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.jpa.MetadadaJPA;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.persistence.AnnexJPA;
+import es.caib.portafib.persistence.CustodiaInfoJPA;
+import es.caib.portafib.persistence.FitxerJPA;
+import es.caib.portafib.persistence.MetadadaJPA;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.logic.utils.datasource.DataHandlerDataSource;
 import es.caib.portafib.model.entity.PeticioDeFirma;

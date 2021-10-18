@@ -19,7 +19,7 @@ import es.caib.portafib.back.controller.webdb.GrupEntitatController;
 import es.caib.portafib.back.form.webdb.GrupEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.GrupEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.GrupEntitatJPA;
+import es.caib.portafib.persistence.GrupEntitatJPA;
 import es.caib.portafib.logic.GrupEntitatLogicaLocal;
 import es.caib.portafib.model.entity.GrupEntitat;
 

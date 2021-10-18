@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.TipusNotificacio;
-import es.caib.portafib.jpa.TipusNotificacioJPA;
-import es.caib.portafib.jpa.TipusNotificacioJPAManager;
+import es.caib.portafib.persistence.TipusNotificacioJPA;
+import es.caib.portafib.persistence.TipusNotificacioJPAManager;
 
 @Stateless(name = "TipusNotificacioEJB")
-public class TipusNotificacioEJB extends TipusNotificacioJPAManager implements TipusNotificacioLocal {
+public class TipusNotificacioEJB extends TipusNotificacioJPAManager implements TipusNotificacioService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

@@ -36,7 +36,7 @@ import es.caib.portafib.back.form.webdb.FirmaFilterForm;
 import es.caib.portafib.back.form.webdb.FirmaForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.FirmaJPA;
+import es.caib.portafib.persistence.FirmaJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.fields.FirmaFields;

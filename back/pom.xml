@@ -3,15 +3,14 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>portafib-back</artifactId>
-  <groupId>es.caib.portafib</groupId>
-  <packaging>war</packaging>
+    <packaging>war</packaging>
 
   <name>PortaFIB Back</name>
 
   <parent>
     <groupId>es.caib.portafib</groupId>
     <artifactId>portafib</artifactId>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
   </parent>
 
   <dependencies>
@@ -25,16 +24,10 @@
       <scope>provided</scope>
     </dependency>
 
-    <dependency>
-      <groupId>es.caib.portafib</groupId>
-      <artifactId>portafib-logic</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
-    </dependency>
 
     <dependency>
       <groupId>es.caib.portafib</groupId>
-      <artifactId>portafib-utils</artifactId>
+      <artifactId>portafib-commons</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
@@ -113,32 +106,29 @@
     <dependency>
       <groupId>org.fundaciobit.genapp</groupId>
       <artifactId>genapp-core</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <version>${genapp.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.genapp</groupId>
       <artifactId>genapp-web</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <version>${genapp.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-mapper-asl</artifactId>
-      <version>1.9.9</version>
     </dependency>
 
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-core-asl</artifactId>
-      <version>1.9.9</version>
     </dependency>
 
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.2</version>
       <scope>provided</scope>
     </dependency>
 
@@ -166,7 +156,6 @@
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
-      <version>1.1.1</version>
       <scope>provided</scope>
     </dependency>
 
@@ -180,7 +169,6 @@
     <dependency>
       <groupId>javax</groupId>
       <artifactId>javaee-api</artifactId>
-      <version>8.0</version>
       <scope>provided</scope>
     </dependency>
 
@@ -256,7 +244,7 @@
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-core</artifactId>
-      <version>${springsecurity.version}</version>
+      <version>${spring-security.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>spring-tx</artifactId>
@@ -272,7 +260,7 @@
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-config</artifactId>
-      <version>${springsecurity.version}</version>
+      <version>${spring-security.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>spring-tx</artifactId>
@@ -288,7 +276,7 @@
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
-      <version>${springsecurity.version}</version>
+      <version>${spring-security.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>spring-tx</artifactId>
@@ -304,7 +292,7 @@
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-taglibs</artifactId>
-      <version>${springsecurity.version}</version>
+      <version>${spring-security.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>spring-tx</artifactId>
@@ -384,7 +372,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
-        <version>2.4.1</version>
         <configuration>
           <filesets>
             <fileset>
@@ -413,7 +400,7 @@
               <outputDirectory>${basedir}/src/main/resources</outputDirectory>
               <resources>          
                 <resource>
-                  <directory>${basedir}/../logic/src/main/resources</directory>
+                  <directory>${basedir}/../ejb/src/main/resources</directory>
                   <includes>
                     <include>logicmissatges_*.properties</include>
                     <include>genapp_*.properties</include>

@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.PerfilsPerUsuariAplicacioValidator;
+import es.caib.portafib.persistence.validator.PerfilsPerUsuariAplicacioValidator;
 
 import es.caib.portafib.back.form.webdb.PerfilsPerUsuariAplicacioForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.PerfilsPerUsuariAplicacio;
 
 
 /**
@@ -20,21 +24,22 @@ import es.caib.portafib.back.form.webdb.PerfilsPerUsuariAplicacioForm;
  * @author anadal
  */
 @Component
-public class PerfilsPerUsuariAplicacioWebValidator  implements Validator, PerfilsPerUsuariAplicacioFields {
+public class PerfilsPerUsuariAplicacioWebValidator extends AbstractWebValidator<PerfilsPerUsuariAplicacioForm, PerfilsPerUsuariAplicacio>
+     implements Validator, PerfilsPerUsuariAplicacioFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected PerfilsPerUsuariAplicacioValidator<Object> validator = new PerfilsPerUsuariAplicacioValidator<Object>();
+  protected PerfilsPerUsuariAplicacioValidator<PerfilsPerUsuariAplicacio> validator = new PerfilsPerUsuariAplicacioValidator<PerfilsPerUsuariAplicacio>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.PerfilDeFirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PerfilDeFirmaLocal perfilDeFirmaEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.PerfilDeFirmaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PerfilDeFirmaService perfilDeFirmaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal perfilsPerUsuariAplicacioEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioService perfilsPerUsuariAplicacioEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariAplicacioService usuariAplicacioEjb;
 
 
 
@@ -43,28 +48,50 @@ public class PerfilsPerUsuariAplicacioWebValidator  implements Validator, Perfil
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return PerfilsPerUsuariAplicacioForm.class.isAssignableFrom(clazz);
+  public PerfilsPerUsuariAplicacio getBeanOfForm(PerfilsPerUsuariAplicacioForm form) {
+    return  form.getPerfilsPerUsuariAplicacio();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<PerfilsPerUsuariAplicacioForm> getClassOfForm() {
+    return PerfilsPerUsuariAplicacioForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(PerfilsPerUsuariAplicacioForm __form, PerfilsPerUsuariAplicacio __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<PerfilsPerUsuariAplicacioForm> wvr;
+    wvr = new WebValidationResult<PerfilsPerUsuariAplicacioForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(PerfilsPerUsuariAplicacioForm __form, PerfilsPerUsuariAplicacio __bean, Errors errors,
+    WebValidationResult<PerfilsPerUsuariAplicacioForm> wvr, boolean isNou) {
 
-    validator.validate(wvr, target,
+    BeanValidatorResult<PerfilsPerUsuariAplicacio> __vr = new BeanValidatorResult<PerfilsPerUsuariAplicacio>();
+    validator.validate(__vr, __bean,
       isNou, perfilDeFirmaEjb, perfilsPerUsuariAplicacioEjb, usuariAplicacioEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -72,11 +99,11 @@ public class PerfilsPerUsuariAplicacioWebValidator  implements Validator, Perfil
     return field.fullName;
   }
 
-  public PerfilsPerUsuariAplicacioValidator<Object> getValidator() {
+  public PerfilsPerUsuariAplicacioValidator<PerfilsPerUsuariAplicacio> getValidator() {
     return validator;
   }
 
-  public void setValidator(PerfilsPerUsuariAplicacioValidator<Object> validator) {
+  public void setValidator(PerfilsPerUsuariAplicacioValidator<PerfilsPerUsuariAplicacio> validator) {
     this.validator = validator;
   }
 

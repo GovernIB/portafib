@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.TraduccioValidator;
+import es.caib.portafib.persistence.validator.TraduccioValidator;
 
 import es.caib.portafib.back.form.webdb.TraduccioForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.Traduccio;
 
 
 /**
@@ -20,15 +24,16 @@ import es.caib.portafib.back.form.webdb.TraduccioForm;
  * @author anadal
  */
 @Component
-public class TraduccioWebValidator  implements Validator, TraduccioFields {
+public class TraduccioWebValidator extends AbstractWebValidator<TraduccioForm, Traduccio>
+     implements Validator, TraduccioFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected TraduccioValidator<Object> validator = new TraduccioValidator<Object>();
+  protected TraduccioValidator<Traduccio> validator = new TraduccioValidator<Traduccio>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.TraduccioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TraduccioLocal traduccioEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.TraduccioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.TraduccioService traduccioEjb;
 
 
 
@@ -37,28 +42,50 @@ public class TraduccioWebValidator  implements Validator, TraduccioFields {
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return TraduccioForm.class.isAssignableFrom(clazz);
+  public Traduccio getBeanOfForm(TraduccioForm form) {
+    return  form.getTraduccio();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<TraduccioForm> getClassOfForm() {
+    return TraduccioForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(TraduccioForm __form, Traduccio __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<TraduccioForm> wvr;
+    wvr = new WebValidationResult<TraduccioForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(TraduccioForm __form, Traduccio __bean, Errors errors,
+    WebValidationResult<TraduccioForm> wvr, boolean isNou) {
 
-    validator.validate(wvr, target,
+    BeanValidatorResult<Traduccio> __vr = new BeanValidatorResult<Traduccio>();
+    validator.validate(__vr, __bean,
       isNou, traduccioEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -66,11 +93,11 @@ public class TraduccioWebValidator  implements Validator, TraduccioFields {
     return field.fullName;
   }
 
-  public TraduccioValidator<Object> getValidator() {
+  public TraduccioValidator<Traduccio> getValidator() {
     return validator;
   }
 
-  public void setValidator(TraduccioValidator<Object> validator) {
+  public void setValidator(TraduccioValidator<Traduccio> validator) {
     this.validator = validator;
   }
 

@@ -5,50 +5,44 @@
 
 <title><fmt:message key="app.benvingut" /></title>
 
-<!-- Bootstrap CSS-->
-<link href="<c:url value="/css/bootstrap.css"/>" rel="stylesheet">
-<link href="<c:url value="/css/bootstrap-responsive.css"/>" rel="stylesheet">
+    <!-- CSS -->
+    <link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
+    <link href="<c:url value="/css/default.css"/>" rel="stylesheet">
+   
+    <link href="<c:url value="/css/genapp.css"/>" rel="stylesheet"> 
+    
+    <!-- Bootstrap CSS-->
+    <link href="<c:url value="/css/bootstrap.css"/>" rel="stylesheet">
+    <link href="<c:url value="/css/datatables.min.css"/>" rel="stylesheet">
 
-<%--
+    <!-- Bootstrap TREE CSS -->
+    <link href="<c:url value="/css/gijgo.min.css"/>" rel="stylesheet">
 
-<link href="<c:url value="/css/docs.css"/>" rel="stylesheet">
-<link href="<c:url value="/css/prettify.css"/>" rel="stylesheet">
-
---%>
-
-<link href="<c:url value="/css/default.css"/>" rel="stylesheet">
-<link href="<c:url value="/css/portafib.css"/>" rel="stylesheet">
-<link href="<c:url value="/css/genapp.css"/>" rel="stylesheet">
-
-<!-- Bootstrap FileUpload CSS -->
-<link href="<c:url value="/css/bootstrap-fileupload.css"/>" rel="stylesheet">
-
-<!-- Bootstrap TREE CSS-->
-<link href="<c:url value="/css/bootstrap-tree.css"/>" rel="stylesheet">
-
-<!-- Bootstrap DateTimepicker CSS -->
-<link href="<c:url value="/css/datepicker/bootstrap-datetimepicker.min.css"/>" rel="stylesheet">
+    <!-- Bootstrap DateTimepicker CSS   -->
+    <link href="<c:url value="/css/datetimepicker/tempusdominus-bootstrap-4.css"/>" rel="stylesheet">
 
 
-<!-- Bootstrap JS -->
-<script src="<c:url value="/js/jquery.js" />"></script>
-<script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+    <link href="<c:url value="/css/portafib.css"/>" rel="stylesheet">
 
-<!-- Bootstrap FileUpload JS -->
-<script src="<c:url value="/js/bootstrap-fileupload.js"/>"></script>
-
- 
-<!-- Bootstrap DateTimepicker JS -->
-<script src="<c:url value="/js/datepicker/bootstrap-datetimepicker.min.js"/>"></script>
-<c:if test="${not empty onlylang}">
-<script src="<c:url value="/js/datepicker/bootstrap-datetimepicker.${onlylang}.js"/>"></script>
-</c:if>
+    <!-- JS -->
+    <script src="<c:url value="/js/jquery.js"/>"></script>
+    <script src="<c:url value="/js/popper.min.js"/>"></script>
 
 
-<!-- Bootstrap TREE JS-->
-<script src="<c:url value="/js/bootstrap-tree.js"/>"></script>
+    <!-- Bootstrap JS -->
+    <script src="<c:url value="/js/bootstrap.js"/>"></script>
 
-<!-- CSS -->
+
+    <%-- https://fontawesome.com/icons?d=gallery&m=free --%>
+    <script src="<c:url value="/js/fontawesome-all.js"/>"></script>
+
+    <!-- Bootstrap TREE JS -->
+    <script src="<c:url value="/js/gijgo.min.js"/>"></script>
+     
+    <!-- Bootstrap DateTimePicker JS -->
+    <script src="<c:url value="/js/datetimepicker/moment-with-locales.js"/>"></script>
+    <script src="<c:url value="/js/datetimepicker/tempusdominus-bootstrap-4.js"/>"></script>
+
    
 <!-- TinyMCE -->
 <script type="text/javascript">

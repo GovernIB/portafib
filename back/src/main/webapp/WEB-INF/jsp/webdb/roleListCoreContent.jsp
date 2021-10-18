@@ -26,17 +26,17 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RoleFields.ROLEID)}">
           <td>
-          <c:out value="${role.roleID}" />
+          ${role.roleID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RoleFields.NOM)}">
           <td>
-          <c:out value="${role.nom}" />
+          ${role.nom}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RoleFields.DESCRIPCIO)}">
           <td>
-          <c:out value="${role.descripcio}" />
+          ${role.descripcio}
           </td>
         </c:if>
 

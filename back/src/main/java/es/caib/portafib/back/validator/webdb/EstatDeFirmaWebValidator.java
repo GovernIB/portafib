@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.EstatDeFirmaValidator;
+import es.caib.portafib.persistence.validator.EstatDeFirmaValidator;
 
 import es.caib.portafib.back.form.webdb.EstatDeFirmaForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.EstatDeFirma;
 
 
 /**
@@ -20,24 +24,25 @@ import es.caib.portafib.back.form.webdb.EstatDeFirmaForm;
  * @author anadal
  */
 @Component
-public class EstatDeFirmaWebValidator  implements Validator, EstatDeFirmaFields {
+public class EstatDeFirmaWebValidator extends AbstractWebValidator<EstatDeFirmaForm, EstatDeFirma>
+     implements Validator, EstatDeFirmaFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected EstatDeFirmaValidator<Object> validator = new EstatDeFirmaValidator<Object>();
+  protected EstatDeFirmaValidator<EstatDeFirma> validator = new EstatDeFirmaValidator<EstatDeFirma>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.ColaboracioDelegacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.ColaboracioDelegacioLocal colaboracioDelegacioEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.ColaboracioDelegacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.ColaboracioDelegacioService colaboracioDelegacioEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.EstatDeFirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EstatDeFirmaLocal estatDeFirmaEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.EstatDeFirmaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.EstatDeFirmaService estatDeFirmaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.FirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.FirmaLocal firmaEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.FirmaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.FirmaService firmaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariEntitatService usuariEntitatEjb;
 
 
 
@@ -46,28 +51,50 @@ public class EstatDeFirmaWebValidator  implements Validator, EstatDeFirmaFields 
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return EstatDeFirmaForm.class.isAssignableFrom(clazz);
+  public EstatDeFirma getBeanOfForm(EstatDeFirmaForm form) {
+    return  form.getEstatDeFirma();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<EstatDeFirmaForm> getClassOfForm() {
+    return EstatDeFirmaForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(EstatDeFirmaForm __form, EstatDeFirma __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<EstatDeFirmaForm> wvr;
+    wvr = new WebValidationResult<EstatDeFirmaForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(EstatDeFirmaForm __form, EstatDeFirma __bean, Errors errors,
+    WebValidationResult<EstatDeFirmaForm> wvr, boolean isNou) {
 
-    validator.validate(wvr, target,
+    BeanValidatorResult<EstatDeFirma> __vr = new BeanValidatorResult<EstatDeFirma>();
+    validator.validate(__vr, __bean,
       isNou, colaboracioDelegacioEjb, estatDeFirmaEjb, firmaEjb, usuariEntitatEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -75,11 +102,11 @@ public class EstatDeFirmaWebValidator  implements Validator, EstatDeFirmaFields 
     return field.fullName;
   }
 
-  public EstatDeFirmaValidator<Object> getValidator() {
+  public EstatDeFirmaValidator<EstatDeFirma> getValidator() {
     return validator;
   }
 
-  public void setValidator(EstatDeFirmaValidator<Object> validator) {
+  public void setValidator(EstatDeFirmaValidator<EstatDeFirma> validator) {
     this.validator = validator;
   }
 

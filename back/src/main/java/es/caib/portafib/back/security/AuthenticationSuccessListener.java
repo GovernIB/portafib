@@ -1,10 +1,10 @@
 package es.caib.portafib.back.security;
 
 import es.caib.portafib.back.preparer.BasePreparer;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.persistence.EntitatJPA;
+import es.caib.portafib.persistence.RoleUsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;

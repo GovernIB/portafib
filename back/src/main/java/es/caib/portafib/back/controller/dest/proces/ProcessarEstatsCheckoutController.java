@@ -3,7 +3,7 @@ package es.caib.portafib.back.controller.dest.proces;
 import es.caib.portafib.back.controller.webdb.EstatDeFirmaController;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.PeticioDeFirma;

@@ -1,7 +1,7 @@
 package es.caib.portafib.ws.v1.utils;
 
 import es.caib.portafib.hibernate.HibernateFileUtil;
-import es.caib.portafib.jpa.FitxerJPA;
+import es.caib.portafib.persistence.FitxerJPA;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.ws.utils.AuthenticatedBaseWsImpl;

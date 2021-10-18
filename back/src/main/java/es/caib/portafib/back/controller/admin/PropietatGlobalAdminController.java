@@ -25,7 +25,7 @@ import es.caib.portafib.back.controller.webdb.PropietatGlobalController;
 import es.caib.portafib.back.form.webdb.PropietatGlobalFilterForm;
 import es.caib.portafib.back.form.webdb.PropietatGlobalForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.PropietatGlobalJPA;
+import es.caib.portafib.persistence.PropietatGlobalJPA;
 import es.caib.portafib.logic.utils.PropietatsConstants;
 import es.caib.portafib.logic.utils.PropietatsConstants.Propietat;
 import es.caib.portafib.model.entity.PropietatGlobal;

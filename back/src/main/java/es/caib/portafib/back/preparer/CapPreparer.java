@@ -15,7 +15,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.springframework.stereotype.Component;
 
-import es.caib.portafib.ejb.IdiomaLocal;
+import es.caib.portafib.ejb.IdiomaService;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Idioma;
 import es.caib.portafib.model.fields.IdiomaFields;
@@ -30,8 +30,8 @@ public class CapPreparer extends ViewPreparerSupport implements IdiomaFields {
   
   protected final Logger log = Logger.getLogger(getClass());
   
-  @EJB(mappedName = IdiomaLocal.JNDI_NAME)
-  private IdiomaLocal idiomaEjb;
+  @EJB(mappedName = IdiomaService.JNDI_NAME)
+  private IdiomaService idiomaEjb;
   
   public static String menuLogOutUrl = null;
   

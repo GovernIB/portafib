@@ -26,7 +26,7 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstatDeFirmaFields.ESTATDEFIRMAID)}">
           <td>
-          <c:out value="${estatDeFirma.estatDeFirmaID}" />
+          ${estatDeFirma.estatDeFirmaID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstatDeFirmaFields.FIRMAID)}">
@@ -77,7 +77,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstatDeFirmaFields.DESCRIPCIO)}">
           <td>
-          <c:out value="${estatDeFirma.descripcio}" />
+          ${estatDeFirma.descripcio}
           </td>
         </c:if>
 

@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java"
 %><%@page import="es.caib.portafib.logic.utils.BlocUtils"
 %><%@page import="es.caib.portafib.logic.utils.FirmaUtils"
-%><%@page import="es.caib.portafib.jpa.BlocDeFirmesJPA"
-%><%@page import="es.caib.portafib.jpa.FirmaJPA"
+%><%@page import="es.caib.portafib.persistence.BlocDeFirmesJPA"
+%><%@page import="es.caib.portafib.persistence.FirmaJPA"
 %><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <style>
 .radius {

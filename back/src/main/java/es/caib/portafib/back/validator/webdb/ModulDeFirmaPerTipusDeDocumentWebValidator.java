@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.ModulDeFirmaPerTipusDeDocumentValidator;
+import es.caib.portafib.persistence.validator.ModulDeFirmaPerTipusDeDocumentValidator;
 
 import es.caib.portafib.back.form.webdb.ModulDeFirmaPerTipusDeDocumentForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.ModulDeFirmaPerTipusDeDocument;
 
 
 /**
@@ -20,21 +24,22 @@ import es.caib.portafib.back.form.webdb.ModulDeFirmaPerTipusDeDocumentForm;
  * @author anadal
  */
 @Component
-public class ModulDeFirmaPerTipusDeDocumentWebValidator  implements Validator, ModulDeFirmaPerTipusDeDocumentFields {
+public class ModulDeFirmaPerTipusDeDocumentWebValidator extends AbstractWebValidator<ModulDeFirmaPerTipusDeDocumentForm, ModulDeFirmaPerTipusDeDocument>
+     implements Validator, ModulDeFirmaPerTipusDeDocumentFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected ModulDeFirmaPerTipusDeDocumentValidator<Object> validator = new ModulDeFirmaPerTipusDeDocumentValidator<Object>();
+  protected ModulDeFirmaPerTipusDeDocumentValidator<ModulDeFirmaPerTipusDeDocument> validator = new ModulDeFirmaPerTipusDeDocumentValidator<ModulDeFirmaPerTipusDeDocument>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal modulDeFirmaPerTipusDeDocumentEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentService.JNDI_NAME)
+  protected es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentService modulDeFirmaPerTipusDeDocumentEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PluginLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PluginLocal pluginEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.PluginService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PluginService pluginEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.TipusDocumentService.JNDI_NAME)
+  protected es.caib.portafib.ejb.TipusDocumentService tipusDocumentEjb;
 
 
 
@@ -43,28 +48,50 @@ public class ModulDeFirmaPerTipusDeDocumentWebValidator  implements Validator, M
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return ModulDeFirmaPerTipusDeDocumentForm.class.isAssignableFrom(clazz);
+  public ModulDeFirmaPerTipusDeDocument getBeanOfForm(ModulDeFirmaPerTipusDeDocumentForm form) {
+    return  form.getModulDeFirmaPerTipusDeDocument();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<ModulDeFirmaPerTipusDeDocumentForm> getClassOfForm() {
+    return ModulDeFirmaPerTipusDeDocumentForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(ModulDeFirmaPerTipusDeDocumentForm __form, ModulDeFirmaPerTipusDeDocument __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<ModulDeFirmaPerTipusDeDocumentForm> wvr;
+    wvr = new WebValidationResult<ModulDeFirmaPerTipusDeDocumentForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(ModulDeFirmaPerTipusDeDocumentForm __form, ModulDeFirmaPerTipusDeDocument __bean, Errors errors,
+    WebValidationResult<ModulDeFirmaPerTipusDeDocumentForm> wvr, boolean isNou) {
 
-    validator.validate(wvr, target,
+    BeanValidatorResult<ModulDeFirmaPerTipusDeDocument> __vr = new BeanValidatorResult<ModulDeFirmaPerTipusDeDocument>();
+    validator.validate(__vr, __bean,
       isNou, modulDeFirmaPerTipusDeDocumentEjb, pluginEjb, tipusDocumentEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -72,11 +99,11 @@ public class ModulDeFirmaPerTipusDeDocumentWebValidator  implements Validator, M
     return field.fullName;
   }
 
-  public ModulDeFirmaPerTipusDeDocumentValidator<Object> getValidator() {
+  public ModulDeFirmaPerTipusDeDocumentValidator<ModulDeFirmaPerTipusDeDocument> getValidator() {
     return validator;
   }
 
-  public void setValidator(ModulDeFirmaPerTipusDeDocumentValidator<Object> validator) {
+  public void setValidator(ModulDeFirmaPerTipusDeDocumentValidator<ModulDeFirmaPerTipusDeDocument> validator) {
     this.validator = validator;
   }
 

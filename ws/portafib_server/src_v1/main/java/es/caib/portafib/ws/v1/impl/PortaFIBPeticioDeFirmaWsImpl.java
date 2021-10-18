@@ -1,14 +1,14 @@
 package es.caib.portafib.ws.v1.impl;
 
-import es.caib.portafib.ejb.TipusDocumentLocal;
-import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.jpa.FluxDeFirmesJPA;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
-import es.caib.portafib.jpa.TipusDocumentJPA;
-import es.caib.portafib.jpa.TraduccioMapJPA;
-import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.ejb.TipusDocumentService;
+import es.caib.portafib.persistence.FitxerJPA;
+import es.caib.portafib.persistence.FluxDeFirmesJPA;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
+import es.caib.portafib.persistence.PlantillaFluxDeFirmesJPA;
+import es.caib.portafib.persistence.TipusDocumentJPA;
+import es.caib.portafib.persistence.TraduccioMapJPA;
+import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
@@ -89,8 +89,8 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
   @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)
   private FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
   
-  @EJB(mappedName = TipusDocumentLocal.JNDI_NAME, beanName = "TipusDocumentEJB")
-  protected TipusDocumentLocal tipusDocumentEjb;
+  @EJB(mappedName = TipusDocumentService.JNDI_NAME, beanName = "TipusDocumentEJB")
+  protected TipusDocumentService tipusDocumentEjb;
   
   @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
   protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;

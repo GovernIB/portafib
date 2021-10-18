@@ -31,7 +31,7 @@ import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
 
 import es.caib.portafib.back.validator.webdb.FluxDeFirmesWebValidator;
 
-import es.caib.portafib.jpa.FluxDeFirmesJPA;
+import es.caib.portafib.persistence.FluxDeFirmesJPA;
 import es.caib.portafib.model.entity.FluxDeFirmes;
 import es.caib.portafib.model.fields.*;
 
@@ -47,8 +47,8 @@ import es.caib.portafib.model.fields.*;
 public class FluxDeFirmesController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<FluxDeFirmes, java.lang.Long> implements FluxDeFirmesFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.FluxDeFirmesLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.FluxDeFirmesLocal fluxDeFirmesEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.FluxDeFirmesService.JNDI_NAME)
+  protected es.caib.portafib.ejb.FluxDeFirmesService fluxDeFirmesEjb;
 
   @Autowired
   private FluxDeFirmesWebValidator fluxDeFirmesWebValidator;
@@ -349,7 +349,7 @@ public class FluxDeFirmesController
 
     try {
       preValidate(request, fluxDeFirmesForm, result);
-      getWebValidator().validate(fluxDeFirmes, result);
+      getWebValidator().validate(fluxDeFirmesForm, result);
       postValidate(request, fluxDeFirmesForm, result);
 
       if (result.hasErrors()) {
@@ -387,7 +387,7 @@ public class FluxDeFirmesController
       return null;
     }
     try {
-      FluxDeFirmes fluxDeFirmes = findByPrimaryKey(request, fluxDeFirmesID);
+      FluxDeFirmes fluxDeFirmes = fluxDeFirmesEjb.findByPrimaryKey(fluxDeFirmesID);
       if (fluxDeFirmes == null) {
         String __msg =createMessageError(request, "error.notfound", fluxDeFirmesID);
         return getRedirectWhenDelete(request, fluxDeFirmesID, new Exception(__msg));
@@ -432,7 +432,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -481,7 +481,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "fluxDeFirmes.fluxDeFirmesID");
+    binder.setDisallowedFields("fluxDeFirmesID");
+
   }
 
   public FluxDeFirmesWebValidator getWebValidator() {

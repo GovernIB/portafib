@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.PropietatGlobalLocal;
+import es.caib.portafib.ejb.PropietatGlobalService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.PropietatGlobalFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class PropietatGlobalRefList extends RefListBase
     implements PropietatGlobalFields {
 
-  @EJB(mappedName = PropietatGlobalLocal.JNDI_NAME)
-  private PropietatGlobalLocal propietatGlobalEjb;
+  @EJB(mappedName = PropietatGlobalService.JNDI_NAME)
+  private PropietatGlobalService propietatGlobalEjb;
 
   public PropietatGlobalRefList(PropietatGlobalRefList __clone) {
     super(__clone);

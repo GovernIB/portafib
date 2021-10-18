@@ -10,17 +10,17 @@ import es.caib.portafib.back.helper.SignatureValidationHelper;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.AbstractParallelSignedFilesProcessing;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
-import es.caib.portafib.ejb.AnnexLocal;
-import es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal;
-import es.caib.portafib.ejb.RevisorDeFirmaLocal;
-import es.caib.portafib.jpa.AnnexJPA;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.EstatDeFirmaJPA;
-import es.caib.portafib.jpa.FirmaJPA;
-import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.ejb.AnnexService;
+import es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentService;
+import es.caib.portafib.ejb.RevisorDeFirmaService;
+import es.caib.portafib.persistence.AnnexJPA;
+import es.caib.portafib.persistence.EntitatJPA;
+import es.caib.portafib.persistence.EstatDeFirmaJPA;
+import es.caib.portafib.persistence.FirmaJPA;
+import es.caib.portafib.persistence.FitxerJPA;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
+import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
@@ -159,14 +159,14 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     @EJB(mappedName = SegellDeTempsLogicaLocal.JNDI_NAME)
     protected SegellDeTempsLogicaLocal segellDeTempsEjb;
 
-    @EJB(mappedName = es.caib.portafib.ejb.AnnexLocal.JNDI_NAME)
-    protected AnnexLocal annexEjb;
+    @EJB(mappedName = es.caib.portafib.ejb.AnnexService.JNDI_NAME)
+    protected AnnexService annexEjb;
 
-    @EJB(mappedName = es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal.JNDI_NAME)
-    protected ModulDeFirmaPerTipusDeDocumentLocal modulDeFirmaPerTipusDeDocumentEjb;
+    @EJB(mappedName = es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentService.JNDI_NAME)
+    protected ModulDeFirmaPerTipusDeDocumentService modulDeFirmaPerTipusDeDocumentEjb;
 
-    @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
-    protected RevisorDeFirmaLocal revisorDeFirmaEjb;
+    @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaService.JNDI_NAME)
+    protected RevisorDeFirmaService revisorDeFirmaEjb;
 
     @EJB(mappedName = SignatureServiceLocal.JNDI_NAME)
     protected SignatureServiceLocal signatureServiceEjb;
@@ -2113,7 +2113,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         {
 
             LoginInfo loginInfo = LoginInfo.getInstance();
-            EntitatJPA entitat = loginInfo.getEntitat();
+            //EntitatJPA entitat = loginInfo.getEntitat();
             String entitatID = loginInfo.getEntitatID();
 
             int titleLength = PropietatGlobalUtil.getMaxPeticioTitleLength(entitatID);

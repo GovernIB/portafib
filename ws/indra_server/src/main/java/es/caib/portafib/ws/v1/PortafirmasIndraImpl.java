@@ -1,20 +1,20 @@
 package es.caib.portafib.ws.v1;
 
-import es.caib.portafib.ejb.AnnexFirmatLocal;
-import es.caib.portafib.ejb.TipusDocumentLocal;
-import es.caib.portafib.jpa.AnnexFirmatJPA;
-import es.caib.portafib.jpa.AnnexJPA;
-import es.caib.portafib.jpa.BlocDeFirmesJPA;
-import es.caib.portafib.jpa.FirmaJPA;
-import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.jpa.FluxDeFirmesJPA;
-import es.caib.portafib.jpa.MetadadaJPA;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-import es.caib.portafib.jpa.TipusDocumentJPA;
-import es.caib.portafib.jpa.TraduccioMapJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.ejb.AnnexFirmatService;
+import es.caib.portafib.ejb.TipusDocumentService;
+import es.caib.portafib.persistence.AnnexFirmatJPA;
+import es.caib.portafib.persistence.AnnexJPA;
+import es.caib.portafib.persistence.BlocDeFirmesJPA;
+import es.caib.portafib.persistence.FirmaJPA;
+import es.caib.portafib.persistence.FitxerJPA;
+import es.caib.portafib.persistence.FluxDeFirmesJPA;
+import es.caib.portafib.persistence.MetadadaJPA;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
+import es.caib.portafib.persistence.TipusDocumentJPA;
+import es.caib.portafib.persistence.TraduccioMapJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FitxerLogicaLocal;
@@ -213,8 +213,8 @@ public class PortafirmasIndraImpl implements Cws, Constants {
   @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
   protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
   
-  @EJB(mappedName = TipusDocumentLocal.JNDI_NAME, beanName = "TipusDocumentEJB")
-  protected TipusDocumentLocal tipusDocumentEjb;
+  @EJB(mappedName = TipusDocumentService.JNDI_NAME, beanName = "TipusDocumentEJB")
+  protected TipusDocumentService tipusDocumentEjb;
   
   @EJB(mappedName = WebServicesMethodsLocal.JNDI_NAME)
   protected WebServicesMethodsLocal webServicesMethodsEjb;
@@ -228,8 +228,8 @@ public class PortafirmasIndraImpl implements Cws, Constants {
   @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
   protected FirmaLogicaLocal firmaLogicaEjb;
   
-  @EJB(mappedName = AnnexFirmatLocal.JNDI_NAME)
-  protected AnnexFirmatLocal annexFirmatEjb;
+  @EJB(mappedName = AnnexFirmatService.JNDI_NAME)
+  protected AnnexFirmatService annexFirmatEjb;
   
   @Resource
   WebServiceContext wsContext;

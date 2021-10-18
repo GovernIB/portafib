@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.RebreAvisForm;
 
 import es.caib.portafib.back.validator.webdb.RebreAvisWebValidator;
 
-import es.caib.portafib.jpa.RebreAvisJPA;
+import es.caib.portafib.persistence.RebreAvisJPA;
 import es.caib.portafib.model.entity.RebreAvis;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class RebreAvisController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<RebreAvis, java.lang.Long> implements RebreAvisFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.RebreAvisLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.RebreAvisLocal rebreAvisEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.RebreAvisService.JNDI_NAME)
+  protected es.caib.portafib.ejb.RebreAvisService rebreAvisEjb;
 
   @Autowired
   private RebreAvisWebValidator rebreAvisWebValidator;
@@ -277,18 +277,18 @@ public class RebreAvisController
     if (rebreAvisForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, rebreAvisForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       rebreAvisForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (rebreAvisForm.getListOfTipusNotificacioForTipusNotificacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusNotificacioID(request, mav, rebreAvisForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       rebreAvisForm.setListOfTipusNotificacioForTipusNotificacioID(_listSKV);
     }
     
@@ -405,7 +405,7 @@ public class RebreAvisController
 
     try {
       preValidate(request, rebreAvisForm, result);
-      getWebValidator().validate(rebreAvis, result);
+      getWebValidator().validate(rebreAvisForm, result);
       postValidate(request, rebreAvisForm, result);
 
       if (result.hasErrors()) {
@@ -443,7 +443,7 @@ public class RebreAvisController
       return null;
     }
     try {
-      RebreAvis rebreAvis = findByPrimaryKey(request, id);
+      RebreAvis rebreAvis = rebreAvisEjb.findByPrimaryKey(id);
       if (rebreAvis == null) {
         String __msg =createMessageError(request, "error.notfound", id);
         return getRedirectWhenDelete(request, id, new Exception(__msg));
@@ -488,7 +488,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -537,7 +537,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "rebreAvis.id");
+    binder.setDisallowedFields("id");
+
   }
 
   public RebreAvisWebValidator getWebValidator() {
@@ -596,7 +597,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, RebreAvisForm rebreAvisForm, Where where)  throws I18NException {
     if (rebreAvisForm.isHiddenField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (rebreAvisForm.isReadOnlyField(USUARIENTITATID)) {
@@ -611,7 +612,7 @@ public java.lang.Long stringToPK(String value) {
        List<RebreAvis> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (rebreAvisFilterForm.isHiddenField(USUARIENTITATID)
       && !rebreAvisFilterForm.isGroupByField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {
@@ -635,7 +636,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusNotificacioID(HttpServletRequest request,
        ModelAndView mav, RebreAvisForm rebreAvisForm, Where where)  throws I18NException {
     if (rebreAvisForm.isHiddenField(TIPUSNOTIFICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (rebreAvisForm.isReadOnlyField(TIPUSNOTIFICACIOID)) {
@@ -650,7 +651,7 @@ public java.lang.Long stringToPK(String value) {
        List<RebreAvis> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (rebreAvisFilterForm.isHiddenField(TIPUSNOTIFICACIOID)
       && !rebreAvisFilterForm.isGroupByField(TIPUSNOTIFICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(TIPUSNOTIFICACIOID)) {

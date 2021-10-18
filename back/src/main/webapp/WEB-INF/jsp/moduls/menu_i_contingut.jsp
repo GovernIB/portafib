@@ -6,7 +6,6 @@
 <tiles:importAttribute name="contingut" />
 
 <!--  INICI MENU -->
-
 <div id="principal" class="mainMenu span3">
   <div id="mostrarMenu" class="upper-left-corner no-disponible">
             <a id="mostrar" href="#" data-toggle="tooltip" title="Mostrar Menu">

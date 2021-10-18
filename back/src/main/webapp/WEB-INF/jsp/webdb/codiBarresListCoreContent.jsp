@@ -26,17 +26,17 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CodiBarresFields.CODIBARRESID)}">
           <td>
-          <c:out value="${codiBarres.codiBarresID}" />
+          ${codiBarres.codiBarresID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CodiBarresFields.NOM)}">
           <td>
-          <c:out value="${codiBarres.nom}" />
+          ${codiBarres.nom}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CodiBarresFields.DESCRIPCIO)}">
           <td>
-          <c:out value="${codiBarres.descripcio}" />
+          ${codiBarres.descripcio}
           </td>
         </c:if>
 

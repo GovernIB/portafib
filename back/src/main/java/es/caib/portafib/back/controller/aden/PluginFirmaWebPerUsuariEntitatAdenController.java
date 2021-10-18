@@ -5,8 +5,8 @@ import es.caib.portafib.back.form.PortaFIBBaseFilterForm;
 import es.caib.portafib.back.form.webdb.PluginFirmaWebPerUsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.PluginFirmaWebPerUsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.ejb.UsuariEntitatLocal;
-import es.caib.portafib.jpa.PluginFirmaWebPerUsuariEntitatJPA;
+import es.caib.portafib.ejb.UsuariEntitatService;
+import es.caib.portafib.persistence.PluginFirmaWebPerUsuariEntitatJPA;
 import es.caib.portafib.model.entity.PluginFirmaWebPerUsuariEntitat;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
@@ -52,8 +52,8 @@ public class PluginFirmaWebPerUsuariEntitatAdenController extends PluginFirmaWeb
    /** Atribut de sessió que emmagatzemarà l'id d'usuari entitat del qual gestionam els seus plugins */
    private static final String SESSION_USUARIENTITATID = "pluginFirmaWebPerUsuariEntitatListAden_usuariEntitatID";
 
-   @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME)
-   private UsuariEntitatLocal usuariEntitatEjb;
+   @EJB(mappedName = UsuariEntitatService.JNDI_NAME)
+   private UsuariEntitatService usuariEntitatEjb;
 
    @Override
    public boolean isActiveFormNew() {

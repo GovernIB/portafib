@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.ColaboracioDelegacioLocal;
+import es.caib.portafib.ejb.ColaboracioDelegacioService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class ColaboracioDelegacioRefList extends RefListBase
     implements ColaboracioDelegacioFields {
 
-  @EJB(mappedName = ColaboracioDelegacioLocal.JNDI_NAME)
-  private ColaboracioDelegacioLocal colaboracioDelegacioEjb;
+  @EJB(mappedName = ColaboracioDelegacioService.JNDI_NAME)
+  private ColaboracioDelegacioService colaboracioDelegacioEjb;
 
   public ColaboracioDelegacioRefList(ColaboracioDelegacioRefList __clone) {
     super(__clone);

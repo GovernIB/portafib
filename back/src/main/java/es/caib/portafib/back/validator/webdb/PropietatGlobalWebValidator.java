@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.PropietatGlobalValidator;
+import es.caib.portafib.persistence.validator.PropietatGlobalValidator;
 
 import es.caib.portafib.back.form.webdb.PropietatGlobalForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.PropietatGlobal;
 
 
 /**
@@ -20,18 +24,19 @@ import es.caib.portafib.back.form.webdb.PropietatGlobalForm;
  * @author anadal
  */
 @Component
-public class PropietatGlobalWebValidator  implements Validator, PropietatGlobalFields {
+public class PropietatGlobalWebValidator extends AbstractWebValidator<PropietatGlobalForm, PropietatGlobal>
+     implements Validator, PropietatGlobalFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected PropietatGlobalValidator<Object> validator = new PropietatGlobalValidator<Object>();
+  protected PropietatGlobalValidator<PropietatGlobal> validator = new PropietatGlobalValidator<PropietatGlobal>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.EntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.EntitatService entitatEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PropietatGlobalLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PropietatGlobalLocal propietatGlobalEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.PropietatGlobalService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PropietatGlobalService propietatGlobalEjb;
 
 
 
@@ -40,28 +45,50 @@ public class PropietatGlobalWebValidator  implements Validator, PropietatGlobalF
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return PropietatGlobalForm.class.isAssignableFrom(clazz);
+  public PropietatGlobal getBeanOfForm(PropietatGlobalForm form) {
+    return  form.getPropietatGlobal();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<PropietatGlobalForm> getClassOfForm() {
+    return PropietatGlobalForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(PropietatGlobalForm __form, PropietatGlobal __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<PropietatGlobalForm> wvr;
+    wvr = new WebValidationResult<PropietatGlobalForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(PropietatGlobalForm __form, PropietatGlobal __bean, Errors errors,
+    WebValidationResult<PropietatGlobalForm> wvr, boolean isNou) {
 
-    validator.validate(wvr, target,
+    BeanValidatorResult<PropietatGlobal> __vr = new BeanValidatorResult<PropietatGlobal>();
+    validator.validate(__vr, __bean,
       isNou, entitatEjb, propietatGlobalEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -69,11 +96,11 @@ public class PropietatGlobalWebValidator  implements Validator, PropietatGlobalF
     return field.fullName;
   }
 
-  public PropietatGlobalValidator<Object> getValidator() {
+  public PropietatGlobalValidator<PropietatGlobal> getValidator() {
     return validator;
   }
 
-  public void setValidator(PropietatGlobalValidator<Object> validator) {
+  public void setValidator(PropietatGlobalValidator<PropietatGlobal> validator) {
     this.validator = validator;
   }
 

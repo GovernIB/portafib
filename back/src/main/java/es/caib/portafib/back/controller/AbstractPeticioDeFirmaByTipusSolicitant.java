@@ -12,18 +12,18 @@ import es.caib.portafib.back.reflist.IdiomaSuportatRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.utils.ZipProducer;
-import es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal;
-import es.caib.portafib.ejb.UsuariAplicacioLocal;
-import es.caib.portafib.jpa.BlocDeFirmesJPA;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.FirmaJPA;
-import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.jpa.FluxDeFirmesJPA;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
-import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
+import es.caib.portafib.ejb.PlantillaFluxDeFirmesService ;
+import es.caib.portafib.ejb.UsuariAplicacioService ;
+import es.caib.portafib.persistence.BlocDeFirmesJPA;
+import es.caib.portafib.persistence.EntitatJPA;
+import es.caib.portafib.persistence.FirmaJPA;
+import es.caib.portafib.persistence.FitxerJPA;
+import es.caib.portafib.persistence.FluxDeFirmesJPA;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariPersonaJPA;
+import es.caib.portafib.logic.CustodiaInfoLogicaLocal ;
 import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
@@ -135,11 +135,11 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
     SOLICITANT_WEB, SOLICITANT_APLICACIO, SOLICITANT_TOTS
   }
 
-  @EJB(mappedName = PlantillaFluxDeFirmesLocal.JNDI_NAME)
-  private PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;
+  @EJB(mappedName = PlantillaFluxDeFirmesService.JNDI_NAME)
+  private PlantillaFluxDeFirmesService plantillaFluxDeFirmesEjb;
 
-  @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME)
-  protected UsuariAplicacioLocal usuariAplicacioEjb;
+  @EJB(mappedName = UsuariAplicacioService.JNDI_NAME)
+  protected UsuariAplicacioService usuariAplicacioEjb;
 
   @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)
   protected FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
@@ -153,17 +153,17 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
   @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME, beanName = "FirmaLogicaEJB")
   protected FirmaLogicaLocal firmaLogicaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PermisGrupPlantillaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PermisGrupPlantillaLocal permisGrupPlantillaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PermisGrupPlantillaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PermisGrupPlantillaService permisGrupPlantillaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PermisUsuariPlantillaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PermisUsuariPlantillaLocal permisUsuariPlantillaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PermisUsuariPlantillaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PermisUsuariPlantillaService permisUsuariPlantillaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.GrupEntitatUsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.GrupEntitatUsuariEntitatLocal grupEntitatUsuariEntitatEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.GrupEntitatUsuariEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.GrupEntitatUsuariEntitatService grupEntitatUsuariEntitatEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.GrupEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.GrupEntitatLocal grupEntitatEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.GrupEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.GrupEntitatService grupEntitatEjb;
 
   public abstract TipusSolicitant getTipusSolicitant();
 

@@ -10,8 +10,8 @@ import es.caib.portafib.back.reflist.IdiomaSuportatRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.UsuariAplicacioWebLogicValidator;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.persistence.EntitatJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.misc.NotificacionsCallBackTimerLocal;
 import es.caib.portafib.logic.utils.EjbManager;
@@ -77,11 +77,11 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
   @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
   protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal perfilsPerUsuariAplicacioEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioService perfilsPerUsuariAplicacioEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PerfilDeFirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PerfilDeFirmaLocal usuariAplicacioPerfilEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PerfilDeFirmaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PerfilDeFirmaService usuariAplicacioPerfilEjb;
 
   @Autowired
   private UsuariAplicacioWebLogicValidator usuariAplicacioWebLogicValidator;

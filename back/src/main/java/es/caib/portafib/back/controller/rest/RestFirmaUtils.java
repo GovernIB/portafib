@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.entity.PerfilDeFirma;
@@ -31,17 +31,17 @@ import es.caib.portafib.utils.ConstantsPortaFIB;
  */
 public class RestFirmaUtils<K extends ApisIBKeyValue> extends RestUtilsErrorManager {
 
-  @EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal perfilsPerUsuariAplicacioEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioService perfilsPerUsuariAplicacioEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PerfilDeFirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PerfilDeFirmaLocal perfilDeFirmaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PerfilDeFirmaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PerfilDeFirmaService perfilDeFirmaEjb;
 
   @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
   protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentService.JNDI_NAME)
+  protected es.caib.portafib.ejb.TipusDocumentService tipusDocumentEjb;
 
 
   /**

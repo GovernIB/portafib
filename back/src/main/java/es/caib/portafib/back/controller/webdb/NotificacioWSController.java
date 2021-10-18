@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.NotificacioWSForm;
 
 import es.caib.portafib.back.validator.webdb.NotificacioWSWebValidator;
 
-import es.caib.portafib.jpa.NotificacioWSJPA;
+import es.caib.portafib.persistence.NotificacioWSJPA;
 import es.caib.portafib.model.entity.NotificacioWS;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class NotificacioWSController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<NotificacioWS, java.lang.Long> implements NotificacioWSFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.NotificacioWSLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.NotificacioWSLocal notificacioWSEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.NotificacioWSService.JNDI_NAME)
+  protected es.caib.portafib.ejb.NotificacioWSService notificacioWSEjb;
 
   @Autowired
   private NotificacioWSWebValidator notificacioWSWebValidator;
@@ -262,9 +262,9 @@ public class NotificacioWSController
     if (notificacioWSForm.getListOfTipusNotificacioForTipusNotificacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusNotificacioID(request, mav, notificacioWSForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       notificacioWSForm.setListOfTipusNotificacioForTipusNotificacioID(_listSKV);
     }
     
@@ -381,7 +381,7 @@ public class NotificacioWSController
 
     try {
       preValidate(request, notificacioWSForm, result);
-      getWebValidator().validate(notificacioWS, result);
+      getWebValidator().validate(notificacioWSForm, result);
       postValidate(request, notificacioWSForm, result);
 
       if (result.hasErrors()) {
@@ -419,7 +419,7 @@ public class NotificacioWSController
       return null;
     }
     try {
-      NotificacioWS notificacioWS = findByPrimaryKey(request, notificacioID);
+      NotificacioWS notificacioWS = notificacioWSEjb.findByPrimaryKey(notificacioID);
       if (notificacioWS == null) {
         String __msg =createMessageError(request, "error.notfound", notificacioID);
         return getRedirectWhenDelete(request, notificacioID, new Exception(__msg));
@@ -464,7 +464,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -513,7 +513,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "notificacioWS.notificacioID");
+    binder.setDisallowedFields("notificacioID");
+
   }
 
   public NotificacioWSWebValidator getWebValidator() {
@@ -572,7 +573,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusNotificacioID(HttpServletRequest request,
        ModelAndView mav, NotificacioWSForm notificacioWSForm, Where where)  throws I18NException {
     if (notificacioWSForm.isHiddenField(TIPUSNOTIFICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (notificacioWSForm.isReadOnlyField(TIPUSNOTIFICACIOID)) {
@@ -587,7 +588,7 @@ public java.lang.Long stringToPK(String value) {
        List<NotificacioWS> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (notificacioWSFilterForm.isHiddenField(TIPUSNOTIFICACIOID)
       && !notificacioWSFilterForm.isGroupByField(TIPUSNOTIFICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(TIPUSNOTIFICACIOID)) {

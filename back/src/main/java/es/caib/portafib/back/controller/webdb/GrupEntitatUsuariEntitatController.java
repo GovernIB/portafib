@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.GrupEntitatUsuariEntitatForm;
 
 import es.caib.portafib.back.validator.webdb.GrupEntitatUsuariEntitatWebValidator;
 
-import es.caib.portafib.jpa.GrupEntitatUsuariEntitatJPA;
+import es.caib.portafib.persistence.GrupEntitatUsuariEntitatJPA;
 import es.caib.portafib.model.entity.GrupEntitatUsuariEntitat;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class GrupEntitatUsuariEntitatController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<GrupEntitatUsuariEntitat, java.lang.Long> implements GrupEntitatUsuariEntitatFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.GrupEntitatUsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.GrupEntitatUsuariEntitatLocal grupEntitatUsuariEntitatEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.GrupEntitatUsuariEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.GrupEntitatUsuariEntitatService grupEntitatUsuariEntitatEjb;
 
   @Autowired
   private GrupEntitatUsuariEntitatWebValidator grupEntitatUsuariEntitatWebValidator;
@@ -274,18 +274,18 @@ public class GrupEntitatUsuariEntitatController
     if (grupEntitatUsuariEntitatForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, grupEntitatUsuariEntitatForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       grupEntitatUsuariEntitatForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (grupEntitatUsuariEntitatForm.getListOfGrupEntitatForGrupEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForGrupEntitatID(request, mav, grupEntitatUsuariEntitatForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       grupEntitatUsuariEntitatForm.setListOfGrupEntitatForGrupEntitatID(_listSKV);
     }
     
@@ -402,7 +402,7 @@ public class GrupEntitatUsuariEntitatController
 
     try {
       preValidate(request, grupEntitatUsuariEntitatForm, result);
-      getWebValidator().validate(grupEntitatUsuariEntitat, result);
+      getWebValidator().validate(grupEntitatUsuariEntitatForm, result);
       postValidate(request, grupEntitatUsuariEntitatForm, result);
 
       if (result.hasErrors()) {
@@ -440,7 +440,7 @@ public class GrupEntitatUsuariEntitatController
       return null;
     }
     try {
-      GrupEntitatUsuariEntitat grupEntitatUsuariEntitat = findByPrimaryKey(request, grupEntitatUsuariEntitatID);
+      GrupEntitatUsuariEntitat grupEntitatUsuariEntitat = grupEntitatUsuariEntitatEjb.findByPrimaryKey(grupEntitatUsuariEntitatID);
       if (grupEntitatUsuariEntitat == null) {
         String __msg =createMessageError(request, "error.notfound", grupEntitatUsuariEntitatID);
         return getRedirectWhenDelete(request, grupEntitatUsuariEntitatID, new Exception(__msg));
@@ -485,7 +485,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -534,7 +534,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "grupEntitatUsuariEntitat.grupEntitatUsuariEntitatID");
+    binder.setDisallowedFields("grupEntitatUsuariEntitatID");
+
   }
 
   public GrupEntitatUsuariEntitatWebValidator getWebValidator() {
@@ -593,7 +594,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, GrupEntitatUsuariEntitatForm grupEntitatUsuariEntitatForm, Where where)  throws I18NException {
     if (grupEntitatUsuariEntitatForm.isHiddenField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (grupEntitatUsuariEntitatForm.isReadOnlyField(USUARIENTITATID)) {
@@ -608,7 +609,7 @@ public java.lang.Long stringToPK(String value) {
        List<GrupEntitatUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (grupEntitatUsuariEntitatFilterForm.isHiddenField(USUARIENTITATID)
       && !grupEntitatUsuariEntitatFilterForm.isGroupByField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {
@@ -632,7 +633,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForGrupEntitatID(HttpServletRequest request,
        ModelAndView mav, GrupEntitatUsuariEntitatForm grupEntitatUsuariEntitatForm, Where where)  throws I18NException {
     if (grupEntitatUsuariEntitatForm.isHiddenField(GRUPENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (grupEntitatUsuariEntitatForm.isReadOnlyField(GRUPENTITATID)) {
@@ -647,7 +648,7 @@ public java.lang.Long stringToPK(String value) {
        List<GrupEntitatUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (grupEntitatUsuariEntitatFilterForm.isHiddenField(GRUPENTITATID)
       && !grupEntitatUsuariEntitatFilterForm.isGroupByField(GRUPENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(GRUPENTITATID)) {

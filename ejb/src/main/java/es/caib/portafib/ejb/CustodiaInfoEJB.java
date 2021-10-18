@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.CustodiaInfo;
-import es.caib.portafib.jpa.CustodiaInfoJPA;
-import es.caib.portafib.jpa.CustodiaInfoJPAManager;
+import es.caib.portafib.persistence.CustodiaInfoJPA;
+import es.caib.portafib.persistence.CustodiaInfoJPAManager;
 
 @Stateless(name = "CustodiaInfoEJB")
-public class CustodiaInfoEJB extends CustodiaInfoJPAManager implements CustodiaInfoLocal {
+public class CustodiaInfoEJB extends CustodiaInfoJPAManager implements CustodiaInfoService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

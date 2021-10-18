@@ -8,12 +8,12 @@
   <version>1.0.2</version>
   <packaging>jar</packaging>
 
-  <name>PortaFIB - External Signature REST - Jersey Connection Manager</name>
+  <name>PortaFIB WS -External Signature REST - Jersey Connection Manager</name>
 
   <parent>
     <groupId>es.caib.portafib</groupId>
     <artifactId>portafib-ws</artifactId>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
   </parent>
 
   <properties>
@@ -47,7 +47,7 @@
       <groupId>org.fundaciobit.apisib.jerseycore</groupId>
       <version>1.0.2</version>
     </dependency>
-
+	
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>

@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.PermisUsuariPlantillaLocal;
+import es.caib.portafib.ejb.PermisUsuariPlantillaService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.PermisUsuariPlantillaFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class PermisUsuariPlantillaRefList extends RefListBase
     implements PermisUsuariPlantillaFields {
 
-  @EJB(mappedName = PermisUsuariPlantillaLocal.JNDI_NAME)
-  private PermisUsuariPlantillaLocal permisUsuariPlantillaEjb;
+  @EJB(mappedName = PermisUsuariPlantillaService.JNDI_NAME)
+  private PermisUsuariPlantillaService permisUsuariPlantillaEjb;
 
   public PermisUsuariPlantillaRefList(PermisUsuariPlantillaRefList __clone) {
     super(__clone);

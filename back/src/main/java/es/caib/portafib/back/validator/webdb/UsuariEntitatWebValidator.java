@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.UsuariEntitatValidator;
+import es.caib.portafib.persistence.validator.UsuariEntitatValidator;
 
 import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.UsuariEntitat;
 
 
 /**
@@ -20,24 +24,25 @@ import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
  * @author anadal
  */
 @Component
-public class UsuariEntitatWebValidator  implements Validator, UsuariEntitatFields {
+public class UsuariEntitatWebValidator extends AbstractWebValidator<UsuariEntitatForm, UsuariEntitat>
+     implements Validator, UsuariEntitatFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected UsuariEntitatValidator<Object> validator = new UsuariEntitatValidator<Object>();
+  protected UsuariEntitatValidator<UsuariEntitat> validator = new UsuariEntitatValidator<UsuariEntitat>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoService.JNDI_NAME)
+  protected es.caib.portafib.ejb.CustodiaInfoService custodiaInfoEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.EntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.EntitatService entitatEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariEntitatService usuariEntitatEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariPersonaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariPersonaLocal usuariPersonaEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.UsuariPersonaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariPersonaService usuariPersonaEjb;
 
 
 
@@ -46,32 +51,54 @@ public class UsuariEntitatWebValidator  implements Validator, UsuariEntitatField
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return UsuariEntitatForm.class.isAssignableFrom(clazz);
+  public UsuariEntitat getBeanOfForm(UsuariEntitatForm form) {
+    return  form.getUsuariEntitat();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<UsuariEntitatForm> getClassOfForm() {
+    return UsuariEntitatForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(UsuariEntitatForm __form, UsuariEntitat __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<UsuariEntitatForm> wvr;
+    wvr = new WebValidationResult<UsuariEntitatForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(UsuariEntitatForm __form, UsuariEntitat __bean, Errors errors,
+    WebValidationResult<UsuariEntitatForm> wvr, boolean isNou) {
 
     if (isNou) { // Creacio
       // ================ CREATION
       // Fitxers 
     }
-    validator.validate(wvr, target,
+    BeanValidatorResult<UsuariEntitat> __vr = new BeanValidatorResult<UsuariEntitat>();
+    validator.validate(__vr, __bean,
       isNou, custodiaInfoEjb, entitatEjb, usuariEntitatEjb, usuariPersonaEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -79,11 +106,11 @@ public class UsuariEntitatWebValidator  implements Validator, UsuariEntitatField
     return field.fullName;
   }
 
-  public UsuariEntitatValidator<Object> getValidator() {
+  public UsuariEntitatValidator<UsuariEntitat> getValidator() {
     return validator;
   }
 
-  public void setValidator(UsuariEntitatValidator<Object> validator) {
+  public void setValidator(UsuariEntitatValidator<UsuariEntitat> validator) {
     this.validator = validator;
   }
 

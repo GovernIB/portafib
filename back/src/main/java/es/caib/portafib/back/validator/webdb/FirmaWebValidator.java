@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.FirmaValidator;
+import es.caib.portafib.persistence.validator.FirmaValidator;
 
 import es.caib.portafib.back.form.webdb.FirmaForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.Firma;
 
 
 /**
@@ -20,21 +24,22 @@ import es.caib.portafib.back.form.webdb.FirmaForm;
  * @author anadal
  */
 @Component
-public class FirmaWebValidator  implements Validator, FirmaFields {
+public class FirmaWebValidator extends AbstractWebValidator<FirmaForm, Firma>
+     implements Validator, FirmaFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected FirmaValidator<Object> validator = new FirmaValidator<Object>();
+  protected FirmaValidator<Firma> validator = new FirmaValidator<Firma>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.BlocDeFirmesLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.BlocDeFirmesLocal blocDeFirmesEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.BlocDeFirmesService.JNDI_NAME)
+  protected es.caib.portafib.ejb.BlocDeFirmesService blocDeFirmesEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.FirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.FirmaLocal firmaEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.FirmaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.FirmaService firmaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariEntitatService usuariEntitatEjb;
 
 
 
@@ -43,32 +48,54 @@ public class FirmaWebValidator  implements Validator, FirmaFields {
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return FirmaForm.class.isAssignableFrom(clazz);
+  public Firma getBeanOfForm(FirmaForm form) {
+    return  form.getFirma();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<FirmaForm> getClassOfForm() {
+    return FirmaForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(FirmaForm __form, Firma __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<FirmaForm> wvr;
+    wvr = new WebValidationResult<FirmaForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(FirmaForm __form, Firma __bean, Errors errors,
+    WebValidationResult<FirmaForm> wvr, boolean isNou) {
 
     if (isNou) { // Creacio
       // ================ CREATION
       // Fitxers 
     }
-    validator.validate(wvr, target,
+    BeanValidatorResult<Firma> __vr = new BeanValidatorResult<Firma>();
+    validator.validate(__vr, __bean,
       isNou, blocDeFirmesEjb, firmaEjb, usuariEntitatEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -76,11 +103,11 @@ public class FirmaWebValidator  implements Validator, FirmaFields {
     return field.fullName;
   }
 
-  public FirmaValidator<Object> getValidator() {
+  public FirmaValidator<Firma> getValidator() {
     return validator;
   }
 
-  public void setValidator(FirmaValidator<Object> validator) {
+  public void setValidator(FirmaValidator<Firma> validator) {
     this.validator = validator;
   }
 

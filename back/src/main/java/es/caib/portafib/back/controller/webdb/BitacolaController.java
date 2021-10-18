@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.BitacolaForm;
 
 import es.caib.portafib.back.validator.webdb.BitacolaWebValidator;
 
-import es.caib.portafib.jpa.BitacolaJPA;
+import es.caib.portafib.persistence.BitacolaJPA;
 import es.caib.portafib.model.entity.Bitacola;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class BitacolaController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Bitacola, java.lang.Long> implements BitacolaFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.BitacolaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.BitacolaLocal bitacolaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.BitacolaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.BitacolaService bitacolaEjb;
 
   @Autowired
   private BitacolaWebValidator bitacolaWebValidator;
@@ -266,18 +266,18 @@ public class BitacolaController
     if (bitacolaForm.getListOfValuesForTipusObjecte() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusObjecte(request, mav, bitacolaForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       bitacolaForm.setListOfValuesForTipusObjecte(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (bitacolaForm.getListOfValuesForTipusOperacio() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusOperacio(request, mav, bitacolaForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       bitacolaForm.setListOfValuesForTipusOperacio(_listSKV);
     }
     
@@ -394,7 +394,7 @@ public class BitacolaController
 
     try {
       preValidate(request, bitacolaForm, result);
-      getWebValidator().validate(bitacola, result);
+      getWebValidator().validate(bitacolaForm, result);
       postValidate(request, bitacolaForm, result);
 
       if (result.hasErrors()) {
@@ -432,7 +432,7 @@ public class BitacolaController
       return null;
     }
     try {
-      Bitacola bitacola = findByPrimaryKey(request, bitacolaID);
+      Bitacola bitacola = bitacolaEjb.findByPrimaryKey(bitacolaID);
       if (bitacola == null) {
         String __msg =createMessageError(request, "error.notfound", bitacolaID);
         return getRedirectWhenDelete(request, bitacolaID, new Exception(__msg));
@@ -477,7 +477,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -526,7 +526,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "bitacola.bitacolaID");
+    binder.setDisallowedFields("bitacolaID");
+
   }
 
   public BitacolaWebValidator getWebValidator() {
@@ -585,7 +586,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusObjecte(HttpServletRequest request,
        ModelAndView mav, BitacolaForm bitacolaForm, Where where)  throws I18NException {
     if (bitacolaForm.isHiddenField(TIPUSOBJECTE)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForTipusObjecte(request, mav, where);
   }
@@ -596,7 +597,7 @@ public java.lang.Long stringToPK(String value) {
        List<Bitacola> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (bitacolaFilterForm.isHiddenField(TIPUSOBJECTE)
       && !bitacolaFilterForm.isGroupByField(TIPUSOBJECTE)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForTipusObjecte(request, mav, Where.AND(where,_w));
@@ -615,7 +616,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusOperacio(HttpServletRequest request,
        ModelAndView mav, BitacolaForm bitacolaForm, Where where)  throws I18NException {
     if (bitacolaForm.isHiddenField(TIPUSOPERACIO)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForTipusOperacio(request, mav, where);
   }
@@ -626,7 +627,7 @@ public java.lang.Long stringToPK(String value) {
        List<Bitacola> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (bitacolaFilterForm.isHiddenField(TIPUSOPERACIO)
       && !bitacolaFilterForm.isGroupByField(TIPUSOPERACIO)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForTipusOperacio(request, mav, Where.AND(where,_w));

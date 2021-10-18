@@ -1,203 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>    
-  <artifactId>portafib-ws-server</artifactId>
-  <groupId>es.caib.portafib</groupId>
-  <packaging>ejb</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>portafib-ws-server</artifactId>
+    <packaging>ejb</packaging>
 
-  <name>PortaFIB WS - Server</name>
+    <name>PortaFIB WS - Server</name>
 
-  <parent>
-    <groupId>es.caib.portafib</groupId>
-    <artifactId>portafib-ws</artifactId>
-    <version>2.1.0</version>
-  </parent>
+    <parent>
+        <groupId>es.caib.portafib</groupId>
+        <artifactId>portafib-ws</artifactId>
+        <version>2.2.0</version>
+    </parent>
 
-  <properties>
-    <source_common>${basedir}/src_empty/main/java</source_common>
-    <source_v1>${basedir}/src_empty/main/java</source_v1>
-  </properties>
+    <properties>
+        <source_common>${basedir}/src_empty/main/java</source_common>
+        <source_v1>${basedir}/src_empty/main/java</source_v1>
+    </properties>
 
-  <build>
-    <plugins>
+    <build>
+        <plugins>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-ejb-plugin</artifactId>
-        <version>2.3</version>
-        <configuration>
-          <ejbVersion>3.0</ejbVersion>
-        </configuration>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <ejbVersion>3.0</ejbVersion>
+                </configuration>
+            </plugin>
 
-      <!-- Sempre fer net -->
-      <plugin>
-        <artifactId>maven-clean-plugin</artifactId>
-        <version>2.4.1</version>
-        <executions>
-          <execution>
-            <id>auto-clean</id>
-            <phase>initialize</phase>
-            <goals>
-              <goal>clean</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+            <!-- Sempre fer net -->
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.4.1</version>
+                <executions>
+                    <execution>
+                        <id>auto-clean</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.5</version>
-        <inherited>true</inherited>
-        <executions>
-          <execution>
-            <id>add-sources</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${source_common}</source>
-                <source>${source_v1}</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-
-    </plugins>
-
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <source>11</source>
-            <target>11</target>
-            <encoding>UTF-8</encoding>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
-    <sourceDirectory>${basedir}/src_empty/main/java</sourceDirectory>
-  </build>
-
-  <dependencies>
-
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-bindings-soap</artifactId>
-      <version>${cxf.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-frontend-jaxws</artifactId>
-      <version>${cxf.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-transports-http</artifactId>
-      <version>${cxf.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-ws-security</artifactId>
-      <version>${cxf.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-api</artifactId>
-      <version>1.1.2.Final</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>javax</groupId>
-      <artifactId>javaee-api</artifactId>
-      <version>6.0</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>es.caib.portafib</groupId>
-      <artifactId>portafib-utils</artifactId>
-      <version>${portafib.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>es.caib.portafib</groupId>
-      <artifactId>portafib-ejb</artifactId>
-      <version>${portafib.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>es.caib.portafib</groupId>
-      <artifactId>portafib-logic</artifactId>
-      <version>${portafib.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.fundaciobit.pluginsib.core</groupId>
-      <artifactId>pluginsib-core</artifactId>
-      <version>${plugins.version}</version>
-      <scope>provided</scope>
-    </dependency>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.5</version>
+                <inherited>true</inherited>
+                <executions>
+                    <execution>
+                        <id>add-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${source_common}</source>
+                                <source>${source_v1}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
 
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.2</version>
-      <scope>provided</scope>
-    </dependency>
+        </plugins>
 
-  </dependencies>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>11</source>
+                        <target>11</target>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <sourceDirectory>${basedir}/src_empty/main/java</sourceDirectory>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-bindings-soap</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.ws</groupId>
+            <artifactId>jbossws-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
 
-  <profiles>
 
-    <!-- Incloure API v1 --> 
-    <profile>
-      <id>ws-portafib-v1</id>
-      <properties>
-        <source_common>${basedir}/src_common/main/java</source_common>
-        <source_v1>${basedir}/src_v1/main/java</source_v1>
-      </properties>
-    </profile>
+        <dependency>
+            <groupId>es.caib.portafib</groupId>
+            <artifactId>portafib-commons</artifactId>
+            <version>${portafib.version}</version>
+        </dependency>
 
-    <!-- Incloure API v1 de Passarela Web --> 
-    <profile>
-      <id>passarelaweb-v1</id>
-      <properties>
-        <source_common>${basedir}/src_common/main/java</source_common>
-        <source_v1>${basedir}/src_v1/main/java</source_v1>
-      </properties>
-    </profile>
+        <dependency>
+            <groupId>es.caib.portafib</groupId>
+            <artifactId>portafib-ejb</artifactId>
+            <version>${portafib.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
-    <!-- Incloure API v1 de Passarela En Servidor --> 
-    <profile>
-      <id>passarelaserver-v1</id>
-      <properties>
-        <source_common>${basedir}/src_common/main/java</source_common>
-        <source_v1>${basedir}/src_v1/main/java</source_v1>
-      </properties>
-    </profile>
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.core</groupId>
+            <artifactId>pluginsib-core</artifactId>
+            <version>${plugins.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
-  </profiles>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.fundaciobit.genapp</groupId>
+            <artifactId>genapp-ws</artifactId>
+            <version>${genapp.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+            <version>2.2.11</version>
+        </dependency>
+
+    </dependencies>
+
+
+    <profiles>
+
+        <!-- Incloure API v1 -->
+        <profile>
+            <id>ws-portafib-v1</id>
+            <properties>
+                <source_common>${basedir}/src_common/main/java</source_common>
+                <source_v1>${basedir}/src_v1/main/java</source_v1>
+            </properties>
+        </profile>
+
+        <!-- Incloure API v1 de Passarela Web -->
+        <profile>
+            <id>passarelaweb-v1</id>
+            <properties>
+                <source_common>${basedir}/src_common/main/java</source_common>
+                <source_v1>${basedir}/src_v1/main/java</source_v1>
+            </properties>
+        </profile>
+
+        <!-- Incloure API v1 de Passarela En Servidor -->
+        <profile>
+            <id>passarelaserver-v1</id>
+            <properties>
+                <source_common>${basedir}/src_common/main/java</source_common>
+                <source_v1>${basedir}/src_v1/main/java</source_v1>
+            </properties>
+        </profile>
+
+    </profiles>
 
 </project>

@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.UsuariEntitatFavoritForm;
 
 import es.caib.portafib.back.validator.webdb.UsuariEntitatFavoritWebValidator;
 
-import es.caib.portafib.jpa.UsuariEntitatFavoritJPA;
+import es.caib.portafib.persistence.UsuariEntitatFavoritJPA;
 import es.caib.portafib.model.entity.UsuariEntitatFavorit;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class UsuariEntitatFavoritController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<UsuariEntitatFavorit, java.lang.Long> implements UsuariEntitatFavoritFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatFavoritLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariEntitatFavoritLocal usuariEntitatFavoritEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatFavoritService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariEntitatFavoritService usuariEntitatFavoritEjb;
 
   @Autowired
   private UsuariEntitatFavoritWebValidator usuariEntitatFavoritWebValidator;
@@ -270,18 +270,18 @@ public class UsuariEntitatFavoritController
     if (usuariEntitatFavoritForm.getListOfUsuariEntitatForOrigenID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForOrigenID(request, mav, usuariEntitatFavoritForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       usuariEntitatFavoritForm.setListOfUsuariEntitatForOrigenID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (usuariEntitatFavoritForm.getListOfUsuariEntitatForFavoritID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForFavoritID(request, mav, usuariEntitatFavoritForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       usuariEntitatFavoritForm.setListOfUsuariEntitatForFavoritID(_listSKV);
     }
     
@@ -398,7 +398,7 @@ public class UsuariEntitatFavoritController
 
     try {
       preValidate(request, usuariEntitatFavoritForm, result);
-      getWebValidator().validate(usuariEntitatFavorit, result);
+      getWebValidator().validate(usuariEntitatFavoritForm, result);
       postValidate(request, usuariEntitatFavoritForm, result);
 
       if (result.hasErrors()) {
@@ -436,7 +436,7 @@ public class UsuariEntitatFavoritController
       return null;
     }
     try {
-      UsuariEntitatFavorit usuariEntitatFavorit = findByPrimaryKey(request, iD);
+      UsuariEntitatFavorit usuariEntitatFavorit = usuariEntitatFavoritEjb.findByPrimaryKey(iD);
       if (usuariEntitatFavorit == null) {
         String __msg =createMessageError(request, "error.notfound", iD);
         return getRedirectWhenDelete(request, iD, new Exception(__msg));
@@ -481,7 +481,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -530,7 +530,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "usuariEntitatFavorit.ID");
+    binder.setDisallowedFields("ID");
+
   }
 
   public UsuariEntitatFavoritWebValidator getWebValidator() {
@@ -589,7 +590,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForOrigenID(HttpServletRequest request,
        ModelAndView mav, UsuariEntitatFavoritForm usuariEntitatFavoritForm, Where where)  throws I18NException {
     if (usuariEntitatFavoritForm.isHiddenField(ORIGENID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (usuariEntitatFavoritForm.isReadOnlyField(ORIGENID)) {
@@ -604,7 +605,7 @@ public java.lang.Long stringToPK(String value) {
        List<UsuariEntitatFavorit> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariEntitatFavoritFilterForm.isHiddenField(ORIGENID)
       && !usuariEntitatFavoritFilterForm.isGroupByField(ORIGENID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(ORIGENID)) {
@@ -628,7 +629,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForFavoritID(HttpServletRequest request,
        ModelAndView mav, UsuariEntitatFavoritForm usuariEntitatFavoritForm, Where where)  throws I18NException {
     if (usuariEntitatFavoritForm.isHiddenField(FAVORITID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (usuariEntitatFavoritForm.isReadOnlyField(FAVORITID)) {
@@ -643,7 +644,7 @@ public java.lang.Long stringToPK(String value) {
        List<UsuariEntitatFavorit> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariEntitatFavoritFilterForm.isHiddenField(FAVORITID)
       && !usuariEntitatFavoritFilterForm.isGroupByField(FAVORITID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(FAVORITID)) {

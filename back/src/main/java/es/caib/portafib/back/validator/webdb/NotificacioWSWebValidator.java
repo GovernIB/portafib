@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.NotificacioWSValidator;
+import es.caib.portafib.persistence.validator.NotificacioWSValidator;
 
 import es.caib.portafib.back.form.webdb.NotificacioWSForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.NotificacioWS;
 
 
 /**
@@ -20,18 +24,19 @@ import es.caib.portafib.back.form.webdb.NotificacioWSForm;
  * @author anadal
  */
 @Component
-public class NotificacioWSWebValidator  implements Validator, NotificacioWSFields {
+public class NotificacioWSWebValidator extends AbstractWebValidator<NotificacioWSForm, NotificacioWS>
+     implements Validator, NotificacioWSFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected NotificacioWSValidator<Object> validator = new NotificacioWSValidator<Object>();
+  protected NotificacioWSValidator<NotificacioWS> validator = new NotificacioWSValidator<NotificacioWS>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.NotificacioWSLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.NotificacioWSLocal notificacioWSEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.NotificacioWSService.JNDI_NAME)
+  protected es.caib.portafib.ejb.NotificacioWSService notificacioWSEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.TipusNotificacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TipusNotificacioLocal tipusNotificacioEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.TipusNotificacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.TipusNotificacioService tipusNotificacioEjb;
 
 
 
@@ -40,28 +45,50 @@ public class NotificacioWSWebValidator  implements Validator, NotificacioWSField
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return NotificacioWSForm.class.isAssignableFrom(clazz);
+  public NotificacioWS getBeanOfForm(NotificacioWSForm form) {
+    return  form.getNotificacioWS();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<NotificacioWSForm> getClassOfForm() {
+    return NotificacioWSForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(NotificacioWSForm __form, NotificacioWS __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<NotificacioWSForm> wvr;
+    wvr = new WebValidationResult<NotificacioWSForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(NotificacioWSForm __form, NotificacioWS __bean, Errors errors,
+    WebValidationResult<NotificacioWSForm> wvr, boolean isNou) {
 
-    validator.validate(wvr, target,
+    BeanValidatorResult<NotificacioWS> __vr = new BeanValidatorResult<NotificacioWS>();
+    validator.validate(__vr, __bean,
       isNou, notificacioWSEjb, tipusNotificacioEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -69,11 +96,11 @@ public class NotificacioWSWebValidator  implements Validator, NotificacioWSField
     return field.fullName;
   }
 
-  public NotificacioWSValidator<Object> getValidator() {
+  public NotificacioWSValidator<NotificacioWS> getValidator() {
     return validator;
   }
 
-  public void setValidator(NotificacioWSValidator<Object> validator) {
+  public void setValidator(NotificacioWSValidator<NotificacioWS> validator) {
     this.validator = validator;
   }
 

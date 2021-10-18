@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.GrupEntitatValidator;
+import es.caib.portafib.persistence.validator.GrupEntitatValidator;
 
 import es.caib.portafib.back.form.webdb.GrupEntitatForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.GrupEntitat;
 
 
 /**
@@ -20,18 +24,19 @@ import es.caib.portafib.back.form.webdb.GrupEntitatForm;
  * @author anadal
  */
 @Component
-public class GrupEntitatWebValidator  implements Validator, GrupEntitatFields {
+public class GrupEntitatWebValidator extends AbstractWebValidator<GrupEntitatForm, GrupEntitat>
+     implements Validator, GrupEntitatFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected GrupEntitatValidator<Object> validator = new GrupEntitatValidator<Object>();
+  protected GrupEntitatValidator<GrupEntitat> validator = new GrupEntitatValidator<GrupEntitat>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.EntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.EntitatService entitatEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.GrupEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.GrupEntitatLocal grupEntitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.GrupEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.GrupEntitatService grupEntitatEjb;
 
 
 
@@ -40,28 +45,50 @@ public class GrupEntitatWebValidator  implements Validator, GrupEntitatFields {
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return GrupEntitatForm.class.isAssignableFrom(clazz);
+  public GrupEntitat getBeanOfForm(GrupEntitatForm form) {
+    return  form.getGrupEntitat();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<GrupEntitatForm> getClassOfForm() {
+    return GrupEntitatForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(GrupEntitatForm __form, GrupEntitat __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<GrupEntitatForm> wvr;
+    wvr = new WebValidationResult<GrupEntitatForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(GrupEntitatForm __form, GrupEntitat __bean, Errors errors,
+    WebValidationResult<GrupEntitatForm> wvr, boolean isNou) {
 
-    validator.validate(wvr, target,
+    BeanValidatorResult<GrupEntitat> __vr = new BeanValidatorResult<GrupEntitat>();
+    validator.validate(__vr, __bean,
       isNou, entitatEjb, grupEntitatEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -69,11 +96,11 @@ public class GrupEntitatWebValidator  implements Validator, GrupEntitatFields {
     return field.fullName;
   }
 
-  public GrupEntitatValidator<Object> getValidator() {
+  public GrupEntitatValidator<GrupEntitat> getValidator() {
     return validator;
   }
 
-  public void setValidator(GrupEntitatValidator<Object> validator) {
+  public void setValidator(GrupEntitatValidator<GrupEntitat> validator) {
     this.validator = validator;
   }
 

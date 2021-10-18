@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.RevisorDeFirmaForm;
 
 import es.caib.portafib.back.validator.webdb.RevisorDeFirmaWebValidator;
 
-import es.caib.portafib.jpa.RevisorDeFirmaJPA;
+import es.caib.portafib.persistence.RevisorDeFirmaJPA;
 import es.caib.portafib.model.entity.RevisorDeFirma;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class RevisorDeFirmaController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<RevisorDeFirma, java.lang.Long> implements RevisorDeFirmaFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.RevisorDeFirmaService revisorDeFirmaEjb;
 
   @Autowired
   private RevisorDeFirmaWebValidator revisorDeFirmaWebValidator;
@@ -277,18 +277,18 @@ public class RevisorDeFirmaController
     if (revisorDeFirmaForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, revisorDeFirmaForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       revisorDeFirmaForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (revisorDeFirmaForm.getListOfFirmaForFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForFirmaID(request, mav, revisorDeFirmaForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       revisorDeFirmaForm.setListOfFirmaForFirmaID(_listSKV);
     }
     
@@ -405,7 +405,7 @@ public class RevisorDeFirmaController
 
     try {
       preValidate(request, revisorDeFirmaForm, result);
-      getWebValidator().validate(revisorDeFirma, result);
+      getWebValidator().validate(revisorDeFirmaForm, result);
       postValidate(request, revisorDeFirmaForm, result);
 
       if (result.hasErrors()) {
@@ -443,7 +443,7 @@ public class RevisorDeFirmaController
       return null;
     }
     try {
-      RevisorDeFirma revisorDeFirma = findByPrimaryKey(request, revisorDeFirmaID);
+      RevisorDeFirma revisorDeFirma = revisorDeFirmaEjb.findByPrimaryKey(revisorDeFirmaID);
       if (revisorDeFirma == null) {
         String __msg =createMessageError(request, "error.notfound", revisorDeFirmaID);
         return getRedirectWhenDelete(request, revisorDeFirmaID, new Exception(__msg));
@@ -488,7 +488,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -537,7 +537,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "revisorDeFirma.revisorDeFirmaID");
+    binder.setDisallowedFields("revisorDeFirmaID");
+
   }
 
   public RevisorDeFirmaWebValidator getWebValidator() {
@@ -596,7 +597,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, RevisorDeFirmaForm revisorDeFirmaForm, Where where)  throws I18NException {
     if (revisorDeFirmaForm.isHiddenField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (revisorDeFirmaForm.isReadOnlyField(USUARIENTITATID)) {
@@ -611,7 +612,7 @@ public java.lang.Long stringToPK(String value) {
        List<RevisorDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (revisorDeFirmaFilterForm.isHiddenField(USUARIENTITATID)
       && !revisorDeFirmaFilterForm.isGroupByField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {
@@ -635,7 +636,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForFirmaID(HttpServletRequest request,
        ModelAndView mav, RevisorDeFirmaForm revisorDeFirmaForm, Where where)  throws I18NException {
     if (revisorDeFirmaForm.isHiddenField(FIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (revisorDeFirmaForm.isReadOnlyField(FIRMAID)) {
@@ -650,7 +651,7 @@ public java.lang.Long stringToPK(String value) {
        List<RevisorDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (revisorDeFirmaFilterForm.isHiddenField(FIRMAID)
       && !revisorDeFirmaFilterForm.isGroupByField(FIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(FIRMAID)) {

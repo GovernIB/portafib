@@ -26,12 +26,12 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.ID)}">
           <td>
-          <c:out value="${modulDeFirmaPerTipusDeDocument.ID}" />
+          ${modulDeFirmaPerTipusDeDocument.ID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.NOM)}">
           <td>
-          <c:out value="${modulDeFirmaPerTipusDeDocument.nom}" />
+          ${modulDeFirmaPerTipusDeDocument.nom}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.TIPUSDOCUMENTID)}">

@@ -4,7 +4,7 @@ import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.controller.webdb.UsuariEntitatController;
 import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.logic.EntitatLogicaLocal;
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;

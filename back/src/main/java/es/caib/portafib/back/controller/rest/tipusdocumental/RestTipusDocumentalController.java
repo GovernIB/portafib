@@ -1,7 +1,7 @@
 package es.caib.portafib.back.controller.rest.tipusdocumental;
 
-import es.caib.portafib.ejb.IdiomaLocal;
-import es.caib.portafib.ejb.TipusDocumentLocal;
+import es.caib.portafib.ejb.IdiomaService;
+import es.caib.portafib.ejb.TipusDocumentService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.caib.portafib.back.controller.rest.RestUtils;
-import es.caib.portafib.jpa.TipusDocumentJPA;
-import es.caib.portafib.jpa.TraduccioMapJPA;
+import es.caib.portafib.persistence.TipusDocumentJPA;
+import es.caib.portafib.persistence.TraduccioMapJPA;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.model.entity.TipusDocument;
@@ -41,14 +41,14 @@ import java.util.Locale;
 @RequestMapping(value = "/public/rest")
 public class RestTipusDocumentalController extends RestUtils {
 
-  @EJB(mappedName = TipusDocumentLocal.JNDI_NAME)
-  protected TipusDocumentLocal tipusDocumentEjb;
+  @EJB(mappedName = TipusDocumentService.JNDI_NAME)
+  protected TipusDocumentService tipusDocumentEjb;
 
   @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
   protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
 
-  @EJB(mappedName = IdiomaLocal.JNDI_NAME)
-  protected IdiomaLocal idiomaEjb;
+  @EJB(mappedName = IdiomaService.JNDI_NAME)
+  protected IdiomaService idiomaEjb;
 
   @RequestMapping(value = "/tipusdocument/v1/list", method = RequestMethod.GET)
   @ResponseBody

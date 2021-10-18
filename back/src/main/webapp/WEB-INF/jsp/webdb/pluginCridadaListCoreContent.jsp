@@ -26,7 +26,7 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.PLUGINCRIDADAID)}">
           <td>
-          <c:out value="${pluginCridada.pluginCridadaID}" />
+          ${pluginCridada.pluginCridadaID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.ENTITATID)}">
@@ -50,12 +50,12 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.METODEPLUGIN)}">
           <td>
-          <c:out value="${pluginCridada.metodePlugin}" />
+          ${pluginCridada.metodePlugin}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.PARAMETRESTEXT)}">
           <td>
-          <c:out value="${pluginCridada.parametresText}" />
+          ${pluginCridada.parametresText}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.PARAMETRESFITXERID)}">
@@ -67,7 +67,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.RETORNTEXT)}">
           <td>
-          <c:out value="${pluginCridada.retornText}" />
+          ${pluginCridada.retornText}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.RETORNFITXERID)}">
@@ -79,12 +79,12 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.TIPUSTESULTAT)}">
           <td>
-          <c:out value="${pluginCridada.tipusTesultat}" />
+          ${pluginCridada.tipusTesultat}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.TEMPSEXECUCIO)}">
           <td>
-          <c:out value="${pluginCridada.tempsExecucio}" />
+          ${pluginCridada.tempsExecucio}
           </td>
         </c:if>
 

@@ -16,13 +16,13 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
-import es.caib.portafib.ejb.EstatDeFirmaLocal;
-import es.caib.portafib.ejb.UsuariAplicacioLocal;
-import es.caib.portafib.jpa.ColaboracioDelegacioJPA;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.jpa.TipusDocumentColaboracioDelegacioJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.ejb.EstatDeFirmaService;
+import es.caib.portafib.ejb.UsuariAplicacioService;
+import es.caib.portafib.persistence.ColaboracioDelegacioJPA;
+import es.caib.portafib.persistence.EntitatJPA;
+import es.caib.portafib.persistence.FitxerJPA;
+import es.caib.portafib.persistence.TipusDocumentColaboracioDelegacioJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
@@ -137,11 +137,11 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     @EJB(mappedName = ColaboracioDelegacioLogicaLocal.JNDI_NAME)
     protected ColaboracioDelegacioLogicaLocal colaboracioDelegacioLogicaEjb;
 
-    @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME)
-    protected UsuariAplicacioLocal usuariAplicacioEjb;
+    @EJB(mappedName = UsuariAplicacioService.JNDI_NAME)
+    protected UsuariAplicacioService usuariAplicacioEjb;
 
-    @EJB(mappedName = EstatDeFirmaLocal.JNDI_NAME)
-    protected EstatDeFirmaLocal estatDeFirmaEjb;
+    @EJB(mappedName = EstatDeFirmaService.JNDI_NAME)
+    protected EstatDeFirmaService estatDeFirmaEjb;
 
     @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
     protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;

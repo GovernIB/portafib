@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioLocal;
+import es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class TipusDocumentColaboracioDelegacioRefList extends RefListBase
     implements TipusDocumentColaboracioDelegacioFields {
 
-  @EJB(mappedName = TipusDocumentColaboracioDelegacioLocal.JNDI_NAME)
-  private TipusDocumentColaboracioDelegacioLocal tipusDocumentColaboracioDelegacioEjb;
+  @EJB(mappedName = TipusDocumentColaboracioDelegacioService.JNDI_NAME)
+  private TipusDocumentColaboracioDelegacioService tipusDocumentColaboracioDelegacioEjb;
 
   public TipusDocumentColaboracioDelegacioRefList(TipusDocumentColaboracioDelegacioRefList __clone) {
     super(__clone);

@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.FitxerLocal;
+import es.caib.portafib.ejb.FitxerService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.FitxerFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class FitxerRefList extends RefListBase
     implements FitxerFields {
 
-  @EJB(mappedName = FitxerLocal.JNDI_NAME)
-  private FitxerLocal fitxerEjb;
+  @EJB(mappedName = FitxerService.JNDI_NAME)
+  private FitxerService fitxerEjb;
 
   public FitxerRefList(FitxerRefList __clone) {
     super(__clone);

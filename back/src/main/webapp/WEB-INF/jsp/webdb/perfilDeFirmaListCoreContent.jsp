@@ -26,27 +26,27 @@
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.USUARIAPLICACIOPERFILID)}">
           <td>
-          <c:out value="${perfilDeFirma.usuariAplicacioPerfilID}" />
+          ${perfilDeFirma.usuariAplicacioPerfilID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.NOM)}">
           <td>
-          <c:out value="${perfilDeFirma.nom}" />
+          ${perfilDeFirma.nom}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CODI)}">
           <td>
-          <c:out value="${perfilDeFirma.codi}" />
+          ${perfilDeFirma.codi}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.DESCRIPCIO)}">
           <td>
-          <c:out value="${perfilDeFirma.descripcio}" />
+          ${perfilDeFirma.descripcio}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CONDICIO)}">
           <td>
-          <c:out value="${perfilDeFirma.condicio}" />
+          ${perfilDeFirma.condicio}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA1ID)}">
@@ -91,7 +91,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.URLBASE)}">
           <td>
-          <c:out value="${perfilDeFirma.urlBase}" />
+          ${perfilDeFirma.urlBase}
           </td>
         </c:if>
 

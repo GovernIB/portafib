@@ -31,7 +31,7 @@ import es.caib.portafib.back.form.webdb.FitxerForm;
 
 import es.caib.portafib.back.validator.webdb.FitxerWebValidator;
 
-import es.caib.portafib.jpa.FitxerJPA;
+import es.caib.portafib.persistence.FitxerJPA;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.fields.*;
 
@@ -47,8 +47,8 @@ import es.caib.portafib.model.fields.*;
 public class FitxerController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Fitxer, java.lang.Long> implements FitxerFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.FitxerLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.FitxerLocal fitxerEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.FitxerService.JNDI_NAME)
+  protected es.caib.portafib.ejb.FitxerService fitxerEjb;
 
   @Autowired
   private FitxerWebValidator fitxerWebValidator;
@@ -349,7 +349,7 @@ public class FitxerController
 
     try {
       preValidate(request, fitxerForm, result);
-      getWebValidator().validate(fitxer, result);
+      getWebValidator().validate(fitxerForm, result);
       postValidate(request, fitxerForm, result);
 
       if (result.hasErrors()) {
@@ -387,7 +387,7 @@ public class FitxerController
       return null;
     }
     try {
-      Fitxer fitxer = findByPrimaryKey(request, fitxerID);
+      Fitxer fitxer = fitxerEjb.findByPrimaryKey(fitxerID);
       if (fitxer == null) {
         String __msg =createMessageError(request, "error.notfound", fitxerID);
         return getRedirectWhenDelete(request, fitxerID, new Exception(__msg));
@@ -432,7 +432,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -481,7 +481,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "fitxer.fitxerID");
+    binder.setDisallowedFields("fitxerID");
+
   }
 
   public FitxerWebValidator getWebValidator() {

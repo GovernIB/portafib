@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.AnnexValidator;
+import es.caib.portafib.persistence.validator.AnnexValidator;
 
 import es.caib.portafib.back.form.webdb.AnnexForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.Annex;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 
@@ -21,18 +25,19 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
  * @author anadal
  */
 @Component
-public class AnnexWebValidator  implements Validator, AnnexFields {
+public class AnnexWebValidator extends AbstractWebValidator<AnnexForm, Annex>
+     implements Validator, AnnexFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected AnnexValidator<Object> validator = new AnnexValidator<Object>();
+  protected AnnexValidator<Annex> validator = new AnnexValidator<Annex>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.AnnexLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.AnnexLocal annexEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.AnnexService.JNDI_NAME)
+  protected es.caib.portafib.ejb.AnnexService annexEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PeticioDeFirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.PeticioDeFirmaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PeticioDeFirmaService peticioDeFirmaEjb;
 
 
 
@@ -41,30 +46,43 @@ public class AnnexWebValidator  implements Validator, AnnexFields {
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return AnnexForm.class.isAssignableFrom(clazz);
+  public Annex getBeanOfForm(AnnexForm form) {
+    return  form.getAnnex();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<AnnexForm> getClassOfForm() {
+    return AnnexForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(AnnexForm __form, Annex __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<AnnexForm> wvr;
+    wvr = new WebValidationResult<AnnexForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(AnnexForm __form, Annex __bean, Errors errors,
+    WebValidationResult<AnnexForm> wvr, boolean isNou) {
 
     if (isNou) { // Creacio
       // ================ CREATION
       // Fitxers 
-      CommonsMultipartFile fitxerID = ((AnnexForm)target).getFitxerID();
+      CommonsMultipartFile fitxerID = ((AnnexForm)__form).getFitxerID();
       if (fitxerID == null || fitxerID.isEmpty()) {
         errors.rejectValue(get(FITXERID), "genapp.validation.required",
           new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(FITXERID)) },
@@ -72,8 +90,17 @@ public class AnnexWebValidator  implements Validator, AnnexFields {
       }
 
     }
-    validator.validate(wvr, target,
+    BeanValidatorResult<Annex> __vr = new BeanValidatorResult<Annex>();
+    validator.validate(__vr, __bean,
       isNou, annexEjb, peticioDeFirmaEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -81,11 +108,11 @@ public class AnnexWebValidator  implements Validator, AnnexFields {
     return field.fullName;
   }
 
-  public AnnexValidator<Object> getValidator() {
+  public AnnexValidator<Annex> getValidator() {
     return validator;
   }
 
-  public void setValidator(AnnexValidator<Object> validator) {
+  public void setValidator(AnnexValidator<Annex> validator) {
     this.validator = validator;
   }
 

@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.RoleLocal;
+import es.caib.portafib.ejb.RoleService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.RoleFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class RoleRefList extends RefListBase
     implements RoleFields {
 
-  @EJB(mappedName = RoleLocal.JNDI_NAME)
-  private RoleLocal roleEjb;
+  @EJB(mappedName = RoleService.JNDI_NAME)
+  private RoleService roleEjb;
 
   public RoleRefList(RoleRefList __clone) {
     super(__clone);

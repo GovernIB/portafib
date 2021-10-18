@@ -17,7 +17,7 @@ import es.caib.portafib.back.controller.webdb.ModulDeFirmaPerTipusDeDocumentCont
 import es.caib.portafib.back.form.webdb.ModulDeFirmaPerTipusDeDocumentFilterForm;
 import es.caib.portafib.back.form.webdb.ModulDeFirmaPerTipusDeDocumentForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.ModulDeFirmaPerTipusDeDocumentJPA;
+import es.caib.portafib.persistence.ModulDeFirmaPerTipusDeDocumentJPA;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.utils.ConstantsV2;

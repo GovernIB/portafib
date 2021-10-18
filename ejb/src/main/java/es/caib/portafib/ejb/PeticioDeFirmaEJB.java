@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.PeticioDeFirma;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-import es.caib.portafib.jpa.PeticioDeFirmaJPAManager;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
+import es.caib.portafib.persistence.PeticioDeFirmaJPAManager;
 
 @Stateless(name = "PeticioDeFirmaEJB")
-public class PeticioDeFirmaEJB extends PeticioDeFirmaJPAManager implements PeticioDeFirmaLocal {
+public class PeticioDeFirmaEJB extends PeticioDeFirmaJPAManager implements PeticioDeFirmaService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

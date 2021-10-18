@@ -1,7 +1,7 @@
 package es.caib.portafib.back.controller.rest.infopeticionsdefirmausuari;
 
-import es.caib.portafib.ejb.IdiomaLocal;
-import es.caib.portafib.ejb.TipusDocumentLocal;
+import es.caib.portafib.ejb.IdiomaService;
+import es.caib.portafib.ejb.TipusDocumentService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.http.HttpHeaders;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.caib.portafib.back.controller.rest.RestUtils;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.persistence.EntitatJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.utils.Configuracio;
@@ -45,11 +45,11 @@ import java.util.Set;
 @RequestMapping(value = "/common/rest")
 public class RestInfoPeticionsDeFirmaUsuariController extends RestUtils {
 
-  @EJB(mappedName = TipusDocumentLocal.JNDI_NAME)
-  protected TipusDocumentLocal tipusDocumentEjb;
+  @EJB(mappedName = TipusDocumentService.JNDI_NAME)
+  protected TipusDocumentService tipusDocumentEjb;
 
-  @EJB(mappedName = IdiomaLocal.JNDI_NAME)
-  protected IdiomaLocal idiomaEjb;
+  @EJB(mappedName = IdiomaService.JNDI_NAME)
+  protected IdiomaService idiomaEjb;
 
   @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
   protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;

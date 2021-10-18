@@ -31,7 +31,7 @@ import es.caib.portafib.back.form.webdb.CodiBarresForm;
 
 import es.caib.portafib.back.validator.webdb.CodiBarresWebValidator;
 
-import es.caib.portafib.jpa.CodiBarresJPA;
+import es.caib.portafib.persistence.CodiBarresJPA;
 import es.caib.portafib.model.entity.CodiBarres;
 import es.caib.portafib.model.fields.*;
 
@@ -47,8 +47,8 @@ import es.caib.portafib.model.fields.*;
 public class CodiBarresController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<CodiBarres, java.lang.String> implements CodiBarresFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.CodiBarresLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CodiBarresLocal codiBarresEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.CodiBarresService.JNDI_NAME)
+  protected es.caib.portafib.ejb.CodiBarresService codiBarresEjb;
 
   @Autowired
   private CodiBarresWebValidator codiBarresWebValidator;
@@ -349,7 +349,7 @@ public class CodiBarresController
 
     try {
       preValidate(request, codiBarresForm, result);
-      getWebValidator().validate(codiBarres, result);
+      getWebValidator().validate(codiBarresForm, result);
       postValidate(request, codiBarresForm, result);
 
       if (result.hasErrors()) {
@@ -387,7 +387,7 @@ public class CodiBarresController
       return null;
     }
     try {
-      CodiBarres codiBarres = findByPrimaryKey(request, codiBarresID);
+      CodiBarres codiBarres = codiBarresEjb.findByPrimaryKey(codiBarresID);
       if (codiBarres == null) {
         String __msg =createMessageError(request, "error.notfound", codiBarresID);
         return getRedirectWhenDelete(request, codiBarresID, new Exception(__msg));
@@ -481,7 +481,7 @@ public java.lang.String stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder);
+
   }
 
   public CodiBarresWebValidator getWebValidator() {

@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.CodiBarresLocal;
+import es.caib.portafib.ejb.CodiBarresService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.CodiBarresFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class CodiBarresRefList extends RefListBase
     implements CodiBarresFields {
 
-  @EJB(mappedName = CodiBarresLocal.JNDI_NAME)
-  private CodiBarresLocal codiBarresEjb;
+  @EJB(mappedName = CodiBarresService.JNDI_NAME)
+  private CodiBarresService codiBarresEjb;
 
   public CodiBarresRefList(CodiBarresRefList __clone) {
     super(__clone);

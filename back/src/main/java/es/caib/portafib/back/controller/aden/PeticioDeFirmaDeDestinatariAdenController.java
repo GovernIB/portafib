@@ -8,8 +8,8 @@ import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
-import es.caib.portafib.ejb.FirmaLocal;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.ejb.FirmaService;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.utils.ConstantsV2;
@@ -41,8 +41,8 @@ public class PeticioDeFirmaDeDestinatariAdenController extends
 
   public static final String USUARI_ENTITAT_ID_HOLDER = "PeticionsDeFirmaDeDestinatariAdenController_USUARI_ENTITAT_ID_HOLDER";
 
-  @EJB(mappedName = FirmaLocal.JNDI_NAME)
-  protected FirmaLocal firmaEjb;
+  @EJB(mappedName = FirmaService.JNDI_NAME)
+  protected FirmaService firmaEjb;
 
   @Autowired
   protected SeleccioUsuariValidator seleccioUsuariValidator;

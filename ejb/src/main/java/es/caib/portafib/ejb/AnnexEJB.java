@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.Annex;
-import es.caib.portafib.jpa.AnnexJPA;
-import es.caib.portafib.jpa.AnnexJPAManager;
+import es.caib.portafib.persistence.AnnexJPA;
+import es.caib.portafib.persistence.AnnexJPAManager;
 
 @Stateless(name = "AnnexEJB")
-public class AnnexEJB extends AnnexJPAManager implements AnnexLocal {
+public class AnnexEJB extends AnnexJPAManager implements AnnexService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

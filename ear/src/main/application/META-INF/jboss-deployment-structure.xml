@@ -2,6 +2,7 @@
 <jboss-deployment-structure>
     <deployment>
         <dependencies>
+		    <module name="org.hibernate" slot="5.3" export="true"/>
             <module name="org.apache.cxf" export="true"/>
             <module name="org.apache.cxf.impl" export="true"/>
             <module name="org.apache.ws.security"/>

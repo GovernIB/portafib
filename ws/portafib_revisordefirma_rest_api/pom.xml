@@ -7,12 +7,12 @@
   <version>1.0</version>
   <packaging>jar</packaging>
 
-  <name>PortaFIB - Revisor de Firma Rest API</name>
+  <name>PortaFIB WS - Revisor de Firma Rest API</name>
 
   <parent>
     <groupId>es.caib.portafib</groupId>
     <artifactId>portafib-ws</artifactId>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
   </parent>
 
   <properties>
@@ -69,13 +69,11 @@
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
-      <version>1.2.14</version>
     </dependency>
 
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.8.2</version>
       <scope>test</scope>
     </dependency>
 <!--

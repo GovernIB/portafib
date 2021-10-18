@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.Traduccio;
-import es.caib.portafib.jpa.TraduccioJPA;
-import es.caib.portafib.jpa.TraduccioJPAManager;
+import es.caib.portafib.persistence.TraduccioJPA;
+import es.caib.portafib.persistence.TraduccioJPAManager;
 
 @Stateless(name = "TraduccioEJB")
-public class TraduccioEJB extends TraduccioJPAManager implements TraduccioLocal {
+public class TraduccioEJB extends TraduccioJPAManager implements TraduccioService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})

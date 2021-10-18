@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.CustodiaInfoLocal;
+import es.caib.portafib.ejb.CustodiaInfoService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class CustodiaInfoRefList extends RefListBase
     implements CustodiaInfoFields {
 
-  @EJB(mappedName = CustodiaInfoLocal.JNDI_NAME)
-  private CustodiaInfoLocal custodiaInfoEjb;
+  @EJB(mappedName = CustodiaInfoService.JNDI_NAME)
+  private CustodiaInfoService custodiaInfoEjb;
 
   public CustodiaInfoRefList(CustodiaInfoRefList __clone) {
     super(__clone);

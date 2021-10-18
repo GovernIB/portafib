@@ -53,11 +53,11 @@ import es.caib.portafib.back.controller.rest.RestUtilsErrorManager;
 import es.caib.portafib.back.controller.rest.apifirmaasyncsimple.v2.RestApiFirmaAsyncSimpleV2Controller.ComparatorBlocDeFirmesJPA;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.hibernate.HibernateFileUtil;
-import es.caib.portafib.jpa.BlocDeFirmesJPA;
-import es.caib.portafib.jpa.FirmaJPA;
-import es.caib.portafib.jpa.FluxDeFirmesJPA;
-import es.caib.portafib.jpa.RevisorDeFirmaJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.persistence.BlocDeFirmesJPA;
+import es.caib.portafib.persistence.FirmaJPA;
+import es.caib.portafib.persistence.FluxDeFirmesJPA;
+import es.caib.portafib.persistence.RevisorDeFirmaJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PlantillaFluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
@@ -77,8 +77,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
 
   public static final String CONTEXT = "/common/rest/apiflowtemplatesimple/v1";
 
-  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
 
   @EJB(mappedName = PlantillaFluxDeFirmesLogicaLocal.JNDI_NAME)
   private PlantillaFluxDeFirmesLogicaLocal plantillaFluxDeFirmesEjb;

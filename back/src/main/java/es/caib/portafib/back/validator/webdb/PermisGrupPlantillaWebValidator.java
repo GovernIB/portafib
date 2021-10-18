@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.PermisGrupPlantillaValidator;
+import es.caib.portafib.persistence.validator.PermisGrupPlantillaValidator;
 
 import es.caib.portafib.back.form.webdb.PermisGrupPlantillaForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.PermisGrupPlantilla;
 
 
 /**
@@ -20,21 +24,22 @@ import es.caib.portafib.back.form.webdb.PermisGrupPlantillaForm;
  * @author anadal
  */
 @Component
-public class PermisGrupPlantillaWebValidator  implements Validator, PermisGrupPlantillaFields {
+public class PermisGrupPlantillaWebValidator extends AbstractWebValidator<PermisGrupPlantillaForm, PermisGrupPlantilla>
+     implements Validator, PermisGrupPlantillaFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected PermisGrupPlantillaValidator<Object> validator = new PermisGrupPlantillaValidator<Object>();
+  protected PermisGrupPlantillaValidator<PermisGrupPlantilla> validator = new PermisGrupPlantillaValidator<PermisGrupPlantilla>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.GrupEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.GrupEntitatLocal grupEntitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.GrupEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.GrupEntitatService grupEntitatEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PermisGrupPlantillaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PermisGrupPlantillaLocal permisGrupPlantillaEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.PermisGrupPlantillaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PermisGrupPlantillaService permisGrupPlantillaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.PlantillaFluxDeFirmesService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PlantillaFluxDeFirmesService plantillaFluxDeFirmesEjb;
 
 
 
@@ -43,28 +48,50 @@ public class PermisGrupPlantillaWebValidator  implements Validator, PermisGrupPl
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return PermisGrupPlantillaForm.class.isAssignableFrom(clazz);
+  public PermisGrupPlantilla getBeanOfForm(PermisGrupPlantillaForm form) {
+    return  form.getPermisGrupPlantilla();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<PermisGrupPlantillaForm> getClassOfForm() {
+    return PermisGrupPlantillaForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(PermisGrupPlantillaForm __form, PermisGrupPlantilla __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<PermisGrupPlantillaForm> wvr;
+    wvr = new WebValidationResult<PermisGrupPlantillaForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(PermisGrupPlantillaForm __form, PermisGrupPlantilla __bean, Errors errors,
+    WebValidationResult<PermisGrupPlantillaForm> wvr, boolean isNou) {
 
-    validator.validate(wvr, target,
+    BeanValidatorResult<PermisGrupPlantilla> __vr = new BeanValidatorResult<PermisGrupPlantilla>();
+    validator.validate(__vr, __bean,
       isNou, grupEntitatEjb, permisGrupPlantillaEjb, plantillaFluxDeFirmesEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -72,11 +99,11 @@ public class PermisGrupPlantillaWebValidator  implements Validator, PermisGrupPl
     return field.fullName;
   }
 
-  public PermisGrupPlantillaValidator<Object> getValidator() {
+  public PermisGrupPlantillaValidator<PermisGrupPlantilla> getValidator() {
     return validator;
   }
 
-  public void setValidator(PermisGrupPlantillaValidator<Object> validator) {
+  public void setValidator(PermisGrupPlantillaValidator<PermisGrupPlantilla> validator) {
     this.validator = validator;
   }
 

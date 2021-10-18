@@ -33,7 +33,7 @@ import es.caib.portafib.back.form.webdb.PluginFirmaWebPerUsuariAplicacioForm;
 
 import es.caib.portafib.back.validator.webdb.PluginFirmaWebPerUsuariAplicacioWebValidator;
 
-import es.caib.portafib.jpa.PluginFirmaWebPerUsuariAplicacioJPA;
+import es.caib.portafib.persistence.PluginFirmaWebPerUsuariAplicacioJPA;
 import es.caib.portafib.model.entity.PluginFirmaWebPerUsuariAplicacio;
 import es.caib.portafib.model.fields.*;
 
@@ -49,8 +49,8 @@ import es.caib.portafib.model.fields.*;
 public class PluginFirmaWebPerUsuariAplicacioController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<PluginFirmaWebPerUsuariAplicacio, java.lang.Long> implements PluginFirmaWebPerUsuariAplicacioFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.PluginFirmaWebPerUsuariAplicacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PluginFirmaWebPerUsuariAplicacioLocal pluginFirmaWebPerUsuariAplicacioEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.PluginFirmaWebPerUsuariAplicacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PluginFirmaWebPerUsuariAplicacioService pluginFirmaWebPerUsuariAplicacioEjb;
 
   @Autowired
   private PluginFirmaWebPerUsuariAplicacioWebValidator pluginFirmaWebPerUsuariAplicacioWebValidator;
@@ -285,27 +285,27 @@ public class PluginFirmaWebPerUsuariAplicacioController
     if (pluginFirmaWebPerUsuariAplicacioForm.getListOfUsuariAplicacioForUsuariAplicacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariAplicacioID(request, mav, pluginFirmaWebPerUsuariAplicacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       pluginFirmaWebPerUsuariAplicacioForm.setListOfUsuariAplicacioForUsuariAplicacioID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (pluginFirmaWebPerUsuariAplicacioForm.getListOfPluginForPluginFirmaWebID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPluginFirmaWebID(request, mav, pluginFirmaWebPerUsuariAplicacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       pluginFirmaWebPerUsuariAplicacioForm.setListOfPluginForPluginFirmaWebID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (pluginFirmaWebPerUsuariAplicacioForm.getListOfValuesForAccio() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForAccio(request, mav, pluginFirmaWebPerUsuariAplicacioForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       pluginFirmaWebPerUsuariAplicacioForm.setListOfValuesForAccio(_listSKV);
     }
     
@@ -422,7 +422,7 @@ public class PluginFirmaWebPerUsuariAplicacioController
 
     try {
       preValidate(request, pluginFirmaWebPerUsuariAplicacioForm, result);
-      getWebValidator().validate(pluginFirmaWebPerUsuariAplicacio, result);
+      getWebValidator().validate(pluginFirmaWebPerUsuariAplicacioForm, result);
       postValidate(request, pluginFirmaWebPerUsuariAplicacioForm, result);
 
       if (result.hasErrors()) {
@@ -460,7 +460,7 @@ public class PluginFirmaWebPerUsuariAplicacioController
       return null;
     }
     try {
-      PluginFirmaWebPerUsuariAplicacio pluginFirmaWebPerUsuariAplicacio = findByPrimaryKey(request, pluginfirmawebperusrappid);
+      PluginFirmaWebPerUsuariAplicacio pluginFirmaWebPerUsuariAplicacio = pluginFirmaWebPerUsuariAplicacioEjb.findByPrimaryKey(pluginfirmawebperusrappid);
       if (pluginFirmaWebPerUsuariAplicacio == null) {
         String __msg =createMessageError(request, "error.notfound", pluginfirmawebperusrappid);
         return getRedirectWhenDelete(request, pluginfirmawebperusrappid, new Exception(__msg));
@@ -505,7 +505,7 @@ public String deleteSelected(HttpServletRequest request,
 
 
 public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+  return java.lang.Long.parseLong(value, 10);
 }
 
   @Override
@@ -554,7 +554,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder, "pluginFirmaWebPerUsuariAplicacio.pluginfirmawebperusrappid");
+    binder.setDisallowedFields("pluginfirmawebperusrappid");
+
   }
 
   public PluginFirmaWebPerUsuariAplicacioWebValidator getWebValidator() {
@@ -613,7 +614,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
        ModelAndView mav, PluginFirmaWebPerUsuariAplicacioForm pluginFirmaWebPerUsuariAplicacioForm, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariAplicacioForm.isHiddenField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (pluginFirmaWebPerUsuariAplicacioForm.isReadOnlyField(USUARIAPLICACIOID)) {
@@ -628,7 +629,7 @@ public java.lang.Long stringToPK(String value) {
        List<PluginFirmaWebPerUsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariAplicacioFilterForm.isHiddenField(USUARIAPLICACIOID)
       && !pluginFirmaWebPerUsuariAplicacioFilterForm.isGroupByField(USUARIAPLICACIOID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(USUARIAPLICACIOID)) {
@@ -652,7 +653,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPluginFirmaWebID(HttpServletRequest request,
        ModelAndView mav, PluginFirmaWebPerUsuariAplicacioForm pluginFirmaWebPerUsuariAplicacioForm, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariAplicacioForm.isHiddenField(PLUGINFIRMAWEBID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (pluginFirmaWebPerUsuariAplicacioForm.isReadOnlyField(PLUGINFIRMAWEBID)) {
@@ -667,7 +668,7 @@ public java.lang.Long stringToPK(String value) {
        List<PluginFirmaWebPerUsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariAplicacioFilterForm.isHiddenField(PLUGINFIRMAWEBID)
       && !pluginFirmaWebPerUsuariAplicacioFilterForm.isGroupByField(PLUGINFIRMAWEBID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(PLUGINFIRMAWEBID)) {
@@ -691,7 +692,7 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForAccio(HttpServletRequest request,
        ModelAndView mav, PluginFirmaWebPerUsuariAplicacioForm pluginFirmaWebPerUsuariAplicacioForm, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariAplicacioForm.isHiddenField(ACCIO)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     return getReferenceListForAccio(request, mav, where);
   }
@@ -702,7 +703,7 @@ public java.lang.Long stringToPK(String value) {
        List<PluginFirmaWebPerUsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariAplicacioFilterForm.isHiddenField(ACCIO)
       && !pluginFirmaWebPerUsuariAplicacioFilterForm.isGroupByField(ACCIO)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     return getReferenceListForAccio(request, mav, Where.AND(where,_w));

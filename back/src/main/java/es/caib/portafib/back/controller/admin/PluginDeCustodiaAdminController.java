@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import es.caib.portafib.back.controller.AbstractPluginAdminController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
-import es.caib.portafib.jpa.PluginJPA;
+import es.caib.portafib.persistence.PluginJPA;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**

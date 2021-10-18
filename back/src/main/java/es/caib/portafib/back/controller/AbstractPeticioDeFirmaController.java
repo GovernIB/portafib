@@ -21,7 +21,7 @@ import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.PeticioDeFirmaAmbFitxerAFirmarWebValidator;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;

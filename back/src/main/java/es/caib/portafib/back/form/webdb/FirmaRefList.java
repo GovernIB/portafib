@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 
-import es.caib.portafib.ejb.FirmaLocal;
+import es.caib.portafib.ejb.FirmaService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.fields.FirmaFields;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
@@ -25,8 +25,8 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
 public class FirmaRefList extends RefListBase
     implements FirmaFields {
 
-  @EJB(mappedName = FirmaLocal.JNDI_NAME)
-  private FirmaLocal firmaEjb;
+  @EJB(mappedName = FirmaService.JNDI_NAME)
+  private FirmaService firmaEjb;
 
   public FirmaRefList(FirmaRefList __clone) {
     super(__clone);

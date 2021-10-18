@@ -4,8 +4,8 @@ import es.caib.portafib.back.controller.FileDownloadController;
 import es.caib.portafib.back.controller.webdb.FitxerController;
 import es.caib.portafib.back.form.webdb.FitxerFilterForm;
 import es.caib.portafib.back.form.webdb.FitxerForm;
-import es.caib.portafib.ejb.BlocDeFirmesLocal;
-import es.caib.portafib.ejb.FirmaLocal;
+import es.caib.portafib.ejb.BlocDeFirmesService;
+import es.caib.portafib.ejb.FirmaService;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.Fitxer;
@@ -72,14 +72,14 @@ public class FitxersDePeticioAdenController extends FitxerController {
 
     public static final String SESSION_PETICIOID = "fitxersDePeticio_peticioID";
 
-    @EJB(mappedName = BlocDeFirmesLocal.JNDI_NAME)
-    protected BlocDeFirmesLocal blocDeFirmesEjb;
+    @EJB(mappedName = BlocDeFirmesService.JNDI_NAME)
+    protected BlocDeFirmesService blocDeFirmesEjb;
 
     @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
     protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
 
-    @EJB(mappedName = FirmaLocal.JNDI_NAME)
-    protected FirmaLocal firmaEjb;
+    @EJB(mappedName = FirmaService.JNDI_NAME)
+    protected FirmaService firmaEjb;
 
     @Override
     public boolean isActiveFormNew() {

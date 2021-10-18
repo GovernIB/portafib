@@ -34,9 +34,9 @@ import es.caib.portafib.back.form.webdb.UsuariPersonaForm;
 import es.caib.portafib.back.validator.webdb.UsuariPersonaWebValidator;
 
 import es.caib.portafib.model.entity.Fitxer;
-import es.caib.portafib.jpa.FitxerJPA;
+import es.caib.portafib.persistence.FitxerJPA;
 import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.*;
 
@@ -52,8 +52,8 @@ import es.caib.portafib.model.fields.*;
 public class UsuariPersonaController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<UsuariPersona, java.lang.String, UsuariPersonaForm> implements UsuariPersonaFields {
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariPersonaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariPersonaLocal usuariPersonaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.UsuariPersonaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariPersonaService usuariPersonaEjb;
 
   @Autowired
   private UsuariPersonaWebValidator usuariPersonaWebValidator;
@@ -265,9 +265,9 @@ public class UsuariPersonaController
     if (usuariPersonaForm.getListOfIdiomaForIdiomaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForIdiomaID(request, mav, usuariPersonaForm, null);
 
- if (!_listSKV.isEmpty())    {
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-    }
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
       usuariPersonaForm.setListOfIdiomaForIdiomaID(_listSKV);
     }
     
@@ -392,7 +392,7 @@ public class UsuariPersonaController
     try {
       this.setFilesFormToEntity(afm, usuariPersona, usuariPersonaForm); // FILE
       preValidate(request, usuariPersonaForm, result);
-      getWebValidator().validate(usuariPersona, result);
+      getWebValidator().validate(usuariPersonaForm, result);
       postValidate(request, usuariPersonaForm, result);
 
       if (result.hasErrors()) {
@@ -433,7 +433,7 @@ public class UsuariPersonaController
       return null;
     }
     try {
-      UsuariPersona usuariPersona = findByPrimaryKey(request, usuariPersonaID);
+      UsuariPersona usuariPersona = usuariPersonaEjb.findByPrimaryKey(usuariPersonaID);
       if (usuariPersona == null) {
         String __msg =createMessageError(request, "error.notfound", usuariPersonaID);
         return getRedirectWhenDelete(request, usuariPersonaID, new Exception(__msg));
@@ -527,7 +527,7 @@ public java.lang.String stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    initDisallowedFields(binder);
+
   }
 
   public UsuariPersonaWebValidator getWebValidator() {
@@ -609,7 +609,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForIdiomaID(HttpServletRequest request,
        ModelAndView mav, UsuariPersonaForm usuariPersonaForm, Where where)  throws I18NException {
     if (usuariPersonaForm.isHiddenField(IDIOMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
     if (usuariPersonaForm.isReadOnlyField(IDIOMAID)) {
@@ -624,7 +624,7 @@ public java.lang.String stringToPK(String value) {
        List<UsuariPersona> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariPersonaFilterForm.isHiddenField(IDIOMAID)
       && !usuariPersonaFilterForm.isGroupByField(IDIOMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST_UNMODIFIABLE;
+      return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
     if (!_groupByItemsMap.containsKey(IDIOMAID)) {

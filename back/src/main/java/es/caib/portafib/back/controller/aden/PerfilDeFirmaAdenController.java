@@ -24,7 +24,7 @@ import es.caib.portafib.back.controller.webdb.PerfilDeFirmaController;
 import es.caib.portafib.back.form.webdb.PerfilDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PerfilDeFirmaForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.PerfilDeFirmaJPA;
+import es.caib.portafib.persistence.PerfilDeFirmaJPA;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 import es.caib.portafib.model.fields.PerfilDeFirmaQueryPath;
 

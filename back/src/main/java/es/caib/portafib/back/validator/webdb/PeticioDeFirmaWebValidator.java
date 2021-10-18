@@ -2,7 +2,9 @@ package es.caib.portafib.back.validator.webdb;
 
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import java.util.List;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.validation.WebValidationResult;
 import es.caib.portafib.model.fields.*;
@@ -10,9 +12,11 @@ import es.caib.portafib.model.fields.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import es.caib.portafib.jpa.validator.PeticioDeFirmaValidator;
+import es.caib.portafib.persistence.validator.PeticioDeFirmaValidator;
 
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
+import org.fundaciobit.genapp.common.web.validation.AbstractWebValidator;
+import es.caib.portafib.model.entity.PeticioDeFirma;
 
 
 /**
@@ -20,36 +24,37 @@ import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
  * @author anadal
  */
 @Component
-public class PeticioDeFirmaWebValidator  implements Validator, PeticioDeFirmaFields {
+public class PeticioDeFirmaWebValidator extends AbstractWebValidator<PeticioDeFirmaForm, PeticioDeFirma>
+     implements Validator, PeticioDeFirmaFields {
 
-  protected final Logger log = Logger.getLogger(getClass());
+     protected final Logger log = Logger.getLogger(getClass());
 
-  protected PeticioDeFirmaValidator<Object> validator = new PeticioDeFirmaValidator<Object>();
+  protected PeticioDeFirmaValidator<PeticioDeFirma> validator = new PeticioDeFirmaValidator<PeticioDeFirma>();
 
   // EJB's
-  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoService.JNDI_NAME)
+  protected es.caib.portafib.ejb.CustodiaInfoService custodiaInfoEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.FluxDeFirmesLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.FluxDeFirmesLocal fluxDeFirmesEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.FluxDeFirmesService.JNDI_NAME)
+  protected es.caib.portafib.ejb.FluxDeFirmesService fluxDeFirmesEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.PeticioDeFirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.PeticioDeFirmaService.JNDI_NAME)
+  protected es.caib.portafib.ejb.PeticioDeFirmaService peticioDeFirmaEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.TipusDocumentService.JNDI_NAME)
+  protected es.caib.portafib.ejb.TipusDocumentService tipusDocumentEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariAplicacioService usuariAplicacioEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal usuariAplicacioConfiguracioEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioConfiguracioService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariAplicacioConfiguracioService usuariAplicacioConfiguracioEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
+  @javax.ejb.EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatService.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariEntitatService usuariEntitatEjb;
 
 
 
@@ -58,32 +63,54 @@ public class PeticioDeFirmaWebValidator  implements Validator, PeticioDeFirmaFie
   }
   
   @Override
-  public boolean supports(Class<?> clazz) {
-    return PeticioDeFirmaForm.class.isAssignableFrom(clazz);
+  public PeticioDeFirma getBeanOfForm(PeticioDeFirmaForm form) {
+    return  form.getPeticioDeFirma();
   }
 
   @Override
-  public void validate(Object target, Errors errors) {
+  public Class<PeticioDeFirmaForm> getClassOfForm() {
+    return PeticioDeFirmaForm.class;
+  }
 
-    WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+  @Override
+  public void validate(PeticioDeFirmaForm __form, PeticioDeFirma __bean, Errors errors) {
 
-    Boolean nou = (Boolean)errors.getFieldValue("nou");
-    boolean isNou =  nou != null && nou.booleanValue();
+    WebValidationResult<PeticioDeFirmaForm> wvr;
+    wvr = new WebValidationResult<PeticioDeFirmaForm>(errors);
 
-    validate(target, errors, wvr, isNou);
+    boolean isNou;
+    {
+        Object objNou = errors.getFieldValue("nou");
+        if (objNou == null) {
+            isNou = false;
+        } else { 
+         Boolean nou = Boolean.parseBoolean((String)objNou);
+         isNou =  nou != null && nou.booleanValue();
+        }
+    }
+
+    validate(__form, __bean , errors, wvr, isNou);
   }
 
 
-  public void validate(Object target, Errors errors,
-    WebValidationResult<Object> wvr, boolean isNou) {
+  public void validate(PeticioDeFirmaForm __form, PeticioDeFirma __bean, Errors errors,
+    WebValidationResult<PeticioDeFirmaForm> wvr, boolean isNou) {
 
     if (isNou) { // Creacio
       // ================ CREATION
       // Fitxers 
     }
-    validator.validate(wvr, target,
+    BeanValidatorResult<PeticioDeFirma> __vr = new BeanValidatorResult<PeticioDeFirma>();
+    validator.validate(__vr, __bean,
       isNou, custodiaInfoEjb, fluxDeFirmesEjb, idiomaEjb, peticioDeFirmaEjb, tipusDocumentEjb, usuariAplicacioEjb, usuariAplicacioConfiguracioEjb, usuariEntitatEjb);
+
+    if (__vr.hasErrors()) {
+        List<I18NFieldError> vrErrors = __vr.getErrors();
+    	   for (I18NFieldError i18nFieldError : vrErrors) {
+    	       wvr.rejectValue(i18nFieldError.getField(), i18nFieldError.getTranslation().getCode(), i18nFieldError.getTranslation().getArgs());
+        }
+    }
+
 
   } // Final de metode
 
@@ -91,11 +118,11 @@ public class PeticioDeFirmaWebValidator  implements Validator, PeticioDeFirmaFie
     return field.fullName;
   }
 
-  public PeticioDeFirmaValidator<Object> getValidator() {
+  public PeticioDeFirmaValidator<PeticioDeFirma> getValidator() {
     return validator;
   }
 
-  public void setValidator(PeticioDeFirmaValidator<Object> validator) {
+  public void setValidator(PeticioDeFirmaValidator<PeticioDeFirma> validator) {
     this.validator = validator;
   }
 

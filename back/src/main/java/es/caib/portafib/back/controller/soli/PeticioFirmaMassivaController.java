@@ -2,9 +2,9 @@ package es.caib.portafib.back.controller.soli;
 
 import es.caib.portafib.back.form.soli.PeticioFirmaMassivaForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.persistence.EntitatJPA;
+import es.caib.portafib.persistence.FitxerJPA;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.ConstantsV2;

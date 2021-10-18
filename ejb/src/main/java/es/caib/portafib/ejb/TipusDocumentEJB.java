@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.model.entity.TipusDocument;
-import es.caib.portafib.jpa.TipusDocumentJPA;
-import es.caib.portafib.jpa.TipusDocumentJPAManager;
+import es.caib.portafib.persistence.TipusDocumentJPA;
+import es.caib.portafib.persistence.TipusDocumentJPAManager;
 
 @Stateless(name = "TipusDocumentEJB")
-public class TipusDocumentEJB extends TipusDocumentJPAManager implements TipusDocumentLocal {
+public class TipusDocumentEJB extends TipusDocumentJPAManager implements TipusDocumentService {
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
