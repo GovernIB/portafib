@@ -1,6 +1,7 @@
 
 package es.caib.portafib.ejb;
 
+// NO MODIFICAR - DO NOT MODIFY;
 import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -8,31 +9,33 @@ import es.caib.portafib.model.entity.BlocDeFirmes;
 import es.caib.portafib.persistence.BlocDeFirmesJPA;
 import es.caib.portafib.persistence.BlocDeFirmesJPAManager;
 
-@Stateless(name = "BlocDeFirmesEJB")
+import es.caib.portafib.commons.utils.Constants;
+
+@Stateless
 public class BlocDeFirmesEJB extends BlocDeFirmesJPAManager implements BlocDeFirmesService {
 
-  @Override
-	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
-	public void delete(BlocDeFirmes instance) {
-		super.delete(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void delete(BlocDeFirmes instance) {
+        super.delete(instance);
+    }
 
-  @Override
-	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
-	public BlocDeFirmes create(BlocDeFirmes instance) throws I18NException {
-		return super.create(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public BlocDeFirmes create(BlocDeFirmes instance) throws I18NException {
+        return super.create(instance);
+    }
 
-  @Override
-	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
-	public BlocDeFirmes update(BlocDeFirmes instance) throws I18NException {
-		 return super.update(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public BlocDeFirmes update(BlocDeFirmes instance) throws I18NException {
+         return super.update(instance);
+    }
 
-  @Override
-	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
-  public BlocDeFirmesJPA findByPrimaryKey(Long _ID_) {
-    return (BlocDeFirmesJPA)super.findByPrimaryKey(_ID_);
-  }
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public BlocDeFirmesJPA findByPrimaryKey(Long _ID_) {
+        return (BlocDeFirmesJPA)super.findByPrimaryKey(_ID_);
+    }
 
 }

@@ -1,6 +1,7 @@
 
 package es.caib.portafib.ejb;
 
+// NO MODIFICAR - DO NOT MODIFY;
 import javax.ejb.Stateless;
 import javax.annotation.security.RolesAllowed;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -8,31 +9,33 @@ import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.persistence.CustodiaInfoJPA;
 import es.caib.portafib.persistence.CustodiaInfoJPAManager;
 
-@Stateless(name = "CustodiaInfoEJB")
+import es.caib.portafib.commons.utils.Constants;
+
+@Stateless
 public class CustodiaInfoEJB extends CustodiaInfoJPAManager implements CustodiaInfoService {
 
-  @Override
-	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
-	public void delete(CustodiaInfo instance) {
-		super.delete(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void delete(CustodiaInfo instance) {
+        super.delete(instance);
+    }
 
-  @Override
-	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
-	public CustodiaInfo create(CustodiaInfo instance) throws I18NException {
-		return super.create(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public CustodiaInfo create(CustodiaInfo instance) throws I18NException {
+        return super.create(instance);
+    }
 
-  @Override
-	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
-	public CustodiaInfo update(CustodiaInfo instance) throws I18NException {
-		 return super.update(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public CustodiaInfo update(CustodiaInfo instance) throws I18NException {
+         return super.update(instance);
+    }
 
-  @Override
-	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
-  public CustodiaInfoJPA findByPrimaryKey(Long _ID_) {
-    return (CustodiaInfoJPA)super.findByPrimaryKey(_ID_);
-  }
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public CustodiaInfoJPA findByPrimaryKey(Long _ID_) {
+        return (CustodiaInfoJPA)super.findByPrimaryKey(_ID_);
+    }
 
 }

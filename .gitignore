@@ -171,3 +171,7 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /portafib-it/keystore-sia.p12
 /portafib-it/keystore.p12
 /utils
+/ejb_original
+/jpa
+/persistence_manager
+/utils_ESBORRAR

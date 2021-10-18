@@ -639,6 +639,7 @@ public java.lang.String stringToPK(String value) {
     binder.setValidator(getWebValidator());
 
 
+    initDisallowedFields(binder);
   }
 
   public UsuariAplicacioWebValidator getWebValidator() {

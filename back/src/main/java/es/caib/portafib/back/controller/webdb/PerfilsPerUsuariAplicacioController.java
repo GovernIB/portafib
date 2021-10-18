@@ -534,8 +534,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("perfilsPerUsrAppID");
 
+    initDisallowedFields(binder, "perfilsPerUsuariAplicacio.perfilsPerUsrAppID");
   }
 
   public PerfilsPerUsuariAplicacioWebValidator getWebValidator() {

@@ -7,7 +7,7 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.spi.PersistenceUnitInfo;
 
-
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,7 @@ import es.caib.portafib.commons.utils.Configuracio;
  * @author jagarcia
  */
 @SuppressWarnings("unchecked")
-public class CustomHibernatePersistenceProvider extends org.hibernate.jpa.HibernatePersistenceProvider {
+public class CustomHibernatePersistenceProvider extends HibernatePersistenceProvider {
 	
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	

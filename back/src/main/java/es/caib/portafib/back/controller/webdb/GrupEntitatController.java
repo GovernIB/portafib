@@ -510,8 +510,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("grupEntitatID");
 
+    initDisallowedFields(binder, "grupEntitat.grupEntitatID");
   }
 
   public GrupEntitatWebValidator getWebValidator() {

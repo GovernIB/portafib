@@ -566,6 +566,7 @@ public java.lang.Long stringToPK(String value) {
     binder.setValidator(getWebValidator());
 
 
+    initDisallowedFields(binder);
   }
 
   public TipusDocumentWebValidator getWebValidator() {

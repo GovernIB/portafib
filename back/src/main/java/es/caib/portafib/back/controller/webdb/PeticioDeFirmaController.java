@@ -857,8 +857,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("peticioDeFirmaID");
 
+    initDisallowedFields(binder, "peticioDeFirma.peticioDeFirmaID");
   }
 
   public PeticioDeFirmaWebValidator getWebValidator() {

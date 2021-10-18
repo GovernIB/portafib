@@ -808,8 +808,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("usuariAplicacioConfigID");
 
+    initDisallowedFields(binder, "usuariAplicacioConfiguracio.usuariAplicacioConfigID");
   }
 
   public UsuariAplicacioConfiguracioWebValidator getWebValidator() {

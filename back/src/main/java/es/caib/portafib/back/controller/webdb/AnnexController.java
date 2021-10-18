@@ -530,8 +530,8 @@ public java.lang.Long stringToPK(String value) {
 
     binder.setValidator(getWebValidator());
 
-    binder.setDisallowedFields("annexID");
 
+    initDisallowedFields(binder, "annex.annexID");
   }
 
   public AnnexWebValidator getWebValidator() {
