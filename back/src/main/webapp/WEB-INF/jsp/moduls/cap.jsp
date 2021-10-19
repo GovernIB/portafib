@@ -31,21 +31,18 @@
         </div>
         <!-- FI Logo i nom aplicació -->
 
-
         <!-- Botons -->
         <div class="collapse navbar-collapse" id="navbarCollapse">
-
 
             <ul class="navbar-nav mobil">
                 <c:if test="${not empty loginInfo.entitatID}">
                     <c:if test="${loginInfo.usuariPersona.usuariIntern}">
 
-
-
-                        <li><a
+                        <li style="margin-top:14px;"><a
                             href="<c:out value="${loginInfo.entitat.web}" />"
                             target="_blank">
-                               <i> ${loginInfo.entitat.nom}</i> </a></li>
+                               <i> ${loginInfo.entitat.nom}</i> </a>
+                        </li>
 
 
                         <li class="dropdown colorVerd">
@@ -90,13 +87,13 @@
                         </button>
                         <div class="dropdown-menu"
                             aria-labelledby="dropdownMenu2">
-                            <c:forEach var="idioma" items="${idiomes}"
-                                varStatus="status">
+                            <c:forEach var="idiomaItem" items="${idiomes}" varStatus="status">
+                            <c:set var="idioma" value="${idiomaItem.idiomaID}"/>
                                 <a class="dropdown-item"
                                     href="<c:url value="/canviarIdioma/${idioma}"></c:url>">
                                     <img
                                     src="<c:url value="/img/${idioma}_petit_${lang eq idioma? 'on' : 'off'}.gif"/>"
-                                    alt="${idioma}" width="17"
+                                    alt="${idiomaItem.nom}" width="17"
                                     height="14" border="0" />
                                 </a>
                             </c:forEach>

@@ -86,7 +86,7 @@
 
 
     <!-- INICI MENU + CONTINGUT -->
-    <div class="well well-white" style="background-color:#FFFFFF;margin-right:20px;padding:10px;">
+    <div class="well well-white" style="padding:10px;">
     <tiles:insertAttribute name="menu_i_contingut" >
        <%--  <tiles:insertTemplate template="/WEB-INF/jsp/moduls/menu_i_contingut.jsp"/>  --%>
        <tiles:putAttribute name="menu" value="${menu_tile}" />
