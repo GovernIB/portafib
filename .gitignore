@@ -175,3 +175,5 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /jpa
 /persistence_manager
 /utils_ESBORRAR
+/scripts/sqlgenerator/create_schema.sql
+/scripts/sqlgenerator/drop_schema.sql
