@@ -5,7 +5,7 @@
 <tr><td><i>Aplicació</i></td><td><i>Integració</i></td><td><i>Callback</i></td><td><i>Tipus de firma</i></td></tr>
 <tr><td>ESTUPE</td><td>PortaFIBPassarelaDeFirmaWeb</td><td>No</td><td>Firma local síncrona</td></tr>
 <tr><td>HELIUM_PASS</td><td>PortaFIBPassarelaDeFirmaWeb<br/>PortaFIBPassarelaDeFirmaEnServidor</td><td>No</td><td>Firma local síncrona/Firma en servidor</td></tr>
-<tr><td>NOTIB</td><td>PortaFIBPassarelaDeFirmaEnServidor </td><td>No</td><td>Firma en servidor</td></tr>
+<tr><td>NOTIB</td><td>PortaFIBPassarelaDeFirmaEnServidor </td><td>No</td><td>Firma en servidor</td><td>https://github.com/GovernIB/notib/issues/429</td></tr>
 <tr><td>RIPEA</td><td>PortaFIBPassarelaDeFirmaEnServidor</td><td>No</td><td>Firma en servidor</td><td>https://github.com/GovernIB/ripea/issues/877</td></tr>
   <tr><td><del>SOLUCIONAT</del></td><td><del>SOLUCIONAT</del></td><td><del>No</del></td><td><del>Firma en servidor</del></td></tr>
 </table>
