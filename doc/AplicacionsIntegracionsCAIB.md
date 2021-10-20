@@ -4,7 +4,7 @@
 <tr><td>HELIUM_PASS</td><td>PortaFIBPassarelaDeFirmaWeb/PortaFIBPassarelaDeFirmaEnServidor</td><td>No</td><td>Firma local síncrona/Firma en servidor</td></tr>
 <tr><td>NOTIB</td><td>PortaFIBPassarelaDeFirmaEnServidor </td><td>No</td><td>Firma en servidor</td></tr>
 <tr><td>RIPEA</td><td>PortaFIBPassarelaDeFirmaEnServidor</td><td>No</td><td>Firma en servidor</td></tr>
-  <tr><td><u>SOLUCIONAT</u></td><td><del>SOLUCIONAT</del></td><td><del>No</del></td><td><del>Firma en servidor</del></td></tr>
+  <tr><td><del>SOLUCIONAT</del></td><td><del>SOLUCIONAT</del></td><td><del>No</del></td><td><del>Firma en servidor</del></td></tr>
 </table>
 
 <table>		
