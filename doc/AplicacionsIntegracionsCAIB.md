@@ -1,21 +1,27 @@
-Aplicació	Integració	Callback	Tipus de firma
-ESTUPE	PortaFIBPassarelaDeFirmaWeb 	No	Firma local síncrona
-HELIUM_PASS	PortaFIBPassarelaDeFirmaWeb/PortaFIBPassarelaDeFirmaEnServidor 	No	Firma local síncrona/Firma en servidor
-NOTIB	PortaFIBPassarelaDeFirmaEnServidor 	No	Firma en servidor
-RIPEA	PortaFIBPassarelaDeFirmaEnServidor 	No	Firma en servidor
-			
-			
-Aplicació	Integració	Callback	
-ASNOTIF	API-Indra	Callback-Indra	
-AVACAT	API-Indra	Callback-SOAP	
-EXNAU	API-SOAP	Callback-SOAP	
-HELIUM	API-Indra	Callback-SOAP	
-IBKEY	API-Indra	Callback-Indra	
-MARES	API-SOAP	Callback-SOAP	
-PESCA	API-SOAP	Callback-SOAP	
-PFUNCIONA	API-Indra	Callback-Indra	
-PRECODE	API-SOAP	Callback-SOAP	
-RIPEA	API-SOAP	Callback-SOAP	
-SICOP	API-SOAP	Callback-SOAP	
-TRESIS	API-SOAP	Callback-SOAP	
-XESTIB	API-SOAP	Callback-SOAP	
+<table>
+<tr><td><b>Aplicació</b></td><td><b>Integració</b></td><td><b>Callback</b></td><td><b>Tipus de firma</b></td></tr>
+<tr><td>ESTUPE</td><td>PortaFIBPassarelaDeFirmaWeb</td><td>No</td><td>Firma local síncrona</td></tr>
+<tr><td>HELIUM_PASS</td><td>PortaFIBPassarelaDeFirmaWeb/PortaFIBPassarelaDeFirmaEnServidor</td><td>No</td><td>Firma local síncrona/Firma en servidor</td></tr>
+<tr><td>NOTIB</td><td>PortaFIBPassarelaDeFirmaEnServidor </td><td>No</td><td>Firma en servidor</td></tr>
+<tr><td>RIPEA</td><td>PortaFIBPassarelaDeFirmaEnServidor</td><td>No</td><td>Firma en servidor</td></tr>
+</table>
+
+<table>		
+<tr><td><b>Aplicació</b></td><td><b>Integració</b></td><td><b>Callback</b></td></tr>
+<tr><td>ASNOTIF</td><td>API-Indra</td><td>Callback-Indra</td></tr>
+<tr><td>AVACAT</td><td>API-Indra</td><td>Callback-SOAP</td></tr>
+<tr><td>EXNAU</td><td>API-SOAP</td><td>Callback-SOAP</td></tr>
+<tr><td>HELIUM</td><td>API-Indra</td><td>Callback-SOAP</td></tr>
+<tr><td>IBKEY</td><td>API-Indra</td><td>Callback-Indra</td></tr>
+<tr><td>MARES</td><td>API-SOAP</td><td>Callback-SOAP</td></tr>
+<tr><td>PESCA</td><td>API-SOAP</td><td>Callback-SOAP</td></tr>
+<tr><td>PFUNCIONA</td><td>API-Indra</td><td>Callback-Indra</td></tr>
+<tr><td>PRECODE</td><td>API-SOAP</td><td>Callback-SOAP</td></tr>
+<tr><td>RIPEA</td><td>API-SOAP</td><td>Callback-SOAP</td></tr>
+<tr><td>SICOP</td><td>API-SOAP</td><td>Callback-SOAP</td></tr>
+<tr><td>TRESIS</td><td>API-SOAP</td><td>Callback-SOAP</td></tr>
+<tr><td>XESTIB</td><td>API-SOAP</td><td>Callback-SOAP</td></tr>
+</table>
+
+
+
