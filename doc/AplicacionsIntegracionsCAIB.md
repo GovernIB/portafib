@@ -1,3 +1,6 @@
+# Aplicacions de la CAIB que utilitzen APIs antigues de PortaFIB
+
+
 <table>
 <tr><td><i>Aplicació</i></td><td><i>Integració</i></td><td><i>Callback</i></td><td><i>Tipus de firma</i></td></tr>
 <tr><td>ESTUPE</td><td>PortaFIBPassarelaDeFirmaWeb</td><td>No</td><td>Firma local síncrona</td></tr>
