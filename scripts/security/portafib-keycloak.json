@@ -1,0 +1,13 @@
+{
+  "realm" : "GOIB",
+  "resource" : "goib-ws",
+  "auth-server-url" : "http://localhost:18080/auth",
+  "ssl-required" : "external",
+  "use-resource-role-mappings" : true,
+  "verify-token-audience" : true,
+  "enable-basic-auth": true,
+  "principal-attribute": "preferred_username",
+  "credentials" : {
+      "secret" : "cf346def-19fd-42b9-885d-9a65519e4cd9"
+  }
+}
