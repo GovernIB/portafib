@@ -1,9 +1,7 @@
 package es.caib.portafib.persistence.test;
 
-import java.util.List;
 import java.util.Properties;
 
-import javax.management.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -11,10 +9,6 @@ import javax.persistence.FlushModeType;
 import javax.persistence.Persistence;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.LongField;
-import org.fundaciobit.genapp.common.query.OrderBy;
-import org.fundaciobit.genapp.common.query.Select;
 
 import es.caib.portafib.persistence.PortaFIBJPADaoManagers;
 import es.caib.portafib.model.PortaFIBDaoManager;

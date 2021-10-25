@@ -1,8 +1,5 @@
 package es.caib.portafib.ws.v1.example;
 
-import es.caib.portafib.utils.Constants;
-import es.caib.portafib.ws.api.v1.FitxerBean;
-import es.caib.portafib.ws.api.v1.PeticioDeFirmaWs;
 import es.caib.portafib.ws.api.v1.PortaFIBPeticioDeFirmaWs;
 import es.caib.portafib.ws.api.v1.PortaFIBPeticioDeFirmaWsService;
 import es.caib.portafib.ws.api.v1.PortaFIBUsuariEntitatWs;
@@ -11,7 +8,6 @@ import es.caib.portafib.ws.api.v1.UsuariEntitatBean;
 import es.caib.portafib.ws.api.v1.UsuariPersonaBean;
 import es.caib.portafib.ws.api.v1.WsI18NException;
 import es.caib.portafib.ws.api.v1.WsValidationException;
-import es.caib.portafib.ws.api.v1.utils.PeticioDeFirmaUtils;
 import es.caib.portafib.ws.api.v1.utils.WsClientUtils;
 import org.apache.log4j.Logger;
 

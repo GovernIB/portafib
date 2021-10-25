@@ -2,6 +2,7 @@
 package es.caib.portafib.model.bean;
 
 import es.caib.portafib.model.entity.Entitat;
+import es.caib.portafib.model.entity.Fitxer;
 
 
 public class EntitatBean implements Entitat {
@@ -516,7 +517,7 @@ private static final long serialVersionUID = -2014602951L;
 	}
 
   protected FitxerBean favicon;
-  public FitxerBean getFavicon() {
+  public Fitxer getFavicon() {
     return favicon;
   }
   public void setFavicon(FitxerBean __field) {

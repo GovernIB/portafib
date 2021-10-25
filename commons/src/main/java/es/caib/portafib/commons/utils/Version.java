@@ -2,7 +2,6 @@ package es.caib.portafib.commons.utils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import java.util.ResourceBundle;
 
 /**

@@ -163,7 +163,7 @@ public class PortaFIBRubricGenerator implements IRubricGenerator {
       
       final  String nif = DNIUtils.getDNI(cert);
       
-      final Long nifLen = new Long((nif== null || nif.trim().length() == 0)? 0 : nif.length());
+      final Long nifLen = Long.valueOf((nif== null || nif.trim().length() == 0)? 0 : nif.length());
       
 
       String ua = null;
@@ -179,7 +179,7 @@ public class PortaFIBRubricGenerator implements IRubricGenerator {
           ua = ua.substring(pos + 1);
         }
       }
-      final Long uaLen = new Long((ua== null || ua.trim().length() == 0)? 0 : ua.length());
+      final Long uaLen = Long.valueOf((ua== null || ua.trim().length() == 0)? 0 : ua.length());
       
       String carrec;
       try {
@@ -188,7 +188,7 @@ public class PortaFIBRubricGenerator implements IRubricGenerator {
         carrec = null;
         e.printStackTrace();
       }
-      final Long carrecLen = new Long((carrec== null || carrec.trim().length() == 0)? 0 : carrec.length());
+      final Long carrecLen = Long.valueOf((carrec== null || carrec.trim().length() == 0)? 0 : carrec.length());
 
       final String nom = CertificateUtils.getSubjectCorrectName(cert);
       

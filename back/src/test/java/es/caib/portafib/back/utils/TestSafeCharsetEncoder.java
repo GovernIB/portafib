@@ -10,67 +10,60 @@ import org.junit.Test;
  */
 public class TestSafeCharsetEncoder {
 
-   private static final Logger log = Logger.getLogger(TestSafeCharsetEncoder.class);
+    private static final Logger log = Logger.getLogger(TestSafeCharsetEncoder.class);
 
-   @Test
-   public void testAsciiDefaultReplacement() {
-      SafeCharsetEncoder encoder = SafeCharsetEncoder.getInstance(ConstantsV2.US_ASCII);
+    @Test
+    public void testAsciiDefaultReplacement() {
 
-      Assert.assertEquals("Aixo es una prova",
-              encoder.encode("Aixo es una prova"));
+        log.info("Entra a testAsciiDefaultReplacement()");
 
-      Assert.assertEquals("Aix_ _s una prova",
-              encoder.encode("Això és una prova"));
-   }
+        SafeCharsetEncoder encoder = SafeCharsetEncoder.getInstance(ConstantsV2.US_ASCII);
 
-   @Test
-   public void testLatinDefaultReplacement() {
-      SafeCharsetEncoder encoder = SafeCharsetEncoder.getInstance(ConstantsV2.ISO_8859_1);
+        Assert.assertEquals("Aixo es una prova", encoder.encode("Aixo es una prova"));
 
-      Assert.assertEquals("Això és una prova",
-              encoder.encode("Això és una prova"));
+        Assert.assertEquals("Aix_ _s una prova", encoder.encode("Això és una prova"));
+    }
 
-      Assert.assertEquals("Això és _ una prova",
-              encoder.encode("Això és € una prova"));
-   }
+    @Test
+    public void testLatinDefaultReplacement() {
+        SafeCharsetEncoder encoder = SafeCharsetEncoder.getInstance(ConstantsV2.ISO_8859_1);
 
-   @Test
-   public void testUtfDefaultReplacement() {
-      SafeCharsetEncoder encoder = SafeCharsetEncoder.getInstance(ConstantsV2.UTF_8);
+        Assert.assertEquals("Això és una prova", encoder.encode("Això és una prova"));
 
-      Assert.assertEquals("Això és € una prova",
-              encoder.encode("Això és € una prova"));
-   }
+        Assert.assertEquals("Això és _ una prova", encoder.encode("Això és € una prova"));
+    }
 
-   @Test
-   public void testAsciiReplacement() {
+    @Test
+    public void testUtfDefaultReplacement() {
+        SafeCharsetEncoder encoder = SafeCharsetEncoder.getInstance(ConstantsV2.UTF_8);
 
-      SafeCharsetEncoder encoder = SafeCharsetEncoder.getInstance(ConstantsV2.US_ASCII, "*");
+        Assert.assertEquals("Això és € una prova", encoder.encode("Això és € una prova"));
+    }
 
-      Assert.assertEquals("Aixo es una prova",
-              encoder.encode("Aixo es una prova"));
+    @Test
+    public void testAsciiReplacement() {
 
-      Assert.assertEquals("Aix* *s una prova",
-              encoder.encode("Això és una prova"));
-   }
+        SafeCharsetEncoder encoder = SafeCharsetEncoder.getInstance(ConstantsV2.US_ASCII, "*");
 
-   @Test
-   public void testLatinReplacement() {
-      SafeCharsetEncoder encoder = SafeCharsetEncoder.getInstance(ConstantsV2.ISO_8859_1, "*");
+        Assert.assertEquals("Aixo es una prova", encoder.encode("Aixo es una prova"));
 
-      Assert.assertEquals("Això és una prova",
-              encoder.encode("Això és una prova"));
+        Assert.assertEquals("Aix* *s una prova", encoder.encode("Això és una prova"));
+    }
 
-      Assert.assertEquals("Això és * una prova",
-              encoder.encode("Això és € una prova"));
-   }
+    @Test
+    public void testLatinReplacement() {
+        SafeCharsetEncoder encoder = SafeCharsetEncoder.getInstance(ConstantsV2.ISO_8859_1, "*");
 
-   @Test
-   public void testUtfReplacement() {
-      SafeCharsetEncoder encoder = SafeCharsetEncoder.getInstance(ConstantsV2.UTF_8, "*");
+        Assert.assertEquals("Això és una prova", encoder.encode("Això és una prova"));
 
-      Assert.assertEquals("Això és € una prova",
-              encoder.encode("Això és € una prova"));
-   }
+        Assert.assertEquals("Això és * una prova", encoder.encode("Això és € una prova"));
+    }
+
+    @Test
+    public void testUtfReplacement() {
+        SafeCharsetEncoder encoder = SafeCharsetEncoder.getInstance(ConstantsV2.UTF_8, "*");
+
+        Assert.assertEquals("Això és € una prova", encoder.encode("Això és € una prova"));
+    }
 
 }

@@ -13,7 +13,6 @@ import es.caib.portafib.back.validator.UsuariAplicacioWebLogicValidator;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
-import es.caib.portafib.logic.misc.NotificacionsCallBackTimerLocal;
 import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.PerfilsPerUsuariAplicacio;

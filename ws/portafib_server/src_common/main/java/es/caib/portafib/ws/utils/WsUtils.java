@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fundaciobit.genapp.common.ws.WsFieldValidationError;

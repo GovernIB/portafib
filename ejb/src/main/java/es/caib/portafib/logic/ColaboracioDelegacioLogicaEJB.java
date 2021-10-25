@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -143,7 +142,7 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
                 // Ja existeix, no feim res
 
                 // L'eliminam de la llista, per despres esbrinar els elements esborrats
-                currentTipusDocument.remove(new Long(t.getId()));
+                currentTipusDocument.remove(Long.valueOf(t.getId()));
             }
         }
 

@@ -1756,8 +1756,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                         + skv.getValue());
             }
 
-            Long estatDeFirmaID = new Long(skv.getKey());
-            Long peticioDeFirmaID = new Long(skv.getValue());
+            Long estatDeFirmaID = Long.valueOf(skv.getKey());
+            Long peticioDeFirmaID = Long.valueOf(skv.getValue());
 
             rebutjarInternal(request, response, estatDeFirmaID, peticioDeFirmaID, motiuDeRebuig);
         }
@@ -1980,7 +1980,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
      */
     private FirmaJPA checkFirma(boolean checkSiEstaEnMarxa, EstatDeFirmaJPA estatDeFirma,
                                 HttpServletRequest request) {
-        FirmaJPA firma = firmaEjb.findByPrimaryKeyUnauthorized(new Long(estatDeFirma.getFirmaID()));
+        FirmaJPA firma = firmaEjb.findByPrimaryKeyUnauthorized(Long.valueOf(estatDeFirma.getFirmaID()));
         if (firma == null) {
             log.error("La firma de l'EstatDeFirma no existeix.");
             super.createMessageError(request, "error.nofirmar", estatDeFirma.getEstatDeFirmaID());
@@ -2205,7 +2205,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     filterForm.getHiddenFields().remove(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
 
                     Map<Long, String> mapIAA;
-                    mapIAA = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE).getValueMap();
+                    mapIAA = ((Map<Long, String>) filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE).getValueMap());
                     mapIAA.clear();   
                     mapIAA.putAll(mapInfo);
                    
@@ -3259,8 +3259,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         List<StringKeyValue> stringKeyValueList = estatDeFirmaEjb.executeQuery(smskv, ESTATDEFIRMAID.in(estatDeFirmaIDList));
 
         for (StringKeyValue stringKeyValue : stringKeyValueList) {
-            Long estatDeFirmaID = new Long( stringKeyValue.getKey());
-            Long peticioDeFirmaID = new Long(stringKeyValue.getValue());
+            Long estatDeFirmaID = Long.valueOf( stringKeyValue.getKey());
+            Long peticioDeFirmaID = Long.valueOf(stringKeyValue.getValue());
             estatPeticio.put(estatDeFirmaID, peticioDeFirmaID);
         }
         return estatPeticio;

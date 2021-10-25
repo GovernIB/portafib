@@ -5,6 +5,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.namespace.QName;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,7 +23,6 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
-import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.utils.Configuracio;
@@ -36,7 +36,7 @@ import org.apache.cxf.service.Service;
  */
 public class PortaFIBInInterceptor extends AbstractPhaseInterceptor<Message> {
 
-  protected static final javax.xml.namespace.QName QNAME = new javax.xml.namespace.QName("-1");
+  protected static final QName QNAME = new QName("-1");
 
   protected final Log log = LogFactory.getLog(getClass());
 

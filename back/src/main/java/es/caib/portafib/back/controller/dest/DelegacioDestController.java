@@ -614,7 +614,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             allTipusDocumentInfo = new HashMap<Long, String>();
 
             for (StringKeyValue stringKeyValue : allTipusDocumentList) {
-                allTipusDocumentInfo.put(new Long(stringKeyValue.getKey()), stringKeyValue.getValue());
+                allTipusDocumentInfo.put(Long.valueOf(stringKeyValue.getKey()), stringKeyValue.getValue());
             }
 
             // ordenam pel Valor
@@ -1176,7 +1176,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         // Primera i unica firma
         StatusSignature status = ss.getFileInfoSignatureArray()[0].getStatusSignature();
         FileInfoSignature signFileInfo = ss.getFileInfoSignatureArray()[0];
-        Long delegacioID = new Long(signFileInfo.getSignID());
+        Long delegacioID = Long.valueOf(signFileInfo.getSignID());
 
         try {
             StatusSignaturesSet statusError = null;

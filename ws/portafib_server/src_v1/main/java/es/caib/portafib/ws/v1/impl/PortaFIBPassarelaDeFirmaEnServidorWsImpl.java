@@ -10,7 +10,6 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.WebServiceContext;
 
-import es.caib.portafib.ws.utils.PortaFIBOutInterceptor;
 import org.apache.cxf.interceptor.InFaultInterceptors;
 import org.apache.cxf.interceptor.InInterceptors;
 import org.apache.cxf.interceptor.OutFaultInterceptors;

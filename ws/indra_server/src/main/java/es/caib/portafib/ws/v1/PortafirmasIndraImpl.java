@@ -662,7 +662,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
             throw createFault(10, "id de document es obligatorio");
           }
           
-          docIDs.add(new Long(doc.getId()));
+          docIDs.add(Long.valueOf(doc.getId()));
         }
       }
       
@@ -744,7 +744,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
             throw createFault(10, "id de document es obligatorio");
           }
           
-          docIDs.add(new Long(doc.getId()));
+          docIDs.add(Long.valueOf(doc.getId()));
         }
       }
       // Cerca per filtre
@@ -853,11 +853,11 @@ public class PortafirmasIndraImpl implements Cws, Constants {
           int startValue, endValue;
           try {
             if (index == -1) {
-              startValue = new Integer(fullValue);
+              startValue = Integer.valueOf(fullValue);
               endValue = Integer.MAX_VALUE;
             } else {
-              startValue = new Integer(fullValue.substring(0, index));
-              endValue = new Integer(fullValue.substring(index + 1, fullValue.length()));
+              startValue = Integer.valueOf(fullValue.substring(0, index));
+              endValue = Integer.valueOf(fullValue.substring(index + 1, fullValue.length()));
             }
           } catch(NumberFormatException nfe) {
             log.error("Error processant operacio Between : " + nfe.getMessage(), nfe);
@@ -885,7 +885,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
                 valueObj =  format.parse(values[i]);
               } else */ 
               {
-                valueObj = new Long(values[i]);
+                valueObj = Long.valueOf(values[i]);
               }                
             } catch (Exception e) {
               throw createFault(500 , "Error general en la operación ListDocuments:" 
@@ -904,7 +904,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
           // NOMES un valor
           int value;            
           try {
-              value = new Integer(fullValue);
+              value = Integer.valueOf(fullValue);
           } catch (Exception e) {
             throw createFault(500 , "Error general en la operación ListDocuments:" 
                 + " java.lang.NumberFormatException: For input string: \"" + fullValue + "\"");
@@ -963,7 +963,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     
     List<Integer> list = new ArrayList<Integer>();
     for (Long val : valueList) {
-      list.add(new Integer(String.valueOf(val)));
+      list.add(Integer.valueOf(String.valueOf(val)));
     }
     return list;
   }

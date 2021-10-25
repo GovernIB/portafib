@@ -25,7 +25,6 @@ import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.CancelledUserExceptio
 import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.NoAvailablePluginException;
 import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 import org.fundaciobit.apisib.core.exceptions.ApisIBClientException;
-import org.fundaciobit.apisib.core.exceptions.ApisIBTimeOutException;
 import org.fundaciobit.apisib.jerseycore.AbstractApisIBConnectionManagerJersey;
 
 import com.sun.jersey.api.client.ClientResponse;
