@@ -494,7 +494,6 @@ private static final long serialVersionUID = 190357384L;
   static java.util.Set<PluginJPA> copyJPA(java.util.Set<PluginJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<PluginJPA> __tmpSet = (java.util.Set<PluginJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<PluginJPA>(__jpaSet.size());

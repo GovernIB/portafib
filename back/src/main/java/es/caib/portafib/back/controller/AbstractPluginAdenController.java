@@ -72,7 +72,7 @@ public abstract class AbstractPluginAdenController<I> extends AbstractPluginAdmi
 
          // Afegir boto addiconal per se
          modulDeFirmaFilterForm.addAdditionalButton(new AdditionalButton(
-             "icon-plus-sign", getCrearTranslationCode() ,
+             "fas fa-plus-circle", getCrearTranslationCode() ,
              "javascript:openSelectModulDeFirmaDialog();", ""));
 
       }

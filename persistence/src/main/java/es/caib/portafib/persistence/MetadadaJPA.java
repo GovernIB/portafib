@@ -179,7 +179,6 @@ private static final long serialVersionUID = 171659772L;
   static java.util.Set<MetadadaJPA> copyJPA(java.util.Set<MetadadaJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<MetadadaJPA> __tmpSet = (java.util.Set<MetadadaJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<MetadadaJPA>(__jpaSet.size());

@@ -131,11 +131,17 @@ public class ApiFirmaEnServidorSimpleTester {
         i++;
       }
       System.out.print(" Seleccioni un perfil de firma: ");
-      Scanner in = new Scanner(System.in);
+      Scanner in = null;
+      try {
+        in = new Scanner(System.in);
+        int n = in.nextInt();
 
-      int n = in.nextInt();
-
-      scanWebProfileSelected = profilesByIndex.get(n);
+        scanWebProfileSelected = profilesByIndex.get(n);
+      } finally {
+          if (in != null) {
+              in.close();
+          }
+      }
 
     } while (scanWebProfileSelected == null);
 

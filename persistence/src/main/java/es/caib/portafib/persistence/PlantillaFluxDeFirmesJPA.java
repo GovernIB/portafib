@@ -217,7 +217,6 @@ private static final long serialVersionUID = 139304578L;
   static java.util.Set<PlantillaFluxDeFirmesJPA> copyJPA(java.util.Set<PlantillaFluxDeFirmesJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<PlantillaFluxDeFirmesJPA> __tmpSet = (java.util.Set<PlantillaFluxDeFirmesJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<PlantillaFluxDeFirmesJPA>(__jpaSet.size());

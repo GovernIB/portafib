@@ -177,7 +177,6 @@ private static final long serialVersionUID = 985359024L;
   static java.util.Set<BlocDeFirmesJPA> copyJPA(java.util.Set<BlocDeFirmesJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    //@SuppressWarnings("unchecked")
     java.util.Set<BlocDeFirmesJPA> __tmpSet = (java.util.Set<BlocDeFirmesJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<BlocDeFirmesJPA>(__jpaSet.size());

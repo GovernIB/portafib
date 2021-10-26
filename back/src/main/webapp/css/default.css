@@ -333,8 +333,8 @@ small {
 	position:absolute;
 }
 
-.table td a:not(.btn) i.icon-pencil, .table td  a:not(.btn) i.icon-trash { opacity:0;}
-	.table td:hover  a:not(.btn) i.icon-pencil, .table td:hover  a:not(.btn) i.icon-trash { opacity:1;}
+.table td a:not(.btn) i.icon-pencil, .table td  a:not(.btn) i.fas fa-trash { opacity:0;}
+	.table td:hover  a:not(.btn) i.icon-pencil, .table td:hover  a:not(.btn) i.fas fa-trash { opacity:1;}
 
 .modalExtended .modal-body { max-height:none;}
 .modal-body .help-block { margin:0;}

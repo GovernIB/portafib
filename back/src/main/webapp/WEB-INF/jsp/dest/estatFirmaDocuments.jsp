@@ -7,10 +7,10 @@
   <!-- Contingut de la pagina -->
  
   <c:if test="${fn:length(fitxers) gt 1}">
-    <button class="btn btn-mini" type="button" onclick="mostrarDiv(index - 1)"> &lt;&lt; </button>
+    <button class="btn btn-sm" type="button" onclick="mostrarDiv(index - 1)"> &lt;&lt; </button>
   </c:if>
     <div class="btn-group">
-    <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><b id="filename"></b> <span class="caret"></span></button>
+    <button class="btn btn-sm dropdown-toggle" data-toggle="dropdown"><b id="filename"></b> <span class="caret"></span></button>
     <ul class="dropdown-menu">
     <c:if test="${fn:length(fitxers) gt 1}">
     <c:forEach var="fitxer" items="${fitxers}" varStatus="theCount">
@@ -23,7 +23,7 @@
     </ul>
     </div>
     <c:if test="${fn:length(fitxers) gt 1}">
-    <button class="btn btn-mini" type="button" onclick="mostrarDiv(index + 1)"> &gt;&gt; </button>
+    <button class="btn btn-sm" type="button" onclick="mostrarDiv(index + 1)"> &gt;&gt; </button>
     </c:if>  
     <br />
 
@@ -67,7 +67,7 @@
                         <c:param name="validar" value="1"/>
                       </c:url>
                       <a class="btn btn-small btn-warning" href="#" onclick="goTo('${validatingUrl}')">
-                         <i class="icon-check"></i> <fmt:message key="validar" /> </a>
+                         <i class="far fa-check-square"></i> <fmt:message key="validar" /> </a>
                    </c:when>
                    <c:otherwise>
                        <p class="${signaturesValidation[fitxer.key.fitxerID].statusStyle}">

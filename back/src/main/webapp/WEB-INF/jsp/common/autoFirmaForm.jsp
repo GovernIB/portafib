@@ -60,7 +60,7 @@
               <div class="fileupload fileupload-new" data-provides="fileupload" style="margin-bottom: 0px">
                 <div class="input-append">
                     <div class="uneditable-input span4">
-                      <i class="icon-file fileupload-exists"></i>
+                      <i class="far fa-file fileupload-exists"></i>
                       <span class="fileupload-preview"></span>
                     </div>
                     <span class="btn btn-file">
@@ -109,7 +109,7 @@
               <div class="fileupload fileupload-new" data-provides="fileupload" style="margin-bottom: 0px">
                 <div class="input-append">
                     <div class="uneditable-input span4">
-                      <i class="icon-file fileupload-exists"></i>
+                      <i class="far fa-file fileupload-exists"></i>
                       <span class="fileupload-preview"></span>
                     </div>
                     <span class="btn btn-file">

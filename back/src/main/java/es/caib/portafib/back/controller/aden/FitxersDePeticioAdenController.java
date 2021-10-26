@@ -211,7 +211,7 @@ public class FitxersDePeticioAdenController extends FitxerController {
                 mapRuta.put(fitxer.getFitxerID(), FileSystemManager.getFile(fitxer.getFitxerID()).getAbsolutePath());
 
                 filterForm.addAdditionalButtonByPK(fitxer.getFitxerID(),
-                        new AdditionalButton("icon-download-alt icon-white",
+                        new AdditionalButton("fas fa-download icon-white",
                                 "descarregar", FileDownloadController.fileUrl(fitxer), "btn-success"));
 
             } else {

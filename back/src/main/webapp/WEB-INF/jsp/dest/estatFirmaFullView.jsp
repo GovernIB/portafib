@@ -32,7 +32,7 @@
                   <i class="icon-edit"></i> <fmt:message key="carret.processar.ignorar" /> </a>   
                              
                 <a class="btn btn-danger" href="#" onclick="rebutjar('<c:url value="${contexte}/processar/afegirRebutjar"/>')">
-                  <i class="icon-remove"></i> <fmt:message key="carret.processar.rebutjar" /> </a>            
+                  <i class="fas fa-times"></i> <fmt:message key="carret.processar.rebutjar" /> </a>            
                                 
                 <a class="btn" href="#" onclick="goTo('<c:url value="${contexte}/processar/cancelar"/>')">
                   <i class="icon-off"></i> <fmt:message key="carret.processar.cancelar" /> </a>
@@ -45,7 +45,7 @@
                 <c:if test="${ rolecontext eq 'revi' }" >
                    <a class="btn btn-success" href="#"
                   onclick="goTo('<c:url value="${contexte}/acceptar/${estatID}/${peticioID}"/>')"> <i
-                  class="icon-check"></i> <fmt:message key="revisor.acceptar" /> </a> &nbsp;&nbsp; 
+                  class="far fa-check-square"></i> <fmt:message key="revisor.acceptar" /> </a> &nbsp;&nbsp; 
                 </c:if>
                 <c:if test="${ rolecontext eq 'dest' || rolecontext eq 'dele' || rolecontext eq 'common' }" >
                   <a class="btn btn-success" href="#"
@@ -54,7 +54,7 @@
                 </c:if>        
                 <a class="btn btn-danger" href="#"
                   onclick="rebutjar('<c:url value="${contexte}/rebutjar/${estatID}/${peticioID}"/>')">
-                  <i class="icon-remove"></i> <fmt:message key="rebutjar" /> </a>            
+                  <i class="fas fa-times"></i> <fmt:message key="rebutjar" /> </a>            
             </c:otherwise>      
         </c:choose>
       </div>

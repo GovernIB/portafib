@@ -136,7 +136,7 @@ implements ConstantsV2 {
         
         
         colaboracioDelegacioFilterForm.addAdditionalButtonForEachItem(
-            new AdditionalButton("icon-eye-open","genapp.viewtitle", getContextWeb() + "/view/{0}","btn-info"));
+            new AdditionalButton("fas fa-eye","genapp.viewtitle", getContextWeb() + "/view/{0}","btn-info"));
 
       } 
       

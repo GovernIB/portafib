@@ -61,7 +61,7 @@
             </c:forEach>
          </form:select>
          
-         <button onclick="mostrarFlux('peticioDeFirmaID');" type="button" class="btn"><i class="icon-eye-open"></i></button>
+         <button onclick="mostrarFlux('peticioDeFirmaID');" type="button" class="btn"><i class="fas fa-eye"></i></button>
       </td>
   </tr>
   <tr>

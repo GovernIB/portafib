@@ -2321,7 +2321,7 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
                     }
 
                     mapPR.put(estatDeFirmaId, "<button title=\"" + I18NUtils.tradueix(title_priority) + "\" "
-                            + " class=\"btn btn-mini " + color_priority + "\" type=\"button\">&nbsp;</button>");
+                            + " class=\"btn btn-sm " + color_priority + "\" type=\"button\">&nbsp;</button>");
                 }
 
             }
@@ -2351,13 +2351,13 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
 
             // VEURE DOC
             filterForm.addAdditionalButtonByPK(estatDeFirmaId, new AdditionalButton(
-                    "icon-file", "veuredoc",
+                    "far fa-file", "veuredoc",
                     "javascript:var win = window.open('" + request.getContextPath() + getContextWeb() + "/docfirmat/" + peticioID + "', '_blank'); win.focus();"
                     , "btn-info"));
 
             // DESCARREGAR DOC
             filterForm.addAdditionalButtonByPK(estatDeFirmaId, new AdditionalButton(
-                    "icon-download-alt", "descarregardoc",
+                    "fas fa-download", "descarregardoc",
                     // getContextWeb() + "/docfirmat/" + peticioDeFirmaID,
                     "javascript:var win = window.open('" + request.getContextPath() + getContextWeb() + "/docfirmat/descarregar/" + peticioID + "', '_blank'); win.focus();"
                     , "btn-info"));
@@ -2380,7 +2380,7 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
                     || estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
                 long peticioID = peticionsByEstat.get(ef.getEstatDeFirmaID()).getPeticioDeFirmaID();
                 filterForm.addAdditionalButtonByPK(ef.getEstatDeFirmaID(),
-                        new AdditionalButton("icon-eye-open", "vistacompleta",
+                        new AdditionalButton("fas fa-eye", "vistacompleta",
                                 getContextWeb() + "/fullView/" + ef.getEstatDeFirmaID() + "/" + peticioID, "btn-info"));
             }
         }
@@ -2398,13 +2398,13 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
                 if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
 
                     filterForm.addAdditionalButtonByPK(estatId,
-                            new AdditionalButton("icon-check", "revisor.acceptar",
+                            new AdditionalButton("far fa-check-square", "revisor.acceptar",
                                     "javascript:acceptar('" + request.getContextPath() + getContextWeb() + "/acceptar/" + estatId + "/" + peticioID + "', {0})",
                                     "btn-success"));
 
 
                     filterForm.addAdditionalButtonByPK(estatId,
-                            new AdditionalButton("icon-remove", "rebutjar",
+                            new AdditionalButton("fas fa-times", "rebutjar",
                                     "javascript:rebutjar('" + request.getContextPath() + getContextWeb() + "/rebutjar/" + estatId + "/" + peticioID + "'," + estatId + ")",
                                     "btn-danger"));
 
@@ -2420,7 +2420,7 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
 
 
                     filterForm.addAdditionalButtonByPK(estatId,
-                            new AdditionalButton("icon-remove", "rebutjar",
+                            new AdditionalButton("fas fa-times", "rebutjar",
                                     "javascript:rebutjar('" + request.getContextPath() + getContextWeb() + "/rebutjar/" + estatId + "/" + peticioID + "'," + estatId + ")",
                                     "btn-danger"));
 
@@ -2440,12 +2440,12 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
 
 
                     filterForm.addAdditionalButtonByPK(estatId,
-                            new AdditionalButton("icon-check", "validar",
+                            new AdditionalButton("far fa-check-square", "validar",
                                     getContextWeb() + "/validar/" + estatId + "/" + peticioID,
                                     "btn-success"));
 
                     filterForm.addAdditionalButtonByPK(estatId,
-                            new AdditionalButton("icon-remove", "invalidar",
+                            new AdditionalButton("fas fa-times", "invalidar",
                                     "javascript:invalidar('" + request.getContextPath() + "" + getContextWeb() + "/invalidar/" + estatId + "/" + peticioID + "')",
                                     "btn-danger"));
 
@@ -2489,7 +2489,7 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
 
             if (filterForm.isVisibleMultipleSelection() && filterForm.getAdditionalButtons().isEmpty()) {
 
-                filterForm.addAdditionalButton(new AdditionalButton("icon-remove",
+                filterForm.addAdditionalButton(new AdditionalButton("fas fa-times",
                         "rebutjarseleccionats", "javascript:rebutjarseleccionats()", "btn-danger"));
 
                 filterForm.addAdditionalButton(new AdditionalButton("icon-edit",

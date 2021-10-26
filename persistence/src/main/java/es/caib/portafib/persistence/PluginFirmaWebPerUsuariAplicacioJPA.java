@@ -165,7 +165,6 @@ private static final long serialVersionUID = -844814954L;
   static java.util.Set<PluginFirmaWebPerUsuariAplicacioJPA> copyJPA(java.util.Set<PluginFirmaWebPerUsuariAplicacioJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<PluginFirmaWebPerUsuariAplicacioJPA> __tmpSet = (java.util.Set<PluginFirmaWebPerUsuariAplicacioJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<PluginFirmaWebPerUsuariAplicacioJPA>(__jpaSet.size());

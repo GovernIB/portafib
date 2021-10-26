@@ -241,7 +241,7 @@ public class EstadisticaAdenController extends EstadisticaController {
   }
 
   protected void setEstadistiquesPerUsrApp(HttpServletRequest request, boolean value) {
-    request.getSession().setAttribute(SESSION_ESTADISTIQUES_PER, new Boolean(value));
+    request.getSession().setAttribute(SESSION_ESTADISTIQUES_PER, Boolean.valueOf(value));
   }
 
   /*

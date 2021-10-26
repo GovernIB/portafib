@@ -25,8 +25,7 @@ public class UsuariAplicacioWebLogicValidator extends UsuariAplicacioWebValidato
   public void validate(UsuariAplicacioForm __form, UsuariAplicacio __bean, Errors errors,
       WebValidationResult<UsuariAplicacioForm> wvr, boolean isNou) {
     
-    validatorLogic.validate(wvr, __bean,
-        isNou, custodiaInfoEjb, entitatEjb, idiomaEjb, usuariAplicacioEjb);
+    validatorLogic.validate(wvr, __bean, isNou, custodiaInfoEjb, entitatEjb, idiomaEjb, usuariAplicacioEjb);
 
   } // Final de mètode
   

@@ -403,7 +403,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       for (FluxDeFirmes flux : list) {
         if (((FluxDeFirmesJPA) flux).getPlantillaFluxDeFirmes().getCompartir() == null)
           filterForm.addAdditionalButtonByPK(flux.getFluxDeFirmesID(),
-              new AdditionalButton("icon-lock", "fluxDeFirmes.permisos",
+              new AdditionalButton("fas fa-lock", "fluxDeFirmes.permisos",
                   "/" + parentContext + "/permisosplantilla/view/{0}", "btn-warning"));
       }
     }

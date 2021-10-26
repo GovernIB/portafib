@@ -71,7 +71,7 @@
                      <a class="btn btn-danger" href="#myModal"
                      onclick="openModalSubmit(deleteUserFromPlantilla('${_permis.usuariEntitatID}'),'show','plantillaFluxDeFirmesForm');"
                      title='<fmt:message key="genapp.delete" />'>
-                     <i class="icon-trash icon-white"></i>
+                     <i class="fas fa-trash icon-white"></i>
                      </a>
                    </td>
               </tr>
@@ -91,7 +91,7 @@
          <i><fmt:message key="permisosplantilla.adduser"></fmt:message> </i><br/>
 
              <button type="button" class="btn btn-primary" onclick="javascript:openSelectUserDialog();" title="<fmt:message key="permisosplantilla.adduser"></fmt:message>" >
-                <i class="icon-plus-sign icon-white"></i>
+                <i class="fas fa-plus-circle icon-white"></i>
                 <fmt:message key="permisosplantilla.adduser"></fmt:message>
              </button>
 
@@ -139,7 +139,7 @@
                      <a class="btn btn-danger" href="#myModal"
                      onclick="openModalSubmit(deleteGrupFromPlantilla('${_permis.grupEntitatID}'),'show','plantillaFluxDeFirmesForm');"
                      title='<fmt:message key="genapp.delete" />'>
-                     <i class="icon-trash icon-white"></i>
+                     <i class="fas fa-trash icon-white"></i>
                      </a>
                    </td>
               </tr>
@@ -172,7 +172,7 @@
             <tr>
              <td align="center">
              <button type="button" class="btn btn-primary" onclick="addGroupToPlantilla()" title="<fmt:message key="afegir"></fmt:message>" >
-                <i class="icon-plus-sign icon-white"></i>
+                <i class="fas fa-plus-circle icon-white"></i>
                 <fmt:message key="afegir" />
              </button>
              &nbsp;

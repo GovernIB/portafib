@@ -239,7 +239,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       usuariAplicacioFilterForm.setVisibleMultipleSelection(false);
 
       usuariAplicacioFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-          "icon-check", "validar.urlcallback", getContextWeb() + "/validarurlcallback/{0}",
+          "far fa-check-square", "validar.urlcallback", getContextWeb() + "/validarurlcallback/{0}",
           "btn-info"));
 
       // Afegir botó per gestionar plugins web: #173
@@ -419,8 +419,8 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
                 + key
                 + "/"
                 + perfil.getUsuariAplicacioPerfilID()
-                + "\" class=\"btn btn-mini btn-danger\" type=\"button\">"
-                + "<i style=\"padding: 0px 4px 4px 0px; margin: 4px 0px 0px 3px \" class=\"icon-trash icon-white\"></i></a>\n"
+                + "\" class=\"btn btn-sm btn-danger\" type=\"button\">"
+                + "<i style=\"padding: 0px 4px 4px 0px; margin: 4px 0px 0px 3px \" class=\"fas fa-trash icon-white\"></i></a>\n"
                 + "</td></tr>\n");
           }
           str.append("</table>");

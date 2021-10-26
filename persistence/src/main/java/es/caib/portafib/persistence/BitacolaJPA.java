@@ -212,7 +212,6 @@ private static final long serialVersionUID = 1492894118L;
   static java.util.Set<BitacolaJPA> copyJPA(java.util.Set<BitacolaJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<BitacolaJPA> __tmpSet = (java.util.Set<BitacolaJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<BitacolaJPA>(__jpaSet.size());

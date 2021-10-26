@@ -300,7 +300,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
         if (count == 0) {
           // No té usuari entitat definit, llavors afegim boto per donar-lo
           // d'alta com a usuari-entitat
-          form.addAdditionalButton(new AdditionalButton("icon-plus-sign",
+          form.addAdditionalButton(new AdditionalButton("fas fa-plus-circle",
               "usuaripersona.crearusuarientitat",
               getContextWeb() + "/addpersontothisentity/" + up.getUsuariPersonaID(),
               "btn-success"));

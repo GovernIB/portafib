@@ -131,7 +131,6 @@ private static final long serialVersionUID = -1253450907L;
   static java.util.Set<RoleJPA> copyJPA(java.util.Set<RoleJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<RoleJPA> __tmpSet = (java.util.Set<RoleJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<RoleJPA>(__jpaSet.size());

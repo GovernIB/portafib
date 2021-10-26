@@ -164,7 +164,6 @@ private static final long serialVersionUID = 2145428058L;
   static java.util.Set<ModulDeFirmaPerTipusDeDocumentJPA> copyJPA(java.util.Set<ModulDeFirmaPerTipusDeDocumentJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<ModulDeFirmaPerTipusDeDocumentJPA> __tmpSet = (java.util.Set<ModulDeFirmaPerTipusDeDocumentJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<ModulDeFirmaPerTipusDeDocumentJPA>(__jpaSet.size());

@@ -195,8 +195,8 @@
                <c:out value="${blocseparator}" escapeXml="false" />
                <tr style="padding:0px; margin: 0px; text-align: center;">
                 <td colspan="2" >
-                    <button type="button" class="btn btn-primary btn-mini" onclick="javascript:afegirBlocSelectUser('0')" title="<fmt:message key="blocdefirmes.nou"/>">
-                        <i class="icon-plus-sign icon-white"></i>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="javascript:afegirBlocSelectUser('0')" title="<fmt:message key="blocdefirmes.nou"/>">
+                        <i class="fas fa-plus-circle"></i>
                         &nbsp;
                         <fmt:message key="blocdefirmes.nou" />                        
                     </button>
@@ -240,8 +240,8 @@
                               <div class="radius"  style="float: right;  padding: 4px;text-align: center;">
                                   <c:if test="${readOnly == false}">
 
-                                  <button type="button" class="btn btn-success btn-mini" onclick="javascript:afegirFirmaSelectUser('${bloc.blocDeFirmesID}')" title="<fmt:message key="firma.nova"/>">
-                                    <i class="icon-plus-sign icon-white"></i> <fmt:message key="firma.nova" />                        
+                                  <button type="button" class="btn btn-success btn-sm" onclick="javascript:afegirFirmaSelectUser('${bloc.blocDeFirmesID}')" title="<fmt:message key="firma.nova"/>">
+                                    <i class="fas fa-plus-circle"></i> <fmt:message key="firma.nova" />                        
                                   </button>
                                   
                                   <%-- Calcul del menor valor admisible per MinimDeFirmes --%>
@@ -250,7 +250,7 @@
                                   %>
                                   <div class="btn-group" style="padding-top: 2px;">
                                     <button
-                                      class="btn btn-info btn-mini dropdown-toggle"
+                                      class="btn btn-info btn-sm dropdown-toggle"
                                       data-toggle="dropdown"
                                       title="<fmt:message key="blocDeFirmes.minimDeFirmes"/>">
                                       <fmt:message key="blocDeFirmes.minimDeFirmes" />
@@ -268,7 +268,7 @@
 
                                   <c:if test="${fn:length(fluxDeFirmesForm.fluxDeFirmes.blocDeFirmess) > 1}">
                                     <div style="padding-top: 2px;display: inline-block;">
-                                      <button class="btn btn-danger btn-mini"
+                                      <button class="btn btn-danger btn-sm"
                                         title="<fmt:message key="genapp.delete"/>"
                                         onclick="eliminarBloc('${bloc.blocDeFirmesID}')">
                                         <fmt:message key="genapp.delete.item" >
@@ -358,28 +358,28 @@
                                     <br/>
                                     
                                     <c:if test="${(fn:length(bloc.firmas) > 1) && readOnly == false}">
-                                    <button class="btn btn-danger btn-mini"
+                                    <button class="btn btn-danger btn-sm"
                                       title="<fmt:message key="genapp.delete.item" ><fmt:param><fmt:message key="firma.firma"/></fmt:param></fmt:message>"
                                       onclick="eliminarFirma('${bloc.blocDeFirmesID}','${firma.firmaID}')">
-                                      &nbsp;<i class="icon-trash icon-white"></i>&nbsp;
+                                      &nbsp;<i class="fas fa-trash fa-sm"></i>&nbsp;
                                     </button>
                                     </c:if>
 
                                     <c:if test="${readOnly == false}">
 
-                                      <button type="button" class="btn btn-success btn-mini" onclick="javascript:afegirRevisorDeFirma('${firma.firmaID}')" title="<fmt:message key="firma.afegirrevisor"/>">
-                                         &nbsp;<i class="icon-plus-sign icon-white"></i>&nbsp;                      
+                                      <button type="button" class="btn btn-success btn-sm" onclick="javascript:afegirRevisorDeFirma('${firma.firmaID}')" title="<fmt:message key="firma.afegirrevisor"/>">
+                                         &nbsp;<i class="fas fa-plus-circle"></i>&nbsp;                      
                                       </button>
                                       
                                       <%-- Motiu de firma--%>
                                       <c:if test="${empty firma.motiu}">
-                                        <button type="button" class="btn btn-warning btn-mini" onclick="javascript:definirMotiuDeFirma('${firma.firmaID}')" title="<fmt:message key="firma.motiudefirma.definir"/>">
-                                          &nbsp;<i class="icon-bullhorn icon-white"></i>&nbsp;
+                                        <button type="button" class="btn btn-warning btn-sm" onclick="javascript:definirMotiuDeFirma('${firma.firmaID}')" title="<fmt:message key="firma.motiudefirma.definir"/>">
+                                          &nbsp;<i class="fas fa-info-circle icon-white"></i>&nbsp;
                                         </button>
                                       </c:if>
                                       <c:if test="${not empty firma.motiu}">
-                                        <button type="button" class="btn btn-success btn-mini" onclick="javascript:modificarMotiuDeFirma('${firma.firmaID}','${fn:escapeXml(firma.motiu)}')" title="<fmt:message key="firma.motiudefirma"/> ${fn:escapeXml(firma.motiu)}">
-                                          &nbsp;<i class="icon-bullhorn icon-white"></i>&nbsp;
+                                        <button type="button" class="btn btn-success btn-sm" onclick="javascript:modificarMotiuDeFirma('${firma.firmaID}','${fn:escapeXml(firma.motiu)}')" title="<fmt:message key="firma.motiudefirma"/> ${fn:escapeXml(firma.motiu)}">
+                                          &nbsp;<i class="fas fa-info-circle icon-white"></i>&nbsp;
                                         </button>
                                       </c:if>
                                       
@@ -394,7 +394,7 @@
                                         
                                         <div class="btn-group" style="padding-top: 2px;">
                                           <button
-                                            class="btn btn-info btn-mini dropdown-toggle"
+                                            class="btn btn-info btn-sm dropdown-toggle"
                                             data-toggle="dropdown"
                                             title="<fmt:message key="firma.minimDeRevisors"/>">
                                             <fmt:message key="firma.minimDeRevisors" />
@@ -451,10 +451,10 @@
                                     
                                     <c:if test="${readOnly == false}">
                                     <br/>
-                                    <button class="btn btn-danger btn-mini"
+                                    <button class="btn btn-danger btn-sm"
                                         title="<fmt:message key="genapp.delete.item" ><fmt:param><fmt:message key="revisorDeFirma.revisorDeFirma"/></fmt:param></fmt:message>"
                                         onclick="eliminarRevisor('${bloc.blocDeFirmesID}','${firma.firmaID}','${revisor.revisorDeFirmaID}')">
-                                        &nbsp;<i class="icon-trash icon-white"></i>&nbsp;
+                                        &nbsp;<i class="fas fa-trash fa-sm"></i>&nbsp;
                                       </button>
                                     </c:if>
                                     </label>
@@ -480,8 +480,8 @@
                 <tr>
                   <td colspan="2" align="center">
 
-                   <button type="button" class="btn btn-primary btn-mini" onclick="javascript:afegirBlocSelectUser('${bloc.ordre + 5}')" title="<fmt:message key="blocdefirmes.nou"/>">
-                        <i class="icon-plus-sign icon-white"></i>
+                   <button type="button" class="btn btn-primary btn-sm" onclick="javascript:afegirBlocSelectUser('${bloc.ordre + 5}')" title="<fmt:message key="blocdefirmes.nou"/>">
+                        <i class="fas fa-plus-circle"></i>
                         &nbsp;
                         <fmt:message key="blocdefirmes.nou" />                        
                     </button>

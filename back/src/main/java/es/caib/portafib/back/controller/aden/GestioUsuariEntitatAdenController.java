@@ -257,7 +257,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
         
         if (count == 0) {
           // No té role solicitant, llavors li posam un boto per donar-lo d'alta com soli.
-          usuariEntitatForm.addAdditionalButton(new AdditionalButton("icon-plus-sign",
+          usuariEntitatForm.addAdditionalButton(new AdditionalButton("fas fa-plus-circle",
               "usuarientitat.rolesolicitant",
               getContextWeb() + "/addsolicitantrole/" + ue.getUsuariEntitatID(),
               "btn-success"));

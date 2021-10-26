@@ -2259,20 +2259,20 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
         marcarRevisatCount++;
         /* MARCAR REVISAT */
         filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-            "icon-check icon-white", "revisat", getContextWeb() + "/revisat/"
+            "far fa-check-square icon-white", "revisat", getContextWeb() + "/revisat/"
                 + peticioDeFirmaID, "btn-warning"));
       }
 
       /* VEURE DOC */
       filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-          "icon-file icon-white", "veuredoc",
+          "far fa-file icon-white", "veuredoc",
           // getContextWeb() + "/docfirmat/" + peticioDeFirmaID,
           "javascript:var win = window.open('" + request.getContextPath() + getContextWeb()
               + "/docfirmat/" + peticioDeFirmaID + "', '_blank'); win.focus();", "btn-info"));
 
       /* DESCARREGAR DOC */
       filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-          "icon-download-alt icon-white", "descarregardoc",
+          "fas fa-download icon-white", "descarregardoc",
           // getContextWeb() + "/docfirmat/" + peticioDeFirmaID,
           "javascript:var win = window.open('" + request.getContextPath() + getContextWeb()
               + "/docfirmat/descarregar/" + peticioDeFirmaID + "', '_blank'); win.focus();",
@@ -2294,7 +2294,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
       } else {
         /* FLUXDEFIRMES */
         filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-            "icon-eye-open icon-white", "peticiodefirma.veuredetalls", getContextWeb() + "/"
+            "fas fa-eye icon-white", "peticiodefirma.veuredetalls", getContextWeb() + "/"
                 + peticioDeFirmaID + "/edit", "btn-info"));
 
         filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
@@ -2315,7 +2315,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
       
         // Afegim Boto de gestió d'Annexes
         filterForm.addAdditionalButtonByPK(peticioDeFirmaID, 
-            new AdditionalButton("icon-white icon-file", "annex.annex.plural",
+            new AdditionalButton("icon-white far fa-file", "annex.annex.plural",
             getContextWeb() + "/gestioannexes/{0}", type));
       }
       
@@ -2412,7 +2412,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
             || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
           mostrarBotoGlobalRebutjar = true;
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-              "icon-remove", "rebutjar", "javascript:rebutjar(" + peticioDeFirmaID + ");",
+              "fas fa-times", "rebutjar", "javascript:rebutjar(" + peticioDeFirmaID + ");",
               "btn-warning"));
         }
       }
@@ -2423,8 +2423,8 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
       if (peticioDeFirma.getFitxerAFirmarID() != null) {
         if (!isNomesConsulta()) {
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-            "icon-random", "clonar", "javascript:goTo('" + request.getContextPath()
-                + getContextWeb() + "/clonar/" + peticioDeFirmaID + "')", ""));
+            "fas fa-random", "clonar", "javascript:goTo('" + request.getContextPath()
+                + getContextWeb() + "/clonar/" + peticioDeFirmaID + "')", "btn-secondary"));
         }
 
         if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT
@@ -2434,7 +2434,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
           /** REINICIALITZAR */
           if (!isNomesConsulta()) {
             filterForm.addAdditionalButtonByPK(peticioDeFirmaID,
-                new AdditionalButton("icon-repeat icon-white", "reinicialitzar",
+                new AdditionalButton("fas fa-redo icon-white", "reinicialitzar",
                     "javascript:goTo('" + request.getContextPath() + getContextWeb()
                         + "/reinicialitzar/" + peticioDeFirmaID + "')", "btn-danger"));
             
@@ -2466,7 +2466,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
            // NO Boto Esborrar
          } else {
            filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-               "icon-trash icon-white", "genapp.delete",
+               "fas fa-trash icon-white", "genapp.delete",
                // "javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/" +
                // peticioDeFirmaID + "/delete')",
                "javascript:openModal('" + request.getContextPath() + getContextWeb() + "/"
@@ -2479,11 +2479,11 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
           if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES
                || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
             filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-                "icon-trash icon-white", "genapp.delete",
+                "fas fa-trash icon-white", "genapp.delete",
                 "javascript:rebutjarEsborrar(" + peticioDeFirmaID + ");", "btn-danger"));
           } else {
             filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-                "icon-trash icon-white", "genapp.delete",
+                "fas fa-trash icon-white", "genapp.delete",
                 "javascript:esborrarAmbMotiu(" + peticioDeFirmaID + ");", "btn-danger"));
           }
           deleteCount++;
@@ -2530,7 +2530,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
       filterForm.setVisibleMultipleSelection(true);
 
       if (mostrarBotoGlobalRebutjar) {
-        filterForm.addAdditionalButton(new AdditionalButton("icon-remove",
+        filterForm.addAdditionalButton(new AdditionalButton("fas fa-times",
             "rebutjar", "javascript:rebutjarseleccionades();", "btn-warning"));
       }
 
@@ -2541,7 +2541,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
         } else {
           filterForm.setDeleteSelectedButtonVisible(false);
           filterForm.addAdditionalButton(new AdditionalButton(
-              "icon-trash icon-white", "genapp.delete",
+              "fas fa-trash icon-white", "genapp.delete",
               "javascript:esborrarAmbMotiuSeleccionades();", "btn-danger"));
         }
       } else {
@@ -2556,14 +2556,14 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
       }
 
       if (downloadMassiu) {
-        filterForm.addAdditionalButton(new AdditionalButton("icon-download-alt icon-white",
+        filterForm.addAdditionalButton(new AdditionalButton("fas fa-download icon-white",
             "descarregar.firmes", "javascript:submitTo('peticioDeFirmaFilterForm'," + " '"
                 + request.getContextPath() + getContextWeb() + "/downloadseleccionats');",
             "btn-success"));
       }
 
       if (reiniciable) {
-        filterForm.addAdditionalButton(new AdditionalButton("icon-repeat icon-white",
+        filterForm.addAdditionalButton(new AdditionalButton("fas fa-redo icon-white",
             "reinicialitzar", "javascript:submitTo('peticioDeFirmaFilterForm'," + " '"
                 + request.getContextPath() + getContextWeb() + "/resetseleccionats');",
             "btn-danger"));
@@ -2571,7 +2571,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
 
       if (marcarRevisat) {
         filterForm
-            .addAdditionalButton(new AdditionalButton("icon-check icon-white", "revisat",
+            .addAdditionalButton(new AdditionalButton("far fa-check-square icon-white", "revisat",
                 "javascript:submitTo('peticioDeFirmaFilterForm'," + " '"
                     + request.getContextPath() + getContextWeb()
                     + "/marcarrevisatseleccionats');", "btn-warning"));
@@ -2614,14 +2614,14 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
 
       if (fitxersAdaptats) {
         if (!isNomesConsulta()) {
-          filterForm.addAdditionalButton(new AdditionalButton("icon-share icon-white",
+          filterForm.addAdditionalButton(new AdditionalButton("fas fa-broom icon-white",
             "peticiodefirma.netejaesborrat.netejaradaptat",
             "javascript:submitTo('peticioDeFirmaFilterForm'," + " '" + request.getContextPath()
               + getContextWeb() + "/netejarAdaptat');", "btn-warning"));
         }
         
         AdditionalField<Long, String> adfield1 = new AdditionalField<Long, String>();
-        adfield1.setCodeName("=<i class=\"icon-share\"></i>");
+        adfield1.setCodeName("=<i class=\"fas fa-broom\"></i>");
         adfield1.setPosition(NETEJA_ADAPTAT);
         adfield1.setEscapeXml(false);
         adfield1.setValueMap(mapAdaptat);
@@ -2654,8 +2654,8 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
                   + " amb tipusSolicitant = " + tipusSolicitant);
       }
 
-      filterForm.addAdditionalButton(new AdditionalButton("icon-plus-sign",
-          "peticiodefirma.crear", action, ""));
+      filterForm.addAdditionalButton(new AdditionalButton("fas fa-plus-circle",
+          "peticiodefirma.crear", action, "btn-secondary"));
     }
 
     

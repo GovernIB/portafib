@@ -13,6 +13,7 @@
 .mainMenu .upper-right-corner {
     z-index: 9;
     float: right;
+    padding-right: 9px;
 }
 
 .mainMenu .upper-left-corner {
@@ -27,4 +28,8 @@
 }
 .aligncenter img {
     border: 2px solid;
+}
+
+.icon-white {
+    color: white;
 }

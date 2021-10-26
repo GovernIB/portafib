@@ -256,7 +256,6 @@ private static final long serialVersionUID = 1766648722L;
   static java.util.Set<EstatDeFirmaJPA> copyJPA(java.util.Set<EstatDeFirmaJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<EstatDeFirmaJPA> __tmpSet = (java.util.Set<EstatDeFirmaJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<EstatDeFirmaJPA>(__jpaSet.size());

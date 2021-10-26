@@ -51,7 +51,7 @@
        <br/>
        <div align="center">
        <button id="continuar" type="submit" class="btn btn-primary" title="<fmt:message key="continuar" />" >
-          <%--  <i class="icon-plus-sign icon-white"></i> --%>
+          <%--  <i class="fas fa-plus-circle icon-white"></i> --%>
           <fmt:message key="continuar"/>
       </button>
       </div>

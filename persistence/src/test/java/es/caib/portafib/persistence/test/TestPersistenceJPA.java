@@ -9,7 +9,6 @@ import javax.persistence.FlushModeType;
 import javax.persistence.Persistence;
 
 import org.apache.log4j.Logger;
-
 import es.caib.portafib.persistence.PortaFIBJPADaoManagers;
 import es.caib.portafib.model.PortaFIBDaoManager;
 

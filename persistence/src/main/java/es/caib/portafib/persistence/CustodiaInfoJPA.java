@@ -635,7 +635,6 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
   static java.util.Set<CustodiaInfoJPA> copyJPA(java.util.Set<CustodiaInfoJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<CustodiaInfoJPA> __tmpSet = (java.util.Set<CustodiaInfoJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<CustodiaInfoJPA>(__jpaSet.size());

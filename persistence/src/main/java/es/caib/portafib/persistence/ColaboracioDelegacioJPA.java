@@ -335,7 +335,6 @@ private static final long serialVersionUID = -637711502L;
   static java.util.Set<ColaboracioDelegacioJPA> copyJPA(java.util.Set<ColaboracioDelegacioJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<ColaboracioDelegacioJPA> __tmpSet = (java.util.Set<ColaboracioDelegacioJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<ColaboracioDelegacioJPA>(__jpaSet.size());

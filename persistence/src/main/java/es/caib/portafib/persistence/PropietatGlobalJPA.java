@@ -167,7 +167,6 @@ private static final long serialVersionUID = 1545722544L;
   static java.util.Set<PropietatGlobalJPA> copyJPA(java.util.Set<PropietatGlobalJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<PropietatGlobalJPA> __tmpSet = (java.util.Set<PropietatGlobalJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<PropietatGlobalJPA>(__jpaSet.size());

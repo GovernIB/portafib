@@ -90,7 +90,7 @@
         </form:select>
     </td>
     <td>
-      <button id="fluxUsuariView" onclick="mostrarFlux('fluxPlantillaUsuari')" type="button" class="btn"><i class="icon-eye-open"></i></button>
+      <button id="fluxUsuariView" onclick="mostrarFlux('fluxPlantillaUsuari')" type="button" class="btn"><i class="fas fa-eye"></i></button>
     </td>
   </tr>
 </tbody>
@@ -115,7 +115,7 @@
         </form:select>
     </td>
     <td>
-      <button id="fluxSharedView" onclick="mostrarFlux('fluxPlantillaPersonaCompartit')" type="button" class="btn"><i class="icon-eye-open"></i></button>
+      <button id="fluxSharedView" onclick="mostrarFlux('fluxPlantillaPersonaCompartit')" type="button" class="btn"><i class="fas fa-eye"></i></button>
     </td>
   </tr>
 </tbody>
@@ -140,7 +140,7 @@
         </form:select>
     </td>
     <td>
-      <button id="fluxAplicacioView" onclick="mostrarFlux('fluxPlantillaAplicacioCompartit')" type="button" class="btn"><i class="icon-eye-open"></i></button>
+      <button id="fluxAplicacioView" onclick="mostrarFlux('fluxPlantillaAplicacioCompartit')" type="button" class="btn"><i class="fas fa-eye"></i></button>
     </td>
   </tr>
 </tbody>

@@ -81,7 +81,7 @@ public class GestioUsuarisDeGrupController extends GrupEntitatUsuariEntitatContr
       grupEntitatUsuariEntitatFilterForm.setEditButtonVisible(false);
 
       grupEntitatUsuariEntitatFilterForm.addAdditionalButton(new AdditionalButton(
-          "icon-plus-sign", "afegir", "javascript:openSelectUserDialog();",
+          "fas fa-plus-circle", "afegir", "javascript:openSelectUserDialog();",
           "btn"));
 
       grupEntitatUsuariEntitatFilterForm.addAdditionalButton(new AdditionalButton(

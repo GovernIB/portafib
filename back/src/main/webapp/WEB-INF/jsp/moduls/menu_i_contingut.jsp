@@ -6,16 +6,16 @@
 <tiles:importAttribute name="contingut" />
 <div class="row">
 
-    <!--  INICI MENU -->
-    <div id="principal" class="mainMenu col-3">
+    <!--  INICI MENU  col-3 -->
+    <div id="principal" class="mainMenu col-3" style="padding-left:17px;"  >
         <div id="mostrarMenu" class="upper-left-corner no-disponible">
             <a id="mostrar" href="#" data-toggle="tooltip"
-                title="Mostrar Menu"> <i class="icon-fullscreen"></i>
+                title="Mostrar Menu"> <i class="fas fa-expand-alt"></i>
             </a>
         </div>
         <div id="ocultarMenu" class="upper-right-corner disponible">
             <a id="ocultar" href="#" data-toggle="tooltip"
-                title="Ocultar Menu"> <i class="icon-remove"></i>
+                title="Ocultar Menu"> <i class="fas fa-compress-alt"></i>
             </a>
         </div>
         <div id="thumbnailmenu" class="thumbnail disponible">
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <!--  CONTINGUT  -->
+    <!--  CONTINGUT col-9 -->
     <div class="col-9">
 
         <!--  Missatges  -->

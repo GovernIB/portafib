@@ -762,7 +762,7 @@ public class AutoFirmaController extends FitxerController
         fitxerFilterForm.setSubTitleCode("autofirma.subtitle");
                 
         fitxerFilterForm.addAdditionalButton(new AdditionalButton(
-            "icon-plus-sign icon-white", "autofirma.nova", "/common/autofirma",
+            "fas fa-plus-circle icon-white", "autofirma.nova", "/common/autofirma",
             "btn btn-primary"));
         fitxerFilterForm.setAddButtonVisible(false);
         fitxerFilterForm.setEditButtonVisible(false);
@@ -772,7 +772,7 @@ public class AutoFirmaController extends FitxerController
           String url = request.getContextPath() + getContextWeb() + "/original/{0}";
           String js = "javascript:var win = window.open('" + url +  "', '_blank'); win.focus();";
           fitxerFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-            "icon-download-alt", "autofirma.fitxeroriginal", js,
+            "fas fa-download", "autofirma.fitxeroriginal", js,
             "btn btn-info"));
         }
         

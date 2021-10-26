@@ -107,13 +107,13 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       notificacioFilterForm.addHiddenField(ERROR);
       
       // Noves etiquetes
-      notificacioFilterForm.addLabel(BLOQUEJADA, "=<i class=\"icon-lock\" title=\"" 
+      notificacioFilterForm.addLabel(BLOQUEJADA, "=<i class=\"fas fa-lock\" title=\"" 
           + I18NUtils.tradueix(BLOQUEJADA.fullName) + "\"></i>");
-      notificacioFilterForm.addLabel(REINTENTS, "=<i class=\"icon-repeat\" title=\"" 
+      notificacioFilterForm.addLabel(REINTENTS, "=<i class=\"fas fa-redo\" title=\"" 
           + I18NUtils.tradueix(REINTENTS.fullName) + "\"></i>");
 
       notificacioFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-          "icon-eye-open", "veuredetalls", getContextWeb() + "/view/{0}", null));
+          "fas fa-eye", "veuredetalls", getContextWeb() + "/view/{0}", null));
 
       notificacioFilterForm.setAddButtonVisible(false);
       notificacioFilterForm.setEditButtonVisible(false);
@@ -218,7 +218,7 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
       case SHOW_ACTION_ESBORRAR:
         filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
-            new AdditionalButton("icon-trash icon-white", "genapp.delete", getContextWeb()
+            new AdditionalButton("fas fa-trash icon-white", "genapp.delete", getContextWeb()
                 + "/{0}/delete", "btn-danger"));
         break;
 
@@ -268,7 +268,7 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       break;
 
     case SHOW_ACTION_ESBORRAR:
-      filterForm.addAdditionalButton(new AdditionalButton("icon-trash icon-white",
+      filterForm.addAdditionalButton(new AdditionalButton("fas fa-trash icon-white",
           "genapp.delete", "javascript:openModalSubmit('" + context
               + "/deleteSelected','show', 'notificacioWS')", "btn-danger"));
       break;
@@ -310,7 +310,7 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
         break;
 
       case SHOW_ACTION_ESBORRAR:
-        notificacioForm.addAdditionalButton(new AdditionalButton("icon-trash icon-white",
+        notificacioForm.addAdditionalButton(new AdditionalButton("fas fa-trash icon-white",
             "genapp.delete", getContextWeb() + "/{0}/delete", "btn-danger"));
         break;
 

@@ -111,7 +111,7 @@
 
      <%--  Boto de REBUIG MULTIPLE --%>
      var botoRebuigMultiple = '<button type="button" class="btn btn-small btn-danger" onclick="rebutjarseleccionats()">'
-     + '<i class="icon-remove"></i><fmt:message key="rebutjarseleccionats" />'
+     + '<i class="fas fa-times"></i><fmt:message key="rebutjarseleccionats" />'
      + '</button>'
    
      function rebutjarseleccionats() {

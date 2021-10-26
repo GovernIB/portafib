@@ -37,7 +37,7 @@
           class="btn btn-primary"
           onclick="selectedUser${usuarimodalconfig}FromModal()"
           title="<fmt:message key="afegir" />">
-          <i class="icon-plus-sign icon-white"></i>
+          <i class="fas fa-plus-circle icon-white"></i>
           <fmt:message key="afegir" />
         </button>
         

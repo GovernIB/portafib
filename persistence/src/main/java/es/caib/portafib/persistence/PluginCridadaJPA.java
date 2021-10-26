@@ -318,7 +318,6 @@ private static final long serialVersionUID = -1618108326L;
   static java.util.Set<PluginCridadaJPA> copyJPA(java.util.Set<PluginCridadaJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<PluginCridadaJPA> __tmpSet = (java.util.Set<PluginCridadaJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<PluginCridadaJPA>(__jpaSet.size());

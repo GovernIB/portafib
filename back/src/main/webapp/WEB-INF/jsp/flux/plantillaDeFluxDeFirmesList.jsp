@@ -11,7 +11,7 @@
   <%@include file="../webdb/fluxDeFirmesListHeaderButtons.jsp" %>
   <%-- ADD HERE NEW HEADER BUTTONS (Multiple Select or similar to add item)  --%>
   <a class="btn pull-right btn-small" role="button" data-toggle="modal"
-    href="<c:url value="${contexte}/new"/>"> <i class="icon-plus-sign"></i>
+    href="<c:url value="${contexte}/new"/>"> <i class="fas fa-plus-circle"></i>
    <fmt:message key="plantilla.crear" />
   </a>
 

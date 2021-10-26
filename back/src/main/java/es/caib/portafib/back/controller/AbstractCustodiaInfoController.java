@@ -324,7 +324,7 @@ public abstract class AbstractCustodiaInfoController extends CustodiaInfoControl
       filterForm.setEditButtonVisible(false);
 
       filterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-          "icon-eye-open icon-white", "vistacompleta", getContextWeb() + "/view/{0}",
+          "fas fa-eye icon-white", "vistacompleta", getContextWeb() + "/view/{0}",
           "btn-info"));
 
       // TODO AGRUPAR i LLISTAT
@@ -386,7 +386,7 @@ public abstract class AbstractCustodiaInfoController extends CustodiaInfoControl
       String url = cust.getUrlFitxerCustodiat();
       if (url != null && url.trim().length() != 0)
         filterForm.addAdditionalButtonByPK(cust.getCustodiaInfoID(), new AdditionalButton(
-            "icon-download-alt  icon-white", "descarregar", url, "btn-success"));
+            "fas fa-download  icon-white", "descarregar", url, "btn-success"));
     }
 
   }

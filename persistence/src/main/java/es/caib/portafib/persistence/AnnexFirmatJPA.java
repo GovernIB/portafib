@@ -182,7 +182,6 @@ private static final long serialVersionUID = -658588842L;
   static java.util.Set<AnnexFirmatJPA> copyJPA(java.util.Set<AnnexFirmatJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<AnnexFirmatJPA> __tmpSet = (java.util.Set<AnnexFirmatJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<AnnexFirmatJPA>(__jpaSet.size());

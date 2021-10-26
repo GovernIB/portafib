@@ -35,50 +35,50 @@
     <ul class="nav nav-tabs ${isMobile?'custom-submenu-mobile':'custom-submenu'}" style="margin-bottom:0px;margin-left:40px;">
 
     <c:if test="${loginInfo.usuariPersona.usuariIntern }">
-    <li class="nav-item" ${(empty pipella)?'class="active"' : '' } >
+    <li class="nav-item ${(empty pipella)?'active' : '' }" >
         <a class="nav-link ${(empty pipella)?'active' : '' }" href="<c:url value="/canviarPipella/"/>"><fmt:message key="inici" /></a>
     </li> 
     </c:if>
 
 
     <c:forEach var="rolG" items="${loginInfo.roles}">
-    <c:set var="rol" value="${rolG.authority}"/>
-    <c:if test="${not( (rol eq 'ROLE_ANY') || (rol eq 'ROLE_USER')  || (rol eq 'ROLE_AUTOFIRMA') )}">
-        <li class='nav-item ${(rol eq 'ROLE_COLA')?' dropdown' : '' }' ">
-           <c:url var="linktab" value="/canviarPipella/${rol}"/>
-           <c:set var="href" value="href=\"${linktab}\"" />
-           <a class="nav-link ${(pipella eq 'ROLE_USER')?'active' : '' }" ${href}><fmt:message key="${rol}" />
-           <c:if test="${not(empty avisos[rol])}">
-             &nbsp; <span id="avisos_${rol}" class="badge badge-warning">${avisos[rol]}</span>
-           </c:if>
-           </a>
-        </li>
-
-        <c:if test="${rol eq 'ROLE_ADEN' }">
-            <li  class="nav-item">
-              <c:url var="linktab" value="/canviarPipella/ROLE_ADEN2"/>
-              <c:set var="href" value="href=\"${linktab}\"" />
-              <a class="nav-link ${(pipella eq 'ROLE_ADEN')?'active' : '' }" ${href}><fmt:message key="ROLE_ADEN2" />
-              <c:if test="${not(empty avisos['ROLE_ADEN'])}">
-                &nbsp; <span class="badge badge-warning">${avisos['ROLE_ADEN2']}</span>
-              </c:if>
-              </a>
-
+        <c:set var="rol" value="${rolG.authority}"/>
+        <c:if test="${not( (rol eq 'ROLE_ANY') || (rol eq 'ROLE_USER')  || (rol eq 'ROLE_AUTOFIRMA') )}">
+            <li class="nav-item ${(rol eq 'ROLE_COLA')?' dropdown' : '' } ${(pipella eq rol)?' active' : '' }" ">
+               <c:url var="linktab" value="/canviarPipella/${rol}"/>
+               <c:set var="href" value="href=\"${linktab}\"" />
+               <a class="nav-link " ${href}><fmt:message key="${rol}" />
+               <c:if test="${not(empty avisos[rol])}">
+                 &nbsp; <span id="avisos_${rol}" class="badge badge-warning">${avisos[rol]}</span>
+               </c:if>
+               </a>
             </li>
-        </c:if>
     
-    </c:if>  
+            <c:if test="${rol eq 'ROLE_ADEN' }">
+                <li class="nav-item ${(pipella eq 'ROLE_ADEN')?'active' : '' }">
+                  <c:url var="linktab" value="/canviarPipella/ROLE_ADEN2"/>
+                  <c:set var="href" value="href=\"${linktab}\"" />
+                  <a class="nav-link"   ${href}><fmt:message key="ROLE_ADEN2" />
+                  <c:if test="${not(empty avisos['ROLE_ADEN'])}">
+                    &nbsp; <span class="badge badge-warning">${avisos['ROLE_ADEN2']}</span>
+                  </c:if>
+                  </a>
+    
+                </li>
+            </c:if>
+        
+        </c:if>  
     </c:forEach>
 
     <sec:authorize access="hasRole('ROLE_ADMIN')">
-    <li  class="nav-item">
-       <a class="nav-link ${(pipella eq 'ROLE_ADMIN')?'active' : '' }" href="<c:url value="/canviarPipella/webdb"/>"> WebDatabase</a>
+    <li  class="nav-item ${(pipella eq 'ROLE_ADEN')?'active' : '' }">
+       <a class="nav-link " href="<c:url value="/canviarPipella/webdb"/>"> WebDatabase</a>
     </li>
     </sec:authorize>
 
     <c:if test="${pfi:isDesenvolupament()}">
-    <li  class="nav-item">
-       <a class="nav-link ${(pipella eq 'desenvolupament')?'active' : '' }" href="<c:url value="/canviarPipella/desenvolupament"/>"> Desenvolupament</a>
+    <li  class="nav-item ${(pipella eq 'desenvolupament')?'active' : '' }">
+       <a class="nav-link " href="<c:url value="/canviarPipella/desenvolupament"/>"> Desenvolupament</a>
     </li>
     </c:if>
      

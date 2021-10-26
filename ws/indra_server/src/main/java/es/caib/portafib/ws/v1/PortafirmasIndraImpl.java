@@ -177,7 +177,8 @@ import java.util.TreeSet;
  * 
  */
 
-@SuppressWarnings("restriction")
+
+//@SuppressWarnings("restriction")
 @Stateless(name="Cws")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 @WebService

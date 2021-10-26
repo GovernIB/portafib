@@ -226,7 +226,6 @@ private static final long serialVersionUID = -1473284441L;
   static java.util.Set<TipusDocumentJPA> copyJPA(java.util.Set<TipusDocumentJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<TipusDocumentJPA> __tmpSet = (java.util.Set<TipusDocumentJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<TipusDocumentJPA>(__jpaSet.size());

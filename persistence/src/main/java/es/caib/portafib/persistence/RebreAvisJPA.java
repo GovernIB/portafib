@@ -164,7 +164,6 @@ private static final long serialVersionUID = -111354374L;
   static java.util.Set<RebreAvisJPA> copyJPA(java.util.Set<RebreAvisJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<RebreAvisJPA> __tmpSet = (java.util.Set<RebreAvisJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<RebreAvisJPA>(__jpaSet.size());

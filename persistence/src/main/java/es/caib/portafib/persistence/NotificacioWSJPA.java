@@ -262,7 +262,6 @@ private static final long serialVersionUID = 1184441005L;
   static java.util.Set<NotificacioWSJPA> copyJPA(java.util.Set<NotificacioWSJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<NotificacioWSJPA> __tmpSet = (java.util.Set<NotificacioWSJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<NotificacioWSJPA>(__jpaSet.size());

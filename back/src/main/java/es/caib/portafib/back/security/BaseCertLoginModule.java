@@ -37,6 +37,7 @@ import es.caib.portafib.utils.Configuracio;
  * Gestiona el Login emprant Certificats
  * 
  * TODO Moure a Plugins
+ * TODO XYZ ZZZ ELIMINAR
  * 
  * @author anadal
  */

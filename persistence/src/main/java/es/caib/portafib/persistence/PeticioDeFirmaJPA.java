@@ -937,7 +937,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
   static java.util.Set<PeticioDeFirmaJPA> copyJPA(java.util.Set<PeticioDeFirmaJPA> __jpaSet,
     java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
     if (__jpaSet == null) { return null; }
-    @SuppressWarnings("unchecked")
     java.util.Set<PeticioDeFirmaJPA> __tmpSet = (java.util.Set<PeticioDeFirmaJPA>) __alreadyCopied.get(__jpaSet);
     if (__tmpSet != null) { return __tmpSet; };
     __tmpSet = new java.util.HashSet<PeticioDeFirmaJPA>(__jpaSet.size());
