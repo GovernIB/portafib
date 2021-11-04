@@ -16,6 +16,7 @@
   <properties>
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+	<contextroot>portafib</contextroot>
   </properties>
 
   <dependencies>
@@ -483,6 +484,18 @@
 
 
   <profiles>
+  
+    <!-- ======   Canvi de contextroot   =============== -->
+	
+	
+	<profile>
+      <id>contextportafib21</id>
+      <properties>
+		<contextroot>portafib21</contextroot>
+	  </properties>
+    </profile>
+	
+	 
 
 
     <!-- =================================================== -->
@@ -587,7 +600,7 @@
                 <webModule>
                   <groupId>es.caib.portafib</groupId>
                   <artifactId>portafib-ws-indra-callback-server</artifactId>
-                  <contextRoot>portafib/portafirmascb</contextRoot>
+                  <contextRoot>${contextroot}/portafirmascb</contextRoot>
                   <bundleFileName>portafib-ws-indra-callback-server.war</bundleFileName>
                 </webModule>
               </modules>
@@ -714,13 +727,13 @@
                 <webModule>
                   <groupId>es.caib.portafib</groupId>
                   <artifactId>portafib-ws-callback-server-web</artifactId>
-                  <contextRoot>portafib/portafibcb</contextRoot>
+                  <contextRoot>${contextroot}/portafibcb</contextRoot>
                   <bundleFileName>portafib-ws-callback-server-web.war</bundleFileName>
                 </webModule>
                 <webModule>
                   <groupId>es.caib.portafib</groupId>
                   <artifactId>portafib-callback-server-rest</artifactId>
-                  <contextRoot>portafib/cbrest</contextRoot>
+                  <contextRoot>${contextroot}/cbrest</contextRoot>
                   <bundleFileName>portafib-callback-server-rest.war</bundleFileName>
                 </webModule>
               </modules>
@@ -799,7 +812,7 @@
             <webModule>
               <groupId>es.caib.portafib</groupId>
               <artifactId>portafib-back</artifactId>
-              <contextRoot>portafib</contextRoot>
+              <contextRoot>${contextroot}</contextRoot>
               <bundleFileName>portafib-back.war</bundleFileName>
             </webModule>
 

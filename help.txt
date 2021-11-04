@@ -1,11 +1,11 @@
 
 Per compilar en mode desenvolupament: deploydev.sh/bat [OPCIONS]
-Per compilar en mode producciï¿½: deploypro.sh/bat [OPCIONS]
+Per compilar en mode producci?: deploypro.sh/bat [OPCIONS]
 
 -------------------------------- OPCIONS ---------------------------------
 
 -Pbuild           Nomes emprar en desenvolupament. Sistema manual de 
-                  revisions. Marca una nova data de revisiï¿½.
+                  revisions. Marca una nova data de revisi?.
 
 -Psqlgen          Genera scripts SQL dins /scripts/sqlgenerator. Mes
                   informacio a /scripts/sqlgenerator/readme.txt
@@ -15,12 +15,12 @@ Per compilar en mode producciï¿½: deploypro.sh/bat [OPCIONS]
 
 -Psia             Compila i inclou dins l'ear el Modul de Firma de SIA
 
--Ppassarelaweb-v1    Compila el Modul de Firma Web de Passarelï¿½la PortaFIB
+-Ppassarelaweb-v1    Compila el Modul de Firma Web de Passarel?la PortaFIB
                   Tambe crea l'API i WS per atacar a Passarela Web de PortaFIB.
                   Els WS definits son 
                        /portafib/ws/v1/PortaFIBPassarelaDeFirmaWeb
 
--Ppassarelaserver-v1 Compila el Modul de Firma en Servidor de Passarelï¿½la PortaFIB
+-Ppassarelaserver-v1 Compila el Modul de Firma en Servidor de Passarel?la PortaFIB
                   Tambe crea l'API i WS per atacar a Passarela Server de PortaFIB.
                   Els WS definits son 
                        /portafib/ws/v1/PortaFIBPassarelaDeFirmaEnServidor
@@ -42,7 +42,7 @@ Per compilar en mode producciï¿½: deploypro.sh/bat [OPCIONS]
                     http://HOST:PORT/portafib/cbrest/v1/event (POST)
                     i camp 'Callback Versio" a 'PortaFIB Callback REST v1.0'
                   - WEB: UI per poder consultar els events de Callback enviats
-                    via WS o via REST. La url ï¿½s http://HOST:PORT/portafib/portafibcb
+                    via WS o via REST. La url ?s http://HOST:PORT/portafib/portafibcb
 
 -Pws-portafirmas  Crea WS compatible amb l'API del PortaFirmas antic de la CAIB.
                   El WS es accessible des de /portafib/portafirmasws/web/services/CWS.
@@ -63,10 +63,12 @@ Per compilar en mode producciï¿½: deploypro.sh/bat [OPCIONS]
 
 -Palfresco       Inclou el Plugin de DocumentCustody de Alfresco
 
--Pback-client-cert  Configura el web.xml del mï¿½dul back (/portafib) per emprar autenticaciï¿½
+-Pback-client-cert  Configura el web.xml del m?dul back (/portafib) per emprar autenticació
                   tipus CLIENT-CERT enlloc de BASIC dins el <login-config><auth-method>
 
 -Pfortress        Compila i inclou dins l'ear el Modul de Firma Web de ViaFirma-Fortress
+
+-Pcontextportafib21  Crea un ear on el punt d'entrada no és /portafib sinó /portafib21
 
 clean             Neteja els projectes abans de compilar.
 
