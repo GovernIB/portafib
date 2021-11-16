@@ -60,9 +60,9 @@
             </c:when>
            <c:when test="${__theFilterForm.actionsRenderer == 2}">
                 <div class="btn-group">
-      <a class="btn btn-sm ${__theFilterForm.additionalInfoForActionsRendererByPK[pk]}" href="#" style="${(empty __theFilterForm.additionalInfoForActionsRendererByPK[pk])? '' : 'color: white;'}"><i class="fas fa-list ${(empty __theFilterForm.additionalInfoForActionsRendererByPK[pk])? '' : 'icon-white'}"></i> <fmt:message key="genapp.actions" /></a>
-      <a class="btn btn-sm ${__theFilterForm.additionalInfoForActionsRendererByPK[pk]} dropdown-toggle" data-toggle="dropdown" href="#">&nbsp;<span class="caret"> </span></a>
-      <ul class="dropdown-menu float-right" style="min-width:35px;padding:5px 5px 0px 5px;margin:0px;font-size: 12px" >
+      <a class="btn btn-sm  ${(empty __theFilterForm.additionalInfoForActionsRendererByPK[pk])?'btn-secondary' : __theFilterForm.additionalInfoForActionsRendererByPK[pk]}" href="#" style="${(empty __theFilterForm.additionalInfoForActionsRendererByPK[pk])? '' : 'color: white;'}"><i class="fas fa-list ${(empty __theFilterForm.additionalInfoForActionsRendererByPK[pk])? '' : 'icon-white'}"></i> <fmt:message key="genapp.actions" /></a>
+      <a class="btn btn-sm ${(empty __theFilterForm.additionalInfoForActionsRendererByPK[pk])?'btn-secondary' : __theFilterForm.additionalInfoForActionsRendererByPK[pk]} dropdown-toggle" data-toggle="dropdown" href="#">&nbsp;<span class="caret"> </span></a>
+  <ul class="dropdown-menu float-right" style="min-width:35px;padding:5px 5px 0px 5px;margin:0px;font-size: 12px" >
             <c:if test="${__theFilterForm.editButtonVisible}">
             <li>
             <a class="btn btn-warning btn-sm a_item" style="margin-bottom:5px;color: white;" href="<c:url value="${contexte}/${idioma.idiomaID}/edit"/>" onclick="null">

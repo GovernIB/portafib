@@ -14,7 +14,7 @@
             </td>
             <td>
             <form:errors path="custodiaInfo.nomPlantilla" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.nomPlantilla"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.nomPlantilla"   />
 
            </td>
         </tr>
@@ -32,7 +32,7 @@
             </td>
             <td>
             <form:errors path="custodiaInfo.custodiaDocumentID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.custodiaDocumentID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.custodiaDocumentID"   />
 
            </td>
         </tr>
@@ -52,11 +52,11 @@
           <form:errors path="custodiaInfo.pluginID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PLUGINID)}" >
           <form:hidden path="custodiaInfo.pluginID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.pluginID,__theForm.listOfPluginForPluginID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.pluginID,__theForm.listOfPluginForPluginID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PLUGINID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="custodiaInfo_pluginID"  onchange="if(typeof onChangePluginID == 'function') {  onChangePluginID(this); };"  cssClass="form-control col-md-8" path="custodiaInfo.pluginID">
+          <form:select id="custodiaInfo_pluginID"  onchange="if(typeof onChangePluginID == 'function') {  onChangePluginID(this); };"  cssClass="form-control col-md-9-optional" path="custodiaInfo.pluginID">
             <c:forEach items="${__theForm.listOfPluginForPluginID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -81,7 +81,7 @@
             </td>
             <td>
               <form:errors path="custodiaInfo.custodiaPluginParameters" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)? 'true' : 'false'}" path="custodiaInfo.custodiaPluginParameters"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)? 'true' : 'false'}" path="custodiaInfo.custodiaPluginParameters"  />
       <div id="dropdownMenuButton_custodiaPluginParameters" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_custodiaPluginParameters" class="dropdown-menu">
@@ -113,7 +113,7 @@
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAR)}" >
               <form:errors path="custodiaInfo.custodiar" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAR)? 'false' : 'true'}" path="custodiaInfo.custodiar"  style="width:1%"/>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAR)? 'false' : 'true'}" path="custodiaInfo.custodiar" />
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAR)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.custodiaInfo.custodiar}" />
@@ -134,7 +134,7 @@
             </td>
             <td>
             <form:errors path="custodiaInfo.pagines" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.pagines"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.pagines"   />
 
            </td>
         </tr>
@@ -152,7 +152,7 @@
             </td>
             <td>
               <form:errors path="custodiaInfo.missatge" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.MISSATGE)? 'true' : 'false'}" path="custodiaInfo.missatge"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.MISSATGE)? 'true' : 'false'}" path="custodiaInfo.missatge"  />
       <div id="dropdownMenuButton_missatge" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_missatge" class="dropdown-menu">
@@ -185,11 +185,11 @@
           <form:errors path="custodiaInfo.missatgePosicioPaginaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.MISSATGEPOSICIOPAGINAID)}" >
           <form:hidden path="custodiaInfo.missatgePosicioPaginaID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.missatgePosicioPaginaID,__theForm.listOfValuesForMissatgePosicioPaginaID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.missatgePosicioPaginaID,__theForm.listOfValuesForMissatgePosicioPaginaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.MISSATGEPOSICIOPAGINAID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="custodiaInfo_missatgePosicioPaginaID"  onchange="if(typeof onChangeMissatgePosicioPaginaID == 'function') {  onChangeMissatgePosicioPaginaID(this); };"  cssClass="form-control col-md-8" path="custodiaInfo.missatgePosicioPaginaID">
+          <form:select id="custodiaInfo_missatgePosicioPaginaID"  onchange="if(typeof onChangeMissatgePosicioPaginaID == 'function') {  onChangeMissatgePosicioPaginaID(this); };"  cssClass="form-control col-md-9-optional" path="custodiaInfo.missatgePosicioPaginaID">
             <c:forEach items="${__theForm.listOfValuesForMissatgePosicioPaginaID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -216,11 +216,11 @@
           <form:errors path="custodiaInfo.codiBarresID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESID)}" >
           <form:hidden path="custodiaInfo.codiBarresID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.codiBarresID,__theForm.listOfCodiBarresForCodiBarresID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.codiBarresID,__theForm.listOfCodiBarresForCodiBarresID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="custodiaInfo_codiBarresID"  onchange="if(typeof onChangeCodiBarresID == 'function') {  onChangeCodiBarresID(this); };"  cssClass="form-control col-md-8" path="custodiaInfo.codiBarresID">
+          <form:select id="custodiaInfo_codiBarresID"  onchange="if(typeof onChangeCodiBarresID == 'function') {  onChangeCodiBarresID(this); };"  cssClass="form-control col-md-9-optional" path="custodiaInfo.codiBarresID">
             <c:forEach items="${__theForm.listOfCodiBarresForCodiBarresID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -247,11 +247,11 @@
           <form:errors path="custodiaInfo.codiBarresPosicioPaginaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID)}" >
           <form:hidden path="custodiaInfo.codiBarresPosicioPaginaID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.codiBarresPosicioPaginaID,__theForm.listOfValuesForCodiBarresPosicioPaginaID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.codiBarresPosicioPaginaID,__theForm.listOfValuesForCodiBarresPosicioPaginaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="custodiaInfo_codiBarresPosicioPaginaID"  onchange="if(typeof onChangeCodiBarresPosicioPaginaID == 'function') {  onChangeCodiBarresPosicioPaginaID(this); };"  cssClass="form-control col-md-8" path="custodiaInfo.codiBarresPosicioPaginaID">
+          <form:select id="custodiaInfo_codiBarresPosicioPaginaID"  onchange="if(typeof onChangeCodiBarresPosicioPaginaID == 'function') {  onChangeCodiBarresPosicioPaginaID(this); };"  cssClass="form-control col-md-9-optional" path="custodiaInfo.codiBarresPosicioPaginaID">
             <c:forEach items="${__theForm.listOfValuesForCodiBarresPosicioPaginaID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -276,7 +276,7 @@
             </td>
             <td>
             <form:errors path="custodiaInfo.codiBarresText" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.codiBarresText"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.codiBarresText"   />
 
            </td>
         </tr>
@@ -296,11 +296,11 @@
           <form:errors path="custodiaInfo.usuariEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.USUARIENTITATID)}" >
           <form:hidden path="custodiaInfo.usuariEntitatID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.usuariEntitatID,__theForm.listOfUsuariEntitatForUsuariEntitatID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.usuariEntitatID,__theForm.listOfUsuariEntitatForUsuariEntitatID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.USUARIENTITATID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="custodiaInfo_usuariEntitatID"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };"  cssClass="form-control col-md-8" path="custodiaInfo.usuariEntitatID">
+          <form:select id="custodiaInfo_usuariEntitatID"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };"  cssClass="form-control col-md-9-optional" path="custodiaInfo.usuariEntitatID">
             <c:forEach items="${__theForm.listOfUsuariEntitatForUsuariEntitatID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -336,11 +336,11 @@
           <form:errors path="custodiaInfo.usuariAplicacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.USUARIAPLICACIOID)}" >
           <form:hidden path="custodiaInfo.usuariAplicacioID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.usuariAplicacioID,__theForm.listOfUsuariAplicacioForUsuariAplicacioID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.usuariAplicacioID,__theForm.listOfUsuariAplicacioForUsuariAplicacioID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.USUARIAPLICACIOID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="custodiaInfo_usuariAplicacioID"  onchange="if(typeof onChangeUsuariAplicacioID == 'function') {  onChangeUsuariAplicacioID(this); };"  cssClass="form-control col-md-8" path="custodiaInfo.usuariAplicacioID">
+          <form:select id="custodiaInfo_usuariAplicacioID"  onchange="if(typeof onChangeUsuariAplicacioID == 'function') {  onChangeUsuariAplicacioID(this); };"  cssClass="form-control col-md-9-optional" path="custodiaInfo.usuariAplicacioID">
             <c:forEach items="${__theForm.listOfUsuariAplicacioForUsuariAplicacioID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -376,11 +376,11 @@
           <form:errors path="custodiaInfo.entitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENTITATID)}" >
           <form:hidden path="custodiaInfo.entitatID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.entitatID,__theForm.listOfEntitatForEntitatID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.entitatID,__theForm.listOfEntitatForEntitatID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENTITATID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="custodiaInfo_entitatID"  onchange="if(typeof onChangeEntitatID == 'function') {  onChangeEntitatID(this); };"  cssClass="form-control col-md-8" path="custodiaInfo.entitatID">
+          <form:select id="custodiaInfo_entitatID"  onchange="if(typeof onChangeEntitatID == 'function') {  onChangeEntitatID(this); };"  cssClass="form-control col-md-9-optional" path="custodiaInfo.entitatID">
             <c:forEach items="${__theForm.listOfEntitatForEntitatID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -414,7 +414,7 @@
             </td>
             <td>
             <form:errors path="custodiaInfo.titolPeticio" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.titolPeticio"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.titolPeticio"   />
 
            </td>
         </tr>
@@ -473,7 +473,7 @@
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EDITABLE)}" >
               <form:errors path="custodiaInfo.editable" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EDITABLE)? 'false' : 'true'}" path="custodiaInfo.editable"  style="width:1%"/>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EDITABLE)? 'false' : 'true'}" path="custodiaInfo.editable" />
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EDITABLE)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.custodiaInfo.editable}" />
@@ -494,7 +494,7 @@
             </td>
             <td>
             <form:errors path="custodiaInfo.csv" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSV)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSV)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csv"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSV)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSV)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csv"   />
 
            </td>
         </tr>
@@ -522,7 +522,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB))}">
 
             <form:errors path="custodiaInfo.csvValidationWeb" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csvValidationWeb"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csvValidationWeb"   />
 
            </c:if>
 
@@ -552,7 +552,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION))}">
 
             <form:errors path="custodiaInfo.csvGenerationDefinition" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csvGenerationDefinition"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csvGenerationDefinition"   />
 
            </c:if>
 
@@ -582,7 +582,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT))}">
 
             <form:errors path="custodiaInfo.urlFitxerCustodiat" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.urlFitxerCustodiat"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.urlFitxerCustodiat"   />
 
            </c:if>
 
@@ -612,7 +612,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL))}">
 
             <form:errors path="custodiaInfo.originalFileDirectUrl" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.originalFileDirectUrl"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.originalFileDirectUrl"   />
 
            </c:if>
 
@@ -642,7 +642,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL))}">
 
             <form:errors path="custodiaInfo.printableFileDirectUrl" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.printableFileDirectUrl"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.printableFileDirectUrl"   />
 
            </c:if>
 
@@ -672,7 +672,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL))}">
 
             <form:errors path="custodiaInfo.eniFileDirectUrl" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.eniFileDirectUrl"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.eniFileDirectUrl"   />
 
            </c:if>
 
@@ -692,7 +692,7 @@
             </td>
             <td>
             <form:errors path="custodiaInfo.expedientArxiuId" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EXPEDIENTARXIUID)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EXPEDIENTARXIUID)? ' uneditable-input' : ''}"  style="" maxlength="250" path="custodiaInfo.expedientArxiuId"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EXPEDIENTARXIUID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EXPEDIENTARXIUID)? ' uneditable-input' : ''}"  style="" maxlength="250" path="custodiaInfo.expedientArxiuId"   />
 
            </td>
         </tr>
@@ -710,7 +710,7 @@
             </td>
             <td>
             <form:errors path="custodiaInfo.documentArxiuId" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DOCUMENTARXIUID)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DOCUMENTARXIUID)? ' uneditable-input' : ''}"  style="" maxlength="250" path="custodiaInfo.documentArxiuId"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DOCUMENTARXIUID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DOCUMENTARXIUID)? ' uneditable-input' : ''}"  style="" maxlength="250" path="custodiaInfo.documentArxiuId"   />
 
            </td>
         </tr>

@@ -2366,7 +2366,7 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
             // Comprovar si hi ha anexes
             if (listPeticionsAmbAnnex.contains(peticioID)) {
                 filterForm.addAdditionalButtonByPK(estatDeFirmaId,
-                        new AdditionalButton("icon-folder-open", "annex.annex.plural",
+                        new AdditionalButton("far fa-folder-open", "annex.annex.plural",
                                 getContextWeb() + "/viewDocuments/" + estatDeFirmaId + "/" + peticioID, "btn-info"));
 
             }

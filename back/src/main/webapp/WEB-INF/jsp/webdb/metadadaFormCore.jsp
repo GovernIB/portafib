@@ -14,7 +14,7 @@
             </td>
             <td>
             <form:errors path="metadada.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="metadada.nom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="metadada.nom"   />
 
            </td>
         </tr>
@@ -32,7 +32,7 @@
             </td>
             <td>
               <form:errors path="metadada.valor" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.VALOR)? 'true' : 'false'}" path="metadada.valor"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.VALOR)? 'true' : 'false'}" path="metadada.valor"  />
       <div id="dropdownMenuButton_valor" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_valor" class="dropdown-menu">
@@ -63,7 +63,7 @@
             </td>
             <td>
               <form:errors path="metadada.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.DESCRIPCIO)? 'true' : 'false'}" path="metadada.descripcio"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.DESCRIPCIO)? 'true' : 'false'}" path="metadada.descripcio"  />
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">
@@ -96,11 +96,11 @@
           <form:errors path="metadada.peticioDeFirmaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,MetadadaFields.PETICIODEFIRMAID)}" >
           <form:hidden path="metadada.peticioDeFirmaID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.metadada.peticioDeFirmaID,__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.metadada.peticioDeFirmaID,__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,MetadadaFields.PETICIODEFIRMAID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="metadada_peticioDeFirmaID"  onchange="if(typeof onChangePeticioDeFirmaID == 'function') {  onChangePeticioDeFirmaID(this); };"  cssClass="form-control col-md-8" path="metadada.peticioDeFirmaID">
+          <form:select id="metadada_peticioDeFirmaID"  onchange="if(typeof onChangePeticioDeFirmaID == 'function') {  onChangePeticioDeFirmaID(this); };"  cssClass="form-control col-md-9-optional" path="metadada.peticioDeFirmaID">
             <c:forEach items="${__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -127,11 +127,11 @@
           <form:errors path="metadada.tipusMetadadaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,MetadadaFields.TIPUSMETADADAID)}" >
           <form:hidden path="metadada.tipusMetadadaID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.metadada.tipusMetadadaID,__theForm.listOfValuesForTipusMetadadaID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.metadada.tipusMetadadaID,__theForm.listOfValuesForTipusMetadadaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,MetadadaFields.TIPUSMETADADAID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="metadada_tipusMetadadaID"  onchange="if(typeof onChangeTipusMetadadaID == 'function') {  onChangeTipusMetadadaID(this); };"  cssClass="form-control col-md-8" path="metadada.tipusMetadadaID">
+          <form:select id="metadada_tipusMetadadaID"  onchange="if(typeof onChangeTipusMetadadaID == 'function') {  onChangeTipusMetadadaID(this); };"  cssClass="form-control col-md-9-optional" path="metadada.tipusMetadadaID">
             <c:forEach items="${__theForm.listOfValuesForTipusMetadadaID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">

@@ -33,7 +33,7 @@
   <c:if test="${fn:length(groupby_items) > 0}">
  <fmt:message var="buit" key="genapp.notdefined" />
   
-  <div id="GroupDiv" class="well" style="${displayGroupDiv} padding: 1px; margin-right: 4px;  float: left; ">
+  <div id="GroupDiv" class="wellgroupfilter" style="${displayGroupDiv} padding: 1px; margin-right: 4px;  float: left; ">
       
       <div class="float-right" style="padding-left:2px">
             <div class="span10">

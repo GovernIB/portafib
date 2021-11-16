@@ -17,7 +17,7 @@
     </div>
     <div class="modal-body">
        
-       <select  class="input-xxlarge" id="plantillamoduldefirmaid" name="plantillamoduldefirmaid">
+       <select  class="col-md-9-optional" id="plantillamoduldefirmaid" name="plantillamoduldefirmaid">
           <c:forEach items="${llistatDePlantillaDeModuls}" var="tmp">
             <option value="${tmp.pluginID}">${tmp.nom.traduccions[lang].valor}</option>
           </c:forEach>

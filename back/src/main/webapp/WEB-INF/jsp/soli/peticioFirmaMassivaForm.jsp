@@ -20,7 +20,7 @@
       </td>
       <td>
        <form:errors  path="titolPeticio" cssClass="errorField alert alert-error" />
-       <input  name="titolPeticio" type="text" class="input-xxlarge" placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />" >
+       <input  name="titolPeticio" type="text" class="col-md-9-optional" placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />" >
       </td>
   </tr>
   <tr>
@@ -33,7 +33,7 @@
       </td>
       <td>
        <form:errors  path="descripcio" cssClass="errorField alert alert-error" />
-       <input name="descripcio" type="text" class="input-xxlarge" placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />" >
+       <input name="descripcio" type="text" class="col-md-9-optional" placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />" >
       </td>
   </tr>
   <tr>
@@ -46,7 +46,7 @@
       </td>
       <td>
        <form:errors  path="motiu" cssClass="errorField alert alert-error" />
-       <input  name="motiu" type="text" class="input-xxlarge" placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />" >
+       <input  name="motiu" type="text" class="col-md-9-optional" placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />" >
       </td>
   </tr>
   <tr>
@@ -55,7 +55,7 @@
       </td>
       <td valign="top">
          <form:errors path="peticioDeFirmaID" cssClass="errorField alert alert-error" />
-         <form:select id="peticioDeFirmaID" path="peticioDeFirmaID"  cssClass="input-xxlarge">
+         <form:select id="peticioDeFirmaID" path="peticioDeFirmaID"  cssClass="col-md-9-optional">
             <c:forEach items="${peticioFirmaMassivaForm.peticionsDeFirmesBase}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
@@ -73,7 +73,7 @@
       </td>
       <td>
        <form:errors path="files" cssClass="errorField alert alert-error" />
-       <form:input path="files" type="file" multiple="multiple" class="input-xxlarge" />
+       <form:input path="files" type="file" multiple="multiple" class="col-md-9-optional" />
       </td>
   </tr>
 </tbody>

@@ -14,7 +14,7 @@
             </td>
             <td>
             <form:errors path="notificacioWS.peticioDeFirmaID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? ' uneditable-input' : ''}"  style=""  path="notificacioWS.peticioDeFirmaID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? ' uneditable-input' : ''}"  style=""  path="notificacioWS.peticioDeFirmaID"   />
 
            </td>
         </tr>
@@ -34,11 +34,11 @@
           <form:errors path="notificacioWS.tipusNotificacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.TIPUSNOTIFICACIOID)}" >
           <form:hidden path="notificacioWS.tipusNotificacioID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.notificacioWS.tipusNotificacioID,__theForm.listOfTipusNotificacioForTipusNotificacioID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.notificacioWS.tipusNotificacioID,__theForm.listOfTipusNotificacioForTipusNotificacioID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.TIPUSNOTIFICACIOID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="notificacioWS_tipusNotificacioID"  onchange="if(typeof onChangeTipusNotificacioID == 'function') {  onChangeTipusNotificacioID(this); };"  cssClass="form-control col-md-8" path="notificacioWS.tipusNotificacioID">
+          <form:select id="notificacioWS_tipusNotificacioID"  onchange="if(typeof onChangeTipusNotificacioID == 'function') {  onChangeTipusNotificacioID(this); };"  cssClass="form-control col-md-9-optional" path="notificacioWS.tipusNotificacioID">
             <c:forEach items="${__theForm.listOfTipusNotificacioForTipusNotificacioID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -143,7 +143,7 @@
             </td>
             <td>
               <form:errors path="notificacioWS.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DESCRIPCIO)? 'true' : 'false'}" path="notificacioWS.descripcio"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DESCRIPCIO)? 'true' : 'false'}" path="notificacioWS.descripcio"  />
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">
@@ -199,7 +199,7 @@
             </td>
             <td>
               <form:errors path="notificacioWS.error" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.ERROR)? 'true' : 'false'}" path="notificacioWS.error"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.ERROR)? 'true' : 'false'}" path="notificacioWS.error"  />
       <div id="dropdownMenuButton_error" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_error" class="dropdown-menu">
@@ -270,7 +270,7 @@
             </td>
             <td>
             <form:errors path="notificacioWS.reintents" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? ' uneditable-input' : ''}"  style=""  path="notificacioWS.reintents"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? ' uneditable-input' : ''}"  style=""  path="notificacioWS.reintents"   />
 
            </td>
         </tr>
@@ -288,7 +288,7 @@
             </td>
             <td>
             <form:errors path="notificacioWS.usuariAplicacioID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="notificacioWS.usuariAplicacioID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="notificacioWS.usuariAplicacioID"   />
 
            </td>
         </tr>

@@ -16,11 +16,11 @@
           <form:errors path="pluginFirmaWebPerUsuariAplicacio.usuariAplicacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFirmaWebPerUsuariAplicacioFields.USUARIAPLICACIOID)}" >
           <form:hidden path="pluginFirmaWebPerUsuariAplicacio.usuariAplicacioID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.pluginFirmaWebPerUsuariAplicacio.usuariAplicacioID,__theForm.listOfUsuariAplicacioForUsuariAplicacioID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.pluginFirmaWebPerUsuariAplicacio.usuariAplicacioID,__theForm.listOfUsuariAplicacioForUsuariAplicacioID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginFirmaWebPerUsuariAplicacioFields.USUARIAPLICACIOID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="pluginFirmaWebPerUsuariAplicacio_usuariAplicacioID"  onchange="if(typeof onChangeUsuariAplicacioID == 'function') {  onChangeUsuariAplicacioID(this); };"  cssClass="form-control col-md-8" path="pluginFirmaWebPerUsuariAplicacio.usuariAplicacioID">
+          <form:select id="pluginFirmaWebPerUsuariAplicacio_usuariAplicacioID"  onchange="if(typeof onChangeUsuariAplicacioID == 'function') {  onChangeUsuariAplicacioID(this); };"  cssClass="form-control col-md-9-optional" path="pluginFirmaWebPerUsuariAplicacio.usuariAplicacioID">
             <c:forEach items="${__theForm.listOfUsuariAplicacioForUsuariAplicacioID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -47,11 +47,11 @@
           <form:errors path="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFirmaWebPerUsuariAplicacioFields.PLUGINFIRMAWEBID)}" >
           <form:hidden path="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebID,__theForm.listOfPluginForPluginFirmaWebID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebID,__theForm.listOfPluginForPluginFirmaWebID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginFirmaWebPerUsuariAplicacioFields.PLUGINFIRMAWEBID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="pluginFirmaWebPerUsuariAplicacio_pluginFirmaWebID"  onchange="if(typeof onChangePluginFirmaWebID == 'function') {  onChangePluginFirmaWebID(this); };"  cssClass="form-control col-md-8" path="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebID">
+          <form:select id="pluginFirmaWebPerUsuariAplicacio_pluginFirmaWebID"  onchange="if(typeof onChangePluginFirmaWebID == 'function') {  onChangePluginFirmaWebID(this); };"  cssClass="form-control col-md-9-optional" path="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebID">
             <c:forEach items="${__theForm.listOfPluginForPluginFirmaWebID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -78,11 +78,11 @@
           <form:errors path="pluginFirmaWebPerUsuariAplicacio.accio" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFirmaWebPerUsuariAplicacioFields.ACCIO)}" >
           <form:hidden path="pluginFirmaWebPerUsuariAplicacio.accio"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.pluginFirmaWebPerUsuariAplicacio.accio,__theForm.listOfValuesForAccio)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.pluginFirmaWebPerUsuariAplicacio.accio,__theForm.listOfValuesForAccio)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginFirmaWebPerUsuariAplicacioFields.ACCIO)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="pluginFirmaWebPerUsuariAplicacio_accio"  onchange="if(typeof onChangeAccio == 'function') {  onChangeAccio(this); };"  cssClass="form-control col-md-8" path="pluginFirmaWebPerUsuariAplicacio.accio">
+          <form:select id="pluginFirmaWebPerUsuariAplicacio_accio"  onchange="if(typeof onChangeAccio == 'function') {  onChangeAccio(this); };"  cssClass="form-control col-md-9-optional" path="pluginFirmaWebPerUsuariAplicacio.accio">
             <c:forEach items="${__theForm.listOfValuesForAccio}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">

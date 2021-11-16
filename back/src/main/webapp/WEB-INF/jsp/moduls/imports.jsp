@@ -8,6 +8,7 @@
     <!-- CSS -->
     <link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
     <link href="<c:url value="/css/default.css"/>" rel="stylesheet">
+
    
     <link href="<c:url value="/css/genapp.css"/>" rel="stylesheet"> 
     
@@ -21,8 +22,7 @@
     <!-- Bootstrap DateTimepicker CSS   -->
     <link href="<c:url value="/css/datetimepicker/tempusdominus-bootstrap-4.css"/>" rel="stylesheet">
 
-
-    <link href="<c:url value="/css/portafib.css"/>" rel="stylesheet">
+    <link href="<c:url value="/css/stylesapp.css"/>" rel="stylesheet">
 
     <!-- JS -->
     <script src="<c:url value="/js/jquery.js"/>"></script>

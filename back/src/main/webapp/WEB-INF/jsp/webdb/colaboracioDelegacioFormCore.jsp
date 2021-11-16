@@ -16,11 +16,11 @@
           <form:errors path="colaboracioDelegacio.destinatariID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DESTINATARIID)}" >
           <form:hidden path="colaboracioDelegacio.destinatariID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.colaboracioDelegacio.destinatariID,__theForm.listOfUsuariEntitatForDestinatariID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.colaboracioDelegacio.destinatariID,__theForm.listOfUsuariEntitatForDestinatariID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DESTINATARIID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="colaboracioDelegacio_destinatariID"  onchange="if(typeof onChangeDestinatariID == 'function') {  onChangeDestinatariID(this); };"  cssClass="form-control col-md-8" path="colaboracioDelegacio.destinatariID">
+          <form:select id="colaboracioDelegacio_destinatariID"  onchange="if(typeof onChangeDestinatariID == 'function') {  onChangeDestinatariID(this); };"  cssClass="form-control col-md-9-optional" path="colaboracioDelegacio.destinatariID">
             <c:forEach items="${__theForm.listOfUsuariEntitatForDestinatariID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -47,11 +47,11 @@
           <form:errors path="colaboracioDelegacio.colaboradorDelegatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.COLABORADORDELEGATID)}" >
           <form:hidden path="colaboracioDelegacio.colaboradorDelegatID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.colaboracioDelegacio.colaboradorDelegatID,__theForm.listOfUsuariEntitatForColaboradorDelegatID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.colaboracioDelegacio.colaboradorDelegatID,__theForm.listOfUsuariEntitatForColaboradorDelegatID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.COLABORADORDELEGATID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="colaboracioDelegacio_colaboradorDelegatID"  onchange="if(typeof onChangeColaboradorDelegatID == 'function') {  onChangeColaboradorDelegatID(this); };"  cssClass="form-control col-md-8" path="colaboracioDelegacio.colaboradorDelegatID">
+          <form:select id="colaboracioDelegacio_colaboradorDelegatID"  onchange="if(typeof onChangeColaboradorDelegatID == 'function') {  onChangeColaboradorDelegatID(this); };"  cssClass="form-control col-md-9-optional" path="colaboracioDelegacio.colaboradorDelegatID">
             <c:forEach items="${__theForm.listOfUsuariEntitatForColaboradorDelegatID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -77,7 +77,7 @@
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.ESDELEGAT)}" >
               <form:errors path="colaboracioDelegacio.esDelegat" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.ESDELEGAT)? 'false' : 'true'}" path="colaboracioDelegacio.esDelegat"  style="width:1%"/>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.ESDELEGAT)? 'false' : 'true'}" path="colaboracioDelegacio.esDelegat" />
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.ESDELEGAT)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.colaboracioDelegacio.esDelegat}" />
@@ -98,7 +98,7 @@
             </td>
             <td>
             <form:errors path="colaboracioDelegacio.motiu" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? ' uneditable-input' : ''}"  style="" maxlength="60" path="colaboracioDelegacio.motiu"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? ' uneditable-input' : ''}"  style="" maxlength="60" path="colaboracioDelegacio.motiu"   />
 
            </td>
         </tr>
@@ -116,7 +116,7 @@
             </td>
             <td>
               <form:errors path="colaboracioDelegacio.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DESCRIPCIO)? 'true' : 'false'}" path="colaboracioDelegacio.descripcio"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DESCRIPCIO)? 'true' : 'false'}" path="colaboracioDelegacio.descripcio"  />
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">
@@ -228,7 +228,7 @@
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.ACTIVA)}" >
               <form:errors path="colaboracioDelegacio.activa" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.ACTIVA)? 'false' : 'true'}" path="colaboracioDelegacio.activa"  style="width:1%"/>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.ACTIVA)? 'false' : 'true'}" path="colaboracioDelegacio.activa" />
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.ACTIVA)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.colaboracioDelegacio.activa}" />
@@ -250,7 +250,7 @@
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.REVISOR)}" >
               <form:errors path="colaboracioDelegacio.revisor" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.REVISOR)? 'false' : 'true'}" path="colaboracioDelegacio.revisor"  style="width:1%"/>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.REVISOR)? 'false' : 'true'}" path="colaboracioDelegacio.revisor" />
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.REVISOR)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.colaboracioDelegacio.revisor}" />
@@ -271,7 +271,7 @@
             </td>
             <td>
               <form:errors path="colaboracioDelegacio.motiuDeshabilitada" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIUDESHABILITADA)? 'true' : 'false'}" path="colaboracioDelegacio.motiuDeshabilitada"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIUDESHABILITADA)? 'true' : 'false'}" path="colaboracioDelegacio.motiuDeshabilitada"  />
       <div id="dropdownMenuButton_motiuDeshabilitada" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_motiuDeshabilitada" class="dropdown-menu">
@@ -306,9 +306,9 @@
               <a target="_blank" href="<c:url value="${pfi:fileUrl(fitxerAutoritzacioID.fitxerAutoritzacioID)}"/>">${fitxerAutoritzacioID.fitxerAutoritzacioID.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.FITXERAUTORITZACIOID)}" >
-              <div class="input-group">
-                <div class="custom-file col-md-8">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.FITXERAUTORITZACIOID)? 'true' : 'false'}" cssClass="custom-file-input form-control ${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.FITXERAUTORITZACIOID)? ' uneditable-input' : ''}"   path="fitxerAutoritzacioID" type="file" />
+              <div class="input-group col-md-9-optional" style="padding: 0px">
+                <div class="custom-file">
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.FITXERAUTORITZACIOID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.FITXERAUTORITZACIOID)? ' uneditable-input' : ''}"   path="fitxerAutoritzacioID" type="file" />
                   <label class="custom-file-label" for="fitxerAutoritzacioID">
                   </label>
                 </div>

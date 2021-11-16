@@ -16,11 +16,11 @@
           <form:errors path="grupEntitatUsuariEntitat.usuariEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,GrupEntitatUsuariEntitatFields.USUARIENTITATID)}" >
           <form:hidden path="grupEntitatUsuariEntitat.usuariEntitatID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.grupEntitatUsuariEntitat.usuariEntitatID,__theForm.listOfUsuariEntitatForUsuariEntitatID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.grupEntitatUsuariEntitat.usuariEntitatID,__theForm.listOfUsuariEntitatForUsuariEntitatID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,GrupEntitatUsuariEntitatFields.USUARIENTITATID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="grupEntitatUsuariEntitat_usuariEntitatID"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };"  cssClass="form-control col-md-8" path="grupEntitatUsuariEntitat.usuariEntitatID">
+          <form:select id="grupEntitatUsuariEntitat_usuariEntitatID"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };"  cssClass="form-control col-md-9-optional" path="grupEntitatUsuariEntitat.usuariEntitatID">
             <c:forEach items="${__theForm.listOfUsuariEntitatForUsuariEntitatID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -47,11 +47,11 @@
           <form:errors path="grupEntitatUsuariEntitat.grupEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,GrupEntitatUsuariEntitatFields.GRUPENTITATID)}" >
           <form:hidden path="grupEntitatUsuariEntitat.grupEntitatID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.grupEntitatUsuariEntitat.grupEntitatID,__theForm.listOfGrupEntitatForGrupEntitatID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.grupEntitatUsuariEntitat.grupEntitatID,__theForm.listOfGrupEntitatForGrupEntitatID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,GrupEntitatUsuariEntitatFields.GRUPENTITATID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="grupEntitatUsuariEntitat_grupEntitatID"  onchange="if(typeof onChangeGrupEntitatID == 'function') {  onChangeGrupEntitatID(this); };"  cssClass="form-control col-md-8" path="grupEntitatUsuariEntitat.grupEntitatID">
+          <form:select id="grupEntitatUsuariEntitat_grupEntitatID"  onchange="if(typeof onChangeGrupEntitatID == 'function') {  onChangeGrupEntitatID(this); };"  cssClass="form-control col-md-9-optional" path="grupEntitatUsuariEntitat.grupEntitatID">
             <c:forEach items="${__theForm.listOfGrupEntitatForGrupEntitatID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">

@@ -21,6 +21,16 @@
     float: left;
 }
 
+body {
+    background-color: #eaeaea;
+    font-size: 0.95rem;
+}
+
+.botoselecciolist {
+    font-size:0.8rem;
+    color: white;
+    margin-right:1px;
+}
 
 .aligncenter {
     text-align: center;

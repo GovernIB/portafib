@@ -14,7 +14,7 @@
             </td>
             <td>
             <form:errors path="entitat.entitatID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.ENTITATID)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.ENTITATID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.entitatID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.ENTITATID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.ENTITATID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.entitatID"   />
 
            </td>
         </tr>
@@ -32,7 +32,7 @@
             </td>
             <td>
             <form:errors path="entitat.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.NOM)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.nom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.NOM)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.nom"   />
 
            </td>
         </tr>
@@ -50,7 +50,7 @@
             </td>
             <td>
               <form:errors path="entitat.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.DESCRIPCIO)? 'true' : 'false'}" path="entitat.descripcio"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.DESCRIPCIO)? 'true' : 'false'}" path="entitat.descripcio"  />
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">
@@ -82,7 +82,7 @@
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.ACTIVA)}" >
               <form:errors path="entitat.activa" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.ACTIVA)? 'false' : 'true'}" path="entitat.activa"  style="width:1%"/>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.ACTIVA)? 'false' : 'true'}" path="entitat.activa" />
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.ACTIVA)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.entitat.activa}" />
@@ -103,7 +103,7 @@
             </td>
             <td>
             <form:errors path="entitat.web" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.WEB)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.WEB)? ' uneditable-input' : ''}"  style="" maxlength="250" path="entitat.web"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.WEB)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.WEB)? ' uneditable-input' : ''}"  style="" maxlength="250" path="entitat.web"   />
 
            </td>
         </tr>
@@ -125,9 +125,9 @@
               <a target="_blank" href="<c:url value="${pfi:fileUrl(faviconID.faviconID)}"/>">${faviconID.faviconID.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.FAVICONID)}" >
-              <div class="input-group">
-                <div class="custom-file col-md-8">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.FAVICONID)? 'true' : 'false'}" cssClass="custom-file-input form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.FAVICONID)? ' uneditable-input' : ''}"   path="faviconID" type="file" />
+              <div class="input-group col-md-9-optional" style="padding: 0px">
+                <div class="custom-file">
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.FAVICONID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.FAVICONID)? ' uneditable-input' : ''}"   path="faviconID" type="file" />
                   <label class="custom-file-label" for="faviconID">
                   </label>
                 </div>
@@ -177,9 +177,9 @@
               <a target="_blank" href="<c:url value="${pfi:fileUrl(logoWebID.logoWebID)}"/>">${logoWebID.logoWebID.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBID)}" >
-              <div class="input-group">
-                <div class="custom-file col-md-8">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBID)? 'true' : 'false'}" cssClass="custom-file-input form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBID)? ' uneditable-input' : ''}"   path="logoWebID" type="file" />
+              <div class="input-group col-md-9-optional" style="padding: 0px">
+                <div class="custom-file">
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBID)? ' uneditable-input' : ''}"   path="logoWebID" type="file" />
                   <label class="custom-file-label" for="logoWebID">
                   </label>
                 </div>
@@ -229,9 +229,9 @@
               <a target="_blank" href="<c:url value="${pfi:fileUrl(logoWebPeuID.logoWebPeuID)}"/>">${logoWebPeuID.logoWebPeuID.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBPEUID)}" >
-              <div class="input-group">
-                <div class="custom-file col-md-8">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBPEUID)? 'true' : 'false'}" cssClass="custom-file-input form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBPEUID)? ' uneditable-input' : ''}"   path="logoWebPeuID" type="file" />
+              <div class="input-group col-md-9-optional" style="padding: 0px">
+                <div class="custom-file">
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBPEUID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBPEUID)? ' uneditable-input' : ''}"   path="logoWebPeuID" type="file" />
                   <label class="custom-file-label" for="logoWebPeuID">
                   </label>
                 </div>
@@ -281,9 +281,9 @@
               <a target="_blank" href="<c:url value="${pfi:fileUrl(logoSegellID.logoSegellID)}"/>">${logoSegellID.logoSegellID.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOSEGELLID)}" >
-              <div class="input-group">
-                <div class="custom-file col-md-8">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOSEGELLID)? 'true' : 'false'}" cssClass="custom-file-input form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOSEGELLID)? ' uneditable-input' : ''}"   path="logoSegellID" type="file" />
+              <div class="input-group col-md-9-optional" style="padding: 0px">
+                <div class="custom-file">
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOSEGELLID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOSEGELLID)? ' uneditable-input' : ''}"   path="logoSegellID" type="file" />
                   <label class="custom-file-label" for="logoSegellID">
                   </label>
                 </div>
@@ -329,7 +329,7 @@
             </td>
             <td>
               <form:errors path="entitat.adrezaHtml" cssClass="errorField alert alert-danger" />
-              <form:textarea cssClass="col-md-8 ${gen:contains(__theForm.readOnlyFields ,EntitatFields.ADREZAHTML)? 'mceEditorReadOnly':'mceEditor'}"  path="entitat.adrezaHtml"  />
+              <form:textarea cssClass=" ${gen:contains(__theForm.readOnlyFields ,EntitatFields.ADREZAHTML)? 'mceEditorReadOnly':'mceEditor'}"  path="entitat.adrezaHtml"  />
            </td>
         </tr>
         </c:if>
@@ -346,7 +346,7 @@
             </td>
             <td>
               <form:errors path="entitat.filtreCertificats" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.FILTRECERTIFICATS)? 'true' : 'false'}" path="entitat.filtreCertificats"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.FILTRECERTIFICATS)? 'true' : 'false'}" path="entitat.filtreCertificats"  />
       <div id="dropdownMenuButton_filtreCertificats" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_filtreCertificats" class="dropdown-menu">
@@ -381,9 +381,9 @@
               <a target="_blank" href="<c:url value="${pfi:fileUrl(pdfAutoritzacioDelegacioID.pdfAutoritzacioDelegacioID)}"/>">${pdfAutoritzacioDelegacioID.pdfAutoritzacioDelegacioID.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.PDFAUTORITZACIODELEGACIOID)}" >
-              <div class="input-group">
-                <div class="custom-file col-md-8">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.PDFAUTORITZACIODELEGACIOID)? 'true' : 'false'}" cssClass="custom-file-input form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.PDFAUTORITZACIODELEGACIOID)? ' uneditable-input' : ''}"   path="pdfAutoritzacioDelegacioID" type="file" />
+              <div class="input-group col-md-9-optional" style="padding: 0px">
+                <div class="custom-file">
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.PDFAUTORITZACIODELEGACIOID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.PDFAUTORITZACIODELEGACIOID)? ' uneditable-input' : ''}"   path="pdfAutoritzacioDelegacioID" type="file" />
                   <label class="custom-file-label" for="pdfAutoritzacioDelegacioID">
                   </label>
                 </div>
@@ -429,7 +429,7 @@
             </td>
             <td>
             <form:errors path="entitat.suportTelefon" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTTELEFON)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTTELEFON)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.suportTelefon"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTTELEFON)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTTELEFON)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.suportTelefon"   />
 
            </td>
         </tr>
@@ -447,7 +447,7 @@
             </td>
             <td>
             <form:errors path="entitat.suportWeb" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB)? ' uneditable-input' : ''}"  style="" maxlength="250" path="entitat.suportWeb"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB)? ' uneditable-input' : ''}"  style="" maxlength="250" path="entitat.suportWeb"   />
 
            </td>
         </tr>
@@ -465,7 +465,7 @@
             </td>
             <td>
             <form:errors path="entitat.suportEmail" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTEMAIL)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTEMAIL)? ' uneditable-input' : ''}"  style="" maxlength="100" path="entitat.suportEmail"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTEMAIL)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTEMAIL)? ' uneditable-input' : ''}"  style="" maxlength="100" path="entitat.suportEmail"   />
 
            </td>
         </tr>
@@ -485,11 +485,11 @@
           <form:errors path="entitat.usuariAplicacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.USUARIAPLICACIOID)}" >
           <form:hidden path="entitat.usuariAplicacioID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.usuariAplicacioID,__theForm.listOfUsuariAplicacioForUsuariAplicacioID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.entitat.usuariAplicacioID,__theForm.listOfUsuariAplicacioForUsuariAplicacioID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.USUARIAPLICACIOID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="entitat_usuariAplicacioID"  onchange="if(typeof onChangeUsuariAplicacioID == 'function') {  onChangeUsuariAplicacioID(this); };"  cssClass="form-control col-md-8" path="entitat.usuariAplicacioID">
+          <form:select id="entitat_usuariAplicacioID"  onchange="if(typeof onChangeUsuariAplicacioID == 'function') {  onChangeUsuariAplicacioID(this); };"  cssClass="form-control col-md-9-optional" path="entitat.usuariAplicacioID">
             <c:forEach items="${__theForm.listOfUsuariAplicacioForUsuariAplicacioID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -523,7 +523,7 @@
             </td>
             <td>
             <form:errors path="entitat.maxUploadSize" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXUPLOADSIZE)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXUPLOADSIZE)? ' uneditable-input' : ''}"  style=""  path="entitat.maxUploadSize"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXUPLOADSIZE)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXUPLOADSIZE)? ' uneditable-input' : ''}"  style=""  path="entitat.maxUploadSize"   />
 
            </td>
         </tr>
@@ -541,7 +541,7 @@
             </td>
             <td>
             <form:errors path="entitat.maxSizeFitxerAdaptat" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXSIZEFITXERADAPTAT)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXSIZEFITXERADAPTAT)? ' uneditable-input' : ''}"  style=""  path="entitat.maxSizeFitxerAdaptat"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXSIZEFITXERADAPTAT)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXSIZEFITXERADAPTAT)? ' uneditable-input' : ''}"  style=""  path="entitat.maxSizeFitxerAdaptat"   />
 
            </td>
         </tr>
@@ -559,7 +559,7 @@
             </td>
             <td>
             <form:errors path="entitat.maxFilesToSignAtSameTime" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXFILESTOSIGNATSAMETIME)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXFILESTOSIGNATSAMETIME)? ' uneditable-input' : ''}"  style=""  path="entitat.maxFilesToSignAtSameTime"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXFILESTOSIGNATSAMETIME)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXFILESTOSIGNATSAMETIME)? ' uneditable-input' : ''}"  style=""  path="entitat.maxFilesToSignAtSameTime"   />
 
            </td>
         </tr>
@@ -579,11 +579,11 @@
           <form:errors path="entitat.usPoliticaDeFirma" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.USPOLITICADEFIRMA)}" >
           <form:hidden path="entitat.usPoliticaDeFirma"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.usPoliticaDeFirma,__theForm.listOfValuesForUsPoliticaDeFirma)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.entitat.usPoliticaDeFirma,__theForm.listOfValuesForUsPoliticaDeFirma)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.USPOLITICADEFIRMA)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="entitat_usPoliticaDeFirma"  onchange="if(typeof onChangeUsPoliticaDeFirma == 'function') {  onChangeUsPoliticaDeFirma(this); };"  cssClass="form-control col-md-8" path="entitat.usPoliticaDeFirma">
+          <form:select id="entitat_usPoliticaDeFirma"  onchange="if(typeof onChangeUsPoliticaDeFirma == 'function') {  onChangeUsPoliticaDeFirma(this); };"  cssClass="form-control col-md-9-optional" path="entitat.usPoliticaDeFirma">
             <c:forEach items="${__theForm.listOfValuesForUsPoliticaDeFirma}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -608,7 +608,7 @@
             </td>
             <td>
             <form:errors path="entitat.policyIdentifier" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIER)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIER)? ' uneditable-input' : ''}"  style="" maxlength="100" path="entitat.policyIdentifier"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIER)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIER)? ' uneditable-input' : ''}"  style="" maxlength="100" path="entitat.policyIdentifier"   />
 
            </td>
         </tr>
@@ -626,7 +626,7 @@
             </td>
             <td>
               <form:errors path="entitat.policyIdentifierHash" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASH)? 'true' : 'false'}" path="entitat.policyIdentifierHash"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASH)? 'true' : 'false'}" path="entitat.policyIdentifierHash"  />
       <div id="dropdownMenuButton_policyIdentifierHash" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_policyIdentifierHash" class="dropdown-menu">
@@ -657,7 +657,7 @@
             </td>
             <td>
             <form:errors path="entitat.policyIdentifierHashAlgorithm" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.policyIdentifierHashAlgorithm"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.policyIdentifierHashAlgorithm"   />
 
            </td>
         </tr>
@@ -685,7 +685,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYURLDOCUMENT))}">
 
             <form:errors path="entitat.policyUrlDocument" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYURLDOCUMENT)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYURLDOCUMENT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="entitat.policyUrlDocument"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYURLDOCUMENT)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYURLDOCUMENT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="entitat.policyUrlDocument"   />
 
            </c:if>
 
@@ -705,7 +705,7 @@
             </td>
             <td>
        <form:errors path="entitat.motiuDelegacio" cssClass="errorField alert alert-danger" />
-       <div class="row-fluid  col-md-8">
+       <div class="row-fluid col-md-9-optional">
          <ul class="nav nav-tabs" style="margin: 0 15px -1px;">
              <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
             <li class="nav-item ">
@@ -718,7 +718,7 @@
            <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
            <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="${counter.index}_tab_motiuDelegacio_${idioma.idiomaID}">
                <form:errors path="entitat.motiuDelegacio.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-danger"/>
-               <form:input path="entitat.motiuDelegacio.traduccions['${idioma.idiomaID}'].valor" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MOTIUDELEGACIOID)? ' uneditable-input' : ''}" readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.MOTIUDELEGACIOID)}" maxlength="4000" />
+               <form:input path="entitat.motiuDelegacio.traduccions['${idioma.idiomaID}'].valor" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MOTIUDELEGACIOID)? ' uneditable-input' : ''}" readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.MOTIUDELEGACIOID)}" maxlength="4000" />
            </div>
            </c:forEach>
          </div>
@@ -740,7 +740,7 @@
             </td>
             <td>
        <form:errors path="entitat.firmatPerFormat" cssClass="errorField alert alert-danger" />
-       <div class="row-fluid  col-md-8">
+       <div class="row-fluid col-md-9-optional">
          <ul class="nav nav-tabs" style="margin: 0 15px -1px;">
              <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
             <li class="nav-item ">
@@ -753,7 +753,7 @@
            <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
            <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="${counter.index}_tab_firmatPerFormat_${idioma.idiomaID}">
                <form:errors path="entitat.firmatPerFormat.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-danger"/>
-               <form:input path="entitat.firmatPerFormat.traduccions['${idioma.idiomaID}'].valor" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,EntitatFields.FIRMATPERFORMATID)? ' uneditable-input' : ''}" readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.FIRMATPERFORMATID)}" maxlength="4000" />
+               <form:input path="entitat.firmatPerFormat.traduccions['${idioma.idiomaID}'].valor" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EntitatFields.FIRMATPERFORMATID)? ' uneditable-input' : ''}" readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.FIRMATPERFORMATID)}" maxlength="4000" />
            </div>
            </c:forEach>
          </div>
@@ -777,11 +777,11 @@
           <form:errors path="entitat.algorismeDeFirmaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.ALGORISMEDEFIRMAID)}" >
           <form:hidden path="entitat.algorismeDeFirmaID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.algorismeDeFirmaID,__theForm.listOfValuesForAlgorismeDeFirmaID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.entitat.algorismeDeFirmaID,__theForm.listOfValuesForAlgorismeDeFirmaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.ALGORISMEDEFIRMAID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="entitat_algorismeDeFirmaID"  onchange="if(typeof onChangeAlgorismeDeFirmaID == 'function') {  onChangeAlgorismeDeFirmaID(this); };"  cssClass="form-control col-md-8" path="entitat.algorismeDeFirmaID">
+          <form:select id="entitat_algorismeDeFirmaID"  onchange="if(typeof onChangeAlgorismeDeFirmaID == 'function') {  onChangeAlgorismeDeFirmaID(this); };"  cssClass="form-control col-md-9-optional" path="entitat.algorismeDeFirmaID">
             <c:forEach items="${__theForm.listOfValuesForAlgorismeDeFirmaID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -808,11 +808,11 @@
           <form:errors path="entitat.politicaCustodia" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICACUSTODIA)}" >
           <form:hidden path="entitat.politicaCustodia"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.politicaCustodia,__theForm.listOfValuesForPoliticaCustodia)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.entitat.politicaCustodia,__theForm.listOfValuesForPoliticaCustodia)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICACUSTODIA)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="entitat_politicaCustodia"  onchange="if(typeof onChangePoliticaCustodia == 'function') {  onChangePoliticaCustodia(this); };"  cssClass="form-control col-md-8" path="entitat.politicaCustodia">
+          <form:select id="entitat_politicaCustodia"  onchange="if(typeof onChangePoliticaCustodia == 'function') {  onChangePoliticaCustodia(this); };"  cssClass="form-control col-md-9-optional" path="entitat.politicaCustodia">
             <c:forEach items="${__theForm.listOfValuesForPoliticaCustodia}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -839,11 +839,11 @@
           <form:errors path="entitat.custodiaInfoID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.CUSTODIAINFOID)}" >
           <form:hidden path="entitat.custodiaInfoID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.custodiaInfoID,__theForm.listOfCustodiaInfoForCustodiaInfoID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.entitat.custodiaInfoID,__theForm.listOfCustodiaInfoForCustodiaInfoID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.CUSTODIAINFOID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="entitat_custodiaInfoID"  onchange="if(typeof onChangeCustodiaInfoID == 'function') {  onChangeCustodiaInfoID(this); };"  cssClass="form-control col-md-8" path="entitat.custodiaInfoID">
+          <form:select id="entitat_custodiaInfoID"  onchange="if(typeof onChangeCustodiaInfoID == 'function') {  onChangeCustodiaInfoID(this); };"  cssClass="form-control col-md-9-optional" path="entitat.custodiaInfoID">
             <c:forEach items="${__theForm.listOfCustodiaInfoForCustodiaInfoID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -879,11 +879,11 @@
           <form:errors path="entitat.politicaTaulaFirmes" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICATAULAFIRMES)}" >
           <form:hidden path="entitat.politicaTaulaFirmes"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.politicaTaulaFirmes,__theForm.listOfValuesForPoliticaTaulaFirmes)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.entitat.politicaTaulaFirmes,__theForm.listOfValuesForPoliticaTaulaFirmes)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICATAULAFIRMES)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="entitat_politicaTaulaFirmes"  onchange="if(typeof onChangePoliticaTaulaFirmes == 'function') {  onChangePoliticaTaulaFirmes(this); };"  cssClass="form-control col-md-8" path="entitat.politicaTaulaFirmes">
+          <form:select id="entitat_politicaTaulaFirmes"  onchange="if(typeof onChangePoliticaTaulaFirmes == 'function') {  onChangePoliticaTaulaFirmes(this); };"  cssClass="form-control col-md-9-optional" path="entitat.politicaTaulaFirmes">
             <c:forEach items="${__theForm.listOfValuesForPoliticaTaulaFirmes}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -910,11 +910,11 @@
           <form:errors path="entitat.posicioTaulaFirmes" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POSICIOTAULAFIRMES)}" >
           <form:hidden path="entitat.posicioTaulaFirmes"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.posicioTaulaFirmes,__theForm.listOfValuesForPosicioTaulaFirmes)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.entitat.posicioTaulaFirmes,__theForm.listOfValuesForPosicioTaulaFirmes)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.POSICIOTAULAFIRMES)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="entitat_posicioTaulaFirmes"  onchange="if(typeof onChangePosicioTaulaFirmes == 'function') {  onChangePosicioTaulaFirmes(this); };"  cssClass="form-control col-md-8" path="entitat.posicioTaulaFirmes">
+          <form:select id="entitat_posicioTaulaFirmes"  onchange="if(typeof onChangePosicioTaulaFirmes == 'function') {  onChangePosicioTaulaFirmes(this); };"  cssClass="form-control col-md-9-optional" path="entitat.posicioTaulaFirmes">
             <c:forEach items="${__theForm.listOfValuesForPosicioTaulaFirmes}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -939,7 +939,7 @@
             </td>
             <td>
               <form:errors path="entitat.propietatsTaulaFirmes" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.PROPIETATSTAULAFIRMES)? 'true' : 'false'}" path="entitat.propietatsTaulaFirmes"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.PROPIETATSTAULAFIRMES)? 'true' : 'false'}" path="entitat.propietatsTaulaFirmes"  />
       <div id="dropdownMenuButton_propietatsTaulaFirmes" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_propietatsTaulaFirmes" class="dropdown-menu">
@@ -972,11 +972,11 @@
           <form:errors path="entitat.politicaSegellatDeTemps" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICASEGELLATDETEMPS)}" >
           <form:hidden path="entitat.politicaSegellatDeTemps"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.politicaSegellatDeTemps,__theForm.listOfValuesForPoliticaSegellatDeTemps)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.entitat.politicaSegellatDeTemps,__theForm.listOfValuesForPoliticaSegellatDeTemps)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICASEGELLATDETEMPS)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="entitat_politicaSegellatDeTemps"  onchange="if(typeof onChangePoliticaSegellatDeTemps == 'function') {  onChangePoliticaSegellatDeTemps(this); };"  cssClass="form-control col-md-8" path="entitat.politicaSegellatDeTemps">
+          <form:select id="entitat_politicaSegellatDeTemps"  onchange="if(typeof onChangePoliticaSegellatDeTemps == 'function') {  onChangePoliticaSegellatDeTemps(this); };"  cssClass="form-control col-md-9-optional" path="entitat.politicaSegellatDeTemps">
             <c:forEach items="${__theForm.listOfValuesForPoliticaSegellatDeTemps}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -1003,11 +1003,11 @@
           <form:errors path="entitat.pluginSegellTempsID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINSEGELLTEMPSID)}" >
           <form:hidden path="entitat.pluginSegellTempsID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.pluginSegellTempsID,__theForm.listOfPluginForPluginSegellTempsID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.entitat.pluginSegellTempsID,__theForm.listOfPluginForPluginSegellTempsID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINSEGELLTEMPSID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="entitat_pluginSegellTempsID"  onchange="if(typeof onChangePluginSegellTempsID == 'function') {  onChangePluginSegellTempsID(this); };"  cssClass="form-control col-md-8" path="entitat.pluginSegellTempsID">
+          <form:select id="entitat_pluginSegellTempsID"  onchange="if(typeof onChangePluginSegellTempsID == 'function') {  onChangePluginSegellTempsID(this); };"  cssClass="form-control col-md-9-optional" path="entitat.pluginSegellTempsID">
             <c:forEach items="${__theForm.listOfPluginForPluginSegellTempsID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -1043,11 +1043,11 @@
           <form:errors path="entitat.pluginRubricaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINRUBRICAID)}" >
           <form:hidden path="entitat.pluginRubricaID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.pluginRubricaID,__theForm.listOfPluginForPluginRubricaID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.entitat.pluginRubricaID,__theForm.listOfPluginForPluginRubricaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINRUBRICAID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="entitat_pluginRubricaID"  onchange="if(typeof onChangePluginRubricaID == 'function') {  onChangePluginRubricaID(this); };"  cssClass="form-control col-md-8" path="entitat.pluginRubricaID">
+          <form:select id="entitat_pluginRubricaID"  onchange="if(typeof onChangePluginRubricaID == 'function') {  onChangePluginRubricaID(this); };"  cssClass="form-control col-md-9-optional" path="entitat.pluginRubricaID">
             <c:forEach items="${__theForm.listOfPluginForPluginRubricaID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -1082,7 +1082,7 @@
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.VALIDARFIRMA)}" >
               <form:errors path="entitat.validarfirma" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.VALIDARFIRMA)? 'false' : 'true'}" path="entitat.validarfirma"  style="width:1%"/>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.VALIDARFIRMA)? 'false' : 'true'}" path="entitat.validarfirma" />
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.VALIDARFIRMA)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.entitat.validarfirma}" />
@@ -1104,7 +1104,7 @@
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)}" >
               <form:errors path="entitat.comprovarNifFirma" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)? 'false' : 'true'}" path="entitat.comprovarNifFirma"  style="width:1%"/>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)? 'false' : 'true'}" path="entitat.comprovarNifFirma" />
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.entitat.comprovarNifFirma}" />
@@ -1126,7 +1126,7 @@
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.CHECKCANVIATDOCFIRMAT)}" >
               <form:errors path="entitat.checkCanviatDocFirmat" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.CHECKCANVIATDOCFIRMAT)? 'false' : 'true'}" path="entitat.checkCanviatDocFirmat"  style="width:1%"/>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.CHECKCANVIATDOCFIRMAT)? 'false' : 'true'}" path="entitat.checkCanviatDocFirmat" />
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.CHECKCANVIATDOCFIRMAT)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.entitat.checkCanviatDocFirmat}" />
@@ -1149,11 +1149,11 @@
           <form:errors path="entitat.pluginValidaFirmesID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINVALIDAFIRMESID)}" >
           <form:hidden path="entitat.pluginValidaFirmesID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.pluginValidaFirmesID,__theForm.listOfPluginForPluginValidaFirmesID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.entitat.pluginValidaFirmesID,__theForm.listOfPluginForPluginValidaFirmesID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINVALIDAFIRMESID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="entitat_pluginValidaFirmesID"  onchange="if(typeof onChangePluginValidaFirmesID == 'function') {  onChangePluginValidaFirmesID(this); };"  cssClass="form-control col-md-8" path="entitat.pluginValidaFirmesID">
+          <form:select id="entitat_pluginValidaFirmesID"  onchange="if(typeof onChangePluginValidaFirmesID == 'function') {  onChangePluginValidaFirmesID(this); };"  cssClass="form-control col-md-9-optional" path="entitat.pluginValidaFirmesID">
             <c:forEach items="${__theForm.listOfPluginForPluginValidaFirmesID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -1189,11 +1189,11 @@
           <form:errors path="entitat.pluginValidaCertificatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINVALIDACERTIFICATID)}" >
           <form:hidden path="entitat.pluginValidaCertificatID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.pluginValidaCertificatID,__theForm.listOfPluginForPluginValidaCertificatID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.entitat.pluginValidaCertificatID,__theForm.listOfPluginForPluginValidaCertificatID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINVALIDACERTIFICATID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="entitat_pluginValidaCertificatID"  onchange="if(typeof onChangePluginValidaCertificatID == 'function') {  onChangePluginValidaCertificatID(this); };"  cssClass="form-control col-md-8" path="entitat.pluginValidaCertificatID">
+          <form:select id="entitat_pluginValidaCertificatID"  onchange="if(typeof onChangePluginValidaCertificatID == 'function') {  onChangePluginValidaCertificatID(this); };"  cssClass="form-control col-md-9-optional" path="entitat.pluginValidaCertificatID">
             <c:forEach items="${__theForm.listOfPluginForPluginValidaCertificatID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">

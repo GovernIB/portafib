@@ -14,7 +14,7 @@
             </td>
             <td>
             <form:errors path="blocDeFirmes.ordre" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? ' uneditable-input' : ''}"  style=""  path="blocDeFirmes.ordre"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? ' uneditable-input' : ''}"  style=""  path="blocDeFirmes.ordre"   />
 
            </td>
         </tr>
@@ -74,11 +74,11 @@
           <form:errors path="blocDeFirmes.fluxDeFirmesID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.FLUXDEFIRMESID)}" >
           <form:hidden path="blocDeFirmes.fluxDeFirmesID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.blocDeFirmes.fluxDeFirmesID,__theForm.listOfFluxDeFirmesForFluxDeFirmesID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.blocDeFirmes.fluxDeFirmesID,__theForm.listOfFluxDeFirmesForFluxDeFirmesID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.FLUXDEFIRMESID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="blocDeFirmes_fluxDeFirmesID"  onchange="if(typeof onChangeFluxDeFirmesID == 'function') {  onChangeFluxDeFirmesID(this); };"  cssClass="form-control col-md-8" path="blocDeFirmes.fluxDeFirmesID">
+          <form:select id="blocDeFirmes_fluxDeFirmesID"  onchange="if(typeof onChangeFluxDeFirmesID == 'function') {  onChangeFluxDeFirmesID(this); };"  cssClass="form-control col-md-9-optional" path="blocDeFirmes.fluxDeFirmesID">
             <c:forEach items="${__theForm.listOfFluxDeFirmesForFluxDeFirmesID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -103,7 +103,7 @@
             </td>
             <td>
             <form:errors path="blocDeFirmes.minimDeFirmes" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? ' uneditable-input' : ''}"  style=""  path="blocDeFirmes.minimDeFirmes"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? ' uneditable-input' : ''}"  style=""  path="blocDeFirmes.minimDeFirmes"   />
 
            </td>
         </tr>

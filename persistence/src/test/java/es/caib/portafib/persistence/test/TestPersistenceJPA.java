@@ -1,6 +1,8 @@
 package es.caib.portafib.persistence.test;
 
+
 import java.util.Properties;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -9,6 +11,8 @@ import javax.persistence.FlushModeType;
 import javax.persistence.Persistence;
 
 import org.apache.log4j.Logger;
+
+
 import es.caib.portafib.persistence.PortaFIBJPADaoManagers;
 import es.caib.portafib.model.PortaFIBDaoManager;
 

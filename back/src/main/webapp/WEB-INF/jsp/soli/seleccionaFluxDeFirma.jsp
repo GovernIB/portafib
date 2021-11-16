@@ -19,7 +19,7 @@
   <td><label><fmt:message key="nom" />:</label></td>
   <td>
     <form:errors path="nom" cssClass="errorField alert alert-error" />
-     <form:input cssClass="input-xxlarge" path="nom"/>
+     <form:input cssClass="col-md-9-optional" path="nom"/>
   </td>
 </tr>
 
@@ -36,7 +36,7 @@
 </table>
 
 <c:if test="${seleccioFluxDeFirmesForm.tipus != -1}">
-<div class="alert">
+<div class="alert alert-info">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
   <strong><fmt:message key="selectflux.editarfluxposteriorment" /></strong>
 </div>
@@ -83,7 +83,7 @@
        </label>
     </td>
     <td>
-        <form:select id="fluxPlantillaUsuari" path="fluxPlantillaUsuari"  onchange="canviNom(this)" cssClass="input-xxlarge">          
+        <form:select id="fluxPlantillaUsuari" path="fluxPlantillaUsuari"  onchange="canviNom(this)" cssClass="col-md-9-optional">          
           <c:forEach items="${seleccioFluxDeFirmesForm.listOfFluxPlantillaUsuari}" var="tmp">
           <form:option value="${tmp.fluxDeFirmesID}"  >${tmp.nom} </form:option>
           </c:forEach>
@@ -108,7 +108,7 @@
        </label>
     </td>
     <td>
-        <form:select id="fluxPlantillaPersonaCompartit" path="fluxPlantillaPersonaCompartit" onchange="canviNom(this)" cssClass="input-xxlarge">          
+        <form:select id="fluxPlantillaPersonaCompartit" path="fluxPlantillaPersonaCompartit" onchange="canviNom(this)" cssClass="col-md-9-optional">          
           <c:forEach items="${seleccioFluxDeFirmesForm.listOfFluxPlantillaPersonaCompartit}" var="tmp">
           <form:option value="${tmp.fluxDeFirmesID}"  >${tmp.nom}</form:option>
           </c:forEach>
@@ -133,7 +133,7 @@
        </label>
     </td>
     <td>
-        <form:select id="fluxPlantillaAplicacioCompartit" path="fluxPlantillaAplicacioCompartit" onchange="canviNom(this)" cssClass="input-xxlarge">          
+        <form:select id="fluxPlantillaAplicacioCompartit" path="fluxPlantillaAplicacioCompartit" onchange="canviNom(this)" cssClass="col-md-9-optional">          
           <c:forEach items="${seleccioFluxDeFirmesForm.listOfFluxPlantillaAplicacioCompartit}" var="tmp">
           <form:option value="${tmp.fluxDeFirmesID}">${tmp.nom}  </form:option>
           </c:forEach>

@@ -6,7 +6,7 @@
   <c:if test="${not empty fitxerItems}">
 
   <div class="row" style="margin-left: 0px;">
-  <table class="table table-condensed table-bordered table-striped" style="width:auto;"> 
+  <table class="table table-sm table-bordered table-striped table-responsive" style="width:auto;"> 
     <thead>
       <tr>
 

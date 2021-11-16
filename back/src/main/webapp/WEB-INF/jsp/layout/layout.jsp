@@ -47,7 +47,7 @@
             <li class="nav-item ${(rol eq 'ROLE_COLA')?' dropdown' : '' } ${(pipella eq rol)?' active' : '' }" ">
                <c:url var="linktab" value="/canviarPipella/${rol}"/>
                <c:set var="href" value="href=\"${linktab}\"" />
-               <a class="nav-link " ${href}><fmt:message key="${rol}" />
+               <a class="nav-link ${(pipella eq rol)?'active' : '' } " ${href}><fmt:message key="${rol}" />
                <c:if test="${not(empty avisos[rol])}">
                  &nbsp; <span id="avisos_${rol}" class="badge badge-warning">${avisos[rol]}</span>
                </c:if>
@@ -55,11 +55,11 @@
             </li>
     
             <c:if test="${rol eq 'ROLE_ADEN' }">
-                <li class="nav-item ${(pipella eq 'ROLE_ADEN')?'active' : '' }">
+                <li class="nav-item ${(pipella eq 'ROLE_ADEN2')?'active' : '' }">
                   <c:url var="linktab" value="/canviarPipella/ROLE_ADEN2"/>
                   <c:set var="href" value="href=\"${linktab}\"" />
-                  <a class="nav-link"   ${href}><fmt:message key="ROLE_ADEN2" />
-                  <c:if test="${not(empty avisos['ROLE_ADEN'])}">
+                  <a class="nav-link ${(pipella eq 'ROLE_ADEN2')?'active' : '' }"   ${href}><fmt:message key="ROLE_ADEN2" />
+                  <c:if test="${not(empty avisos['ROLE_ADEN2'])}">
                     &nbsp; <span class="badge badge-warning">${avisos['ROLE_ADEN2']}</span>
                   </c:if>
                   </a>

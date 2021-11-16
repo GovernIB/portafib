@@ -22,7 +22,7 @@
           </label>
         </td>
         <td>
-            <form:input readonly="true" cssClass="input-xxlarge"  maxlength="50" path="plantillaFluxDeFirmes.fluxDeFirmes.nom" />
+            <form:input readonly="true" cssClass="col-md-9-optional"  maxlength="50" path="plantillaFluxDeFirmes.fluxDeFirmes.nom" />
         </td>
       </tr>    
     </tbody>

@@ -61,7 +61,7 @@ public class ModulFirmaWebTipusDocAdenController extends
       modulDeFirmaPerTipusDeDocumentFilterForm.setAddButtonVisible(false);
       
       modulDeFirmaPerTipusDeDocumentFilterForm.addAdditionalButton(
-          new AdditionalButton("fas fa-plus-circle", "modulfirmatipusdoc.novaentrada", getContextWeb() + "/new", ""));
+          new AdditionalButton("fas fa-plus-circle", "modulfirmatipusdoc.novaentrada", getContextWeb() + "/new", "btn-secondary"));
 
     }
 

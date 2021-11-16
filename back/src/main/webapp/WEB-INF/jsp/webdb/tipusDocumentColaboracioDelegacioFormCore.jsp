@@ -16,11 +16,11 @@
           <form:errors path="tipusDocumentColaboracioDelegacio.colaboracioDelegacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID)}" >
           <form:hidden path="tipusDocumentColaboracioDelegacio.colaboracioDelegacioID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.tipusDocumentColaboracioDelegacio.colaboracioDelegacioID,__theForm.listOfColaboracioDelegacioForColaboracioDelegacioID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.tipusDocumentColaboracioDelegacio.colaboracioDelegacioID,__theForm.listOfColaboracioDelegacioForColaboracioDelegacioID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="tipusDocumentColaboracioDelegacio_colaboracioDelegacioID"  onchange="if(typeof onChangeColaboracioDelegacioID == 'function') {  onChangeColaboracioDelegacioID(this); };"  cssClass="form-control col-md-8" path="tipusDocumentColaboracioDelegacio.colaboracioDelegacioID">
+          <form:select id="tipusDocumentColaboracioDelegacio_colaboracioDelegacioID"  onchange="if(typeof onChangeColaboracioDelegacioID == 'function') {  onChangeColaboracioDelegacioID(this); };"  cssClass="form-control col-md-9-optional" path="tipusDocumentColaboracioDelegacio.colaboracioDelegacioID">
             <c:forEach items="${__theForm.listOfColaboracioDelegacioForColaboracioDelegacioID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -47,11 +47,11 @@
           <form:errors path="tipusDocumentColaboracioDelegacio.tipusDocumentID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID)}" >
           <form:hidden path="tipusDocumentColaboracioDelegacio.tipusDocumentID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.tipusDocumentColaboracioDelegacio.tipusDocumentID,__theForm.listOfTipusDocumentForTipusDocumentID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.tipusDocumentColaboracioDelegacio.tipusDocumentID,__theForm.listOfTipusDocumentForTipusDocumentID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="tipusDocumentColaboracioDelegacio_tipusDocumentID"  onchange="if(typeof onChangeTipusDocumentID == 'function') {  onChangeTipusDocumentID(this); };"  cssClass="form-control col-md-8" path="tipusDocumentColaboracioDelegacio.tipusDocumentID">
+          <form:select id="tipusDocumentColaboracioDelegacio_tipusDocumentID"  onchange="if(typeof onChangeTipusDocumentID == 'function') {  onChangeTipusDocumentID(this); };"  cssClass="form-control col-md-9-optional" path="tipusDocumentColaboracioDelegacio.tipusDocumentID">
             <c:forEach items="${__theForm.listOfTipusDocumentForTipusDocumentID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">

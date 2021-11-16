@@ -82,10 +82,10 @@ public class GestioUsuarisDeGrupController extends GrupEntitatUsuariEntitatContr
 
       grupEntitatUsuariEntitatFilterForm.addAdditionalButton(new AdditionalButton(
           "fas fa-plus-circle", "afegir", "javascript:openSelectUserDialog();",
-          "btn"));
+          "btn-secondary"));
 
       grupEntitatUsuariEntitatFilterForm.addAdditionalButton(new AdditionalButton(
-          " icon-arrow-left", "tornar", getContextWeb() + "/tornar", "btn"));
+          " icon-arrow-left", "tornar", getContextWeb() + "/tornar", "btn-secondary"));
       
     }
     return grupEntitatUsuariEntitatFilterForm;

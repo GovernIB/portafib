@@ -113,7 +113,7 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
           + I18NUtils.tradueix(REINTENTS.fullName) + "\"></i>");
 
       notificacioFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-          "fas fa-eye", "veuredetalls", getContextWeb() + "/view/{0}", null));
+          "fas fa-eye", "veuredetalls", getContextWeb() + "/view/{0}", "btn-secondary"));
 
       notificacioFilterForm.setAddButtonVisible(false);
       notificacioFilterForm.setEditButtonVisible(false);

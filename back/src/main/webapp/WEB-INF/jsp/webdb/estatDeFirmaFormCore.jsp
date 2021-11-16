@@ -16,11 +16,11 @@
           <form:errors path="estatDeFirma.firmaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.FIRMAID)}" >
           <form:hidden path="estatDeFirma.firmaID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.estatDeFirma.firmaID,__theForm.listOfFirmaForFirmaID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.estatDeFirma.firmaID,__theForm.listOfFirmaForFirmaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.FIRMAID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="estatDeFirma_firmaID"  onchange="if(typeof onChangeFirmaID == 'function') {  onChangeFirmaID(this); };"  cssClass="form-control col-md-8" path="estatDeFirma.firmaID">
+          <form:select id="estatDeFirma_firmaID"  onchange="if(typeof onChangeFirmaID == 'function') {  onChangeFirmaID(this); };"  cssClass="form-control col-md-9-optional" path="estatDeFirma.firmaID">
             <c:forEach items="${__theForm.listOfFirmaForFirmaID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -47,11 +47,11 @@
           <form:errors path="estatDeFirma.usuariEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.USUARIENTITATID)}" >
           <form:hidden path="estatDeFirma.usuariEntitatID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.estatDeFirma.usuariEntitatID,__theForm.listOfUsuariEntitatForUsuariEntitatID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.estatDeFirma.usuariEntitatID,__theForm.listOfUsuariEntitatForUsuariEntitatID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.USUARIENTITATID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="estatDeFirma_usuariEntitatID"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };"  cssClass="form-control col-md-8" path="estatDeFirma.usuariEntitatID">
+          <form:select id="estatDeFirma_usuariEntitatID"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };"  cssClass="form-control col-md-9-optional" path="estatDeFirma.usuariEntitatID">
             <c:forEach items="${__theForm.listOfUsuariEntitatForUsuariEntitatID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -158,11 +158,11 @@
           <form:errors path="estatDeFirma.tipusEstatDeFirmaInicialID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID)}" >
           <form:hidden path="estatDeFirma.tipusEstatDeFirmaInicialID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.estatDeFirma.tipusEstatDeFirmaInicialID,__theForm.listOfValuesForTipusEstatDeFirmaInicialID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.estatDeFirma.tipusEstatDeFirmaInicialID,__theForm.listOfValuesForTipusEstatDeFirmaInicialID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="estatDeFirma_tipusEstatDeFirmaInicialID"  onchange="if(typeof onChangeTipusEstatDeFirmaInicialID == 'function') {  onChangeTipusEstatDeFirmaInicialID(this); };"  cssClass="form-control col-md-8" path="estatDeFirma.tipusEstatDeFirmaInicialID">
+          <form:select id="estatDeFirma_tipusEstatDeFirmaInicialID"  onchange="if(typeof onChangeTipusEstatDeFirmaInicialID == 'function') {  onChangeTipusEstatDeFirmaInicialID(this); };"  cssClass="form-control col-md-9-optional" path="estatDeFirma.tipusEstatDeFirmaInicialID">
             <c:forEach items="${__theForm.listOfValuesForTipusEstatDeFirmaInicialID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -189,11 +189,11 @@
           <form:errors path="estatDeFirma.tipusEstatDeFirmaFinalID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID)}" >
           <form:hidden path="estatDeFirma.tipusEstatDeFirmaFinalID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.estatDeFirma.tipusEstatDeFirmaFinalID,__theForm.listOfValuesForTipusEstatDeFirmaFinalID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.estatDeFirma.tipusEstatDeFirmaFinalID,__theForm.listOfValuesForTipusEstatDeFirmaFinalID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="estatDeFirma_tipusEstatDeFirmaFinalID"  onchange="if(typeof onChangeTipusEstatDeFirmaFinalID == 'function') {  onChangeTipusEstatDeFirmaFinalID(this); };"  cssClass="form-control col-md-8" path="estatDeFirma.tipusEstatDeFirmaFinalID">
+          <form:select id="estatDeFirma_tipusEstatDeFirmaFinalID"  onchange="if(typeof onChangeTipusEstatDeFirmaFinalID == 'function') {  onChangeTipusEstatDeFirmaFinalID(this); };"  cssClass="form-control col-md-9-optional" path="estatDeFirma.tipusEstatDeFirmaFinalID">
             <c:forEach items="${__theForm.listOfValuesForTipusEstatDeFirmaFinalID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -229,11 +229,11 @@
           <form:errors path="estatDeFirma.colaboracioDelegacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.COLABORACIODELEGACIOID)}" >
           <form:hidden path="estatDeFirma.colaboracioDelegacioID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.estatDeFirma.colaboracioDelegacioID,__theForm.listOfColaboracioDelegacioForColaboracioDelegacioID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.estatDeFirma.colaboracioDelegacioID,__theForm.listOfColaboracioDelegacioForColaboracioDelegacioID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.COLABORACIODELEGACIOID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="estatDeFirma_colaboracioDelegacioID"  onchange="if(typeof onChangeColaboracioDelegacioID == 'function') {  onChangeColaboracioDelegacioID(this); };"  cssClass="form-control col-md-8" path="estatDeFirma.colaboracioDelegacioID">
+          <form:select id="estatDeFirma_colaboracioDelegacioID"  onchange="if(typeof onChangeColaboracioDelegacioID == 'function') {  onChangeColaboracioDelegacioID(this); };"  cssClass="form-control col-md-9-optional" path="estatDeFirma.colaboracioDelegacioID">
             <c:forEach items="${__theForm.listOfColaboracioDelegacioForColaboracioDelegacioID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -267,7 +267,7 @@
             </td>
             <td>
               <form:errors path="estatDeFirma.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DESCRIPCIO)? 'true' : 'false'}" path="estatDeFirma.descripcio"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DESCRIPCIO)? 'true' : 'false'}" path="estatDeFirma.descripcio"  />
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">

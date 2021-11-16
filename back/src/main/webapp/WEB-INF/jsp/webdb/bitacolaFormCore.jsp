@@ -14,7 +14,7 @@
             </td>
             <td>
             <form:errors path="bitacola.entitatid" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.ENTITATID)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.ENTITATID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="bitacola.entitatid"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.ENTITATID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.ENTITATID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="bitacola.entitatid"   />
 
            </td>
         </tr>
@@ -32,7 +32,7 @@
             </td>
             <td>
             <form:errors path="bitacola.usuariid" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIID)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="bitacola.usuariid"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="bitacola.usuariid"   />
 
            </td>
         </tr>
@@ -92,11 +92,11 @@
           <form:errors path="bitacola.tipusObjecte" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.TIPUSOBJECTE)}" >
           <form:hidden path="bitacola.tipusObjecte"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.bitacola.tipusObjecte,__theForm.listOfValuesForTipusObjecte)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.bitacola.tipusObjecte,__theForm.listOfValuesForTipusObjecte)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,BitacolaFields.TIPUSOBJECTE)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="bitacola_tipusObjecte"  onchange="if(typeof onChangeTipusObjecte == 'function') {  onChangeTipusObjecte(this); };"  cssClass="form-control col-md-8" path="bitacola.tipusObjecte">
+          <form:select id="bitacola_tipusObjecte"  onchange="if(typeof onChangeTipusObjecte == 'function') {  onChangeTipusObjecte(this); };"  cssClass="form-control col-md-9-optional" path="bitacola.tipusObjecte">
             <c:forEach items="${__theForm.listOfValuesForTipusObjecte}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -121,7 +121,7 @@
             </td>
             <td>
             <form:errors path="bitacola.objecteid" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTEID)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTEID)? ' uneditable-input' : ''}"  style="" maxlength="100" path="bitacola.objecteid"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTEID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTEID)? ' uneditable-input' : ''}"  style="" maxlength="100" path="bitacola.objecteid"   />
 
            </td>
         </tr>
@@ -141,11 +141,11 @@
           <form:errors path="bitacola.tipusOperacio" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.TIPUSOPERACIO)}" >
           <form:hidden path="bitacola.tipusOperacio"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.bitacola.tipusOperacio,__theForm.listOfValuesForTipusOperacio)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.bitacola.tipusOperacio,__theForm.listOfValuesForTipusOperacio)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,BitacolaFields.TIPUSOPERACIO)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="bitacola_tipusOperacio"  onchange="if(typeof onChangeTipusOperacio == 'function') {  onChangeTipusOperacio(this); };"  cssClass="form-control col-md-8" path="bitacola.tipusOperacio">
+          <form:select id="bitacola_tipusOperacio"  onchange="if(typeof onChangeTipusOperacio == 'function') {  onChangeTipusOperacio(this); };"  cssClass="form-control col-md-9-optional" path="bitacola.tipusOperacio">
             <c:forEach items="${__theForm.listOfValuesForTipusOperacio}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -170,7 +170,7 @@
             </td>
             <td>
               <form:errors path="bitacola.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.DESCRIPCIO)? 'true' : 'false'}" path="bitacola.descripcio"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.DESCRIPCIO)? 'true' : 'false'}" path="bitacola.descripcio"  />
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">
@@ -201,7 +201,7 @@
             </td>
             <td>
               <form:errors path="bitacola.objecteSerialitzat" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTESERIALITZAT)? 'true' : 'false'}" path="bitacola.objecteSerialitzat"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTESERIALITZAT)? 'true' : 'false'}" path="bitacola.objecteSerialitzat"  />
       <div id="dropdownMenuButton_objecteSerialitzat" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_objecteSerialitzat" class="dropdown-menu">

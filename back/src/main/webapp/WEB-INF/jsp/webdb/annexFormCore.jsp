@@ -16,11 +16,11 @@
           <form:errors path="annex.peticioDeFirmaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,AnnexFields.PETICIODEFIRMAID)}" >
           <form:hidden path="annex.peticioDeFirmaID"/>
-          <input type="text" readonly="true" class="form-control input-xxlarge uneditable-input" value="${gen:findValue(__theForm.annex.peticioDeFirmaID,__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.annex.peticioDeFirmaID,__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.PETICIODEFIRMAID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="annex_peticioDeFirmaID"  onchange="if(typeof onChangePeticioDeFirmaID == 'function') {  onChangePeticioDeFirmaID(this); };"  cssClass="form-control col-md-8" path="annex.peticioDeFirmaID">
+          <form:select id="annex_peticioDeFirmaID"  onchange="if(typeof onChangePeticioDeFirmaID == 'function') {  onChangePeticioDeFirmaID(this); };"  cssClass="form-control col-md-9-optional" path="annex.peticioDeFirmaID">
             <c:forEach items="${__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
                 <c:if test="${empty tmp.key}">
@@ -49,9 +49,9 @@
               <a target="_blank" href="<c:url value="${pfi:fileUrl(fitxerID.fitxerID)}"/>">${fitxerID.fitxerID.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)}" >
-              <div class="input-group">
-                <div class="custom-file col-md-8">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)? 'true' : 'false'}" cssClass="custom-file-input form-control ${gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)? ' uneditable-input' : ''}"   path="fitxerID" type="file" />
+              <div class="input-group col-md-9-optional" style="padding: 0px">
+                <div class="custom-file">
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)? ' uneditable-input' : ''}"   path="fitxerID" type="file" />
                   <label class="custom-file-label" for="fitxerID">
                   </label>
                 </div>
@@ -98,7 +98,7 @@
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.ADJUNTAR)}" >
               <form:errors path="annex.adjuntar" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,AnnexFields.ADJUNTAR)? 'false' : 'true'}" path="annex.adjuntar"  style="width:1%"/>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,AnnexFields.ADJUNTAR)? 'false' : 'true'}" path="annex.adjuntar" />
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,AnnexFields.ADJUNTAR)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.annex.adjuntar}" />
@@ -120,7 +120,7 @@
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.FIRMAR)}" >
               <form:errors path="annex.firmar" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="form-control" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,AnnexFields.FIRMAR)? 'false' : 'true'}" path="annex.firmar"  style="width:1%"/>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,AnnexFields.FIRMAR)? 'false' : 'true'}" path="annex.firmar" />
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,AnnexFields.FIRMAR)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.annex.firmar}" />

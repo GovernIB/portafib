@@ -14,7 +14,7 @@
             </td>
             <td>
             <form:errors path="codiBarres.codiBarresID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? ' uneditable-input' : ''}"  style="" maxlength="255" path="codiBarres.codiBarresID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? ' uneditable-input' : ''}"  style="" maxlength="255" path="codiBarres.codiBarresID"   />
 
            </td>
         </tr>
@@ -32,7 +32,7 @@
             </td>
             <td>
             <form:errors path="codiBarres.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? 'true' : 'false'}" cssClass="form-control ${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="codiBarres.nom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="codiBarres.nom"   />
 
            </td>
         </tr>
@@ -50,7 +50,7 @@
             </td>
             <td>
               <form:errors path="codiBarres.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;max-width:90%;" cssClass="form-control " readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.DESCRIPCIO)? 'true' : 'false'}" path="codiBarres.descripcio"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.DESCRIPCIO)? 'true' : 'false'}" path="codiBarres.descripcio"  />
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
         <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">

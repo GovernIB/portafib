@@ -711,7 +711,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
         urlCancel = form.getRedirectOnModify();
       }
     }
-    form.addAdditionalButton(new AdditionalButton("", "tornar", urlCancel, ""));
+    form.addAdditionalButton(new AdditionalButton("", "tornar", urlCancel, "btn-secondary"));
 
     form.setCancelButtonVisible(false);
 

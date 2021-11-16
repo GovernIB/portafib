@@ -33,7 +33,7 @@
 
 
         <!-- Dreta -->
-        <div class="col-4 text-center logoPeu pt-2">
+        <div class="col-4  logoPeu pt-2" style="text-align:right;">
             <c:if test="${not empty loginInfo.entitatID}">
                 <a href="<c:out value="${loginInfo.entitat.web}" />"
                     target="_blank"> <img
