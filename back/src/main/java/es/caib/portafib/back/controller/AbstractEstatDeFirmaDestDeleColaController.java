@@ -528,7 +528,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
             // NOVA COLUMNA: Prioritat
             AdditionalField<String, String> adfieldPR = new AdditionalField<String, String>();
-            adfieldPR.setCodeName("=<i class=\"icon-warning-sign\" title=\""
+            adfieldPR.setCodeName("=<i class=\"fa-exclamation-triangle\" title=\""
                     + I18NUtils.tradueix(PeticioDeFirmaFields.PRIORITATID.fullName) + "\"></i>");
             adfieldPR.setPosition(COLUMN_PETICIODEFIRMA_PRIORITAT);
             adfieldPR.setEscapeXml(false);
@@ -2584,7 +2584,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
 
                     filterForm.addAdditionalButtonByPK(estatId,
-                            new AdditionalButton("icon-edit", "firmar",
+                            new AdditionalButton("fas fa-file-signature", "firmar",
                                     "javascript:firmar('" + request.getContextPath() + getContextWeb() + "/firmar/" + estatId + "/" + peticioID + "', {0})",
                                     "btn-success"));
 
@@ -2600,7 +2600,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR) {
                     // TODO Indicar la descripció d'aquest botó: traducció marcarrevisant.desc
                     filterForm.addAdditionalButtonByPK(estatId,
-                            new AdditionalButton("icon-flag", "marcarrevisant",
+                            new AdditionalButton("far fa-flag", "marcarrevisant",
                                     getContextWeb() + "/marcarrevisant/" + estatId + "/" + peticioID,
                                     "btn-warning"));
                 }
@@ -2662,10 +2662,10 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 filterForm.addAdditionalButton(new AdditionalButton("fas fa-times",
                         "rebutjarseleccionats", "javascript:rebutjarseleccionats()", "btn-danger"));
 
-                filterForm.addAdditionalButton(new AdditionalButton("icon-edit",
+                filterForm.addAdditionalButton(new AdditionalButton("fas fa-file-signature",
                         "firmarseleccionats", "javascript:firmarseleccionats()", "btn-success"));
 
-                filterForm.addAdditionalButton(new AdditionalButton("icon-tasks",
+                filterForm.addAdditionalButton(new AdditionalButton("fas fa-tasks",
                         "carret.processar.inici", "javascript:processarInici()", "btn-warning"));
             }
         }

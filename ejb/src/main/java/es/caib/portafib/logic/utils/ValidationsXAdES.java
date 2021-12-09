@@ -216,8 +216,8 @@ public class ValidationsXAdES {
 
         ResourceResolver res;
         try {
-          res = ResourceResolver.getInstance(uriAttr, null);
-          xmlObjectInput = res.resolve(uriAttr, null);
+          res = ResourceResolver.getInstance(uriAttr, null, false);
+          xmlObjectInput = res.resolve(uriAttr, null, false);
         } catch (Exception e) {
           log.error("ValidationsXAdES result A002 => FOR-CONTINUE => " + e.getMessage());
           continue;

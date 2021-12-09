@@ -16,7 +16,7 @@ public class AttributesState implements java.io.Serializable {
     // Constructor
     protected AttributesState(int value) {
         _value_ = value;
-        _table_.put(new java.lang.Integer(_value_),this);
+        _table_.put(Integer.valueOf(_value_),this);
     }
 
     public static final int _value1 = 0;

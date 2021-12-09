@@ -22,7 +22,7 @@ int maxitems=PropietatGlobalUtil.getMaxItemsToShowInAutocomplete(entitatID);
 
 <c:set var="placeholder" value="${(empty seleccioUsuariForm.usuarisFavorits)? 'formselectionby.placeholderemptyfavorits' :'formselectionby.placeholder' }" />
 
-<form:errors id="error_id" path="id" cssClass="errorField alert alert-error" />
+<form:errors id="error_id" path="id" cssClass="errorField alert alert-danger" />
 <c:if test="${not empty seleccioUsuariForm.usuarisFavorits }">
 <div class="input-append">
 </c:if>

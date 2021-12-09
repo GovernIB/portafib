@@ -93,7 +93,7 @@ public abstract class AbstractPluginAdminController extends PluginController {
          pluginFilterForm.getDefaultGroupByFields().remove(TIPUS);
 
          pluginFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-             "icon-refresh", "plugin.netejardecache",  getContextWeb() + "/netejarInstanciaDeCache/{0}",
+             "fas fa-sync-alt", "plugin.netejardecache",  getContextWeb() + "/netejarInstanciaDeCache/{0}",
              "btn-warning"));
 
          

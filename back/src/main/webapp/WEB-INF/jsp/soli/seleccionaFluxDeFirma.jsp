@@ -18,7 +18,7 @@
 <tr>
   <td><label><fmt:message key="nom" />:</label></td>
   <td>
-    <form:errors path="nom" cssClass="errorField alert alert-error" />
+    <form:errors path="nom" cssClass="errorField alert alert-danger" />
      <form:input cssClass="col-md-9-optional" path="nom"/>
   </td>
 </tr>
@@ -27,7 +27,7 @@
 <tr>
   <td><label><fmt:message key="peticioDeFirma.solicitantUsuariAplicacioID" />:</label></td>
   <td>
-    <form:errors path="usuariAplicacioID"  cssClass="errorField alert alert-error" />
+    <form:errors path="usuariAplicacioID"  cssClass="errorField alert alert-danger" />
     <form:input cssClass="input-xlarge" readonly="true" path="usuariAplicacioID"/>
   </td>
 </tr>

@@ -19,7 +19,7 @@
         </label>
       </td>
       <td>
-       <form:errors  path="titolPeticio" cssClass="errorField alert alert-error" />
+       <form:errors  path="titolPeticio" cssClass="errorField alert alert-danger" />
        <input  name="titolPeticio" type="text" class="col-md-9-optional" placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />" >
       </td>
   </tr>
@@ -32,7 +32,7 @@
         </label>
       </td>
       <td>
-       <form:errors  path="descripcio" cssClass="errorField alert alert-error" />
+       <form:errors  path="descripcio" cssClass="errorField alert alert-danger" />
        <input name="descripcio" type="text" class="col-md-9-optional" placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />" >
       </td>
   </tr>
@@ -45,7 +45,7 @@
         </label>
       </td>
       <td>
-       <form:errors  path="motiu" cssClass="errorField alert alert-error" />
+       <form:errors  path="motiu" cssClass="errorField alert alert-danger" />
        <input  name="motiu" type="text" class="col-md-9-optional" placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />" >
       </td>
   </tr>
@@ -54,7 +54,7 @@
         <label><fmt:message key="peticioFirmaMassiva.peticiobase" /> &nbsp;(*)</label>
       </td>
       <td valign="top">
-         <form:errors path="peticioDeFirmaID" cssClass="errorField alert alert-error" />
+         <form:errors path="peticioDeFirmaID" cssClass="errorField alert alert-danger" />
          <form:select id="peticioDeFirmaID" path="peticioDeFirmaID"  cssClass="col-md-9-optional">
             <c:forEach items="${peticioFirmaMassivaForm.peticionsDeFirmesBase}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
@@ -72,7 +72,7 @@
         &nbsp;(*)</label>
       </td>
       <td>
-       <form:errors path="files" cssClass="errorField alert alert-error" />
+       <form:errors path="files" cssClass="errorField alert alert-danger" />
        <form:input path="files" type="file" multiple="multiple" class="col-md-9-optional" />
       </td>
   </tr>

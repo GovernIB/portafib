@@ -19,7 +19,7 @@
         <tr>
           <td><label><fmt:message key="peticioDeFirma.titol" /> &nbsp;(*)</label></td>
             <td>
-            <form:errors path="titol" cssClass="errorField alert alert-error" />
+            <form:errors path="titol" cssClass="errorField alert alert-danger" />
             <form:input cssClass="input" maxlength="255" path="titol" />
            </td>
          </tr>
@@ -27,7 +27,7 @@
         <tr>
           <td><label><fmt:message key="peticioDeFirma.descripcio" /> &nbsp;(*)</label></td>
             <td>
-              <form:errors path="descripcio" cssClass="errorField alert alert-error" />
+              <form:errors path="descripcio" cssClass="errorField alert alert-danger" />
               <form:textarea rows="3" cssClass="input-xxlarge"  path="descripcio"  />
            </td>
          </tr>
@@ -35,7 +35,7 @@
         <tr>
           <td><label><fmt:message key="peticioDeFirma.motiu" /> &nbsp;(*)</label></td>
             <td>
-              <form:errors path="motiu" cssClass="errorField alert alert-error" />
+              <form:errors path="motiu" cssClass="errorField alert alert-danger" />
               <form:textarea rows="3" cssClass="input-xxlarge"  path="motiu"  />
            </td>
          </tr>
@@ -43,7 +43,7 @@
          <tr>
           <td><label><fmt:message key="peticioDeFirma.posicioTaulaFirmesID" /> &nbsp;(*)</label></td>
             <td>
-          <form:errors path="posicioTaulaFirmesID" cssClass="errorField alert alert-error" />
+          <form:errors path="posicioTaulaFirmesID" cssClass="errorField alert alert-danger" />
           <form:select path="posicioTaulaFirmesID">
           <%-- Si el camp es nulable llavors una entrada buida --%>
             <c:forEach items="${autoFirmaForm.listOfPosicioTaulaFirmes}" var="tmp">
@@ -56,7 +56,7 @@
         <tr>
           <td><label><fmt:message key="peticioDeFirma.fitxerAFirmarID" /> &nbsp;(*)</label></td>
             <td>
-              <form:errors path="fitxerAFirmarID" cssClass="errorField alert alert-error" />
+              <form:errors path="fitxerAFirmarID" cssClass="errorField alert alert-danger" />
               <div class="fileupload fileupload-new" data-provides="fileupload" style="margin-bottom: 0px">
                 <div class="input-append">
                     <div class="uneditable-input span4">
@@ -105,7 +105,7 @@
         <tr>
           <td><label><fmt:message key="adjunt" /> ${i}</label></td>
             <td>
-              <form:errors path="adjunt${i}" cssClass="errorField alert alert-error" />
+              <form:errors path="adjunt${i}" cssClass="errorField alert alert-danger" />
               <div class="fileupload fileupload-new" data-provides="fileupload" style="margin-bottom: 0px">
                 <div class="input-append">
                     <div class="uneditable-input span4">

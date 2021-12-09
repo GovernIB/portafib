@@ -73,8 +73,7 @@ public class NotificacioQueueTimerEJB implements NotificacioQueueTimerLocal {
       return;
     }
 
-    try {
-      @SuppressWarnings("unchecked")
+    try {      
       Collection<Timer> timers = timerService.getTimers();
       for (Timer timer : timers) {
         if (isWakeUpTimer(timer)) {
@@ -125,7 +124,6 @@ public class NotificacioQueueTimerEJB implements NotificacioQueueTimerLocal {
 
   @Override
   public void stopScheduler() {
-    @SuppressWarnings("unchecked")
     Collection<Timer> timers = timerService.getTimers();
     for (Timer timer : timers) {
       log.info("stopScheduler: Cancel·lant timer");

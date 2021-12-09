@@ -490,7 +490,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                         colaboracioDelegacioJPA.setActiva(false);
                         colaboracioDelegacioForm.addHiddenField(FITXERAUTORITZACIOID);
                         // Afegim boto per firmar
-                        colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton("icon-pencil",
+                        colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton("fas fa-file-signature",
                                 "firmar",
                                 "javascript:firmar('" + request.getContextPath() + getContextWeb() + "/firmarautoritzacio/"
                                         + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID() + "');",
@@ -499,7 +499,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                         HtmlUtils.saveMessageInfo(request,
                                 I18NUtils.tradueix("delegacio.avisnofirmadaautoritzacio"));
                     } else {
-                        colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton("icon-play",
+                        colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton("fas fa-play",
                                 "activar", getContextWeb() + "/activar/{0}", "btn-success"));
                     }
                     break;

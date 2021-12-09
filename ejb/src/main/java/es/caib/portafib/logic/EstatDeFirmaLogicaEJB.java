@@ -123,7 +123,8 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
                     "where e.estatDeFirmaID IN (:idsEstats)");
     query.setParameter("idsEstats", estatDeFirmaIDList);
 
-    List<Object[]> list = (List<Object[]>) query.getResultList();
+    @SuppressWarnings("unchecked")
+    List<Object[]> list = ((List<Object[]>) query.getResultList());
 
     Map<Long, PeticioDeFirma> map = new HashMap<Long, PeticioDeFirma>(list.size());
     for (Object[] result: list) {
@@ -408,6 +409,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     return firmesJPA;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public List<Object[]> getCountColaboracioDelegacioByFirmaIDAndTipusEstatFinal(
           String usuariEntitatID, Collection<Long> idsFirma, Long[] estatsInicials) {

@@ -24,7 +24,6 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
-import org.fundaciobit.genapp.common.query.SelectSum;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.utils.Utils;
 
@@ -539,8 +538,8 @@ public class TestJPA {
           dif = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
           Where w = BlocDeFirmesFields.FLUXDEFIRMESID
               .equal(peticioDeFirma.getFluxDeFirmesID());
-          firmes = blocDeFirmesEjb.executeQueryOne(new SelectSum(
-              BlocDeFirmesFields.MINIMDEFIRMES), w);
+          firmes = blocDeFirmesEjb.sumInteger(BlocDeFirmesFields.MINIMDEFIRMES, w);
+                  //executeQueryOne(new SelectSum(BlocDeFirmesFields.MINIMDEFIRMES), w);
 
           // Firmes realitzades
           Where wf = Where.AND(
@@ -662,6 +661,7 @@ public class TestJPA {
   public void testUsuariPersonaUsuariEntitat(EntityManager em) {
     Query query = em.createQuery("select up from UsuariPersonaJPA up where up.usuariEntitats.entitatID='caib'");
 
+    @SuppressWarnings("unchecked")
     List<UsuariPersonaJPA> firmes =   query.getResultList();
     
     for (UsuariPersonaJPA usuariPersonaJPA : firmes) {
@@ -684,7 +684,8 @@ public class TestJPA {
     // ( firma.blocDeFirmes.fluxDeFirmes.peticioDeFirma.peticioDeFirmaID = 58900 )
     
     
-    List<FirmaJPA> firmes =   query.getResultList();
+    @SuppressWarnings("unchecked")
+    List<FirmaJPA> firmes =   (List<FirmaJPA>)query.getResultList();
     
     int size = firmes.size();
       
@@ -724,7 +725,7 @@ public class TestJPA {
     
     // ( firma.blocDeFirmes.fluxDeFirmes.peticioDeFirma.peticioDeFirmaID = 58900 )
     
-    
+    @SuppressWarnings("unchecked")
     List<PeticioDeFirmaJPA> peticions =   query.getResultList();
     
     int size = peticions.size();

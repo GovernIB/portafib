@@ -408,7 +408,7 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
 
             // NOVA COLUMNA: Prioritat
             AdditionalField<String, String> adfieldPR = new AdditionalField<String, String>();
-            adfieldPR.setCodeName("=<i class=\"icon-warning-sign\" title=\""
+            adfieldPR.setCodeName("=<i class=\"fa-exclamation-triangle\" title=\""
                     + I18NUtils.tradueix(PeticioDeFirmaFields.PRIORITATID.fullName) + "\"></i>");
             adfieldPR.setPosition(COLUMN_PETICIODEFIRMA_PRIORITAT);
             adfieldPR.setEscapeXml(false);
@@ -2414,7 +2414,7 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
                 if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
 
                     filterForm.addAdditionalButtonByPK(estatId,
-                            new AdditionalButton("icon-edit", "firmar",
+                            new AdditionalButton("fas fa-file-signature", "firmar",
                                     "javascript:firmar('" + request.getContextPath() + getContextWeb() + "/firmar/" + estatId + "/" + peticioID + "', {0})",
                                     "btn-success"));
 

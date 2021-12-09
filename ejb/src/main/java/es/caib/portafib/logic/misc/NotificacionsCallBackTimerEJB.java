@@ -119,7 +119,6 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
     }
 
     try {
-      @SuppressWarnings("unchecked")
       Collection<Timer> timers = timerService.getTimers();
       for (Timer timer : timers) {
         if (isWakeUpTimer(timer)) {
@@ -175,7 +174,6 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
 
   @Override
   public void stopScheduler() {
-    @SuppressWarnings("unchecked")
     Collection<Timer> timers = timerService.getTimers();
     for (Timer timer : timers) {
       log.info("stopScheduler: Cancel·lant timer");

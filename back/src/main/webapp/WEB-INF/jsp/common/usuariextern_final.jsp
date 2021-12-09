@@ -4,7 +4,7 @@
 
 
 <center>
-  <div class="alert ${(status eq 2)? 'alert-success':'alert-error'}">
+  <div class="alert ${(status eq 2)? 'alert-success':'alert-danger'}">
     <h2>
       <fmt:message key="usuariextern.token.${(status eq 2)? 'finalprocesdefirma':'error.titol'}" />
     </h2>

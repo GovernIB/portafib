@@ -129,7 +129,7 @@ public class CallbackResponse  implements java.io.Serializable {
                 }
             }
         }
-        _hashCode += new Double(get_return()).hashCode();
+        _hashCode +=  Double.valueOf(get_return()).hashCode();
         if (getVersion() != null) {
             _hashCode += getVersion().hashCode();
         }

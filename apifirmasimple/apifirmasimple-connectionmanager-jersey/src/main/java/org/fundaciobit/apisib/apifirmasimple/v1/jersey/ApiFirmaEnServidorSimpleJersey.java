@@ -21,8 +21,6 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentReq
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeResponse;
-import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.CancelledUserException;
-import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.NoAvailablePluginException;
 import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 import org.fundaciobit.apisib.core.exceptions.ApisIBClientException;
 import org.fundaciobit.apisib.jerseycore.AbstractApisIBConnectionManagerJersey;
@@ -56,6 +54,7 @@ public class ApiFirmaEnServidorSimpleJersey
     super(endPointBase, username, password);
   }
 
+  /*
   @Override
   protected void processException(FirmaSimpleError simple, String tipus)
       throws AbstractApisIBException {
@@ -71,6 +70,7 @@ public class ApiFirmaEnServidorSimpleJersey
       super.processException(simple, tipus);
     }
   }
+  */
 
   /**
    *

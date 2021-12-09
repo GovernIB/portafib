@@ -1,291 +1,261 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>portafib-ws-callback-api</artifactId>
-  <groupId>es.caib.portafib</groupId>
-  <packaging>jar</packaging>
-  <version>1.1</version>
-
-  <name>PortaFIB WS - Callback API</name>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <!-- JBoss dependency versions -->
-    <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>
-  </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.jboss.spec</groupId>
-        <artifactId>jboss-javaee-6.0</artifactId>
-        <version>${version.org.jboss.spec.jboss.javaee.6.0}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
-  <build>
-
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <source>11</source>
-            <target>11</target>
-            <encoding>UTF-8</encoding>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
-    <plugins>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>2.1</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <filters>
-                <filter>
-                  <artifact>org.fundaciobit.genapp:genapp-core</artifact>
-                  <includes>
-                    <include>org/fundaciobit/genapp/common/ws/Ws*Adapter.*</include>
-                  </includes>
-                </filter>
-              </filters>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.8.2</version>
-        <configuration>
-          <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>com.github.github</groupId>
-        <artifactId>site-maven-plugin</artifactId>
-        <version>0.12</version> 
-        <configuration>
-          <!-- git commit message -->
-          <message>Maven artifacts for ${project.version}</message> 
-          <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> 
-          <noJekyll>true</noJekyll>   
-          <!-- remote branch name -->
-          <branch>refs/heads/gh-pages</branch> 
-          <includes>
-            <include>**/*</include>
-          </includes>
-          <path>maven</path>
-          <!-- github repo name -->
-          <repositoryName>maven</repositoryName>      
-          <!-- github username or organization  -->
-          <repositoryOwner>GovernIB</repositoryOwner>    
-          <server>github_governib_maven</server>
-          <merge>true</merge>
-          <dryRun>false</dryRun>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>site</goal>
-            </goals>
-            <phase>deploy</phase>
-          </execution>
-        </executions>
-      </plugin>
-
-    </plugins>
-
-  </build>
-
-  <distributionManagement>
-    <repository>
-      <id>github_governib_maven</id>
-      <name>GitHub GovernIB Maven Repository</name>
-      <url>file://${project.build.directory}/mvn-repo</url>
-    </repository>
-  </distributionManagement>
-
-  <repositories>
-    <repository>
-      <id>github-governib-maven</id>
-      <name>GitHub GovernIB Maven Repository</name>
-      <url>https://governib.github.io/maven/maven/</url>
-    </repository>
-    <repository>
-      <id>jboss-releases</id>
-      <name>JBoss Releases Repository</name>
-      <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>jboss-thirdparty-releases</id>
-      <name>JBoss 3rd-party Repository</name>
-      <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/</url>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </repository>
-  </repositories>
-
-  <profiles>
-    <profile>
-      <id>regenerateapi</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-        <property>
-          <name>regenerateapi</name>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-
-          <plugin>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-java2ws-plugin</artifactId>
-            <version>${cxf.version}</version>
-            <dependencies>
-              <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-frontend-jaxws</artifactId>
-                <version>${cxf.version}</version>
-              </dependency>
-
-              <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-frontend-simple</artifactId>
-                <version>${cxf.version}</version>
-              </dependency>
-
-              <dependency>
-                <groupId>es.caib.portafib</groupId>
-                <artifactId>portafib-ws-callback-server</artifactId>
-                <version>${portafib.version}</version>
-                <scope>compile</scope>
-              </dependency>
-
-            </dependencies>
-
-            <executions>
-
-              <execution>
-                <id>generate-wsdl-PortaFIBCallBackWs</id>
-                <phase>generate-sources</phase>
-                <configuration>
-                  <className>es.caib.portafib.ws.callback.server.v1.PortaFIBCallBackWs</className>
-                  <genWsdl>true</genWsdl>
-                  <verbose>true</verbose>
-                  <outputFile>${basedir}/src/main/resources/wsdl/PortaFIBCallBack_v1.wsdl</outputFile>
-                  <argline>-s ${basedir}/code -portname PortaFIBCallBackWs -address
-                    http://localhost:8080/portafib/cb/v1/PortaFIBCallBack</argline>
-                </configuration>
-                <goals>
-                  <goal>java2ws</goal>
-                </goals>
-              </execution>
-
-
-
-            </executions>
-          </plugin>
-
-          <plugin>
-            <groupId>org.jboss.ws.plugins</groupId>
-            <artifactId>maven-jaxws-tools-plugin</artifactId>
-            <version>1.1.1.Final</version>
-            <configuration>
-              <verbose>true</verbose>
-              <goalPrefix>wsconsume</goalPrefix>
-              <extension>true</extension>
-              <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-              <targetPackage>es.caib.portafib.ws.callback.api.v1</targetPackage>
-              <bindingFiles>
-                <bindingFile>${basedir}/bindings/bindings.xjc</bindingFile>
-              </bindingFiles>
-            </configuration>
-            <executions>
-
-              <execution>
-                <id>WSDL to Java API PortaFIBCallBack</id>
-                <goals>
-                  <goal>wsconsume</goal>
-                </goals>
-                <configuration>
-                  <wsdls>
-                    <wsdl>${basedir}/src/main/resources/wsdl/PortaFIBCallBack_v1.wsdl</wsdl>
-                  </wsdls>
-                  <wsdlLocation>http://localhost:8080/portafib/cb/v1/PortaFIBCallBack?wsdl</wsdlLocation>
-                  <argLine>-n</argLine>
-                </configuration>
-              </execution>
-
-
-            </executions>
-          </plugin>
-
-        </plugins>
-
-      </build>
-    </profile>
-  </profiles>
-
-
-  <dependencies>
-
-    <dependency>
-      <groupId>org.jboss.ws.cxf</groupId>
-      <artifactId>jbossws-cxf-client</artifactId>
-      <version>4.1.1.Final</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.2</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.fundaciobit.genapp</groupId>
-      <artifactId>genapp-ws</artifactId>
-      <version>2.0.0-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.2</version>
-      <scope>test</scope>
-    </dependency>
-
-  </dependencies>
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>portafib-ws-callback-api</artifactId>
+	<groupId>es.caib.portafib</groupId>
+	<packaging>jar</packaging>
+	<version>1.1</version>
+	<name>PortaFIB WS - Callback API</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- JBoss dependency versions -->
+		<jboss-javaee.version>1.0.1.Final-redhat-00003</jboss-javaee.version>
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-8.0</artifactId>
+				<version>${jboss-javaee.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>11</source>
+						<target>11</target>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								<excludes>
+									<exclude>org.fundaciobit.genapp:genapp-ws:*</exclude>
+									<exclude>org.fundaciobit.genapp:genapp-core:*</exclude>
+									<exclude>javax.annotation:javax.annotation-api:*</exclude>
+									<exclude>javax.activation:activation:*</exclude>
+									<exclude>javax.persistence:javax.persistence-api:*</exclude>
+									<exclude>javax.xml.bind:jaxb-api:*</exclude>
+									<exclude>javax.activation:javax.activation-api:*</exclude>
+									<exclude>log4j:log4j:*</exclude>
+								</excludes>
+							</artifactSet>
+							<filters>
+								<filter>
+									<artifact>org.fundaciobit.genapp:genapp-core</artifact>
+									<includes>
+										<include>org/fundaciobit/genapp/common/ws/Ws*Adapter.*</include>
+									</includes>
+								</filter>
+							</filters>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.2</version>
+				<configuration>
+					<altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.12</version>
+				<configuration>
+					<!-- git commit message -->
+					<message>Maven artifacts for ${project.version}</message>
+					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+					<noJekyll>true</noJekyll>
+					<!-- remote branch name -->
+					<branch>refs/heads/gh-pages</branch>
+					<includes>
+						<include>**/*</include>
+					</includes>
+					<path>maven</path>
+					<!-- github repo name -->
+					<repositoryName>maven</repositoryName>
+					<!-- github username or organization -->
+					<repositoryOwner>GovernIB</repositoryOwner>
+					<server>github_governib_maven</server>
+					<merge>true</merge>
+					<dryRun>false</dryRun>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>deploy</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<distributionManagement>
+		<repository>
+			<id>github_governib_maven</id>
+			<name>GitHub GovernIB Maven Repository</name>
+			<url>file://${project.build.directory}/mvn-repo</url>
+		</repository>
+	</distributionManagement>
+	<repositories>
+		<repository>
+			<id>github-governib-maven</id>
+			<name>GitHub GovernIB Maven Repository</name>
+			<url>https://governib.github.io/maven/maven/</url>
+		</repository>
+		<repository>
+			<id>jboss-releases</id>
+			<name>JBoss Releases Repository</name>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>jboss-thirdparty-releases</id>
+			<name>JBoss 3rd-party Repository</name>
+			<url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/</url>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>redhat-repository</id>
+			<name>Redhat Repository</name>
+			<url>https://maven.repository.redhat.com/ga/</url>
+		</repository>
+	</repositories>
+	<profiles>
+		<profile>
+			<id>regenerateapi</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<property>
+					<name>regenerateapi</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-java2ws-plugin</artifactId>
+						<version>${cxf.version}</version>
+						<dependencies>
+							<dependency>
+								<groupId>org.apache.cxf</groupId>
+								<artifactId>cxf-rt-frontend-jaxws</artifactId>
+								<version>${cxf.version}</version>
+							</dependency>
+						</dependencies>
+						<executions>
+							<execution>
+								<id>generate-wsdl-PortaFIBCallBackWs</id>
+								<phase>generate-sources</phase>
+								<configuration>
+									<className>es.caib.portafib.ws.callback.server.v1.PortaFIBCallBackWs</className>
+									<genWsdl>true</genWsdl>
+									<verbose>true</verbose>
+									<outputFile>${basedir}/src/main/resources/wsdl/PortaFIBCallBack_v1.wsdl</outputFile>
+									<argline>-s ${basedir}/code
+                                        -portname PortaFIBCallBackWs
+                                        -address
+                                        http://localhost:8080/portafib/cb/v1/PortaFIBCallBack</argline>
+								</configuration>
+								<goals>
+									<goal>java2ws</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.jboss.ws.plugins</groupId>
+						<artifactId>maven-jaxws-tools-plugin</artifactId>
+						<version>1.1.1.Final</version>
+						<configuration>
+							<verbose>true</verbose>
+							<goalPrefix>wsconsume</goalPrefix>
+							<extension>true</extension>
+							<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+							<targetPackage>es.caib.portafib.ws.callback.api.v1</targetPackage>
+							<bindingFiles>
+								<bindingFile>${basedir}/bindings/bindings.xjc</bindingFile>
+							</bindingFiles>
+						</configuration>
+						<executions>
+							<execution>
+								<id>WSDL to Java API PortaFIBCallBack</id>
+								<goals>
+									<goal>wsconsume</goal>
+								</goals>
+								<configuration>
+									<wsdls>
+										<wsdl>${basedir}/src/main/resources/wsdl/PortaFIBCallBack_v1.wsdl</wsdl>
+									</wsdls>
+									<wsdlLocation>http://localhost:8080/portafib/cb/v1/PortaFIBCallBack?wsdl</wsdlLocation>
+									<argLine>-n</argLine>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<dependencies>
+		<!-- <dependency> <groupId>org.jboss.ws.cxf</groupId> <artifactId>jbossws-cxf-client</artifactId> 
+            <version>5.2.4.Final-redhat-00001</version> <scope>provided</scope> </dependency> -->
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-ri</artifactId>
+			<version>2.3.3</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fundaciobit.genapp</groupId>
+			<artifactId>genapp-ws</artifactId>
+			<version>2.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>

@@ -33,7 +33,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-ejb-plugin</artifactId>
-        <version>2.3</version>
         <configuration>
           <ejbVersion>3.0</ejbVersion>
         </configuration>
@@ -41,7 +40,6 @@
       <!-- Sempre fer net -->
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
-        <version>2.4.1</version>
         <executions>
           <execution>
             <id>auto-clean</id>
@@ -84,14 +82,12 @@
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-spi</artifactId>
-      <version>1.1.2.GA</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>javax</groupId>
       <artifactId>javaee-api</artifactId>
-      <version>6.0</version>
       <scope>provided</scope>
     </dependency>
 

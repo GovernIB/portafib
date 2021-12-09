@@ -27,7 +27,7 @@
        <fmt:message key="tipusdocument.seleccio" />
        </label>
 
-      <form:errors path="currentTipusDocument" cssClass="errorField alert alert-error" />
+      <form:errors path="currentTipusDocument" cssClass="errorField alert alert-danger" />
 
       <table border="0">
         <tr>

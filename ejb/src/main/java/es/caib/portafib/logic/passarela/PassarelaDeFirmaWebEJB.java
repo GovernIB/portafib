@@ -562,6 +562,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
   @Override
   public void closeTransaction(String transactionID) {
+    log.info("closeTransaction():: Cridant a deleteSignaturesSet(" + transactionID + ")");
     deleteSignaturesSet(transactionID);
   }
 
@@ -970,8 +971,13 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
    * @return
    */
   protected PassarelaSignaturesSetWebInternalUse readSignaturesSet(String transactionID) {
+      
+      
+    log.info("readSignaturesSet(" + transactionID + ") - PRE => "+ passarelaSignaturesSets.size());
 
     checkExpiredSignaturesSet();
+    
+    log.info("readSignaturesSet(" + transactionID + ") - POST => "+ passarelaSignaturesSets.size());
 
     log.debug("Calling readSignaturesSet(" + transactionID + ")");
 
@@ -1025,8 +1031,12 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
   
 
   protected void deleteSignaturesSet(PassarelaSignaturesSetWebInternalUse pss) {
+      
+      
 
     final String signaturesSetID = pss.getSignaturesSet().getSignaturesSetID();
+    
+    log.info("deleteSignaturesSet amb signaturesSetID = " + signaturesSetID);
 
     // ESBORRAR TOT DIRECTORI
     File basePath = getTransactionPath(signaturesSetID);

@@ -111,6 +111,7 @@
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-ri</artifactId>
             <type>pom</type>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -147,13 +148,13 @@
         </dependency>
         <!-- <dependency> <groupId>javax.xml.ws</groupId> <artifactId>jaxws-api</artifactId> 
             </dependency> -->
-
+<!--
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
+-->
     </dependencies>
 
 

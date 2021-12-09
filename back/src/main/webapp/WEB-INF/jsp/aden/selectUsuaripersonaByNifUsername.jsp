@@ -14,7 +14,7 @@
       <td>
         <label><fmt:message key="usuariPersona.nifusername" /> &nbsp;(*)</label>
       </td>
-      <td><form:errors path="nif" cssClass="errorField alert alert-error" />
+      <td><form:errors path="nif" cssClass="errorField alert alert-danger" />
           <form:input cssClass="input" path="nif"/></td>
   </tr>
 </tbody>

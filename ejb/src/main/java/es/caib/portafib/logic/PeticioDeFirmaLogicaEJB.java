@@ -113,7 +113,6 @@ import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.SelectCount;
 import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
 import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
-import org.fundaciobit.genapp.common.query.SelectSum;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
@@ -3815,8 +3814,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
           dif = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
           Where w = BlocDeFirmesFields.FLUXDEFIRMESID
               .equal(peticioDeFirma.getFluxDeFirmesID());
-          firmes = blocDeFirmesEjb
-              .executeQueryOne(new SelectSum(BlocDeFirmesFields.MINIMDEFIRMES), w);
+          firmes = blocDeFirmesEjb.sumInteger(BlocDeFirmesFields.MINIMDEFIRMES, w);
+              //.executeQueryOne(new SelectSum(BlocDeFirmesFields.MINIMDEFIRMES), w);
 
           // Firmes realitzades
           Where wf = Where.AND(

@@ -177,7 +177,7 @@ public class ValidationsCAdES {
    *          signer identifier.
    * @return the searched certificate
    */
-  private static X509CertificateHolder getCertificateBySignerId(Store certificates,
+  private static X509CertificateHolder getCertificateBySignerId(Store<?> certificates,
       SignerId signerId) {
     if (certificates != null && certificates.getMatches(null) != null && signerId != null) {
       for (Iterator<?> iterator = certificates.getMatches(null).iterator(); iterator.hasNext();) {

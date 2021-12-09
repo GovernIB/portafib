@@ -3,7 +3,6 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>apifirmasimple-api</artifactId>
-  <version>1.0.3</version>
   <packaging>jar</packaging>
 
   <name>FundacioBit - ApisIB - API Firma Simple - API</name>

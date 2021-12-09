@@ -27,7 +27,7 @@
        <label><fmt:message key="carrec"/></label>
     </td>
     <td>
-       <form:errors path="carrec" cssClass="errorField alert alert-error" />
+       <form:errors path="carrec" cssClass="errorField alert alert-danger" />
        <form:input cssClass="input-xlarge" path="carrec" />
     </td>
   </tr>
@@ -36,7 +36,7 @@
        <label><fmt:message key="carrec.id"/>:</label>
     </td>
     <td>
-        <form:errors path="idCarrec" cssClass="errorField alert alert-error" />
+        <form:errors path="idCarrec" cssClass="errorField alert alert-danger" />
         <div class="input-prepend">
           <span class="add-on">${seleccioCarrecForm.entitatID}_</span>
           <form:input cssClass="input-xlarge" path="idCarrec"/>
