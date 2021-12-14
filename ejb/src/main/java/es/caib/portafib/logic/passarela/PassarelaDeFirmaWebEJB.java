@@ -62,6 +62,7 @@ import javax.annotation.Resource;
 import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import java.io.File;
 import java.io.IOException;
@@ -972,27 +973,31 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
    */
   protected PassarelaSignaturesSetWebInternalUse readSignaturesSet(String transactionID) {
       
+    log.info("Calling readSignaturesSet(" + transactionID + ") {" + transactionID.hashCode() + "}");
       
     log.info("readSignaturesSet(" + transactionID + ") - PRE => "+ passarelaSignaturesSets.size());
 
-    checkExpiredSignaturesSet();
+    PassarelaSignaturesSetWebInternalUse pss = checkExpiredSignaturesSet(transactionID);
     
     log.info("readSignaturesSet(" + transactionID + ") - POST => "+ passarelaSignaturesSets.size());
 
-    log.debug("Calling readSignaturesSet(" + transactionID + ")");
+    
 
-    synchronized (passarelaSignaturesSets) {
-      PassarelaSignaturesSetWebInternalUse pss = passarelaSignaturesSets.get(transactionID);
+    //synchronized (passarelaSignaturesSets) {
+    //  PassarelaSignaturesSetWebInternalUse pss = passarelaSignaturesSets.get(transactionID);
       if (pss == null) {
+          
+          
+          
         log.warn("La transacció " + transactionID + " no existeix !!!!!");
       }
       return pss;
-    }
+    //}
 
   }
 
   protected void storeSignaturesSet(PassarelaSignaturesSetWebInternalUse signaturesSet) {
-    checkExpiredSignaturesSet();
+    checkExpiredSignaturesSet(null);
     synchronized (passarelaSignaturesSets) {
       passarelaSignaturesSets.put(signaturesSet.getSignaturesSet().getSignaturesSetID(),
           signaturesSet);
@@ -1013,7 +1018,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
   public Map<String, PassarelaSignaturesSetWebInternalUse> getAllTransactionsByEntitatID(
       String entitatID) throws I18NException {
     
-    checkExpiredSignaturesSet();
+    checkExpiredSignaturesSet(null);
 
     Map<String, PassarelaSignaturesSetWebInternalUse> map = new HashMap<String, PassarelaSignaturesSetWebInternalUse>();
 
@@ -1061,10 +1066,12 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
    * Fer net peticions caducades SignaturesSet.getExpiryDate() Check si existeix algun proces
    * de firma caducat s'ha d'esborrar Com a mínim cada minut es revisa si hi ha caducats
    */
-  private void checkExpiredSignaturesSet() {
+  private PassarelaSignaturesSetWebInternalUse checkExpiredSignaturesSet(String transaccioID) {
 
     long now = System.currentTimeMillis();
     final long un_minut_en_ms = 3600000;
+    
+    PassarelaSignaturesSetWebInternalUse valueToReturn = null; 
 
     if (now + un_minut_en_ms > lastCheckFirmesCaducades) {
       lastCheckFirmesCaducades = now;
@@ -1072,11 +1079,25 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       SimpleDateFormat sdf = new SimpleDateFormat();
       synchronized (passarelaSignaturesSets) {
         for (Map.Entry<String, PassarelaSignaturesSetWebInternalUse> entry: passarelaSignaturesSets.entrySet()) {
+          String key = entry.getKey();
+          
+          // XYZ ZZZ
+          log.info("checkExpiredSignaturesSet():: COMPARE('" + key + "','" + transaccioID + "') => " + key.equals(transaccioID)); 
+          
+          
+          // XYZ ZZZ
+          log.info("checkExpiredSignaturesSet():: Signature Test [ID] => ]" + key + "[ {" + key.hashCode() + "}");
           PassarelaSignaturesSetWebInternalUse ssf = entry.getValue();
           if (ssf == null) {
-            continue;
-          }
-          if (now > ssf.getSignaturesSet().getExpiryDate().getTime()) {
+              log.warn("PROBLEMA: Transacció amb ID " +  key + " té PassarelaSignaturesSetWebInternalUse.java NULL");
+          } else if (key.equals(transaccioID)) {
+              
+           // XYZ ZZZ
+              log.info("checkExpiredSignaturesSet():: TROBADA informació de transacció amb ID ]" + key + "["); 
+              
+              
+              valueToReturn = ssf;
+          } else if (now > ssf.getSignaturesSet().getExpiryDate().getTime()) {
             log.info("Passarel·la De Firma: Tancant SignatureSET amb ID = " + entry.getKey()
                     + " a causa de que està caducat " + "( ARA: " + sdf.format(new Date(now))
                     + " | CADUCITAT: " + sdf.format(ssf.getSignaturesSet().getExpiryDate()) + ")");
@@ -1095,6 +1116,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                 "Petició caducada");
       }
     }
+    return valueToReturn;
   }
 
 }

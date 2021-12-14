@@ -1,6 +1,7 @@
 package es.caib.portafib.back.controller.rest.apifirmasimple.v1;
 
 import org.apache.commons.io.FileUtils;
+import org.codehaus.jackson.node.TextNode;
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaWebSimple;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
@@ -151,9 +152,9 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public ResponseEntity<?> getAvailableProfiles(HttpServletRequest request,
-      @RequestBody String locale) {
+      @RequestBody TextNode  locale) {
 
-    return internalGetAvailableProfiles(request, locale);
+    return internalGetAvailableProfiles(request, locale.asText());
 
   }
 
@@ -252,7 +253,13 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public ResponseEntity<?> getAvailableTypesOfDocuments(HttpServletRequest request,
-      @RequestBody String languageUI) {
+      @RequestBody TextNode  textNodeLanguageUI) {
+      
+      String languageUI = textNodeLanguageUI.asText();
+      
+      
+    log.info("\n\nXYZ ZZZ ZZZ  languageUI => ]" + languageUI + "[ \n\n");
+      
 
     String error = autenticateUsrApp(request);
     if (error != null) {
@@ -494,11 +501,13 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public ResponseEntity<?> getTransactionStatus(@RequestBody String transactionID,
+  public ResponseEntity<?> getTransactionStatus(@RequestBody TextNode textNodeTransactionID,
       HttpServletRequest request) {
     try {
+        
+      String transactionID = textNodeTransactionID.asText();
 
-      log.info(" XYZ ZZZ ENTRA A getTransactionStatus => " + transactionID);
+      log.info(" XYZ ZZZ ENTRA A getTransactionStatus => ]" + transactionID + "[");
 
       String error = autenticateUsrApp(request);
       if (error != null) {
@@ -507,6 +516,11 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
       PassarelaSignatureStatus status;
       status = passarelaDeFirmaWebEjb.getStatusTransaction(transactionID);
+
+      if(status == null) {
+          // XYZ ZZZ TRA
+          throw new Exception("Transacció amb ID " + transactionID + " no existeix o ha caducat.");
+      }
 
       FirmaSimpleStatus transactionStatus;
       transactionStatus = new FirmaSimpleStatus(status.getStatus(), status.getErrorMessage(),
@@ -540,7 +554,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
     } catch (Throwable th) {
       final String msg = "Error desconegut intentant recuperar informació de l'estat de la transacció: "
-          + transactionID + ": " + th.getMessage();
+          + textNodeTransactionID + ": " + th.getMessage();
 
       log.error(msg, th);
 
@@ -630,10 +644,12 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public void closeTransaction(@RequestBody String transactionID, HttpServletRequest request,
+  public void closeTransaction(@RequestBody TextNode textNodeTransactionID, HttpServletRequest request,
       HttpServletResponse response) {
+      
+     final String transactionID = textNodeTransactionID.asText();
 
-    log.info(" XYZ ZZZ closeTransaction => ENTRA");
+    log.info(" XYZ ZZZ closeTransaction => ENTRA ]" + transactionID + "[");
 
     String error = autenticateUsrApp(request);
     if (error != null) {

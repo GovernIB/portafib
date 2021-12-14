@@ -17,6 +17,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.codehaus.jackson.node.TextNode;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.ApiFlowTemplateSimple;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleBlock;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleEditFlowTemplateRequest;
@@ -94,7 +95,9 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public ResponseEntity<?> getAvailableLanguages(HttpServletRequest request,
-      @RequestBody String languageUI) {
+          @RequestBody TextNode languageUITextNode) {
+
+      final String languageUI = languageUITextNode.asText();
 
     String error = autenticateUsrApp(request);
     if (error != null) {
@@ -440,8 +443,9 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public ResponseEntity<?> getFlowTemplateResult(@RequestBody String transactionID,
-      HttpServletRequest request, HttpServletResponse response) {
+  public ResponseEntity<?> getFlowTemplateResult(HttpServletRequest request, HttpServletResponse response,
+      @RequestBody TextNode textNodeTransactionID) {
+      String transactionID = textNodeTransactionID.asText();
 
     try {
 
@@ -593,8 +597,10 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public void closeTransaction(@RequestBody String transactionID, HttpServletRequest request,
-      HttpServletResponse response) {
+  public void closeTransaction(HttpServletRequest request,
+      HttpServletResponse response, @RequestBody TextNode textNodeTransactionID) {
+
+      String transactionID = textNodeTransactionID.asText();
 
     log.info(" XYZ ZZZ closeTransaction => ENTRA");
 
@@ -619,8 +625,10 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public ResponseEntity<?> getAllFlowTemplates(@RequestBody String languageUI,
-      HttpServletRequest request, HttpServletResponse response) {
+  public ResponseEntity<?> getAllFlowTemplates(HttpServletRequest request, HttpServletResponse response,
+          @RequestBody TextNode languageUITextNode) {
+
+final String languageUI = languageUITextNode.asText();
 
     String error = autenticateUsrApp(request);
     if (error != null) {

@@ -108,6 +108,11 @@ public class ApiFirmaWebSimpleTester {
       commonInfo = new FirmaSimpleCommonInfo(perfil, languageUI, username, administrationID, signerEmail);
 
       api = getApiFirmaWebSimple(prop);
+      
+      
+      api.getAvailableTypesOfDocuments("ca");
+      
+      
 
       // Enviam la part comu de la transacció
       transactionID = api.getTransactionID(commonInfo);

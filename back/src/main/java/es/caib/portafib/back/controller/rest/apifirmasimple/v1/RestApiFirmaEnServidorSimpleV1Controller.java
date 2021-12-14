@@ -17,6 +17,8 @@ import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
+
+import org.codehaus.jackson.node.TextNode;
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaEnServidorSimple;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCustodyInfo;
@@ -651,8 +653,10 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public ResponseEntity<?> getAvailableProfiles(HttpServletRequest request,
-      @RequestBody String languageUI) {
+      @RequestBody TextNode languageUITextNode) {
 
+      final String languageUI = languageUITextNode.asText();
+      
     log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableProfiles() => " + languageUI);
     return internalGetAvailableProfiles(request, languageUI);
   }
