@@ -7,7 +7,7 @@ body {
 	padding-top: 4.5rem;
 	font: normal 100% 'Bariol Regular', Arial, Helvetica, sans-serif;
 	color: #333;
-	background-color: #eaeaea;
+	background-color: #f7f7f7;
 }
 a{
 	color: #4dba79;
@@ -241,7 +241,7 @@ a:hover{
 }
 /* FI Boto Dropdown */
 
-/* Capçalera */
+/* Capï¿½alera */
 .flechaSubmenu{
 	font-size: 8px;
 	padding-top: 5px !important;
@@ -302,9 +302,9 @@ a:hover{
 .minW0{
 	min-width: 0;
 }
-/* FI Capçalera */
+/* FI Capï¿½alera */
 
-/* Menú mòbil */
+/* Menï¿½ mï¿½bil */
 .botoMobil{
 	position: absolute;
 	right: 10px;
@@ -341,7 +341,7 @@ a.dropdown-item.mobil:hover{
 	color: #4dba79 !important;
 	background-color: #fff;
 }
-/* FI Menú mòbil */
+/* FI Menï¿½ mï¿½bil */
 
 /* Suport */
 .infoContacte{

@@ -4,7 +4,8 @@
 <c:set var="peticioID" value="${peticioDeFirma.peticioDeFirmaID}" />
 <c:set var="estatID" value="${estatDeFirma.estatDeFirmaID}" />
 <!--  INICI MENU -->
-<div class="mainMenu span5">
+<div class="row">
+<div class="mainMenu col-5">
 
   <iframe scrolling="auto"
     src="<c:url value="/${rolecontext}/plantilla/viewonlyflux/${peticioDeFirma.fluxDeFirmesID}?readOnly=true"/>"
@@ -288,7 +289,7 @@
 </div>
 
 <!-- CONTINGUT -->
-<div class="span7">
+<div class="col-7">
 
   <!--  Missatges  -->
   <jsp:include page="/WEB-INF/jsp/moduls/missatges.jsp" />
@@ -297,6 +298,8 @@
   <jsp:include page="/WEB-INF/jsp/dest/estatFirmaDocuments.jsp" />
 
   <!-- FINAL DIV CONTINGUT -->
+</div>
+
 </div>
 
 <c:if test="${empty estatDeFirma.tipusEstatDeFirmaFinalID }">
