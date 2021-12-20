@@ -15,7 +15,6 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_fitxer" )
 @SequenceGenerator(name="FITXER_SEQ", sequenceName="pfi_fitxer_seq", allocationSize=1, initialValue=1000)

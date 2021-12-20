@@ -13,7 +13,6 @@ import org.hibernate.annotations.Type;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_bitacola" )
 @SequenceGenerator(name="BITACOLA_SEQ", sequenceName="pfi_bitacola_seq", allocationSize=1, initialValue=1000)

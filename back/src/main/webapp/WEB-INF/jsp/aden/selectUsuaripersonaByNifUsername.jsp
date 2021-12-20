@@ -8,7 +8,7 @@
 
 <fmt:message key="${seleccioNifForm.subtitol}" />
 
-<table class="tdformlabel table-condensed table table-bordered table-striped marTop10">
+<table class="tdformlabel table-sm table table-bordered table-striped marTop10">
 <tbody>
   <tr>
       <td>

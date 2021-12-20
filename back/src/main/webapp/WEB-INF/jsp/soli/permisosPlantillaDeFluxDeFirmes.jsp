@@ -13,7 +13,7 @@
   <input type="hidden" id="userToDeleteFromPlantilla" name="userToDeleteFromPlantilla" value=""/>
   <input type="hidden" id="groupToDeleteFromPlantilla" name="groupToDeleteFromPlantilla" value=""/>
 
-    <table class="tdformlabel table-condensed table table-bordered table-striped marTop10  " > 
+    <table class="tdformlabel table-sm table table-bordered table-striped marTop10  " > 
     <tbody> 
       <tr>
         <td>
@@ -55,7 +55,7 @@
          <center><i><fmt:message key="permisosplantilla.listuser" /></i></center>
                 
                 
-            <table class="table table-condensed table-bordered table-striped" style="width:auto;"> 
+            <table class="table table-sm table-bordered table-striped" style="width:auto;"> 
             <thead>
               <tr>
                 <th><fmt:message key="usuariPersona.usuariPersona"></fmt:message> </th>
@@ -123,7 +123,7 @@
          <center><i><fmt:message key="permisosplantilla.listgrup" /></i></center>
                 
                 
-            <table class="table table-condensed table-bordered table-striped" style="width:auto;"> 
+            <table class="table table-sm table-bordered table-striped" style="width:auto;"> 
             <thead>
               <tr>
                 <th><fmt:message key="grupEntitat.grupEntitat"></fmt:message> </th>

@@ -17,7 +17,6 @@ import org.hibernate.annotations.Type;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_notificacio" )
 @SequenceGenerator(name="NOTIFICACIOWS_SEQ", sequenceName="pfi_notificacio_seq", allocationSize=1, initialValue=1000)

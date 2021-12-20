@@ -5,8 +5,8 @@
   <fmt:message key="${seleccioCarrecForm.titol}" />
 </h3>
 
-<!-- Usuari-Entitat C�rrec-->
-<table class="table table-condensed table-bordered" style="width:auto;">
+<!-- Usuari-Entitat Càrrec-->
+<table class="table table-sm table-bordered" style="width:auto;">
 <tbody>
   <tr>
       <td>

@@ -4,7 +4,7 @@
  <h5><fmt:message key="tipusDocument.tipusDocument" /> </h5>
  
  
- <table class="table table-condensed table-bordered" style="width:auto;"> 
+ <table class="table table-sm table-bordered" style="width:auto;"> 
  <tbody>
  
  

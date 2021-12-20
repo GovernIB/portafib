@@ -16,7 +16,6 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_fluxdefirmes" )
 @SequenceGenerator(name="FLUXDEFIRMES_SEQ", sequenceName="pfi_fluxdefirmes_seq", allocationSize=1, initialValue=1000)

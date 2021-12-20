@@ -18,7 +18,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_entitat" )
 @SequenceGenerator(name="ENTITAT_SEQ", sequenceName="pfi_entitat_seq", allocationSize=1, initialValue=1000)

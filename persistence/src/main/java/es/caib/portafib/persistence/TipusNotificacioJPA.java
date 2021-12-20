@@ -13,7 +13,6 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_tipusnotificacio" )
 @SequenceGenerator(name="TIPUSNOTIFICACIO_SEQ", sequenceName="pfi_tipusnotificacio_seq", allocationSize=1, initialValue=1000)

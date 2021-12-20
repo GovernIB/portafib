@@ -1,7 +1,7 @@
 <%-- ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! --%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
   
-  <div class="navbar-form float-right">
+  <div class="navbar-form" style="text-align:right">
     <c:if test="${__theForm.saveButtonVisible}">
     <input type="submit" class="btn btn-primary" value="<fmt:message key="genapp.save"/>">
     </c:if>

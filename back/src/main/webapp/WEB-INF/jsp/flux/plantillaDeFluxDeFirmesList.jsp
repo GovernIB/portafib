@@ -10,7 +10,7 @@
   <div class="filterLine lead" style="margin-bootom:10px">
   <%@include file="../webdb/fluxDeFirmesListHeaderButtons.jsp" %>
   <%-- ADD HERE NEW HEADER BUTTONS (Multiple Select or similar to add item)  --%>
-  <a class="btn pull-right btn-small" role="button" data-toggle="modal"
+  <a class="btn float-right btn-small" role="button" data-toggle="modal"
     href="<c:url value="${contexte}/new"/>"> <i class="fas fa-plus-circle"></i>
    <fmt:message key="plantilla.crear" />
   </a>
@@ -43,7 +43,7 @@
   </c:if>
 
 
-  <table class="table table-condensed table-bordered table-striped" style="width:auto;"> 
+  <table class="table table-sm table-bordered table-striped" style="width:auto;"> 
     <thead>
       <tr>
           <%@include file="../webdb/fluxDeFirmesListCoreHeaderMultipleSelect.jsp" %>

@@ -16,7 +16,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_pluginfirmawebperusrapp"  , uniqueConstraints = {
             @UniqueConstraint(name="pfi_pfwpua_usuapp_plug_uk", columnNames={"usuariaplicacioid","pluginfirmawebid"}) } )

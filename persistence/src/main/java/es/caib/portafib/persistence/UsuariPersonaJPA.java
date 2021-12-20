@@ -17,7 +17,6 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_usuaripersona"  , uniqueConstraints = {
             @UniqueConstraint(name="pfi_persona_nif_extern_uk", columnNames={"nif","usuariintern"}) } )

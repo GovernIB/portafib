@@ -13,7 +13,7 @@
   <div class="module_content">
     <div class="tab_container">
     
-    <table class="tdformlabel table-condensed table table-bordered table-striped marTop10  " > 
+    <table class="tdformlabel table-sm table table-bordered table-striped marTop10  " > 
     <tbody>      
 
         <tr>
@@ -131,7 +131,7 @@
   </div>
 
   <br/>
-  <div class="navbar-form pull-right">
+  <div class="navbar-form float-right">
     <input id="submitbutton" type="submit" class="btn btn-primary" value="<fmt:message key="firmar"/>">
    </div>
  

@@ -13,7 +13,6 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_codibarres" )
 @SequenceGenerator(name="CODIBARRES_SEQ", sequenceName="pfi_codibarres_seq", allocationSize=1, initialValue=1000)

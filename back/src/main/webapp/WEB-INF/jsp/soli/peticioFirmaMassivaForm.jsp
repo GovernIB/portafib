@@ -8,7 +8,7 @@
 
 <fmt:message key="peticioFirmaMassiva.subtitol" />
 
-<table class="tdformlabel table-condensed table table-bordered table-striped marTop10" style="margin-bottom: 0px;">
+<table class="tdformlabel table-sm table table-bordered table-striped marTop10" style="margin-bottom: 0px;">
 <tbody>
   <tr>
       <td>

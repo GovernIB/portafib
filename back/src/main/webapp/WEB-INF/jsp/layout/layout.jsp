@@ -49,7 +49,7 @@
                <c:set var="href" value="href=\"${linktab}\"" />
                <a class="nav-link ${(pipella eq rol)?'active' : '' } " ${href}><fmt:message key="${rol}" />
                <c:if test="${not(empty avisos[rol])}">
-                 &nbsp; <span id="avisos_${rol}" class="badge badge-warning">${avisos[rol]}</span>
+                 &nbsp; <span id="avisos_${rol}" class="badge badge-pill badge-warning">${avisos[rol]}</span>
                </c:if>
                </a>
             </li>
@@ -60,7 +60,7 @@
                   <c:set var="href" value="href=\"${linktab}\"" />
                   <a class="nav-link ${(pipella eq 'ROLE_ADEN2')?'active' : '' }"   ${href}><fmt:message key="ROLE_ADEN2" />
                   <c:if test="${not(empty avisos['ROLE_ADEN2'])}">
-                    &nbsp; <span class="badge badge-warning">${avisos['ROLE_ADEN2']}</span>
+                    &nbsp; <span class="badge badge-pill badge-warning">${avisos['ROLE_ADEN2']}</span>
                   </c:if>
                   </a>
     

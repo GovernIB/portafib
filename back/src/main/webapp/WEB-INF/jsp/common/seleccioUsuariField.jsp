@@ -24,27 +24,27 @@ int maxitems=PropietatGlobalUtil.getMaxItemsToShowInAutocomplete(entitatID);
 
 <form:errors id="error_id" path="id" cssClass="errorField alert alert-danger" />
 <c:if test="${not empty seleccioUsuariForm.usuarisFavorits }">
-<div class="input-append">
+<div class="input-group">
 </c:if>
-  <input id="search${usuarimodalconfig}" class="input-xxlarge" autocomplete="off"  type="text" placeholder="<fmt:message key="${placeholder}"/>">
+  <input id="search${usuarimodalconfig}" class="w-75" autocomplete="off"  type="text" placeholder="<fmt:message key="${placeholder}"/>">
 <c:if test="${not empty seleccioUsuariForm.usuarisFavorits }">
-  <div class="btn-group">
-    <button id="search${usuarimodalconfig}favorit" class="btn dropdown-toggle" data-toggle="dropdown">
-        <i class="icon-star"></i>
+  <div class="dropdown">
+    <button id="search${usuarimodalconfig}favorit" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="far fa-star"></i>
         <span class="caret"></span>
     </button>
 
-    <ul class="dropdown-menu" style="right: 0; left: auto; max-height: 540px; overflow-y: auto; ">
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="right: 0; left: auto; max-height: 540px; overflow-y: auto; ">
       <c:set var="lastItem" value="" />
       <c:forEach var="favorit" items="${seleccioUsuariForm.usuarisFavorits}" >
          <c:set var="tmpNom" value="${favorit.value}" />
          <c:if  test="${(fn:startsWith(lastItem, '(*)') == true) && fn:startsWith(tmpNom, '(*)') == false}">
-            <li class="divider"></li>
+            <div class="dropdown-divider"></div>
          </c:if>
          <c:set var="lastItem" value="${tmpNom}" />
-         <li><a href="javascript:selectItem${usuarimodalconfig}('${favorit.key}','${pfi:escapeJavaScript(tmpNom)}')">${tmpNom}</a></li>
+         <a class="dropdown-item" href="javascript:selectItem${usuarimodalconfig}('${favorit.key}','${pfi:escapeJavaScript(tmpNom)}')">${tmpNom}</a>
       </c:forEach>
-    </ul>
+    </div>
   </div>
 </div>
 </c:if>

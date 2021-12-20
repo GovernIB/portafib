@@ -16,7 +16,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_propietatglobal"  , uniqueConstraints = {
             @UniqueConstraint(name="pfi_propietat_clau_entitat_uk", columnNames={"clau","entitatid"}) } )

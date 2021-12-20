@@ -13,7 +13,6 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_idioma" )
 @SequenceGenerator(name="IDIOMA_SEQ", sequenceName="pfi_idioma_seq", allocationSize=1, initialValue=1000)

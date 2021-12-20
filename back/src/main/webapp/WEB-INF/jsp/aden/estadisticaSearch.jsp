@@ -23,7 +23,7 @@
           <c:url var="thehref" value="${thelink}"/>
           <c:url var="thelink" value=""/>
       </c:if>
-      <a class="btn btn-small ${button.type} pull-right" style="${(empty button.type)? '' : 'color: white;'}"  href="${thehref}" onclick="${thelink}" title="<fmt:message key="${button.codeText}"/>">
+      <a class="btn btn-small ${button.type} float-right" style="${(empty button.type)? '' : 'color: white;'}"  href="${thehref}" onclick="${thelink}" title="<fmt:message key="${button.codeText}"/>">
           <i class="${button.icon}"></i>
           <fmt:message key="${button.codeText}"/>
       </a>

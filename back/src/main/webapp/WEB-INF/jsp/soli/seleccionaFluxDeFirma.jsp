@@ -14,12 +14,12 @@
 <c:url var="theAction" value="${contexte}/selectflux" />
 <form:form modelAttribute="seleccioFluxDeFirmesForm" method="post" action="${theAction}" name="seleccioFluxDeFirmesForm">
 
-<table class="table table-condensed table-bordered table-striped" style="width:auto;"> 
+<table class="table table-sm table-bordered table-striped" > 
 <tr>
   <td><label><fmt:message key="nom" />:</label></td>
   <td>
     <form:errors path="nom" cssClass="errorField alert alert-danger" />
-     <form:input cssClass="col-md-9-optional" path="nom"/>
+     <form:input cssClass="w-50" path="nom"/>
   </td>
 </tr>
 
@@ -28,7 +28,7 @@
   <td><label><fmt:message key="peticioDeFirma.solicitantUsuariAplicacioID" />:</label></td>
   <td>
     <form:errors path="usuariAplicacioID"  cssClass="errorField alert alert-danger" />
-    <form:input cssClass="input-xlarge" readonly="true" path="usuariAplicacioID"/>
+    <form:input cssClass="w-50" readonly="true" path="usuariAplicacioID"/>
   </td>
 </tr>
 </c:if>
@@ -43,7 +43,7 @@
 </c:if>
 
 
-<table class="table table-condensed table-bordered table-striped" style="width:auto;"> 
+<table class="table table-sm table-bordered table-striped" style="width:auto;"> 
 <tbody>
   <tr>
     <td style="width:200px">
@@ -64,7 +64,7 @@
 
 
 <c:if test="${not empty seleccioFluxDeFirmesForm.listOfFluxPlantillaUsuari}">
-<table class="table table-condensed table-bordered table-striped" style="width:auto;"> 
+<table class="table table-sm table-bordered table-striped w-75" style="width:auto;"> 
 <tbody>
   <tr>
     <td style="width:200px">
@@ -83,7 +83,7 @@
        </label>
     </td>
     <td>
-        <form:select id="fluxPlantillaUsuari" path="fluxPlantillaUsuari"  onchange="canviNom(this)" cssClass="col-md-9-optional">          
+        <form:select id="fluxPlantillaUsuari" path="fluxPlantillaUsuari" cssClass="w-75"  onchange="canviNom(this)">          
           <c:forEach items="${seleccioFluxDeFirmesForm.listOfFluxPlantillaUsuari}" var="tmp">
           <form:option value="${tmp.fluxDeFirmesID}"  >${tmp.nom} </form:option>
           </c:forEach>
@@ -98,7 +98,7 @@
 </c:if>
 
 <c:if test="${not empty seleccioFluxDeFirmesForm.listOfFluxPlantillaPersonaCompartit}">  
-<table class="table table-condensed table-bordered table-striped" style="width:auto;"> 
+<table class="table table-sm table-bordered table-striped w-75" style="width:auto;"> 
 <tbody>
   <tr>
     <td style="width:200px"> 
@@ -108,7 +108,7 @@
        </label>
     </td>
     <td>
-        <form:select id="fluxPlantillaPersonaCompartit" path="fluxPlantillaPersonaCompartit" onchange="canviNom(this)" cssClass="col-md-9-optional">          
+        <form:select id="fluxPlantillaPersonaCompartit" path="fluxPlantillaPersonaCompartit" cssClass="w-75" onchange="canviNom(this)" >          
           <c:forEach items="${seleccioFluxDeFirmesForm.listOfFluxPlantillaPersonaCompartit}" var="tmp">
           <form:option value="${tmp.fluxDeFirmesID}"  >${tmp.nom}</form:option>
           </c:forEach>
@@ -123,7 +123,7 @@
 </c:if>
 
 <c:if test="${not empty seleccioFluxDeFirmesForm.listOfFluxPlantillaAplicacioCompartit}">
-<table class="table table-condensed table-bordered table-striped" style="width:auto;"> 
+<table class="table table-sm table-bordered table-striped w-75" style="width:auto;"> 
 <tbody>
   <tr>
     <td style="width:200px">
@@ -133,7 +133,7 @@
        </label>
     </td>
     <td>
-        <form:select id="fluxPlantillaAplicacioCompartit" path="fluxPlantillaAplicacioCompartit" onchange="canviNom(this)" cssClass="col-md-9-optional">          
+        <form:select id="fluxPlantillaAplicacioCompartit" path="fluxPlantillaAplicacioCompartit" cssClass="w-75" onchange="canviNom(this)" >          
           <c:forEach items="${seleccioFluxDeFirmesForm.listOfFluxPlantillaAplicacioCompartit}" var="tmp">
           <form:option value="${tmp.fluxDeFirmesID}">${tmp.nom}  </form:option>
           </c:forEach>
@@ -148,7 +148,7 @@
 </c:if>
 
 <c:if test="${seleccioFluxDeFirmesForm.tipus != -1}">
-<button class="btn btn-primary" type="button" onclick="preSubmit()"  class="btn"><fmt:message key="acceptar"/></button>
+<center><button class="btn btn-primary" type="button" onclick="preSubmit()"  class="btn"><fmt:message key="acceptar"/></button></center>
 </c:if>
 <script type="text/javascript">
 

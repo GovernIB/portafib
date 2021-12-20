@@ -18,7 +18,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_firma" )
 @SequenceGenerator(name="FIRMA_SEQ", sequenceName="pfi_firma_seq", allocationSize=1, initialValue=1000)

@@ -18,7 +18,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_custodiainfo" )
 @SequenceGenerator(name="CUSTODIAINFO_SEQ", sequenceName="pfi_custodiainfo_seq", allocationSize=1, initialValue=1000)

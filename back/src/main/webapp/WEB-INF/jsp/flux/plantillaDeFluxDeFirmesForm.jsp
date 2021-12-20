@@ -1,3 +1,4 @@
+<%@page import="es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields"%>
 <%@ page contentType="text/html; charset=UTF-8" language="java"
 %><%@page import="es.caib.portafib.logic.utils.BlocUtils"
 %><%@page import="es.caib.portafib.logic.utils.FirmaUtils"
@@ -71,7 +72,10 @@
 
   </c:if>
 
-   
+  <style type="text/css">
+      .table-responsive { display:inline-table !important;} 
+  </style>
+
   <div class="module_content">
     <div class="tab_container">
 
@@ -103,7 +107,10 @@
            <%@include file="../webdb/fluxDeFirmesFormButtons.jsp" %>
         </c:if>
 
-        <br/>
+        <script type="text/javascript">
+           <%-- plantillaFluxDeFirmes.descripcio --%>
+           document.getElementById("<%=PlantillaFluxDeFirmesFields.DESCRIPCIO.getFullName()%>").rows=1;
+        </script> 
   
         <%-- Final de if de onlyFlux --%>
       </c:if>

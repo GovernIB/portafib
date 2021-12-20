@@ -16,7 +16,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_tipusdocumentcoladele"  , uniqueConstraints = {
             @UniqueConstraint(name="pfi_tipusdoccd_codetdoc_uk", columnNames={"colaboraciodelegacioid","tipusdocumentid"}) } )

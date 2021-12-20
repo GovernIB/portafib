@@ -16,7 +16,6 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "pfi_tipusdocument" )
 @SequenceGenerator(name="TIPUSDOCUMENT_SEQ", sequenceName="pfi_tipusdocument_seq", allocationSize=1, initialValue=1000)
