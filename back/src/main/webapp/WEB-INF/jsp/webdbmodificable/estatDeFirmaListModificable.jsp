@@ -99,7 +99,7 @@
 
      <%--  Boto de FIRMA MULTIPLE --%>
      var botoFirmaMultiple = '<button type="button" class="btn btn-small btn-success" onclick="firmarseleccionats()">'
-         + '<i class="icon-edit"></i><fmt:message key="firmarseleccionats" />'
+         + '<i class="fas fa-file-signature"></i><fmt:message key="firmarseleccionats" />'
          + '</button>';
 
      function firmarseleccionats() {

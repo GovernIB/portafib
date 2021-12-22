@@ -13,5 +13,5 @@
 <a href="<c:url value="/common/autofirma/download/${id}" />" target="_blank" class="btn btn-primary" style="color:white;">
  <fmt:message key="descarregardocumentfirmat"/>
 </a> &nbsp; 
-<a href="<c:url value="/common/autofirma/list" />" class="btn"><fmt:message key="tornar"/></a>
+<a href="<c:url value="/common/autofirma/list" />" class="btn btn-secondary"><fmt:message key="tornar"/></a>
 </center>

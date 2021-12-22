@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PermisGrupPlantillaFields.GRUPENTITATID])?'permisGrupPlantilla.grupEntitatID':__theForm.labels[PermisGrupPlantillaFields.GRUPENTITATID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PermisGrupPlantillaFields.GRUPENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PermisGrupPlantillaFields.GRUPENTITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="permisGrupPlantilla.grupEntitatID" cssClass="errorField alert alert-danger" />
@@ -38,10 +38,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PermisGrupPlantillaFields.PLANTILLAFLUXDEFIRMESID])?'permisGrupPlantilla.plantillaFluxDeFirmesID':__theForm.labels[PermisGrupPlantillaFields.PLANTILLAFLUXDEFIRMESID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PermisGrupPlantillaFields.PLANTILLAFLUXDEFIRMESID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PermisGrupPlantillaFields.PLANTILLAFLUXDEFIRMESID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="permisGrupPlantilla.plantillaFluxDeFirmesID" cssClass="errorField alert alert-danger" />

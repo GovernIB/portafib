@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstadisticaFields.DATA])?'estadistica.data':__theForm.labels[EstadisticaFields.DATA]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[EstadisticaFields.DATA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstadisticaFields.DATA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="estadistica.data" cssClass="errorField alert alert-danger" />
@@ -47,10 +47,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstadisticaFields.TIPUS])?'estadistica.tipus':__theForm.labels[EstadisticaFields.TIPUS]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[EstadisticaFields.TIPUS]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstadisticaFields.TIPUS]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="estadistica.tipus" cssClass="errorField alert alert-danger" />
@@ -78,10 +78,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstadisticaFields.ENTITATID])?'estadistica.entitatID':__theForm.labels[EstadisticaFields.ENTITATID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[EstadisticaFields.ENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstadisticaFields.ENTITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="estadistica.entitatID" cssClass="errorField alert alert-danger" />
@@ -118,14 +118,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstadisticaFields.VALOR])?'estadistica.valor':__theForm.labels[EstadisticaFields.VALOR]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[EstadisticaFields.VALOR]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstadisticaFields.VALOR]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="estadistica.valor" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstadisticaFields.VALOR)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EstadisticaFields.VALOR)? ' uneditable-input' : ''}"  style=""  path="estadistica.valor"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstadisticaFields.VALOR)? 'true' : 'false'}" cssClass="w-50 form-control  ${gen:contains(__theForm.readOnlyFields ,EstadisticaFields.VALOR)? ' uneditable-input' : ''}"  style=""  path="estadistica.valor"   />
 
            </td>
         </tr>
@@ -136,14 +136,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstadisticaFields.USUARIAPLICACIOID])?'estadistica.usuariAplicacioID':__theForm.labels[EstadisticaFields.USUARIAPLICACIOID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[EstadisticaFields.USUARIAPLICACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstadisticaFields.USUARIAPLICACIOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="estadistica.usuariAplicacioID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstadisticaFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EstadisticaFields.USUARIAPLICACIOID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="estadistica.usuariAplicacioID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstadisticaFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EstadisticaFields.USUARIAPLICACIOID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="estadistica.usuariAplicacioID"   />
 
            </td>
         </tr>
@@ -154,14 +154,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstadisticaFields.USUARIENTITATID])?'estadistica.usuariEntitatID':__theForm.labels[EstadisticaFields.USUARIENTITATID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[EstadisticaFields.USUARIENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstadisticaFields.USUARIENTITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="estadistica.usuariEntitatID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstadisticaFields.USUARIENTITATID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,EstadisticaFields.USUARIENTITATID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="estadistica.usuariEntitatID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstadisticaFields.USUARIENTITATID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EstadisticaFields.USUARIENTITATID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="estadistica.usuariEntitatID"   />
 
            </td>
         </tr>
@@ -172,10 +172,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstadisticaFields.PARAMETRES])?'estadistica.parametres':__theForm.labels[EstadisticaFields.PARAMETRES]}" />
+             </label>
               <c:if test="${not empty __theForm.help[EstadisticaFields.PARAMETRES]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstadisticaFields.PARAMETRES]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="estadistica.parametres" cssClass="errorField alert alert-danger" />

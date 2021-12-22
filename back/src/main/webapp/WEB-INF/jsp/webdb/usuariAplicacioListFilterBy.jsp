@@ -27,7 +27,7 @@
       
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key < 0 && not empty __entry.value.searchBy }">
-      <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+      <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
         <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
         <fmt:message key="genapp.form.searchby" var="cercaperAF" >
           <fmt:param>
@@ -91,7 +91,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.CALLBACKVERSIO)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="usuariAplicacio.callbackVersio" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -122,7 +122,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.ACTIU)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="usuariAplicacio.actiu" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -166,7 +166,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="usuariAplicacio.politicaDePluginFirmaWeb" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -184,7 +184,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.POLITICACUSTODIA)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="usuariAplicacio.politicaCustodia" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -202,7 +202,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.CUSTODIAINFOID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="usuariAplicacio.custodiaInfoID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -220,7 +220,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.CREARUSUARIS)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="usuariAplicacio.crearUsuaris" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -239,7 +239,7 @@
 
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key >= 0 && not empty __entry.value.searchBy }">
-      <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+      <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
         <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
         <fmt:message key="genapp.form.searchby" var="cercaperAF" >
           <fmt:param>

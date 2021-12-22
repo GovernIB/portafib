@@ -7,14 +7,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusNotificacioFields.TIPUSNOTIFICACIOID])?'tipusNotificacio.tipusNotificacioID':__theForm.labels[TipusNotificacioFields.TIPUSNOTIFICACIOID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[TipusNotificacioFields.TIPUSNOTIFICACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[TipusNotificacioFields.TIPUSNOTIFICACIOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="tipusNotificacio.tipusNotificacioID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.TIPUSNOTIFICACIOID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.TIPUSNOTIFICACIOID)? ' uneditable-input' : ''}"  style=""  path="tipusNotificacio.tipusNotificacioID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.TIPUSNOTIFICACIOID)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.TIPUSNOTIFICACIOID)? ' uneditable-input' : ''}"  style=""  path="tipusNotificacio.tipusNotificacioID"   />
 
            </td>
         </tr>
@@ -25,14 +25,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusNotificacioFields.NOM])?'tipusNotificacio.nom':__theForm.labels[TipusNotificacioFields.NOM]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[TipusNotificacioFields.NOM]}">
               <i class="fas fa-info-circle" title="${__theForm.help[TipusNotificacioFields.NOM]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="tipusNotificacio.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.NOM)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="tipusNotificacio.nom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.NOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="tipusNotificacio.nom"   />
 
            </td>
         </tr>
@@ -43,10 +43,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusNotificacioFields.DESCRIPCIO])?'tipusNotificacio.descripcio':__theForm.labels[TipusNotificacioFields.DESCRIPCIO]}" />
+             </label>
               <c:if test="${not empty __theForm.help[TipusNotificacioFields.DESCRIPCIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[TipusNotificacioFields.DESCRIPCIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="tipusNotificacio.descripcio" cssClass="errorField alert alert-danger" />
@@ -74,10 +74,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusNotificacioFields.ESAVIS])?'tipusNotificacio.esAvis':__theForm.labels[TipusNotificacioFields.ESAVIS]}" />
+             </label>
               <c:if test="${not empty __theForm.help[TipusNotificacioFields.ESAVIS]}">
               <i class="fas fa-info-circle" title="${__theForm.help[TipusNotificacioFields.ESAVIS]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.ESAVIS)}" >

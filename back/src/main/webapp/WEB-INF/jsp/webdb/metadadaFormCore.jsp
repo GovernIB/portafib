@@ -7,14 +7,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.NOM])?'metadada.nom':__theForm.labels[MetadadaFields.NOM]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[MetadadaFields.NOM]}">
               <i class="fas fa-info-circle" title="${__theForm.help[MetadadaFields.NOM]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="metadada.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="metadada.nom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="metadada.nom"   />
 
            </td>
         </tr>
@@ -25,10 +25,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.VALOR])?'metadada.valor':__theForm.labels[MetadadaFields.VALOR]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[MetadadaFields.VALOR]}">
               <i class="fas fa-info-circle" title="${__theForm.help[MetadadaFields.VALOR]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="metadada.valor" cssClass="errorField alert alert-danger" />
@@ -56,10 +56,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.DESCRIPCIO])?'metadada.descripcio':__theForm.labels[MetadadaFields.DESCRIPCIO]}" />
+             </label>
               <c:if test="${not empty __theForm.help[MetadadaFields.DESCRIPCIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[MetadadaFields.DESCRIPCIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="metadada.descripcio" cssClass="errorField alert alert-danger" />
@@ -87,10 +87,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.PETICIODEFIRMAID])?'metadada.peticioDeFirmaID':__theForm.labels[MetadadaFields.PETICIODEFIRMAID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[MetadadaFields.PETICIODEFIRMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[MetadadaFields.PETICIODEFIRMAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="metadada.peticioDeFirmaID" cssClass="errorField alert alert-danger" />
@@ -118,10 +118,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.TIPUSMETADADAID])?'metadada.tipusMetadadaID':__theForm.labels[MetadadaFields.TIPUSMETADADAID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[MetadadaFields.TIPUSMETADADAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[MetadadaFields.TIPUSMETADADAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="metadada.tipusMetadadaID" cssClass="errorField alert alert-danger" />

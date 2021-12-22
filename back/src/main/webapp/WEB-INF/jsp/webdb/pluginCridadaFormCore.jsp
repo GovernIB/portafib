@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginCridadaFields.ENTITATID])?'pluginCridada.entitatID':__theForm.labels[PluginCridadaFields.ENTITATID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PluginCridadaFields.ENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginCridadaFields.ENTITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="pluginCridada.entitatID" cssClass="errorField alert alert-danger" />
@@ -47,10 +47,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginCridadaFields.DATA])?'pluginCridada.data':__theForm.labels[PluginCridadaFields.DATA]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PluginCridadaFields.DATA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginCridadaFields.DATA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="pluginCridada.data" cssClass="errorField alert alert-danger" />
@@ -87,10 +87,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginCridadaFields.PLUGINID])?'pluginCridada.pluginID':__theForm.labels[PluginCridadaFields.PLUGINID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PluginCridadaFields.PLUGINID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginCridadaFields.PLUGINID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="pluginCridada.pluginID" cssClass="errorField alert alert-danger" />
@@ -118,14 +118,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginCridadaFields.METODEPLUGIN])?'pluginCridada.metodePlugin':__theForm.labels[PluginCridadaFields.METODEPLUGIN]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PluginCridadaFields.METODEPLUGIN]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginCridadaFields.METODEPLUGIN]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="pluginCridada.metodePlugin" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.METODEPLUGIN)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.METODEPLUGIN)? ' uneditable-input' : ''}"  style="" maxlength="100" path="pluginCridada.metodePlugin"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.METODEPLUGIN)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.METODEPLUGIN)? ' uneditable-input' : ''}"  style="" maxlength="100" path="pluginCridada.metodePlugin"   />
 
            </td>
         </tr>
@@ -136,10 +136,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginCridadaFields.PARAMETRESTEXT])?'pluginCridada.parametresText':__theForm.labels[PluginCridadaFields.PARAMETRESTEXT]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PluginCridadaFields.PARAMETRESTEXT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginCridadaFields.PARAMETRESTEXT]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="pluginCridada.parametresText" cssClass="errorField alert alert-danger" />
@@ -167,10 +167,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginCridadaFields.PARAMETRESFITXERID])?'pluginCridada.parametresFitxerID':__theForm.labels[PluginCridadaFields.PARAMETRESFITXERID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PluginCridadaFields.PARAMETRESFITXERID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginCridadaFields.PARAMETRESFITXERID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="pluginCridada.parametresFitxerID" cssClass="errorField alert alert-danger" />
@@ -180,7 +180,7 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.PARAMETRESFITXERID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.PARAMETRESFITXERID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.PARAMETRESFITXERID)? ' uneditable-input' : ''}"   path="parametresFitxerID" type="file" />
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.PARAMETRESFITXERID)? 'true' : 'false'}" cssClass="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.PARAMETRESFITXERID)? ' uneditable-input' : ''}"   path="parametresFitxerID" type="file" />
                   <label class="custom-file-label" for="parametresFitxerID">
                   </label>
                 </div>
@@ -223,10 +223,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginCridadaFields.RETORNTEXT])?'pluginCridada.retornText':__theForm.labels[PluginCridadaFields.RETORNTEXT]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PluginCridadaFields.RETORNTEXT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginCridadaFields.RETORNTEXT]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="pluginCridada.retornText" cssClass="errorField alert alert-danger" />
@@ -254,10 +254,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginCridadaFields.RETORNFITXERID])?'pluginCridada.retornFitxerID':__theForm.labels[PluginCridadaFields.RETORNFITXERID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PluginCridadaFields.RETORNFITXERID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginCridadaFields.RETORNFITXERID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="pluginCridada.retornFitxerID" cssClass="errorField alert alert-danger" />
@@ -267,7 +267,7 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.RETORNFITXERID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.RETORNFITXERID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.RETORNFITXERID)? ' uneditable-input' : ''}"   path="retornFitxerID" type="file" />
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.RETORNFITXERID)? 'true' : 'false'}" cssClass="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.RETORNFITXERID)? ' uneditable-input' : ''}"   path="retornFitxerID" type="file" />
                   <label class="custom-file-label" for="retornFitxerID">
                   </label>
                 </div>
@@ -310,14 +310,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginCridadaFields.TIPUSTESULTAT])?'pluginCridada.tipusTesultat':__theForm.labels[PluginCridadaFields.TIPUSTESULTAT]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PluginCridadaFields.TIPUSTESULTAT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginCridadaFields.TIPUSTESULTAT]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="pluginCridada.tipusTesultat" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TIPUSTESULTAT)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TIPUSTESULTAT)? ' uneditable-input' : ''}"  style=""  path="pluginCridada.tipusTesultat"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TIPUSTESULTAT)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TIPUSTESULTAT)? ' uneditable-input' : ''}"  style=""  path="pluginCridada.tipusTesultat"   />
 
            </td>
         </tr>
@@ -328,14 +328,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginCridadaFields.TEMPSEXECUCIO])?'pluginCridada.tempsExecucio':__theForm.labels[PluginCridadaFields.TEMPSEXECUCIO]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PluginCridadaFields.TEMPSEXECUCIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginCridadaFields.TEMPSEXECUCIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="pluginCridada.tempsExecucio" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TEMPSEXECUCIO)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TEMPSEXECUCIO)? ' uneditable-input' : ''}"  style=""  path="pluginCridada.tempsExecucio"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TEMPSEXECUCIO)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TEMPSEXECUCIO)? ' uneditable-input' : ''}"  style=""  path="pluginCridada.tempsExecucio"   />
 
            </td>
         </tr>

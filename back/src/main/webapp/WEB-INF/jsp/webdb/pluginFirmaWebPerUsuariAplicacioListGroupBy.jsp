@@ -33,16 +33,15 @@
   <c:if test="${fn:length(groupby_items) > 0}">
  <fmt:message var="buit" key="genapp.notdefined" />
   
-  <div id="GroupDiv" class="wellgroupfilter" style="${displayGroupDiv} padding: 1px; margin-right: 4px;  float: left; ">
-      
-      <div class="float-right" style="padding-left:2px">
-            <div class="span10">
-               <i title="<fmt:message key="genapp.form.hidegroupby"/>" onclick="document.getElementById('GroupDiv').style.display='none'; document.getElementById('GroupButton').style.display='inline';" class="fas fa-trash"></i>
-            </div>
+  <div id="GroupDiv" class="wellgroupfilter" style="${displayGroupDiv} padding:1px; margin-right:4px; float:left; ">
+      <div  style="text-align:right">
+           <a style="margin-right:4px" href="#">
+               <i title="<fmt:message key="genapp.form.hidegroupby"/>" onclick="document.getElementById('GroupDiv').style.display='none'; document.getElementById('GroupButton').style.display='inline';" class="far fa-window-close"></i>
+            </a>
       </div>
 
 
-      <div id="tree"></div>
+<style> ul.gj-list-bootstrap li [data-role=display]{padding:0px 0px 0px 0px;}  ul.gj-list-bootstrap li [data-role=expander].gj-tree-material-icons-expander { padding-top: 0px; padding-bottom: 0px; } </style>      <div id="tree"></div>
       
       <script>
       

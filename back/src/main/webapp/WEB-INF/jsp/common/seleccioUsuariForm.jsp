@@ -1,15 +1,12 @@
-<%@page import="es.caib.portafib.utils.Configuracio"%>
-<%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
-
-
+<%@page import="org.fundaciobit.genapp.common.web.html.HtmlCSS"
+%><%@page import="es.caib.portafib.utils.Configuracio"
+%><%@include file="/WEB-INF/jsp/moduls/includes.jsp"
+%>
 <form:form modelAttribute="seleccioUsuariForm" method="post" name="seleccioUsuariForm">
 
+<%=HtmlCSS.TITOL_BEGIN %><fmt:message key="${seleccioUsuariForm.titol}" /><%=HtmlCSS.TITOL_END %>
 
-
-<h3 class="tabs_involved">
-  <fmt:message key="${seleccioUsuariForm.titol}" />
-</h3>
-
+<%=HtmlCSS.SUBTITOL_BEGIN %>
 <c:set var="subtitleTranslated" value="${fn:startsWith(seleccioUsuariForm.subtitol,'=')}" />
 <c:if test="${subtitleTranslated}">
    <c:out value="${fn:substringAfter(seleccioUsuariForm.subtitol, '=')}"/>
@@ -17,6 +14,7 @@
 <c:if test="${not subtitleTranslated}">
   <fmt:message key="${seleccioUsuariForm.subtitol}" />
 </c:if>
+<%=HtmlCSS.SUBTITOL_END %>
 
 <table class="tdformlabel table-sm table table-bordered table-striped marTop10" style="margin-bottom: 0px;">
 <tbody>

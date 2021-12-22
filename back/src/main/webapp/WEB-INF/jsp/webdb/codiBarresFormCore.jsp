@@ -7,14 +7,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CodiBarresFields.CODIBARRESID])?'codiBarres.codiBarresID':__theForm.labels[CodiBarresFields.CODIBARRESID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[CodiBarresFields.CODIBARRESID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CodiBarresFields.CODIBARRESID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="codiBarres.codiBarresID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? ' uneditable-input' : ''}"  style="" maxlength="255" path="codiBarres.codiBarresID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? ' uneditable-input' : ''}"  style="" maxlength="255" path="codiBarres.codiBarresID"   />
 
            </td>
         </tr>
@@ -25,14 +25,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CodiBarresFields.NOM])?'codiBarres.nom':__theForm.labels[CodiBarresFields.NOM]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[CodiBarresFields.NOM]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CodiBarresFields.NOM]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="codiBarres.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="codiBarres.nom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="codiBarres.nom"   />
 
            </td>
         </tr>
@@ -43,10 +43,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CodiBarresFields.DESCRIPCIO])?'codiBarres.descripcio':__theForm.labels[CodiBarresFields.DESCRIPCIO]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CodiBarresFields.DESCRIPCIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CodiBarresFields.DESCRIPCIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="codiBarres.descripcio" cssClass="errorField alert alert-danger" />

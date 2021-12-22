@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RoleUsuariEntitatFields.ROLEID])?'roleUsuariEntitat.roleID':__theForm.labels[RoleUsuariEntitatFields.ROLEID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[RoleUsuariEntitatFields.ROLEID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[RoleUsuariEntitatFields.ROLEID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="roleUsuariEntitat.roleID" cssClass="errorField alert alert-danger" />
@@ -38,10 +38,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RoleUsuariEntitatFields.USUARIENTITATID])?'roleUsuariEntitat.usuariEntitatID':__theForm.labels[RoleUsuariEntitatFields.USUARIENTITATID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[RoleUsuariEntitatFields.USUARIENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[RoleUsuariEntitatFields.USUARIENTITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="roleUsuariEntitat.usuariEntitatID" cssClass="errorField alert alert-danger" />

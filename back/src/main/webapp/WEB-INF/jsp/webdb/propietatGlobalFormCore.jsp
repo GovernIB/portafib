@@ -7,14 +7,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PropietatGlobalFields.CLAU])?'propietatGlobal.clau':__theForm.labels[PropietatGlobalFields.CLAU]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PropietatGlobalFields.CLAU]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PropietatGlobalFields.CLAU]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="propietatGlobal.clau" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PropietatGlobalFields.CLAU)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PropietatGlobalFields.CLAU)? ' uneditable-input' : ''}"  style="" maxlength="255" path="propietatGlobal.clau"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PropietatGlobalFields.CLAU)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PropietatGlobalFields.CLAU)? ' uneditable-input' : ''}"  style="" maxlength="255" path="propietatGlobal.clau"   />
 
            </td>
         </tr>
@@ -25,10 +25,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PropietatGlobalFields.VALOR])?'propietatGlobal.valor':__theForm.labels[PropietatGlobalFields.VALOR]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PropietatGlobalFields.VALOR]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PropietatGlobalFields.VALOR]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="propietatGlobal.valor" cssClass="errorField alert alert-danger" />
@@ -56,10 +56,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PropietatGlobalFields.ENTITATID])?'propietatGlobal.entitatID':__theForm.labels[PropietatGlobalFields.ENTITATID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PropietatGlobalFields.ENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PropietatGlobalFields.ENTITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="propietatGlobal.entitatID" cssClass="errorField alert alert-danger" />
@@ -96,10 +96,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PropietatGlobalFields.DESCRIPCIO])?'propietatGlobal.descripcio':__theForm.labels[PropietatGlobalFields.DESCRIPCIO]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PropietatGlobalFields.DESCRIPCIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PropietatGlobalFields.DESCRIPCIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="propietatGlobal.descripcio" cssClass="errorField alert alert-danger" />

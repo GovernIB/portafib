@@ -7,14 +7,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.NOM])?'usuariAplicacioConfiguracio.nom':__theForm.labels[UsuariAplicacioConfiguracioFields.NOM]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.NOM]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.NOM]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="usuariAplicacioConfiguracio.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.NOM)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="usuariAplicacioConfiguracio.nom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.NOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="usuariAplicacioConfiguracio.nom"   />
 
            </td>
         </tr>
@@ -25,10 +25,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.ENTITATID])?'usuariAplicacioConfiguracio.entitatID':__theForm.labels[UsuariAplicacioConfiguracioFields.ENTITATID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.ENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.ENTITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="usuariAplicacioConfiguracio.entitatID" cssClass="errorField alert alert-danger" />
@@ -56,10 +56,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR])?'usuariAplicacioConfiguracio.usEnFirmaApiSimpleServidor':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR)}" >
@@ -78,10 +78,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB])?'usuariAplicacioConfiguracio.usEnFirmaApiSimpleWeb':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB)}" >
@@ -100,10 +100,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAWEB])?'usuariAplicacioConfiguracio.usEnFirmaWeb':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAWEB]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAWEB]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAWEB]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWEB)}" >
@@ -122,10 +122,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAWS1])?'usuariAplicacioConfiguracio.usEnFirmaWS1':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAWS1]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAWS1]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAWS1]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWS1)}" >
@@ -144,10 +144,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2])?'usuariAplicacioConfiguracio.usEnFirmaAsyncRest2':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2)}" >
@@ -166,10 +166,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR])?'usuariAplicacioConfiguracio.usEnFirmaPassarelaServidor':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR)}" >
@@ -188,10 +188,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB])?'usuariAplicacioConfiguracio.usEnFirmaPassarelaWeb':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB)}" >
@@ -210,10 +210,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.FILTRECERTIFICATS])?'usuariAplicacioConfiguracio.filtreCertificats':__theForm.labels[UsuariAplicacioConfiguracioFields.FILTRECERTIFICATS]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.FILTRECERTIFICATS]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.FILTRECERTIFICATS]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="usuariAplicacioConfiguracio.filtreCertificats" cssClass="errorField alert alert-danger" />
@@ -241,10 +241,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.TIPUSOPERACIOFIRMA])?'usuariAplicacioConfiguracio.tipusOperacioFirma':__theForm.labels[UsuariAplicacioConfiguracioFields.TIPUSOPERACIOFIRMA]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.TIPUSOPERACIOFIRMA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.TIPUSOPERACIOFIRMA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="usuariAplicacioConfiguracio.tipusOperacioFirma" cssClass="errorField alert alert-danger" />
@@ -272,10 +272,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.TIPUSFIRMAID])?'usuariAplicacioConfiguracio.tipusFirmaID':__theForm.labels[UsuariAplicacioConfiguracioFields.TIPUSFIRMAID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.TIPUSFIRMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.TIPUSFIRMAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="usuariAplicacioConfiguracio.tipusFirmaID" cssClass="errorField alert alert-danger" />
@@ -303,10 +303,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.ALGORISMEDEFIRMAID])?'usuariAplicacioConfiguracio.algorismeDeFirmaID':__theForm.labels[UsuariAplicacioConfiguracioFields.ALGORISMEDEFIRMAID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.ALGORISMEDEFIRMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.ALGORISMEDEFIRMAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="usuariAplicacioConfiguracio.algorismeDeFirmaID" cssClass="errorField alert alert-danger" />
@@ -343,10 +343,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.MODEDEFIRMA])?'usuariAplicacioConfiguracio.modeDeFirma':__theForm.labels[UsuariAplicacioConfiguracioFields.MODEDEFIRMA]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.MODEDEFIRMA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.MODEDEFIRMA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MODEDEFIRMA)}" >
@@ -367,10 +367,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA])?'usuariAplicacioConfiguracio.usPoliticaDeFirma':__theForm.labels[UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="usuariAplicacioConfiguracio.usPoliticaDeFirma" cssClass="errorField alert alert-danger" />
@@ -398,14 +398,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER])?'usuariAplicacioConfiguracio.policyIdentifier':__theForm.labels[UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="usuariAplicacioConfiguracio.policyIdentifier" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariAplicacioConfiguracio.policyIdentifier"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariAplicacioConfiguracio.policyIdentifier"   />
 
            </td>
         </tr>
@@ -416,14 +416,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH])?'usuariAplicacioConfiguracio.policyIdentifierHash':__theForm.labels[UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="usuariAplicacioConfiguracio.policyIdentifierHash" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH)? ' uneditable-input' : ''}"  style="" maxlength="256" path="usuariAplicacioConfiguracio.policyIdentifierHash"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH)? ' uneditable-input' : ''}"  style="" maxlength="256" path="usuariAplicacioConfiguracio.policyIdentifierHash"   />
 
            </td>
         </tr>
@@ -434,14 +434,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM])?'usuariAplicacioConfiguracio.policyIdentifierHashAlgorithm':__theForm.labels[UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="usuariAplicacioConfiguracio.policyIdentifierHashAlgorithm" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="usuariAplicacioConfiguracio.policyIdentifierHashAlgorithm"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="usuariAplicacioConfiguracio.policyIdentifierHashAlgorithm"   />
 
            </td>
         </tr>
@@ -452,14 +452,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT])?'usuariAplicacioConfiguracio.policyUrlDocument':__theForm.labels[UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="usuariAplicacioConfiguracio.policyUrlDocument" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="usuariAplicacioConfiguracio.policyUrlDocument"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="usuariAplicacioConfiguracio.policyUrlDocument"   />
 
            </td>
         </tr>
@@ -470,10 +470,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID])?'usuariAplicacioConfiguracio.motiuDelegacioID':__theForm.labels[UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
        <form:errors path="usuariAplicacioConfiguracio.motiuDelegacio" cssClass="errorField alert alert-danger" />
@@ -490,7 +490,7 @@
            <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
            <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="${counter.index}_tab_motiuDelegacio_${idioma.idiomaID}">
                <form:errors path="usuariAplicacioConfiguracio.motiuDelegacio.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-danger"/>
-               <form:input path="usuariAplicacioConfiguracio.motiuDelegacio.traduccions['${idioma.idiomaID}'].valor" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)? ' uneditable-input' : ''}" readonly="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}" maxlength="4000" />
+               <form:input path="usuariAplicacioConfiguracio.motiuDelegacio.traduccions['${idioma.idiomaID}'].valor" cssClass="form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)? ' uneditable-input' : ''}" readonly="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}" maxlength="4000" />
            </div>
            </c:forEach>
          </div>
@@ -505,10 +505,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES])?'usuariAplicacioConfiguracio.politicaTaulaFirmes':__theForm.labels[UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="usuariAplicacioConfiguracio.politicaTaulaFirmes" cssClass="errorField alert alert-danger" />
@@ -536,10 +536,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID])?'usuariAplicacioConfiguracio.posicioTaulaFirmesID':__theForm.labels[UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="usuariAplicacioConfiguracio.posicioTaulaFirmesID" cssClass="errorField alert alert-danger" />
@@ -567,10 +567,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID])?'usuariAplicacioConfiguracio.firmatPerFormatID':__theForm.labels[UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
        <form:errors path="usuariAplicacioConfiguracio.firmatPerFormat" cssClass="errorField alert alert-danger" />
@@ -587,7 +587,7 @@
            <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
            <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="${counter.index}_tab_firmatPerFormat_${idioma.idiomaID}">
                <form:errors path="usuariAplicacioConfiguracio.firmatPerFormat.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-danger"/>
-               <form:input path="usuariAplicacioConfiguracio.firmatPerFormat.traduccions['${idioma.idiomaID}'].valor" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)? ' uneditable-input' : ''}" readonly="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}" maxlength="4000" />
+               <form:input path="usuariAplicacioConfiguracio.firmatPerFormat.traduccions['${idioma.idiomaID}'].valor" cssClass="form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)? ' uneditable-input' : ''}" readonly="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}" maxlength="4000" />
            </div>
            </c:forEach>
          </div>
@@ -602,10 +602,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES])?'usuariAplicacioConfiguracio.propietatsTaulaFirmes':__theForm.labels[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="usuariAplicacioConfiguracio.propietatsTaulaFirmes" cssClass="errorField alert alert-danger" />
@@ -633,10 +633,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS])?'usuariAplicacioConfiguracio.politicaSegellatDeTemps':__theForm.labels[UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="usuariAplicacioConfiguracio.politicaSegellatDeTemps" cssClass="errorField alert alert-danger" />
@@ -664,10 +664,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.PLUGINSEGELLATID])?'usuariAplicacioConfiguracio.pluginSegellatID':__theForm.labels[UsuariAplicacioConfiguracioFields.PLUGINSEGELLATID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.PLUGINSEGELLATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.PLUGINSEGELLATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="usuariAplicacioConfiguracio.pluginSegellatID" cssClass="errorField alert alert-danger" />
@@ -704,10 +704,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB])?'usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb':__theForm.labels[UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb" cssClass="errorField alert alert-danger" />
@@ -735,10 +735,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID])?'usuariAplicacioConfiguracio.pluginFirmaServidorID':__theForm.labels[UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="usuariAplicacioConfiguracio.pluginFirmaServidorID" cssClass="errorField alert alert-danger" />
@@ -775,10 +775,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT])?'usuariAplicacioConfiguracio.upgradeSignFormat':__theForm.labels[UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="usuariAplicacioConfiguracio.upgradeSignFormat" cssClass="errorField alert alert-danger" />
@@ -815,10 +815,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.VALIDARFIRMA])?'usuariAplicacioConfiguracio.validarFirma':__theForm.labels[UsuariAplicacioConfiguracioFields.VALIDARFIRMA]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.VALIDARFIRMA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.VALIDARFIRMA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}" >
@@ -840,10 +840,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.CHECKCANVIATDOCFIRMAT])?'usuariAplicacioConfiguracio.checkCanviatDocFirmat':__theForm.labels[UsuariAplicacioConfiguracioFields.CHECKCANVIATDOCFIRMAT]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.CHECKCANVIATDOCFIRMAT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.CHECKCANVIATDOCFIRMAT]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.CHECKCANVIATDOCFIRMAT)}" >
@@ -865,10 +865,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA])?'usuariAplicacioConfiguracio.comprovarNifFirma':__theForm.labels[UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA)}" >
@@ -890,10 +890,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.VALIDARCERTIFICAT])?'usuariAplicacioConfiguracio.validarCertificat':__theForm.labels[UsuariAplicacioConfiguracioFields.VALIDARCERTIFICAT]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.VALIDARCERTIFICAT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.VALIDARCERTIFICAT]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.VALIDARCERTIFICAT)}" >
@@ -915,10 +915,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.ESDEPETICIO])?'usuariAplicacioConfiguracio.esDePeticio':__theForm.labels[UsuariAplicacioConfiguracioFields.ESDEPETICIO]}" />
+             </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.ESDEPETICIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioConfiguracioFields.ESDEPETICIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.ESDEPETICIO)}" >

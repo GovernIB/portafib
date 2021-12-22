@@ -7,14 +7,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.TITOL])?'peticioDeFirma.titol':__theForm.labels[PeticioDeFirmaFields.TITOL]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.TITOL]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.TITOL]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="peticioDeFirma.titol" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TITOL)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TITOL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.titol"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TITOL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TITOL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.titol"   />
 
            </td>
         </tr>
@@ -25,14 +25,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.DESCRIPCIO])?'peticioDeFirma.descripcio':__theForm.labels[PeticioDeFirmaFields.DESCRIPCIO]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.DESCRIPCIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.DESCRIPCIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="peticioDeFirma.descripcio" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIO)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIO)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.descripcio"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIO)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIO)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.descripcio"   />
 
            </td>
         </tr>
@@ -43,14 +43,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.MOTIU])?'peticioDeFirma.motiu':__theForm.labels[PeticioDeFirmaFields.MOTIU]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.MOTIU]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.MOTIU]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="peticioDeFirma.motiu" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MOTIU)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MOTIU)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.motiu"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MOTIU)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MOTIU)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.motiu"   />
 
            </td>
         </tr>
@@ -61,10 +61,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.FITXERAFIRMARID])?'peticioDeFirma.fitxerAFirmarID':__theForm.labels[PeticioDeFirmaFields.FITXERAFIRMARID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.FITXERAFIRMARID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.FITXERAFIRMARID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="peticioDeFirma.fitxerAFirmarID" cssClass="errorField alert alert-danger" />
@@ -74,7 +74,7 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FITXERAFIRMARID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FITXERAFIRMARID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FITXERAFIRMARID)? ' uneditable-input' : ''}"   path="fitxerAFirmarID" type="file" />
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FITXERAFIRMARID)? 'true' : 'false'}" cssClass="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FITXERAFIRMARID)? ' uneditable-input' : ''}"   path="fitxerAFirmarID" type="file" />
                   <label class="custom-file-label" for="fitxerAFirmarID">
                   </label>
                 </div>
@@ -117,10 +117,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID])?'peticioDeFirma.firmaOriginalDetachedID':__theForm.labels[PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="peticioDeFirma.firmaOriginalDetachedID" cssClass="errorField alert alert-danger" />
@@ -130,7 +130,7 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID)? ' uneditable-input' : ''}"   path="firmaOriginalDetachedID" type="file" />
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID)? 'true' : 'false'}" cssClass="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID)? ' uneditable-input' : ''}"   path="firmaOriginalDetachedID" type="file" />
                   <label class="custom-file-label" for="firmaOriginalDetachedID">
                   </label>
                 </div>
@@ -173,10 +173,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.FITXERADAPTATID])?'peticioDeFirma.fitxerAdaptatID':__theForm.labels[PeticioDeFirmaFields.FITXERADAPTATID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.FITXERADAPTATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.FITXERADAPTATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="peticioDeFirma.fitxerAdaptatID" cssClass="errorField alert alert-danger" />
@@ -186,7 +186,7 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FITXERADAPTATID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FITXERADAPTATID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FITXERADAPTATID)? ' uneditable-input' : ''}"   path="fitxerAdaptatID" type="file" />
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FITXERADAPTATID)? 'true' : 'false'}" cssClass="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FITXERADAPTATID)? ' uneditable-input' : ''}"   path="fitxerAdaptatID" type="file" />
                   <label class="custom-file-label" for="fitxerAdaptatID">
                   </label>
                 </div>
@@ -229,10 +229,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.TIPUSDOCUMENTID])?'peticioDeFirma.tipusDocumentID':__theForm.labels[PeticioDeFirmaFields.TIPUSDOCUMENTID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.TIPUSDOCUMENTID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.TIPUSDOCUMENTID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.tipusDocumentID" cssClass="errorField alert alert-danger" />
@@ -260,14 +260,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT])?'peticioDeFirma.descripcioTipusDocument':__theForm.labels[PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="peticioDeFirma.descripcioTipusDocument" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.descripcioTipusDocument"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.descripcioTipusDocument"   />
 
            </td>
         </tr>
@@ -278,10 +278,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.DATASOLICITUD])?'peticioDeFirma.dataSolicitud':__theForm.labels[PeticioDeFirmaFields.DATASOLICITUD]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.DATASOLICITUD]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.DATASOLICITUD]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="peticioDeFirma.dataSolicitud" cssClass="errorField alert alert-danger" />
@@ -318,10 +318,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.DATAFINAL])?'peticioDeFirma.dataFinal':__theForm.labels[PeticioDeFirmaFields.DATAFINAL]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.DATAFINAL]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.DATAFINAL]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="peticioDeFirma.dataFinal" cssClass="errorField alert alert-danger" />
@@ -358,10 +358,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.DATACADUCITAT])?'peticioDeFirma.dataCaducitat':__theForm.labels[PeticioDeFirmaFields.DATACADUCITAT]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.DATACADUCITAT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.DATACADUCITAT]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="peticioDeFirma.dataCaducitat" cssClass="errorField alert alert-danger" />
@@ -398,10 +398,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA])?'peticioDeFirma.tipusOperacioFirma':__theForm.labels[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.tipusOperacioFirma" cssClass="errorField alert alert-danger" />
@@ -429,10 +429,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.TIPUSFIRMAID])?'peticioDeFirma.tipusFirmaID':__theForm.labels[PeticioDeFirmaFields.TIPUSFIRMAID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.TIPUSFIRMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.TIPUSFIRMAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.tipusFirmaID" cssClass="errorField alert alert-danger" />
@@ -460,10 +460,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.ALGORISMEDEFIRMAID])?'peticioDeFirma.algorismeDeFirmaID':__theForm.labels[PeticioDeFirmaFields.ALGORISMEDEFIRMAID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.ALGORISMEDEFIRMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.ALGORISMEDEFIRMAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.algorismeDeFirmaID" cssClass="errorField alert alert-danger" />
@@ -491,10 +491,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.MODEDEFIRMA])?'peticioDeFirma.modeDeFirma':__theForm.labels[PeticioDeFirmaFields.MODEDEFIRMA]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.MODEDEFIRMA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.MODEDEFIRMA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MODEDEFIRMA)}" >
@@ -515,10 +515,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.POSICIOTAULAFIRMESID])?'peticioDeFirma.posicioTaulaFirmesID':__theForm.labels[PeticioDeFirmaFields.POSICIOTAULAFIRMESID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.POSICIOTAULAFIRMESID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.POSICIOTAULAFIRMESID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.posicioTaulaFirmesID" cssClass="errorField alert alert-danger" />
@@ -546,10 +546,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID])?'peticioDeFirma.tipusEstatPeticioDeFirmaID':__theForm.labels[PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.tipusEstatPeticioDeFirmaID" cssClass="errorField alert alert-danger" />
@@ -577,10 +577,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.MOTIUDEREBUIG])?'peticioDeFirma.motiuDeRebuig':__theForm.labels[PeticioDeFirmaFields.MOTIUDEREBUIG]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.MOTIUDEREBUIG]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.MOTIUDEREBUIG]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="peticioDeFirma.motiuDeRebuig" cssClass="errorField alert alert-danger" />
@@ -608,10 +608,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.IDIOMAID])?'peticioDeFirma.idiomaID':__theForm.labels[PeticioDeFirmaFields.IDIOMAID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.IDIOMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.IDIOMAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.idiomaID" cssClass="errorField alert alert-danger" />
@@ -639,10 +639,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.PRIORITATID])?'peticioDeFirma.prioritatID':__theForm.labels[PeticioDeFirmaFields.PRIORITATID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.PRIORITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.PRIORITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.prioritatID" cssClass="errorField alert alert-danger" />
@@ -670,10 +670,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.FLUXDEFIRMESID])?'peticioDeFirma.fluxDeFirmesID':__theForm.labels[PeticioDeFirmaFields.FLUXDEFIRMESID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.FLUXDEFIRMESID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.FLUXDEFIRMESID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.fluxDeFirmesID" cssClass="errorField alert alert-danger" />
@@ -701,10 +701,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID])?'peticioDeFirma.solicitantUsuariAplicacioID':__theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.solicitantUsuariAplicacioID" cssClass="errorField alert alert-danger" />
@@ -732,14 +732,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.REMITENTNOM])?'peticioDeFirma.remitentNom':__theForm.labels[PeticioDeFirmaFields.REMITENTNOM]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.REMITENTNOM]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.REMITENTNOM]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="peticioDeFirma.remitentNom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTNOM)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTNOM)? ' uneditable-input' : ''}"  style="" maxlength="100" path="peticioDeFirma.remitentNom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTNOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTNOM)? ' uneditable-input' : ''}"  style="" maxlength="100" path="peticioDeFirma.remitentNom"   />
 
            </td>
         </tr>
@@ -750,14 +750,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.REMITENTDESCRIPCIO])?'peticioDeFirma.remitentDescripcio':__theForm.labels[PeticioDeFirmaFields.REMITENTDESCRIPCIO]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.REMITENTDESCRIPCIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.REMITENTDESCRIPCIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="peticioDeFirma.remitentDescripcio" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTDESCRIPCIO)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTDESCRIPCIO)? ' uneditable-input' : ''}"  style="" maxlength="500" path="peticioDeFirma.remitentDescripcio"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTDESCRIPCIO)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTDESCRIPCIO)? ' uneditable-input' : ''}"  style="" maxlength="500" path="peticioDeFirma.remitentDescripcio"   />
 
            </td>
         </tr>
@@ -768,14 +768,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.EXPEDIENTCODI])?'peticioDeFirma.expedientCodi':__theForm.labels[PeticioDeFirmaFields.EXPEDIENTCODI]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.EXPEDIENTCODI]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.EXPEDIENTCODI]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="peticioDeFirma.expedientCodi" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTCODI)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTCODI)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.expedientCodi"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTCODI)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTCODI)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.expedientCodi"   />
 
            </td>
         </tr>
@@ -786,14 +786,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.EXPEDIENTNOM])?'peticioDeFirma.expedientNom':__theForm.labels[PeticioDeFirmaFields.EXPEDIENTNOM]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.EXPEDIENTNOM]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.EXPEDIENTNOM]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="peticioDeFirma.expedientNom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTNOM)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTNOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.expedientNom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTNOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTNOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.expedientNom"   />
 
            </td>
         </tr>
@@ -804,14 +804,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.EXPEDIENTURL])?'peticioDeFirma.expedientUrl':__theForm.labels[PeticioDeFirmaFields.EXPEDIENTURL]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.EXPEDIENTURL]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.EXPEDIENTURL]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="peticioDeFirma.expedientUrl" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTURL)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTURL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.expedientUrl"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTURL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTURL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.expedientUrl"   />
 
            </td>
         </tr>
@@ -822,14 +822,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.PROCEDIMENTCODI])?'peticioDeFirma.procedimentCodi':__theForm.labels[PeticioDeFirmaFields.PROCEDIMENTCODI]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.PROCEDIMENTCODI]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.PROCEDIMENTCODI]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="peticioDeFirma.procedimentCodi" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTCODI)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTCODI)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.procedimentCodi"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTCODI)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTCODI)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.procedimentCodi"   />
 
            </td>
         </tr>
@@ -840,14 +840,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.PROCEDIMENTNOM])?'peticioDeFirma.procedimentNom':__theForm.labels[PeticioDeFirmaFields.PROCEDIMENTNOM]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.PROCEDIMENTNOM]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.PROCEDIMENTNOM]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="peticioDeFirma.procedimentNom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTNOM)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTNOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.procedimentNom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTNOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTNOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.procedimentNom"   />
 
            </td>
         </tr>
@@ -858,10 +858,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.INFORMACIOADDICIONAL])?'peticioDeFirma.informacioAddicional':__theForm.labels[PeticioDeFirmaFields.INFORMACIOADDICIONAL]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.INFORMACIOADDICIONAL]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.INFORMACIOADDICIONAL]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="peticioDeFirma.informacioAddicional" cssClass="errorField alert alert-danger" />
@@ -889,14 +889,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE])?'peticioDeFirma.informacioAddicionalAvaluable':__theForm.labels[PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="peticioDeFirma.informacioAddicionalAvaluable" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE)? ' uneditable-input' : ''}"  style=""  path="peticioDeFirma.informacioAddicionalAvaluable"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE)? 'true' : 'false'}" cssClass="w-50 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE)? ' uneditable-input' : ''}"  style=""  path="peticioDeFirma.informacioAddicionalAvaluable"   />
 
            </td>
         </tr>
@@ -907,10 +907,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.LOGOSEGELLID])?'peticioDeFirma.logoSegellID':__theForm.labels[PeticioDeFirmaFields.LOGOSEGELLID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.LOGOSEGELLID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.LOGOSEGELLID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="peticioDeFirma.logoSegellID" cssClass="errorField alert alert-danger" />
@@ -920,7 +920,7 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.LOGOSEGELLID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.LOGOSEGELLID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.LOGOSEGELLID)? ' uneditable-input' : ''}"   path="logoSegellID" type="file" />
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.LOGOSEGELLID)? 'true' : 'false'}" cssClass="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.LOGOSEGELLID)? ' uneditable-input' : ''}"   path="logoSegellID" type="file" />
                   <label class="custom-file-label" for="logoSegellID">
                   </label>
                 </div>
@@ -963,10 +963,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.CUSTODIAINFOID])?'peticioDeFirma.custodiaInfoID':__theForm.labels[PeticioDeFirmaFields.CUSTODIAINFOID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.CUSTODIAINFOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.CUSTODIAINFOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.custodiaInfoID" cssClass="errorField alert alert-danger" />
@@ -1003,10 +1003,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID])?'peticioDeFirma.solicitantUsuariEntitat1ID':__theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.solicitantUsuariEntitat1ID" cssClass="errorField alert alert-danger" />
@@ -1043,10 +1043,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID])?'peticioDeFirma.solicitantUsuariEntitat2ID':__theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.solicitantUsuariEntitat2ID" cssClass="errorField alert alert-danger" />
@@ -1083,10 +1083,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID])?'peticioDeFirma.solicitantUsuariEntitat3ID':__theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.solicitantUsuariEntitat3ID" cssClass="errorField alert alert-danger" />
@@ -1123,10 +1123,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.AVISWEB])?'peticioDeFirma.avisWeb':__theForm.labels[PeticioDeFirmaFields.AVISWEB]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.AVISWEB]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.AVISWEB]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.AVISWEB)}" >
@@ -1145,10 +1145,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.SEGELLATDETEMPS])?'peticioDeFirma.segellatDeTemps':__theForm.labels[PeticioDeFirmaFields.SEGELLATDETEMPS]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.SEGELLATDETEMPS]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.SEGELLATDETEMPS]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.SEGELLATDETEMPS)}" >
@@ -1167,10 +1167,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.ORIGENPETICIODEFIRMA])?'peticioDeFirma.origenPeticioDeFirma':__theForm.labels[PeticioDeFirmaFields.ORIGENPETICIODEFIRMA]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.ORIGENPETICIODEFIRMA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.ORIGENPETICIODEFIRMA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.origenPeticioDeFirma" cssClass="errorField alert alert-danger" />
@@ -1198,10 +1198,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.CONFIGURACIODEFIRMAID])?'peticioDeFirma.configuracioDeFirmaID':__theForm.labels[PeticioDeFirmaFields.CONFIGURACIODEFIRMAID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.CONFIGURACIODEFIRMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.CONFIGURACIODEFIRMAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="peticioDeFirma.configuracioDeFirmaID" cssClass="errorField alert alert-danger" />

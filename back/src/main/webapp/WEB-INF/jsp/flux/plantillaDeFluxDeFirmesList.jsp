@@ -1,4 +1,5 @@
 <%-- ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! --%>
+<%@page import="org.fundaciobit.genapp.common.web.html.IconUtils"%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <un:useConstants var="PlantillaFluxDeFirmesFields" className="es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields" />
 
@@ -10,8 +11,8 @@
   <div class="filterLine lead" style="margin-bootom:10px">
   <%@include file="../webdb/fluxDeFirmesListHeaderButtons.jsp" %>
   <%-- ADD HERE NEW HEADER BUTTONS (Multiple Select or similar to add item)  --%>
-  <a class="btn float-right btn-small" role="button" data-toggle="modal"
-    href="<c:url value="${contexte}/new"/>"> <i class="fas fa-plus-circle"></i>
+  <a class="btn btn-primary btn-sm float-right botoselecciolist" 
+    href="<c:url value="${contexte}/new"/>"> <i class="<%=IconUtils.ICON_PLUS_SIGN%>"></i>
    <fmt:message key="plantilla.crear" />
   </a>
 

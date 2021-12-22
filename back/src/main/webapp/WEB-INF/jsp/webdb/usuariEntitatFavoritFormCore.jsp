@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariEntitatFavoritFields.ORIGENID])?'usuariEntitatFavorit.origenID':__theForm.labels[UsuariEntitatFavoritFields.ORIGENID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[UsuariEntitatFavoritFields.ORIGENID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariEntitatFavoritFields.ORIGENID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="usuariEntitatFavorit.origenID" cssClass="errorField alert alert-danger" />
@@ -38,10 +38,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariEntitatFavoritFields.FAVORITID])?'usuariEntitatFavorit.favoritID':__theForm.labels[UsuariEntitatFavoritFields.FAVORITID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[UsuariEntitatFavoritFields.FAVORITID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariEntitatFavoritFields.FAVORITID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="usuariEntitatFavorit.favoritID" cssClass="errorField alert alert-danger" />

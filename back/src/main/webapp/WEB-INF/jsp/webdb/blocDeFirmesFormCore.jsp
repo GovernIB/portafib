@@ -7,14 +7,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[BlocDeFirmesFields.ORDRE])?'blocDeFirmes.ordre':__theForm.labels[BlocDeFirmesFields.ORDRE]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[BlocDeFirmesFields.ORDRE]}">
               <i class="fas fa-info-circle" title="${__theForm.help[BlocDeFirmesFields.ORDRE]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="blocDeFirmes.ordre" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? ' uneditable-input' : ''}"  style=""  path="blocDeFirmes.ordre"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? ' uneditable-input' : ''}"  style=""  path="blocDeFirmes.ordre"   />
 
            </td>
         </tr>
@@ -25,10 +25,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[BlocDeFirmesFields.DATAFINALITZACIO])?'blocDeFirmes.dataFinalitzacio':__theForm.labels[BlocDeFirmesFields.DATAFINALITZACIO]}" />
+             </label>
               <c:if test="${not empty __theForm.help[BlocDeFirmesFields.DATAFINALITZACIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[BlocDeFirmesFields.DATAFINALITZACIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="blocDeFirmes.dataFinalitzacio" cssClass="errorField alert alert-danger" />
@@ -65,10 +65,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[BlocDeFirmesFields.FLUXDEFIRMESID])?'blocDeFirmes.fluxDeFirmesID':__theForm.labels[BlocDeFirmesFields.FLUXDEFIRMESID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[BlocDeFirmesFields.FLUXDEFIRMESID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[BlocDeFirmesFields.FLUXDEFIRMESID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="blocDeFirmes.fluxDeFirmesID" cssClass="errorField alert alert-danger" />
@@ -96,14 +96,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[BlocDeFirmesFields.MINIMDEFIRMES])?'blocDeFirmes.minimDeFirmes':__theForm.labels[BlocDeFirmesFields.MINIMDEFIRMES]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[BlocDeFirmesFields.MINIMDEFIRMES]}">
               <i class="fas fa-info-circle" title="${__theForm.help[BlocDeFirmesFields.MINIMDEFIRMES]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="blocDeFirmes.minimDeFirmes" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? ' uneditable-input' : ''}"  style=""  path="blocDeFirmes.minimDeFirmes"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? ' uneditable-input' : ''}"  style=""  path="blocDeFirmes.minimDeFirmes"   />
 
            </td>
         </tr>

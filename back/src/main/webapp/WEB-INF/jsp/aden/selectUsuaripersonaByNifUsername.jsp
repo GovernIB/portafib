@@ -2,11 +2,9 @@
 
 <form:form modelAttribute="seleccioNifForm" method="post" name="seleccioNifForm">
 
-<h3 class="tabs_involved">
-  <fmt:message key="${seleccioNifForm.titol}" />
-</h3>
+<%=HtmlCSS.TITOL_BEGIN %><fmt:message key="${seleccioNifForm.titol}" /><%=HtmlCSS.TITOL_END %>
 
-<fmt:message key="${seleccioNifForm.subtitol}" />
+<%=HtmlCSS.SUBTITOL_START %><fmt:message key="${seleccioNifForm.subtitol}" /><%=HtmlCSS.SUBTITOL_END %>
 
 <table class="tdformlabel table-sm table table-bordered table-striped marTop10">
 <tbody>

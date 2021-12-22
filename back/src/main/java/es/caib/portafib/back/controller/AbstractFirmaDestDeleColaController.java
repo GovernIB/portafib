@@ -2492,7 +2492,7 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
                 filterForm.addAdditionalButton(new AdditionalButton("fas fa-times",
                         "rebutjarseleccionats", "javascript:rebutjarseleccionats()", "btn-danger"));
 
-                filterForm.addAdditionalButton(new AdditionalButton("icon-edit",
+                filterForm.addAdditionalButton(new AdditionalButton("far fa-edit",
                         "firmarseleccionats", "javascript:firmarseleccionats()", "btn-success"));
 
                 filterForm.addAdditionalButton(new AdditionalButton("icon-tasks",

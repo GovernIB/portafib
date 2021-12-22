@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFirmatFields.FITXERID])?'annexFirmat.fitxerID':__theForm.labels[AnnexFirmatFields.FITXERID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[AnnexFirmatFields.FITXERID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[AnnexFirmatFields.FITXERID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="annexFirmat.fitxerID" cssClass="errorField alert alert-danger" />
@@ -20,7 +20,7 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFirmatFields.FITXERID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,AnnexFirmatFields.FITXERID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,AnnexFirmatFields.FITXERID)? ' uneditable-input' : ''}"   path="fitxerID" type="file" />
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,AnnexFirmatFields.FITXERID)? 'true' : 'false'}" cssClass="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,AnnexFirmatFields.FITXERID)? ' uneditable-input' : ''}"   path="fitxerID" type="file" />
                   <label class="custom-file-label" for="fitxerID">
                   </label>
                 </div>
@@ -59,10 +59,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFirmatFields.ANNEXID])?'annexFirmat.annexID':__theForm.labels[AnnexFirmatFields.ANNEXID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[AnnexFirmatFields.ANNEXID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[AnnexFirmatFields.ANNEXID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="annexFirmat.annexID" cssClass="errorField alert alert-danger" />
@@ -90,10 +90,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFirmatFields.FIRMAID])?'annexFirmat.firmaID':__theForm.labels[AnnexFirmatFields.FIRMAID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[AnnexFirmatFields.FIRMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[AnnexFirmatFields.FIRMAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="annexFirmat.firmaID" cssClass="errorField alert alert-danger" />

@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID])?'tipusDocumentColaboracioDelegacio.colaboracioDelegacioID':__theForm.labels[TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="tipusDocumentColaboracioDelegacio.colaboracioDelegacioID" cssClass="errorField alert alert-danger" />
@@ -38,10 +38,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID])?'tipusDocumentColaboracioDelegacio.tipusDocumentID':__theForm.labels[TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="tipusDocumentColaboracioDelegacio.tipusDocumentID" cssClass="errorField alert alert-danger" />

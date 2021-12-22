@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFirmaWebPerUsuariAplicacioFields.USUARIAPLICACIOID])?'pluginFirmaWebPerUsuariAplicacio.usuariAplicacioID':__theForm.labels[PluginFirmaWebPerUsuariAplicacioFields.USUARIAPLICACIOID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PluginFirmaWebPerUsuariAplicacioFields.USUARIAPLICACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginFirmaWebPerUsuariAplicacioFields.USUARIAPLICACIOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="pluginFirmaWebPerUsuariAplicacio.usuariAplicacioID" cssClass="errorField alert alert-danger" />
@@ -38,10 +38,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFirmaWebPerUsuariAplicacioFields.PLUGINFIRMAWEBID])?'pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebID':__theForm.labels[PluginFirmaWebPerUsuariAplicacioFields.PLUGINFIRMAWEBID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PluginFirmaWebPerUsuariAplicacioFields.PLUGINFIRMAWEBID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginFirmaWebPerUsuariAplicacioFields.PLUGINFIRMAWEBID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebID" cssClass="errorField alert alert-danger" />
@@ -69,10 +69,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFirmaWebPerUsuariAplicacioFields.ACCIO])?'pluginFirmaWebPerUsuariAplicacio.accio':__theForm.labels[PluginFirmaWebPerUsuariAplicacioFields.ACCIO]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PluginFirmaWebPerUsuariAplicacioFields.ACCIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginFirmaWebPerUsuariAplicacioFields.ACCIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="pluginFirmaWebPerUsuariAplicacio.accio" cssClass="errorField alert alert-danger" />

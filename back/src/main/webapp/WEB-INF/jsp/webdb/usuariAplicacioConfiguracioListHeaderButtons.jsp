@@ -1,6 +1,7 @@
 <%-- ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! --%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
+<label style="font-size: 1.25rem;font-weight: bold;">
   <c:if test="${not empty __theFilterForm.titleCode}">
       <fmt:message key="${__theFilterForm.titleCode}">
         <fmt:param value="${__theFilterForm.titleParam}" />
@@ -11,6 +12,7 @@
       <fmt:param value="${entitynameplural}"/>
     </fmt:message>
   </c:if>
+  </label>
 
       <%-- AGRUPAR PER BOTO - INICI  --%>
   <c:if test="${fn:length(groupby_items) > 0}">

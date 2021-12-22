@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFields.PETICIODEFIRMAID])?'annex.peticioDeFirmaID':__theForm.labels[AnnexFields.PETICIODEFIRMAID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[AnnexFields.PETICIODEFIRMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[AnnexFields.PETICIODEFIRMAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="annex.peticioDeFirmaID" cssClass="errorField alert alert-danger" />
@@ -38,10 +38,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFields.FITXERID])?'annex.fitxerID':__theForm.labels[AnnexFields.FITXERID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[AnnexFields.FITXERID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[AnnexFields.FITXERID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="annex.fitxerID" cssClass="errorField alert alert-danger" />
@@ -51,7 +51,7 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)? ' uneditable-input' : ''}"   path="fitxerID" type="file" />
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)? 'true' : 'false'}" cssClass="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)? ' uneditable-input' : ''}"   path="fitxerID" type="file" />
                   <label class="custom-file-label" for="fitxerID">
                   </label>
                 </div>
@@ -90,10 +90,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFields.ADJUNTAR])?'annex.adjuntar':__theForm.labels[AnnexFields.ADJUNTAR]}" />
+             </label>
               <c:if test="${not empty __theForm.help[AnnexFields.ADJUNTAR]}">
               <i class="fas fa-info-circle" title="${__theForm.help[AnnexFields.ADJUNTAR]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.ADJUNTAR)}" >
@@ -112,10 +112,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFields.FIRMAR])?'annex.firmar':__theForm.labels[AnnexFields.FIRMAR]}" />
+             </label>
               <c:if test="${not empty __theForm.help[AnnexFields.FIRMAR]}">
               <i class="fas fa-info-circle" title="${__theForm.help[AnnexFields.FIRMAR]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.FIRMAR)}" >

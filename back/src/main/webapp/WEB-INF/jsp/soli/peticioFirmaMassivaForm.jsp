@@ -1,12 +1,10 @@
+<%@page import="org.fundaciobit.genapp.common.web.html.HtmlCSS"%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
 <form:form modelAttribute="peticioFirmaMassivaForm" method="post" name="peticioFirmaMassivaForm" enctype="multipart/form-data">
 
-<h3 class="tabs_involved">
-  <fmt:message key="peticioFirmaMassiva.titol" />
-</h3>
-
-<fmt:message key="peticioFirmaMassiva.subtitol" />
+<%=HtmlCSS.TITOL_BEGIN %><fmt:message key="peticioFirmaMassiva.titol" /><%=HtmlCSS.TITOL_END %>
+<%=HtmlCSS.SUBTITOL_BEGIN%> <fmt:message key="peticioFirmaMassiva.subtitol" /><%=HtmlCSS.SUBTITOL_END%>
 
 <table class="tdformlabel table-sm table table-bordered table-striped marTop10" style="margin-bottom: 0px;">
 <tbody>

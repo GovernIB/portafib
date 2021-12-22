@@ -27,7 +27,7 @@
       
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key < 0 && not empty __entry.value.searchBy }">
-      <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+      <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
         <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
         <fmt:message key="genapp.form.searchby" var="cercaperAF" >
           <fmt:param>
@@ -52,7 +52,7 @@
 
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ColaboracioDelegacioFields.COLABORACIODELEGACIOID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="colaboracioDelegacio.colaboracioDelegacioID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -96,7 +96,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ColaboracioDelegacioFields.ESDELEGAT)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="colaboracioDelegacio.esDelegat" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -140,7 +140,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ColaboracioDelegacioFields.DATAINICI)}">
             <%-- FILTRE DATE --%>
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="colaboracioDelegacio.dataInici" />:</span>
               <span class="add-on"><fmt:message key="genapp.from" /></span>
               <div id="dataIniciDesde" class="input-append">
@@ -186,7 +186,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ColaboracioDelegacioFields.DATAFI)}">
             <%-- FILTRE DATE --%>
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="colaboracioDelegacio.dataFi" />:</span>
               <span class="add-on"><fmt:message key="genapp.from" /></span>
               <div id="dataFiDesde" class="input-append">
@@ -232,7 +232,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ColaboracioDelegacioFields.ACTIVA)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="colaboracioDelegacio.activa" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -250,7 +250,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ColaboracioDelegacioFields.REVISOR)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="colaboracioDelegacio.revisor" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -282,7 +282,7 @@
 
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key >= 0 && not empty __entry.value.searchBy }">
-      <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+      <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
         <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
         <fmt:message key="genapp.form.searchby" var="cercaperAF" >
           <fmt:param>

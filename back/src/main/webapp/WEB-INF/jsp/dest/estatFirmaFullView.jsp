@@ -27,10 +27,10 @@
                 <br />
                 
                 <a class="btn btn-success" href="#" onclick="goTo('<c:url value="${contexte}/processar/afegirFirmar"/>')">
-                  <i class="icon-edit"></i> <fmt:message key="carret.processar.firmar" /> </a>   
+                  <i class="fas fa-file-signature"></i>"></i> <fmt:message key="carret.processar.firmar" /> </a>   
 
                 <a class="btn btn-warning" href="#" onclick="goTo('<c:url value="${contexte}/processar/ignorar"/>')">
-                  <i class="icon-edit"></i> <fmt:message key="carret.processar.ignorar" /> </a>   
+                  <i class="far fa-edit"></i> <fmt:message key="carret.processar.ignorar" /> </a>   
                              
                 <a class="btn btn-danger" href="#" onclick="rebutjar('<c:url value="${contexte}/processar/afegirRebutjar"/>')">
                   <i class="fas fa-times"></i> <fmt:message key="carret.processar.rebutjar" /> </a>            
@@ -51,7 +51,7 @@
                 <c:if test="${ rolecontext eq 'dest' || rolecontext eq 'dele' || rolecontext eq 'common' }" >
                   <a class="btn btn-success" href="#"
                   onclick="firmar('<c:url value="${contexte}/firmar/${estatID}/${peticioID}"/>')"> <i
-                  class="icon-edit"></i> <fmt:message key="firmar" /> </a> &nbsp;&nbsp; 
+                  class="fas fa-file-signature"></i> <fmt:message key="firmar" /> </a> &nbsp;&nbsp; 
                 </c:if>        
                 <a class="btn btn-danger" href="#"
                   onclick="rebutjar('<c:url value="${contexte}/rebutjar/${estatID}/${peticioID}"/>')">

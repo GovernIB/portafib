@@ -1,14 +1,12 @@
-
-<%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
- <un:useConstants var="Constants" className="es.caib.portafib.utils.Constants" />
+<%@page import="org.fundaciobit.genapp.common.web.html.HtmlCSS"
+%><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"
+%>
+<un:useConstants var="Constants" className="es.caib.portafib.utils.Constants" />
  
 <form:form modelAttribute="autoFirmaForm" method="post"
   enctype="multipart/form-data">
- 
-  
-  <h3 class="tabs_involved">
-      <fmt:message key="autofirma" />
-  </h3>
+
+<%=HtmlCSS.TITOL_BEGIN %><fmt:message key="autofirma" /><%=HtmlCSS.TITOL_END %>
 
   <div class="module_content">
     <div class="tab_container">
@@ -20,7 +18,7 @@
           <td><label><fmt:message key="peticioDeFirma.titol" /> &nbsp;(*)</label></td>
             <td>
             <form:errors path="titol" cssClass="errorField alert alert-danger" />
-            <form:input cssClass="input" maxlength="255" path="titol" />
+            <form:input cssClass="form-control" maxlength="255" path="titol" />
            </td>
          </tr>
         
@@ -28,7 +26,7 @@
           <td><label><fmt:message key="peticioDeFirma.descripcio" /> &nbsp;(*)</label></td>
             <td>
               <form:errors path="descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" cssClass="input-xxlarge"  path="descripcio"  />
+              <form:textarea rows="3" cssClass="form-control"  path="descripcio"  />
            </td>
          </tr>
          
@@ -36,7 +34,7 @@
           <td><label><fmt:message key="peticioDeFirma.motiu" /> &nbsp;(*)</label></td>
             <td>
               <form:errors path="motiu" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" cssClass="input-xxlarge"  path="motiu"  />
+              <form:textarea rows="3" cssClass="form-control"  path="motiu"  />
            </td>
          </tr>
          
@@ -44,7 +42,7 @@
           <td><label><fmt:message key="peticioDeFirma.posicioTaulaFirmesID" /> &nbsp;(*)</label></td>
             <td>
           <form:errors path="posicioTaulaFirmesID" cssClass="errorField alert alert-danger" />
-          <form:select path="posicioTaulaFirmesID">
+          <form:select path="posicioTaulaFirmesID" cssClass="form-control" >
           <%-- Si el camp es nulable llavors una entrada buida --%>
             <c:forEach items="${autoFirmaForm.listOfPosicioTaulaFirmes}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
@@ -58,7 +56,7 @@
             <td>
               <form:errors path="fitxerAFirmarID" cssClass="errorField alert alert-danger" />
               <div class="fileupload fileupload-new" data-provides="fileupload" style="margin-bottom: 0px">
-                <div class="input-append">
+                <div class="input-group">
                     <div class="uneditable-input span4">
                       <i class="far fa-file fileupload-exists"></i>
                       <span class="fileupload-preview"></span>
@@ -79,16 +77,16 @@
               </label>
             </td>
             <td>
-              <form:select path="idioma"> 
+              <form:select path="idioma"  cssClass="form-control"> 
                 <form:option value="es">Castellano</form:option>
-                <form:option value="ca">Catalï¿½</form:option>
+                <form:option value="ca">Català</form:option>
               </form:select>
             </td>
          </tr>
          <tr>
             <td><label><fmt:message key="peticioDeFirma.segellatDeTemps" /> &nbsp;</label></td>
             <td> 
-                <c:choose>
+                <c:choose >
                     <c:when test="${autoFirmaForm.segellDeTempsReadOnly}">
                        <fmt:message key="genapp.checkbox.${autoFirmaForm.segellDeTemps}" />
                        <form:hidden path="segellDeTemps" />
@@ -107,7 +105,7 @@
             <td>
               <form:errors path="adjunt${i}" cssClass="errorField alert alert-danger" />
               <div class="fileupload fileupload-new" data-provides="fileupload" style="margin-bottom: 0px">
-                <div class="input-append">
+                <div class="input-group">
                     <div class="uneditable-input span4">
                       <i class="far fa-file fileupload-exists"></i>
                       <span class="fileupload-preview"></span>

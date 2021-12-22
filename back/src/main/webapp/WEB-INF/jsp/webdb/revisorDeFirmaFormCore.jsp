@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RevisorDeFirmaFields.USUARIENTITATID])?'revisorDeFirma.usuariEntitatID':__theForm.labels[RevisorDeFirmaFields.USUARIENTITATID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[RevisorDeFirmaFields.USUARIENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[RevisorDeFirmaFields.USUARIENTITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="revisorDeFirma.usuariEntitatID" cssClass="errorField alert alert-danger" />
@@ -38,10 +38,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RevisorDeFirmaFields.FIRMAID])?'revisorDeFirma.firmaID':__theForm.labels[RevisorDeFirmaFields.FIRMAID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[RevisorDeFirmaFields.FIRMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[RevisorDeFirmaFields.FIRMAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="revisorDeFirma.firmaID" cssClass="errorField alert alert-danger" />
@@ -69,10 +69,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RevisorDeFirmaFields.OBLIGATORI])?'revisorDeFirma.obligatori':__theForm.labels[RevisorDeFirmaFields.OBLIGATORI]}" />
+             </label>
               <c:if test="${not empty __theForm.help[RevisorDeFirmaFields.OBLIGATORI]}">
               <i class="fas fa-info-circle" title="${__theForm.help[RevisorDeFirmaFields.OBLIGATORI]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,RevisorDeFirmaFields.OBLIGATORI)}" >

@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RebreAvisFields.USUARIENTITATID])?'rebreAvis.usuariEntitatID':__theForm.labels[RebreAvisFields.USUARIENTITATID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[RebreAvisFields.USUARIENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[RebreAvisFields.USUARIENTITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="rebreAvis.usuariEntitatID" cssClass="errorField alert alert-danger" />
@@ -38,10 +38,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RebreAvisFields.TIPUSNOTIFICACIOID])?'rebreAvis.tipusNotificacioID':__theForm.labels[RebreAvisFields.TIPUSNOTIFICACIOID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[RebreAvisFields.TIPUSNOTIFICACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[RebreAvisFields.TIPUSNOTIFICACIOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="rebreAvis.tipusNotificacioID" cssClass="errorField alert alert-danger" />
@@ -69,10 +69,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RebreAvisFields.REBREAGRUPAT])?'rebreAvis.rebreAgrupat':__theForm.labels[RebreAvisFields.REBREAGRUPAT]}" />
+             </label>
               <c:if test="${not empty __theForm.help[RebreAvisFields.REBREAGRUPAT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[RebreAvisFields.REBREAGRUPAT]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,RebreAvisFields.REBREAGRUPAT)}" >

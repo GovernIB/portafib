@@ -1,9 +1,8 @@
+<%@page import="org.fundaciobit.genapp.common.web.html.HtmlCSS"%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
 <form:form modelAttribute="seleccioCarrecForm" method="post" name="seleccioCarrecForm">
-<h3 class="tabs_involved">
-  <fmt:message key="${seleccioCarrecForm.titol}" />
-</h3>
+<%=HtmlCSS.TITOL_BEGIN %> <fmt:message key="${seleccioCarrecForm.titol}" /> <%=HtmlCSS.TITOL_END %>
 
 <!-- Usuari-Entitat Càrrec-->
 <table class="table table-sm table-bordered" style="width:auto;">

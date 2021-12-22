@@ -522,16 +522,25 @@
 
 <c:if test="${not fluxDeFirmesForm.nou && readOnly == false}">
 
-  <div id="avis_true_false" class="modal hide fade">
+  <div id="avis_true_false" class="modal hide fade" tabindex="-1" role="dialog">
+  
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+  
     <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h3><fmt:message key="avis"/></h3>
+      <h4><fmt:message key="avis"/></h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
     </div>
     <div class="modal-body">
       <p><fmt:message key="fluxDeFirmes.compartir.borrarusuaris"/></p>
     </div>
     <div class="modal-footer">
       <a href="#" class="btn btn-primary close"><fmt:message key="tancar"/></a>
+    </div>
+    
+    </div>
     </div>
   </div>
   
@@ -544,13 +553,18 @@
   
 <!-- Modal Per demanar NIF de  USUARI EXTERN tabindex="-1" role="dialog" aria-labelledby="consultaNifUsuariExternLabel" aria-hidden="true"-->
 
-<div class="modal hide fade" id="consultaNifUsuariExtern" >
+<div class="modal hide fade" id="consultaNifUsuariExtern" tabindex="-1" role="dialog" >
+
+ <div class="modal-dialog" role="document">
+ <div class="modal-content">
   <form:form action="#" method="post" id="consultaNifUsuariExternForm">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h3>
+    <div class="modal-header">      
+      <h4>
         <fmt:message key="firmausuariextern.consultanif.titol"/>
-      </h3>
+      </h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
           <div class="form-group">
@@ -563,6 +577,8 @@
         <button type="button" class="btn btn-primary" onclick="consultaNifUsuariExternSubmit()"><fmt:message key="continuar"/></button> 
     </div>    
   </form:form>
+  </div>
+  </div>
 </div>
   
   <script type="text/javascript">
@@ -651,13 +667,19 @@
 
 <!-- Modal Per crear firma d'un USUARI EXTERN tabindex="-1" role="dialog" aria-labelledby="crearFirmaUsuariExternLabel" aria-hidden="true"-->
 
-<div class="modal fade hide" id="crearFirmaUsuariExtern" >
+<div class="modal fade hide" id="crearFirmaUsuariExtern" tabindex="-1" role="dialog" >
+
+ <div class="modal-dialog" role="document">
+ <div class="modal-content">
+
    <form action="<c:url value="${contexte}/afegirFirmaUsuariExtern"/>" method="POST" id="crearFirmaUsuariExternForm" >
     <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true" >&times;</button>
-      <h3>
+      <h4>
         <fmt:message key="firmausuariextern.creafirma.titol"/>
-      </h3>
+      </h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
           <input id="crearfirma_blocid" name="crearfirma_blocid" type="hidden" >
@@ -700,6 +722,9 @@
         <button type="button" class="btn btn-primary" onclick="crearFirmaUsuariExternSubmit()"><fmt:message key="continuar"/></button> 
       </div>
   </form>
+  
+  </div>
+  </div>
 </div>
 
 

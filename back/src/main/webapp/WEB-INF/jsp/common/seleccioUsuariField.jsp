@@ -26,7 +26,7 @@ int maxitems=PropietatGlobalUtil.getMaxItemsToShowInAutocomplete(entitatID);
 <c:if test="${not empty seleccioUsuariForm.usuarisFavorits }">
 <div class="input-group">
 </c:if>
-  <input id="search${usuarimodalconfig}" class="w-75" autocomplete="off"  type="text" placeholder="<fmt:message key="${placeholder}"/>">
+  <input id="search${usuarimodalconfig}" class="form-control w-75 typeahead" autocomplete="off"  type="text" placeholder="<fmt:message key="${placeholder}"/>">
 <c:if test="${not empty seleccioUsuariForm.usuarisFavorits }">
   <div class="dropdown">
     <button id="search${usuarimodalconfig}favorit" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -48,7 +48,6 @@ int maxitems=PropietatGlobalUtil.getMaxItemsToShowInAutocomplete(entitatID);
   </div>
 </div>
 </c:if>
-<br/>
 <small>
 <fmt:message key="formselectionby.info" >
   <fmt:param><%=minchars%></fmt:param>

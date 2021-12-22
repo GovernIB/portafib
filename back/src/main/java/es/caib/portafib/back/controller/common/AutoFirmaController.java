@@ -823,9 +823,9 @@ public class AutoFirmaController extends FitxerController
       if (fileName == null) {
         // TODO XYZ ZZZ S'ha de fer passar Request al mètode executeSelect i
         // despres mostrar aquest missatge per pàgina web
-        log.error("La carpeta amb ID " + ueID + " de l'usuari "
+        log.warn("La carpeta amb ID " + ueID + " de l'usuari "
             + LoginInfo.getInstance().getUsuariEntitatID() 
-            + " esta corrupte. L'Administrador l'hauria d'esborrar.", new Exception());
+            + " esta corrupte. L'Administrador l'hauria d'esborrar (" + data[i] + ")", new Exception());
         continue;
       }
 
@@ -918,8 +918,8 @@ public class AutoFirmaController extends FitxerController
         String url = request.getContextPath() + getContextWeb() + "/download/{0}";
         String js = "javascript:var win = window.open('" + url +  "', '_blank'); win.focus();";
         filterForm.addAdditionalButtonByPK(id, new AdditionalButton(
-          "icon-edit icon-white", "autofirma.fitxerfirmat", js,
-          "btn btn-info"));
+          "fas fa-file-signature", "autofirma.fitxerfirmat", js,
+          "btn btn-success"));
       }
     }
 

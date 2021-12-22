@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.DESTINATARIID])?'colaboracioDelegacio.destinatariID':__theForm.labels[ColaboracioDelegacioFields.DESTINATARIID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[ColaboracioDelegacioFields.DESTINATARIID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[ColaboracioDelegacioFields.DESTINATARIID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="colaboracioDelegacio.destinatariID" cssClass="errorField alert alert-danger" />
@@ -38,10 +38,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.COLABORADORDELEGATID])?'colaboracioDelegacio.colaboradorDelegatID':__theForm.labels[ColaboracioDelegacioFields.COLABORADORDELEGATID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[ColaboracioDelegacioFields.COLABORADORDELEGATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[ColaboracioDelegacioFields.COLABORADORDELEGATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="colaboracioDelegacio.colaboradorDelegatID" cssClass="errorField alert alert-danger" />
@@ -69,10 +69,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.ESDELEGAT])?'colaboracioDelegacio.esDelegat':__theForm.labels[ColaboracioDelegacioFields.ESDELEGAT]}" />
+             </label>
               <c:if test="${not empty __theForm.help[ColaboracioDelegacioFields.ESDELEGAT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[ColaboracioDelegacioFields.ESDELEGAT]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.ESDELEGAT)}" >
@@ -91,14 +91,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.MOTIU])?'colaboracioDelegacio.motiu':__theForm.labels[ColaboracioDelegacioFields.MOTIU]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[ColaboracioDelegacioFields.MOTIU]}">
               <i class="fas fa-info-circle" title="${__theForm.help[ColaboracioDelegacioFields.MOTIU]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="colaboracioDelegacio.motiu" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? ' uneditable-input' : ''}"  style="" maxlength="60" path="colaboracioDelegacio.motiu"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? ' uneditable-input' : ''}"  style="" maxlength="60" path="colaboracioDelegacio.motiu"   />
 
            </td>
         </tr>
@@ -109,10 +109,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.DESCRIPCIO])?'colaboracioDelegacio.descripcio':__theForm.labels[ColaboracioDelegacioFields.DESCRIPCIO]}" />
+             </label>
               <c:if test="${not empty __theForm.help[ColaboracioDelegacioFields.DESCRIPCIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[ColaboracioDelegacioFields.DESCRIPCIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="colaboracioDelegacio.descripcio" cssClass="errorField alert alert-danger" />
@@ -140,10 +140,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.DATAINICI])?'colaboracioDelegacio.dataInici':__theForm.labels[ColaboracioDelegacioFields.DATAINICI]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[ColaboracioDelegacioFields.DATAINICI]}">
               <i class="fas fa-info-circle" title="${__theForm.help[ColaboracioDelegacioFields.DATAINICI]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="colaboracioDelegacio.dataInici" cssClass="errorField alert alert-danger" />
@@ -180,10 +180,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.DATAFI])?'colaboracioDelegacio.dataFi':__theForm.labels[ColaboracioDelegacioFields.DATAFI]}" />
+             </label>
               <c:if test="${not empty __theForm.help[ColaboracioDelegacioFields.DATAFI]}">
               <i class="fas fa-info-circle" title="${__theForm.help[ColaboracioDelegacioFields.DATAFI]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="colaboracioDelegacio.dataFi" cssClass="errorField alert alert-danger" />
@@ -220,10 +220,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.ACTIVA])?'colaboracioDelegacio.activa':__theForm.labels[ColaboracioDelegacioFields.ACTIVA]}" />
+             </label>
               <c:if test="${not empty __theForm.help[ColaboracioDelegacioFields.ACTIVA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[ColaboracioDelegacioFields.ACTIVA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.ACTIVA)}" >
@@ -242,10 +242,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.REVISOR])?'colaboracioDelegacio.revisor':__theForm.labels[ColaboracioDelegacioFields.REVISOR]}" />
+             </label>
               <c:if test="${not empty __theForm.help[ColaboracioDelegacioFields.REVISOR]}">
               <i class="fas fa-info-circle" title="${__theForm.help[ColaboracioDelegacioFields.REVISOR]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.REVISOR)}" >
@@ -264,10 +264,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.MOTIUDESHABILITADA])?'colaboracioDelegacio.motiuDeshabilitada':__theForm.labels[ColaboracioDelegacioFields.MOTIUDESHABILITADA]}" />
+             </label>
               <c:if test="${not empty __theForm.help[ColaboracioDelegacioFields.MOTIUDESHABILITADA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[ColaboracioDelegacioFields.MOTIUDESHABILITADA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="colaboracioDelegacio.motiuDeshabilitada" cssClass="errorField alert alert-danger" />
@@ -295,10 +295,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.FITXERAUTORITZACIOID])?'colaboracioDelegacio.fitxerAutoritzacioID':__theForm.labels[ColaboracioDelegacioFields.FITXERAUTORITZACIOID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[ColaboracioDelegacioFields.FITXERAUTORITZACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[ColaboracioDelegacioFields.FITXERAUTORITZACIOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="colaboracioDelegacio.fitxerAutoritzacioID" cssClass="errorField alert alert-danger" />
@@ -308,7 +308,7 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.FITXERAUTORITZACIOID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.FITXERAUTORITZACIOID)? 'true' : 'false'}" cssClass="custom-file-input form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.FITXERAUTORITZACIOID)? ' uneditable-input' : ''}"   path="fitxerAutoritzacioID" type="file" />
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.FITXERAUTORITZACIOID)? 'true' : 'false'}" cssClass="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.FITXERAUTORITZACIOID)? ' uneditable-input' : ''}"   path="fitxerAutoritzacioID" type="file" />
                   <label class="custom-file-label" for="fitxerAutoritzacioID">
                   </label>
                 </div>

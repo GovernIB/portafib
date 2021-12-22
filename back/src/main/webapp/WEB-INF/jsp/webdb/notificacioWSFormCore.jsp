@@ -7,14 +7,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.PETICIODEFIRMAID])?'notificacioWS.peticioDeFirmaID':__theForm.labels[NotificacioWSFields.PETICIODEFIRMAID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[NotificacioWSFields.PETICIODEFIRMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[NotificacioWSFields.PETICIODEFIRMAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="notificacioWS.peticioDeFirmaID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? ' uneditable-input' : ''}"  style=""  path="notificacioWS.peticioDeFirmaID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? ' uneditable-input' : ''}"  style=""  path="notificacioWS.peticioDeFirmaID"   />
 
            </td>
         </tr>
@@ -25,10 +25,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.TIPUSNOTIFICACIOID])?'notificacioWS.tipusNotificacioID':__theForm.labels[NotificacioWSFields.TIPUSNOTIFICACIOID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[NotificacioWSFields.TIPUSNOTIFICACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[NotificacioWSFields.TIPUSNOTIFICACIOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="notificacioWS.tipusNotificacioID" cssClass="errorField alert alert-danger" />
@@ -56,10 +56,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.DATACREACIO])?'notificacioWS.dataCreacio':__theForm.labels[NotificacioWSFields.DATACREACIO]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[NotificacioWSFields.DATACREACIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[NotificacioWSFields.DATACREACIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="notificacioWS.dataCreacio" cssClass="errorField alert alert-danger" />
@@ -96,10 +96,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.DATAENVIAMENT])?'notificacioWS.dataEnviament':__theForm.labels[NotificacioWSFields.DATAENVIAMENT]}" />
+             </label>
               <c:if test="${not empty __theForm.help[NotificacioWSFields.DATAENVIAMENT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[NotificacioWSFields.DATAENVIAMENT]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="notificacioWS.dataEnviament" cssClass="errorField alert alert-danger" />
@@ -136,10 +136,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.DESCRIPCIO])?'notificacioWS.descripcio':__theForm.labels[NotificacioWSFields.DESCRIPCIO]}" />
+             </label>
               <c:if test="${not empty __theForm.help[NotificacioWSFields.DESCRIPCIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[NotificacioWSFields.DESCRIPCIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="notificacioWS.descripcio" cssClass="errorField alert alert-danger" />
@@ -167,10 +167,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.BLOQUEJADA])?'notificacioWS.bloquejada':__theForm.labels[NotificacioWSFields.BLOQUEJADA]}" />
+             </label>
               <c:if test="${not empty __theForm.help[NotificacioWSFields.BLOQUEJADA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[NotificacioWSFields.BLOQUEJADA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.BLOQUEJADA)}" >
@@ -192,10 +192,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.ERROR])?'notificacioWS.error':__theForm.labels[NotificacioWSFields.ERROR]}" />
+             </label>
               <c:if test="${not empty __theForm.help[NotificacioWSFields.ERROR]}">
               <i class="fas fa-info-circle" title="${__theForm.help[NotificacioWSFields.ERROR]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="notificacioWS.error" cssClass="errorField alert alert-danger" />
@@ -223,10 +223,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.DATAERROR])?'notificacioWS.dataError':__theForm.labels[NotificacioWSFields.DATAERROR]}" />
+             </label>
               <c:if test="${not empty __theForm.help[NotificacioWSFields.DATAERROR]}">
               <i class="fas fa-info-circle" title="${__theForm.help[NotificacioWSFields.DATAERROR]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="notificacioWS.dataError" cssClass="errorField alert alert-danger" />
@@ -263,14 +263,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.REINTENTS])?'notificacioWS.reintents':__theForm.labels[NotificacioWSFields.REINTENTS]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[NotificacioWSFields.REINTENTS]}">
               <i class="fas fa-info-circle" title="${__theForm.help[NotificacioWSFields.REINTENTS]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="notificacioWS.reintents" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? ' uneditable-input' : ''}"  style=""  path="notificacioWS.reintents"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? ' uneditable-input' : ''}"  style=""  path="notificacioWS.reintents"   />
 
            </td>
         </tr>
@@ -281,14 +281,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.USUARIAPLICACIOID])?'notificacioWS.usuariAplicacioID':__theForm.labels[NotificacioWSFields.USUARIAPLICACIOID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[NotificacioWSFields.USUARIAPLICACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[NotificacioWSFields.USUARIAPLICACIOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="notificacioWS.usuariAplicacioID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="notificacioWS.usuariAplicacioID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="notificacioWS.usuariAplicacioID"   />
 
            </td>
         </tr>

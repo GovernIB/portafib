@@ -101,8 +101,7 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
     if (__isView) {
       
       form.setCancelButtonVisible(false);
-      
-      form.addAdditionalButton(new AdditionalButton("icon-edit icon-white","genapp.edit",
+      form.addAdditionalButton(new AdditionalButton("far fa-edit","genapp.edit",
           CONTEXT_WEB + "/" + form.getUsuariAplicacioConfiguracio().getUsuariAplicacioConfigID()
               + "/edit", "btn-warning"));
     }

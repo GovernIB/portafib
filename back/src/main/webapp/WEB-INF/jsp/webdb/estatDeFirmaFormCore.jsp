@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.FIRMAID])?'estatDeFirma.firmaID':__theForm.labels[EstatDeFirmaFields.FIRMAID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[EstatDeFirmaFields.FIRMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.FIRMAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="estatDeFirma.firmaID" cssClass="errorField alert alert-danger" />
@@ -38,10 +38,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.USUARIENTITATID])?'estatDeFirma.usuariEntitatID':__theForm.labels[EstatDeFirmaFields.USUARIENTITATID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[EstatDeFirmaFields.USUARIENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.USUARIENTITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="estatDeFirma.usuariEntitatID" cssClass="errorField alert alert-danger" />
@@ -69,10 +69,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.DATAINICI])?'estatDeFirma.dataInici':__theForm.labels[EstatDeFirmaFields.DATAINICI]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[EstatDeFirmaFields.DATAINICI]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.DATAINICI]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="estatDeFirma.dataInici" cssClass="errorField alert alert-danger" />
@@ -109,10 +109,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.DATAFI])?'estatDeFirma.dataFi':__theForm.labels[EstatDeFirmaFields.DATAFI]}" />
+             </label>
               <c:if test="${not empty __theForm.help[EstatDeFirmaFields.DATAFI]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.DATAFI]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="estatDeFirma.dataFi" cssClass="errorField alert alert-danger" />
@@ -149,10 +149,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID])?'estatDeFirma.tipusEstatDeFirmaInicialID':__theForm.labels[EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="estatDeFirma.tipusEstatDeFirmaInicialID" cssClass="errorField alert alert-danger" />
@@ -180,10 +180,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID])?'estatDeFirma.tipusEstatDeFirmaFinalID':__theForm.labels[EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="estatDeFirma.tipusEstatDeFirmaFinalID" cssClass="errorField alert alert-danger" />
@@ -220,10 +220,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.COLABORACIODELEGACIOID])?'estatDeFirma.colaboracioDelegacioID':__theForm.labels[EstatDeFirmaFields.COLABORACIODELEGACIOID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[EstatDeFirmaFields.COLABORACIODELEGACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.COLABORACIODELEGACIOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="estatDeFirma.colaboracioDelegacioID" cssClass="errorField alert alert-danger" />
@@ -260,10 +260,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.DESCRIPCIO])?'estatDeFirma.descripcio':__theForm.labels[EstatDeFirmaFields.DESCRIPCIO]}" />
+             </label>
               <c:if test="${not empty __theForm.help[EstatDeFirmaFields.DESCRIPCIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.DESCRIPCIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="estatDeFirma.descripcio" cssClass="errorField alert alert-danger" />

@@ -2,6 +2,7 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
   
 <div class="lead" style="margin-bottom:10px">
+<label style="font-size: 1.25rem;font-weight: bold;">
  <c:choose>
   <c:when test="${fn:startsWith(plantillaFluxDeFirmesForm.titleCode,'=')}">
        <c:out value="${fn:substringAfter(plantillaFluxDeFirmesForm.titleCode, '=')}" escapeXml="false"/>
@@ -23,10 +24,9 @@
       <fmt:param value="${entityname}"/>
     </fmt:message>
     </c:otherwise>
- </c:choose>
-  
+ </c:choose></label>
   <c:if test="${not empty plantillaFluxDeFirmesForm.subTitleCode}">
-  <br/><h5 style="line-height: 10px; margin-top: 0px; margin-bottom: 0px;">
+<h6 style="line-height: 10px; margin-top: 0px; margin-bottom: 0px;font-style:italic;">
 <c:set var="subtitleTranslated" value="${fn:startsWith(plantillaFluxDeFirmesForm.subTitleCode,'=')}" />
 <c:if test="${subtitleTranslated}">
    <c:out value="${fn:substringAfter(plantillaFluxDeFirmesForm.subTitleCode, '=')}" escapeXml="false"/>
@@ -34,6 +34,6 @@
 <c:if test="${not subtitleTranslated}">
   <fmt:message key="${plantillaFluxDeFirmesForm.subTitleCode}" />
 </c:if>
-</h5>
+</h6>
   </c:if>
 </div>

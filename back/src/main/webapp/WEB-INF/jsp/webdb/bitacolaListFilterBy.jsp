@@ -27,7 +27,7 @@
       
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key < 0 && not empty __entry.value.searchBy }">
-      <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+      <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
         <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
         <fmt:message key="genapp.form.searchby" var="cercaperAF" >
           <fmt:param>
@@ -52,7 +52,7 @@
 
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.BITACOLAID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="bitacola.bitacolaID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -96,7 +96,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.DATA)}">
             <%-- FILTRE DATE --%>
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="bitacola.data" />:</span>
               <span class="add-on"><fmt:message key="genapp.from" /></span>
               <div id="dataDesde" class="input-append">
@@ -142,7 +142,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.TIPUSOBJECTE)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="bitacola.tipusObjecte" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -173,7 +173,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.TIPUSOPERACIO)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="bitacola.tipusOperacio" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -218,7 +218,7 @@
 
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key >= 0 && not empty __entry.value.searchBy }">
-      <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+      <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
         <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
         <fmt:message key="genapp.form.searchby" var="cercaperAF" >
           <fmt:param>

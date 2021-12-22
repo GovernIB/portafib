@@ -160,7 +160,7 @@ try {
 
         <!-- Mostram el botó de tornar a principal -->
         <% if (!isLoginException && !sessioinvalida) { %>
-        <a href="<c:url value="/common/principal.html"/>" class="btn"><%=etiquetaBoto%></a>
+        <a href="<c:url value="/common/principal.html"/>" class="btn btn-secondary"><%=etiquetaBoto%></a>
         <% } %>
         <br/>
         <br/>

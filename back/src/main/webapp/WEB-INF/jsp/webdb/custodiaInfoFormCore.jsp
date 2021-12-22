@@ -7,14 +7,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.NOMPLANTILLA])?'custodiaInfo.nomPlantilla':__theForm.labels[CustodiaInfoFields.NOMPLANTILLA]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.NOMPLANTILLA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.NOMPLANTILLA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="custodiaInfo.nomPlantilla" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.nomPlantilla"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.nomPlantilla"   />
 
            </td>
         </tr>
@@ -25,14 +25,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CUSTODIADOCUMENTID])?'custodiaInfo.custodiaDocumentID':__theForm.labels[CustodiaInfoFields.CUSTODIADOCUMENTID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CUSTODIADOCUMENTID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CUSTODIADOCUMENTID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="custodiaInfo.custodiaDocumentID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.custodiaDocumentID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.custodiaDocumentID"   />
 
            </td>
         </tr>
@@ -43,10 +43,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.PLUGINID])?'custodiaInfo.pluginID':__theForm.labels[CustodiaInfoFields.PLUGINID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.PLUGINID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.PLUGINID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="custodiaInfo.pluginID" cssClass="errorField alert alert-danger" />
@@ -74,10 +74,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS])?'custodiaInfo.custodiaPluginParameters':__theForm.labels[CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="custodiaInfo.custodiaPluginParameters" cssClass="errorField alert alert-danger" />
@@ -105,10 +105,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CUSTODIAR])?'custodiaInfo.custodiar':__theForm.labels[CustodiaInfoFields.CUSTODIAR]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CUSTODIAR]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CUSTODIAR]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAR)}" >
@@ -127,14 +127,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.PAGINES])?'custodiaInfo.pagines':__theForm.labels[CustodiaInfoFields.PAGINES]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.PAGINES]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.PAGINES]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="custodiaInfo.pagines" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.pagines"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.pagines"   />
 
            </td>
         </tr>
@@ -145,10 +145,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.MISSATGE])?'custodiaInfo.missatge':__theForm.labels[CustodiaInfoFields.MISSATGE]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.MISSATGE]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.MISSATGE]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="custodiaInfo.missatge" cssClass="errorField alert alert-danger" />
@@ -176,10 +176,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.MISSATGEPOSICIOPAGINAID])?'custodiaInfo.missatgePosicioPaginaID':__theForm.labels[CustodiaInfoFields.MISSATGEPOSICIOPAGINAID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.MISSATGEPOSICIOPAGINAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.MISSATGEPOSICIOPAGINAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="custodiaInfo.missatgePosicioPaginaID" cssClass="errorField alert alert-danger" />
@@ -207,10 +207,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CODIBARRESID])?'custodiaInfo.codiBarresID':__theForm.labels[CustodiaInfoFields.CODIBARRESID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CODIBARRESID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CODIBARRESID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="custodiaInfo.codiBarresID" cssClass="errorField alert alert-danger" />
@@ -238,10 +238,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID])?'custodiaInfo.codiBarresPosicioPaginaID':__theForm.labels[CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="custodiaInfo.codiBarresPosicioPaginaID" cssClass="errorField alert alert-danger" />
@@ -269,14 +269,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CODIBARRESTEXT])?'custodiaInfo.codiBarresText':__theForm.labels[CustodiaInfoFields.CODIBARRESTEXT]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CODIBARRESTEXT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CODIBARRESTEXT]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="custodiaInfo.codiBarresText" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.codiBarresText"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.codiBarresText"   />
 
            </td>
         </tr>
@@ -287,10 +287,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.USUARIENTITATID])?'custodiaInfo.usuariEntitatID':__theForm.labels[CustodiaInfoFields.USUARIENTITATID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.USUARIENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.USUARIENTITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="custodiaInfo.usuariEntitatID" cssClass="errorField alert alert-danger" />
@@ -327,10 +327,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.USUARIAPLICACIOID])?'custodiaInfo.usuariAplicacioID':__theForm.labels[CustodiaInfoFields.USUARIAPLICACIOID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.USUARIAPLICACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.USUARIAPLICACIOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="custodiaInfo.usuariAplicacioID" cssClass="errorField alert alert-danger" />
@@ -367,10 +367,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.ENTITATID])?'custodiaInfo.entitatID':__theForm.labels[CustodiaInfoFields.ENTITATID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.ENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.ENTITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="custodiaInfo.entitatID" cssClass="errorField alert alert-danger" />
@@ -407,14 +407,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.TITOLPETICIO])?'custodiaInfo.titolPeticio':__theForm.labels[CustodiaInfoFields.TITOLPETICIO]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.TITOLPETICIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.TITOLPETICIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="custodiaInfo.titolPeticio" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.titolPeticio"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? ' uneditable-input' : ''}"  style="" maxlength="255" path="custodiaInfo.titolPeticio"   />
 
            </td>
         </tr>
@@ -425,10 +425,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.DATACUSTODIA])?'custodiaInfo.dataCustodia':__theForm.labels[CustodiaInfoFields.DATACUSTODIA]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.DATACUSTODIA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.DATACUSTODIA]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="custodiaInfo.dataCustodia" cssClass="errorField alert alert-danger" />
@@ -465,10 +465,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.EDITABLE])?'custodiaInfo.editable':__theForm.labels[CustodiaInfoFields.EDITABLE]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.EDITABLE]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.EDITABLE]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EDITABLE)}" >
@@ -487,14 +487,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CSV])?'custodiaInfo.csv':__theForm.labels[CustodiaInfoFields.CSV]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CSV]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CSV]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="custodiaInfo.csv" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSV)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSV)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csv"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSV)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSV)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csv"   />
 
            </td>
         </tr>
@@ -505,10 +505,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CSVVALIDATIONWEB])?'custodiaInfo.csvValidationWeb':__theForm.labels[CustodiaInfoFields.CSVVALIDATIONWEB]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CSVVALIDATIONWEB]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CSVVALIDATIONWEB]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
            <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)}">
@@ -522,7 +522,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB))}">
 
             <form:errors path="custodiaInfo.csvValidationWeb" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csvValidationWeb"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csvValidationWeb"   />
 
            </c:if>
 
@@ -535,10 +535,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CSVGENERATIONDEFINITION])?'custodiaInfo.csvGenerationDefinition':__theForm.labels[CustodiaInfoFields.CSVGENERATIONDEFINITION]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.CSVGENERATIONDEFINITION]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.CSVGENERATIONDEFINITION]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
            <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)}">
@@ -552,7 +552,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION))}">
 
             <form:errors path="custodiaInfo.csvGenerationDefinition" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csvGenerationDefinition"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.csvGenerationDefinition"   />
 
            </c:if>
 
@@ -565,10 +565,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.URLFITXERCUSTODIAT])?'custodiaInfo.urlFitxerCustodiat':__theForm.labels[CustodiaInfoFields.URLFITXERCUSTODIAT]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.URLFITXERCUSTODIAT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.URLFITXERCUSTODIAT]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
            <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
@@ -582,7 +582,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT))}">
 
             <form:errors path="custodiaInfo.urlFitxerCustodiat" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.urlFitxerCustodiat"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.urlFitxerCustodiat"   />
 
            </c:if>
 
@@ -595,10 +595,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.ORIGINALFILEDIRECTURL])?'custodiaInfo.originalFileDirectUrl':__theForm.labels[CustodiaInfoFields.ORIGINALFILEDIRECTURL]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.ORIGINALFILEDIRECTURL]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.ORIGINALFILEDIRECTURL]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
            <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)}">
@@ -612,7 +612,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL))}">
 
             <form:errors path="custodiaInfo.originalFileDirectUrl" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.originalFileDirectUrl"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.originalFileDirectUrl"   />
 
            </c:if>
 
@@ -625,10 +625,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.PRINTABLEFILEDIRECTURL])?'custodiaInfo.printableFileDirectUrl':__theForm.labels[CustodiaInfoFields.PRINTABLEFILEDIRECTURL]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.PRINTABLEFILEDIRECTURL]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.PRINTABLEFILEDIRECTURL]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
            <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)}">
@@ -642,7 +642,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL))}">
 
             <form:errors path="custodiaInfo.printableFileDirectUrl" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.printableFileDirectUrl"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.printableFileDirectUrl"   />
 
            </c:if>
 
@@ -655,10 +655,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.ENIFILEDIRECTURL])?'custodiaInfo.eniFileDirectUrl':__theForm.labels[CustodiaInfoFields.ENIFILEDIRECTURL]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.ENIFILEDIRECTURL]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.ENIFILEDIRECTURL]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
            <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)}">
@@ -672,7 +672,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL))}">
 
             <form:errors path="custodiaInfo.eniFileDirectUrl" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.eniFileDirectUrl"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)? ' uneditable-input' : ''}"  style="" maxlength="500" path="custodiaInfo.eniFileDirectUrl"   />
 
            </c:if>
 
@@ -685,14 +685,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.EXPEDIENTARXIUID])?'custodiaInfo.expedientArxiuId':__theForm.labels[CustodiaInfoFields.EXPEDIENTARXIUID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.EXPEDIENTARXIUID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.EXPEDIENTARXIUID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="custodiaInfo.expedientArxiuId" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EXPEDIENTARXIUID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EXPEDIENTARXIUID)? ' uneditable-input' : ''}"  style="" maxlength="250" path="custodiaInfo.expedientArxiuId"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EXPEDIENTARXIUID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EXPEDIENTARXIUID)? ' uneditable-input' : ''}"  style="" maxlength="250" path="custodiaInfo.expedientArxiuId"   />
 
            </td>
         </tr>
@@ -703,14 +703,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.DOCUMENTARXIUID])?'custodiaInfo.documentArxiuId':__theForm.labels[CustodiaInfoFields.DOCUMENTARXIUID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[CustodiaInfoFields.DOCUMENTARXIUID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CustodiaInfoFields.DOCUMENTARXIUID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="custodiaInfo.documentArxiuId" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DOCUMENTARXIUID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DOCUMENTARXIUID)? ' uneditable-input' : ''}"  style="" maxlength="250" path="custodiaInfo.documentArxiuId"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DOCUMENTARXIUID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DOCUMENTARXIUID)? ' uneditable-input' : ''}"  style="" maxlength="250" path="custodiaInfo.documentArxiuId"   />
 
            </td>
         </tr>

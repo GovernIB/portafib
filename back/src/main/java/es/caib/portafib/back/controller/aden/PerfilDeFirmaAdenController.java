@@ -109,7 +109,7 @@ public class PerfilDeFirmaAdenController extends PerfilDeFirmaController {
       // Posam botons d'edició i d'accés directe a Configuracions
       PerfilDeFirmaJPA perfil = form.getPerfilDeFirma();
       
-      form.addAdditionalButton(new AdditionalButton("icon-edit icon-white","genapp.edit",
+      form.addAdditionalButton(new AdditionalButton("far fa-edit","genapp.edit",
           CONTEXT_WEB + "/" + perfil.getUsuariAplicacioPerfilID()
               + "/edit", "btn-warning"));
       

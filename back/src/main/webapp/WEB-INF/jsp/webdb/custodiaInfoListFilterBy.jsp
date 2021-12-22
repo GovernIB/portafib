@@ -27,7 +27,7 @@
       
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key < 0 && not empty __entry.value.searchBy }">
-      <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+      <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
         <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
         <fmt:message key="genapp.form.searchby" var="cercaperAF" >
           <fmt:param>
@@ -52,7 +52,7 @@
 
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.CUSTODIAINFOID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="custodiaInfo.custodiaInfoID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -96,7 +96,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.PLUGINID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="custodiaInfo.pluginID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -127,7 +127,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.CUSTODIAR)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="custodiaInfo.custodiar" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -171,7 +171,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.MISSATGEPOSICIOPAGINAID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="custodiaInfo.missatgePosicioPaginaID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -202,7 +202,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="custodiaInfo.codiBarresPosicioPaginaID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -285,7 +285,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.DATACUSTODIA)}">
             <%-- FILTRE DATE --%>
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="custodiaInfo.dataCustodia" />:</span>
               <span class="add-on"><fmt:message key="genapp.from" /></span>
               <div id="dataCustodiaDesde" class="input-append">
@@ -331,7 +331,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.EDITABLE)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="custodiaInfo.editable" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -467,7 +467,7 @@
 
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key >= 0 && not empty __entry.value.searchBy }">
-      <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+      <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
         <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
         <fmt:message key="genapp.form.searchby" var="cercaperAF" >
           <fmt:param>

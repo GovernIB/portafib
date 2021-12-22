@@ -27,7 +27,7 @@
       
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key < 0 && not empty __entry.value.searchBy }">
-      <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+      <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
         <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
         <fmt:message key="genapp.form.searchby" var="cercaperAF" >
           <fmt:param>
@@ -52,7 +52,7 @@
 
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.PETICIODEFIRMAID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.peticioDeFirmaID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -109,7 +109,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.TIPUSDOCUMENTID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.tipusDocumentID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -140,7 +140,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.DATASOLICITUD)}">
             <%-- FILTRE DATE --%>
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.dataSolicitud" />:</span>
               <span class="add-on"><fmt:message key="genapp.from" /></span>
               <div id="dataSolicitudDesde" class="input-append">
@@ -186,7 +186,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.DATAFINAL)}">
             <%-- FILTRE DATE --%>
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.dataFinal" />:</span>
               <span class="add-on"><fmt:message key="genapp.from" /></span>
               <div id="dataFinalDesde" class="input-append">
@@ -232,7 +232,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.DATACADUCITAT)}">
             <%-- FILTRE DATE --%>
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.dataCaducitat" />:</span>
               <span class="add-on"><fmt:message key="genapp.from" /></span>
               <div id="dataCaducitatDesde" class="input-append">
@@ -278,7 +278,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.TIPUSOPERACIOFIRMA)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.tipusOperacioFirma" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -296,7 +296,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.TIPUSFIRMAID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.tipusFirmaID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -314,7 +314,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.ALGORISMEDEFIRMAID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.algorismeDeFirmaID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -332,7 +332,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.posicioTaulaFirmesID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -350,7 +350,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.tipusEstatPeticioDeFirmaID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -394,7 +394,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.PRIORITATID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.prioritatID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -412,7 +412,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.FLUXDEFIRMESID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.fluxDeFirmesID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -547,7 +547,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.informacioAddicionalAvaluable" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -565,7 +565,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.CUSTODIAINFOID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.custodiaInfoID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -622,7 +622,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.AVISWEB)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.avisWeb" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -640,7 +640,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.SEGELLATDETEMPS)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.segellatDeTemps" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -658,7 +658,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.ORIGENPETICIODEFIRMA)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.origenPeticioDeFirma" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -676,7 +676,7 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.CONFIGURACIODEFIRMAID)}">
             <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.configuracioDeFirmaID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
@@ -695,7 +695,7 @@
 
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key >= 0 && not empty __entry.value.searchBy }">
-      <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+      <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
         <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
         <fmt:message key="genapp.form.searchby" var="cercaperAF" >
           <fmt:param>

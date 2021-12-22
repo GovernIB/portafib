@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFirmaWebPerUsuariEntitatFields.USUARIENTITATID])?'pluginFirmaWebPerUsuariEntitat.usuariEntitatID':__theForm.labels[PluginFirmaWebPerUsuariEntitatFields.USUARIENTITATID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PluginFirmaWebPerUsuariEntitatFields.USUARIENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginFirmaWebPerUsuariEntitatFields.USUARIENTITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="pluginFirmaWebPerUsuariEntitat.usuariEntitatID" cssClass="errorField alert alert-danger" />
@@ -38,10 +38,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFirmaWebPerUsuariEntitatFields.PLUGINFIRMAWEBID])?'pluginFirmaWebPerUsuariEntitat.pluginFirmaWebID':__theForm.labels[PluginFirmaWebPerUsuariEntitatFields.PLUGINFIRMAWEBID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PluginFirmaWebPerUsuariEntitatFields.PLUGINFIRMAWEBID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginFirmaWebPerUsuariEntitatFields.PLUGINFIRMAWEBID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="pluginFirmaWebPerUsuariEntitat.pluginFirmaWebID" cssClass="errorField alert alert-danger" />
@@ -69,10 +69,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFirmaWebPerUsuariEntitatFields.ACCIO])?'pluginFirmaWebPerUsuariEntitat.accio':__theForm.labels[PluginFirmaWebPerUsuariEntitatFields.ACCIO]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PluginFirmaWebPerUsuariEntitatFields.ACCIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PluginFirmaWebPerUsuariEntitatFields.ACCIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="pluginFirmaWebPerUsuariEntitat.accio" cssClass="errorField alert alert-danger" />

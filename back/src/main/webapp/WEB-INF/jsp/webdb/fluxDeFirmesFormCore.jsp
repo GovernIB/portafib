@@ -7,14 +7,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FluxDeFirmesFields.NOM])?'fluxDeFirmes.nom':__theForm.labels[FluxDeFirmesFields.NOM]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[FluxDeFirmesFields.NOM]}">
               <i class="fas fa-info-circle" title="${__theForm.help[FluxDeFirmesFields.NOM]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="fluxDeFirmes.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FluxDeFirmesFields.NOM)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,FluxDeFirmesFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="fluxDeFirmes.nom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FluxDeFirmesFields.NOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FluxDeFirmesFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="fluxDeFirmes.nom"   />
 
            </td>
         </tr>

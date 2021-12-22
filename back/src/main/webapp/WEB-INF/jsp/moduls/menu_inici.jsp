@@ -22,7 +22,7 @@ pageContext.setAttribute("androidApk", androidApk);
     <ul class="tree" style="margin: 3px; padding: 0px;">
 
         <li style="list-style-type: disc; list-style-position: inside;">
-            <a href="<c:url value="/common/principal.html"/>"> <span
+            <a href="<c:url value="/common/principal.html"/>"><span
                 style="${(fn:contains(url, 'principal'))? "font-weight:bold;" : ""}"><fmt:message
                         key="pagina.principal" /></span>
         </a>
@@ -32,7 +32,7 @@ pageContext.setAttribute("androidApk", androidApk);
             <hr style="margin-top: 6px; margin-bottom: 6px;" />
             <li
                 style="list-style-type: disc; list-style-position: inside;">
-                <a href="<c:url value="/common/autofirma/list"/>"> <span
+                <a href="<c:url value="/common/autofirma/list"/>"><span
                     style="${(fn:contains(url, 'autofirma'))? "font-weight:bold;" : ""} }"><fmt:message
                             key="autofirma.gestio" /></span>
             </a>
@@ -75,7 +75,7 @@ pageContext.setAttribute("androidApk", androidApk);
                 <li
                     style="list-style-type: disc; list-style-position: inside;"><a
                     href="<c:url value="/common/usuariEntitatFavorit/list/1"/>"><span
-                        style="${(fn:contains(url, 'usuariEntitatFavorit/') && fn:contains(url, '/list'))? "font-weight:bold;" : ""}" ><fmt:message
+                        style="${(fn:contains(url, '/common/usuariEntitatFavorit/'))? "font-weight:bold;" : ""}" ><fmt:message
                                 key="favorit.gestio" /></span></a></li>
             </sec:authorize>
 

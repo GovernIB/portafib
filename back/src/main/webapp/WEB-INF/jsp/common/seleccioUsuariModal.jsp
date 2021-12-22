@@ -16,17 +16,21 @@
   <c:set var="usuarimodalconfig" value="" />
 </c:if>
 
+<div id="selectUser${usuarimodalconfig}Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 640px;">
 
-<div id="selectUser${usuarimodalconfig}Modal" class="modal hide fade"
-  style="width: 640px;">
+ <div class="modal-dialog" role="document">
+ <div class="modal-content">
+
   <form:form modelAttribute="seleccioUsuariForm" action="${theURL}"
     method="post" name="seleccioUsuari${usuarimodalconfig}Form"
     id="seleccioUsuari${usuarimodalconfig}Form">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h3>
+    <div class="modal-header">      
+      <h5>
         <fmt:message key="${seleccioUsuariForm.titol}"></fmt:message>
-      </h3>
+      </h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
 
@@ -57,6 +61,8 @@
 
     </div>
   </form:form>
+  </div>
+  </div>
 </div>
 <script type="text/javascript">
 

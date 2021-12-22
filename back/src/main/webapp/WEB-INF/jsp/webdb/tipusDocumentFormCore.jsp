@@ -7,14 +7,14 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.TIPUSDOCUMENTID])?'tipusDocument.tipusDocumentID':__theForm.labels[TipusDocumentFields.TIPUSDOCUMENTID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[TipusDocumentFields.TIPUSDOCUMENTID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentFields.TIPUSDOCUMENTID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
             <form:errors path="tipusDocument.tipusDocumentID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? 'true' : 'false'}" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? ' uneditable-input' : ''}"  style=""  path="tipusDocument.tipusDocumentID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? ' uneditable-input' : ''}"  style=""  path="tipusDocument.tipusDocumentID"   />
 
            </td>
         </tr>
@@ -25,10 +25,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.NOMID])?'tipusDocument.nomID':__theForm.labels[TipusDocumentFields.NOMID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[TipusDocumentFields.NOMID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentFields.NOMID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
        <form:errors path="tipusDocument.nom" cssClass="errorField alert alert-danger" />
@@ -45,7 +45,7 @@
            <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
            <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="${counter.index}_tab_nom_${idioma.idiomaID}">
                <form:errors path="tipusDocument.nom.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-danger"/>
-               <form:input path="tipusDocument.nom.traduccions['${idioma.idiomaID}'].valor" cssClass="form-control col-md-9-optional ${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.NOMID)? ' uneditable-input' : ''}" readonly="${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.NOMID)}" maxlength="4000" />
+               <form:input path="tipusDocument.nom.traduccions['${idioma.idiomaID}'].valor" cssClass="form-control  ${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.NOMID)? ' uneditable-input' : ''}" readonly="${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.NOMID)}" maxlength="4000" />
            </div>
            </c:forEach>
          </div>
@@ -60,10 +60,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.TIPUSDOCUMENTBASEID])?'tipusDocument.tipusDocumentBaseID':__theForm.labels[TipusDocumentFields.TIPUSDOCUMENTBASEID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[TipusDocumentFields.TIPUSDOCUMENTBASEID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentFields.TIPUSDOCUMENTBASEID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="tipusDocument.tipusDocumentBaseID" cssClass="errorField alert alert-danger" />
@@ -91,10 +91,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.DESCRIPCIO])?'tipusDocument.descripcio':__theForm.labels[TipusDocumentFields.DESCRIPCIO]}" />
+             </label>
               <c:if test="${not empty __theForm.help[TipusDocumentFields.DESCRIPCIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentFields.DESCRIPCIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="tipusDocument.descripcio" cssClass="errorField alert alert-danger" />
@@ -122,10 +122,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.USUARIAPLICACIOID])?'tipusDocument.usuariAplicacioID':__theForm.labels[TipusDocumentFields.USUARIAPLICACIOID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[TipusDocumentFields.USUARIAPLICACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentFields.USUARIAPLICACIOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="tipusDocument.usuariAplicacioID" cssClass="errorField alert alert-danger" />

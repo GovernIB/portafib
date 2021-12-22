@@ -7,10 +7,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.FLUXDEFIRMESID])?'plantillaFluxDeFirmes.fluxDeFirmesID':__theForm.labels[PlantillaFluxDeFirmesFields.FLUXDEFIRMESID]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PlantillaFluxDeFirmesFields.FLUXDEFIRMESID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PlantillaFluxDeFirmesFields.FLUXDEFIRMESID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="plantillaFluxDeFirmes.fluxDeFirmesID" cssClass="errorField alert alert-danger" />
@@ -38,10 +38,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.DESCRIPCIO])?'plantillaFluxDeFirmes.descripcio':__theForm.labels[PlantillaFluxDeFirmesFields.DESCRIPCIO]}" /> &nbsp;(*)
+             </label>
               <c:if test="${not empty __theForm.help[PlantillaFluxDeFirmesFields.DESCRIPCIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PlantillaFluxDeFirmesFields.DESCRIPCIO]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
               <form:errors path="plantillaFluxDeFirmes.descripcio" cssClass="errorField alert alert-danger" />
@@ -69,10 +69,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.USUARIENTITATID])?'plantillaFluxDeFirmes.usuariEntitatID':__theForm.labels[PlantillaFluxDeFirmesFields.USUARIENTITATID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PlantillaFluxDeFirmesFields.USUARIENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PlantillaFluxDeFirmesFields.USUARIENTITATID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="plantillaFluxDeFirmes.usuariEntitatID" cssClass="errorField alert alert-danger" />
@@ -109,10 +109,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.USUARIAPLICACIOID])?'plantillaFluxDeFirmes.usuariAplicacioID':__theForm.labels[PlantillaFluxDeFirmesFields.USUARIAPLICACIOID]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PlantillaFluxDeFirmesFields.USUARIAPLICACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PlantillaFluxDeFirmesFields.USUARIAPLICACIOID]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <form:errors path="plantillaFluxDeFirmes.usuariAplicacioID" cssClass="errorField alert alert-danger" />
@@ -149,10 +149,10 @@
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.COMPARTIR])?'plantillaFluxDeFirmes.compartir':__theForm.labels[PlantillaFluxDeFirmesFields.COMPARTIR]}" />
+             </label>
               <c:if test="${not empty __theForm.help[PlantillaFluxDeFirmesFields.COMPARTIR]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PlantillaFluxDeFirmesFields.COMPARTIR]}" ></i>
               </c:if>
-             </label>
             </td>
             <td>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PlantillaFluxDeFirmesFields.COMPARTIR)}" >

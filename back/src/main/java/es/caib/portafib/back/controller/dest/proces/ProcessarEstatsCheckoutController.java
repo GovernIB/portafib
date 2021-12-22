@@ -146,7 +146,7 @@ public class ProcessarEstatsCheckoutController extends EstatDeFirmaController {
                             ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/processar/cancelar", "btn-danger"));
 
             filterForm.addAdditionalButton(
-                    new AdditionalButton("icon-edit", "carret.processar.executar",
+                    new AdditionalButton("far fa-edit", "carret.processar.executar",
                             "javascript:processarExecutar()", "btn-success"));
 
         }
