@@ -1757,6 +1757,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     // prop.setProperty("appId", appId);
 
     prop.setProperty("fireUrl", fireUrl); // http://10.215.216.175:6060/fire-signature/fireService
+   
 
     String[] keys = new String[] { "javax.net.ssl.keyStore", "javax.net.ssl.keyStorePassword",
         "javax.net.ssl.keyStoreType", "javax.net.ssl.trustStore",
@@ -1794,6 +1795,9 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
     // Altres Serveis ????
     config.setProperty("certificateUrl", baseFire + "/getCertificates");
+	
+	config.setProperty("newCertUrl", baseFire + "/generateCertificate");
+    config.setProperty("recoverNewCertUrl", baseFire + "/recoverCertificate");
 
     final boolean debug = isDebug();
 

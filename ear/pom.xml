@@ -10,7 +10,7 @@
   <parent>
     <groupId>es.caib.portafib</groupId>
     <artifactId>portafib</artifactId>
-    <version>2.0.21</version>
+    <version>2.0.22</version>
   </parent>
 
   <properties>
@@ -594,7 +594,7 @@
         <dependency>
           <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
           <artifactId>pluginsib-signatureweb-fire</artifactId>
-          <version>3.0.2</version>
+          <version>3.0.3</version>
         </dependency>
       </dependencies>
     </profile>
