@@ -5,8 +5,6 @@ import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.util.Properties;
 
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletClassLoader;
-
 
 /**
  * 

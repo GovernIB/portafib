@@ -45,7 +45,7 @@ public class TestListCertificates {
        */
 
       for (String userFire : fireUsers) {
-
+/*
         System.out.println(" =====  USER " + userFire + "  =========");
         List<X509Certificate> list;
         try {
@@ -70,7 +70,7 @@ public class TestListCertificates {
             System.out.println("       [" + x509Certificate.getIssuerDN() + "]");
           }
         }
-
+*/
       }
 
     } catch (Exception e) {

@@ -9,12 +9,11 @@ import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+//import java.lang.reflect.Field;
+//import java.lang.reflect.Modifier;
 import java.security.cert.X509Certificate;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -42,15 +41,15 @@ import org.fundaciobit.pluginsib.core.utils.FileUtils;
 import es.gob.afirma.core.misc.AOUtil;
 import es.gob.afirma.signers.tsp.pkcs7.CMSTimestamper;
 import es.gob.afirma.signers.tsp.pkcs7.TsaParams;
-import es.gob.clavefirma.client.HttpCertificateBlockedException;
+//import es.gob.clavefirma.client.HttpCertificateBlockedException;
 import es.gob.clavefirma.client.HttpForbiddenException;
 import es.gob.clavefirma.client.HttpNetworkException;
-import es.gob.clavefirma.client.HttpNoUserException;
-import es.gob.clavefirma.client.HttpWeakRegistryException;
-import es.gob.clavefirma.client.certificatelist.HttpCertificateList;
-import es.gob.clavefirma.client.generatecert.GenerateCertificateResult;
-import es.gob.clavefirma.client.generatecert.HttpCertificateAvailableException;
-import es.gob.clavefirma.client.generatecert.HttpGenerateCertificate;
+//import es.gob.clavefirma.client.HttpNoUserException;
+//import es.gob.clavefirma.client.HttpWeakRegistryException;
+//import es.gob.clavefirma.client.certificatelist.HttpCertificateList;
+//import es.gob.clavefirma.client.generatecert.GenerateCertificateResult;
+//import es.gob.clavefirma.client.generatecert.HttpCertificateAvailableException;
+//import es.gob.clavefirma.client.generatecert.HttpGenerateCertificate;
 import es.gob.clavefirma.client.signprocess.HttpSignProcessConstants;
 import es.gob.fire.client.Base64;
 import es.gob.fire.client.BatchResult;
@@ -112,20 +111,25 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     super(propertyKeyBase);
   }
 
+  /*
+  @Deprecated
   protected boolean permetreGeneracioDeCertificat() {
     return "true".equalsIgnoreCase(getProperty(FIRE_BASE_PROPERTIES
         + "allowcertificategeneration"));
   }
 
+  @Deprecated
   protected boolean passFilterQuanUsuariNoRegistrat() {
     return "true".equalsIgnoreCase(getProperty(FIRE_BASE_PROPERTIES
         + "passfilterwhennonregistereduser"));
   }
 
+  @Deprecated
   protected boolean showInformacioQuanUsuariNoRegistrat() {
     return "true".equalsIgnoreCase(getProperty(FIRE_BASE_PROPERTIES
         + "showinfowhennonregistereduser"));
   }
+  
 
   protected boolean passFilterWhenUserCertificateBlocked() {
     return "true".equalsIgnoreCase(getProperty(FIRE_BASE_PROPERTIES
@@ -146,7 +150,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     return "true".equalsIgnoreCase(getProperty(FIRE_BASE_PROPERTIES
         + "showinfowhenuserhasweakregistry"));
   }
-
+ */
   protected int cacheMaxEntries() {
     return Integer.parseInt(getProperty(FIRE_BASE_PROPERTIES + "cacheMaxEntries", "1000"));
   }
@@ -187,7 +191,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
   }
 
   /**
-   * Incida quan l'origen dels certificats no és ni mixt ni local, per tant només
+   * Indica quan l'origen dels certificats no és ni mixt ni local, per tant només
    * és el que es pugui accedir amb els proveidors de ClaveFirma.
    */
   private boolean isNotModeMixtOrLocal() {
@@ -243,13 +247,15 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
         }
       }
 
-    } else {
+    } /* else {
       // Revisar si l'usuari està registrat a ClaveFirma i si té certificats
       // de firma en aquest entorn.
       CommonInfoSignature common = signaturesSet.getCommonInfoSignature();
 
-      String username = common.getUsername();
+      //String username = common.getUsername();
       String administrationID = common.getAdministrationID();
+      
+      
       String filter = common.getFiltreCertificats();
 
       String errorFilter = checkCertificates(username, administrationID, filter);
@@ -261,24 +267,28 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
         }
         return msg;
       }
-    }
+      
+    } */
 
     return super.filter(request, signaturesSet,  parameters);
   }
 
+  /* XYZ ZZZ
   private String checkCertificates(String username, String administrationID, String filter) {
 
     try {
 
       List<X509Certificate> list = listCertificates(username, administrationID);
       if (list == null || list.size() == 0) {
-        if (permetreGeneracioDeCertificat()) {
+        //if (permetreGeneracioDeCertificat()) 
+        {
           return null; // OK
-        } else {
-          // TODO XYZ ZZZ Traduir
-          return "L'usuari " + username + " (" + administrationID + ") no té cap"
-              + " certificat a clavefirma i la generació de certificats està desactivada";
-        }
+        } 
+        //else {
+        // TODO XYZ ZZZ Traduir
+        //  return "L'usuari " + username + " (" + administrationID + ") no té cap"
+        //      + " certificat a clavefirma i la generació de certificats està desactivada";
+        // } 
 
       }
 
@@ -304,7 +314,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
         }
       }
       if (certificatsDisponibles == 0) {
-        return "El certificat de ClaveFirma no ha superat el Filtre de Certificats";
+        return "El certificat de FIRe no ha superat el Filtre de Certificats";
       } else {
         return null;
       }
@@ -323,21 +333,24 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       }
     } catch (HttpNoUserException se) {
 
-      if (passFilterQuanUsuariNoRegistrat()) {
+      //if (passFilterQuanUsuariNoRegistrat()) 
+      {
         if (isDebug()) {
           log.info("filter:: L'usuari  " + username + "(" + administrationID + ") no està "
-              + "donat d'alta en el sistema ClaveFirma però la propietat "
-              + "passfilterwhennonregistereduser = true: " + se.getClass());
+              + "donat d'alta en el sistema ClaveFirma" 
+              // però la propietat  + "passfilterwhennonregistereduser = true: "  
+      + se.getClass());
         }
         return null;
-      } else {
-        return "filter:: L'usuari  "
-            + username
-            + "("
-            + administrationID
-            + ") no està "
-            + "donat d'alta en el sistema ClaveFirma (passfilterwhennonregistereduser = false)";
-      }
+      } 
+//        else {
+//        return "filter:: L'usuari  "
+//            + username
+//            + "("
+//            + administrationID
+//            + ") no està "
+//            + "donat d'alta en el sistema ClaveFirma (passfilterwhennonregistereduser = false)";
+//      } 
     } catch (HttpWeakRegistryException we) {
 
       if (passFilterWhenUserHasWeakRegistry()) {
@@ -359,6 +372,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       return msg;
     }
   }
+  */
 
   @Override
   public void closeSignaturesSet(HttpServletRequest request, String id) {
@@ -372,34 +386,34 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
       String relativePath, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response, Locale locale) {
-
+/*
     if (relativePath.startsWith(FIRMAR_PRE_DES_DE_CERT_GENERAT_PAGE)) {
       firmarPreDesDeCertgenerat(absolutePluginRequestPath, relativePluginRequestPath,
           relativePath, request, response, signaturesSet, signatureIndex, locale);
-    } else if (relativePath.startsWith(FIRMAR_PRE_PAGE)) {
+    } else*/ if (relativePath.startsWith(FIRMAR_PRE_PAGE)) {
       firmarPre(absolutePluginRequestPath, relativePluginRequestPath, relativePath, request,
           response, signaturesSet, locale);
     } else if (relativePath.startsWith(FIRMAR_POST_PAGE)) {
       firmarPostOk(request, response, signaturesSet, signatureIndex, locale);
-    } else if (relativePath.startsWith(NO_REGISTRAT_PAGE)) {
+    } else /*if (relativePath.startsWith(NO_REGISTRAT_PAGE)) {
       // L'usuari no està donat d'alta a Cl@ve Firma
       noRegistratPage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
           signaturesSet, signatureIndex, locale);
     } else if (relativePath.startsWith(USUARI_AMB_REGISTRE_DEBIL_PAGE)) {
       usuariAmbRegistreDebilPage(absolutePluginRequestPath, relativePluginRequestPath,
           request, response, signaturesSet, signatureIndex, locale);
-    } else if (relativePath.startsWith(CERTIFICATE_BLOCKED_PAGE)) {
+    } else  if (relativePath.startsWith(CERTIFICATE_BLOCKED_PAGE)) {
       // L'usuari té un certificat bloquejat
       certificateBlockedPage(absolutePluginRequestPath, relativePluginRequestPath, request,
           response, signaturesSet, signatureIndex, locale);
-    } else if (relativePath.startsWith(GENERAR_NOU_CERTIFICAT_PAGE)) {
+    } else  XYZ ZZZ if (relativePath.startsWith(GENERAR_NOU_CERTIFICAT_PAGE)) {
       generarNouCertificat(absolutePluginRequestPath, relativePluginRequestPath, request,
           response, signaturesSet, signatureIndex, locale);
-    } else if (relativePath.startsWith(SENSE_CERTIFICATS_PAGE)) {
+    } else /* XYZ ZZZ if (relativePath.startsWith(SENSE_CERTIFICATS_PAGE)) {
       // S'ha de provar si funciona
       senseCertificats(absolutePluginRequestPath, relativePluginRequestPath, request,
           response, signaturesSet, signatureIndex, locale);
-    } else if (relativePath.startsWith(CANCEL_AMB_MISSATGE_PAGE)) {
+    } else */ if (relativePath.startsWith(CANCEL_AMB_MISSATGE_PAGE)) {
       cancelAmbMissatge(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
           request, response, signaturesSet, locale);
     } else if (relativePath.startsWith(SIGN_ERROR_PAGE)) {
@@ -418,11 +432,11 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
       String relativePath, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response, Locale locale) {
-
+/* XYZ ZZZ
     if (relativePath.startsWith(FIRMAR_PRE_DES_DE_CERT_GENERAT_PAGE)) {
       firmarPreDesDeCertgenerat(absolutePluginRequestPath, relativePluginRequestPath,
           relativePath, request, response, signaturesSet, signatureIndex, locale);
-    } else if (relativePath.startsWith(FIRMAR_PRE_PAGE)) {
+    } else */ if (relativePath.startsWith(FIRMAR_PRE_PAGE)) {
       firmarPre(absolutePluginRequestPath, relativePluginRequestPath, relativePath, request,
           response, signaturesSet, locale);
 
@@ -444,22 +458,29 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       String relativePluginRequestPath, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) throws Exception {
 
     // Verificam certificats si forçam ús de ClaveFirma
+      /* XYZ ZZZ
     if (isNotModeMixtOrLocal()) {
 
       List<X509Certificate> certificates;
       // En principi això ja no ha de llançar errors a no ser de usuari no
       // registrat
       try {
+          
         certificates = listCertificates(signaturesSet);
 
+        
         if (certificates == null || certificates.size() == 0) {
           // Si s'ha arribat aquí, es que es permet la creació de Certificats
           // Online. Afegim 5 minuts pel tema de donar d'alta el certificat
           signaturesSet.setExpiryDate(new Date(
               signaturesSet.getExpiryDate().getTime() + 300000));
-          addSignaturesSet(signaturesSet);
-          return relativePluginRequestPath + "/" + SENSE_CERTIFICATS_PAGE;
-        } else {
+          // XYZ ZZZ
+          //addSignaturesSet(signaturesSet);
+          //return relativePluginRequestPath + "/" + SENSE_CERTIFICATS_PAGE;
+          
+        } 
+        //else
+        {
           // Mostrar llistat de certificats per a seleccionar-ne un
           addSignaturesSet(signaturesSet);
           return relativePluginRequestPath + "/" + FIRMAR_PRE_PAGE;
@@ -474,8 +495,15 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       } catch (HttpNoUserException se) {
 
         // L'usuari no està donat d'alta en el sistema ClaveFirma
-        addSignaturesSet(signaturesSet);
-        return relativePluginRequestPath + "/" + NO_REGISTRAT_PAGE;
+        // XYZ ZZZ
+        //addSignaturesSet(signaturesSet);
+        //return relativePluginRequestPath + "/" + NO_REGISTRAT_PAGE;
+        
+        {
+          // Mostrar llistat de certificats per a seleccionar-ne un
+          addSignaturesSet(signaturesSet);
+          return relativePluginRequestPath + "/" + FIRMAR_PRE_PAGE;
+        }
 
       } catch (HttpCertificateBlockedException hcbe) {
 
@@ -484,7 +512,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
         return relativePluginRequestPath + "/" + CERTIFICATE_BLOCKED_PAGE;
 
       }
-    } else {
+    } else */ {
       addSignaturesSet(signaturesSet);
       return relativePluginRequestPath + "/" + FIRMAR_PRE_PAGE;
     }
@@ -513,12 +541,11 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
   }
 
-  // ----------------------------------------------------------------------------
-  // ----------------------------------------------------------------------------
-  // ---------------- TANCAR FINESTRA DE LA WEB DE CL@VEFIRMA
-  // -------------------
-  // ----------------------------------------------------------------------------
-  // ----------------------------------------------------------------------------
+  // -------------------------------------------------------------------------
+  // -------------------------------------------------------------------------
+  // ------------- TANCAR FINESTRA DE LA WEB DE CL@VEFIRMA -------------------
+  // -------------------------------------------------------------------------
+  // -------------------------------------------------------------------------
 
   private static final String CLOSE_FIRE_PAGE = "closefirepage";
 
@@ -546,7 +573,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
   // ------------------- USUARI AMB REGISTRE DEBIL ----------------------------
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
-
+/** XYZ ZZZ
   private static final String USUARI_AMB_REGISTRE_DEBIL_PAGE = "usuariambregistredebil";
 
   private void usuariAmbRegistreDebilPage(String absolutePluginRequestPath,
@@ -577,6 +604,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       }
     }
   }
+  */
 
   // ----------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
@@ -584,6 +612,8 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
 
+  
+  /*
   private static final String NO_REGISTRAT_PAGE = "noregistrat";
 
   private void noRegistratPage(String absolutePluginRequestPath,
@@ -615,13 +645,14 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     }
 
   }
+  */
 
   // ----------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
-  // -------------- USUARI NO REGISTRAT A CL@VE FIRMA --------------------------
+  // -------------- CERTIFICAT BLOQUEJAT --------------------------
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
-
+/* XYZ ZZZ
   private static final String CERTIFICATE_BLOCKED_PAGE = "certificateblocked";
 
   private void certificateBlockedPage(String absolutePluginRequestPath,
@@ -683,13 +714,14 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
     generateFooter(out, sai, signaturesSet);
   }
-
+*/
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
   // ----------------- SENSE CERTIFICAT - GENERAR UN DE NOU -----------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
+  /*
   private static final String GENERAR_NOU_CERTIFICAT_PAGE = "generarnoucertificat";
 
   protected void generarNouCertificat(String absolutePluginRequestPath,
@@ -781,6 +813,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     }
 
   }
+  */
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -789,6 +822,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
+  /*
   private static final String SENSE_CERTIFICATS_PAGE = "sensecertificats";
 
   private void senseCertificats(String absolutePluginRequestPath,
@@ -825,6 +859,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
     generateFooter(out, sai, signaturesSet);
   }
+  */
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -869,6 +904,8 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
+  /*
+  
   private static final String FIRMAR_PRE_DES_DE_CERT_GENERAT_PAGE = "firmarpredesdecertgenerat";
 
   protected void firmarPreDesDeCertgenerat(String absolutePluginRequestPath,
@@ -926,6 +963,8 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     }
 
   }
+  */
+  
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -954,6 +993,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
     try {
       X509Certificate certificate = null;
+      /* XYZ ZZZ
       if (isNotModeMixtOrLocal()) {
 
         FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
@@ -973,6 +1013,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
         }
 
       }
+      */
 
       firmar(absolutePluginRequestPath, relativePluginRequestPath, request, response,
           signaturesSet, locale, debug, certificate);
@@ -1025,7 +1066,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       String filtre = signaturesSet.getCommonInfoSignature().getFiltreCertificats();
       if (debug) { log.info("firmar::FILTRE["+ filtre + "]"); }
       if (filtre != null && filtre.trim().length() != 0) {
-        
+
         try {
           Properties propFiltre = new Properties();
           propFiltre.load(new StringReader(filtre));
@@ -1109,7 +1150,6 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
     // --------------------
     // Crear BATCH
-
     FireClient fireClient = instantiateFireClient();
 
     // Possibles valors = "ES-A", ES-T i ES-LTV
@@ -1670,6 +1710,8 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
+  /*
+  
   public List<X509Certificate> listCertificates(SignaturesSetWeb signaturesSet)
       throws Exception, HttpCertificateBlockedException, HttpNoUserException {
 
@@ -1679,6 +1721,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     return listCertificates(username, administrationID);
 
   }
+
 
   // Cache de certificats
   private final boolean cacheEnabled = (cacheMaxEntries() > 0) && (cacheMaxTimeToLive() > 0);
@@ -1704,6 +1747,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     return certificates;
   }
 
+  
   public List<X509Certificate> listCertificates(String userClaveFirma) throws Exception {
     {
       final String appId = getAppID();
@@ -1712,15 +1756,15 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
         // Configura Properties de ConfigManager !!!!!
         initClaveFirma();
 
-        /*
-         TODO
-        FIRe 2.3 empra noms diferents de providers (clavefirma,clavefirmatest), però l'api de Clavefirma proporcionada
-        per fire-client 2.3 no permet especificar el provider, i sempre agafa "clavefirma".
-        Per tant de moment cal configurar FIRe perquè el provider "clavefirmatest" sigui "clavefirma" sinó, aquesta
-        cridada fallarà.
-        Estarà corregit a FIRe 2.4 sembla per aquest commit: https://github.com/ctt-gob-es/fire/commit/571aab55
-        Quan estigui caldrà afegir el provider a aquesta cridada, agafant-lo de certOrigin
-         */
+      
+//         TODO
+//        FIRe 2.3 empra noms diferents de providers (clavefirma,clavefirmatest), però l'api de Clavefirma proporcionada
+//        per fire-client 2.3 no permet especificar el provider, i sempre agafa "clavefirma".
+//        Per tant de moment cal configurar FIRe perquè el provider "clavefirmatest" sigui "clavefirma" sinó, aquesta
+//        cridada fallarà.
+//        Estarà corregit a FIRe 2.4 sembla per aquest commit: https://github.com/ctt-gob-es/fire/commit/571aab55
+//        Quan estigui caldrà afegir el provider a aquesta cridada, agafant-lo de certOrigin
+   
         return HttpCertificateList.getList(appId, userClaveFirma);
 
       } catch (final HttpNetworkException e) {
@@ -1741,6 +1785,8 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       }
     }
   }
+  */
+  
 
   protected FireClient instantiateFireClient() throws Exception {
     final String appId = getAppID();
@@ -1772,6 +1818,8 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     }
     return prop;
   }
+  
+  /***
 
   boolean initializedClaveFirma = false;
 
@@ -1815,6 +1863,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
     initializedClaveFirma = true;
   }
+  */
 
   // ------------------------------------------------------------------
   // -------------------------------------------------------------------
@@ -1858,7 +1907,13 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
   @Override
   public boolean acceptExternalRubricGenerator() {
-    return true;
+      // No acceptam firmes amb taula de Firmes
+      // Si l'usuari no està registrat (no està donat d'alta a Cl@veFirma),
+      // llavors no podem obtenir el certificat, necessari per dibuixar
+      // la taula de firmes. 
+      // 
+      return false;
+      //return true;
   }
 
   @Override
