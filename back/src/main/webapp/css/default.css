@@ -196,6 +196,7 @@ small {
 	font-style:italic;
 	color:#999999;
 }
+
 .accordion-group { background-color:#eee;}
 .accordion-inner { border:none;}
 .accordion-heading {/* background-image:url(../img/arrow-down.png);*/ background-position:right 14px; background-repeat:no-repeat; margin-right: 14px !important;}
