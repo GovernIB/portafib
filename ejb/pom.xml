@@ -109,6 +109,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<artifactId>pluginsib-userinformation-api</artifactId>
+	  		<groupId>org.fundaciobit.pluginsib.userinformation</groupId>
+		    <version>${pluginsib.userinformation.api.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.fundaciobit.pluginsib.validatecertificate</groupId>
 			<artifactId>pluginsib-validatecertificate-api</artifactId>
 			<version>${plugins.validatecertificate.version}</version>
@@ -147,24 +152,24 @@
 		<dependency>
 			<groupId>org.fundaciobit.pluginsib.barcode</groupId>
 			<artifactId>pluginsib-barcode-api</artifactId>
-			<version>${plugins.version}</version>
+			<version>${pluginsib.barcode.api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fundaciobit.pluginsib.barcode</groupId>
 			<artifactId>pluginsib-barcode-pdf417</artifactId>
-			<version>${plugins.version}</version>
+			<version>${pluginsib.barcode.impl.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.fundaciobit.pluginsib.barcode</groupId>
 			<artifactId>pluginsib-barcode-qr</artifactId>
-			<version>${plugins.version}</version>
+			<version>${pluginsib.barcode.impl.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.fundaciobit.pluginsib.barcode</groupId>
 			<artifactId>pluginsib-barcode-barcode128</artifactId>
-			<version>${plugins.version}</version>
+			<version>${pluginsib.barcode.impl.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

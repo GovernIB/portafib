@@ -186,25 +186,25 @@
       <dependency>
         <groupId>org.fundaciobit.pluginsib.barcode</groupId>
         <artifactId>pluginsib-barcode-api</artifactId>
-        <version>${plugins.version}</version>
+        <version>${pluginsib.barcode.api.version}</version>
       </dependency>
       
       <dependency>
         <groupId>org.fundaciobit.pluginsib.barcode</groupId>
         <artifactId>pluginsib-barcode-pdf417</artifactId>
-        <version>${plugins.version}</version>
+        <version>${pluginsib.barcode.impl.version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.fundaciobit.pluginsib.barcode</groupId>
         <artifactId>pluginsib-barcode-qr</artifactId>
-        <version>${plugins.version}</version>
+        <version>${pluginsib.barcode.impl.version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.fundaciobit.pluginsib.barcode</groupId>
         <artifactId>pluginsib-barcode-barcode128</artifactId>
-        <version>${plugins.version}</version>
+        <version>${pluginsib.barcode.impl.version}</version>
       </dependency>
 
 
@@ -266,7 +266,7 @@
       <dependency>
         <groupId>org.fundaciobit.pluginsib.userinformation</groupId>
         <artifactId>pluginsib-userinformation-keycloak</artifactId>
-        <version>2.0.1</version>
+        <version>${pluginsib.userinformation.impl.version}</version>
         <exclusions>
           <exclusion>
             <groupId>org.jboss.resteasy</groupId>
@@ -294,13 +294,13 @@
       <dependency>
         <groupId>org.fundaciobit.pluginsib.userinformation</groupId>
         <artifactId>pluginsib-userinformation-database</artifactId>				  
-        <version>2.0.0</version>
+        <version>${pluginsib.userinformation.impl.version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.fundaciobit.pluginsib.userinformation</groupId>
         <artifactId>pluginsib-userinformation-ldap</artifactId>				  
-        <version>2.0.1</version>
+        <version>${pluginsib.userinformation.impl.version}</version>
       </dependency>
 
 
