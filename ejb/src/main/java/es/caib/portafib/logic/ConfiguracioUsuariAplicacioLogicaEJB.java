@@ -1,5 +1,6 @@
 package es.caib.portafib.logic;
 
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.UsuariAplicacioConfiguracioEJB;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
@@ -57,6 +58,14 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
 
   @EJB(mappedName = es.caib.portafib.ejb.TraduccioService.JNDI_NAME)
   protected es.caib.portafib.ejb.TraduccioService traduccioEjb;
+  
+  
+  @Override
+  @PermitAll
+  public UsuariAplicacioConfiguracio create(UsuariAplicacioConfiguracio instance) throws I18NException {
+      return super.create(instance);
+  }
+  
 
   protected void checkTePermisPerUsDeFirma(final String usuariAplicacioID, String codiPerfil,
       final int usFirma, final UsuariAplicacioConfiguracio config) throws I18NException {
@@ -158,10 +167,11 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
             + ". Consulti amb l'Administrador.");
       }
     }
-
+    
     return perfilDeFirma;
   }
-
+  
+  @PermitAll
   @Override
   public UsuariAplicacioConfiguracioJPA findByPrimaryKeyUnauthorized(Long _ID_) {
     return super.findByPrimaryKey(_ID_);

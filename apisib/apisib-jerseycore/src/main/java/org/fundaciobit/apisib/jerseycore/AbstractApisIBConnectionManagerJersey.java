@@ -1,13 +1,12 @@
 package org.fundaciobit.apisib.jerseycore;
 
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.fundaciobit.apisib.core.beans.ApisIBError;
 import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 import org.fundaciobit.apisib.core.exceptions.ApisIBClientException;
 import org.fundaciobit.apisib.core.exceptions.ApisIBServerException;
 import org.fundaciobit.apisib.core.exceptions.ApisIBTimeOutException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -38,8 +37,7 @@ public abstract class AbstractApisIBConnectionManagerJersey<E extends ApisIBErro
 
     private final ObjectMapper mapper;
 
-    private final static Logger log = LoggerFactory
-            .getLogger(AbstractApisIBConnectionManagerJersey.class);
+    private final static Logger log = Logger.getLogger(AbstractApisIBConnectionManagerJersey.class);
 
     public AbstractApisIBConnectionManagerJersey(String endPointBase) {
         this(endPointBase, null, null);

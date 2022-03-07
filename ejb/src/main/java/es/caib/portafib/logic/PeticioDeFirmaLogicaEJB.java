@@ -202,8 +202,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
   @EJB(mappedName = UsuariPersonaService.JNDI_NAME, beanName = "UsuariPersonaEJB")
   protected UsuariPersonaService usuariPersonaEjb;
 
-  @EJB(mappedName = EntitatService.JNDI_NAME, beanName = "EntitatEJB")
-  protected EntitatService entitatEjb;
+  @EJB(mappedName = EntitatLogicaLocal.JNDI_NAME) //, beanName = "EntitatEJB")
+  protected EntitatLogicaLocal entitatLogicaEjb;
 
   @EJB(mappedName = AnnexLogicaLocal.JNDI_NAME)
   private AnnexLogicaLocal annexLogicaEjb;
@@ -220,8 +220,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
   @EJB(mappedName = IdiomaService.JNDI_NAME)
   protected IdiomaService idiomaEjb;
 
-  @EJB(mappedName = UsuariAplicacioService.JNDI_NAME, beanName = "UsuariAplicacioEJB")
-  protected UsuariAplicacioService usuariAplicacioEjb;
+  @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME) //, beanName = "UsuariAplicacioEJB")
+  protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
 
   @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
   protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
@@ -280,7 +280,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
     PeticioDeFirmaBeanValidator pfbv = new PeticioDeFirmaBeanValidator(validator,
         custodiaInfoLogicaEjb, fluxDeFirmesLogicaEjb, idiomaEjb, this, tipusDocumentEjb,
-        usuariAplicacioEjb, configuracioDeFirmaLogicaEjb, usuariEntitatEjb);
+        usuariAplicacioLogicaEjb, configuracioDeFirmaLogicaEjb, usuariEntitatEjb);
 
     final boolean isNou = false;
     pfbv.throwValidationExceptionIfErrors(peticioDeFirma, isNou);
@@ -293,7 +293,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
     peticioDeFirma = (PeticioDeFirmaJPA) this.update(peticioDeFirma);
 
     bitacolaLogicaEjb.createBitacola(
-        usuariAplicacioEjb.findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID())
+        usuariAplicacioLogicaEjb.findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID())
             .getEntitatID(),
         peticioDeFirma.getPeticioDeFirmaID(), BITACOLA_TIPUS_PETICIO, BITACOLA_OP_ACTUALITZAR,
         PeticioDeFirmaBean.toBean(peticioDeFirma));
@@ -323,7 +323,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
     PeticioDeFirmaBeanValidator pfbv = new PeticioDeFirmaBeanValidator(validator,
         custodiaInfoLogicaEjb, fluxDeFirmesLogicaEjb, idiomaEjb, this, tipusDocumentEjb,
-        usuariAplicacioEjb, configuracioDeFirmaLogicaEjb, usuariEntitatEjb);
+        usuariAplicacioLogicaEjb, configuracioDeFirmaLogicaEjb, usuariEntitatEjb);
 
     final boolean isNou = true;
     pfbv.throwValidationExceptionIfErrors(peticioDeFirma, isNou);
@@ -359,7 +359,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       if (peticioDeFirma.getRemitentNom() == null) {
         peticioDeFirma.setRemitentNom(usuariAplicacioID);
       }
-      usuariAplicacio = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
+      usuariAplicacio = usuariAplicacioLogicaEjb.findByPrimaryKey(usuariAplicacioID);
       // entitatID = usuariAplicacio.getEntitatID();
     }
 
@@ -389,7 +389,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
           }
         }
 
-        entitatJPA = entitatEjb.findByPrimaryKey(usuariEntitat.getEntitatID());
+        entitatJPA = entitatLogicaEjb.findByPrimaryKeyPublic(usuariEntitat.getEntitatID());
       }
       break;
 
@@ -403,7 +403,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
         usuariEntitat = null;
 
-        entitatJPA = entitatEjb.findByPrimaryKey(usuariAplicacio.getEntitatID());
+        entitatJPA = entitatLogicaEjb.findByPrimaryKeyPublic(usuariAplicacio.getEntitatID());
 
       }
 
@@ -460,7 +460,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       if (configuracioDeFirmaID != null) {
 
         UsuariAplicacioConfiguracioJPA config;
-        config = configuracioDeFirmaLogicaEjb.findByPrimaryKey(configuracioDeFirmaID);
+        config = configuracioDeFirmaLogicaEjb.findByPrimaryKeyUnauthorized(configuracioDeFirmaID);
 
         if (config == null) {
           throw new I18NException("genapp.comodi", "S´ha passat configuracio de firma amb ID "
@@ -625,7 +625,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
       if (peticioDeFirma.getUsuariAplicacio() == null) {
 
-        peticioDeFirma.setUsuariAplicacio(usuariAplicacioEjb
+        peticioDeFirma.setUsuariAplicacio(usuariAplicacioLogicaEjb
             .findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID()));
 
         if (peticioDeFirma.getUsuariAplicacio() == null) {
@@ -942,7 +942,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
     }
 
     // obtenir tamany màxim del fitxer adaptat
-    EntitatJPA entitat = entitatEjb.findByPrimaryKey(entitatID);
+    EntitatJPA entitat = entitatLogicaEjb.findByPrimaryKeyPublic(entitatID);
     Long maxSizeEntitat = null;
     if (entitat != null) {
       maxSizeEntitat = entitat.getMaxSizeFitxerAdaptat();
@@ -1168,7 +1168,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
           entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
         }
       }
-      Long logoID = entitatEjb.executeQueryOne(EntitatFields.LOGOSEGELLID,
+      Long logoID = entitatLogicaEjb.executeQueryOne(EntitatFields.LOGOSEGELLID,
           EntitatFields.ENTITATID.equal(entitatID));
       return FileSystemManager.getFile(logoID);
     } else {
@@ -1866,7 +1866,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       } else {
         // És Administrador d'Entitat. Comprovam que ho sigui de l'entitat de la qual és la
         // petició.
-        String entitatID = this.usuariAplicacioEjb
+        String entitatID = this.usuariAplicacioLogicaEjb
             .findByPrimaryKey(pf.getSolicitantUsuariAplicacioID()).getEntitatID();
         if (currentUsuariEntitatADEN(entitatID, usernameLoguejat) == null) {
           throw new I18NException("peticiodefirma.error.nopermisdeborrar", usernameLoguejat,
@@ -2200,11 +2200,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
             UsuariAplicacioConfiguracio configuracio = configuracioDeFirmaLogicaEjb
                 .findByPrimaryKeyUnauthorized(confFirmaId);
 
-            validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb,
+            validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatLogicaEjb,
                 entitatID);
             checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio,
-                entitatEjb, entitatID);
-            comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb,
+                entitatLogicaEjb, entitatID);
+            comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatLogicaEjb,
                 entitatID);
           }
         break;
@@ -2222,11 +2222,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
           UsuariAplicacioConfiguracio configuracio = configuracioDeFirmaLogicaEjb
               .findByPrimaryKeyUnauthorized(confFirmaId);
 
-          validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb,
+          validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatLogicaEjb,
               entitatID);
           checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio,
-              entitatEjb, entitatID);
-          comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb,
+              entitatLogicaEjb, entitatID);
+          comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatLogicaEjb,
               entitatID);
 
         break;
@@ -2591,7 +2591,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
    */
   protected EntitatJPA findEntitatByPrimaryKeyPublic(String entitatID) throws I18NException {
 
-    List<Entitat> list = entitatEjb.select(EntitatFields.ENTITATID.equal(entitatID));
+    List<Entitat> list = entitatLogicaEjb.select(EntitatFields.ENTITATID.equal(entitatID));
 
     if (list == null || list.size() == 0) {
       return null;
@@ -2757,7 +2757,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       firmaEventManagerEjb.processList(events, false);
     }
 
-    String entitatID = usuariAplicacioEjb
+    String entitatID = usuariAplicacioLogicaEjb
             .findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID()).getEntitatID();
     bitacolaLogicaEjb.createBitacola(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
             BITACOLA_TIPUS_PETICIO, BITACOLA_OP_ACCEPTAR);
@@ -2928,7 +2928,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
     }
 
-    String entitatID = usuariAplicacioEjb
+    String entitatID = usuariAplicacioLogicaEjb
         .findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID()).getEntitatID();
 
     bitacolaLogicaEjb.createBitacola(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
@@ -2974,7 +2974,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
     rebutjarInternal(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig, usernameLoguejat);
 
     // usuariAplicacioEjb.findByPrimaryKey(_ID_)(peticioDeFirma.getSolicitantUsuariAplicacioID()).getEntitatID();
-    String entitatID = usuariAplicacioEjb.executeQueryOne(UsuariAplicacioFields.ENTITATID,
+    String entitatID = usuariAplicacioLogicaEjb.executeQueryOne(UsuariAplicacioFields.ENTITATID,
         UsuariAplicacioFields.USUARIAPLICACIOID
             .equal(peticioDeFirma.getSolicitantUsuariAplicacioID()));
 
@@ -3938,7 +3938,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       }
 
       allUsuariEntitat.putAll(mailsByUsuariEntitat);
-      String nomEntitat = entitatEjb.executeQueryOne(EntitatFields.NOM,
+      String nomEntitat = entitatLogicaEjb.executeQueryOne(EntitatFields.NOM,
           EntitatFields.ENTITATID.equal(entitatID));
 
       // Muntar mails
@@ -4069,7 +4069,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
       if (usuariAplicacioID.equals(usernameLoguejat)) {
         return true;
       } else {
-        String entitatID = this.usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID)
+        String entitatID = this.usuariAplicacioLogicaEjb.findByPrimaryKey(usuariAplicacioID)
             .getEntitatID();
         return currentUsuariEntitatADEN(entitatID, usernameLoguejat) != null;
       }

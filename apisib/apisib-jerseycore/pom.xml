@@ -65,13 +65,13 @@
             <artifactId>jersey-apache-client4</artifactId>
             <version>1.19.4</version>
         </dependency>
-
+<!-- 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.5.8</version>
         </dependency>
-
+ -->
     </dependencies>
 
 </project>

@@ -43,8 +43,8 @@ public class FirmaLogicaEJB extends FirmaEJB implements FirmaLogicaLocal {
   @EJB(mappedName = AnnexFirmatService.JNDI_NAME)
   protected AnnexFirmatService annexFirmatEjb;
 
-  @EJB(mappedName = RevisorDeFirmaService.JNDI_NAME)
-  protected RevisorDeFirmaService revisorDeFirmaEjb;
+  @EJB(mappedName = RevisorDeFirmaLogicaLocal.JNDI_NAME)
+  protected RevisorDeFirmaLogicaLocal revisorDeFirmaLogicaEjb;
   
   @Override
   @PermitAll
@@ -77,7 +77,7 @@ public class FirmaLogicaEJB extends FirmaEJB implements FirmaLogicaLocal {
     estatDeFirmaEjb.delete(FIRMAID.equal(firma.getFirmaID()));
 
     // Esborrar RevisorsDeFirma
-    revisorDeFirmaEjb.delete(RevisorDeFirmaFields.FIRMAID.equal(firma.getFirmaID()));
+    revisorDeFirmaLogicaEjb.delete(RevisorDeFirmaFields.FIRMAID.equal(firma.getFirmaID()));
     firma.setRevisorDeFirmas(null);
 
     // Esborrar Anexes amb deleteFull ja que tenen arxius
@@ -107,6 +107,7 @@ public class FirmaLogicaEJB extends FirmaEJB implements FirmaLogicaLocal {
     return files;
   }
 
+  @Override
   public FirmaJPA createFull(FirmaJPA firma) throws I18NException {
     // TODO validar
 
@@ -120,7 +121,7 @@ public class FirmaLogicaEJB extends FirmaEJB implements FirmaLogicaLocal {
         rev.setUsuariEntitat(null);
         rev.setRevisorDeFirmaID(0);
         
-        revisorDeFirmaEjb.create(rev);
+        revisorDeFirmaLogicaEjb.create(rev);
       }
     }
 
