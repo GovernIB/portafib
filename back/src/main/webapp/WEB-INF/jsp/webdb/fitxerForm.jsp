@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="fitxerFormCorePre.jsp" %>
+
   <%@include file="fitxerFormCore.jsp" %>
 
   <%@include file="fitxerFormCorePost.jsp" %>
 
   <%@include file="fitxerFormButtons.jsp" %>
+
+  <c:if test="${not empty fitxerForm.sections}">
+     <c:set var="__basename" value="fitxer" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${fitxerForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/fitxerFormModificable.jsp" %>

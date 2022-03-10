@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,PerfilDeFirmaFields.NOM)}">
         <tr id="perfilDeFirma_nom_rowid">
-          <td>
+          <td id="perfilDeFirma_nom_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PerfilDeFirmaFields.NOM])?'perfilDeFirma.nom':__theForm.labels[PerfilDeFirmaFields.NOM]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PerfilDeFirmaFields.NOM]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="perfilDeFirma_nom_columnvalueid">
             <form:errors path="perfilDeFirma.nom" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.NOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="perfilDeFirma.nom"   />
 
@@ -22,7 +22,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PerfilDeFirmaFields.CODI)}">
         <tr id="perfilDeFirma_codi_rowid">
-          <td>
+          <td id="perfilDeFirma_codi_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PerfilDeFirmaFields.CODI])?'perfilDeFirma.codi':__theForm.labels[PerfilDeFirmaFields.CODI]}" /> &nbsp;(*)
              </label>
@@ -30,7 +30,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PerfilDeFirmaFields.CODI]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="perfilDeFirma_codi_columnvalueid">
             <form:errors path="perfilDeFirma.codi" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.CODI)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.CODI)? ' uneditable-input' : ''}"  style="" maxlength="100" path="perfilDeFirma.codi"   />
 
@@ -40,7 +40,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PerfilDeFirmaFields.DESCRIPCIO)}">
         <tr id="perfilDeFirma_descripcio_rowid">
-          <td>
+          <td id="perfilDeFirma_descripcio_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PerfilDeFirmaFields.DESCRIPCIO])?'perfilDeFirma.descripcio':__theForm.labels[PerfilDeFirmaFields.DESCRIPCIO]}" />
              </label>
@@ -48,12 +48,17 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PerfilDeFirmaFields.DESCRIPCIO]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="perfilDeFirma_descripcio_columnvalueid">
               <form:errors path="perfilDeFirma.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.DESCRIPCIO)? 'true' : 'false'}" path="perfilDeFirma.descripcio"  />
+  <table style="width:100%">
+  <tr>
+  <td>
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.DESCRIPCIO)? 'true' : 'false'}" path="perfilDeFirma.descripcio"  />
+   </td>
+   <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
-        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('perfilDeFirma.descripcio'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('perfilDeFirma.descripcio'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('perfilDeFirma.descripcio'); ta.wrap='hard';">Hard Wrap</a>
@@ -65,13 +70,16 @@
                  $('#dropdownMenuContainer_descripcio').css('display', valor);
                  return false;
 				});
-      </script>           </td>
+      </script>   </td>
+   </tr>
+   </table>
+           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PerfilDeFirmaFields.CONDICIO)}">
         <tr id="perfilDeFirma_condicio_rowid">
-          <td>
+          <td id="perfilDeFirma_condicio_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PerfilDeFirmaFields.CONDICIO])?'perfilDeFirma.condicio':__theForm.labels[PerfilDeFirmaFields.CONDICIO]}" />
              </label>
@@ -79,12 +87,17 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PerfilDeFirmaFields.CONDICIO]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="perfilDeFirma_condicio_columnvalueid">
               <form:errors path="perfilDeFirma.condicio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.CONDICIO)? 'true' : 'false'}" path="perfilDeFirma.condicio"  />
+  <table style="width:100%">
+  <tr>
+  <td>
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.CONDICIO)? 'true' : 'false'}" path="perfilDeFirma.condicio"  />
+   </td>
+   <td style="width:40px">
       <div id="dropdownMenuButton_condicio" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
-        <div id="dropdownMenuContainer_condicio" class="dropdown-menu">
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_condicio" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('perfilDeFirma.condicio'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('perfilDeFirma.condicio'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('perfilDeFirma.condicio'); ta.wrap='hard';">Hard Wrap</a>
@@ -96,13 +109,16 @@
                  $('#dropdownMenuContainer_condicio').css('display', valor);
                  return false;
 				});
-      </script>           </td>
+      </script>   </td>
+   </tr>
+   </table>
+           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA1ID)}">
         <tr id="perfilDeFirma_configuracioDeFirma1ID_rowid">
-          <td>
+          <td id="perfilDeFirma_configuracioDeFirma1ID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PerfilDeFirmaFields.CONFIGURACIODEFIRMA1ID])?'perfilDeFirma.configuracioDeFirma1ID':__theForm.labels[PerfilDeFirmaFields.CONFIGURACIODEFIRMA1ID]}" /> &nbsp;(*)
              </label>
@@ -110,7 +126,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PerfilDeFirmaFields.CONFIGURACIODEFIRMA1ID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="perfilDeFirma_configuracioDeFirma1ID_columnvalueid">
           <form:errors path="perfilDeFirma.configuracioDeFirma1ID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.CONFIGURACIODEFIRMA1ID)}" >
           <form:hidden path="perfilDeFirma.configuracioDeFirma1ID"/>
@@ -133,7 +149,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA2ID)}">
         <tr id="perfilDeFirma_configuracioDeFirma2ID_rowid">
-          <td>
+          <td id="perfilDeFirma_configuracioDeFirma2ID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PerfilDeFirmaFields.CONFIGURACIODEFIRMA2ID])?'perfilDeFirma.configuracioDeFirma2ID':__theForm.labels[PerfilDeFirmaFields.CONFIGURACIODEFIRMA2ID]}" />
              </label>
@@ -141,7 +157,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PerfilDeFirmaFields.CONFIGURACIODEFIRMA2ID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="perfilDeFirma_configuracioDeFirma2ID_columnvalueid">
           <form:errors path="perfilDeFirma.configuracioDeFirma2ID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.CONFIGURACIODEFIRMA2ID)}" >
           <form:hidden path="perfilDeFirma.configuracioDeFirma2ID"/>
@@ -173,7 +189,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA3ID)}">
         <tr id="perfilDeFirma_configuracioDeFirma3ID_rowid">
-          <td>
+          <td id="perfilDeFirma_configuracioDeFirma3ID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PerfilDeFirmaFields.CONFIGURACIODEFIRMA3ID])?'perfilDeFirma.configuracioDeFirma3ID':__theForm.labels[PerfilDeFirmaFields.CONFIGURACIODEFIRMA3ID]}" />
              </label>
@@ -181,7 +197,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PerfilDeFirmaFields.CONFIGURACIODEFIRMA3ID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="perfilDeFirma_configuracioDeFirma3ID_columnvalueid">
           <form:errors path="perfilDeFirma.configuracioDeFirma3ID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.CONFIGURACIODEFIRMA3ID)}" >
           <form:hidden path="perfilDeFirma.configuracioDeFirma3ID"/>
@@ -213,7 +229,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA4ID)}">
         <tr id="perfilDeFirma_configuracioDeFirma4ID_rowid">
-          <td>
+          <td id="perfilDeFirma_configuracioDeFirma4ID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PerfilDeFirmaFields.CONFIGURACIODEFIRMA4ID])?'perfilDeFirma.configuracioDeFirma4ID':__theForm.labels[PerfilDeFirmaFields.CONFIGURACIODEFIRMA4ID]}" />
              </label>
@@ -221,7 +237,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PerfilDeFirmaFields.CONFIGURACIODEFIRMA4ID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="perfilDeFirma_configuracioDeFirma4ID_columnvalueid">
           <form:errors path="perfilDeFirma.configuracioDeFirma4ID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.CONFIGURACIODEFIRMA4ID)}" >
           <form:hidden path="perfilDeFirma.configuracioDeFirma4ID"/>
@@ -253,7 +269,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA5ID)}">
         <tr id="perfilDeFirma_configuracioDeFirma5ID_rowid">
-          <td>
+          <td id="perfilDeFirma_configuracioDeFirma5ID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PerfilDeFirmaFields.CONFIGURACIODEFIRMA5ID])?'perfilDeFirma.configuracioDeFirma5ID':__theForm.labels[PerfilDeFirmaFields.CONFIGURACIODEFIRMA5ID]}" />
              </label>
@@ -261,7 +277,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PerfilDeFirmaFields.CONFIGURACIODEFIRMA5ID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="perfilDeFirma_configuracioDeFirma5ID_columnvalueid">
           <form:errors path="perfilDeFirma.configuracioDeFirma5ID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.CONFIGURACIODEFIRMA5ID)}" >
           <form:hidden path="perfilDeFirma.configuracioDeFirma5ID"/>
@@ -293,7 +309,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PerfilDeFirmaFields.URLBASE)}">
         <tr id="perfilDeFirma_urlBase_rowid">
-          <td>
+          <td id="perfilDeFirma_urlBase_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PerfilDeFirmaFields.URLBASE])?'perfilDeFirma.urlBase':__theForm.labels[PerfilDeFirmaFields.URLBASE]}" />
              </label>
@@ -301,7 +317,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PerfilDeFirmaFields.URLBASE]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="perfilDeFirma_urlBase_columnvalueid">
             <form:errors path="perfilDeFirma.urlBase" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.URLBASE)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.URLBASE)? ' uneditable-input' : ''}"  style="" maxlength="255" path="perfilDeFirma.urlBase"   />
 

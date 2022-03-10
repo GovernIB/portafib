@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="idiomaFormCorePre.jsp" %>
+
   <%@include file="idiomaFormCore.jsp" %>
 
   <%@include file="idiomaFormCorePost.jsp" %>
 
   <%@include file="idiomaFormButtons.jsp" %>
+
+  <c:if test="${not empty idiomaForm.sections}">
+     <c:set var="__basename" value="idioma" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${idiomaForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/idiomaFormModificable.jsp" %>

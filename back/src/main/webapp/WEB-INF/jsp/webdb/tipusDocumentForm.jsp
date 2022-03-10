@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="tipusDocumentFormCorePre.jsp" %>
+
   <%@include file="tipusDocumentFormCore.jsp" %>
 
   <%@include file="tipusDocumentFormCorePost.jsp" %>
 
   <%@include file="tipusDocumentFormButtons.jsp" %>
+
+  <c:if test="${not empty tipusDocumentForm.sections}">
+     <c:set var="__basename" value="tipusDocument" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${tipusDocumentForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/tipusDocumentFormModificable.jsp" %>

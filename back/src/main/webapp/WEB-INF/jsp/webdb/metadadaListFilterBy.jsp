@@ -55,12 +55,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="metadada.metadadaID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="metadadaIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="metadadaIDFins" />
 
@@ -112,12 +112,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="metadada.peticioDeFirmaID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="peticioDeFirmaIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="peticioDeFirmaIDFins" />
 
@@ -130,12 +130,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="metadada.tipusMetadadaID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="tipusMetadadaIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="tipusMetadadaIDFins" />
 

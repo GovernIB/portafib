@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,PlantillaFluxDeFirmesFields.FLUXDEFIRMESID)}">
         <tr id="plantillaFluxDeFirmes_fluxDeFirmesID_rowid">
-          <td>
+          <td id="plantillaFluxDeFirmes_fluxDeFirmesID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.FLUXDEFIRMESID])?'plantillaFluxDeFirmes.fluxDeFirmesID':__theForm.labels[PlantillaFluxDeFirmesFields.FLUXDEFIRMESID]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PlantillaFluxDeFirmesFields.FLUXDEFIRMESID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="plantillaFluxDeFirmes_fluxDeFirmesID_columnvalueid">
           <form:errors path="plantillaFluxDeFirmes.fluxDeFirmesID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PlantillaFluxDeFirmesFields.FLUXDEFIRMESID)}" >
           <form:hidden path="plantillaFluxDeFirmes.fluxDeFirmesID"/>
@@ -35,7 +35,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PlantillaFluxDeFirmesFields.DESCRIPCIO)}">
         <tr id="plantillaFluxDeFirmes_descripcio_rowid">
-          <td>
+          <td id="plantillaFluxDeFirmes_descripcio_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.DESCRIPCIO])?'plantillaFluxDeFirmes.descripcio':__theForm.labels[PlantillaFluxDeFirmesFields.DESCRIPCIO]}" /> &nbsp;(*)
              </label>
@@ -43,12 +43,17 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PlantillaFluxDeFirmesFields.DESCRIPCIO]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="plantillaFluxDeFirmes_descripcio_columnvalueid">
               <form:errors path="plantillaFluxDeFirmes.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PlantillaFluxDeFirmesFields.DESCRIPCIO)? 'true' : 'false'}" path="plantillaFluxDeFirmes.descripcio"  />
+  <table style="width:100%">
+  <tr>
+  <td>
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PlantillaFluxDeFirmesFields.DESCRIPCIO)? 'true' : 'false'}" path="plantillaFluxDeFirmes.descripcio"  />
+   </td>
+   <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
-        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('plantillaFluxDeFirmes.descripcio'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('plantillaFluxDeFirmes.descripcio'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('plantillaFluxDeFirmes.descripcio'); ta.wrap='hard';">Hard Wrap</a>
@@ -60,13 +65,16 @@
                  $('#dropdownMenuContainer_descripcio').css('display', valor);
                  return false;
 				});
-      </script>           </td>
+      </script>   </td>
+   </tr>
+   </table>
+           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PlantillaFluxDeFirmesFields.USUARIENTITATID)}">
         <tr id="plantillaFluxDeFirmes_usuariEntitatID_rowid">
-          <td>
+          <td id="plantillaFluxDeFirmes_usuariEntitatID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.USUARIENTITATID])?'plantillaFluxDeFirmes.usuariEntitatID':__theForm.labels[PlantillaFluxDeFirmesFields.USUARIENTITATID]}" />
              </label>
@@ -74,7 +82,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PlantillaFluxDeFirmesFields.USUARIENTITATID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="plantillaFluxDeFirmes_usuariEntitatID_columnvalueid">
           <form:errors path="plantillaFluxDeFirmes.usuariEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PlantillaFluxDeFirmesFields.USUARIENTITATID)}" >
           <form:hidden path="plantillaFluxDeFirmes.usuariEntitatID"/>
@@ -106,7 +114,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PlantillaFluxDeFirmesFields.USUARIAPLICACIOID)}">
         <tr id="plantillaFluxDeFirmes_usuariAplicacioID_rowid">
-          <td>
+          <td id="plantillaFluxDeFirmes_usuariAplicacioID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.USUARIAPLICACIOID])?'plantillaFluxDeFirmes.usuariAplicacioID':__theForm.labels[PlantillaFluxDeFirmesFields.USUARIAPLICACIOID]}" />
              </label>
@@ -114,7 +122,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PlantillaFluxDeFirmesFields.USUARIAPLICACIOID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="plantillaFluxDeFirmes_usuariAplicacioID_columnvalueid">
           <form:errors path="plantillaFluxDeFirmes.usuariAplicacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PlantillaFluxDeFirmesFields.USUARIAPLICACIOID)}" >
           <form:hidden path="plantillaFluxDeFirmes.usuariAplicacioID"/>
@@ -146,7 +154,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PlantillaFluxDeFirmesFields.COMPARTIR)}">
         <tr id="plantillaFluxDeFirmes_compartir_rowid">
-          <td>
+          <td id="plantillaFluxDeFirmes_compartir_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.COMPARTIR])?'plantillaFluxDeFirmes.compartir':__theForm.labels[PlantillaFluxDeFirmesFields.COMPARTIR]}" />
              </label>
@@ -154,7 +162,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PlantillaFluxDeFirmesFields.COMPARTIR]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="plantillaFluxDeFirmes_compartir_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PlantillaFluxDeFirmesFields.COMPARTIR)}" >
               <form:select cssClass="form-control col-md-6" onchange="if(typeof onChangeCompartir == 'function') {  onChangeCompartir(this); };"  path="plantillaFluxDeFirmes.compartir">
                 <form:option value=""><fmt:message key="compartirplantilla." /></form:option>

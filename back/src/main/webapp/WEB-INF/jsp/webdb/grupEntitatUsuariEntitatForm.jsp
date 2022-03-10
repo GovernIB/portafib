@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="grupEntitatUsuariEntitatFormCorePre.jsp" %>
+
   <%@include file="grupEntitatUsuariEntitatFormCore.jsp" %>
 
   <%@include file="grupEntitatUsuariEntitatFormCorePost.jsp" %>
 
   <%@include file="grupEntitatUsuariEntitatFormButtons.jsp" %>
+
+  <c:if test="${not empty grupEntitatUsuariEntitatForm.sections}">
+     <c:set var="__basename" value="grupEntitatUsuariEntitat" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${grupEntitatUsuariEntitatForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/grupEntitatUsuariEntitatFormModificable.jsp" %>

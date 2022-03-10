@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.TIPUSDOCUMENTID)}">
         <tr id="tipusDocument_tipusDocumentID_rowid">
-          <td>
+          <td id="tipusDocument_tipusDocumentID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.TIPUSDOCUMENTID])?'tipusDocument.tipusDocumentID':__theForm.labels[TipusDocumentFields.TIPUSDOCUMENTID]}" /> &nbsp;(*)
              </label>
@@ -12,9 +12,9 @@
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentFields.TIPUSDOCUMENTID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="tipusDocument_tipusDocumentID_columnvalueid">
             <form:errors path="tipusDocument.tipusDocumentID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? ' uneditable-input' : ''}"  style=""  path="tipusDocument.tipusDocumentID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? 'true' : 'false'}" cssClass="w-50 form-control  ${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? ' uneditable-input' : ''}"  style=""  path="tipusDocument.tipusDocumentID"   />
 
            </td>
         </tr>
@@ -22,7 +22,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.NOMID)}">
         <tr id="tipusDocument_nomID_rowid">
-          <td>
+          <td id="tipusDocument_nomID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.NOMID])?'tipusDocument.nomID':__theForm.labels[TipusDocumentFields.NOMID]}" /> &nbsp;(*)
              </label>
@@ -30,7 +30,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentFields.NOMID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="tipusDocument_nomID_columnvalueid">
        <form:errors path="tipusDocument.nom" cssClass="errorField alert alert-danger" />
        <div class="row-fluid col-md-9-optional">
          <ul class="nav nav-tabs" style="margin: 0 15px -1px;">
@@ -57,7 +57,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.TIPUSDOCUMENTBASEID)}">
         <tr id="tipusDocument_tipusDocumentBaseID_rowid">
-          <td>
+          <td id="tipusDocument_tipusDocumentBaseID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.TIPUSDOCUMENTBASEID])?'tipusDocument.tipusDocumentBaseID':__theForm.labels[TipusDocumentFields.TIPUSDOCUMENTBASEID]}" /> &nbsp;(*)
              </label>
@@ -65,7 +65,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentFields.TIPUSDOCUMENTBASEID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="tipusDocument_tipusDocumentBaseID_columnvalueid">
           <form:errors path="tipusDocument.tipusDocumentBaseID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTBASEID)}" >
           <form:hidden path="tipusDocument.tipusDocumentBaseID"/>
@@ -88,7 +88,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.DESCRIPCIO)}">
         <tr id="tipusDocument_descripcio_rowid">
-          <td>
+          <td id="tipusDocument_descripcio_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.DESCRIPCIO])?'tipusDocument.descripcio':__theForm.labels[TipusDocumentFields.DESCRIPCIO]}" />
              </label>
@@ -96,12 +96,17 @@
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentFields.DESCRIPCIO]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="tipusDocument_descripcio_columnvalueid">
               <form:errors path="tipusDocument.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.DESCRIPCIO)? 'true' : 'false'}" path="tipusDocument.descripcio"  />
+  <table style="width:100%">
+  <tr>
+  <td>
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.DESCRIPCIO)? 'true' : 'false'}" path="tipusDocument.descripcio"  />
+   </td>
+   <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
-        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('tipusDocument.descripcio'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('tipusDocument.descripcio'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('tipusDocument.descripcio'); ta.wrap='hard';">Hard Wrap</a>
@@ -113,13 +118,16 @@
                  $('#dropdownMenuContainer_descripcio').css('display', valor);
                  return false;
 				});
-      </script>           </td>
+      </script>   </td>
+   </tr>
+   </table>
+           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.USUARIAPLICACIOID)}">
         <tr id="tipusDocument_usuariAplicacioID_rowid">
-          <td>
+          <td id="tipusDocument_usuariAplicacioID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.USUARIAPLICACIOID])?'tipusDocument.usuariAplicacioID':__theForm.labels[TipusDocumentFields.USUARIAPLICACIOID]}" />
              </label>
@@ -127,7 +135,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentFields.USUARIAPLICACIOID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="tipusDocument_usuariAplicacioID_columnvalueid">
           <form:errors path="tipusDocument.usuariAplicacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.USUARIAPLICACIOID)}" >
           <form:hidden path="tipusDocument.usuariAplicacioID"/>

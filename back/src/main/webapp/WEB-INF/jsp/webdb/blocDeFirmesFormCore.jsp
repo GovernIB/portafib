@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,BlocDeFirmesFields.ORDRE)}">
         <tr id="blocDeFirmes_ordre_rowid">
-          <td>
+          <td id="blocDeFirmes_ordre_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[BlocDeFirmesFields.ORDRE])?'blocDeFirmes.ordre':__theForm.labels[BlocDeFirmesFields.ORDRE]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[BlocDeFirmesFields.ORDRE]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="blocDeFirmes_ordre_columnvalueid">
             <form:errors path="blocDeFirmes.ordre" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? ' uneditable-input' : ''}"  style=""  path="blocDeFirmes.ordre"   />
 
@@ -22,7 +22,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BlocDeFirmesFields.DATAFINALITZACIO)}">
         <tr id="blocDeFirmes_dataFinalitzacio_rowid">
-          <td>
+          <td id="blocDeFirmes_dataFinalitzacio_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[BlocDeFirmesFields.DATAFINALITZACIO])?'blocDeFirmes.dataFinalitzacio':__theForm.labels[BlocDeFirmesFields.DATAFINALITZACIO]}" />
              </label>
@@ -30,10 +30,8 @@
               <i class="fas fa-info-circle" title="${__theForm.help[BlocDeFirmesFields.DATAFINALITZACIO]}" ></i>
               </c:if>
             </td>
-            <td>
-              <form:errors path="blocDeFirmes.dataFinalitzacio" cssClass="errorField alert alert-danger" />
-    <div class="container">
-      <div class="row">
+          <td id="blocDeFirmes_dataFinalitzacio_columnvalueid">
+    <form:errors path="blocDeFirmes.dataFinalitzacio" cssClass="errorField alert alert-danger" />
             <div class="form-group">
                 <div class="input-group date" id="blocDeFirmes_dataFinalitzacio" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.DATAFINALITZACIO)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#blocDeFirmes_dataFinalitzacio" path="blocDeFirmes.dataFinalitzacio" />
@@ -44,7 +42,7 @@
                     </c:if>
                 </div>
             </div>
-          <script type="text/javascript">
+        <script type="text/javascript">
             $(function () {
                 $('#blocDeFirmes_dataFinalitzacio').datetimepicker({
                     format: '${gen:getJSDateTimePattern()}',
@@ -54,15 +52,13 @@
                     }
                 });
             });
-          </script>        </div>
-      </div>
-           </td>
+        </script>           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BlocDeFirmesFields.FLUXDEFIRMESID)}">
         <tr id="blocDeFirmes_fluxDeFirmesID_rowid">
-          <td>
+          <td id="blocDeFirmes_fluxDeFirmesID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[BlocDeFirmesFields.FLUXDEFIRMESID])?'blocDeFirmes.fluxDeFirmesID':__theForm.labels[BlocDeFirmesFields.FLUXDEFIRMESID]}" /> &nbsp;(*)
              </label>
@@ -70,7 +66,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[BlocDeFirmesFields.FLUXDEFIRMESID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="blocDeFirmes_fluxDeFirmesID_columnvalueid">
           <form:errors path="blocDeFirmes.fluxDeFirmesID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.FLUXDEFIRMESID)}" >
           <form:hidden path="blocDeFirmes.fluxDeFirmesID"/>
@@ -93,7 +89,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BlocDeFirmesFields.MINIMDEFIRMES)}">
         <tr id="blocDeFirmes_minimDeFirmes_rowid">
-          <td>
+          <td id="blocDeFirmes_minimDeFirmes_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[BlocDeFirmesFields.MINIMDEFIRMES])?'blocDeFirmes.minimDeFirmes':__theForm.labels[BlocDeFirmesFields.MINIMDEFIRMES]}" /> &nbsp;(*)
              </label>
@@ -101,7 +97,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[BlocDeFirmesFields.MINIMDEFIRMES]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="blocDeFirmes_minimDeFirmes_columnvalueid">
             <form:errors path="blocDeFirmes.minimDeFirmes" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? ' uneditable-input' : ''}"  style=""  path="blocDeFirmes.minimDeFirmes"   />
 

@@ -34,7 +34,7 @@
 
           <%@include file="traduccioListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

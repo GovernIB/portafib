@@ -34,7 +34,7 @@
 
           <%@include file="tipusNotificacioListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

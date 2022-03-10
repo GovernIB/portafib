@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,MetadadaFields.NOM)}">
         <tr id="metadada_nom_rowid">
-          <td>
+          <td id="metadada_nom_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.NOM])?'metadada.nom':__theForm.labels[MetadadaFields.NOM]}" /> &nbsp;(*)
              </label>
@@ -12,9 +12,9 @@
               <i class="fas fa-info-circle" title="${__theForm.help[MetadadaFields.NOM]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="metadada_nom_columnvalueid">
             <form:errors path="metadada.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="metadada.nom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="metadada.nom"   />
 
            </td>
         </tr>
@@ -22,7 +22,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,MetadadaFields.VALOR)}">
         <tr id="metadada_valor_rowid">
-          <td>
+          <td id="metadada_valor_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.VALOR])?'metadada.valor':__theForm.labels[MetadadaFields.VALOR]}" /> &nbsp;(*)
              </label>
@@ -30,12 +30,17 @@
               <i class="fas fa-info-circle" title="${__theForm.help[MetadadaFields.VALOR]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="metadada_valor_columnvalueid">
               <form:errors path="metadada.valor" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.VALOR)? 'true' : 'false'}" path="metadada.valor"  />
+  <table style="width:100%">
+  <tr>
+  <td>
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.VALOR)? 'true' : 'false'}" path="metadada.valor"  />
+   </td>
+   <td style="width:40px">
       <div id="dropdownMenuButton_valor" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
-        <div id="dropdownMenuContainer_valor" class="dropdown-menu">
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_valor" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('metadada.valor'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('metadada.valor'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('metadada.valor'); ta.wrap='hard';">Hard Wrap</a>
@@ -47,13 +52,16 @@
                  $('#dropdownMenuContainer_valor').css('display', valor);
                  return false;
 				});
-      </script>           </td>
+      </script>   </td>
+   </tr>
+   </table>
+           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,MetadadaFields.DESCRIPCIO)}">
         <tr id="metadada_descripcio_rowid">
-          <td>
+          <td id="metadada_descripcio_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.DESCRIPCIO])?'metadada.descripcio':__theForm.labels[MetadadaFields.DESCRIPCIO]}" />
              </label>
@@ -61,12 +69,17 @@
               <i class="fas fa-info-circle" title="${__theForm.help[MetadadaFields.DESCRIPCIO]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="metadada_descripcio_columnvalueid">
               <form:errors path="metadada.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.DESCRIPCIO)? 'true' : 'false'}" path="metadada.descripcio"  />
+  <table style="width:100%">
+  <tr>
+  <td>
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.DESCRIPCIO)? 'true' : 'false'}" path="metadada.descripcio"  />
+   </td>
+   <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
-        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('metadada.descripcio'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('metadada.descripcio'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('metadada.descripcio'); ta.wrap='hard';">Hard Wrap</a>
@@ -78,13 +91,16 @@
                  $('#dropdownMenuContainer_descripcio').css('display', valor);
                  return false;
 				});
-      </script>           </td>
+      </script>   </td>
+   </tr>
+   </table>
+           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,MetadadaFields.PETICIODEFIRMAID)}">
         <tr id="metadada_peticioDeFirmaID_rowid">
-          <td>
+          <td id="metadada_peticioDeFirmaID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.PETICIODEFIRMAID])?'metadada.peticioDeFirmaID':__theForm.labels[MetadadaFields.PETICIODEFIRMAID]}" /> &nbsp;(*)
              </label>
@@ -92,7 +108,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[MetadadaFields.PETICIODEFIRMAID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="metadada_peticioDeFirmaID_columnvalueid">
           <form:errors path="metadada.peticioDeFirmaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,MetadadaFields.PETICIODEFIRMAID)}" >
           <form:hidden path="metadada.peticioDeFirmaID"/>
@@ -115,7 +131,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,MetadadaFields.TIPUSMETADADAID)}">
         <tr id="metadada_tipusMetadadaID_rowid">
-          <td>
+          <td id="metadada_tipusMetadadaID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.TIPUSMETADADAID])?'metadada.tipusMetadadaID':__theForm.labels[MetadadaFields.TIPUSMETADADAID]}" /> &nbsp;(*)
              </label>
@@ -123,7 +139,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[MetadadaFields.TIPUSMETADADAID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="metadada_tipusMetadadaID_columnvalueid">
           <form:errors path="metadada.tipusMetadadaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,MetadadaFields.TIPUSMETADADAID)}" >
           <form:hidden path="metadada.tipusMetadadaID"/>

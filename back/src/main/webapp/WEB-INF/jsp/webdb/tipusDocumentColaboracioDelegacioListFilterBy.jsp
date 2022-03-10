@@ -55,12 +55,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="tipusDocumentColaboracioDelegacio.id" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="idDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="idFins" />
 
@@ -73,12 +73,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="tipusDocumentColaboracioDelegacio.colaboracioDelegacioID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="colaboracioDelegacioIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="colaboracioDelegacioIDFins" />
 
@@ -91,12 +91,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="tipusDocumentColaboracioDelegacio.tipusDocumentID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="tipusDocumentIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="tipusDocumentIDFins" />
 

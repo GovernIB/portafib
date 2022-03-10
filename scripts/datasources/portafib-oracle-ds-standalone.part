@@ -1,0 +1,23 @@
+﻿<datasources>
+    ...
+    <datasource jndi-name="java:jboss/datasources/portafibDS" pool-name="portafibDS" enabled="true" use-java-context="true">
+        <connection-url>jdbc:oracle:thin://host:1523/portafib
+        </connection-url>
+        <driver>oracle</driver>
+        <pool>
+            <min-pool-size>1</min-pool-size>
+            <max-pool-size>20</max-pool-size>
+            <prefill>true</prefill>
+        </pool>
+        <security>
+            <user-name>portafib</user-name>
+            <password>portafib</password>
+        </security>
+        <new-connection-sql>
+            BEGIN
+            EXECUTE IMMEDIATE 'ALTER SESSION SET CURRENT_SCHEMA = portafib';
+            END;
+        </new-connection-sql>
+    </datasource>
+    ...
+</datasources>

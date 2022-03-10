@@ -34,7 +34,7 @@
 
           <%@include file="roleUsuariEntitatListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

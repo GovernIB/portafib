@@ -94,12 +94,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.activa" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="activaDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="activaFins" />
 
@@ -203,12 +203,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.maxUploadSize" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="maxUploadSizeDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="maxUploadSizeFins" />
 
@@ -221,12 +221,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.maxSizeFitxerAdaptat" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="maxSizeFitxerAdaptatDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="maxSizeFitxerAdaptatFins" />
 
@@ -239,12 +239,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.maxFilesToSignAtSameTime" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="maxFilesToSignAtSameTimeDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="maxFilesToSignAtSameTimeFins" />
 
@@ -257,12 +257,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.usPoliticaDeFirma" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="usPoliticaDeFirmaDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="usPoliticaDeFirmaFins" />
 
@@ -327,12 +327,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.motiuDelegacioID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="motiuDelegacioIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="motiuDelegacioIDFins" />
 
@@ -345,12 +345,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.firmatPerFormatID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="firmatPerFormatIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="firmatPerFormatIDFins" />
 
@@ -363,12 +363,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.algorismeDeFirmaID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="algorismeDeFirmaIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="algorismeDeFirmaIDFins" />
 
@@ -381,12 +381,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.politicaCustodia" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="politicaCustodiaDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="politicaCustodiaFins" />
 
@@ -399,12 +399,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.custodiaInfoID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="custodiaInfoIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="custodiaInfoIDFins" />
 
@@ -417,12 +417,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.politicaTaulaFirmes" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="politicaTaulaFirmesDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="politicaTaulaFirmesFins" />
 
@@ -435,12 +435,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.posicioTaulaFirmes" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="posicioTaulaFirmesDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="posicioTaulaFirmesFins" />
 
@@ -466,12 +466,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.politicaSegellatDeTemps" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="politicaSegellatDeTempsDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="politicaSegellatDeTempsFins" />
 
@@ -484,12 +484,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.pluginSegellTempsID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="pluginSegellTempsIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="pluginSegellTempsIDFins" />
 
@@ -502,12 +502,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.pluginRubricaID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="pluginRubricaIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="pluginRubricaIDFins" />
 
@@ -520,12 +520,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.validarfirma" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="validarfirmaDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="validarfirmaFins" />
 
@@ -538,12 +538,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.comprovarNifFirma" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="comprovarNifFirmaDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="comprovarNifFirmaFins" />
 
@@ -556,12 +556,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.checkCanviatDocFirmat" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="checkCanviatDocFirmatDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="checkCanviatDocFirmatFins" />
 
@@ -574,12 +574,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.pluginValidaFirmesID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="pluginValidaFirmesIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="pluginValidaFirmesIDFins" />
 
@@ -592,12 +592,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="entitat.pluginValidaCertificatID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="pluginValidaCertificatIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="pluginValidaCertificatIDFins" />
 

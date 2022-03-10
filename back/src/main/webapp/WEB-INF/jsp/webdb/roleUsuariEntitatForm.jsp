@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="roleUsuariEntitatFormCorePre.jsp" %>
+
   <%@include file="roleUsuariEntitatFormCore.jsp" %>
 
   <%@include file="roleUsuariEntitatFormCorePost.jsp" %>
 
   <%@include file="roleUsuariEntitatFormButtons.jsp" %>
+
+  <c:if test="${not empty roleUsuariEntitatForm.sections}">
+     <c:set var="__basename" value="roleUsuariEntitat" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${roleUsuariEntitatForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/roleUsuariEntitatFormModificable.jsp" %>

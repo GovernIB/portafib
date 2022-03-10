@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="blocDeFirmesFormCorePre.jsp" %>
+
   <%@include file="blocDeFirmesFormCore.jsp" %>
 
   <%@include file="blocDeFirmesFormCorePost.jsp" %>
 
   <%@include file="blocDeFirmesFormButtons.jsp" %>
+
+  <c:if test="${not empty blocDeFirmesForm.sections}">
+     <c:set var="__basename" value="blocDeFirmes" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${blocDeFirmesForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/blocDeFirmesFormModificable.jsp" %>

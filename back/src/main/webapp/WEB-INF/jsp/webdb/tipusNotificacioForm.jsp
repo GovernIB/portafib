@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="tipusNotificacioFormCorePre.jsp" %>
+
   <%@include file="tipusNotificacioFormCore.jsp" %>
 
   <%@include file="tipusNotificacioFormCorePost.jsp" %>
 
   <%@include file="tipusNotificacioFormButtons.jsp" %>
+
+  <c:if test="${not empty tipusNotificacioForm.sections}">
+     <c:set var="__basename" value="tipusNotificacio" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${tipusNotificacioForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/tipusNotificacioFormModificable.jsp" %>

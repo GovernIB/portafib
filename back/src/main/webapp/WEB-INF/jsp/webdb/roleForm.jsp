@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="roleFormCorePre.jsp" %>
+
   <%@include file="roleFormCore.jsp" %>
 
   <%@include file="roleFormCorePost.jsp" %>
 
   <%@include file="roleFormButtons.jsp" %>
+
+  <c:if test="${not empty roleForm.sections}">
+     <c:set var="__basename" value="role" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${roleForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/roleFormModificable.jsp" %>

@@ -34,7 +34,7 @@
 
           <%@include file="pluginFirmaWebPerUsuariEntitatListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

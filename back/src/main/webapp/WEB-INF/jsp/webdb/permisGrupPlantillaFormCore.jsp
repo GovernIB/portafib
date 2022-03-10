@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,PermisGrupPlantillaFields.GRUPENTITATID)}">
         <tr id="permisGrupPlantilla_grupEntitatID_rowid">
-          <td>
+          <td id="permisGrupPlantilla_grupEntitatID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PermisGrupPlantillaFields.GRUPENTITATID])?'permisGrupPlantilla.grupEntitatID':__theForm.labels[PermisGrupPlantillaFields.GRUPENTITATID]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PermisGrupPlantillaFields.GRUPENTITATID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="permisGrupPlantilla_grupEntitatID_columnvalueid">
           <form:errors path="permisGrupPlantilla.grupEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PermisGrupPlantillaFields.GRUPENTITATID)}" >
           <form:hidden path="permisGrupPlantilla.grupEntitatID"/>
@@ -35,7 +35,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PermisGrupPlantillaFields.PLANTILLAFLUXDEFIRMESID)}">
         <tr id="permisGrupPlantilla_plantillaFluxDeFirmesID_rowid">
-          <td>
+          <td id="permisGrupPlantilla_plantillaFluxDeFirmesID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PermisGrupPlantillaFields.PLANTILLAFLUXDEFIRMESID])?'permisGrupPlantilla.plantillaFluxDeFirmesID':__theForm.labels[PermisGrupPlantillaFields.PLANTILLAFLUXDEFIRMESID]}" /> &nbsp;(*)
              </label>
@@ -43,7 +43,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PermisGrupPlantillaFields.PLANTILLAFLUXDEFIRMESID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="permisGrupPlantilla_plantillaFluxDeFirmesID_columnvalueid">
           <form:errors path="permisGrupPlantilla.plantillaFluxDeFirmesID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PermisGrupPlantillaFields.PLANTILLAFLUXDEFIRMESID)}" >
           <form:hidden path="permisGrupPlantilla.plantillaFluxDeFirmesID"/>

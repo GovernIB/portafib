@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,BitacolaFields.ENTITATID)}">
         <tr id="bitacola_entitatid_rowid">
-          <td>
+          <td id="bitacola_entitatid_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[BitacolaFields.ENTITATID])?'bitacola.entitatid':__theForm.labels[BitacolaFields.ENTITATID]}" /> &nbsp;(*)
              </label>
@@ -12,9 +12,9 @@
               <i class="fas fa-info-circle" title="${__theForm.help[BitacolaFields.ENTITATID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="bitacola_entitatid_columnvalueid">
             <form:errors path="bitacola.entitatid" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.ENTITATID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.ENTITATID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="bitacola.entitatid"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.ENTITATID)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.ENTITATID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="bitacola.entitatid"   />
 
            </td>
         </tr>
@@ -22,7 +22,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BitacolaFields.USUARIID)}">
         <tr id="bitacola_usuariid_rowid">
-          <td>
+          <td id="bitacola_usuariid_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[BitacolaFields.USUARIID])?'bitacola.usuariid':__theForm.labels[BitacolaFields.USUARIID]}" /> &nbsp;(*)
              </label>
@@ -30,7 +30,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[BitacolaFields.USUARIID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="bitacola_usuariid_columnvalueid">
             <form:errors path="bitacola.usuariid" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="bitacola.usuariid"   />
 
@@ -40,7 +40,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BitacolaFields.DATA)}">
         <tr id="bitacola_data_rowid">
-          <td>
+          <td id="bitacola_data_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[BitacolaFields.DATA])?'bitacola.data':__theForm.labels[BitacolaFields.DATA]}" /> &nbsp;(*)
              </label>
@@ -48,10 +48,8 @@
               <i class="fas fa-info-circle" title="${__theForm.help[BitacolaFields.DATA]}" ></i>
               </c:if>
             </td>
-            <td>
-              <form:errors path="bitacola.data" cssClass="errorField alert alert-danger" />
-    <div class="container">
-      <div class="row">
+          <td id="bitacola_data_columnvalueid">
+    <form:errors path="bitacola.data" cssClass="errorField alert alert-danger" />
             <div class="form-group">
                 <div class="input-group date" id="bitacola_data" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.DATA)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#bitacola_data" path="bitacola.data" />
@@ -62,7 +60,7 @@
                     </c:if>
                 </div>
             </div>
-          <script type="text/javascript">
+        <script type="text/javascript">
             $(function () {
                 $('#bitacola_data').datetimepicker({
                     format: '${gen:getJSDateTimePattern()}',
@@ -72,15 +70,13 @@
                     }
                 });
             });
-          </script>        </div>
-      </div>
-           </td>
+        </script>           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BitacolaFields.TIPUSOBJECTE)}">
         <tr id="bitacola_tipusObjecte_rowid">
-          <td>
+          <td id="bitacola_tipusObjecte_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[BitacolaFields.TIPUSOBJECTE])?'bitacola.tipusObjecte':__theForm.labels[BitacolaFields.TIPUSOBJECTE]}" /> &nbsp;(*)
              </label>
@@ -88,7 +84,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[BitacolaFields.TIPUSOBJECTE]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="bitacola_tipusObjecte_columnvalueid">
           <form:errors path="bitacola.tipusObjecte" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.TIPUSOBJECTE)}" >
           <form:hidden path="bitacola.tipusObjecte"/>
@@ -111,7 +107,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BitacolaFields.OBJECTEID)}">
         <tr id="bitacola_objecteid_rowid">
-          <td>
+          <td id="bitacola_objecteid_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[BitacolaFields.OBJECTEID])?'bitacola.objecteid':__theForm.labels[BitacolaFields.OBJECTEID]}" /> &nbsp;(*)
              </label>
@@ -119,7 +115,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[BitacolaFields.OBJECTEID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="bitacola_objecteid_columnvalueid">
             <form:errors path="bitacola.objecteid" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTEID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTEID)? ' uneditable-input' : ''}"  style="" maxlength="100" path="bitacola.objecteid"   />
 
@@ -129,7 +125,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BitacolaFields.TIPUSOPERACIO)}">
         <tr id="bitacola_tipusOperacio_rowid">
-          <td>
+          <td id="bitacola_tipusOperacio_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[BitacolaFields.TIPUSOPERACIO])?'bitacola.tipusOperacio':__theForm.labels[BitacolaFields.TIPUSOPERACIO]}" /> &nbsp;(*)
              </label>
@@ -137,7 +133,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[BitacolaFields.TIPUSOPERACIO]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="bitacola_tipusOperacio_columnvalueid">
           <form:errors path="bitacola.tipusOperacio" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.TIPUSOPERACIO)}" >
           <form:hidden path="bitacola.tipusOperacio"/>
@@ -160,7 +156,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BitacolaFields.DESCRIPCIO)}">
         <tr id="bitacola_descripcio_rowid">
-          <td>
+          <td id="bitacola_descripcio_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[BitacolaFields.DESCRIPCIO])?'bitacola.descripcio':__theForm.labels[BitacolaFields.DESCRIPCIO]}" />
              </label>
@@ -168,12 +164,17 @@
               <i class="fas fa-info-circle" title="${__theForm.help[BitacolaFields.DESCRIPCIO]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="bitacola_descripcio_columnvalueid">
               <form:errors path="bitacola.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.DESCRIPCIO)? 'true' : 'false'}" path="bitacola.descripcio"  />
+  <table style="width:100%">
+  <tr>
+  <td>
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.DESCRIPCIO)? 'true' : 'false'}" path="bitacola.descripcio"  />
+   </td>
+   <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
-        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('bitacola.descripcio'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('bitacola.descripcio'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('bitacola.descripcio'); ta.wrap='hard';">Hard Wrap</a>
@@ -185,13 +186,16 @@
                  $('#dropdownMenuContainer_descripcio').css('display', valor);
                  return false;
 				});
-      </script>           </td>
+      </script>   </td>
+   </tr>
+   </table>
+           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BitacolaFields.OBJECTESERIALITZAT)}">
         <tr id="bitacola_objecteSerialitzat_rowid">
-          <td>
+          <td id="bitacola_objecteSerialitzat_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[BitacolaFields.OBJECTESERIALITZAT])?'bitacola.objecteSerialitzat':__theForm.labels[BitacolaFields.OBJECTESERIALITZAT]}" />
              </label>
@@ -199,12 +203,17 @@
               <i class="fas fa-info-circle" title="${__theForm.help[BitacolaFields.OBJECTESERIALITZAT]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="bitacola_objecteSerialitzat_columnvalueid">
               <form:errors path="bitacola.objecteSerialitzat" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTESERIALITZAT)? 'true' : 'false'}" path="bitacola.objecteSerialitzat"  />
+  <table style="width:100%">
+  <tr>
+  <td>
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTESERIALITZAT)? 'true' : 'false'}" path="bitacola.objecteSerialitzat"  />
+   </td>
+   <td style="width:40px">
       <div id="dropdownMenuButton_objecteSerialitzat" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
-        <div id="dropdownMenuContainer_objecteSerialitzat" class="dropdown-menu">
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_objecteSerialitzat" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('bitacola.objecteSerialitzat'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('bitacola.objecteSerialitzat'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('bitacola.objecteSerialitzat'); ta.wrap='hard';">Hard Wrap</a>
@@ -216,7 +225,10 @@
                  $('#dropdownMenuContainer_objecteSerialitzat').css('display', valor);
                  return false;
 				});
-      </script>           </td>
+      </script>   </td>
+   </tr>
+   </table>
+           </td>
         </tr>
         </c:if>
         

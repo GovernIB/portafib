@@ -34,7 +34,7 @@
 
           <%@include file="colaboracioDelegacioListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

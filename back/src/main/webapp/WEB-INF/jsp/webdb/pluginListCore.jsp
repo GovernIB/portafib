@@ -34,7 +34,7 @@
 
           <%@include file="pluginListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

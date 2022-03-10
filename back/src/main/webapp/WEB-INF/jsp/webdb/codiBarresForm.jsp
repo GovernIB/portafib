@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="codiBarresFormCorePre.jsp" %>
+
   <%@include file="codiBarresFormCore.jsp" %>
 
   <%@include file="codiBarresFormCorePost.jsp" %>
 
   <%@include file="codiBarresFormButtons.jsp" %>
+
+  <c:if test="${not empty codiBarresForm.sections}">
+     <c:set var="__basename" value="codiBarres" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${codiBarresForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/codiBarresFormModificable.jsp" %>

@@ -1,0 +1,13 @@
+﻿<datasources>
+    ...
+    <datasource jndi-name="java:jboss/datasources/portafibDS" pool-name="portafibDS" enabled="true"
+                use-java-context="true">
+        <connection-url>jdbc:postgresql://localhost:5432/portafib</connection-url>
+        <driver>postgresql</driver>
+        <security>
+            <user-name>portafib</user-name>
+            <password>portafib</password>
+        </security>
+    </datasource>
+    ...
+</datasources>

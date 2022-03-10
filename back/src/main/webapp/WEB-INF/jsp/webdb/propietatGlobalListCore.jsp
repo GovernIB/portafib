@@ -34,7 +34,7 @@
 
           <%@include file="propietatGlobalListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

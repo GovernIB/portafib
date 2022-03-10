@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="annexFirmatFormCorePre.jsp" %>
+
   <%@include file="annexFirmatFormCore.jsp" %>
 
   <%@include file="annexFirmatFormCorePost.jsp" %>
 
   <%@include file="annexFirmatFormButtons.jsp" %>
+
+  <c:if test="${not empty annexFirmatForm.sections}">
+     <c:set var="__basename" value="annexFirmat" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${annexFirmatForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/annexFirmatFormModificable.jsp" %>

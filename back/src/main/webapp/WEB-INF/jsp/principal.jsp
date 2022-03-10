@@ -4,7 +4,7 @@
 %><%@page import="org.springframework.security.core.context.SecurityContextHolder"
 %><%@ page language="java" 
 %><%@ include file="/WEB-INF/jsp/moduls/includes.jsp" 
-%>
+%><%@page import="es.caib.portafib.back.utils.IsAccessibleFromMoreThanOneModule"%>
 <div class="clear"></div>
 <div class="spacer"></div>
 
@@ -52,7 +52,7 @@
    <c:if test="${empty loginInfo.usuariEntitat}">
       -
    </c:if>
-<hr>
+<hr/>
    
    Roles: <b>
    <c:forEach var="rol" items="${loginInfo.roles}">
@@ -65,14 +65,14 @@
    Role ROLE_USER: <%=request.isUserInRole("ROLE_USER") %><br/>
    Role ROLE_ADMIN: <%=request.isUserInRole("ROLE_ADMIN") %><br/>
    Role ROLE_DEST: <%=request.isUserInRole("ROLE_DEST") %><br/>
-   <hr>
+   <hr/>
    
   <%  
   SecurityContext sc = SecurityContextHolder.getContext(); 
   Authentication au = sc.getAuthentication();  
   out.print("DETAILS CLASS: " + au.getDetails());
   %> 
-  <hr>  
+  <hr/>  
     <sec:authorize access="hasRole('ROLE_DEST')">
          ++++++++   hasRole('ROLE_DEST') <br>
     </sec:authorize>
@@ -83,11 +83,21 @@
          ++++++++   hasRole('ROLE_ADMIN') <br>
     </sec:authorize>
     
-    <hr>
+    <hr/>
 
-    Authentication mechanism:<%=request.getAuthType()%> <br/>
+    Authentication mechanism: <%=request.getAuthType()%> <br/>
 
-    <hr>
+    <hr/>
+    
+    
+
+ IsAccessibleFromMoreThanOneModule:<br/>
+ <textarea rows="7" cols="200">
+  <%=IsAccessibleFromMoreThanOneModule.doTest()%>
+  </textarea>
+    
+    
+    <hr/>
     
     <%= AbstractWebPlugin.servletRequestInfoToStr(request).replace("\n", "<br/>\n") %>
  

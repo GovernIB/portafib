@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="fluxDeFirmesFormCorePre.jsp" %>
+
   <%@include file="fluxDeFirmesFormCore.jsp" %>
 
   <%@include file="fluxDeFirmesFormCorePost.jsp" %>
 
   <%@include file="fluxDeFirmesFormButtons.jsp" %>
+
+  <c:if test="${not empty fluxDeFirmesForm.sections}">
+     <c:set var="__basename" value="fluxDeFirmes" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${fluxDeFirmesForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/fluxDeFirmesFormModificable.jsp" %>

@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,GrupEntitatUsuariEntitatFields.USUARIENTITATID)}">
         <tr id="grupEntitatUsuariEntitat_usuariEntitatID_rowid">
-          <td>
+          <td id="grupEntitatUsuariEntitat_usuariEntitatID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[GrupEntitatUsuariEntitatFields.USUARIENTITATID])?'grupEntitatUsuariEntitat.usuariEntitatID':__theForm.labels[GrupEntitatUsuariEntitatFields.USUARIENTITATID]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[GrupEntitatUsuariEntitatFields.USUARIENTITATID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="grupEntitatUsuariEntitat_usuariEntitatID_columnvalueid">
           <form:errors path="grupEntitatUsuariEntitat.usuariEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,GrupEntitatUsuariEntitatFields.USUARIENTITATID)}" >
           <form:hidden path="grupEntitatUsuariEntitat.usuariEntitatID"/>
@@ -35,7 +35,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,GrupEntitatUsuariEntitatFields.GRUPENTITATID)}">
         <tr id="grupEntitatUsuariEntitat_grupEntitatID_rowid">
-          <td>
+          <td id="grupEntitatUsuariEntitat_grupEntitatID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[GrupEntitatUsuariEntitatFields.GRUPENTITATID])?'grupEntitatUsuariEntitat.grupEntitatID':__theForm.labels[GrupEntitatUsuariEntitatFields.GRUPENTITATID]}" /> &nbsp;(*)
              </label>
@@ -43,7 +43,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[GrupEntitatUsuariEntitatFields.GRUPENTITATID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="grupEntitatUsuariEntitat_grupEntitatID_columnvalueid">
           <form:errors path="grupEntitatUsuariEntitat.grupEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,GrupEntitatUsuariEntitatFields.GRUPENTITATID)}" >
           <form:hidden path="grupEntitatUsuariEntitat.grupEntitatID"/>

@@ -34,7 +34,7 @@
 
           <%@include file="permisGrupPlantillaListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

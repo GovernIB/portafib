@@ -55,12 +55,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="notificacioWS.notificacioID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="notificacioIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="notificacioIDFins" />
 
@@ -73,12 +73,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="notificacioWS.peticioDeFirmaID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="peticioDeFirmaIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="peticioDeFirmaIDFins" />
 
@@ -91,12 +91,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="notificacioWS.tipusNotificacioID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="tipusNotificacioIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="tipusNotificacioIDFins" />
 
@@ -105,94 +105,102 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,NotificacioWSFields.DATACREACIO)}">
-            <%-- FILTRE DATE --%>
-            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+<%-- FILTRE DATE-TIME --%>
+            <div class="input-group" style="padding-right:4px;padding-bottom:4px;align-items:center;">
               <span class="add-on"><fmt:message key="notificacioWS.dataCreacio" />:</span>
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
-              <div id="dataCreacioDesde" class="input-append">
-                <form:input cssClass="input-large" path="dataCreacioDesde" />
-                <span class="add-on">
-                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                  </i>
-                </span>
-              </div>
-              <script type="text/javascript">                
-                $(function() {
-                  $('#dataCreacioDesde').datetimepicker({
-                    language: '${lang}',
-                    pick12HourFormat: <c:out value="${fn:contains(gen:getDateTimePattern(), 'a')?'true' : 'false'}"/>,
-                    format:  '${gen:getJSDateTimePattern()}',
-                    pickTime: true,
-                    weekStart: ${gen:getFirstDayOfTheWeek()}
-                  });
-                });
-              </script>
-              <span class="add-on"><fmt:message key="genapp.to" /></span>              
-              <div id="dataCreacioFins" class="input-append">
-                <form:input cssClass="input-large" path="dataCreacioFins" />
-                <span class="add-on">
-                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                  </i>
-                </span>
-              </div>
-              <script type="text/javascript">                
-                $(function() {
-                  $('#dataCreacioFins').datetimepicker({
-                    language: '${lang}',
-                    pick12HourFormat: <c:out value="${fn:contains(gen:getDateTimePattern(), 'a')?'true' : 'false'}"/>,
-                    format:  '${gen:getJSDateTimePattern()}',
-                    pickTime: true,
-                    weekStart: ${gen:getFirstDayOfTheWeek()}
-                  });
-                });
-              </script>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
+            <div class="form-group">
+                <div class="input-group date" id="dataCreacioDesde" data-target-input="nearest">
+                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataCreacioDesde" path="dataCreacioDesde" />
+                    <c:if test="${!false}" >
+                    <div class="input-group-append"  data-target="#dataCreacioDesde"  data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    </c:if>
+                </div>
             </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#dataCreacioDesde').datetimepicker({
+                    format: '${gen:getJSDateTimePattern()}',
+                    locale: '${lang}',
+                    icons: {
+                       time: 'far fa-clock'
+                    }
+                });
+            });
+        </script>              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
+            <div class="form-group">
+                <div class="input-group date" id="dataCreacioFins" data-target-input="nearest">
+                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataCreacioFins" path="dataCreacioFins" />
+                    <c:if test="${!false}" >
+                    <div class="input-group-append"  data-target="#dataCreacioFins"  data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    </c:if>
+                </div>
+            </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#dataCreacioFins').datetimepicker({
+                    format: '${gen:getJSDateTimePattern()}',
+                    locale: '${lang}',
+                    icons: {
+                       time: 'far fa-clock'
+                    }
+                });
+            });
+        </script>            </div>
 
     
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,NotificacioWSFields.DATAENVIAMENT)}">
-            <%-- FILTRE DATE --%>
-            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+<%-- FILTRE DATE-TIME --%>
+            <div class="input-group" style="padding-right:4px;padding-bottom:4px;align-items:center;">
               <span class="add-on"><fmt:message key="notificacioWS.dataEnviament" />:</span>
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
-              <div id="dataEnviamentDesde" class="input-append">
-                <form:input cssClass="input-large" path="dataEnviamentDesde" />
-                <span class="add-on">
-                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                  </i>
-                </span>
-              </div>
-              <script type="text/javascript">                
-                $(function() {
-                  $('#dataEnviamentDesde').datetimepicker({
-                    language: '${lang}',
-                    pick12HourFormat: <c:out value="${fn:contains(gen:getDateTimePattern(), 'a')?'true' : 'false'}"/>,
-                    format:  '${gen:getJSDateTimePattern()}',
-                    pickTime: true,
-                    weekStart: ${gen:getFirstDayOfTheWeek()}
-                  });
-                });
-              </script>
-              <span class="add-on"><fmt:message key="genapp.to" /></span>              
-              <div id="dataEnviamentFins" class="input-append">
-                <form:input cssClass="input-large" path="dataEnviamentFins" />
-                <span class="add-on">
-                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                  </i>
-                </span>
-              </div>
-              <script type="text/javascript">                
-                $(function() {
-                  $('#dataEnviamentFins').datetimepicker({
-                    language: '${lang}',
-                    pick12HourFormat: <c:out value="${fn:contains(gen:getDateTimePattern(), 'a')?'true' : 'false'}"/>,
-                    format:  '${gen:getJSDateTimePattern()}',
-                    pickTime: true,
-                    weekStart: ${gen:getFirstDayOfTheWeek()}
-                  });
-                });
-              </script>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
+            <div class="form-group">
+                <div class="input-group date" id="dataEnviamentDesde" data-target-input="nearest">
+                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataEnviamentDesde" path="dataEnviamentDesde" />
+                    <c:if test="${!false}" >
+                    <div class="input-group-append"  data-target="#dataEnviamentDesde"  data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    </c:if>
+                </div>
             </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#dataEnviamentDesde').datetimepicker({
+                    format: '${gen:getJSDateTimePattern()}',
+                    locale: '${lang}',
+                    icons: {
+                       time: 'far fa-clock'
+                    }
+                });
+            });
+        </script>              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
+            <div class="form-group">
+                <div class="input-group date" id="dataEnviamentFins" data-target-input="nearest">
+                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataEnviamentFins" path="dataEnviamentFins" />
+                    <c:if test="${!false}" >
+                    <div class="input-group-append"  data-target="#dataEnviamentFins"  data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    </c:if>
+                </div>
+            </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#dataEnviamentFins').datetimepicker({
+                    format: '${gen:getJSDateTimePattern()}',
+                    locale: '${lang}',
+                    icons: {
+                       time: 'far fa-clock'
+                    }
+                });
+            });
+        </script>            </div>
 
     
         </c:if>
@@ -214,12 +222,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="notificacioWS.bloquejada" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="bloquejadaDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="bloquejadaFins" />
 
@@ -241,48 +249,52 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,NotificacioWSFields.DATAERROR)}">
-            <%-- FILTRE DATE --%>
-            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+<%-- FILTRE DATE-TIME --%>
+            <div class="input-group" style="padding-right:4px;padding-bottom:4px;align-items:center;">
               <span class="add-on"><fmt:message key="notificacioWS.dataError" />:</span>
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
-              <div id="dataErrorDesde" class="input-append">
-                <form:input cssClass="input-large" path="dataErrorDesde" />
-                <span class="add-on">
-                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                  </i>
-                </span>
-              </div>
-              <script type="text/javascript">                
-                $(function() {
-                  $('#dataErrorDesde').datetimepicker({
-                    language: '${lang}',
-                    pick12HourFormat: <c:out value="${fn:contains(gen:getDateTimePattern(), 'a')?'true' : 'false'}"/>,
-                    format:  '${gen:getJSDateTimePattern()}',
-                    pickTime: true,
-                    weekStart: ${gen:getFirstDayOfTheWeek()}
-                  });
-                });
-              </script>
-              <span class="add-on"><fmt:message key="genapp.to" /></span>              
-              <div id="dataErrorFins" class="input-append">
-                <form:input cssClass="input-large" path="dataErrorFins" />
-                <span class="add-on">
-                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                  </i>
-                </span>
-              </div>
-              <script type="text/javascript">                
-                $(function() {
-                  $('#dataErrorFins').datetimepicker({
-                    language: '${lang}',
-                    pick12HourFormat: <c:out value="${fn:contains(gen:getDateTimePattern(), 'a')?'true' : 'false'}"/>,
-                    format:  '${gen:getJSDateTimePattern()}',
-                    pickTime: true,
-                    weekStart: ${gen:getFirstDayOfTheWeek()}
-                  });
-                });
-              </script>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
+            <div class="form-group">
+                <div class="input-group date" id="dataErrorDesde" data-target-input="nearest">
+                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataErrorDesde" path="dataErrorDesde" />
+                    <c:if test="${!false}" >
+                    <div class="input-group-append"  data-target="#dataErrorDesde"  data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    </c:if>
+                </div>
             </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#dataErrorDesde').datetimepicker({
+                    format: '${gen:getJSDateTimePattern()}',
+                    locale: '${lang}',
+                    icons: {
+                       time: 'far fa-clock'
+                    }
+                });
+            });
+        </script>              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
+            <div class="form-group">
+                <div class="input-group date" id="dataErrorFins" data-target-input="nearest">
+                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataErrorFins" path="dataErrorFins" />
+                    <c:if test="${!false}" >
+                    <div class="input-group-append"  data-target="#dataErrorFins"  data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    </c:if>
+                </div>
+            </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#dataErrorFins').datetimepicker({
+                    format: '${gen:getJSDateTimePattern()}',
+                    locale: '${lang}',
+                    icons: {
+                       time: 'far fa-clock'
+                    }
+                });
+            });
+        </script>            </div>
 
     
         </c:if>
@@ -291,12 +303,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="notificacioWS.reintents" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="reintentsDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="reintentsFins" />
 

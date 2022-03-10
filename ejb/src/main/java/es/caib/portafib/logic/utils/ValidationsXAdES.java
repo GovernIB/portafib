@@ -12,13 +12,13 @@ import org.apache.xml.security.signature.XMLSignatureInput;
 import org.apache.xml.security.utils.resolver.ResourceResolver;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.pluginsib.core.utils.Base64;
-import org.jcp.xml.dsig.internal.dom.DOMReference;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
+//import org.jcp.xml.dsig.internal.dom.DOMReference;
+//import org.w3c.dom.Attr;
+//import org.w3c.dom.Document;
+//import org.w3c.dom.Element;
+//import org.w3c.dom.Node;
+//import org.w3c.dom.NodeList;
+//import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import javax.xml.crypto.MarshalException;
@@ -83,18 +83,18 @@ public class ValidationsXAdES {
             log.debug("isXadesDettachedWithOriginalDocumentAsSibling?");
         }
 
-       Document document = DBF.newDocumentBuilder().parse(in);
+        org.w3c.dom.Document document = DBF.newDocumentBuilder().parse(in);
 
-       NodeList signNodeList = document.getElementsByTagNameNS(XMLSignature.XMLNS, ValidationsXAdES.SIGNATURE_NODE_NAME);
+        org.w3c.dom.NodeList signNodeList = document.getElementsByTagNameNS(XMLSignature.XMLNS, ValidationsXAdES.SIGNATURE_NODE_NAME);
        if (signNodeList.getLength() == 0) {
           log.warn("No s'ha trobat firma");
           throw new Exception("No hi ha firma");
        }
 
        // Se selecciona la primera firma.
-       Element signatureNode = (Element) signNodeList.item(0);
+       org.w3c.dom.Element signatureNode = (org.w3c.dom.Element) signNodeList.item(0);
 
-       Node parentNode = signatureNode.getParentNode();
+       org.w3c.dom.Node parentNode = signatureNode.getParentNode();
        if (parentNode == document) {
           if (log.isDebugEnabled()) {
             log.debug("No tenim node pare. Per tant no inclou el document.");
@@ -106,15 +106,15 @@ public class ValidationsXAdES {
        if (log.isDebugEnabled()) {
          log.debug("Tenim parentNode: " + parentNode.getNodeName());
        }
-       Element signedInfoNode = (Element) signatureNode.getElementsByTagNameNS(
+       org.w3c.dom.Element signedInfoNode = (org.w3c.dom.Element) signatureNode.getElementsByTagNameNS(
              XMLSignature.XMLNS, "SignedInfo").item(0);
 
-       NodeList references = signedInfoNode.getElementsByTagNameNS(XMLSignature.XMLNS, "Reference");
+       org.w3c.dom.NodeList references = signedInfoNode.getElementsByTagNameNS(XMLSignature.XMLNS, "Reference");
 
        // Llista de possibles identificadors que contenen la firma
        Set<String> identificadors = new HashSet<String>();
        for (int i = 0; i < references.getLength(); i++) {
-          Element reference = (Element) references.item(i);
+           org.w3c.dom.Element reference = (org.w3c.dom.Element) references.item(i);
           String type = reference.getAttribute("Type");
           String uri = reference.getAttribute("URI");
 
@@ -131,9 +131,9 @@ public class ValidationsXAdES {
           }
        }
 
-       NodeList siblings = parentNode.getChildNodes();
+       org.w3c.dom.NodeList siblings = parentNode.getChildNodes();
        for (int i = 0; i < siblings.getLength(); i++) {
-          Element sibling = (Element) siblings.item(i);
+          org.w3c.dom.Element sibling = (org.w3c.dom.Element) siblings.item(i);
           // Miram si qualcun dels 'siblings' de la signatura té un identificador dels possibles
           if (sibling != signatureNode) { // Descaram el node mateix de signatura
              String id = sibling.getAttribute("Id");
@@ -181,19 +181,19 @@ public class ValidationsXAdES {
 
     try {
 
-      Document eSignature = DBF.newDocumentBuilder().parse(in);
+        org.w3c.dom.Document eSignature = DBF.newDocumentBuilder().parse(in);
 
       // LOGGER.debug(Language.getResIntegra(ILogConstantKeys.XS_LOG041));
       byte[] result = null;
       // Obtención de cualquiera de las firmas para obtener el documento
       // original.
-      NodeList signNodeList = eSignature.getElementsByTagNameNS(XMLSignature.XMLNS,
+      org.w3c.dom.NodeList signNodeList = eSignature.getElementsByTagNameNS(XMLSignature.XMLNS,
           SIGNATURE_NODE_NAME);
       if (signNodeList.getLength() == 0) {
         throw new Exception("No hi ha firma");
       }
       // Se selecciona la primera firma.
-      Element signatureNode = (Element) signNodeList.item(0);
+      org.w3c.dom.Element signatureNode = (org.w3c.dom.Element) signNodeList.item(0);
       // registro de los id de los nodos
       IdRegister.registerElements(signatureNode);
 
@@ -212,7 +212,7 @@ public class ValidationsXAdES {
       
       for (Object tmp : references) {
         Reference ref = (Reference) tmp;
-        Attr uriAttr = (Attr) ((DOMReference) ref).getHere();
+        org.w3c.dom.Attr uriAttr = (org.w3c.dom.Attr) ((org.jcp.xml.dsig.internal.dom.DOMReference) ref).getHere();
 
         ResourceResolver res;
         try {
@@ -223,21 +223,21 @@ public class ValidationsXAdES {
           continue;
         }
 
-        Node dsObject = xmlObjectInput.getSubNode();
+        org.w3c.dom.Node dsObject = xmlObjectInput.getSubNode();
 
         if ("ds:Object".equals(dsObject.getNodeName())
             && !"QualifyingProperties".equals(dsObject.getFirstChild().getLocalName())) {
-          NodeList nodeListObject = dsObject.getChildNodes();
+            org.w3c.dom.NodeList nodeListObject = dsObject.getChildNodes();
           if (nodeListObject.getLength() == 1) {
 
-            Node children = dsObject.getFirstChild();
+              org.w3c.dom.Node children = dsObject.getFirstChild();
             result = transformNode(children);
 
           } else {
 
             StringBuilder buffer = new StringBuilder();
             for (int i = 0; i < nodeListObject.getLength(); i++) {
-              Node children = nodeListObject.item(i);
+                org.w3c.dom.Node children = nodeListObject.item(i);
               byte[] nodeValue = transformNode(children);
               if (nodeValue != null) {
                 buffer.append(new String(nodeValue));
@@ -285,7 +285,7 @@ public class ValidationsXAdES {
     InputStream inputStream = dataSource.getInputStream();
     try {
 
-        Document document = DBF.newDocumentBuilder().parse(inputStream);
+        org.w3c.dom.Document document = DBF.newDocumentBuilder().parse(inputStream);
       return UtilsXML.transformDOMtoString(document.getDocumentElement(), true).getBytes();
     } catch (SAXException e) {
       // el document no és XML
@@ -312,12 +312,12 @@ public class ValidationsXAdES {
    * @throws TransformersException
    *           if method fails.
    */
-  private static byte[] transformNode(Node node) throws TransformersException {
-    if (node.getNodeType() == Node.TEXT_NODE || node.getNodeType() == Node.CDATA_SECTION_NODE) {
-      String textValue = ((Text) node).getData();
+  private static byte[] transformNode(org.w3c.dom.Node node) throws TransformersException {
+    if (node.getNodeType() == org.w3c.dom.Node.TEXT_NODE || node.getNodeType() == org.w3c.dom.Node.CDATA_SECTION_NODE) {
+      String textValue = ((org.w3c.dom.Text) node).getData();
       return textValue == null ? null : textValue.getBytes();
-    } else if (node.getNodeType() == Node.ELEMENT_NODE) {
-      return UtilsXML.transformDOMtoString((Element) node, true).getBytes();
+    } else if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+      return UtilsXML.transformDOMtoString((org.w3c.dom.Element) node, true).getBytes();
     } else {
       return null;
     }
@@ -340,15 +340,15 @@ public class ValidationsXAdES {
       // Transformación de la firma electrónica a objeto
 
       DocumentBuilder db = DBF.newDocumentBuilder();
-      Document doc = db.parse(eSignature);
-      NodeList nl = doc.getElementsByTagNameNS(DSIGNNS, SIGNATURE_NODE_NAME);
+      org.w3c.dom.Document doc = db.parse(eSignature);
+      org.w3c.dom.NodeList nl = doc.getElementsByTagNameNS(DSIGNNS, SIGNATURE_NODE_NAME);
 
       List<X509Certificate> certificates = new ArrayList<X509Certificate>();
 
       // registro de los atributos de tipo ID
       //IdRegister.registerElements(doc.getDocumentElement());
       for (int i = 0; i < nl.getLength(); i++) {
-        Element sigElement = (Element) nl.item(i);
+          org.w3c.dom.Element sigElement = (org.w3c.dom.Element) nl.item(i);
         org.apache.xml.security.signature.XMLSignature signature = new org.apache.xml.security.signature.XMLSignature(
             sigElement, "");
 
@@ -389,8 +389,8 @@ public class ValidationsXAdES {
   public static int getNumberOfXADESSignatures(InputStream inputStream) throws I18NException {
     try {
       DocumentBuilder db = DBF.newDocumentBuilder();
-      Document doc = db.parse(inputStream);
-      NodeList nl = doc.getElementsByTagNameNS(DSIGNNS, SIGNATURE_NODE_NAME);
+      org.w3c.dom.Document doc = db.parse(inputStream);
+      org.w3c.dom.NodeList nl = doc.getElementsByTagNameNS(DSIGNNS, SIGNATURE_NODE_NAME);
 
       return nl.getLength();
     } catch (ParserConfigurationException e) {

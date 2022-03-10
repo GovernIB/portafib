@@ -61,7 +61,7 @@
                         "hasChildren": false,
                         "children": []
                     }
-                    
+                    <c:set var="counterParent" value="0" />
                     <c:forEach  var="groupby_item"  items="${groupby_items}">
                     
                         <c:set var="code" value="${(empty __theFilterForm.labels[groupby_item.field])? groupby_item.codeLabel:__theFilterForm.labels[groupby_item.field]}" />
@@ -74,8 +74,14 @@
                         <c:set var="thetext" value="${fn:substringAfter(code, '=')}" />
                         </c:if>
                     
+                    <c:set var="ParentID" value="${groupby_item.value}_${counterParent}" />
+                    <c:set var="counterParent" value="${counterParent + 1}" />
+                    
+                    <c:if test="${groupby_item.selected}" >
+                      <c:set var="expandID" value="${ParentID}"/>
+                    </c:if>
                     ,{
-                        "id": '${groupby_item.value}',
+                        "id": '${ParentID}',
                         "text": "<span style='${groupby_item.selected? "font-weight: bold;" : ""}'>${thetext}</span>",
                         "field": '${groupby_item.value}',
                         "hasChildren": true,
@@ -90,7 +96,7 @@
                             <c:if test="${counterG ne 0}">,</c:if>
                             <c:set var="counterG" value="${counterG + 1}" />
                             {
-                                "id": '${groupby_item.value}_${counterG}',
+                                "id": '${groupby_item.value}_${groupbyvalue_item.value}_${counterG}',
                                 "text": "<span style='${groupbyvalue_item.selected? "font-weight: bold;" : ""}' >${ (empty groupbyvalue_item.codeLabel) ? buit : groupbyvalue_item.codeLabel } (${groupbyvalue_item.count})</span>",
                                 "field": '${groupby_item.value}',
                                 "value" : '${groupbyvalue_item.value}',
@@ -102,10 +108,6 @@
                             
                         ]
                     }   
-                    
-                    <c:if test="${groupby_item.selected}" >
-                        <c:set var="expandID" value="${groupby_item.value}"/>
-                    </c:if>
                     
                     </c:forEach>
 
@@ -128,12 +130,12 @@
           }
         });
       
+          var noderoot = tree.getNodeById('-1');
+          tree.expand(noderoot);
        <c:if test="${expandID ne '-'}" >
           var node = tree.getNodeById('${expandID}');
           tree.expand(node);
           
-          node = tree.getNodeById('-1');
-          tree.expand(node);
        </c:if>
       
       

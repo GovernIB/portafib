@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,AnnexFields.PETICIODEFIRMAID)}">
         <tr id="annex_peticioDeFirmaID_rowid">
-          <td>
+          <td id="annex_peticioDeFirmaID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFields.PETICIODEFIRMAID])?'annex.peticioDeFirmaID':__theForm.labels[AnnexFields.PETICIODEFIRMAID]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[AnnexFields.PETICIODEFIRMAID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="annex_peticioDeFirmaID_columnvalueid">
           <form:errors path="annex.peticioDeFirmaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,AnnexFields.PETICIODEFIRMAID)}" >
           <form:hidden path="annex.peticioDeFirmaID"/>
@@ -35,7 +35,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,AnnexFields.FITXERID)}">
         <tr id="annex_fitxerID_rowid">
-          <td>
+          <td id="annex_fitxerID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFields.FITXERID])?'annex.fitxerID':__theForm.labels[AnnexFields.FITXERID]}" /> &nbsp;(*)
              </label>
@@ -43,10 +43,10 @@
               <i class="fas fa-info-circle" title="${__theForm.help[AnnexFields.FITXERID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="annex_fitxerID_columnvalueid">
               <form:errors path="annex.fitxerID" cssClass="errorField alert alert-danger" />
             <c:if test="${gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)}" >
-              <a target="_blank" href="<c:url value="${pfi:fileUrl(fitxerID.fitxerID)}"/>">${fitxerID.fitxerID.nom}</a>
+              <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.annex.fitxer)}"/>">${__theForm.annex.fitxer.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.FITXERID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
@@ -87,7 +87,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,AnnexFields.ADJUNTAR)}">
         <tr id="annex_adjuntar_rowid">
-          <td>
+          <td id="annex_adjuntar_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFields.ADJUNTAR])?'annex.adjuntar':__theForm.labels[AnnexFields.ADJUNTAR]}" />
              </label>
@@ -95,7 +95,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[AnnexFields.ADJUNTAR]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="annex_adjuntar_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.ADJUNTAR)}" >
               <form:errors path="annex.adjuntar" cssClass="errorField alert alert-danger" />
               <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,AnnexFields.ADJUNTAR)? 'false' : 'true'}" path="annex.adjuntar" />
@@ -109,7 +109,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,AnnexFields.FIRMAR)}">
         <tr id="annex_firmar_rowid">
-          <td>
+          <td id="annex_firmar_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFields.FIRMAR])?'annex.firmar':__theForm.labels[AnnexFields.FIRMAR]}" />
              </label>
@@ -117,7 +117,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[AnnexFields.FIRMAR]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="annex_firmar_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFields.FIRMAR)}" >
               <form:errors path="annex.firmar" cssClass="errorField alert alert-danger" />
               <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,AnnexFields.FIRMAR)? 'false' : 'true'}" path="annex.firmar" />

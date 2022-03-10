@@ -1,10 +1,11 @@
+<%@page import="org.fundaciobit.genapp.common.web.html.HtmlCSS"%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
 <form:form modelAttribute="seleccioNifForm" method="post" name="seleccioNifForm">
 
 <%=HtmlCSS.TITOL_BEGIN %><fmt:message key="${seleccioNifForm.titol}" /><%=HtmlCSS.TITOL_END %>
 
-<%=HtmlCSS.SUBTITOL_START %><fmt:message key="${seleccioNifForm.subtitol}" /><%=HtmlCSS.SUBTITOL_END %>
+<%=HtmlCSS.SUBTITOL_BEGIN %><fmt:message key="${seleccioNifForm.subtitol}" /><%=HtmlCSS.SUBTITOL_END %>
 
 <table class="tdformlabel table-sm table table-bordered table-striped marTop10">
 <tbody>

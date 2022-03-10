@@ -34,7 +34,7 @@
 
           <%@include file="blocDeFirmesListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.ENTITATID)}">
         <tr id="entitat_entitatID_rowid">
-          <td>
+          <td id="entitat_entitatID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.ENTITATID])?'entitat.entitatID':__theForm.labels[EntitatFields.ENTITATID]}" /> &nbsp;(*)
              </label>
@@ -12,9 +12,9 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.ENTITATID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_entitatID_columnvalueid">
             <form:errors path="entitat.entitatID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.ENTITATID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.ENTITATID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.entitatID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.ENTITATID)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.ENTITATID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.entitatID"   />
 
            </td>
         </tr>
@@ -22,7 +22,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.NOM)}">
         <tr id="entitat_nom_rowid">
-          <td>
+          <td id="entitat_nom_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.NOM])?'entitat.nom':__theForm.labels[EntitatFields.NOM]}" /> &nbsp;(*)
              </label>
@@ -30,9 +30,9 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.NOM]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_nom_columnvalueid">
             <form:errors path="entitat.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.NOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.nom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.NOM)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.nom"   />
 
            </td>
         </tr>
@@ -40,7 +40,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.DESCRIPCIO)}">
         <tr id="entitat_descripcio_rowid">
-          <td>
+          <td id="entitat_descripcio_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.DESCRIPCIO])?'entitat.descripcio':__theForm.labels[EntitatFields.DESCRIPCIO]}" />
              </label>
@@ -48,12 +48,17 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.DESCRIPCIO]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_descripcio_columnvalueid">
               <form:errors path="entitat.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.DESCRIPCIO)? 'true' : 'false'}" path="entitat.descripcio"  />
+  <table style="width:100%">
+  <tr>
+  <td>
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.DESCRIPCIO)? 'true' : 'false'}" path="entitat.descripcio"  />
+   </td>
+   <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
-        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('entitat.descripcio'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('entitat.descripcio'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('entitat.descripcio'); ta.wrap='hard';">Hard Wrap</a>
@@ -65,13 +70,16 @@
                  $('#dropdownMenuContainer_descripcio').css('display', valor);
                  return false;
 				});
-      </script>           </td>
+      </script>   </td>
+   </tr>
+   </table>
+           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.ACTIVA)}">
         <tr id="entitat_activa_rowid">
-          <td>
+          <td id="entitat_activa_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.ACTIVA])?'entitat.activa':__theForm.labels[EntitatFields.ACTIVA]}" />
              </label>
@@ -79,7 +87,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.ACTIVA]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_activa_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.ACTIVA)}" >
               <form:errors path="entitat.activa" cssClass="errorField alert alert-danger" />
               <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.ACTIVA)? 'false' : 'true'}" path="entitat.activa" />
@@ -93,7 +101,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.WEB)}">
         <tr id="entitat_web_rowid">
-          <td>
+          <td id="entitat_web_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.WEB])?'entitat.web':__theForm.labels[EntitatFields.WEB]}" /> &nbsp;(*)
              </label>
@@ -101,7 +109,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.WEB]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_web_columnvalueid">
             <form:errors path="entitat.web" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.WEB)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.WEB)? ' uneditable-input' : ''}"  style="" maxlength="250" path="entitat.web"   />
 
@@ -111,7 +119,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.FAVICONID)}">
         <tr id="entitat_faviconID_rowid">
-          <td>
+          <td id="entitat_faviconID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.FAVICONID])?'entitat.faviconID':__theForm.labels[EntitatFields.FAVICONID]}" /> &nbsp;(*)
              </label>
@@ -119,10 +127,10 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.FAVICONID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_faviconID_columnvalueid">
               <form:errors path="entitat.faviconID" cssClass="errorField alert alert-danger" />
             <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.FAVICONID)}" >
-              <a target="_blank" href="<c:url value="${pfi:fileUrl(faviconID.faviconID)}"/>">${faviconID.faviconID.nom}</a>
+              <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.entitat.favicon)}"/>">${__theForm.entitat.favicon.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.FAVICONID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
@@ -163,7 +171,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.LOGOWEBID)}">
         <tr id="entitat_logoWebID_rowid">
-          <td>
+          <td id="entitat_logoWebID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.LOGOWEBID])?'entitat.logoWebID':__theForm.labels[EntitatFields.LOGOWEBID]}" /> &nbsp;(*)
              </label>
@@ -171,10 +179,10 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.LOGOWEBID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_logoWebID_columnvalueid">
               <form:errors path="entitat.logoWebID" cssClass="errorField alert alert-danger" />
             <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBID)}" >
-              <a target="_blank" href="<c:url value="${pfi:fileUrl(logoWebID.logoWebID)}"/>">${logoWebID.logoWebID.nom}</a>
+              <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.entitat.logoWeb)}"/>">${__theForm.entitat.logoWeb.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
@@ -215,7 +223,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.LOGOWEBPEUID)}">
         <tr id="entitat_logoWebPeuID_rowid">
-          <td>
+          <td id="entitat_logoWebPeuID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.LOGOWEBPEUID])?'entitat.logoWebPeuID':__theForm.labels[EntitatFields.LOGOWEBPEUID]}" /> &nbsp;(*)
              </label>
@@ -223,10 +231,10 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.LOGOWEBPEUID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_logoWebPeuID_columnvalueid">
               <form:errors path="entitat.logoWebPeuID" cssClass="errorField alert alert-danger" />
             <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBPEUID)}" >
-              <a target="_blank" href="<c:url value="${pfi:fileUrl(logoWebPeuID.logoWebPeuID)}"/>">${logoWebPeuID.logoWebPeuID.nom}</a>
+              <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.entitat.logoWebPeu)}"/>">${__theForm.entitat.logoWebPeu.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBPEUID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
@@ -267,7 +275,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.LOGOSEGELLID)}">
         <tr id="entitat_logoSegellID_rowid">
-          <td>
+          <td id="entitat_logoSegellID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.LOGOSEGELLID])?'entitat.logoSegellID':__theForm.labels[EntitatFields.LOGOSEGELLID]}" /> &nbsp;(*)
              </label>
@@ -275,10 +283,10 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.LOGOSEGELLID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_logoSegellID_columnvalueid">
               <form:errors path="entitat.logoSegellID" cssClass="errorField alert alert-danger" />
             <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOSEGELLID)}" >
-              <a target="_blank" href="<c:url value="${pfi:fileUrl(logoSegellID.logoSegellID)}"/>">${logoSegellID.logoSegellID.nom}</a>
+              <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.entitat.logoSegell)}"/>">${__theForm.entitat.logoSegell.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOSEGELLID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
@@ -319,7 +327,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.ADREZAHTML)}">
         <tr id="entitat_adrezaHtml_rowid">
-          <td>
+          <td id="entitat_adrezaHtml_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.ADREZAHTML])?'entitat.adrezaHtml':__theForm.labels[EntitatFields.ADREZAHTML]}" /> &nbsp;(*)
              </label>
@@ -327,16 +335,16 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.ADREZAHTML]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_adrezaHtml_columnvalueid">
               <form:errors path="entitat.adrezaHtml" cssClass="errorField alert alert-danger" />
-              <form:textarea cssClass=" ${gen:contains(__theForm.readOnlyFields ,EntitatFields.ADREZAHTML)? 'mceEditorReadOnly':'mceEditor'}"  path="entitat.adrezaHtml"  />
+       <form:textarea cssClass=" ${gen:contains(__theForm.readOnlyFields ,EntitatFields.ADREZAHTML)? 'mceEditorReadOnly':'mceEditor'}"  path="entitat.adrezaHtml"  />
            </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.FILTRECERTIFICATS)}">
         <tr id="entitat_filtreCertificats_rowid">
-          <td>
+          <td id="entitat_filtreCertificats_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.FILTRECERTIFICATS])?'entitat.filtreCertificats':__theForm.labels[EntitatFields.FILTRECERTIFICATS]}" /> &nbsp;(*)
              </label>
@@ -344,12 +352,17 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.FILTRECERTIFICATS]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_filtreCertificats_columnvalueid">
               <form:errors path="entitat.filtreCertificats" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.FILTRECERTIFICATS)? 'true' : 'false'}" path="entitat.filtreCertificats"  />
+  <table style="width:100%">
+  <tr>
+  <td>
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.FILTRECERTIFICATS)? 'true' : 'false'}" path="entitat.filtreCertificats"  />
+   </td>
+   <td style="width:40px">
       <div id="dropdownMenuButton_filtreCertificats" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
-        <div id="dropdownMenuContainer_filtreCertificats" class="dropdown-menu">
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_filtreCertificats" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('entitat.filtreCertificats'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('entitat.filtreCertificats'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('entitat.filtreCertificats'); ta.wrap='hard';">Hard Wrap</a>
@@ -361,13 +374,16 @@
                  $('#dropdownMenuContainer_filtreCertificats').css('display', valor);
                  return false;
 				});
-      </script>           </td>
+      </script>   </td>
+   </tr>
+   </table>
+           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PDFAUTORITZACIODELEGACIOID)}">
         <tr id="entitat_pdfAutoritzacioDelegacioID_rowid">
-          <td>
+          <td id="entitat_pdfAutoritzacioDelegacioID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.PDFAUTORITZACIODELEGACIOID])?'entitat.pdfAutoritzacioDelegacioID':__theForm.labels[EntitatFields.PDFAUTORITZACIODELEGACIOID]}" /> &nbsp;(*)
              </label>
@@ -375,10 +391,10 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.PDFAUTORITZACIODELEGACIOID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_pdfAutoritzacioDelegacioID_columnvalueid">
               <form:errors path="entitat.pdfAutoritzacioDelegacioID" cssClass="errorField alert alert-danger" />
             <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PDFAUTORITZACIODELEGACIOID)}" >
-              <a target="_blank" href="<c:url value="${pfi:fileUrl(pdfAutoritzacioDelegacioID.pdfAutoritzacioDelegacioID)}"/>">${pdfAutoritzacioDelegacioID.pdfAutoritzacioDelegacioID.nom}</a>
+              <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.entitat.pdfAutoritzacioDelegacio)}"/>">${__theForm.entitat.pdfAutoritzacioDelegacio.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.PDFAUTORITZACIODELEGACIOID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
@@ -419,7 +435,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.SUPORTTELEFON)}">
         <tr id="entitat_suportTelefon_rowid">
-          <td>
+          <td id="entitat_suportTelefon_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.SUPORTTELEFON])?'entitat.suportTelefon':__theForm.labels[EntitatFields.SUPORTTELEFON]}" />
              </label>
@@ -427,9 +443,9 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.SUPORTTELEFON]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_suportTelefon_columnvalueid">
             <form:errors path="entitat.suportTelefon" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTTELEFON)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTTELEFON)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.suportTelefon"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTTELEFON)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTTELEFON)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.suportTelefon"   />
 
            </td>
         </tr>
@@ -437,7 +453,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.SUPORTWEB)}">
         <tr id="entitat_suportWeb_rowid">
-          <td>
+          <td id="entitat_suportWeb_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.SUPORTWEB])?'entitat.suportWeb':__theForm.labels[EntitatFields.SUPORTWEB]}" />
              </label>
@@ -445,7 +461,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.SUPORTWEB]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_suportWeb_columnvalueid">
             <form:errors path="entitat.suportWeb" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB)? ' uneditable-input' : ''}"  style="" maxlength="250" path="entitat.suportWeb"   />
 
@@ -455,7 +471,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.SUPORTEMAIL)}">
         <tr id="entitat_suportEmail_rowid">
-          <td>
+          <td id="entitat_suportEmail_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.SUPORTEMAIL])?'entitat.suportEmail':__theForm.labels[EntitatFields.SUPORTEMAIL]}" />
              </label>
@@ -463,7 +479,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.SUPORTEMAIL]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_suportEmail_columnvalueid">
             <form:errors path="entitat.suportEmail" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTEMAIL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTEMAIL)? ' uneditable-input' : ''}"  style="" maxlength="100" path="entitat.suportEmail"   />
 
@@ -473,7 +489,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.USUARIAPLICACIOID)}">
         <tr id="entitat_usuariAplicacioID_rowid">
-          <td>
+          <td id="entitat_usuariAplicacioID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.USUARIAPLICACIOID])?'entitat.usuariAplicacioID':__theForm.labels[EntitatFields.USUARIAPLICACIOID]}" />
              </label>
@@ -481,7 +497,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.USUARIAPLICACIOID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_usuariAplicacioID_columnvalueid">
           <form:errors path="entitat.usuariAplicacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.USUARIAPLICACIOID)}" >
           <form:hidden path="entitat.usuariAplicacioID"/>
@@ -513,7 +529,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.MAXUPLOADSIZE)}">
         <tr id="entitat_maxUploadSize_rowid">
-          <td>
+          <td id="entitat_maxUploadSize_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.MAXUPLOADSIZE])?'entitat.maxUploadSize':__theForm.labels[EntitatFields.MAXUPLOADSIZE]}" />
              </label>
@@ -521,7 +537,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.MAXUPLOADSIZE]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_maxUploadSize_columnvalueid">
             <form:errors path="entitat.maxUploadSize" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXUPLOADSIZE)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXUPLOADSIZE)? ' uneditable-input' : ''}"  style=""  path="entitat.maxUploadSize"   />
 
@@ -531,7 +547,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.MAXSIZEFITXERADAPTAT)}">
         <tr id="entitat_maxSizeFitxerAdaptat_rowid">
-          <td>
+          <td id="entitat_maxSizeFitxerAdaptat_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.MAXSIZEFITXERADAPTAT])?'entitat.maxSizeFitxerAdaptat':__theForm.labels[EntitatFields.MAXSIZEFITXERADAPTAT]}" />
              </label>
@@ -539,7 +555,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.MAXSIZEFITXERADAPTAT]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_maxSizeFitxerAdaptat_columnvalueid">
             <form:errors path="entitat.maxSizeFitxerAdaptat" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXSIZEFITXERADAPTAT)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXSIZEFITXERADAPTAT)? ' uneditable-input' : ''}"  style=""  path="entitat.maxSizeFitxerAdaptat"   />
 
@@ -549,7 +565,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.MAXFILESTOSIGNATSAMETIME)}">
         <tr id="entitat_maxFilesToSignAtSameTime_rowid">
-          <td>
+          <td id="entitat_maxFilesToSignAtSameTime_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.MAXFILESTOSIGNATSAMETIME])?'entitat.maxFilesToSignAtSameTime':__theForm.labels[EntitatFields.MAXFILESTOSIGNATSAMETIME]}" />
              </label>
@@ -557,7 +573,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.MAXFILESTOSIGNATSAMETIME]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_maxFilesToSignAtSameTime_columnvalueid">
             <form:errors path="entitat.maxFilesToSignAtSameTime" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXFILESTOSIGNATSAMETIME)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXFILESTOSIGNATSAMETIME)? ' uneditable-input' : ''}"  style=""  path="entitat.maxFilesToSignAtSameTime"   />
 
@@ -567,7 +583,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.USPOLITICADEFIRMA)}">
         <tr id="entitat_usPoliticaDeFirma_rowid">
-          <td>
+          <td id="entitat_usPoliticaDeFirma_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.USPOLITICADEFIRMA])?'entitat.usPoliticaDeFirma':__theForm.labels[EntitatFields.USPOLITICADEFIRMA]}" /> &nbsp;(*)
              </label>
@@ -575,7 +591,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.USPOLITICADEFIRMA]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_usPoliticaDeFirma_columnvalueid">
           <form:errors path="entitat.usPoliticaDeFirma" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.USPOLITICADEFIRMA)}" >
           <form:hidden path="entitat.usPoliticaDeFirma"/>
@@ -598,7 +614,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLICYIDENTIFIER)}">
         <tr id="entitat_policyIdentifier_rowid">
-          <td>
+          <td id="entitat_policyIdentifier_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.POLICYIDENTIFIER])?'entitat.policyIdentifier':__theForm.labels[EntitatFields.POLICYIDENTIFIER]}" />
              </label>
@@ -606,7 +622,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.POLICYIDENTIFIER]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_policyIdentifier_columnvalueid">
             <form:errors path="entitat.policyIdentifier" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIER)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIER)? ' uneditable-input' : ''}"  style="" maxlength="100" path="entitat.policyIdentifier"   />
 
@@ -616,7 +632,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLICYIDENTIFIERHASH)}">
         <tr id="entitat_policyIdentifierHash_rowid">
-          <td>
+          <td id="entitat_policyIdentifierHash_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.POLICYIDENTIFIERHASH])?'entitat.policyIdentifierHash':__theForm.labels[EntitatFields.POLICYIDENTIFIERHASH]}" />
              </label>
@@ -624,12 +640,17 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.POLICYIDENTIFIERHASH]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_policyIdentifierHash_columnvalueid">
               <form:errors path="entitat.policyIdentifierHash" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASH)? 'true' : 'false'}" path="entitat.policyIdentifierHash"  />
+  <table style="width:100%">
+  <tr>
+  <td>
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASH)? 'true' : 'false'}" path="entitat.policyIdentifierHash"  />
+   </td>
+   <td style="width:40px">
       <div id="dropdownMenuButton_policyIdentifierHash" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
-        <div id="dropdownMenuContainer_policyIdentifierHash" class="dropdown-menu">
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_policyIdentifierHash" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('entitat.policyIdentifierHash'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('entitat.policyIdentifierHash'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('entitat.policyIdentifierHash'); ta.wrap='hard';">Hard Wrap</a>
@@ -641,13 +662,16 @@
                  $('#dropdownMenuContainer_policyIdentifierHash').css('display', valor);
                  return false;
 				});
-      </script>           </td>
+      </script>   </td>
+   </tr>
+   </table>
+           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)}">
         <tr id="entitat_policyIdentifierHashAlgorithm_rowid">
-          <td>
+          <td id="entitat_policyIdentifierHashAlgorithm_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.POLICYIDENTIFIERHASHALGORITHM])?'entitat.policyIdentifierHashAlgorithm':__theForm.labels[EntitatFields.POLICYIDENTIFIERHASHALGORITHM]}" />
              </label>
@@ -655,9 +679,9 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.POLICYIDENTIFIERHASHALGORITHM]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_policyIdentifierHashAlgorithm_columnvalueid">
             <form:errors path="entitat.policyIdentifierHashAlgorithm" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.policyIdentifierHashAlgorithm"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.policyIdentifierHashAlgorithm"   />
 
            </td>
         </tr>
@@ -665,7 +689,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLICYURLDOCUMENT)}">
         <tr id="entitat_policyUrlDocument_rowid">
-          <td>
+          <td id="entitat_policyUrlDocument_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.POLICYURLDOCUMENT])?'entitat.policyUrlDocument':__theForm.labels[EntitatFields.POLICYURLDOCUMENT]}" />
              </label>
@@ -673,7 +697,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.POLICYURLDOCUMENT]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_policyUrlDocument_columnvalueid">
            <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYURLDOCUMENT)}">
 
              <c:if test="${ not empty __theForm.entitat.policyUrlDocument}">
@@ -695,7 +719,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.MOTIUDELEGACIOID)}">
         <tr id="entitat_motiuDelegacioID_rowid">
-          <td>
+          <td id="entitat_motiuDelegacioID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.MOTIUDELEGACIOID])?'entitat.motiuDelegacioID':__theForm.labels[EntitatFields.MOTIUDELEGACIOID]}" />
              </label>
@@ -703,7 +727,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.MOTIUDELEGACIOID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_motiuDelegacioID_columnvalueid">
        <form:errors path="entitat.motiuDelegacio" cssClass="errorField alert alert-danger" />
        <div class="row-fluid col-md-9-optional">
          <ul class="nav nav-tabs" style="margin: 0 15px -1px;">
@@ -730,7 +754,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.FIRMATPERFORMATID)}">
         <tr id="entitat_firmatPerFormatID_rowid">
-          <td>
+          <td id="entitat_firmatPerFormatID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.FIRMATPERFORMATID])?'entitat.firmatPerFormatID':__theForm.labels[EntitatFields.FIRMATPERFORMATID]}" />
              </label>
@@ -738,7 +762,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.FIRMATPERFORMATID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_firmatPerFormatID_columnvalueid">
        <form:errors path="entitat.firmatPerFormat" cssClass="errorField alert alert-danger" />
        <div class="row-fluid col-md-9-optional">
          <ul class="nav nav-tabs" style="margin: 0 15px -1px;">
@@ -765,7 +789,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.ALGORISMEDEFIRMAID)}">
         <tr id="entitat_algorismeDeFirmaID_rowid">
-          <td>
+          <td id="entitat_algorismeDeFirmaID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.ALGORISMEDEFIRMAID])?'entitat.algorismeDeFirmaID':__theForm.labels[EntitatFields.ALGORISMEDEFIRMAID]}" /> &nbsp;(*)
              </label>
@@ -773,7 +797,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.ALGORISMEDEFIRMAID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_algorismeDeFirmaID_columnvalueid">
           <form:errors path="entitat.algorismeDeFirmaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.ALGORISMEDEFIRMAID)}" >
           <form:hidden path="entitat.algorismeDeFirmaID"/>
@@ -796,7 +820,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLITICACUSTODIA)}">
         <tr id="entitat_politicaCustodia_rowid">
-          <td>
+          <td id="entitat_politicaCustodia_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.POLITICACUSTODIA])?'entitat.politicaCustodia':__theForm.labels[EntitatFields.POLITICACUSTODIA]}" /> &nbsp;(*)
              </label>
@@ -804,7 +828,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.POLITICACUSTODIA]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_politicaCustodia_columnvalueid">
           <form:errors path="entitat.politicaCustodia" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICACUSTODIA)}" >
           <form:hidden path="entitat.politicaCustodia"/>
@@ -827,7 +851,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.CUSTODIAINFOID)}">
         <tr id="entitat_custodiaInfoID_rowid">
-          <td>
+          <td id="entitat_custodiaInfoID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.CUSTODIAINFOID])?'entitat.custodiaInfoID':__theForm.labels[EntitatFields.CUSTODIAINFOID]}" />
              </label>
@@ -835,7 +859,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.CUSTODIAINFOID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_custodiaInfoID_columnvalueid">
           <form:errors path="entitat.custodiaInfoID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.CUSTODIAINFOID)}" >
           <form:hidden path="entitat.custodiaInfoID"/>
@@ -867,7 +891,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLITICATAULAFIRMES)}">
         <tr id="entitat_politicaTaulaFirmes_rowid">
-          <td>
+          <td id="entitat_politicaTaulaFirmes_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.POLITICATAULAFIRMES])?'entitat.politicaTaulaFirmes':__theForm.labels[EntitatFields.POLITICATAULAFIRMES]}" /> &nbsp;(*)
              </label>
@@ -875,7 +899,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.POLITICATAULAFIRMES]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_politicaTaulaFirmes_columnvalueid">
           <form:errors path="entitat.politicaTaulaFirmes" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICATAULAFIRMES)}" >
           <form:hidden path="entitat.politicaTaulaFirmes"/>
@@ -898,7 +922,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POSICIOTAULAFIRMES)}">
         <tr id="entitat_posicioTaulaFirmes_rowid">
-          <td>
+          <td id="entitat_posicioTaulaFirmes_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.POSICIOTAULAFIRMES])?'entitat.posicioTaulaFirmes':__theForm.labels[EntitatFields.POSICIOTAULAFIRMES]}" /> &nbsp;(*)
              </label>
@@ -906,7 +930,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.POSICIOTAULAFIRMES]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_posicioTaulaFirmes_columnvalueid">
           <form:errors path="entitat.posicioTaulaFirmes" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POSICIOTAULAFIRMES)}" >
           <form:hidden path="entitat.posicioTaulaFirmes"/>
@@ -929,7 +953,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PROPIETATSTAULAFIRMES)}">
         <tr id="entitat_propietatsTaulaFirmes_rowid">
-          <td>
+          <td id="entitat_propietatsTaulaFirmes_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.PROPIETATSTAULAFIRMES])?'entitat.propietatsTaulaFirmes':__theForm.labels[EntitatFields.PROPIETATSTAULAFIRMES]}" />
              </label>
@@ -937,12 +961,17 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.PROPIETATSTAULAFIRMES]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_propietatsTaulaFirmes_columnvalueid">
               <form:errors path="entitat.propietatsTaulaFirmes" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.PROPIETATSTAULAFIRMES)? 'true' : 'false'}" path="entitat.propietatsTaulaFirmes"  />
+  <table style="width:100%">
+  <tr>
+  <td>
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.PROPIETATSTAULAFIRMES)? 'true' : 'false'}" path="entitat.propietatsTaulaFirmes"  />
+   </td>
+   <td style="width:40px">
       <div id="dropdownMenuButton_propietatsTaulaFirmes" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
-        <div id="dropdownMenuContainer_propietatsTaulaFirmes" class="dropdown-menu">
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_propietatsTaulaFirmes" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('entitat.propietatsTaulaFirmes'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('entitat.propietatsTaulaFirmes'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('entitat.propietatsTaulaFirmes'); ta.wrap='hard';">Hard Wrap</a>
@@ -954,13 +983,16 @@
                  $('#dropdownMenuContainer_propietatsTaulaFirmes').css('display', valor);
                  return false;
 				});
-      </script>           </td>
+      </script>   </td>
+   </tr>
+   </table>
+           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLITICASEGELLATDETEMPS)}">
         <tr id="entitat_politicaSegellatDeTemps_rowid">
-          <td>
+          <td id="entitat_politicaSegellatDeTemps_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.POLITICASEGELLATDETEMPS])?'entitat.politicaSegellatDeTemps':__theForm.labels[EntitatFields.POLITICASEGELLATDETEMPS]}" /> &nbsp;(*)
              </label>
@@ -968,7 +1000,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.POLITICASEGELLATDETEMPS]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_politicaSegellatDeTemps_columnvalueid">
           <form:errors path="entitat.politicaSegellatDeTemps" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICASEGELLATDETEMPS)}" >
           <form:hidden path="entitat.politicaSegellatDeTemps"/>
@@ -991,7 +1023,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PLUGINSEGELLTEMPSID)}">
         <tr id="entitat_pluginSegellTempsID_rowid">
-          <td>
+          <td id="entitat_pluginSegellTempsID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.PLUGINSEGELLTEMPSID])?'entitat.pluginSegellTempsID':__theForm.labels[EntitatFields.PLUGINSEGELLTEMPSID]}" />
              </label>
@@ -999,7 +1031,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.PLUGINSEGELLTEMPSID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_pluginSegellTempsID_columnvalueid">
           <form:errors path="entitat.pluginSegellTempsID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINSEGELLTEMPSID)}" >
           <form:hidden path="entitat.pluginSegellTempsID"/>
@@ -1031,7 +1063,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PLUGINRUBRICAID)}">
         <tr id="entitat_pluginRubricaID_rowid">
-          <td>
+          <td id="entitat_pluginRubricaID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.PLUGINRUBRICAID])?'entitat.pluginRubricaID':__theForm.labels[EntitatFields.PLUGINRUBRICAID]}" />
              </label>
@@ -1039,7 +1071,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.PLUGINRUBRICAID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_pluginRubricaID_columnvalueid">
           <form:errors path="entitat.pluginRubricaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINRUBRICAID)}" >
           <form:hidden path="entitat.pluginRubricaID"/>
@@ -1071,7 +1103,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.VALIDARFIRMA)}">
         <tr id="entitat_validarfirma_rowid">
-          <td>
+          <td id="entitat_validarfirma_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.VALIDARFIRMA])?'entitat.validarfirma':__theForm.labels[EntitatFields.VALIDARFIRMA]}" />
              </label>
@@ -1079,7 +1111,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.VALIDARFIRMA]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_validarfirma_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.VALIDARFIRMA)}" >
               <form:errors path="entitat.validarfirma" cssClass="errorField alert alert-danger" />
               <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.VALIDARFIRMA)? 'false' : 'true'}" path="entitat.validarfirma" />
@@ -1093,7 +1125,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
         <tr id="entitat_comprovarNifFirma_rowid">
-          <td>
+          <td id="entitat_comprovarNifFirma_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.COMPROVARNIFFIRMA])?'entitat.comprovarNifFirma':__theForm.labels[EntitatFields.COMPROVARNIFFIRMA]}" />
              </label>
@@ -1101,7 +1133,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.COMPROVARNIFFIRMA]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_comprovarNifFirma_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)}" >
               <form:errors path="entitat.comprovarNifFirma" cssClass="errorField alert alert-danger" />
               <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)? 'false' : 'true'}" path="entitat.comprovarNifFirma" />
@@ -1115,7 +1147,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.CHECKCANVIATDOCFIRMAT)}">
         <tr id="entitat_checkCanviatDocFirmat_rowid">
-          <td>
+          <td id="entitat_checkCanviatDocFirmat_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.CHECKCANVIATDOCFIRMAT])?'entitat.checkCanviatDocFirmat':__theForm.labels[EntitatFields.CHECKCANVIATDOCFIRMAT]}" />
              </label>
@@ -1123,7 +1155,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.CHECKCANVIATDOCFIRMAT]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_checkCanviatDocFirmat_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.CHECKCANVIATDOCFIRMAT)}" >
               <form:errors path="entitat.checkCanviatDocFirmat" cssClass="errorField alert alert-danger" />
               <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.CHECKCANVIATDOCFIRMAT)? 'false' : 'true'}" path="entitat.checkCanviatDocFirmat" />
@@ -1137,7 +1169,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PLUGINVALIDAFIRMESID)}">
         <tr id="entitat_pluginValidaFirmesID_rowid">
-          <td>
+          <td id="entitat_pluginValidaFirmesID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.PLUGINVALIDAFIRMESID])?'entitat.pluginValidaFirmesID':__theForm.labels[EntitatFields.PLUGINVALIDAFIRMESID]}" />
              </label>
@@ -1145,7 +1177,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.PLUGINVALIDAFIRMESID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_pluginValidaFirmesID_columnvalueid">
           <form:errors path="entitat.pluginValidaFirmesID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINVALIDAFIRMESID)}" >
           <form:hidden path="entitat.pluginValidaFirmesID"/>
@@ -1177,7 +1209,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PLUGINVALIDACERTIFICATID)}">
         <tr id="entitat_pluginValidaCertificatID_rowid">
-          <td>
+          <td id="entitat_pluginValidaCertificatID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.PLUGINVALIDACERTIFICATID])?'entitat.pluginValidaCertificatID':__theForm.labels[EntitatFields.PLUGINVALIDACERTIFICATID]}" />
              </label>
@@ -1185,7 +1217,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EntitatFields.PLUGINVALIDACERTIFICATID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="entitat_pluginValidaCertificatID_columnvalueid">
           <form:errors path="entitat.pluginValidaCertificatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINVALIDACERTIFICATID)}" >
           <form:hidden path="entitat.pluginValidaCertificatID"/>

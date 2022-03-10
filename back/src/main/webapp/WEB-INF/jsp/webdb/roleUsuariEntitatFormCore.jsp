@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,RoleUsuariEntitatFields.ROLEID)}">
         <tr id="roleUsuariEntitat_roleID_rowid">
-          <td>
+          <td id="roleUsuariEntitat_roleID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[RoleUsuariEntitatFields.ROLEID])?'roleUsuariEntitat.roleID':__theForm.labels[RoleUsuariEntitatFields.ROLEID]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[RoleUsuariEntitatFields.ROLEID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="roleUsuariEntitat_roleID_columnvalueid">
           <form:errors path="roleUsuariEntitat.roleID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,RoleUsuariEntitatFields.ROLEID)}" >
           <form:hidden path="roleUsuariEntitat.roleID"/>
@@ -35,7 +35,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,RoleUsuariEntitatFields.USUARIENTITATID)}">
         <tr id="roleUsuariEntitat_usuariEntitatID_rowid">
-          <td>
+          <td id="roleUsuariEntitat_usuariEntitatID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[RoleUsuariEntitatFields.USUARIENTITATID])?'roleUsuariEntitat.usuariEntitatID':__theForm.labels[RoleUsuariEntitatFields.USUARIENTITATID]}" /> &nbsp;(*)
              </label>
@@ -43,7 +43,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[RoleUsuariEntitatFields.USUARIENTITATID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="roleUsuariEntitat_usuariEntitatID_columnvalueid">
           <form:errors path="roleUsuariEntitat.usuariEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,RoleUsuariEntitatFields.USUARIENTITATID)}" >
           <form:hidden path="roleUsuariEntitat.usuariEntitatID"/>

@@ -1,3 +1,4 @@
+<%@page import="es.caib.portafib.back.utils.IsAccessibleFromMoreThanOneModule"%>
 <%@page import="org.springframework.security.core.Authentication"
 %><%@page import="org.springframework.context.i18n.LocaleContextHolder"
 %><%@ page language="java" 
@@ -43,5 +44,6 @@ lang = ${lang} <br/>
 <br/>
 
 <c:if test="${pfi:isDesenvolupament()}">
-Only in Development Mode
+Only in Development Mode<br/>
+
 </c:if>

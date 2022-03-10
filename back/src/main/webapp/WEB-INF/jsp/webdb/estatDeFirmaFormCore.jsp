@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,EstatDeFirmaFields.FIRMAID)}">
         <tr id="estatDeFirma_firmaID_rowid">
-          <td>
+          <td id="estatDeFirma_firmaID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.FIRMAID])?'estatDeFirma.firmaID':__theForm.labels[EstatDeFirmaFields.FIRMAID]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.FIRMAID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="estatDeFirma_firmaID_columnvalueid">
           <form:errors path="estatDeFirma.firmaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.FIRMAID)}" >
           <form:hidden path="estatDeFirma.firmaID"/>
@@ -35,7 +35,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EstatDeFirmaFields.USUARIENTITATID)}">
         <tr id="estatDeFirma_usuariEntitatID_rowid">
-          <td>
+          <td id="estatDeFirma_usuariEntitatID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.USUARIENTITATID])?'estatDeFirma.usuariEntitatID':__theForm.labels[EstatDeFirmaFields.USUARIENTITATID]}" /> &nbsp;(*)
              </label>
@@ -43,7 +43,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.USUARIENTITATID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="estatDeFirma_usuariEntitatID_columnvalueid">
           <form:errors path="estatDeFirma.usuariEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.USUARIENTITATID)}" >
           <form:hidden path="estatDeFirma.usuariEntitatID"/>
@@ -66,7 +66,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EstatDeFirmaFields.DATAINICI)}">
         <tr id="estatDeFirma_dataInici_rowid">
-          <td>
+          <td id="estatDeFirma_dataInici_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.DATAINICI])?'estatDeFirma.dataInici':__theForm.labels[EstatDeFirmaFields.DATAINICI]}" /> &nbsp;(*)
              </label>
@@ -74,10 +74,8 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.DATAINICI]}" ></i>
               </c:if>
             </td>
-            <td>
-              <form:errors path="estatDeFirma.dataInici" cssClass="errorField alert alert-danger" />
-    <div class="container">
-      <div class="row">
+          <td id="estatDeFirma_dataInici_columnvalueid">
+    <form:errors path="estatDeFirma.dataInici" cssClass="errorField alert alert-danger" />
             <div class="form-group">
                 <div class="input-group date" id="estatDeFirma_dataInici" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DATAINICI)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#estatDeFirma_dataInici" path="estatDeFirma.dataInici" />
@@ -88,7 +86,7 @@
                     </c:if>
                 </div>
             </div>
-          <script type="text/javascript">
+        <script type="text/javascript">
             $(function () {
                 $('#estatDeFirma_dataInici').datetimepicker({
                     format: '${gen:getJSDateTimePattern()}',
@@ -98,15 +96,13 @@
                     }
                 });
             });
-          </script>        </div>
-      </div>
-           </td>
+        </script>           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EstatDeFirmaFields.DATAFI)}">
         <tr id="estatDeFirma_dataFi_rowid">
-          <td>
+          <td id="estatDeFirma_dataFi_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.DATAFI])?'estatDeFirma.dataFi':__theForm.labels[EstatDeFirmaFields.DATAFI]}" />
              </label>
@@ -114,10 +110,8 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.DATAFI]}" ></i>
               </c:if>
             </td>
-            <td>
-              <form:errors path="estatDeFirma.dataFi" cssClass="errorField alert alert-danger" />
-    <div class="container">
-      <div class="row">
+          <td id="estatDeFirma_dataFi_columnvalueid">
+    <form:errors path="estatDeFirma.dataFi" cssClass="errorField alert alert-danger" />
             <div class="form-group">
                 <div class="input-group date" id="estatDeFirma_dataFi" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DATAFI)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#estatDeFirma_dataFi" path="estatDeFirma.dataFi" />
@@ -128,7 +122,7 @@
                     </c:if>
                 </div>
             </div>
-          <script type="text/javascript">
+        <script type="text/javascript">
             $(function () {
                 $('#estatDeFirma_dataFi').datetimepicker({
                     format: '${gen:getJSDateTimePattern()}',
@@ -138,15 +132,13 @@
                     }
                 });
             });
-          </script>        </div>
-      </div>
-           </td>
+        </script>           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID)}">
         <tr id="estatDeFirma_tipusEstatDeFirmaInicialID_rowid">
-          <td>
+          <td id="estatDeFirma_tipusEstatDeFirmaInicialID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID])?'estatDeFirma.tipusEstatDeFirmaInicialID':__theForm.labels[EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID]}" /> &nbsp;(*)
              </label>
@@ -154,7 +146,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="estatDeFirma_tipusEstatDeFirmaInicialID_columnvalueid">
           <form:errors path="estatDeFirma.tipusEstatDeFirmaInicialID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID)}" >
           <form:hidden path="estatDeFirma.tipusEstatDeFirmaInicialID"/>
@@ -177,7 +169,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID)}">
         <tr id="estatDeFirma_tipusEstatDeFirmaFinalID_rowid">
-          <td>
+          <td id="estatDeFirma_tipusEstatDeFirmaFinalID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID])?'estatDeFirma.tipusEstatDeFirmaFinalID':__theForm.labels[EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID]}" />
              </label>
@@ -185,7 +177,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="estatDeFirma_tipusEstatDeFirmaFinalID_columnvalueid">
           <form:errors path="estatDeFirma.tipusEstatDeFirmaFinalID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID)}" >
           <form:hidden path="estatDeFirma.tipusEstatDeFirmaFinalID"/>
@@ -217,7 +209,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EstatDeFirmaFields.COLABORACIODELEGACIOID)}">
         <tr id="estatDeFirma_colaboracioDelegacioID_rowid">
-          <td>
+          <td id="estatDeFirma_colaboracioDelegacioID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.COLABORACIODELEGACIOID])?'estatDeFirma.colaboracioDelegacioID':__theForm.labels[EstatDeFirmaFields.COLABORACIODELEGACIOID]}" />
              </label>
@@ -225,7 +217,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.COLABORACIODELEGACIOID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="estatDeFirma_colaboracioDelegacioID_columnvalueid">
           <form:errors path="estatDeFirma.colaboracioDelegacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.COLABORACIODELEGACIOID)}" >
           <form:hidden path="estatDeFirma.colaboracioDelegacioID"/>
@@ -257,7 +249,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EstatDeFirmaFields.DESCRIPCIO)}">
         <tr id="estatDeFirma_descripcio_rowid">
-          <td>
+          <td id="estatDeFirma_descripcio_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[EstatDeFirmaFields.DESCRIPCIO])?'estatDeFirma.descripcio':__theForm.labels[EstatDeFirmaFields.DESCRIPCIO]}" />
              </label>
@@ -265,12 +257,17 @@
               <i class="fas fa-info-circle" title="${__theForm.help[EstatDeFirmaFields.DESCRIPCIO]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="estatDeFirma_descripcio_columnvalueid">
               <form:errors path="estatDeFirma.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DESCRIPCIO)? 'true' : 'false'}" path="estatDeFirma.descripcio"  />
+  <table style="width:100%">
+  <tr>
+  <td>
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DESCRIPCIO)? 'true' : 'false'}" path="estatDeFirma.descripcio"  />
+   </td>
+   <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
-        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('estatDeFirma.descripcio'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('estatDeFirma.descripcio'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('estatDeFirma.descripcio'); ta.wrap='hard';">Hard Wrap</a>
@@ -282,7 +279,10 @@
                  $('#dropdownMenuContainer_descripcio').css('display', valor);
                  return false;
 				});
-      </script>           </td>
+      </script>   </td>
+   </tr>
+   </table>
+           </td>
         </tr>
         </c:if>
         

@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,PermisUsuariPlantillaFields.USUARIENTITATID)}">
         <tr id="permisUsuariPlantilla_usuariEntitatID_rowid">
-          <td>
+          <td id="permisUsuariPlantilla_usuariEntitatID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PermisUsuariPlantillaFields.USUARIENTITATID])?'permisUsuariPlantilla.usuariEntitatID':__theForm.labels[PermisUsuariPlantillaFields.USUARIENTITATID]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PermisUsuariPlantillaFields.USUARIENTITATID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="permisUsuariPlantilla_usuariEntitatID_columnvalueid">
           <form:errors path="permisUsuariPlantilla.usuariEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PermisUsuariPlantillaFields.USUARIENTITATID)}" >
           <form:hidden path="permisUsuariPlantilla.usuariEntitatID"/>
@@ -35,7 +35,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID)}">
         <tr id="permisUsuariPlantilla_plantillaFluxDeFirmesID_rowid">
-          <td>
+          <td id="permisUsuariPlantilla_plantillaFluxDeFirmesID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID])?'permisUsuariPlantilla.plantillaFluxDeFirmesID':__theForm.labels[PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID]}" /> &nbsp;(*)
              </label>
@@ -43,7 +43,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="permisUsuariPlantilla_plantillaFluxDeFirmesID_columnvalueid">
           <form:errors path="permisUsuariPlantilla.plantillaFluxDeFirmesID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID)}" >
           <form:hidden path="permisUsuariPlantilla.plantillaFluxDeFirmesID"/>

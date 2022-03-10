@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="plantillaFluxDeFirmesFormCorePre.jsp" %>
+
   <%@include file="plantillaFluxDeFirmesFormCore.jsp" %>
 
   <%@include file="plantillaFluxDeFirmesFormCorePost.jsp" %>
 
   <%@include file="plantillaFluxDeFirmesFormButtons.jsp" %>
+
+  <c:if test="${not empty plantillaFluxDeFirmesForm.sections}">
+     <c:set var="__basename" value="plantillaFluxDeFirmes" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${plantillaFluxDeFirmesForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/plantillaFluxDeFirmesFormModificable.jsp" %>

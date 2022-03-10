@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="propietatGlobalFormCorePre.jsp" %>
+
   <%@include file="propietatGlobalFormCore.jsp" %>
 
   <%@include file="propietatGlobalFormCorePost.jsp" %>
 
   <%@include file="propietatGlobalFormButtons.jsp" %>
+
+  <c:if test="${not empty propietatGlobalForm.sections}">
+     <c:set var="__basename" value="propietatGlobal" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${propietatGlobalForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/propietatGlobalFormModificable.jsp" %>

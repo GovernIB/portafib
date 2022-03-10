@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID)}">
         <tr id="tipusDocumentColaboracioDelegacio_colaboracioDelegacioID_rowid">
-          <td>
+          <td id="tipusDocumentColaboracioDelegacio_colaboracioDelegacioID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID])?'tipusDocumentColaboracioDelegacio.colaboracioDelegacioID':__theForm.labels[TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="tipusDocumentColaboracioDelegacio_colaboracioDelegacioID_columnvalueid">
           <form:errors path="tipusDocumentColaboracioDelegacio.colaboracioDelegacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID)}" >
           <form:hidden path="tipusDocumentColaboracioDelegacio.colaboracioDelegacioID"/>
@@ -35,7 +35,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID)}">
         <tr id="tipusDocumentColaboracioDelegacio_tipusDocumentID_rowid">
-          <td>
+          <td id="tipusDocumentColaboracioDelegacio_tipusDocumentID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID])?'tipusDocumentColaboracioDelegacio.tipusDocumentID':__theForm.labels[TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID]}" /> &nbsp;(*)
              </label>
@@ -43,7 +43,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="tipusDocumentColaboracioDelegacio_tipusDocumentID_columnvalueid">
           <form:errors path="tipusDocumentColaboracioDelegacio.tipusDocumentID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID)}" >
           <form:hidden path="tipusDocumentColaboracioDelegacio.tipusDocumentID"/>

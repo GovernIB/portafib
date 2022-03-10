@@ -55,12 +55,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.peticioDeFirmaID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="peticioDeFirmaIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="peticioDeFirmaIDFins" />
 
@@ -112,12 +112,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.tipusDocumentID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="tipusDocumentIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="tipusDocumentIDFins" />
 
@@ -139,140 +139,152 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.DATASOLICITUD)}">
-            <%-- FILTRE DATE --%>
-            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+<%-- FILTRE DATE-TIME --%>
+            <div class="input-group" style="padding-right:4px;padding-bottom:4px;align-items:center;">
               <span class="add-on"><fmt:message key="peticioDeFirma.dataSolicitud" />:</span>
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
-              <div id="dataSolicitudDesde" class="input-append">
-                <form:input cssClass="input-large" path="dataSolicitudDesde" />
-                <span class="add-on">
-                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                  </i>
-                </span>
-              </div>
-              <script type="text/javascript">                
-                $(function() {
-                  $('#dataSolicitudDesde').datetimepicker({
-                    language: '${lang}',
-                    pick12HourFormat: <c:out value="${fn:contains(gen:getDateTimePattern(), 'a')?'true' : 'false'}"/>,
-                    format:  '${gen:getJSDateTimePattern()}',
-                    pickTime: true,
-                    weekStart: ${gen:getFirstDayOfTheWeek()}
-                  });
-                });
-              </script>
-              <span class="add-on"><fmt:message key="genapp.to" /></span>              
-              <div id="dataSolicitudFins" class="input-append">
-                <form:input cssClass="input-large" path="dataSolicitudFins" />
-                <span class="add-on">
-                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                  </i>
-                </span>
-              </div>
-              <script type="text/javascript">                
-                $(function() {
-                  $('#dataSolicitudFins').datetimepicker({
-                    language: '${lang}',
-                    pick12HourFormat: <c:out value="${fn:contains(gen:getDateTimePattern(), 'a')?'true' : 'false'}"/>,
-                    format:  '${gen:getJSDateTimePattern()}',
-                    pickTime: true,
-                    weekStart: ${gen:getFirstDayOfTheWeek()}
-                  });
-                });
-              </script>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
+            <div class="form-group">
+                <div class="input-group date" id="dataSolicitudDesde" data-target-input="nearest">
+                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataSolicitudDesde" path="dataSolicitudDesde" />
+                    <c:if test="${!false}" >
+                    <div class="input-group-append"  data-target="#dataSolicitudDesde"  data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    </c:if>
+                </div>
             </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#dataSolicitudDesde').datetimepicker({
+                    format: '${gen:getJSDateTimePattern()}',
+                    locale: '${lang}',
+                    icons: {
+                       time: 'far fa-clock'
+                    }
+                });
+            });
+        </script>              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
+            <div class="form-group">
+                <div class="input-group date" id="dataSolicitudFins" data-target-input="nearest">
+                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataSolicitudFins" path="dataSolicitudFins" />
+                    <c:if test="${!false}" >
+                    <div class="input-group-append"  data-target="#dataSolicitudFins"  data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    </c:if>
+                </div>
+            </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#dataSolicitudFins').datetimepicker({
+                    format: '${gen:getJSDateTimePattern()}',
+                    locale: '${lang}',
+                    icons: {
+                       time: 'far fa-clock'
+                    }
+                });
+            });
+        </script>            </div>
 
     
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.DATAFINAL)}">
-            <%-- FILTRE DATE --%>
-            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+<%-- FILTRE DATE-TIME --%>
+            <div class="input-group" style="padding-right:4px;padding-bottom:4px;align-items:center;">
               <span class="add-on"><fmt:message key="peticioDeFirma.dataFinal" />:</span>
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
-              <div id="dataFinalDesde" class="input-append">
-                <form:input cssClass="input-large" path="dataFinalDesde" />
-                <span class="add-on">
-                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                  </i>
-                </span>
-              </div>
-              <script type="text/javascript">                
-                $(function() {
-                  $('#dataFinalDesde').datetimepicker({
-                    language: '${lang}',
-                    pick12HourFormat: <c:out value="${fn:contains(gen:getDateTimePattern(), 'a')?'true' : 'false'}"/>,
-                    format:  '${gen:getJSDateTimePattern()}',
-                    pickTime: true,
-                    weekStart: ${gen:getFirstDayOfTheWeek()}
-                  });
-                });
-              </script>
-              <span class="add-on"><fmt:message key="genapp.to" /></span>              
-              <div id="dataFinalFins" class="input-append">
-                <form:input cssClass="input-large" path="dataFinalFins" />
-                <span class="add-on">
-                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                  </i>
-                </span>
-              </div>
-              <script type="text/javascript">                
-                $(function() {
-                  $('#dataFinalFins').datetimepicker({
-                    language: '${lang}',
-                    pick12HourFormat: <c:out value="${fn:contains(gen:getDateTimePattern(), 'a')?'true' : 'false'}"/>,
-                    format:  '${gen:getJSDateTimePattern()}',
-                    pickTime: true,
-                    weekStart: ${gen:getFirstDayOfTheWeek()}
-                  });
-                });
-              </script>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
+            <div class="form-group">
+                <div class="input-group date" id="dataFinalDesde" data-target-input="nearest">
+                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataFinalDesde" path="dataFinalDesde" />
+                    <c:if test="${!false}" >
+                    <div class="input-group-append"  data-target="#dataFinalDesde"  data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    </c:if>
+                </div>
             </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#dataFinalDesde').datetimepicker({
+                    format: '${gen:getJSDateTimePattern()}',
+                    locale: '${lang}',
+                    icons: {
+                       time: 'far fa-clock'
+                    }
+                });
+            });
+        </script>              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
+            <div class="form-group">
+                <div class="input-group date" id="dataFinalFins" data-target-input="nearest">
+                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataFinalFins" path="dataFinalFins" />
+                    <c:if test="${!false}" >
+                    <div class="input-group-append"  data-target="#dataFinalFins"  data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    </c:if>
+                </div>
+            </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#dataFinalFins').datetimepicker({
+                    format: '${gen:getJSDateTimePattern()}',
+                    locale: '${lang}',
+                    icons: {
+                       time: 'far fa-clock'
+                    }
+                });
+            });
+        </script>            </div>
 
     
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.DATACADUCITAT)}">
-            <%-- FILTRE DATE --%>
-            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+<%-- FILTRE DATE-TIME --%>
+            <div class="input-group" style="padding-right:4px;padding-bottom:4px;align-items:center;">
               <span class="add-on"><fmt:message key="peticioDeFirma.dataCaducitat" />:</span>
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
-              <div id="dataCaducitatDesde" class="input-append">
-                <form:input cssClass="input-large" path="dataCaducitatDesde" />
-                <span class="add-on">
-                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                  </i>
-                </span>
-              </div>
-              <script type="text/javascript">                
-                $(function() {
-                  $('#dataCaducitatDesde').datetimepicker({
-                    language: '${lang}',
-                    pick12HourFormat: <c:out value="${fn:contains(gen:getDateTimePattern(), 'a')?'true' : 'false'}"/>,
-                    format:  '${gen:getJSDateTimePattern()}',
-                    pickTime: true,
-                    weekStart: ${gen:getFirstDayOfTheWeek()}
-                  });
-                });
-              </script>
-              <span class="add-on"><fmt:message key="genapp.to" /></span>              
-              <div id="dataCaducitatFins" class="input-append">
-                <form:input cssClass="input-large" path="dataCaducitatFins" />
-                <span class="add-on">
-                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                  </i>
-                </span>
-              </div>
-              <script type="text/javascript">                
-                $(function() {
-                  $('#dataCaducitatFins').datetimepicker({
-                    language: '${lang}',
-                    pick12HourFormat: <c:out value="${fn:contains(gen:getDateTimePattern(), 'a')?'true' : 'false'}"/>,
-                    format:  '${gen:getJSDateTimePattern()}',
-                    pickTime: true,
-                    weekStart: ${gen:getFirstDayOfTheWeek()}
-                  });
-                });
-              </script>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
+            <div class="form-group">
+                <div class="input-group date" id="dataCaducitatDesde" data-target-input="nearest">
+                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataCaducitatDesde" path="dataCaducitatDesde" />
+                    <c:if test="${!false}" >
+                    <div class="input-group-append"  data-target="#dataCaducitatDesde"  data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    </c:if>
+                </div>
             </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#dataCaducitatDesde').datetimepicker({
+                    format: '${gen:getJSDateTimePattern()}',
+                    locale: '${lang}',
+                    icons: {
+                       time: 'far fa-clock'
+                    }
+                });
+            });
+        </script>              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
+            <div class="form-group">
+                <div class="input-group date" id="dataCaducitatFins" data-target-input="nearest">
+                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataCaducitatFins" path="dataCaducitatFins" />
+                    <c:if test="${!false}" >
+                    <div class="input-group-append"  data-target="#dataCaducitatFins"  data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    </c:if>
+                </div>
+            </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#dataCaducitatFins').datetimepicker({
+                    format: '${gen:getJSDateTimePattern()}',
+                    locale: '${lang}',
+                    icons: {
+                       time: 'far fa-clock'
+                    }
+                });
+            });
+        </script>            </div>
 
     
         </c:if>
@@ -281,12 +293,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.tipusOperacioFirma" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="tipusOperacioFirmaDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="tipusOperacioFirmaFins" />
 
@@ -299,12 +311,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.tipusFirmaID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="tipusFirmaIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="tipusFirmaIDFins" />
 
@@ -317,12 +329,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.algorismeDeFirmaID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="algorismeDeFirmaIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="algorismeDeFirmaIDFins" />
 
@@ -335,12 +347,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.posicioTaulaFirmesID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="posicioTaulaFirmesIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="posicioTaulaFirmesIDFins" />
 
@@ -353,12 +365,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.tipusEstatPeticioDeFirmaID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="tipusEstatPeticioDeFirmaIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="tipusEstatPeticioDeFirmaIDFins" />
 
@@ -397,12 +409,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.prioritatID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="prioritatIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="prioritatIDFins" />
 
@@ -415,12 +427,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.fluxDeFirmesID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="fluxDeFirmesIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="fluxDeFirmesIDFins" />
 
@@ -550,12 +562,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.informacioAddicionalAvaluable" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="informacioAddicionalAvaluableDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="informacioAddicionalAvaluableFins" />
 
@@ -568,12 +580,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.custodiaInfoID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="custodiaInfoIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="custodiaInfoIDFins" />
 
@@ -625,12 +637,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.avisWeb" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="avisWebDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="avisWebFins" />
 
@@ -643,12 +655,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.segellatDeTemps" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="segellatDeTempsDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="segellatDeTempsFins" />
 
@@ -661,12 +673,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.origenPeticioDeFirma" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="origenPeticioDeFirmaDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="origenPeticioDeFirmaFins" />
 
@@ -679,12 +691,12 @@
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
               <span class="add-on"><fmt:message key="peticioDeFirma.configuracioDeFirmaID" />:</span>
 
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="configuracioDeFirmaIDDesde" />
 
 
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
               <form:input cssClass="input-append input-small search-query" path="configuracioDeFirmaIDFins" />
 

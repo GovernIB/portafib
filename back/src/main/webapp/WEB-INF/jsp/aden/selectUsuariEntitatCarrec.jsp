@@ -1,5 +1,5 @@
 <%@page import="org.fundaciobit.genapp.common.web.html.HtmlCSS"%>
-<%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
+<%@include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
 <form:form modelAttribute="seleccioCarrecForm" method="post" name="seleccioCarrecForm">
 <%=HtmlCSS.TITOL_BEGIN %> <fmt:message key="${seleccioCarrecForm.titol}" /> <%=HtmlCSS.TITOL_END %>

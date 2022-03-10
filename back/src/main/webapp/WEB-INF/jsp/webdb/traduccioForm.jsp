@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="traduccioFormCorePre.jsp" %>
+
   <%@include file="traduccioFormCore.jsp" %>
 
   <%@include file="traduccioFormCorePost.jsp" %>
 
   <%@include file="traduccioFormButtons.jsp" %>
+
+  <c:if test="${not empty traduccioForm.sections}">
+     <c:set var="__basename" value="traduccio" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${traduccioForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/traduccioFormModificable.jsp" %>

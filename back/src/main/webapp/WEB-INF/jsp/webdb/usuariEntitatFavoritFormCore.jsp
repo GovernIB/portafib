@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFavoritFields.ORIGENID)}">
         <tr id="usuariEntitatFavorit_origenID_rowid">
-          <td>
+          <td id="usuariEntitatFavorit_origenID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariEntitatFavoritFields.ORIGENID])?'usuariEntitatFavorit.origenID':__theForm.labels[UsuariEntitatFavoritFields.ORIGENID]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariEntitatFavoritFields.ORIGENID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariEntitatFavorit_origenID_columnvalueid">
           <form:errors path="usuariEntitatFavorit.origenID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariEntitatFavoritFields.ORIGENID)}" >
           <form:hidden path="usuariEntitatFavorit.origenID"/>
@@ -35,7 +35,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFavoritFields.FAVORITID)}">
         <tr id="usuariEntitatFavorit_favoritID_rowid">
-          <td>
+          <td id="usuariEntitatFavorit_favoritID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariEntitatFavoritFields.FAVORITID])?'usuariEntitatFavorit.favoritID':__theForm.labels[UsuariEntitatFavoritFields.FAVORITID]}" /> &nbsp;(*)
              </label>
@@ -43,7 +43,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariEntitatFavoritFields.FAVORITID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariEntitatFavorit_favoritID_columnvalueid">
           <form:errors path="usuariEntitatFavorit.favoritID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariEntitatFavoritFields.FAVORITID)}" >
           <form:hidden path="usuariEntitatFavorit.favoritID"/>

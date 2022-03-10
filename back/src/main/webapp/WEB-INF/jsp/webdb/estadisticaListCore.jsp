@@ -34,7 +34,7 @@
 
           <%@include file="estadisticaListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

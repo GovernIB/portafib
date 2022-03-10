@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,RevisorDeFirmaFields.USUARIENTITATID)}">
         <tr id="revisorDeFirma_usuariEntitatID_rowid">
-          <td>
+          <td id="revisorDeFirma_usuariEntitatID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[RevisorDeFirmaFields.USUARIENTITATID])?'revisorDeFirma.usuariEntitatID':__theForm.labels[RevisorDeFirmaFields.USUARIENTITATID]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[RevisorDeFirmaFields.USUARIENTITATID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="revisorDeFirma_usuariEntitatID_columnvalueid">
           <form:errors path="revisorDeFirma.usuariEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,RevisorDeFirmaFields.USUARIENTITATID)}" >
           <form:hidden path="revisorDeFirma.usuariEntitatID"/>
@@ -35,7 +35,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,RevisorDeFirmaFields.FIRMAID)}">
         <tr id="revisorDeFirma_firmaID_rowid">
-          <td>
+          <td id="revisorDeFirma_firmaID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[RevisorDeFirmaFields.FIRMAID])?'revisorDeFirma.firmaID':__theForm.labels[RevisorDeFirmaFields.FIRMAID]}" /> &nbsp;(*)
              </label>
@@ -43,7 +43,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[RevisorDeFirmaFields.FIRMAID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="revisorDeFirma_firmaID_columnvalueid">
           <form:errors path="revisorDeFirma.firmaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,RevisorDeFirmaFields.FIRMAID)}" >
           <form:hidden path="revisorDeFirma.firmaID"/>
@@ -66,7 +66,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,RevisorDeFirmaFields.OBLIGATORI)}">
         <tr id="revisorDeFirma_obligatori_rowid">
-          <td>
+          <td id="revisorDeFirma_obligatori_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[RevisorDeFirmaFields.OBLIGATORI])?'revisorDeFirma.obligatori':__theForm.labels[RevisorDeFirmaFields.OBLIGATORI]}" />
              </label>
@@ -74,7 +74,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[RevisorDeFirmaFields.OBLIGATORI]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="revisorDeFirma_obligatori_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,RevisorDeFirmaFields.OBLIGATORI)}" >
               <form:errors path="revisorDeFirma.obligatori" cssClass="errorField alert alert-danger" />
               <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,RevisorDeFirmaFields.OBLIGATORI)? 'false' : 'true'}" path="revisorDeFirma.obligatori" />

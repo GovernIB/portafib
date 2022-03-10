@@ -34,7 +34,7 @@
 
           <%@include file="fitxerListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

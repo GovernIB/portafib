@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="usuariAplicacioFormCorePre.jsp" %>
+
   <%@include file="usuariAplicacioFormCore.jsp" %>
 
   <%@include file="usuariAplicacioFormCorePost.jsp" %>
 
   <%@include file="usuariAplicacioFormButtons.jsp" %>
+
+  <c:if test="${not empty usuariAplicacioForm.sections}">
+     <c:set var="__basename" value="usuariAplicacio" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${usuariAplicacioForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/usuariAplicacioFormModificable.jsp" %>

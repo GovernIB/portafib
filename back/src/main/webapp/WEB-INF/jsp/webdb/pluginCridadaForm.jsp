@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="pluginCridadaFormCorePre.jsp" %>
+
   <%@include file="pluginCridadaFormCore.jsp" %>
 
   <%@include file="pluginCridadaFormCorePost.jsp" %>
 
   <%@include file="pluginCridadaFormButtons.jsp" %>
+
+  <c:if test="${not empty pluginCridadaForm.sections}">
+     <c:set var="__basename" value="pluginCridada" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${pluginCridadaForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/pluginCridadaFormModificable.jsp" %>

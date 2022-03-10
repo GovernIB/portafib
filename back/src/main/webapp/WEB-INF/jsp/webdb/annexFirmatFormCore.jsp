@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,AnnexFirmatFields.FITXERID)}">
         <tr id="annexFirmat_fitxerID_rowid">
-          <td>
+          <td id="annexFirmat_fitxerID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFirmatFields.FITXERID])?'annexFirmat.fitxerID':__theForm.labels[AnnexFirmatFields.FITXERID]}" /> &nbsp;(*)
              </label>
@@ -12,10 +12,10 @@
               <i class="fas fa-info-circle" title="${__theForm.help[AnnexFirmatFields.FITXERID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="annexFirmat_fitxerID_columnvalueid">
               <form:errors path="annexFirmat.fitxerID" cssClass="errorField alert alert-danger" />
             <c:if test="${gen:contains(__theForm.readOnlyFields ,AnnexFirmatFields.FITXERID)}" >
-              <a target="_blank" href="<c:url value="${pfi:fileUrl(fitxerID.fitxerID)}"/>">${fitxerID.fitxerID.nom}</a>
+              <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.annexFirmat.fitxer)}"/>">${__theForm.annexFirmat.fitxer.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,AnnexFirmatFields.FITXERID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
@@ -56,7 +56,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,AnnexFirmatFields.ANNEXID)}">
         <tr id="annexFirmat_annexID_rowid">
-          <td>
+          <td id="annexFirmat_annexID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFirmatFields.ANNEXID])?'annexFirmat.annexID':__theForm.labels[AnnexFirmatFields.ANNEXID]}" /> &nbsp;(*)
              </label>
@@ -64,7 +64,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[AnnexFirmatFields.ANNEXID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="annexFirmat_annexID_columnvalueid">
           <form:errors path="annexFirmat.annexID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,AnnexFirmatFields.ANNEXID)}" >
           <form:hidden path="annexFirmat.annexID"/>
@@ -87,7 +87,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,AnnexFirmatFields.FIRMAID)}">
         <tr id="annexFirmat_firmaID_rowid">
-          <td>
+          <td id="annexFirmat_firmaID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFirmatFields.FIRMAID])?'annexFirmat.firmaID':__theForm.labels[AnnexFirmatFields.FIRMAID]}" /> &nbsp;(*)
              </label>
@@ -95,7 +95,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[AnnexFirmatFields.FIRMAID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="annexFirmat_firmaID_columnvalueid">
           <form:errors path="annexFirmat.firmaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,AnnexFirmatFields.FIRMAID)}" >
           <form:hidden path="annexFirmat.firmaID"/>

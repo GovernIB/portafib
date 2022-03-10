@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID)}">
         <tr id="perfilsPerUsuariAplicacio_perfilDeFirmaID_rowid">
-          <td>
+          <td id="perfilsPerUsuariAplicacio_perfilDeFirmaID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID])?'perfilsPerUsuariAplicacio.perfilDeFirmaID':__theForm.labels[PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="perfilsPerUsuariAplicacio_perfilDeFirmaID_columnvalueid">
           <form:errors path="perfilsPerUsuariAplicacio.perfilDeFirmaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID)}" >
           <form:hidden path="perfilsPerUsuariAplicacio.perfilDeFirmaID"/>
@@ -35,7 +35,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID)}">
         <tr id="perfilsPerUsuariAplicacio_usuariAplicacioID_rowid">
-          <td>
+          <td id="perfilsPerUsuariAplicacio_usuariAplicacioID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID])?'perfilsPerUsuariAplicacio.usuariAplicacioID':__theForm.labels[PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID]}" /> &nbsp;(*)
              </label>
@@ -43,7 +43,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="perfilsPerUsuariAplicacio_usuariAplicacioID_columnvalueid">
           <form:errors path="perfilsPerUsuariAplicacio.usuariAplicacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID)}" >
           <form:hidden path="perfilsPerUsuariAplicacio.usuariAplicacioID"/>

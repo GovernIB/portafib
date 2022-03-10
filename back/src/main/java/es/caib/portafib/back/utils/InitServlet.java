@@ -161,7 +161,7 @@ public class InitServlet extends HttpServlet {
               log.warn("No s'ha pogut instanciar Plugin associat a la classe " + class1);
             } else {
               log.warn("Registrant DataExporter: " + class1);
-              DataExporterManager.addDataExporter(new DataExporterPortaFIB(edp));
+              DataExporterManager.addDataExporter(new PortaFIBDataExporter(edp));
             }
           }
         }

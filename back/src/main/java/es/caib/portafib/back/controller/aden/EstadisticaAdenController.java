@@ -5,7 +5,7 @@ import es.caib.portafib.back.form.aden.EstadisticaAdenFilterForm;
 import es.caib.portafib.back.form.webdb.EstadisticaFilterForm;
 import es.caib.portafib.back.form.webdb.EstadisticaForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.back.utils.DataExporterPortaFIB;
+import es.caib.portafib.back.utils.PortaFIBDataExporter;
 import es.caib.portafib.model.entity.Estadistica;
 import es.caib.portafib.model.fields.EstadisticaFields;
 import es.caib.portafib.utils.Configuracio;
@@ -384,7 +384,7 @@ public class EstadisticaAdenController extends EstadisticaController {
 
     Set<String> dates = agrupades.keySet();
 
-    DataExporterPortaFIB dataExporter = (DataExporterPortaFIB) DataExporterManager
+    PortaFIBDataExporter dataExporter = (PortaFIBDataExporter) DataExporterManager
         .getByID(dataExporterID);
 
     String[] titles = new String[dates.size() + 1]; // 1 columna per afegir noms de usuaris

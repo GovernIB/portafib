@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="notificacioWSFormCorePre.jsp" %>
+
   <%@include file="notificacioWSFormCore.jsp" %>
 
   <%@include file="notificacioWSFormCorePost.jsp" %>
 
   <%@include file="notificacioWSFormButtons.jsp" %>
+
+  <c:if test="${not empty notificacioWSForm.sections}">
+     <c:set var="__basename" value="notificacioWS" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${notificacioWSForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/notificacioWSFormModificable.jsp" %>

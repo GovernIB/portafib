@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="rebreAvisFormCorePre.jsp" %>
+
   <%@include file="rebreAvisFormCore.jsp" %>
 
   <%@include file="rebreAvisFormCorePost.jsp" %>
 
   <%@include file="rebreAvisFormButtons.jsp" %>
+
+  <c:if test="${not empty rebreAvisForm.sections}">
+     <c:set var="__basename" value="rebreAvis" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${rebreAvisForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/rebreAvisFormModificable.jsp" %>

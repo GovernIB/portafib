@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="revisorDeFirmaFormCorePre.jsp" %>
+
   <%@include file="revisorDeFirmaFormCore.jsp" %>
 
   <%@include file="revisorDeFirmaFormCorePost.jsp" %>
 
   <%@include file="revisorDeFirmaFormButtons.jsp" %>
+
+  <c:if test="${not empty revisorDeFirmaForm.sections}">
+     <c:set var="__basename" value="revisorDeFirma" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${revisorDeFirmaForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/revisorDeFirmaFormModificable.jsp" %>

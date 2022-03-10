@@ -308,15 +308,20 @@
                     <groupId>com.sun.xml.bind</groupId>
                     <artifactId>jaxb-impl</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId> xml-apis</groupId>
+                    <artifactId> xml-apis</artifactId>
+                </exclusion>               
 			</exclusions>
 		</dependency>
-        
+        <!-- 
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-ri</artifactId>
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
+         -->
         
         <!-- Dependències de test -->
 		<dependency>

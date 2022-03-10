@@ -34,7 +34,7 @@
 
           <%@include file="annexFirmatListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

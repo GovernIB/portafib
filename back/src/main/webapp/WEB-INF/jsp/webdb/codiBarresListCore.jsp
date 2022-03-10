@@ -34,7 +34,7 @@
 
           <%@include file="codiBarresListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

@@ -34,7 +34,7 @@
 
           <%@include file="grupEntitatListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

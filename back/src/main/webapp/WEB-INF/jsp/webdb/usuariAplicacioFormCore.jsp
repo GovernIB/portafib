@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.USUARIAPLICACIOID)}">
         <tr id="usuariAplicacio_usuariAplicacioID_rowid">
-          <td>
+          <td id="usuariAplicacio_usuariAplicacioID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.USUARIAPLICACIOID])?'usuariAplicacio.usuariAplicacioID':__theForm.labels[UsuariAplicacioFields.USUARIAPLICACIOID]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.USUARIAPLICACIOID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariAplicacio_usuariAplicacioID_columnvalueid">
             <form:errors path="usuariAplicacio.usuariAplicacioID" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.USUARIAPLICACIOID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="usuariAplicacio.usuariAplicacioID"   />
 
@@ -22,7 +22,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.ENTITATID)}">
         <tr id="usuariAplicacio_entitatID_rowid">
-          <td>
+          <td id="usuariAplicacio_entitatID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.ENTITATID])?'usuariAplicacio.entitatID':__theForm.labels[UsuariAplicacioFields.ENTITATID]}" /> &nbsp;(*)
              </label>
@@ -30,7 +30,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.ENTITATID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariAplicacio_entitatID_columnvalueid">
           <form:errors path="usuariAplicacio.entitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.ENTITATID)}" >
           <form:hidden path="usuariAplicacio.entitatID"/>
@@ -53,7 +53,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.EMAILADMIN)}">
         <tr id="usuariAplicacio_emailAdmin_rowid">
-          <td>
+          <td id="usuariAplicacio_emailAdmin_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.EMAILADMIN])?'usuariAplicacio.emailAdmin':__theForm.labels[UsuariAplicacioFields.EMAILADMIN]}" /> &nbsp;(*)
              </label>
@@ -61,7 +61,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.EMAILADMIN]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariAplicacio_emailAdmin_columnvalueid">
             <form:errors path="usuariAplicacio.emailAdmin" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.EMAILADMIN)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.EMAILADMIN)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariAplicacio.emailAdmin"   />
 
@@ -71,7 +71,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.CALLBACKVERSIO)}">
         <tr id="usuariAplicacio_callbackVersio_rowid">
-          <td>
+          <td id="usuariAplicacio_callbackVersio_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CALLBACKVERSIO])?'usuariAplicacio.callbackVersio':__theForm.labels[UsuariAplicacioFields.CALLBACKVERSIO]}" /> &nbsp;(*)
              </label>
@@ -79,7 +79,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.CALLBACKVERSIO]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariAplicacio_callbackVersio_columnvalueid">
           <form:errors path="usuariAplicacio.callbackVersio" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CALLBACKVERSIO)}" >
           <form:hidden path="usuariAplicacio.callbackVersio"/>
@@ -102,7 +102,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.CALLBACKURL)}">
         <tr id="usuariAplicacio_callbackURL_rowid">
-          <td>
+          <td id="usuariAplicacio_callbackURL_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CALLBACKURL])?'usuariAplicacio.callbackURL':__theForm.labels[UsuariAplicacioFields.CALLBACKURL]}" />
              </label>
@@ -110,7 +110,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.CALLBACKURL]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariAplicacio_callbackURL_columnvalueid">
             <form:errors path="usuariAplicacio.callbackURL" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CALLBACKURL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CALLBACKURL)? ' uneditable-input' : ''}"  style="" maxlength="400" path="usuariAplicacio.callbackURL"   />
 
@@ -120,7 +120,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.ACTIU)}">
         <tr id="usuariAplicacio_actiu_rowid">
-          <td>
+          <td id="usuariAplicacio_actiu_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.ACTIU])?'usuariAplicacio.actiu':__theForm.labels[UsuariAplicacioFields.ACTIU]}" />
              </label>
@@ -128,7 +128,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.ACTIU]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariAplicacio_actiu_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.ACTIU)}" >
               <form:errors path="usuariAplicacio.actiu" cssClass="errorField alert alert-danger" />
               <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.ACTIU)? 'false' : 'true'}" path="usuariAplicacio.actiu" />
@@ -142,7 +142,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.IDIOMAID)}">
         <tr id="usuariAplicacio_idiomaID_rowid">
-          <td>
+          <td id="usuariAplicacio_idiomaID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.IDIOMAID])?'usuariAplicacio.idiomaID':__theForm.labels[UsuariAplicacioFields.IDIOMAID]}" /> &nbsp;(*)
              </label>
@@ -150,7 +150,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.IDIOMAID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariAplicacio_idiomaID_columnvalueid">
           <form:errors path="usuariAplicacio.idiomaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.IDIOMAID)}" >
           <form:hidden path="usuariAplicacio.idiomaID"/>
@@ -173,7 +173,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.DESCRIPCIO)}">
         <tr id="usuariAplicacio_descripcio_rowid">
-          <td>
+          <td id="usuariAplicacio_descripcio_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.DESCRIPCIO])?'usuariAplicacio.descripcio':__theForm.labels[UsuariAplicacioFields.DESCRIPCIO]}" />
              </label>
@@ -181,12 +181,17 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.DESCRIPCIO]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariAplicacio_descripcio_columnvalueid">
               <form:errors path="usuariAplicacio.descripcio" cssClass="errorField alert alert-danger" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.DESCRIPCIO)? 'true' : 'false'}" path="usuariAplicacio.descripcio"  />
+  <table style="width:100%">
+  <tr>
+  <td>
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.DESCRIPCIO)? 'true' : 'false'}" path="usuariAplicacio.descripcio"  />
+   </td>
+   <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
-        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu">
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <div id="dropdownMenuContainer_descripcio" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacio.descripcio'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacio.descripcio'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacio.descripcio'); ta.wrap='hard';">Hard Wrap</a>
@@ -198,13 +203,16 @@
                  $('#dropdownMenuContainer_descripcio').css('display', valor);
                  return false;
 				});
-      </script>           </td>
+      </script>   </td>
+   </tr>
+   </table>
+           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.LOGOSEGELLID)}">
         <tr id="usuariAplicacio_logoSegellID_rowid">
-          <td>
+          <td id="usuariAplicacio_logoSegellID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.LOGOSEGELLID])?'usuariAplicacio.logoSegellID':__theForm.labels[UsuariAplicacioFields.LOGOSEGELLID]}" />
              </label>
@@ -212,10 +220,10 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.LOGOSEGELLID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariAplicacio_logoSegellID_columnvalueid">
               <form:errors path="usuariAplicacio.logoSegellID" cssClass="errorField alert alert-danger" />
             <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.LOGOSEGELLID)}" >
-              <a target="_blank" href="<c:url value="${pfi:fileUrl(logoSegellID.logoSegellID)}"/>">${logoSegellID.logoSegellID.nom}</a>
+              <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.usuariAplicacio.logoSegell)}"/>">${__theForm.usuariAplicacio.logoSegell.nom}</a>
             </c:if>
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.LOGOSEGELLID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
@@ -260,7 +268,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB)}">
         <tr id="usuariAplicacio_politicaDePluginFirmaWeb_rowid">
-          <td>
+          <td id="usuariAplicacio_politicaDePluginFirmaWeb_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB])?'usuariAplicacio.politicaDePluginFirmaWeb':__theForm.labels[UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB]}" /> &nbsp;(*)
              </label>
@@ -268,7 +276,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariAplicacio_politicaDePluginFirmaWeb_columnvalueid">
           <form:errors path="usuariAplicacio.politicaDePluginFirmaWeb" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB)}" >
           <form:hidden path="usuariAplicacio.politicaDePluginFirmaWeb"/>
@@ -291,7 +299,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.POLITICACUSTODIA)}">
         <tr id="usuariAplicacio_politicaCustodia_rowid">
-          <td>
+          <td id="usuariAplicacio_politicaCustodia_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.POLITICACUSTODIA])?'usuariAplicacio.politicaCustodia':__theForm.labels[UsuariAplicacioFields.POLITICACUSTODIA]}" /> &nbsp;(*)
              </label>
@@ -299,7 +307,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.POLITICACUSTODIA]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariAplicacio_politicaCustodia_columnvalueid">
           <form:errors path="usuariAplicacio.politicaCustodia" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.POLITICACUSTODIA)}" >
           <form:hidden path="usuariAplicacio.politicaCustodia"/>
@@ -322,7 +330,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.CUSTODIAINFOID)}">
         <tr id="usuariAplicacio_custodiaInfoID_rowid">
-          <td>
+          <td id="usuariAplicacio_custodiaInfoID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CUSTODIAINFOID])?'usuariAplicacio.custodiaInfoID':__theForm.labels[UsuariAplicacioFields.CUSTODIAINFOID]}" />
              </label>
@@ -330,7 +338,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.CUSTODIAINFOID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariAplicacio_custodiaInfoID_columnvalueid">
           <form:errors path="usuariAplicacio.custodiaInfoID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CUSTODIAINFOID)}" >
           <form:hidden path="usuariAplicacio.custodiaInfoID"/>
@@ -362,7 +370,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.CREARUSUARIS)}">
         <tr id="usuariAplicacio_crearUsuaris_rowid">
-          <td>
+          <td id="usuariAplicacio_crearUsuaris_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CREARUSUARIS])?'usuariAplicacio.crearUsuaris':__theForm.labels[UsuariAplicacioFields.CREARUSUARIS]}" />
              </label>
@@ -370,7 +378,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.CREARUSUARIS]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="usuariAplicacio_crearUsuaris_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CREARUSUARIS)}" >
               <form:errors path="usuariAplicacio.crearUsuaris" cssClass="errorField alert alert-danger" />
               <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CREARUSUARIS)? 'false' : 'true'}" path="usuariAplicacio.crearUsuaris" />

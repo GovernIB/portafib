@@ -34,7 +34,7 @@
 
           <%@include file="bitacolaListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

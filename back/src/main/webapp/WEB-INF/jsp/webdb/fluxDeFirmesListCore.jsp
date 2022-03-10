@@ -34,7 +34,7 @@
 
           <%@include file="fluxDeFirmesListButtons.jsp" %>
 
-            
+
         </tr>
 
       </c:forEach>

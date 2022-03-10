@@ -4,7 +4,7 @@
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFirmaWebPerUsuariAplicacioFields.USUARIAPLICACIOID)}">
         <tr id="pluginFirmaWebPerUsuariAplicacio_usuariAplicacioID_rowid">
-          <td>
+          <td id="pluginFirmaWebPerUsuariAplicacio_usuariAplicacioID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFirmaWebPerUsuariAplicacioFields.USUARIAPLICACIOID])?'pluginFirmaWebPerUsuariAplicacio.usuariAplicacioID':__theForm.labels[PluginFirmaWebPerUsuariAplicacioFields.USUARIAPLICACIOID]}" /> &nbsp;(*)
              </label>
@@ -12,7 +12,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PluginFirmaWebPerUsuariAplicacioFields.USUARIAPLICACIOID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="pluginFirmaWebPerUsuariAplicacio_usuariAplicacioID_columnvalueid">
           <form:errors path="pluginFirmaWebPerUsuariAplicacio.usuariAplicacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFirmaWebPerUsuariAplicacioFields.USUARIAPLICACIOID)}" >
           <form:hidden path="pluginFirmaWebPerUsuariAplicacio.usuariAplicacioID"/>
@@ -35,7 +35,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFirmaWebPerUsuariAplicacioFields.PLUGINFIRMAWEBID)}">
         <tr id="pluginFirmaWebPerUsuariAplicacio_pluginFirmaWebID_rowid">
-          <td>
+          <td id="pluginFirmaWebPerUsuariAplicacio_pluginFirmaWebID_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFirmaWebPerUsuariAplicacioFields.PLUGINFIRMAWEBID])?'pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebID':__theForm.labels[PluginFirmaWebPerUsuariAplicacioFields.PLUGINFIRMAWEBID]}" /> &nbsp;(*)
              </label>
@@ -43,7 +43,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PluginFirmaWebPerUsuariAplicacioFields.PLUGINFIRMAWEBID]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="pluginFirmaWebPerUsuariAplicacio_pluginFirmaWebID_columnvalueid">
           <form:errors path="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFirmaWebPerUsuariAplicacioFields.PLUGINFIRMAWEBID)}" >
           <form:hidden path="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebID"/>
@@ -66,7 +66,7 @@
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFirmaWebPerUsuariAplicacioFields.ACCIO)}">
         <tr id="pluginFirmaWebPerUsuariAplicacio_accio_rowid">
-          <td>
+          <td id="pluginFirmaWebPerUsuariAplicacio_accio_columnlabelid">
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFirmaWebPerUsuariAplicacioFields.ACCIO])?'pluginFirmaWebPerUsuariAplicacio.accio':__theForm.labels[PluginFirmaWebPerUsuariAplicacioFields.ACCIO]}" /> &nbsp;(*)
              </label>
@@ -74,7 +74,7 @@
               <i class="fas fa-info-circle" title="${__theForm.help[PluginFirmaWebPerUsuariAplicacioFields.ACCIO]}" ></i>
               </c:if>
             </td>
-            <td>
+          <td id="pluginFirmaWebPerUsuariAplicacio_accio_columnvalueid">
           <form:errors path="pluginFirmaWebPerUsuariAplicacio.accio" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFirmaWebPerUsuariAplicacioFields.ACCIO)}" >
           <form:hidden path="pluginFirmaWebPerUsuariAplicacio.accio"/>

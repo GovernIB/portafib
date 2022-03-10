@@ -12,11 +12,18 @@
   <form:hidden path="nou" />
   
   <%@include file="permisUsuariPlantillaFormCorePre.jsp" %>
+
   <%@include file="permisUsuariPlantillaFormCore.jsp" %>
 
   <%@include file="permisUsuariPlantillaFormCorePost.jsp" %>
 
   <%@include file="permisUsuariPlantillaFormButtons.jsp" %>
+
+  <c:if test="${not empty permisUsuariPlantillaForm.sections}">
+     <c:set var="__basename" value="permisUsuariPlantilla" scope="page" />
+     <%@include file="sections.jsp"%>
+  </c:if>
+
 
   <c:if test="${permisUsuariPlantillaForm.attachedAdditionalJspCode}">
      <%@include file="../webdbmodificable/permisUsuariPlantillaFormModificable.jsp" %>
