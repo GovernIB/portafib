@@ -14,6 +14,7 @@
 		<version_file>src/main/java/es/caib/portafib/commons/utils/StaticVersion.java</version_file>
 		<project.buildtime>${maven.build.timestamp}</project.buildtime>
 		<maven.build.timestamp.format>dd/MM/yyyy HH:mm</maven.build.timestamp.format>
+ 		<tiles.version>3.0.8</tiles.version>
 	</properties>
 	<build>
 		<finalName>${project.artifactId}-${project.version}</finalName>

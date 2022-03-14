@@ -98,7 +98,7 @@
   <!-- FINAL DIV PIPELLES -->
   </div>
 
-  <div class="${isMobile?'container-mobile':'container'} row-fluid">
+  <div class="${isMobile?'container-mobile':'container-fluid'}">
     <tiles:insertAttribute name="peu">     
     </tiles:insertAttribute>
   </div>

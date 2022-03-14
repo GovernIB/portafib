@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import es.caib.portafib.back.security.LoginException;
 import org.apache.log4j.Logger;
 import org.apache.tiles.AttributeContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.preparer.PreparerException;
-import org.apache.tiles.preparer.ViewPreparerSupport;
+import org.apache.tiles.preparer.ViewPreparer;
+import org.apache.tiles.request.Request;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NTranslation;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
@@ -25,6 +25,8 @@ import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.DeviceUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
@@ -36,7 +38,7 @@ import es.caib.portafib.utils.ConstantsV2;
  */
 @RunAs("PFI_USER")
 @Component
-public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
+public class BasePreparer implements ConstantsV2, ViewPreparer {
 
     public static Map<String, I18NTranslation> loginErrorMessage = new HashMap<String, I18NTranslation>();
 
@@ -46,11 +48,11 @@ public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
     protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
     @Override
-    public void execute(TilesRequestContext tilesContext,
+    public void execute(Request tilesRequest,
                         AttributeContext attributeContext) throws PreparerException {
 
-        Map<String, Object> request = tilesContext.getRequestScope();
-
+    	Map<String, Object> request = tilesRequest.getContext("request");
+		
         // Informació de Login
         LoginInfo loginInfo;
         try {
@@ -62,9 +64,12 @@ public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
 
         // URL
         // TODO ficarho dins cache (veure Capperpare.java)
-        Object[] requestObjects = tilesContext.getRequestObjects();
-        if (requestObjects[0] instanceof HttpServletRequest) {
-            HttpServletRequest httpRequest = (HttpServletRequest) requestObjects[0];
+//        Object[] requestObjects = tilesContext.getRequestObjects();
+        
+        Object requestObject = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        
+        if (requestObject instanceof HttpServletRequest) {
+            HttpServletRequest httpRequest = (HttpServletRequest) requestObject;
 
             Device currentDevice = DeviceUtils.getRequiredCurrentDevice(httpRequest);
             if (currentDevice.isMobile()) {
