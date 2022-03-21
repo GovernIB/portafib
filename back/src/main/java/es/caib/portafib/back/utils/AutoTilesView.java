@@ -1,6 +1,6 @@
 package es.caib.portafib.back.utils;
 
-import org.springframework.web.servlet.view.tiles2.TilesView;
+import org.springframework.web.servlet.view.tiles3.TilesView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
