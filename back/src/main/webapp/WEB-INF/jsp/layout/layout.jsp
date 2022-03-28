@@ -16,10 +16,10 @@
 	LoginInfo.getInstance().setNeedConfigUser(false);
 	%>
 
-<%-- 	<c:if test="${not empty loginInfo.error}">
+	<%-- 	<c:if test="${not empty loginInfo.error}">
 		<c:redirect url="/common/loginerror.html" />
 	</c:if>
- --%>	
+ --%>
 	<c:redirect
 		url="/common/configuracio/usuaripersona/${loginInfo.usuariPersona.usuariPersonaID}/edit" />
 </c:if>
