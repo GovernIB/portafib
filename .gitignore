@@ -177,3 +177,8 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /utils_ESBORRAR
 /scripts/sqlgenerator/create_schema.sql
 /scripts/sqlgenerator/drop_schema.sql
+/scripts/sqlgenerator/01_sequences.sql
+/scripts/sqlgenerator/02_tables.sql
+/scripts/sqlgenerator/03_constraints.sql
+/scripts/sqlgenerator/04_indexes.sql
+/scripts/sqlgenerator/06_grants.sql
