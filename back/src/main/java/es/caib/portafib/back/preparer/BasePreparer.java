@@ -55,12 +55,15 @@ public class BasePreparer implements ConstantsV2, ViewPreparer {
 		
         // Informació de Login
         LoginInfo loginInfo;
-        try {
-            loginInfo = LoginInfo.getInstance();
-        } catch (LoginException e) {
-            log.warn("Informació de login incorrecte a BasePreparer: " + e.getMessage());
-            return;
-        }
+		try {
+			loginInfo = LoginInfo.getInstance();
+//			if (loginInfo.getError() != null) {
+//				log.info("BasePreparer =======> REDIRECT TO LoginError.html	");
+//			}
+		} catch (LoginException e) {
+			log.warn("Informació de login incorrecte a BasePreparer: " + e.getMessage());
+			return;
+		}
 
         // URL
         // TODO ficarho dins cache (veure Capperpare.java)

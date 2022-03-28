@@ -122,6 +122,10 @@ public class AuthenticationSuccessListener implements
 
     UsuariPersonaJPA usuariPersona = usuariPersonaEjb.findByPrimaryKeyFull(name);
     boolean necesitaConfigurar = false;
+
+    log.info("usuariPersona: " + usuariPersona);
+    log.info("containsRoleUser: " + containsRoleUser + " - containsRoleAdmin: " + containsRoleAdmin);
+
     
     if (usuariPersona == null && (containsRoleUser || containsRoleAdmin)) {
       // Revisar si és un Administrador que entra per primera vegada 
@@ -131,7 +135,9 @@ public class AuthenticationSuccessListener implements
       {
         try {
           IUserInformationPlugin plugin = PortaFIBPluginsManager.getUserInformationPluginInstance();
+          log.info("plugin Ok");
           UserInfo info = plugin.getUserInfoByUserName(name);
+          log.info("info Ok");
           if (info != null) {
             UsuariPersonaJPA persona = new UsuariPersonaJPA();
             persona.setEmail(info.getEmail()== null? PropietatGlobalUtil.getAppEmail() : info.getEmail());
@@ -220,7 +226,9 @@ public class AuthenticationSuccessListener implements
           }
           
         } catch(Throwable e) {
-           usuariPersona = null;
+        	log.info("Ola k ASE");
+        	usuariPersona = null;
+           necesitaConfigurar = true;
            String msg;
            if (e instanceof I18NException) {
              msg = I18NUtils.getMessage( (I18NException)e);
@@ -229,10 +237,13 @@ public class AuthenticationSuccessListener implements
            } else {
              msg = e.getMessage();
            }
-           
-           log.error("Error llegint informació del plugin de Login: " + msg, e);
+			msg = "Error llegint informació del plugin de UserInformation: " + msg;
+			log.error(msg, e);
+			throw new LoginException(msg, e);
         }
       }
+    }else {
+    	log.info("Hola misco");
     }
     
 
@@ -380,6 +391,17 @@ public class AuthenticationSuccessListener implements
       }
     }
 
+    log.info("LoginInfo:\n"
+    		+ "\tuser: " + user + "\n"
+    		+ "\tusuariPersona: " + usuariPersona + "\n"
+    		+ "\tentitatIDActual: " + entitatIDActual + "\n"
+    		+ "\tentitats: " + entitats + "\n"
+    		+ "\trolesPerEntitat: " + rolesPerEntitat + "\n"
+    		+ "\tusuariEntitatPerEntitatID: " + usuariEntitatPerEntitatID + "\n"
+    		+ "\tnecesitaConfigurar: " + necesitaConfigurar + "\n"
+    		
+    		
+    		);
     LoginInfo loginInfo = new LoginInfo(user, usuariPersona, entitatIDActual,
         entitats, rolesPerEntitat, usuariEntitatPerEntitatID, necesitaConfigurar);
 
