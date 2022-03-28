@@ -121,9 +121,6 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
 		UsuariPersonaJPA usuariPersona = usuariPersonaEjb.findByPrimaryKeyFull(name);
 		boolean necesitaConfigurar = false;
 
-		log.info("usuariPersona: " + usuariPersona);
-		log.info("containsRoleUser: " + containsRoleUser + " - containsRoleAdmin: " + containsRoleAdmin);
-
 		if (usuariPersona == null && (containsRoleUser || containsRoleAdmin)) {
 			// Revisar si és un Administrador que entra per primera vegada
 			if (isDebug) {
@@ -132,9 +129,7 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
 			{
 				try {
 					IUserInformationPlugin plugin = PortaFIBPluginsManager.getUserInformationPluginInstance();
-					log.info("plugin Ok");
 					UserInfo info = plugin.getUserInfoByUserName(name);
-					log.info("info Ok");
 					if (info != null) {
 						UsuariPersonaJPA persona = new UsuariPersonaJPA();
 						persona.setEmail(info.getEmail() == null ? PropietatGlobalUtil.getAppEmail() : info.getEmail());
@@ -223,7 +218,6 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
 					}
 
 				} catch (Throwable e) {
-					log.info("Ola k ASE");
 					usuariPersona = null;
 					necesitaConfigurar = true;
 					String msg;
@@ -239,8 +233,6 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
 					throw new LoginException(msg, e);
 				}
 			}
-		} else {
-			log.info("Hola misco");
 		}
 
 		Set<UsuariEntitatJPA> usuariEntitats = null;
