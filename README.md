@@ -1,4 +1,4 @@
-# ![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/icon.jpg) PortaFIB 2.1 (portafib-2.1)
+# ![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/icon.jpg) PortaFIB 2.2 (portafib-2.2)
  *Portafirmes Digital de les Illes Balears*
 
 ***Versió estable***
