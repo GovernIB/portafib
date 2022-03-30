@@ -31,7 +31,6 @@ Nom | Descripció | Enllaç
 API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt | Manual d'us de l'API de firma web, firma en servidor i passarel·la de firma PortaFIB.odt  | [Document](./doc/API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt)
 AplicacionsIntegracionsCAIB.md | AplicacionsIntegracionsCAIB.md | [Document](./doc/AplicacionsIntegracionsCAIB.md)
 Configuracio_certificats_SSL.odt | Configuració certificats SSL | [Document](./doc/Configuracio_certificats_SSL.odt)
-Guia opcions Custodia.odt | Guia opcions Custodia | [Document](./doc/Guia opcions Custodia.odt)
 GuiaDePresentació.odt | Guia de presentació | [Document](./doc/GuiaDePresentació.odt)
 Introduccio_Basica_PortaFIB.odp | Introducció básica PortaFIB | [Document](./doc/Introduccio_Basica_PortaFIB.odp)
 Manual_Integracio_API_Firma_Async_Simple_v2_0.odt | Manual Integracio API Firma Async Simple v2.0 | [Document](./doc/Manual_Integracio_API_Firma_Async_Simple_v2_0.odt)
