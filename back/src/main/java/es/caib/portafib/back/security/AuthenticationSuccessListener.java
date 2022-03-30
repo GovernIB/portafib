@@ -141,7 +141,7 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
 							String llinatgesTmp = (info.getSurname1() == null ? "" : info.getSurname1())
 									+ (info.getSurname2() == null ? "" : (" " + info.getSurname2()));
 							llinatgesTmp = llinatgesTmp.trim();
-
+							
 							if (llinatgesTmp.length() == 0) {
 								// Miram si podem xapar el nom
 								int pos = nomTmp.indexOf(' ');
