@@ -29,9 +29,6 @@ Les seves característiques principals són:
 Nom | Descripció | Enllaç
 ------------ | ------------- | -------------
 API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt | Manual d'us de l'API de firma web, firma en servidor i passarel·la de firma PortaFIB.odt  | [Document](./doc/API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt)
-AplicacionsIntegracionsCAIB.md | AplicacionsIntegracionsCAIB.md | [Document](./doc/AplicacionsIntegracionsCAIB.md)
-Configuracio_certificats_SSL.odt | Configuració certificats SSL | [Document](./doc/Configuracio_certificats_SSL.odt)
-GuiaDePresentació.odt | Guia de presentació | [Document](./doc/GuiaDePresentació.odt)
 Introduccio_Basica_PortaFIB.odp | Introducció básica PortaFIB | [Document](./doc/Introduccio_Basica_PortaFIB.odp)
 Manual_Integracio_API_Firma_Async_Simple_v2_0.odt | Manual Integracio API Firma Async Simple v2.0 | [Document](./doc/Manual_Integracio_API_Firma_Async_Simple_v2_0.odt)
 Manual_Integracio_API_Firma_Simple_v1_0.odt | Manual Integracio API Firma Simple v1.0 | [Document](./doc/Manual_Integracio_API_Firma_Simple_v1_0.odt)
@@ -44,8 +41,6 @@ Manual_de_RESTServices_de_PortaFIB.odt | Manual de RESTServices de PortaFIB | [D
 Manual_de_Usuari_de_PortaFIB.odt | Manual d'usuari de PortaFIB | [Document](./doc/Manual_de_Usuari_de_PortaFIB.odt)
 Manual_de_WebServices_de_PortaFIB.odt | Manual de WebServices de PortaFIB | [Document](./doc/Manual_de_WebServices_de_PortaFIB.odt)
 QuadernCarrega_v2.2.odt | Quadern de Carrega v2.2 | [Document](./doc/QuadernCarrega_v2.2.odt)
-migracio_1.0_a_1.1.txt | Migracio de 1.0 a 1.1 | [Document](./doc/migracio_1.0_a_1.1.txt)
-requeriments.txt | Requeriments PortaFIB | [Document](./doc/requeriments.txt)
 
 
 ***Característiques***
