@@ -66,6 +66,7 @@ import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.MappingOrder;
 import es.caib.portafib.back.utils.Utils;
+import es.caib.portafib.back.validator.webdb.FluxDeFirmesWebValidator;
 import es.caib.portafib.back.validator.webdb.PlantillaFluxDeFirmesWebValidator;
 import es.caib.portafib.ejb.PeticioDeFirmaService;
 import es.caib.portafib.ejb.PlantillaFluxDeFirmesService;
@@ -154,8 +155,11 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   @EJB(mappedName = RevisorDeFirmaLogicaLocal.JNDI_NAME)
   protected RevisorDeFirmaLogicaLocal revisorDeFirmaLogicaEjb;
 
+//  @Autowired
+//  protected PlantillaFluxDeFirmesWebValidator plantillaFluxDeFirmesValidator;
+
   @Autowired
-  protected PlantillaFluxDeFirmesWebValidator plantillaFluxDeFirmesValidator;
+  protected FluxDeFirmesWebValidator fluxDeFirmesValidator;
 
   // References
   @Autowired
@@ -1808,7 +1812,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     }
 
     PlantillaDeFluxDeFirmesForm form = (PlantillaDeFluxDeFirmesForm) fluxDeFirmesForm2;
-
+    
     // FluxDeFirmesJPA flux = fluxDeFirmesForm.getFluxDeFirmes();
 
     if (form.isNou()) {
@@ -1854,7 +1858,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     PlantillaFluxDeFirmesJPA ffup = form.getPlantillaFluxDeFirmes();
     if (ffup != null) {
       BindingResult errors = new BeanPropertyBindingResult(form, "");
-      plantillaFluxDeFirmesValidator.validate(form, errors);
+//     plantillaFluxDeFirmesValidator.validate(form, errors);
+      fluxDeFirmesValidator.validate(form, errors);
 
       if (!isUsuariEntitat()) {
         if (ffup.getUsuariAplicacioID() == null) {

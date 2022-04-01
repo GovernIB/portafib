@@ -63,7 +63,12 @@ public class FluxDeFirmesWebValidator extends AbstractWebValidator<FluxDeFirmesF
         if (objNou == null) {
             isNou = false;
         } else { 
-         Boolean nou = Boolean.parseBoolean((String)objNou);
+        	
+        	//TODO XYZ XXXXXXXXXXX S'ha de modificar a GenApp.
+        	
+        	Boolean nou = Boolean.parseBoolean(String.valueOf(objNou));
+      	
+//         Boolean nou = Boolean.parseBoolean((String)objNou);
          isNou =  nou != null && nou.booleanValue();
         }
     }
