@@ -67,7 +67,6 @@ public class FluxDeFirmesWebValidator extends AbstractWebValidator<FluxDeFirmesF
         	//TODO XYZ XXXXXXXXXXX S'ha de modificar a GenApp.
         	
         	Boolean nou = Boolean.parseBoolean(String.valueOf(objNou));
-      	
 //         Boolean nou = Boolean.parseBoolean((String)objNou);
          isNou =  nou != null && nou.booleanValue();
         }

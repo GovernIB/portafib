@@ -69,7 +69,7 @@ public class AbstractBitacolaAdenController extends BitacolaController {
             bitacolaFilterForm.addHiddenField(ENTITATID);
             bitacolaFilterForm.addHiddenField(OBJECTESERIALITZAT);
 
-            bitacolaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-info-sign",
+            bitacolaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("fas fa-eye",
                     "genapp.viewtitle", getContextWeb() + "/view/{0}", "btn-info"));
 
         }

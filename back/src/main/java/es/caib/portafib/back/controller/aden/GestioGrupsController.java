@@ -91,7 +91,7 @@ public class GestioGrupsController extends GrupEntitatController {
     filterForm.getAdditionalButtonsByPK().clear();
 
     for (GrupEntitat grup : list) {
-       filterForm.addAdditionalButtonByPK(grup.getGrupEntitatID(), new AdditionalButton("icon-user",
+       filterForm.addAdditionalButtonByPK(grup.getGrupEntitatID(), new AdditionalButton("fas fa-users",
            "grups.gestionarpersones2",
            "/aden/usuarisgrup/listusuaris/" + grup.getGrupEntitatID(), "btn-success"));
     }

@@ -82,9 +82,10 @@ public class BitacolaPeticioAdenController extends AbstractBitacolaAdenControlle
             bitacolaFilterForm.addHiddenField(BitacolaFields.OBJECTESERIALITZAT);
 
             bitacolaFilterForm.addAdditionalButton(
-                    new AdditionalButton("icon-arrow-left icon-white", "tornar",
+                    new AdditionalButton("fas fa-arrow-left", "tornar",
                             CONTEXT_WEB + "/tornar", "btn-primary"));
 
+            
         }
 
         Long peticioID = (Long) request.getSession().getAttribute(SESSION_PETICIOID);

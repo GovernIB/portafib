@@ -160,12 +160,12 @@ public class FirmaUsuariExternAdenController extends FirmaController {
       firmaFilterForm.addAdditionalField(additionalField);
 
       // Afegir boto per anar a detalls de Peticio
-      firmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-info-sign",
+      firmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("fas fa-info",
           "veuredetalls", getContextWeb() + "/veurepeticio/{0}", "btn-info"));
 
       // Afegir boto per reenviar missatge
       firmaFilterForm.addAdditionalButtonForEachItem(
-          new AdditionalButton("icon-envelope", "firmausuariextern.reenviaremail",
+          new AdditionalButton("far fa-envelope", "firmausuariextern.reenviaremail",
               getContextWeb() + "/reenviaremail/{0}", "btn-warning"));
 
       firmaFilterForm.setOrderBy(USUARIEXTERNLLINATGES.javaName);

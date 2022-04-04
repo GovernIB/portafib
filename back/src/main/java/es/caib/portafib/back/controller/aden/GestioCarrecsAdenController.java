@@ -429,7 +429,7 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
           filterForm.setDefaultOrderBy(new OrderBy[] { new OrderBy(CARREC)  });
 
           filterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-              "icon-user", "carrec.modificaciopersona.titol", getContextWeb() + "/modificarpersona/{0}", "btn-success"));
+        		"fas fa-user-edit", "carrec.modificaciopersona.titol", getContextWeb() + "/modificarpersona/{0}", "btn-success"));
 
        }
 

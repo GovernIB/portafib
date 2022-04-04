@@ -138,17 +138,17 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
           I18NUtils.tradueix("notificaciows.timer.estaarrancat", lef, le, ne));
       
       notificacioFilterForm.addAdditionalButton(new AdditionalButton(
-          "icon-stop icon-white", "notificaciows.timer.aturar", getContextWeb() + "/stopTimer", "btn-danger"));
+    		  "fas fa-stop", "notificaciows.timer.aturar", getContextWeb() + "/stopTimer", "btn-danger"));
       
       notificacioFilterForm.addAdditionalButton(new AdditionalButton(
-          "icon-bell icon-white", "notificaciows.timer.despertar", getContextWeb() + "/wakeupTimer", "btn-warning"));
+    		  "fas fa-bell", "notificaciows.timer.despertar", getContextWeb() + "/wakeupTimer", "btn-warning"));
       
     } else {
 
       HtmlUtils.saveMessageError(request, I18NUtils.tradueix("notificaciows.timer.estaaturat"));
       
       notificacioFilterForm.addAdditionalButton(new AdditionalButton(
-          "icon-play-circle icon-white", "notificaciows.timer.arrancar", getContextWeb() + "/startTimer", "btn-success"));
+    		  "fal fa-play-circle", "notificaciows.timer.arrancar", getContextWeb() + "/startTimer", "btn-success"));
     }
     
     
@@ -200,25 +200,25 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
       case SHOW_ACTION_DESBLOQUEJAR:
         filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
-            new AdditionalButton("icon-play", "notificaciows.desbloquejar", getContextWeb()
+            new AdditionalButton("fas fa-play", "notificaciows.desbloquejar", getContextWeb()
                 + "/desbloquejar/{0}", "btn-success"));
         filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
-            new AdditionalButton("icon-stop", "notificaciows.aturar", getContextWeb()
+            new AdditionalButton("fas fa-stop", "notificaciows.aturar", getContextWeb()
                 + "/aturar/{0}", "btn-warning"));
         break;
 
       case SHOW_ACTION_BLOQUEJAR:
         filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
-            new AdditionalButton("icon-pause", "notificaciows.bloquejar", getContextWeb()
+            new AdditionalButton("fas fa-pause", "notificaciows.bloquejar", getContextWeb()
                 + "/bloquejar/{0}", "btn-warning"));
         filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
-            new AdditionalButton("icon-stop", "notificaciows.aturar", getContextWeb()
+            new AdditionalButton("fas fa-stop", "notificaciows.aturar", getContextWeb()
                 + "/aturar/{0}", "btn-warning"));
         break;
 
       case SHOW_ACTION_ESBORRAR:
         filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
-            new AdditionalButton("fas fa-trash icon-white", "genapp.delete", getContextWeb()
+            new AdditionalButton("fas fa-trash", "genapp.delete", getContextWeb()
                 + "/{0}/delete", "btn-danger"));
         break;
 
@@ -250,25 +250,25 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
     switch (action) {
 
     case SHOW_ACTION_DESBLOQUEJAR:
-      filterForm.addAdditionalButton(new AdditionalButton("icon-play",
+      filterForm.addAdditionalButton(new AdditionalButton("fas fa-play",
           "notificaciows.desbloquejar", "javascript:submitTo('notificacioWSFilterForm', '"
               + context + "/desbloquejarSelected');", "btn-success"));
-      filterForm.addAdditionalButton(new AdditionalButton("icon-stop", "notificaciows.aturar",
+      filterForm.addAdditionalButton(new AdditionalButton("fas fa-stop", "notificaciows.aturar",
           "javascript:submitTo('notificacioWSFilterForm', '" + context + "/aturarSelected');",
           "btn-warning"));
       break;
 
     case SHOW_ACTION_BLOQUEJAR:
-      filterForm.addAdditionalButton(new AdditionalButton("icon-pause",
+      filterForm.addAdditionalButton(new AdditionalButton("fas fa-pause",
           "notificaciows.bloquejar", "javascript:submitTo('notificacioWSFilterForm', '"
               + context + "/bloquejarSelected');", "btn-warning"));
-      filterForm.addAdditionalButton(new AdditionalButton("icon-stop", "notificaciows.aturar",
+      filterForm.addAdditionalButton(new AdditionalButton("fas fa-stop", "notificaciows.aturar",
           "javascript:submitTo('notificacioWSFilterForm', '" + context + "/aturarSelected');",
           "btn-warning"));
       break;
 
     case SHOW_ACTION_ESBORRAR:
-      filterForm.addAdditionalButton(new AdditionalButton("fas fa-trash icon-white",
+      filterForm.addAdditionalButton(new AdditionalButton("fas fa-trash",
           "genapp.delete", "javascript:openModalSubmit('" + context
               + "/deleteSelected','show', 'notificacioWS')", "btn-danger"));
       break;
@@ -295,22 +295,22 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
       case SHOW_ACTION_DESBLOQUEJAR:
         notificacioForm
-            .addAdditionalButton(new AdditionalButton("icon-play",
+            .addAdditionalButton(new AdditionalButton("fas fa-play",
                 "notificaciows.desbloquejar", getContextWeb() + "/desbloquejar/{0}",
                 "btn-success"));
-        notificacioForm.addAdditionalButton(new AdditionalButton("icon-stop",
+        notificacioForm.addAdditionalButton(new AdditionalButton("fas fa-stop",
             "notificaciows.aturar", getContextWeb() + "/aturar/{0}", "btn-warning"));
         break;
 
       case SHOW_ACTION_BLOQUEJAR:
-        notificacioForm.addAdditionalButton(new AdditionalButton("icon-pause",
+        notificacioForm.addAdditionalButton(new AdditionalButton("fas fa-pause",
             "notificaciows.bloquejar", getContextWeb() + "/bloquejar/{0}", "btn-warning"));
-        notificacioForm.addAdditionalButton(new AdditionalButton("icon-stop",
+        notificacioForm.addAdditionalButton(new AdditionalButton("fas fa-stop",
             "notificaciows.aturar", getContextWeb() + "/aturar/{0}", "btn-warning"));
         break;
 
       case SHOW_ACTION_ESBORRAR:
-        notificacioForm.addAdditionalButton(new AdditionalButton("fas fa-trash icon-white",
+        notificacioForm.addAdditionalButton(new AdditionalButton("fas fa-trash",
             "genapp.delete", getContextWeb() + "/{0}/delete", "btn-danger"));
         break;
 
