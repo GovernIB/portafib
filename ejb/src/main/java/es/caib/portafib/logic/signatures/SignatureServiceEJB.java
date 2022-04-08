@@ -6,6 +6,8 @@ import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.datasource.FitxerIdDataSource;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.model.entity.Fitxer;
+
+import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
 import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
@@ -27,6 +29,8 @@ public class SignatureServiceEJB implements SignatureServiceLocal {
 
     private SignatureExtractorFactory extractorFactory;
 
+    protected final Logger log = Logger.getLogger(getClass());
+
     @PostConstruct
     protected void init() {
         extractorFactory = SignatureExtractorFactory.getInstance();
@@ -37,10 +41,11 @@ public class SignatureServiceEJB implements SignatureServiceLocal {
         if (fitxer == null) {
             throw new IllegalArgumentException("fitxer no pot ser null");
         }
-
         SignatureExtractor extractor = extractorFactory.getExtractor(fitxer);
-        IPortaFIBDataSource dataSource = new FitxerIdDataSource(fitxer.getFitxerID());
-        return extractor.extract(dataSource);
+    	IPortaFIBDataSource dataSource = new FitxerIdDataSource(fitxer.getFitxerID());
+
+    	List<Signature> l = extractor.extract(dataSource);
+    	return l;
     }
 
     @Override

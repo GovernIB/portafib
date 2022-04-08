@@ -3077,8 +3077,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     private Map<Long, List<Signature>> processSignatures(List<FitxerJPA> fitxers) throws I18NException {
         Map<Long, List<Signature>> signatures = new HashMap<Long, List<Signature>>();
         for (FitxerJPA fitxer: fitxers) {
-            List<Signature> signatureList = signatureServiceEjb.getSignatures(fitxer);
-            signatures.put(fitxer.getFitxerID(), signatureList);
+        	List<Signature> signatureList = signatureServiceEjb.getSignatures(fitxer);
+        	signatures.put(fitxer.getFitxerID(), signatureList);
         }
         return signatures;
     }
