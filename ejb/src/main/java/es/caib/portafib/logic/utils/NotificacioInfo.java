@@ -54,7 +54,11 @@ public class NotificacioInfo implements Serializable {
   public static NotificacioInfo readNotificacioInfo(String descripcio)  {
     ByteArrayInputStream bais = new ByteArrayInputStream(descripcio.getBytes());
     XMLDecoder decoder = new XMLDecoder(bais);
-    return (NotificacioInfo)decoder.readObject();
+    try {
+      return (NotificacioInfo)decoder.readObject();
+    } finally {
+        decoder.close();
+    }
   }
 
   /**

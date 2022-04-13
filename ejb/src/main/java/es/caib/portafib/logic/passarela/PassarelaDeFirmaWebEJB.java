@@ -62,7 +62,6 @@ import javax.annotation.Resource;
 import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
-import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import java.io.File;
 import java.io.IOException;

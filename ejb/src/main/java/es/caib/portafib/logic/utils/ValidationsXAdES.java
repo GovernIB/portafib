@@ -13,12 +13,12 @@ import org.apache.xml.security.utils.resolver.ResourceResolver;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.pluginsib.core.utils.Base64;
 //import org.jcp.xml.dsig.internal.dom.DOMReference;
-//import org.w3c.dom.Attr;
+import org.w3c.dom.Attr;
 //import org.w3c.dom.Document;
-//import org.w3c.dom.Element;
-//import org.w3c.dom.Node;
-//import org.w3c.dom.NodeList;
-//import org.w3c.dom.Text;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import javax.xml.crypto.MarshalException;
@@ -83,9 +83,9 @@ public class ValidationsXAdES {
             log.debug("isXadesDettachedWithOriginalDocumentAsSibling?");
         }
 
-        org.w3c.dom.Document document = DBF.newDocumentBuilder().parse(in);
+        Document document = DBF.newDocumentBuilder().parse(in);
 
-        org.w3c.dom.NodeList signNodeList = document.getElementsByTagNameNS(XMLSignature.XMLNS, ValidationsXAdES.SIGNATURE_NODE_NAME);
+        NodeList signNodeList = document.getElementsByTagNameNS(XMLSignature.XMLNS, ValidationsXAdES.SIGNATURE_NODE_NAME);
        if (signNodeList.getLength() == 0) {
           log.warn("No s'ha trobat firma");
           throw new Exception("No hi ha firma");
@@ -212,7 +212,7 @@ public class ValidationsXAdES {
       
       for (Object tmp : references) {
         Reference ref = (Reference) tmp;
-        org.w3c.dom.Attr uriAttr = (org.w3c.dom.Attr) ((org.jcp.xml.dsig.internal.dom.DOMReference) ref).getHere();
+        org.w3c.dom.Attr uriAttr = (org.w3c.dom.Attr) ((org.apache.jcp.xml.dsig.internal.dom.DOMReference) ref).getHere();
 
         ResourceResolver res;
         try {

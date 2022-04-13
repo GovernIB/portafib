@@ -9,7 +9,6 @@ import es.caib.portafib.ejb.AnnexFirmatService;
 import es.caib.portafib.ejb.EstatDeFirmaService;
 import es.caib.portafib.ejb.FirmaEJB;
 import es.caib.portafib.ejb.FitxerService;
-import es.caib.portafib.ejb.RevisorDeFirmaService;
 import es.caib.portafib.persistence.FirmaJPA;
 import es.caib.portafib.persistence.RevisorDeFirmaJPA;
 import es.caib.portafib.model.entity.AnnexFirmat;

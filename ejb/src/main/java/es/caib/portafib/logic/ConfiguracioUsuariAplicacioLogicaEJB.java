@@ -1,6 +1,5 @@
 package es.caib.portafib.logic;
 
-import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.UsuariAplicacioConfiguracioEJB;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;

@@ -2,14 +2,12 @@ package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.AnnexFirmatService;
 import es.caib.portafib.ejb.ColaboracioDelegacioService;
-import es.caib.portafib.ejb.EntitatService;
 import es.caib.portafib.ejb.IdiomaService;
 import es.caib.portafib.ejb.PeticioDeFirmaEJB;
 import es.caib.portafib.ejb.PropietatGlobalService;
 import es.caib.portafib.ejb.RoleUsuariEntitatService;
 import es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioService;
 import es.caib.portafib.ejb.TipusDocumentService;
-import es.caib.portafib.ejb.UsuariAplicacioService;
 import es.caib.portafib.ejb.UsuariEntitatService;
 import es.caib.portafib.ejb.UsuariPersonaService;
 import es.caib.portafib.persistence.AnnexFirmatJPA;

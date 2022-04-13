@@ -5,7 +5,6 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>portafib-ws-indra-server</artifactId>
-    <groupId>es.caib.portafib</groupId>
     <packaging>ejb</packaging>
 
     <name>PortaFIB WS Indra - Server</name>
@@ -56,10 +55,18 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-ri</artifactId>
-            <type>pom</type>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+            <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>javax.jws</groupId>
+            <artifactId>javax.jws-api</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+
 
         <dependency>
             <groupId>es.caib.portafib</groupId>
