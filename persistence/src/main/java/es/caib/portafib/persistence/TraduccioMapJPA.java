@@ -3,10 +3,12 @@ package es.caib.portafib.persistence;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
+import javax.persistence.Index;
 
 
 @javax.persistence.Embeddable
-@Table(name = "pfi_traducciomap" )
+@Table(name = "pfi_traducciomap" , indexes = { 
+        @Index(name="pfi_traducmap_tradmapid_pk_i", columnList = "traducciomapid")})
 @javax.xml.bind.annotation.XmlRootElement
 public class TraduccioMapJPA implements TraduccioMap {
 

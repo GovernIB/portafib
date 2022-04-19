@@ -5,21 +5,25 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
 import java.util.HashSet;
 import javax.persistence.GenerationType;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_colaboraciodelegacio" )
+@Table(name = "pfi_colaboraciodelegacio" , indexes = { 
+        @Index(name="pfi_colaboraciodelegacio_pk_i", columnList = "colaboraciodelegacioid"),
+        @Index(name="pfi_colabdeleg_destid_fk_i", columnList = "destinatariid"),
+        @Index(name="pfi_colabdeleg_coldelid_fk_i", columnList = "colaboradordelegatid"),
+        @Index(name="pfi_colabdeleg_fitautoid_fk_i", columnList = "fitxerautoritzacioid")})
 @SequenceGenerator(name="COLABORACIODELEGACIO_SEQ", sequenceName="pfi_colaboraciodelegacio_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class ColaboracioDelegacioJPA implements ColaboracioDelegacio {
@@ -30,15 +34,12 @@ private static final long serialVersionUID = -637711502L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="COLABORACIODELEGACIO_SEQ")
-    @Index(name="pfi_colaboraciodelegacio_pk_i")
     @Column(name="colaboraciodelegacioid",nullable = false,length = 19)
     long colaboracioDelegacioID;
 
-    @Index(name="pfi_colabdeleg_destid_fk_i")
     @Column(name="destinatariid",nullable = false,length = 101)
     java.lang.String destinatariID;
 
-    @Index(name="pfi_colabdeleg_coldelid_fk_i")
     @Column(name="colaboradordelegatid",nullable = false,length = 101)
     java.lang.String colaboradorDelegatID;
 
@@ -67,7 +68,6 @@ private static final long serialVersionUID = -637711502L;
     @Column(name="motiudeshabilitada",length = 255)
     java.lang.String motiuDeshabilitada;
 
-    @Index(name="pfi_colabdeleg_fitautoid_fk_i")
     @Column(name="fitxerautoritzacioid",length = 19)
     java.lang.Long fitxerAutoritzacioID;
 
@@ -262,8 +262,7 @@ private static final long serialVersionUID = -637711502L;
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_colabdeleg_usrentitat_d_fk")
-    @JoinColumn(name = "destinatariid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "destinatariid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_colabdeleg_usrentitat_d_fk"))
     private UsuariEntitatJPA destinatari;
 
     public UsuariEntitatJPA getDestinatari() {
@@ -277,8 +276,7 @@ private static final long serialVersionUID = -637711502L;
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_colabdeleg_usrentitat_c_fk")
-    @JoinColumn(name = "colaboradordelegatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "colaboradordelegatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_colabdeleg_usrentitat_c_fk"))
     private UsuariEntitatJPA colaboradorDelegat;
 
     public UsuariEntitatJPA getColaboradorDelegat() {
@@ -292,8 +290,7 @@ private static final long serialVersionUID = -637711502L;
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_colabdeleg_fitxer_fk")
-    @JoinColumn(name = "fitxerautoritzacioid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "fitxerautoritzacioid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_colabdeleg_fitxer_fk"))
     private FitxerJPA fitxerAutoritzacio;
 
     public FitxerJPA getFitxerAutoritzacio() {

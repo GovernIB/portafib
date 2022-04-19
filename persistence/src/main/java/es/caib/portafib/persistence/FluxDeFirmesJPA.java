@@ -7,8 +7,8 @@ import java.util.HashSet;
 import javax.persistence.OneToOne;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -17,7 +17,8 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_fluxdefirmes" )
+@Table(name = "pfi_fluxdefirmes" , indexes = { 
+        @Index(name="pfi_fluxdefirmes_pk_i", columnList = "fluxdefirmesid")})
 @SequenceGenerator(name="FLUXDEFIRMES_SEQ", sequenceName="pfi_fluxdefirmes_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class FluxDeFirmesJPA implements FluxDeFirmes {
@@ -28,7 +29,6 @@ private static final long serialVersionUID = -624049275L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="FLUXDEFIRMES_SEQ")
-    @Index(name="pfi_fluxdefirmes_pk_i")
     @Column(name="fluxdefirmesid",nullable = false,length = 19)
     long fluxDeFirmesID;
 

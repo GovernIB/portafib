@@ -6,21 +6,24 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
 import java.util.HashSet;
 import javax.persistence.GenerationType;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_grupentitat"  , uniqueConstraints = {
+@Table(name = "pfi_grupentitat" , indexes = { 
+        @Index(name="pfi_grupentitat_pk_i", columnList = "grupentitatid"),
+        @Index(name="pfi_grupentitat_entitatid_fk_i", columnList = "entitatid")},
+           uniqueConstraints = {
             @UniqueConstraint(name="pfi_grupentita_nomentitat_uk", columnNames={"nom","entitatid"}) } )
 @SequenceGenerator(name="GRUPENTITAT_SEQ", sequenceName="pfi_grupentitat_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
@@ -32,7 +35,6 @@ private static final long serialVersionUID = -1606199656L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="GRUPENTITAT_SEQ")
-    @Index(name="pfi_grupentitat_pk_i")
     @Column(name="grupentitatid",nullable = false,length = 19)
     long grupEntitatID;
 
@@ -42,7 +44,6 @@ private static final long serialVersionUID = -1606199656L;
     @Column(name="descripcio",length = 255)
     java.lang.String descripcio;
 
-    @Index(name="pfi_grupentitat_entitatid_fk_i")
     @Column(name="entitatid",nullable = false,length = 50)
     java.lang.String entitatID;
 
@@ -144,8 +145,7 @@ private static final long serialVersionUID = -1606199656L;
 // IMP Field:entitatid | Table: pfi_entitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_grupentita_entitat_fk")
-    @JoinColumn(name = "entitatid", referencedColumnName ="entitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "entitatid", referencedColumnName ="entitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_grupentita_entitat_fk"))
     private EntitatJPA entitat;
 
     public EntitatJPA getEntitat() {

@@ -42,7 +42,7 @@ public class CadesSignatureExtractor implements SignatureExtractor {
                 return Collections.emptyList();
             }
 
-            Store certStore = cmsSignedData.getCertificates();
+            Store<X509CertificateHolder> certStore = cmsSignedData.getCertificates();
             SignerInformationStore signersStore = cmsSignedData.getSignerInfos();
             Collection<SignerInformation> signers = signersStore.getSigners();
 

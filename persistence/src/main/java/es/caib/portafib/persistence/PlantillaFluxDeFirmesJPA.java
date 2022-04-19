@@ -7,9 +7,9 @@ import java.util.HashSet;
 import javax.persistence.OneToOne;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.Index;
+import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -18,7 +18,10 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_plantillafluxdefirmes" )
+@Table(name = "pfi_plantillafluxdefirmes" , indexes = { 
+        @Index(name="pfi_plantillafluxdefirmes_pk_i", columnList = "fluxdefirmesid"),
+        @Index(name="pfi_plantiflfi_usrentiid_fk_i", columnList = "usuarientitatid"),
+        @Index(name="pfi_plantiflfi_usrappid_fk_i", columnList = "usuariaplicacioid")})
 @SequenceGenerator(name="PLANTILLAFLUXDEFIRMES_SEQ", sequenceName="pfi_plantillafluxdefirmes_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PlantillaFluxDeFirmesJPA implements PlantillaFluxDeFirmes {
@@ -28,18 +31,15 @@ public class PlantillaFluxDeFirmesJPA implements PlantillaFluxDeFirmes {
 private static final long serialVersionUID = 139304578L;
 
     @Id
-    @Index(name="pfi_plantillafluxdefirmes_pk_i")
     @Column(name="fluxdefirmesid",nullable = false,length = 19)
     long fluxDeFirmesID;
 
     @Column(name="descripcio",nullable = false,length = 1000)
     java.lang.String descripcio;
 
-    @Index(name="pfi_plantiflfi_usrentiid_fk_i")
     @Column(name="usuarientitatid",length = 101)
     java.lang.String usuariEntitatID;
 
-    @Index(name="pfi_plantiflfi_usrappid_fk_i")
     @Column(name="usuariaplicacioid",length = 101)
     java.lang.String usuariAplicacioID;
 
@@ -153,8 +153,7 @@ private static final long serialVersionUID = 139304578L;
 // IMP Field:fluxdefirmesid | Table: pfi_fluxdefirmes | Type: 1  
 
     @OneToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_plantiflfi_fluxfirmes_fk")
-    @JoinColumn(name = "fluxdefirmesid", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "fluxdefirmesid", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_plantiflfi_fluxfirmes_fk"))
     private FluxDeFirmesJPA fluxDeFirmes;
 
     public FluxDeFirmesJPA getFluxDeFirmes() {
@@ -168,8 +167,7 @@ private static final long serialVersionUID = 139304578L;
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_plantiflfi_usrentitat_fk")
-    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_plantiflfi_usrentitat_fk"))
     private UsuariEntitatJPA usuariEntitat;
 
     public UsuariEntitatJPA getUsuariEntitat() {
@@ -183,8 +181,7 @@ private static final long serialVersionUID = 139304578L;
 // IMP Field:usuariaplicacioid | Table: pfi_usuariaplicacio | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_plantiflfi_usrapp_fk")
-    @JoinColumn(name = "usuariaplicacioid", referencedColumnName ="usuariAplicacioID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "usuariaplicacioid", referencedColumnName ="usuariAplicacioID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_plantiflfi_usrapp_fk"))
     private UsuariAplicacioJPA usuariAplicacio;
 
     public UsuariAplicacioJPA getUsuariAplicacio() {

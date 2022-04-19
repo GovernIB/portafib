@@ -5,21 +5,29 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
 import java.util.HashSet;
 import javax.persistence.GenerationType;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_custodiainfo" )
+@Table(name = "pfi_custodiainfo" , indexes = { 
+        @Index(name="pfi_custodiainfo_pk_i", columnList = "custodiainfoid"),
+        @Index(name="pfi_custodiainfo_pluginid_fk_i", columnList = "pluginid"),
+        @Index(name="pfi_custodia_msgpospagid_fk_i", columnList = "missatgeposiciopaginaid"),
+        @Index(name="pfi_custodia_codibarid_fk_i", columnList = "codibarresid"),
+        @Index(name="pfi_custodia_codbarrpos_fk_i", columnList = "codibarresposiciopaginaid"),
+        @Index(name="pfi_custodia_usrentid_fk_i", columnList = "usuarientitatid"),
+        @Index(name="pfi_custodia_usrappid_fk_i", columnList = "usuariaplicacioid"),
+        @Index(name="pfi_custodia_entitatid_fk_i", columnList = "entitatid")})
 @SequenceGenerator(name="CUSTODIAINFO_SEQ", sequenceName="pfi_custodiainfo_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class CustodiaInfoJPA implements CustodiaInfo {
@@ -30,7 +38,6 @@ private static final long serialVersionUID = 1603204493L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="CUSTODIAINFO_SEQ")
-    @Index(name="pfi_custodiainfo_pk_i")
     @Column(name="custodiainfoid",nullable = false,length = 19)
     long custodiaInfoID;
 
@@ -42,7 +49,6 @@ private static final long serialVersionUID = 1603204493L;
     @Column(name="custodiapluginid",length = 255)
     java.lang.String custodiaDocumentID;
 
-    @Index(name="pfi_custodiainfo_pluginid_fk_i")
     @Column(name="pluginid",nullable = false,length = 19)
     long pluginID;
 
@@ -73,17 +79,14 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
     java.lang.String missatge;
 
   /** Posició del missatge en la pàgina. 0 = no mostrar */
-    @Index(name="pfi_custodia_msgpospagid_fk_i")
     @Column(name="missatgeposiciopaginaid",nullable = false,length = 19)
     long missatgePosicioPaginaID;
 
   /** Tipus de Codi de barres a mostrar. Null no mostrar */
-    @Index(name="pfi_custodia_codibarid_fk_i")
     @Column(name="codibarresid",nullable = false,length = 255)
     java.lang.String codiBarresID;
 
   /** Posició codi de barres en la pàgina. 0 = no mostrar */
-    @Index(name="pfi_custodia_codbarrpos_fk_i")
     @Column(name="codibarresposiciopaginaid",nullable = false,length = 19)
     long codiBarresPosicioPaginaID;
 
@@ -97,17 +100,14 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
     java.lang.String codiBarresText;
 
   /** UsuariEntitat que ha fet la peticio de firma. Si nomPlantilla != null llavors és un plantilla i indica a quin usuari pertany */
-    @Index(name="pfi_custodia_usrentid_fk_i")
     @Column(name="usuarientitatid",length = 101)
     java.lang.String usuariEntitatID;
 
   /** UsuariAplicació que ha fet la petició de firma. Si nomPlantilla != null llavors és una plantilla i indica a quin usuari aplicacio pertany */
-    @Index(name="pfi_custodia_usrappid_fk_i")
     @Column(name="usuariaplicacioid",length = 101)
     java.lang.String usuariAplicacioID;
 
   /** Indica si nomPlantilla != null l'entitat a la qual pertany aquesta plantilla. Pot ser compartida per un usuai ADEN */
-    @Index(name="pfi_custodia_entitatid_fk_i")
     @Column(name="entitatid",length = 50)
     java.lang.String entitatID;
 
@@ -519,8 +519,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
 // IMP Field:pluginid | Table: pfi_plugin | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_custodia_plugin_fk")
-    @JoinColumn(name = "pluginid", referencedColumnName ="pluginID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "pluginid", referencedColumnName ="pluginID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_custodia_plugin_fk"))
     private PluginJPA plugin;
 
     public PluginJPA getPlugin() {
@@ -534,8 +533,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
 // IMP Field:codibarresid | Table: pfi_codibarres | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_custodia_codibarres_fk")
-    @JoinColumn(name = "codibarresid", referencedColumnName ="codiBarresID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "codibarresid", referencedColumnName ="codiBarresID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_custodia_codibarres_fk"))
     private CodiBarresJPA codiBarres;
 
     public CodiBarresJPA getCodiBarres() {
@@ -549,8 +547,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_custodia_usrentitat_fk")
-    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_custodia_usrentitat_fk"))
     private UsuariEntitatJPA usuariEntitat;
 
     public UsuariEntitatJPA getUsuariEntitat() {
@@ -564,8 +561,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
 // IMP Field:usuariaplicacioid | Table: pfi_usuariaplicacio | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_custodia_usrapp_fk")
-    @JoinColumn(name = "usuariaplicacioid", referencedColumnName ="usuariAplicacioID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "usuariaplicacioid", referencedColumnName ="usuariAplicacioID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_custodia_usrapp_fk"))
     private UsuariAplicacioJPA usuariAplicacio;
 
     public UsuariAplicacioJPA getUsuariAplicacio() {
@@ -579,8 +575,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
 // IMP Field:entitatid | Table: pfi_entitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_custodia_entitat_fk")
-    @JoinColumn(name = "entitatid", referencedColumnName ="entitatID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "entitatid", referencedColumnName ="entitatID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_custodia_entitat_fk"))
     private EntitatJPA entitat;
 
     public EntitatJPA getEntitat() {

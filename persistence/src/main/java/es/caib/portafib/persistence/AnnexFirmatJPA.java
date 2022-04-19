@@ -6,17 +6,21 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_annexfirmat" )
+@Table(name = "pfi_annexfirmat" , indexes = { 
+        @Index(name="pfi_annexfirmat_pk_i", columnList = "annexfirmatid"),
+        @Index(name="pfi_annexfirmat_fitxerid_fk_i", columnList = "fitxerid"),
+        @Index(name="pfi_annexfirmat_annexid_fk_i", columnList = "annexid"),
+        @Index(name="pfi_annexfirmat_firmaid_fk_i", columnList = "firmaid")})
 @SequenceGenerator(name="ANNEXFIRMAT_SEQ", sequenceName="pfi_annexfirmat_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class AnnexFirmatJPA implements AnnexFirmat {
@@ -27,19 +31,15 @@ private static final long serialVersionUID = -658588842L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ANNEXFIRMAT_SEQ")
-    @Index(name="pfi_annexfirmat_pk_i")
     @Column(name="annexfirmatid",nullable = false,length = 19)
     long annexfirmatID;
 
-    @Index(name="pfi_annexfirmat_fitxerid_fk_i")
     @Column(name="fitxerid",nullable = false,length = 19)
     long fitxerID;
 
-    @Index(name="pfi_annexfirmat_annexid_fk_i")
     @Column(name="annexid",nullable = false,length = 19)
     long annexID;
 
-    @Index(name="pfi_annexfirmat_firmaid_fk_i")
     @Column(name="firmaid",nullable = false,length = 19)
     long firmaID;
 
@@ -117,8 +117,7 @@ private static final long serialVersionUID = -658588842L;
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_anexfirmat_fitxer_fk")
-    @JoinColumn(name = "fitxerid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "fitxerid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_anexfirmat_fitxer_fk"))
     private FitxerJPA fitxer;
 
     public FitxerJPA getFitxer() {
@@ -132,8 +131,7 @@ private static final long serialVersionUID = -658588842L;
 // IMP Field:annexid | Table: pfi_annex | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_anexfirmat_annex_fk")
-    @JoinColumn(name = "annexid", referencedColumnName ="annexID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "annexid", referencedColumnName ="annexID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_anexfirmat_annex_fk"))
     private AnnexJPA annex;
 
     public AnnexJPA getAnnex() {
@@ -147,8 +145,7 @@ private static final long serialVersionUID = -658588842L;
 // IMP Field:firmaid | Table: pfi_firma | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_anexfirmat_firma_fk")
-    @JoinColumn(name = "firmaid", referencedColumnName ="firmaID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "firmaid", referencedColumnName ="firmaID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_anexfirmat_firma_fk"))
     private FirmaJPA firma;
 
     public FirmaJPA getFirma() {

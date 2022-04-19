@@ -5,7 +5,7 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import java.util.HashSet;
 import javax.persistence.Entity;
-import org.hibernate.annotations.Index;
+import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -14,7 +14,8 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_role" )
+@Table(name = "pfi_role" , indexes = { 
+        @Index(name="pfi_role_pk_i", columnList = "roleid")})
 @SequenceGenerator(name="ROLE_SEQ", sequenceName="pfi_role_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class RoleJPA implements Role {
@@ -24,7 +25,6 @@ public class RoleJPA implements Role {
 private static final long serialVersionUID = -1253450907L;
 
     @Id
-    @Index(name="pfi_role_pk_i")
     @Column(name="roleid",nullable = false,length = 50)
     java.lang.String roleID;
 

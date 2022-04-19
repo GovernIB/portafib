@@ -207,12 +207,14 @@
 				<artifactId>hibernate-core</artifactId>
 				<version>5.3.14.Final-redhat-00001</version>
 				<scope>provided</scope>
+				<!--
 				<exclusions>
 				   <exclusion>
 					  <groupId>org.dom4j</groupId>
 					  <artifactId>dom4j</artifactId>
 				   </exclusion>
 				</exclusions>
+				-->
 			</dependency>
 			
 			<dependency>
@@ -220,12 +222,14 @@
 				<artifactId>hibernate-entitymanager</artifactId>
 				<version>5.3.14.Final-redhat-00001</version>
 				<scope>provided</scope>
+				<!--
 				<exclusions>
 				   <exclusion>
 					  <groupId>org.dom4j</groupId>
 					  <artifactId>dom4j</artifactId>
 				   </exclusion>
 				</exclusions>
+				-->
 			</dependency>
 			
 

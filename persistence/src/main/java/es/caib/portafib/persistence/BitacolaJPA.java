@@ -6,15 +6,18 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.Lob;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import org.hibernate.annotations.Type;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_bitacola" )
+@Table(name = "pfi_bitacola" , indexes = { 
+        @Index(name="pfi_bitacola_pk_i", columnList = "bitacolaid"),
+        @Index(name="pfi_bitacola_data_i", columnList = "data"),
+        @Index(name="pfi_bitacola_objecteid_i", columnList = "objecteid")})
 @SequenceGenerator(name="BITACOLA_SEQ", sequenceName="pfi_bitacola_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class BitacolaJPA implements Bitacola {
@@ -25,7 +28,6 @@ private static final long serialVersionUID = 1492894118L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="BITACOLA_SEQ")
-    @Index(name="pfi_bitacola_pk_i")
     @Column(name="bitacolaid",nullable = false,length = 19)
     long bitacolaID;
 
@@ -35,14 +37,12 @@ private static final long serialVersionUID = 1492894118L;
     @Column(name="usuariid",nullable = false,length = 101)
     java.lang.String usuariid;
 
-    @Index(name="pfi_bitacola_data_i")
     @Column(name="data",nullable = false,length = 29,precision = 6)
     java.sql.Timestamp data;
 
     @Column(name="tipusobjecte",nullable = false,length = 10)
     int tipusObjecte;
 
-    @Index(name="pfi_bitacola_objecteid_i")
     @Column(name="objecteid",nullable = false,length = 100)
     java.lang.String objecteid;
 

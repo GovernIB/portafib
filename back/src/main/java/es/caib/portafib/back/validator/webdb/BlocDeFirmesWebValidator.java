@@ -66,7 +66,7 @@ public class BlocDeFirmesWebValidator extends AbstractWebValidator<BlocDeFirmesF
         if (objNou == null) {
             isNou = false;
         } else { 
-         Boolean nou = Boolean.parseBoolean((String)objNou);
+         Boolean nou = Boolean.parseBoolean(String.valueOf(objNou));
          isNou =  nou != null && nou.booleanValue();
         }
     }

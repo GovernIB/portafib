@@ -6,18 +6,21 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_propietatglobal"  , uniqueConstraints = {
+@Table(name = "pfi_propietatglobal" , indexes = { 
+        @Index(name="pfi_propietatglobal_pk_i", columnList = "propietatglobalid"),
+        @Index(name="pfi_propietat_entitatid_fk_i", columnList = "entitatid")},
+           uniqueConstraints = {
             @UniqueConstraint(name="pfi_propietat_clau_entitat_uk", columnNames={"clau","entitatid"}) } )
 @SequenceGenerator(name="PROPIETATGLOBAL_SEQ", sequenceName="pfi_propietatglobal_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
@@ -29,7 +32,6 @@ private static final long serialVersionUID = 1545722544L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PROPIETATGLOBAL_SEQ")
-    @Index(name="pfi_propietatglobal_pk_i")
     @Column(name="propietatglobalid",nullable = false,length = 19)
     long propietatGlobalID;
 
@@ -39,7 +41,6 @@ private static final long serialVersionUID = 1545722544L;
     @Column(name="valor",length = 255)
     java.lang.String valor;
 
-    @Index(name="pfi_propietat_entitatid_fk_i")
     @Column(name="entitatid",length = 50)
     java.lang.String entitatID;
 
@@ -133,8 +134,7 @@ private static final long serialVersionUID = 1545722544L;
 // IMP Field:entitatid | Table: pfi_entitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_propietat_entitat_fk")
-    @JoinColumn(name = "entitatid", referencedColumnName ="entitatID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "entitatid", referencedColumnName ="entitatID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_propietat_entitat_fk"))
     private EntitatJPA entitat;
 
     public EntitatJPA getEntitat() {

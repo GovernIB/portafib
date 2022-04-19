@@ -14,6 +14,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.pluginsib.core.utils.Base64;
 //import org.jcp.xml.dsig.internal.dom.DOMReference;
 import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
 //import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

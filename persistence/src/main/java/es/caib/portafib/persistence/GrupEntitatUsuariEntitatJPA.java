@@ -6,18 +6,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_grupentitatusuarientitat"  , uniqueConstraints = {
+@Table(name = "pfi_grupentitatusuarientitat" , indexes = { 
+        @Index(name="pfi_grupusrent_pk_i", columnList = "grupentitatusuarientitatid"),
+        @Index(name="pfi_grupusrent_usrentid_fk_i", columnList = "usuarientitatid"),
+        @Index(name="pfi_grupusrent_grupentid_fk_i", columnList = "grupentitatid")},
+           uniqueConstraints = {
             @UniqueConstraint(name="pfi_grupusrent_usrgrup_uk", columnNames={"usuarientitatid","grupentitatid"}) } )
 @SequenceGenerator(name="GRUPENTITATUSUARIENTITAT_SEQ", sequenceName="pfi_grupentitatusuarientitat_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
@@ -29,15 +33,12 @@ private static final long serialVersionUID = -1726984778L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="GRUPENTITATUSUARIENTITAT_SEQ")
-    @Index(name="pfi_grupusrent_pk_i")
     @Column(name="grupentitatusuarientitatid",nullable = false,length = 19)
     long grupEntitatUsuariEntitatID;
 
-    @Index(name="pfi_grupusrent_usrentid_fk_i")
     @Column(name="usuarientitatid",nullable = false,length = 101)
     java.lang.String usuariEntitatID;
 
-    @Index(name="pfi_grupusrent_grupentid_fk_i")
     @Column(name="grupentitatid",nullable = false,length = 19)
     java.lang.Long grupEntitatID;
 
@@ -103,8 +104,7 @@ private static final long serialVersionUID = -1726984778L;
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_grupusrent_usrentitat_fk")
-    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_grupusrent_usrentitat_fk"))
     private UsuariEntitatJPA usuariEntitat;
 
     public UsuariEntitatJPA getUsuariEntitat() {
@@ -118,8 +118,7 @@ private static final long serialVersionUID = -1726984778L;
 // IMP Field:grupentitatid | Table: pfi_grupentitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_grupusrent_grupentita_fk")
-    @JoinColumn(name = "grupentitatid", referencedColumnName ="grupEntitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "grupentitatid", referencedColumnName ="grupEntitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_grupusrent_grupentita_fk"))
     private GrupEntitatJPA grupEntitat;
 
     public GrupEntitatJPA getGrupEntitat() {

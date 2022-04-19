@@ -6,10 +6,10 @@ import javax.persistence.Column;
 import java.util.HashSet;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.UniqueConstraint;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -18,7 +18,12 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_usuaripersona"  , uniqueConstraints = {
+@Table(name = "pfi_usuaripersona" , indexes = { 
+        @Index(name="pfi_usuaripersona_pk_i", columnList = "usuaripersonaid"),
+        @Index(name="pfi_usuaripersona_nif_i", columnList = "nif"),
+        @Index(name="pfi_persona_idiomaid_fk_i", columnList = "idiomaid"),
+        @Index(name="pfi_persona_rubricaid_fk_i", columnList = "rubricaid")},
+           uniqueConstraints = {
             @UniqueConstraint(name="pfi_persona_nif_extern_uk", columnNames={"nif","usuariintern"}) } )
 @SequenceGenerator(name="USUARIPERSONA_SEQ", sequenceName="pfi_usuaripersona_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
@@ -30,7 +35,6 @@ private static final long serialVersionUID = -80349968L;
 
   /** Identificador en el sistema de seguretat */
     @Id
-    @Index(name="pfi_usuaripersona_pk_i")
     @Column(name="usuaripersonaid",nullable = false,length = 50)
     java.lang.String usuariPersonaID;
 
@@ -43,16 +47,13 @@ private static final long serialVersionUID = -80349968L;
     @Column(name="email",nullable = false,length = 100)
     java.lang.String email;
 
-    @Index(name="pfi_usuaripersona_nif_i")
     @Column(name="nif",nullable = false,length = 9)
     java.lang.String nif;
 
-    @Index(name="pfi_persona_idiomaid_fk_i")
     @Column(name="idiomaid",nullable = false,length = 5)
     java.lang.String idiomaID;
 
   /** és la firma gràfica de la persona */
-    @Index(name="pfi_persona_rubricaid_fk_i")
     @Column(name="rubricaid",length = 19)
     java.lang.Long rubricaID;
 
@@ -203,8 +204,7 @@ private static final long serialVersionUID = -80349968L;
 // IMP Field:idiomaid | Table: pfi_idioma | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_persona_idioma_fk")
-    @JoinColumn(name = "idiomaid", referencedColumnName ="idiomaID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "idiomaid", referencedColumnName ="idiomaID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_persona_idioma_fk"))
     private IdiomaJPA idioma;
 
     public IdiomaJPA getIdioma() {
@@ -218,8 +218,7 @@ private static final long serialVersionUID = -80349968L;
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_persona_fitxer_fk")
-    @JoinColumn(name = "rubricaid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "rubricaid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_persona_fitxer_fk"))
     private FitxerJPA rubrica;
 
     public FitxerJPA getRubrica() {

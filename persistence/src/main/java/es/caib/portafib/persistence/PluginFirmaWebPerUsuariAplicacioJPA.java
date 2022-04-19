@@ -6,18 +6,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_pluginfirmawebperusrapp"  , uniqueConstraints = {
+@Table(name = "pfi_pluginfirmawebperusrapp" , indexes = { 
+        @Index(name="pfi_pfwpua_pk_i", columnList = "pluginfirmawebperusrappid"),
+        @Index(name="pfi_pfwpua_usrappid_fk_i", columnList = "usuariaplicacioid"),
+        @Index(name="pfi_pfwpua_plugin_fk_i", columnList = "pluginfirmawebid")},
+           uniqueConstraints = {
             @UniqueConstraint(name="pfi_pfwpua_usuapp_plug_uk", columnNames={"usuariaplicacioid","pluginfirmawebid"}) } )
 @SequenceGenerator(name="PLUGINFIRMAWEBPERUSUARIAPLICACIO_SEQ", sequenceName="pfi_pluginfirmawebperusrapp_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
@@ -29,15 +33,12 @@ private static final long serialVersionUID = -844814954L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PLUGINFIRMAWEBPERUSUARIAPLICACIO_SEQ")
-    @Index(name="pfi_pfwpua_pk_i")
     @Column(name="pluginfirmawebperusrappid",nullable = false,length = 19)
     long pluginfirmawebperusrappid;
 
-    @Index(name="pfi_pfwpua_usrappid_fk_i")
     @Column(name="usuariaplicacioid",nullable = false,length = 101)
     java.lang.String usuariAplicacioID;
 
-    @Index(name="pfi_pfwpua_plugin_fk_i")
     @Column(name="pluginfirmawebid",nullable = false,length = 19)
     long pluginFirmaWebID;
 
@@ -117,8 +118,7 @@ private static final long serialVersionUID = -844814954L;
 // IMP Field:usuariaplicacioid | Table: pfi_usuariaplicacio | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_pfwpua_usrapp_fk")
-    @JoinColumn(name = "usuariaplicacioid", referencedColumnName ="usuariAplicacioID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "usuariaplicacioid", referencedColumnName ="usuariAplicacioID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_pfwpua_usrapp_fk"))
     private UsuariAplicacioJPA usuariAplicacio;
 
     public UsuariAplicacioJPA getUsuariAplicacio() {
@@ -132,8 +132,7 @@ private static final long serialVersionUID = -844814954L;
 // IMP Field:pluginid | Table: pfi_plugin | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_pfwpua_plugin_fk")
-    @JoinColumn(name = "pluginfirmawebid", referencedColumnName ="pluginID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "pluginfirmawebid", referencedColumnName ="pluginID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_pfwpua_plugin_fk"))
     private PluginJPA plugin;
 
     public PluginJPA getPlugin() {

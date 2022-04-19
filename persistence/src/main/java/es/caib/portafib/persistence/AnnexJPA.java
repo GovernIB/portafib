@@ -5,21 +5,24 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
 import java.util.HashSet;
 import javax.persistence.GenerationType;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_annex" )
+@Table(name = "pfi_annex" , indexes = { 
+        @Index(name="pfi_annex_pk_i", columnList = "annexid"),
+        @Index(name="pfi_annex_petdefirmaid_fk_i", columnList = "peticiodefirmaid"),
+        @Index(name="pfi_annex_fitxerid_fk_i", columnList = "fitxerid")})
 @SequenceGenerator(name="ANNEX_SEQ", sequenceName="pfi_annex_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class AnnexJPA implements Annex {
@@ -30,15 +33,12 @@ private static final long serialVersionUID = -594157305L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ANNEX_SEQ")
-    @Index(name="pfi_annex_pk_i")
     @Column(name="annexid",nullable = false,length = 19)
     long annexID;
 
-    @Index(name="pfi_annex_petdefirmaid_fk_i")
     @Column(name="peticiodefirmaid",nullable = false,length = 19)
     long peticioDeFirmaID;
 
-    @Index(name="pfi_annex_fitxerid_fk_i")
     @Column(name="fitxerid",nullable = false,length = 19)
     long fitxerID;
 
@@ -147,8 +147,7 @@ private static final long serialVersionUID = -594157305L;
 // IMP Field:peticiodefirmaid | Table: pfi_peticiodefirma | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_annex_petifirma_fk")
-    @JoinColumn(name = "peticiodefirmaid", referencedColumnName ="peticioDeFirmaID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "peticiodefirmaid", referencedColumnName ="peticioDeFirmaID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_annex_petifirma_fk"))
     private PeticioDeFirmaJPA peticioDeFirma;
 
     public PeticioDeFirmaJPA getPeticioDeFirma() {
@@ -162,8 +161,7 @@ private static final long serialVersionUID = -594157305L;
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_annex_fitxer_fk")
-    @JoinColumn(name = "fitxerid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "fitxerid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_annex_fitxer_fk"))
     private FitxerJPA fitxer;
 
     public FitxerJPA getFitxer() {

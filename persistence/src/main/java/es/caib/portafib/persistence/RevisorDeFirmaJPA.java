@@ -6,17 +6,20 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_revisordefirma" )
+@Table(name = "pfi_revisordefirma" , indexes = { 
+        @Index(name="pfi_revisordefirma_pk_i", columnList = "revisordefirmaid"),
+        @Index(name="pfi_revfirma_usrentitat_fk_i", columnList = "usuarientitatid"),
+        @Index(name="pfi_revfirma_firmaid_fk_i", columnList = "firmaid")})
 @SequenceGenerator(name="REVISORDEFIRMA_SEQ", sequenceName="pfi_revisordefirma_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class RevisorDeFirmaJPA implements RevisorDeFirma {
@@ -27,15 +30,12 @@ private static final long serialVersionUID = -234707383L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="REVISORDEFIRMA_SEQ")
-    @Index(name="pfi_revisordefirma_pk_i")
     @Column(name="revisordefirmaid",nullable = false,length = 19)
     long revisorDeFirmaID;
 
-    @Index(name="pfi_revfirma_usrentitat_fk_i")
     @Column(name="usuarientitatid",nullable = false,length = 101)
     java.lang.String usuariEntitatID;
 
-    @Index(name="pfi_revfirma_firmaid_fk_i")
     @Column(name="firmaid",nullable = false,length = 19)
     long firmaID;
 
@@ -114,8 +114,7 @@ private static final long serialVersionUID = -234707383L;
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_revfirma_usrentitat_fk")
-    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_revfirma_usrentitat_fk"))
     private UsuariEntitatJPA usuariEntitat;
 
     public UsuariEntitatJPA getUsuariEntitat() {
@@ -129,8 +128,7 @@ private static final long serialVersionUID = -234707383L;
 // IMP Field:firmaid | Table: pfi_firma | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_revfirma_firma_fk")
-    @JoinColumn(name = "firmaid", referencedColumnName ="firmaID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "firmaid", referencedColumnName ="firmaID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_revfirma_firma_fk"))
     private FirmaJPA firma;
 
     public FirmaJPA getFirma() {

@@ -1,13 +1,12 @@
 package es.caib.portafib.logic.utils;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Enumeration;
 
 
 /**
- * 
+ * XYZ ZZZ Passar a Tests
  * @author anadal
  *
  */

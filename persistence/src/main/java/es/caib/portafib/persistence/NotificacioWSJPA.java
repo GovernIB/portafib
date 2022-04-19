@@ -7,10 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import org.hibernate.annotations.Type;
@@ -18,7 +18,12 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_notificacio" )
+@Table(name = "pfi_notificacio" , indexes = { 
+        @Index(name="pfi_notificacio_pk_i", columnList = "notificacioid"),
+        @Index(name="pfi_notifica_peticioid_i", columnList = "peticiodefirmaid"),
+        @Index(name="pfi_notifica_tiponotiid_fk_i", columnList = "tipusnotificacioid"),
+        @Index(name="pfi_notificacio_datacreacio_i", columnList = "datacreacio"),
+        @Index(name="pfi_notificacio_usrappid_i", columnList = "usuariaplicacioid")})
 @SequenceGenerator(name="NOTIFICACIOWS_SEQ", sequenceName="pfi_notificacio_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class NotificacioWSJPA implements NotificacioWS {
@@ -29,19 +34,15 @@ private static final long serialVersionUID = 1184441005L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="NOTIFICACIOWS_SEQ")
-    @Index(name="pfi_notificacio_pk_i")
     @Column(name="notificacioid",nullable = false,length = 19)
     long notificacioID;
 
-    @Index(name="pfi_notifica_peticioid_i")
     @Column(name="peticiodefirmaid",nullable = false,length = 19)
     long peticioDeFirmaID;
 
-    @Index(name="pfi_notifica_tiponotiid_fk_i")
     @Column(name="tipusnotificacioid",nullable = false,length = 19)
     long tipusNotificacioID;
 
-    @Index(name="pfi_notificacio_datacreacio_i")
     @Column(name="datacreacio",nullable = false,length = 29,precision = 6)
     java.sql.Timestamp dataCreacio;
 
@@ -67,7 +68,6 @@ private static final long serialVersionUID = 1184441005L;
     @Column(name="reintents",nullable = false,length = 10)
     int reintents;
 
-    @Index(name="pfi_notificacio_usrappid_i")
     @Column(name="usuariaplicacioid",nullable = false,length = 101)
     java.lang.String usuariAplicacioID;
 
@@ -222,8 +222,7 @@ private static final long serialVersionUID = 1184441005L;
 // IMP Field:tipusnotificacioid | Table: pfi_tipusnotificacio | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_notifica_tipnotific_fk")
-    @JoinColumn(name = "tipusnotificacioid", referencedColumnName ="tipusNotificacioID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "tipusnotificacioid", referencedColumnName ="tipusNotificacioID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_notifica_tipnotific_fk"))
     private TipusNotificacioJPA tipusNotificacio;
 
     public TipusNotificacioJPA getTipusNotificacio() {

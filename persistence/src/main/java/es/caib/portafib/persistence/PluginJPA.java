@@ -6,22 +6,26 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
 import org.hibernate.annotations.Type;
 import java.util.HashSet;
 import javax.persistence.GenerationType;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_plugin" )
+@Table(name = "pfi_plugin" , indexes = { 
+        @Index(name="pfi_plugin_pk_i", columnList = "pluginid"),
+        @Index(name="pfi_plugin_nomid_fk_i", columnList = "nomid"),
+        @Index(name="pfi_plugin_desccurtaid_fk_i", columnList = "descripciocurtaid"),
+        @Index(name="pfi_plugin_entitatid_fk_i", columnList = "entitatid")})
 @SequenceGenerator(name="PLUGIN_SEQ", sequenceName="pfi_plugin_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PluginJPA implements Plugin {
@@ -32,18 +36,15 @@ private static final long serialVersionUID = 190357384L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PLUGIN_SEQ")
-    @Index(name="pfi_plugin_pk_i")
     @Column(name="pluginid",nullable = false,length = 19)
     long pluginID;
 
     @Column(name="codi",nullable = false,length = 255)
     java.lang.String codi;
 
-    @Index(name="pfi_plugin_nomid_fk_i")
     @Column(name="nomid",nullable = false,length = 19)
     long nomID;
 
-    @Index(name="pfi_plugin_desccurtaid_fk_i")
     @Column(name="descripciocurtaid",nullable = false,length = 19)
     long descripcioCurtaID;
 
@@ -73,7 +74,6 @@ private static final long serialVersionUID = 190357384L;
     int politicaDeUs;
 
   /** Si val null indica que és de l'Administrador. En cas conytrari ja és una instanciació d'una Entitat */
-    @Index(name="pfi_plugin_entitatid_fk_i")
     @Column(name="entitatid",length = 50)
     java.lang.String entitatID;
 
@@ -402,8 +402,7 @@ private static final long serialVersionUID = 190357384L;
 // IMP Field:traduccioid | Table: pfi_traduccio | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER, cascade=javax.persistence.CascadeType.ALL)
-    @ForeignKey(name="pfi_plugin_traduccio_nom_fk")
-    @JoinColumn(name = "nomid", referencedColumnName ="traduccioID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "nomid", referencedColumnName ="traduccioID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_plugin_traduccio_nom_fk"))
     private TraduccioJPA nom;
 
     public TraduccioJPA getNom() {
@@ -427,8 +426,7 @@ private static final long serialVersionUID = 190357384L;
 // IMP Field:traduccioid | Table: pfi_traduccio | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER, cascade=javax.persistence.CascadeType.ALL)
-    @ForeignKey(name="pfi_plugin_traduccio_desc_fk")
-    @JoinColumn(name = "descripciocurtaid", referencedColumnName ="traduccioID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "descripciocurtaid", referencedColumnName ="traduccioID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_plugin_traduccio_desc_fk"))
     private TraduccioJPA descripcioCurta;
 
     public TraduccioJPA getDescripcioCurta() {
@@ -452,8 +450,7 @@ private static final long serialVersionUID = 190357384L;
 // IMP Field:entitatid | Table: pfi_entitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_plugin_entitat_fk")
-    @JoinColumn(name = "entitatid", referencedColumnName ="entitatID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "entitatid", referencedColumnName ="entitatID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_plugin_entitat_fk"))
     private EntitatJPA entitat;
 
     public EntitatJPA getEntitat() {

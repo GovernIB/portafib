@@ -5,7 +5,7 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import java.util.HashSet;
 import javax.persistence.Entity;
-import org.hibernate.annotations.Index;
+import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -14,7 +14,8 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_tipusnotificacio" )
+@Table(name = "pfi_tipusnotificacio" , indexes = { 
+        @Index(name="pfi_tipusnotificacio_pk_i", columnList = "tipusnotificacioid")})
 @SequenceGenerator(name="TIPUSNOTIFICACIO_SEQ", sequenceName="pfi_tipusnotificacio_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class TipusNotificacioJPA implements TipusNotificacio {
@@ -24,7 +25,6 @@ public class TipusNotificacioJPA implements TipusNotificacio {
 private static final long serialVersionUID = -1316357342L;
 
     @Id
-    @Index(name="pfi_tipusnotificacio_pk_i")
     @Column(name="tipusnotificacioid",nullable = false,length = 19)
     long tipusNotificacioID;
 

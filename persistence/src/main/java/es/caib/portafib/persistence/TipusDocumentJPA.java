@@ -6,9 +6,9 @@ import javax.persistence.Column;
 import java.util.HashSet;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.Index;
+import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -17,7 +17,10 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_tipusdocument" )
+@Table(name = "pfi_tipusdocument" , indexes = { 
+        @Index(name="pfi_tipusdocument_pk_i", columnList = "tipusdocumentid"),
+        @Index(name="pfi_tipusdocument_nom_fk_i", columnList = "nom"),
+        @Index(name="pfi_tipusdoc_usuariappid_fk_i", columnList = "usuariaplicacioid")})
 @SequenceGenerator(name="TIPUSDOCUMENT_SEQ", sequenceName="pfi_tipusdocument_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class TipusDocumentJPA implements TipusDocument {
@@ -27,11 +30,9 @@ public class TipusDocumentJPA implements TipusDocument {
 private static final long serialVersionUID = -1473284441L;
 
     @Id
-    @Index(name="pfi_tipusdocument_pk_i")
     @Column(name="tipusdocumentid",nullable = false,length = 19)
     long tipusDocumentID;
 
-    @Index(name="pfi_tipusdocument_nom_fk_i")
     @Column(name="nom",nullable = false,length = 19)
     long nomID;
 
@@ -43,7 +44,6 @@ private static final long serialVersionUID = -1473284441L;
     java.lang.String descripcio;
 
   /** Els tipus de documents van associats a un UsuariMàquina */
-    @Index(name="pfi_tipusdoc_usuariappid_fk_i")
     @Column(name="usuariaplicacioid",length = 50)
     java.lang.String usuariAplicacioID;
 
@@ -167,8 +167,7 @@ private static final long serialVersionUID = -1473284441L;
 // IMP Field:traduccioid | Table: pfi_traduccio | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER, cascade=javax.persistence.CascadeType.ALL)
-    @ForeignKey(name="pfi_tipusdoc_traduccio_fk")
-    @JoinColumn(name = "nom", referencedColumnName ="traduccioID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "nom", referencedColumnName ="traduccioID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_tipusdoc_traduccio_fk"))
     private TraduccioJPA nom;
 
     public TraduccioJPA getNom() {
@@ -192,8 +191,7 @@ private static final long serialVersionUID = -1473284441L;
 // IMP Field:usuariaplicacioid | Table: pfi_usuariaplicacio | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_tipusdoc_usrapp_fk")
-    @JoinColumn(name = "usuariaplicacioid", referencedColumnName ="usuariAplicacioID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "usuariaplicacioid", referencedColumnName ="usuariAplicacioID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_tipusdoc_usrapp_fk"))
     private UsuariAplicacioJPA usuariAplicacio;
 
     public UsuariAplicacioJPA getUsuariAplicacio() {

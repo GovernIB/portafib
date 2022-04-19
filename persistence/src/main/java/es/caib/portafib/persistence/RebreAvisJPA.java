@@ -6,18 +6,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_rebreavis"  , uniqueConstraints = {
+@Table(name = "pfi_rebreavis" , indexes = { 
+        @Index(name="pfi_rebreavis_pk_i", columnList = "id"),
+        @Index(name="pfi_rebreavis_usrentid_fk_i", columnList = "usuarientitatid"),
+        @Index(name="pfi_rebreavis_tiponotiid_fk_i", columnList = "tipusnotificacioid")},
+           uniqueConstraints = {
             @UniqueConstraint(name="pfi_rebreavis_tnotiusr_uk", columnNames={"tipusnotificacioid","usuarientitatid"}) } )
 @SequenceGenerator(name="REBREAVIS_SEQ", sequenceName="pfi_rebreavis_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
@@ -29,15 +33,12 @@ private static final long serialVersionUID = -111354374L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="REBREAVIS_SEQ")
-    @Index(name="pfi_rebreavis_pk_i")
     @Column(name="id",nullable = false,length = 19)
     long id;
 
-    @Index(name="pfi_rebreavis_usrentid_fk_i")
     @Column(name="usuarientitatid",nullable = false,length = 101)
     java.lang.String usuariEntitatID;
 
-    @Index(name="pfi_rebreavis_tiponotiid_fk_i")
     @Column(name="tipusnotificacioid",nullable = false,length = 19)
     long tipusNotificacioID;
 
@@ -116,8 +117,7 @@ private static final long serialVersionUID = -111354374L;
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_rebreavis_usrentitat_fk")
-    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_rebreavis_usrentitat_fk"))
     private UsuariEntitatJPA usuariEntitat;
 
     public UsuariEntitatJPA getUsuariEntitat() {
@@ -131,8 +131,7 @@ private static final long serialVersionUID = -111354374L;
 // IMP Field:tipusnotificacioid | Table: pfi_tipusnotificacio | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_rebreavis_tipnotific_fk")
-    @JoinColumn(name = "tipusnotificacioid", referencedColumnName ="tipusNotificacioID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "tipusnotificacioid", referencedColumnName ="tipusNotificacioID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_rebreavis_tipnotific_fk"))
     private TipusNotificacioJPA tipusNotificacio;
 
     public TipusNotificacioJPA getTipusNotificacio() {

@@ -119,7 +119,7 @@ public class ValidationsCAdES {
    *           in error case.
    */
   private static X509Certificate[] getCertificatesOfCadesSignature(
-      SignerInformationStore signerInfos, Store certificates) throws Exception {
+      SignerInformationStore signerInfos, Store<?> certificates) throws Exception {
     List<X509Certificate> certificatesList = new ArrayList<X509Certificate>();
     try {
       for (Iterator<?> iterator = signerInfos.getSigners().iterator(); iterator.hasNext();) {

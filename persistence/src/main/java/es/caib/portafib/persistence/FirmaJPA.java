@@ -5,21 +5,26 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
 import java.util.HashSet;
 import javax.persistence.GenerationType;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_firma" )
+@Table(name = "pfi_firma" , indexes = { 
+        @Index(name="pfi_firma_pk_i", columnList = "firmaid"),
+        @Index(name="pfi_firma_destinatariid_fk_i", columnList = "destinatariid"),
+        @Index(name="pfi_firma_blocdefirmaid_fk_i", columnList = "blocdefirmaid"),
+        @Index(name="pfi_firma_fitxerfirmatid_fk_i", columnList = "fitxerfirmatid"),
+        @Index(name="pfi_firma_estatfirmaid_fk_i", columnList = "tipusestatdefirmafinalid")})
 @SequenceGenerator(name="FIRMA_SEQ", sequenceName="pfi_firma_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class FirmaJPA implements Firma {
@@ -30,23 +35,19 @@ private static final long serialVersionUID = -491371752L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="FIRMA_SEQ")
-    @Index(name="pfi_firma_pk_i")
     @Column(name="firmaid",nullable = false,length = 19)
     long firmaID;
 
   /** Si val null significa que s'ha de substituir pel Sol·licitant de la petició (només podrà valer null en plantilles de flux de firmes) */
-    @Index(name="pfi_firma_destinatariid_fk_i")
     @Column(name="destinatariid",nullable = false,length = 101)
     java.lang.String destinatariID;
 
-    @Index(name="pfi_firma_blocdefirmaid_fk_i")
     @Column(name="blocdefirmaid",nullable = false,length = 19)
     long blocDeFirmaID;
 
     @Column(name="obligatori",nullable = false,length = 1)
     boolean obligatori;
 
-    @Index(name="pfi_firma_fitxerfirmatid_fk_i")
     @Column(name="fitxerfirmatid",length = 19)
     java.lang.Long fitxerFirmatID;
 
@@ -79,7 +80,6 @@ private static final long serialVersionUID = -491371752L;
     java.lang.String nomCertificat;
 
   /** Només permetem valors null, firmat, rebutjat o descartat */
-    @Index(name="pfi_firma_estatfirmaid_fk_i")
     @Column(name="tipusestatdefirmafinalid",length = 19)
     java.lang.Long tipusEstatDeFirmaFinalID;
 
@@ -486,8 +486,7 @@ private static final long serialVersionUID = -491371752L;
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_firma_usrentitat_fk")
-    @JoinColumn(name = "destinatariid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "destinatariid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_firma_usrentitat_fk"))
     private UsuariEntitatJPA usuariEntitat;
 
     public UsuariEntitatJPA getUsuariEntitat() {
@@ -501,8 +500,7 @@ private static final long serialVersionUID = -491371752L;
 // IMP Field:blocdefirmesid | Table: pfi_blocdefirmes | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_firma_blocfirmes_fk")
-    @JoinColumn(name = "blocdefirmaid", referencedColumnName ="blocDeFirmesID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "blocdefirmaid", referencedColumnName ="blocDeFirmesID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_firma_blocfirmes_fk"))
     private BlocDeFirmesJPA blocDeFirmes;
 
     public BlocDeFirmesJPA getBlocDeFirmes() {
@@ -516,8 +514,7 @@ private static final long serialVersionUID = -491371752L;
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_firma_fitxer_fk")
-    @JoinColumn(name = "fitxerfirmatid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "fitxerfirmatid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_firma_fitxer_fk"))
     private FitxerJPA fitxerFirmat;
 
     public FitxerJPA getFitxerFirmat() {

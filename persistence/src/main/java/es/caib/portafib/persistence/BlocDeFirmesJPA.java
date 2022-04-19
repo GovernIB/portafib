@@ -5,21 +5,23 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
 import java.util.HashSet;
 import javax.persistence.GenerationType;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_blocdefirmes" )
+@Table(name = "pfi_blocdefirmes" , indexes = { 
+        @Index(name="pfi_blocdefirmes_pk_i", columnList = "blocdefirmesid"),
+        @Index(name="pfi_blocfirmes_fluxid_fk_i", columnList = "fluxdefirmesid")})
 @SequenceGenerator(name="BLOCDEFIRMES_SEQ", sequenceName="pfi_blocdefirmes_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class BlocDeFirmesJPA implements BlocDeFirmes {
@@ -30,7 +32,6 @@ private static final long serialVersionUID = 985359024L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="BLOCDEFIRMES_SEQ")
-    @Index(name="pfi_blocdefirmes_pk_i")
     @Column(name="blocdefirmesid",nullable = false,length = 19)
     long blocDeFirmesID;
 
@@ -41,7 +42,6 @@ private static final long serialVersionUID = 985359024L;
     @Column(name="datafinalitzacio",length = 29,precision = 6)
     java.sql.Timestamp dataFinalitzacio;
 
-    @Index(name="pfi_blocfirmes_fluxid_fk_i")
     @Column(name="fluxdefirmesid",nullable = false,length = 19)
     long fluxDeFirmesID;
 
@@ -143,8 +143,7 @@ private static final long serialVersionUID = 985359024L;
 // IMP Field:fluxdefirmesid | Table: pfi_fluxdefirmes | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_blocfirmes_fluxfirmes_fk")
-    @JoinColumn(name = "fluxdefirmesid", referencedColumnName ="fluxDeFirmesID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "fluxdefirmesid", referencedColumnName ="fluxDeFirmesID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_blocfirmes_fluxfirmes_fk"))
     private FluxDeFirmesJPA fluxDeFirmes;
 
     public FluxDeFirmesJPA getFluxDeFirmes() {

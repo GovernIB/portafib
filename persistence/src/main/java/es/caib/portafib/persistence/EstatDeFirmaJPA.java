@@ -6,17 +6,21 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_estatdefirma" )
+@Table(name = "pfi_estatdefirma" , indexes = { 
+        @Index(name="pfi_estatdefirma_pk_i", columnList = "estatdefirmaid"),
+        @Index(name="pfi_estatdefirma_firmaid_fk_i", columnList = "firmaid"),
+        @Index(name="pfi_estatfirma_estatid_fk_i", columnList = "tipusestatdefirmafinalid"),
+        @Index(name="pfi_estatfirma_coladele_fk_i", columnList = "colaboraciodelegacioid")})
 @SequenceGenerator(name="ESTATDEFIRMA_SEQ", sequenceName="pfi_estatdefirma_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class EstatDeFirmaJPA implements EstatDeFirma {
@@ -27,11 +31,9 @@ private static final long serialVersionUID = 1766648722L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ESTATDEFIRMA_SEQ")
-    @Index(name="pfi_estatdefirma_pk_i")
     @Column(name="estatdefirmaid",nullable = false,length = 19)
     long estatDeFirmaID;
 
-    @Index(name="pfi_estatdefirma_firmaid_fk_i")
     @Column(name="firmaid",nullable = false,length = 19)
     long firmaID;
 
@@ -47,11 +49,9 @@ private static final long serialVersionUID = 1766648722L;
     @Column(name="tipusestatdefirmainicialid",nullable = false,length = 19)
     long tipusEstatDeFirmaInicialID;
 
-    @Index(name="pfi_estatfirma_estatid_fk_i")
     @Column(name="tipusestatdefirmafinalid",length = 19)
     java.lang.Long tipusEstatDeFirmaFinalID;
 
-    @Index(name="pfi_estatfirma_coladele_fk_i")
     @Column(name="colaboraciodelegacioid",length = 19)
     java.lang.Long colaboracioDelegacioID;
 
@@ -188,8 +188,7 @@ private static final long serialVersionUID = 1766648722L;
 // IMP Field:firmaid | Table: pfi_firma | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_estatfirma_firma_fk")
-    @JoinColumn(name = "firmaid", referencedColumnName ="firmaID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "firmaid", referencedColumnName ="firmaID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_estatfirma_firma_fk"))
     private FirmaJPA firma;
 
     public FirmaJPA getFirma() {
@@ -203,8 +202,7 @@ private static final long serialVersionUID = 1766648722L;
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_estatfirma_usrentitat_fk")
-    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_estatfirma_usrentitat_fk"))
     private UsuariEntitatJPA usuariEntitat;
 
     public UsuariEntitatJPA getUsuariEntitat() {
@@ -218,8 +216,7 @@ private static final long serialVersionUID = 1766648722L;
 // IMP Field:colaboraciodelegacioid | Table: pfi_colaboraciodelegacio | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_estatfirma_colabdeleg_fk")
-    @JoinColumn(name = "colaboraciodelegacioid", referencedColumnName ="colaboracioDelegacioID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "colaboraciodelegacioid", referencedColumnName ="colaboracioDelegacioID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_estatfirma_colabdeleg_fk"))
     private ColaboracioDelegacioJPA colaboracioDelegacio;
 
     public ColaboracioDelegacioJPA getColaboracioDelegacio() {

@@ -5,21 +5,27 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
 import java.util.HashSet;
 import javax.persistence.GenerationType;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_usuariaplicacioperfil" )
+@Table(name = "pfi_usuariaplicacioperfil" , indexes = { 
+        @Index(name="pfi_usuariaplicacioperfil_pk_i", columnList = "usuariaplicacioperfilid"),
+        @Index(name="pfi_perfilapp_appconf1id_fk_i", columnList = "usrappconfiguracio1id"),
+        @Index(name="pfi_perfilapp_appconf2id_fk_i", columnList = "usrappconfiguracio2id"),
+        @Index(name="pfi_perfilapp_appconf3id_fk_i", columnList = "usrappconfiguracio3id"),
+        @Index(name="pfi_perfilapp_appconf4id_fk_i", columnList = "usrappconfiguracio4id"),
+        @Index(name="pfi_perfilapp_appconf5id_fk_i", columnList = "usrappconfiguracio5id")})
 @SequenceGenerator(name="PERFILDEFIRMA_SEQ", sequenceName="pfi_usuariaplicacioperfil_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PerfilDeFirmaJPA implements PerfilDeFirma {
@@ -30,7 +36,6 @@ private static final long serialVersionUID = -877725275L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PERFILDEFIRMA_SEQ")
-    @Index(name="pfi_usuariaplicacioperfil_pk_i")
     @Column(name="usuariaplicacioperfilid",nullable = false,length = 19)
     long usuariAplicacioPerfilID;
 
@@ -46,23 +51,18 @@ private static final long serialVersionUID = -877725275L;
     @Column(name="condicio",length = 4000)
     java.lang.String condicio;
 
-    @Index(name="pfi_perfilapp_appconf1id_fk_i")
     @Column(name="usrappconfiguracio1id",nullable = false,length = 19)
     long configuracioDeFirma1ID;
 
-    @Index(name="pfi_perfilapp_appconf2id_fk_i")
     @Column(name="usrappconfiguracio2id",length = 19)
     java.lang.Long configuracioDeFirma2ID;
 
-    @Index(name="pfi_perfilapp_appconf3id_fk_i")
     @Column(name="usrappconfiguracio3id",length = 19)
     java.lang.Long configuracioDeFirma3ID;
 
-    @Index(name="pfi_perfilapp_appconf4id_fk_i")
     @Column(name="usrappconfiguracio4id",length = 19)
     java.lang.Long configuracioDeFirma4ID;
 
-    @Index(name="pfi_perfilapp_appconf5id_fk_i")
     @Column(name="usrappconfiguracio5id",length = 19)
     java.lang.Long configuracioDeFirma5ID;
 
@@ -231,8 +231,7 @@ private static final long serialVersionUID = -877725275L;
 // IMP Field:usuariaplicacioconfigid | Table: pfi_usuariaplicacioconfig | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_perfilapp_confapp_1_fk")
-    @JoinColumn(name = "usrappconfiguracio1id", referencedColumnName ="usuariAplicacioConfigID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "usrappconfiguracio1id", referencedColumnName ="usuariAplicacioConfigID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_perfilapp_confapp_1_fk"))
     private UsuariAplicacioConfiguracioJPA configuracioDeFirma1;
 
     public UsuariAplicacioConfiguracioJPA getConfiguracioDeFirma1() {
@@ -246,8 +245,7 @@ private static final long serialVersionUID = -877725275L;
 // IMP Field:usuariaplicacioconfigid | Table: pfi_usuariaplicacioconfig | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_perfilapp_confapp_2_fk")
-    @JoinColumn(name = "usrappconfiguracio2id", referencedColumnName ="usuariAplicacioConfigID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "usrappconfiguracio2id", referencedColumnName ="usuariAplicacioConfigID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_perfilapp_confapp_2_fk"))
     private UsuariAplicacioConfiguracioJPA configuracioDeFirma2;
 
     public UsuariAplicacioConfiguracioJPA getConfiguracioDeFirma2() {
@@ -261,8 +259,7 @@ private static final long serialVersionUID = -877725275L;
 // IMP Field:usuariaplicacioconfigid | Table: pfi_usuariaplicacioconfig | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_perfilapp_confapp_3_fk")
-    @JoinColumn(name = "usrappconfiguracio3id", referencedColumnName ="usuariAplicacioConfigID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "usrappconfiguracio3id", referencedColumnName ="usuariAplicacioConfigID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_perfilapp_confapp_3_fk"))
     private UsuariAplicacioConfiguracioJPA configuracioDeFirma3;
 
     public UsuariAplicacioConfiguracioJPA getConfiguracioDeFirma3() {
@@ -276,8 +273,7 @@ private static final long serialVersionUID = -877725275L;
 // IMP Field:usuariaplicacioconfigid | Table: pfi_usuariaplicacioconfig | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_perfilapp_confapp_4_fk")
-    @JoinColumn(name = "usrappconfiguracio4id", referencedColumnName ="usuariAplicacioConfigID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "usrappconfiguracio4id", referencedColumnName ="usuariAplicacioConfigID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_perfilapp_confapp_4_fk"))
     private UsuariAplicacioConfiguracioJPA configuracioDeFirma4;
 
     public UsuariAplicacioConfiguracioJPA getConfiguracioDeFirma4() {
@@ -291,8 +287,7 @@ private static final long serialVersionUID = -877725275L;
 // IMP Field:usuariaplicacioconfigid | Table: pfi_usuariaplicacioconfig | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_perfilapp_confapp_5_fk")
-    @JoinColumn(name = "usrappconfiguracio5id", referencedColumnName ="usuariAplicacioConfigID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "usrappconfiguracio5id", referencedColumnName ="usuariAplicacioConfigID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_perfilapp_confapp_5_fk"))
     private UsuariAplicacioConfiguracioJPA configuracioDeFirma5;
 
     public UsuariAplicacioConfiguracioJPA getConfiguracioDeFirma5() {

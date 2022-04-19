@@ -6,18 +6,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_roleusuarientitat"  , uniqueConstraints = {
+@Table(name = "pfi_roleusuarientitat" , indexes = { 
+        @Index(name="pfi_roleusuarientitat_pk_i", columnList = "id"),
+        @Index(name="pfi_roleusrent_roleid_fk_i", columnList = "roleid"),
+        @Index(name="pfi_roleusrent_usrentid_fk_i", columnList = "usuarientitatid")},
+           uniqueConstraints = {
             @UniqueConstraint(name="pfi_roleusrent_roleusrent_uk", columnNames={"roleid","usuarientitatid"}) } )
 @SequenceGenerator(name="ROLEUSUARIENTITAT_SEQ", sequenceName="pfi_roleusuarientitat_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
@@ -29,15 +33,12 @@ private static final long serialVersionUID = -1738883575L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ROLEUSUARIENTITAT_SEQ")
-    @Index(name="pfi_roleusuarientitat_pk_i")
     @Column(name="id",nullable = false,length = 19)
     long id;
 
-    @Index(name="pfi_roleusrent_roleid_fk_i")
     @Column(name="roleid",nullable = false,length = 50)
     java.lang.String roleID;
 
-    @Index(name="pfi_roleusrent_usrentid_fk_i")
     @Column(name="usuarientitatid",nullable = false,length = 101)
     java.lang.String usuariEntitatID;
 
@@ -103,8 +104,7 @@ private static final long serialVersionUID = -1738883575L;
 // IMP Field:roleid | Table: pfi_role | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_roleusrent_role_fk")
-    @JoinColumn(name = "roleid", referencedColumnName ="roleID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "roleid", referencedColumnName ="roleID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_roleusrent_role_fk"))
     private RoleJPA role;
 
     public RoleJPA getRole() {
@@ -118,8 +118,7 @@ private static final long serialVersionUID = -1738883575L;
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_roleusrent_usrentitat_fk")
-    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_roleusrent_usrentitat_fk"))
     private UsuariEntitatJPA usuariEntitat;
 
     public UsuariEntitatJPA getUsuariEntitat() {

@@ -6,18 +6,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_permisusuariplantilla"  , uniqueConstraints = {
+@Table(name = "pfi_permisusuariplantilla" , indexes = { 
+        @Index(name="pfi_permisusuariplantilla_pk_i", columnList = "permisusuariplantillaid"),
+        @Index(name="pfi_permisuspl_usrentid_fk_i", columnList = "usuarientitatid"),
+        @Index(name="pfi_permisuspl_fluxid_fk_i", columnList = "fluxdefirmesid")},
+           uniqueConstraints = {
             @UniqueConstraint(name="pfi_permisuspl_usrflux_uk", columnNames={"usuarientitatid","fluxdefirmesid"}) } )
 @SequenceGenerator(name="PERMISUSUARIPLANTILLA_SEQ", sequenceName="pfi_permisusuariplantilla_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
@@ -29,15 +33,12 @@ private static final long serialVersionUID = -1127198733L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PERMISUSUARIPLANTILLA_SEQ")
-    @Index(name="pfi_permisusuariplantilla_pk_i")
     @Column(name="permisusuariplantillaid",nullable = false,length = 19)
     long permisUsuariPlantillaID;
 
-    @Index(name="pfi_permisuspl_usrentid_fk_i")
     @Column(name="usuarientitatid",nullable = false,length = 101)
     java.lang.String usuariEntitatID;
 
-    @Index(name="pfi_permisuspl_fluxid_fk_i")
     @Column(name="fluxdefirmesid",nullable = false,length = 19)
     long plantillaFluxDeFirmesID;
 
@@ -103,8 +104,7 @@ private static final long serialVersionUID = -1127198733L;
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_permisuspl_usrentitat_fk")
-    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_permisuspl_usrentitat_fk"))
     private UsuariEntitatJPA usuariEntitat;
 
     public UsuariEntitatJPA getUsuariEntitat() {
@@ -118,8 +118,7 @@ private static final long serialVersionUID = -1127198733L;
 // IMP Field:fluxdefirmesid | Table: pfi_plantillafluxdefirmes | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_permisuspl_plantiflfi_fk")
-    @JoinColumn(name = "fluxdefirmesid", referencedColumnName ="fluxDeFirmesID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "fluxdefirmesid", referencedColumnName ="fluxDeFirmesID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_permisuspl_plantiflfi_fk"))
     private PlantillaFluxDeFirmesJPA plantillaFluxDeFirmes;
 
     public PlantillaFluxDeFirmesJPA getPlantillaFluxDeFirmes() {

@@ -6,18 +6,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_usuarientitatfavorit"  , uniqueConstraints = {
+@Table(name = "pfi_usuarientitatfavorit" , indexes = { 
+        @Index(name="pfi_usuarientitatfavorit_pk_i", columnList = "id"),
+        @Index(name="pfi_favorit_origenid_fk_i", columnList = "origenid"),
+        @Index(name="pfi_favorit_favoritid_fk_i", columnList = "favoritid")},
+           uniqueConstraints = {
             @UniqueConstraint(name="pfi_favorit_origfavo_uk", columnNames={"origenid","favoritid"}) } )
 @SequenceGenerator(name="USUARIENTITATFAVORIT_SEQ", sequenceName="pfi_usuarientitatfavorit_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
@@ -29,15 +33,12 @@ private static final long serialVersionUID = -607428966L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="USUARIENTITATFAVORIT_SEQ")
-    @Index(name="pfi_usuarientitatfavorit_pk_i")
     @Column(name="id",nullable = false,length = 19)
     long ID;
 
-    @Index(name="pfi_favorit_origenid_fk_i")
     @Column(name="origenid",nullable = false,length = 101)
     java.lang.String origenID;
 
-    @Index(name="pfi_favorit_favoritid_fk_i")
     @Column(name="favoritid",nullable = false,length = 101)
     java.lang.String favoritID;
 
@@ -103,8 +104,7 @@ private static final long serialVersionUID = -607428966L;
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_favorit_usrentitat_ori_fk")
-    @JoinColumn(name = "origenid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "origenid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_favorit_usrentitat_ori_fk"))
     private UsuariEntitatJPA origen;
 
     public UsuariEntitatJPA getOrigen() {
@@ -118,8 +118,7 @@ private static final long serialVersionUID = -607428966L;
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_favorit_usrentitat_fav_fk")
-    @JoinColumn(name = "favoritid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "favoritid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_favorit_usrentitat_fav_fk"))
     private UsuariEntitatJPA favorit;
 
     public UsuariEntitatJPA getFavorit() {

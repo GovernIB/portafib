@@ -6,20 +6,35 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
 import org.hibernate.annotations.Type;
 import java.util.HashSet;
-import org.hibernate.annotations.Index;
+import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_entitat" )
+@Table(name = "pfi_entitat" , indexes = { 
+        @Index(name="pfi_entitat_pk_i", columnList = "entitatid"),
+        @Index(name="pfi_entitat_faviconid_fk_i", columnList = "faviconid"),
+        @Index(name="pfi_entitat_logowebid_fk_i", columnList = "logowebid"),
+        @Index(name="pfi_entitat_logowebpeuid_fk_i", columnList = "logowebpeuid"),
+        @Index(name="pfi_entitat_logosegellid_fk_i", columnList = "logosegellid"),
+        @Index(name="pfi_entitat_pdfautoriid_fk_i", columnList = "pdfautoritzaciodelegacioid"),
+        @Index(name="pfi_entitat_usrappid_fk_i", columnList = "usuariaplicacioid"),
+        @Index(name="pfi_entitat_motiudele_fk_i", columnList = "motiudelegacioid"),
+        @Index(name="pfi_entitat_firmatper_fk_i", columnList = "firmatperformatid"),
+        @Index(name="pfi_entitat_algofirma_fk_i", columnList = "algorismedefirmaid"),
+        @Index(name="pfi_entitat_custodiadef_fk_i", columnList = "custodiainfoid"),
+        @Index(name="pfi_entitat_segelltemps_fk_i", columnList = "pluginid"),
+        @Index(name="pfi_entitat_pluginrubri_fk_i", columnList = "pluginrubricaid"),
+        @Index(name="pfi_entitat_pluginvalfir_fk_i", columnList = "pluginvalidafirmesid"),
+        @Index(name="pfi_entitat_pluginvalcer_fk_i", columnList = "pluginvalidacertificatid")})
 @SequenceGenerator(name="ENTITAT_SEQ", sequenceName="pfi_entitat_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class EntitatJPA implements Entitat {
@@ -29,7 +44,6 @@ public class EntitatJPA implements Entitat {
 private static final long serialVersionUID = 489209138L;
 
     @Id
-    @Index(name="pfi_entitat_pk_i")
     @Column(name="entitatid",nullable = false,length = 50)
     java.lang.String entitatID;
 
@@ -46,19 +60,15 @@ private static final long serialVersionUID = 489209138L;
     @Column(name="web",nullable = false,length = 250)
     java.lang.String web;
 
-    @Index(name="pfi_entitat_faviconid_fk_i")
     @Column(name="faviconid",nullable = false,length = 19)
     java.lang.Long faviconID;
 
-    @Index(name="pfi_entitat_logowebid_fk_i")
     @Column(name="logowebid",nullable = false,length = 19)
     java.lang.Long logoWebID;
 
-    @Index(name="pfi_entitat_logowebpeuid_fk_i")
     @Column(name="logowebpeuid",nullable = false,length = 19)
     java.lang.Long logoWebPeuID;
 
-    @Index(name="pfi_entitat_logosegellid_fk_i")
     @Column(name="logosegellid",nullable = false,length = 19)
     java.lang.Long logoSegellID;
 
@@ -70,7 +80,6 @@ private static final long serialVersionUID = 489209138L;
     @Type(type = "org.hibernate.type.TextType")
     java.lang.String filtreCertificats;
 
-    @Index(name="pfi_entitat_pdfautoriid_fk_i")
     @Column(name="pdfautoritzaciodelegacioid",nullable = false,length = 19)
     java.lang.Long pdfAutoritzacioDelegacioID;
 
@@ -84,7 +93,6 @@ private static final long serialVersionUID = 489209138L;
     java.lang.String suportEmail;
 
   /** Si val null, llavors els usuaris d'aquesta entitat no poden fer peticions */
-    @Index(name="pfi_entitat_usrappid_fk_i")
     @Column(name="usuariaplicacioid",length = 101)
     java.lang.String usuariAplicacioID;
 
@@ -126,15 +134,12 @@ opcional incluso cuando se genera una firma EPES. */
     @Column(name="policyurldocument",length = 255)
     java.lang.String policyUrlDocument;
 
-    @Index(name="pfi_entitat_motiudele_fk_i")
     @Column(name="motiudelegacioid",length = 19)
     java.lang.Long motiuDelegacioID;
 
-    @Index(name="pfi_entitat_firmatper_fk_i")
     @Column(name="firmatperformatid",length = 19)
     java.lang.Long firmatPerFormatID;
 
-    @Index(name="pfi_entitat_algofirma_fk_i")
     @Column(name="algorismedefirmaid",nullable = false,length = 19)
     int algorismeDeFirmaID;
 
@@ -142,7 +147,6 @@ opcional incluso cuando se genera una firma EPES. */
     @Column(name="politicacustodia",nullable = false,length = 10)
     int politicaCustodia;
 
-    @Index(name="pfi_entitat_custodiadef_fk_i")
     @Column(name="custodiainfoid",length = 19)
     java.lang.Long custodiaInfoID;
 
@@ -163,11 +167,9 @@ opcional incluso cuando se genera una firma EPES. */
     int politicaSegellatDeTemps;
 
   /** Plugin de segellat de temps */
-    @Index(name="pfi_entitat_segelltemps_fk_i")
     @Column(name="pluginid",length = 19)
     java.lang.Long pluginSegellTempsID;
 
-    @Index(name="pfi_entitat_pluginrubri_fk_i")
     @Column(name="pluginrubricaid",length = 19)
     java.lang.Long pluginRubricaID;
 
@@ -180,11 +182,9 @@ opcional incluso cuando se genera una firma EPES. */
     @Column(name="checkcanviatdocfirmat",nullable = false,length = 1)
     boolean checkCanviatDocFirmat;
 
-    @Index(name="pfi_entitat_pluginvalfir_fk_i")
     @Column(name="pluginvalidafirmesid",length = 19)
     java.lang.Long pluginValidaFirmesID;
 
-    @Index(name="pfi_entitat_pluginvalcer_fk_i")
     @Column(name="pluginvalidacertificatid",length = 19)
     java.lang.Long pluginValidaCertificatID;
 
@@ -733,8 +733,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_entitat_fitxer_icon_fk")
-    @JoinColumn(name = "faviconid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "faviconid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_entitat_fitxer_icon_fk"))
     private FitxerJPA favicon;
 
     public FitxerJPA getFavicon() {
@@ -748,8 +747,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_entitat_fitxer_loca_fk")
-    @JoinColumn(name = "logowebid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "logowebid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_entitat_fitxer_loca_fk"))
     private FitxerJPA logoWeb;
 
     public FitxerJPA getLogoWeb() {
@@ -763,8 +761,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_entitat_fitxer_lope_fk")
-    @JoinColumn(name = "logowebpeuid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "logowebpeuid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_entitat_fitxer_lope_fk"))
     private FitxerJPA logoWebPeu;
 
     public FitxerJPA getLogoWebPeu() {
@@ -778,8 +775,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_entitat_fitxer_lose_fk")
-    @JoinColumn(name = "logosegellid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "logosegellid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_entitat_fitxer_lose_fk"))
     private FitxerJPA logoSegell;
 
     public FitxerJPA getLogoSegell() {
@@ -793,8 +789,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_entitat_fitxer_pdfd_fk")
-    @JoinColumn(name = "pdfautoritzaciodelegacioid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "pdfautoritzaciodelegacioid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_entitat_fitxer_pdfd_fk"))
     private FitxerJPA pdfAutoritzacioDelegacio;
 
     public FitxerJPA getPdfAutoritzacioDelegacio() {
@@ -808,8 +803,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:usuariaplicacioid | Table: pfi_usuariaplicacio | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_entitat_usrapp_fk")
-    @JoinColumn(name = "usuariaplicacioid", referencedColumnName ="usuariAplicacioID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "usuariaplicacioid", referencedColumnName ="usuariAplicacioID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_entitat_usrapp_fk"))
     private UsuariAplicacioJPA usuariAplicacio;
 
     public UsuariAplicacioJPA getUsuariAplicacio() {
@@ -823,8 +817,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:traduccioid | Table: pfi_traduccio | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER, cascade=javax.persistence.CascadeType.ALL)
-    @ForeignKey(name="pfi_entitat_traduccio_moti_fk")
-    @JoinColumn(name = "motiudelegacioid", referencedColumnName ="traduccioID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "motiudelegacioid", referencedColumnName ="traduccioID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_entitat_traduccio_moti_fk"))
     private TraduccioJPA motiuDelegacio;
 
     public TraduccioJPA getMotiuDelegacio() {
@@ -848,8 +841,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:traduccioid | Table: pfi_traduccio | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER, cascade=javax.persistence.CascadeType.ALL)
-    @ForeignKey(name="pfi_entitat_traduccio_firm_fk")
-    @JoinColumn(name = "firmatperformatid", referencedColumnName ="traduccioID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "firmatperformatid", referencedColumnName ="traduccioID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_entitat_traduccio_firm_fk"))
     private TraduccioJPA firmatPerFormat;
 
     public TraduccioJPA getFirmatPerFormat() {
@@ -873,8 +865,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:custodiainfoid | Table: pfi_custodiainfo | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_entitat_custodia_fk")
-    @JoinColumn(name = "custodiainfoid", referencedColumnName ="custodiaInfoID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "custodiainfoid", referencedColumnName ="custodiaInfoID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_entitat_custodia_fk"))
     private CustodiaInfoJPA custodiaInfo;
 
     public CustodiaInfoJPA getCustodiaInfo() {
@@ -888,8 +879,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:pluginid | Table: pfi_plugin | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_entitat_plugin_fk")
-    @JoinColumn(name = "pluginid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "pluginid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_entitat_plugin_fk"))
     private PluginJPA pluginSegellTemps;
 
     public PluginJPA getPluginSegellTemps() {
@@ -903,8 +893,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:pluginid | Table: pfi_plugin | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_entitat_plugin_rubr_fk")
-    @JoinColumn(name = "pluginrubricaid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "pluginrubricaid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_entitat_plugin_rubr_fk"))
     private PluginJPA pluginRubrica;
 
     public PluginJPA getPluginRubrica() {
@@ -918,8 +907,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:pluginid | Table: pfi_plugin | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_entitat_plugin_vafi_fk")
-    @JoinColumn(name = "pluginvalidafirmesid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "pluginvalidafirmesid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_entitat_plugin_vafi_fk"))
     private PluginJPA pluginValidaFirmes;
 
     public PluginJPA getPluginValidaFirmes() {
@@ -933,8 +921,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:pluginid | Table: pfi_plugin | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_entitat_plugin_cert_fk")
-    @JoinColumn(name = "pluginvalidacertificatid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "pluginvalidacertificatid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_entitat_plugin_cert_fk"))
     private PluginJPA pluginValidaCertificat;
 
     public PluginJPA getPluginValidaCertificat() {

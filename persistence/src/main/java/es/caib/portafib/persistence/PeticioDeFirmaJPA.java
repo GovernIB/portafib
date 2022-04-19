@@ -5,22 +5,40 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
 import java.util.HashSet;
 import javax.persistence.OneToOne;
 import javax.persistence.GenerationType;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_peticiodefirma" )
+@Table(name = "pfi_peticiodefirma" , indexes = { 
+        @Index(name="pfi_peticiodefirma_pk_i", columnList = "peticiodefirmaid"),
+        @Index(name="pfi_petifirma_fitxerid_fk_i", columnList = "fitxerafirmarid"),
+        @Index(name="pfi_petifirma_firmaori_fk_i", columnList = "firmaoriginaldetachedid"),
+        @Index(name="pfi_petifirma_fitxeadaid_fk_i", columnList = "fitxeradaptatid"),
+        @Index(name="pfi_petifirma_tipusdocid_fk_i", columnList = "tipusdocumentid"),
+        @Index(name="pfi_petifirma_tipofirmid_fk_i", columnList = "tipusfirmaid"),
+        @Index(name="pfi_petifirma_algofirmid_fk_i", columnList = "algorismedefirmaid"),
+        @Index(name="pfi_petifirma_estatid_fk_i", columnList = "tipusestatpeticiodefirmaid"),
+        @Index(name="pfi_petifirma_idiomaid_fk_i", columnList = "idiomaid"),
+        @Index(name="pfi_petifirma_prioritatid_fk_i", columnList = "prioritatid"),
+        @Index(name="pfi_petifirma_fluxid_fk_i", columnList = "fluxdefirmesid"),
+        @Index(name="pfi_petifirma_usrappid_fk_i", columnList = "usuariaplicacioid"),
+        @Index(name="pfi_petifirma_logosegid_fk_i", columnList = "logosegellid"),
+        @Index(name="pfi_petifirma_custinfoid_fk_i", columnList = "custodiainfoid"),
+        @Index(name="pfi_petifirma_usrentiid_fk_i", columnList = "usuarientitatid"),
+        @Index(name="pfi_petifirma_solipers2_fk_i", columnList = "solicitantpersona2id"),
+        @Index(name="pfi_petifirma_solipers3_fk_i", columnList = "solicitantpersona3id"),
+        @Index(name="pfi_petifirma_conffirma_fk_i", columnList = "configuraciodefirmaid")})
 @SequenceGenerator(name="PETICIODEFIRMA_SEQ", sequenceName="pfi_peticiodefirma_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PeticioDeFirmaJPA implements PeticioDeFirma {
@@ -31,7 +49,6 @@ private static final long serialVersionUID = -940591816L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PETICIODEFIRMA_SEQ")
-    @Index(name="pfi_peticiodefirma_pk_i")
     @Column(name="peticiodefirmaid",nullable = false,length = 19)
     long peticioDeFirmaID;
 
@@ -44,20 +61,16 @@ private static final long serialVersionUID = -940591816L;
     @Column(name="motiu",nullable = false,length = 255)
     java.lang.String motiu;
 
-    @Index(name="pfi_petifirma_fitxerid_fk_i")
     @Column(name="fitxerafirmarid",length = 19)
     java.lang.Long fitxerAFirmarID;
 
   /** Camp de tipus fitxer que conté la firma en casos de cofirmes i contrafirmes detached de tipus CAdEs i XAdES */
-    @Index(name="pfi_petifirma_firmaori_fk_i")
     @Column(name="firmaoriginaldetachedid",length = 19)
     java.lang.Long firmaOriginalDetachedID;
 
-    @Index(name="pfi_petifirma_fitxeadaid_fk_i")
     @Column(name="fitxeradaptatid",length = 19)
     java.lang.Long fitxerAdaptatID;
 
-    @Index(name="pfi_petifirma_tipusdocid_fk_i")
     @Column(name="tipusdocumentid",nullable = false,length = 19)
     long tipusDocumentID;
 
@@ -79,11 +92,9 @@ private static final long serialVersionUID = -940591816L;
     @Column(name="tipusoperaciofirma",nullable = false,length = 10)
     int tipusOperacioFirma;
 
-    @Index(name="pfi_petifirma_tipofirmid_fk_i")
     @Column(name="tipusfirmaid",nullable = false,length = 19)
     int tipusFirmaID;
 
-    @Index(name="pfi_petifirma_algofirmid_fk_i")
     @Column(name="algorismedefirmaid",nullable = false,length = 19)
     int algorismeDeFirmaID;
 
@@ -94,26 +105,21 @@ private static final long serialVersionUID = -940591816L;
     @Column(name="posiciotaulafirmesid",nullable = false,length = 19)
     int posicioTaulaFirmesID;
 
-    @Index(name="pfi_petifirma_estatid_fk_i")
     @Column(name="tipusestatpeticiodefirmaid",nullable = false,length = 19)
     int tipusEstatPeticioDeFirmaID;
 
     @Column(name="motiuderebuig",length = 255)
     java.lang.String motiuDeRebuig;
 
-    @Index(name="pfi_petifirma_idiomaid_fk_i")
     @Column(name="idiomaid",nullable = false,length = 5)
     java.lang.String idiomaID;
 
-    @Index(name="pfi_petifirma_prioritatid_fk_i")
     @Column(name="prioritatid",nullable = false,length = 10)
     int prioritatID;
 
-    @Index(name="pfi_petifirma_fluxid_fk_i")
     @Column(name="fluxdefirmesid",nullable = false,unique = true,length = 19)
     long fluxDeFirmesID;
 
-    @Index(name="pfi_petifirma_usrappid_fk_i")
     @Column(name="usuariaplicacioid",nullable = false,length = 101)
     java.lang.String solicitantUsuariAplicacioID;
 
@@ -146,23 +152,18 @@ private static final long serialVersionUID = -940591816L;
     @Column(name="informacioaddicionalavaluable",length = 17,precision = 17)
     java.lang.Double informacioAddicionalAvaluable;
 
-    @Index(name="pfi_petifirma_logosegid_fk_i")
     @Column(name="logosegellid",length = 19)
     java.lang.Long logoSegellID;
 
-    @Index(name="pfi_petifirma_custinfoid_fk_i")
     @Column(name="custodiainfoid",length = 19)
     java.lang.Long custodiaInfoID;
 
-    @Index(name="pfi_petifirma_usrentiid_fk_i")
     @Column(name="usuarientitatid",length = 101)
     java.lang.String solicitantUsuariEntitat1ID;
 
-    @Index(name="pfi_petifirma_solipers2_fk_i")
     @Column(name="solicitantpersona2id",length = 101)
     java.lang.String solicitantUsuariEntitat2ID;
 
-    @Index(name="pfi_petifirma_solipers3_fk_i")
     @Column(name="solicitantpersona3id",length = 101)
     java.lang.String solicitantUsuariEntitat3ID;
 
@@ -177,7 +178,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     @Column(name="origenpeticiodefirma",nullable = false,length = 10)
     int origenPeticioDeFirma;
 
-    @Index(name="pfi_petifirma_conffirma_fk_i")
     @Column(name="configuraciodefirmaid",length = 19)
     java.lang.Long configuracioDeFirmaID;
 
@@ -679,8 +679,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_petifirma_fitxer_fir_fk")
-    @JoinColumn(name = "fitxerafirmarid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "fitxerafirmarid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_petifirma_fitxer_fir_fk"))
     private FitxerJPA fitxerAFirmar;
 
     public FitxerJPA getFitxerAFirmar() {
@@ -694,8 +693,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_petifirma_fitxer_ori_fk")
-    @JoinColumn(name = "firmaoriginaldetachedid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "firmaoriginaldetachedid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_petifirma_fitxer_ori_fk"))
     private FitxerJPA firmaOriginalDetached;
 
     public FitxerJPA getFirmaOriginalDetached() {
@@ -709,8 +707,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_petifirma_fitxer_ada_fk")
-    @JoinColumn(name = "fitxeradaptatid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "fitxeradaptatid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_petifirma_fitxer_ada_fk"))
     private FitxerJPA fitxerAdaptat;
 
     public FitxerJPA getFitxerAdaptat() {
@@ -724,8 +721,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 // IMP Field:tipusdocumentid | Table: pfi_tipusdocument | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_petifirma_tipusdoc_fk")
-    @JoinColumn(name = "tipusdocumentid", referencedColumnName ="tipusDocumentID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "tipusdocumentid", referencedColumnName ="tipusDocumentID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_petifirma_tipusdoc_fk"))
     private TipusDocumentJPA tipusDocument;
 
     public TipusDocumentJPA getTipusDocument() {
@@ -739,8 +735,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 // IMP Field:idiomaid | Table: pfi_idioma | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_petifirma_idioma_fk")
-    @JoinColumn(name = "idiomaid", referencedColumnName ="idiomaID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "idiomaid", referencedColumnName ="idiomaID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_petifirma_idioma_fk"))
     private IdiomaJPA idioma;
 
     public IdiomaJPA getIdioma() {
@@ -754,8 +749,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 // IMP Field:fluxdefirmesid | Table: pfi_fluxdefirmes | Type: 1  
 
     @OneToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_petifirma_fluxfirmes_fk")
-    @JoinColumn(name = "fluxdefirmesid", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "fluxdefirmesid", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_petifirma_fluxfirmes_fk"))
     private FluxDeFirmesJPA fluxDeFirmes;
 
     public FluxDeFirmesJPA getFluxDeFirmes() {
@@ -769,8 +763,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 // IMP Field:usuariaplicacioid | Table: pfi_usuariaplicacio | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_petifirma_usrapp_fk")
-    @JoinColumn(name = "usuariaplicacioid", referencedColumnName ="usuariAplicacioID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "usuariaplicacioid", referencedColumnName ="usuariAplicacioID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_petifirma_usrapp_fk"))
     private UsuariAplicacioJPA usuariAplicacio;
 
     public UsuariAplicacioJPA getUsuariAplicacio() {
@@ -784,8 +777,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_petifirma_fitxer_log_fk")
-    @JoinColumn(name = "logosegellid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "logosegellid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_petifirma_fitxer_log_fk"))
     private FitxerJPA logoSegell;
 
     public FitxerJPA getLogoSegell() {
@@ -799,8 +791,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 // IMP Field:custodiainfoid | Table: pfi_custodiainfo | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_petifirma_custodia_fk")
-    @JoinColumn(name = "custodiainfoid", referencedColumnName ="custodiaInfoID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "custodiainfoid", referencedColumnName ="custodiaInfoID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_petifirma_custodia_fk"))
     private CustodiaInfoJPA custodiaInfo;
 
     public CustodiaInfoJPA getCustodiaInfo() {
@@ -814,8 +805,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_petifirma_usrentitat_fk")
-    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_petifirma_usrentitat_fk"))
     private UsuariEntitatJPA solicitantUsuariEntitat1;
 
     public UsuariEntitatJPA getSolicitantUsuariEntitat1() {
@@ -829,8 +819,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_petifirma_usrentitat_2_fk")
-    @JoinColumn(name = "solicitantpersona2id", referencedColumnName ="usuariEntitatID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "solicitantpersona2id", referencedColumnName ="usuariEntitatID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_petifirma_usrentitat_2_fk"))
     private UsuariEntitatJPA solicitantUsuariEntitat2;
 
     public UsuariEntitatJPA getSolicitantUsuariEntitat2() {
@@ -844,8 +833,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_petifirma_usrentitat_3_fk")
-    @JoinColumn(name = "solicitantpersona3id", referencedColumnName ="usuariEntitatID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "solicitantpersona3id", referencedColumnName ="usuariEntitatID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_petifirma_usrentitat_3_fk"))
     private UsuariEntitatJPA solicitantUsuariEntitat3;
 
     public UsuariEntitatJPA getSolicitantUsuariEntitat3() {
@@ -859,8 +847,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 // IMP Field:usuariaplicacioconfigid | Table: pfi_usuariaplicacioconfig | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_petifirma_confapp_fk")
-    @JoinColumn(name = "configuraciodefirmaid", referencedColumnName ="usuariAplicacioConfigID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "configuraciodefirmaid", referencedColumnName ="usuariAplicacioConfigID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_petifirma_confapp_fk"))
     private UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio;
 
     public UsuariAplicacioConfiguracioJPA getUsuariAplicacioConfiguracio() {

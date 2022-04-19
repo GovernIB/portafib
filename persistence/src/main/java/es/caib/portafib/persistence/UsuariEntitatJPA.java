@@ -6,10 +6,10 @@ import javax.persistence.Column;
 import java.util.HashSet;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.UniqueConstraint;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -18,7 +18,13 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_usuarientitat"  , uniqueConstraints = {
+@Table(name = "pfi_usuarientitat" , indexes = { 
+        @Index(name="pfi_usuarientitat_pk_i", columnList = "usuarientitatid"),
+        @Index(name="pfi_usrentitat_personaid_fk_i", columnList = "usuaripersonaid"),
+        @Index(name="pfi_usrentitat_entitatid_fk_i", columnList = "entitatid"),
+        @Index(name="pfi_usrentitat_logosegid_fk_i", columnList = "logosegellid"),
+        @Index(name="pfi_usrentitat_custinfo_fk_i", columnList = "custodiainfoid")},
+           uniqueConstraints = {
             @UniqueConstraint(name="pfi_usrentitat_perentcar_uk", columnNames={"usuaripersonaid","entitatid","carrec"}) } )
 @SequenceGenerator(name="USUARIENTITAT_SEQ", sequenceName="pfi_usuarientitat_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
@@ -29,18 +35,15 @@ public class UsuariEntitatJPA implements UsuariEntitat {
 private static final long serialVersionUID = 2031334771L;
 
     @Id
-    @Index(name="pfi_usuarientitat_pk_i")
     @Column(name="usuarientitatid",nullable = false,length = 101)
     java.lang.String usuariEntitatID;
 
     @Column(name="carrec",length = 150)
     java.lang.String carrec;
 
-    @Index(name="pfi_usrentitat_personaid_fk_i")
     @Column(name="usuaripersonaid",nullable = false,length = 50)
     java.lang.String usuariPersonaID;
 
-    @Index(name="pfi_usrentitat_entitatid_fk_i")
     @Column(name="entitatid",nullable = false,length = 50)
     java.lang.String entitatID;
 
@@ -50,7 +53,6 @@ private static final long serialVersionUID = 2031334771L;
     @Column(name="email",length = 100)
     java.lang.String email;
 
-    @Index(name="pfi_usrentitat_logosegid_fk_i")
     @Column(name="logosegellid",length = 19)
     java.lang.Long logoSegellID;
 
@@ -69,7 +71,6 @@ private static final long serialVersionUID = 2031334771L;
     int politicaCustodia;
 
   /** -1: el que digui l'entitat, 0: No permetre, 1: Només Plantilles de l''Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat, 4: Opcional plantilla Entitat, 5: Llibertat Total (selecció, edició i us), 6: Custòdia de la Configuració de usuariAplicacio */
-    @Index(name="pfi_usrentitat_custinfo_fk_i")
     @Column(name="custodiainfoid",length = 19)
     java.lang.Long custodiaInfoID;
 
@@ -450,8 +451,7 @@ private static final long serialVersionUID = 2031334771L;
 // IMP Field:usuaripersonaid | Table: pfi_usuaripersona | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_usrentitat_persona_fk")
-    @JoinColumn(name = "usuaripersonaid", referencedColumnName ="usuariPersonaID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "usuaripersonaid", referencedColumnName ="usuariPersonaID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_usrentitat_persona_fk"))
     private UsuariPersonaJPA usuariPersona;
 
     public UsuariPersonaJPA getUsuariPersona() {
@@ -465,8 +465,7 @@ private static final long serialVersionUID = 2031334771L;
 // IMP Field:entitatid | Table: pfi_entitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_usrentitat_entitat_fk")
-    @JoinColumn(name = "entitatid", referencedColumnName ="entitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "entitatid", referencedColumnName ="entitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_usrentitat_entitat_fk"))
     private EntitatJPA entitat;
 
     public EntitatJPA getEntitat() {
@@ -480,8 +479,7 @@ private static final long serialVersionUID = 2031334771L;
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_usrentitat_fitxer_fk")
-    @JoinColumn(name = "logosegellid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "logosegellid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_usrentitat_fitxer_fk"))
     private FitxerJPA logoSegell;
 
     public FitxerJPA getLogoSegell() {
@@ -495,8 +493,7 @@ private static final long serialVersionUID = 2031334771L;
 // IMP Field:custodiainfoid | Table: pfi_custodiainfo | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_usrentitat_custodia_fk")
-    @JoinColumn(name = "custodiainfoid", referencedColumnName ="custodiaInfoID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "custodiainfoid", referencedColumnName ="custodiaInfoID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_usrentitat_custodia_fk"))
     private CustodiaInfoJPA custodiaInfo;
 
     public CustodiaInfoJPA getCustodiaInfo() {

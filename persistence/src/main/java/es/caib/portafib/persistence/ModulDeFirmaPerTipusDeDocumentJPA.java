@@ -6,18 +6,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_modulfirmapertipusdoc"  , uniqueConstraints = {
+@Table(name = "pfi_modulfirmapertipusdoc" , indexes = { 
+        @Index(name="pfi_modulfirmapertipusdoc_pk_i", columnList = "id"),
+        @Index(name="pfi_mofitido_tipusdoc_fk_i", columnList = "tipusdocumentid"),
+        @Index(name="pfi_mofitido_modfirma_fk_i", columnList = "pluginid")},
+           uniqueConstraints = {
             @UniqueConstraint(name="pfi_mofitido_modfirm_tipdoc_uk", columnNames={"tipusdocumentid","pluginid"}) } )
 @SequenceGenerator(name="MODULDEFIRMAPERTIPUSDEDOCUMENT_SEQ", sequenceName="pfi_modulfirmapertipusdoc_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
@@ -29,18 +33,15 @@ private static final long serialVersionUID = 2145428058L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="MODULDEFIRMAPERTIPUSDEDOCUMENT_SEQ")
-    @Index(name="pfi_modulfirmapertipusdoc_pk_i")
     @Column(name="id",nullable = false,length = 19)
     long ID;
 
     @Column(name="nom",nullable = false,length = 100)
     java.lang.String nom;
 
-    @Index(name="pfi_mofitido_tipusdoc_fk_i")
     @Column(name="tipusdocumentid",nullable = false,length = 19)
     long tipusDocumentID;
 
-    @Index(name="pfi_mofitido_modfirma_fk_i")
     @Column(name="pluginid",nullable = false,length = 19)
     long pluginID;
 
@@ -116,8 +117,7 @@ private static final long serialVersionUID = 2145428058L;
 // IMP Field:tipusdocumentid | Table: pfi_tipusdocument | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_mofitido_tipusdoc_fk")
-    @JoinColumn(name = "tipusdocumentid", referencedColumnName ="tipusDocumentID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "tipusdocumentid", referencedColumnName ="tipusDocumentID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_mofitido_tipusdoc_fk"))
     private TipusDocumentJPA tipusDocument;
 
     public TipusDocumentJPA getTipusDocument() {
@@ -131,8 +131,7 @@ private static final long serialVersionUID = 2145428058L;
 // IMP Field:pluginid | Table: pfi_plugin | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_mofitido_plugin_fk")
-    @JoinColumn(name = "pluginid", referencedColumnName ="pluginID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "pluginid", referencedColumnName ="pluginID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_mofitido_plugin_fk"))
     private PluginJPA plugin;
 
     public PluginJPA getPlugin() {

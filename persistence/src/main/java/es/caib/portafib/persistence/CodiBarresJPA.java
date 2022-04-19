@@ -5,7 +5,7 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import java.util.HashSet;
 import javax.persistence.Entity;
-import org.hibernate.annotations.Index;
+import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -14,7 +14,8 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_codibarres" )
+@Table(name = "pfi_codibarres" , indexes = { 
+        @Index(name="pfi_codibarres_pk_i", columnList = "codibarresid")})
 @SequenceGenerator(name="CODIBARRES_SEQ", sequenceName="pfi_codibarres_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class CodiBarresJPA implements CodiBarres {
@@ -25,7 +26,6 @@ private static final long serialVersionUID = 177259997L;
 
   /** Contindrà la classe que gestiona aquest codi de barres */
     @Id
-    @Index(name="pfi_codibarres_pk_i")
     @Column(name="codibarresid",nullable = false,length = 255)
     java.lang.String codiBarresID;
 

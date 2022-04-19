@@ -7,10 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import org.hibernate.annotations.Type;
@@ -18,7 +18,10 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_metadada" )
+@Table(name = "pfi_metadada" , indexes = { 
+        @Index(name="pfi_metadada_pk_i", columnList = "metadadaid"),
+        @Index(name="pfi_metadada_peticioid_fk_i", columnList = "peticiodefirmaid"),
+        @Index(name="pfi_metadada_tipusmetaid_fk_i", columnList = "tipusmetadadaid")})
 @SequenceGenerator(name="METADADA_SEQ", sequenceName="pfi_metadada_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class MetadadaJPA implements Metadada {
@@ -29,7 +32,6 @@ private static final long serialVersionUID = 171659772L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="METADADA_SEQ")
-    @Index(name="pfi_metadada_pk_i")
     @Column(name="metadadaid",nullable = false,length = 19)
     long metadadaID;
 
@@ -44,11 +46,9 @@ private static final long serialVersionUID = 171659772L;
     @Column(name="descripcio",length = 1000)
     java.lang.String descripcio;
 
-    @Index(name="pfi_metadada_peticioid_fk_i")
     @Column(name="peticiodefirmaid",nullable = false,length = 19)
     long peticioDeFirmaID;
 
-    @Index(name="pfi_metadada_tipusmetaid_fk_i")
     @Column(name="tipusmetadadaid",nullable = false,length = 10)
     int tipusMetadadaID;
 
@@ -144,8 +144,7 @@ private static final long serialVersionUID = 171659772L;
 // IMP Field:peticiodefirmaid | Table: pfi_peticiodefirma | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_metadada_petifirma_fk")
-    @JoinColumn(name = "peticiodefirmaid", referencedColumnName ="peticioDeFirmaID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "peticiodefirmaid", referencedColumnName ="peticioDeFirmaID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_metadada_petifirma_fk"))
     private PeticioDeFirmaJPA peticioDeFirma;
 
     public PeticioDeFirmaJPA getPeticioDeFirma() {

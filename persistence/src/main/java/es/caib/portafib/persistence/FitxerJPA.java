@@ -6,8 +6,8 @@ import javax.persistence.Column;
 import java.util.HashSet;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -16,7 +16,8 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_fitxer" )
+@Table(name = "pfi_fitxer" , indexes = { 
+        @Index(name="pfi_fitxer_pk_i", columnList = "fitxerid")})
 @SequenceGenerator(name="FITXER_SEQ", sequenceName="pfi_fitxer_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class FitxerJPA implements Fitxer {
@@ -27,7 +28,6 @@ private static final long serialVersionUID = -252813913L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="FITXER_SEQ")
-    @Index(name="pfi_fitxer_pk_i")
     @Column(name="fitxerid",nullable = false,length = 19)
     long fitxerID;
 

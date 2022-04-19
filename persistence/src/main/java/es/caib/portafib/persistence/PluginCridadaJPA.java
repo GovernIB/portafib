@@ -7,10 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import org.hibernate.annotations.Type;
@@ -18,7 +18,12 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_plugincridada" )
+@Table(name = "pfi_plugincridada" , indexes = { 
+        @Index(name="pfi_plugincridada_pk_i", columnList = "plugincridadaid"),
+        @Index(name="pfi_plugcrida_entitatid_fk_i", columnList = "entitatid"),
+        @Index(name="pfi_plugcrida_pluginid_fk_i", columnList = "pluginid"),
+        @Index(name="pfi_plugcrida_paramfitxer_fk_i", columnList = "parametresfitxerid"),
+        @Index(name="pfi_plugcrida_retorfitxer_fk_i", columnList = "retornfitxerid")})
 @SequenceGenerator(name="PLUGINCRIDADA_SEQ", sequenceName="pfi_plugincridada_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PluginCridadaJPA implements PluginCridada {
@@ -29,18 +34,15 @@ private static final long serialVersionUID = -1618108326L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PLUGINCRIDADA_SEQ")
-    @Index(name="pfi_plugincridada_pk_i")
     @Column(name="plugincridadaid",nullable = false,length = 19)
     long pluginCridadaID;
 
-    @Index(name="pfi_plugcrida_entitatid_fk_i")
     @Column(name="entitatid",length = 50)
     java.lang.String entitatID;
 
     @Column(name="data",nullable = false,length = 35,precision = 6)
     java.sql.Timestamp data;
 
-    @Index(name="pfi_plugcrida_pluginid_fk_i")
     @Column(name="pluginid",nullable = false,length = 19)
     long pluginID;
 
@@ -52,7 +54,6 @@ private static final long serialVersionUID = -1618108326L;
     @Type(type = "org.hibernate.type.TextType")
     java.lang.String parametresText;
 
-    @Index(name="pfi_plugcrida_paramfitxer_fk_i")
     @Column(name="parametresfitxerid",length = 19)
     java.lang.Long parametresFitxerID;
 
@@ -62,7 +63,6 @@ private static final long serialVersionUID = -1618108326L;
     @Type(type = "org.hibernate.type.TextType")
     java.lang.String retornText;
 
-    @Index(name="pfi_plugcrida_retorfitxer_fk_i")
     @Column(name="retornfitxerid",length = 19)
     java.lang.Long retornFitxerID;
 
@@ -229,8 +229,7 @@ private static final long serialVersionUID = -1618108326L;
 // IMP Field:entitatid | Table: pfi_entitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_plugcrida_entitat_fk")
-    @JoinColumn(name = "entitatid", referencedColumnName ="entitatID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "entitatid", referencedColumnName ="entitatID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_plugcrida_entitat_fk"))
     private EntitatJPA entitat;
 
     public EntitatJPA getEntitat() {
@@ -244,8 +243,7 @@ private static final long serialVersionUID = -1618108326L;
 // IMP Field:pluginid | Table: pfi_plugin | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_plugcrida_plugin_fk")
-    @JoinColumn(name = "pluginid", referencedColumnName ="pluginID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "pluginid", referencedColumnName ="pluginID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_plugcrida_plugin_fk"))
     private PluginJPA plugin;
 
     public PluginJPA getPlugin() {
@@ -259,8 +257,7 @@ private static final long serialVersionUID = -1618108326L;
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_plugcrida_fitxer_param_fk")
-    @JoinColumn(name = "parametresfitxerid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "parametresfitxerid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_plugcrida_fitxer_param_fk"))
     private FitxerJPA parametresFitxer;
 
     public FitxerJPA getParametresFitxer() {
@@ -274,8 +271,7 @@ private static final long serialVersionUID = -1618108326L;
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name="pfi_plugcrida_fitxer_retor_fk")
-    @JoinColumn(name = "retornfitxerid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "retornfitxerid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_plugcrida_fitxer_retor_fk"))
     private FitxerJPA retornFitxer;
 
     public FitxerJPA getRetornFitxer() {

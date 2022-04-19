@@ -6,18 +6,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_tipusdocumentcoladele"  , uniqueConstraints = {
+@Table(name = "pfi_tipusdocumentcoladele" , indexes = { 
+        @Index(name="pfi_tipusdocumentcoladele_pk_i", columnList = "id"),
+        @Index(name="pfi_tipusdoccd_coldelid_fk_i", columnList = "colaboraciodelegacioid"),
+        @Index(name="pfi_tipusdoccd_tipusdocid_fk_i", columnList = "tipusdocumentid")},
+           uniqueConstraints = {
             @UniqueConstraint(name="pfi_tipusdoccd_codetdoc_uk", columnNames={"colaboraciodelegacioid","tipusdocumentid"}) } )
 @SequenceGenerator(name="TIPUSDOCUMENTCOLABORACIODELEGACIO_SEQ", sequenceName="pfi_tipusdocumentcoladele_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
@@ -29,15 +33,12 @@ private static final long serialVersionUID = -1633225634L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="TIPUSDOCUMENTCOLABORACIODELEGACIO_SEQ")
-    @Index(name="pfi_tipusdocumentcoladele_pk_i")
     @Column(name="id",nullable = false,length = 19)
     long id;
 
-    @Index(name="pfi_tipusdoccd_coldelid_fk_i")
     @Column(name="colaboraciodelegacioid",nullable = false,length = 19)
     long colaboracioDelegacioID;
 
-    @Index(name="pfi_tipusdoccd_tipusdocid_fk_i")
     @Column(name="tipusdocumentid",nullable = false,length = 19)
     long tipusDocumentID;
 
@@ -103,8 +104,7 @@ private static final long serialVersionUID = -1633225634L;
 // IMP Field:colaboraciodelegacioid | Table: pfi_colaboraciodelegacio | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_tipusdoccd_colabdeleg_fk")
-    @JoinColumn(name = "colaboraciodelegacioid", referencedColumnName ="colaboracioDelegacioID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "colaboraciodelegacioid", referencedColumnName ="colaboracioDelegacioID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_tipusdoccd_colabdeleg_fk"))
     private ColaboracioDelegacioJPA colaboracioDelegacio;
 
     public ColaboracioDelegacioJPA getColaboracioDelegacio() {
@@ -118,8 +118,7 @@ private static final long serialVersionUID = -1633225634L;
 // IMP Field:tipusdocumentid | Table: pfi_tipusdocument | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_tipusdoccd_tipusdoc_fk")
-    @JoinColumn(name = "tipusdocumentid", referencedColumnName ="tipusDocumentID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "tipusdocumentid", referencedColumnName ="tipusDocumentID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_tipusdoccd_tipusdoc_fk"))
     private TipusDocumentJPA tipusDocument;
 
     public TipusDocumentJPA getTipusDocument() {

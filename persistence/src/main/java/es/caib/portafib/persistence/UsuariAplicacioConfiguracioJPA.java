@@ -6,22 +6,30 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
 import org.hibernate.annotations.Type;
 import java.util.HashSet;
 import javax.persistence.GenerationType;
+import javax.persistence.Index;
 import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_usuariaplicacioconfig" )
+@Table(name = "pfi_usuariaplicacioconfig" , indexes = { 
+        @Index(name="pfi_usuariaplicacioconfig_pk_i", columnList = "usuariaplicacioconfigid"),
+        @Index(name="pfi_confapp_entitatid_fk_i", columnList = "entitatid"),
+        @Index(name="pfi_confapp_tipusfirma_fk_i", columnList = "tipusfirmaid"),
+        @Index(name="pfi_confapp_algofirma_fk_i", columnList = "algorismedefirmaid"),
+        @Index(name="pfi_confapp_motiudele_fk_i", columnList = "motiudelegacioid"),
+        @Index(name="pfi_confapp_firmatper_fk_i", columnList = "firmatperformatid"),
+        @Index(name="pfi_confapp_plugsegell_fk_i", columnList = "pluginsegellatid"),
+        @Index(name="pfi_confapp_firmaserv_fk_i", columnList = "pluginfirmaservidorid")})
 @SequenceGenerator(name="USUARIAPLICACIOCONFIGURACIO_SEQ", sequenceName="pfi_usuariaplicacioconfig_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class UsuariAplicacioConfiguracioJPA implements UsuariAplicacioConfiguracio {
@@ -32,14 +40,12 @@ private static final long serialVersionUID = 2088976150L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="USUARIAPLICACIOCONFIGURACIO_SEQ")
-    @Index(name="pfi_usuariaplicacioconfig_pk_i")
     @Column(name="usuariaplicacioconfigid",nullable = false,length = 19)
     long usuariAplicacioConfigID;
 
     @Column(name="nom",nullable = false,length = 255)
     java.lang.String nom;
 
-    @Index(name="pfi_confapp_entitatid_fk_i")
     @Column(name="entitatid",nullable = false,length = 50)
     java.lang.String entitatID;
 
@@ -73,11 +79,9 @@ private static final long serialVersionUID = 2088976150L;
     @Column(name="tipusoperaciofirma",nullable = false,length = 10)
     int tipusOperacioFirma;
 
-    @Index(name="pfi_confapp_tipusfirma_fk_i")
     @Column(name="tipusfirmaid",nullable = false,length = 10)
     int tipusFirmaID;
 
-    @Index(name="pfi_confapp_algofirma_fk_i")
     @Column(name="algorismedefirmaid",length = 10)
     java.lang.Integer algorismeDeFirmaID;
 
@@ -109,7 +113,6 @@ opcional incluso cuando se genera una firma EPES. */
     @Column(name="policyurldocument",length = 255)
     java.lang.String policyUrlDocument;
 
-    @Index(name="pfi_confapp_motiudele_fk_i")
     @Column(name="motiudelegacioid",length = 19)
     java.lang.Long motiuDelegacioID;
 
@@ -121,7 +124,6 @@ opcional incluso cuando se genera una firma EPES. */
     @Column(name="posiciotaulafirmesid",nullable = false,length = 10)
     int posicioTaulaFirmesID;
 
-    @Index(name="pfi_confapp_firmatper_fk_i")
     @Column(name="firmatperformatid",length = 19)
     java.lang.Long firmatPerFormatID;
 
@@ -134,7 +136,6 @@ opcional incluso cuando se genera una firma EPES. */
     @Column(name="politicasegellatdetemps",nullable = false,length = 10)
     int politicaSegellatDeTemps;
 
-    @Index(name="pfi_confapp_plugsegell_fk_i")
     @Column(name="pluginsegellatid",length = 19)
     java.lang.Long pluginSegellatID;
 
@@ -143,7 +144,6 @@ opcional incluso cuando se genera una firma EPES. */
     @Type(type = "org.hibernate.type.TextType")
     java.lang.String htmlPerLlistarPluginsFirmaWeb;
 
-    @Index(name="pfi_confapp_firmaserv_fk_i")
     @Column(name="pluginfirmaservidorid",length = 19)
     java.lang.Long pluginFirmaServidorID;
 
@@ -650,8 +650,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:entitatid | Table: pfi_entitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_confapp_entitat_ent_fk")
-    @JoinColumn(name = "entitatid", referencedColumnName ="entitatID", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "entitatid", referencedColumnName ="entitatID", nullable = false, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_confapp_entitat_ent_fk"))
     private EntitatJPA entitat;
 
     public EntitatJPA getEntitat() {
@@ -665,8 +664,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:traduccioid | Table: pfi_traduccio | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER, cascade=javax.persistence.CascadeType.ALL)
-    @ForeignKey(name="pfi_confapp_traduccio_moti_fk")
-    @JoinColumn(name = "motiudelegacioid", referencedColumnName ="traduccioID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "motiudelegacioid", referencedColumnName ="traduccioID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_confapp_traduccio_moti_fk"))
     private TraduccioJPA motiuDelegacio;
 
     public TraduccioJPA getMotiuDelegacio() {
@@ -690,8 +688,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:traduccioid | Table: pfi_traduccio | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER, cascade=javax.persistence.CascadeType.ALL)
-    @ForeignKey(name="pfi_confapp_traduccio_firm_fk")
-    @JoinColumn(name = "firmatperformatid", referencedColumnName ="traduccioID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "firmatperformatid", referencedColumnName ="traduccioID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_confapp_traduccio_firm_fk"))
     private TraduccioJPA firmatPerFormat;
 
     public TraduccioJPA getFirmatPerFormat() {
@@ -715,8 +712,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:pluginid | Table: pfi_plugin | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_confapp_plugin_seg_fk")
-    @JoinColumn(name = "pluginsegellatid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "pluginsegellatid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_confapp_plugin_seg_fk"))
     private PluginJPA pluginSegellat;
 
     public PluginJPA getPluginSegellat() {
@@ -730,8 +726,7 @@ opcional incluso cuando se genera una firma EPES. */
 // IMP Field:pluginid | Table: pfi_plugin | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ForeignKey(name="pfi_confapp_plugin_fsrv_fk")
-    @JoinColumn(name = "pluginfirmaservidorid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "pluginfirmaservidorid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_confapp_plugin_fsrv_fk"))
     private PluginJPA pluginFirmaServidor;
 
     public PluginJPA getPluginFirmaServidor() {

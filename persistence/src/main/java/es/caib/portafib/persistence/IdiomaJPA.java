@@ -5,7 +5,7 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import java.util.HashSet;
 import javax.persistence.Entity;
-import org.hibernate.annotations.Index;
+import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -14,7 +14,8 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "pfi_idioma" )
+@Table(name = "pfi_idioma" , indexes = { 
+        @Index(name="pfi_idioma_pk_i", columnList = "idiomaid")})
 @SequenceGenerator(name="IDIOMA_SEQ", sequenceName="pfi_idioma_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class IdiomaJPA implements Idioma {
@@ -24,7 +25,6 @@ public class IdiomaJPA implements Idioma {
 private static final long serialVersionUID = 1367253670L;
 
     @Id
-    @Index(name="pfi_idioma_pk_i")
     @Column(name="idiomaid",nullable = false,length = 5)
     java.lang.String idiomaID;
 
