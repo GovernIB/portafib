@@ -416,7 +416,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
   @Override
   public List<String> getSupportedBarCodeTypes() throws I18NException {
-    return codiBarresEjb.executeQuery(CodiBarresFields.NOM, null);
+    return codiBarresEjb.executeQuery(CodiBarresFields.NOM);
   }
 
   @Override

@@ -40,7 +40,7 @@ public abstract class AbstractPassarelaDeFirmaEJB<T extends ISignaturePlugin> im
 
   @Override
   public List<String> getSupportedBarCodeTypes() throws I18NException {
-     return codiBarresEjb.executeQuery(CodiBarresFields.NOM, null);
+     return codiBarresEjb.executeQuery(CodiBarresFields.NOM);
   }
   
 

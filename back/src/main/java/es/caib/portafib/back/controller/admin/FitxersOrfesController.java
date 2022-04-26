@@ -156,7 +156,7 @@ public class FitxersOrfesController extends FitxerController {
     
 //    fitxersFisics.remove(AutoFirmaController.AUTOFIRMA);
     
-    List<Long> fitxersBBDD = fitxerEjb.executeQuery(FITXERID, null, new OrderBy(FITXERID));
+    List<Long> fitxersBBDD = fitxerEjb.executeQuery(FITXERID,  new OrderBy(FITXERID));
     
     // Fitxers que existeixen en BBDD però no fisicament
     for (Long fID : fitxersBBDD) {
