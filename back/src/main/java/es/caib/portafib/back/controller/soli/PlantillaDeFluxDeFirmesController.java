@@ -67,7 +67,6 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.MappingOrder;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.webdb.FluxDeFirmesWebValidator;
-import es.caib.portafib.back.validator.webdb.PlantillaFluxDeFirmesWebValidator;
 import es.caib.portafib.ejb.PeticioDeFirmaService;
 import es.caib.portafib.ejb.PlantillaFluxDeFirmesService;
 import es.caib.portafib.ejb.RoleUsuariEntitatService;

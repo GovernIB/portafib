@@ -8,7 +8,6 @@ import org.apache.tiles.preparer.PreparerException;
 import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.request.Request;
 import org.springframework.stereotype.Component;
-import es.caib.portafib.commons.utils.Constants;
 
 
 /**

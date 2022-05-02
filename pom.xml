@@ -66,7 +66,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -150,7 +150,37 @@
 		<genapp.version>2.0.0-SNAPSHOT</genapp.version>
 	</properties>
 	<dependencyManagement>
+		
 		<dependencies>
+	
+		    <dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+			
+			
+			
+			<dependency>
+				<groupId>com.sun.xml.bind</groupId>
+				<artifactId>jaxb-xjc</artifactId>
+				<version>2.3.0</version>
+			</dependency>
+			
+				<dependency>
+				<groupId>com.sun.xml.bind</groupId>
+				<artifactId>jaxb-core</artifactId>
+				<version>2.3.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.sun.xml.bind</groupId>
+				<artifactId>jaxb-impl</artifactId>
+				<version>2.3.0</version>
+			</dependency>			
+			
+
 			<!-- Definició de les versions de les llibreries, especificacions i eines disponibles dins JBoss -->
 			<!-- Dependències de JAVA EE 8 -->
 			<dependency>
@@ -174,6 +204,8 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			
+			<!--
 			<dependency>
 				<groupId>org.jboss.bom</groupId>
 				<artifactId>jboss-eap-javaee8-with-tools</artifactId>
@@ -181,6 +213,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			-->
 			<dependency>
 				<groupId>org.jboss.spec</groupId>
 				<artifactId>jboss-javaee-8.0</artifactId>

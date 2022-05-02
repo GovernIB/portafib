@@ -628,7 +628,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
   public ResponseEntity<?> getAllFlowTemplates(HttpServletRequest request, HttpServletResponse response,
           @RequestBody TextNode languageUITextNode) {
 
-final String languageUI = languageUITextNode.asText();
+    //final String languageUI = languageUITextNode.asText();
 
     String error = autenticateUsrApp(request);
     if (error != null) {
