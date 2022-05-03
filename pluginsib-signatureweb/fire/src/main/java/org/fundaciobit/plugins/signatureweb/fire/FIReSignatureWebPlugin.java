@@ -84,8 +84,8 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
   private static final String PROPERTY_CALLBACK_HOST = FIRE_BASE_PROPERTIES + "callbackhost";
 
-  public static final String IGNORE_CERTIFICATE_FILTER = FIRE_BASE_PROPERTIES
-      + "ignore_certificate_filter";
+  //public static final String IGNORE_CERTIFICATE_FILTER = FIRE_BASE_PROPERTIES
+  //    + "ignore_certificate_filter";
 
   protected Map<String, FIReSignaturesSet> transactions = new ConcurrentHashMap<String, FIReSignaturesSet>();
 

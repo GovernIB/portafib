@@ -1,15 +1,5 @@
 package org.fundaciobit.signatureweb.fire;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.security.cert.X509Certificate;
-import java.util.List;
-import java.util.Properties;
-
-import org.fundaciobit.plugins.signatureweb.fire.FIReSignatureWebPlugin;
-
-import es.gob.clavefirma.client.HttpCertificateBlockedException;
-
 /**
  * 
  * @author anadal
@@ -20,7 +10,7 @@ public class TestListCertificates {
   public static void main(String[] args) {
 
     try {
-
+/*
       Properties testProperties = new Properties();
       testProperties.load(new FileInputStream(new File("test.properties")));
 
@@ -37,15 +27,15 @@ public class TestListCertificates {
 
       String fireUsersStr = testProperties.getProperty("fireusers");
 
-      String[] fireUsers = fireUsersStr.split(",");
+      //String[] fireUsers = fireUsersStr.split(",");
       /*
        * { "00001", // usuari OK "00002", // usuari sense certificat "00003", //
        * // usuari amb certificat bloquejat "00004", // usuari amb registre
        * dèbil };
        */
-
-      for (String userFire : fireUsers) {
 /*
+      for (String userFire : fireUsers) {
+
         System.out.println(" =====  USER " + userFire + "  =========");
         List<X509Certificate> list;
         try {
@@ -70,8 +60,9 @@ public class TestListCertificates {
             System.out.println("       [" + x509Certificate.getIssuerDN() + "]");
           }
         }
-*/
+
       }
+      */
 
     } catch (Exception e) {
       // TODO: handle exception
