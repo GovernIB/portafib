@@ -28,14 +28,19 @@ Les seves característiques principals són:
 
 Nom | Descripció | Enllaç
 ------------ | ------------- | -------------
-API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt | Manual d'us de l'API de firma web, firma en servidor i passarel·la de firma PortaFIB.odt | [Document](./doc/API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt)
-Manual_Programador.odt | Manual de programador | [Document](./doc/Manual_Programador.odt)
+API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt | Manual d'us de l'API de firma web, firma en servidor i passarel·la de firma PortaFIB.odt  | [Document](./doc/API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt)
+Introduccio_Basica_PortaFIB.odp | Introducció básica PortaFIB | [Document](./doc/Introduccio_Basica_PortaFIB.odp)
+Manual_Integracio_API_Firma_Async_Simple_v2_0.odt | Manual Integracio API Firma Async Simple v2.0 | [Document](./doc/Manual_Integracio_API_Firma_Async_Simple_v2_0.odt)
+Manual_Integracio_API_Firma_Simple_v1_0.odt | Manual Integracio API Firma Simple v1.0 | [Document](./doc/Manual_Integracio_API_Firma_Simple_v1_0.odt)
+Manual_Integracio_API_Plantilla_Flux_Simple_v1_0.odt | Manual Integracio API Plantilla Flux Simple v1.0 | [Document](./doc/Manual_Integracio_API_Plantilla_Flux_Simple_v1_0.odt)
+Manual_Programador.odt | Manual de Programador | [Document](./doc/Manual_Programador.odt)
 Manual_de_CallBack_de_PortaFIB.odt | Manual de CallBack de PortaFIB | [Document](./doc/Manual_de_CallBack_de_PortaFIB.odt)
-Manual_de_Instalacio_de_PortaFIB.odt | Manual d'instal·lació de PortaFIB | [Document](./doc/Manual_de_Instalacio_de_PortaFIB.odt)
-Manual_de_Migracio_de_Versions_de_PortaFIB.odt | Manual de migració de versions | [Document](./doc/Manual_de_Migracio_de_Versions_de_PortaFIB.odt)
-Manual_de_RESTServices_de_PortaFIB.odt | Manual de serveis REST | [Document](./doc/Manual_de_RESTServices_de_PortaFIB.odt)
-Manual_de_Usuari_de_PortaFIB.odt | Manual d'usuari i característiuques completes | [Document](./doc/Manual_de_Usuari_de_PortaFIB.odt)
-Manual_de_WebServices_de_PortaFIB.odt | Manual de WS de PortaFIB | [Document](./doc/Manual_de_WebServices_de_PortaFIB.odt)
+Manual_de_Instalacio_de_PortaFIB.odt | Manual d'Instalacio de PortaFIB | [Document](./doc/Manual_de_Instalacio_de_PortaFIB.odt)
+Manual_de_Migracio_de_Versions_de_PortaFIB.odt | Manual de Migracio de Versions de PortaFIB | [Document](./doc/Manual_de_Migracio_de_Versions_de_PortaFIB.odt)
+Manual_de_RESTServices_de_PortaFIB.odt | Manual de RESTServices de PortaFIB | [Document](./doc/Manual_de_RESTServices_de_PortaFIB.odt)
+Manual_de_Usuari_de_PortaFIB.odt | Manual d'usuari de PortaFIB | [Document](./doc/Manual_de_Usuari_de_PortaFIB.odt)
+Manual_de_WebServices_de_PortaFIB.odt | Manual de WebServices de PortaFIB | [Document](./doc/Manual_de_WebServices_de_PortaFIB.odt)
+QuadernCarrega_v2.2.odt | Quadern de Carrega v2.2 | [Document](./doc/QuadernCarrega_v2.2.odt)
 
 ***Característiques***
 
