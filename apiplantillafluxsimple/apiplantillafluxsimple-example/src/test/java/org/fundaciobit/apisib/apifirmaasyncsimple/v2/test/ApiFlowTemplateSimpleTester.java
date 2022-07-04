@@ -66,7 +66,6 @@ public class ApiFlowTemplateSimpleTester {
       }
 
       // Llistar Plantilles
-     
 
       //lastKey = llistarFluxDeFirmes(api, languageUI);
       

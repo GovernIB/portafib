@@ -88,7 +88,7 @@ public class ValidationsXAdES {
         NodeList signNodeList = document.getElementsByTagNameNS(XMLSignature.XMLNS, ValidationsXAdES.SIGNATURE_NODE_NAME);
        if (signNodeList.getLength() == 0) {
           log.warn("No s'ha trobat firma");
-          throw new Exception("No hi ha firma");
+          throw new Exception("El document xml no inclou cap entrada 'SignedInfo'");
        }
 
        // Se selecciona la primera firma.
@@ -114,6 +114,7 @@ public class ValidationsXAdES {
        // Llista de possibles identificadors que contenen la firma
        Set<String> identificadors = new HashSet<String>();
        for (int i = 0; i < references.getLength(); i++) {
+       if (references.item(i).getNodeType() == Node.ELEMENT_NODE) {
            org.w3c.dom.Element reference = (org.w3c.dom.Element) references.item(i);
           String type = reference.getAttribute("Type");
           String uri = reference.getAttribute("URI");
@@ -130,9 +131,11 @@ public class ValidationsXAdES {
              }
           }
        }
+       }
 
        org.w3c.dom.NodeList siblings = parentNode.getChildNodes();
        for (int i = 0; i < siblings.getLength(); i++) {
+       if (siblings.item(i).getNodeType() == Node.ELEMENT_NODE) {
           org.w3c.dom.Element sibling = (org.w3c.dom.Element) siblings.item(i);
           // Miram si qualcun dels 'siblings' de la signatura té un identificador dels possibles
           if (sibling != signatureNode) { // Descaram el node mateix de signatura
@@ -148,6 +151,7 @@ public class ValidationsXAdES {
              }
           }
        }
+       }
        if (log.isDebugEnabled()) {
          log.debug("Sibling no trobat dins els identificadors possibles");
        }
@@ -155,9 +159,11 @@ public class ValidationsXAdES {
 
     } catch (Exception e) {
       // XYZ ZZZ TRA
-      throw new I18NException("genapp.comodi",
-            "Error desconegut intentant determinar si un XAdES dettached inclou el document original com a element: "
-                  + e.getMessage());
+      String msg = "Error desconegut intentant determinar "
+          + "si un XAdES dettached inclou el document original com a element: "
+          + e.getMessage();
+      log.error(msg, e);
+      throw new I18NException("genapp.comodi", msg);
 
     } finally {
        try {

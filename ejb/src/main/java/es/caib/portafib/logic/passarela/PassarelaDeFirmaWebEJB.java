@@ -708,7 +708,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       case StatusSignaturesSet.STATUS_FINAL_ERROR:
 
         if (sss.getErrorException() == null) {
-          log.error("ERROR EN PASSARELA PORTAFIB" + sss.getErrorMsg());
+          log.error("ERROR EN PASSARELA PORTAFIB " + sss.getErrorMsg());
         } else {
           log.error("ERROR EN PASSARELA PORTAFIB" + sss.getErrorMsg(), sss.getErrorException());
         }
