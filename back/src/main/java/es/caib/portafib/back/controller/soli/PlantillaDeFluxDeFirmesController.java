@@ -235,8 +235,9 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       try {
         fluxDeFirmesID = Long.parseLong(encrypter.decrypt(fluxDeFirmesIDStr));
       } catch (Exception e) {
-        throw new I18NException("genapp.comodi",
-            "Error desencriptant identificador de Flux de Firmes");
+        String msg = "Error desencriptant identificador de Flux de Firmes |" + fluxDeFirmesIDStr + "|: " + e.getMessage();
+        log.error(msg, e);
+        throw new I18NException("genapp.comodi", msg);
       }
     } else {
       fluxDeFirmesID = Long.parseLong(fluxDeFirmesIDStr);

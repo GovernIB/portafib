@@ -48,8 +48,8 @@ public class ValidationsXAdES {
   private static final DocumentBuilderFactory DBF;
 
   static {
-      DBF = DocumentBuilderFactory.newInstance();
-      DBF.setNamespaceAware(true);
+    DBF = DocumentBuilderFactory.newInstance();
+    DBF.setNamespaceAware(true);
 
     org.apache.xml.security.Init.init();
   }
@@ -67,102 +67,131 @@ public class ValidationsXAdES {
   public static final String DSIGNNS = "http://www.w3.org/2000/09/xmldsig#";
 
   /**
-   * Segons l'estàndard xmldsig (https://www.w3.org/TR/xmldsig-core1/) apartat 2, una firma dettached ho pot ser d'un
-   * objecte extern referenciat amb la URI, o un objecte local que està dins el mateix document com "sibling element"
-   * per tant, comparteix pare amb la firma.
-   * Aquest mètode retorna true si es dona aquest cas, i el document dettached inclou l'objecte referenciat dins la URI
-   * al mateix document al mateix nivell que la signatura.
-   * @param signatureData datasource amb la firma
-   * @return true si l'objecte firmat està inclòs com un element al mateix nivell que la firma. false en cas contrari.
-   * @throws I18NException si es produeix un error com ara que el document no tengui cap firma.
+   * Segons l'estàndard xmldsig (https://www.w3.org/TR/xmldsig-core1/) apartat 2, una firma
+   * dettached ho pot ser d'un objecte extern referenciat amb la URI, o un objecte local que
+   * està dins el mateix document com "sibling element" per tant, comparteix pare amb la firma.
+   * Aquest mètode retorna true si es dona aquest cas, i el document dettached inclou l'objecte
+   * referenciat dins la URI al mateix document al mateix nivell que la signatura.
+   * 
+   * @param signatureData
+   *          datasource amb la firma
+   * @return true si l'objecte firmat està inclòs com un element al mateix nivell que la firma.
+   *         false en cas contrari.
+   * @throws I18NException
+   *           si es produeix un error com ara que el document no tengui cap firma.
    */
-  public static boolean isXadesDettachedWithOriginalDocumentAsSibling(IPortaFIBDataSource signatureData) throws I18NException {
+  public static boolean isXadesDettachedWithOriginalDocumentAsSibling(
+      IPortaFIBDataSource signatureData) throws I18NException {
     InputStream in = signatureData.getInputStream();
     try {
+      if (log.isDebugEnabled()) {
+        log.debug("isXadesDettachedWithOriginalDocumentAsSibling?");
+      }
+
+      Document document = DBF.newDocumentBuilder().parse(in);
+
+      NodeList signNodeList = document.getElementsByTagNameNS(XMLSignature.XMLNS,
+          ValidationsXAdES.SIGNATURE_NODE_NAME);
+      if (signNodeList.getLength() == 0) {
+        log.warn("No s'ha trobat firma");
+        throw new Exception("No hi ha firma");
+      }
+
+      // Se selecciona la primera firma.
+      Element signatureNode = (Element) signNodeList.item(0);
+
+      Node parentNode = signatureNode.getParentNode();
+      if (parentNode == document) {
         if (log.isDebugEnabled()) {
-            log.debug("isXadesDettachedWithOriginalDocumentAsSibling?");
+          log.debug("No tenim node pare. Per tant no inclou el document.");
         }
+        return false;
+      }
 
-       Document document = DBF.newDocumentBuilder().parse(in);
+      // Tenim node pare, per tant anam bé
+      if (log.isDebugEnabled()) {
+        log.debug("Tenim parentNode: " + parentNode.getNodeName());
+      }
 
-       NodeList signNodeList = document.getElementsByTagNameNS(XMLSignature.XMLNS, ValidationsXAdES.SIGNATURE_NODE_NAME);
-       if (signNodeList.getLength() == 0) {
-          log.warn("No s'ha trobat firma");
-          throw new Exception("No hi ha firma");
-       }
+      NodeList signatureNodeList = signatureNode.getElementsByTagNameNS(XMLSignature.XMLNS,
+          "SignedInfo");
 
-       // Se selecciona la primera firma.
-       Element signatureNode = (Element) signNodeList.item(0);
+      if (signatureNodeList.getLength() == 0) {
+        throw new Exception("El document xml no inclou cap entrada 'SignedInfo'");
+      }
 
-       Node parentNode = signatureNode.getParentNode();
-       if (parentNode == document) {
-          if (log.isDebugEnabled()) {
-            log.debug("No tenim node pare. Per tant no inclou el document.");
-          }
-          return false;
-       }
+      if (signatureNodeList.item(0).getNodeType() != Node.ELEMENT_NODE) {
+        throw new Exception("El document xml inclou una entrada 'SignedInfo'"
+            + " però aquesta o és de tipus Element (tipus = "
+            + signatureNodeList.item(0).getNodeType() + " )");
+      }
 
-       // Tenim node pare, per tant anam bé
-       if (log.isDebugEnabled()) {
-         log.debug("Tenim parentNode: " + parentNode.getNodeName());
-       }
-       Element signedInfoNode = (Element) signatureNode.getElementsByTagNameNS(
-             XMLSignature.XMLNS, "SignedInfo").item(0);
+      Element signedInfoNode = (Element) signatureNodeList.item(0);
+      NodeList references = signedInfoNode.getElementsByTagNameNS(XMLSignature.XMLNS,
+          "Reference");
 
-       NodeList references = signedInfoNode.getElementsByTagNameNS(XMLSignature.XMLNS, "Reference");
-
-       // Llista de possibles identificadors que contenen la firma
-       Set<String> identificadors = new HashSet<String>();
-       for (int i = 0; i < references.getLength(); i++) {
+      // Llista de possibles identificadors que contenen la firma
+      Set<String> identificadors = new HashSet<String>();
+      for (int i = 0; i < references.getLength(); i++) {
+        if (references.item(i).getNodeType() == Node.ELEMENT_NODE) {
           Element reference = (Element) references.item(i);
           String type = reference.getAttribute("Type");
           String uri = reference.getAttribute("URI");
 
           // URIs possibles són les que:
           // el Type o bé existeix o bé val "http://www.w3.org/2000/09/xmldsig#Object"
-          // la URI comença amb '#', cosa que indica que és una referència dins el mateix document
+          // la URI comença amb '#', cosa que indica que és una referència dins el mateix
+          // document
           if (type.isEmpty() || type.equals("http://www.w3.org/2000/09/xmldsig#Object")) {
-             if (uri != null && uri.charAt(0) == '#') {
-                if (log.isDebugEnabled()) {
-                  log.debug("Afegim possible URI: " + uri);
-                }
-                identificadors.add(uri.substring(1));
-             }
+            if (uri != null && uri.charAt(0) == '#') {
+              if (log.isDebugEnabled()) {
+                log.debug("Afegim possible URI: " + uri);
+              }
+              identificadors.add(uri.substring(1));
+            }
           }
-       }
+        }
+      }
 
-       NodeList siblings = parentNode.getChildNodes();
-       for (int i = 0; i < siblings.getLength(); i++) {
+      NodeList siblings = parentNode.getChildNodes();
+      for (int i = 0; i < siblings.getLength(); i++) {
+        if (siblings.item(i).getNodeType() == Node.ELEMENT_NODE) {
           Element sibling = (Element) siblings.item(i);
-          // Miram si qualcun dels 'siblings' de la signatura té un identificador dels possibles
+          // Miram si qualcun dels 'siblings' de la signatura té un identificador dels
+          // possibles
           if (sibling != signatureNode) { // Descaram el node mateix de signatura
-             String id = sibling.getAttribute("Id");
-             if (id.isEmpty()) { // El node que està al mateix nivell pot emprar "id" enlloc de "Id"
-                id = sibling.getAttribute("id");
-             }
-             if (identificadors.contains(id)) {
-                if (log.isDebugEnabled()) {
-                  log.debug("Hem trobat el sibling amb l'identificador: " + id);
-                }
-                return true;
-             }
+            String id = sibling.getAttribute("Id");
+            if (id.isEmpty()) { // El node que està al mateix nivell pot emprar "id" enlloc de
+                                // "Id"
+              id = sibling.getAttribute("id");
+            }
+            if (identificadors.contains(id)) {
+              if (log.isDebugEnabled()) {
+                log.debug("Hem trobat el sibling amb l'identificador: " + id);
+              }
+              return true;
+            }
           }
-       }
-       if (log.isDebugEnabled()) {
-         log.debug("Sibling no trobat dins els identificadors possibles");
-       }
-       return false;
+        }
+      }
+      if (log.isDebugEnabled()) {
+        log.debug("Sibling no trobat dins els identificadors possibles");
+      }
+      return false;
 
     } catch (Exception e) {
       // XYZ ZZZ TRA
-      throw new I18NException("genapp.comodi",
-            "Error desconegut intentant determinar si un XAdES dettached inclou el document original com a element: "
-                  + e.getMessage());
+      String msg = "Error desconegut intentant determinar "
+          + "si un XAdES dettached inclou el document original com a element: "
+          + e.getMessage();
+      log.error(msg, e);
+      throw new I18NException("genapp.comodi", msg);
 
     } finally {
-       try {
-          in.close();
-       } catch(IOException ignored) {}
+      try {
+        in.close();
+      } catch (IOException ignored) {
+      }
     }
   }
 
@@ -177,7 +206,8 @@ public class ValidationsXAdES {
    * @throws TransformersException
    *           if method fails.
    */
-  public static byte[] getOriginalDocumentOfXadesAttachedSignature(InputStream in) throws I18NException {
+  public static byte[] getOriginalDocumentOfXadesAttachedSignature(InputStream in)
+      throws I18NException {
 
     try {
 
@@ -207,9 +237,9 @@ public class ValidationsXAdES {
       // Obtención de la referencia del documento original.
       List<?> references = xmlSign.getSignedInfo().getReferences();
       XMLSignatureInput xmlObjectInput = null;
-      
+
       log.debug("ValidationsXAdES result A001 => References => " + references.size());
-      
+
       for (Object tmp : references) {
         Reference ref = (Reference) tmp;
         Attr uriAttr = (Attr) ((DOMReference) ref).getHere();
@@ -246,7 +276,7 @@ public class ValidationsXAdES {
             result = buffer.toString().getBytes();
 
           }
-          
+
           if (result != null) {
             int options = 0;
             try {
@@ -275,17 +305,19 @@ public class ValidationsXAdES {
   }
 
   /**
-   * Procesa document original per tal d'obtenir una representació del que s'ha signat, que bàsicament
-   * seria el mateix, però sense la declaració xml.
+   * Procesa document original per tal d'obtenir una representació del que s'ha signat, que
+   * bàsicament seria el mateix, però sense la declaració xml.
    *
-   * @param dataSource document original
+   * @param dataSource
+   *          document original
    * @return document original sense la declaració xml.
    */
-  public static byte[] getProcessedOriginalData(IPortaFIBDataSource dataSource) throws I18NException {
+  public static byte[] getProcessedOriginalData(IPortaFIBDataSource dataSource)
+      throws I18NException {
     InputStream inputStream = dataSource.getInputStream();
     try {
 
-        Document document = DBF.newDocumentBuilder().parse(inputStream);
+      Document document = DBF.newDocumentBuilder().parse(inputStream);
       return UtilsXML.transformDOMtoString(document.getDocumentElement(), true).getBytes();
     } catch (SAXException e) {
       // el document no és XML
@@ -297,9 +329,10 @@ public class ValidationsXAdES {
           "Error desconegut intentant procesar document original d´una firma XAdES: "
               + e.getMessage());
     } finally {
-        try {
-            inputStream.close();
-        } catch (IOException ignored) {}
+      try {
+        inputStream.close();
+      } catch (IOException ignored) {
+      }
     }
   }
 
@@ -313,7 +346,8 @@ public class ValidationsXAdES {
    *           if method fails.
    */
   private static byte[] transformNode(Node node) throws TransformersException {
-    if (node.getNodeType() == Node.TEXT_NODE || node.getNodeType() == Node.CDATA_SECTION_NODE) {
+    if (node.getNodeType() == Node.TEXT_NODE
+        || node.getNodeType() == Node.CDATA_SECTION_NODE) {
       String textValue = ((Text) node).getData();
       return textValue == null ? null : textValue.getBytes();
     } else if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -346,7 +380,7 @@ public class ValidationsXAdES {
       List<X509Certificate> certificates = new ArrayList<X509Certificate>();
 
       // registro de los atributos de tipo ID
-      //IdRegister.registerElements(doc.getDocumentElement());
+      // IdRegister.registerElements(doc.getDocumentElement());
       for (int i = 0; i < nl.getLength(); i++) {
         Element sigElement = (Element) nl.item(i);
         org.apache.xml.security.signature.XMLSignature signature = new org.apache.xml.security.signature.XMLSignature(
@@ -355,17 +389,17 @@ public class ValidationsXAdES {
         // Obtención del certificado o clave pública de la firma
         KeyInfo keyInfo = signature.getKeyInfo();
         if (keyInfo != null) {
-            X509Certificate cert = keyInfo.getX509Certificate();
-            if (cert == null) {
-              // No encontramos un Certificado intentamos obtener con la clave pública
-              PublicKey pk = keyInfo.getPublicKey();
-              CertificateFactory cf = CertificateFactory.getInstance("X509");
-              byte[] pubKeyAsBytes = pk.getEncoded();
-              cert = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(
-                  pubKeyAsBytes));
+          X509Certificate cert = keyInfo.getX509Certificate();
+          if (cert == null) {
+            // No encontramos un Certificado intentamos obtener con la clave pública
+            PublicKey pk = keyInfo.getPublicKey();
+            CertificateFactory cf = CertificateFactory.getInstance("X509");
+            byte[] pubKeyAsBytes = pk.getEncoded();
+            cert = (X509Certificate) cf
+                .generateCertificate(new ByteArrayInputStream(pubKeyAsBytes));
 
-            }
-            certificates.add(cert);
+          }
+          certificates.add(cert);
         }
       }
 
@@ -382,9 +416,11 @@ public class ValidationsXAdES {
   /**
    * Retorna el nombre de signatures d'un fitxer XADES
    *
-   * @param inputStream fitxer sigant.
+   * @param inputStream
+   *          fitxer sigant.
    * @return nombre de firmes
-   * @throws I18NException si es produeix un error desconegut determinant el nombre de firmes.
+   * @throws I18NException
+   *           si es produeix un error desconegut determinant el nombre de firmes.
    */
   public static int getNumberOfXADESSignatures(InputStream inputStream) throws I18NException {
     try {
@@ -394,16 +430,16 @@ public class ValidationsXAdES {
 
       return nl.getLength();
     } catch (ParserConfigurationException e) {
-        log.error("Error determinant nombre de firmes", e);
-        throw new I18NException("genapp.comodi",
-                "Error desconegut determinant nombre de firmes XAdES: " + e.getMessage());
+      log.error("Error determinant nombre de firmes", e);
+      throw new I18NException("genapp.comodi",
+          "Error desconegut determinant nombre de firmes XAdES: " + e.getMessage());
     } catch (IOException e) {
-        log.error("Error determinant nombre de firmes", e);
-        throw new I18NException("genapp.comodi",
-                "Error desconegut determinant nombre de firmes XAdES: " + e.getMessage());
+      log.error("Error determinant nombre de firmes", e);
+      throw new I18NException("genapp.comodi",
+          "Error desconegut determinant nombre de firmes XAdES: " + e.getMessage());
     } catch (SAXException e) {
-        // no és un document XML
-        return 0;
+      // no és un document XML
+      return 0;
     }
   }
 
