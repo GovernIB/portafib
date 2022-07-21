@@ -25,7 +25,7 @@
     </div>
 
     <!--  CONTINGUT col-9 -->
-    <div class="col-9">
+    <div id="contingut" class="col-9">
 
         <!--  Missatges  -->
         <jsp:include page="/WEB-INF/jsp/moduls/missatges.jsp" />
@@ -42,7 +42,9 @@
 </div>
 <script>
 	$('#ocultar').click(function() {
-		$('#principal').removeClass('span3');
+		$('#principal').removeClass('col-3');
+		$('#contingut').removeClass('col-9');
+		$('#contingut').addClass('col-12');
 		show('#mostrarMenu');
 		hide('#ocultarMenu');
 		hide('#thumbnailmenu');
@@ -50,7 +52,9 @@
 	});
 
 	$('#mostrar').click(function() {
-		$('#principal').addClass('span3');
+		$('#principal').addClass('col-3');
+		$('#contingut').removeClass('col-12');
+		$('#contingut').addClass('col-9');
 		hide('#mostrarMenu');
 		show('#ocultarMenu');
 		show('#thumbnailmenu');
