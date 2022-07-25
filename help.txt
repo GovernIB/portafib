@@ -1,11 +1,11 @@
 
 Per compilar en mode desenvolupament: deploydev.sh/bat [OPCIONS]
-Per compilar en mode producci�: deploypro.sh/bat [OPCIONS]
+Per compilar en mode produccio: deploypro.sh/bat [OPCIONS]
 
 -------------------------------- OPCIONS ---------------------------------
 
 -Pbuild           Nomes emprar en desenvolupament. Sistema manual de 
-                  revisions. Marca una nova data de revisi�.
+                  revisions. Marca una nova data de revisio.
 
 -Psqlgen          Genera scripts SQL dins /scripts/sqlgenerator. Mes
                   informacio a /scripts/sqlgenerator/readme.txt
@@ -15,12 +15,12 @@ Per compilar en mode producci�: deploypro.sh/bat [OPCIONS]
 
 -Psia             Compila i inclou dins l'ear el Modul de Firma de SIA
 
--Ppassarelaweb-v1    Compila el Modul de Firma Web de Passarel�la PortaFIB
+-Ppassarelaweb-v1    Compila el Modul de Firma Web de Passarel·la PortaFIB
                   Tambe crea l'API i WS per atacar a Passarela Web de PortaFIB.
                   Els WS definits son 
                        /portafib/ws/v1/PortaFIBPassarelaDeFirmaWeb
 
--Ppassarelaserver-v1 Compila el Modul de Firma en Servidor de Passarel�la PortaFIB
+-Ppassarelaserver-v1 Compila el Modul de Firma en Servidor de Passarel·la PortaFIB
                   Tambe crea l'API i WS per atacar a Passarela Server de PortaFIB.
                   Els WS definits son 
                        /portafib/ws/v1/PortaFIBPassarelaDeFirmaEnServidor
@@ -63,10 +63,12 @@ Per compilar en mode producci�: deploypro.sh/bat [OPCIONS]
 
 -Palfresco       Inclou el Plugin de DocumentCustody de Alfresco
 
--Pback-client-cert  Configura el web.xml del m�dul back (/portafib) per emprar autenticaci�
+-Pback-client-cert  Configura el web.xml del m�dul back (/portafib) per emprar autenticacio
                   tipus CLIENT-CERT enlloc de BASIC dins el <login-config><auth-method>
 
 -Pfortress        Compila i inclou dins l'ear el Modul de Firma Web de ViaFirma-Fortress
+
+-Pcontextportafib22  Crea un ear on el punt d'entrada no és /portafib sinó /portafib21
 
 clean             Neteja els projectes abans de compilar.
 
