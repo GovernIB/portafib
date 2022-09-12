@@ -160,6 +160,13 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
 						persona.setNom(nom);
 						persona.setLlinatges(llinatges);
 						persona.setUsuariPersonaID(name);
+						if (info.getAdministrationID() == null) {
+						    throw new I18NException("genapp.comodi", "El sistema d´informació d'usuaris no està ben configurat."
+						            + " No s'ha pogut obtenir el AdministrationID(nif) de l´usuari " + name + "."
+						            + " Contacti amb l´administrador per informar-li d'aquest fet." );
+
+						}
+
 						persona.setNif(info.getAdministrationID().toUpperCase());
 						persona.setUsuariIntern(true);
 

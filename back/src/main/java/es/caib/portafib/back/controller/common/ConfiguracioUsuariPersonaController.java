@@ -67,7 +67,11 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
       }
 
       // Només de lectura
-      form.addReadOnlyField(NIF);
+      if(form.getUsuariPersona().getNif().equals("99999999R")) {
+          form.getUsuariPersona().setNif("");
+      } else {
+          form.addReadOnlyField(NIF);
+      }
       form.addReadOnlyField(USUARIPERSONAID);
 
       if (Configuracio.isCAIB() || request.isUserInRole(ConstantsV2.ROLE_ADMIN)
