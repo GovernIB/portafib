@@ -673,7 +673,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     }
 
     if (description != null && description.trim().length() != 0) {
-      where = Where.AND(PlantillaFluxDeFirmesFields.DESCRIPCIO.like("%" + description + "%"));
+      where = Where.AND(where, PlantillaFluxDeFirmesFields.DESCRIPCIO.like("%" + description + "%"));
     }
 
     List<StringKeyValue> listKV = plantillaFluxDeFirmesEjb.executeQuery(select, where);
