@@ -348,17 +348,17 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
    */
 
   @Override
-  public UsuariAplicacioConfiguracioJPA create(HttpServletRequest request, UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio) throws Exception, I18NException, I18NValidationException {
+  public UsuariAplicacioConfiguracioJPA create(HttpServletRequest request, UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio) throws I18NException, I18NValidationException {
     return (UsuariAplicacioConfiguracioJPA) usuariAplicacioConfiguracioLogicaEjb.create(usuariAplicacioConfiguracio);
   }
 
   @Override
-  public UsuariAplicacioConfiguracioJPA update(HttpServletRequest request, UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio) throws Exception, I18NException, I18NValidationException {
+  public UsuariAplicacioConfiguracioJPA update(HttpServletRequest request, UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio) throws I18NException, I18NValidationException {
     return (UsuariAplicacioConfiguracioJPA) usuariAplicacioConfiguracioLogicaEjb.update(usuariAplicacioConfiguracio);
   }
 
   @Override
-  public void delete(HttpServletRequest request, UsuariAplicacioConfiguracio usuariAplicacioConfiguracio) throws Exception, I18NException {
+  public void delete(HttpServletRequest request, UsuariAplicacioConfiguracio usuariAplicacioConfiguracio) throws I18NException {
     usuariAplicacioConfiguracioLogicaEjb.delete(usuariAplicacioConfiguracio);
   }
 

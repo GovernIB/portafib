@@ -8,8 +8,6 @@ public class BitacolaBean implements Bitacola {
 
 
 
-private static final long serialVersionUID = -965139643L;
-
 	long bitacolaID;// PK
 	java.lang.String entitatid;
 	java.lang.String usuariid;

@@ -711,6 +711,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,ColaboracioDelegacioForm colaboracioDelegacioForm , BindingResult result)  throws I18NException {
   }
 
@@ -751,13 +758,6 @@ public java.lang.Long stringToPK(String value) {
     return "colaboracioDelegacioListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "ColaboracioDelegacioWebDB_FilterForm";
   }
@@ -775,18 +775,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public ColaboracioDelegacioJPA create(HttpServletRequest request, ColaboracioDelegacioJPA colaboracioDelegacio)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (ColaboracioDelegacioJPA) colaboracioDelegacioEjb.create(colaboracioDelegacio);
   }
 
 
   public ColaboracioDelegacioJPA update(HttpServletRequest request, ColaboracioDelegacioJPA colaboracioDelegacio)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (ColaboracioDelegacioJPA) colaboracioDelegacioEjb.update(colaboracioDelegacio);
   }
 
 
-  public void delete(HttpServletRequest request, ColaboracioDelegacio colaboracioDelegacio) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, ColaboracioDelegacio colaboracioDelegacio) throws I18NException {
     colaboracioDelegacioEjb.delete(colaboracioDelegacio);
   }
 

@@ -58,7 +58,7 @@ public class RoleUsuariEntitatLogicaEJB extends RoleUsuariEntitatEJB
     @Override
   @RolesAllowed({PFI_ADMIN, PFI_USER})
   public RoleUsuariEntitatJPA createFull(RoleUsuariEntitatJPA instance)
-    throws Exception, I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     
     RoleUsuariEntitatBeanValidator bv;
     bv = new RoleUsuariEntitatBeanValidator(validator, roleEjb , this, usuariEntitatEjb);
@@ -73,7 +73,7 @@ public class RoleUsuariEntitatLogicaEJB extends RoleUsuariEntitatEJB
 
   @Override
   @RolesAllowed({PFI_ADMIN})
-  public void deleteFull(String usuariEntitatID, String roleID) throws Exception, I18NException {
+  public void deleteFull(String usuariEntitatID, String roleID) throws I18NException {
 
     // Validar parametres
     Long id = executeQueryOne(ID, Where.AND(

@@ -34,6 +34,14 @@ public class UsuariEntitatFavoritEJB extends UsuariEntitatFavoritJPAManager impl
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(UsuariEntitatFavorit instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public UsuariEntitatFavoritJPA findByPrimaryKey(Long _ID_) {
         return (UsuariEntitatFavoritJPA)super.findByPrimaryKey(_ID_);
     }

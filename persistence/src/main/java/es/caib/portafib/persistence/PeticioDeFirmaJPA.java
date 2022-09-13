@@ -19,7 +19,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "PeticioDeFirmaJPA")
 @Table(name = "pfi_peticiodefirma" , indexes = { 
         @Index(name="pfi_peticiodefirma_pk_i", columnList = "peticiodefirmaid"),
         @Index(name="pfi_petifirma_fitxerid_fk_i", columnList = "fitxerafirmarid"),
@@ -42,10 +42,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="PETICIODEFIRMA_SEQ", sequenceName="pfi_peticiodefirma_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PeticioDeFirmaJPA implements PeticioDeFirma {
-
-
-
-private static final long serialVersionUID = -940591816L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PETICIODEFIRMA_SEQ")
@@ -89,8 +85,9 @@ private static final long serialVersionUID = -940591816L;
   /** 0: firma,
 1: cofirma 
 2: contrafirma. */
+    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="tipusoperaciofirma",nullable = false,length = 10)
-    int tipusOperacioFirma;
+    int tipusOperacioFirma = 0;
 
     @Column(name="tipusfirmaid",nullable = false,length = 19)
     int tipusFirmaID;
@@ -114,8 +111,9 @@ private static final long serialVersionUID = -940591816L;
     @Column(name="idiomaid",nullable = false,length = 5)
     java.lang.String idiomaID;
 
+    @org.hibernate.annotations.ColumnDefault("5")
     @Column(name="prioritatid",nullable = false,length = 10)
-    int prioritatID;
+    int prioritatID = 5;
 
     @Column(name="fluxdefirmesid",nullable = false,unique = true,length = 19)
     long fluxDeFirmesID;
@@ -170,13 +168,14 @@ private static final long serialVersionUID = -940591816L;
   /** Només per peticions d'usuaris-entitat. Aquest camp valdrà true quan la peticio acabi (firmada o rebutjada). 
 Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petició (llavors es posarà a false) */
     @Column(name="avisweb",nullable = false,length = 1)
-    boolean avisWeb;
+    boolean avisWeb = false;
 
     @Column(name="segellatdetemps",nullable = false,length = 1)
-    boolean segellatDeTemps;
+    boolean segellatDeTemps = false;
 
+    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="origenpeticiodefirma",nullable = false,length = 10)
-    int origenPeticioDeFirma;
+    int origenPeticioDeFirma = 0;
 
     @Column(name="configuraciodefirmaid",length = 19)
     java.lang.Long configuracioDeFirmaID;

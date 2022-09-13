@@ -16,7 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "TipusDocumentColaboracioDelegacioJPA")
 @Table(name = "pfi_tipusdocumentcoladele" , indexes = { 
         @Index(name="pfi_tipusdocumentcoladele_pk_i", columnList = "id"),
         @Index(name="pfi_tipusdoccd_coldelid_fk_i", columnList = "colaboraciodelegacioid"),
@@ -26,10 +26,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="TIPUSDOCUMENTCOLABORACIODELEGACIO_SEQ", sequenceName="pfi_tipusdocumentcoladele_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class TipusDocumentColaboracioDelegacioJPA implements TipusDocumentColaboracioDelegacio {
-
-
-
-private static final long serialVersionUID = -1633225634L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="TIPUSDOCUMENTCOLABORACIODELEGACIO_SEQ")

@@ -84,10 +84,6 @@ public class UsuariAplicacioWebValidator extends AbstractWebValidator<UsuariApli
   public void validate(UsuariAplicacioForm __form, UsuariAplicacio __bean, Errors errors,
     WebValidationResult<UsuariAplicacioForm> wvr, boolean isNou) {
 
-    if (isNou) { // Creacio
-      // ================ CREATION
-      // Fitxers 
-    }
     BeanValidatorResult<UsuariAplicacio> __vr = new BeanValidatorResult<UsuariAplicacio>();
     validator.validate(__vr, __bean,
       isNou, custodiaInfoEjb, entitatEjb, idiomaEjb, usuariAplicacioEjb);
@@ -99,6 +95,10 @@ public class UsuariAplicacioWebValidator extends AbstractWebValidator<UsuariApli
         }
     }
 
+    if (isNou) { // Creacio
+      // ================ CREATION
+      // Fitxers 
+    }
 
   } // Final de metode
 

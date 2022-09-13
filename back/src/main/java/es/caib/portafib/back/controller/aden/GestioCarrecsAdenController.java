@@ -479,7 +479,7 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
   }
 
   @Override
-  public void delete(HttpServletRequest request, UsuariEntitat usuariEntitat) throws I18NException,Exception {
+  public void delete(HttpServletRequest request, UsuariEntitat usuariEntitat) throws I18NException {
     Set<Long> fitxers;
     fitxers = usuariEntitatLogicaEjb.deleteFull(usuariEntitat.getUsuariEntitatID());
     borrarFitxers(fitxers);
@@ -487,13 +487,13 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
   
   @Override
   public UsuariEntitatJPA create(HttpServletRequest request, UsuariEntitatJPA usuariEntitat)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (UsuariEntitatJPA) usuariEntitatLogicaEjb.createFull(usuariEntitat);
   }
 
   @Override
   public UsuariEntitatJPA update(HttpServletRequest request, UsuariEntitatJPA usuariEntitat)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (UsuariEntitatJPA) usuariEntitatLogicaEjb.updateFull(usuariEntitat);
   }
   

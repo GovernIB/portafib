@@ -193,17 +193,17 @@ public class GestioNotificacioCorreuController extends RebreAvisController {
   }
 
   @Override
-  public RebreAvisJPA create(HttpServletRequest request, RebreAvisJPA rebreAvis) throws Exception, I18NException, I18NValidationException {
+  public RebreAvisJPA create(HttpServletRequest request, RebreAvisJPA rebreAvis) throws I18NException, I18NValidationException {
     return (RebreAvisJPA) rebreAvisLogicaEjb.create(rebreAvis);
   }
 
   @Override
-  public RebreAvisJPA update(HttpServletRequest request, RebreAvisJPA rebreAvis) throws Exception, I18NException, I18NValidationException {
+  public RebreAvisJPA update(HttpServletRequest request, RebreAvisJPA rebreAvis) throws I18NException, I18NValidationException {
     return (RebreAvisJPA) rebreAvisLogicaEjb.update(rebreAvis);
   }
 
   @Override
-  public void delete(HttpServletRequest request, RebreAvis rebreAvis) throws Exception, I18NException {
+  public void delete(HttpServletRequest request, RebreAvis rebreAvis) throws I18NException {
     rebreAvisLogicaEjb.delete(rebreAvis);
   }
 }

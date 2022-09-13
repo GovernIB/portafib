@@ -16,9 +16,6 @@ public class PermisGrupPlantillaJPAManager
 
 
 
-
-    private static final long serialVersionUID = 2004644405L;
-
     public static final TableName<PermisGrupPlantilla> _TABLENAME =  new TableName<PermisGrupPlantilla>("PermisGrupPlantillaJPA");
 
 
@@ -58,7 +55,7 @@ public class PermisGrupPlantillaJPAManager
         return list.toArray(new PermisGrupPlantilla[list.size()]);
     };
 
-    public synchronized PermisGrupPlantilla create( long _grupEntitatID_, long _plantillaFluxDeFirmesID_) throws I18NException {
+    public PermisGrupPlantilla create( long _grupEntitatID_, long _plantillaFluxDeFirmesID_) throws I18NException {
         PermisGrupPlantillaJPA __bean =  new PermisGrupPlantillaJPA(_grupEntitatID_,_plantillaFluxDeFirmesID_);
         return create(__bean);
     }

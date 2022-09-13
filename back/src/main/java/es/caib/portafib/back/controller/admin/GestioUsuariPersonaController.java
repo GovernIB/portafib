@@ -368,7 +368,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
 
   @Override
   public void delete(HttpServletRequest request, UsuariPersona usuariPersona)
-      throws Exception, I18NException {
+      throws I18NException {
 
     Set<Long> fitxers = usuariPersonaLogicaEjb.deleteFull(usuariPersona.getUsuariPersonaID());
     this.borrarFitxers(fitxers);
@@ -377,7 +377,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
   
   @Override
   public UsuariPersonaJPA create(HttpServletRequest request, UsuariPersonaJPA usuariPersona)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (UsuariPersonaJPA) usuariPersonaLogicaEjb.createFull(usuariPersona);
   }
   

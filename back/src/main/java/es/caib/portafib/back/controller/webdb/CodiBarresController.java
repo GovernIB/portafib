@@ -538,6 +538,13 @@ public java.lang.String stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,CodiBarresForm codiBarresForm , BindingResult result)  throws I18NException {
   }
 
@@ -578,13 +585,6 @@ public java.lang.String stringToPK(String value) {
     return "codiBarresListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "CodiBarresWebDB_FilterForm";
   }
@@ -602,18 +602,18 @@ public java.lang.String stringToPK(String value) {
 
 
   public CodiBarresJPA create(HttpServletRequest request, CodiBarresJPA codiBarres)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (CodiBarresJPA) codiBarresEjb.create(codiBarres);
   }
 
 
   public CodiBarresJPA update(HttpServletRequest request, CodiBarresJPA codiBarres)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (CodiBarresJPA) codiBarresEjb.update(codiBarres);
   }
 
 
-  public void delete(HttpServletRequest request, CodiBarres codiBarres) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, CodiBarres codiBarres) throws I18NException {
     codiBarresEjb.delete(codiBarres);
   }
 

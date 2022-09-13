@@ -16,9 +16,6 @@ public class AnnexFirmatJPAManager
 
 
 
-
-    private static final long serialVersionUID = 1810866039L;
-
     public static final TableName<AnnexFirmat> _TABLENAME =  new TableName<AnnexFirmat>("AnnexFirmatJPA");
 
 
@@ -58,7 +55,7 @@ public class AnnexFirmatJPAManager
         return list.toArray(new AnnexFirmat[list.size()]);
     };
 
-    public synchronized AnnexFirmat create( long _fitxerID_, long _annexID_, long _firmaID_) throws I18NException {
+    public AnnexFirmat create( long _fitxerID_, long _annexID_, long _firmaID_) throws I18NException {
         AnnexFirmatJPA __bean =  new AnnexFirmatJPA(_fitxerID_,_annexID_,_firmaID_);
         return create(__bean);
     }

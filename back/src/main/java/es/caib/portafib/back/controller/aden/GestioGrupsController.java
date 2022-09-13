@@ -116,7 +116,7 @@ public class GestioGrupsController extends GrupEntitatController {
   
   
   @Override
-  public void delete(HttpServletRequest request, GrupEntitat grupEntitat) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, GrupEntitat grupEntitat) throws I18NException {
     grupEntitatLogicaEjb.deleteFull(grupEntitat.getGrupEntitatID());
   }
 

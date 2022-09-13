@@ -8,8 +8,6 @@ public class CustodiaInfoBean implements CustodiaInfo {
 
 
 
-private static final long serialVersionUID = -1840485314L;
-
 	long custodiaInfoID;// PK
 	java.lang.String nomPlantilla;
 	java.lang.String custodiaDocumentID;

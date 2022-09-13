@@ -8,8 +8,6 @@ public class PerfilDeFirmaBean implements PerfilDeFirma {
 
 
 
-private static final long serialVersionUID = -1439896794L;
-
 	long usuariAplicacioPerfilID;// PK
 	java.lang.String nom;
 	java.lang.String codi;

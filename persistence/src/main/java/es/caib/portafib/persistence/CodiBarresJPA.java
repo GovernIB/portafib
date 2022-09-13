@@ -13,16 +13,12 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "CodiBarresJPA")
 @Table(name = "pfi_codibarres" , indexes = { 
         @Index(name="pfi_codibarres_pk_i", columnList = "codibarresid")})
 @SequenceGenerator(name="CODIBARRES_SEQ", sequenceName="pfi_codibarres_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class CodiBarresJPA implements CodiBarres {
-
-
-
-private static final long serialVersionUID = 177259997L;
 
   /** Contindrà la classe que gestiona aquest codi de barres */
     @Id

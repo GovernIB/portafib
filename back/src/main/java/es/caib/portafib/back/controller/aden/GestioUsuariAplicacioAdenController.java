@@ -445,7 +445,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
 
   @Override
   public void delete(HttpServletRequest request, UsuariAplicacio usuariAplicacio)
-      throws Exception, I18NException {
+      throws I18NException {
     Set<Long> fitxers = usuariAplicacioLogicaEjb.deleteFull(usuariAplicacio
         .getUsuariAplicacioID());
     this.borrarFitxers(fitxers);
@@ -496,7 +496,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
 
   @Override
   public UsuariAplicacioJPA create(HttpServletRequest request,
-      UsuariAplicacioJPA usuariAplicacio) throws Exception, I18NException,
+      UsuariAplicacioJPA usuariAplicacio) throws I18NException,
       I18NValidationException {
     return usuariAplicacioLogicaEjb.createFull(usuariAplicacio, LoginInfo.getInstance()
         .getEntitatID());

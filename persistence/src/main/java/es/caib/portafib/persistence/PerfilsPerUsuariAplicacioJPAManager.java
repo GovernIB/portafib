@@ -16,9 +16,6 @@ public class PerfilsPerUsuariAplicacioJPAManager
 
 
 
-
-    private static final long serialVersionUID = 929072090L;
-
     public static final TableName<PerfilsPerUsuariAplicacio> _TABLENAME =  new TableName<PerfilsPerUsuariAplicacio>("PerfilsPerUsuariAplicacioJPA");
 
 
@@ -58,7 +55,7 @@ public class PerfilsPerUsuariAplicacioJPAManager
         return list.toArray(new PerfilsPerUsuariAplicacio[list.size()]);
     };
 
-    public synchronized PerfilsPerUsuariAplicacio create( long _perfilDeFirmaID_, java.lang.String _usuariAplicacioID_) throws I18NException {
+    public PerfilsPerUsuariAplicacio create( long _perfilDeFirmaID_, java.lang.String _usuariAplicacioID_) throws I18NException {
         PerfilsPerUsuariAplicacioJPA __bean =  new PerfilsPerUsuariAplicacioJPA(_perfilDeFirmaID_,_usuariAplicacioID_);
         return create(__bean);
     }

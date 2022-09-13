@@ -34,6 +34,14 @@ public class TipusDocumentEJB extends TipusDocumentJPAManager implements TipusDo
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(TipusDocument instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public TipusDocumentJPA findByPrimaryKey(Long _ID_) {
         return (TipusDocumentJPA)super.findByPrimaryKey(_ID_);
     }

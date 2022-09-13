@@ -8,8 +8,6 @@ public class CodiBarresBean implements CodiBarres {
 
 
 
-private static final long serialVersionUID = 1199875566L;
-
 	java.lang.String codiBarresID;// PK
 	java.lang.String nom;
 	java.lang.String descripcio;

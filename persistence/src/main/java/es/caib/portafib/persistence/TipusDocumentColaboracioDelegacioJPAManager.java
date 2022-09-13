@@ -16,9 +16,6 @@ public class TipusDocumentColaboracioDelegacioJPAManager
 
 
 
-
-    private static final long serialVersionUID = 319729007L;
-
     public static final TableName<TipusDocumentColaboracioDelegacio> _TABLENAME =  new TableName<TipusDocumentColaboracioDelegacio>("TipusDocumentColaboracioDelegacioJPA");
 
 
@@ -58,7 +55,7 @@ public class TipusDocumentColaboracioDelegacioJPAManager
         return list.toArray(new TipusDocumentColaboracioDelegacio[list.size()]);
     };
 
-    public synchronized TipusDocumentColaboracioDelegacio create( long _colaboracioDelegacioID_, long _tipusDocumentID_) throws I18NException {
+    public TipusDocumentColaboracioDelegacio create( long _colaboracioDelegacioID_, long _tipusDocumentID_) throws I18NException {
         TipusDocumentColaboracioDelegacioJPA __bean =  new TipusDocumentColaboracioDelegacioJPA(_colaboracioDelegacioID_,_tipusDocumentID_);
         return create(__bean);
     }

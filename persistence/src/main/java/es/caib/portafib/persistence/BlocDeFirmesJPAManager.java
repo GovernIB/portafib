@@ -16,9 +16,6 @@ public class BlocDeFirmesJPAManager
 
 
 
-
-    private static final long serialVersionUID = 2145574621L;
-
     public static final TableName<BlocDeFirmes> _TABLENAME =  new TableName<BlocDeFirmes>("BlocDeFirmesJPA");
 
 
@@ -58,7 +55,7 @@ public class BlocDeFirmesJPAManager
         return list.toArray(new BlocDeFirmes[list.size()]);
     };
 
-    public synchronized BlocDeFirmes create( int _ordre_, java.sql.Timestamp _dataFinalitzacio_, long _fluxDeFirmesID_, int _minimDeFirmes_) throws I18NException {
+    public BlocDeFirmes create( int _ordre_, java.sql.Timestamp _dataFinalitzacio_, long _fluxDeFirmesID_, int _minimDeFirmes_) throws I18NException {
         BlocDeFirmesJPA __bean =  new BlocDeFirmesJPA(_ordre_,_dataFinalitzacio_,_fluxDeFirmesID_,_minimDeFirmes_);
         return create(__bean);
     }

@@ -17,20 +17,18 @@ import org.hibernate.annotations.Type;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "NotificacioWSJPA")
 @Table(name = "pfi_notificacio" , indexes = { 
         @Index(name="pfi_notificacio_pk_i", columnList = "notificacioid"),
         @Index(name="pfi_notifica_peticioid_i", columnList = "peticiodefirmaid"),
         @Index(name="pfi_notifica_tiponotiid_fk_i", columnList = "tipusnotificacioid"),
         @Index(name="pfi_notificacio_datacreacio_i", columnList = "datacreacio"),
+        @Index(name="pfi_notificacio_bloqreint_i", columnList = "bloquejada"),
+        @Index(name="pfi_notificacio_bloqreint_i", columnList = "reintents"),
         @Index(name="pfi_notificacio_usrappid_i", columnList = "usuariaplicacioid")})
 @SequenceGenerator(name="NOTIFICACIOWS_SEQ", sequenceName="pfi_notificacio_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class NotificacioWSJPA implements NotificacioWS {
-
-
-
-private static final long serialVersionUID = 1184441005L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="NOTIFICACIOWS_SEQ")
@@ -65,8 +63,9 @@ private static final long serialVersionUID = 1184441005L;
     @Column(name="dataerror",length = 35,precision = 6)
     java.sql.Timestamp dataError;
 
+    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="reintents",nullable = false,length = 10)
-    int reintents;
+    int reintents = 0;
 
     @Column(name="usuariaplicacioid",nullable = false,length = 101)
     java.lang.String usuariAplicacioID;

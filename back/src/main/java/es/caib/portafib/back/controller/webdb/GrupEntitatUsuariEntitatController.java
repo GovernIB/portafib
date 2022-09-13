@@ -669,6 +669,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,GrupEntitatUsuariEntitatForm grupEntitatUsuariEntitatForm , BindingResult result)  throws I18NException {
   }
 
@@ -709,13 +716,6 @@ public java.lang.Long stringToPK(String value) {
     return "grupEntitatUsuariEntitatListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "GrupEntitatUsuariEntitatWebDB_FilterForm";
   }
@@ -733,18 +733,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public GrupEntitatUsuariEntitatJPA create(HttpServletRequest request, GrupEntitatUsuariEntitatJPA grupEntitatUsuariEntitat)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (GrupEntitatUsuariEntitatJPA) grupEntitatUsuariEntitatEjb.create(grupEntitatUsuariEntitat);
   }
 
 
   public GrupEntitatUsuariEntitatJPA update(HttpServletRequest request, GrupEntitatUsuariEntitatJPA grupEntitatUsuariEntitat)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (GrupEntitatUsuariEntitatJPA) grupEntitatUsuariEntitatEjb.update(grupEntitatUsuariEntitat);
   }
 
 
-  public void delete(HttpServletRequest request, GrupEntitatUsuariEntitat grupEntitatUsuariEntitat) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, GrupEntitatUsuariEntitat grupEntitatUsuariEntitat) throws I18NException {
     grupEntitatUsuariEntitatEjb.delete(grupEntitatUsuariEntitat);
   }
 

@@ -8,8 +8,6 @@ public class ColaboracioDelegacioBean implements ColaboracioDelegacio {
 
 
 
-private static final long serialVersionUID = 1705562873L;
-
 	long colaboracioDelegacioID;// PK
 	java.lang.String destinatariID;
 	java.lang.String colaboradorDelegatID;

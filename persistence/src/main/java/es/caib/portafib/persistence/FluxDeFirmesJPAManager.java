@@ -16,9 +16,6 @@ public class FluxDeFirmesJPAManager
 
 
 
-
-    private static final long serialVersionUID = -423701400L;
-
     public static final TableName<FluxDeFirmes> _TABLENAME =  new TableName<FluxDeFirmes>("FluxDeFirmesJPA");
 
 
@@ -58,7 +55,7 @@ public class FluxDeFirmesJPAManager
         return list.toArray(new FluxDeFirmes[list.size()]);
     };
 
-    public synchronized FluxDeFirmes create( java.lang.String _nom_) throws I18NException {
+    public FluxDeFirmes create( java.lang.String _nom_) throws I18NException {
         FluxDeFirmesJPA __bean =  new FluxDeFirmesJPA(_nom_);
         return create(__bean);
     }

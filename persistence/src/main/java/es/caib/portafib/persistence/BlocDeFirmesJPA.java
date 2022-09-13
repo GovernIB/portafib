@@ -18,17 +18,13 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "BlocDeFirmesJPA")
 @Table(name = "pfi_blocdefirmes" , indexes = { 
         @Index(name="pfi_blocdefirmes_pk_i", columnList = "blocdefirmesid"),
         @Index(name="pfi_blocfirmes_fluxid_fk_i", columnList = "fluxdefirmesid")})
 @SequenceGenerator(name="BLOCDEFIRMES_SEQ", sequenceName="pfi_blocdefirmes_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class BlocDeFirmesJPA implements BlocDeFirmes {
-
-
-
-private static final long serialVersionUID = 985359024L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="BLOCDEFIRMES_SEQ")

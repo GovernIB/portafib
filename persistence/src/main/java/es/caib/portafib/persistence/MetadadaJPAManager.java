@@ -16,9 +16,6 @@ public class MetadadaJPAManager
 
 
 
-
-    private static final long serialVersionUID = 591487505L;
-
     public static final TableName<Metadada> _TABLENAME =  new TableName<Metadada>("MetadadaJPA");
 
 
@@ -58,7 +55,7 @@ public class MetadadaJPAManager
         return list.toArray(new Metadada[list.size()]);
     };
 
-    public synchronized Metadada create( java.lang.String _nom_, java.lang.String _valor_, java.lang.String _descripcio_, long _peticioDeFirmaID_, int _tipusMetadadaID_) throws I18NException {
+    public Metadada create( java.lang.String _nom_, java.lang.String _valor_, java.lang.String _descripcio_, long _peticioDeFirmaID_, int _tipusMetadadaID_) throws I18NException {
         MetadadaJPA __bean =  new MetadadaJPA(_nom_,_valor_,_descripcio_,_peticioDeFirmaID_,_tipusMetadadaID_);
         return create(__bean);
     }

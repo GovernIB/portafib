@@ -18,7 +18,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "PerfilDeFirmaJPA")
 @Table(name = "pfi_usuariaplicacioperfil" , indexes = { 
         @Index(name="pfi_usuariaplicacioperfil_pk_i", columnList = "usuariaplicacioperfilid"),
         @Index(name="pfi_perfilapp_appconf1id_fk_i", columnList = "usrappconfiguracio1id"),
@@ -29,10 +29,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="PERFILDEFIRMA_SEQ", sequenceName="pfi_usuariaplicacioperfil_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PerfilDeFirmaJPA implements PerfilDeFirma {
-
-
-
-private static final long serialVersionUID = -877725275L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PERFILDEFIRMA_SEQ")

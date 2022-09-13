@@ -48,7 +48,7 @@ public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaCon
 
   @Override
   public void delete(HttpServletRequest request, PeticioDeFirma peticioDeFirma)
-      throws Exception, I18NException {
+      throws I18NException {
 
     Set<Long> fitxers;
     fitxers = peticioDeFirmaLogicaEjb.deleteFullUsingUsuariEntitat(
@@ -59,7 +59,7 @@ public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaCon
 
   @Override
   public PeticioDeFirmaJPA update(HttpServletRequest request, PeticioDeFirmaJPA peticioDeFirma)
-      throws Exception, I18NException, I18NValidationException {
+      throws I18NException, I18NValidationException {
     return peticioDeFirmaLogicaEjb.updateFull(peticioDeFirma, LoginInfo.getInstance()
         .getUsuariPersona().getUsuariPersonaID());
   }

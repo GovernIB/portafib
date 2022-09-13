@@ -16,9 +16,6 @@ public class RebreAvisJPAManager
 
 
 
-
-    private static final long serialVersionUID = 1908931667L;
-
     public static final TableName<RebreAvis> _TABLENAME =  new TableName<RebreAvis>("RebreAvisJPA");
 
 
@@ -58,7 +55,7 @@ public class RebreAvisJPAManager
         return list.toArray(new RebreAvis[list.size()]);
     };
 
-    public synchronized RebreAvis create( java.lang.String _usuariEntitatID_, long _tipusNotificacioID_, boolean _rebreAgrupat_) throws I18NException {
+    public RebreAvis create( java.lang.String _usuariEntitatID_, long _tipusNotificacioID_, boolean _rebreAgrupat_) throws I18NException {
         RebreAvisJPA __bean =  new RebreAvisJPA(_usuariEntitatID_,_tipusNotificacioID_,_rebreAgrupat_);
         return create(__bean);
     }

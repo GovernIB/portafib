@@ -16,7 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "RoleUsuariEntitatJPA")
 @Table(name = "pfi_roleusuarientitat" , indexes = { 
         @Index(name="pfi_roleusuarientitat_pk_i", columnList = "id"),
         @Index(name="pfi_roleusrent_roleid_fk_i", columnList = "roleid"),
@@ -26,10 +26,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="ROLEUSUARIENTITAT_SEQ", sequenceName="pfi_roleusuarientitat_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class RoleUsuariEntitatJPA implements RoleUsuariEntitat {
-
-
-
-private static final long serialVersionUID = -1738883575L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ROLEUSUARIENTITAT_SEQ")

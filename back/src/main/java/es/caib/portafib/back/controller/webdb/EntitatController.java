@@ -1423,6 +1423,13 @@ public java.lang.String stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,EntitatForm entitatForm , BindingResult result)  throws I18NException {
   }
 
@@ -1463,13 +1470,6 @@ public java.lang.String stringToPK(String value) {
     return "entitatListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "EntitatWebDB_FilterForm";
   }
@@ -1487,18 +1487,18 @@ public java.lang.String stringToPK(String value) {
 
 
   public EntitatJPA create(HttpServletRequest request, EntitatJPA entitat)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (EntitatJPA) entitatEjb.create(entitat);
   }
 
 
   public EntitatJPA update(HttpServletRequest request, EntitatJPA entitat)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (EntitatJPA) entitatEjb.update(entitat);
   }
 
 
-  public void delete(HttpServletRequest request, Entitat entitat) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, Entitat entitat) throws I18NException {
     entitatEjb.delete(entitat);
   }
 

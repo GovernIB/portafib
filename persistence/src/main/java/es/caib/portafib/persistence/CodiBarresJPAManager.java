@@ -16,9 +16,6 @@ public class CodiBarresJPAManager
 
 
 
-
-    private static final long serialVersionUID = 2103246608L;
-
     public static final TableName<CodiBarres> _TABLENAME =  new TableName<CodiBarres>("CodiBarresJPA");
 
 
@@ -58,7 +55,7 @@ public class CodiBarresJPAManager
         return list.toArray(new CodiBarres[list.size()]);
     };
 
-    public synchronized CodiBarres create( java.lang.String _codiBarresID_, java.lang.String _nom_, java.lang.String _descripcio_) throws I18NException {
+    public CodiBarres create( java.lang.String _codiBarresID_, java.lang.String _nom_, java.lang.String _descripcio_) throws I18NException {
         CodiBarresJPA __bean =  new CodiBarresJPA(_codiBarresID_,_nom_,_descripcio_);
         return create(__bean);
     }

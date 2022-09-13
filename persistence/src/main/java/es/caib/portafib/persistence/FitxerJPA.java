@@ -15,16 +15,12 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "FitxerJPA")
 @Table(name = "pfi_fitxer" , indexes = { 
         @Index(name="pfi_fitxer_pk_i", columnList = "fitxerid")})
 @SequenceGenerator(name="FITXER_SEQ", sequenceName="pfi_fitxer_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class FitxerJPA implements Fitxer {
-
-
-
-private static final long serialVersionUID = -252813913L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="FITXER_SEQ")
@@ -165,6 +161,45 @@ private static final long serialVersionUID = -252813913L;
     }
 
 
+// EXP  Field:faviconid | Table: pfi_entitat | Type: 0  
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "faviconID")
+    private Set<EntitatJPA> entitat_faviconids = new HashSet<EntitatJPA>(0);
+    public  Set<EntitatJPA> getEntitat_faviconids() {
+    return this.entitat_faviconids;
+  }
+
+    public void setEntitat_faviconids(Set<EntitatJPA> entitat_faviconids) {
+      this.entitat_faviconids = entitat_faviconids;
+    }
+
+
+// EXP  Field:logowebid | Table: pfi_entitat | Type: 0  
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "logoWebID")
+    private Set<EntitatJPA> entitat_logowebids = new HashSet<EntitatJPA>(0);
+    public  Set<EntitatJPA> getEntitat_logowebids() {
+    return this.entitat_logowebids;
+  }
+
+    public void setEntitat_logowebids(Set<EntitatJPA> entitat_logowebids) {
+      this.entitat_logowebids = entitat_logowebids;
+    }
+
+
+// EXP  Field:logowebpeuid | Table: pfi_entitat | Type: 0  
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "logoWebPeuID")
+    private Set<EntitatJPA> entitat_logowebpeuids = new HashSet<EntitatJPA>(0);
+    public  Set<EntitatJPA> getEntitat_logowebpeuids() {
+    return this.entitat_logowebpeuids;
+  }
+
+    public void setEntitat_logowebpeuids(Set<EntitatJPA> entitat_logowebpeuids) {
+      this.entitat_logowebpeuids = entitat_logowebpeuids;
+    }
+
+
 // EXP  Field:logosegellid | Table: pfi_entitat | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "logoSegellID")
@@ -191,45 +226,6 @@ private static final long serialVersionUID = -252813913L;
     }
 
 
-// EXP  Field:logowebid | Table: pfi_entitat | Type: 0  
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "logoWebID")
-    private Set<EntitatJPA> entitat_logowebids = new HashSet<EntitatJPA>(0);
-    public  Set<EntitatJPA> getEntitat_logowebids() {
-    return this.entitat_logowebids;
-  }
-
-    public void setEntitat_logowebids(Set<EntitatJPA> entitat_logowebids) {
-      this.entitat_logowebids = entitat_logowebids;
-    }
-
-
-// EXP  Field:faviconid | Table: pfi_entitat | Type: 0  
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "faviconID")
-    private Set<EntitatJPA> entitat_faviconids = new HashSet<EntitatJPA>(0);
-    public  Set<EntitatJPA> getEntitat_faviconids() {
-    return this.entitat_faviconids;
-  }
-
-    public void setEntitat_faviconids(Set<EntitatJPA> entitat_faviconids) {
-      this.entitat_faviconids = entitat_faviconids;
-    }
-
-
-// EXP  Field:logowebpeuid | Table: pfi_entitat | Type: 0  
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "logoWebPeuID")
-    private Set<EntitatJPA> entitat_logowebpeuids = new HashSet<EntitatJPA>(0);
-    public  Set<EntitatJPA> getEntitat_logowebpeuids() {
-    return this.entitat_logowebpeuids;
-  }
-
-    public void setEntitat_logowebpeuids(Set<EntitatJPA> entitat_logowebpeuids) {
-      this.entitat_logowebpeuids = entitat_logowebpeuids;
-    }
-
-
 // EXP  Field:fitxerfirmatid | Table: pfi_firma | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "fitxerFirmatID")
@@ -240,19 +236,6 @@ private static final long serialVersionUID = -252813913L;
 
     public void setFirmas(Set<FirmaJPA> firmas) {
       this.firmas = firmas;
-    }
-
-
-// EXP  Field:logosegellid | Table: pfi_peticiodefirma | Type: 0  
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "logoSegellID")
-    private Set<PeticioDeFirmaJPA> peticioDeFirma_logosegellids = new HashSet<PeticioDeFirmaJPA>(0);
-    public  Set<PeticioDeFirmaJPA> getPeticioDeFirma_logosegellids() {
-    return this.peticioDeFirma_logosegellids;
-  }
-
-    public void setPeticioDeFirma_logosegellids(Set<PeticioDeFirmaJPA> peticioDeFirma_logosegellids) {
-      this.peticioDeFirma_logosegellids = peticioDeFirma_logosegellids;
     }
 
 
@@ -282,6 +265,19 @@ private static final long serialVersionUID = -252813913L;
     }
 
 
+// EXP  Field:logosegellid | Table: pfi_peticiodefirma | Type: 0  
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "logoSegellID")
+    private Set<PeticioDeFirmaJPA> peticioDeFirma_logosegellids = new HashSet<PeticioDeFirmaJPA>(0);
+    public  Set<PeticioDeFirmaJPA> getPeticioDeFirma_logosegellids() {
+    return this.peticioDeFirma_logosegellids;
+  }
+
+    public void setPeticioDeFirma_logosegellids(Set<PeticioDeFirmaJPA> peticioDeFirma_logosegellids) {
+      this.peticioDeFirma_logosegellids = peticioDeFirma_logosegellids;
+    }
+
+
 // EXP  Field:firmaoriginaldetachedid | Table: pfi_peticiodefirma | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "firmaOriginalDetachedID")
@@ -295,19 +291,6 @@ private static final long serialVersionUID = -252813913L;
     }
 
 
-// EXP  Field:retornfitxerid | Table: pfi_plugincridada | Type: 0  
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "retornFitxerID")
-    private Set<PluginCridadaJPA> pluginCridada_retornfitxerids = new HashSet<PluginCridadaJPA>(0);
-    public  Set<PluginCridadaJPA> getPluginCridada_retornfitxerids() {
-    return this.pluginCridada_retornfitxerids;
-  }
-
-    public void setPluginCridada_retornfitxerids(Set<PluginCridadaJPA> pluginCridada_retornfitxerids) {
-      this.pluginCridada_retornfitxerids = pluginCridada_retornfitxerids;
-    }
-
-
 // EXP  Field:parametresfitxerid | Table: pfi_plugincridada | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parametresFitxerID")
@@ -318,6 +301,19 @@ private static final long serialVersionUID = -252813913L;
 
     public void setPluginCridada_parametresfitxerids(Set<PluginCridadaJPA> pluginCridada_parametresfitxerids) {
       this.pluginCridada_parametresfitxerids = pluginCridada_parametresfitxerids;
+    }
+
+
+// EXP  Field:retornfitxerid | Table: pfi_plugincridada | Type: 0  
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "retornFitxerID")
+    private Set<PluginCridadaJPA> pluginCridada_retornfitxerids = new HashSet<PluginCridadaJPA>(0);
+    public  Set<PluginCridadaJPA> getPluginCridada_retornfitxerids() {
+    return this.pluginCridada_retornfitxerids;
+  }
+
+    public void setPluginCridada_retornfitxerids(Set<PluginCridadaJPA> pluginCridada_retornfitxerids) {
+      this.pluginCridada_retornfitxerids = pluginCridada_retornfitxerids;
     }
 
 

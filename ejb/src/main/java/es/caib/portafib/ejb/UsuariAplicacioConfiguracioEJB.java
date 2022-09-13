@@ -34,6 +34,14 @@ public class UsuariAplicacioConfiguracioEJB extends UsuariAplicacioConfiguracioJ
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(UsuariAplicacioConfiguracio instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public UsuariAplicacioConfiguracioJPA findByPrimaryKey(Long _ID_) {
         return (UsuariAplicacioConfiguracioJPA)super.findByPrimaryKey(_ID_);
     }

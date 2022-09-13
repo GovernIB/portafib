@@ -8,8 +8,6 @@ public class PerfilsPerUsuariAplicacioBean implements PerfilsPerUsuariAplicacio 
 
 
 
-private static final long serialVersionUID = -1734997448L;
-
 	long perfilsPerUsrAppID;// PK
 	long perfilDeFirmaID;
 	java.lang.String usuariAplicacioID;

@@ -18,7 +18,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "AnnexJPA")
 @Table(name = "pfi_annex" , indexes = { 
         @Index(name="pfi_annex_pk_i", columnList = "annexid"),
         @Index(name="pfi_annex_petdefirmaid_fk_i", columnList = "peticiodefirmaid"),
@@ -26,10 +26,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="ANNEX_SEQ", sequenceName="pfi_annex_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class AnnexJPA implements Annex {
-
-
-
-private static final long serialVersionUID = -594157305L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ANNEX_SEQ")

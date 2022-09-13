@@ -34,6 +34,14 @@ public class IdiomaEJB extends IdiomaJPAManager implements IdiomaService {
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(Idioma instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public IdiomaJPA findByPrimaryKey(String _ID_) {
         return (IdiomaJPA)super.findByPrimaryKey(_ID_);
     }

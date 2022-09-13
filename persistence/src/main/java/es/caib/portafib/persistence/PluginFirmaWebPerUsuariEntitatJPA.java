@@ -16,7 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "PluginFirmaWebPerUsuariEntitatJPA")
 @Table(name = "pfi_pluginfirmawebperusrent" , indexes = { 
         @Index(name="pfi_pfwpue_pk_i", columnList = "pluginfirmawebperusrentid"),
         @Index(name="pfi_pfwpue_usrentid_fk_i", columnList = "usuarientitatid"),
@@ -26,10 +26,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="PLUGINFIRMAWEBPERUSUARIENTITAT_SEQ", sequenceName="pfi_pluginfirmawebperusrent_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PluginFirmaWebPerUsuariEntitatJPA implements PluginFirmaWebPerUsuariEntitat {
-
-
-
-private static final long serialVersionUID = 1338094348L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PLUGINFIRMAWEBPERUSUARIENTITAT_SEQ")
@@ -43,8 +39,9 @@ private static final long serialVersionUID = 1338094348L;
     long pluginFirmaWebID;
 
   /** Valors:  -1 eliminar, 1 afegir */
+    @org.hibernate.annotations.ColumnDefault("1")
     @Column(name="accio",nullable = false,length = 10)
-    int accio;
+    int accio = 1;
 
 
 

@@ -38,7 +38,7 @@ import org.fundaciobit.genapp.common.query.Where;
 
 	@Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
-	public void deleteFull(TipusDocumentJPA tipusDocument) throws Exception, I18NException {
+	public void deleteFull(TipusDocumentJPA tipusDocument) throws I18NException {
 		Where w = TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID.equal(tipusDocument.getTipusDocumentID());
 		long numColaboracions = tipusDocumentColaboracioDelegacioEjb.count(w);
 		if (numColaboracions != 0) {
@@ -60,7 +60,7 @@ import org.fundaciobit.genapp.common.query.Where;
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
 	public synchronized TipusDocumentJPA create(
 			TipusDocumentJPA tipusDocument, boolean generateID)
-			throws Exception, I18NException {
+			throws I18NException {
 		if (generateID) {
 			long tipusDocID = max(TIPUSDOCUMENTID, null);
 			if (tipusDocID < 100L) {

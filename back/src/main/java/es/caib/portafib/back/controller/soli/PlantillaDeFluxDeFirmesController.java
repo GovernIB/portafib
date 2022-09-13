@@ -1951,7 +1951,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
   @Override
   public FluxDeFirmesJPA create(HttpServletRequest request, FluxDeFirmesJPA fluxDeFirmes)
-      throws Exception, I18NException, I18NValidationException {
+      throws I18NException, I18NValidationException {
     // El create ha de crear:
     // (1) El flux
     // (2) Plantilla de Usuari Entitat o Plantilla de Usuari

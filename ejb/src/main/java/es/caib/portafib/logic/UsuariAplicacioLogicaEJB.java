@@ -116,7 +116,7 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
   
   @Override
   public void checkForDisable(String usuariAplicacioID) 
-    throws Exception, I18NException {
+    throws I18NException {
     
     String entitat = entitatEjb.executeQueryOne(EntitatFields.NOM, 
         EntitatFields.USUARIAPLICACIOID.equal(usuariAplicacioID));
@@ -131,7 +131,7 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
   
   @Override
   public UsuariAplicacioJPA checkForDeletion(String usuariAplicacioID) 
-    throws Exception, I18NException {
+    throws I18NException {
     
     if (usuariAplicacioID == null) {
       return null;
@@ -240,8 +240,7 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
   
   
   @Override    
-  public Set<Long> deleteFull(String usuariAplicacioID) 
-    throws Exception, I18NException {
+  public Set<Long> deleteFull(String usuariAplicacioID) throws I18NException {
     
     Set<Long> fitxers = new HashSet<Long>();
     

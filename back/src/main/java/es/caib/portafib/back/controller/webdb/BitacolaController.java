@@ -657,6 +657,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,BitacolaForm bitacolaForm , BindingResult result)  throws I18NException {
   }
 
@@ -697,13 +704,6 @@ public java.lang.Long stringToPK(String value) {
     return "bitacolaListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "BitacolaWebDB_FilterForm";
   }
@@ -721,18 +721,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public BitacolaJPA create(HttpServletRequest request, BitacolaJPA bitacola)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (BitacolaJPA) bitacolaEjb.create(bitacola);
   }
 
 
   public BitacolaJPA update(HttpServletRequest request, BitacolaJPA bitacola)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (BitacolaJPA) bitacolaEjb.update(bitacola);
   }
 
 
-  public void delete(HttpServletRequest request, Bitacola bitacola) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, Bitacola bitacola) throws I18NException {
     bitacolaEjb.delete(bitacola);
   }
 

@@ -16,9 +16,6 @@ public class TipusDocumentJPAManager
 
 
 
-
-    private static final long serialVersionUID = -1199196410L;
-
     public static final TableName<TipusDocument> _TABLENAME =  new TableName<TipusDocument>("TipusDocumentJPA");
 
 
@@ -58,7 +55,7 @@ public class TipusDocumentJPAManager
         return list.toArray(new TipusDocument[list.size()]);
     };
 
-    public synchronized TipusDocument create( long _tipusDocumentID_, long _nomID_, long _tipusDocumentBaseID_, java.lang.String _descripcio_, java.lang.String _usuariAplicacioID_) throws I18NException {
+    public TipusDocument create( long _tipusDocumentID_, long _nomID_, long _tipusDocumentBaseID_, java.lang.String _descripcio_, java.lang.String _usuariAplicacioID_) throws I18NException {
         TipusDocumentJPA __bean =  new TipusDocumentJPA(_tipusDocumentID_,_nomID_,_tipusDocumentBaseID_,_descripcio_,_usuariAplicacioID_);
         return create(__bean);
     }

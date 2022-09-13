@@ -16,7 +16,7 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "UsuariAplicacioJPA")
 @Table(name = "pfi_usuariaplicacio" , indexes = { 
         @Index(name="pfi_usuariaplicacio_pk_i", columnList = "usuariaplicacioid"),
         @Index(name="pfi_usrapp_entitatid_fk_i", columnList = "entitatid"),
@@ -26,10 +26,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="USUARIAPLICACIO_SEQ", sequenceName="pfi_usuariaplicacio_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class UsuariAplicacioJPA implements UsuariAplicacio {
-
-
-
-private static final long serialVersionUID = -360699331L;
 
     @Id
     @Column(name="usuariaplicacioid",nullable = false,length = 101)
@@ -44,15 +40,16 @@ private static final long serialVersionUID = -360699331L;
     java.lang.String emailAdmin;
 
   /** La versió 0 és la compatible amb INDRA i la versió 1 és l'especifica del nou Portafirmes */
+    @org.hibernate.annotations.ColumnDefault("2")
     @Column(name="callbackversio",nullable = false,length = 10)
-    int callbackVersio;
+    int callbackVersio = 2;
 
   /** Adreça on esta implementat el servei de recepció de notificacions associades a les peticions de firma realitzades per aquest usuari-màquina */
     @Column(name="callbackurl",length = 400)
     java.lang.String callbackURL;
 
     @Column(name="actiu",nullable = false,length = 1)
-    boolean actiu;
+    boolean actiu = true;
 
     @Column(name="idiomaid",nullable = false,length = 5)
     java.lang.String idiomaID;
@@ -64,18 +61,20 @@ private static final long serialVersionUID = -360699331L;
     java.lang.Long logoSegellID;
 
   /** 0 - Només plugins de l'entitat, 1 - Plugins de l'entitat més plugins addicionals (afegir o llevar), 2 - Només plugins addicionals (Només els que tenguin marcat afegir) */
+    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="politicadepluginfirmaweb",nullable = false,length = 10)
-    int politicaDePluginFirmaWeb;
+    int politicaDePluginFirmaWeb = 0;
 
   /** -1: el que digui l'entitat, 0: No permetre, 1:Només Plantilles de l''Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat (Per defecte Actiu), 4: Opcional plantilla Entitat (Per defecte NO Actiu), 5: Llibertat Totalselecció, edició i us), 6: La plantilla definida en l''usuari-aplicació */
+    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="politicacustodia",nullable = false,length = 10)
-    int politicaCustodia;
+    int politicaCustodia = 0;
 
     @Column(name="custodiainfoid",length = 19)
     java.lang.Long custodiaInfoID;
 
     @Column(name="crearusuaris",nullable = false,length = 1)
-    boolean crearUsuaris;
+    boolean crearUsuaris = false;
 
 
 

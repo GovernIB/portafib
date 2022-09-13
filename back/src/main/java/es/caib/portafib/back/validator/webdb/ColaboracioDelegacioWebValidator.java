@@ -78,10 +78,6 @@ public class ColaboracioDelegacioWebValidator extends AbstractWebValidator<Colab
   public void validate(ColaboracioDelegacioForm __form, ColaboracioDelegacio __bean, Errors errors,
     WebValidationResult<ColaboracioDelegacioForm> wvr, boolean isNou) {
 
-    if (isNou) { // Creacio
-      // ================ CREATION
-      // Fitxers 
-    }
     BeanValidatorResult<ColaboracioDelegacio> __vr = new BeanValidatorResult<ColaboracioDelegacio>();
     validator.validate(__vr, __bean,
       isNou, colaboracioDelegacioEjb, usuariEntitatEjb);
@@ -93,6 +89,10 @@ public class ColaboracioDelegacioWebValidator extends AbstractWebValidator<Colab
         }
     }
 
+    if (isNou) { // Creacio
+      // ================ CREATION
+      // Fitxers 
+    }
 
   } // Final de metode
 

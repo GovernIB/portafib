@@ -16,9 +16,6 @@ public class RoleUsuariEntitatJPAManager
 
 
 
-
-    private static final long serialVersionUID = -1986019996L;
-
     public static final TableName<RoleUsuariEntitat> _TABLENAME =  new TableName<RoleUsuariEntitat>("RoleUsuariEntitatJPA");
 
 
@@ -58,7 +55,7 @@ public class RoleUsuariEntitatJPAManager
         return list.toArray(new RoleUsuariEntitat[list.size()]);
     };
 
-    public synchronized RoleUsuariEntitat create( java.lang.String _roleID_, java.lang.String _usuariEntitatID_) throws I18NException {
+    public RoleUsuariEntitat create( java.lang.String _roleID_, java.lang.String _usuariEntitatID_) throws I18NException {
         RoleUsuariEntitatJPA __bean =  new RoleUsuariEntitatJPA(_roleID_,_usuariEntitatID_);
         return create(__bean);
     }

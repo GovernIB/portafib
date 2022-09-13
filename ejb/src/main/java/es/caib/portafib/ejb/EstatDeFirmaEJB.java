@@ -34,6 +34,14 @@ public class EstatDeFirmaEJB extends EstatDeFirmaJPAManager implements EstatDeFi
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(EstatDeFirma instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public EstatDeFirmaJPA findByPrimaryKey(Long _ID_) {
         return (EstatDeFirmaJPA)super.findByPrimaryKey(_ID_);
     }

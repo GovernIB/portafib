@@ -16,9 +16,6 @@ public class UsuariEntitatFavoritJPAManager
 
 
 
-
-    private static final long serialVersionUID = 449152947L;
-
     public static final TableName<UsuariEntitatFavorit> _TABLENAME =  new TableName<UsuariEntitatFavorit>("UsuariEntitatFavoritJPA");
 
 
@@ -58,7 +55,7 @@ public class UsuariEntitatFavoritJPAManager
         return list.toArray(new UsuariEntitatFavorit[list.size()]);
     };
 
-    public synchronized UsuariEntitatFavorit create( java.lang.String _origenID_, java.lang.String _favoritID_) throws I18NException {
+    public UsuariEntitatFavorit create( java.lang.String _origenID_, java.lang.String _favoritID_) throws I18NException {
         UsuariEntitatFavoritJPA __bean =  new UsuariEntitatFavoritJPA(_origenID_,_favoritID_);
         return create(__bean);
     }

@@ -34,6 +34,14 @@ public class TipusDocumentColaboracioDelegacioEJB extends TipusDocumentColaborac
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(TipusDocumentColaboracioDelegacio instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public TipusDocumentColaboracioDelegacioJPA findByPrimaryKey(Long _ID_) {
         return (TipusDocumentColaboracioDelegacioJPA)super.findByPrimaryKey(_ID_);
     }

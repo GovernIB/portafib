@@ -18,7 +18,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "ColaboracioDelegacioJPA")
 @Table(name = "pfi_colaboraciodelegacio" , indexes = { 
         @Index(name="pfi_colaboraciodelegacio_pk_i", columnList = "colaboraciodelegacioid"),
         @Index(name="pfi_colabdeleg_destid_fk_i", columnList = "destinatariid"),
@@ -27,10 +27,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="COLABORACIODELEGACIO_SEQ", sequenceName="pfi_colaboraciodelegacio_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class ColaboracioDelegacioJPA implements ColaboracioDelegacio {
-
-
-
-private static final long serialVersionUID = -637711502L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="COLABORACIODELEGACIO_SEQ")
@@ -59,11 +55,11 @@ private static final long serialVersionUID = -637711502L;
     java.sql.Timestamp dataFi;
 
     @Column(name="activa",nullable = false,length = 1)
-    boolean activa;
+    boolean activa = true;
 
   /** Només es per col.laborador i indica si es obligatori que aquell col.laborador digui la seva. */
     @Column(name="revisor",nullable = false,length = 1)
-    boolean revisor;
+    boolean revisor = false;
 
     @Column(name="motiudeshabilitada",length = 255)
     java.lang.String motiuDeshabilitada;

@@ -20,7 +20,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "PluginJPA")
 @Table(name = "pfi_plugin" , indexes = { 
         @Index(name="pfi_plugin_pk_i", columnList = "pluginid"),
         @Index(name="pfi_plugin_nomid_fk_i", columnList = "nomid"),
@@ -29,10 +29,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="PLUGIN_SEQ", sequenceName="pfi_plugin_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PluginJPA implements Plugin {
-
-
-
-private static final long serialVersionUID = 190357384L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PLUGIN_SEQ")
@@ -70,8 +66,9 @@ private static final long serialVersionUID = 190357384L;
   /** 0 Plantilla
 1 Només entitat
 2 Ho pot usar tothom */
+    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="politicadeus",nullable = false,length = 10)
-    int politicaDeUs;
+    int politicaDeUs = 0;
 
   /** Si val null indica que és de l'Administrador. En cas conytrari ja és una instanciació d'una Entitat */
     @Column(name="entitatid",length = 50)
@@ -82,8 +79,9 @@ private static final long serialVersionUID = 190357384L;
 
   /** 0 => No mostrar ni propietats administrador ni propietats entitat, 1 => Permetre editar propietats entitat però no mostrar propietats administrador,  2 => Permetre editar propietats entitat i mostrar propietats administrador, 3 => Permetre editar propietats entitat i editar propietats administrador
  */
+    @org.hibernate.annotations.ColumnDefault("2")
     @Column(name="politicamostrarpropietats",nullable = false,length = 10)
-    int politicaMostrarPropietats;
+    int politicaMostrarPropietats = 2;
 
 
 
@@ -295,19 +293,6 @@ private static final long serialVersionUID = 190357384L;
     }
 
 
-// EXP  Field:pluginvalidafirmesid | Table: pfi_entitat | Type: 0  
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pluginValidaFirmesID")
-    private Set<EntitatJPA> entitat_pluginvalidafirmesids = new HashSet<EntitatJPA>(0);
-    public  Set<EntitatJPA> getEntitat_pluginvalidafirmesids() {
-    return this.entitat_pluginvalidafirmesids;
-  }
-
-    public void setEntitat_pluginvalidafirmesids(Set<EntitatJPA> entitat_pluginvalidafirmesids) {
-      this.entitat_pluginvalidafirmesids = entitat_pluginvalidafirmesids;
-    }
-
-
 // EXP  Field:pluginrubricaid | Table: pfi_entitat | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pluginRubricaID")
@@ -318,6 +303,19 @@ private static final long serialVersionUID = 190357384L;
 
     public void setEntitat_pluginrubricaids(Set<EntitatJPA> entitat_pluginrubricaids) {
       this.entitat_pluginrubricaids = entitat_pluginrubricaids;
+    }
+
+
+// EXP  Field:pluginvalidafirmesid | Table: pfi_entitat | Type: 0  
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pluginValidaFirmesID")
+    private Set<EntitatJPA> entitat_pluginvalidafirmesids = new HashSet<EntitatJPA>(0);
+    public  Set<EntitatJPA> getEntitat_pluginvalidafirmesids() {
+    return this.entitat_pluginvalidafirmesids;
+  }
+
+    public void setEntitat_pluginvalidafirmesids(Set<EntitatJPA> entitat_pluginvalidafirmesids) {
+      this.entitat_pluginvalidafirmesids = entitat_pluginvalidafirmesids;
     }
 
 

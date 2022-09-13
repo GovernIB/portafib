@@ -16,9 +16,6 @@ public class ColaboracioDelegacioJPAManager
 
 
 
-
-    private static final long serialVersionUID = 785381339L;
-
     public static final TableName<ColaboracioDelegacio> _TABLENAME =  new TableName<ColaboracioDelegacio>("ColaboracioDelegacioJPA");
 
 
@@ -58,7 +55,7 @@ public class ColaboracioDelegacioJPAManager
         return list.toArray(new ColaboracioDelegacio[list.size()]);
     };
 
-    public synchronized ColaboracioDelegacio create( java.lang.String _destinatariID_, java.lang.String _colaboradorDelegatID_, boolean _esDelegat_, java.lang.String _motiu_, java.lang.String _descripcio_, java.sql.Timestamp _dataInici_, java.sql.Timestamp _dataFi_, boolean _activa_, boolean _revisor_, java.lang.String _motiuDeshabilitada_, java.lang.Long _fitxerAutoritzacioID_) throws I18NException {
+    public ColaboracioDelegacio create( java.lang.String _destinatariID_, java.lang.String _colaboradorDelegatID_, boolean _esDelegat_, java.lang.String _motiu_, java.lang.String _descripcio_, java.sql.Timestamp _dataInici_, java.sql.Timestamp _dataFi_, boolean _activa_, boolean _revisor_, java.lang.String _motiuDeshabilitada_, java.lang.Long _fitxerAutoritzacioID_) throws I18NException {
         ColaboracioDelegacioJPA __bean =  new ColaboracioDelegacioJPA(_destinatariID_,_colaboradorDelegatID_,_esDelegat_,_motiu_,_descripcio_,_dataInici_,_dataFi_,_activa_,_revisor_,_motiuDeshabilitada_,_fitxerAutoritzacioID_);
         return create(__bean);
     }

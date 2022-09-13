@@ -8,8 +8,6 @@ public class UsuariEntitatBean implements UsuariEntitat {
 
 
 
-private static final long serialVersionUID = -1453348584L;
-
 	java.lang.String usuariEntitatID;// PK
 	java.lang.String carrec;
 	java.lang.String usuariPersonaID;

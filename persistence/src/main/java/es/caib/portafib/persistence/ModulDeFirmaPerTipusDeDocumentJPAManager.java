@@ -16,9 +16,6 @@ public class ModulDeFirmaPerTipusDeDocumentJPAManager
 
 
 
-
-    private static final long serialVersionUID = 2091944947L;
-
     public static final TableName<ModulDeFirmaPerTipusDeDocument> _TABLENAME =  new TableName<ModulDeFirmaPerTipusDeDocument>("ModulDeFirmaPerTipusDeDocumentJPA");
 
 
@@ -58,7 +55,7 @@ public class ModulDeFirmaPerTipusDeDocumentJPAManager
         return list.toArray(new ModulDeFirmaPerTipusDeDocument[list.size()]);
     };
 
-    public synchronized ModulDeFirmaPerTipusDeDocument create( java.lang.String _nom_, long _tipusDocumentID_, long _pluginID_) throws I18NException {
+    public ModulDeFirmaPerTipusDeDocument create( java.lang.String _nom_, long _tipusDocumentID_, long _pluginID_) throws I18NException {
         ModulDeFirmaPerTipusDeDocumentJPA __bean =  new ModulDeFirmaPerTipusDeDocumentJPA(_nom_,_tipusDocumentID_,_pluginID_);
         return create(__bean);
     }

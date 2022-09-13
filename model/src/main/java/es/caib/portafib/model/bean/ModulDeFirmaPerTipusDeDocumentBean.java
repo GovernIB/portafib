@@ -8,8 +8,6 @@ public class ModulDeFirmaPerTipusDeDocumentBean implements ModulDeFirmaPerTipusD
 
 
 
-private static final long serialVersionUID = 2083543313L;
-
 	long ID;// PK
 	java.lang.String nom;
 	long tipusDocumentID;

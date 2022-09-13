@@ -8,8 +8,6 @@ public class TipusDocumentColaboracioDelegacioBean implements TipusDocumentColab
 
 
 
-private static final long serialVersionUID = 909395853L;
-
 	long id;// PK
 	long colaboracioDelegacioID;
 	long tipusDocumentID;

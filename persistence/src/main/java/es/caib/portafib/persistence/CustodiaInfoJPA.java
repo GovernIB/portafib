@@ -18,7 +18,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "CustodiaInfoJPA")
 @Table(name = "pfi_custodiainfo" , indexes = { 
         @Index(name="pfi_custodiainfo_pk_i", columnList = "custodiainfoid"),
         @Index(name="pfi_custodiainfo_pluginid_fk_i", columnList = "pluginid"),
@@ -31,10 +31,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="CUSTODIAINFO_SEQ", sequenceName="pfi_custodiainfo_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class CustodiaInfoJPA implements CustodiaInfo {
-
-
-
-private static final long serialVersionUID = 1603204493L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="CUSTODIAINFO_SEQ")

@@ -1037,7 +1037,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
    */
   @Override
   public PeticioDeFirmaJPA create(HttpServletRequest request, PeticioDeFirmaJPA peticioDeFirma)
-      throws Exception, I18NException, I18NValidationException {
+      throws I18NException, I18NValidationException {
 
     HttpSession sessio = request.getSession();
     {
@@ -1217,7 +1217,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
   
   @Override
   public void delete(HttpServletRequest request, PeticioDeFirma peticioDeFirma)
-      throws Exception, I18NException {
+      throws I18NException {
 
     
     if (getTipusSolicitant() == TipusSolicitant.SOLICITANT_WEB) {
@@ -1236,7 +1236,10 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
       if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES
           || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
         rebutjar(request, (PeticioDeFirmaJPA)peticioDeFirma, motiuEsborrat);
-        Thread.sleep(200);
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+        }
       }
     
       Set<Long> fitxers = peticioDeFirmaLogicaEjb.deleteFullUsingAdministradorEntitat(

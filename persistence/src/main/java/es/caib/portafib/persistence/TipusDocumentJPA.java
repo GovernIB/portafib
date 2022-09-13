@@ -16,7 +16,7 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "TipusDocumentJPA")
 @Table(name = "pfi_tipusdocument" , indexes = { 
         @Index(name="pfi_tipusdocument_pk_i", columnList = "tipusdocumentid"),
         @Index(name="pfi_tipusdocument_nom_fk_i", columnList = "nom"),
@@ -24,10 +24,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="TIPUSDOCUMENT_SEQ", sequenceName="pfi_tipusdocument_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class TipusDocumentJPA implements TipusDocument {
-
-
-
-private static final long serialVersionUID = -1473284441L;
 
     @Id
     @Column(name="tipusdocumentid",nullable = false,length = 19)
@@ -37,8 +33,9 @@ private static final long serialVersionUID = -1473284441L;
     long nomID;
 
   /** Correspon només al tipus estandard (1 al 99) definits a les NTI */
+    @org.hibernate.annotations.ColumnDefault("99")
     @Column(name="tipusdocumentbaseid",nullable = false,length = 19)
-    long tipusDocumentBaseID;
+    long tipusDocumentBaseID = 99;
 
     @Column(name="descripcio",length = 1000)
     java.lang.String descripcio;

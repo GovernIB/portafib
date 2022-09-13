@@ -13,16 +13,12 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "TipusNotificacioJPA")
 @Table(name = "pfi_tipusnotificacio" , indexes = { 
         @Index(name="pfi_tipusnotificacio_pk_i", columnList = "tipusnotificacioid")})
 @SequenceGenerator(name="TIPUSNOTIFICACIO_SEQ", sequenceName="pfi_tipusnotificacio_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class TipusNotificacioJPA implements TipusNotificacio {
-
-
-
-private static final long serialVersionUID = -1316357342L;
 
     @Id
     @Column(name="tipusnotificacioid",nullable = false,length = 19)

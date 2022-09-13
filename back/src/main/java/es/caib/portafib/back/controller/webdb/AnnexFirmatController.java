@@ -705,6 +705,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,AnnexFirmatForm annexFirmatForm , BindingResult result)  throws I18NException {
   }
 
@@ -745,13 +752,6 @@ public java.lang.Long stringToPK(String value) {
     return "annexFirmatListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "AnnexFirmatWebDB_FilterForm";
   }
@@ -769,18 +769,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public AnnexFirmatJPA create(HttpServletRequest request, AnnexFirmatJPA annexFirmat)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (AnnexFirmatJPA) annexFirmatEjb.create(annexFirmat);
   }
 
 
   public AnnexFirmatJPA update(HttpServletRequest request, AnnexFirmatJPA annexFirmat)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (AnnexFirmatJPA) annexFirmatEjb.update(annexFirmat);
   }
 
 
-  public void delete(HttpServletRequest request, AnnexFirmat annexFirmat) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, AnnexFirmat annexFirmat) throws I18NException {
     annexFirmatEjb.delete(annexFirmat);
   }
 

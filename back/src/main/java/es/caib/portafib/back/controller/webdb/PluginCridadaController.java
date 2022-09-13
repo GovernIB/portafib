@@ -718,6 +718,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,PluginCridadaForm pluginCridadaForm , BindingResult result)  throws I18NException {
   }
 
@@ -758,13 +765,6 @@ public java.lang.Long stringToPK(String value) {
     return "pluginCridadaListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "PluginCridadaWebDB_FilterForm";
   }
@@ -782,18 +782,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public PluginCridadaJPA create(HttpServletRequest request, PluginCridadaJPA pluginCridada)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (PluginCridadaJPA) pluginCridadaEjb.create(pluginCridada);
   }
 
 
   public PluginCridadaJPA update(HttpServletRequest request, PluginCridadaJPA pluginCridada)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (PluginCridadaJPA) pluginCridadaEjb.update(pluginCridada);
   }
 
 
-  public void delete(HttpServletRequest request, PluginCridada pluginCridada) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, PluginCridada pluginCridada) throws I18NException {
     pluginCridadaEjb.delete(pluginCridada);
   }
 

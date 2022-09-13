@@ -672,6 +672,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,RevisorDeFirmaForm revisorDeFirmaForm , BindingResult result)  throws I18NException {
   }
 
@@ -712,13 +719,6 @@ public java.lang.Long stringToPK(String value) {
     return "revisorDeFirmaListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "RevisorDeFirmaWebDB_FilterForm";
   }
@@ -736,18 +736,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public RevisorDeFirmaJPA create(HttpServletRequest request, RevisorDeFirmaJPA revisorDeFirma)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (RevisorDeFirmaJPA) revisorDeFirmaEjb.create(revisorDeFirma);
   }
 
 
   public RevisorDeFirmaJPA update(HttpServletRequest request, RevisorDeFirmaJPA revisorDeFirma)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (RevisorDeFirmaJPA) revisorDeFirmaEjb.update(revisorDeFirma);
   }
 
 
-  public void delete(HttpServletRequest request, RevisorDeFirma revisorDeFirma) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, RevisorDeFirma revisorDeFirma) throws I18NException {
     revisorDeFirmaEjb.delete(revisorDeFirma);
   }
 

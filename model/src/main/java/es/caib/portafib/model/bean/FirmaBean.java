@@ -8,8 +8,6 @@ public class FirmaBean implements Firma {
 
 
 
-private static final long serialVersionUID = 1947127827L;
-
 	long firmaID;// PK
 	java.lang.String destinatariID;
 	long blocDeFirmaID;

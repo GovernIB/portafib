@@ -8,8 +8,6 @@ public class EntitatBean implements Entitat {
 
 
 
-private static final long serialVersionUID = -2014602951L;
-
 	java.lang.String entitatID;// PK
 	java.lang.String nom;
 	java.lang.String descripcio;

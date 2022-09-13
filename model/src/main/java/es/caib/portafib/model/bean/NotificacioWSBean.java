@@ -8,8 +8,6 @@ public class NotificacioWSBean implements NotificacioWS {
 
 
 
-private static final long serialVersionUID = -1937251554L;
-
 	long notificacioID;// PK
 	long peticioDeFirmaID;
 	long tipusNotificacioID;

@@ -275,13 +275,13 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
 	}
 	
 	@Override
-	public void delete(HttpServletRequest request, TipusDocument tipusDocument) throws Exception, I18NException {
+	public void delete(HttpServletRequest request, TipusDocument tipusDocument) throws I18NException {
 		tipusDocumentLogicaEjb.deleteFull((TipusDocumentJPA) tipusDocument);
 	}
 	
 	@Override
 	public TipusDocumentJPA create(HttpServletRequest request, TipusDocumentJPA tipusDocument)
-			throws Exception, I18NException {
+			throws I18NException {
 		return tipusDocumentLogicaEjb.create(tipusDocument, !isAdmin());
 	}
 

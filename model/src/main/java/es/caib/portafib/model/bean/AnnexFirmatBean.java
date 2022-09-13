@@ -8,8 +8,6 @@ public class AnnexFirmatBean implements AnnexFirmat {
 
 
 
-private static final long serialVersionUID = 1058365333L;
-
 	long annexfirmatID;// PK
 	long fitxerID;
 	long annexID;

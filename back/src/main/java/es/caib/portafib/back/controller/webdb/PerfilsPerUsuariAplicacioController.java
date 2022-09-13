@@ -669,6 +669,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,PerfilsPerUsuariAplicacioForm perfilsPerUsuariAplicacioForm , BindingResult result)  throws I18NException {
   }
 
@@ -709,13 +716,6 @@ public java.lang.Long stringToPK(String value) {
     return "perfilsPerUsuariAplicacioListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "PerfilsPerUsuariAplicacioWebDB_FilterForm";
   }
@@ -733,18 +733,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public PerfilsPerUsuariAplicacioJPA create(HttpServletRequest request, PerfilsPerUsuariAplicacioJPA perfilsPerUsuariAplicacio)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (PerfilsPerUsuariAplicacioJPA) perfilsPerUsuariAplicacioEjb.create(perfilsPerUsuariAplicacio);
   }
 
 
   public PerfilsPerUsuariAplicacioJPA update(HttpServletRequest request, PerfilsPerUsuariAplicacioJPA perfilsPerUsuariAplicacio)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (PerfilsPerUsuariAplicacioJPA) perfilsPerUsuariAplicacioEjb.update(perfilsPerUsuariAplicacio);
   }
 
 
-  public void delete(HttpServletRequest request, PerfilsPerUsuariAplicacio perfilsPerUsuariAplicacio) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, PerfilsPerUsuariAplicacio perfilsPerUsuariAplicacio) throws I18NException {
     perfilsPerUsuariAplicacioEjb.delete(perfilsPerUsuariAplicacio);
   }
 

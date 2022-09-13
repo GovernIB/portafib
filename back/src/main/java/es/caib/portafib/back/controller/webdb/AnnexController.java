@@ -648,6 +648,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,AnnexForm annexForm , BindingResult result)  throws I18NException {
   }
 
@@ -688,13 +695,6 @@ public java.lang.Long stringToPK(String value) {
     return "annexListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "AnnexWebDB_FilterForm";
   }
@@ -712,18 +712,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public AnnexJPA create(HttpServletRequest request, AnnexJPA annex)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (AnnexJPA) annexEjb.create(annex);
   }
 
 
   public AnnexJPA update(HttpServletRequest request, AnnexJPA annex)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (AnnexJPA) annexEjb.update(annex);
   }
 
 
-  public void delete(HttpServletRequest request, Annex annex) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, Annex annex) throws I18NException {
     annexEjb.delete(annex);
   }
 

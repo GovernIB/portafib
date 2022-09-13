@@ -16,7 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "PermisGrupPlantillaJPA")
 @Table(name = "pfi_permisgrupplantilla" , indexes = { 
         @Index(name="pfi_permisgrupplantilla_pk_i", columnList = "permisgrupplantillaid"),
         @Index(name="pfi_permisgrpl_grupentid_fk_i", columnList = "grupentitatid"),
@@ -26,10 +26,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="PERMISGRUPPLANTILLA_SEQ", sequenceName="pfi_permisgrupplantilla_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PermisGrupPlantillaJPA implements PermisGrupPlantilla {
-
-
-
-private static final long serialVersionUID = -1126538664L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PERMISGRUPPLANTILLA_SEQ")

@@ -8,8 +8,6 @@ public class EstatDeFirmaBean implements EstatDeFirma {
 
 
 
-private static final long serialVersionUID = -1068681511L;
-
 	long estatDeFirmaID;// PK
 	long firmaID;
 	java.lang.String usuariEntitatID;

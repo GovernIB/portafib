@@ -8,8 +8,6 @@ public class PeticioDeFirmaBean implements PeticioDeFirma {
 
 
 
-private static final long serialVersionUID = 906207731L;
-
 	long peticioDeFirmaID;// PK
 	java.lang.String titol;
 	java.lang.String descripcio;

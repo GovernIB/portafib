@@ -973,6 +973,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,CustodiaInfoForm custodiaInfoForm , BindingResult result)  throws I18NException {
   }
 
@@ -1013,13 +1020,6 @@ public java.lang.Long stringToPK(String value) {
     return "custodiaInfoListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "CustodiaInfoWebDB_FilterForm";
   }
@@ -1037,18 +1037,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public CustodiaInfoJPA create(HttpServletRequest request, CustodiaInfoJPA custodiaInfo)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (CustodiaInfoJPA) custodiaInfoEjb.create(custodiaInfo);
   }
 
 
   public CustodiaInfoJPA update(HttpServletRequest request, CustodiaInfoJPA custodiaInfo)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (CustodiaInfoJPA) custodiaInfoEjb.update(custodiaInfo);
   }
 
 
-  public void delete(HttpServletRequest request, CustodiaInfo custodiaInfo) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, CustodiaInfo custodiaInfo) throws I18NException {
     custodiaInfoEjb.delete(custodiaInfo);
   }
 

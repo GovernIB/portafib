@@ -34,6 +34,14 @@ public class BitacolaEJB extends BitacolaJPAManager implements BitacolaService {
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(Bitacola instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public BitacolaJPA findByPrimaryKey(Long _ID_) {
         return (BitacolaJPA)super.findByPrimaryKey(_ID_);
     }

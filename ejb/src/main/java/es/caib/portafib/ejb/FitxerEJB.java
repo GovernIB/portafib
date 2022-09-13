@@ -34,6 +34,14 @@ public class FitxerEJB extends FitxerJPAManager implements FitxerService {
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(Fitxer instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public FitxerJPA findByPrimaryKey(Long _ID_) {
         return (FitxerJPA)super.findByPrimaryKey(_ID_);
     }

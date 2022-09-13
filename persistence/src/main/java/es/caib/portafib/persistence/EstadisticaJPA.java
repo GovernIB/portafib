@@ -15,17 +15,13 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "EstadisticaJPA")
 @Table(name = "pfi_estadistica" , indexes = { 
         @Index(name="pfi_estadistica_pk_i", columnList = "estadisticaid"),
         @Index(name="pfi_estadistica_entitatid_fk_i", columnList = "entitatid")})
 @SequenceGenerator(name="ESTADISTICA_SEQ", sequenceName="pfi_estadistica_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class EstadisticaJPA implements Estadistica {
-
-
-
-private static final long serialVersionUID = -2066559243L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ESTADISTICA_SEQ")
@@ -42,8 +38,9 @@ private static final long serialVersionUID = -2066559243L;
     @Column(name="entitatid",length = 50)
     java.lang.String entitatID;
 
+    @org.hibernate.annotations.ColumnDefault("1")
     @Column(name="valor",nullable = false,length = 17,precision = 17)
-    java.lang.Double valor;
+    java.lang.Double valor = (double)1;
 
   /** No te la clau forània amb pfi_usuariaplicacio ja que si s'esborra l'usuari aplicació, haurien de quedar les estadistiques. */
     @Column(name="usuariaplicacioid",length = 101)

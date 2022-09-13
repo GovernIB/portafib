@@ -81,10 +81,6 @@ public class PluginCridadaWebValidator extends AbstractWebValidator<PluginCridad
   public void validate(PluginCridadaForm __form, PluginCridada __bean, Errors errors,
     WebValidationResult<PluginCridadaForm> wvr, boolean isNou) {
 
-    if (isNou) { // Creacio
-      // ================ CREATION
-      // Fitxers 
-    }
     BeanValidatorResult<PluginCridada> __vr = new BeanValidatorResult<PluginCridada>();
     validator.validate(__vr, __bean,
       isNou, entitatEjb, pluginEjb, pluginCridadaEjb);
@@ -96,6 +92,10 @@ public class PluginCridadaWebValidator extends AbstractWebValidator<PluginCridad
         }
     }
 
+    if (isNou) { // Creacio
+      // ================ CREATION
+      // Fitxers 
+    }
 
   } // Final de metode
 

@@ -17,7 +17,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "PluginCridadaJPA")
 @Table(name = "pfi_plugincridada" , indexes = { 
         @Index(name="pfi_plugincridada_pk_i", columnList = "plugincridadaid"),
         @Index(name="pfi_plugcrida_entitatid_fk_i", columnList = "entitatid"),
@@ -27,10 +27,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="PLUGINCRIDADA_SEQ", sequenceName="pfi_plugincridada_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PluginCridadaJPA implements PluginCridada {
-
-
-
-private static final long serialVersionUID = -1618108326L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PLUGINCRIDADA_SEQ")

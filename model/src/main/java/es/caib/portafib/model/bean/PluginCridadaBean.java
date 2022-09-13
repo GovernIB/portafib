@@ -8,8 +8,6 @@ public class PluginCridadaBean implements PluginCridada {
 
 
 
-private static final long serialVersionUID = 1378032401L;
-
 	long pluginCridadaID;// PK
 	java.lang.String entitatID;
 	java.sql.Timestamp data;

@@ -27,79 +27,32 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-
-        <dependency>
-            <groupId>es.caib.portafib</groupId>
-            <artifactId>portafib-persistence</artifactId>
-            <version>${project.version}</version>
-            <classifier>jdbc</classifier>
-            <type>jar</type>
-        </dependency>
-
-        <dependency>
-            <groupId>org.fundaciobit.genapp</groupId>
-            <artifactId>genapp-sqlgenerator</artifactId>
-            <version>${genapp.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>			 
-        </dependency>
-
+		<dependency>
+			<groupId>es.caib.portafib</groupId>
+			<artifactId>portafib-persistence</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+			<classifier>jdbc</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.fundaciobit.genapp</groupId>
+			<artifactId>genapp-sqlgenerator</artifactId>
+			<version>${genapp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>${jboss-logging.version}</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.3.2</version>
+				<version>3.0.0</version>
 			</plugin>
-			<!--
-      Plugin per generar l'SQL per fer un drop de la base de dades
-      Exemple:
-       mvn -Dhibernate.dialect=org.hibernate.dialect.PostgreSQLDialect hibernate3:hbm2ddl@drop
-      El fitxer resultant es troba dins target/sql/hibernate3/
-      -->
-	  <!--
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>hibernate3-maven-plugin</artifactId>
-				<version>3.0</version>
-				<executions>
-					<execution>
-						<id>drop</id>
-						<configuration>
-							<hibernatetool>
-								<jpaconfiguration persistenceunit="portafibDB"/>
-								<hbm2ddl export="false" create="false" drop="true" update="false" format="true" outputfilename="portafib_drop_schema.sql"/>
-							</hibernatetool>
-						</configuration>
-					</execution>
-					<execution>
-						<id>create</id>
-						<configuration>
-							<hibernatetool>
-								<jpaconfiguration persistenceunit="portafibDB"/>
-								<hbm2ddl export="false" create="true" drop="false" update="false" format="true" outputfilename="portafib_create_schema.sql"/>
-							</hibernatetool>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			-->
 		</plugins>
 	</build>
 </project>

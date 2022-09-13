@@ -34,6 +34,14 @@ public class GrupEntitatUsuariEntitatEJB extends GrupEntitatUsuariEntitatJPAMana
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(GrupEntitatUsuariEntitat instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public GrupEntitatUsuariEntitatJPA findByPrimaryKey(Long _ID_) {
         return (GrupEntitatUsuariEntitatJPA)super.findByPrimaryKey(_ID_);
     }

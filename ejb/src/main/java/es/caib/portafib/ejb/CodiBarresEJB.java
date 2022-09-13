@@ -34,6 +34,14 @@ public class CodiBarresEJB extends CodiBarresJPAManager implements CodiBarresSer
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(CodiBarres instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public CodiBarresJPA findByPrimaryKey(String _ID_) {
         return (CodiBarresJPA)super.findByPrimaryKey(_ID_);
     }

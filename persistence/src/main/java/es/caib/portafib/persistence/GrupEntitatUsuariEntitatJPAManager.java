@@ -16,9 +16,6 @@ public class GrupEntitatUsuariEntitatJPAManager
 
 
 
-
-    private static final long serialVersionUID = 1049010455L;
-
     public static final TableName<GrupEntitatUsuariEntitat> _TABLENAME =  new TableName<GrupEntitatUsuariEntitat>("GrupEntitatUsuariEntitatJPA");
 
 
@@ -58,7 +55,7 @@ public class GrupEntitatUsuariEntitatJPAManager
         return list.toArray(new GrupEntitatUsuariEntitat[list.size()]);
     };
 
-    public synchronized GrupEntitatUsuariEntitat create( java.lang.String _usuariEntitatID_, java.lang.Long _grupEntitatID_) throws I18NException {
+    public GrupEntitatUsuariEntitat create( java.lang.String _usuariEntitatID_, java.lang.Long _grupEntitatID_) throws I18NException {
         GrupEntitatUsuariEntitatJPA __bean =  new GrupEntitatUsuariEntitatJPA(_usuariEntitatID_,_grupEntitatID_);
         return create(__bean);
     }

@@ -8,8 +8,6 @@ public class RoleBean implements Role {
 
 
 
-private static final long serialVersionUID = -202489498L;
-
 	java.lang.String roleID;// PK
 	java.lang.String nom;
 	java.lang.String descripcio;

@@ -16,9 +16,6 @@ public class PlantillaFluxDeFirmesJPAManager
 
 
 
-
-    private static final long serialVersionUID = -971042101L;
-
     public static final TableName<PlantillaFluxDeFirmes> _TABLENAME =  new TableName<PlantillaFluxDeFirmes>("PlantillaFluxDeFirmesJPA");
 
 
@@ -58,7 +55,7 @@ public class PlantillaFluxDeFirmesJPAManager
         return list.toArray(new PlantillaFluxDeFirmes[list.size()]);
     };
 
-    public synchronized PlantillaFluxDeFirmes create( long _fluxDeFirmesID_, java.lang.String _descripcio_, java.lang.String _usuariEntitatID_, java.lang.String _usuariAplicacioID_, java.lang.Boolean _compartir_) throws I18NException {
+    public PlantillaFluxDeFirmes create( long _fluxDeFirmesID_, java.lang.String _descripcio_, java.lang.String _usuariEntitatID_, java.lang.String _usuariAplicacioID_, java.lang.Boolean _compartir_) throws I18NException {
         PlantillaFluxDeFirmesJPA __bean =  new PlantillaFluxDeFirmesJPA(_fluxDeFirmesID_,_descripcio_,_usuariEntitatID_,_usuariAplicacioID_,_compartir_);
         return create(__bean);
     }

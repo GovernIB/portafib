@@ -8,8 +8,6 @@ public class GrupEntitatUsuariEntitatBean implements GrupEntitatUsuariEntitat {
 
 
 
-private static final long serialVersionUID = -1997137611L;
-
 	long grupEntitatUsuariEntitatID;// PK
 	java.lang.String usuariEntitatID;
 	java.lang.Long grupEntitatID;

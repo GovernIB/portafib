@@ -34,6 +34,14 @@ public class MetadadaEJB extends MetadadaJPAManager implements MetadadaService {
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(Metadada instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public MetadadaJPA findByPrimaryKey(Long _ID_) {
         return (MetadadaJPA)super.findByPrimaryKey(_ID_);
     }

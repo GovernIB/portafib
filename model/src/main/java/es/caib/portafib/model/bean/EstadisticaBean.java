@@ -8,8 +8,6 @@ public class EstadisticaBean implements Estadistica {
 
 
 
-private static final long serialVersionUID = 360955862L;
-
 	long estadisticaID;// PK
 	java.sql.Timestamp data;
 	int tipus;

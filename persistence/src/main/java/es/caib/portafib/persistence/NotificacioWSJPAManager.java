@@ -16,9 +16,6 @@ public class NotificacioWSJPAManager
 
 
 
-
-    private static final long serialVersionUID = 2070517824L;
-
     public static final TableName<NotificacioWS> _TABLENAME =  new TableName<NotificacioWS>("NotificacioWSJPA");
 
 
@@ -58,7 +55,7 @@ public class NotificacioWSJPAManager
         return list.toArray(new NotificacioWS[list.size()]);
     };
 
-    public synchronized NotificacioWS create( long _peticioDeFirmaID_, long _tipusNotificacioID_, java.sql.Timestamp _dataCreacio_, java.sql.Timestamp _dataEnviament_, java.lang.String _descripcio_, boolean _bloquejada_, java.lang.String _error_, java.sql.Timestamp _dataError_, int _reintents_, java.lang.String _usuariAplicacioID_) throws I18NException {
+    public NotificacioWS create( long _peticioDeFirmaID_, long _tipusNotificacioID_, java.sql.Timestamp _dataCreacio_, java.sql.Timestamp _dataEnviament_, java.lang.String _descripcio_, boolean _bloquejada_, java.lang.String _error_, java.sql.Timestamp _dataError_, int _reintents_, java.lang.String _usuariAplicacioID_) throws I18NException {
         NotificacioWSJPA __bean =  new NotificacioWSJPA(_peticioDeFirmaID_,_tipusNotificacioID_,_dataCreacio_,_dataEnviament_,_descripcio_,_bloquejada_,_error_,_dataError_,_reintents_,_usuariAplicacioID_);
         return create(__bean);
     }

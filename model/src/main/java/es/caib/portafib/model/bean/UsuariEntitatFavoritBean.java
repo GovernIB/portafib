@@ -8,8 +8,6 @@ public class UsuariEntitatFavoritBean implements UsuariEntitatFavorit {
 
 
 
-private static final long serialVersionUID = -1650645807L;
-
 	long ID;// PK
 	java.lang.String origenID;
 	java.lang.String favoritID;

@@ -8,8 +8,6 @@ public class PluginFirmaWebPerUsuariEntitatBean implements PluginFirmaWebPerUsua
 
 
 
-private static final long serialVersionUID = -1468965217L;
-
 	long pluginFirmaWebPerUsrEntID;// PK
 	java.lang.String usuariEntitatID;
 	long pluginFirmaWebID;

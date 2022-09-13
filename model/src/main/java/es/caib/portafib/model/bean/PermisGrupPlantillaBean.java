@@ -8,8 +8,6 @@ public class PermisGrupPlantillaBean implements PermisGrupPlantilla {
 
 
 
-private static final long serialVersionUID = -563177261L;
-
 	long permisGrupPlantillaID;// PK
 	long grupEntitatID;
 	long plantillaFluxDeFirmesID;

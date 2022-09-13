@@ -8,8 +8,6 @@ public class RoleUsuariEntitatBean implements RoleUsuariEntitat {
 
 
 
-private static final long serialVersionUID = 1928966978L;
-
 	long id;// PK
 	java.lang.String roleID;
 	java.lang.String usuariEntitatID;

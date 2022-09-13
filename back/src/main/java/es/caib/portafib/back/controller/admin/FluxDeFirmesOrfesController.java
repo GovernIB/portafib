@@ -57,7 +57,7 @@ public class FluxDeFirmesOrfesController extends FluxDeFirmesController {
   }
 
   @Override
-  public void delete(HttpServletRequest request, FluxDeFirmes fluxDeFirmes) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, FluxDeFirmes fluxDeFirmes) throws I18NException {
     fluxDeFirmesLogicaEjb.deleteFull(fluxDeFirmes.getFluxDeFirmesID());
   }
   

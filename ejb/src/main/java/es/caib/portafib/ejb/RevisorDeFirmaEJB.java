@@ -34,6 +34,14 @@ public class RevisorDeFirmaEJB extends RevisorDeFirmaJPAManager implements Revis
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(RevisorDeFirma instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public RevisorDeFirmaJPA findByPrimaryKey(Long _ID_) {
         return (RevisorDeFirmaJPA)super.findByPrimaryKey(_ID_);
     }

@@ -669,6 +669,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,TipusDocumentColaboracioDelegacioForm tipusDocumentColaboracioDelegacioForm , BindingResult result)  throws I18NException {
   }
 
@@ -709,13 +716,6 @@ public java.lang.Long stringToPK(String value) {
     return "tipusDocumentColaboracioDelegacioListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "TipusDocumentColaboracioDelegacioWebDB_FilterForm";
   }
@@ -733,18 +733,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public TipusDocumentColaboracioDelegacioJPA create(HttpServletRequest request, TipusDocumentColaboracioDelegacioJPA tipusDocumentColaboracioDelegacio)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (TipusDocumentColaboracioDelegacioJPA) tipusDocumentColaboracioDelegacioEjb.create(tipusDocumentColaboracioDelegacio);
   }
 
 
   public TipusDocumentColaboracioDelegacioJPA update(HttpServletRequest request, TipusDocumentColaboracioDelegacioJPA tipusDocumentColaboracioDelegacio)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (TipusDocumentColaboracioDelegacioJPA) tipusDocumentColaboracioDelegacioEjb.update(tipusDocumentColaboracioDelegacio);
   }
 
 
-  public void delete(HttpServletRequest request, TipusDocumentColaboracioDelegacio tipusDocumentColaboracioDelegacio) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, TipusDocumentColaboracioDelegacio tipusDocumentColaboracioDelegacio) throws I18NException {
     tipusDocumentColaboracioDelegacioEjb.delete(tipusDocumentColaboracioDelegacio);
   }
 

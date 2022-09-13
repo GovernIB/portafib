@@ -8,8 +8,6 @@ public class RevisorDeFirmaBean implements RevisorDeFirma {
 
 
 
-private static final long serialVersionUID = 1313788674L;
-
 	long revisorDeFirmaID;// PK
 	java.lang.String usuariEntitatID;
 	long firmaID;

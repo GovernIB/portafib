@@ -646,6 +646,13 @@ public java.lang.String stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,UsuariPersonaForm usuariPersonaForm , BindingResult result)  throws I18NException {
   }
 
@@ -686,13 +693,6 @@ public java.lang.String stringToPK(String value) {
     return "usuariPersonaListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "UsuariPersonaWebDB_FilterForm";
   }
@@ -710,18 +710,18 @@ public java.lang.String stringToPK(String value) {
 
 
   public UsuariPersonaJPA create(HttpServletRequest request, UsuariPersonaJPA usuariPersona)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (UsuariPersonaJPA) usuariPersonaEjb.create(usuariPersona);
   }
 
 
   public UsuariPersonaJPA update(HttpServletRequest request, UsuariPersonaJPA usuariPersona)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (UsuariPersonaJPA) usuariPersonaEjb.update(usuariPersona);
   }
 
 
-  public void delete(HttpServletRequest request, UsuariPersona usuariPersona) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, UsuariPersona usuariPersona) throws I18NException {
     usuariPersonaEjb.delete(usuariPersona);
   }
 

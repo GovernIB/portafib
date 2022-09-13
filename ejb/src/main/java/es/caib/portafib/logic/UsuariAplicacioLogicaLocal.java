@@ -25,7 +25,7 @@ public interface UsuariAplicacioLogicaLocal extends UsuariAplicacioService {
 
   public void checkForDisable(String usuariAplicacioID) throws Exception, I18NException;
 
-  public Set<Long> deleteFull(String usuariAplicacio) throws Exception, I18NException;
+  public Set<Long> deleteFull(String usuariAplicacio) throws I18NException;
 
   public void activar(String usuariAplicacioID) throws I18NException, Exception;
 

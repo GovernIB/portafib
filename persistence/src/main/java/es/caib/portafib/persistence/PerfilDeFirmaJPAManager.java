@@ -16,9 +16,6 @@ public class PerfilDeFirmaJPAManager
 
 
 
-
-    private static final long serialVersionUID = -497386936L;
-
     public static final TableName<PerfilDeFirma> _TABLENAME =  new TableName<PerfilDeFirma>("PerfilDeFirmaJPA");
 
 
@@ -58,7 +55,7 @@ public class PerfilDeFirmaJPAManager
         return list.toArray(new PerfilDeFirma[list.size()]);
     };
 
-    public synchronized PerfilDeFirma create( java.lang.String _nom_, java.lang.String _codi_, java.lang.String _descripcio_, java.lang.String _condicio_, long _configuracioDeFirma1ID_, java.lang.Long _configuracioDeFirma2ID_, java.lang.Long _configuracioDeFirma3ID_, java.lang.Long _configuracioDeFirma4ID_, java.lang.Long _configuracioDeFirma5ID_, java.lang.String _urlBase_) throws I18NException {
+    public PerfilDeFirma create( java.lang.String _nom_, java.lang.String _codi_, java.lang.String _descripcio_, java.lang.String _condicio_, long _configuracioDeFirma1ID_, java.lang.Long _configuracioDeFirma2ID_, java.lang.Long _configuracioDeFirma3ID_, java.lang.Long _configuracioDeFirma4ID_, java.lang.Long _configuracioDeFirma5ID_, java.lang.String _urlBase_) throws I18NException {
         PerfilDeFirmaJPA __bean =  new PerfilDeFirmaJPA(_nom_,_codi_,_descripcio_,_condicio_,_configuracioDeFirma1ID_,_configuracioDeFirma2ID_,_configuracioDeFirma3ID_,_configuracioDeFirma4ID_,_configuracioDeFirma5ID_,_urlBase_);
         return create(__bean);
     }

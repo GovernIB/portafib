@@ -8,8 +8,6 @@ public class BlocDeFirmesBean implements BlocDeFirmes {
 
 
 
-private static final long serialVersionUID = 481141627L;
-
 	long blocDeFirmesID;// PK
 	int ordre;
 	java.sql.Timestamp dataFinalitzacio;

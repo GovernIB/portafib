@@ -16,9 +16,6 @@ public class TraduccioJPAManager
 
 
 
-
-    private static final long serialVersionUID = -138387508L;
-
     public static final TableName<Traduccio> _TABLENAME =  new TableName<Traduccio>("TraduccioJPA");
 
 
@@ -58,7 +55,7 @@ public class TraduccioJPAManager
         return list.toArray(new Traduccio[list.size()]);
     };
 
-    public synchronized Traduccio create() throws I18NException {
+    public Traduccio create() throws I18NException {
         TraduccioJPA __bean =  new TraduccioJPA();
         return create(__bean);
     }

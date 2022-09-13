@@ -672,6 +672,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,RebreAvisForm rebreAvisForm , BindingResult result)  throws I18NException {
   }
 
@@ -712,13 +719,6 @@ public java.lang.Long stringToPK(String value) {
     return "rebreAvisListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "RebreAvisWebDB_FilterForm";
   }
@@ -736,18 +736,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public RebreAvisJPA create(HttpServletRequest request, RebreAvisJPA rebreAvis)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (RebreAvisJPA) rebreAvisEjb.create(rebreAvis);
   }
 
 
   public RebreAvisJPA update(HttpServletRequest request, RebreAvisJPA rebreAvis)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (RebreAvisJPA) rebreAvisEjb.update(rebreAvis);
   }
 
 
-  public void delete(HttpServletRequest request, RebreAvis rebreAvis) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, RebreAvis rebreAvis) throws I18NException {
     rebreAvisEjb.delete(rebreAvis);
   }
 

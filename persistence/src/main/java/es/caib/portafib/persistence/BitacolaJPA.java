@@ -13,18 +13,17 @@ import org.hibernate.annotations.Type;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "BitacolaJPA")
 @Table(name = "pfi_bitacola" , indexes = { 
         @Index(name="pfi_bitacola_pk_i", columnList = "bitacolaid"),
+        @Index(name="pfi_bitacola_enttipope_i", columnList = "entitatid"),
         @Index(name="pfi_bitacola_data_i", columnList = "data"),
-        @Index(name="pfi_bitacola_objecteid_i", columnList = "objecteid")})
+        @Index(name="pfi_bitacola_enttipobj_i", columnList = "tipusobjecte"),
+        @Index(name="pfi_bitacola_objecteid_i", columnList = "objecteid"),
+        @Index(name="pfi_bitacola_enttipope_i", columnList = "tipusoperacio")})
 @SequenceGenerator(name="BITACOLA_SEQ", sequenceName="pfi_bitacola_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class BitacolaJPA implements Bitacola {
-
-
-
-private static final long serialVersionUID = 1492894118L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="BITACOLA_SEQ")

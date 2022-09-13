@@ -179,13 +179,13 @@ public abstract class AbstractPluginAdminController extends PluginController {
 
   @Override
   public PluginJPA update(HttpServletRequest request, PluginJPA plugin)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (PluginJPA)pluginLogicaEjb.update(plugin);
   }
 
 
   @Override
-  public void delete(HttpServletRequest request, Plugin plugin) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, Plugin plugin) throws I18NException {
     pluginLogicaEjb.delete(plugin);    
   }
   

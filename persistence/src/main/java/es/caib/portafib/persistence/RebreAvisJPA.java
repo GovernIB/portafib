@@ -16,7 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "RebreAvisJPA")
 @Table(name = "pfi_rebreavis" , indexes = { 
         @Index(name="pfi_rebreavis_pk_i", columnList = "id"),
         @Index(name="pfi_rebreavis_usrentid_fk_i", columnList = "usuarientitatid"),
@@ -26,10 +26,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="REBREAVIS_SEQ", sequenceName="pfi_rebreavis_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class RebreAvisJPA implements RebreAvis {
-
-
-
-private static final long serialVersionUID = -111354374L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="REBREAVIS_SEQ")
@@ -43,7 +39,7 @@ private static final long serialVersionUID = -111354374L;
     long tipusNotificacioID;
 
     @Column(name="rebreagrupat",nullable = false,length = 1)
-    boolean rebreAgrupat;
+    boolean rebreAgrupat = false;
 
 
 

@@ -839,6 +839,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,EstatDeFirmaForm estatDeFirmaForm , BindingResult result)  throws I18NException {
   }
 
@@ -879,13 +886,6 @@ public java.lang.Long stringToPK(String value) {
     return "estatDeFirmaListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "EstatDeFirmaWebDB_FilterForm";
   }
@@ -903,18 +903,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public EstatDeFirmaJPA create(HttpServletRequest request, EstatDeFirmaJPA estatDeFirma)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (EstatDeFirmaJPA) estatDeFirmaEjb.create(estatDeFirma);
   }
 
 
   public EstatDeFirmaJPA update(HttpServletRequest request, EstatDeFirmaJPA estatDeFirma)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (EstatDeFirmaJPA) estatDeFirmaEjb.update(estatDeFirma);
   }
 
 
-  public void delete(HttpServletRequest request, EstatDeFirma estatDeFirma) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, EstatDeFirma estatDeFirma) throws I18NException {
     estatDeFirmaEjb.delete(estatDeFirma);
   }
 

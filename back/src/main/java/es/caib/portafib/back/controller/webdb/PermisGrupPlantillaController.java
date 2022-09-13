@@ -669,6 +669,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,PermisGrupPlantillaForm permisGrupPlantillaForm , BindingResult result)  throws I18NException {
   }
 
@@ -709,13 +716,6 @@ public java.lang.Long stringToPK(String value) {
     return "permisGrupPlantillaListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "PermisGrupPlantillaWebDB_FilterForm";
   }
@@ -733,18 +733,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public PermisGrupPlantillaJPA create(HttpServletRequest request, PermisGrupPlantillaJPA permisGrupPlantilla)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (PermisGrupPlantillaJPA) permisGrupPlantillaEjb.create(permisGrupPlantilla);
   }
 
 
   public PermisGrupPlantillaJPA update(HttpServletRequest request, PermisGrupPlantillaJPA permisGrupPlantilla)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (PermisGrupPlantillaJPA) permisGrupPlantillaEjb.update(permisGrupPlantilla);
   }
 
 
-  public void delete(HttpServletRequest request, PermisGrupPlantilla permisGrupPlantilla) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, PermisGrupPlantilla permisGrupPlantilla) throws I18NException {
     permisGrupPlantillaEjb.delete(permisGrupPlantilla);
   }
 

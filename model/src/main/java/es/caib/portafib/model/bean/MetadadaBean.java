@@ -8,8 +8,6 @@ public class MetadadaBean implements Metadada {
 
 
 
-private static final long serialVersionUID = 1026268591L;
-
 	long metadadaID;// PK
 	java.lang.String nom;
 	java.lang.String valor;

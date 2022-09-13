@@ -24,11 +24,10 @@ public interface RoleUsuariEntitatLogicaLocal extends RoleUsuariEntitatService {
 
 	String JNDI_NAME = "java:app/portafib-ejb/RoleUsuariEntitatLogicaEJB";
   
-	public void deleteFull(String usuariEntitatID, String roleID)
-	   throws Exception, I18NException;
+	public void deleteFull(String usuariEntitatID, String roleID) throws I18NException;
 	
 	public RoleUsuariEntitatJPA createFull(RoleUsuariEntitatJPA instance)
-	   throws Exception, I18NException, I18NValidationException;
+	   throws I18NException, I18NValidationException;
 	
 
   public List<RoleUsuariEntitat> selectFullWithEntitat(Where where,

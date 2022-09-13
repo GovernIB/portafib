@@ -16,7 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "PerfilsPerUsuariAplicacioJPA")
 @Table(name = "pfi_perfilsperusrapp" , indexes = { 
         @Index(name="pfi_perfilsperusrapp_pk_i", columnList = "perfilsperusrappid"),
         @Index(name="pfi_perfilsua_perfilid_fk_i", columnList = "usuariaplicacioperfilid"),
@@ -26,10 +26,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="PERFILSPERUSUARIAPLICACIO_SEQ", sequenceName="pfi_perfilsperusrapp_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PerfilsPerUsuariAplicacioJPA implements PerfilsPerUsuariAplicacio {
-
-
-
-private static final long serialVersionUID = 1190965331L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PERFILSPERUSUARIAPLICACIO_SEQ")

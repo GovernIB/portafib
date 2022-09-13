@@ -8,8 +8,6 @@ public class TipusNotificacioBean implements TipusNotificacio {
 
 
 
-private static final long serialVersionUID = 2142378313L;
-
 	long tipusNotificacioID;// PK
 	java.lang.String nom;
 	java.lang.String descripcio;

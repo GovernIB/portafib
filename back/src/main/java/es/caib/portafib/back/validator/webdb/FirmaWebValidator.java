@@ -81,10 +81,6 @@ public class FirmaWebValidator extends AbstractWebValidator<FirmaForm, Firma>
   public void validate(FirmaForm __form, Firma __bean, Errors errors,
     WebValidationResult<FirmaForm> wvr, boolean isNou) {
 
-    if (isNou) { // Creacio
-      // ================ CREATION
-      // Fitxers 
-    }
     BeanValidatorResult<Firma> __vr = new BeanValidatorResult<Firma>();
     validator.validate(__vr, __bean,
       isNou, blocDeFirmesEjb, firmaEjb, usuariEntitatEjb);
@@ -96,6 +92,10 @@ public class FirmaWebValidator extends AbstractWebValidator<FirmaForm, Firma>
         }
     }
 
+    if (isNou) { // Creacio
+      // ================ CREATION
+      // Fitxers 
+    }
 
   } // Final de metode
 

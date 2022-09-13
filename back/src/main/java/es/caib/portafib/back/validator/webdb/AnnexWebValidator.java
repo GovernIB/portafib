@@ -79,17 +79,6 @@ public class AnnexWebValidator extends AbstractWebValidator<AnnexForm, Annex>
   public void validate(AnnexForm __form, Annex __bean, Errors errors,
     WebValidationResult<AnnexForm> wvr, boolean isNou) {
 
-    if (isNou) { // Creacio
-      // ================ CREATION
-      // Fitxers 
-      CommonsMultipartFile fitxerID = ((AnnexForm)__form).getFitxerID();
-      if (fitxerID == null || fitxerID.isEmpty()) {
-        errors.rejectValue(get(FITXERID), "genapp.validation.required",
-          new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(FITXERID)) },
-          null);
-      }
-
-    }
     BeanValidatorResult<Annex> __vr = new BeanValidatorResult<Annex>();
     validator.validate(__vr, __bean,
       isNou, annexEjb, peticioDeFirmaEjb);
@@ -101,6 +90,19 @@ public class AnnexWebValidator extends AbstractWebValidator<AnnexForm, Annex>
         }
     }
 
+    if (isNou) { // Creacio
+      // ================ CREATION
+      // Fitxers 
+        if (!errors.hasFieldErrors(get(FITXERID))){
+            CommonsMultipartFile fitxerID = ((AnnexForm)__form).getFitxerID();
+            if (fitxerID == null || fitxerID.isEmpty()) {
+                errors.rejectValue(get(FITXERID), "genapp.validation.required",
+                new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(FITXERID)) },
+                null);
+            }
+        }
+
+    }
 
   } // Final de metode
 

@@ -16,9 +16,6 @@ public class EstadisticaJPAManager
 
 
 
-
-    private static final long serialVersionUID = -57996552L;
-
     public static final TableName<Estadistica> _TABLENAME =  new TableName<Estadistica>("EstadisticaJPA");
 
 
@@ -58,7 +55,7 @@ public class EstadisticaJPAManager
         return list.toArray(new Estadistica[list.size()]);
     };
 
-    public synchronized Estadistica create( java.sql.Timestamp _data_, int _tipus_, java.lang.String _entitatID_, java.lang.Double _valor_, java.lang.String _usuariAplicacioID_, java.lang.String _usuariEntitatID_, java.lang.String _parametres_) throws I18NException {
+    public Estadistica create( java.sql.Timestamp _data_, int _tipus_, java.lang.String _entitatID_, java.lang.Double _valor_, java.lang.String _usuariAplicacioID_, java.lang.String _usuariEntitatID_, java.lang.String _parametres_) throws I18NException {
         EstadisticaJPA __bean =  new EstadisticaJPA(_data_,_tipus_,_entitatID_,_valor_,_usuariAplicacioID_,_usuariEntitatID_,_parametres_);
         return create(__bean);
     }

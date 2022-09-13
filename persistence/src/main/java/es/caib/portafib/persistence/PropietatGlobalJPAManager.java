@@ -16,9 +16,6 @@ public class PropietatGlobalJPAManager
 
 
 
-
-    private static final long serialVersionUID = -1396349219L;
-
     public static final TableName<PropietatGlobal> _TABLENAME =  new TableName<PropietatGlobal>("PropietatGlobalJPA");
 
 
@@ -58,7 +55,7 @@ public class PropietatGlobalJPAManager
         return list.toArray(new PropietatGlobal[list.size()]);
     };
 
-    public synchronized PropietatGlobal create( java.lang.String _clau_, java.lang.String _valor_, java.lang.String _entitatID_, java.lang.String _descripcio_) throws I18NException {
+    public PropietatGlobal create( java.lang.String _clau_, java.lang.String _valor_, java.lang.String _entitatID_, java.lang.String _descripcio_) throws I18NException {
         PropietatGlobalJPA __bean =  new PropietatGlobalJPA(_clau_,_valor_,_entitatID_,_descripcio_);
         return create(__bean);
     }

@@ -19,7 +19,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "GrupEntitatJPA")
 @Table(name = "pfi_grupentitat" , indexes = { 
         @Index(name="pfi_grupentitat_pk_i", columnList = "grupentitatid"),
         @Index(name="pfi_grupentitat_entitatid_fk_i", columnList = "entitatid")},
@@ -28,10 +28,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="GRUPENTITAT_SEQ", sequenceName="pfi_grupentitat_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class GrupEntitatJPA implements GrupEntitat {
-
-
-
-private static final long serialVersionUID = -1606199656L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="GRUPENTITAT_SEQ")

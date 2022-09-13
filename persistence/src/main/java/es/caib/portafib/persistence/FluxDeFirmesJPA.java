@@ -16,16 +16,12 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "FluxDeFirmesJPA")
 @Table(name = "pfi_fluxdefirmes" , indexes = { 
         @Index(name="pfi_fluxdefirmes_pk_i", columnList = "fluxdefirmesid")})
 @SequenceGenerator(name="FLUXDEFIRMES_SEQ", sequenceName="pfi_fluxdefirmes_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class FluxDeFirmesJPA implements FluxDeFirmes {
-
-
-
-private static final long serialVersionUID = -624049275L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="FLUXDEFIRMES_SEQ")

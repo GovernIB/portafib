@@ -13,16 +13,12 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "RoleJPA")
 @Table(name = "pfi_role" , indexes = { 
         @Index(name="pfi_role_pk_i", columnList = "roleid")})
 @SequenceGenerator(name="ROLE_SEQ", sequenceName="pfi_role_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class RoleJPA implements Role {
-
-
-
-private static final long serialVersionUID = -1253450907L;
 
     @Id
     @Column(name="roleid",nullable = false,length = 50)

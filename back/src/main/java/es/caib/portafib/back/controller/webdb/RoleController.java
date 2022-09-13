@@ -538,6 +538,13 @@ public java.lang.String stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,RoleForm roleForm , BindingResult result)  throws I18NException {
   }
 
@@ -578,13 +585,6 @@ public java.lang.String stringToPK(String value) {
     return "roleListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "RoleWebDB_FilterForm";
   }
@@ -602,18 +602,18 @@ public java.lang.String stringToPK(String value) {
 
 
   public RoleJPA create(HttpServletRequest request, RoleJPA role)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (RoleJPA) roleEjb.create(role);
   }
 
 
   public RoleJPA update(HttpServletRequest request, RoleJPA role)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (RoleJPA) roleEjb.update(role);
   }
 
 
-  public void delete(HttpServletRequest request, Role role) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, Role role) throws I18NException {
     roleEjb.delete(role);
   }
 

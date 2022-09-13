@@ -1333,6 +1333,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,UsuariAplicacioConfiguracioForm usuariAplicacioConfiguracioForm , BindingResult result)  throws I18NException {
   }
 
@@ -1373,13 +1380,6 @@ public java.lang.Long stringToPK(String value) {
     return "usuariAplicacioConfiguracioListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "UsuariAplicacioConfiguracioWebDB_FilterForm";
   }
@@ -1397,18 +1397,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public UsuariAplicacioConfiguracioJPA create(HttpServletRequest request, UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (UsuariAplicacioConfiguracioJPA) usuariAplicacioConfiguracioEjb.create(usuariAplicacioConfiguracio);
   }
 
 
   public UsuariAplicacioConfiguracioJPA update(HttpServletRequest request, UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (UsuariAplicacioConfiguracioJPA) usuariAplicacioConfiguracioEjb.update(usuariAplicacioConfiguracio);
   }
 
 
-  public void delete(HttpServletRequest request, UsuariAplicacioConfiguracio usuariAplicacioConfiguracio) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, UsuariAplicacioConfiguracio usuariAplicacioConfiguracio) throws I18NException {
     usuariAplicacioConfiguracioEjb.delete(usuariAplicacioConfiguracio);
   }
 

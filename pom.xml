@@ -130,8 +130,8 @@
 		<keycloak.version>6.0.1</keycloak.version>
 		<!-- 6.0.1 -->
 		<cxf.version>3.3.3</cxf.version>
-		<junit.version>4.8.2</junit.version>
-		<hibernate.version>5.3.17.Final</hibernate.version>
+		<junit.version>4.13.1</junit.version>
+		<hibernate.version>5.3.15.Final</hibernate.version>
 		<hibernate.annotations.version>5.3.15.Final</hibernate.annotations.version>
 		<resteasy.version>3.6.3.Final</resteasy.version>
 		<jboss-logging.version>3.3.2.Final</jboss-logging.version>
@@ -160,8 +160,15 @@
 				<scope>test</scope>
 			</dependency>
 			
-			
-			
+			<!-- fixar versió de jboss-logging ja que Hibernate i RestEasy fan referència 
+				a varies versions -->
+			<dependency>
+				<groupId>org.jboss.logging</groupId>
+				<artifactId>jboss-logging</artifactId>
+				<version>${jboss-logging.version}</version>
+				<scope>test</scope>
+			</dependency>
+
 			<dependency>
 				<groupId>com.sun.xml.bind</groupId>
 				<artifactId>jaxb-xjc</artifactId>
@@ -205,7 +212,7 @@
 				<scope>import</scope>
 			</dependency>
 			
-			<!--
+			
 			<dependency>
 				<groupId>org.jboss.bom</groupId>
 				<artifactId>jboss-eap-javaee8-with-tools</artifactId>
@@ -213,7 +220,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			-->
+			
 			<dependency>
 				<groupId>org.jboss.spec</groupId>
 				<artifactId>jboss-javaee-8.0</artifactId>
@@ -238,9 +245,10 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
-				<version>5.3.14.Final-redhat-00001</version>
-				<scope>provided</scope>
+				<version>${hibernate.version}</version>
 				<!--
+				<scope>provided</scope>
+				
 				<exclusions>
 				   <exclusion>
 					  <groupId>org.dom4j</groupId>
@@ -249,22 +257,23 @@
 				</exclusions>
 				-->
 			</dependency>
-			
+
+				<!--
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-entitymanager</artifactId>
 				<version>5.3.14.Final-redhat-00001</version>
 				<scope>provided</scope>
-				<!--
+			
 				<exclusions>
 				   <exclusion>
 					  <groupId>org.dom4j</groupId>
 					  <artifactId>dom4j</artifactId>
 				   </exclusion>
 				</exclusions>
-				-->
+				
 			</dependency>
-			
+			-->
 
 			<!-- Altres llibreries emprades dins els mòduls -->
 			<dependency>
@@ -301,12 +310,14 @@
 				<version>1.60</version>
 				<scope>provided</scope>
 			</dependency>
+			<!--
 			<dependency>
 				<groupId>net.bytebuddy</groupId>
 				<artifactId>byte-buddy</artifactId>
 				<version>1.9.11</version>
 				<scope>provided</scope>
 			</dependency>
+
 			<dependency>
 				<groupId>com.fasterxml</groupId>
 				<artifactId>classmate</artifactId>
@@ -319,12 +330,14 @@
 				<version>1.2</version>
 				<scope>provided</scope>
 			</dependency>
+		
 			<dependency>
 				<groupId>org.javassist</groupId>
 				<artifactId>javassist</artifactId>
 				<version>3.23.2-GA</version>
 				<scope>provided</scope>
 			</dependency>
+						-->
 			<dependency>
 				<groupId>javax.json</groupId>
 				<artifactId>javax.json-api</artifactId>
@@ -361,12 +374,14 @@
 				<version>1.0.0.redhat-1</version>
 				<scope>provided</scope>
 			</dependency>
+			
 			<dependency>
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
 				<version>1.2.17</version>
 				<scope>provided</scope>
 			</dependency>
+			
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-databind</artifactId>

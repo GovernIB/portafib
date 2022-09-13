@@ -8,8 +8,6 @@ public class AnnexBean implements Annex {
 
 
 
-private static final long serialVersionUID = -1239224316L;
-
 	long annexID;// PK
 	long peticioDeFirmaID;
 	long fitxerID;

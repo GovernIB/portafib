@@ -16,7 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "ModulDeFirmaPerTipusDeDocumentJPA")
 @Table(name = "pfi_modulfirmapertipusdoc" , indexes = { 
         @Index(name="pfi_modulfirmapertipusdoc_pk_i", columnList = "id"),
         @Index(name="pfi_mofitido_tipusdoc_fk_i", columnList = "tipusdocumentid"),
@@ -26,10 +26,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="MODULDEFIRMAPERTIPUSDEDOCUMENT_SEQ", sequenceName="pfi_modulfirmapertipusdoc_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class ModulDeFirmaPerTipusDeDocumentJPA implements ModulDeFirmaPerTipusDeDocument {
-
-
-
-private static final long serialVersionUID = 2145428058L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="MODULDEFIRMAPERTIPUSDEDOCUMENT_SEQ")

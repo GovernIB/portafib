@@ -34,6 +34,14 @@ public class TraduccioEJB extends TraduccioJPAManager implements TraduccioServic
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(Traduccio instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public TraduccioJPA findByPrimaryKey(Long _ID_) {
         return (TraduccioJPA)super.findByPrimaryKey(_ID_);
     }

@@ -13,16 +13,12 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "IdiomaJPA")
 @Table(name = "pfi_idioma" , indexes = { 
         @Index(name="pfi_idioma_pk_i", columnList = "idiomaid")})
 @SequenceGenerator(name="IDIOMA_SEQ", sequenceName="pfi_idioma_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class IdiomaJPA implements Idioma {
-
-
-
-private static final long serialVersionUID = 1367253670L;
 
     @Id
     @Column(name="idiomaid",nullable = false,length = 5)
@@ -32,10 +28,11 @@ private static final long serialVersionUID = 1367253670L;
     java.lang.String nom;
 
     @Column(name="suportat",nullable = false,length = 1)
-    boolean suportat;
+    boolean suportat = true;
 
+    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="ordre",nullable = false,length = 10)
-    int ordre;
+    int ordre = 0;
 
 
 

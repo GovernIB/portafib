@@ -169,7 +169,7 @@ public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitat
 
   @Override
   public void delete(HttpServletRequest request, RoleUsuariEntitat roleUsuariEntitat)
-      throws Exception, I18NException {
+      throws I18NException {
 
     // #169 Ho feim a SACO => Si apareix a alguna Peticio de Firma
     // com a revisor llavors no es pot esborrar

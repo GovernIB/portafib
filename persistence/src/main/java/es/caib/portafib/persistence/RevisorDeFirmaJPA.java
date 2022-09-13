@@ -15,7 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "RevisorDeFirmaJPA")
 @Table(name = "pfi_revisordefirma" , indexes = { 
         @Index(name="pfi_revisordefirma_pk_i", columnList = "revisordefirmaid"),
         @Index(name="pfi_revfirma_usrentitat_fk_i", columnList = "usuarientitatid"),
@@ -23,10 +23,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="REVISORDEFIRMA_SEQ", sequenceName="pfi_revisordefirma_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class RevisorDeFirmaJPA implements RevisorDeFirma {
-
-
-
-private static final long serialVersionUID = -234707383L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="REVISORDEFIRMA_SEQ")

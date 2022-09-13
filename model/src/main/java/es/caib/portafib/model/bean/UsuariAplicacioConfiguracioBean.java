@@ -8,8 +8,6 @@ public class UsuariAplicacioConfiguracioBean implements UsuariAplicacioConfigura
 
 
 
-private static final long serialVersionUID = 333534165L;
-
 	long usuariAplicacioConfigID;// PK
 	java.lang.String nom;
 	java.lang.String entitatID;

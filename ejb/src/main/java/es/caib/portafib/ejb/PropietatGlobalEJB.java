@@ -34,6 +34,14 @@ public class PropietatGlobalEJB extends PropietatGlobalJPAManager implements Pro
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(PropietatGlobal instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public PropietatGlobalJPA findByPrimaryKey(Long _ID_) {
         return (PropietatGlobalJPA)super.findByPrimaryKey(_ID_);
     }

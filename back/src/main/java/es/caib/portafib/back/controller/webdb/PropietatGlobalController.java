@@ -607,6 +607,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,PropietatGlobalForm propietatGlobalForm , BindingResult result)  throws I18NException {
   }
 
@@ -647,13 +654,6 @@ public java.lang.Long stringToPK(String value) {
     return "propietatGlobalListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "PropietatGlobalWebDB_FilterForm";
   }
@@ -671,18 +671,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public PropietatGlobalJPA create(HttpServletRequest request, PropietatGlobalJPA propietatGlobal)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (PropietatGlobalJPA) propietatGlobalEjb.create(propietatGlobal);
   }
 
 
   public PropietatGlobalJPA update(HttpServletRequest request, PropietatGlobalJPA propietatGlobal)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (PropietatGlobalJPA) propietatGlobalEjb.update(propietatGlobal);
   }
 
 
-  public void delete(HttpServletRequest request, PropietatGlobal propietatGlobal) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, PropietatGlobal propietatGlobal) throws I18NException {
     propietatGlobalEjb.delete(propietatGlobal);
   }
 

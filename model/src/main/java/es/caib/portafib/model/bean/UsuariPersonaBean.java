@@ -8,8 +8,6 @@ public class UsuariPersonaBean implements UsuariPersona {
 
 
 
-private static final long serialVersionUID = 1803901243L;
-
 	java.lang.String usuariPersonaID;// PK
 	java.lang.String nom;
 	java.lang.String llinatges;

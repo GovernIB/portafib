@@ -54,7 +54,7 @@ public class ModulDeFirmaWebAdminController extends AbstractPluginAdminControlle
    * Empra el mètode específic que comprova que no es borri si està relacionat amb tipus documental.
    */
   @Override
-  public void delete(HttpServletRequest request, Plugin plugin) throws Exception, I18NException {
+  public void delete(HttpServletRequest request, Plugin plugin) throws I18NException {
     modulDeFirmaEjb.deleteFull(plugin);
   }
 }

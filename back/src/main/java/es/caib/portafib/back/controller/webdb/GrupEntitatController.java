@@ -606,6 +606,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,GrupEntitatForm grupEntitatForm , BindingResult result)  throws I18NException {
   }
 
@@ -646,13 +653,6 @@ public java.lang.Long stringToPK(String value) {
     return "grupEntitatListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "GrupEntitatWebDB_FilterForm";
   }
@@ -670,18 +670,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public GrupEntitatJPA create(HttpServletRequest request, GrupEntitatJPA grupEntitat)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (GrupEntitatJPA) grupEntitatEjb.create(grupEntitat);
   }
 
 
   public GrupEntitatJPA update(HttpServletRequest request, GrupEntitatJPA grupEntitat)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (GrupEntitatJPA) grupEntitatEjb.update(grupEntitat);
   }
 
 
-  public void delete(HttpServletRequest request, GrupEntitat grupEntitat) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, GrupEntitat grupEntitat) throws I18NException {
     grupEntitatEjb.delete(grupEntitat);
   }
 

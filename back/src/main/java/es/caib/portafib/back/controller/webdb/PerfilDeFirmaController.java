@@ -846,6 +846,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,PerfilDeFirmaForm perfilDeFirmaForm , BindingResult result)  throws I18NException {
   }
 
@@ -886,13 +893,6 @@ public java.lang.Long stringToPK(String value) {
     return "perfilDeFirmaListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "PerfilDeFirmaWebDB_FilterForm";
   }
@@ -910,18 +910,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public PerfilDeFirmaJPA create(HttpServletRequest request, PerfilDeFirmaJPA perfilDeFirma)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (PerfilDeFirmaJPA) perfilDeFirmaEjb.create(perfilDeFirma);
   }
 
 
   public PerfilDeFirmaJPA update(HttpServletRequest request, PerfilDeFirmaJPA perfilDeFirma)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (PerfilDeFirmaJPA) perfilDeFirmaEjb.update(perfilDeFirma);
   }
 
 
-  public void delete(HttpServletRequest request, PerfilDeFirma perfilDeFirma) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, PerfilDeFirma perfilDeFirma) throws I18NException {
     perfilDeFirmaEjb.delete(perfilDeFirma);
   }
 

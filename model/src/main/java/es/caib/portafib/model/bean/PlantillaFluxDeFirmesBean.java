@@ -8,8 +8,6 @@ public class PlantillaFluxDeFirmesBean implements PlantillaFluxDeFirmes {
 
 
 
-private static final long serialVersionUID = 23257577L;
-
 	long fluxDeFirmesID;// PK
 	java.lang.String descripcio;
 	java.lang.String usuariEntitatID;

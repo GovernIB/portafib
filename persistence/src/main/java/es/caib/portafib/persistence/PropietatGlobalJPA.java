@@ -16,7 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "PropietatGlobalJPA")
 @Table(name = "pfi_propietatglobal" , indexes = { 
         @Index(name="pfi_propietatglobal_pk_i", columnList = "propietatglobalid"),
         @Index(name="pfi_propietat_entitatid_fk_i", columnList = "entitatid")},
@@ -25,10 +25,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="PROPIETATGLOBAL_SEQ", sequenceName="pfi_propietatglobal_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PropietatGlobalJPA implements PropietatGlobal {
-
-
-
-private static final long serialVersionUID = 1545722544L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PROPIETATGLOBAL_SEQ")

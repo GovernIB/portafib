@@ -207,13 +207,13 @@ public abstract class AbstractGestioRoleUsuariEntitatController extends RoleUsua
 
   @Override
   public void delete(HttpServletRequest request, RoleUsuariEntitat roleUsuariEntitat)
-      throws Exception, I18NException {
+      throws I18NException {
       roleUsuariEntitatLogicaEjb.deleteFull(roleUsuariEntitat.getUsuariEntitatID(), getRoleGestionat());
   }
   
   @Override
   public RoleUsuariEntitatJPA create(HttpServletRequest request, RoleUsuariEntitatJPA roleUsuariEntitat)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return roleUsuariEntitatLogicaEjb.createFull(roleUsuariEntitat);
   }
 

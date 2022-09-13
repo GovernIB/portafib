@@ -18,7 +18,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "FirmaJPA")
 @Table(name = "pfi_firma" , indexes = { 
         @Index(name="pfi_firma_pk_i", columnList = "firmaid"),
         @Index(name="pfi_firma_destinatariid_fk_i", columnList = "destinatariid"),
@@ -28,10 +28,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="FIRMA_SEQ", sequenceName="pfi_firma_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class FirmaJPA implements Firma {
-
-
-
-private static final long serialVersionUID = -491371752L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="FIRMA_SEQ")
@@ -90,8 +86,9 @@ private static final long serialVersionUID = -491371752L;
     @Column(name="motiu",length = 255)
     java.lang.String motiu;
 
+    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="minimderevisors",nullable = false,length = 10)
-    int minimDeRevisors;
+    int minimDeRevisors = 0;
 
     @Column(name="checkadministrationidofsigner",length = 1)
     java.lang.Boolean checkAdministrationIdOfSigner;

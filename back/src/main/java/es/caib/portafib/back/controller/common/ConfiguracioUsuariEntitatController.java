@@ -198,7 +198,7 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
   }
 
   @Override
-  public UsuariEntitatJPA update(HttpServletRequest request, UsuariEntitatJPA usuariEntitat) throws Exception, I18NException, I18NValidationException {
+  public UsuariEntitatJPA update(HttpServletRequest request, UsuariEntitatJPA usuariEntitat) throws I18NException, I18NValidationException {
     return (UsuariEntitatJPA) usuariEntitatLogicaEjb.update(usuariEntitat);
   }
 }

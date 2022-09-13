@@ -96,10 +96,6 @@ public class PeticioDeFirmaWebValidator extends AbstractWebValidator<PeticioDeFi
   public void validate(PeticioDeFirmaForm __form, PeticioDeFirma __bean, Errors errors,
     WebValidationResult<PeticioDeFirmaForm> wvr, boolean isNou) {
 
-    if (isNou) { // Creacio
-      // ================ CREATION
-      // Fitxers 
-    }
     BeanValidatorResult<PeticioDeFirma> __vr = new BeanValidatorResult<PeticioDeFirma>();
     validator.validate(__vr, __bean,
       isNou, custodiaInfoEjb, fluxDeFirmesEjb, idiomaEjb, peticioDeFirmaEjb, tipusDocumentEjb, usuariAplicacioEjb, usuariAplicacioConfiguracioEjb, usuariEntitatEjb);
@@ -111,6 +107,10 @@ public class PeticioDeFirmaWebValidator extends AbstractWebValidator<PeticioDeFi
         }
     }
 
+    if (isNou) { // Creacio
+      // ================ CREATION
+      // Fitxers 
+    }
 
   } // Final de metode
 

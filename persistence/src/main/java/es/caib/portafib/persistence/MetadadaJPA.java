@@ -17,7 +17,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "MetadadaJPA")
 @Table(name = "pfi_metadada" , indexes = { 
         @Index(name="pfi_metadada_pk_i", columnList = "metadadaid"),
         @Index(name="pfi_metadada_peticioid_fk_i", columnList = "peticiodefirmaid"),
@@ -25,10 +25,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="METADADA_SEQ", sequenceName="pfi_metadada_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class MetadadaJPA implements Metadada {
-
-
-
-private static final long serialVersionUID = 171659772L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="METADADA_SEQ")

@@ -8,8 +8,6 @@ public class PermisUsuariPlantillaBean implements PermisUsuariPlantilla {
 
 
 
-private static final long serialVersionUID = -583639400L;
-
 	long permisUsuariPlantillaID;// PK
 	java.lang.String usuariEntitatID;
 	long plantillaFluxDeFirmesID;

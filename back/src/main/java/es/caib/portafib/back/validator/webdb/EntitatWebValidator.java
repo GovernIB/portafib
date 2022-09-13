@@ -176,45 +176,6 @@ _ignoreFields.add(FIRMATPERFORMATID);
     }
 
   }
-    if (isNou) { // Creacio
-      // ================ CREATION
-      // Fitxers 
-      CommonsMultipartFile faviconID = ((EntitatForm)__form).getFaviconID();
-      if (faviconID == null || faviconID.isEmpty()) {
-        errors.rejectValue(get(FAVICONID), "genapp.validation.required",
-          new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(FAVICONID)) },
-          null);
-      }
-
-      CommonsMultipartFile logoWebID = ((EntitatForm)__form).getLogoWebID();
-      if (logoWebID == null || logoWebID.isEmpty()) {
-        errors.rejectValue(get(LOGOWEBID), "genapp.validation.required",
-          new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(LOGOWEBID)) },
-          null);
-      }
-
-      CommonsMultipartFile logoWebPeuID = ((EntitatForm)__form).getLogoWebPeuID();
-      if (logoWebPeuID == null || logoWebPeuID.isEmpty()) {
-        errors.rejectValue(get(LOGOWEBPEUID), "genapp.validation.required",
-          new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(LOGOWEBPEUID)) },
-          null);
-      }
-
-      CommonsMultipartFile logoSegellID = ((EntitatForm)__form).getLogoSegellID();
-      if (logoSegellID == null || logoSegellID.isEmpty()) {
-        errors.rejectValue(get(LOGOSEGELLID), "genapp.validation.required",
-          new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(LOGOSEGELLID)) },
-          null);
-      }
-
-      CommonsMultipartFile pdfAutoritzacioDelegacioID = ((EntitatForm)__form).getPdfAutoritzacioDelegacioID();
-      if (pdfAutoritzacioDelegacioID == null || pdfAutoritzacioDelegacioID.isEmpty()) {
-        errors.rejectValue(get(PDFAUTORITZACIODELEGACIOID), "genapp.validation.required",
-          new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(PDFAUTORITZACIODELEGACIOID)) },
-          null);
-      }
-
-    }
     BeanValidatorResult<Entitat> __vr = new BeanValidatorResult<Entitat>();
     validator.validate(__vr, __bean,
       isNou, custodiaInfoEjb, entitatEjb, pluginEjb, traduccioEjb, usuariAplicacioEjb);
@@ -226,6 +187,55 @@ _ignoreFields.add(FIRMATPERFORMATID);
         }
     }
 
+    if (isNou) { // Creacio
+      // ================ CREATION
+      // Fitxers 
+        if (!errors.hasFieldErrors(get(FAVICONID))){
+            CommonsMultipartFile faviconID = ((EntitatForm)__form).getFaviconID();
+            if (faviconID == null || faviconID.isEmpty()) {
+                errors.rejectValue(get(FAVICONID), "genapp.validation.required",
+                new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(FAVICONID)) },
+                null);
+            }
+        }
+
+        if (!errors.hasFieldErrors(get(LOGOWEBID))){
+            CommonsMultipartFile logoWebID = ((EntitatForm)__form).getLogoWebID();
+            if (logoWebID == null || logoWebID.isEmpty()) {
+                errors.rejectValue(get(LOGOWEBID), "genapp.validation.required",
+                new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(LOGOWEBID)) },
+                null);
+            }
+        }
+
+        if (!errors.hasFieldErrors(get(LOGOWEBPEUID))){
+            CommonsMultipartFile logoWebPeuID = ((EntitatForm)__form).getLogoWebPeuID();
+            if (logoWebPeuID == null || logoWebPeuID.isEmpty()) {
+                errors.rejectValue(get(LOGOWEBPEUID), "genapp.validation.required",
+                new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(LOGOWEBPEUID)) },
+                null);
+            }
+        }
+
+        if (!errors.hasFieldErrors(get(LOGOSEGELLID))){
+            CommonsMultipartFile logoSegellID = ((EntitatForm)__form).getLogoSegellID();
+            if (logoSegellID == null || logoSegellID.isEmpty()) {
+                errors.rejectValue(get(LOGOSEGELLID), "genapp.validation.required",
+                new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(LOGOSEGELLID)) },
+                null);
+            }
+        }
+
+        if (!errors.hasFieldErrors(get(PDFAUTORITZACIODELEGACIOID))){
+            CommonsMultipartFile pdfAutoritzacioDelegacioID = ((EntitatForm)__form).getPdfAutoritzacioDelegacioID();
+            if (pdfAutoritzacioDelegacioID == null || pdfAutoritzacioDelegacioID.isEmpty()) {
+                errors.rejectValue(get(PDFAUTORITZACIODELEGACIOID), "genapp.validation.required",
+                new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(PDFAUTORITZACIODELEGACIOID)) },
+                null);
+            }
+        }
+
+    }
 
   } // Final de metode
 

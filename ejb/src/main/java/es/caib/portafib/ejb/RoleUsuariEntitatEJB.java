@@ -34,6 +34,14 @@ public class RoleUsuariEntitatEJB extends RoleUsuariEntitatJPAManager implements
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(RoleUsuariEntitat instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public RoleUsuariEntitatJPA findByPrimaryKey(Long _ID_) {
         return (RoleUsuariEntitatJPA)super.findByPrimaryKey(_ID_);
     }

@@ -15,7 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "AnnexFirmatJPA")
 @Table(name = "pfi_annexfirmat" , indexes = { 
         @Index(name="pfi_annexfirmat_pk_i", columnList = "annexfirmatid"),
         @Index(name="pfi_annexfirmat_fitxerid_fk_i", columnList = "fitxerid"),
@@ -24,10 +24,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="ANNEXFIRMAT_SEQ", sequenceName="pfi_annexfirmat_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class AnnexFirmatJPA implements AnnexFirmat {
-
-
-
-private static final long serialVersionUID = -658588842L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ANNEXFIRMAT_SEQ")

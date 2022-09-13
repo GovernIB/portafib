@@ -24,16 +24,12 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "TraduccioJPA")
 @Table(name = "pfi_traduccio" , indexes = { 
         @Index(name="pfi_traduccio_pk_i", columnList = "traduccioid")})
 @SequenceGenerator(name="TRADUCCIO_SEQ", sequenceName="pfi_traduccio_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class TraduccioJPA implements Traduccio {
-
-
-
-private static final long serialVersionUID = -326205279L;
 
   /**  */
     @Id
@@ -142,19 +138,6 @@ private static final long serialVersionUID = -326205279L;
     }
 
 
-// EXP  Field:motiudelegacioid | Table: pfi_usuariaplicacioconfig | Type: 0  
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "motiuDelegacioID")
-    private Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracio_motiudelegacioids = new HashSet<UsuariAplicacioConfiguracioJPA>(0);
-    public  Set<UsuariAplicacioConfiguracioJPA> getUsuariAplicacioConfiguracio_motiudelegacioids() {
-    return this.usuariAplicacioConfiguracio_motiudelegacioids;
-  }
-
-    public void setUsuariAplicacioConfiguracio_motiudelegacioids(Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracio_motiudelegacioids) {
-      this.usuariAplicacioConfiguracio_motiudelegacioids = usuariAplicacioConfiguracio_motiudelegacioids;
-    }
-
-
 // EXP  Field:firmatperformatid | Table: pfi_usuariaplicacioconfig | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "firmatPerFormatID")
@@ -165,6 +148,19 @@ private static final long serialVersionUID = -326205279L;
 
     public void setUsuariAplicacioConfiguracio_firmatperformatids(Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracio_firmatperformatids) {
       this.usuariAplicacioConfiguracio_firmatperformatids = usuariAplicacioConfiguracio_firmatperformatids;
+    }
+
+
+// EXP  Field:motiudelegacioid | Table: pfi_usuariaplicacioconfig | Type: 0  
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "motiuDelegacioID")
+    private Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracio_motiudelegacioids = new HashSet<UsuariAplicacioConfiguracioJPA>(0);
+    public  Set<UsuariAplicacioConfiguracioJPA> getUsuariAplicacioConfiguracio_motiudelegacioids() {
+    return this.usuariAplicacioConfiguracio_motiudelegacioids;
+  }
+
+    public void setUsuariAplicacioConfiguracio_motiudelegacioids(Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracio_motiudelegacioids) {
+      this.usuariAplicacioConfiguracio_motiudelegacioids = usuariAplicacioConfiguracio_motiudelegacioids;
     }
 
 

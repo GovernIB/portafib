@@ -17,7 +17,7 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "UsuariPersonaJPA")
 @Table(name = "pfi_usuaripersona" , indexes = { 
         @Index(name="pfi_usuaripersona_pk_i", columnList = "usuaripersonaid"),
         @Index(name="pfi_usuaripersona_nif_i", columnList = "nif"),
@@ -28,10 +28,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="USUARIPERSONA_SEQ", sequenceName="pfi_usuaripersona_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class UsuariPersonaJPA implements UsuariPersona {
-
-
-
-private static final long serialVersionUID = -80349968L;
 
   /** Identificador en el sistema de seguretat */
     @Id
@@ -58,7 +54,7 @@ private static final long serialVersionUID = -80349968L;
     java.lang.Long rubricaID;
 
     @Column(name="usuariintern",nullable = false,length = 1)
-    boolean usuariIntern;
+    boolean usuariIntern = true;
 
     @Column(name="contrasenya",length = 255)
     java.lang.String contrasenya;

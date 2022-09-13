@@ -665,6 +665,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,UsuariEntitatFavoritForm usuariEntitatFavoritForm , BindingResult result)  throws I18NException {
   }
 
@@ -705,13 +712,6 @@ public java.lang.Long stringToPK(String value) {
     return "usuariEntitatFavoritListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "UsuariEntitatFavoritWebDB_FilterForm";
   }
@@ -729,18 +729,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public UsuariEntitatFavoritJPA create(HttpServletRequest request, UsuariEntitatFavoritJPA usuariEntitatFavorit)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (UsuariEntitatFavoritJPA) usuariEntitatFavoritEjb.create(usuariEntitatFavorit);
   }
 
 
   public UsuariEntitatFavoritJPA update(HttpServletRequest request, UsuariEntitatFavoritJPA usuariEntitatFavorit)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (UsuariEntitatFavoritJPA) usuariEntitatFavoritEjb.update(usuariEntitatFavorit);
   }
 
 
-  public void delete(HttpServletRequest request, UsuariEntitatFavorit usuariEntitatFavorit) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, UsuariEntitatFavorit usuariEntitatFavorit) throws I18NException {
     usuariEntitatFavoritEjb.delete(usuariEntitatFavorit);
   }
 

@@ -34,6 +34,14 @@ public class PerfilDeFirmaEJB extends PerfilDeFirmaJPAManager implements PerfilD
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(PerfilDeFirma instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public PerfilDeFirmaJPA findByPrimaryKey(Long _ID_) {
         return (PerfilDeFirmaJPA)super.findByPrimaryKey(_ID_);
     }

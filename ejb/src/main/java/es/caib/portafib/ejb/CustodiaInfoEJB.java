@@ -34,6 +34,14 @@ public class CustodiaInfoEJB extends CustodiaInfoJPAManager implements CustodiaI
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(CustodiaInfo instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public CustodiaInfoJPA findByPrimaryKey(Long _ID_) {
         return (CustodiaInfoJPA)super.findByPrimaryKey(_ID_);
     }

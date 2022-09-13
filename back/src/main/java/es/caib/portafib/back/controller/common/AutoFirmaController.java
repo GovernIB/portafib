@@ -887,12 +887,19 @@ public class AutoFirmaController extends FitxerController
 
   
   @Override
-  public void delete(HttpServletRequest request, Fitxer fitxer) throws Exception,I18NException {
-    File f = getAutofirmaBasePath(LoginInfo.getInstance().getUsuariEntitatID(), fitxer.getFitxerID());
-    
-    if (!f.exists()) {
-      FileUtils.deleteDirectory(f);
-    }
+  public void delete(HttpServletRequest request, Fitxer fitxer) throws I18NException {
+      File f = getAutofirmaBasePath(LoginInfo.getInstance().getUsuariEntitatID(), fitxer.getFitxerID());
+
+      if (!f.exists()) {
+          try {
+              FileUtils.deleteDirectory(f);
+          } catch (IOException e) {
+              // XYZ ZZZ TRA
+              String msg = "Error esborrant els fitxers de l'Autofirma:" + e.getMessage();
+              log.error(msg, e);
+              throw new I18NException("genapp.comodi", msg);
+          }
+      }
   }
   
   @Override

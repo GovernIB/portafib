@@ -34,6 +34,14 @@ public class TipusNotificacioEJB extends TipusNotificacioJPAManager implements T
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(TipusNotificacio instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public TipusNotificacioJPA findByPrimaryKey(Long _ID_) {
         return (TipusNotificacioJPA)super.findByPrimaryKey(_ID_);
     }

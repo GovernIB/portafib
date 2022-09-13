@@ -8,8 +8,6 @@ public class TipusDocumentBean implements TipusDocument {
 
 
 
-private static final long serialVersionUID = 1572605540L;
-
 	long tipusDocumentID;// PK
 	long nomID;
 	long tipusDocumentBaseID;

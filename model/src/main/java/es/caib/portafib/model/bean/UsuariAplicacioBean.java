@@ -8,8 +8,6 @@ public class UsuariAplicacioBean implements UsuariAplicacio {
 
 
 
-private static final long serialVersionUID = 1703005582L;
-
 	java.lang.String usuariAplicacioID;// PK
 	java.lang.String entitatID;
 	java.lang.String emailAdmin;

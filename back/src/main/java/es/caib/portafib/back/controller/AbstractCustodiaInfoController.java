@@ -278,8 +278,7 @@ public abstract class AbstractCustodiaInfoController extends CustodiaInfoControl
   }
 
   @Override
-  public void delete(HttpServletRequest request, CustodiaInfo custodiaInfo) throws Exception,
-      I18NException {
+  public void delete(HttpServletRequest request, CustodiaInfo custodiaInfo) throws I18NException {
     custodiaInfoLogicaEjb.deleteCustodiaInfoOfPeticioDeFirma(custodiaInfo);
   }
 

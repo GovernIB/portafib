@@ -16,9 +16,6 @@ public class PluginFirmaWebPerUsuariEntitatJPAManager
 
 
 
-
-    private static final long serialVersionUID = -1961971967L;
-
     public static final TableName<PluginFirmaWebPerUsuariEntitat> _TABLENAME =  new TableName<PluginFirmaWebPerUsuariEntitat>("PluginFirmaWebPerUsuariEntitatJPA");
 
 
@@ -58,7 +55,7 @@ public class PluginFirmaWebPerUsuariEntitatJPAManager
         return list.toArray(new PluginFirmaWebPerUsuariEntitat[list.size()]);
     };
 
-    public synchronized PluginFirmaWebPerUsuariEntitat create( java.lang.String _usuariEntitatID_, long _pluginFirmaWebID_, int _accio_) throws I18NException {
+    public PluginFirmaWebPerUsuariEntitat create( java.lang.String _usuariEntitatID_, long _pluginFirmaWebID_, int _accio_) throws I18NException {
         PluginFirmaWebPerUsuariEntitatJPA __bean =  new PluginFirmaWebPerUsuariEntitatJPA(_usuariEntitatID_,_pluginFirmaWebID_,_accio_);
         return create(__bean);
     }

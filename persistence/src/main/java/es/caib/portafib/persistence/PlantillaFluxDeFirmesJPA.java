@@ -17,7 +17,7 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "PlantillaFluxDeFirmesJPA")
 @Table(name = "pfi_plantillafluxdefirmes" , indexes = { 
         @Index(name="pfi_plantillafluxdefirmes_pk_i", columnList = "fluxdefirmesid"),
         @Index(name="pfi_plantiflfi_usrentiid_fk_i", columnList = "usuarientitatid"),
@@ -25,10 +25,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="PLANTILLAFLUXDEFIRMES_SEQ", sequenceName="pfi_plantillafluxdefirmes_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PlantillaFluxDeFirmesJPA implements PlantillaFluxDeFirmes {
-
-
-
-private static final long serialVersionUID = 139304578L;
 
     @Id
     @Column(name="fluxdefirmesid",nullable = false,length = 19)
@@ -45,7 +41,7 @@ private static final long serialVersionUID = 139304578L;
 
   /** true: compartir amb entitat, false:no compartir amb ningú: NULL: revisar permisos grup i usuaris */
     @Column(name="compartir",length = 1)
-    java.lang.Boolean compartir;
+    java.lang.Boolean compartir = false;
 
 
 

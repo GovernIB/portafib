@@ -119,10 +119,10 @@ public class PluginQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public EntitatQueryPath ENTITAT_PLUGINVALIDAFIRMESIDS() {
+  public EntitatQueryPath ENTITAT_PLUGINRUBRICAIDS() {
     return new EntitatQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return PluginQueryPath.this.getQueryPath() + "entitat_pluginvalidafirmesids" + ".";
+          return PluginQueryPath.this.getQueryPath() + "entitat_pluginrubricaids" + ".";
       }
     });
   }
@@ -133,10 +133,10 @@ public class PluginQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public EntitatQueryPath ENTITAT_PLUGINRUBRICAIDS() {
+  public EntitatQueryPath ENTITAT_PLUGINVALIDAFIRMESIDS() {
     return new EntitatQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return PluginQueryPath.this.getQueryPath() + "entitat_pluginrubricaids" + ".";
+          return PluginQueryPath.this.getQueryPath() + "entitat_pluginvalidafirmesids" + ".";
       }
     });
   }

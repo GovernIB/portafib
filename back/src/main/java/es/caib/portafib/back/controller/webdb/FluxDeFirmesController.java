@@ -538,6 +538,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,FluxDeFirmesForm fluxDeFirmesForm , BindingResult result)  throws I18NException {
   }
 
@@ -578,13 +585,6 @@ public java.lang.Long stringToPK(String value) {
     return "fluxDeFirmesListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "FluxDeFirmesWebDB_FilterForm";
   }
@@ -602,18 +602,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public FluxDeFirmesJPA create(HttpServletRequest request, FluxDeFirmesJPA fluxDeFirmes)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (FluxDeFirmesJPA) fluxDeFirmesEjb.create(fluxDeFirmes);
   }
 
 
   public FluxDeFirmesJPA update(HttpServletRequest request, FluxDeFirmesJPA fluxDeFirmes)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (FluxDeFirmesJPA) fluxDeFirmesEjb.update(fluxDeFirmes);
   }
 
 
-  public void delete(HttpServletRequest request, FluxDeFirmes fluxDeFirmes) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, FluxDeFirmes fluxDeFirmes) throws I18NException {
     fluxDeFirmesEjb.delete(fluxDeFirmes);
   }
 

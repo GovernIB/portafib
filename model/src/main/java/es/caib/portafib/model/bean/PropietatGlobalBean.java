@@ -8,8 +8,6 @@ public class PropietatGlobalBean implements PropietatGlobal {
 
 
 
-private static final long serialVersionUID = 672541563L;
-
 	long propietatGlobalID;// PK
 	java.lang.String clau;
 	java.lang.String valor;

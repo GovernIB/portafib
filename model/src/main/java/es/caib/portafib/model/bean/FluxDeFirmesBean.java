@@ -8,8 +8,6 @@ public class FluxDeFirmesBean implements FluxDeFirmes {
 
 
 
-private static final long serialVersionUID = 2129091910L;
-
 	long fluxDeFirmesID;// PK
 	java.lang.String nom;
 

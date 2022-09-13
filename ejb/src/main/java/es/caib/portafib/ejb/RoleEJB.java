@@ -34,6 +34,14 @@ public class RoleEJB extends RoleJPAManager implements RoleService {
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(Role instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public RoleJPA findByPrimaryKey(String _ID_) {
         return (RoleJPA)super.findByPrimaryKey(_ID_);
     }

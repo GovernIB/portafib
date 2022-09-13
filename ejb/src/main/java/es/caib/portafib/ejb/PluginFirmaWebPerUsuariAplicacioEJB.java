@@ -34,6 +34,14 @@ public class PluginFirmaWebPerUsuariAplicacioEJB extends PluginFirmaWebPerUsuari
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(PluginFirmaWebPerUsuariAplicacio instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public PluginFirmaWebPerUsuariAplicacioJPA findByPrimaryKey(Long _ID_) {
         return (PluginFirmaWebPerUsuariAplicacioJPA)super.findByPrimaryKey(_ID_);
     }

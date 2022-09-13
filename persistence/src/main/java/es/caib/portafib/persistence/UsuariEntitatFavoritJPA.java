@@ -16,7 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "UsuariEntitatFavoritJPA")
 @Table(name = "pfi_usuarientitatfavorit" , indexes = { 
         @Index(name="pfi_usuarientitatfavorit_pk_i", columnList = "id"),
         @Index(name="pfi_favorit_origenid_fk_i", columnList = "origenid"),
@@ -26,10 +26,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="USUARIENTITATFAVORIT_SEQ", sequenceName="pfi_usuarientitatfavorit_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class UsuariEntitatFavoritJPA implements UsuariEntitatFavorit {
-
-
-
-private static final long serialVersionUID = -607428966L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="USUARIENTITATFAVORIT_SEQ")

@@ -34,6 +34,14 @@ public class NotificacioWSEJB extends NotificacioWSJPAManager implements Notific
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(NotificacioWS instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public NotificacioWSJPA findByPrimaryKey(Long _ID_) {
         return (NotificacioWSJPA)super.findByPrimaryKey(_ID_);
     }

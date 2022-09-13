@@ -8,8 +8,6 @@ public class RebreAvisBean implements RebreAvis {
 
 
 
-private static final long serialVersionUID = 842764657L;
-
 	long id;// PK
 	java.lang.String usuariEntitatID;
 	long tipusNotificacioID;

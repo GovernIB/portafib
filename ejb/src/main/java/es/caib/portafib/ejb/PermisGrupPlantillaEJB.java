@@ -34,6 +34,14 @@ public class PermisGrupPlantillaEJB extends PermisGrupPlantillaJPAManager implem
 
     @Override
     @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void deleteIncludingFiles(PermisGrupPlantilla instance,  FitxerService fitxerEjb)
+            throws I18NException {
+
+        this.delete(instance);
+    }
+
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
     public PermisGrupPlantillaJPA findByPrimaryKey(Long _ID_) {
         return (PermisGrupPlantillaJPA)super.findByPrimaryKey(_ID_);
     }

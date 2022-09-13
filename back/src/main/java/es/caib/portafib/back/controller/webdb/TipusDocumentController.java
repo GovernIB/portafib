@@ -755,6 +755,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,TipusDocumentForm tipusDocumentForm , BindingResult result)  throws I18NException {
   }
 
@@ -795,13 +802,6 @@ public java.lang.Long stringToPK(String value) {
     return "tipusDocumentListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "TipusDocumentWebDB_FilterForm";
   }
@@ -819,18 +819,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public TipusDocumentJPA create(HttpServletRequest request, TipusDocumentJPA tipusDocument)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (TipusDocumentJPA) tipusDocumentEjb.create(tipusDocument);
   }
 
 
   public TipusDocumentJPA update(HttpServletRequest request, TipusDocumentJPA tipusDocument)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (TipusDocumentJPA) tipusDocumentEjb.update(tipusDocument);
   }
 
 
-  public void delete(HttpServletRequest request, TipusDocument tipusDocument) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, TipusDocument tipusDocument) throws I18NException {
     tipusDocumentEjb.delete(tipusDocument);
   }
 

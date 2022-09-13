@@ -17,7 +17,7 @@ import java.util.Set;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name = "UsuariEntitatJPA")
 @Table(name = "pfi_usuarientitat" , indexes = { 
         @Index(name="pfi_usuarientitat_pk_i", columnList = "usuarientitatid"),
         @Index(name="pfi_usrentitat_personaid_fk_i", columnList = "usuaripersonaid"),
@@ -29,10 +29,6 @@ import javax.persistence.Id;
 @SequenceGenerator(name="USUARIENTITAT_SEQ", sequenceName="pfi_usuarientitat_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class UsuariEntitatJPA implements UsuariEntitat {
-
-
-
-private static final long serialVersionUID = 2031334771L;
 
     @Id
     @Column(name="usuarientitatid",nullable = false,length = 101)
@@ -48,7 +44,7 @@ private static final long serialVersionUID = 2031334771L;
     java.lang.String entitatID;
 
     @Column(name="actiu",nullable = false,length = 1)
-    boolean actiu;
+    boolean actiu = true;
 
     @Column(name="email",length = 100)
     java.lang.String email;
@@ -57,14 +53,15 @@ private static final long serialVersionUID = 2031334771L;
     java.lang.Long logoSegellID;
 
     @Column(name="predeterminat",nullable = false,length = 1)
-    boolean predeterminat;
+    boolean predeterminat = false;
 
     @Column(name="rebretotselsavisos",nullable = false,length = 1)
-    boolean rebreTotsElsAvisos;
+    boolean rebreTotsElsAvisos = false;
 
   /**  0 - Només plugins de l''entitat, 1 - Plugins de l''entitat més plugins addicionals (afegir o llevar), 2 - Només plugins addicionals (Només els que tenguin marcat afegir)' */
+    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="politicadepluginfirmaweb",nullable = false,length = 10)
-    int politicaDePluginFirmaWeb;
+    int politicaDePluginFirmaWeb = 0;
 
   /** -1: el que digui l'entitat, 0: No permetre, 1:Només Plantilles de l''Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat (Per defecte Actiu), 4: Opcional plantilla Entitat (Per defecte NO Actiu), 5: Llibertat Total (selecció, edició i us) */
     @Column(name="politicacustodia",nullable = false,length = 10)
@@ -227,19 +224,6 @@ private static final long serialVersionUID = 2031334771L;
     return __result;
   }
 
-// EXP  Field:destinatariid | Table: pfi_colaboraciodelegacio | Type: 0  
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "destinatariID")
-    private Set<ColaboracioDelegacioJPA> colaboracioDelegacio_destinatariids = new HashSet<ColaboracioDelegacioJPA>(0);
-    public  Set<ColaboracioDelegacioJPA> getColaboracioDelegacio_destinatariids() {
-    return this.colaboracioDelegacio_destinatariids;
-  }
-
-    public void setColaboracioDelegacio_destinatariids(Set<ColaboracioDelegacioJPA> colaboracioDelegacio_destinatariids) {
-      this.colaboracioDelegacio_destinatariids = colaboracioDelegacio_destinatariids;
-    }
-
-
 // EXP  Field:colaboradordelegatid | Table: pfi_colaboraciodelegacio | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "colaboradorDelegatID")
@@ -250,6 +234,19 @@ private static final long serialVersionUID = 2031334771L;
 
     public void setColaboracioDelegacio_colaboradordelegatids(Set<ColaboracioDelegacioJPA> colaboracioDelegacio_colaboradordelegatids) {
       this.colaboracioDelegacio_colaboradordelegatids = colaboracioDelegacio_colaboradordelegatids;
+    }
+
+
+// EXP  Field:destinatariid | Table: pfi_colaboraciodelegacio | Type: 0  
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "destinatariID")
+    private Set<ColaboracioDelegacioJPA> colaboracioDelegacio_destinatariids = new HashSet<ColaboracioDelegacioJPA>(0);
+    public  Set<ColaboracioDelegacioJPA> getColaboracioDelegacio_destinatariids() {
+    return this.colaboracioDelegacio_destinatariids;
+  }
+
+    public void setColaboracioDelegacio_destinatariids(Set<ColaboracioDelegacioJPA> colaboracioDelegacio_destinatariids) {
+      this.colaboracioDelegacio_destinatariids = colaboracioDelegacio_destinatariids;
     }
 
 
@@ -422,19 +419,6 @@ private static final long serialVersionUID = 2031334771L;
     }
 
 
-// EXP  Field:origenid | Table: pfi_usuarientitatfavorit | Type: 0  
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "origenID")
-    private Set<UsuariEntitatFavoritJPA> usuariEntitatFavorit_origenids = new HashSet<UsuariEntitatFavoritJPA>(0);
-    public  Set<UsuariEntitatFavoritJPA> getUsuariEntitatFavorit_origenids() {
-    return this.usuariEntitatFavorit_origenids;
-  }
-
-    public void setUsuariEntitatFavorit_origenids(Set<UsuariEntitatFavoritJPA> usuariEntitatFavorit_origenids) {
-      this.usuariEntitatFavorit_origenids = usuariEntitatFavorit_origenids;
-    }
-
-
 // EXP  Field:favoritid | Table: pfi_usuarientitatfavorit | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "favoritID")
@@ -445,6 +429,19 @@ private static final long serialVersionUID = 2031334771L;
 
     public void setUsuariEntitatFavorit_favoritids(Set<UsuariEntitatFavoritJPA> usuariEntitatFavorit_favoritids) {
       this.usuariEntitatFavorit_favoritids = usuariEntitatFavorit_favoritids;
+    }
+
+
+// EXP  Field:origenid | Table: pfi_usuarientitatfavorit | Type: 0  
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "origenID")
+    private Set<UsuariEntitatFavoritJPA> usuariEntitatFavorit_origenids = new HashSet<UsuariEntitatFavoritJPA>(0);
+    public  Set<UsuariEntitatFavoritJPA> getUsuariEntitatFavorit_origenids() {
+    return this.usuariEntitatFavorit_origenids;
+  }
+
+    public void setUsuariEntitatFavorit_origenids(Set<UsuariEntitatFavoritJPA> usuariEntitatFavorit_origenids) {
+      this.usuariEntitatFavorit_origenids = usuariEntitatFavorit_origenids;
     }
 
 

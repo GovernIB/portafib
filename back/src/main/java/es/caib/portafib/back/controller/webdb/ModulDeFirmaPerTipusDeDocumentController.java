@@ -669,6 +669,13 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  @Override
+  /** Ha de ser igual que el RequestMapping de la Classe */
+  public String getContextWeb() {
+    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+    return rm.value()[0];
+  }
+
   public void preValidate(HttpServletRequest request,ModulDeFirmaPerTipusDeDocumentForm modulDeFirmaPerTipusDeDocumentForm , BindingResult result)  throws I18NException {
   }
 
@@ -709,13 +716,6 @@ public java.lang.Long stringToPK(String value) {
     return "modulDeFirmaPerTipusDeDocumentListWebDB";
   }
 
-  @Override
-  /** Ha de ser igual que el RequestMapping de la Classe */
-  public String getContextWeb() {
-    RequestMapping rm = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-    return rm.value()[0];
-  }
-
   public String getSessionAttributeFilterForm() {
     return "ModulDeFirmaPerTipusDeDocumentWebDB_FilterForm";
   }
@@ -733,18 +733,18 @@ public java.lang.Long stringToPK(String value) {
 
 
   public ModulDeFirmaPerTipusDeDocumentJPA create(HttpServletRequest request, ModulDeFirmaPerTipusDeDocumentJPA modulDeFirmaPerTipusDeDocument)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (ModulDeFirmaPerTipusDeDocumentJPA) modulDeFirmaPerTipusDeDocumentEjb.create(modulDeFirmaPerTipusDeDocument);
   }
 
 
   public ModulDeFirmaPerTipusDeDocumentJPA update(HttpServletRequest request, ModulDeFirmaPerTipusDeDocumentJPA modulDeFirmaPerTipusDeDocument)
-    throws Exception,I18NException, I18NValidationException {
+    throws I18NException, I18NValidationException {
     return (ModulDeFirmaPerTipusDeDocumentJPA) modulDeFirmaPerTipusDeDocumentEjb.update(modulDeFirmaPerTipusDeDocument);
   }
 
 
-  public void delete(HttpServletRequest request, ModulDeFirmaPerTipusDeDocument modulDeFirmaPerTipusDeDocument) throws Exception,I18NException {
+  public void delete(HttpServletRequest request, ModulDeFirmaPerTipusDeDocument modulDeFirmaPerTipusDeDocument) throws I18NException {
     modulDeFirmaPerTipusDeDocumentEjb.delete(modulDeFirmaPerTipusDeDocument);
   }
 
