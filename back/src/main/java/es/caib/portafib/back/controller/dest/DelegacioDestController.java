@@ -541,7 +541,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                             // No hi ha cap col.laboracio en funcionament en aquest mateix
                             // moment, afegim un boto per si la volen desactivar
                             colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton(
-                                    "icon-ban-circle", "desactivar", "javascript:desactivar({0})", "btn-warning"));
+                                    "fas fa-ban", "desactivar", "javascript:desactivar({0})", "btn-warning"));
                         }
                     } else {
                         colaboracioDelegacioForm.getHiddenFields().remove(MOTIUDESHABILITADA);

@@ -156,12 +156,12 @@ public class EstadisticaAdenController extends EstadisticaController {
       setEstadistiquesPerUsrApp(request, true);
 
       /*
-       * filterForm.addAdditionalButton(new AdditionalButton("icon-signal",
+       * filterForm.addAdditionalButton(new AdditionalButton("fas fa-signal",
        * "estadistica.grafica", "javascript:submitForm('" + request.getContextPath() +
        * getContextWeb() + "/grafic', true)", "btn-info"));
        */
 
-      filterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-info-sign",
+      filterForm.addAdditionalButtonForEachItem(new AdditionalButton("fas fa-info-circle",
           "genapp.viewtitle", getContextWeb() + "/view/{0}", "btn-info"));
 
       filterForm.setGroupBy(EstadisticaFields.TIPUS.javaName);
@@ -190,7 +190,7 @@ public class EstadisticaAdenController extends EstadisticaController {
     filterForm.getAdditionalButtons().clear();
     if (isEstadistiquesPerUsrApp(request)) {
       filterForm.setTitleCode("estadistiques.per.aplicacio");
-      filterForm.addAdditionalButton(new AdditionalButton("icon-user",
+      filterForm.addAdditionalButton(new AdditionalButton("fas fa-user",
           "estadistiques.per.persona", getContextWeb() + "/canvipersonaaplicacio/false",
           "btn-info"));
 
@@ -200,14 +200,14 @@ public class EstadisticaAdenController extends EstadisticaController {
     } else {
       filterForm.setTitleCode("estadistiques.per.persona");
 
-      filterForm.addAdditionalButton(new AdditionalButton("icon-hdd",
+      filterForm.addAdditionalButton(new AdditionalButton("fas fa-hdd",
           "estadistiques.per.aplicacio", getContextWeb() + "/canvipersonaaplicacio/true",
           "btn-info"));
 
       filterForm.addHiddenField(USUARIAPLICACIOID);
       filterForm.getHiddenFields().remove(USUARIENTITATID);
     }
-    filterForm.addAdditionalButton(new AdditionalButton("icon-minus",
+    filterForm.addAdditionalButton(new AdditionalButton("fas fa-minus",
         "estadistiques.simples", getContextWeb() + "/search",
            "btn-info"));
 
@@ -330,7 +330,7 @@ public class EstadisticaAdenController extends EstadisticaController {
     EstadisticaFilterForm filterForm = getEstadisticaFilterForm(1, mav, request);
 
     filterForm.getAdditionalButtons().clear();
-    filterForm.addAdditionalButton(new AdditionalButton("icon-plus",
+    filterForm.addAdditionalButton(new AdditionalButton("fas fa-plus",
            "estadistiques.complexes", getContextWeb() + "/list",
            "btn-info"));
     llistat(mav, request, filterForm);

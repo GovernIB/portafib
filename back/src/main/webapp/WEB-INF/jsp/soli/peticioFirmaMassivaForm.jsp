@@ -12,7 +12,7 @@
       <td>
         <label><fmt:message key="peticioDeFirma.titol" />
         &nbsp;
-        <a href="#" data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />"><i class="icon-info-sign"></i></a>
+        <a href="#" data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />"><i class="fas fa-info-circle"></i></a>
         &nbsp;(*)
         </label>
       </td>
@@ -25,7 +25,7 @@
       <td>
         <label><fmt:message key="peticioDeFirma.descripcio" />
         &nbsp;
-        <a href="#" data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />"><i class="icon-info-sign"></i></a>
+        <a href="#" data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />"><i class="fas fa-info-circle"></i></a>
         &nbsp;(*)
         </label>
       </td>
@@ -38,7 +38,7 @@
       <td>
         <label><fmt:message key="peticioDeFirma.motiu" />
         &nbsp;
-        <a href="#" data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />"><i class="icon-info-sign"></i></a>
+        <a href="#" data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />"><i class="fas fa-info-circle"></i></a>
         &nbsp;(*)
         </label>
       </td>
@@ -66,7 +66,7 @@
       <td>
         <label><fmt:message key="peticioFirmaMassiva.fitxers" />
         &nbsp;
-        <a href="#" data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudafitxers" />"><i class="icon-info-sign"></i></a>
+        <a href="#" data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudafitxers" />"><i class="fas fa-info-circle"></i></a>
         &nbsp;(*)</label>
       </td>
       <td>

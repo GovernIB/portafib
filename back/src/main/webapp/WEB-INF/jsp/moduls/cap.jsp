@@ -125,7 +125,7 @@
 
 							<c:if test="${not empty loginInfo  }">
 								<a class="dropdown-item" href="#"> <i
-									class="icon-user icon-white"></i> <i>
+									class="fas fa-user icon-white"></i> <i>
 										${loginInfo.usuariPersona.nom}&nbsp;${loginInfo.usuariPersona.llinatges}
 								</i>
 								</a>

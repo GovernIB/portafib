@@ -374,10 +374,10 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
       
       if (usuariEntitatForm.getUsuariEntitat().isActiu()) {
         usuariEntitatForm.addAdditionalButton(new AdditionalButton(
-          "icon-ban-circle", "desactivar", getContextWeb() + "/desactivar/{0}", "btn-warning"));
+          "fas fa-ban", "desactivar", getContextWeb() + "/desactivar/{0}", "btn-warning"));
       } else {
         usuariEntitatForm.addAdditionalButton(new AdditionalButton(
-          "icon-play", "activar", getContextWeb() + "/activar/{0}", "btn-success"));
+          "fas fa-play", "activar", getContextWeb() + "/activar/{0}", "btn-success"));
       }
     }
 

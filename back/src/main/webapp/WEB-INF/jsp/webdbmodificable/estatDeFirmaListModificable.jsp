@@ -87,7 +87,7 @@
 
      <%--  Boto de PROCESSAR --%>
      var botoProcessar = '<button type="button" class="btn btn-small btn-warning" onclick="processarInici()">'
-         + '<i class="icon-tasks"></i><fmt:message key="carret.processar.inici" />'
+         + '<i class="fas fa-tasks"></i><fmt:message key="carret.processar.inici" />'
          + '</button>';
 
      function processarInici() {

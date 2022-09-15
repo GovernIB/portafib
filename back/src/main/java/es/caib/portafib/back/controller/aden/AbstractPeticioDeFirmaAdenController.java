@@ -102,7 +102,7 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
       }
 
       peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-          "icon-list-alt icon-white", "peticiodefirma.fitxerspeticio", getContextWeb()
+          "fas fa-list-alt icon-white", "peticiodefirma.fitxerspeticio", getContextWeb()
               + "/fitxerspeticio/{0}",
           // FitxersDePeticioAdenController.CONTEXT_WEB + "/peticio/{0}",
           "btn-info"));
@@ -110,7 +110,7 @@ public abstract class AbstractPeticioDeFirmaAdenController extends
       String bitacolaLink = getBitacolaContextWeb()
           + "/peticio/{0}?returnPath=" + getContextWeb() + "/list";
       peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-          "icon-cog icon-white", "peticiodefirma.bitacola", bitacolaLink, "btn-info"));
+          "fas fa-cog icon-white", "peticiodefirma.bitacola", bitacolaLink, "btn-info"));
     }
 
     final boolean showUsuariEntitat = false;

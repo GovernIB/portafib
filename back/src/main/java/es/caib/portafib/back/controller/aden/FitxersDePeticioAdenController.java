@@ -168,7 +168,7 @@ public class FitxersDePeticioAdenController extends FitxerController {
             }
 
             fitxerFilterForm.addAdditionalButton(
-                    new AdditionalButton("icon-arrow-left icon-white", "tornar",
+                    new AdditionalButton("fas fa-long-arrow-alt-left icon-white", "tornar",
                             CONTEXT_WEB + "/tornar", "btn-primary"));
 
 
