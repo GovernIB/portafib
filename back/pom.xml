@@ -408,7 +408,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${basedir}/src/main/resources</outputDirectory>
+							<outputDirectory>${project.build.directory}/classes</outputDirectory>
 							<resources>
 								<resource>
 									<directory>${basedir}/../ejb/src/main/resources</directory>
