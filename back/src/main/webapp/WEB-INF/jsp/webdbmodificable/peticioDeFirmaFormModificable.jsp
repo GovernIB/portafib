@@ -11,14 +11,14 @@
   */
  function onChangeTipusDocumentID(combo) {
 
-     var value = combo.options[combo.selectedIndex].value;
+/*      var value = combo.options[combo.selectedIndex].value;
      if (value == 99) { 
        // Altres tipus de Documents
        document.getElementById("peticioDeFirma_descripcioTipusDocument_rowid").style.display = '';
      } else {
        document.getElementById("peticioDeFirma_descripcioTipusDocument_rowid").style.display = 'none';
      }
-
+ */
  }
  
  

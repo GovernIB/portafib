@@ -1815,11 +1815,11 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
       peticioDeFirmaForm.setDeleteButtonVisible(false);
       peticioDeFirmaForm.setSaveButtonVisible(false);
 
-      // OCULTAR LA DESCRIPCIO DE TIPUS DE DOCUMENT SI VAL NULL
-      String descr = peticioDeFirmaForm.getPeticioDeFirma().getDescripcioTipusDocument();
-      if (descr == null || descr.trim().length() == 0) {
-        peticioDeFirmaForm.addHiddenField(DESCRIPCIOTIPUSDOCUMENT);
-      }
+//      // OCULTAR LA DESCRIPCIO DE TIPUS DE DOCUMENT SI VAL NULL
+//      String descr = peticioDeFirmaForm.getPeticioDeFirma().getDescripcioTipusDocument();
+//      if (descr == null || descr.trim().length() == 0) {
+//        peticioDeFirmaForm.addHiddenField(DESCRIPCIOTIPUSDOCUMENT);
+//      }
     }
 
     switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
