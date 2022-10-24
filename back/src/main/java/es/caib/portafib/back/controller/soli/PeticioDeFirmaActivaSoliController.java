@@ -110,10 +110,7 @@ public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliContro
       
       boolean descripcioTipusVisible = propietatEjb
               .getBooleanPropertyByEntitat("fundaciobit", ConstantsV2.PORTAFIB_PROPERTY_BASE + "descripcioTipusVisible");
-
-      log.info("descripcioTipusVisible: " + descripcioTipusVisible);
       mav.addObject("descripcioTipusVisible", descripcioTipusVisible);
-      log.info("Holi caracolio");
 
       return peticioDeFirmaForm;
   }
