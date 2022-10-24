@@ -6,7 +6,7 @@
 
 
 
-<c:if test="${descripcioTipusVisible}">
+<c:if test="${descripciotipusvisible}">
     <script type="text/javascript">
     onChangeTipusDocumentID(document.getElementById("peticioDeFirma_tipusDocumentID"));
 
