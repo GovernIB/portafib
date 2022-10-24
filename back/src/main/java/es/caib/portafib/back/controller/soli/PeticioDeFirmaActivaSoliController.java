@@ -2,6 +2,7 @@ package es.caib.portafib.back.controller.soli;
 
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -13,7 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.*;
+import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.model.entity.PeticioDeFirma;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -29,6 +32,8 @@ public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliContro
   
   public static final String FILTER_BY_TITOL_KEY = "filterbytitol";
   
+  @EJB(mappedName = PropietatGlobalLogicaLocal.JNDI_NAME)
+  protected PropietatGlobalLogicaLocal propietatEjb;
 
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
@@ -96,4 +101,20 @@ public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliContro
      
   }
 
+
+  @Override
+  public PeticioDeFirmaForm getPeticioDeFirmaForm(PeticioDeFirmaJPA _jpa2, boolean __isView,
+          HttpServletRequest request, ModelAndView mav) throws I18NException {
+
+      PeticioDeFirmaForm peticioDeFirmaForm = super.getPeticioDeFirmaForm(_jpa2, __isView, request, mav);
+      
+      boolean descripcioTipusVisible = propietatEjb
+              .getBooleanPropertyByEntitat("fundaciobit", ConstantsV2.PORTAFIB_PROPERTY_BASE + "descripcioTipusVisible");
+
+      log.info("descripcioTipusVisible: " + descripcioTipusVisible);
+      mav.addObject("descripcioTipusVisible", descripcioTipusVisible);
+      log.info("Holi caracolio");
+
+      return peticioDeFirmaForm;
+  }
 }
