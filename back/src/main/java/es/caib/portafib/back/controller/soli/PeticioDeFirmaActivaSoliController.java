@@ -5,15 +5,21 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
+import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
-import es.caib.portafib.back.form.webdb.*;
+import es.caib.portafib.back.form.webdb.AnnexFilterForm;
+import es.caib.portafib.back.form.webdb.AnnexForm;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
@@ -114,4 +120,53 @@ public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliContro
 
       return peticioDeFirmaForm;
   }
+
+  @Override
+  public List<StringKeyValue> getReferenceListForTipusDocumentID(HttpServletRequest request, ModelAndView mav,
+          PeticioDeFirmaForm peticioDeFirmaForm, Where where) throws I18NException {
+
+      List<StringKeyValue> result;
+      result = super.getReferenceListForTipusDocumentID(request, mav, peticioDeFirmaForm, where);
+      result.add(new StringKeyValue(String.valueOf(Long.MIN_VALUE),
+              I18NUtils.tradueix("peticiodefirma.tipusdocumental.seleccionar")));
+
+      java.util.Collections.sort(result, STRINGKEYVALUE_COMPARATOR);
+
+      peticioDeFirmaForm.getPeticioDeFirma().setTipusDocumentID(Long.MIN_VALUE);
+
+      return result;
+  }
+
+  @Override
+  public void preValidate(HttpServletRequest request, PeticioDeFirmaForm peticioDeFirmaForm, BindingResult result)
+          throws I18NException {
+
+      super.preValidate(request, peticioDeFirmaForm, result);
+
+      PeticioDeFirma peticio = peticioDeFirmaForm.getPeticioDeFirma();
+
+      Long tipusDocumental = peticio.getTipusDocumentID();
+
+      if (tipusDocumental == Long.MIN_VALUE) {
+          String tipusDocKey = peticioDeFirmaForm.getListOfTipusDocumentForTipusDocumentID().get(1).getKey();
+          peticio.setTipusDocumentID(Long.parseLong(tipusDocKey));
+
+          result.rejectValue(get(TIPUSDOCUMENTID), "genapp.validation.required",
+                  new String[] { I18NUtils.tradueix(get(TIPUSDOCUMENTID)) }, null);
+      }
+  }
+
+  @Override
+  public void postValidate(HttpServletRequest request, PeticioDeFirmaForm peticioDeFirmaForm, BindingResult result)
+          throws I18NException {
+
+      super.postValidate(request, peticioDeFirmaForm, result);
+
+      PeticioDeFirma peticio = peticioDeFirmaForm.getPeticioDeFirma();
+
+      if (result.hasFieldErrors(get(TIPUSDOCUMENTID))) {
+          peticio.setTipusDocumentID(Long.MIN_VALUE);
+      }
+  }
+
 }
