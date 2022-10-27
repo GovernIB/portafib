@@ -105,14 +105,9 @@
 
 
 	function openModal(url, accio) {
-        alert("1x - Pasa por aqui");
-
         createDivModal(traduccions.type['dialogoTituloEliminar'],
 				traduccions.type['dialogoMensajeEliminar'], url);
-
-        alert("4x - Pasa por aqui");
 		$('#myModal').modal(accio);
-        alert("5x - Pasa por aqui");
 	}
 
 	function openModalSubmit(url, accio, formName) {
@@ -131,7 +126,7 @@
 					traduccions.type['dialogoMensajeEliminar'], url, formName);
 			$('#myModal').modal(accio);
 		} else {
-			alert("No hay elementos seleccionados");
+			alert("<fmt:message key='genapp.delete.capseleccionat'/>");
 		}
 	}
 
