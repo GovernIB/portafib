@@ -1170,34 +1170,31 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
   }
 
   @RequestMapping(value = "/esborrarSeleccionades", method = RequestMethod.POST)
-  public String esborrarSeleccionades(HttpServletRequest request,
-      HttpServletResponse response, @ModelAttribute PeticioDeFirmaFilterForm filterForm)
-      throws Exception {
+  public String esborrarSeleccionades(HttpServletRequest request, HttpServletResponse response,
+          @ModelAttribute PeticioDeFirmaFilterForm filterForm) throws Exception {
 
-    String[] seleccionats = filterForm.getSelectedItems();
+      String[] seleccionats = filterForm.getSelectedItems();
 
-    if (seleccionats == null || seleccionats.length == 0) {
+      if (seleccionats == null || seleccionats.length == 0) {
 
-      HtmlUtils.saveMessageWarning(request,
-          I18NUtils.tradueix("peticiodefirma.capseleccionat"));
+          HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("peticiodefirma.capseleccionat"));
 
-    } else {
+      } else {
 
-      for (int i = 0; i < seleccionats.length; i++) {
-        Long peticioDeFirmaID = stringToPK(seleccionats[i]);
-        try {
-          delete(request, peticioDeFirmaID);
-        } catch (I18NException i18ne) {
-          String missatge = I18NUtils.getMessage(i18ne);
-          HtmlUtils.saveMessageError(request, missatge);
-          log.error(missatge, i18ne);
-        }
+          for (int i = 0; i < seleccionats.length; i++) {
+              Long peticioDeFirmaID = stringToPK(seleccionats[i]);
+              try {
+                  delete(request, peticioDeFirmaID);
+              } catch (I18NException i18ne) {
+                  String missatge = I18NUtils.getMessage(i18ne);
+                  HtmlUtils.saveMessageError(request, missatge);
+                  log.error(missatge, i18ne);
+              }
+          }
       }
-    }
 
-    return getRedirectWhenDelete(request, null, null);
+      return getRedirectWhenDelete(request, null, null);
   }
-
  
   
   protected void delete(HttpServletRequest request, Long peticioDeFirmaID)
