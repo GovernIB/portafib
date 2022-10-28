@@ -1048,7 +1048,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   
         String nom = request.getParameter("crearfirma_nom");
         String llinatges = request.getParameter("crearfirma_llinatges");
-        String email = request.getParameter("crearfirma_email");
+        String email = request.getParameter("crearfirma_email").trim();
         String idioma = request.getParameter("crearfirma_idiomaID");
         
         usuariExtern = new UsuariExtern(nom, llinatges, email, idioma);
