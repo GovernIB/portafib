@@ -737,7 +737,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
           Utils.sortStringKeyValueList(SearchJSONController.favoritsToUsuariEntitat(users)));
       
       String javascript ="$('#consultaNifUsuariExtern').modal('show');";
-      seleccioUsuariForm.setSecondaryButton(new AdditionalButton("icon-white icon-share icon-user",
+      seleccioUsuariForm.setSecondaryButton(new AdditionalButton("icon-white fas fa-share-square fas fa-user",
           "afegir.usuariextern", javascript , "btn-info"));
       
 

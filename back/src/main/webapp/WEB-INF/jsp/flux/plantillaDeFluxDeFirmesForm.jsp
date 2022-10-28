@@ -332,7 +332,7 @@
                                     <c:when test = "${not empty firma.usuariExternNom}">
                                       <i>${firma.usuariExternNom}&nbsp;${firma.usuariExternLlinatges}</i><br/>
                                       <small>
-                                        <i class="icon-envelope"></i>${firma.usuariExternEmail}<br/>
+                                        <i class="fas fa-envelope"></i>${firma.usuariExternEmail}<br/>
                                         ${firma.usuariEntitat.usuariPersona.nif}
                                       </small>
                                     </c:when>

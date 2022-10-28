@@ -36,7 +36,7 @@
                   <i class="fas fa-times"></i> <fmt:message key="carret.processar.rebutjar" /> </a>            
                                 
                 <a class="btn" href="#" onclick="goTo('<c:url value="${contexte}/processar/cancelar"/>')">
-                  <i class="icon-off"></i> <fmt:message key="carret.processar.cancelar" /> </a>
+                  <i class="fas fa-power-off"></i> <fmt:message key="carret.processar.cancelar" /> </a>
 
             </c:when>     
             <c:otherwise>

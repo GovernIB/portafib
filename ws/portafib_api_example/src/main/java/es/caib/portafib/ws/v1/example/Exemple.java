@@ -79,6 +79,8 @@ public class Exemple {
         // Adreça servidor
         String endpoint = getEndPoint("PortaFIBPeticioDeFirma");;
         PortaFIBPeticioDeFirmaWsService service;
+        log.info("endpoint " + endpoint);
+
         URL wsdl = new URL(endpoint + "?wsdl");
         service = new PortaFIBPeticioDeFirmaWsService(wsdl);
         api = service.getPortaFIBPeticioDeFirmaWs();
@@ -111,13 +113,22 @@ public class Exemple {
 
       final String titol = "Peticio de Test amb Custodia - "
          + ((System.currentTimeMillis() / 1000 ) % 100000);
-      final String remitent = "Helium";
+      
+      final String remitent = getRemitent();
 
       // Existeix sistema de custodia ??
       CustodiaInfoBean custodiaInfoBean = null;
       // Si language és un string buit s'assigna l'idioma del usuariApp
       final String lang = "";
       custodiaInfoBean = api.getDefaultCustodiaInfo(titol, lang);
+      
+      
+      
+      
+      
+      custodiaInfoBean = null;
+      
+      
       
       if (custodiaInfoBean == null) {
         log.info("Avis: No hi ha sistema de custodia definit"
@@ -178,6 +189,7 @@ public class Exemple {
         } else {
           peticioDeFirmaWs = api.createPeticioDeFirma(peticioDeFirmaWs);
           log.info("Creada petició: " + peticioDeFirmaWs.getPeticioDeFirmaID());
+//          throw new Exception("Error inventat");
           api.startPeticioDeFirma(peticioDeFirmaWs.getPeticioDeFirmaID());
           log.info("Arrancada petició: " + peticioDeFirmaWs.getPeticioDeFirmaID());
         }
@@ -203,7 +215,8 @@ public class Exemple {
           // S'HAN D'UTILITZAR ELS CALLBACKS PER RECUPERAR FITXERS SIGNATS !!!!!
           do {            
             Thread.sleep(5000);
-           estat = api.getStateOfPeticioDeFirma(peticioDeFirmaID);
+            estat = api.getStateOfPeticioDeFirma(peticioDeFirmaID);
+           
           } while (estat != FIRMAT && estat != REBUTJAT);
           
           if (estat == REBUTJAT) {
@@ -256,14 +269,12 @@ public class Exemple {
       System.err.println("Error desconegut: " + e.getMessage());
       e.printStackTrace();
     }
-
   }
   
   
   
   
-
-
+  
   public static String getEndPoint(String api) {
     return testProperties.getProperty("test_host") + api;
   }
@@ -271,7 +282,6 @@ public class Exemple {
   public static String getTestAppUserName() {
     return testProperties.getProperty("test_usr");
   }
-
   
   public static boolean isCAIB() {
     return "true".equals(testProperties.getProperty("iscaib"));
@@ -301,14 +311,16 @@ public class Exemple {
     return "true".equals(testProperties.getProperty("deleteonfinish"));
   }
   
-  
   public static String getFitxerAFirmar() {
     return testProperties.getProperty("fitxerAFirmar");
   }
   
-  
   public static String getFitxerAAnnexar() {
     return testProperties.getProperty("fitxerAAnnexar");
   }
-  
+
+  public static String getRemitent() {
+      return testProperties.getProperty("remitent");
+ }
+
 }

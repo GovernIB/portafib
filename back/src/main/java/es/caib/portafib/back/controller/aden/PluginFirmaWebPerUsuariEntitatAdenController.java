@@ -115,7 +115,7 @@ public class PluginFirmaWebPerUsuariEntitatAdenController extends PluginFirmaWeb
          
          // Afegir un botó per tornar a la pantalla de selecció d'usuari
          pluginFilterForm.addAdditionalButton(
-               new AdditionalButton("icon-arrow-left icon-white", "tornar",
+               new AdditionalButton("fas fa-long-arrow-alt-left icon-white", "tornar",
                      getContextWeb() + "/tornar", "btn-primary"));
          
       }

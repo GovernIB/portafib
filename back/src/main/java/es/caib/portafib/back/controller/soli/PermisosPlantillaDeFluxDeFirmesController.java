@@ -109,7 +109,7 @@ public class PermisosPlantillaDeFluxDeFirmesController extends PlantillaFluxDeFi
     plantillaFluxDeFirmesForm.setCancelButtonVisible(false);
 
     plantillaFluxDeFirmesForm.addAdditionalButton(new AdditionalButton(
-        " icon-arrow-left icon-white", "tornar", getContextWeb() + "/tornar",
+        " fas fa-long-arrow-alt-left icon-white", "tornar", getContextWeb() + "/tornar",
         "btn-primary"));
     
 

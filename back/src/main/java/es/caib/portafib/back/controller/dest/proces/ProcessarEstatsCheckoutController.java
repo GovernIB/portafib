@@ -142,7 +142,7 @@ public class ProcessarEstatsCheckoutController extends EstatDeFirmaController {
             filterForm.setContexte(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT);
 
             filterForm.addAdditionalButton(
-                    new AdditionalButton("icon-off", "carret.processar.cancelar",
+                    new AdditionalButton("fas fa-power-off", "carret.processar.cancelar",
                             ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/processar/cancelar", "btn-danger"));
 
             filterForm.addAdditionalButton(

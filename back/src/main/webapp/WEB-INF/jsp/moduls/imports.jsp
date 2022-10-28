@@ -103,65 +103,93 @@
       __theForm.submit();
     }
 
-    function openModal(url,accio) {
-             createDivModal(traduccions.type['dialogoTituloEliminar'],
-         traduccions.type['dialogoMensajeEliminar'],url);
-         $('#myModal').modal(accio);
-    }
 
+	function openModal(url, accio) {
+        alert("1x - Pasa por aqui");
 
-    function openModalSubmit(url,accio, formName) {
-          createDivModal(traduccions.type['dialogoTituloEliminar'],
-      traduccions.type['dialogoMensajeEliminar'],url, formName);
-      $('#myModal').modal(accio);
-    }
-    
-    
+        createDivModal(traduccions.type['dialogoTituloEliminar'],
+				traduccions.type['dialogoMensajeEliminar'], url);
 
-    function createDivModal(tituloDialog, msgDialog,url, formName) {
-    $('body')
-         .append(
-        	     '<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'
-                 + '<div class="modal-dialog" role="document">'
-                 + '<div class="modal-content">'
-                 
-                 + '<div class="modal-header">'                 
-                 + '<h4 id="myModalLabel"><i class="fas fa-trash"></i>'+tituloDialog+'</h4>'
-                 + '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
-                 + '</div>'
-                 
-                 + '<div class="modal-body">'
-                 + '<p>'+msgDialog+'</p>'
-                 + '</div>'
-                 
-                 + '<div class="modal-footer">'
-                 + '<button class="btn" data-dismiss="modal" aria-hidden="true">'+traduccions.type['boto.cancelar']+'</button>'
-                 + '<button class="btn btn-danger" type="button" onclick="' 
-                 + (formName? ('submitTo(\'' + formName + '\',') : 'goTo(') 
-                 + '\''+url+'\')">'+traduccions.type['boto.continuar']+'</button>'
-                 + '</div>'                 
-                 + '</div>'
-                 + '</div>'
-                 + '</div>');
-    }
-    
-    var traduccions = {
-      "type" : {
-         "dialogoTituloEliminar" : "<fmt:message key="genapp.delete"/>",
-         "dialogoMensajeEliminar" : "<fmt:message key="genapp.delete.info"/>",
-        //MARILEN
-         "boto.cancelar":"<fmt:message key="genapp.cancel"/>",
-         "boto.continuar":"<fmt:message key="genapp.continue"/>"
-       }
-    }
+        alert("4x - Pasa por aqui");
+		$('#myModal').modal(accio);
+        alert("5x - Pasa por aqui");
+	}
 
-    function selectUnselectCheckBoxes(source) {
-      checkboxes = document.getElementsByName('selectedItems');
-      for(var i=0, n=checkboxes.length;i<n;i++) {
-        checkboxes[i].checked = source.checked;
-      }
-    }
+	function openModalSubmit(url, accio, formName) {
 
+	    var marcados = 0;
+		var items = document.getElementsByName("selectedItems");
+		
+		for (var i = 0; i < items.length; i++) {
+			if (items[i].checked) {
+                marcados++;
+			}
+		}
+
+		if (marcados != 0) {
+			createDivModal(traduccions.type['dialogoTituloEliminar'],
+					traduccions.type['dialogoMensajeEliminar'], url, formName);
+			$('#myModal').modal(accio);
+		} else {
+			alert("No hay elementos seleccionados");
+		}
+	}
+
+	function createDivModal(tituloDialog, msgDialog, url, formName) {
+
+		$('body')
+			.append(
+				'<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'
+						+ '<div class="modal-dialog" role="document">'
+						+ '<div class="modal-content">'
+
+						+ '<div class="modal-header">'
+						+ '<h4 id="myModalLabel"><i class="fas fa-trash"></i>'
+						+ tituloDialog
+						+ '</h4>'
+						+ '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+						+ '</div>'
+
+						+ '<div class="modal-body">'
+						+ '<p>'
+						+ msgDialog
+						+ '</p>'
+						+ '</div>'
+
+						+ '<div class="modal-footer">'
+						+ '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+						+ traduccions.type['boto.cancelar']
+						+ '</button>'
+						+ '<button class="btn btn-danger" type="button" onclick="'
+						+ (formName ? ('submitTo(\'' + formName + '\',')
+								: 'goTo(')
+						+ '\''
+						+ url
+						+ '\')">'
+						+ traduccions.type['boto.continuar']
+						+ '</button>'
+						+ '</div>'
+						+ '</div>'
+						+ '</div>'
+						+ '</div>');
+	}
+
+	var traduccions = {
+		"type" : {
+			"dialogoTituloEliminar" : "<fmt:message key="genapp.delete"/>",
+			"dialogoMensajeEliminar" : "<fmt:message key="genapp.delete.info"/>",
+			//MARILEN
+			"boto.cancelar" : "<fmt:message key="genapp.cancel"/>",
+			"boto.continuar" : "<fmt:message key="genapp.continue"/>"
+		}
+	}
+
+	function selectUnselectCheckBoxes(source) {
+		checkboxes = document.getElementsByName('selectedItems');
+		for (var i = 0, n = checkboxes.length; i < n; i++) {
+			checkboxes[i].checked = source.checked;
+		}
+	}
 </script>
 
 <%--// Compatibilitat IE8  --%>

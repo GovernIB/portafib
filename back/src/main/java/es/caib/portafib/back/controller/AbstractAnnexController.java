@@ -160,7 +160,7 @@ public abstract class AbstractAnnexController extends AnnexController {
     }
 
     annexFilterForm.getAdditionalButtons().clear();
-    annexFilterForm.addAdditionalButton(new AdditionalButton("icon-arrow-left", "tornar",
+    annexFilterForm.addAdditionalButton(new AdditionalButton("fas fa-long-arrow-alt-left", "tornar",
         getBackPage(request), "btn-success"));
     annexFilterForm.setTitleCode("annexes.titol");
 

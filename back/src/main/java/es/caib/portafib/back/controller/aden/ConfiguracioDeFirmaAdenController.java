@@ -326,7 +326,7 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
       usuariAplicacioConfiguracioFilterForm.setVisibleMultipleSelection(false);
 
       usuariAplicacioConfiguracioFilterForm.addAdditionalButton(new AdditionalButton(
-          "icon-info-sign icon-white", "ajuda.titol", "javascript:window.open('"
+          "fas fa-info-circle icon-white", "ajuda.titol", "javascript:window.open('"
               + request.getContextPath()
               + "/img/perfil_i_configuracio_de_firma.png', '_blank');", "btn-info"));
 

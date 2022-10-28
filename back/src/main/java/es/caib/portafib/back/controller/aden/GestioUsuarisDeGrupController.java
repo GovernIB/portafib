@@ -85,7 +85,7 @@ public class GestioUsuarisDeGrupController extends GrupEntitatUsuariEntitatContr
           "btn-secondary"));
 
       grupEntitatUsuariEntitatFilterForm.addAdditionalButton(new AdditionalButton(
-          " icon-arrow-left", "tornar", getContextWeb() + "/tornar", "btn-secondary"));
+          " fas fa-long-arrow-alt-left", "tornar", getContextWeb() + "/tornar", "btn-secondary"));
       
     }
     return grupEntitatUsuariEntitatFilterForm;

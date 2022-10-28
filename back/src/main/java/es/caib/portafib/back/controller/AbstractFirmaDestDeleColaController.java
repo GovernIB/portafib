@@ -2430,7 +2430,7 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
                 if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR) {
                     // TODO Indicar la descripció d'aquest botó: traducció marcarrevisant.desc
                     filterForm.addAdditionalButtonByPK(estatId,
-                            new AdditionalButton("icon-flag", "marcarrevisant",
+                            new AdditionalButton("fas fa-flag", "marcarrevisant",
                                     getContextWeb() + "/marcarrevisant/" + estatId + "/" + peticioID,
                                     "btn-warning"));
                 }
@@ -2495,7 +2495,7 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
                 filterForm.addAdditionalButton(new AdditionalButton("far fa-edit",
                         "firmarseleccionats", "javascript:firmarseleccionats()", "btn-success"));
 
-                filterForm.addAdditionalButton(new AdditionalButton("icon-tasks",
+                filterForm.addAdditionalButton(new AdditionalButton("fas fa-tasks",
                         "carret.processar.inici", "javascript:processarInici()", "btn-warning"));
             }
         }

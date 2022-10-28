@@ -150,7 +150,7 @@ public class GestioEntitatAdminController extends EntitatController implements C
 
         /*
          * entitatForm.addAdditionalButton(new AdditionalButton(
-         * "icon-info-sign icon-white", "manualfiltrescertificats", // getContextWeb() +
+         * "fas fa-info-circle icon-white", "manualfiltrescertificats", // getContextWeb() +
          * "/docfirmat/" + peticioDeFirmaID, "javascript:var win = window.open('" +
          * request.getContextPath() +
          * "/doc/MCFv1.3_manual-integrador_ES_Filtros.pdf', '_blank'); win.focus();",

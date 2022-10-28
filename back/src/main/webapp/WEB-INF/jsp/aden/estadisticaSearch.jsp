@@ -36,7 +36,7 @@
             <div id="dataDesde" class="input-append">
                 <form:input cssClass="input-large" path="dataDesde" id="dataDesteInput" />
                 <span class="add-on">
-                    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                    <i data-time-icon="fas fa-clock" data-date-icon="fas fa-calendar-alt">
                     </i>
                 </span>
             </div>
@@ -60,7 +60,7 @@
             <div id="dataFins" class="input-append">
                 <form:input cssClass="input-large" path="dataFins" id="dataFinsInput" />
                 <span class="add-on">
-                    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                    <i data-time-icon="fas fa-clock" data-date-icon="fas fa-calendar-alt">
                     </i>
                 </span>
             </div>

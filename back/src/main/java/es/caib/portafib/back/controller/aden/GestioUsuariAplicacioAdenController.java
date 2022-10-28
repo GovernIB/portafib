@@ -159,10 +159,10 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
     usuariAplicacioForm.addHiddenField(ENTITATID);
 
     if (usuariAplicacioForm.getUsuariAplicacio().isActiu()) {
-      usuariAplicacioForm.addAdditionalButton(new AdditionalButton("icon-ban-circle",
+      usuariAplicacioForm.addAdditionalButton(new AdditionalButton("fas fa-ban",
           "desactivar", getContextWeb() + "/desactivar/{0}", "btn-warning"));
     } else {
-      usuariAplicacioForm.addAdditionalButton(new AdditionalButton("icon-play", "activar",
+      usuariAplicacioForm.addAdditionalButton(new AdditionalButton("fas fa-play", "activar",
           getContextWeb() + "/activar/{0}", "btn-success"));
     }
 
@@ -244,7 +244,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
 
       // Afegir botó per gestionar plugins web: #173
       usuariAplicacioFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-            "icon-cog", "pluginfirmaweb.veure",
+            "fas fa-cog", "pluginfirmaweb.veure",
             PluginFirmaWebPerUsuariAplicacioAdenController.CONTEXT_WEB + "/seleccio/{0}",
             "btn-info"
       ));

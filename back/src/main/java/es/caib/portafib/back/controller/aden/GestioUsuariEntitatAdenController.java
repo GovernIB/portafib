@@ -277,15 +277,15 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
       
       if (usuariEntitatForm.getUsuariEntitat().isActiu()) {
         usuariEntitatForm.addAdditionalButton(new AdditionalButton(
-          "icon-ban-circle", "desactivar", getContextWeb() + "/desactivar/{0}", "btn-warning"));
+          "fas fa-ban", "desactivar", getContextWeb() + "/desactivar/{0}", "btn-warning"));
       } else {
         usuariEntitatForm.addAdditionalButton(new AdditionalButton(
-          "icon-play", "activar", getContextWeb() + "/activar/{0}", "btn-success"));
+          "fas fa-play", "activar", getContextWeb() + "/activar/{0}", "btn-success"));
       }
 
       // Afegir botó per gestionar plugins web: #173
       usuariEntitatForm.addAdditionalButton(new AdditionalButton(
-            "icon-cog", "pluginfirmaweb.veure",
+            "fas fa-cog", "pluginfirmaweb.veure",
             PluginFirmaWebPerUsuariEntitatAdenController.CONTEXT_WEB + "/seleccio/{0}",
             "btn-info"
       ));

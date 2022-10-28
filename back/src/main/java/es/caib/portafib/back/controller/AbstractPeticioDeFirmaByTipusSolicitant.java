@@ -1170,34 +1170,31 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
   }
 
   @RequestMapping(value = "/esborrarSeleccionades", method = RequestMethod.POST)
-  public String esborrarSeleccionades(HttpServletRequest request,
-      HttpServletResponse response, @ModelAttribute PeticioDeFirmaFilterForm filterForm)
-      throws Exception {
+  public String esborrarSeleccionades(HttpServletRequest request, HttpServletResponse response,
+          @ModelAttribute PeticioDeFirmaFilterForm filterForm) throws Exception {
 
-    String[] seleccionats = filterForm.getSelectedItems();
+      String[] seleccionats = filterForm.getSelectedItems();
 
-    if (seleccionats == null || seleccionats.length == 0) {
+      if (seleccionats == null || seleccionats.length == 0) {
 
-      HtmlUtils.saveMessageWarning(request,
-          I18NUtils.tradueix("peticiodefirma.capseleccionat"));
+          HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("peticiodefirma.capseleccionat"));
 
-    } else {
+      } else {
 
-      for (int i = 0; i < seleccionats.length; i++) {
-        Long peticioDeFirmaID = stringToPK(seleccionats[i]);
-        try {
-          delete(request, peticioDeFirmaID);
-        } catch (I18NException i18ne) {
-          String missatge = I18NUtils.getMessage(i18ne);
-          HtmlUtils.saveMessageError(request, missatge);
-          log.error(missatge, i18ne);
-        }
+          for (int i = 0; i < seleccionats.length; i++) {
+              Long peticioDeFirmaID = stringToPK(seleccionats[i]);
+              try {
+                  delete(request, peticioDeFirmaID);
+              } catch (I18NException i18ne) {
+                  String missatge = I18NUtils.getMessage(i18ne);
+                  HtmlUtils.saveMessageError(request, missatge);
+                  log.error(missatge, i18ne);
+              }
+          }
       }
-    }
 
-    return getRedirectWhenDelete(request, null, null);
+      return getRedirectWhenDelete(request, null, null);
   }
-
  
   
   protected void delete(HttpServletRequest request, Long peticioDeFirmaID)
@@ -1815,11 +1812,11 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
       peticioDeFirmaForm.setDeleteButtonVisible(false);
       peticioDeFirmaForm.setSaveButtonVisible(false);
 
-      // OCULTAR LA DESCRIPCIO DE TIPUS DE DOCUMENT SI VAL NULL
-      String descr = peticioDeFirmaForm.getPeticioDeFirma().getDescripcioTipusDocument();
-      if (descr == null || descr.trim().length() == 0) {
-        peticioDeFirmaForm.addHiddenField(DESCRIPCIOTIPUSDOCUMENT);
-      }
+//      // OCULTAR LA DESCRIPCIO DE TIPUS DE DOCUMENT SI VAL NULL
+//      String descr = peticioDeFirmaForm.getPeticioDeFirma().getDescripcioTipusDocument();
+//      if (descr == null || descr.trim().length() == 0) {
+//        peticioDeFirmaForm.addHiddenField(DESCRIPCIOTIPUSDOCUMENT);
+//      }
     }
 
     switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
@@ -2251,9 +2248,9 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
                || (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT))) {
           // Afegir contingut a columna        
           if (peticioDeFirma.getFitxerAFirmarID() != null) {
-            mapOriginal.put(peticioDeFirmaID, "<i class=\"icon-fire\"></i>");
+            mapOriginal.put(peticioDeFirmaID, "<i class=\"fas fa-fire\"></i>");
             if (peticioDeFirma.getFitxerAdaptatID() != null) {
-              mapAdaptat.put(peticioDeFirmaID, "<i class=\"icon-share\"></i>");              
+              mapAdaptat.put(peticioDeFirmaID, "<i class=\"fas fa-share-square\"></i>");              
             }
           }
       }
@@ -2285,7 +2282,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
       if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT && !isNomesConsulta()) {
           /* PETICIO EDITAR */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID,
-              new AdditionalButton("icon-pencil icon-white", "peticiodefirma.editar",
+              new AdditionalButton("fas fa-pencil-alt icon-white", "peticiodefirma.editar",
                   "javascript:goTo('" + request.getContextPath() + getContextWeb() + "/"
                       + peticioDeFirmaID + "/edit')", "btn-warning"));
           /* FLUX EDITAR */
@@ -2387,7 +2384,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
         /* INICIAR */
         if (!isNomesConsulta()) {
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-              "icon-play icon-white", "iniciar", "javascript:goTo('" + request.getContextPath()
+              "fas fa-play icon-white", "iniciar", "javascript:goTo('" + request.getContextPath()
                   + getContextWeb() + "/iniciar/" + peticioDeFirmaID + "')", "btn-success"));
   
           if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
@@ -2401,7 +2398,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
         /* PAUSAR */
         if (!isNomesConsulta()) {
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-              "icon-pause icon-white", "pausar", "javascript:goTo('" + request.getContextPath()
+              "fas fa-pause icon-white", "pausar", "javascript:goTo('" + request.getContextPath()
                   + getContextWeb() + "/pausar/" + peticioDeFirmaID + "')", "btn-warning"));
   
           pausarCount++;
@@ -2552,7 +2549,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
       }
 
       if (pausarMultiple) {
-        filterForm.addAdditionalButton(new AdditionalButton("icon-pause icon-white", "pausar",
+        filterForm.addAdditionalButton(new AdditionalButton("fas fa-pause icon-white", "pausar",
             "javascript:submitTo('peticioDeFirmaFilterForm'," + " '"
                 + request.getContextPath() + getContextWeb() + "/pausarseleccionats');",
             "btn-warning"));
@@ -2581,7 +2578,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
       }
 
       if (noIniciatMultiple) {
-        filterForm.addAdditionalButton(new AdditionalButton("icon-play icon-white", "iniciar",
+        filterForm.addAdditionalButton(new AdditionalButton("fas fa-play icon-white", "iniciar",
             "javascript:submitTo('peticioDeFirmaFilterForm','" + request.getContextPath()
                 + getContextWeb() + "/iniciarseleccionats')", "btn-success"));
       }
@@ -2598,14 +2595,14 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
       // per això cada vegada les hem de tornar a afegir
       if (fitxersOriginals) {
         if (!isNomesConsulta()) {
-          filterForm.addAdditionalButton(new AdditionalButton("icon-fire icon-white",
+          filterForm.addAdditionalButton(new AdditionalButton("fas fa-fire icon-white",
             "peticiodefirma.netejaesborrat.netejaroriginal",
             "javascript:submitTo('peticioDeFirmaFilterForm'," + " '" + request.getContextPath()
               + getContextWeb() + "/netejarOriginal');", "btn-danger"));
         }
         
         AdditionalField<Long, String> adfield2 = new AdditionalField<Long, String>();
-        adfield2.setCodeName("=<i class=\"icon-fire\"></i>");
+        adfield2.setCodeName("=<i class=\"fas fa-fire\"></i>");
         adfield2.setPosition(NETEJA_ORIGINAL);
         adfield2.setEscapeXml(false);
         adfield2.setValueMap(mapOriginal);

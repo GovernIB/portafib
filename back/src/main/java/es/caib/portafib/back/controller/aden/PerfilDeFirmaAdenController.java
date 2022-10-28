@@ -85,7 +85,7 @@ public class PerfilDeFirmaAdenController extends PerfilDeFirmaController {
       perfilDeFirmaFilterForm.setVisibleMultipleSelection(false);
 
       perfilDeFirmaFilterForm.addAdditionalButton(new AdditionalButton(
-          "icon-info-sign icon-white", "ajuda.titol", "javascript:window.open('"
+          "fas fa-info-circle icon-white", "ajuda.titol", "javascript:window.open('"
               + request.getContextPath()
               + "/img/perfil_i_configuracio_de_firma.png', '_blank');", "btn-info"));
     }
@@ -125,7 +125,7 @@ public class PerfilDeFirmaAdenController extends PerfilDeFirmaController {
       for (int i = 0; i < configuracions.length; i++) {
         
         if (configuracions[i] != null) {
-           form.addAdditionalButton(new AdditionalButton("icon-info-sign","Configuració " + (i +1),
+           form.addAdditionalButton(new AdditionalButton("fas fa-info-circle","Configuració " + (i +1),
             ConfiguracioDeFirmaAdenController.CONTEXT_WEB + "/view/" + configuracions[i]
               , "btn-info"));
         }

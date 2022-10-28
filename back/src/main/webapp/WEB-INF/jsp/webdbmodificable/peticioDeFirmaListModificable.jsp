@@ -107,7 +107,8 @@
   }
 
   function rebutjarEsborrarSeleccionades() {
-    
+	    alert("Caracolo: rebutjarEsborrarSeleccionades");
+
     var reason = prompt("<fmt:message key="motiurebutjar"/>","");
     
     if (reason != null) {      
@@ -127,7 +128,8 @@
   }
 
   function esborrarAmbMotiuSeleccionades() {
-    
+	    alert("Caracolo: esborrarAmbMotiuSeleccionades");
+
     var reason = prompt("<fmt:message key="motiuesborrar"/>","");
     
     if (reason != null) {      
