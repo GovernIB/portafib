@@ -2567,11 +2567,14 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
                 if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
 
+                    log.info("Asignat per revisar peticioID= " + peticioID);
+                    
                     filterForm.addAdditionalButtonByPK(estatId,
                             new AdditionalButton("far fa-check-square", "revisor.acceptar",
                                     "javascript:acceptar('" + request.getContextPath() + getContextWeb() + "/acceptar/" + estatId + "/" + peticioID + "', {0})",
                                     "btn-success"));
 
+                    
 
                     filterForm.addAdditionalButtonByPK(estatId,
                             new AdditionalButton("fas fa-times", "rebutjar",

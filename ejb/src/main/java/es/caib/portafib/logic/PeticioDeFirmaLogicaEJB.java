@@ -2757,8 +2757,23 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
     String entitatID = usuariAplicacioLogicaEjb
             .findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID()).getEntitatID();
+    
+    String desc;
+    int tipusOperacio;
+
+    long estatInicial = estatDeFirma.getTipusEstatDeFirmaInicialID();
+    if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
+        //Estaba asignado para revisar, y la han dado a aceptar
+        log.info("El revisor ha acceptat el document");
+        desc = "El revisor ha acceptat el document";
+        tipusOperacio = BITACOLA_OP_REVISOR_ACEPTAR;
+    }else {
+        desc = null;
+        tipusOperacio = BITACOLA_OP_ACCEPTAR;
+    }
+    
     bitacolaLogicaEjb.createBitacola(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
-            BITACOLA_TIPUS_PETICIO, BITACOLA_OP_ACCEPTAR);
+            BITACOLA_TIPUS_PETICIO, tipusOperacio , desc);
   }
 
   private int processarRevisorsPendents(FirmaJPA firma) throws I18NException {
@@ -2976,8 +2991,24 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
         UsuariAplicacioFields.USUARIAPLICACIOID
             .equal(peticioDeFirma.getSolicitantUsuariAplicacioID()));
 
+    
+
+    String desc;
+    int tipusOperacio;
+
+    long estatInicial = estatDeFirma.getTipusEstatDeFirmaInicialID();
+    if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
+        //Estaba asignado para revisar, y la han dado a aceptar
+        log.info("El revisor ha rebuitjat el document");
+        desc = "El revisor ha rebuitjat el document: " + motiuDeRebuig;
+        tipusOperacio = BITACOLA_OP_REVISOR_REBUTJAR;
+    }else {
+        desc = "Petició rebutjada: " + motiuDeRebuig;
+        tipusOperacio = BITACOLA_OP_REBUTJAR;
+    }
+    
     bitacolaLogicaEjb.createBitacola(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
-        BITACOLA_TIPUS_PETICIO, BITACOLA_OP_REBUTJAR, "Petició rebutjada: " + motiuDeRebuig);
+        BITACOLA_TIPUS_PETICIO, tipusOperacio, desc);
 
     rebutjarEstadistica(estatDeFirma.getUsuariEntitatID(), entitatID, peticioDeFirma);
 

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.model.entity.PeticioDeFirma;
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -80,6 +82,11 @@ public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliContro
       }
     }
 
+    OrderBy[] order = { new OrderBy(PeticioDeFirmaFields.DATASOLICITUD) };
+    peticioDeFirmaFilterForm.setDefaultOrderBy(order);
+    peticioDeFirmaFilterForm.setOrderAsc(false);
+
+    
     String filterByTitol = (String)request.getSession().getAttribute(FILTER_BY_TITOL_KEY);
     if (filterByTitol != null) {
       peticioDeFirmaFilterForm.setTitol(filterByTitol);

@@ -25,6 +25,8 @@ import org.apache.commons.lang.StringUtils;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.BooleanField;
@@ -84,6 +86,7 @@ import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.BlocDeFirmesLogicaLocal;
 import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
+import es.caib.portafib.logic.PlantillaFluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.RevisorDeFirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.utils.UsuariExtern;
@@ -126,8 +129,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     COMPARTIR_PLANTILLA = new FluxDeFirmesQueryPath().PLANTILLAFLUXDEFIRMES().COMPARTIR();
   }
 
-  @EJB(mappedName = PlantillaFluxDeFirmesService.JNDI_NAME)
-  private PlantillaFluxDeFirmesService plantillaFluxDeFirmesEjb;
+  @EJB(mappedName = PlantillaFluxDeFirmesLogicaLocal.JNDI_NAME)
+  private PlantillaFluxDeFirmesLogicaLocal plantillaFluxDeFirmesEjb;
 
   @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
@@ -1204,73 +1207,35 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
     String usuariEntitatID = seleccioUsuariForm.getId();
     String firmaIDStr = seleccioUsuariForm.getParam1();
-
+    
     log.info("\n\n  --------- XYZ ZZZ afegirRevisorDesDeModal ----------");
     log.info("    usuariEntitatID = |" + usuariEntitatID + "|");
     log.info("    firmaIDStr = |" + firmaIDStr + "|");
 
-    long firmaID = Integer.parseInt(firmaIDStr);
     try {
-      // TODO Moure tot aquest mètode a EJB
+        long firmaID = Integer.parseInt(firmaIDStr);
+        Long blocID = firmaLogicaEjb.executeQueryOne(FirmaFields.BLOCDEFIRMAID, FirmaFields.FIRMAID.equal(firmaID));
+        FluxDeFirmesJPA flux = fluxDeFirmesForm.getFluxDeFirmes();
+        FirmaJPA firma = searchFirma(flux, blocID, firmaID);
 
-      UsuariEntitatJPA usuariEntitat = usuariEntitatLogicaEjb
-          .findByPrimaryKeyFull(usuariEntitatID);
-      if (usuariEntitat == null) {
-        HtmlUtils.saveMessageError(request,
-            I18NUtils.tradueix("error.notfound",
-                    I18NUtils.tradueix("usuariEntitat.usuariEntitat"),
-                    I18NUtils.tradueix("usuariEntitat.usuariEntitatID"),
-                    String.valueOf(usuariEntitatID)));
+        // Revisar si firma existeix !!!
+        if (firma == null) {
+            throw new I18NException("error.notfound", new I18NArgumentCode("firma.firma"),
+                    new I18NArgumentCode("firma.firmaID"), new I18NArgumentString(firmaIDStr));
+        }
+        
+        plantillaFluxDeFirmesEjb.method(usuariEntitatID, flux, firma);
+        
+        saveMinimRevisorsFirma(firma);
+        
+    }catch(I18NException e) {
+        HtmlUtils.saveMessageError(request, I18NUtils.getMessage(e));
         return getTileForm();
-      }
-
-      Long count = roleUsuariEntitatEjb
-          .count(Where.AND(RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_REVI),
-              RoleUsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID)));
-
-      if (count == null || count != 1) {
-        HtmlUtils.saveMessageError(request,
-            I18NUtils.tradueix("error.noesrevisor", usuariEntitatID));
-        return getTileForm();
-      }
-
-      Long blocID = firmaLogicaEjb.executeQueryOne(FirmaFields.BLOCDEFIRMAID,
-          FirmaFields.FIRMAID.equal(firmaID));
-      FirmaJPA firma = searchFirma(fluxDeFirmesForm, blocID, firmaID);
-
-      // Revisar si firma existeix !!!
-      if (firma == null) {
-        HtmlUtils.saveMessageError(request,
-            I18NUtils.tradueix("error.notfound",
-                    I18NUtils.tradueix("firma.firma"),
-                    I18NUtils.tradueix("firma.firmaID"), String.valueOf(firmaID)));
-        return getTileForm();
-      }
-
-      // Cream el revisor
-      RevisorDeFirmaJPA rev = new RevisorDeFirmaJPA();
-      rev.setFirmaID(firmaID);
-      rev.setObligatori(true);
-      rev.setUsuariEntitatID(usuariEntitatID);
-      rev = (RevisorDeFirmaJPA) revisorDeFirmaLogicaEjb.create(rev);
-
-      // Per fer feina en local
-      rev.setUsuariEntitat(usuariEntitat);
-      rev.setFirma(firma);
-
-      // Afegim el nou revisor a la firma
-      firma.getRevisorDeFirmas().add(rev);
-
-      // Recalcular minim de revisors de Firma!!!!
-      saveMinimRevisorsFirma(firma);
-
-    } catch (I18NException e) {
-      HtmlUtils.saveMessageError(request, I18NUtils.getMessage(e));
     }
 
     return getTileForm();
   }
-
+  
   @RequestMapping(value = "/eliminarRevisor", method = RequestMethod.POST)
   public String eliminarRevisor(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
       @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm,
@@ -1278,7 +1243,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       @RequestParam("revisorID") long revisorID, HttpServletRequest request)
       throws I18NException {
 
-    FirmaJPA firma = searchFirma(fluxDeFirmesForm, blocID, firmaID);
+      FluxDeFirmesJPA fluxDeFirmes = fluxDeFirmesForm.getFluxDeFirmes();
+      FirmaJPA firma = searchFirma(fluxDeFirmes, blocID, firmaID);
 
     RevisorDeFirma rev = searchRevisor(firma, revisorID);
 
@@ -1336,7 +1302,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       @RequestParam("revisorID") long revisorID, HttpServletRequest request)
       throws I18NException {
 
-    FirmaJPA firma = searchFirma(fluxDeFirmesForm, blocID, firmaID);
+      FluxDeFirmesJPA fluxDeFirmes = fluxDeFirmesForm.getFluxDeFirmes();
+      FirmaJPA firma = searchFirma(fluxDeFirmes, blocID, firmaID);
 
     if (firma == null) {
       // error.notfound=No s´ha trobat cap {0} amb {1} igual a {2}
@@ -1375,7 +1342,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       @RequestParam("minimDeFirmes") int minimDeRevisors, HttpServletRequest request)
       throws I18NException {
 
-    FirmaJPA firma = searchFirma(fluxDeFirmesForm, blocID, firmaID);
+      FluxDeFirmesJPA fluxDeFirmes = fluxDeFirmesForm.getFluxDeFirmes();
+      FirmaJPA firma = searchFirma(fluxDeFirmes, blocID, firmaID);
 
     if (firma == null) {
       HtmlUtils.saveMessageError(request,
@@ -1775,9 +1743,9 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     return bloc;
   }
 
-  protected FirmaJPA searchFirma(FluxDeFirmesForm fluxDeFirmesForm, long blocID,
+  protected FirmaJPA searchFirma(FluxDeFirmesJPA fluxDeFirmes, long blocID,
       long firmaID) {
-    Set<BlocDeFirmesJPA> blocs = fluxDeFirmesForm.getFluxDeFirmes().getBlocDeFirmess();
+    Set<BlocDeFirmesJPA> blocs = fluxDeFirmes.getBlocDeFirmess();
 
     for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
       if (blocID == blocDeFirmesJPA.getBlocDeFirmesID()) {
