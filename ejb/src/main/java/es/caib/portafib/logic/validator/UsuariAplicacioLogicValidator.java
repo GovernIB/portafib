@@ -35,7 +35,8 @@ public class UsuariAplicacioLogicValidator<T extends UsuariAplicacio> extends Us
     // que només pot ser buida quan s'ha especificat la versió "-1", no callback.
     String callbackUrl = (String) __vr.getFieldValue(__target__, CALLBACKURL);
     if (callbackUrl == null || callbackUrl.isEmpty()) {
-      int callbackVersion = (Integer) __vr.getFieldValue(__target__, CALLBACKVERSIO);
+      String callbackVersionStr = (String) __vr.getFieldValue(__target__, CALLBACKVERSIO);
+      int callbackVersion = Integer.parseInt(callbackVersionStr);
       if (callbackVersion != -1) {
         __vr.rejectValue(CALLBACKURL, "usuariaplicacio.error.notecallback");
       }
