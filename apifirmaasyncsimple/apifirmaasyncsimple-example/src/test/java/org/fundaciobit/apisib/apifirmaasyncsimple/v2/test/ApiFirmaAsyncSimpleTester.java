@@ -100,9 +100,8 @@ public class ApiFirmaAsyncSimpleTester {
 
       server.printStackTrace();
 
-      System.err.println("S'ha produït un error enb el servidor intermedi:"
+      System.err.println("S'ha produït un error en el servidor intermedi:"
           + server.getMessage());
-
     } catch (Exception e) {
       e.printStackTrace();
 
@@ -120,7 +119,7 @@ public class ApiFirmaAsyncSimpleTester {
 
       String[][] destinataris = getNifsDestinataris();
       String nifRevisor = getNifRevisor();
-
+      
       if (destinataris == null || destinataris.length == 0) {
         throw new Exception(
             "S'ha de definir la propietat nifsDestinataris dins test.properties");
@@ -256,13 +255,12 @@ public class ApiFirmaAsyncSimpleTester {
             .createAndStartSignatureRequestWithFlowTemplateCode(signatureRequest);
 
       } else {
-        // Utilitzar Blocs de Firmes
-        log.info("Petició de Firma emprant Blocs de Firmes");
-        FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest;
-        signatureRequest = new FirmaAsyncSimpleSignatureRequestWithSignBlockList(
-            signatureRequestBase, signatureBlocks);
-        peticioDeFirmaID2 = api
-            .createAndStartSignatureRequestWithSignBlockList(signatureRequest);
+          // Utilitzar Blocs de Firmes
+          log.info("Petició de Firma emprant Blocs de Firmes");
+          FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest;
+          signatureRequest = new FirmaAsyncSimpleSignatureRequestWithSignBlockList(signatureRequestBase,
+                  signatureBlocks);
+          peticioDeFirmaID2 = api.createAndStartSignatureRequestWithSignBlockList(signatureRequest);
       }
 
       log.info("Creada peticio amb ID = " + peticioDeFirmaID2);

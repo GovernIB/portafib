@@ -3,6 +3,7 @@ package es.caib.portafib.back.controller.rest.apifirmaasyncsimple.v2;
 import es.caib.portafib.back.controller.common.PlantillaDeFluxDeFirmesRestController;
 import es.caib.portafib.back.controller.rest.RestFirmaUtils;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.ejb.RoleUsuariEntitatService;
 import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.persistence.AnnexJPA;
 import es.caib.portafib.persistence.BlocDeFirmesJPA;
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.RevisorDeFirmaFields;
+import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
@@ -80,6 +82,7 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -146,6 +149,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
     @EJB(mappedName = CreateUsuariServiceLocal.JNDI_NAME)
     protected CreateUsuariServiceLocal createUsuariServiceEjb;
+    
+    @EJB(mappedName = RoleUsuariEntitatService.JNDI_NAME)
+    protected RoleUsuariEntitatService roleUsuariEntitatEjb;
 
     // -------------------------------------------------------------------
     // -------------------------------------------------------------------
@@ -1299,9 +1305,21 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                                                                                  // pq no cream
                                                                                  // automàticament
                                                                                  // revisors
-                RevisorDeFirmaJPA revisor = new RevisorDeFirmaJPA(usuariEntitatID, 0,
-                        rev.isRequired());
-                jpa.getRevisorDeFirmas().add(revisor);
+                
+                Long count = roleUsuariEntitatEjb.count(Where.AND(RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_REVI),
+                        RoleUsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID)));
+
+                if (count == null || count != 1) {
+                    log.error("XXXXXXXXXX- L'usuari " + usuariEntitatID + " no es revisor");
+                    throw new I18NException("error.noesrevisor", usuariEntitatID);
+                }else {
+                    log.info("Afegim al revisor: " + usuariEntitatID);
+                    RevisorDeFirmaJPA revisor = new RevisorDeFirmaJPA(usuariEntitatID, 0,
+                            rev.isRequired());
+                    jpa.getRevisorDeFirmas().add(revisor);
+                }
+
+                
             }
         }
 
