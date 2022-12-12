@@ -6,6 +6,7 @@ import es.caib.portafib.ejb.PermisUsuariPlantillaService;
 import es.caib.portafib.ejb.PeticioDeFirmaService;
 import es.caib.portafib.ejb.UsuariEntitatService;
 import es.caib.portafib.persistence.BlocDeFirmesJPA;
+import es.caib.portafib.persistence.EstatDeFirmaJPA;
 import es.caib.portafib.persistence.FirmaJPA;
 import es.caib.portafib.persistence.FluxDeFirmesJPA;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
@@ -296,6 +297,17 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
             Hibernate.initialize(firmaJPA.getUsuariEntitat());
             Hibernate.initialize(firmaJPA.getUsuariEntitat().getUsuariPersona());
             Hibernate.initialize(firmaJPA.getEstatDeFirmas());
+            
+            if (firmaJPA.getUsuariEntitat().getCarrec() != null) {
+                for (EstatDeFirmaJPA estat : firmaJPA.getEstatDeFirmas()) {
+                    long estatInicial = estat.getTipusEstatDeFirmaInicialID();
+                    if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+                        Hibernate.initialize(estat.getUsuariEntitat());
+                        Hibernate.initialize(estat.getUsuariEntitat().getUsuariPersona());
+                    }
+                }
+            }
+            
             Hibernate.initialize(firmaJPA.getRevisorDeFirmas());
             for (RevisorDeFirma rev : firmaJPA.getRevisorDeFirmas()) {
               Hibernate.initialize(((RevisorDeFirmaJPA) rev).getUsuariEntitat());

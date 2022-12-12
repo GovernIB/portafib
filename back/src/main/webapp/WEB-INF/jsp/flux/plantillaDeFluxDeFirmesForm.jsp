@@ -1,3 +1,9 @@
+<%@page import="es.caib.portafib.persistence.UsuariEntitatJPA"%>
+<%@page import="es.caib.portafib.persistence.EstatDeFirmaJPA"%>
+<%@page import="es.caib.portafib.persistence.UsuariPersonaJPA"%>
+<%@page import="es.caib.portafib.model.entity.UsuariEntitat"%>
+<%@page import="es.caib.portafib.model.entity.EstatDeFirma"%>
+<%@page import="es.caib.portafib.model.entity.UsuariPersona"%>
 <%@page import="es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields"%>
 <%@ page contentType="text/html; charset=UTF-8" language="java"
 %><%@page import="es.caib.portafib.logic.utils.BlocUtils"
@@ -312,7 +318,7 @@
                                 <div class="radius" style="${background} ${backgroundimage} float:left; border: 2px solid #00ff00; margin: 4px; padding: 8px; text-align: left">
 
                                   <c:if test="${pfi:isDesenvolupament()}">
-                                  ${firma.firmaID}
+                                      ${firma.firmaID}
                                   </c:if>
 
                                   <c:choose>
@@ -322,9 +328,25 @@
                                       <b>${firma.usuariEntitat.carrec}</b>
                                       <br/>
                                       <small>
-                                        ${firma.usuariEntitat.usuariPersona.nom}&nbsp;
-                                        ${firma.usuariEntitat.usuariPersona.llinatges}
-                                        <br>
+
+                                        <c:remove var = "usuariEntitatFirmant"/>
+	                                    <c:forEach items="${firma.estatDeFirmas}" var="estatdefirma">
+                                           <c:if test = "${estatdefirma.tipusEstatDeFirmaInicialID == 1}">
+                                               <c:set var="usuariEntitatFirmant" value="${estatdefirma.usuariEntitat}" />
+                                           </c:if>                                 
+	                                    </c:forEach>
+
+                                        <c:if test = "${empty firma.estatDeFirmas}">
+                                            ${firma.usuariEntitat.usuariPersona.nom}&nbsp;
+                                            ${firma.usuariEntitat.usuariPersona.llinatges}
+                                            <br>
+                                        </c:if> 
+    
+                                        <c:if test = "${not empty usuariEntitatFirmant}">
+                                            ${usuariEntitatFirmant.usuariPersona.nom}&nbsp;
+                                            ${usuariEntitatFirmant.usuariPersona.llinatges}
+                                            <br>
+                                        </c:if> 
                                       </small>
                                     </c:when>
                                      
