@@ -1627,6 +1627,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
   private void saveMinimFirmesBloc(BlocDeFirmesJPA bloc) throws I18NException {
     int minimBloc = BlocUtils.minimFirmes(bloc.getFirmas());
+
     if (bloc.getMinimDeFirmes() < minimBloc) {
       bloc.setMinimDeFirmes(minimBloc);
     } else {
@@ -1634,7 +1635,13 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
         bloc.setMinimDeFirmes(bloc.getFirmas().size());
       }
     }
+
+    Set <FirmaJPA> tmpFirmes = bloc.getFirmas();
+    bloc.setFirmas(null);
+    
     blocDeFirmesLogicaEjb.update(bloc);
+
+    bloc.setFirmas(tmpFirmes);
   }
 
   private void saveMinimRevisorsFirma(FirmaJPA firma) throws I18NException {
