@@ -532,6 +532,14 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         try {
             LoginInfo loginInfo = commonChecks();
 
+            UsuariAplicacioJPA a = loginInfo.getUsuariAplicacio();
+            
+            if (!a.isActiu()) {
+                // XYZ ZZZ TRA
+                // XYZ COMPROVAR SI USUARI ESTA ACTIU #27
+                return generateServerError("L'usuari aplicació '" + a.getUsuariAplicacioID() + "' no està actiu.");
+            }
+            
             if (signatureRequest == null) {
                 // XYZ ZZZ TRA
                 return generateServerError("La peticio de firma no pot valer null.");
