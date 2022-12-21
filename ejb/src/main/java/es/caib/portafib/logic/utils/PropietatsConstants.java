@@ -35,6 +35,10 @@ public class PropietatsConstants {
           " Nou a la versió 1.1.1 .Opcional. Valor per defecte false. Indica si s’han d’enviar avisos via correu electrònic als delegats o col·laboradors quan són assignats per un destinatari. Existeix la mateixa propietat global que és usada com a valor per defecte (Veure punt  )"),
       new Propietat(
           true,
+          "es.caib.portafib.descripciotipusvisible",
+          "Valor booleà per indiciar si es vol mostrar el camp descripció del tipus de document sempre, o nomes quan sigui 'altres'"),
+      new Propietat(
+          true,
           "es.caib.portafib.avisosfirmespendents.diesabans",
           " Nou a la versió 1.1.1 .Opcional. Fa que s'enviïn correus als que tenen peticions de firma pendents. Indica el número de dies abans de la caducitat de la petició en que s'han de començar a enviar correus. Relacionat amb la PropietatsGlobal es.caib.portafib.avisosfirmespendents.cron (Veure punt  )"),
       new Propietat(
