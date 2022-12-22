@@ -328,3 +328,4 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /portafib-it/secret.properties
 /portafib-it/keystore-sia.p12
 /portafib-it/keystore.p12
+/pluginsib-signatureweb/firmaprofesional

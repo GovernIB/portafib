@@ -276,6 +276,7 @@ public class MiniAppletUtils {
     //                   al usuario  (como por ejemplo, para la dereferenciación
     //                   de hojas de estilo enlazadas con rutas relativas).
     miniAppletProperties.setProperty("headless","true");
+    miniAppletProperties.setProperty("allowSigningCertifiedPdfs", "true");
   }
 
   public static void convertPAdES(FileInfoSignature fileInfo,

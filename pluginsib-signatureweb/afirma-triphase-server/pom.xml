@@ -4,7 +4,7 @@
   <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
   <artifactId>pluginsib-signatureweb-afirma_triphase_server</artifactId>
   <packaging>jar</packaging>
-  <version>3.0.2</version>
+  <version>3.0.3</version>
 
   <name>FundacioBit - PluginsIB - SignatureWeb - @firma Triphase Server</name>
 
