@@ -155,7 +155,10 @@ public final class PdfSessionManager
     if (bool) {
       LOGGER.info("Detectado PDF-A1, no se comprimira el PDF");
     }
-    PdfUtil.checkPdfCertification(localPdfReader.getCertificationLevel(), paramProperties);
+    //----------------------------------
+    //---- PORTAFIB: Comentat per evitar mostrar diàlegs en sistemes Linux sense entorn Gràfic.
+    //----------------------------------
+    //PdfUtil.checkPdfCertification(localPdfReader.getCertificationLevel(), paramProperties);
     if ((PdfUtil.pdfHasUnregisteredSignatures(localPdfReader)) && (!Boolean.TRUE.toString().equalsIgnoreCase(paramProperties.getProperty("allowCosigningUnregisteredSignatures")))) {
       throw new PdfHasUnregisteredSignaturesException();
     }
