@@ -121,8 +121,13 @@ public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliContro
 
       PeticioDeFirmaForm peticioDeFirmaForm = super.getPeticioDeFirmaForm(_jpa2, __isView, request, mav);
       
-      boolean descripciotipusvisible = propietatEjb
+      Boolean descripciotipusvisible = propietatEjb
               .getBooleanPropertyByEntitat("fundaciobit", ConstantsV2.PORTAFIB_PROPERTY_BASE + "descripciotipusvisible");
+      
+      if (descripciotipusvisible == null) {
+          descripciotipusvisible = false;
+      }
+      
       mav.addObject("descripciotipusvisible", descripciotipusvisible);
 
       return peticioDeFirmaForm;
