@@ -535,6 +535,17 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
     fluxPlantilla.setPlantillaFluxDeFirmes(null);
     fluxPlantilla.setPeticioDeFirma(null);
 
+    log.info("CANVIANT CODI TOKEN DE getUsuariExternToken !!!!!");
+    Set<BlocDeFirmesJPA> blocsOrig = fluxPlantilla.getBlocDeFirmess();
+    for (BlocDeFirmesJPA blocDeFirmesOrig : blocsOrig) {
+      Set<FirmaJPA> firmes = blocDeFirmesOrig.getFirmas();
+      for (FirmaJPA firmaOrig : firmes) {
+        if (firmaOrig.getUsuariExternNom() != null) {
+          firmaOrig.setUsuariExternToken(firmaLogicaEjb.getUniqueTokenForFirma());
+        }
+      }
+    }
+
     return fluxPlantilla;
 
   }
