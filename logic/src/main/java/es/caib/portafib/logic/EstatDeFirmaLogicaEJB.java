@@ -133,6 +133,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   @Override
   public PeticioDeFirmaJPA getPeticioDeFirmaFromFirmaID(long firmaID)
       throws I18NException {
+
     SubQuery<Firma, Long> subqueryFirma;
     subqueryFirma = firmaEjb.getSubQuery(FirmaFields.BLOCDEFIRMAID,
         FirmaFields.FIRMAID.equal(firmaID));
@@ -144,6 +145,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     Where w = PeticioDeFirmaFields.FLUXDEFIRMESID.in(subqueryBloc);
     List<PeticioDeFirma> list = peticioDeFirmaEjb.select(w);
 
+    log.info("getPeticioDeFirmaFromFirmaID(firmaID => " + firmaID + "): #" + list.size());
     if (list.size() > 0) {
       return (PeticioDeFirmaJPA)list.get(0);
     } else {

@@ -3486,7 +3486,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
           firmaJPA.setFitxerFirmatID(null);
 
           firmaJPA.setTipusEstatDeFirmaFinalID(null);
-		  if (firmaOrig.getUsuariExternToken() != null) {
+		      if (firmaOrig.getUsuariExternToken() != null) {
             firmaJPA.setUsuariExternToken(firmaLogicaEjb.getUniqueTokenForFirma());
           }
 

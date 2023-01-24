@@ -517,7 +517,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
 
   }
 
-  protected FluxDeFirmesJPA clonarFlux(String nom, Long plantillaFluxID) throws Exception {
+  protected FluxDeFirmesJPA clonarFlux(String nom, Long plantillaFluxID) throws I18NException {
 
     FluxDeFirmesJPA fluxPlantilla = fluxDeFirmesLogicaEjb
         .findByPrimaryKeyFull(plantillaFluxID);
@@ -526,11 +526,25 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
       String[] args = new String[] { I18NUtils.tradueix("fluxDeFirmes.fluxDeFirmes"),
           I18NUtils.tradueix("fluxDeFirmes.fluxDeFirmesID"), String.valueOf(plantillaFluxID) };
 
-      throw new Exception(I18NUtils.tradueix("error.notfound", args));
+      throw new I18NException("error.notfound", args);
     }
     fluxPlantilla.setFluxDeFirmesID(-1);
     // TODO check max lenght de NOM
     fluxPlantilla.setNom(nom);
+    
+    
+    log.info("CANVIANT CODI TOKEN DE getUsuariExternToken !!!!!");
+    Set<BlocDeFirmesJPA> blocsOrig = fluxPlantilla.getBlocDeFirmess();
+    for (BlocDeFirmesJPA blocDeFirmesOrig : blocsOrig) {
+      Set<FirmaJPA> firmes = blocDeFirmesOrig.getFirmas();
+      for (FirmaJPA firmaOrig : firmes) {
+        
+        if (firmaOrig.getUsuariExternNom() != null) {
+          firmaOrig.setUsuariExternToken(firmaLogicaEjb.getUniqueTokenForFirma());
+        }
+      }
+    }
+    
 
     fluxPlantilla.setPlantillaFluxDeFirmes(null);
     fluxPlantilla.setPeticioDeFirma(null);
