@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class SignatureModuleController extends HttpServlet {
 
     Map<String, List<Long>> pluginsFirmaPerTipusDoc = signaturesSet.getPluginsFirmaBySignatureID();
     
-    List<Plugin> moduls;
+    List<Plugin> moduls;  
 
     // Implementar política de plugins de firma web #173
     // La política de plugins de firma web s'aplica quan no tenim plugins específics pel tipus de document.
@@ -306,18 +307,28 @@ public class SignatureModuleController extends HttpServlet {
     }
     signaturesSet.setPluginID(pluginID);
     
+    log.info("getContextWeb: " + getContextWeb());
+    
     String relativeControllerBase = getRelativeControllerBase(request, getContextWeb());
+    log.info("relativeControllerBase: " + relativeControllerBase);
+
     String relativeRequestPluginBasePath = getRequestPluginBasePath(
         relativeControllerBase, signaturesSetID, -1);
+    log.info("relativeRequestPluginBasePath: " + relativeRequestPluginBasePath);
 
     //String absoluteControllerBase = getAbsoluteControllerBase(request, getContextWeb());
     
+    log.info("signaturesSet.getUrlBase(): " + signaturesSet.getUrlBase());
     String absoluteControllerBase = signaturesSet.getUrlBase() + getContextWeb();
+    log.info("absoluteControllerBase: " + absoluteControllerBase);
+
     String absoluteRequestPluginBasePath = getRequestPluginBasePath(
         absoluteControllerBase, signaturesSetID, -1);
+    log.info("absoluteRequestPluginBasePath: " + absoluteRequestPluginBasePath);
 
     
     String newFinalUrl = response.encodeURL(absoluteControllerBase + "/final/" + URLEncoder.encode(signaturesSetID, "UTF-8"));
+    log.info("newFinalUrl: " + newFinalUrl);
 
     // Substituim l'altre final URL pel NOU
     signaturesSet.setUrlFinal(newFinalUrl);
@@ -327,15 +338,30 @@ public class SignatureModuleController extends HttpServlet {
 
     String urlToPluginWebPage;
     urlToPluginWebPage = signaturePlugin.signDocuments(request, absoluteRequestPluginBasePath,
-        relativeRequestPluginBasePath, signaturesSet, parameters);
+            relativeRequestPluginBasePath, signaturesSet, parameters);
 
-    return new ModelAndView(new RedirectView(urlToPluginWebPage, false));
+    boolean contextRelative;
+    if (urlToPluginWebPage.startsWith("https://") || urlToPluginWebPage.startsWith("http://")) {
+        contextRelative = false;
+    } else if (urlToPluginWebPage.startsWith(request.getContextPath())) {
+        URL url = new URL(newFinalUrl);
 
-  }
+        String protocol = url.getProtocol();
+        String domini = url.getHost();
+        int port = url.getPort();
 
+        String portStr = (port == -1) ? "" : (":" + port);
 
+        urlToPluginWebPage = protocol + "://" + domini + portStr + urlToPluginWebPage;
+        contextRelative = false;
+
+    } else {
+        contextRelative = true;
+    }
+    log.info("urlToPluginWebPage: " + urlToPluginWebPage);
+    return new ModelAndView(new RedirectView(urlToPluginWebPage, contextRelative));
+}
  
-
   @Override
   public void doGet(HttpServletRequest request,
       HttpServletResponse response) throws ServletException, IOException  {
@@ -710,10 +736,16 @@ public class SignatureModuleController extends HttpServlet {
       portaFIBSignaturesSets.put(signaturesSetID, signaturesSet);
     }
 
+    log.info("baseUrl: " + baseUrl);
+
     String context = isPublic? PUBLIC_CONTEXTWEB : PRIVATE_CONTEXTWEB;
+    log.info("context: " + context);
     
-    final String urlToSelectPluginPagePage =
-          response.encodeURL(baseUrl + context + "/selectsignmodule/" + signaturesSetID);
+    String encodeURL = baseUrl + context + "/selectsignmodule/" + signaturesSetID;
+    log.info("encodeURL: " + encodeURL);
+    
+    final String urlToSelectPluginPagePage = response.encodeURL(encodeURL);
+    log.info("urlToSelectPluginPagePage: " + urlToSelectPluginPagePage);
 
     ModelAndView mav = new ModelAndView(view);
     mav.addObject("signaturesSetID", signaturesSetID);
@@ -751,9 +783,12 @@ public class SignatureModuleController extends HttpServlet {
 
   private static String getRequestPluginBasePath(String base, 
        String signaturesSetID, int signatureIndex) {
+      
+     
     String absoluteRequestPluginBasePath = base + "/requestPlugin/"
       + signaturesSetID + "/" + signatureIndex;
-
+        log.info("absoluteRequestPluginBasePath: " + absoluteRequestPluginBasePath);
+    
     return absoluteRequestPluginBasePath;
   }
   
