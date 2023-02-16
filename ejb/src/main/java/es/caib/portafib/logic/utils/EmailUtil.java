@@ -17,6 +17,7 @@ import javax.mail.internet.MimeMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
+import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
@@ -45,7 +46,10 @@ public class EmailUtil {
    *          Conjunto de emails para los que va dirigido el mensaje
    * @throws Exception
    */
-  public static void postMail(String subject, String message, boolean isHtml,
+
+    protected static Logger log = Logger.getLogger(EmailUtil.class);
+    
+    public static void postMail(String subject, String message, boolean isHtml,
       String from, String ... recipients) throws Exception {
 
     Context ctx = new InitialContext();
@@ -85,7 +89,6 @@ public class EmailUtil {
 
     // Mandamos el mail
     Transport.send(msg);
-
   }
 
 

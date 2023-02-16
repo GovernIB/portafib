@@ -608,6 +608,10 @@
      function consultaNifUsuariExternSubmit() {
        //document.getElementById('consultaNifUsuariExternForm').submit();
        var nif = document.getElementById('consultanif').value;
+       
+       nif = nif.toUpperCase();
+       document.getElementById('consultanif').value = nif;
+       
        var URL="<c:url value="${contexte}/consultaNifUsuariExtern"/>?nif="+ nif;
        $.getJSON(URL, function(info) {
          
@@ -752,14 +756,37 @@
 
   <script type="text/javascript">
 
-     function crearFirmaUsuariExternSubmit() {
-       
-       // XYZ ZZZ Validar camps via JAVASCRIPT
-       
-       document.getElementById('crearFirmaUsuariExternForm').submit();
-       
-     }
+  function crearFirmaUsuariExternSubmit() {
 
+      // XYZ ZZZ Validar camps via JAVASCRIPT
+      var nif = $("#crearfirma_nif").val();
+      var nom = $("#crearfirma_nom").val();
+      var llinatges = $("#crearfirma_llinatges").val();
+      var correu = $("#crearfirma_email").val();
+
+      var campsOk = true;
+
+      if (nif.length == 0) {
+          campsOk &&= false;
+      }
+      if (nom.length == 0) {
+          campsOk &&= false;
+      }
+      if (llinatges.length == 0) {
+          campsOk &&= false;
+      }
+      if (correu.length == 0) {
+          campsOk &&= false;
+      }
+
+      //      if ((nif.length == 0)||(nom.length == 0) ||(llinatges.length == 0) ||(correu.length == 0)) {
+      //      if (nif.length * nom.length * llinatges.length * correu.length == 0) {
+      if (!campsOk) {
+          alert("<fmt:message key='firmausuariextern.formulari.incomplet'/>");
+      } else {
+          document.getElementById('crearFirmaUsuariExternForm').submit();
+      }
+  }
   </script>
 
   

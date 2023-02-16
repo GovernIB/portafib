@@ -28,6 +28,7 @@ import es.caib.portafib.persistence.TraduccioMapJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
+import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.persistence.validator.PeticioDeFirmaBeanValidator;
 import es.caib.portafib.logic.events.EstatDeFirmaEventHelper;
 import es.caib.portafib.logic.events.FirmaEventList;
@@ -90,6 +91,7 @@ import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
+import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.FileUtils;
@@ -2774,6 +2776,61 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
     
     bitacolaLogicaEjb.createBitacola(entitatID, peticioDeFirma.getPeticioDeFirmaID(),
             BITACOLA_TIPUS_PETICIO, tipusOperacio , desc);
+    
+    if (revisorsPendents == 0) {
+        
+        final Locale loc = new Locale(peticioDeFirma.getIdiomaID());
+
+        String subject = I18NCommonUtils.tradueix(loc, "email.peticio.revisada.subject");
+        
+        estatDeFirma = estatDeFirma;
+        firma = firma;
+        peticioDeFirma = peticioDeFirma;
+        
+        
+        String nomPeticio = peticioDeFirma.getTitol();
+        String nomRevisor = "nada que ver";
+        String usernameRevisor = "nada que ver";
+        String baseUrl = "youtube.com";
+
+        String usuariPersonaID = usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.USUARIPERSONAID,
+                UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma.getUsuariEntitatID()));
+
+        UsuariPersonaJPA persona = usuariPersonaEjb.findByPrimaryKey(usuariPersonaID);
+
+        nomRevisor = persona.getNom() + " " + persona.getLlinatges();
+        usernameRevisor = persona.getUsuariPersonaID();
+        
+        
+        //        for (Iterator<RevisorDeFirmaJPA> it = firma.getRevisorDeFirmas().iterator(); it.hasNext(); ) {
+//            RevisorDeFirmaJPA rev = it.next();
+//            String persona = rev.getUsuariEntitatID();
+//            nomRevisor = persona;
+//            
+//            nomRevisor = usuariPersonaEjb.executeQueryOne(UsuariPersonaFields.EMAIL, UsuariPersonaFields.USUARIPERSONAID.equal(persona));
+////            nomRevisor = persona.getNom() + " " + persona.getLlinatges();
+////            usernameRevisor = persona.getUsuariPersonaID();
+//        }
+//                
+
+        String message = I18NCommonUtils.tradueix(loc, "email.peticio.revisada.message", nomPeticio, nomRevisor, usernameRevisor, baseUrl);
+
+        boolean isHTML = true;
+
+        String from = PropietatGlobalUtil.getAppEmail();
+
+//        String to = usuariEjb.executeQueryOne(UsuariFields.EMAIL, UsuariFields.USUARIID.equal(solicitantID));
+        String to = "ptrias@fundaciobit.org";
+
+        try {
+//            EmailUtil.postMail(subject, message, isHTML, from, to);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.getMessage(), e);
+        }
+        
+    }
   }
 
   private int processarRevisorsPendents(FirmaJPA firma) throws I18NException {

@@ -691,11 +691,8 @@ public class PdfUtils implements ConstantsV2 {
             is = new FileInputStream(pdf);
             return PdfUtils.getNumberOfSignaturesInPDF(is);
         } catch (FileNotFoundException e) {
-            log.error("No s'ha trobat el fitxer " + pdf.getAbsolutePath() + ":" + e.getMessage(),
-                    e);
-            // XYZ ZZZ TRA
-            throw new I18NException("genapp.comodi",
-                    "No s'ha trobat el fitxer " + pdf.getAbsolutePath() + ":" + e.getMessage());
+            log.error("No s'ha trobat el fitxer " + pdf.getAbsolutePath() + ":" + e.getMessage(), e);
+            throw new I18NException("fitxer.notfound", pdf.getAbsolutePath(), e.getMessage());
         } finally {
             if (is != null) {
                 try {

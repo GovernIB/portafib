@@ -144,7 +144,10 @@ public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliContro
 
       java.util.Collections.sort(result, STRINGKEYVALUE_COMPARATOR);
 
-      peticioDeFirmaForm.getPeticioDeFirma().setTipusDocumentID(Long.MIN_VALUE);
+      if (peticioDeFirmaForm.getPeticioDeFirma().getTipusDocumentID() == 0) {
+          peticioDeFirmaForm.getPeticioDeFirma().setTipusDocumentID(Long.MIN_VALUE);
+      }
+      
 
       return result;
   }

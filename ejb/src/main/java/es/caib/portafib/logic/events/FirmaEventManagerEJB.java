@@ -415,30 +415,37 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
     final String titol = event.getPeticioDeFirmaTitol();
     
     String actorID = event.getActorUsuariEntitatID();
-        
-        
+    log.info("ACTORID: getActorUsuariEntitatID: " + actorID);
+
+    actorID = event.getEstatDeFirmaUsuariEntitatID();
+    log.info("ACTORID: getEstatDeFirmaUsuariEntitatID: " + actorID);
     
     
     String nomActor;
+    String usernameActor;
     if (actorID == null) {
       nomActor = null;
+      usernameActor = null;
     } else {
       UsuariEntitatJPA actor = UsuariEntitatLogicaEJB.findByPrimaryKeyFull(usuariEntitatEjb, actorID);
       UsuariPersona upActor = actor.getUsuariPersona();
       nomActor = upActor.getNom() + " " + upActor.getLlinatges() + "(" + upActor.getNif() + ")";
-    }
+      usernameActor = upActor.getUsuariPersonaID();
+      }
 
-    final String desc = I18NLogicUtils.tradueix(loc, msgCode,  titol, nomActor, argDesc);
+    final String avis = I18NLogicUtils.tradueix(loc, msgCode,  titol, nomActor, argDesc);
+//    final String avis = I18NLogicUtils.tradueix(loc, msgCode,  nomActor, usernameActor , argDesc);
     String href = event.getHref();
     if (href == null || href.trim().length() == 0) {
-      log.error("No s'ha definit href per [" + nom + "]  " + desc, new Exception());
+      log.error("No s'ha definit href per [" + nom + "]  " + avis, new Exception());
       href = PropietatGlobalUtil.getAppUrl();
     } else {
       href = PropietatGlobalUtil.getAppUrl() + href;
     }
     // notificacioavis_email_message= Bones {0}:<br> Voliem informar que {1}.
     // <br/>Pot accedir a la petició de firma pitjant <a href="{2}">aqu&iacute;</a>...
-    final String msg = I18NLogicUtils.tradueix(loc, "notificacioavis_email_message", nom, desc, href);
+    final String msg = I18NLogicUtils.tradueix(loc, "notificacioavis_email_message", nom, avis, href);
+//    final String msg = I18NLogicUtils.tradueix(loc, "notificacioavis_email_message_nou", nom, titol, avis, href);
     
     EmailInfo info = new EmailInfo();
     info.setEmail(mail);
