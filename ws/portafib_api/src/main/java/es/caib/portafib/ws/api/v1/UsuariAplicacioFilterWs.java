@@ -7,23 +7,23 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for usuariAplicacioFilterWs complex type.
+ * <p>Clase Java para usuariAplicacioFilterWs complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="usuariAplicacioFilterWs">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="filterByActiu" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *         &lt;element name="filterByCallBackURL" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="filterByEntitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="filterByUsuariAplicacioID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="usuariAplicacioFilterWs"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="filterByActiu" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+ *         &lt;element name="filterByCallBackURL" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="filterByEntitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="filterByUsuariAplicacioID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -43,7 +43,7 @@ public class UsuariAplicacioFilterWs {
     protected String filterByUsuariAplicacioID;
 
     /**
-     * Gets the value of the filterByActiu property.
+     * Obtiene el valor de la propiedad filterByActiu.
      * 
      * @return
      *     possible object is
@@ -55,7 +55,7 @@ public class UsuariAplicacioFilterWs {
     }
 
     /**
-     * Sets the value of the filterByActiu property.
+     * Define el valor de la propiedad filterByActiu.
      * 
      * @param value
      *     allowed object is
@@ -67,7 +67,7 @@ public class UsuariAplicacioFilterWs {
     }
 
     /**
-     * Gets the value of the filterByCallBackURL property.
+     * Obtiene el valor de la propiedad filterByCallBackURL.
      * 
      * @return
      *     possible object is
@@ -79,7 +79,7 @@ public class UsuariAplicacioFilterWs {
     }
 
     /**
-     * Sets the value of the filterByCallBackURL property.
+     * Define el valor de la propiedad filterByCallBackURL.
      * 
      * @param value
      *     allowed object is
@@ -91,7 +91,7 @@ public class UsuariAplicacioFilterWs {
     }
 
     /**
-     * Gets the value of the filterByEntitatID property.
+     * Obtiene el valor de la propiedad filterByEntitatID.
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class UsuariAplicacioFilterWs {
     }
 
     /**
-     * Sets the value of the filterByEntitatID property.
+     * Define el valor de la propiedad filterByEntitatID.
      * 
      * @param value
      *     allowed object is
@@ -115,7 +115,7 @@ public class UsuariAplicacioFilterWs {
     }
 
     /**
-     * Gets the value of the filterByUsuariAplicacioID property.
+     * Obtiene el valor de la propiedad filterByUsuariAplicacioID.
      * 
      * @return
      *     possible object is
@@ -127,7 +127,7 @@ public class UsuariAplicacioFilterWs {
     }
 
     /**
-     * Sets the value of the filterByUsuariAplicacioID property.
+     * Define el valor de la propiedad filterByUsuariAplicacioID.
      * 
      * @param value
      *     allowed object is

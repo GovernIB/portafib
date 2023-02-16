@@ -10,20 +10,20 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for blocDeFirmesWs complex type.
+ * <p>Clase Java para blocDeFirmesWs complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="blocDeFirmesWs">
- *   &lt;complexContent>
- *     &lt;extension base="{http://impl.v1.ws.portafib.caib.es/}blocDeFirmesBean">
- *       &lt;sequence>
- *         &lt;element name="firmes" type="{http://impl.v1.ws.portafib.caib.es/}firmaBean" maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="blocDeFirmesWs"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;extension base="{http://impl.v1.ws.portafib.caib.es/}blocDeFirmesBean"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="firmes" type="{http://impl.v1.ws.portafib.caib.es/}firmaBean" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

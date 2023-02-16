@@ -7,20 +7,20 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for instantiatePlantillaFluxDeFirmes complex type.
+ * <p>Clase Java para instantiatePlantillaFluxDeFirmes complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="instantiatePlantillaFluxDeFirmes">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="plantillaDeFluxDeFirmesID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="instantiatePlantillaFluxDeFirmes"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="plantillaDeFluxDeFirmesID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -34,7 +34,7 @@ public class InstantiatePlantillaFluxDeFirmes {
     protected long plantillaDeFluxDeFirmesID;
 
     /**
-     * Gets the value of the plantillaDeFluxDeFirmesID property.
+     * Obtiene el valor de la propiedad plantillaDeFluxDeFirmesID.
      * 
      */
     public long getPlantillaDeFluxDeFirmesID() {
@@ -42,7 +42,7 @@ public class InstantiatePlantillaFluxDeFirmes {
     }
 
     /**
-     * Sets the value of the plantillaDeFluxDeFirmesID property.
+     * Define el valor de la propiedad plantillaDeFluxDeFirmesID.
      * 
      */
     public void setPlantillaDeFluxDeFirmesID(long value) {

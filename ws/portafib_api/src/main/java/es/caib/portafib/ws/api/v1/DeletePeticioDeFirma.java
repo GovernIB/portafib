@@ -7,20 +7,20 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for deletePeticioDeFirma complex type.
+ * <p>Clase Java para deletePeticioDeFirma complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="deletePeticioDeFirma">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="peticioDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="deletePeticioDeFirma"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="peticioDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -34,7 +34,7 @@ public class DeletePeticioDeFirma {
     protected long peticioDeFirmaID;
 
     /**
-     * Gets the value of the peticioDeFirmaID property.
+     * Obtiene el valor de la propiedad peticioDeFirmaID.
      * 
      */
     public long getPeticioDeFirmaID() {
@@ -42,7 +42,7 @@ public class DeletePeticioDeFirma {
     }
 
     /**
-     * Sets the value of the peticioDeFirmaID property.
+     * Define el valor de la propiedad peticioDeFirmaID.
      * 
      */
     public void setPeticioDeFirmaID(long value) {

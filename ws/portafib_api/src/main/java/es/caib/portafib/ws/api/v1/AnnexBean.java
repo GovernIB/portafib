@@ -7,25 +7,25 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for annexBean complex type.
+ * <p>Clase Java para annexBean complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="annexBean">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="adjuntar" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="annexID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="firmar" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="fitxer" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/>
- *         &lt;element name="fitxerID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="peticioDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="annexBean"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="adjuntar" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="annexID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="firmar" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="fitxer" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/&gt;
+ *         &lt;element name="fitxerID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="peticioDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -49,7 +49,7 @@ public class AnnexBean {
     protected long peticioDeFirmaID;
 
     /**
-     * Gets the value of the adjuntar property.
+     * Obtiene el valor de la propiedad adjuntar.
      * 
      */
     public boolean isAdjuntar() {
@@ -57,7 +57,7 @@ public class AnnexBean {
     }
 
     /**
-     * Sets the value of the adjuntar property.
+     * Define el valor de la propiedad adjuntar.
      * 
      */
     public void setAdjuntar(boolean value) {
@@ -65,7 +65,7 @@ public class AnnexBean {
     }
 
     /**
-     * Gets the value of the annexID property.
+     * Obtiene el valor de la propiedad annexID.
      * 
      */
     public long getAnnexID() {
@@ -73,7 +73,7 @@ public class AnnexBean {
     }
 
     /**
-     * Sets the value of the annexID property.
+     * Define el valor de la propiedad annexID.
      * 
      */
     public void setAnnexID(long value) {
@@ -81,7 +81,7 @@ public class AnnexBean {
     }
 
     /**
-     * Gets the value of the firmar property.
+     * Obtiene el valor de la propiedad firmar.
      * 
      */
     public boolean isFirmar() {
@@ -89,7 +89,7 @@ public class AnnexBean {
     }
 
     /**
-     * Sets the value of the firmar property.
+     * Define el valor de la propiedad firmar.
      * 
      */
     public void setFirmar(boolean value) {
@@ -97,7 +97,7 @@ public class AnnexBean {
     }
 
     /**
-     * Gets the value of the fitxer property.
+     * Obtiene el valor de la propiedad fitxer.
      * 
      * @return
      *     possible object is
@@ -109,7 +109,7 @@ public class AnnexBean {
     }
 
     /**
-     * Sets the value of the fitxer property.
+     * Define el valor de la propiedad fitxer.
      * 
      * @param value
      *     allowed object is
@@ -121,7 +121,7 @@ public class AnnexBean {
     }
 
     /**
-     * Gets the value of the fitxerID property.
+     * Obtiene el valor de la propiedad fitxerID.
      * 
      */
     public long getFitxerID() {
@@ -129,7 +129,7 @@ public class AnnexBean {
     }
 
     /**
-     * Sets the value of the fitxerID property.
+     * Define el valor de la propiedad fitxerID.
      * 
      */
     public void setFitxerID(long value) {
@@ -137,7 +137,7 @@ public class AnnexBean {
     }
 
     /**
-     * Gets the value of the peticioDeFirmaID property.
+     * Obtiene el valor de la propiedad peticioDeFirmaID.
      * 
      */
     public long getPeticioDeFirmaID() {
@@ -145,7 +145,7 @@ public class AnnexBean {
     }
 
     /**
-     * Sets the value of the peticioDeFirmaID property.
+     * Define el valor de la propiedad peticioDeFirmaID.
      * 
      */
     public void setPeticioDeFirmaID(long value) {

@@ -7,20 +7,20 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for updateUsuariPersona complex type.
+ * <p>Clase Java para updateUsuariPersona complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="updateUsuariPersona">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="usuariPersonaBean" type="{http://impl.v1.ws.portafib.caib.es/}usuariPersonaBean" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="updateUsuariPersona"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="usuariPersonaBean" type="{http://impl.v1.ws.portafib.caib.es/}usuariPersonaBean" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -34,7 +34,7 @@ public class UpdateUsuariPersona {
     protected UsuariPersonaBean usuariPersonaBean;
 
     /**
-     * Gets the value of the usuariPersonaBean property.
+     * Obtiene el valor de la propiedad usuariPersonaBean.
      * 
      * @return
      *     possible object is
@@ -46,7 +46,7 @@ public class UpdateUsuariPersona {
     }
 
     /**
-     * Sets the value of the usuariPersonaBean property.
+     * Define el valor de la propiedad usuariPersonaBean.
      * 
      * @param value
      *     allowed object is

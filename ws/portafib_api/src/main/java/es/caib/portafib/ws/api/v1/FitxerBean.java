@@ -7,26 +7,26 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for fitxerBean complex type.
+ * <p>Clase Java para fitxerBean complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="fitxerBean">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="data" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/>
- *         &lt;element name="descripcio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="encryptedFileID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="fitxerID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="mime" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="nom" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="tamany" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="fitxerBean"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="data" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/&gt;
+ *         &lt;element name="descripcio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="encryptedFileID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="fitxerID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="mime" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="nom" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="tamany" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -52,7 +52,7 @@ public class FitxerBean {
     protected long tamany;
 
     /**
-     * Gets the value of the data property.
+     * Obtiene el valor de la propiedad data.
      * 
      * @return
      *     possible object is
@@ -63,18 +63,18 @@ public class FitxerBean {
     }
 
     /**
-     * Sets the value of the data property.
+     * Define el valor de la propiedad data.
      * 
      * @param value
      *     allowed object is
      *     byte[]
      */
     public void setData(byte[] value) {
-        this.data = ((byte[]) value);
+        this.data = value;
     }
 
     /**
-     * Gets the value of the descripcio property.
+     * Obtiene el valor de la propiedad descripcio.
      * 
      * @return
      *     possible object is
@@ -86,7 +86,7 @@ public class FitxerBean {
     }
 
     /**
-     * Sets the value of the descripcio property.
+     * Define el valor de la propiedad descripcio.
      * 
      * @param value
      *     allowed object is
@@ -98,7 +98,7 @@ public class FitxerBean {
     }
 
     /**
-     * Gets the value of the encryptedFileID property.
+     * Obtiene el valor de la propiedad encryptedFileID.
      * 
      * @return
      *     possible object is
@@ -110,7 +110,7 @@ public class FitxerBean {
     }
 
     /**
-     * Sets the value of the encryptedFileID property.
+     * Define el valor de la propiedad encryptedFileID.
      * 
      * @param value
      *     allowed object is
@@ -122,7 +122,7 @@ public class FitxerBean {
     }
 
     /**
-     * Gets the value of the fitxerID property.
+     * Obtiene el valor de la propiedad fitxerID.
      * 
      */
     public long getFitxerID() {
@@ -130,7 +130,7 @@ public class FitxerBean {
     }
 
     /**
-     * Sets the value of the fitxerID property.
+     * Define el valor de la propiedad fitxerID.
      * 
      */
     public void setFitxerID(long value) {
@@ -138,7 +138,7 @@ public class FitxerBean {
     }
 
     /**
-     * Gets the value of the mime property.
+     * Obtiene el valor de la propiedad mime.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class FitxerBean {
     }
 
     /**
-     * Sets the value of the mime property.
+     * Define el valor de la propiedad mime.
      * 
      * @param value
      *     allowed object is
@@ -162,7 +162,7 @@ public class FitxerBean {
     }
 
     /**
-     * Gets the value of the nom property.
+     * Obtiene el valor de la propiedad nom.
      * 
      * @return
      *     possible object is
@@ -174,7 +174,7 @@ public class FitxerBean {
     }
 
     /**
-     * Sets the value of the nom property.
+     * Define el valor de la propiedad nom.
      * 
      * @param value
      *     allowed object is
@@ -186,7 +186,7 @@ public class FitxerBean {
     }
 
     /**
-     * Gets the value of the tamany property.
+     * Obtiene el valor de la propiedad tamany.
      * 
      */
     public long getTamany() {
@@ -194,7 +194,7 @@ public class FitxerBean {
     }
 
     /**
-     * Sets the value of the tamany property.
+     * Define el valor de la propiedad tamany.
      * 
      */
     public void setTamany(long value) {

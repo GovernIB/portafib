@@ -7,21 +7,21 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for getDefaultCustodiaInfo complex type.
+ * <p>Clase Java para getDefaultCustodiaInfo complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="getDefaultCustodiaInfo">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="title" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="language" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="getDefaultCustodiaInfo"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="title" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="language" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -37,7 +37,7 @@ public class GetDefaultCustodiaInfo {
     protected String language;
 
     /**
-     * Gets the value of the title property.
+     * Obtiene el valor de la propiedad title.
      * 
      * @return
      *     possible object is
@@ -49,7 +49,7 @@ public class GetDefaultCustodiaInfo {
     }
 
     /**
-     * Sets the value of the title property.
+     * Define el valor de la propiedad title.
      * 
      * @param value
      *     allowed object is
@@ -61,7 +61,7 @@ public class GetDefaultCustodiaInfo {
     }
 
     /**
-     * Gets the value of the language property.
+     * Obtiene el valor de la propiedad language.
      * 
      * @return
      *     possible object is
@@ -73,7 +73,7 @@ public class GetDefaultCustodiaInfo {
     }
 
     /**
-     * Sets the value of the language property.
+     * Define el valor de la propiedad language.
      * 
      * @param value
      *     allowed object is

@@ -10,23 +10,23 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for peticioDeFirmaWs complex type.
+ * <p>Clase Java para peticioDeFirmaWs complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="peticioDeFirmaWs">
- *   &lt;complexContent>
- *     &lt;extension base="{http://impl.v1.ws.portafib.caib.es/}peticioDeFirmaBean">
- *       &lt;sequence>
- *         &lt;element name="annexs" type="{http://impl.v1.ws.portafib.caib.es/}annexBean" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="custodiaInfo" type="{http://impl.v1.ws.portafib.caib.es/}custodiaInfoBean" minOccurs="0"/>
- *         &lt;element name="fluxDeFirmes" type="{http://impl.v1.ws.portafib.caib.es/}fluxDeFirmesWs" minOccurs="0"/>
- *         &lt;element name="metadades" type="{http://impl.v1.ws.portafib.caib.es/}metadadaBean" maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="peticioDeFirmaWs"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;extension base="{http://impl.v1.ws.portafib.caib.es/}peticioDeFirmaBean"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="annexs" type="{http://impl.v1.ws.portafib.caib.es/}annexBean" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="custodiaInfo" type="{http://impl.v1.ws.portafib.caib.es/}custodiaInfoBean" minOccurs="0"/&gt;
+ *         &lt;element name="fluxDeFirmes" type="{http://impl.v1.ws.portafib.caib.es/}fluxDeFirmesWs" minOccurs="0"/&gt;
+ *         &lt;element name="metadades" type="{http://impl.v1.ws.portafib.caib.es/}metadadaBean" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -79,7 +79,7 @@ public class PeticioDeFirmaWs
     }
 
     /**
-     * Gets the value of the custodiaInfo property.
+     * Obtiene el valor de la propiedad custodiaInfo.
      * 
      * @return
      *     possible object is
@@ -91,7 +91,7 @@ public class PeticioDeFirmaWs
     }
 
     /**
-     * Sets the value of the custodiaInfo property.
+     * Define el valor de la propiedad custodiaInfo.
      * 
      * @param value
      *     allowed object is
@@ -103,7 +103,7 @@ public class PeticioDeFirmaWs
     }
 
     /**
-     * Gets the value of the fluxDeFirmes property.
+     * Obtiene el valor de la propiedad fluxDeFirmes.
      * 
      * @return
      *     possible object is
@@ -115,7 +115,7 @@ public class PeticioDeFirmaWs
     }
 
     /**
-     * Sets the value of the fluxDeFirmes property.
+     * Define el valor de la propiedad fluxDeFirmes.
      * 
      * @param value
      *     allowed object is

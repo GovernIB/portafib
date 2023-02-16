@@ -7,20 +7,20 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for addRoleSolicitant complex type.
+ * <p>Clase Java para addRoleSolicitant complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="addRoleSolicitant">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="usuariEntitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="addRoleSolicitant"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="usuariEntitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -34,7 +34,7 @@ public class AddRoleSolicitant {
     protected String usuariEntitatID;
 
     /**
-     * Gets the value of the usuariEntitatID property.
+     * Obtiene el valor de la propiedad usuariEntitatID.
      * 
      * @return
      *     possible object is
@@ -46,7 +46,7 @@ public class AddRoleSolicitant {
     }
 
     /**
-     * Sets the value of the usuariEntitatID property.
+     * Define el valor de la propiedad usuariEntitatID.
      * 
      * @param value
      *     allowed object is

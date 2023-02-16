@@ -7,30 +7,30 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for usuariEntitatBean complex type.
+ * <p>Clase Java para usuariEntitatBean complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="usuariEntitatBean">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="actiu" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="carrec" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="email" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="entitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="logoSegell" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/>
- *         &lt;element name="logoSegellID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
- *         &lt;element name="potCustodiar" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *         &lt;element name="predeterminat" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="rebreTotsElsAvisos" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="usuariEntitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="usuariPersonaID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="usuariEntitatBean"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="actiu" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="carrec" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="email" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="entitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="logoSegell" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/&gt;
+ *         &lt;element name="logoSegellID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/&gt;
+ *         &lt;element name="potCustodiar" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+ *         &lt;element name="predeterminat" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="rebreTotsElsAvisos" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="usuariEntitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="usuariPersonaID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -64,7 +64,7 @@ public class UsuariEntitatBean {
     protected String usuariPersonaID;
 
     /**
-     * Gets the value of the actiu property.
+     * Obtiene el valor de la propiedad actiu.
      * 
      */
     public boolean isActiu() {
@@ -72,7 +72,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Sets the value of the actiu property.
+     * Define el valor de la propiedad actiu.
      * 
      */
     public void setActiu(boolean value) {
@@ -80,7 +80,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Gets the value of the carrec property.
+     * Obtiene el valor de la propiedad carrec.
      * 
      * @return
      *     possible object is
@@ -92,7 +92,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Sets the value of the carrec property.
+     * Define el valor de la propiedad carrec.
      * 
      * @param value
      *     allowed object is
@@ -104,7 +104,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Gets the value of the email property.
+     * Obtiene el valor de la propiedad email.
      * 
      * @return
      *     possible object is
@@ -116,7 +116,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Sets the value of the email property.
+     * Define el valor de la propiedad email.
      * 
      * @param value
      *     allowed object is
@@ -128,7 +128,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Gets the value of the entitatID property.
+     * Obtiene el valor de la propiedad entitatID.
      * 
      * @return
      *     possible object is
@@ -140,7 +140,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Sets the value of the entitatID property.
+     * Define el valor de la propiedad entitatID.
      * 
      * @param value
      *     allowed object is
@@ -152,7 +152,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Gets the value of the logoSegell property.
+     * Obtiene el valor de la propiedad logoSegell.
      * 
      * @return
      *     possible object is
@@ -164,7 +164,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Sets the value of the logoSegell property.
+     * Define el valor de la propiedad logoSegell.
      * 
      * @param value
      *     allowed object is
@@ -176,7 +176,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Gets the value of the logoSegellID property.
+     * Obtiene el valor de la propiedad logoSegellID.
      * 
      * @return
      *     possible object is
@@ -188,7 +188,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Sets the value of the logoSegellID property.
+     * Define el valor de la propiedad logoSegellID.
      * 
      * @param value
      *     allowed object is
@@ -200,7 +200,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Gets the value of the potCustodiar property.
+     * Obtiene el valor de la propiedad potCustodiar.
      * 
      * @return
      *     possible object is
@@ -212,7 +212,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Sets the value of the potCustodiar property.
+     * Define el valor de la propiedad potCustodiar.
      * 
      * @param value
      *     allowed object is
@@ -224,7 +224,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Gets the value of the predeterminat property.
+     * Obtiene el valor de la propiedad predeterminat.
      * 
      */
     public boolean isPredeterminat() {
@@ -232,7 +232,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Sets the value of the predeterminat property.
+     * Define el valor de la propiedad predeterminat.
      * 
      */
     public void setPredeterminat(boolean value) {
@@ -240,7 +240,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Gets the value of the rebreTotsElsAvisos property.
+     * Obtiene el valor de la propiedad rebreTotsElsAvisos.
      * 
      */
     public boolean isRebreTotsElsAvisos() {
@@ -248,7 +248,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Sets the value of the rebreTotsElsAvisos property.
+     * Define el valor de la propiedad rebreTotsElsAvisos.
      * 
      */
     public void setRebreTotsElsAvisos(boolean value) {
@@ -256,7 +256,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Gets the value of the usuariEntitatID property.
+     * Obtiene el valor de la propiedad usuariEntitatID.
      * 
      * @return
      *     possible object is
@@ -268,7 +268,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Sets the value of the usuariEntitatID property.
+     * Define el valor de la propiedad usuariEntitatID.
      * 
      * @param value
      *     allowed object is
@@ -280,7 +280,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Gets the value of the usuariPersonaID property.
+     * Obtiene el valor de la propiedad usuariPersonaID.
      * 
      * @return
      *     possible object is
@@ -292,7 +292,7 @@ public class UsuariEntitatBean {
     }
 
     /**
-     * Sets the value of the usuariPersonaID property.
+     * Define el valor de la propiedad usuariPersonaID.
      * 
      * @param value
      *     allowed object is

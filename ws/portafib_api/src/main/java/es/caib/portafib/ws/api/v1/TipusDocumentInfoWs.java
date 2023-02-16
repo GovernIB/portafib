@@ -7,21 +7,21 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for tipusDocumentInfoWs complex type.
+ * <p>Clase Java para tipusDocumentInfoWs complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="tipusDocumentInfoWs">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="nom" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="tipusDocumentID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="tipusDocumentInfoWs"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="nom" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="tipusDocumentID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -37,7 +37,7 @@ public class TipusDocumentInfoWs {
     protected long tipusDocumentID;
 
     /**
-     * Gets the value of the nom property.
+     * Obtiene el valor de la propiedad nom.
      * 
      * @return
      *     possible object is
@@ -49,7 +49,7 @@ public class TipusDocumentInfoWs {
     }
 
     /**
-     * Sets the value of the nom property.
+     * Define el valor de la propiedad nom.
      * 
      * @param value
      *     allowed object is
@@ -61,7 +61,7 @@ public class TipusDocumentInfoWs {
     }
 
     /**
-     * Gets the value of the tipusDocumentID property.
+     * Obtiene el valor de la propiedad tipusDocumentID.
      * 
      */
     public long getTipusDocumentID() {
@@ -69,7 +69,7 @@ public class TipusDocumentInfoWs {
     }
 
     /**
-     * Sets the value of the tipusDocumentID property.
+     * Define el valor de la propiedad tipusDocumentID.
      * 
      */
     public void setTipusDocumentID(long value) {

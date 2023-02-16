@@ -11,6 +11,7 @@
 		<!-- JBoss dependency versions -->
 		<version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>
 		<cxf.version>3.3.3</cxf.version>
+        <portafib.version>2.2.0</portafib.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -56,6 +57,14 @@
 			<name>Redhat Repository</name>
 			<url>https://maven.repository.redhat.com/ga/</url>
 		</repository>
+        
+        
+        <repository>
+			<id>Maven</id>
+			<name>Maven Repository</name>
+			<url>https://repo1.maven.org/maven2/</url>
+		</repository>
+       
 	</repositories>
 	<build>
 		<pluginManagement>
@@ -226,15 +235,17 @@
 								<version>${portafib.version}</version>
 								<scope>compile</scope>
 							</dependency>
+                            
 							<dependency>
 								<groupId>es.caib.portafib</groupId>
-								<artifactId>portafib-jpa</artifactId>
+								<artifactId>portafib-persistence</artifactId>
 								<version>${portafib.version}</version>
 								<scope>compile</scope>
 							</dependency>
+                            
 							<dependency>
 								<groupId>es.caib.portafib</groupId>
-								<artifactId>portafib-logic</artifactId>
+								<artifactId>portafib-ejb</artifactId>
 								<version>${portafib.version}</version>
 								<scope>compile</scope>
 							</dependency>
@@ -250,8 +261,13 @@
 									<frontend>jaxws</frontend>
 									<databinding>jaxb</databinding>
 									<outputFile>${basedir}/src/main/resources/wsdl/PortaFIBHelloWorld.wsdl</outputFile>
+                                    <sourceDirectory>${basedir}/code</sourceDirectory>
+                                    <portname>PortaFIBHelloWorldWs</portname>
+                                    <address> http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld</address>
+                                    <!--
 									<argline>-s ${basedir}/code -portname PortaFIBHelloWorldWs -address
                     http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld</argline>
+                    -->
 								</configuration>
 								<goals>
 									<goal>java2ws</goal>
@@ -265,9 +281,9 @@
 									<genWsdl>true</genWsdl>
 									<verbose>true</verbose>
 									<outputFile>${basedir}/src/main/resources/wsdl/PortaFIBUsuariAplicacio.wsdl</outputFile>
-									<argline>-s ${basedir}/code -portname PortaFIBUsuariAplicacioWs
-                    -address
-                    http://localhost:8080/portafib/ws/v1/PortaFIBUsuariAplicacio</argline>
+                                    <address>http://localhost:8080/portafib/ws/v1/PortaFIBUsuariAplicacio</address>
+                                    <portname>PortaFIBUsuariAplicacioWs</portname>
+                                    <sourceDirectory>${basedir}/code</sourceDirectory>
 								</configuration>
 								<goals>
 									<goal>java2ws</goal>
@@ -281,9 +297,15 @@
 									<genWsdl>true</genWsdl>
 									<verbose>true</verbose>
 									<outputFile>${basedir}/src/main/resources/wsdl/PortaFIBUsuariEntitat.wsdl</outputFile>
+                       
+                                    <sourceDirectory>${basedir}/code</sourceDirectory>
+                                    <portname>PortaFIBUsuariEntitatWs</portname>
+                                    <address> http://localhost:8080/portafib/ws/v1/PortaFIBUsuariEntitat</address>                        
+                                    <!--
 									<argline>-s ${basedir}/code -portname PortaFIBUsuariEntitatWs
                     -address
                     http://localhost:8080/portafib/ws/v1/PortaFIBUsuariEntitat</argline>
+                    -->
 								</configuration>
 								<goals>
 									<goal>java2ws</goal>
@@ -297,9 +319,14 @@
 									<genWsdl>true</genWsdl>
 									<verbose>true</verbose>
 									<outputFile>${basedir}/src/main/resources/wsdl/PortaFIBPeticioDeFirma.wsdl</outputFile>
+                                    
+                                            <sourceDirectory>${basedir}/code</sourceDirectory>
+                                    <portname>PortaFIBPeticioDeFirmaWs</portname>
+                                    <address> http://localhost:8080/portafib/ws/v1/PortaFIBPeticioDeFirma</address>   
+                                    <!--
 									<argline>-s ${basedir}/code -portname PortaFIBPeticioDeFirmaWs
                     -address
-                    http://localhost:8080/portafib/ws/v1/PortaFIBPeticioDeFirma</argline>
+                    http://localhost:8080/portafib/ws/v1/PortaFIBPeticioDeFirma</argline>-->
 								</configuration>
 								<goals>
 									<goal>java2ws</goal>
@@ -308,9 +335,17 @@
 						</executions>
 					</plugin>
 					<plugin>
-						<groupId>org.jboss.ws.plugins</groupId>
+						<!--<groupId>org.jboss.ws.plugins</groupId>
 						<artifactId>maven-jaxws-tools-plugin</artifactId>
-						<version>1.1.1.Final</version>
+						<version>1.3.0.Final</version> 1.1.1.Final-->
+                        
+                        
+                        <groupId>org.jboss.ws.plugins</groupId>
+    <artifactId>jaxws-tools-maven-plugin</artifactId>
+    <version>1.3.0.Final</version>
+                        
+                        
+                        
 						<configuration>
 							<verbose>true</verbose>
 							<goalPrefix>wsconsume</goalPrefix>
@@ -332,7 +367,7 @@
 										<wsdl>${basedir}/src/main/resources/wsdl/PortaFIBHelloWorld.wsdl</wsdl>
 									</wsdls>
 									<wsdlLocation>http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld?wsdl</wsdlLocation>
-									<argLine>-n</argLine>
+									<!-- <argLine>-n</argLine> -->
 								</configuration>
 							</execution>
 							<execution>
@@ -345,7 +380,7 @@
 										<wsdl>${basedir}/src/main/resources/wsdl/PortaFIBUsuariAplicacio.wsdl</wsdl>
 									</wsdls>
 									<wsdlLocation>http://localhost:8080/portafib/ws/v1/PortaFIBUsuariAplicacio?wsdl</wsdlLocation>
-									<argLine>-n</argLine>
+									<!-- <argLine>-n</argLine> -->
 								</configuration>
 							</execution>
 							<execution>
@@ -358,7 +393,7 @@
 										<wsdl>${basedir}/src/main/resources/wsdl/PortaFIBUsuariEntitat.wsdl</wsdl>
 									</wsdls>
 									<wsdlLocation>http://localhost:8080/portafib/ws/v1/PortaFIBUsuariEntitat?wsdl</wsdlLocation>
-									<argLine>-n</argLine>
+									<!-- <argLine>-n</argLine> -->
 								</configuration>
 							</execution>
 							<execution>
@@ -371,7 +406,7 @@
 										<wsdl>${basedir}/src/main/resources/wsdl/PortaFIBPeticioDeFirma.wsdl</wsdl>
 									</wsdls>
 									<wsdlLocation>http://localhost:8080/portafib/ws/v1/PortaFIBPeticioDeFirma?wsdl</wsdlLocation>
-									<argLine>-n</argLine>
+									<!-- <argLine>-n</argLine> -->
 								</configuration>
 							</execution>
 						</executions>

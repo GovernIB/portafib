@@ -11,38 +11,38 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * <p>Java class for custodiaInfoBean complex type.
+ * <p>Clase Java para custodiaInfoBean complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="custodiaInfoBean">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="codiBarresID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="codiBarresPosicioPaginaID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="codiBarresText" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="custodiaDocumentID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="custodiaInfoID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="custodiaPluginParameters" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="custodiar" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="dataCustodia" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
- *         &lt;element name="editable" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="entitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="missatge" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="missatgePosicioPaginaID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="nomPlantilla" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="pagines" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="pluginID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="titolPeticio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="urlFitxerCustodiat" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="usuariAplicacioID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="usuariEntitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="custodiaInfoBean"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="codiBarresID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="codiBarresPosicioPaginaID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="codiBarresText" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="custodiaDocumentID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="custodiaInfoID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="custodiaPluginParameters" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="custodiar" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="dataCustodia" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
+ *         &lt;element name="editable" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="entitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="missatge" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="missatgePosicioPaginaID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="nomPlantilla" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="pagines" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="pluginID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="titolPeticio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="urlFitxerCustodiat" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="usuariAplicacioID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="usuariEntitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -95,7 +95,7 @@ public class CustodiaInfoBean {
     protected String usuariEntitatID;
 
     /**
-     * Gets the value of the codiBarresID property.
+     * Obtiene el valor de la propiedad codiBarresID.
      * 
      * @return
      *     possible object is
@@ -107,7 +107,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the codiBarresID property.
+     * Define el valor de la propiedad codiBarresID.
      * 
      * @param value
      *     allowed object is
@@ -119,7 +119,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the codiBarresPosicioPaginaID property.
+     * Obtiene el valor de la propiedad codiBarresPosicioPaginaID.
      * 
      */
     public long getCodiBarresPosicioPaginaID() {
@@ -127,7 +127,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the codiBarresPosicioPaginaID property.
+     * Define el valor de la propiedad codiBarresPosicioPaginaID.
      * 
      */
     public void setCodiBarresPosicioPaginaID(long value) {
@@ -135,7 +135,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the codiBarresText property.
+     * Obtiene el valor de la propiedad codiBarresText.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the codiBarresText property.
+     * Define el valor de la propiedad codiBarresText.
      * 
      * @param value
      *     allowed object is
@@ -159,7 +159,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the custodiaDocumentID property.
+     * Obtiene el valor de la propiedad custodiaDocumentID.
      * 
      * @return
      *     possible object is
@@ -171,7 +171,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the custodiaDocumentID property.
+     * Define el valor de la propiedad custodiaDocumentID.
      * 
      * @param value
      *     allowed object is
@@ -183,7 +183,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the custodiaInfoID property.
+     * Obtiene el valor de la propiedad custodiaInfoID.
      * 
      */
     public long getCustodiaInfoID() {
@@ -191,7 +191,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the custodiaInfoID property.
+     * Define el valor de la propiedad custodiaInfoID.
      * 
      */
     public void setCustodiaInfoID(long value) {
@@ -199,7 +199,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the custodiaPluginParameters property.
+     * Obtiene el valor de la propiedad custodiaPluginParameters.
      * 
      * @return
      *     possible object is
@@ -211,7 +211,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the custodiaPluginParameters property.
+     * Define el valor de la propiedad custodiaPluginParameters.
      * 
      * @param value
      *     allowed object is
@@ -223,7 +223,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the custodiar property.
+     * Obtiene el valor de la propiedad custodiar.
      * 
      */
     public boolean isCustodiar() {
@@ -231,7 +231,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the custodiar property.
+     * Define el valor de la propiedad custodiar.
      * 
      */
     public void setCustodiar(boolean value) {
@@ -239,7 +239,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the dataCustodia property.
+     * Obtiene el valor de la propiedad dataCustodia.
      * 
      * @return
      *     possible object is
@@ -251,7 +251,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the dataCustodia property.
+     * Define el valor de la propiedad dataCustodia.
      * 
      * @param value
      *     allowed object is
@@ -263,7 +263,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the editable property.
+     * Obtiene el valor de la propiedad editable.
      * 
      */
     public boolean isEditable() {
@@ -271,7 +271,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the editable property.
+     * Define el valor de la propiedad editable.
      * 
      */
     public void setEditable(boolean value) {
@@ -279,7 +279,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the entitatID property.
+     * Obtiene el valor de la propiedad entitatID.
      * 
      * @return
      *     possible object is
@@ -291,7 +291,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the entitatID property.
+     * Define el valor de la propiedad entitatID.
      * 
      * @param value
      *     allowed object is
@@ -303,7 +303,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the missatge property.
+     * Obtiene el valor de la propiedad missatge.
      * 
      * @return
      *     possible object is
@@ -315,7 +315,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the missatge property.
+     * Define el valor de la propiedad missatge.
      * 
      * @param value
      *     allowed object is
@@ -327,7 +327,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the missatgePosicioPaginaID property.
+     * Obtiene el valor de la propiedad missatgePosicioPaginaID.
      * 
      */
     public long getMissatgePosicioPaginaID() {
@@ -335,7 +335,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the missatgePosicioPaginaID property.
+     * Define el valor de la propiedad missatgePosicioPaginaID.
      * 
      */
     public void setMissatgePosicioPaginaID(long value) {
@@ -343,7 +343,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the nomPlantilla property.
+     * Obtiene el valor de la propiedad nomPlantilla.
      * 
      * @return
      *     possible object is
@@ -355,7 +355,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the nomPlantilla property.
+     * Define el valor de la propiedad nomPlantilla.
      * 
      * @param value
      *     allowed object is
@@ -367,7 +367,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the pagines property.
+     * Obtiene el valor de la propiedad pagines.
      * 
      * @return
      *     possible object is
@@ -379,7 +379,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the pagines property.
+     * Define el valor de la propiedad pagines.
      * 
      * @param value
      *     allowed object is
@@ -391,7 +391,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the pluginID property.
+     * Obtiene el valor de la propiedad pluginID.
      * 
      */
     public long getPluginID() {
@@ -399,7 +399,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the pluginID property.
+     * Define el valor de la propiedad pluginID.
      * 
      */
     public void setPluginID(long value) {
@@ -407,7 +407,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the titolPeticio property.
+     * Obtiene el valor de la propiedad titolPeticio.
      * 
      * @return
      *     possible object is
@@ -419,7 +419,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the titolPeticio property.
+     * Define el valor de la propiedad titolPeticio.
      * 
      * @param value
      *     allowed object is
@@ -431,7 +431,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the urlFitxerCustodiat property.
+     * Obtiene el valor de la propiedad urlFitxerCustodiat.
      * 
      * @return
      *     possible object is
@@ -443,7 +443,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the urlFitxerCustodiat property.
+     * Define el valor de la propiedad urlFitxerCustodiat.
      * 
      * @param value
      *     allowed object is
@@ -455,7 +455,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the usuariAplicacioID property.
+     * Obtiene el valor de la propiedad usuariAplicacioID.
      * 
      * @return
      *     possible object is
@@ -467,7 +467,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the usuariAplicacioID property.
+     * Define el valor de la propiedad usuariAplicacioID.
      * 
      * @param value
      *     allowed object is
@@ -479,7 +479,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Gets the value of the usuariEntitatID property.
+     * Obtiene el valor de la propiedad usuariEntitatID.
      * 
      * @return
      *     possible object is
@@ -491,7 +491,7 @@ public class CustodiaInfoBean {
     }
 
     /**
-     * Sets the value of the usuariEntitatID property.
+     * Define el valor de la propiedad usuariEntitatID.
      * 
      * @param value
      *     allowed object is

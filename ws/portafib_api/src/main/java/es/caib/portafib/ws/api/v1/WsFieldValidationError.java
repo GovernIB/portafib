@@ -8,23 +8,23 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for wsFieldValidationError complex type.
+ * <p>Clase Java para wsFieldValidationError complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="wsFieldValidationError">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="label" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="field" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="translation" type="{http://impl.v1.ws.portafib.caib.es/}wsI18NTranslation"/>
- *         &lt;element name="error" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="wsFieldValidationError"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="label" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="field" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="translation" type="{http://impl.v1.ws.portafib.caib.es/}wsI18NTranslation"/&gt;
+ *         &lt;element name="error" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -48,7 +48,7 @@ public class WsFieldValidationError {
     protected String error;
 
     /**
-     * Gets the value of the label property.
+     * Obtiene el valor de la propiedad label.
      * 
      * @return
      *     possible object is
@@ -60,7 +60,7 @@ public class WsFieldValidationError {
     }
 
     /**
-     * Sets the value of the label property.
+     * Define el valor de la propiedad label.
      * 
      * @param value
      *     allowed object is
@@ -72,7 +72,7 @@ public class WsFieldValidationError {
     }
 
     /**
-     * Gets the value of the field property.
+     * Obtiene el valor de la propiedad field.
      * 
      * @return
      *     possible object is
@@ -84,7 +84,7 @@ public class WsFieldValidationError {
     }
 
     /**
-     * Sets the value of the field property.
+     * Define el valor de la propiedad field.
      * 
      * @param value
      *     allowed object is
@@ -96,7 +96,7 @@ public class WsFieldValidationError {
     }
 
     /**
-     * Gets the value of the translation property.
+     * Obtiene el valor de la propiedad translation.
      * 
      * @return
      *     possible object is
@@ -108,7 +108,7 @@ public class WsFieldValidationError {
     }
 
     /**
-     * Sets the value of the translation property.
+     * Define el valor de la propiedad translation.
      * 
      * @param value
      *     allowed object is
@@ -120,7 +120,7 @@ public class WsFieldValidationError {
     }
 
     /**
-     * Gets the value of the error property.
+     * Obtiene el valor de la propiedad error.
      * 
      * @return
      *     possible object is
@@ -132,7 +132,7 @@ public class WsFieldValidationError {
     }
 
     /**
-     * Sets the value of the error property.
+     * Define el valor de la propiedad error.
      * 
      * @param value
      *     allowed object is

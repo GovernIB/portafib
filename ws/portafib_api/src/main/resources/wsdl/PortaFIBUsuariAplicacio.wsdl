@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="PortaFIBUsuariAplicacioWsService" targetNamespace="http://impl.v1.ws.portafib.caib.es/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://impl.v1.ws.portafib.caib.es/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:definitions name="PortaFIBUsuariAplicacioWsService" targetNamespace="http://impl.v1.ws.portafib.caib.es/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://impl.v1.ws.portafib.caib.es/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://impl.v1.ws.portafib.caib.es/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://impl.v1.ws.portafib.caib.es/">
+<xs:schema xmlns:tns="http://impl.v1.ws.portafib.caib.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://impl.v1.ws.portafib.caib.es/">
   <xs:element name="addRolAdminToUsuariAplicacio" type="tns:addRolAdminToUsuariAplicacio"/>
   <xs:element name="addRolAdminToUsuariAplicacioResponse" type="tns:addRolAdminToUsuariAplicacioResponse"/>
   <xs:element name="addRolUserToUsuariAplicacio" type="tns:addRolUserToUsuariAplicacio"/>
@@ -28,58 +28,14 @@
   <xs:element name="removeRolAdminToUsuariAplicacioResponse" type="tns:removeRolAdminToUsuariAplicacioResponse"/>
   <xs:element name="removeRolUserToUsuariAplicacio" type="tns:removeRolUserToUsuariAplicacio"/>
   <xs:element name="removeRolUserToUsuariAplicacioResponse" type="tns:removeRolUserToUsuariAplicacioResponse"/>
-  <xs:complexType name="getEntitatID">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getEntitatIDResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getVersionWs">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getVersionWsResponse">
-    <xs:sequence>
-      <xs:element name="return" type="xs:int"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deleteUsuariAplicacio">
+  <xs:complexType name="getUsuariAplicacio">
     <xs:sequence>
       <xs:element minOccurs="0" name="usuariAplicacioID" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="deleteUsuariAplicacioResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="wsI18NTranslation">
+  <xs:complexType name="getUsuariAplicacioResponse">
     <xs:sequence>
-      <xs:element minOccurs="0" name="code" type="xs:string"/>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="args" type="tns:wsI18NArgument"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="wsI18NArgument">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="value" type="xs:string"/>
-      <xs:element name="translate" type="xs:boolean"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="listUsuariAplicacio">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="usuariAplicacioFilterWs" type="tns:usuariAplicacioFilterWs"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="usuariAplicacioFilterWs">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="filterByActiu" type="xs:boolean"/>
-      <xs:element minOccurs="0" name="filterByCallBackURL" type="xs:string"/>
-      <xs:element minOccurs="0" name="filterByEntitatID" type="xs:string"/>
-      <xs:element minOccurs="0" name="filterByUsuariAplicacioID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="listUsuariAplicacioResponse">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:usuariAplicacioBean"/>
+      <xs:element minOccurs="0" name="return" type="tns:usuariAplicacioBean"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="usuariAplicacioBean">
@@ -109,6 +65,46 @@
       <xs:element name="tamany" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="wsI18NTranslation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="code" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="args" type="tns:wsI18NArgument"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsI18NArgument">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="value" type="xs:string"/>
+      <xs:element name="translate" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="addRolUserToUsuariAplicacio">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuariAplicacioID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="addRolUserToUsuariAplicacioResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getVersion">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getVersionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="removeRolAdminToUsuariAplicacio">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuariAplicacioID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="removeRolAdminToUsuariAplicacioResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="removeRolUserToUsuariAplicacio">
     <xs:sequence>
       <xs:element minOccurs="0" name="usuariAplicacioID" type="xs:string"/>
@@ -119,14 +115,14 @@
       <xs:element name="return" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="addRolAdminToUsuariAplicacio">
+  <xs:complexType name="downloadFileUsingEncryptedFileID">
     <xs:sequence>
-      <xs:element minOccurs="0" name="usuariAplicacioID" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="addRolAdminToUsuariAplicacioResponse">
+  <xs:complexType name="downloadFileUsingEncryptedFileIDResponse">
     <xs:sequence>
-      <xs:element name="return" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="return" type="tns:fitxerBean"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="createUsuariAplicacio">
@@ -145,22 +141,56 @@
       <xs:element name="error" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="getVersion">
+  <xs:complexType name="getEntitatID">
     <xs:sequence/>
   </xs:complexType>
-  <xs:complexType name="getVersionResponse">
+  <xs:complexType name="getEntitatIDResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="getUsuariAplicacio">
+  <xs:complexType name="getVersionWs">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getVersionWsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listUsuariAplicacio">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuariAplicacioFilterWs" type="tns:usuariAplicacioFilterWs"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="usuariAplicacioFilterWs">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="filterByActiu" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="filterByCallBackURL" type="xs:string"/>
+      <xs:element minOccurs="0" name="filterByEntitatID" type="xs:string"/>
+      <xs:element minOccurs="0" name="filterByUsuariAplicacioID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listUsuariAplicacioResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:usuariAplicacioBean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteUsuariAplicacio">
     <xs:sequence>
       <xs:element minOccurs="0" name="usuariAplicacioID" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="getUsuariAplicacioResponse">
+  <xs:complexType name="deleteUsuariAplicacioResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="addRolAdminToUsuariAplicacio">
     <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:usuariAplicacioBean"/>
+      <xs:element minOccurs="0" name="usuariAplicacioID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="addRolAdminToUsuariAplicacioResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getSupportedLanguages">
@@ -171,243 +201,139 @@
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="downloadFileUsingEncryptedFileID">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="downloadFileUsingEncryptedFileIDResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:fitxerBean"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="addRolUserToUsuariAplicacio">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="usuariAplicacioID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="addRolUserToUsuariAplicacioResponse">
-    <xs:sequence>
-      <xs:element name="return" type="xs:boolean"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="removeRolAdminToUsuariAplicacio">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="usuariAplicacioID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="removeRolAdminToUsuariAplicacioResponse">
-    <xs:sequence>
-      <xs:element name="return" type="xs:boolean"/>
-    </xs:sequence>
-  </xs:complexType>
   <xs:element name="WsI18NError" type="tns:WsI18NError"/>
   <xs:complexType name="WsI18NError">
     <xs:sequence>
-      <xs:element name="translation" nillable="true" type="tns:wsI18NTranslation"/>
+      <xs:element minOccurs="0" name="translation" type="tns:wsI18NTranslation"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
   <xs:element name="WsValidationErrors" type="tns:WsValidationErrors"/>
   <xs:complexType name="WsValidationErrors">
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="fieldFaults" type="tns:wsFieldValidationError"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>
   </wsdl:types>
-  <wsdl:message name="removeRolAdminToUsuariAplicacioResponse">
-    <wsdl:part name="parameters" element="tns:removeRolAdminToUsuariAplicacioResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="WsValidationException">
-    <wsdl:part name="WsValidationException" element="tns:WsValidationErrors">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="listUsuariAplicacio">
-    <wsdl:part name="parameters" element="tns:listUsuariAplicacio">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="createUsuariAplicacioResponse">
-    <wsdl:part name="parameters" element="tns:createUsuariAplicacioResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="removeRolAdminToUsuariAplicacio">
-    <wsdl:part name="parameters" element="tns:removeRolAdminToUsuariAplicacio">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="listUsuariAplicacioResponse">
-    <wsdl:part name="parameters" element="tns:listUsuariAplicacioResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getEntitatIDResponse">
-    <wsdl:part name="parameters" element="tns:getEntitatIDResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getVersionWs">
-    <wsdl:part name="parameters" element="tns:getVersionWs">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getEntitatID">
-    <wsdl:part name="parameters" element="tns:getEntitatID">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteUsuariAplicacio">
-    <wsdl:part name="parameters" element="tns:deleteUsuariAplicacio">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteUsuariAplicacioResponse">
-    <wsdl:part name="parameters" element="tns:deleteUsuariAplicacioResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="addRolUserToUsuariAplicacioResponse">
-    <wsdl:part name="parameters" element="tns:addRolUserToUsuariAplicacioResponse">
+  <wsdl:message name="getUsuariAplicacio">
+    <wsdl:part name="parameters" element="tns:getUsuariAplicacio">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="WsI18NException">
     <wsdl:part name="WsI18NException" element="tns:WsI18NError">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="createUsuariAplicacioResponse">
+    <wsdl:part name="parameters" element="tns:createUsuariAplicacioResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getVersion">
     <wsdl:part name="parameters" element="tns:getVersion">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="removeRolUserToUsuariAplicacio">
-    <wsdl:part name="parameters" element="tns:removeRolUserToUsuariAplicacio">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="addRolUserToUsuariAplicacio">
-    <wsdl:part name="parameters" element="tns:addRolUserToUsuariAplicacio">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getVersionWsResponse">
-    <wsdl:part name="parameters" element="tns:getVersionWsResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getSupportedLanguages">
-    <wsdl:part name="parameters" element="tns:getSupportedLanguages">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="addRolAdminToUsuariAplicacio">
-    <wsdl:part name="parameters" element="tns:addRolAdminToUsuariAplicacio">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="addRolAdminToUsuariAplicacioResponse">
-    <wsdl:part name="parameters" element="tns:addRolAdminToUsuariAplicacioResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getUsuariAplicacioResponse">
-    <wsdl:part name="parameters" element="tns:getUsuariAplicacioResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getSupportedLanguagesResponse">
-    <wsdl:part name="parameters" element="tns:getSupportedLanguagesResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="downloadFileUsingEncryptedFileID">
-    <wsdl:part name="parameters" element="tns:downloadFileUsingEncryptedFileID">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="createUsuariAplicacio">
-    <wsdl:part name="parameters" element="tns:createUsuariAplicacio">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="removeRolUserToUsuariAplicacioResponse">
-    <wsdl:part name="parameters" element="tns:removeRolUserToUsuariAplicacioResponse">
+  <wsdl:message name="removeRolAdminToUsuariAplicacio">
+    <wsdl:part name="parameters" element="tns:removeRolAdminToUsuariAplicacio">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="downloadFileUsingEncryptedFileIDResponse">
     <wsdl:part name="parameters" element="tns:downloadFileUsingEncryptedFileIDResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getUsuariAplicacio">
-    <wsdl:part name="parameters" element="tns:getUsuariAplicacio">
+  <wsdl:message name="removeRolUserToUsuariAplicacio">
+    <wsdl:part name="parameters" element="tns:removeRolUserToUsuariAplicacio">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariAplicacioResponse">
+    <wsdl:part name="parameters" element="tns:getUsuariAplicacioResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="listUsuariAplicacioResponse">
+    <wsdl:part name="parameters" element="tns:listUsuariAplicacioResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="downloadFileUsingEncryptedFileID">
+    <wsdl:part name="parameters" element="tns:downloadFileUsingEncryptedFileID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedLanguagesResponse">
+    <wsdl:part name="parameters" element="tns:getSupportedLanguagesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createUsuariAplicacio">
+    <wsdl:part name="parameters" element="tns:createUsuariAplicacio">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="listUsuariAplicacio">
+    <wsdl:part name="parameters" element="tns:listUsuariAplicacio">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteUsuariAplicacio">
+    <wsdl:part name="parameters" element="tns:deleteUsuariAplicacio">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addRolAdminToUsuariAplicacioResponse">
+    <wsdl:part name="parameters" element="tns:addRolAdminToUsuariAplicacioResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedLanguages">
+    <wsdl:part name="parameters" element="tns:getSupportedLanguages">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getVersionResponse">
     <wsdl:part name="parameters" element="tns:getVersionResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="deleteUsuariAplicacioResponse">
+    <wsdl:part name="parameters" element="tns:deleteUsuariAplicacioResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionWsResponse">
+    <wsdl:part name="parameters" element="tns:getVersionWsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addRolUserToUsuariAplicacio">
+    <wsdl:part name="parameters" element="tns:addRolUserToUsuariAplicacio">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeRolAdminToUsuariAplicacioResponse">
+    <wsdl:part name="parameters" element="tns:removeRolAdminToUsuariAplicacioResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEntitatIDResponse">
+    <wsdl:part name="parameters" element="tns:getEntitatIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="WsValidationException">
+    <wsdl:part name="WsValidationException" element="tns:WsValidationErrors">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEntitatID">
+    <wsdl:part name="parameters" element="tns:getEntitatID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionWs">
+    <wsdl:part name="parameters" element="tns:getVersionWs">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addRolUserToUsuariAplicacioResponse">
+    <wsdl:part name="parameters" element="tns:addRolUserToUsuariAplicacioResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addRolAdminToUsuariAplicacio">
+    <wsdl:part name="parameters" element="tns:addRolAdminToUsuariAplicacio">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeRolUserToUsuariAplicacioResponse">
+    <wsdl:part name="parameters" element="tns:removeRolUserToUsuariAplicacioResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="PortaFIBUsuariAplicacioWs">
-    <wsdl:operation name="getEntitatID">
-      <wsdl:input name="getEntitatID" message="tns:getEntitatID">
-    </wsdl:input>
-      <wsdl:output name="getEntitatIDResponse" message="tns:getEntitatIDResponse">
-    </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getVersionWs">
-      <wsdl:input name="getVersionWs" message="tns:getVersionWs">
-    </wsdl:input>
-      <wsdl:output name="getVersionWsResponse" message="tns:getVersionWsResponse">
-    </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="deleteUsuariAplicacio">
-      <wsdl:input name="deleteUsuariAplicacio" message="tns:deleteUsuariAplicacio">
-    </wsdl:input>
-      <wsdl:output name="deleteUsuariAplicacioResponse" message="tns:deleteUsuariAplicacioResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="listUsuariAplicacio">
-      <wsdl:input name="listUsuariAplicacio" message="tns:listUsuariAplicacio">
-    </wsdl:input>
-      <wsdl:output name="listUsuariAplicacioResponse" message="tns:listUsuariAplicacioResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="removeRolUserToUsuariAplicacio">
-      <wsdl:input name="removeRolUserToUsuariAplicacio" message="tns:removeRolUserToUsuariAplicacio">
-    </wsdl:input>
-      <wsdl:output name="removeRolUserToUsuariAplicacioResponse" message="tns:removeRolUserToUsuariAplicacioResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="addRolAdminToUsuariAplicacio">
-      <wsdl:input name="addRolAdminToUsuariAplicacio" message="tns:addRolAdminToUsuariAplicacio">
-    </wsdl:input>
-      <wsdl:output name="addRolAdminToUsuariAplicacioResponse" message="tns:addRolAdminToUsuariAplicacioResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="createUsuariAplicacio">
-      <wsdl:input name="createUsuariAplicacio" message="tns:createUsuariAplicacio">
-    </wsdl:input>
-      <wsdl:output name="createUsuariAplicacioResponse" message="tns:createUsuariAplicacioResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
-    </wsdl:fault>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getVersion">
-      <wsdl:input name="getVersion" message="tns:getVersion">
-    </wsdl:input>
-      <wsdl:output name="getVersionResponse" message="tns:getVersionResponse">
-    </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="getUsuariAplicacio">
       <wsdl:input name="getUsuariAplicacio" message="tns:getUsuariAplicacio">
     </wsdl:input>
       <wsdl:output name="getUsuariAplicacioResponse" message="tns:getUsuariAplicacioResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getSupportedLanguages">
-      <wsdl:input name="getSupportedLanguages" message="tns:getSupportedLanguages">
-    </wsdl:input>
-      <wsdl:output name="getSupportedLanguagesResponse" message="tns:getSupportedLanguagesResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="downloadFileUsingEncryptedFileID">
-      <wsdl:input name="downloadFileUsingEncryptedFileID" message="tns:downloadFileUsingEncryptedFileID">
-    </wsdl:input>
-      <wsdl:output name="downloadFileUsingEncryptedFileIDResponse" message="tns:downloadFileUsingEncryptedFileIDResponse">
     </wsdl:output>
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
@@ -420,6 +346,12 @@
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <wsdl:input name="getVersion" message="tns:getVersion">
+    </wsdl:input>
+      <wsdl:output name="getVersionResponse" message="tns:getVersionResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="removeRolAdminToUsuariAplicacio">
       <wsdl:input name="removeRolAdminToUsuariAplicacio" message="tns:removeRolAdminToUsuariAplicacio">
     </wsdl:input>
@@ -428,9 +360,163 @@
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="removeRolUserToUsuariAplicacio">
+      <wsdl:input name="removeRolUserToUsuariAplicacio" message="tns:removeRolUserToUsuariAplicacio">
+    </wsdl:input>
+      <wsdl:output name="removeRolUserToUsuariAplicacioResponse" message="tns:removeRolUserToUsuariAplicacioResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="downloadFileUsingEncryptedFileID">
+      <wsdl:input name="downloadFileUsingEncryptedFileID" message="tns:downloadFileUsingEncryptedFileID">
+    </wsdl:input>
+      <wsdl:output name="downloadFileUsingEncryptedFileIDResponse" message="tns:downloadFileUsingEncryptedFileIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createUsuariAplicacio">
+      <wsdl:input name="createUsuariAplicacio" message="tns:createUsuariAplicacio">
+    </wsdl:input>
+      <wsdl:output name="createUsuariAplicacioResponse" message="tns:createUsuariAplicacioResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEntitatID">
+      <wsdl:input name="getEntitatID" message="tns:getEntitatID">
+    </wsdl:input>
+      <wsdl:output name="getEntitatIDResponse" message="tns:getEntitatIDResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVersionWs">
+      <wsdl:input name="getVersionWs" message="tns:getVersionWs">
+    </wsdl:input>
+      <wsdl:output name="getVersionWsResponse" message="tns:getVersionWsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="listUsuariAplicacio">
+      <wsdl:input name="listUsuariAplicacio" message="tns:listUsuariAplicacio">
+    </wsdl:input>
+      <wsdl:output name="listUsuariAplicacioResponse" message="tns:listUsuariAplicacioResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteUsuariAplicacio">
+      <wsdl:input name="deleteUsuariAplicacio" message="tns:deleteUsuariAplicacio">
+    </wsdl:input>
+      <wsdl:output name="deleteUsuariAplicacioResponse" message="tns:deleteUsuariAplicacioResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addRolAdminToUsuariAplicacio">
+      <wsdl:input name="addRolAdminToUsuariAplicacio" message="tns:addRolAdminToUsuariAplicacio">
+    </wsdl:input>
+      <wsdl:output name="addRolAdminToUsuariAplicacioResponse" message="tns:addRolAdminToUsuariAplicacioResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedLanguages">
+      <wsdl:input name="getSupportedLanguages" message="tns:getSupportedLanguages">
+    </wsdl:input>
+      <wsdl:output name="getSupportedLanguagesResponse" message="tns:getSupportedLanguagesResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="PortaFIBUsuariAplicacioWsServiceSoapBinding" type="tns:PortaFIBUsuariAplicacioWs">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getUsuariAplicacio">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUsuariAplicacio">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUsuariAplicacioResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addRolUserToUsuariAplicacio">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addRolUserToUsuariAplicacio">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addRolUserToUsuariAplicacioResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getVersion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getVersionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeRolAdminToUsuariAplicacio">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeRolAdminToUsuariAplicacio">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeRolAdminToUsuariAplicacioResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeRolUserToUsuariAplicacio">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeRolUserToUsuariAplicacio">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeRolUserToUsuariAplicacioResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="downloadFileUsingEncryptedFileID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="downloadFileUsingEncryptedFileID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="downloadFileUsingEncryptedFileIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createUsuariAplicacio">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createUsuariAplicacio">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createUsuariAplicacioResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="WsValidationException">
+        <soap:fault name="WsValidationException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="getEntitatID">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getEntitatID">
@@ -439,18 +525,6 @@
       <wsdl:output name="getEntitatIDResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="deleteUsuariAplicacio">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="deleteUsuariAplicacio">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="deleteUsuariAplicacioResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getVersionWs">
       <soap:operation soapAction="" style="document"/>
@@ -473,12 +547,12 @@
         <soap:fault name="WsI18NException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="removeRolUserToUsuariAplicacio">
+    <wsdl:operation name="deleteUsuariAplicacio">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="removeRolUserToUsuariAplicacio">
+      <wsdl:input name="deleteUsuariAplicacio">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="removeRolUserToUsuariAplicacioResponse">
+      <wsdl:output name="deleteUsuariAplicacioResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="WsI18NException">
@@ -497,42 +571,6 @@
         <soap:fault name="WsI18NException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="createUsuariAplicacio">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="createUsuariAplicacio">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="createUsuariAplicacioResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsValidationException">
-        <soap:fault name="WsValidationException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getVersion">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getVersion">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getVersionResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getUsuariAplicacio">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getUsuariAplicacio">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getUsuariAplicacioResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="getSupportedLanguages">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getSupportedLanguages">
@@ -545,45 +583,9 @@
         <soap:fault name="WsI18NException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="addRolUserToUsuariAplicacio">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="addRolUserToUsuariAplicacio">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="addRolUserToUsuariAplicacioResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="downloadFileUsingEncryptedFileID">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="downloadFileUsingEncryptedFileID">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="downloadFileUsingEncryptedFileIDResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="removeRolAdminToUsuariAplicacio">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="removeRolAdminToUsuariAplicacio">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="removeRolAdminToUsuariAplicacioResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="PortaFIBUsuariAplicacioWsService">
-    <wsdl:port name="PortaFIBUsuariAplicacioWs" binding="tns:PortaFIBUsuariAplicacioWsServiceSoapBinding">
+    <wsdl:port name="PortaFIBUsuariAplicacioWsPort" binding="tns:PortaFIBUsuariAplicacioWsServiceSoapBinding">
       <soap:address location="http://localhost:8080/portafib/ws/v1/PortaFIBUsuariAplicacio"/>
     </wsdl:port>
   </wsdl:service>

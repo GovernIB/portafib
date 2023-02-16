@@ -8,36 +8,36 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for firmaBean complex type.
+ * <p>Clase Java para firmaBean complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="firmaBean">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="blocDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="caixaAlt" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
- *         &lt;element name="caixaAmple" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
- *         &lt;element name="caixaPagina" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="caixaX" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
- *         &lt;element name="caixaY" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
- *         &lt;element name="destinatariID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="emissorCertificat" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="firmaID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="fitxerFirmat" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/>
- *         &lt;element name="fitxerFirmatID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
- *         &lt;element name="mostrarRubrica" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="nomCertificat" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="numFirmaDocument" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
- *         &lt;element name="numeroSerieCertificat" type="{http://www.w3.org/2001/XMLSchema}integer" minOccurs="0"/>
- *         &lt;element name="obligatori" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="tipusEstatDeFirmaFinalID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="firmaBean"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="blocDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="caixaAlt" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
+ *         &lt;element name="caixaAmple" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
+ *         &lt;element name="caixaPagina" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="caixaX" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
+ *         &lt;element name="caixaY" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
+ *         &lt;element name="destinatariID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="emissorCertificat" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="firmaID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="fitxerFirmat" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/&gt;
+ *         &lt;element name="fitxerFirmatID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/&gt;
+ *         &lt;element name="mostrarRubrica" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="nomCertificat" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="numFirmaDocument" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
+ *         &lt;element name="numeroSerieCertificat" type="{http://www.w3.org/2001/XMLSchema}integer" minOccurs="0"/&gt;
+ *         &lt;element name="obligatori" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="tipusEstatDeFirmaFinalID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -83,7 +83,7 @@ public class FirmaBean {
     protected Long tipusEstatDeFirmaFinalID;
 
     /**
-     * Gets the value of the blocDeFirmaID property.
+     * Obtiene el valor de la propiedad blocDeFirmaID.
      * 
      */
     public long getBlocDeFirmaID() {
@@ -91,7 +91,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the blocDeFirmaID property.
+     * Define el valor de la propiedad blocDeFirmaID.
      * 
      */
     public void setBlocDeFirmaID(long value) {
@@ -99,7 +99,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the caixaAlt property.
+     * Obtiene el valor de la propiedad caixaAlt.
      * 
      * @return
      *     possible object is
@@ -111,7 +111,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the caixaAlt property.
+     * Define el valor de la propiedad caixaAlt.
      * 
      * @param value
      *     allowed object is
@@ -123,7 +123,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the caixaAmple property.
+     * Obtiene el valor de la propiedad caixaAmple.
      * 
      * @return
      *     possible object is
@@ -135,7 +135,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the caixaAmple property.
+     * Define el valor de la propiedad caixaAmple.
      * 
      * @param value
      *     allowed object is
@@ -147,7 +147,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the caixaPagina property.
+     * Obtiene el valor de la propiedad caixaPagina.
      * 
      */
     public int getCaixaPagina() {
@@ -155,7 +155,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the caixaPagina property.
+     * Define el valor de la propiedad caixaPagina.
      * 
      */
     public void setCaixaPagina(int value) {
@@ -163,7 +163,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the caixaX property.
+     * Obtiene el valor de la propiedad caixaX.
      * 
      * @return
      *     possible object is
@@ -175,7 +175,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the caixaX property.
+     * Define el valor de la propiedad caixaX.
      * 
      * @param value
      *     allowed object is
@@ -187,7 +187,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the caixaY property.
+     * Obtiene el valor de la propiedad caixaY.
      * 
      * @return
      *     possible object is
@@ -199,7 +199,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the caixaY property.
+     * Define el valor de la propiedad caixaY.
      * 
      * @param value
      *     allowed object is
@@ -211,7 +211,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the destinatariID property.
+     * Obtiene el valor de la propiedad destinatariID.
      * 
      * @return
      *     possible object is
@@ -223,7 +223,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the destinatariID property.
+     * Define el valor de la propiedad destinatariID.
      * 
      * @param value
      *     allowed object is
@@ -235,7 +235,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the emissorCertificat property.
+     * Obtiene el valor de la propiedad emissorCertificat.
      * 
      * @return
      *     possible object is
@@ -247,7 +247,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the emissorCertificat property.
+     * Define el valor de la propiedad emissorCertificat.
      * 
      * @param value
      *     allowed object is
@@ -259,7 +259,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the firmaID property.
+     * Obtiene el valor de la propiedad firmaID.
      * 
      */
     public long getFirmaID() {
@@ -267,7 +267,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the firmaID property.
+     * Define el valor de la propiedad firmaID.
      * 
      */
     public void setFirmaID(long value) {
@@ -275,7 +275,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the fitxerFirmat property.
+     * Obtiene el valor de la propiedad fitxerFirmat.
      * 
      * @return
      *     possible object is
@@ -287,7 +287,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the fitxerFirmat property.
+     * Define el valor de la propiedad fitxerFirmat.
      * 
      * @param value
      *     allowed object is
@@ -299,7 +299,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the fitxerFirmatID property.
+     * Obtiene el valor de la propiedad fitxerFirmatID.
      * 
      * @return
      *     possible object is
@@ -311,7 +311,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the fitxerFirmatID property.
+     * Define el valor de la propiedad fitxerFirmatID.
      * 
      * @param value
      *     allowed object is
@@ -323,7 +323,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the mostrarRubrica property.
+     * Obtiene el valor de la propiedad mostrarRubrica.
      * 
      */
     public boolean isMostrarRubrica() {
@@ -331,7 +331,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the mostrarRubrica property.
+     * Define el valor de la propiedad mostrarRubrica.
      * 
      */
     public void setMostrarRubrica(boolean value) {
@@ -339,7 +339,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the nomCertificat property.
+     * Obtiene el valor de la propiedad nomCertificat.
      * 
      * @return
      *     possible object is
@@ -351,7 +351,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the nomCertificat property.
+     * Define el valor de la propiedad nomCertificat.
      * 
      * @param value
      *     allowed object is
@@ -363,7 +363,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the numFirmaDocument property.
+     * Obtiene el valor de la propiedad numFirmaDocument.
      * 
      * @return
      *     possible object is
@@ -375,7 +375,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the numFirmaDocument property.
+     * Define el valor de la propiedad numFirmaDocument.
      * 
      * @param value
      *     allowed object is
@@ -387,7 +387,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the numeroSerieCertificat property.
+     * Obtiene el valor de la propiedad numeroSerieCertificat.
      * 
      * @return
      *     possible object is
@@ -399,7 +399,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the numeroSerieCertificat property.
+     * Define el valor de la propiedad numeroSerieCertificat.
      * 
      * @param value
      *     allowed object is
@@ -411,7 +411,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the obligatori property.
+     * Obtiene el valor de la propiedad obligatori.
      * 
      */
     public boolean isObligatori() {
@@ -419,7 +419,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the obligatori property.
+     * Define el valor de la propiedad obligatori.
      * 
      */
     public void setObligatori(boolean value) {
@@ -427,7 +427,7 @@ public class FirmaBean {
     }
 
     /**
-     * Gets the value of the tipusEstatDeFirmaFinalID property.
+     * Obtiene el valor de la propiedad tipusEstatDeFirmaFinalID.
      * 
      * @return
      *     possible object is
@@ -439,7 +439,7 @@ public class FirmaBean {
     }
 
     /**
-     * Sets the value of the tipusEstatDeFirmaFinalID property.
+     * Define el valor de la propiedad tipusEstatDeFirmaFinalID.
      * 
      * @param value
      *     allowed object is

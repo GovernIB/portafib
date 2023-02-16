@@ -7,31 +7,31 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for usuariAplicacioBean complex type.
+ * <p>Clase Java para usuariAplicacioBean complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="usuariAplicacioBean">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="actiu" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="callbackURL" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="callbackVersio" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="contrasenya" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="descripcio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="emailAdmin" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="entitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="idiomaID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="logoSegell" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/>
- *         &lt;element name="logoSegellID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
- *         &lt;element name="potCustodiar" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *         &lt;element name="usuariAplicacioID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="usuariAplicacioBean"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="actiu" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="callbackURL" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="callbackVersio" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="contrasenya" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="descripcio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="emailAdmin" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="entitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="idiomaID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="logoSegell" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/&gt;
+ *         &lt;element name="logoSegellID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/&gt;
+ *         &lt;element name="potCustodiar" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+ *         &lt;element name="usuariAplicacioID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -67,7 +67,7 @@ public class UsuariAplicacioBean {
     protected String usuariAplicacioID;
 
     /**
-     * Gets the value of the actiu property.
+     * Obtiene el valor de la propiedad actiu.
      * 
      */
     public boolean isActiu() {
@@ -75,7 +75,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Sets the value of the actiu property.
+     * Define el valor de la propiedad actiu.
      * 
      */
     public void setActiu(boolean value) {
@@ -83,7 +83,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Gets the value of the callbackURL property.
+     * Obtiene el valor de la propiedad callbackURL.
      * 
      * @return
      *     possible object is
@@ -95,7 +95,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Sets the value of the callbackURL property.
+     * Define el valor de la propiedad callbackURL.
      * 
      * @param value
      *     allowed object is
@@ -107,7 +107,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Gets the value of the callbackVersio property.
+     * Obtiene el valor de la propiedad callbackVersio.
      * 
      */
     public int getCallbackVersio() {
@@ -115,7 +115,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Sets the value of the callbackVersio property.
+     * Define el valor de la propiedad callbackVersio.
      * 
      */
     public void setCallbackVersio(int value) {
@@ -123,7 +123,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Gets the value of the contrasenya property.
+     * Obtiene el valor de la propiedad contrasenya.
      * 
      * @return
      *     possible object is
@@ -135,7 +135,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Sets the value of the contrasenya property.
+     * Define el valor de la propiedad contrasenya.
      * 
      * @param value
      *     allowed object is
@@ -147,7 +147,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Gets the value of the descripcio property.
+     * Obtiene el valor de la propiedad descripcio.
      * 
      * @return
      *     possible object is
@@ -159,7 +159,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Sets the value of the descripcio property.
+     * Define el valor de la propiedad descripcio.
      * 
      * @param value
      *     allowed object is
@@ -171,7 +171,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Gets the value of the emailAdmin property.
+     * Obtiene el valor de la propiedad emailAdmin.
      * 
      * @return
      *     possible object is
@@ -183,7 +183,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Sets the value of the emailAdmin property.
+     * Define el valor de la propiedad emailAdmin.
      * 
      * @param value
      *     allowed object is
@@ -195,7 +195,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Gets the value of the entitatID property.
+     * Obtiene el valor de la propiedad entitatID.
      * 
      * @return
      *     possible object is
@@ -207,7 +207,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Sets the value of the entitatID property.
+     * Define el valor de la propiedad entitatID.
      * 
      * @param value
      *     allowed object is
@@ -219,7 +219,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Gets the value of the idiomaID property.
+     * Obtiene el valor de la propiedad idiomaID.
      * 
      * @return
      *     possible object is
@@ -231,7 +231,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Sets the value of the idiomaID property.
+     * Define el valor de la propiedad idiomaID.
      * 
      * @param value
      *     allowed object is
@@ -243,7 +243,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Gets the value of the logoSegell property.
+     * Obtiene el valor de la propiedad logoSegell.
      * 
      * @return
      *     possible object is
@@ -255,7 +255,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Sets the value of the logoSegell property.
+     * Define el valor de la propiedad logoSegell.
      * 
      * @param value
      *     allowed object is
@@ -267,7 +267,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Gets the value of the logoSegellID property.
+     * Obtiene el valor de la propiedad logoSegellID.
      * 
      * @return
      *     possible object is
@@ -279,7 +279,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Sets the value of the logoSegellID property.
+     * Define el valor de la propiedad logoSegellID.
      * 
      * @param value
      *     allowed object is
@@ -291,7 +291,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Gets the value of the potCustodiar property.
+     * Obtiene el valor de la propiedad potCustodiar.
      * 
      * @return
      *     possible object is
@@ -303,7 +303,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Sets the value of the potCustodiar property.
+     * Define el valor de la propiedad potCustodiar.
      * 
      * @param value
      *     allowed object is
@@ -315,7 +315,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Gets the value of the usuariAplicacioID property.
+     * Obtiene el valor de la propiedad usuariAplicacioID.
      * 
      * @return
      *     possible object is
@@ -327,7 +327,7 @@ public class UsuariAplicacioBean {
     }
 
     /**
-     * Sets the value of the usuariAplicacioID property.
+     * Define el valor de la propiedad usuariAplicacioID.
      * 
      * @param value
      *     allowed object is

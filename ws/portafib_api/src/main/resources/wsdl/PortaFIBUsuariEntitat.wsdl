@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="PortaFIBUsuariEntitatWsService" targetNamespace="http://impl.v1.ws.portafib.caib.es/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://impl.v1.ws.portafib.caib.es/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:definitions name="PortaFIBUsuariEntitatWsService" targetNamespace="http://impl.v1.ws.portafib.caib.es/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://impl.v1.ws.portafib.caib.es/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://impl.v1.ws.portafib.caib.es/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://impl.v1.ws.portafib.caib.es/">
+<xs:schema xmlns:tns="http://impl.v1.ws.portafib.caib.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://impl.v1.ws.portafib.caib.es/">
   <xs:element name="activateCarrec" type="tns:activateCarrec"/>
   <xs:element name="activateCarrecResponse" type="tns:activateCarrecResponse"/>
   <xs:element name="activateUsuariEntitat" type="tns:activateUsuariEntitat"/>
@@ -72,13 +72,21 @@
   <xs:element name="updateAdministrationIDOfCarrecResponse" type="tns:updateAdministrationIDOfCarrecResponse"/>
   <xs:element name="updateUsuariPersona" type="tns:updateUsuariPersona"/>
   <xs:element name="updateUsuariPersonaResponse" type="tns:updateUsuariPersonaResponse"/>
-  <xs:complexType name="updateAdministrationIDOfCarrec">
+  <xs:complexType name="createCarrec">
     <xs:sequence>
-      <xs:element minOccurs="0" name="carrecID" type="xs:string"/>
-      <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
+      <xs:element minOccurs="0" name="carrec" type="tns:carrecWs"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="updateAdministrationIDOfCarrecResponse">
+  <xs:complexType name="carrecWs">
+    <xs:sequence>
+      <xs:element name="actiu" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="carrecID" type="xs:string"/>
+      <xs:element minOccurs="0" name="carrecName" type="xs:string"/>
+      <xs:element minOccurs="0" name="entitatID" type="xs:string"/>
+      <xs:element minOccurs="0" name="usuariPersonaID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createCarrecResponse">
     <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="wsI18NTranslation">
@@ -101,23 +109,9 @@
       <xs:element name="error" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="getEntitatID">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getEntitatIDResponse">
+  <xs:complexType name="createUsuariEntitat">
     <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="createUsuariEntitatSimple">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
-      <xs:element minOccurs="0" name="entitatID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="createUsuariEntitatSimpleResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:usuariEntitatBean"/>
+      <xs:element minOccurs="0" name="usuariEntitatBean" type="tns:usuariEntitatBean"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="usuariEntitatBean">
@@ -146,106 +140,76 @@
       <xs:element name="tamany" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="getCarrecsOfMyEntitat">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getCarrecsOfMyEntitatResponse">
+  <xs:complexType name="createUsuariEntitatResponse">
     <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:carrecWs"/>
+      <xs:element minOccurs="0" name="return" type="tns:usuariEntitatBean"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="carrecWs">
-    <xs:sequence>
-      <xs:element name="actiu" type="xs:boolean"/>
-      <xs:element minOccurs="0" name="carrecID" type="xs:string"/>
-      <xs:element minOccurs="0" name="carrecName" type="xs:string"/>
-      <xs:element minOccurs="0" name="entitatID" type="xs:string"/>
-      <xs:element minOccurs="0" name="usuariPersonaID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="usuariPersonaID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="createCarrec">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="carrec" type="tns:carrecWs"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="createCarrecResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="activateCarrec">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="carrecID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="activateCarrecResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getVersionWs">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getVersionWsResponse">
-    <xs:sequence>
-      <xs:element name="return" type="xs:int"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getUsuariEntitatIDInMyEntitatByAdministrationID">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getUsuariEntitatIDInMyEntitatByAdministrationIDResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getInfoFromPluginUserInfoByUsername">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getInfoFromPluginUserInfoByUsernameResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:usuariPersonaBean"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="usuariPersonaBean">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="email" type="xs:string"/>
-      <xs:element minOccurs="0" name="idiomaID" type="xs:string"/>
-      <xs:element minOccurs="0" name="llinatges" type="xs:string"/>
-      <xs:element minOccurs="0" name="nif" type="xs:string"/>
-      <xs:element minOccurs="0" name="nom" type="xs:string"/>
-      <xs:element minOccurs="0" name="rubrica" type="tns:fitxerBean"/>
-      <xs:element minOccurs="0" name="rubricaID" type="xs:long"/>
-      <xs:element minOccurs="0" name="usuariPersonaID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deactivateUsuariEntitat">
+  <xs:complexType name="removeRoleAdministradorDeEntitat">
     <xs:sequence>
       <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="deactivateUsuariEntitatResponse">
+  <xs:complexType name="removeRoleAdministradorDeEntitatResponse">
     <xs:sequence/>
   </xs:complexType>
-  <xs:complexType name="getUsuariPersonaIDByAdministrationID">
+  <xs:complexType name="createCarrecSimple">
     <xs:sequence>
       <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
+      <xs:element minOccurs="0" name="entitatID" type="xs:string"/>
+      <xs:element minOccurs="0" name="carrecUsername" type="xs:string"/>
+      <xs:element minOccurs="0" name="carrecName" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="getUsuariPersonaIDByAdministrationIDResponse">
+  <xs:complexType name="createCarrecSimpleResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:carrecWs"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteUsuariEntitat">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteUsuariEntitatResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getCarrec">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="carrecID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCarrecResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:carrecWs"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getUsuariEntitatIDByUsuariPersonaID">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuariPersonaID" type="xs:string"/>
+      <xs:element minOccurs="0" name="entitatID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getUsuariEntitatIDByUsuariPersonaIDResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="xs:string"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getVersion">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getVersionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="addRoleSolicitant">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="addRoleSolicitantResponse">
+    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="deleteUsuariPersona">
     <xs:sequence>
@@ -265,45 +229,45 @@
       <xs:element minOccurs="0" name="return" type="tns:usuariEntitatBean"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="getUsuariEntitatIDByUsuariPersonaID">
+  <xs:complexType name="createUsuariPersona">
     <xs:sequence>
+      <xs:element minOccurs="0" name="usuariPersonaBean" type="tns:usuariPersonaBean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="usuariPersonaBean">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="email" type="xs:string"/>
+      <xs:element minOccurs="0" name="idiomaID" type="xs:string"/>
+      <xs:element minOccurs="0" name="llinatges" type="xs:string"/>
+      <xs:element minOccurs="0" name="nif" type="xs:string"/>
+      <xs:element minOccurs="0" name="nom" type="xs:string"/>
+      <xs:element minOccurs="0" name="rubrica" type="tns:fitxerBean"/>
+      <xs:element minOccurs="0" name="rubricaID" type="xs:long"/>
       <xs:element minOccurs="0" name="usuariPersonaID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createUsuariPersonaResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getCarrecsByEntitatID">
+    <xs:sequence>
       <xs:element minOccurs="0" name="entitatID" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="getUsuariEntitatIDByUsuariPersonaIDResponse">
+  <xs:complexType name="getCarrecsByEntitatIDResponse">
     <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:carrecWs"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="createCarrecSimple">
+  <xs:complexType name="downloadFileUsingEncryptedFileID">
     <xs:sequence>
-      <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
-      <xs:element minOccurs="0" name="entitatID" type="xs:string"/>
-      <xs:element minOccurs="0" name="carrecUsername" type="xs:string"/>
-      <xs:element minOccurs="0" name="carrecName" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="createCarrecSimpleResponse">
+  <xs:complexType name="downloadFileUsingEncryptedFileIDResponse">
     <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:carrecWs"/>
+      <xs:element minOccurs="0" name="return" type="tns:fitxerBean"/>
     </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deactivateCarrec">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="carrecID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deactivateCarrecResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="removeRoleSolicitant">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="removeRoleSolicitantResponse">
-    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="getInfoFromPluginUserInfoByAdministrationID">
     <xs:sequence>
@@ -313,6 +277,138 @@
   <xs:complexType name="getInfoFromPluginUserInfoByAdministrationIDResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="tns:usuariPersonaBean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuariPersonaID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getSupportedLanguages">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getSupportedLanguagesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getUsuariPersonaIDByAdministrationID">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getUsuariPersonaIDByAdministrationIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateAdministrationIDOfCarrec">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="carrecID" type="xs:string"/>
+      <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateAdministrationIDOfCarrecResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getUsuariEntitatIDInMyEntitatByAdministrationID">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getUsuariEntitatIDInMyEntitatByAdministrationIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createUsuariEntitatSimple">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
+      <xs:element minOccurs="0" name="entitatID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createUsuariEntitatSimpleResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:usuariEntitatBean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateUsuariPersona">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuariPersonaBean" type="tns:usuariPersonaBean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateUsuariPersonaResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="deactivateCarrec">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="carrecID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deactivateCarrecResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="activateCarrec">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="carrecID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="activateCarrecResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="deactivateUsuariEntitat">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deactivateUsuariEntitatResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getCarrecsOfMyEntitat">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getCarrecsOfMyEntitatResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:carrecWs"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteCarrec">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="carrecID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteCarrecResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getInfoFromPluginUserInfoByUsername">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getInfoFromPluginUserInfoByUsernameResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:usuariPersonaBean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="addRoleAdministradorDeEntitat">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="addRoleAdministradorDeEntitatResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getEntitatID">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getEntitatIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getUsuariPersona">
@@ -325,13 +421,13 @@
       <xs:element minOccurs="0" name="return" type="tns:usuariPersonaBean"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="updateUsuariPersona">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="usuariPersonaBean" type="tns:usuariPersonaBean"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="updateUsuariPersonaResponse">
+  <xs:complexType name="getVersionWs">
     <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getVersionWsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="activateUsuariEntitat">
     <xs:sequence>
@@ -341,75 +437,13 @@
   <xs:complexType name="activateUsuariEntitatResponse">
     <xs:sequence/>
   </xs:complexType>
-  <xs:complexType name="getVersion">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getVersionResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="addRoleAdministradorDeEntitat">
+  <xs:complexType name="removeRoleSolicitant">
     <xs:sequence>
       <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="addRoleAdministradorDeEntitatResponse">
+  <xs:complexType name="removeRoleSolicitantResponse">
     <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="createUsuariPersona">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="usuariPersonaBean" type="tns:usuariPersonaBean"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="createUsuariPersonaResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getCarrec">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="carrecID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getCarrecResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:carrecWs"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getCarrecsByEntitatID">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="entitatID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getCarrecsByEntitatIDResponse">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:carrecWs"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getSupportedLanguages">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getSupportedLanguagesResponse">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="addRoleSolicitant">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="addRoleSolicitantResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="createUsuariEntitat">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="usuariEntitatBean" type="tns:usuariEntitatBean"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="createUsuariEntitatResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:usuariEntitatBean"/>
-    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getUsuariEntitatIDByAdministrationID">
     <xs:sequence>
@@ -422,104 +456,168 @@
       <xs:element minOccurs="0" name="return" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="deleteUsuariEntitat">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deleteUsuariEntitatResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="downloadFileUsingEncryptedFileID">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="downloadFileUsingEncryptedFileIDResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:fitxerBean"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="removeRoleAdministradorDeEntitat">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="removeRoleAdministradorDeEntitatResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="deleteCarrec">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="carrecID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deleteCarrecResponse">
-    <xs:sequence/>
-  </xs:complexType>
   <xs:element name="WsI18NError" type="tns:WsI18NError"/>
   <xs:complexType name="WsI18NError">
     <xs:sequence>
-      <xs:element name="translation" nillable="true" type="tns:wsI18NTranslation"/>
+      <xs:element minOccurs="0" name="translation" type="tns:wsI18NTranslation"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
   <xs:element name="WsValidationErrors" type="tns:WsValidationErrors"/>
   <xs:complexType name="WsValidationErrors">
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="fieldFaults" type="tns:wsFieldValidationError"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>
   </wsdl:types>
+  <wsdl:message name="createUsuariEntitat">
+    <wsdl:part name="parameters" element="tns:createUsuariEntitat">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeRoleAdministradorDeEntitat">
+    <wsdl:part name="parameters" element="tns:removeRoleAdministradorDeEntitat">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteUsuariPersonaResponse">
+    <wsdl:part name="parameters" element="tns:deleteUsuariPersonaResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteUsuariEntitatResponse">
+    <wsdl:part name="parameters" element="tns:deleteUsuariEntitatResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCarrec">
+    <wsdl:part name="parameters" element="tns:getCarrec">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariEntitatIDByUsuariPersonaID">
+    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDByUsuariPersonaID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteUsuariPersona">
+    <wsdl:part name="parameters" element="tns:deleteUsuariPersona">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="downloadFileUsingEncryptedFileIDResponse">
+    <wsdl:part name="parameters" element="tns:downloadFileUsingEncryptedFileIDResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="createUsuariEntitatSimpleResponse">
     <wsdl:part name="parameters" element="tns:createUsuariEntitatSimpleResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="WsValidationException">
-    <wsdl:part name="WsValidationException" element="tns:WsValidationErrors">
+  <wsdl:message name="getUsuariEntitat">
+    <wsdl:part name="parameters" element="tns:getUsuariEntitat">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getEntitatIDResponse">
-    <wsdl:part name="parameters" element="tns:getEntitatIDResponse">
+  <wsdl:message name="createUsuariPersona">
+    <wsdl:part name="parameters" element="tns:createUsuariPersona">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="createUsuariEntitatSimple">
-    <wsdl:part name="parameters" element="tns:createUsuariEntitatSimple">
+  <wsdl:message name="getCarrecsByEntitatID">
+    <wsdl:part name="parameters" element="tns:getCarrecsByEntitatID">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="createCarrec">
-    <wsdl:part name="parameters" element="tns:createCarrec">
+  <wsdl:message name="createCarrecSimpleResponse">
+    <wsdl:part name="parameters" element="tns:createCarrecSimpleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedLanguages">
+    <wsdl:part name="parameters" element="tns:getSupportedLanguages">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCarrecResponse">
+    <wsdl:part name="parameters" element="tns:createCarrecResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getUsuariEntitatResponse">
     <wsdl:part name="parameters" element="tns:getUsuariEntitatResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getCarrecsByEntitatIDResponse">
-    <wsdl:part name="parameters" element="tns:getCarrecsByEntitatIDResponse">
+  <wsdl:message name="getUsuariPersonaIDByAdministrationID">
+    <wsdl:part name="parameters" element="tns:getUsuariPersonaIDByAdministrationID">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getUsuariPersona">
-    <wsdl:part name="parameters" element="tns:getUsuariPersona">
+  <wsdl:message name="updateAdministrationIDOfCarrec">
+    <wsdl:part name="parameters" element="tns:updateAdministrationIDOfCarrec">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getInfoFromPluginUserInfoByUsername">
-    <wsdl:part name="parameters" element="tns:getInfoFromPluginUserInfoByUsername">
+  <wsdl:message name="getUsuariEntitatIDInMyEntitatByAdministrationID">
+    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDInMyEntitatByAdministrationID">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getUsuariEntitatIDByAdministrationID">
-    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDByAdministrationID">
+  <wsdl:message name="createUsuariEntitatSimple">
+    <wsdl:part name="parameters" element="tns:createUsuariEntitatSimple">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="removeRoleSolicitantResponse">
-    <wsdl:part name="parameters" element="tns:removeRoleSolicitantResponse">
+  <wsdl:message name="activateCarrecResponse">
+    <wsdl:part name="parameters" element="tns:activateCarrecResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="activateCarrec">
+    <wsdl:part name="parameters" element="tns:activateCarrec">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCarrecsOfMyEntitatResponse">
+    <wsdl:part name="parameters" element="tns:getCarrecsOfMyEntitatResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCarrecsOfMyEntitat">
+    <wsdl:part name="parameters" element="tns:getCarrecsOfMyEntitat">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="WsValidationException">
+    <wsdl:part name="WsValidationException" element="tns:WsValidationErrors">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteCarrec">
+    <wsdl:part name="parameters" element="tns:deleteCarrec">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addRoleAdministradorDeEntitat">
+    <wsdl:part name="parameters" element="tns:addRoleAdministradorDeEntitat">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEntitatID">
+    <wsdl:part name="parameters" element="tns:getEntitatID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionWs">
+    <wsdl:part name="parameters" element="tns:getVersionWs">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deactivateCarrecResponse">
+    <wsdl:part name="parameters" element="tns:deactivateCarrecResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse">
+    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeRoleSolicitant">
+    <wsdl:part name="parameters" element="tns:removeRoleSolicitant">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCarrec">
+    <wsdl:part name="parameters" element="tns:createCarrec">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCarrecSimple">
+    <wsdl:part name="parameters" element="tns:createCarrecSimple">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="WsI18NException">
+    <wsdl:part name="WsI18NException" element="tns:WsI18NError">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteUsuariEntitat">
+    <wsdl:part name="parameters" element="tns:deleteUsuariEntitat">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getInfoFromPluginUserInfoByUsernameResponse">
     <wsdl:part name="parameters" element="tns:getInfoFromPluginUserInfoByUsernameResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="createCarrecSimpleResponse">
-    <wsdl:part name="parameters" element="tns:createCarrecSimpleResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getVersion">
@@ -530,330 +628,210 @@
     <wsdl:part name="parameters" element="tns:addRoleSolicitant">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="createUsuariPersona">
-    <wsdl:part name="parameters" element="tns:createUsuariPersona">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deactivateCarrecResponse">
-    <wsdl:part name="parameters" element="tns:deactivateCarrecResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="addRoleSolicitantResponse">
-    <wsdl:part name="parameters" element="tns:addRoleSolicitantResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getSupportedLanguagesResponse">
-    <wsdl:part name="parameters" element="tns:getSupportedLanguagesResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="removeRoleAdministradorDeEntitat">
-    <wsdl:part name="parameters" element="tns:removeRoleAdministradorDeEntitat">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="downloadFileUsingEncryptedFileID">
-    <wsdl:part name="parameters" element="tns:downloadFileUsingEncryptedFileID">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getCarrecsByEntitatID">
-    <wsdl:part name="parameters" element="tns:getCarrecsByEntitatID">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getUsuariPersonaIDByAdministrationIDResponse">
-    <wsdl:part name="parameters" element="tns:getUsuariPersonaIDByAdministrationIDResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="activateUsuariEntitat">
-    <wsdl:part name="parameters" element="tns:activateUsuariEntitat">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getCarrec">
-    <wsdl:part name="parameters" element="tns:getCarrec">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getUsuariEntitatIDInMyEntitatByAdministrationIDResponse">
-    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDInMyEntitatByAdministrationIDResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="createUsuariEntitatResponse">
-    <wsdl:part name="parameters" element="tns:createUsuariEntitatResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="removeRoleAdministradorDeEntitatResponse">
-    <wsdl:part name="parameters" element="tns:removeRoleAdministradorDeEntitatResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="activateCarrecResponse">
-    <wsdl:part name="parameters" element="tns:activateCarrecResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteUsuariEntitatResponse">
-    <wsdl:part name="parameters" element="tns:deleteUsuariEntitatResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="createUsuariPersonaResponse">
-    <wsdl:part name="parameters" element="tns:createUsuariPersonaResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getCarrecsOfMyEntitatResponse">
-    <wsdl:part name="parameters" element="tns:getCarrecsOfMyEntitatResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteUsuariEntitat">
-    <wsdl:part name="parameters" element="tns:deleteUsuariEntitat">
+  <wsdl:message name="getUsuariPersonaResponse">
+    <wsdl:part name="parameters" element="tns:getUsuariPersonaResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getInfoFromPluginUserInfoByAdministrationIDResponse">
     <wsdl:part name="parameters" element="tns:getInfoFromPluginUserInfoByAdministrationIDResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="updateUsuariPersona">
-    <wsdl:part name="parameters" element="tns:updateUsuariPersona">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="addRoleAdministradorDeEntitat">
-    <wsdl:part name="parameters" element="tns:addRoleAdministradorDeEntitat">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="createUsuariEntitat">
-    <wsdl:part name="parameters" element="tns:createUsuariEntitat">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deactivateUsuariEntitat">
-    <wsdl:part name="parameters" element="tns:deactivateUsuariEntitat">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getVersionWs">
-    <wsdl:part name="parameters" element="tns:getVersionWs">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getUsuariPersonaIDByAdministrationID">
-    <wsdl:part name="parameters" element="tns:getUsuariPersonaIDByAdministrationID">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
-    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteUsuariPersona">
-    <wsdl:part name="parameters" element="tns:deleteUsuariPersona">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteCarrec">
-    <wsdl:part name="parameters" element="tns:deleteCarrec">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getEntitatID">
-    <wsdl:part name="parameters" element="tns:getEntitatID">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="createCarrecResponse">
-    <wsdl:part name="parameters" element="tns:createCarrecResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="removeRoleSolicitant">
-    <wsdl:part name="parameters" element="tns:removeRoleSolicitant">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="activateUsuariEntitatResponse">
-    <wsdl:part name="parameters" element="tns:activateUsuariEntitatResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="WsI18NException">
-    <wsdl:part name="WsI18NException" element="tns:WsI18NError">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deactivateCarrec">
-    <wsdl:part name="parameters" element="tns:deactivateCarrec">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getUsuariEntitatIDByUsuariPersonaID">
-    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDByUsuariPersonaID">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getUsuariEntitatIDInMyEntitatByAdministrationID">
-    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDInMyEntitatByAdministrationID">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getUsuariEntitatIDByAdministrationIDResponse">
-    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDByAdministrationIDResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getUsuariEntitatIDByUsuariPersonaIDResponse">
-    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDByUsuariPersonaIDResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getUsuariEntitat">
-    <wsdl:part name="parameters" element="tns:getUsuariEntitat">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getVersionWsResponse">
-    <wsdl:part name="parameters" element="tns:getVersionWsResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getSupportedLanguages">
-    <wsdl:part name="parameters" element="tns:getSupportedLanguages">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteUsuariPersonaResponse">
-    <wsdl:part name="parameters" element="tns:deleteUsuariPersonaResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateUsuariPersonaResponse">
-    <wsdl:part name="parameters" element="tns:updateUsuariPersonaResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateAdministrationIDOfCarrecResponse">
-    <wsdl:part name="parameters" element="tns:updateAdministrationIDOfCarrecResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getCarrecResponse">
     <wsdl:part name="parameters" element="tns:getCarrecResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="activateCarrec">
-    <wsdl:part name="parameters" element="tns:activateCarrec">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getCarrecsOfMyEntitat">
-    <wsdl:part name="parameters" element="tns:getCarrecsOfMyEntitat">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getInfoFromPluginUserInfoByAdministrationID">
-    <wsdl:part name="parameters" element="tns:getInfoFromPluginUserInfoByAdministrationID">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getUsuariPersonaResponse">
-    <wsdl:part name="parameters" element="tns:getUsuariPersonaResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="addRoleAdministradorDeEntitatResponse">
-    <wsdl:part name="parameters" element="tns:addRoleAdministradorDeEntitatResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="downloadFileUsingEncryptedFileIDResponse">
-    <wsdl:part name="parameters" element="tns:downloadFileUsingEncryptedFileIDResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateAdministrationIDOfCarrec">
-    <wsdl:part name="parameters" element="tns:updateAdministrationIDOfCarrec">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="createCarrecSimple">
-    <wsdl:part name="parameters" element="tns:createCarrecSimple">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse">
-    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteCarrecResponse">
     <wsdl:part name="parameters" element="tns:deleteCarrecResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="addRoleAdministradorDeEntitatResponse">
+    <wsdl:part name="parameters" element="tns:addRoleAdministradorDeEntitatResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createUsuariEntitatResponse">
+    <wsdl:part name="parameters" element="tns:createUsuariEntitatResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="downloadFileUsingEncryptedFileID">
+    <wsdl:part name="parameters" element="tns:downloadFileUsingEncryptedFileID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedLanguagesResponse">
+    <wsdl:part name="parameters" element="tns:getSupportedLanguagesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUsuariPersonaResponse">
+    <wsdl:part name="parameters" element="tns:updateUsuariPersonaResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInfoFromPluginUserInfoByAdministrationID">
+    <wsdl:part name="parameters" element="tns:getInfoFromPluginUserInfoByAdministrationID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeRoleAdministradorDeEntitatResponse">
+    <wsdl:part name="parameters" element="tns:removeRoleAdministradorDeEntitatResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="activateUsuariEntitatResponse">
+    <wsdl:part name="parameters" element="tns:activateUsuariEntitatResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getVersionResponse">
     <wsdl:part name="parameters" element="tns:getVersionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariEntitatIDByUsuariPersonaIDResponse">
+    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDByUsuariPersonaIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCarrecsByEntitatIDResponse">
+    <wsdl:part name="parameters" element="tns:getCarrecsByEntitatIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionWsResponse">
+    <wsdl:part name="parameters" element="tns:getVersionWsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariPersonaIDByAdministrationIDResponse">
+    <wsdl:part name="parameters" element="tns:getUsuariPersonaIDByAdministrationIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeRoleSolicitantResponse">
+    <wsdl:part name="parameters" element="tns:removeRoleSolicitantResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUsuariPersona">
+    <wsdl:part name="parameters" element="tns:updateUsuariPersona">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariEntitatIDInMyEntitatByAdministrationIDResponse">
+    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDInMyEntitatByAdministrationIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deactivateCarrec">
+    <wsdl:part name="parameters" element="tns:deactivateCarrec">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariEntitatIDByAdministrationIDResponse">
+    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDByAdministrationIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEntitatIDResponse">
+    <wsdl:part name="parameters" element="tns:getEntitatIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAdministrationIDOfCarrecResponse">
+    <wsdl:part name="parameters" element="tns:updateAdministrationIDOfCarrecResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deactivateUsuariEntitatResponse">
     <wsdl:part name="parameters" element="tns:deactivateUsuariEntitatResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="addRoleSolicitantResponse">
+    <wsdl:part name="parameters" element="tns:addRoleSolicitantResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deactivateUsuariEntitat">
+    <wsdl:part name="parameters" element="tns:deactivateUsuariEntitat">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createUsuariPersonaResponse">
+    <wsdl:part name="parameters" element="tns:createUsuariPersonaResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInfoFromPluginUserInfoByUsername">
+    <wsdl:part name="parameters" element="tns:getInfoFromPluginUserInfoByUsername">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariPersona">
+    <wsdl:part name="parameters" element="tns:getUsuariPersona">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="activateUsuariEntitat">
+    <wsdl:part name="parameters" element="tns:activateUsuariEntitat">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariEntitatIDByAdministrationID">
+    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDByAdministrationID">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="PortaFIBUsuariEntitatWs">
-    <wsdl:operation name="updateAdministrationIDOfCarrec">
-      <wsdl:input name="updateAdministrationIDOfCarrec" message="tns:updateAdministrationIDOfCarrec">
-    </wsdl:input>
-      <wsdl:output name="updateAdministrationIDOfCarrecResponse" message="tns:updateAdministrationIDOfCarrecResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
-    </wsdl:fault>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getEntitatID">
-      <wsdl:input name="getEntitatID" message="tns:getEntitatID">
-    </wsdl:input>
-      <wsdl:output name="getEntitatIDResponse" message="tns:getEntitatIDResponse">
-    </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="createUsuariEntitatSimple">
-      <wsdl:input name="createUsuariEntitatSimple" message="tns:createUsuariEntitatSimple">
-    </wsdl:input>
-      <wsdl:output name="createUsuariEntitatSimpleResponse" message="tns:createUsuariEntitatSimpleResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
-    </wsdl:fault>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCarrecsOfMyEntitat">
-      <wsdl:input name="getCarrecsOfMyEntitat" message="tns:getCarrecsOfMyEntitat">
-    </wsdl:input>
-      <wsdl:output name="getCarrecsOfMyEntitatResponse" message="tns:getCarrecsOfMyEntitatResponse">
-    </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
-      <wsdl:input name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID" message="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
-    </wsdl:input>
-      <wsdl:output name="getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse" message="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="createCarrec">
       <wsdl:input name="createCarrec" message="tns:createCarrec">
     </wsdl:input>
       <wsdl:output name="createCarrecResponse" message="tns:createCarrecResponse">
     </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
       <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
     </wsdl:fault>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="activateCarrec">
-      <wsdl:input name="activateCarrec" message="tns:activateCarrec">
+    <wsdl:operation name="createUsuariEntitat">
+      <wsdl:input name="createUsuariEntitat" message="tns:createUsuariEntitat">
     </wsdl:input>
-      <wsdl:output name="activateCarrecResponse" message="tns:activateCarrecResponse">
+      <wsdl:output name="createUsuariEntitatResponse" message="tns:createUsuariEntitatResponse">
     </wsdl:output>
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getVersionWs">
-      <wsdl:input name="getVersionWs" message="tns:getVersionWs">
-    </wsdl:input>
-      <wsdl:output name="getVersionWsResponse" message="tns:getVersionWsResponse">
-    </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getUsuariEntitatIDInMyEntitatByAdministrationID">
-      <wsdl:input name="getUsuariEntitatIDInMyEntitatByAdministrationID" message="tns:getUsuariEntitatIDInMyEntitatByAdministrationID">
-    </wsdl:input>
-      <wsdl:output name="getUsuariEntitatIDInMyEntitatByAdministrationIDResponse" message="tns:getUsuariEntitatIDInMyEntitatByAdministrationIDResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getInfoFromPluginUserInfoByUsername">
-      <wsdl:input name="getInfoFromPluginUserInfoByUsername" message="tns:getInfoFromPluginUserInfoByUsername">
-    </wsdl:input>
-      <wsdl:output name="getInfoFromPluginUserInfoByUsernameResponse" message="tns:getInfoFromPluginUserInfoByUsernameResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="deactivateUsuariEntitat">
-      <wsdl:input name="deactivateUsuariEntitat" message="tns:deactivateUsuariEntitat">
-    </wsdl:input>
-      <wsdl:output name="deactivateUsuariEntitatResponse" message="tns:deactivateUsuariEntitatResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getUsuariPersonaIDByAdministrationID">
-      <wsdl:input name="getUsuariPersonaIDByAdministrationID" message="tns:getUsuariPersonaIDByAdministrationID">
-    </wsdl:input>
-      <wsdl:output name="getUsuariPersonaIDByAdministrationIDResponse" message="tns:getUsuariPersonaIDByAdministrationIDResponse">
-    </wsdl:output>
       <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
     </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeRoleAdministradorDeEntitat">
+      <wsdl:input name="removeRoleAdministradorDeEntitat" message="tns:removeRoleAdministradorDeEntitat">
+    </wsdl:input>
+      <wsdl:output name="removeRoleAdministradorDeEntitatResponse" message="tns:removeRoleAdministradorDeEntitatResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createCarrecSimple">
+      <wsdl:input name="createCarrecSimple" message="tns:createCarrecSimple">
+    </wsdl:input>
+      <wsdl:output name="createCarrecSimpleResponse" message="tns:createCarrecSimpleResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteUsuariEntitat">
+      <wsdl:input name="deleteUsuariEntitat" message="tns:deleteUsuariEntitat">
+    </wsdl:input>
+      <wsdl:output name="deleteUsuariEntitatResponse" message="tns:deleteUsuariEntitatResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCarrec">
+      <wsdl:input name="getCarrec" message="tns:getCarrec">
+    </wsdl:input>
+      <wsdl:output name="getCarrecResponse" message="tns:getCarrecResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariEntitatIDByUsuariPersonaID">
+      <wsdl:input name="getUsuariEntitatIDByUsuariPersonaID" message="tns:getUsuariEntitatIDByUsuariPersonaID">
+    </wsdl:input>
+      <wsdl:output name="getUsuariEntitatIDByUsuariPersonaIDResponse" message="tns:getUsuariEntitatIDByUsuariPersonaIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <wsdl:input name="getVersion" message="tns:getVersion">
+    </wsdl:input>
+      <wsdl:output name="getVersionResponse" message="tns:getVersionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addRoleSolicitant">
+      <wsdl:input name="addRoleSolicitant" message="tns:addRoleSolicitant">
+    </wsdl:input>
+      <wsdl:output name="addRoleSolicitantResponse" message="tns:addRoleSolicitantResponse">
+    </wsdl:output>
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
     </wsdl:operation>
@@ -871,150 +849,20 @@
       <wsdl:output name="getUsuariEntitatResponse" message="tns:getUsuariEntitatResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getUsuariEntitatIDByUsuariPersonaID">
-      <wsdl:input name="getUsuariEntitatIDByUsuariPersonaID" message="tns:getUsuariEntitatIDByUsuariPersonaID">
-    </wsdl:input>
-      <wsdl:output name="getUsuariEntitatIDByUsuariPersonaIDResponse" message="tns:getUsuariEntitatIDByUsuariPersonaIDResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="createCarrecSimple">
-      <wsdl:input name="createCarrecSimple" message="tns:createCarrecSimple">
-    </wsdl:input>
-      <wsdl:output name="createCarrecSimpleResponse" message="tns:createCarrecSimpleResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
-    </wsdl:fault>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="deactivateCarrec">
-      <wsdl:input name="deactivateCarrec" message="tns:deactivateCarrec">
-    </wsdl:input>
-      <wsdl:output name="deactivateCarrecResponse" message="tns:deactivateCarrecResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="removeRoleSolicitant">
-      <wsdl:input name="removeRoleSolicitant" message="tns:removeRoleSolicitant">
-    </wsdl:input>
-      <wsdl:output name="removeRoleSolicitantResponse" message="tns:removeRoleSolicitantResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getInfoFromPluginUserInfoByAdministrationID">
-      <wsdl:input name="getInfoFromPluginUserInfoByAdministrationID" message="tns:getInfoFromPluginUserInfoByAdministrationID">
-    </wsdl:input>
-      <wsdl:output name="getInfoFromPluginUserInfoByAdministrationIDResponse" message="tns:getInfoFromPluginUserInfoByAdministrationIDResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getUsuariPersona">
-      <wsdl:input name="getUsuariPersona" message="tns:getUsuariPersona">
-    </wsdl:input>
-      <wsdl:output name="getUsuariPersonaResponse" message="tns:getUsuariPersonaResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
-    </wsdl:fault>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="updateUsuariPersona">
-      <wsdl:input name="updateUsuariPersona" message="tns:updateUsuariPersona">
-    </wsdl:input>
-      <wsdl:output name="updateUsuariPersonaResponse" message="tns:updateUsuariPersonaResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="activateUsuariEntitat">
-      <wsdl:input name="activateUsuariEntitat" message="tns:activateUsuariEntitat">
-    </wsdl:input>
-      <wsdl:output name="activateUsuariEntitatResponse" message="tns:activateUsuariEntitatResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getVersion">
-      <wsdl:input name="getVersion" message="tns:getVersion">
-    </wsdl:input>
-      <wsdl:output name="getVersionResponse" message="tns:getVersionResponse">
-    </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="addRoleAdministradorDeEntitat">
-      <wsdl:input name="addRoleAdministradorDeEntitat" message="tns:addRoleAdministradorDeEntitat">
-    </wsdl:input>
-      <wsdl:output name="addRoleAdministradorDeEntitatResponse" message="tns:addRoleAdministradorDeEntitatResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="createUsuariPersona">
       <wsdl:input name="createUsuariPersona" message="tns:createUsuariPersona">
     </wsdl:input>
       <wsdl:output name="createUsuariPersonaResponse" message="tns:createUsuariPersonaResponse">
     </wsdl:output>
-      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
-    </wsdl:fault>
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCarrec">
-      <wsdl:input name="getCarrec" message="tns:getCarrec">
-    </wsdl:input>
-      <wsdl:output name="getCarrecResponse" message="tns:getCarrecResponse">
-    </wsdl:output>
+      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
+    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getCarrecsByEntitatID">
       <wsdl:input name="getCarrecsByEntitatID" message="tns:getCarrecsByEntitatID">
     </wsdl:input>
       <wsdl:output name="getCarrecsByEntitatIDResponse" message="tns:getCarrecsByEntitatIDResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getSupportedLanguages">
-      <wsdl:input name="getSupportedLanguages" message="tns:getSupportedLanguages">
-    </wsdl:input>
-      <wsdl:output name="getSupportedLanguagesResponse" message="tns:getSupportedLanguagesResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="addRoleSolicitant">
-      <wsdl:input name="addRoleSolicitant" message="tns:addRoleSolicitant">
-    </wsdl:input>
-      <wsdl:output name="addRoleSolicitantResponse" message="tns:addRoleSolicitantResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="createUsuariEntitat">
-      <wsdl:input name="createUsuariEntitat" message="tns:createUsuariEntitat">
-    </wsdl:input>
-      <wsdl:output name="createUsuariEntitatResponse" message="tns:createUsuariEntitatResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
-    </wsdl:fault>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getUsuariEntitatIDByAdministrationID">
-      <wsdl:input name="getUsuariEntitatIDByAdministrationID" message="tns:getUsuariEntitatIDByAdministrationID">
-    </wsdl:input>
-      <wsdl:output name="getUsuariEntitatIDByAdministrationIDResponse" message="tns:getUsuariEntitatIDByAdministrationIDResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="deleteUsuariEntitat">
-      <wsdl:input name="deleteUsuariEntitat" message="tns:deleteUsuariEntitat">
-    </wsdl:input>
-      <wsdl:output name="deleteUsuariEntitatResponse" message="tns:deleteUsuariEntitatResponse">
     </wsdl:output>
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
@@ -1027,13 +875,105 @@
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="removeRoleAdministradorDeEntitat">
-      <wsdl:input name="removeRoleAdministradorDeEntitat" message="tns:removeRoleAdministradorDeEntitat">
+    <wsdl:operation name="getInfoFromPluginUserInfoByAdministrationID">
+      <wsdl:input name="getInfoFromPluginUserInfoByAdministrationID" message="tns:getInfoFromPluginUserInfoByAdministrationID">
     </wsdl:input>
-      <wsdl:output name="removeRoleAdministradorDeEntitatResponse" message="tns:removeRoleAdministradorDeEntitatResponse">
+      <wsdl:output name="getInfoFromPluginUserInfoByAdministrationIDResponse" message="tns:getInfoFromPluginUserInfoByAdministrationIDResponse">
     </wsdl:output>
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+      <wsdl:input name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID" message="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+    </wsdl:input>
+      <wsdl:output name="getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse" message="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedLanguages">
+      <wsdl:input name="getSupportedLanguages" message="tns:getSupportedLanguages">
+    </wsdl:input>
+      <wsdl:output name="getSupportedLanguagesResponse" message="tns:getSupportedLanguagesResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariPersonaIDByAdministrationID">
+      <wsdl:input name="getUsuariPersonaIDByAdministrationID" message="tns:getUsuariPersonaIDByAdministrationID">
+    </wsdl:input>
+      <wsdl:output name="getUsuariPersonaIDByAdministrationIDResponse" message="tns:getUsuariPersonaIDByAdministrationIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateAdministrationIDOfCarrec">
+      <wsdl:input name="updateAdministrationIDOfCarrec" message="tns:updateAdministrationIDOfCarrec">
+    </wsdl:input>
+      <wsdl:output name="updateAdministrationIDOfCarrecResponse" message="tns:updateAdministrationIDOfCarrecResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariEntitatIDInMyEntitatByAdministrationID">
+      <wsdl:input name="getUsuariEntitatIDInMyEntitatByAdministrationID" message="tns:getUsuariEntitatIDInMyEntitatByAdministrationID">
+    </wsdl:input>
+      <wsdl:output name="getUsuariEntitatIDInMyEntitatByAdministrationIDResponse" message="tns:getUsuariEntitatIDInMyEntitatByAdministrationIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createUsuariEntitatSimple">
+      <wsdl:input name="createUsuariEntitatSimple" message="tns:createUsuariEntitatSimple">
+    </wsdl:input>
+      <wsdl:output name="createUsuariEntitatSimpleResponse" message="tns:createUsuariEntitatSimpleResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateUsuariPersona">
+      <wsdl:input name="updateUsuariPersona" message="tns:updateUsuariPersona">
+    </wsdl:input>
+      <wsdl:output name="updateUsuariPersonaResponse" message="tns:updateUsuariPersonaResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deactivateCarrec">
+      <wsdl:input name="deactivateCarrec" message="tns:deactivateCarrec">
+    </wsdl:input>
+      <wsdl:output name="deactivateCarrecResponse" message="tns:deactivateCarrecResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="activateCarrec">
+      <wsdl:input name="activateCarrec" message="tns:activateCarrec">
+    </wsdl:input>
+      <wsdl:output name="activateCarrecResponse" message="tns:activateCarrecResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deactivateUsuariEntitat">
+      <wsdl:input name="deactivateUsuariEntitat" message="tns:deactivateUsuariEntitat">
+    </wsdl:input>
+      <wsdl:output name="deactivateUsuariEntitatResponse" message="tns:deactivateUsuariEntitatResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCarrecsOfMyEntitat">
+      <wsdl:input name="getCarrecsOfMyEntitat" message="tns:getCarrecsOfMyEntitat">
+    </wsdl:input>
+      <wsdl:output name="getCarrecsOfMyEntitatResponse" message="tns:getCarrecsOfMyEntitatResponse">
+    </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="deleteCarrec">
       <wsdl:input name="deleteCarrec" message="tns:deleteCarrec">
@@ -1043,69 +983,71 @@
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getInfoFromPluginUserInfoByUsername">
+      <wsdl:input name="getInfoFromPluginUserInfoByUsername" message="tns:getInfoFromPluginUserInfoByUsername">
+    </wsdl:input>
+      <wsdl:output name="getInfoFromPluginUserInfoByUsernameResponse" message="tns:getInfoFromPluginUserInfoByUsernameResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addRoleAdministradorDeEntitat">
+      <wsdl:input name="addRoleAdministradorDeEntitat" message="tns:addRoleAdministradorDeEntitat">
+    </wsdl:input>
+      <wsdl:output name="addRoleAdministradorDeEntitatResponse" message="tns:addRoleAdministradorDeEntitatResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEntitatID">
+      <wsdl:input name="getEntitatID" message="tns:getEntitatID">
+    </wsdl:input>
+      <wsdl:output name="getEntitatIDResponse" message="tns:getEntitatIDResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariPersona">
+      <wsdl:input name="getUsuariPersona" message="tns:getUsuariPersona">
+    </wsdl:input>
+      <wsdl:output name="getUsuariPersonaResponse" message="tns:getUsuariPersonaResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersionWs">
+      <wsdl:input name="getVersionWs" message="tns:getVersionWs">
+    </wsdl:input>
+      <wsdl:output name="getVersionWsResponse" message="tns:getVersionWsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="activateUsuariEntitat">
+      <wsdl:input name="activateUsuariEntitat" message="tns:activateUsuariEntitat">
+    </wsdl:input>
+      <wsdl:output name="activateUsuariEntitatResponse" message="tns:activateUsuariEntitatResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeRoleSolicitant">
+      <wsdl:input name="removeRoleSolicitant" message="tns:removeRoleSolicitant">
+    </wsdl:input>
+      <wsdl:output name="removeRoleSolicitantResponse" message="tns:removeRoleSolicitantResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariEntitatIDByAdministrationID">
+      <wsdl:input name="getUsuariEntitatIDByAdministrationID" message="tns:getUsuariEntitatIDByAdministrationID">
+    </wsdl:input>
+      <wsdl:output name="getUsuariEntitatIDByAdministrationIDResponse" message="tns:getUsuariEntitatIDByAdministrationIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="PortaFIBUsuariEntitatWsServiceSoapBinding" type="tns:PortaFIBUsuariEntitatWs">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="getEntitatID">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getEntitatID">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getEntitatIDResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="updateAdministrationIDOfCarrec">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="updateAdministrationIDOfCarrec">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="updateAdministrationIDOfCarrecResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsValidationException">
-        <soap:fault name="WsValidationException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="createUsuariEntitatSimple">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="createUsuariEntitatSimple">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="createUsuariEntitatSimpleResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsValidationException">
-        <soap:fault name="WsValidationException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCarrecsOfMyEntitat">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getCarrecsOfMyEntitat">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getCarrecsOfMyEntitatResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="activateCarrec">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="activateCarrec">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="activateCarrecResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="createCarrec">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="createCarrec">
@@ -1114,64 +1056,103 @@
       <wsdl:output name="createCarrecResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
       <wsdl:fault name="WsValidationException">
         <soap:fault name="WsValidationException" use="literal"/>
       </wsdl:fault>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+    <wsdl:operation name="removeRoleAdministradorDeEntitat">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+      <wsdl:input name="removeRoleAdministradorDeEntitat">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse">
+      <wsdl:output name="removeRoleAdministradorDeEntitatResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="WsI18NException">
         <soap:fault name="WsI18NException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getUsuariEntitatIDInMyEntitatByAdministrationID">
+    <wsdl:operation name="createUsuariEntitat">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getUsuariEntitatIDInMyEntitatByAdministrationID">
+      <wsdl:input name="createUsuariEntitat">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getUsuariEntitatIDInMyEntitatByAdministrationIDResponse">
+      <wsdl:output name="createUsuariEntitatResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="WsValidationException">
+        <soap:fault name="WsValidationException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createCarrecSimple">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createCarrecSimple">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createCarrecSimpleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="WsValidationException">
+        <soap:fault name="WsValidationException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteUsuariEntitat">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteUsuariEntitat">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteUsuariEntitatResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="WsI18NException">
         <soap:fault name="WsI18NException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getVersionWs">
+    <wsdl:operation name="getUsuariEntitatIDByUsuariPersonaID">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getVersionWs">
+      <wsdl:input name="getUsuariEntitatIDByUsuariPersonaID">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getVersionWsResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="deactivateUsuariEntitat">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="deactivateUsuariEntitat">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="deactivateUsuariEntitatResponse">
+      <wsdl:output name="getUsuariEntitatIDByUsuariPersonaIDResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="WsI18NException">
         <soap:fault name="WsI18NException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getInfoFromPluginUserInfoByUsername">
+    <wsdl:operation name="getCarrec">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getInfoFromPluginUserInfoByUsername">
+      <wsdl:input name="getCarrec">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getInfoFromPluginUserInfoByUsernameResponse">
+      <wsdl:output name="getCarrecResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getVersion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getVersionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addRoleSolicitant">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addRoleSolicitant">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addRoleSolicitantResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="WsI18NException">
@@ -1190,21 +1171,6 @@
         <soap:fault name="WsI18NException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getUsuariPersonaIDByAdministrationID">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getUsuariPersonaIDByAdministrationID">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getUsuariPersonaIDByAdministrationIDResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsValidationException">
-        <soap:fault name="WsValidationException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="getUsuariEntitat">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getUsuariEntitat">
@@ -1214,129 +1180,6 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getUsuariEntitatIDByUsuariPersonaID">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getUsuariEntitatIDByUsuariPersonaID">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getUsuariEntitatIDByUsuariPersonaIDResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="createCarrecSimple">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="createCarrecSimple">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="createCarrecSimpleResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsValidationException">
-        <soap:fault name="WsValidationException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="deactivateCarrec">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="deactivateCarrec">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="deactivateCarrecResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="removeRoleSolicitant">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="removeRoleSolicitant">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="removeRoleSolicitantResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getInfoFromPluginUserInfoByAdministrationID">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getInfoFromPluginUserInfoByAdministrationID">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getInfoFromPluginUserInfoByAdministrationIDResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getUsuariPersona">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getUsuariPersona">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getUsuariPersonaResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsValidationException">
-        <soap:fault name="WsValidationException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="activateUsuariEntitat">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="activateUsuariEntitat">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="activateUsuariEntitatResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="updateUsuariPersona">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="updateUsuariPersona">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="updateUsuariPersonaResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getVersion">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getVersion">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getVersionResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="addRoleAdministradorDeEntitat">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="addRoleAdministradorDeEntitat">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="addRoleAdministradorDeEntitatResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="createUsuariPersona">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="createUsuariPersona">
@@ -1345,21 +1188,12 @@
       <wsdl:output name="createUsuariPersonaResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-      <wsdl:fault name="WsValidationException">
-        <soap:fault name="WsValidationException" use="literal"/>
-      </wsdl:fault>
       <wsdl:fault name="WsI18NException">
         <soap:fault name="WsI18NException" use="literal"/>
       </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCarrec">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getCarrec">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getCarrecResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
+      <wsdl:fault name="WsValidationException">
+        <soap:fault name="WsValidationException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getCarrecsByEntitatID">
       <soap:operation soapAction="" style="document"/>
@@ -1367,69 +1201,6 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getCarrecsByEntitatIDResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="addRoleSolicitant">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="addRoleSolicitant">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="addRoleSolicitantResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getSupportedLanguages">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getSupportedLanguages">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getSupportedLanguagesResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="createUsuariEntitat">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="createUsuariEntitat">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="createUsuariEntitatResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsValidationException">
-        <soap:fault name="WsValidationException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getUsuariEntitatIDByAdministrationID">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getUsuariEntitatIDByAdministrationID">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getUsuariEntitatIDByAdministrationIDResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="deleteUsuariEntitat">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="deleteUsuariEntitat">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="deleteUsuariEntitatResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="WsI18NException">
@@ -1448,6 +1219,156 @@
         <soap:fault name="WsI18NException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getInfoFromPluginUserInfoByAdministrationID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getInfoFromPluginUserInfoByAdministrationID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInfoFromPluginUserInfoByAdministrationIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedLanguages">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSupportedLanguages">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSupportedLanguagesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariPersonaIDByAdministrationID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUsuariPersonaIDByAdministrationID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUsuariPersonaIDByAdministrationIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="WsValidationException">
+        <soap:fault name="WsValidationException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateAdministrationIDOfCarrec">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateAdministrationIDOfCarrec">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateAdministrationIDOfCarrecResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="WsValidationException">
+        <soap:fault name="WsValidationException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariEntitatIDInMyEntitatByAdministrationID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUsuariEntitatIDInMyEntitatByAdministrationID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUsuariEntitatIDInMyEntitatByAdministrationIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createUsuariEntitatSimple">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createUsuariEntitatSimple">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createUsuariEntitatSimpleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="WsValidationException">
+        <soap:fault name="WsValidationException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateUsuariPersona">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateUsuariPersona">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateUsuariPersonaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deactivateCarrec">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deactivateCarrec">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deactivateCarrecResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="activateCarrec">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="activateCarrec">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="activateCarrecResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deactivateUsuariEntitat">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deactivateUsuariEntitat">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deactivateUsuariEntitatResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCarrecsOfMyEntitat">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCarrecsOfMyEntitat">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCarrecsOfMyEntitatResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="deleteCarrec">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="deleteCarrec">
@@ -1460,12 +1381,93 @@
         <soap:fault name="WsI18NException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="removeRoleAdministradorDeEntitat">
+    <wsdl:operation name="getInfoFromPluginUserInfoByUsername">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="removeRoleAdministradorDeEntitat">
+      <wsdl:input name="getInfoFromPluginUserInfoByUsername">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="removeRoleAdministradorDeEntitatResponse">
+      <wsdl:output name="getInfoFromPluginUserInfoByUsernameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addRoleAdministradorDeEntitat">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addRoleAdministradorDeEntitat">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addRoleAdministradorDeEntitatResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEntitatID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getEntitatID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEntitatIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariPersona">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUsuariPersona">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUsuariPersonaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="WsValidationException">
+        <soap:fault name="WsValidationException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersionWs">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getVersionWs">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getVersionWsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="activateUsuariEntitat">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="activateUsuariEntitat">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="activateUsuariEntitatResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeRoleSolicitant">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeRoleSolicitant">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeRoleSolicitantResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariEntitatIDByAdministrationID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUsuariEntitatIDByAdministrationID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUsuariEntitatIDByAdministrationIDResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="WsI18NException">
@@ -1474,7 +1476,7 @@
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="PortaFIBUsuariEntitatWsService">
-    <wsdl:port name="PortaFIBUsuariEntitatWs" binding="tns:PortaFIBUsuariEntitatWsServiceSoapBinding">
+    <wsdl:port name="PortaFIBUsuariEntitatWsPort" binding="tns:PortaFIBUsuariEntitatWsServiceSoapBinding">
       <soap:address location="http://localhost:8080/portafib/ws/v1/PortaFIBUsuariEntitat"/>
     </wsdl:port>
   </wsdl:service>

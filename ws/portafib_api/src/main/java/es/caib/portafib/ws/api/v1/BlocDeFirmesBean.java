@@ -12,24 +12,24 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * <p>Java class for blocDeFirmesBean complex type.
+ * <p>Clase Java para blocDeFirmesBean complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="blocDeFirmesBean">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="blocDeFirmesID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="dataFinalitzacio" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
- *         &lt;element name="fluxDeFirmesID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="minimDeFirmes" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="ordre" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="blocDeFirmesBean"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="blocDeFirmesID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="dataFinalitzacio" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
+ *         &lt;element name="fluxDeFirmesID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="minimDeFirmes" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="ordre" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -57,7 +57,7 @@ public class BlocDeFirmesBean {
     protected int ordre;
 
     /**
-     * Gets the value of the blocDeFirmesID property.
+     * Obtiene el valor de la propiedad blocDeFirmesID.
      * 
      */
     public long getBlocDeFirmesID() {
@@ -65,7 +65,7 @@ public class BlocDeFirmesBean {
     }
 
     /**
-     * Sets the value of the blocDeFirmesID property.
+     * Define el valor de la propiedad blocDeFirmesID.
      * 
      */
     public void setBlocDeFirmesID(long value) {
@@ -73,7 +73,7 @@ public class BlocDeFirmesBean {
     }
 
     /**
-     * Gets the value of the dataFinalitzacio property.
+     * Obtiene el valor de la propiedad dataFinalitzacio.
      * 
      * @return
      *     possible object is
@@ -85,7 +85,7 @@ public class BlocDeFirmesBean {
     }
 
     /**
-     * Sets the value of the dataFinalitzacio property.
+     * Define el valor de la propiedad dataFinalitzacio.
      * 
      * @param value
      *     allowed object is
@@ -97,7 +97,7 @@ public class BlocDeFirmesBean {
     }
 
     /**
-     * Gets the value of the fluxDeFirmesID property.
+     * Obtiene el valor de la propiedad fluxDeFirmesID.
      * 
      */
     public long getFluxDeFirmesID() {
@@ -105,7 +105,7 @@ public class BlocDeFirmesBean {
     }
 
     /**
-     * Sets the value of the fluxDeFirmesID property.
+     * Define el valor de la propiedad fluxDeFirmesID.
      * 
      */
     public void setFluxDeFirmesID(long value) {
@@ -113,7 +113,7 @@ public class BlocDeFirmesBean {
     }
 
     /**
-     * Gets the value of the minimDeFirmes property.
+     * Obtiene el valor de la propiedad minimDeFirmes.
      * 
      */
     public int getMinimDeFirmes() {
@@ -121,7 +121,7 @@ public class BlocDeFirmesBean {
     }
 
     /**
-     * Sets the value of the minimDeFirmes property.
+     * Define el valor de la propiedad minimDeFirmes.
      * 
      */
     public void setMinimDeFirmes(int value) {
@@ -129,7 +129,7 @@ public class BlocDeFirmesBean {
     }
 
     /**
-     * Gets the value of the ordre property.
+     * Obtiene el valor de la propiedad ordre.
      * 
      */
     public int getOrdre() {
@@ -137,7 +137,7 @@ public class BlocDeFirmesBean {
     }
 
     /**
-     * Sets the value of the ordre property.
+     * Define el valor de la propiedad ordre.
      * 
      */
     public void setOrdre(int value) {

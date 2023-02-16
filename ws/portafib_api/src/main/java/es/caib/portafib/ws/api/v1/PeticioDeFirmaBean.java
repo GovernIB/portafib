@@ -12,51 +12,51 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * <p>Java class for peticioDeFirmaBean complex type.
+ * <p>Clase Java para peticioDeFirmaBean complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="peticioDeFirmaBean">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="algorismeDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="avisWeb" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="custodiaInfoID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
- *         &lt;element name="dataCaducitat" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
- *         &lt;element name="dataFinal" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
- *         &lt;element name="dataSolicitud" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
- *         &lt;element name="descripcio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="descripcioTipusDocument" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="fitxerAFirmar" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/>
- *         &lt;element name="fitxerAFirmarID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="fitxerAdaptat" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/>
- *         &lt;element name="fitxerAdaptatID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
- *         &lt;element name="fluxDeFirmesID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="idiomaID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="informacioAdicional" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="logoSegell" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/>
- *         &lt;element name="logoSegellID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
- *         &lt;element name="modeDeFirma" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *         &lt;element name="motiu" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="motiuDeRebuig" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="peticioDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="posicioTaulaFirmesID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="prioritatID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="remitentDescripcio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="remitentNom" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="segellatDeTemps" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="tipusDocumentID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="tipusEstatPeticioDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="tipusFirmaID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="titol" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="usuariAplicacioID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="usuariEntitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="peticioDeFirmaBean"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="algorismeDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="avisWeb" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="custodiaInfoID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/&gt;
+ *         &lt;element name="dataCaducitat" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
+ *         &lt;element name="dataFinal" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
+ *         &lt;element name="dataSolicitud" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
+ *         &lt;element name="descripcio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="descripcioTipusDocument" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="fitxerAFirmar" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/&gt;
+ *         &lt;element name="fitxerAFirmarID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="fitxerAdaptat" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/&gt;
+ *         &lt;element name="fitxerAdaptatID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/&gt;
+ *         &lt;element name="fluxDeFirmesID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="idiomaID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="informacioAdicional" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="logoSegell" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/&gt;
+ *         &lt;element name="logoSegellID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/&gt;
+ *         &lt;element name="modeDeFirma" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+ *         &lt;element name="motiu" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="motiuDeRebuig" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="peticioDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="posicioTaulaFirmesID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="prioritatID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="remitentDescripcio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="remitentNom" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="segellatDeTemps" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="tipusDocumentID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="tipusEstatPeticioDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="tipusFirmaID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="titol" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="usuariAplicacioID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="usuariEntitatID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -144,7 +144,7 @@ public class PeticioDeFirmaBean {
     protected String usuariEntitatID;
 
     /**
-     * Gets the value of the algorismeDeFirmaID property.
+     * Obtiene el valor de la propiedad algorismeDeFirmaID.
      * 
      */
     public int getAlgorismeDeFirmaID() {
@@ -152,7 +152,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the algorismeDeFirmaID property.
+     * Define el valor de la propiedad algorismeDeFirmaID.
      * 
      */
     public void setAlgorismeDeFirmaID(int value) {
@@ -160,7 +160,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the avisWeb property.
+     * Obtiene el valor de la propiedad avisWeb.
      * 
      */
     public boolean isAvisWeb() {
@@ -168,7 +168,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the avisWeb property.
+     * Define el valor de la propiedad avisWeb.
      * 
      */
     public void setAvisWeb(boolean value) {
@@ -176,7 +176,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the custodiaInfoID property.
+     * Obtiene el valor de la propiedad custodiaInfoID.
      * 
      * @return
      *     possible object is
@@ -188,7 +188,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the custodiaInfoID property.
+     * Define el valor de la propiedad custodiaInfoID.
      * 
      * @param value
      *     allowed object is
@@ -200,7 +200,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the dataCaducitat property.
+     * Obtiene el valor de la propiedad dataCaducitat.
      * 
      * @return
      *     possible object is
@@ -212,7 +212,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the dataCaducitat property.
+     * Define el valor de la propiedad dataCaducitat.
      * 
      * @param value
      *     allowed object is
@@ -224,7 +224,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the dataFinal property.
+     * Obtiene el valor de la propiedad dataFinal.
      * 
      * @return
      *     possible object is
@@ -236,7 +236,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the dataFinal property.
+     * Define el valor de la propiedad dataFinal.
      * 
      * @param value
      *     allowed object is
@@ -248,7 +248,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the dataSolicitud property.
+     * Obtiene el valor de la propiedad dataSolicitud.
      * 
      * @return
      *     possible object is
@@ -260,7 +260,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the dataSolicitud property.
+     * Define el valor de la propiedad dataSolicitud.
      * 
      * @param value
      *     allowed object is
@@ -272,7 +272,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the descripcio property.
+     * Obtiene el valor de la propiedad descripcio.
      * 
      * @return
      *     possible object is
@@ -284,7 +284,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the descripcio property.
+     * Define el valor de la propiedad descripcio.
      * 
      * @param value
      *     allowed object is
@@ -296,7 +296,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the descripcioTipusDocument property.
+     * Obtiene el valor de la propiedad descripcioTipusDocument.
      * 
      * @return
      *     possible object is
@@ -308,7 +308,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the descripcioTipusDocument property.
+     * Define el valor de la propiedad descripcioTipusDocument.
      * 
      * @param value
      *     allowed object is
@@ -320,7 +320,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the fitxerAFirmar property.
+     * Obtiene el valor de la propiedad fitxerAFirmar.
      * 
      * @return
      *     possible object is
@@ -332,7 +332,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the fitxerAFirmar property.
+     * Define el valor de la propiedad fitxerAFirmar.
      * 
      * @param value
      *     allowed object is
@@ -344,7 +344,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the fitxerAFirmarID property.
+     * Obtiene el valor de la propiedad fitxerAFirmarID.
      * 
      */
     public long getFitxerAFirmarID() {
@@ -352,7 +352,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the fitxerAFirmarID property.
+     * Define el valor de la propiedad fitxerAFirmarID.
      * 
      */
     public void setFitxerAFirmarID(long value) {
@@ -360,7 +360,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the fitxerAdaptat property.
+     * Obtiene el valor de la propiedad fitxerAdaptat.
      * 
      * @return
      *     possible object is
@@ -372,7 +372,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the fitxerAdaptat property.
+     * Define el valor de la propiedad fitxerAdaptat.
      * 
      * @param value
      *     allowed object is
@@ -384,7 +384,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the fitxerAdaptatID property.
+     * Obtiene el valor de la propiedad fitxerAdaptatID.
      * 
      * @return
      *     possible object is
@@ -396,7 +396,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the fitxerAdaptatID property.
+     * Define el valor de la propiedad fitxerAdaptatID.
      * 
      * @param value
      *     allowed object is
@@ -408,7 +408,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the fluxDeFirmesID property.
+     * Obtiene el valor de la propiedad fluxDeFirmesID.
      * 
      */
     public long getFluxDeFirmesID() {
@@ -416,7 +416,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the fluxDeFirmesID property.
+     * Define el valor de la propiedad fluxDeFirmesID.
      * 
      */
     public void setFluxDeFirmesID(long value) {
@@ -424,7 +424,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the idiomaID property.
+     * Obtiene el valor de la propiedad idiomaID.
      * 
      * @return
      *     possible object is
@@ -436,7 +436,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the idiomaID property.
+     * Define el valor de la propiedad idiomaID.
      * 
      * @param value
      *     allowed object is
@@ -448,7 +448,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the informacioAdicional property.
+     * Obtiene el valor de la propiedad informacioAdicional.
      * 
      * @return
      *     possible object is
@@ -460,7 +460,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the informacioAdicional property.
+     * Define el valor de la propiedad informacioAdicional.
      * 
      * @param value
      *     allowed object is
@@ -472,7 +472,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the logoSegell property.
+     * Obtiene el valor de la propiedad logoSegell.
      * 
      * @return
      *     possible object is
@@ -484,7 +484,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the logoSegell property.
+     * Define el valor de la propiedad logoSegell.
      * 
      * @param value
      *     allowed object is
@@ -496,7 +496,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the logoSegellID property.
+     * Obtiene el valor de la propiedad logoSegellID.
      * 
      * @return
      *     possible object is
@@ -508,7 +508,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the logoSegellID property.
+     * Define el valor de la propiedad logoSegellID.
      * 
      * @param value
      *     allowed object is
@@ -520,7 +520,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the modeDeFirma property.
+     * Obtiene el valor de la propiedad modeDeFirma.
      * 
      * @return
      *     possible object is
@@ -532,7 +532,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the modeDeFirma property.
+     * Define el valor de la propiedad modeDeFirma.
      * 
      * @param value
      *     allowed object is
@@ -544,7 +544,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the motiu property.
+     * Obtiene el valor de la propiedad motiu.
      * 
      * @return
      *     possible object is
@@ -556,7 +556,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the motiu property.
+     * Define el valor de la propiedad motiu.
      * 
      * @param value
      *     allowed object is
@@ -568,7 +568,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the motiuDeRebuig property.
+     * Obtiene el valor de la propiedad motiuDeRebuig.
      * 
      * @return
      *     possible object is
@@ -580,7 +580,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the motiuDeRebuig property.
+     * Define el valor de la propiedad motiuDeRebuig.
      * 
      * @param value
      *     allowed object is
@@ -592,7 +592,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the peticioDeFirmaID property.
+     * Obtiene el valor de la propiedad peticioDeFirmaID.
      * 
      */
     public long getPeticioDeFirmaID() {
@@ -600,7 +600,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the peticioDeFirmaID property.
+     * Define el valor de la propiedad peticioDeFirmaID.
      * 
      */
     public void setPeticioDeFirmaID(long value) {
@@ -608,7 +608,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the posicioTaulaFirmesID property.
+     * Obtiene el valor de la propiedad posicioTaulaFirmesID.
      * 
      */
     public int getPosicioTaulaFirmesID() {
@@ -616,7 +616,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the posicioTaulaFirmesID property.
+     * Define el valor de la propiedad posicioTaulaFirmesID.
      * 
      */
     public void setPosicioTaulaFirmesID(int value) {
@@ -624,7 +624,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the prioritatID property.
+     * Obtiene el valor de la propiedad prioritatID.
      * 
      */
     public int getPrioritatID() {
@@ -632,7 +632,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the prioritatID property.
+     * Define el valor de la propiedad prioritatID.
      * 
      */
     public void setPrioritatID(int value) {
@@ -640,7 +640,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the remitentDescripcio property.
+     * Obtiene el valor de la propiedad remitentDescripcio.
      * 
      * @return
      *     possible object is
@@ -652,7 +652,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the remitentDescripcio property.
+     * Define el valor de la propiedad remitentDescripcio.
      * 
      * @param value
      *     allowed object is
@@ -664,7 +664,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the remitentNom property.
+     * Obtiene el valor de la propiedad remitentNom.
      * 
      * @return
      *     possible object is
@@ -676,7 +676,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the remitentNom property.
+     * Define el valor de la propiedad remitentNom.
      * 
      * @param value
      *     allowed object is
@@ -688,7 +688,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the segellatDeTemps property.
+     * Obtiene el valor de la propiedad segellatDeTemps.
      * 
      */
     public boolean isSegellatDeTemps() {
@@ -696,7 +696,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the segellatDeTemps property.
+     * Define el valor de la propiedad segellatDeTemps.
      * 
      */
     public void setSegellatDeTemps(boolean value) {
@@ -704,7 +704,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the tipusDocumentID property.
+     * Obtiene el valor de la propiedad tipusDocumentID.
      * 
      */
     public long getTipusDocumentID() {
@@ -712,7 +712,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the tipusDocumentID property.
+     * Define el valor de la propiedad tipusDocumentID.
      * 
      */
     public void setTipusDocumentID(long value) {
@@ -720,7 +720,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the tipusEstatPeticioDeFirmaID property.
+     * Obtiene el valor de la propiedad tipusEstatPeticioDeFirmaID.
      * 
      */
     public int getTipusEstatPeticioDeFirmaID() {
@@ -728,7 +728,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the tipusEstatPeticioDeFirmaID property.
+     * Define el valor de la propiedad tipusEstatPeticioDeFirmaID.
      * 
      */
     public void setTipusEstatPeticioDeFirmaID(int value) {
@@ -736,7 +736,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the tipusFirmaID property.
+     * Obtiene el valor de la propiedad tipusFirmaID.
      * 
      */
     public int getTipusFirmaID() {
@@ -744,7 +744,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the tipusFirmaID property.
+     * Define el valor de la propiedad tipusFirmaID.
      * 
      */
     public void setTipusFirmaID(int value) {
@@ -752,7 +752,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the titol property.
+     * Obtiene el valor de la propiedad titol.
      * 
      * @return
      *     possible object is
@@ -764,7 +764,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the titol property.
+     * Define el valor de la propiedad titol.
      * 
      * @param value
      *     allowed object is
@@ -776,7 +776,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the usuariAplicacioID property.
+     * Obtiene el valor de la propiedad usuariAplicacioID.
      * 
      * @return
      *     possible object is
@@ -788,7 +788,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the usuariAplicacioID property.
+     * Define el valor de la propiedad usuariAplicacioID.
      * 
      * @param value
      *     allowed object is
@@ -800,7 +800,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Gets the value of the usuariEntitatID property.
+     * Obtiene el valor de la propiedad usuariEntitatID.
      * 
      * @return
      *     possible object is
@@ -812,7 +812,7 @@ public class PeticioDeFirmaBean {
     }
 
     /**
-     * Sets the value of the usuariEntitatID property.
+     * Define el valor de la propiedad usuariEntitatID.
      * 
      * @param value
      *     allowed object is

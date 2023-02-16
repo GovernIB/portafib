@@ -7,20 +7,20 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for createCarrec complex type.
+ * <p>Clase Java para createCarrec complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="createCarrec">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="carrec" type="{http://impl.v1.ws.portafib.caib.es/}carrecWs" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="createCarrec"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="carrec" type="{http://impl.v1.ws.portafib.caib.es/}carrecWs" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -34,7 +34,7 @@ public class CreateCarrec {
     protected CarrecWs carrec;
 
     /**
-     * Gets the value of the carrec property.
+     * Obtiene el valor de la propiedad carrec.
      * 
      * @return
      *     possible object is
@@ -46,7 +46,7 @@ public class CreateCarrec {
     }
 
     /**
-     * Sets the value of the carrec property.
+     * Define el valor de la propiedad carrec.
      * 
      * @param value
      *     allowed object is

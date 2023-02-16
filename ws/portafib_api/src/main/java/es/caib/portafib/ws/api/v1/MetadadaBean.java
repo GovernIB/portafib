@@ -7,25 +7,25 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for metadadaBean complex type.
+ * <p>Clase Java para metadadaBean complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="metadadaBean">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="descripcio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="metadadaID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="nom" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="peticioDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="tipusMetadadaID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="valor" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="metadadaBean"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="descripcio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="metadadaID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="nom" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="peticioDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="tipusMetadadaID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="valor" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -49,7 +49,7 @@ public class MetadadaBean {
     protected String valor;
 
     /**
-     * Gets the value of the descripcio property.
+     * Obtiene el valor de la propiedad descripcio.
      * 
      * @return
      *     possible object is
@@ -61,7 +61,7 @@ public class MetadadaBean {
     }
 
     /**
-     * Sets the value of the descripcio property.
+     * Define el valor de la propiedad descripcio.
      * 
      * @param value
      *     allowed object is
@@ -73,7 +73,7 @@ public class MetadadaBean {
     }
 
     /**
-     * Gets the value of the metadadaID property.
+     * Obtiene el valor de la propiedad metadadaID.
      * 
      */
     public long getMetadadaID() {
@@ -81,7 +81,7 @@ public class MetadadaBean {
     }
 
     /**
-     * Sets the value of the metadadaID property.
+     * Define el valor de la propiedad metadadaID.
      * 
      */
     public void setMetadadaID(long value) {
@@ -89,7 +89,7 @@ public class MetadadaBean {
     }
 
     /**
-     * Gets the value of the nom property.
+     * Obtiene el valor de la propiedad nom.
      * 
      * @return
      *     possible object is
@@ -101,7 +101,7 @@ public class MetadadaBean {
     }
 
     /**
-     * Sets the value of the nom property.
+     * Define el valor de la propiedad nom.
      * 
      * @param value
      *     allowed object is
@@ -113,7 +113,7 @@ public class MetadadaBean {
     }
 
     /**
-     * Gets the value of the peticioDeFirmaID property.
+     * Obtiene el valor de la propiedad peticioDeFirmaID.
      * 
      */
     public long getPeticioDeFirmaID() {
@@ -121,7 +121,7 @@ public class MetadadaBean {
     }
 
     /**
-     * Sets the value of the peticioDeFirmaID property.
+     * Define el valor de la propiedad peticioDeFirmaID.
      * 
      */
     public void setPeticioDeFirmaID(long value) {
@@ -129,7 +129,7 @@ public class MetadadaBean {
     }
 
     /**
-     * Gets the value of the tipusMetadadaID property.
+     * Obtiene el valor de la propiedad tipusMetadadaID.
      * 
      */
     public int getTipusMetadadaID() {
@@ -137,7 +137,7 @@ public class MetadadaBean {
     }
 
     /**
-     * Sets the value of the tipusMetadadaID property.
+     * Define el valor de la propiedad tipusMetadadaID.
      * 
      */
     public void setTipusMetadadaID(int value) {
@@ -145,7 +145,7 @@ public class MetadadaBean {
     }
 
     /**
-     * Gets the value of the valor property.
+     * Obtiene el valor de la propiedad valor.
      * 
      * @return
      *     possible object is
@@ -157,7 +157,7 @@ public class MetadadaBean {
     }
 
     /**
-     * Sets the value of the valor property.
+     * Define el valor de la propiedad valor.
      * 
      * @param value
      *     allowed object is
