@@ -262,8 +262,9 @@
 									<databinding>jaxb</databinding>
 									<outputFile>${basedir}/src/main/resources/wsdl/PortaFIBHelloWorld.wsdl</outputFile>
                                     <sourceDirectory>${basedir}/code</sourceDirectory>
-                                    <portname>PortaFIBHelloWorldWs</portname>
+                                    <!--<portname>PortaFIBHelloWorldWs</portname>-->
                                     <address> http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld</address>
+                                    <argline>-portname PortaFIBHelloWorldWs</argline>                                    
                                     <!--
 									<argline>-s ${basedir}/code -portname PortaFIBHelloWorldWs -address
                     http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld</argline>
@@ -282,8 +283,9 @@
 									<verbose>true</verbose>
 									<outputFile>${basedir}/src/main/resources/wsdl/PortaFIBUsuariAplicacio.wsdl</outputFile>
                                     <address>http://localhost:8080/portafib/ws/v1/PortaFIBUsuariAplicacio</address>
-                                    <portname>PortaFIBUsuariAplicacioWs</portname>
+                                    <!--<portname>PortaFIBUsuariAplicacioWs</portname>-->
                                     <sourceDirectory>${basedir}/code</sourceDirectory>
+                                    <argline>-portname PortaFIBUsuariAplicacioWs</argline>
 								</configuration>
 								<goals>
 									<goal>java2ws</goal>
@@ -299,8 +301,9 @@
 									<outputFile>${basedir}/src/main/resources/wsdl/PortaFIBUsuariEntitat.wsdl</outputFile>
                        
                                     <sourceDirectory>${basedir}/code</sourceDirectory>
-                                    <portname>PortaFIBUsuariEntitatWs</portname>
-                                    <address> http://localhost:8080/portafib/ws/v1/PortaFIBUsuariEntitat</address>                        
+                                    <!--<portname>PortaFIBUsuariEntitatWs</portname>-->
+                                    <address> http://localhost:8080/portafib/ws/v1/PortaFIBUsuariEntitat</address>
+                                    <argline>-portname PortaFIBUsuariEntitatWs</argline>                                    
                                     <!--
 									<argline>-s ${basedir}/code -portname PortaFIBUsuariEntitatWs
                     -address
@@ -319,10 +322,12 @@
 									<genWsdl>true</genWsdl>
 									<verbose>true</verbose>
 									<outputFile>${basedir}/src/main/resources/wsdl/PortaFIBPeticioDeFirma.wsdl</outputFile>
-                                    
-                                            <sourceDirectory>${basedir}/code</sourceDirectory>
+                                    <sourceDirectory>${basedir}/code</sourceDirectory>
+                                    <!--
                                     <portname>PortaFIBPeticioDeFirmaWs</portname>
-                                    <address> http://localhost:8080/portafib/ws/v1/PortaFIBPeticioDeFirma</address>   
+                                    -->
+                                    <address> http://localhost:8080/portafib/ws/v1/PortaFIBPeticioDeFirma</address>  
+                                    <argline>-portname PortaFIBPeticioDeFirmaWs</argline>                                    
                                     <!--
 									<argline>-s ${basedir}/code -portname PortaFIBPeticioDeFirmaWs
                     -address

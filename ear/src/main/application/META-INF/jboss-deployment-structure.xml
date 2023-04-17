@@ -10,12 +10,10 @@
             <module name="org.apache.santuario.xmlsec" export="true"/>
             <module name="org.bouncycastle" export="true"/>
             <module name="org.keycloak.keycloak-adapter-core" export="true" optional="true" />
-
 			<module name="org.keycloak.keycloak-core" optional="true" export="true" />
 			<module name="org.keycloak.keycloak-server-spi" optional="true"  export="true" />
 			<module name="org.keycloak.keycloak-server-spi-private" optional="true" export="true" />
 			<module name="org.keycloak.keycloak-services" optional="true" export="true" />
-
         </dependencies>
     </deployment>
 </jboss-deployment-structure>

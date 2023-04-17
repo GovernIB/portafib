@@ -1476,7 +1476,7 @@
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="PortaFIBUsuariEntitatWsService">
-    <wsdl:port name="PortaFIBUsuariEntitatWsPort" binding="tns:PortaFIBUsuariEntitatWsServiceSoapBinding">
+    <wsdl:port name="PortaFIBUsuariEntitatWs" binding="tns:PortaFIBUsuariEntitatWsServiceSoapBinding">
       <soap:address location="http://localhost:8080/portafib/ws/v1/PortaFIBUsuariEntitat"/>
     </wsdl:port>
   </wsdl:service>

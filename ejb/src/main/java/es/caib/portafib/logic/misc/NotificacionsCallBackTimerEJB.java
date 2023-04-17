@@ -205,6 +205,9 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       // segons de la darrera execució, llavors només processam les
       // notificacions amb dataError = null
 
+      // XYZ ZZZ
+      Timestamp datanowX = null;
+      
       Where whereDataError = NotificacioWSFields.DATAERROR.isNull();
       if (wakeUp && ( (lastFullExecution + notificacionsTimeLapse) > now)) {
         if (isDebug) {
@@ -212,11 +215,11 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         }
       } else {
         Timestamp nowX = new Timestamp(now - notificacionsTimeLapse);
+        datanowX = nowX;
         whereDataError = Where.OR(whereDataError, NotificacioWSFields.DATAERROR.lessThan(nowX));
         if (isDebug) {
           log.debug("executeTask: Execució completa");
-        }
-        lastFullExecution = now;
+        }        
       }
       lastExecution = now;
 
@@ -226,6 +229,8 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       if (isDebug) {
         log.debug("executeTask: Numero de reintents = " + retryToPause);
       }
+      
+
 
       if (retryToPause != null) {
         where = Where.AND(where, NotificacioWSFields.REINTENTS.lessThan((int) (long) retryToPause));
@@ -236,6 +241,13 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       long estimatedProcessTime = 50L;
       // Processam un màxim de 1000 notificacions pendents per execució
       int maximSeleccionats = Math.min( (int) (maxTempsNotificant / estimatedProcessTime), 1000);
+      
+      if (isDebug) {
+        log.info("\n\n "
+              + "\nNumero de reintents = " + retryToPause
+              + "\nDATA " + datanowX.toLocaleString()
+              + "\nLIMIT: + " + maximSeleccionats);
+      }
 
       List<NotificacioWS> notificacions = notificacioEjb.select(where, 0, maximSeleccionats,
           new OrderBy(NotificacioWSFields.DATACREACIO),

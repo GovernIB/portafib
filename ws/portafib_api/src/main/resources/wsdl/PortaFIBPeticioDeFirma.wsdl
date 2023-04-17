@@ -960,7 +960,7 @@
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="PortaFIBPeticioDeFirmaWsService">
-    <wsdl:port name="PortaFIBPeticioDeFirmaWsPort" binding="tns:PortaFIBPeticioDeFirmaWsServiceSoapBinding">
+    <wsdl:port name="PortaFIBPeticioDeFirmaWs" binding="tns:PortaFIBPeticioDeFirmaWsServiceSoapBinding">
       <soap:address location="http://localhost:8080/portafib/ws/v1/PortaFIBPeticioDeFirma"/>
     </wsdl:port>
   </wsdl:service>

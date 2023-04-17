@@ -124,7 +124,7 @@
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="PortaFIBHelloWorldWsService">
-    <wsdl:port name="PortaFIBHelloWorldWsPort" binding="tns:PortaFIBHelloWorldWsServiceSoapBinding">
+    <wsdl:port name="PortaFIBHelloWorldWs" binding="tns:PortaFIBHelloWorldWsServiceSoapBinding">
       <soap:address location="http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld"/>
     </wsdl:port>
   </wsdl:service>
