@@ -558,6 +558,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
       signatureFileInfo.setEniPerfilFirma(eniPerfilFirma);
       signatureFileInfo.setTimeStampIncluded(timeStampIncluded);
       signatureFileInfo.setPolicyIncluded(policyIncluded);
+      
 
       // SI es PADES llavors el signMode es attached
       if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {

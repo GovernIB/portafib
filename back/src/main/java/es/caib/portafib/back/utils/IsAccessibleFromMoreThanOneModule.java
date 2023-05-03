@@ -20,7 +20,7 @@ public class IsAccessibleFromMoreThanOneModule {
     }
 
     public static String doTest() {
-        IsAccessibleFromMoreThanOneModule c = new IsAccessibleFromMoreThanOneModule();
+        //IsAccessibleFromMoreThanOneModule c = new IsAccessibleFromMoreThanOneModule();
         // ClassLoader classLoader = c.getClass().getClassLoader();
         // ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         ClassLoader classLoader = ClassLoader.getPlatformClassLoader();

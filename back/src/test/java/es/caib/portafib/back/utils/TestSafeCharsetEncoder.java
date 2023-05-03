@@ -1,7 +1,7 @@
 package es.caib.portafib.back.utils;
 
 import es.caib.portafib.utils.ConstantsV2;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 

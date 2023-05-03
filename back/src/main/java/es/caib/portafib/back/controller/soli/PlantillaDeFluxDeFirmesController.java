@@ -70,7 +70,6 @@ import es.caib.portafib.back.utils.MappingOrder;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.webdb.FluxDeFirmesWebValidator;
 import es.caib.portafib.ejb.PeticioDeFirmaService;
-import es.caib.portafib.ejb.PlantillaFluxDeFirmesService;
 import es.caib.portafib.ejb.RoleUsuariEntitatService;
 import es.caib.portafib.ejb.UsuariAplicacioService;
 import es.caib.portafib.hibernate.HibernateFileUtil;
