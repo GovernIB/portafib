@@ -52,21 +52,21 @@
    <c:if test="${empty loginInfo.usuariEntitat}">
       -
    </c:if>
-<hr>
-   
+   <hr>
+
    Roles: <b>
    <c:forEach var="rol" items="${loginInfo.roles}">
       "${rol.authority}"  
    </c:forEach>
    </b><br>
-   
+
    <hr>   
    Role ROLE_AUTOFIRMA: <%=request.isUserInRole("ROLE_AUTOFIRMA") %><br/>
    Role ROLE_USER: <%=request.isUserInRole("ROLE_USER") %><br/>
    Role ROLE_ADMIN: <%=request.isUserInRole("ROLE_ADMIN") %><br/>
    Role ROLE_DEST: <%=request.isUserInRole("ROLE_DEST") %><br/>
    <hr>
-   
+
   <%  
   SecurityContext sc = SecurityContextHolder.getContext(); 
   Authentication au = sc.getAuthentication();  
