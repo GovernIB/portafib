@@ -34,11 +34,13 @@ import es.caib.portafib.model.fields.UsuariEntitatFavoritFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
+import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
+import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
@@ -60,6 +62,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
@@ -866,14 +869,16 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   
   private UsuariEntitatJPA checkBasic(String usuariEntitatID, boolean isCarrec)
     throws I18NException {
-    
+
     if (usuariEntitatID == null) {
       // error.notfound=No s´ha trobat cap {0} amb {1} igual a {2}
-      throw new I18NException("error.notfound",
+      I18NException i18e = new I18NException("error.notfound",
           new I18NArgumentCode(isCarrec? "carrec" : _TABLE_TRANSLATION),
           new I18NArgumentCode(isCarrec? "carrec.id": USUARIENTITATID.fullName),
           new I18NArgumentString(null)
           );
+      log.error(I18NCommonUtils.getMessage(i18e, new Locale(Configuracio.getDefaultLanguage())));
+      throw i18e;
     }
     
     UsuariEntitatJPA usuariEntitatJPA = findByPrimaryKeyFull(usuariEntitatID);

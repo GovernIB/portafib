@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -630,7 +629,17 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
     // Plantilla de Fluxos d'usuari i per fluxos de la peticio de firma
     PlantillaFluxDeFirmesJPA pff = form.getPlantillaFluxDeFirmes();
-    if (pff == null || pff.getUsuariAplicacioID() == null) {
+    
+    /*
+     * S'ha afegit la condició "&& !this.isPlantillaRest()" arran de l'issue 
+     * "Error quan s'obri un iframe a veure l'estat de firma d'una peticio a EnviaFIB"
+     *  (https://github.com/GovernIB/portafib/issues/788)
+     *  
+     *  No sabem la raó però per un flux d'una petició d'un usuari aplicació (creada a traves de REST)
+     *   llavors pff.getUsuariAplicacioID() == null quan no es cert !!!! 
+     *  
+     */
+    if ((pff == null || pff.getUsuariAplicacioID() == null) && !this.isPlantillaRest()) {
 
       try {
         // Seleccionem l'usuari actual
