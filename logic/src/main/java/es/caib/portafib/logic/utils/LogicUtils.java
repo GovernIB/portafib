@@ -46,7 +46,7 @@ public class LogicUtils {
       }
     } else {
 
-      if (!expectedNif.equals(nifFirmant)) {
+      if (!expectedNif.trim().equalsIgnoreCase(nifFirmant.trim())) {
         // =S´ha firmat amb un certificat on el nif associat és {0}, però es requeria el nif
         // {1}
         final String codeError = "error.firmat_amb_nif_incorrecte";
