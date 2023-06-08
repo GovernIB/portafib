@@ -1,4 +1,5 @@
-<%@page import="es.caib.portafib.back.security.LoginInfo"%>
+<%@page import="es.caib.portafib.utils.ConstantsV2"%>
+confi<%@page import="es.caib.portafib.back.security.LoginInfo"%>
 <%@page import="es.caib.portafib.logic.utils.PropietatGlobalUtil"%>
 <%@page import="es.caib.portafib.utils.Configuracio"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"
@@ -35,7 +36,7 @@ pageContext.setAttribute("androidApk", androidApk);
     </c:if>
 
    <%-- RebreAvis --%>
-   <sec:authorize access="hasAnyRole('ROLE_SOLI', 'ROLE_DEST', 'ROLE_COLA', 'ROLE_DELE')">
+   <sec:authorize access="hasAnyRole('ROLE_SOLI', 'ROLE_DEST', 'ROLE_COLA', 'ROLE_DELE', 'ROLE_REVI')">
       <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
       <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/common/rebreAvis/list/1"/>" ><span style="${(fn:contains(url, 'rebreAvis/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" ><fmt:message key="notificaciocorreu.plural" /></span></a></li>
    </sec:authorize>
