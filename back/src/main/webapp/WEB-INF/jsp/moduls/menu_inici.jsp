@@ -41,7 +41,7 @@ pageContext.setAttribute("androidApk", androidApk);
 
         <%-- RebreAvis --%>
         <sec:authorize
-            access="hasAnyRole('ROLE_SOLI', 'ROLE_DEST', 'ROLE_COLA', 'ROLE_DELE')">
+            access="hasAnyRole('ROLE_SOLI', 'ROLE_DEST', 'ROLE_COLA', 'ROLE_DELE', 'ROLE_REVI')">
             <hr style="margin-top: 6px; margin-bottom: 6px;" />
             <li
                 style="list-style-type: disc; list-style-position: inside;"><a
