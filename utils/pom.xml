@@ -20,7 +20,9 @@
     <build_template_file>../scripts/templates/Build.java.template</build_template_file>
     <build_file>src/main/java/es/caib/portafib/utils/Build.java</build_file>
     <build>${maven.build.timestamp}</build>
+    <!--
     <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
+    -->
   </properties>
 
   <build>

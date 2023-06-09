@@ -329,3 +329,15 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /portafib-it/keystore-sia.p12
 /portafib-it/keystore.p12
 /pluginsib-signatureweb/firmaprofesional
+/apifirmaasyncsimple/apifirmaasyncsimple-example/PeticioFirma_210900.xml_signed.xsig
+/apifirmaasyncsimple/apifirmaasyncsimple-example/hola-signat.pdf_signed.pdf
+/apifirmaasyncsimple/apifirmaasyncsimple-example/signed_PeticioFirma_209183.pdf
+/apifirmaasyncsimple/apifirmaasyncsimple-example/signed_PeticioFirma_209306.pdf
+/apifirmaasyncsimple/apifirmaasyncsimple-example/signed_PeticioFirma_209330.pdf
+/apifirmaasyncsimple/apifirmaasyncsimple-example/signed_PeticioFirma_NO_EPES.pdf
+/apifirmasimple/apifirmasimple-example-console/3_signed_sample.xml_signed.xsig
+/pluginsib-signatureweb/miniappletinserver/test.properties
+/back.bat
+/configjava7.bat
+/deletetag.bat
+/logic.bat
