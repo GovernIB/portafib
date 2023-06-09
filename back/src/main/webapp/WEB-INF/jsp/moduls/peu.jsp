@@ -1,30 +1,30 @@
-<%@ page import="es.caib.portafib.commons.utils.Version"%>
+
+<%@page import="es.caib.portafib.commons.utils.Version"%>
 <%@ page import="es.caib.portafib.logic.utils.LogicUtils"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
-
+<%
+   Version version = new Version();
+%>
 <footer id="footer">
 	<div class="row mr-auto ml-3 mr-3 peuResponsive">
 		<!-- Esquerra -->
 		<div class="col-4 pt-2 elementPeuResponsive">
 
-			<b title="Build: <%=LogicUtils.getBuild()%>">
-				<fmt:message key="app.nom" /> v<%=LogicUtils.getVersio()%>
+			<b>
+				<fmt:message key="app.nom" /> v<%=version.getVersion()%>
 			</b>
 			<br /> 
 
 			<small> 
-				Build: ${versio.buildTime} <br /> 
-	
-				JDK: ${versio.jdkVersion} <br /> 
-
+				Build: <%=version.getBuildTime()%> <br /> 
+	     		JDK: <%=version.getJdkVersion()%> <br /> 
  				<fmt:message key="revisio" />: 
-				<c:if test="${empty versio.scmRevision}">
-						<fmt:message key="scmversion.msg" />
-				</c:if>
-				<c:if test="${not empty versio.scmRevision}">
-					${versio.scmRevision}
-				</c:if>
+				<% if (version.getScmRevision() == null) { %>
+				   <fmt:message key="scmversion.msg" />
+				<% } else { %>
+					<%=version.getScmRevision()%>
+				<% } %>
 				<br/> 
 	
 				<span style="padding-top: 2px"> 

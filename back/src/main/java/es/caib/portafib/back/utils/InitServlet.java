@@ -1,13 +1,13 @@
 package es.caib.portafib.back.utils;
 
+import es.caib.portafib.commons.utils.StaticVersion;
+import es.caib.portafib.commons.utils.Version;
 import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.logic.misc.AvisosFirmesPendentsTimerLocal;
 import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsTimerLocal;
 import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
-import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.ProviderRegistration;
-import es.caib.portafib.utils.Build;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.log4j.LogManager;
@@ -200,8 +200,8 @@ public class InitServlet extends HttpServlet {
     }
 
     // Mostrar Versió
-    String ver = LogicUtils.getVersio();
-    log.info("PortaFIB Version: " + ver + " Build:" + Build.BUILD);
+    Version versio = StaticVersion.getVersion();
+    log.info("PortaFIB Version: " + versio.getVersion() + " Build:" + versio.getBuildTime());
     log.info("platform encoding: " + System.getProperty("file.encoding"));
     log.info("default locale: " + Locale.getDefault());
     log.info("temp dir: "+ System.getProperty("java.io.tmpdir"));

@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import es.caib.portafib.commons.utils.StaticVersion;
-import es.caib.portafib.utils.Build;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -25,13 +23,6 @@ public class LogicUtils {
 
   protected static Logger log = Logger.getLogger(LogicUtils.class);
 
-  public static String getVersio() {
-    return StaticVersion.VERSION + (Configuracio.isCAIB() ? "-caib" : "");
-  }
-
-  public static String getBuild() {
-    return Build.BUILD;
-  }
 
   public static void checkExpectedNif(String nifFirmant, String expectedNif)
       throws I18NException {

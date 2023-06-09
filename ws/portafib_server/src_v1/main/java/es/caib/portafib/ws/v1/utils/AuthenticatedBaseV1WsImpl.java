@@ -1,8 +1,8 @@
 package es.caib.portafib.ws.v1.utils;
 
+import es.caib.portafib.commons.utils.StaticVersion;
 import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.persistence.FitxerJPA;
-import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.ws.utils.AuthenticatedBaseWsImpl;
 import es.caib.portafib.ws.utils.VersionsWs;
@@ -34,7 +34,7 @@ public class AuthenticatedBaseV1WsImpl extends AuthenticatedBaseWsImpl {
  @Override
  public String getVersion() {
    //log.info("PortaFIBUsuariAplicacioWsImpl::getVersio()");
-   return LogicUtils.getVersio();
+   return StaticVersion.getVersio();
  }
 
 

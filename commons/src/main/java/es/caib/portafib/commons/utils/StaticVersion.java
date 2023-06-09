@@ -1,11 +1,28 @@
 package es.caib.portafib.commons.utils;
+
+import es.caib.portafib.utils.Configuracio;
+
 /**
-* Codi autogenerat a partir del fitxer StaticVersion.java.template.
-*/
-public interface StaticVersion {
+ * 
+ * @author anadal
+ *
+ */
+public class StaticVersion {
+    
+    protected static Version version = new Version();
+    
+    
+    public static Version getVersion() {
+        return version;
+    }
+    
 
-    public static final String VERSION="2.2.0";
+    public static String getVersio() {
+        return version.getVersion() + (Configuracio.isCAIB() ? "-caib" : "");
+    }
 
-    public static final String PROJECT_NAME="portafib";
+    public static String getBuild() {
+      return version.getBuildTime();
+    }
 
 }

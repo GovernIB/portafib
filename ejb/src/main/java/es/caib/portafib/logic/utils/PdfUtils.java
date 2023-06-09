@@ -440,7 +440,7 @@ public class PdfUtils implements ConstantsV2 {
         PdfStamper stamper3 = new PdfStamper(reader3, new FileOutputStream(dstPDF));
 
         Map<String, String> info = reader.getInfo();
-        info.put("PortaFIB.versio", StaticVersion.VERSION);
+        info.put("PortaFIB.versio", StaticVersion.getVersio());
         stamper3.setMoreInfo(info);
         stamper3.close();
     }

@@ -5,7 +5,7 @@ import javax.jws.WebMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import es.caib.portafib.logic.utils.LogicUtils;
+import es.caib.portafib.commons.utils.StaticVersion;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.BaseWsImpl;
 import es.caib.portafib.ws.utils.VersionsWs;
@@ -29,7 +29,7 @@ public class BaseV1WsImpl extends BaseWsImpl implements Constants {
   @Override
   public String getVersion() {
     //log.info("PortaFIBUsuariAplicacioWsImpl::getVersio()");
-    return LogicUtils.getVersio();
+    return StaticVersion.getVersio();
   }
 
 

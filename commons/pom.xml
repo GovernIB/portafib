@@ -10,10 +10,14 @@
     <name>PortaFIB - Commons</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--
         <version_template_file>./templates/StaticVersion.java.template</version_template_file>
         <version_file>src/main/java/es/caib/portafib/commons/utils/StaticVersion.java</version_file>
+        -->
         <project.buildtime>${maven.build.timestamp}</project.buildtime>
+        <!--
         <maven.build.timestamp.format>dd/MM/yyyy HH:mm</maven.build.timestamp.format>
+        -->
         <tiles.version>3.0.8</tiles.version>
     </properties>
     <build>
@@ -26,6 +30,7 @@
             </resource>
         </resources>
         <plugins>
+        <!--
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
                 <artifactId>maven-replacer-plugin</artifactId>
@@ -49,6 +54,7 @@
                     </replacements>
                 </configuration>
             </plugin>
+            -->
             <!-- Defineix la propietat {buildNumber} que s'empra al filtrat -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

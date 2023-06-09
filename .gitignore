@@ -170,3 +170,10 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /scripts/sqlgenerator/03_constraints.sql
 /scripts/sqlgenerator/04_indexes.sql
 /scripts/sqlgenerator/06_grants.sql
+/back.bat
+/compil22.bat
+/config.bat
+/deps2.bat
+/installCerts.bat
+/jaxbdeps.bat
+/portafib21.bat
