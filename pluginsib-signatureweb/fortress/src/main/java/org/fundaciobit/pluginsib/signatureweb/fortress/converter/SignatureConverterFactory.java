@@ -1,4 +1,4 @@
-package org.fundaciobit.pluignsib.signatureweb.fortress.converter;
+package org.fundaciobit.pluginsib.signatureweb.fortress.converter;
 
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 

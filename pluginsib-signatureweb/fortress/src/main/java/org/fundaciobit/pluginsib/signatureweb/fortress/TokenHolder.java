@@ -1,4 +1,4 @@
-package org.fundaciobit.pluignsib.signatureweb.fortress;
+package org.fundaciobit.pluginsib.signatureweb.fortress;
 
 import com.viafirma.fortress.sdk.model.AccessToken;
 

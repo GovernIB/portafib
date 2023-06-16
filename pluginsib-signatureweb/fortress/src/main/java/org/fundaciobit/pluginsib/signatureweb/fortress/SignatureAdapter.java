@@ -1,4 +1,4 @@
-package org.fundaciobit.pluignsib.signatureweb.fortress;
+package org.fundaciobit.pluginsib.signatureweb.fortress;
 
 import com.viafirma.fortress.sdk.model.signature.SignatureConfiguration;
 import com.viafirma.fortress.sdk.model.signature.SignatureResponse;
@@ -10,8 +10,8 @@ import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
-import org.fundaciobit.pluignsib.signatureweb.fortress.converter.SignatureConverter;
-import org.fundaciobit.pluignsib.signatureweb.fortress.converter.SignatureConverterFactory;
+import org.fundaciobit.pluginsib.signatureweb.fortress.converter.SignatureConverter;
+import org.fundaciobit.pluginsib.signatureweb.fortress.converter.SignatureConverterFactory;
 
 import java.io.File;
 import java.io.IOException;

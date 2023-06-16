@@ -1,4 +1,4 @@
-package org.fundaciobit.pluignsib.signatureweb.fortress.api;
+package org.fundaciobit.pluginsib.signatureweb.fortress.api;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

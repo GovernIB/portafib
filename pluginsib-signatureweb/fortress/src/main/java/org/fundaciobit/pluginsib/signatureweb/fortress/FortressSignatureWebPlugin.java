@@ -1,7 +1,8 @@
-package org.fundaciobit.pluignsib.signatureweb.fortress;
+package org.fundaciobit.pluginsib.signatureweb.fortress;
 
 import com.viafirma.fortress.sdk.FortressApi;
 import com.viafirma.fortress.sdk.configuration.FortressApiConfiguration;
+import com.viafirma.fortress.sdk.model.UserStatus;
 import com.viafirma.fortress.sdk.model.signature.SignatureConfiguration;
 import com.viafirma.fortress.sdk.model.signature.SignatureRequest;
 import com.viafirma.fortress.sdk.model.signature.SignatureRequestResponse;
@@ -10,7 +11,7 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
-import org.fundaciobit.pluignsib.signatureweb.fortress.api.FortressApiExt;
+import org.fundaciobit.pluginsib.signatureweb.fortress.api.FortressApiExt;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,38 +33,39 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
     public static final String FORTRESS_BASE_PROPERTIES = PLUGINSIB_SIGNATUREWEB_BASE_PROPERTY + "fortress.";
 
     private final Map<String, String> executionCodes = new ConcurrentHashMap<String, String>(20);
-    private FortressApi api;
+    //private FortressApi api;
 
     // Constructors per defecte
 
     public FortressSignatureWebPlugin() {
         super();
-        initApi();
+        //initApi();
     }
 
     public FortressSignatureWebPlugin(String propertyKeyBase) {
         super(propertyKeyBase);
-        initApi();
+        //initApi();
     }
 
     public FortressSignatureWebPlugin(String propertyKeyBase, Properties properties) {
         super(propertyKeyBase, properties);
-        initApi();
+      //initApi();
     }
 
     // Inicialització
 
-    private void initApi() {
-        try {
+    private FortressApi getApi() throws Exception {
+//        try {
             FortressApiConfiguration conf =
                     new FortressApiConfiguration(getUrl(), getClientId(), getClientSecret());
             conf.setDebug(isDebug());
             conf.setConnectionTimeout(getConnectTimeout());
             conf.setReadTimeout(getReadTimeout());
-            api = new FortressApiExt(conf);
-        } catch (Exception e) {
-            throw new RuntimeException("Error inicialitzant API", e);
-        }
+            FortressApi api = new FortressApiExt(conf);
+            return api;
+//        } catch (Exception e) {
+//            throw new RuntimeException("Error inicialitzant API", e);
+//        }
     }
 
     // Propietats de configuració
@@ -81,7 +83,7 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
     }
 
     public boolean isDebug() throws Exception {
-        return "true".equalsIgnoreCase(getPropertyRequired(FORTRESS_BASE_PROPERTIES + "debug"));
+        return "true".equalsIgnoreCase(getProperty(FORTRESS_BASE_PROPERTIES + "debug"));
     }
 
     public int getConnectTimeout() {
@@ -102,7 +104,46 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
     @Override
     public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet,
                          Map<String, Object> parameters) {
-        // A priori no tenim manera de saber si l'usuari ja existeix o no a viafirma
+
+      //Comprovam si l'usuari ja existeix o no a viafirma
+      try {
+          //FortressApi api = getApi();
+          
+          String dni = signaturesSet.getCommonInfoSignature().getAdministrationID();
+          try {
+
+              // XYZ ZZZ 
+              String tmpWeb="https://localhost:8080/portafib";
+              
+              String accessToken = getToken(tmpWeb);
+              
+              FortressApi api = getApi();
+              UserStatus us = api.getUserStatus(accessToken, dni);
+              
+              // XYZ ZZZ
+              log.info("User Status => Hem trobat l'usuari " + dni);
+              log.info("User Status => us.isAuth(): " + us.isAuth());
+              log.info("User Status => us.isSign(): " + us.isSign());
+
+              if (!us.isAuth()) {
+                  return "L'usuari " + dni + " no té permís per Autenticar-se";
+              }
+              if (!us.isSign()) {
+                  return "L'usuari " + dni + " no té permís per Firmar";
+              }
+              
+
+          } catch (com.viafirma.fortress.sdk.exception.UserNotFoundException userNotFoundException) {
+              return "User Status => L'usuari amb " + dni + " no està donat d'alta a Fortress";
+          }
+
+      } catch (Exception e) {
+          String msg = "Error durant la connexio amb el servidor de Via Firma: " + e.getMessage();
+          log.error(msg, e);
+          return msg;
+      }
+
+
         return super.filter(request, signaturesSet, parameters);
     }
 
@@ -184,6 +225,7 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
             signatureRequest.setSignatureConfigurations(configurationList);
             signatureRequest.setUserCode(signaturesSet.getCommonInfoSignature().getAdministrationID());
 
+            FortressApi api = getApi();
 
             SignatureRequestResponse signatureRequestResponse =
                     api.signatureRequest(token, signatureRequest);
@@ -226,6 +268,7 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
 
             String token = getToken(absolutePluginRequestPath);
 
+            FortressApi api = getApi();
             List<SignatureResponse> signatureResponses = api.executeSignature(token, exeCode);
 
             SignatureAdapter adapter = new SignatureAdapter(signaturesSet);
@@ -245,6 +288,7 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
 
     private String getToken(String absolutePluginRequestPath) throws Exception {
         if (tokenHolder.isExpired()) {
+            FortressApi api = getApi();
             tokenHolder = new TokenHolder(api.getAccessToken("", absolutePluginRequestPath,
                     GRANT_TYPE_CLIENT_CREDENTIALS));
         }

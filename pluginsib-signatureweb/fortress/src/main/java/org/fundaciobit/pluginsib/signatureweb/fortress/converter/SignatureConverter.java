@@ -1,4 +1,4 @@
-package org.fundaciobit.pluignsib.signatureweb.fortress.converter;
+package org.fundaciobit.pluginsib.signatureweb.fortress.converter;
 
 import com.viafirma.fortress.sdk.model.signature.SignatureConfiguration;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
