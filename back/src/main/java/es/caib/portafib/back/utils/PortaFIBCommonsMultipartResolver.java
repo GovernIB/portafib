@@ -46,16 +46,23 @@ public class PortaFIBCommonsMultipartResolver extends
     // d'aquí
     Long maxUploadSize;
     String msgCode;
-    if (AutoFirmaController.CONTEXTWEB.equals(request.getServletPath())) {
+    final String sp = request.getServletPath();
+    if (AutoFirmaController.CONTEXTWEB.equals(sp)) {
       // PUJADA DES D'AUTOFIRMA
       // El màxim es tria per fitxer adaptat
       maxUploadSize = getMaxFitxerAdaptatSize();
       msgCode = "tamanyfitxeradaptatsuperat";
     } else {
-      // Pujada d'un fitxer
-      // Es fa una mescla entre el màxim global i màxim per entitat
-      maxUploadSize = getMaxUploadSize();
-      msgCode = "tamanyfitxerpujatsuperat";
+      
+      if (sp.startsWith("/admin/") || sp.startsWith("/aden/")) {
+        maxUploadSize = null; // -1 = No Limit
+        msgCode = "";
+      } else {
+        // Pujada d'un fitxer
+        // Es fa una mescla entre el màxim global i màxim per entitat
+        maxUploadSize = getMaxUploadSize();
+        msgCode = "tamanyfitxerpujatsuperat";
+      }   
     }
 
     if (maxUploadSize == null) {
