@@ -1,5 +1,5 @@
 <%@page import="es.caib.portafib.utils.ConstantsV2"%>
-confi<%@page import="es.caib.portafib.back.security.LoginInfo"%>
+<%@page import="es.caib.portafib.back.security.LoginInfo"%>
 <%@page import="es.caib.portafib.logic.utils.PropietatGlobalUtil"%>
 <%@page import="es.caib.portafib.utils.Configuracio"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"
