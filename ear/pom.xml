@@ -481,7 +481,6 @@
 
   <profiles>
   
-  
     <!-- ======   Canvi de contextroot   =============== -->
 	<profile>
       <id>contextportafib22</id>
@@ -489,6 +488,20 @@
 		<contextroot>portafib22</contextroot>
 	  </properties>
     </profile>
+    
+    
+    <profile>
+      <id>contextrootbyproperty</id>
+      <activation>
+        <property>
+            <name>contextrootportafib</name>
+        </property>
+      </activation>
+      <properties>
+		<contextroot>${contextrootportafib}</contextroot>
+	  </properties>
+    </profile>
+    
 
 
     <!-- =================================================== -->

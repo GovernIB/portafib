@@ -63,12 +63,15 @@ Per compilar en mode produccio: deploypro.sh/bat [OPCIONS]
 
 -Palfresco       Inclou el Plugin de DocumentCustody de Alfresco
 
--Pback-client-cert  Configura el web.xml del m�dul back (/portafib) per emprar autenticacio
+-Pback-client-cert  Configura el web.xml del modul back (/portafib) per emprar autenticacio
                   tipus CLIENT-CERT enlloc de BASIC dins el <login-config><auth-method>
 
 -Pfortress        Compila i inclou dins l'ear el Modul de Firma Web de ViaFirma-Fortress
 
--Pcontextportafib22  Crea un ear on el punt d'entrada es /portafib22 enlloc de /portafib
+-Pcontextportafib22  Deprecat. Usar -Dcontextrootportafib=<<NOU_CONTEXT_ROOT>>
+                     Crea un ear on el punt d'entrada es /portafib22 enlloc de /portafib. 
+
+-Dcontextrootportafib=<<NOU_CONTEXT_ROOT>>  Canvia el contextroot de back de /portafib per /<<NOU_CONTEXT_ROOT>>
 
 clean             Neteja els projectes abans de compilar.
 

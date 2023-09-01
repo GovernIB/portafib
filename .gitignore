@@ -177,3 +177,5 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /installCerts.bat
 /jaxbdeps.bat
 /portafib21.bat
+/ws/portafib_api_example/test.properties
+/back3.bat
