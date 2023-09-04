@@ -119,6 +119,7 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.plugins.documentcustody.api.CustodyException;
 import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 import org.fundaciobit.plugins.documentcustody.api.NotSupportedCustodyException;
+import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.hibernate.Hibernate;
 
 
@@ -2102,7 +2103,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
 
   @Override
   public void nouFitxerFirmat(File signatureFile2, Long estatDeFirmaID, Long peticioDeFirmaID,
-      String token, int numFirmaPortaFIB, int numFirmesOriginals, String usernameLoguejat)
+      String token, int numFirmaPortaFIB, int numFirmesOriginals, String usernameLoguejat,
+      boolean administrationIdCanBeValidatedFromPlugin)
       throws I18NException {
 
     Long fileID = null;
@@ -2188,7 +2190,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
         case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
           validarFitxerFirma = entitat.isValidarfirma();
           checkCanviatDocFirmat = entitat.isCheckCanviatDocFirmat();
-          comprovarNifFirma = entitat.isComprovarNifFirma();
+          comprovarNifFirma = administrationIdCanBeValidatedFromPlugin && entitat.isComprovarNifFirma();
         break;
 
         case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
@@ -2205,7 +2207,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
             checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio,
                 entitatLogicaEjb, entitatID);
             comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatLogicaEjb,
-                entitatID);
+                entitatID, administrationIdCanBeValidatedFromPlugin);
           }
         break;
 
@@ -2222,12 +2224,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB
           UsuariAplicacioConfiguracio configuracio = configuracioDeFirmaLogicaEjb
               .findByPrimaryKeyUnauthorized(confFirmaId);
 
+          
           validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatLogicaEjb,
               entitatID);
           checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio,
               entitatLogicaEjb, entitatID);
+          
+          
+          
           comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatLogicaEjb,
-              entitatID);
+              entitatID, administrationIdCanBeValidatedFromPlugin);
 
         break;
 

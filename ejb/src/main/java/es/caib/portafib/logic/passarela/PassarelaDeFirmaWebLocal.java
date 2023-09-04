@@ -58,7 +58,7 @@ public interface PassarelaDeFirmaWebLocal extends AbstractPassarelaDeFirmaLocal 
   public File getFitxerFirmatPath(String transactionID, String signID);
 
   public PassarelaSignaturesSetWebInternalUse finalProcesDeFirma(String transactionID,
-      SignaturesSetWeb ss) throws I18NException, IOException;
+      SignaturesSetWeb ss, boolean administrationIdCanBeValidatedFromPlugin) throws I18NException, IOException;
 
   public void closeTransaction(String transactionID);
 

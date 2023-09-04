@@ -297,7 +297,7 @@ public class SignatureModuleController extends HttpServlet {
       return generateErrorMAV(request, signaturesSetID,  msg, null);
     }
     
-    // EL portaFIBSignaturesSet existe?
+    // EL portaFIBSignaturesSet existeix?
     PortaFIBSignaturesSet signaturesSet;
     signaturesSet = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
 
@@ -305,7 +305,7 @@ public class SignatureModuleController extends HttpServlet {
       log.debug("PortaFIBSignaturesSet signaturesSet = " + signaturesSet); 
       log.debug("signaturesSet[" + signaturesSetID + "].setPluginID(" + pluginID + ") ");
     }
-    signaturesSet.setPluginID(pluginID);
+    signaturesSet.setSelectedPluginID(pluginID);
     
     log.info("getContextWeb: " + getContextWeb());
     
@@ -458,7 +458,7 @@ public class SignatureModuleController extends HttpServlet {
       return;
     }
     
-    Long pluginID = ss.getPluginID();
+    Long pluginID = ss.getSelectedPluginID();
     if (pluginID == null) {
       if (debug) {
         log.debug("query = " + signaturesSetID + "/" + signatureIndex + "/" + query);
@@ -542,7 +542,7 @@ public class SignatureModuleController extends HttpServlet {
  private static void closeSignaturesSet(HttpServletRequest request, PortaFIBSignaturesSet pss, ModulDeFirmaWebLogicaLocal modulDeFirmaEjb) {
    
   
-    Long pluginID = pss.getPluginID();
+    Long pluginID = pss.getSelectedPluginID();
     final String signaturesSetID = pss.getSignaturesSetID();
     if (pluginID == null) {
       // Encara no s'ha asignat plugin al signatureset
@@ -665,7 +665,7 @@ public class SignatureModuleController extends HttpServlet {
    * @param signaturesSetID
    * @return
    */
-  private static PortaFIBSignaturesSet getPortaFIBSignaturesSet(HttpServletRequest request,
+  public static PortaFIBSignaturesSet getPortaFIBSignaturesSet(HttpServletRequest request,
       String signaturesSetID,  ModulDeFirmaWebLogicaLocal modulDeFirmaEjb) {
     // Fer net peticions caducades SignaturesSet.getExpiryDate()
     // Check si existeix algun proces de firma caducat s'ha d'esborrar

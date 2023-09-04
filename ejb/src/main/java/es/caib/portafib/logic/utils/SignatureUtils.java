@@ -817,7 +817,12 @@ public class SignatureUtils {
    * @throws I18NException
    */
   public static boolean comprovarNifFirma(UsuariAplicacioConfiguracio configuracio,
-      EntitatService entitatEjb, String entitatID) throws I18NException {
+      EntitatService entitatEjb, String entitatID, boolean administrationIdCanBeValidatedFromPlugin) throws I18NException {
+      
+    if (administrationIdCanBeValidatedFromPlugin == false) {
+        return false;
+    }
+      
     Boolean comp = configuracio.getComprovarNifFirma();
 
     if (comp == null) {

@@ -243,5 +243,37 @@ public class ModulDeFirmaWebLogicaEJB extends AbstractPluginLogicaEJB<ISignature
           )
     );
   }
+  
+  
+  
+  
+  /** Revisar si el plugin permet la validació del NIF de la Signatura Digital
+   * 
+   * @param pluginID
+   * @return
+   * @throws I18NException
+   */
+  @Override
+  public boolean administrationIdCanBeValidatedFromPlugin(Long pluginID) throws I18NException {
+      
+      if (pluginID == null) {
+          return true;
+      }
+      
+      
+      ISignatureWebPlugin signaturePlugin;
+      try {
+        signaturePlugin = this.getInstanceByPluginID(pluginID);
+      } catch (I18NException e) {
+        throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));            
+      }
+      if (signaturePlugin == null) {
+        throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));            
+      }
+      
+      return signaturePlugin.administrationIdCanBeValidated();
+  }
+  
+  
 
 }

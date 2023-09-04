@@ -198,7 +198,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
           configuracio = configBySignID.get(pfis.getSignID());
 
           boolean validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb, entitatID);
-          boolean comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb, entitatID);
+          final boolean administrationIdCanBeValidatedFromPlugin = true; // Plugins de Servidor sempre es true.
+          boolean comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb, entitatID, administrationIdCanBeValidatedFromPlugin);
           boolean checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio, entitatEjb, entitatID);
 
           if (isDebug) {
@@ -446,7 +447,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
     final String entitatID = entitat.getEntitatID();
 
     boolean validarFitxerFirma = SignatureUtils.validarFirma(config, entitatEjb, entitatID);
-    boolean comprovarNifFirma = SignatureUtils.comprovarNifFirma(config, entitatEjb, entitatID);
+    final boolean administrationIdCanBeValidatedFromPlugin = true; // Plugins de Servidor sempre es true.
+    boolean comprovarNifFirma = SignatureUtils.comprovarNifFirma(config, entitatEjb, entitatID, administrationIdCanBeValidatedFromPlugin);
     boolean checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(config, entitatEjb,  entitatID);
 
     // (A) Validar la Firma

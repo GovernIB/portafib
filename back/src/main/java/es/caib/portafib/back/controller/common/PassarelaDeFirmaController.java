@@ -227,13 +227,19 @@ public class PassarelaDeFirmaController {
       log.debug(" ===finalProcesDeFirma() ==> signaturesSetID: " + transactionID);
     }
 
-    SignaturesSetWeb ss = SignatureModuleController.getSignaturesSetByID(request, transactionID,
+    SignaturesSetWeb ss;
+    boolean administrationIdCanBeValidatedFromPlugin;
+    {
+      PortaFIBSignaturesSet pss = SignatureModuleController.getPortaFIBSignaturesSet(request, transactionID,
         modulDeFirmaPublicEjb);
+      administrationIdCanBeValidatedFromPlugin = modulDeFirmaPublicEjb.administrationIdCanBeValidatedFromPlugin(pss.getSelectedPluginID());
+      ss = pss;
+    }
 
     // TODO Comprovar si ss és null i mostrar missatge de firma caducada
 
     PassarelaSignaturesSetWebInternalUse ssf = passarelaDeFirmaEjb.finalProcesDeFirma(
-        transactionID, ss);
+        transactionID, ss, administrationIdCanBeValidatedFromPlugin);
 
     // Eliminam la informació dins SignatureModuleController ja que tenim gurardada la
     // informació dins la capa EJB

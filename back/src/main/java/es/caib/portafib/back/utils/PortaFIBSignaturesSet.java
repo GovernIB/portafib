@@ -17,96 +17,95 @@ import java.util.Map;
  */
 public class PortaFIBSignaturesSet extends SignaturesSetWeb {
 
-  protected Map<String, List<Long>> pluginsFirmaBySignatureID = null;
+    protected Map<String, List<Long>> pluginsFirmaBySignatureID = null;
 
-  protected Map<String, String> applicationBySignatureID = new HashMap<String, String>();
-  
-  protected List<Long> filterByPluginID = null;
+    protected Map<String, String> applicationBySignatureID = new HashMap<String, String>();
 
-  protected final String urlFinalOriginal;
-  
-  protected final EntitatJPA entitat;
+    protected List<Long> filterByPluginID = null;
 
-  protected Long pluginID = null;
+    protected final String urlFinalOriginal;
 
-  protected boolean redirectToParentWindow;
+    protected final EntitatJPA entitat;
 
-  protected final int[] originalNumberOfSignsArray;
-  
-  protected final String urlBase;
+    protected Long selectedPluginID = null;
 
-  /**
-   * @param signaturesSetID
-   * @param expiryDate
-   * @param commonInfoSignature
-   * @param fileInfoSignatureArray
-   */
-  public PortaFIBSignaturesSet(String signaturesSetID, Date expiryDate,
-      CommonInfoSignature commonInfoSignature, FileInfoSignature[] fileInfoSignatureArray,
-      int[] originalNumberOfSignsArray, EntitatJPA entitat, String urlFinal,
-      boolean redirectToParentWindow, String urlBase) {
-    super(signaturesSetID, expiryDate, commonInfoSignature, fileInfoSignatureArray, urlFinal);
-    this.urlFinalOriginal = this.getUrlFinal();
-    this.entitat = entitat;
-    this.redirectToParentWindow = redirectToParentWindow;
-    this.originalNumberOfSignsArray = originalNumberOfSignsArray;
-    this.urlBase = urlBase;
-  }
+    protected boolean redirectToParentWindow;
 
-  public Map<String, List<Long>> getPluginsFirmaBySignatureID() {
-    return pluginsFirmaBySignatureID;
-  }
+    protected final int[] originalNumberOfSignsArray;
 
-  public void setPluginsFirmaBySignatureID(Map<String, List<Long>> pluginsFirmaBySignatureID) {
-    this.pluginsFirmaBySignatureID = pluginsFirmaBySignatureID;
-  }
+    protected final String urlBase;
 
-  public Map<String, String> getApplicationBySignatureID() {
-    return applicationBySignatureID;
-  }
+    /**
+     * @param signaturesSetID
+     * @param expiryDate
+     * @param commonInfoSignature
+     * @param fileInfoSignatureArray
+     */
+    public PortaFIBSignaturesSet(String signaturesSetID, Date expiryDate, CommonInfoSignature commonInfoSignature,
+            FileInfoSignature[] fileInfoSignatureArray, int[] originalNumberOfSignsArray, EntitatJPA entitat,
+            String urlFinal, boolean redirectToParentWindow, String urlBase) {
+        super(signaturesSetID, expiryDate, commonInfoSignature, fileInfoSignatureArray, urlFinal);
+        this.urlFinalOriginal = this.getUrlFinal();
+        this.entitat = entitat;
+        this.redirectToParentWindow = redirectToParentWindow;
+        this.originalNumberOfSignsArray = originalNumberOfSignsArray;
+        this.urlBase = urlBase;
+    }
 
-  public void setApplicationBySignatureID(Map<String, String> applicationBySignatureID) {
-    this.applicationBySignatureID = applicationBySignatureID;
-  }
+    public Map<String, List<Long>> getPluginsFirmaBySignatureID() {
+        return pluginsFirmaBySignatureID;
+    }
 
-  public String getUrlFinalOriginal() {
-    return urlFinalOriginal;
-  }
+    public void setPluginsFirmaBySignatureID(Map<String, List<Long>> pluginsFirmaBySignatureID) {
+        this.pluginsFirmaBySignatureID = pluginsFirmaBySignatureID;
+    }
 
-  public Long getPluginID() {
-    return pluginID;
-  }
+    public Map<String, String> getApplicationBySignatureID() {
+        return applicationBySignatureID;
+    }
 
-  public void setPluginID(Long pluginID) {
-    this.pluginID = pluginID;
-  }
+    public void setApplicationBySignatureID(Map<String, String> applicationBySignatureID) {
+        this.applicationBySignatureID = applicationBySignatureID;
+    }
 
-  public EntitatJPA getEntitat() {
-    return entitat;
-  }
+    public String getUrlFinalOriginal() {
+        return urlFinalOriginal;
+    }
 
-  public List<Long> getFilterByPluginID() {
-    return filterByPluginID;
-  }
+    public Long getSelectedPluginID() {
+        return selectedPluginID;
+    }
 
-  public void setFilterByPluginID(List<Long> filterByPluginID) {
-    this.filterByPluginID = filterByPluginID;
-  }
+    public void setSelectedPluginID(Long selectedPluginID) {
+        this.selectedPluginID = selectedPluginID;
+    }
 
-  public boolean isRedirectToParentWindow() {
-    return redirectToParentWindow;
-  }
+    public EntitatJPA getEntitat() {
+        return entitat;
+    }
 
-  public void setRedirectToParentWindow(boolean redirectToParentWindow) {
-    this.redirectToParentWindow = redirectToParentWindow;
-  }
+    public List<Long> getFilterByPluginID() {
+        return filterByPluginID;
+    }
 
-  public int[] getOriginalNumberOfSignsArray() {
-    return originalNumberOfSignsArray;
-  }
+    public void setFilterByPluginID(List<Long> filterByPluginID) {
+        this.filterByPluginID = filterByPluginID;
+    }
 
-  public String getUrlBase() {
-    return urlBase;
-  }
+    public boolean isRedirectToParentWindow() {
+        return redirectToParentWindow;
+    }
+
+    public void setRedirectToParentWindow(boolean redirectToParentWindow) {
+        this.redirectToParentWindow = redirectToParentWindow;
+    }
+
+    public int[] getOriginalNumberOfSignsArray() {
+        return originalNumberOfSignsArray;
+    }
+
+    public String getUrlBase() {
+        return urlBase;
+    }
 
 }

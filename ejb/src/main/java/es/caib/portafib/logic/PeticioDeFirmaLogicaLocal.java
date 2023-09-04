@@ -97,7 +97,7 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaService {
 
 
   public void nouFitxerFirmat(File file, Long estatDeFirmaID, Long peticioDeFirmaID,
-      String token, int numFirma, int numFirmesOriginals, String usernameLoguejat) throws I18NException;
+      String token, int numFirma, int numFirmesOriginals, String usernameLoguejat, boolean administrationIdCanBeValidatedFromPlugin) throws I18NException;
 
   public void rebutjarADEN(PeticioDeFirmaJPA peticioDeFirma, String usuariEntitatAden,
       String motiuDeRebuig) throws I18NException;

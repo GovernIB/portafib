@@ -48,4 +48,12 @@ public interface ModulDeFirmaWebLogicaLocal extends
    * @throws I18NException si el plugin està associat a qualque tipus documental.
    */
   void deleteFull(Plugin instance) throws I18NException;
+  
+  /**
+   * 
+   * @param pluginID
+   * @return
+   * @throws I18NException
+   */
+  public boolean administrationIdCanBeValidatedFromPlugin(Long pluginID) throws I18NException;
 }
