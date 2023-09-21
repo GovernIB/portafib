@@ -3,22 +3,15 @@
     <server name="default">
         <!-- ..... -->
 
-        <address-setting name="jms.queue.es.caib.portafib.PortaFIBNotificacionsQueue"
-                         dead-letter-address="jms.queue.es.caib.portafib.PortaFIBNotificacionsErrorQueue"
-                         redelivery-delay="120000" max-delivery-attempts="15"/>
-        <address-setting name="jms.queue.es.caib.portafib.PortaFIBNotificacionsErrorQueue" redelivery-delay="300000"
-                         max-delivery-attempts="2000"/>
-        <address-setting name="jms.queue.es.caib.portafib.PortaFIBMailsQueue" redelivery-delay="10000"
-                         max-delivery-attempts="3"/>
+        <address-setting name="jms.queue.es.caib.portafib.PortaFIBNotificacionsQueue" dead-letter-address="jms.queue.es.caib.portafib.PortaFIBNotificacionsErrorQueue" redelivery-delay="120000" max-delivery-attempts="15"/>
+        <address-setting name="jms.queue.es.caib.portafib.PortaFIBNotificacionsErrorQueue" redelivery-delay="300000" max-delivery-attempts="2000"/>
+        <address-setting name="jms.queue.es.caib.portafib.PortaFIBMailsQueue" redelivery-delay="10000" max-delivery-attempts="3"/>
 
-        <jms-queue name="es.caib.portafib.PortaFIBNotificacionsQueue"
-                   entries="java:/jms/es.caib.portafib.PortaFIBNotificacionsQueue" durable="true"/>
+        <jms-queue name="es.caib.portafib.PortaFIBNotificacionsQueue" entries="java:/jms/es.caib.portafib.PortaFIBNotificacionsQueue" durable="true"/>
 
-        <jms-queue name="es.caib.portafib.PortaFIBNotificacionsErrorQueue"
-                   entries="java:/jms/es.caib.portafib.PortaFIBNotificacionsErrorQueue" durable="true"/>
+        <jms-queue name="es.caib.portafib.PortaFIBNotificacionsErrorQueue" entries="java:/jms/es.caib.portafib.PortaFIBNotificacionsErrorQueue" durable="true"/>
 
-        <jms-queue name="es.caib.portafib.PortaFIBMailsQueue" entries="java:/jms/es.caib.portafib.PortaFIBMailsQueue"
-                   durable="true"/>
+        <jms-queue name="es.caib.portafib.PortaFIBMailsQueue" entries="java:/jms/es.caib.portafib.PortaFIBMailsQueue" durable="true"/>
 				   
 	    <!-- ..... -->
     </server>

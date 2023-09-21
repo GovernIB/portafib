@@ -51,13 +51,6 @@ public class Configuracio implements ConstantsV2 {
     return new Locale(defaultLanguage);
   }
 
-  /**
-   * Indica si s'ha d'emprar el notificador amb coa de missatges.
-   * @return true si s'ha d'emprar notificador amb coa, false en cas contrari
-   */
-  public static boolean isNotificacionsQueue() {
-    return Boolean.getBoolean(PORTAFIB_PROPERTY_BASE + "notificacions.queue");
-  }
 
   /**
    * Permet indicar si volem mostrar als usuaris un enllaç cap a una APK de Android.

@@ -175,6 +175,10 @@ public class BaseCertLoginModule extends org.jboss.security.auth.spi.BaseCertLog
         }
 
         String username = usuariPersona.getUsuariPersonaID();
+        
+        log.info("\n\n\n\n  Client-CERT UserName => " + username  + "\n\n\n\n");
+        
+        
 
         // Cercar Roles de per l'usuari user
         IUserInformationPlugin plugin = null;

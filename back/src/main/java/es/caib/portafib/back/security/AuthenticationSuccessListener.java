@@ -64,6 +64,8 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
 
 		User user = (User) au.getPrincipal();
 		String name = user.getUsername();
+		
+		log.info(" ============ Login Usuari: " + name);
 
 		try {
 			UsuariAplicacioLogicaLocal usuariAplicacioEjb = EjbManager.getUsuariAplicacioLogicaEJB();
@@ -72,11 +74,9 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
 				return;
 			}
 		} catch (I18NException e) {
-			throw new LoginException("No puc accedir al gestor d´obtenció de" + " informació de usuari per " + name
+			throw new LoginException("No puc accedir al gestor per obtenir informació de l'usuari per " + name
 					+ ": " + e.getMessage(), e);
 		}
-
-		log.info(" ============ Login Usuari: " + name);
 
 		try {
 			LoginInfo loginInfo = LoginInfo.getInstance();

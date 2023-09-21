@@ -40,7 +40,9 @@
     /*
     WebAuthentication pwl = new WebAuthentication();
     pwl.login(certs);
-     */
+    */
+    response.sendRedirect(request.getContextPath() + "/common/principal.html");
+    
   }
 
   String url = request.getParameter("url");

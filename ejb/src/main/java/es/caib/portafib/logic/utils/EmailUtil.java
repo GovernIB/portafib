@@ -3,12 +3,7 @@ package es.caib.portafib.logic.utils;
 import java.util.Date;
 import java.util.List;
 
-import javax.jms.ObjectMessage;
-import javax.jms.Queue;
-import javax.jms.QueueConnection;
-import javax.jms.QueueConnectionFactory;
-import javax.jms.QueueSender;
-import javax.jms.QueueSession;
+
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.Message.RecipientType;
@@ -21,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -95,36 +91,19 @@ public class EmailUtil {
 
 
   public static void enviarMails(List<EmailInfo> emailInfos) throws I18NException {
+      
+      
     try {
       if (emailInfos == null || emailInfos.size() == 0) {
         return;
       }
 
-      InitialContext ic = new InitialContext();
-      final Queue queue = (Queue) ic.lookup(ConstantsV2.MAIL_QUEUE);
-      final QueueConnectionFactory factory;
-      factory = (QueueConnectionFactory) ic.lookup("java:/ConnectionFactory");
-      final QueueConnection connection = factory.createQueueConnection();
-      final QueueSession session = connection.createQueueSession(false,
-          QueueSession.AUTO_ACKNOWLEDGE);
-
-      // Temps entre enviaments de correu, per no saturar el servidor
-      // Enviarem un correu cada 100 milisegons
-      long date = new Date().getTime();
-      long sleep = 100;
-      long counter = 0;
-
       for (EmailInfo emailInfo : emailInfos) {
-        ObjectMessage message = session.createObjectMessage();
-        message.setLongProperty("JMS_JBOSS_SCHEDULED_DELIVERY", date + (sleep * ++counter));
-        message.setObject(emailInfo);
-        final QueueSender sender = session.createSender(queue);
-        sender.send(message);
+         
+          postMail(emailInfo.getSubject(), emailInfo.getMessage(), emailInfo.isHtml(),
+                  Configuracio.getAppEmail(), emailInfo.getEmail());
       }
-  
-      session.close();
-      connection.close();
-      
+
     } catch(Exception e) {
       throw new I18NException(e, "error.unknown",
           new I18NArgumentString("Error enviant mail: " + e.getMessage()));

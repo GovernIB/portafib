@@ -3,8 +3,6 @@ package es.caib.portafib.logic.utils;
 import javax.naming.InitialContext;
 
 import es.caib.portafib.logic.misc.NotificacionsCallBackTimerLocal;
-import es.caib.portafib.logic.notificacions.NotificacioQueueTimerLocal;
-import es.caib.portafib.utils.Configuracio;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -64,9 +62,7 @@ public final class EjbManager {
   public static NotificacionsCallBackTimerLocal getNotificacioTimerEjb() throws I18NException {
     if (notificacioTimerEjb == null) {
       try {
-        String jndiName = Configuracio.isNotificacionsQueue() ?
-                NotificacioQueueTimerLocal.JNDI_NAME :
-                NotificacionsCallBackTimerLocal.JNDI_NAME;
+        String jndiName = NotificacionsCallBackTimerLocal.JNDI_NAME;
 
         notificacioTimerEjb = (NotificacionsCallBackTimerLocal) new InitialContext()
             .lookup(jndiName);
