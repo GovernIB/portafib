@@ -805,6 +805,7 @@
           </archive>
 
           <defaultLibBundleDir>lib</defaultLibBundleDir>
+          <skinnyWars>true</skinnyWars>
           
           <packagingExcludes>lib/axis-jaxrpc-1.4.jar,lib/jaxb-impl-2.3.3.jar,lib/jaxb-jxc-2.3.3.jar,lib/jaxb-xjc-2.3.3.jar,lib/jaxws-eclipselink-plugin-2.3.3.jar,lib/jaxws-rt-2.3.3.jar,lib/jaxws-tools-2.3.3.jar</packagingExcludes>
 
