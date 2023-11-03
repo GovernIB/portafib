@@ -16,7 +16,6 @@
   <properties>
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-	<contextroot>portafib</contextroot>
   </properties>
 
   <dependencies>
@@ -478,14 +477,6 @@
   <profiles>
   
     <!-- ======   Canvi de contextroot   =============== -->
-	<profile>
-      <id>contextportafib22</id>
-      <properties>
-		<contextroot>portafib22</contextroot>
-	  </properties>
-    </profile>
-    
-    
     <profile>
       <id>contextrootbyproperty</id>
       <activation>

@@ -85,6 +85,8 @@
 	-->
     </dependencies>
     <properties>
+        <contextroot>portafib</contextroot>
+        <!-- Veure Profiles -->
         <version_txt_template_file>./scripts/templates/versio.txt.template</version_txt_template_file>
         <version_txt_file>./versio.txt</version_txt_file>
         <portafib.version>2.2.0</portafib.version>
@@ -607,6 +609,18 @@
             <modules>
                 <module>portafib-it</module>
             </modules>
+        </profile>
+        <!-- ======   Canvi de contextroot   =============== -->
+        <profile>
+            <id>contextrootbyproperty</id>
+            <activation>
+                <property>
+                    <name>contextrootportafib</name>
+                </property>
+            </activation>
+            <properties>
+                <contextroot>${contextrootportafib}</contextroot>
+            </properties>
         </profile>
     </profiles>
     <distributionManagement>

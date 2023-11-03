@@ -22,6 +22,7 @@ import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;
 
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
+import es.caib.portafib.commons.utils.RootWs;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
 import es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal;
@@ -29,6 +30,7 @@ import es.caib.portafib.logic.passarela.PassarelaSignatureInServerResults;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
 import es.caib.portafib.utils.Constants;
+
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 import es.caib.portafib.ws.v1.utils.PassarelaConversion;
 
@@ -46,7 +48,7 @@ import es.caib.portafib.ws.v1.utils.PassarelaConversion;
 @WebService(name = PortaFIBPassarelaDeFirmaEnServidorWsImpl.NAME_WS, portName = PortaFIBPassarelaDeFirmaEnServidorWsImpl.NAME_WS, serviceName = PortaFIBPassarelaDeFirmaEnServidorWsImpl.NAME_WS
     + "Service", endpointInterface = "es.caib.portafib.ws.v1.impl."
     + PortaFIBPassarelaDeFirmaEnServidorWsImpl.NAME_WS)
-@WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
+@WebContext(contextRoot = RootWs.ROOT + "/ws", urlPattern = "/v1/"
     + PortaFIBPassarelaDeFirmaEnServidorWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "BASIC")
 public class PortaFIBPassarelaDeFirmaEnServidorWsImpl extends
     AbstractPortaFIBPassarelaDeFirmaWsImpl implements PortaFIBPassarelaDeFirmaEnServidorWs,

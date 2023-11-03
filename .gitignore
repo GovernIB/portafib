@@ -179,3 +179,4 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /portafib21.bat
 /ws/portafib_api_example/test.properties
 /back3.bat
+/commons/src/main/java/es/caib/portafib/commons/utils/RootWs.java

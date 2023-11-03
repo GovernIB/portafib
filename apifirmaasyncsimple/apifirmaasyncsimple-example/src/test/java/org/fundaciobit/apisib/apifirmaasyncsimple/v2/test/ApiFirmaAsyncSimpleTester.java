@@ -75,7 +75,10 @@ public class ApiFirmaAsyncSimpleTester {
       final String languageUI = "ca";
 
       ApiFirmaAsyncSimple api = tester.getApiFirmaAsyncSimple();
-
+      
+      // --------- URL al FLUX 
+      //tester.getUrlToViewFlow(languageUI, api);
+      
       // ----------- Idiomes Disponibles
       //tester.getIdiomesDisponibles(languageUI, api);
 
@@ -108,6 +111,28 @@ public class ApiFirmaAsyncSimpleTester {
       System.err.println("Error desconegut: " + e.getMessage());
     }
   }
+  
+  
+  
+  
+  public void getUrlToViewFlow(String languageUI, ApiFirmaAsyncSimple api)
+      throws Exception {
+      
+      
+      FirmaAsyncSimpleSignatureRequestInfo info = new FirmaAsyncSimpleSignatureRequestInfo(213780, languageUI);
+      
+      String url = api.getUrlToViewFlow(info);
+      
+      System.out.println(url);
+      
+      
+      
+  }
+  
+  
+  
+  
+  
 
   public void createSignatureRequestAndStart(String languageUI, ApiFirmaAsyncSimple api)
       throws Exception {

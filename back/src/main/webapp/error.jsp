@@ -117,9 +117,8 @@ try {
 <fmt:setLocale value="${locale}"/>
 <html>
 <link href="<c:url value="/css/bootstrap.min.css"/>" rel="stylesheet" media="screen">
-<link href="<c:url value="/css/bootstrap-responsive.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/default.css"/>" rel="stylesheet">
-<link href="<c:url value="/css/portafib.css"/>" rel="stylesheet">
+<link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
 <script src="<c:url value="/js/jquery.js" />"></script>
 <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
 

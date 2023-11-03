@@ -1,5 +1,6 @@
 package es.caib.portafib.ws.v1;
 
+import es.caib.portafib.commons.utils.RootWs;
 import es.caib.portafib.ejb.AnnexFirmatService;
 import es.caib.portafib.ejb.TipusDocumentService;
 import es.caib.portafib.persistence.AnnexFirmatJPA;
@@ -191,7 +192,7 @@ import java.util.TreeSet;
 )
 @WebContext
 (
-    contextRoot="/portafib/portafirmasws/web/services",
+    contextRoot=RootWs.ROOT + "/portafirmasws/web/services",
     urlPattern="/CWS",
     transportGuarantee= TransportGuarantee.NONE,
     secureWSDLAccess = false    

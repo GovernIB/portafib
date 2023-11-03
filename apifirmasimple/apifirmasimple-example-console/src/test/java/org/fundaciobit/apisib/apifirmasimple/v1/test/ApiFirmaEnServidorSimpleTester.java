@@ -19,6 +19,8 @@ import org.fundaciobit.apisib.core.exceptions.ApisIBServerException;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 import org.junit.Test;
 
+import com.sun.jersey.client.apache4.ApacheHttpClient4;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,11 +28,20 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * 
@@ -39,536 +50,544 @@ import java.util.Scanner;
  */
 public class ApiFirmaEnServidorSimpleTester {
 
-  public static final String PROFILE_PADES_PROPERTY = "PROFILE_PADES";
+    public static final String PROFILE_PADES_PROPERTY = "PROFILE_PADES";
 
-  public static final String PROFILE_XADES_PROPERTY = "PROFILE_XADES";
+    public static final String PROFILE_XADES_PROPERTY = "PROFILE_XADES";
 
-  public static final String PROFILE_CADES_PROPERTY = "PROFILE_CADES";
+    public static final String PROFILE_CADES_PROPERTY = "PROFILE_CADES";
 
-  public static final String PROFILE_MIX_PADES_XADES_CADES = "PROFILE_MIX_PADES_XADES_CADES";
+    public static final String PROFILE_MIX_PADES_XADES_CADES = "PROFILE_MIX_PADES_XADES_CADES";
 
-  public static void main(String[] args) {
+    public static void main(String[] args) {
 
-    try {
+        try {
 
-      ApiFirmaEnServidorSimpleTester tester = new ApiFirmaEnServidorSimpleTester();
+            //ignoreCertificateErrors();
 
-      //tester.testGetAvailableProfiles();
+            ApiFirmaEnServidorSimpleTester tester = new ApiFirmaEnServidorSimpleTester();
 
-      tester.testSignatureServerPAdES();
+            tester.testGetAvailableProfiles();
 
-      //tester.testSignatureServerCAdES();
+            //tester.testSignatureServerPAdES();
 
-      // tester.testSignatureServerXAdESBinary();
+            //tester.testSignatureServerCAdES();
 
-      //tester.testSignatureServerXAdESXml();
+            // tester.testSignatureServerXAdESBinary();
 
-      //tester.testSignatureServerPAdESXAdESCAdES();
+            //tester.testSignatureServerXAdESXml();
 
-      //tester.testUpgradeSignaturePAdES();
+            //tester.testSignatureServerPAdESXAdESCAdES();
 
-      //tester.testUpgradeSignatureXAdESOfBinary();
+            //tester.testUpgradeSignaturePAdES();
 
-      //tester.testUpgradeSignatureXAdESOfXML();
+            //tester.testUpgradeSignatureXAdESOfBinary();
 
-      //tester.testUpgradeSignatureCAdES();
+            //tester.testUpgradeSignatureXAdESOfXML();
 
-    } catch (NoAvailablePluginException nape) {
+            //tester.testUpgradeSignatureCAdES();
 
-      nape.printStackTrace();
+        } catch (NoAvailablePluginException nape) {
 
-      System.err
-          .println("No s'ha trobat cap plugin que pugui realitzar la firma o alguna de les firmes sol·licitades.");
+            nape.printStackTrace();
 
-    } catch (ApisIBClientException client) {
+            System.err.println(
+                    "No s'ha trobat cap plugin que pugui realitzar la firma o alguna de les firmes sol·licitades.");
 
-      client.printStackTrace();
+        } catch (ApisIBClientException client) {
 
-      System.err
-          .println("S'ha produït un error intentant contactar amb el servidor intermedi:"
-              + client.getMessage());
+            client.printStackTrace();
 
-    } catch (ApisIBServerException server) {
+            System.err.println(
+                    "S'ha produït un error intentant contactar amb el servidor intermedi:" + client.getMessage());
 
-      server.printStackTrace();
+        } catch (ApisIBServerException server) {
 
-      System.err.println("S'ha produït un error en el servidor intermedi:"
-          + server.getMessage());
+            server.printStackTrace();
 
-    } catch (Exception e) {
-      e.printStackTrace();
+            System.err.println("S'ha produït un error en el servidor intermedi:" + server.getMessage());
 
-      System.err.println("Error desconegut intentant realitzar les firmes: " + e.getMessage());
-    }
-  }
+        } catch (Exception e) {
+            e.printStackTrace();
 
-  protected static Properties getConfigProperties() throws IOException, FileNotFoundException {
-    Properties prop = new Properties();
-
-    prop.load(new FileInputStream(new File("./apifirmaenservidorsimple.properties")));
-    return prop;
-  }
-
-  protected static String selectProfileFromAvailables(ApiFirmaEnServidorSimple api,
-      final String locale) throws Exception {
-    String defprofile;
-    List<FirmaSimpleAvailableProfile> profilesList = api.getAvailableProfiles(locale);
-
-    if (profilesList == null || profilesList.size() == 0) {
-      throw new Exception("NO HI HA PERFILS PER AQUEST USUARI APLICACIÓ");
-    }
-
-    FirmaSimpleAvailableProfile scanWebProfileSelected = null;
-
-    do {
-      System.out.println(" ---- Perfils Disponibles ----");
-      int i = 1;
-      Map<Integer, FirmaSimpleAvailableProfile> profilesByIndex = new HashMap<Integer, FirmaSimpleAvailableProfile>();
-      for (FirmaSimpleAvailableProfile profile : profilesList) {
-        System.out.println(i + ".- " + profile.getName() + "(CODI: " + profile.getCode()
-            + "): " + profile.getDescription());
-        profilesByIndex.put(i, profile);
-        i++;
-      }
-      System.out.print(" Seleccioni un perfil de firma: ");
-      Scanner in = null;
-      try {
-        in = new Scanner(System.in);
-        int n = in.nextInt();
-
-        scanWebProfileSelected = profilesByIndex.get(n);
-      } finally {
-          if (in != null) {
-              in.close();
-          }
-      }
-
-    } while (scanWebProfileSelected == null);
-
-    defprofile = scanWebProfileSelected.getCode();
-
-    System.out.println(" -----------------------------");
-
-    return defprofile;
-  }
-
-  @Test
-  public void testGetAvailableProfiles() throws Exception {
-
-    Properties prop = getConfigProperties();
-
-    ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
-
-    final String languagesUI[] = new String[] { "ca", "es" };
-
-    for (String languageUI : languagesUI) {
-      System.out.println(" ==== LanguageUI : " + languageUI + " ===========");
-
-      List<FirmaSimpleAvailableProfile> listProfiles = api.getAvailableProfiles(languageUI);
-      if (listProfiles.size() == 0) {
-        System.err.println("NO HI HA PERFILS PER AQUEST USUARI APLICACIÓ");
-      } else {
-        for (FirmaSimpleAvailableProfile ap : listProfiles) {
-          System.out.println("  + " + ap.getName() + ":");
-          System.out.println("      * Codi: " + ap.getCode());
-          System.out.println("      * Desc: " + ap.getDescription());
+            System.err.println("Error desconegut intentant realitzar les firmes: " + e.getMessage());
         }
-      }
-
     }
 
-  }
+    protected static void ignoreCertificateErrors() throws Exception {
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
 
-  /**
-   * 
-   * @param api
-   * @throws Exception
-   * @throws FileNotFoundException
-   * @throws IOException
-   */
-  @Test
-  public void testSignatureServerPAdES() throws Exception, FileNotFoundException, IOException {
+            public void checkClientTrusted(X509Certificate[] certs, String authType) {
+            }
 
-    Properties prop = getConfigProperties();
+            public void checkServerTrusted(X509Certificate[] certs, String authType) {
+            }
 
-    ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
+        } };
 
-    final String perfil = prop.getProperty(PROFILE_PADES_PROPERTY);
-    if (perfil == null) {
-      logErrorPerfilBuit(PROFILE_PADES_PROPERTY);
+        SSLContext sc = SSLContext.getInstance("SSL");
+        sc.init(null, trustAllCerts, new java.security.SecureRandom());
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+        // Create all-trusting host name verifier
+        HostnameVerifier allHostsValid = new HostnameVerifier() {
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        };
+        // Install the all-trusting host verifier
+        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+        /* End of the fix*/
     }
 
-    FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
-    
-    System.out.println(" PERFIL => " + perfil);
-    internalSignDocument(api, perfil, fileToSign);
-  }
+    protected static Properties getConfigProperties() throws IOException, FileNotFoundException {
+        Properties prop = new Properties();
 
-  @Test
-  public void testSignatureServerPAdESXAdESCAdES() throws Exception, FileNotFoundException,
-      IOException {
-
-    Properties prop = getConfigProperties();
-
-    ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
-
-    final String perfil = prop.getProperty(PROFILE_MIX_PADES_XADES_CADES);
-    if (perfil == null) {
-      logErrorPerfilBuit(PROFILE_MIX_PADES_XADES_CADES);
+        prop.load(new FileInputStream(new File("./apifirmaenservidorsimple.properties")));
+        return prop;
     }
-    {
-      FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
 
-      FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign);
+    protected static String selectProfileFromAvailables(ApiFirmaEnServidorSimple api, final String locale)
+            throws Exception {
+        String defprofile;
+        List<FirmaSimpleAvailableProfile> profilesList = api.getAvailableProfiles(locale);
 
-      // Hauria de ser firma PADES
-      if (result != null) {
-        String currentType = result.getSignedFileInfo().getSignType();
-        if (!FirmaSimpleSignedFileInfo.SIGN_TYPE_PADES.equals(currentType)) {
-          throw new Exception("S'esperava una firma de tipus PADES"
-              + " però s'ha rebut una de tipus " + currentType);
+        if (profilesList == null || profilesList.size() == 0) {
+            throw new Exception("NO HI HA PERFILS PER AQUEST USUARI APLICACIÓ");
         }
-      }
+
+        FirmaSimpleAvailableProfile scanWebProfileSelected = null;
+
+        do {
+            System.out.println(" ---- Perfils Disponibles ----");
+            int i = 1;
+            Map<Integer, FirmaSimpleAvailableProfile> profilesByIndex = new HashMap<Integer, FirmaSimpleAvailableProfile>();
+            for (FirmaSimpleAvailableProfile profile : profilesList) {
+                System.out.println(i + ".- " + profile.getName() + "(CODI: " + profile.getCode() + "): "
+                        + profile.getDescription());
+                profilesByIndex.put(i, profile);
+                i++;
+            }
+            System.out.print(" Seleccioni un perfil de firma: ");
+            Scanner in = null;
+            try {
+                in = new Scanner(System.in);
+                int n = in.nextInt();
+
+                scanWebProfileSelected = profilesByIndex.get(n);
+            } finally {
+                if (in != null) {
+                    in.close();
+                }
+            }
+
+        } while (scanWebProfileSelected == null);
+
+        defprofile = scanWebProfileSelected.getCode();
+
+        System.out.println(" -----------------------------");
+
+        return defprofile;
     }
 
-    {
-      FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml", "text/xml");
+    @Test
+    public void testGetAvailableProfiles() throws Exception {
 
-      FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign);
+        Properties prop = getConfigProperties();
 
-      // Hauria de ser firma PADES
-      if (result != null) {
-        String currentType = result.getSignedFileInfo().getSignType();
-        if (!FirmaSimpleSignedFileInfo.SIGN_TYPE_XADES.equals(currentType)) {
-          throw new Exception("S'esperava una firma de tipus XADES"
-              + " però s'ha rebut una de tipus " + currentType);
+        ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
+
+        final String languagesUI[] = new String[] { "ca", "es" };
+
+        for (String languageUI : languagesUI) {
+            System.out.println(" ==== LanguageUI : " + languageUI + " ===========");
+
+            List<FirmaSimpleAvailableProfile> listProfiles = api.getAvailableProfiles(languageUI);
+            if (listProfiles.size() == 0) {
+                System.err.println("NO HI HA PERFILS PER AQUEST USUARI APLICACIÓ");
+            } else {
+                for (FirmaSimpleAvailableProfile ap : listProfiles) {
+                    System.out.println("  + " + ap.getName() + ":");
+                    System.out.println("      * Codi: " + ap.getCode());
+                    System.out.println("      * Desc: " + ap.getDescription());
+                }
+            }
+
         }
-      }
+
     }
 
-    {
-      FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
+    /**
+     * 
+     * @param api
+     * @throws Exception
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    @Test
+    public void testSignatureServerPAdES() throws Exception, FileNotFoundException, IOException {
 
-      FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign);
+        Properties prop = getConfigProperties();
 
-      // Hauria de ser firma PADES
-      if (result != null) {
-        String currentType = result.getSignedFileInfo().getSignType();
-        if (!FirmaSimpleSignedFileInfo.SIGN_TYPE_CADES.equals(currentType)) {
-          throw new Exception("S'esperava una firma de tipus CADES"
-              + " però s'ha rebut una de tipus " + currentType);
+        ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
+
+        final String perfil = prop.getProperty(PROFILE_PADES_PROPERTY);
+        if (perfil == null) {
+            logErrorPerfilBuit(PROFILE_PADES_PROPERTY);
         }
-      }
-    }
-  }
 
-  @Test
-  public void testSignatureServerCAdES() throws Exception, FileNotFoundException, IOException {
+        FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
 
-    Properties prop = getConfigProperties();
-
-    ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
-
-    final String perfil = prop.getProperty(PROFILE_CADES_PROPERTY);
-    if (perfil == null) {
-      logErrorPerfilBuit(PROFILE_CADES_PROPERTY);
+        System.out.println(" PERFIL => " + perfil);
+        internalSignDocument(api, perfil, fileToSign);
     }
 
-    FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
+    @Test
+    public void testSignatureServerPAdESXAdESCAdES() throws Exception, FileNotFoundException, IOException {
 
-    internalSignDocument(api, perfil, fileToSign);
-  }
+        Properties prop = getConfigProperties();
 
-  @Test
-  public void testSignatureServerXAdESBinary() throws Exception, FileNotFoundException,
-      IOException {
+        ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
 
-    Properties prop = getConfigProperties();
-
-    ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
-
-    final String perfil = prop.getProperty(PROFILE_XADES_PROPERTY);
-    if (perfil == null) {
-      logErrorPerfilBuit(PROFILE_XADES_PROPERTY);
-    }
-
-    FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
-
-    internalSignDocument(api, perfil, fileToSign);
-  }
-
-  @Test
-  public void testSignatureServerXAdESXml() throws Exception, FileNotFoundException,
-      IOException {
-
-    Properties prop = getConfigProperties();
-
-    ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
-
-    final String perfil = prop.getProperty(PROFILE_XADES_PROPERTY);
-    if (perfil == null) {
-      logErrorPerfilBuit(PROFILE_XADES_PROPERTY);
-    }
-
-    FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml", "text/xml");
-
-    internalSignDocument(api, perfil, fileToSign);
-  }
-
-  protected FirmaSimpleSignatureResult internalSignDocument(ApiFirmaEnServidorSimple api,
-      final String perfil, FirmaSimpleFile fileToSign) throws Exception,
-      FileNotFoundException, IOException {
-    String signID = "1";
-    String name = fileToSign.getNom();
-    String reason = "Per aprovar pressuposts";
-    String location = "Palma";
-    
-    int signNumber = 1;
-    String languageSign = "ca";
-    long tipusDocumentalID = 99; // =TD99
-
-    FirmaSimpleFileInfoSignature fileInfoSignature = new FirmaSimpleFileInfoSignature(
-        fileToSign, signID, name, reason, location, signNumber, languageSign, tipusDocumentalID);
-
-    String languageUI = "ca";
-    // Es la configuració del Servidor (deixam el valor per defecte)
-    String username = null; // "anadal"; 
-    String administrationID = null;
-    String signerEmail = null;
-
-    FirmaSimpleCommonInfo commonInfo;
-    commonInfo = new FirmaSimpleCommonInfo(perfil, languageUI, username, administrationID, signerEmail);
-
-    System.out.println("languageUI = |" + languageUI + "|");
-
-    FirmaSimpleSignDocumentRequest signature;
-    signature = new FirmaSimpleSignDocumentRequest(commonInfo, fileInfoSignature);
-
-    FirmaSimpleSignatureResult fullResults = api.signDocument(signature);
-
-    FirmaSimpleStatus transactionStatus = fullResults.getStatus();
-
-    int status = transactionStatus.getStatus();
-
-    switch (status) {
-
-      case FirmaSimpleStatus.STATUS_INITIALIZING: // = 0;
-        System.err.println("Initializing ...Unknown Error (???)");
-        return null;
-
-      case FirmaSimpleStatus.STATUS_IN_PROGRESS: // = 1;
-        System.err.println("In PROGRESS ... Unknown Error (????) ");
-        return null;
-
-      case FirmaSimpleStatus.STATUS_FINAL_ERROR: // = -1;
-      {
-        System.err.println("Error durant la realització de les firmes: "
-            + transactionStatus.getErrorMessage());
-        String desc = transactionStatus.getErrorStackTrace();
-        if (desc != null) {
-          System.err.println(desc);
+        final String perfil = prop.getProperty(PROFILE_MIX_PADES_XADES_CADES);
+        if (perfil == null) {
+            logErrorPerfilBuit(PROFILE_MIX_PADES_XADES_CADES);
         }
-        return null;
-      }
+        {
+            FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
 
-      case FirmaSimpleStatus.STATUS_CANCELLED: // = -2;
-      {
-        System.err.println("S'ha cancel·lat el procés de firmat.");
-        return null;
-      }
+            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign);
 
-      case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
-      {
-        System.out.println(" ===== RESULTAT  =========");
-       
+            // Hauria de ser firma PADES
+            if (result != null) {
+                String currentType = result.getSignedFileInfo().getSignType();
+                if (!FirmaSimpleSignedFileInfo.SIGN_TYPE_PADES.equals(currentType)) {
+                    throw new Exception(
+                            "S'esperava una firma de tipus PADES" + " però s'ha rebut una de tipus " + currentType);
+                }
+            }
+        }
 
         {
-          System.out.println(" ---- Signature [ " + fullResults.getSignID() + " ]");
+            FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml", "text/xml");
 
-        
-              System.err.println("  RESULT: OK");
-              FirmaSimpleFile fsf = fullResults.getSignedFile();
-              FileOutputStream fos = new FileOutputStream(fsf.getNom());
-              fos.write(fsf.getData());
-              fos.flush();
-              fos.close();
-              System.out.println("  RESULT: Fitxer signat guardat en '" + fsf.getNom() + "'");
-              printSignatureInfo(fullResults);
+            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign);
 
-              return fullResults;
+            // Hauria de ser firma PADES
+            if (result != null) {
+                String currentType = result.getSignedFileInfo().getSignType();
+                if (!FirmaSimpleSignedFileInfo.SIGN_TYPE_XADES.equals(currentType)) {
+                    throw new Exception(
+                            "S'esperava una firma de tipus XADES" + " però s'ha rebut una de tipus " + currentType);
+                }
+            }
+        }
 
-          
+        {
+            FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
 
-        } // Final for de fitxers firmats
-      } // Final Case Firma OK
-    } // Final Switch Firma
+            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign);
 
-    return null;
-  }
-
-  @Test
-  public void testUpgradeSignatureCAdES() throws Exception, FileNotFoundException, IOException {
-
-    FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("foto.jpg_cades_detached.csig",
-        "application/octet-stream");
-
-    FirmaSimpleFile documentDetached = getSimpleFileFromResource("foto.jpg",
-        "application/octet-stream");
-
-    internalFullTestUpgrade(PROFILE_CADES_PROPERTY, fileToUpgrade, documentDetached,
-        "foto.jpg_cades_detached-upgraded.csig");
-
-  }
-
-  @Test
-  public void testUpgradeSignaturePAdES() throws Exception, FileNotFoundException, IOException {
-
-    FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("hola_signed.pdf",
-        "application/pdf");
-
-    internalFullTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, null,
-        "hola-signed-upgraded.pdf");
-
-  }
-
-  @Test
-  public void testUpgradeSignatureXAdESOfBinary() throws Exception, FileNotFoundException,
-      IOException {
-
-    FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource(
-        "foto_xades_attached_firmat.xsig", "application/xml");
-
-    FirmaSimpleFile documentDetached = getSimpleFileFromResource("foto.jpg",
-        "application/octet-stream");
-
-    internalFullTestUpgrade(PROFILE_XADES_PROPERTY, fileToUpgrade, documentDetached,
-        "foto_xades_attached_firmat_upgraded.xsig");
-  }
-
-  @Test
-  public void testUpgradeSignatureXAdESOfXML() throws Exception, FileNotFoundException,
-      IOException {
-
-    FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("sample.xml_signed.xsig",
-        "application/xml");
-
-    FirmaSimpleFile documentDetached = getSimpleFileFromResource("sample.xml", "application/xml");
-
-    internalFullTestUpgrade(PROFILE_XADES_PROPERTY, fileToUpgrade, documentDetached,
-        "sample.xml_signed_upgraded.xsig");
-  }
-
-  private static void guardarFitxer(FirmaSimpleFile upgraded, String fileName)
-      throws FileNotFoundException, IOException {
-    File parent = new File("results");
-    parent.mkdirs();
-
-    File f = new File(parent, fileName);
-    FileOutputStream fos = new FileOutputStream(f);
-    fos.write(upgraded.getData());
-    fos.flush();
-    fos.close();
-
-    System.out.println("Guardat " + fileName);
-  }
-
-  public static void printSignatureInfo(FirmaSimpleSignatureResult fssr) {
-    System.out.println(FirmaSimpleSignedFileInfo.toString(fssr.getSignedFileInfo()));
-  }
-
-  public static void printSignatureInfo(FirmaSimpleUpgradeResponse fssr) {
-    System.out.println(FirmaSimpleUpgradedFileInfo.toString(fssr.getUpgradedFileInfo()));
-  }
-
-  /**
-   * 
-   * @return
-   * @throws Exception
-   */
-  public static ApiFirmaEnServidorSimple getApiFirmaEnServidorSimple() throws Exception {
-
-    Properties prop = getConfigProperties();
-
-    return getApiFirmaEnServidorSimple(prop);
-
-  }
-
-  /**
-   * 
-   * @return
-   * @throws Exception
-   */
-  public static ApiFirmaEnServidorSimple getApiFirmaEnServidorSimple(Properties prop)
-      throws Exception {
-
-    return new ApiFirmaEnServidorSimpleJersey(prop.getProperty("endpoint"),
-        prop.getProperty("username"), prop.getProperty("password"));
-
-  }
-
-  /**
-   * 
-   * @param fileName
-   * @param mime
-   * @return
-   * @throws Exception
-   */
-  public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String mime)
-      throws Exception {
-
-    InputStream is = FileUtils.readResource(ApiFirmaEnServidorSimpleTester.class, "testfiles/"
-        + fileName);
-    File tmp = File.createTempFile("testFile", fileName);
-    tmp.deleteOnExit();
-    ByteArrayOutputStream fos = new ByteArrayOutputStream();
-
-    FileUtils.copy(is, fos);
-
-    FirmaSimpleFile asf = new FirmaSimpleFile(fileName, mime, fos.toByteArray());
-
-    return asf;
-
-  }
-
-  protected void internalFullTestUpgrade(final String perfilProperty,
-      FirmaSimpleFile fileToUpgrade, FirmaSimpleFile documentDetached, String upgradedFileName)
-      throws IOException, FileNotFoundException, Exception {
-    FirmaSimpleUpgradeResponse upgradeResponse = internalTestUpgrade(perfilProperty,
-        fileToUpgrade, documentDetached);
-
-    FirmaSimpleFile upgraded = upgradeResponse.getUpgradedFile();
-
-    guardarFitxer(upgraded, upgradedFileName);
-  }
-
-  protected FirmaSimpleUpgradeResponse internalTestUpgrade(final String perfilProperty,
-      FirmaSimpleFile fileToUpgrade, FirmaSimpleFile documentDetached) throws IOException,
-      FileNotFoundException, Exception {
-    final String language = "ca";
-
-    Properties prop = getConfigProperties();
-
-    ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
-
-    final String perfil = prop.getProperty(perfilProperty);
-
-    if (perfil == null) {
-      logErrorPerfilBuit(perfilProperty);
+            // Hauria de ser firma PADES
+            if (result != null) {
+                String currentType = result.getSignedFileInfo().getSignType();
+                if (!FirmaSimpleSignedFileInfo.SIGN_TYPE_CADES.equals(currentType)) {
+                    throw new Exception(
+                            "S'esperava una firma de tipus CADES" + " però s'ha rebut una de tipus " + currentType);
+                }
+            }
+        }
     }
 
-    FirmaSimpleUpgradeResponse upgradeResponse = api
-        .upgradeSignature(new FirmaSimpleUpgradeRequest(perfil, fileToUpgrade,
-            documentDetached, null, language));
+    @Test
+    public void testSignatureServerCAdES() throws Exception, FileNotFoundException, IOException {
 
-    printSignatureInfo(upgradeResponse);
-    return upgradeResponse;
-  }
+        Properties prop = getConfigProperties();
 
-  protected void logErrorPerfilBuit(final String perfilProperty) {
-    System.err
-        .println("La propietat "
-            + perfilProperty
-            + " està buida. Això significa que si l'usuari aplicacio té més d'un perfil assignat, llavors llançarà un error.");
-  }
+        ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
+
+        final String perfil = prop.getProperty(PROFILE_CADES_PROPERTY);
+        if (perfil == null) {
+            logErrorPerfilBuit(PROFILE_CADES_PROPERTY);
+        }
+
+        FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
+
+        internalSignDocument(api, perfil, fileToSign);
+    }
+
+    @Test
+    public void testSignatureServerXAdESBinary() throws Exception, FileNotFoundException, IOException {
+
+        Properties prop = getConfigProperties();
+
+        ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
+
+        final String perfil = prop.getProperty(PROFILE_XADES_PROPERTY);
+        if (perfil == null) {
+            logErrorPerfilBuit(PROFILE_XADES_PROPERTY);
+        }
+
+        FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
+
+        internalSignDocument(api, perfil, fileToSign);
+    }
+
+    @Test
+    public void testSignatureServerXAdESXml() throws Exception, FileNotFoundException, IOException {
+
+        Properties prop = getConfigProperties();
+
+        ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
+
+        final String perfil = prop.getProperty(PROFILE_XADES_PROPERTY);
+        if (perfil == null) {
+            logErrorPerfilBuit(PROFILE_XADES_PROPERTY);
+        }
+
+        FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml", "text/xml");
+
+        internalSignDocument(api, perfil, fileToSign);
+    }
+
+    protected FirmaSimpleSignatureResult internalSignDocument(ApiFirmaEnServidorSimple api, final String perfil,
+            FirmaSimpleFile fileToSign) throws Exception, FileNotFoundException, IOException {
+        String signID = "1";
+        String name = fileToSign.getNom();
+        String reason = "Per aprovar pressuposts";
+        String location = "Palma";
+
+        int signNumber = 1;
+        String languageSign = "ca";
+        long tipusDocumentalID = 99; // =TD99
+
+        FirmaSimpleFileInfoSignature fileInfoSignature = new FirmaSimpleFileInfoSignature(fileToSign, signID, name,
+                reason, location, signNumber, languageSign, tipusDocumentalID);
+
+        String languageUI = "ca";
+        // Es la configuració del Servidor (deixam el valor per defecte)
+        String username = null; // "anadal"; 
+        String administrationID = null;
+        String signerEmail = null;
+
+        FirmaSimpleCommonInfo commonInfo;
+        commonInfo = new FirmaSimpleCommonInfo(perfil, languageUI, username, administrationID, signerEmail);
+
+        System.out.println("languageUI = |" + languageUI + "|");
+
+        FirmaSimpleSignDocumentRequest signature;
+        signature = new FirmaSimpleSignDocumentRequest(commonInfo, fileInfoSignature);
+
+        FirmaSimpleSignatureResult fullResults = api.signDocument(signature);
+
+        FirmaSimpleStatus transactionStatus = fullResults.getStatus();
+
+        int status = transactionStatus.getStatus();
+
+        switch (status) {
+
+            case FirmaSimpleStatus.STATUS_INITIALIZING: // = 0;
+                System.err.println("Initializing ...Unknown Error (???)");
+                return null;
+
+            case FirmaSimpleStatus.STATUS_IN_PROGRESS: // = 1;
+                System.err.println("In PROGRESS ... Unknown Error (????) ");
+                return null;
+
+            case FirmaSimpleStatus.STATUS_FINAL_ERROR: // = -1;
+            {
+                System.err.println("Error durant la realització de les firmes: " + transactionStatus.getErrorMessage());
+                String desc = transactionStatus.getErrorStackTrace();
+                if (desc != null) {
+                    System.err.println(desc);
+                }
+                return null;
+            }
+
+            case FirmaSimpleStatus.STATUS_CANCELLED: // = -2;
+            {
+                System.err.println("S'ha cancel·lat el procés de firmat.");
+                return null;
+            }
+
+            case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
+            {
+                System.out.println(" ===== RESULTAT  =========");
+
+                {
+                    System.out.println(" ---- Signature [ " + fullResults.getSignID() + " ]");
+
+                    System.err.println("  RESULT: OK");
+                    FirmaSimpleFile fsf = fullResults.getSignedFile();
+                    FileOutputStream fos = new FileOutputStream(fsf.getNom());
+                    fos.write(fsf.getData());
+                    fos.flush();
+                    fos.close();
+                    System.out.println("  RESULT: Fitxer signat guardat en '" + fsf.getNom() + "'");
+                    printSignatureInfo(fullResults);
+
+                    return fullResults;
+
+                } // Final for de fitxers firmats
+            } // Final Case Firma OK
+        } // Final Switch Firma
+
+        return null;
+    }
+
+    @Test
+    public void testUpgradeSignatureCAdES() throws Exception, FileNotFoundException, IOException {
+
+        FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("foto.jpg_cades_detached.csig",
+                "application/octet-stream");
+
+        FirmaSimpleFile documentDetached = getSimpleFileFromResource("foto.jpg", "application/octet-stream");
+
+        internalFullTestUpgrade(PROFILE_CADES_PROPERTY, fileToUpgrade, documentDetached,
+                "foto.jpg_cades_detached-upgraded.csig");
+
+    }
+
+    @Test
+    public void testUpgradeSignaturePAdES() throws Exception, FileNotFoundException, IOException {
+
+        FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("hola_signed.pdf", "application/pdf");
+
+        internalFullTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, null, "hola-signed-upgraded.pdf");
+
+    }
+
+    @Test
+    public void testUpgradeSignatureXAdESOfBinary() throws Exception, FileNotFoundException, IOException {
+
+        FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("foto_xades_attached_firmat.xsig", "application/xml");
+
+        FirmaSimpleFile documentDetached = getSimpleFileFromResource("foto.jpg", "application/octet-stream");
+
+        internalFullTestUpgrade(PROFILE_XADES_PROPERTY, fileToUpgrade, documentDetached,
+                "foto_xades_attached_firmat_upgraded.xsig");
+    }
+
+    @Test
+    public void testUpgradeSignatureXAdESOfXML() throws Exception, FileNotFoundException, IOException {
+
+        FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("sample.xml_signed.xsig", "application/xml");
+
+        FirmaSimpleFile documentDetached = getSimpleFileFromResource("sample.xml", "application/xml");
+
+        internalFullTestUpgrade(PROFILE_XADES_PROPERTY, fileToUpgrade, documentDetached,
+                "sample.xml_signed_upgraded.xsig");
+    }
+
+    private static void guardarFitxer(FirmaSimpleFile upgraded, String fileName)
+            throws FileNotFoundException, IOException {
+        File parent = new File("results");
+        parent.mkdirs();
+
+        File f = new File(parent, fileName);
+        FileOutputStream fos = new FileOutputStream(f);
+        fos.write(upgraded.getData());
+        fos.flush();
+        fos.close();
+
+        System.out.println("Guardat " + fileName);
+    }
+
+    public static void printSignatureInfo(FirmaSimpleSignatureResult fssr) {
+        System.out.println(FirmaSimpleSignedFileInfo.toString(fssr.getSignedFileInfo()));
+    }
+
+    public static void printSignatureInfo(FirmaSimpleUpgradeResponse fssr) {
+        System.out.println(FirmaSimpleUpgradedFileInfo.toString(fssr.getUpgradedFileInfo()));
+    }
+
+    /**
+     * 
+     * @return
+     * @throws Exception
+     */
+    public static ApiFirmaEnServidorSimple getApiFirmaEnServidorSimple() throws Exception {
+
+        Properties prop = getConfigProperties();
+
+        return getApiFirmaEnServidorSimple(prop);
+
+    }
+
+    /**
+     * 
+     * @return
+     * @throws Exception
+     */
+    public static ApiFirmaEnServidorSimple getApiFirmaEnServidorSimple(Properties prop) throws Exception {
+
+        ApiFirmaEnServidorSimpleJersey api;
+        api = new ApiFirmaEnServidorSimpleJersey(prop.getProperty("endpoint"), prop.getProperty("username"),
+                prop.getProperty("password"));
+
+        return api;
+
+    }
+
+    /**
+     * 
+     * @param fileName
+     * @param mime
+     * @return
+     * @throws Exception
+     */
+    public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String mime) throws Exception {
+
+        InputStream is = FileUtils.readResource(ApiFirmaEnServidorSimpleTester.class, "testfiles/" + fileName);
+        File tmp = File.createTempFile("testFile", fileName);
+        tmp.deleteOnExit();
+        ByteArrayOutputStream fos = new ByteArrayOutputStream();
+
+        FileUtils.copy(is, fos);
+
+        FirmaSimpleFile asf = new FirmaSimpleFile(fileName, mime, fos.toByteArray());
+
+        return asf;
+
+    }
+
+    protected void internalFullTestUpgrade(final String perfilProperty, FirmaSimpleFile fileToUpgrade,
+            FirmaSimpleFile documentDetached, String upgradedFileName)
+            throws IOException, FileNotFoundException, Exception {
+        FirmaSimpleUpgradeResponse upgradeResponse = internalTestUpgrade(perfilProperty, fileToUpgrade,
+                documentDetached);
+
+        FirmaSimpleFile upgraded = upgradeResponse.getUpgradedFile();
+
+        guardarFitxer(upgraded, upgradedFileName);
+    }
+
+    protected FirmaSimpleUpgradeResponse internalTestUpgrade(final String perfilProperty, FirmaSimpleFile fileToUpgrade,
+            FirmaSimpleFile documentDetached) throws IOException, FileNotFoundException, Exception {
+        final String language = "ca";
+
+        Properties prop = getConfigProperties();
+
+        ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
+
+        final String perfil = prop.getProperty(perfilProperty);
+
+        if (perfil == null) {
+            logErrorPerfilBuit(perfilProperty);
+        }
+
+        FirmaSimpleUpgradeResponse upgradeResponse = api.upgradeSignature(
+                new FirmaSimpleUpgradeRequest(perfil, fileToUpgrade, documentDetached, null, language));
+
+        printSignatureInfo(upgradeResponse);
+        return upgradeResponse;
+    }
+
+    protected void logErrorPerfilBuit(final String perfilProperty) {
+        System.err.println("La propietat " + perfilProperty
+                + " està buida. Això significa que si l'usuari aplicacio té més d'un perfil assignat, llavors llançarà un error.");
+    }
 
 }

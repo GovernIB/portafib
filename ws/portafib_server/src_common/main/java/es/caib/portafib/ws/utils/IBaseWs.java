@@ -9,11 +9,10 @@ import javax.jws.WebMethod;
  */
 public interface IBaseWs {
 
-  @WebMethod
-  public String getVersion();
+    @WebMethod
+    public String getVersion();
 
-
-  @WebMethod
-  public int getVersionWs();
+    @WebMethod
+    public int getVersionWs();
 
 }

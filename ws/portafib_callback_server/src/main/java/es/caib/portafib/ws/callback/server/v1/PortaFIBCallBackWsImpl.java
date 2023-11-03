@@ -3,6 +3,7 @@ package es.caib.portafib.ws.callback.server.v1;
 
 import es.caib.portafib.callback.beans.v1.PortaFIBEvent;
 import es.caib.portafib.callback.beans.v1.tester.PortaFIBEventStore;
+import es.caib.portafib.commons.utils.RootWs;
 import es.caib.portafib.ws.utils.VersionsWs;
 import org.apache.log4j.Logger;
 import org.jboss.ws.api.annotation.TransportGuarantee;
@@ -27,7 +28,7 @@ import javax.jws.soap.SOAPBinding;
              targetNamespace="http://v1.server.callback.ws.portafib.caib.es/",
              endpointInterface = "es.caib.portafib.ws.callback.server.v1." + PortaFIBCallBackWsImpl.NAME_WS
              )
-@WebContext(contextRoot = "/portafib/cb", urlPattern = "/v1/" + PortaFIBCallBackWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false)
+@WebContext(contextRoot = RootWs.ROOT + "/cb", urlPattern = "/v1/" + PortaFIBCallBackWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false)
 public class PortaFIBCallBackWsImpl implements PortaFIBCallBackWs {
 
   public static final String NAME = "PortaFIBCallBack";

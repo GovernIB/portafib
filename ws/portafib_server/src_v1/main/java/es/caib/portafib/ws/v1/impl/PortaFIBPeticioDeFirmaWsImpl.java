@@ -1,5 +1,6 @@
 package es.caib.portafib.ws.v1.impl;
 
+import es.caib.portafib.commons.utils.RootWs;
 import es.caib.portafib.ejb.TipusDocumentService;
 import es.caib.portafib.persistence.FitxerJPA;
 import es.caib.portafib.persistence.FluxDeFirmesJPA;
@@ -22,6 +23,7 @@ import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
+
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 import es.caib.portafib.ws.v1.utils.AuthenticatedBaseV1WsImpl;
 import es.caib.portafib.ws.v1.utils.JPAConversion;
@@ -75,7 +77,7 @@ import java.util.Set;
     portName = PortaFIBPeticioDeFirmaWsImpl.NAME_WS,
     serviceName = PortaFIBPeticioDeFirmaWsImpl.NAME_WS + "Service",
     endpointInterface = "es.caib.portafib.ws.v1.impl." + PortaFIBPeticioDeFirmaWsImpl.NAME_WS)
-@WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
+@WebContext(contextRoot = RootWs.ROOT + "/ws", urlPattern = "/v1/"
     + PortaFIBPeticioDeFirmaWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "BASIC")
 public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl implements PortaFIBPeticioDeFirmaWs {
   

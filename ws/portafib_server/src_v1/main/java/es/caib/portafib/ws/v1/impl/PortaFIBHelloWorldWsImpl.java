@@ -9,6 +9,7 @@ import javax.jws.soap.SOAPBinding;
 import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;
 
+import es.caib.portafib.commons.utils.RootWs;
 import es.caib.portafib.ws.v1.utils.BaseV1WsImpl;
 
 /**
@@ -27,7 +28,7 @@ import es.caib.portafib.ws.v1.utils.BaseV1WsImpl;
 )
 @WebContext
 (
-    contextRoot="/portafib/ws",
+    contextRoot= RootWs.ROOT + "/ws",
     urlPattern="/v1/" + PortaFIBHelloWorldWsImpl.NAME,    
     transportGuarantee= TransportGuarantee.NONE,
     secureWSDLAccess = false

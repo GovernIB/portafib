@@ -26,12 +26,14 @@ import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;
 
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
+import es.caib.portafib.commons.utils.RootWs;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
+
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 import es.caib.portafib.ws.v1.utils.PassarelaConversion;
 
@@ -50,7 +52,7 @@ import es.caib.portafib.ws.v1.utils.PassarelaConversion;
 @WebService(name = PortaFIBPassarelaDeFirmaWebWsImpl.NAME_WS, portName = PortaFIBPassarelaDeFirmaWebWsImpl.NAME_WS, serviceName = PortaFIBPassarelaDeFirmaWebWsImpl.NAME_WS
     + "Service", endpointInterface = "es.caib.portafib.ws.v1.impl."
     + PortaFIBPassarelaDeFirmaWebWsImpl.NAME_WS)
-@WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
+@WebContext(contextRoot = RootWs.ROOT + "/ws", urlPattern = "/v1/"
     + PortaFIBPassarelaDeFirmaWebWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "BASIC")
 public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarelaDeFirmaWsImpl
     implements PortaFIBPassarelaDeFirmaWebWs, Constants {

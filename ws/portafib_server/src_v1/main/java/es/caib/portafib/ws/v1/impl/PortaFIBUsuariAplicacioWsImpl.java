@@ -2,11 +2,13 @@ package es.caib.portafib.ws.v1.impl;
 
 import es.caib.portafib.persistence.FitxerJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
+import es.caib.portafib.commons.utils.RootWs;
 import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.Constants;
+
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 import es.caib.portafib.ws.v1.utils.AuthenticatedBaseV1WsImpl;
 import es.caib.portafib.ws.v1.utils.JPAConversion;
@@ -51,7 +53,7 @@ import java.util.Set;
             portName = PortaFIBUsuariAplicacioWsImpl.NAME_WS,
             serviceName = PortaFIBUsuariAplicacioWsImpl.NAME_WS + "Service",
             endpointInterface = "es.caib.portafib.ws.v1.impl." + PortaFIBUsuariAplicacioWsImpl.NAME_WS)
-@WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
+@WebContext(contextRoot = RootWs.ROOT + "/ws", urlPattern = "/v1/"
     + PortaFIBUsuariAplicacioWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "BASIC")
 public class PortaFIBUsuariAplicacioWsImpl extends AuthenticatedBaseV1WsImpl 
   implements PortaFIBUsuariAplicacioWs {

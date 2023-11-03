@@ -4,6 +4,7 @@ import es.caib.portafib.persistence.FitxerJPA;
 import es.caib.portafib.persistence.RoleUsuariEntitatJPA;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.persistence.UsuariPersonaJPA;
+import es.caib.portafib.commons.utils.RootWs;
 import es.caib.portafib.logic.RoleUsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
@@ -62,7 +63,7 @@ import java.util.Set;
             portName = PortaFIBUsuariEntitatWsImpl.NAME_WS,
             serviceName = PortaFIBUsuariEntitatWsImpl.NAME_WS + "Service",
             endpointInterface = "es.caib.portafib.ws.v1.impl." + PortaFIBUsuariEntitatWsImpl.NAME_WS)
-@WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
+@WebContext(contextRoot = RootWs.ROOT + "/ws", urlPattern = "/v1/"
     + PortaFIBUsuariEntitatWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "BASIC")
 public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl implements PortaFIBUsuariEntitatWs {
 

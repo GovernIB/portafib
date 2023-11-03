@@ -7,6 +7,8 @@ import javax.jws.soap.SOAPBinding;
 
 import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;
+
+import es.caib.portafib.commons.utils.RootWs;
 /**
  * 
  * @author anadal
@@ -23,7 +25,7 @@ import org.jboss.ws.api.annotation.WebContext;
 )
 @WebContext
 (
-    contextRoot="/portafib/portafirmasws/web/services",
+    contextRoot=RootWs.ROOT + "/portafirmasws/web/services",
     urlPattern="/HelloWorldIndra",
     transportGuarantee= TransportGuarantee.NONE,
     secureWSDLAccess = false    
