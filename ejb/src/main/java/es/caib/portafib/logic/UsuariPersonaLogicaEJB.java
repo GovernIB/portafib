@@ -150,12 +150,12 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
 
     // 2.- Comparar usuaripersona amb usuari del plugin de info (login)  
     // Llançarà errors si el nif no és correcte
-    UserInfo userInfo = checkAdministrationIDInUserInformationPlugin(usuariPersonaJPA.getNif());
+    UserInfo userInfo = checkUsernameInUserInformationPlugin(usuariPersonaJPA.getUsuariPersonaID());
 
     // Comparar username
-    if (!usuariPersonaJPA.getUsuariPersonaID().equals(userInfo.getUsername())) {
+    if (!usuariPersonaJPA.getNif().equals(userInfo.getAdministrationID())) {
       list.add(
-        new I18NFieldError(USUARIPERSONAID,
+        new I18NFieldError(NIF,
           new I18NTranslation("usuaripersona.iddiferentdeplugin",
               usuariPersonaJPA.getUsuariPersonaID(), userInfo.getUsername())
       ));
@@ -176,6 +176,9 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
     return super.create(instance);
   }
 
+  
+  
+ 
   /**
    * Obtenim la informació de l'usuari del sistema d'autenticació.
    */
@@ -183,6 +186,7 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
   public UserInfo checkAdministrationIDInUserInformationPlugin(String nif) throws I18NException {
     // Obtenim la informació de l'usuari del sistema d'autenticació.
     IUserInformationPlugin userInfoPlugin = PortaFIBPluginsManager.getUserInformationPluginInstance();
+    
     UserInfo pfui;
     try {
       pfui = userInfoPlugin.getUserInfoByAdministrationID(nif);  
