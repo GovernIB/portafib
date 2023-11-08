@@ -90,8 +90,8 @@
 			</c:forEach>
 
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
-				<li class="nav-item ${(pipella eq 'ROLE_ADEN')?'active' : '' }">
-					<a class="nav-link " href="<c:url value="/canviarPipella/webdb"/>">
+				<li class="nav-item ${(pipella eq 'webdb')?'active' : '' }">
+					<a class="nav-link ${(pipella eq 'webdb')?'active' : '' }" href="<c:url value="/canviarPipella/webdb"/>">
 						WebDatabase</a>
 				</li>
 			</sec:authorize>
@@ -99,7 +99,7 @@
 			<c:if test="${pfi:isDesenvolupament()}">
 				<li
 					class="nav-item ${(pipella eq 'desenvolupament')?'active' : '' }">
-					<a class="nav-link "
+					<a class="nav-link ${(pipella eq 'desenvolupament')?'active' : '' }"
 					href="<c:url value="/canviarPipella/desenvolupament"/>">
 						Desenvolupament</a>
 				</li>

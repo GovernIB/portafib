@@ -59,7 +59,7 @@
             </c:forEach>
          </form:select>
          
-         <button onclick="mostrarFlux('peticioDeFirmaID');" type="button" class="btn"><i class="fas fa-eye"></i></button>
+         <button onclick="mostrarFlux('peticioDeFirmaID');" type="button" class="btn btn-info"><i class="fas fa-eye"></i></button>
       </td>
   </tr>
   <tr>
@@ -78,7 +78,7 @@
 </table>
 
 <div class="navbar-form pagination-centered" style="margin-top: 15px;">
-  <button class="btn btn-primary" type="submit" class="btn"><fmt:message key="peticioFirmaMassiva.boto"/></button>
+  <button class="btn btn-primary" type="submit" class="btn btn-primary"><fmt:message key="peticioFirmaMassiva.boto"/></button>
 </div>
 
 <script type="text/javascript">

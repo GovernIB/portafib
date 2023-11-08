@@ -199,16 +199,16 @@ public class ProcessarEstatsCheckoutController extends EstatDeFirmaController {
 
             String accio;
             if (carret.getEstatsFirmar().contains(estatDeFirmaId)) {
-                accio = "<button type=\"button\" class=\"btn btn-small btn-success\" disabled=\"disabled\">" +
+                accio = "<button type=\"button\" class=\"btn btn-sm btn-success\" disabled=\"disabled\">" +
                         I18NUtils.tradueix("carret.processar.accio.firmar") +
                         "</button>";
             } else if (carret.getEstatsRebuig().containsKey(estatDeFirmaId)) {
                 String motiu = carret.getEstatsRebuig().get(estatDeFirmaId);
-                accio = "<button type=\"button\" class=\"btn btn-small btn-danger\" disabled=\"disabled\">" +
+                accio = "<button type=\"button\" class=\"btn btn-sm btn-danger\" disabled=\"disabled\">" +
                         I18NUtils.tradueix("carret.processar.accio.rebutjar", motiu) +
                         "</button>";
             } else {
-                accio = "<button type=\"button\" class=\"btn btn-small btn-warning\" disabled=\"disabled\">" +
+                accio = "<button type=\"button\" class=\"btn btn-sm btn-warning\" disabled=\"disabled\">" +
                         I18NUtils.tradueix("carret.processar.accio.ignorar") +
                         "</button>";
             }

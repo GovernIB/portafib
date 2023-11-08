@@ -26,16 +26,16 @@
                 
                 <br />
                 
-                <a class="btn btn-success" href="#" onclick="goTo('<c:url value="${contexte}/processar/afegirFirmar"/>')">
-                  <i class="fas fa-file-signature"></i>"></i> <fmt:message key="carret.processar.firmar" /> </a>   
+                <a class="btn btn-sm btn-success" href="#" onclick="goTo('<c:url value="${contexte}/processar/afegirFirmar"/>')">
+                  <i class="fas fa-file-signature"></i> <fmt:message key="carret.processar.firmar" /> </a>   
 
-                <a class="btn btn-warning" href="#" onclick="goTo('<c:url value="${contexte}/processar/ignorar"/>')">
+                <a class="btn btn-sm btn-warning" href="#" onclick="goTo('<c:url value="${contexte}/processar/ignorar"/>')">
                   <i class="far fa-edit"></i> <fmt:message key="carret.processar.ignorar" /> </a>   
                              
-                <a class="btn btn-danger" href="#" onclick="rebutjar('<c:url value="${contexte}/processar/afegirRebutjar"/>')">
+                <a class="btn btn-sm btn-danger" href="#" onclick="rebutjar('<c:url value="${contexte}/processar/afegirRebutjar"/>')">
                   <i class="fas fa-times"></i> <fmt:message key="carret.processar.rebutjar" /> </a>            
                                 
-                <a class="btn" href="#" onclick="goTo('<c:url value="${contexte}/processar/cancelar"/>')">
+                <a class="btn btn-sm btn-secondary" href="#" onclick="goTo('<c:url value="${contexte}/processar/cancelar"/>')">
                   <i class="fas fa-power-off"></i> <fmt:message key="carret.processar.cancelar" /> </a>
 
             </c:when>     

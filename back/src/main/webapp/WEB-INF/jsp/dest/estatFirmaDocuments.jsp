@@ -66,7 +66,7 @@
                       <c:url var="validatingUrl" value="${contexte}/fullView/${estatID}/${peticioID}">
                         <c:param name="validar" value="1"/>
                       </c:url>
-                      <a class="btn btn-small btn-warning" href="#" onclick="goTo('${validatingUrl}')">
+                      <a class="btn btn-sm btn-warning" href="#" onclick="goTo('${validatingUrl}')">
                          <i class="far fa-check-square"></i> <fmt:message key="validar" /> </a>
                    </c:when>
                    <c:otherwise>

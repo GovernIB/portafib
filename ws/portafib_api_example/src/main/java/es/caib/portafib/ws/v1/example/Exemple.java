@@ -65,6 +65,7 @@ public class Exemple {
       System.out.println(" Connectant amb " + testProperties.getProperty("test_host")
           + " emprant l'usuari " + usr_app);
       
+
       String[] nifsDestinataris = getNifsDestinataris();
 
       System.out.println("nifsDestinataris = " + Arrays.toString(nifsDestinataris));
@@ -110,6 +111,8 @@ public class Exemple {
 
       log.info("Versio " + api.getVersion());
       log.info("Idiomes:" + Arrays.toString(api.getSupportedLanguages().toArray()));
+      
+      if (true) return;
 
       final String titol = "Peticio de Test amb Custodia - "
          + ((System.currentTimeMillis() / 1000 ) % 100000);

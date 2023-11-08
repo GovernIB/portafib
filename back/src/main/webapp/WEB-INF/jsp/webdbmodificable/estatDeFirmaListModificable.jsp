@@ -86,7 +86,7 @@
     <c:if test="${ estatDeFirmaFilterForm.visibleMultipleSelection}">
 
      <%--  Boto de PROCESSAR --%>
-     var botoProcessar = '<button type="button" class="btn btn-small btn-warning" onclick="processarInici()">'
+     var botoProcessar = '<button type="button" class="btn btn-sm btn-warning" onclick="processarInici()">'
          + '<i class="fas fa-tasks"></i><fmt:message key="carret.processar.inici" />'
          + '</button>';
 
@@ -98,7 +98,7 @@
      }
 
      <%--  Boto de FIRMA MULTIPLE --%>
-     var botoFirmaMultiple = '<button type="button" class="btn btn-small btn-success" onclick="firmarseleccionats()">'
+     var botoFirmaMultiple = '<button type="button" class="btn btn-sm btn-success" onclick="firmarseleccionats()">'
          + '<i class="fas fa-file-signature"></i><fmt:message key="firmarseleccionats" />'
          + '</button>';
 
@@ -110,7 +110,7 @@
      }
 
      <%--  Boto de REBUIG MULTIPLE --%>
-     var botoRebuigMultiple = '<button type="button" class="btn btn-small btn-danger" onclick="rebutjarseleccionats()">'
+     var botoRebuigMultiple = '<button type="button" class="btn btn-sm btn-danger" onclick="rebutjarseleccionats()">'
      + '<i class="fas fa-times"></i><fmt:message key="rebutjarseleccionats" />'
      + '</button>'
    

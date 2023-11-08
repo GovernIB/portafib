@@ -138,7 +138,7 @@
 						+ '</p>'
 						+ '</div>'
 						+ '<div class="modal-footer">'
-						+ '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+						+ '<button class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 						+ traduccions.type['boto.cancelar']
 						+ '</button>'
 						+ '<button class="btn btn-danger" type="button" onclick="'

@@ -90,7 +90,7 @@
         </form:select>
     </td>
     <td>
-      <button id="fluxUsuariView" onclick="mostrarFlux('fluxPlantillaUsuari')" type="button" class="btn"><i class="fas fa-eye"></i></button>
+      <button id="fluxUsuariView" onclick="mostrarFlux('fluxPlantillaUsuari')" type="button" class="btn btn-info"><i class="fas fa-eye"></i></button>
     </td>
   </tr>
 </tbody>
@@ -115,7 +115,7 @@
         </form:select>
     </td>
     <td>
-      <button id="fluxSharedView" onclick="mostrarFlux('fluxPlantillaPersonaCompartit')" type="button" class="btn"><i class="fas fa-eye"></i></button>
+      <button id="fluxSharedView" onclick="mostrarFlux('fluxPlantillaPersonaCompartit')" type="button" class="btn btn-info"><i class="fas fa-eye"></i></button>
     </td>
   </tr>
 </tbody>
@@ -140,7 +140,7 @@
         </form:select>
     </td>
     <td>
-      <button id="fluxAplicacioView" onclick="mostrarFlux('fluxPlantillaAplicacioCompartit')" type="button" class="btn"><i class="fas fa-eye"></i></button>
+      <button id="fluxAplicacioView" onclick="mostrarFlux('fluxPlantillaAplicacioCompartit')" type="button" class="btn btn-info"><i class="fas fa-eye"></i></button>
     </td>
   </tr>
 </tbody>
@@ -148,7 +148,7 @@
 </c:if>
 
 <c:if test="${seleccioFluxDeFirmesForm.tipus != -1}">
-<center><button class="btn btn-primary" type="button" onclick="preSubmit()"  class="btn"><fmt:message key="acceptar"/></button></center>
+<center><button class="btn btn-primary" type="button" onclick="preSubmit()"  class="btn btn-primary"><fmt:message key="acceptar"/></button></center>
 </c:if>
 <script type="text/javascript">
 

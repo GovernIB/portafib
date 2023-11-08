@@ -46,8 +46,8 @@
 </tbody>
 </table>  
 
-<button class="btn btn-primary" type="button" onclick="preSubmit()" class="btn"><fmt:message key="acceptar"/></button>
-<button class="btn" type="button" onclick="goTo('<c:url value="${seleccioCarrecForm.cancelUrl}"/>')"><fmt:message key="genapp.cancel"/></button>
+<button class="btn btn-primary" type="button" onclick="preSubmit()" ><fmt:message key="acceptar"/></button>
+<button class="btn btn-secondary" type="button" onclick="goTo('<c:url value="${seleccioCarrecForm.cancelUrl}"/>')"><fmt:message key="genapp.cancel"/></button>
 
 <script type="text/javascript">
 

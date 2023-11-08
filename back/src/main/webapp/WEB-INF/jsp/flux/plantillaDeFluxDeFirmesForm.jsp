@@ -189,7 +189,7 @@
             <%-- CASELLA DE INICI  --%>
             <tr style="padding:0px; margin: 0px;" align="center">
               <td colspan="2" style="padding:0px; margin: 0px">
-                  <button class="btn" type="button">
+                  <button class="btn btn-success" type="button">
                     <fmt:message key="inici" />
                   </button>
               </td>
@@ -524,7 +524,7 @@
             <c:out value="${blocseparator}" escapeXml="false" />
             <tr>
               <td colspan="2" style="text-align: center;">
-                  <button class="btn" type="button">
+                  <button class="btn btn-info" type="button">
                     <fmt:message key="final" />
                   </button>
               </td>

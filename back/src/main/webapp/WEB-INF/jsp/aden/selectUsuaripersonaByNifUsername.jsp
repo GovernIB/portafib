@@ -20,7 +20,7 @@
 </table>
 
 <div class="navbar-form pagination-centered">
-  <button class="btn btn-primary" type="submit" class="btn"><fmt:message key="genapp.continue"/></button>
-  <button class="btn" type="button" onclick="goTo('<c:url value="${seleccioNifForm.cancelUrl}"/>')"><fmt:message key="genapp.cancel"/></button>
+  <button class="btn btn-primary" type="submit" ><fmt:message key="genapp.continue"/></button>
+  <button class="btn btn-secondary" type="button" onclick="goTo('<c:url value="${seleccioNifForm.cancelUrl}"/>')"><fmt:message key="genapp.cancel"/></button>
 </div>
 </form:form>
