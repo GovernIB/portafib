@@ -20,51 +20,64 @@ import es.caib.portafib.model.entity.UsuariAplicacio;
  */
 public class UsuariAplicacioLogicValidator<T extends UsuariAplicacio> extends UsuariAplicacioValidator<T> {
 
-  @Override
-  public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
-      ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
-      ,es.caib.portafib.model.dao.IEntitatManager __entitatManager
-      ,es.caib.portafib.model.dao.IIdiomaManager __idiomaManager
-      ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager) {
+    @Override
+    public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__,
+            es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager,
+            es.caib.portafib.model.dao.IEntitatManager __entitatManager,
+            es.caib.portafib.model.dao.IIdiomaManager __idiomaManager,
+            es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager) {
 
-    log.debug(" BBBBBBBBBBBBB   Passa per UsuariAplicacioWebLogicValidator");
+        //log.debug(" BBBBBBBBBBBBB   Passa per UsuariAplicacioWebLogicValidator");
 
-    super.validate(__vr, __target__, __isNou__, __custodiaInfoManager ,__entitatManager, __idiomaManager, __usuariAplicacioManager);
+        super.validate(__vr, __target__, __isNou__, __custodiaInfoManager, __entitatManager, __idiomaManager,
+                __usuariAplicacioManager);
 
-    // Afegir per #520. Si la URL de callback no és obligatoria a nivell de base de dades cal comprovar
-    // que només pot ser buida quan s'ha especificat la versió "-1", no callback.
-    String callbackUrl = (String) __vr.getFieldValue(__target__, CALLBACKURL);
-    if (callbackUrl == null || callbackUrl.isEmpty()) {
-      String callbackVersionStr = (String) __vr.getFieldValue(__target__, CALLBACKVERSIO);
-      int callbackVersion = Integer.parseInt(callbackVersionStr);
-      if (callbackVersion != -1) {
-        __vr.rejectValue(CALLBACKURL, "usuariaplicacio.error.notecallback");
-      }
-    }
+        // Afegir per #520. Si la URL de callback no és obligatoria a nivell de base de dades cal comprovar
+        // que només pot ser buida quan s'ha especificat la versió "-1", no callback.
+        String callbackUrl = (String) __vr.getFieldValue(__target__, CALLBACKURL);
+        if (callbackUrl == null || callbackUrl.isEmpty()) {
 
-    if (__isNou__ && __vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
-      String userApp = (String)__vr.getFieldValue(__target__, USUARIAPLICACIOID);
+            Object obj = __vr.getFieldValue(__target__, CALLBACKVERSIO);
 
-      // Comprobar que aquest usuari està al sistema d'informació d'usuaris i que no és una persona.
-      try {
-        IUserInformationPlugin userInfoPlugin = PortaFIBPluginsManager.getUserInformationPluginInstance();
-        UserInfo userInfo = userInfoPlugin.getUserInfoByUserName(userApp);
-        String nif = userInfo.getAdministrationID();
-        if (nif != null && nif.trim().length() != 0) {
-          //usuariaplicacio.error.esusuaripersona=L´usuari aplicació {0} és un usuari persona amb NIF {1}
-          __vr.rejectValue(USUARIAPLICACIOID, "usuariaplicacio.error.esusuaripersona",
-              new I18NArgumentString(userApp), new I18NArgumentString(nif));
+            log.info("\n\n\n Validate CALLBACKVERSIO => " + obj + "   \n\n\n");
+            log.info("\n\n\n Validate CALLBACKVERSIO class => " + obj.getClass() + "   \n\n\n");
+
+            Class<?> objClass = obj.getClass();
+
+            int callbackVersion;
+            if (String.class.equals(objClass)) {
+                callbackVersion = Integer.parseInt((String) obj);
+            } else {
+                callbackVersion = (Integer) obj;
+            }
+            //int callbackVersion = Integer.parseInt(callbackVersionStr);
+            if (callbackVersion != -1) {
+                __vr.rejectValue(CALLBACKURL, "usuariaplicacio.error.notecallback");
+            }
         }
-      } catch(I18NException e) {
-        log.error(e.getMessage(), e);
-        I18NTranslation i18n = e.getTraduccio();
-        __vr.rejectValue(USUARIAPLICACIOID, i18n.getCode(), i18n.getArgs());
-      } catch(Exception e) {
-        log.error(e.getMessage(), e);
-        __vr.rejectValue(USUARIAPLICACIOID, "usuariaplicacio.usuarinoseycon",
-            new I18NArgumentString(userApp));
-      }
+
+        if (__isNou__ && __vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
+            String userApp = (String) __vr.getFieldValue(__target__, USUARIAPLICACIOID);
+
+            // Comprobar que aquest usuari està al sistema d'informació d'usuaris i que no és una persona.
+            try {
+                IUserInformationPlugin userInfoPlugin = PortaFIBPluginsManager.getUserInformationPluginInstance();
+                UserInfo userInfo = userInfoPlugin.getUserInfoByUserName(userApp);
+                String nif = userInfo.getAdministrationID();
+                if (nif != null && nif.trim().length() != 0) {
+                    //usuariaplicacio.error.esusuaripersona=L´usuari aplicació {0} és un usuari persona amb NIF {1}
+                    __vr.rejectValue(USUARIAPLICACIOID, "usuariaplicacio.error.esusuaripersona",
+                            new I18NArgumentString(userApp), new I18NArgumentString(nif));
+                }
+            } catch (I18NException e) {
+                log.error(e.getMessage(), e);
+                I18NTranslation i18n = e.getTraduccio();
+                __vr.rejectValue(USUARIAPLICACIOID, i18n.getCode(), i18n.getArgs());
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                __vr.rejectValue(USUARIAPLICACIOID, "usuariaplicacio.usuarinoseycon", new I18NArgumentString(userApp));
+            }
+        }
     }
-  }
-  
+
 }
