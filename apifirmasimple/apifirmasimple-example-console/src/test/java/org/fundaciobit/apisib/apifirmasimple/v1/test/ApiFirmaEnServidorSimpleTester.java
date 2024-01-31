@@ -19,8 +19,6 @@ import org.fundaciobit.apisib.core.exceptions.ApisIBServerException;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 import org.junit.Test;
 
-import com.sun.jersey.client.apache4.ApacheHttpClient4;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,7 +37,6 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
@@ -66,11 +63,11 @@ public class ApiFirmaEnServidorSimpleTester {
 
             ApiFirmaEnServidorSimpleTester tester = new ApiFirmaEnServidorSimpleTester();
 
-            tester.testGetAvailableProfiles();
+            //tester.testGetAvailableProfiles();
 
             //tester.testSignatureServerPAdES();
 
-            //tester.testSignatureServerCAdES();
+            tester.testSignatureServerCAdES();
 
             // tester.testSignatureServerXAdESBinary();
 
@@ -315,7 +312,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
         FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
 
-        internalSignDocument(api, perfil, fileToSign);
+        internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
     }
 
     @Test
@@ -351,9 +348,14 @@ public class ApiFirmaEnServidorSimpleTester {
 
         internalSignDocument(api, perfil, fileToSign);
     }
-
+    
     protected FirmaSimpleSignatureResult internalSignDocument(ApiFirmaEnServidorSimple api, final String perfil,
             FirmaSimpleFile fileToSign) throws Exception, FileNotFoundException, IOException {
+        return internalSignDocument(api, perfil, fileToSign, null);
+    }
+
+    protected FirmaSimpleSignatureResult internalSignDocument(ApiFirmaEnServidorSimple api, final String perfil,
+            FirmaSimpleFile fileToSign, String alias) throws Exception, FileNotFoundException, IOException {
         String signID = "1";
         String name = fileToSign.getNom();
         String reason = "Per aprovar pressuposts";
@@ -368,7 +370,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
         String languageUI = "ca";
         // Es la configuració del Servidor (deixam el valor per defecte)
-        String username = null; // "anadal"; 
+        String username = alias; 
         String administrationID = null;
         String signerEmail = null;
 
