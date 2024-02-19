@@ -37,6 +37,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Semaphore;
@@ -245,7 +246,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
       if (isDebug) {
         log.info("\n\n "
               + "\nNumero de reintents = " + retryToPause
-              + "\nDATA " + datanowX.toLocaleString()
+              + "\nDATA " + new Date(datanowX.getTime())
               + "\nLIMIT: + " + maximSeleccionats);
       }
 

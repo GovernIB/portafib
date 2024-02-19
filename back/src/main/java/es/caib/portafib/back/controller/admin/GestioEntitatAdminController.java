@@ -41,6 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -201,6 +202,12 @@ public class GestioEntitatAdminController extends EntitatController implements C
 
         }
         return entitatFilterForm;
+    }
+
+    // Veure https://github.com/GovernIB/genapp/issues/148
+    @RequestMapping(value = "//cancel")
+    public String cancelEntitat(HttpServletRequest request, HttpServletResponse response) {
+        return getRedirectWhenCancel(request, null);
     }
 
     @Override

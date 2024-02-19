@@ -119,7 +119,6 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.plugins.documentcustody.api.CustodyException;
 import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 import org.fundaciobit.plugins.documentcustody.api.NotSupportedCustodyException;
-import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.hibernate.Hibernate;
 
 
