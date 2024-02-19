@@ -190,6 +190,9 @@ public class GestioEntitatAdminController extends EntitatController implements C
             entitatFilterForm.addFilterByField(NOM);
             entitatFilterForm.addFilterByField(DESCRIPCIO);
 
+            entitatFilterForm.addFilterByField(POSICIOTAULAFIRMES);
+            entitatFilterForm.addFilterByField(POLITICATAULAFIRMES);
+
             AdditionalButton additionalButton = new AdditionalButton("fas fa-user-plus", "administradorentitat.alta",
                     "/admin/adminentitat/selecciousuari?entitatID={0}", "btn-warning");
             entitatFilterForm.addAdditionalButtonForEachItem(additionalButton);
