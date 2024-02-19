@@ -460,9 +460,9 @@ public class PluginFirmaWebPerUsuariEntitatController
       return null;
     }
     try {
-      PluginFirmaWebPerUsuariEntitat pluginFirmaWebPerUsuariEntitat = pluginFirmaWebPerUsuariEntitatEjb.findByPrimaryKey(pluginFirmaWebPerUsrEntID);
+      PluginFirmaWebPerUsuariEntitat pluginFirmaWebPerUsuariEntitat = this.findByPrimaryKey(request, pluginFirmaWebPerUsrEntID);
       if (pluginFirmaWebPerUsuariEntitat == null) {
-        String __msg =createMessageError(request, "error.notfound", pluginFirmaWebPerUsrEntID);
+        String __msg = createMessageError(request, "error.notfound", pluginFirmaWebPerUsrEntID);
         return getRedirectWhenDelete(request, pluginFirmaWebPerUsrEntID, new Exception(__msg));
       } else {
         delete(request, pluginFirmaWebPerUsuariEntitat);
@@ -628,7 +628,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PluginFirmaWebPerUsuariEntitatFilterForm pluginFirmaWebPerUsuariEntitatFilterForm,
        List<PluginFirmaWebPerUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariEntitatFilterForm.isHiddenField(USUARIENTITATID)
-      && !pluginFirmaWebPerUsuariEntitatFilterForm.isGroupByField(USUARIENTITATID)) {
+       && !pluginFirmaWebPerUsuariEntitatFilterForm.isGroupByField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -667,7 +667,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PluginFirmaWebPerUsuariEntitatFilterForm pluginFirmaWebPerUsuariEntitatFilterForm,
        List<PluginFirmaWebPerUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariEntitatFilterForm.isHiddenField(PLUGINFIRMAWEBID)
-      && !pluginFirmaWebPerUsuariEntitatFilterForm.isGroupByField(PLUGINFIRMAWEBID)) {
+       && !pluginFirmaWebPerUsuariEntitatFilterForm.isGroupByField(PLUGINFIRMAWEBID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -702,7 +702,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PluginFirmaWebPerUsuariEntitatFilterForm pluginFirmaWebPerUsuariEntitatFilterForm,
        List<PluginFirmaWebPerUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFirmaWebPerUsuariEntitatFilterForm.isHiddenField(ACCIO)
-      && !pluginFirmaWebPerUsuariEntitatFilterForm.isGroupByField(ACCIO)) {
+       && !pluginFirmaWebPerUsuariEntitatFilterForm.isGroupByField(ACCIO)
+       && !pluginFirmaWebPerUsuariEntitatFilterForm.isFilterByField(ACCIO)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -767,7 +768,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "PluginFirmaWebPerUsuariEntitatWebDB_FilterForm";
+    return "PluginFirmaWebPerUsuariEntitat_FilterForm_" + this.getClass().getName();
   }
 
 

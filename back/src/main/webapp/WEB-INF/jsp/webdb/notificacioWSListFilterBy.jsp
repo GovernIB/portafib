@@ -51,8 +51,8 @@
 
 
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,NotificacioWSFields.NOTIFICACIOID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="notificacioWS.notificacioID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -69,8 +69,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,NotificacioWSFields.PETICIODEFIRMAID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="notificacioWS.peticioDeFirmaID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -87,8 +87,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,NotificacioWSFields.TIPUSNOTIFICACIOID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="notificacioWS.tipusNotificacioID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -109,7 +109,7 @@
             <div class="input-group" style="padding-right:4px;padding-bottom:4px;align-items:center;">
               <span class="add-on"><fmt:message key="notificacioWS.dataCreacio" />:</span>
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="dataCreacioDesde" data-target-input="nearest">
                       <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataCreacioDesde" path="dataCreacioDesde" />
                     <c:if test="${!false}" >
@@ -130,7 +130,7 @@
                 });
             });
         </script>              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="dataCreacioFins" data-target-input="nearest">
                       <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataCreacioFins" path="dataCreacioFins" />
                     <c:if test="${!false}" >
@@ -159,7 +159,7 @@
             <div class="input-group" style="padding-right:4px;padding-bottom:4px;align-items:center;">
               <span class="add-on"><fmt:message key="notificacioWS.dataEnviament" />:</span>
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="dataEnviamentDesde" data-target-input="nearest">
                       <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataEnviamentDesde" path="dataEnviamentDesde" />
                     <c:if test="${!false}" >
@@ -180,7 +180,7 @@
                 });
             });
         </script>              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="dataEnviamentFins" data-target-input="nearest">
                       <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataEnviamentFins" path="dataEnviamentFins" />
                     <c:if test="${!false}" >
@@ -218,8 +218,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,NotificacioWSFields.BLOQUEJADA)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="notificacioWS.bloquejada" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -253,7 +253,7 @@
             <div class="input-group" style="padding-right:4px;padding-bottom:4px;align-items:center;">
               <span class="add-on"><fmt:message key="notificacioWS.dataError" />:</span>
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="dataErrorDesde" data-target-input="nearest">
                       <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataErrorDesde" path="dataErrorDesde" />
                     <c:if test="${!false}" >
@@ -274,7 +274,7 @@
                 });
             });
         </script>              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="dataErrorFins" data-target-input="nearest">
                       <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataErrorFins" path="dataErrorFins" />
                     <c:if test="${!false}" >
@@ -299,8 +299,8 @@
     
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,NotificacioWSFields.REINTENTS)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="notificacioWS.reintents" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>

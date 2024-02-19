@@ -51,8 +51,8 @@
 
 
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,TipusDocumentFields.TIPUSDOCUMENTID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="tipusDocument.tipusDocumentID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -69,8 +69,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,TipusDocumentFields.NOMID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="tipusDocument.nomID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -87,19 +87,28 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,TipusDocumentFields.TIPUSDOCUMENTBASEID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
-              <span class="add-on"><fmt:message key="tipusDocument.tipusDocumentBaseID" />:</span>
+              <%-- FILTRE NUMERO SELECT MULTIPLE --%>
+              <div class="input-group-prepend" style="padding-top: 5px;padding-right: 5px;">
+                 <span class="add-on"><fmt:message key="tipusDocument.tipusDocumentBaseID" />:</span>
+              </div>
 
-              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
-              
-              <form:input cssClass="input-append input-small" path="tipusDocumentBaseIDDesde" />
+              <div class="input-group-prepend" style="min-width:200px">
+                <form:select id="tipusdoc_tipusDocumentBaseID_select" path="tipusDocumentBaseIDSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+                    <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForTipusDocumentBaseID}">
+                      <option value="${_entry.key}" ${fn:contains(__theFilterForm.tipusDocumentBaseIDSelect, _entry.key)?'selected':''} >${_entry.value}</option>
+                    </c:forEach>
+                </form:select>
+              </div>
 
-
-              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
-
-              <form:input cssClass="input-append input-small search-query" path="tipusDocumentBaseIDFins" />
-
+              <script type="text/javascript">
+                $(document).ready(function() {
+                    $('#tipusdoc_tipusDocumentBaseID_select').select2({
+                        closeOnSelect: false
+                    });
+                    $('.select2-selection__rendered').css('padding-bottom','5px');
+                });
+              </script>
             </div>
 
 

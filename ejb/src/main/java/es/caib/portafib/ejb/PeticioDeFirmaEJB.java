@@ -18,25 +18,25 @@ public class PeticioDeFirmaEJB extends PeticioDeFirmaJPAManager implements Petic
     protected javax.transaction.TransactionSynchronizationRegistry __tsRegistry;
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public void delete(PeticioDeFirma instance) {
         super.delete(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public PeticioDeFirma create(PeticioDeFirma instance) throws I18NException {
         return super.create(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public PeticioDeFirma update(PeticioDeFirma instance) throws I18NException {
          return super.update(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public void deleteIncludingFiles(PeticioDeFirma instance,  FitxerService fitxerEjb)
             throws I18NException {
 
@@ -63,7 +63,7 @@ public class PeticioDeFirmaEJB extends PeticioDeFirmaJPAManager implements Petic
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public PeticioDeFirmaJPA findByPrimaryKey(Long _ID_) {
         return (PeticioDeFirmaJPA)super.findByPrimaryKey(_ID_);
     }

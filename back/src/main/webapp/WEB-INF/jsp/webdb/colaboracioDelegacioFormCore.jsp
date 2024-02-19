@@ -155,7 +155,7 @@
             </td>
           <td id="colaboracioDelegacio_dataInici_columnvalueid">
     <form:errors path="colaboracioDelegacio.dataInici" cssClass="errorField alert alert-danger" />
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="colaboracioDelegacio_dataInici" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DATAINICI)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#colaboracioDelegacio_dataInici" path="colaboracioDelegacio.dataInici" />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DATAINICI)}" >
@@ -191,7 +191,7 @@
             </td>
           <td id="colaboracioDelegacio_dataFi_columnvalueid">
     <form:errors path="colaboracioDelegacio.dataFi" cssClass="errorField alert alert-danger" />
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="colaboracioDelegacio_dataFi" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DATAFI)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#colaboracioDelegacio_dataFi" path="colaboracioDelegacio.dataFi" />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DATAFI)}" >

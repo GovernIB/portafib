@@ -54,25 +54,14 @@ public class UsuariAplicacioFilterForm extends PortaFIBBaseFilterForm implements
   }
 
 
-  private java.lang.Integer callbackVersioDesde;
+  private java.util.List<java.lang.Integer> callbackVersioSelect;
 
-  public java.lang.Integer getCallbackVersioDesde() {
-    return this.callbackVersioDesde;
+  public java.util.List<java.lang.Integer> getCallbackVersioSelect() {
+    return this.callbackVersioSelect;
   }
 
-  public void setCallbackVersioDesde(java.lang.Integer callbackVersioDesde) {
-    this.callbackVersioDesde = callbackVersioDesde;
-  }
-
-
-  private java.lang.Integer callbackVersioFins;
-
-  public java.lang.Integer getCallbackVersioFins() {
-    return this.callbackVersioFins;
-  }
-
-  public void setCallbackVersioFins(java.lang.Integer callbackVersioFins) {
-    this.callbackVersioFins = callbackVersioFins;
+  public void setCallbackVersioSelect(java.util.List<java.lang.Integer> callbackVersioSelect) {
+    this.callbackVersioSelect = callbackVersioSelect;
   }
 
 
@@ -109,47 +98,25 @@ public class UsuariAplicacioFilterForm extends PortaFIBBaseFilterForm implements
   }
 
 
-  private java.lang.Integer politicaDePluginFirmaWebDesde;
+  private java.util.List<java.lang.Integer> politicaDePluginFirmaWebSelect;
 
-  public java.lang.Integer getPoliticaDePluginFirmaWebDesde() {
-    return this.politicaDePluginFirmaWebDesde;
+  public java.util.List<java.lang.Integer> getPoliticaDePluginFirmaWebSelect() {
+    return this.politicaDePluginFirmaWebSelect;
   }
 
-  public void setPoliticaDePluginFirmaWebDesde(java.lang.Integer politicaDePluginFirmaWebDesde) {
-    this.politicaDePluginFirmaWebDesde = politicaDePluginFirmaWebDesde;
-  }
-
-
-  private java.lang.Integer politicaDePluginFirmaWebFins;
-
-  public java.lang.Integer getPoliticaDePluginFirmaWebFins() {
-    return this.politicaDePluginFirmaWebFins;
-  }
-
-  public void setPoliticaDePluginFirmaWebFins(java.lang.Integer politicaDePluginFirmaWebFins) {
-    this.politicaDePluginFirmaWebFins = politicaDePluginFirmaWebFins;
+  public void setPoliticaDePluginFirmaWebSelect(java.util.List<java.lang.Integer> politicaDePluginFirmaWebSelect) {
+    this.politicaDePluginFirmaWebSelect = politicaDePluginFirmaWebSelect;
   }
 
 
-  private java.lang.Integer politicaCustodiaDesde;
+  private java.util.List<java.lang.Integer> politicaCustodiaSelect;
 
-  public java.lang.Integer getPoliticaCustodiaDesde() {
-    return this.politicaCustodiaDesde;
+  public java.util.List<java.lang.Integer> getPoliticaCustodiaSelect() {
+    return this.politicaCustodiaSelect;
   }
 
-  public void setPoliticaCustodiaDesde(java.lang.Integer politicaCustodiaDesde) {
-    this.politicaCustodiaDesde = politicaCustodiaDesde;
-  }
-
-
-  private java.lang.Integer politicaCustodiaFins;
-
-  public java.lang.Integer getPoliticaCustodiaFins() {
-    return this.politicaCustodiaFins;
-  }
-
-  public void setPoliticaCustodiaFins(java.lang.Integer politicaCustodiaFins) {
-    this.politicaCustodiaFins = politicaCustodiaFins;
+  public void setPoliticaCustodiaSelect(java.util.List<java.lang.Integer> politicaCustodiaSelect) {
+    this.politicaCustodiaSelect = politicaCustodiaSelect;
   }
 
 
@@ -183,15 +150,12 @@ public class UsuariAplicacioFilterForm extends PortaFIBBaseFilterForm implements
     this.usuariAplicacioID = __toClone.usuariAplicacioID;
     this.entitatID = __toClone.entitatID;
     this.emailAdmin = __toClone.emailAdmin;
-    this.callbackVersioDesde = __toClone.callbackVersioDesde;
-    this.callbackVersioFins = __toClone.callbackVersioFins;
+    this.callbackVersioSelect = __toClone.callbackVersioSelect;
     this.callbackURL = __toClone.callbackURL;
     this.idiomaID = __toClone.idiomaID;
     this.descripcio = __toClone.descripcio;
-    this.politicaDePluginFirmaWebDesde = __toClone.politicaDePluginFirmaWebDesde;
-    this.politicaDePluginFirmaWebFins = __toClone.politicaDePluginFirmaWebFins;
-    this.politicaCustodiaDesde = __toClone.politicaCustodiaDesde;
-    this.politicaCustodiaFins = __toClone.politicaCustodiaFins;
+    this.politicaDePluginFirmaWebSelect = __toClone.politicaDePluginFirmaWebSelect;
+    this.politicaCustodiaSelect = __toClone.politicaCustodiaSelect;
     this.custodiaInfoIDDesde = __toClone.custodiaInfoIDDesde;
     this.custodiaInfoIDFins = __toClone.custodiaInfoIDFins;
     this.mapOfEntitatForEntitatID = __toClone.mapOfEntitatForEntitatID;

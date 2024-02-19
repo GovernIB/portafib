@@ -120,47 +120,25 @@ public class EstatDeFirmaFilterForm extends PortaFIBBaseFilterForm implements Es
   }
 
 
-  private java.lang.Long tipusEstatDeFirmaInicialIDDesde;
+  private java.util.List<java.lang.Long> tipusEstatDeFirmaInicialIDSelect;
 
-  public java.lang.Long getTipusEstatDeFirmaInicialIDDesde() {
-    return this.tipusEstatDeFirmaInicialIDDesde;
+  public java.util.List<java.lang.Long> getTipusEstatDeFirmaInicialIDSelect() {
+    return this.tipusEstatDeFirmaInicialIDSelect;
   }
 
-  public void setTipusEstatDeFirmaInicialIDDesde(java.lang.Long tipusEstatDeFirmaInicialIDDesde) {
-    this.tipusEstatDeFirmaInicialIDDesde = tipusEstatDeFirmaInicialIDDesde;
-  }
-
-
-  private java.lang.Long tipusEstatDeFirmaInicialIDFins;
-
-  public java.lang.Long getTipusEstatDeFirmaInicialIDFins() {
-    return this.tipusEstatDeFirmaInicialIDFins;
-  }
-
-  public void setTipusEstatDeFirmaInicialIDFins(java.lang.Long tipusEstatDeFirmaInicialIDFins) {
-    this.tipusEstatDeFirmaInicialIDFins = tipusEstatDeFirmaInicialIDFins;
+  public void setTipusEstatDeFirmaInicialIDSelect(java.util.List<java.lang.Long> tipusEstatDeFirmaInicialIDSelect) {
+    this.tipusEstatDeFirmaInicialIDSelect = tipusEstatDeFirmaInicialIDSelect;
   }
 
 
-  private java.lang.Long tipusEstatDeFirmaFinalIDDesde;
+  private java.util.List<java.lang.Long> tipusEstatDeFirmaFinalIDSelect;
 
-  public java.lang.Long getTipusEstatDeFirmaFinalIDDesde() {
-    return this.tipusEstatDeFirmaFinalIDDesde;
+  public java.util.List<java.lang.Long> getTipusEstatDeFirmaFinalIDSelect() {
+    return this.tipusEstatDeFirmaFinalIDSelect;
   }
 
-  public void setTipusEstatDeFirmaFinalIDDesde(java.lang.Long tipusEstatDeFirmaFinalIDDesde) {
-    this.tipusEstatDeFirmaFinalIDDesde = tipusEstatDeFirmaFinalIDDesde;
-  }
-
-
-  private java.lang.Long tipusEstatDeFirmaFinalIDFins;
-
-  public java.lang.Long getTipusEstatDeFirmaFinalIDFins() {
-    return this.tipusEstatDeFirmaFinalIDFins;
-  }
-
-  public void setTipusEstatDeFirmaFinalIDFins(java.lang.Long tipusEstatDeFirmaFinalIDFins) {
-    this.tipusEstatDeFirmaFinalIDFins = tipusEstatDeFirmaFinalIDFins;
+  public void setTipusEstatDeFirmaFinalIDSelect(java.util.List<java.lang.Long> tipusEstatDeFirmaFinalIDSelect) {
+    this.tipusEstatDeFirmaFinalIDSelect = tipusEstatDeFirmaFinalIDSelect;
   }
 
 
@@ -211,10 +189,8 @@ public class EstatDeFirmaFilterForm extends PortaFIBBaseFilterForm implements Es
     this.dataIniciFins = __toClone.dataIniciFins;
     this.dataFiDesde = __toClone.dataFiDesde;
     this.dataFiFins = __toClone.dataFiFins;
-    this.tipusEstatDeFirmaInicialIDDesde = __toClone.tipusEstatDeFirmaInicialIDDesde;
-    this.tipusEstatDeFirmaInicialIDFins = __toClone.tipusEstatDeFirmaInicialIDFins;
-    this.tipusEstatDeFirmaFinalIDDesde = __toClone.tipusEstatDeFirmaFinalIDDesde;
-    this.tipusEstatDeFirmaFinalIDFins = __toClone.tipusEstatDeFirmaFinalIDFins;
+    this.tipusEstatDeFirmaInicialIDSelect = __toClone.tipusEstatDeFirmaInicialIDSelect;
+    this.tipusEstatDeFirmaFinalIDSelect = __toClone.tipusEstatDeFirmaFinalIDSelect;
     this.colaboracioDelegacioIDDesde = __toClone.colaboracioDelegacioIDDesde;
     this.colaboracioDelegacioIDFins = __toClone.colaboracioDelegacioIDFins;
     this.descripcio = __toClone.descripcio;

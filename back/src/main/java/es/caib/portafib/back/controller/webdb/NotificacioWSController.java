@@ -419,9 +419,9 @@ public class NotificacioWSController
       return null;
     }
     try {
-      NotificacioWS notificacioWS = notificacioWSEjb.findByPrimaryKey(notificacioID);
+      NotificacioWS notificacioWS = this.findByPrimaryKey(request, notificacioID);
       if (notificacioWS == null) {
-        String __msg =createMessageError(request, "error.notfound", notificacioID);
+        String __msg = createMessageError(request, "error.notfound", notificacioID);
         return getRedirectWhenDelete(request, notificacioID, new Exception(__msg));
       } else {
         delete(request, notificacioWS);
@@ -587,7 +587,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, NotificacioWSFilterForm notificacioWSFilterForm,
        List<NotificacioWS> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (notificacioWSFilterForm.isHiddenField(TIPUSNOTIFICACIOID)
-      && !notificacioWSFilterForm.isGroupByField(TIPUSNOTIFICACIOID)) {
+       && !notificacioWSFilterForm.isGroupByField(TIPUSNOTIFICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -657,7 +657,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "NotificacioWSWebDB_FilterForm";
+    return "NotificacioWS_FilterForm_" + this.getClass().getName();
   }
 
 

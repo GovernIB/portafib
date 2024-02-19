@@ -51,8 +51,8 @@
 
 
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PerfilDeFirmaFields.USUARIAPLICACIOPERFILID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="perfilDeFirma.usuariAplicacioPerfilID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -121,8 +121,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PerfilDeFirmaFields.CONFIGURACIODEFIRMA1ID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="perfilDeFirma.configuracioDeFirma1ID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -139,8 +139,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PerfilDeFirmaFields.CONFIGURACIODEFIRMA2ID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="perfilDeFirma.configuracioDeFirma2ID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -157,8 +157,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PerfilDeFirmaFields.CONFIGURACIODEFIRMA3ID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="perfilDeFirma.configuracioDeFirma3ID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -175,8 +175,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PerfilDeFirmaFields.CONFIGURACIODEFIRMA4ID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="perfilDeFirma.configuracioDeFirma4ID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -193,8 +193,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PerfilDeFirmaFields.CONFIGURACIODEFIRMA5ID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="perfilDeFirma.configuracioDeFirma5ID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>

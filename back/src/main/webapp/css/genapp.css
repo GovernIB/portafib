@@ -13,3 +13,18 @@
 .icon-white {
   color: white;
 }
+
+.table-genapp-form th:first-child, .table-genapp-form td:first-child {
+  width: min-content !important;
+  vertical-align: middle;
+  padding-right: 15px;
+}
+
+.table-genapp-form th:last-child, .table-genapp-form td:last-child {
+  width: 100%;
+  vertical-align: middle;
+}
+
+.table-genapp-form th:first-child label, .table-genapp-form td:first-child label {
+  white-space: nowrap;
+}

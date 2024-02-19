@@ -18,7 +18,7 @@
   <%-- Inici de div de TAULA CONTINGUTS --%>
   <div style="width: 100%;">
   <%@include file="bitacolaListCore.jsp" %>
-  <c:if test="${not empty bitacolaItems}">
+  <c:if test="${not empty bitacolaItems && __theFilterForm.footerListVisible}">
           <%@include file="webdbPagination.jsp" %>
 
   </c:if>

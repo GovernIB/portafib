@@ -98,25 +98,14 @@ public class MetadadaFilterForm extends PortaFIBBaseFilterForm implements Metada
   }
 
 
-  private java.lang.Integer tipusMetadadaIDDesde;
+  private java.util.List<java.lang.Integer> tipusMetadadaIDSelect;
 
-  public java.lang.Integer getTipusMetadadaIDDesde() {
-    return this.tipusMetadadaIDDesde;
+  public java.util.List<java.lang.Integer> getTipusMetadadaIDSelect() {
+    return this.tipusMetadadaIDSelect;
   }
 
-  public void setTipusMetadadaIDDesde(java.lang.Integer tipusMetadadaIDDesde) {
-    this.tipusMetadadaIDDesde = tipusMetadadaIDDesde;
-  }
-
-
-  private java.lang.Integer tipusMetadadaIDFins;
-
-  public java.lang.Integer getTipusMetadadaIDFins() {
-    return this.tipusMetadadaIDFins;
-  }
-
-  public void setTipusMetadadaIDFins(java.lang.Integer tipusMetadadaIDFins) {
-    this.tipusMetadadaIDFins = tipusMetadadaIDFins;
+  public void setTipusMetadadaIDSelect(java.util.List<java.lang.Integer> tipusMetadadaIDSelect) {
+    this.tipusMetadadaIDSelect = tipusMetadadaIDSelect;
   }
 
 
@@ -132,8 +121,7 @@ public class MetadadaFilterForm extends PortaFIBBaseFilterForm implements Metada
     this.descripcio = __toClone.descripcio;
     this.peticioDeFirmaIDDesde = __toClone.peticioDeFirmaIDDesde;
     this.peticioDeFirmaIDFins = __toClone.peticioDeFirmaIDFins;
-    this.tipusMetadadaIDDesde = __toClone.tipusMetadadaIDDesde;
-    this.tipusMetadadaIDFins = __toClone.tipusMetadadaIDFins;
+    this.tipusMetadadaIDSelect = __toClone.tipusMetadadaIDSelect;
     this.mapOfPeticioDeFirmaForPeticioDeFirmaID = __toClone.mapOfPeticioDeFirmaForPeticioDeFirmaID;
     this.mapOfValuesForTipusMetadadaID = __toClone.mapOfValuesForTipusMetadadaID;
   }

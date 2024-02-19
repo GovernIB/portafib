@@ -15,25 +15,25 @@ import es.caib.portafib.commons.utils.Constants;
 public class RebreAvisEJB extends RebreAvisJPAManager implements RebreAvisService {
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public void delete(RebreAvis instance) {
         super.delete(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public RebreAvis create(RebreAvis instance) throws I18NException {
         return super.create(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public RebreAvis update(RebreAvis instance) throws I18NException {
          return super.update(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public void deleteIncludingFiles(RebreAvis instance,  FitxerService fitxerEjb)
             throws I18NException {
 
@@ -41,7 +41,7 @@ public class RebreAvisEJB extends RebreAvisJPAManager implements RebreAvisServic
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public RebreAvisJPA findByPrimaryKey(Long _ID_) {
         return (RebreAvisJPA)super.findByPrimaryKey(_ID_);
     }

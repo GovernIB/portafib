@@ -18,25 +18,25 @@ public class UsuariEntitatEJB extends UsuariEntitatJPAManager implements UsuariE
     protected javax.transaction.TransactionSynchronizationRegistry __tsRegistry;
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public void delete(UsuariEntitat instance) {
         super.delete(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public UsuariEntitat create(UsuariEntitat instance) throws I18NException {
         return super.create(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public UsuariEntitat update(UsuariEntitat instance) throws I18NException {
          return super.update(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public void deleteIncludingFiles(UsuariEntitat instance,  FitxerService fitxerEjb)
             throws I18NException {
 
@@ -60,7 +60,7 @@ public class UsuariEntitatEJB extends UsuariEntitatJPAManager implements UsuariE
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public UsuariEntitatJPA findByPrimaryKey(String _ID_) {
         return (UsuariEntitatJPA)super.findByPrimaryKey(_ID_);
     }

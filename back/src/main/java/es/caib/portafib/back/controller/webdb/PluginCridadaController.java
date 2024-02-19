@@ -454,9 +454,9 @@ public class PluginCridadaController
       return null;
     }
     try {
-      PluginCridada pluginCridada = pluginCridadaEjb.findByPrimaryKey(pluginCridadaID);
+      PluginCridada pluginCridada = this.findByPrimaryKey(request, pluginCridadaID);
       if (pluginCridada == null) {
-        String __msg =createMessageError(request, "error.notfound", pluginCridadaID);
+        String __msg = createMessageError(request, "error.notfound", pluginCridadaID);
         return getRedirectWhenDelete(request, pluginCridadaID, new Exception(__msg));
       } else {
         delete(request, pluginCridada);
@@ -656,7 +656,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PluginCridadaFilterForm pluginCridadaFilterForm,
        List<PluginCridada> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginCridadaFilterForm.isHiddenField(ENTITATID)
-      && !pluginCridadaFilterForm.isGroupByField(ENTITATID)) {
+       && !pluginCridadaFilterForm.isGroupByField(ENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -696,7 +696,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PluginCridadaFilterForm pluginCridadaFilterForm,
        List<PluginCridada> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginCridadaFilterForm.isHiddenField(PLUGINID)
-      && !pluginCridadaFilterForm.isGroupByField(PLUGINID)) {
+       && !pluginCridadaFilterForm.isGroupByField(PLUGINID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -766,7 +766,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "PluginCridadaWebDB_FilterForm";
+    return "PluginCridada_FilterForm_" + this.getClass().getName();
   }
 
 

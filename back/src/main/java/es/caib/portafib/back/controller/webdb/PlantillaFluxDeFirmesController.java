@@ -467,9 +467,9 @@ public class PlantillaFluxDeFirmesController
       return null;
     }
     try {
-      PlantillaFluxDeFirmes plantillaFluxDeFirmes = plantillaFluxDeFirmesEjb.findByPrimaryKey(fluxDeFirmesID);
+      PlantillaFluxDeFirmes plantillaFluxDeFirmes = this.findByPrimaryKey(request, fluxDeFirmesID);
       if (plantillaFluxDeFirmes == null) {
-        String __msg =createMessageError(request, "error.notfound", fluxDeFirmesID);
+        String __msg = createMessageError(request, "error.notfound", fluxDeFirmesID);
         return getRedirectWhenDelete(request, fluxDeFirmesID, new Exception(__msg));
       } else {
         delete(request, plantillaFluxDeFirmes);
@@ -635,7 +635,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PlantillaFluxDeFirmesFilterForm plantillaFluxDeFirmesFilterForm,
        List<PlantillaFluxDeFirmes> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (plantillaFluxDeFirmesFilterForm.isHiddenField(FLUXDEFIRMESID)
-      && !plantillaFluxDeFirmesFilterForm.isGroupByField(FLUXDEFIRMESID)) {
+       && !plantillaFluxDeFirmesFilterForm.isGroupByField(FLUXDEFIRMESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -674,7 +674,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PlantillaFluxDeFirmesFilterForm plantillaFluxDeFirmesFilterForm,
        List<PlantillaFluxDeFirmes> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (plantillaFluxDeFirmesFilterForm.isHiddenField(USUARIENTITATID)
-      && !plantillaFluxDeFirmesFilterForm.isGroupByField(USUARIENTITATID)) {
+       && !plantillaFluxDeFirmesFilterForm.isGroupByField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -714,7 +714,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PlantillaFluxDeFirmesFilterForm plantillaFluxDeFirmesFilterForm,
        List<PlantillaFluxDeFirmes> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (plantillaFluxDeFirmesFilterForm.isHiddenField(USUARIAPLICACIOID)
-      && !plantillaFluxDeFirmesFilterForm.isGroupByField(USUARIAPLICACIOID)) {
+       && !plantillaFluxDeFirmesFilterForm.isGroupByField(USUARIAPLICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -785,7 +785,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "PlantillaFluxDeFirmesWebDB_FilterForm";
+    return "PlantillaFluxDeFirmes_FilterForm_" + this.getClass().getName();
   }
 
 

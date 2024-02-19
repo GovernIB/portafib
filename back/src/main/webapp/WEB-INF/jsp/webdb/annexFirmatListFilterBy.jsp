@@ -51,8 +51,8 @@
 
 
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,AnnexFirmatFields.ANNEXFIRMATID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="annexFirmat.annexfirmatID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -69,8 +69,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,AnnexFirmatFields.ANNEXID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="annexFirmat.annexID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -87,8 +87,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,AnnexFirmatFields.FIRMAID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="annexFirmat.firmaID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>

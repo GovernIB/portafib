@@ -1,13 +1,13 @@
 
 <%-- ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! --%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
- 
-  <%@include file="metadadaFormTitle.jsp" %>
 
 
 <form:form modelAttribute="metadadaForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
+  <%@include file="metadadaFormTitle.jsp" %>
+ 
   <c:set var="contexte" value="${metadadaForm.contexte}"/>
   <form:hidden path="nou" />
   

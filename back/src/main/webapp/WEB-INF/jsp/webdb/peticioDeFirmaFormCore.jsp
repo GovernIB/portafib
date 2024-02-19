@@ -285,7 +285,7 @@
             </td>
           <td id="peticioDeFirma_dataSolicitud_columnvalueid">
     <form:errors path="peticioDeFirma.dataSolicitud" cssClass="errorField alert alert-danger" />
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="peticioDeFirma_dataSolicitud" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATASOLICITUD)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#peticioDeFirma_dataSolicitud" path="peticioDeFirma.dataSolicitud" />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATASOLICITUD)}" >
@@ -321,7 +321,7 @@
             </td>
           <td id="peticioDeFirma_dataFinal_columnvalueid">
     <form:errors path="peticioDeFirma.dataFinal" cssClass="errorField alert alert-danger" />
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="peticioDeFirma_dataFinal" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATAFINAL)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#peticioDeFirma_dataFinal" path="peticioDeFirma.dataFinal" />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATAFINAL)}" >
@@ -357,7 +357,7 @@
             </td>
           <td id="peticioDeFirma_dataCaducitat_columnvalueid">
     <form:errors path="peticioDeFirma.dataCaducitat" cssClass="errorField alert alert-danger" />
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="peticioDeFirma_dataCaducitat" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATACADUCITAT)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#peticioDeFirma_dataCaducitat" path="peticioDeFirma.dataCaducitat" />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATACADUCITAT)}" >

@@ -175,113 +175,58 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
   }
 
 
-  private java.lang.Integer tipusOperacioFirmaDesde;
+  private java.util.List<java.lang.Integer> tipusOperacioFirmaSelect;
 
-  public java.lang.Integer getTipusOperacioFirmaDesde() {
-    return this.tipusOperacioFirmaDesde;
+  public java.util.List<java.lang.Integer> getTipusOperacioFirmaSelect() {
+    return this.tipusOperacioFirmaSelect;
   }
 
-  public void setTipusOperacioFirmaDesde(java.lang.Integer tipusOperacioFirmaDesde) {
-    this.tipusOperacioFirmaDesde = tipusOperacioFirmaDesde;
-  }
-
-
-  private java.lang.Integer tipusOperacioFirmaFins;
-
-  public java.lang.Integer getTipusOperacioFirmaFins() {
-    return this.tipusOperacioFirmaFins;
-  }
-
-  public void setTipusOperacioFirmaFins(java.lang.Integer tipusOperacioFirmaFins) {
-    this.tipusOperacioFirmaFins = tipusOperacioFirmaFins;
+  public void setTipusOperacioFirmaSelect(java.util.List<java.lang.Integer> tipusOperacioFirmaSelect) {
+    this.tipusOperacioFirmaSelect = tipusOperacioFirmaSelect;
   }
 
 
-  private java.lang.Integer tipusFirmaIDDesde;
+  private java.util.List<java.lang.Integer> tipusFirmaIDSelect;
 
-  public java.lang.Integer getTipusFirmaIDDesde() {
-    return this.tipusFirmaIDDesde;
+  public java.util.List<java.lang.Integer> getTipusFirmaIDSelect() {
+    return this.tipusFirmaIDSelect;
   }
 
-  public void setTipusFirmaIDDesde(java.lang.Integer tipusFirmaIDDesde) {
-    this.tipusFirmaIDDesde = tipusFirmaIDDesde;
-  }
-
-
-  private java.lang.Integer tipusFirmaIDFins;
-
-  public java.lang.Integer getTipusFirmaIDFins() {
-    return this.tipusFirmaIDFins;
-  }
-
-  public void setTipusFirmaIDFins(java.lang.Integer tipusFirmaIDFins) {
-    this.tipusFirmaIDFins = tipusFirmaIDFins;
+  public void setTipusFirmaIDSelect(java.util.List<java.lang.Integer> tipusFirmaIDSelect) {
+    this.tipusFirmaIDSelect = tipusFirmaIDSelect;
   }
 
 
-  private java.lang.Integer algorismeDeFirmaIDDesde;
+  private java.util.List<java.lang.Integer> algorismeDeFirmaIDSelect;
 
-  public java.lang.Integer getAlgorismeDeFirmaIDDesde() {
-    return this.algorismeDeFirmaIDDesde;
+  public java.util.List<java.lang.Integer> getAlgorismeDeFirmaIDSelect() {
+    return this.algorismeDeFirmaIDSelect;
   }
 
-  public void setAlgorismeDeFirmaIDDesde(java.lang.Integer algorismeDeFirmaIDDesde) {
-    this.algorismeDeFirmaIDDesde = algorismeDeFirmaIDDesde;
-  }
-
-
-  private java.lang.Integer algorismeDeFirmaIDFins;
-
-  public java.lang.Integer getAlgorismeDeFirmaIDFins() {
-    return this.algorismeDeFirmaIDFins;
-  }
-
-  public void setAlgorismeDeFirmaIDFins(java.lang.Integer algorismeDeFirmaIDFins) {
-    this.algorismeDeFirmaIDFins = algorismeDeFirmaIDFins;
+  public void setAlgorismeDeFirmaIDSelect(java.util.List<java.lang.Integer> algorismeDeFirmaIDSelect) {
+    this.algorismeDeFirmaIDSelect = algorismeDeFirmaIDSelect;
   }
 
 
-  private java.lang.Integer posicioTaulaFirmesIDDesde;
+  private java.util.List<java.lang.Integer> posicioTaulaFirmesIDSelect;
 
-  public java.lang.Integer getPosicioTaulaFirmesIDDesde() {
-    return this.posicioTaulaFirmesIDDesde;
+  public java.util.List<java.lang.Integer> getPosicioTaulaFirmesIDSelect() {
+    return this.posicioTaulaFirmesIDSelect;
   }
 
-  public void setPosicioTaulaFirmesIDDesde(java.lang.Integer posicioTaulaFirmesIDDesde) {
-    this.posicioTaulaFirmesIDDesde = posicioTaulaFirmesIDDesde;
-  }
-
-
-  private java.lang.Integer posicioTaulaFirmesIDFins;
-
-  public java.lang.Integer getPosicioTaulaFirmesIDFins() {
-    return this.posicioTaulaFirmesIDFins;
-  }
-
-  public void setPosicioTaulaFirmesIDFins(java.lang.Integer posicioTaulaFirmesIDFins) {
-    this.posicioTaulaFirmesIDFins = posicioTaulaFirmesIDFins;
+  public void setPosicioTaulaFirmesIDSelect(java.util.List<java.lang.Integer> posicioTaulaFirmesIDSelect) {
+    this.posicioTaulaFirmesIDSelect = posicioTaulaFirmesIDSelect;
   }
 
 
-  private java.lang.Integer tipusEstatPeticioDeFirmaIDDesde;
+  private java.util.List<java.lang.Integer> tipusEstatPeticioDeFirmaIDSelect;
 
-  public java.lang.Integer getTipusEstatPeticioDeFirmaIDDesde() {
-    return this.tipusEstatPeticioDeFirmaIDDesde;
+  public java.util.List<java.lang.Integer> getTipusEstatPeticioDeFirmaIDSelect() {
+    return this.tipusEstatPeticioDeFirmaIDSelect;
   }
 
-  public void setTipusEstatPeticioDeFirmaIDDesde(java.lang.Integer tipusEstatPeticioDeFirmaIDDesde) {
-    this.tipusEstatPeticioDeFirmaIDDesde = tipusEstatPeticioDeFirmaIDDesde;
-  }
-
-
-  private java.lang.Integer tipusEstatPeticioDeFirmaIDFins;
-
-  public java.lang.Integer getTipusEstatPeticioDeFirmaIDFins() {
-    return this.tipusEstatPeticioDeFirmaIDFins;
-  }
-
-  public void setTipusEstatPeticioDeFirmaIDFins(java.lang.Integer tipusEstatPeticioDeFirmaIDFins) {
-    this.tipusEstatPeticioDeFirmaIDFins = tipusEstatPeticioDeFirmaIDFins;
+  public void setTipusEstatPeticioDeFirmaIDSelect(java.util.List<java.lang.Integer> tipusEstatPeticioDeFirmaIDSelect) {
+    this.tipusEstatPeticioDeFirmaIDSelect = tipusEstatPeticioDeFirmaIDSelect;
   }
 
 
@@ -307,25 +252,14 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
   }
 
 
-  private java.lang.Integer prioritatIDDesde;
+  private java.util.List<java.lang.Integer> prioritatIDSelect;
 
-  public java.lang.Integer getPrioritatIDDesde() {
-    return this.prioritatIDDesde;
+  public java.util.List<java.lang.Integer> getPrioritatIDSelect() {
+    return this.prioritatIDSelect;
   }
 
-  public void setPrioritatIDDesde(java.lang.Integer prioritatIDDesde) {
-    this.prioritatIDDesde = prioritatIDDesde;
-  }
-
-
-  private java.lang.Integer prioritatIDFins;
-
-  public java.lang.Integer getPrioritatIDFins() {
-    return this.prioritatIDFins;
-  }
-
-  public void setPrioritatIDFins(java.lang.Integer prioritatIDFins) {
-    this.prioritatIDFins = prioritatIDFins;
+  public void setPrioritatIDSelect(java.util.List<java.lang.Integer> prioritatIDSelect) {
+    this.prioritatIDSelect = prioritatIDSelect;
   }
 
 
@@ -527,25 +461,14 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
   }
 
 
-  private java.lang.Integer origenPeticioDeFirmaDesde;
+  private java.util.List<java.lang.Integer> origenPeticioDeFirmaSelect;
 
-  public java.lang.Integer getOrigenPeticioDeFirmaDesde() {
-    return this.origenPeticioDeFirmaDesde;
+  public java.util.List<java.lang.Integer> getOrigenPeticioDeFirmaSelect() {
+    return this.origenPeticioDeFirmaSelect;
   }
 
-  public void setOrigenPeticioDeFirmaDesde(java.lang.Integer origenPeticioDeFirmaDesde) {
-    this.origenPeticioDeFirmaDesde = origenPeticioDeFirmaDesde;
-  }
-
-
-  private java.lang.Integer origenPeticioDeFirmaFins;
-
-  public java.lang.Integer getOrigenPeticioDeFirmaFins() {
-    return this.origenPeticioDeFirmaFins;
-  }
-
-  public void setOrigenPeticioDeFirmaFins(java.lang.Integer origenPeticioDeFirmaFins) {
-    this.origenPeticioDeFirmaFins = origenPeticioDeFirmaFins;
+  public void setOrigenPeticioDeFirmaSelect(java.util.List<java.lang.Integer> origenPeticioDeFirmaSelect) {
+    this.origenPeticioDeFirmaSelect = origenPeticioDeFirmaSelect;
   }
 
 
@@ -590,20 +513,14 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
     this.dataFinalFins = __toClone.dataFinalFins;
     this.dataCaducitatDesde = __toClone.dataCaducitatDesde;
     this.dataCaducitatFins = __toClone.dataCaducitatFins;
-    this.tipusOperacioFirmaDesde = __toClone.tipusOperacioFirmaDesde;
-    this.tipusOperacioFirmaFins = __toClone.tipusOperacioFirmaFins;
-    this.tipusFirmaIDDesde = __toClone.tipusFirmaIDDesde;
-    this.tipusFirmaIDFins = __toClone.tipusFirmaIDFins;
-    this.algorismeDeFirmaIDDesde = __toClone.algorismeDeFirmaIDDesde;
-    this.algorismeDeFirmaIDFins = __toClone.algorismeDeFirmaIDFins;
-    this.posicioTaulaFirmesIDDesde = __toClone.posicioTaulaFirmesIDDesde;
-    this.posicioTaulaFirmesIDFins = __toClone.posicioTaulaFirmesIDFins;
-    this.tipusEstatPeticioDeFirmaIDDesde = __toClone.tipusEstatPeticioDeFirmaIDDesde;
-    this.tipusEstatPeticioDeFirmaIDFins = __toClone.tipusEstatPeticioDeFirmaIDFins;
+    this.tipusOperacioFirmaSelect = __toClone.tipusOperacioFirmaSelect;
+    this.tipusFirmaIDSelect = __toClone.tipusFirmaIDSelect;
+    this.algorismeDeFirmaIDSelect = __toClone.algorismeDeFirmaIDSelect;
+    this.posicioTaulaFirmesIDSelect = __toClone.posicioTaulaFirmesIDSelect;
+    this.tipusEstatPeticioDeFirmaIDSelect = __toClone.tipusEstatPeticioDeFirmaIDSelect;
     this.motiuDeRebuig = __toClone.motiuDeRebuig;
     this.idiomaID = __toClone.idiomaID;
-    this.prioritatIDDesde = __toClone.prioritatIDDesde;
-    this.prioritatIDFins = __toClone.prioritatIDFins;
+    this.prioritatIDSelect = __toClone.prioritatIDSelect;
     this.fluxDeFirmesIDDesde = __toClone.fluxDeFirmesIDDesde;
     this.fluxDeFirmesIDFins = __toClone.fluxDeFirmesIDFins;
     this.solicitantUsuariAplicacioID = __toClone.solicitantUsuariAplicacioID;
@@ -622,8 +539,7 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
     this.solicitantUsuariEntitat1ID = __toClone.solicitantUsuariEntitat1ID;
     this.solicitantUsuariEntitat2ID = __toClone.solicitantUsuariEntitat2ID;
     this.solicitantUsuariEntitat3ID = __toClone.solicitantUsuariEntitat3ID;
-    this.origenPeticioDeFirmaDesde = __toClone.origenPeticioDeFirmaDesde;
-    this.origenPeticioDeFirmaFins = __toClone.origenPeticioDeFirmaFins;
+    this.origenPeticioDeFirmaSelect = __toClone.origenPeticioDeFirmaSelect;
     this.configuracioDeFirmaIDDesde = __toClone.configuracioDeFirmaIDDesde;
     this.configuracioDeFirmaIDFins = __toClone.configuracioDeFirmaIDFins;
     this.mapOfTipusDocumentForTipusDocumentID = __toClone.mapOfTipusDocumentForTipusDocumentID;

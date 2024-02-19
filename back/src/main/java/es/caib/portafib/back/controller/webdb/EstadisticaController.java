@@ -436,9 +436,9 @@ public class EstadisticaController
       return null;
     }
     try {
-      Estadistica estadistica = estadisticaEjb.findByPrimaryKey(estadisticaID);
+      Estadistica estadistica = this.findByPrimaryKey(request, estadisticaID);
       if (estadistica == null) {
-        String __msg =createMessageError(request, "error.notfound", estadisticaID);
+        String __msg = createMessageError(request, "error.notfound", estadisticaID);
         return getRedirectWhenDelete(request, estadisticaID, new Exception(__msg));
       } else {
         delete(request, estadistica);
@@ -600,7 +600,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, EstadisticaFilterForm estadisticaFilterForm,
        List<Estadistica> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (estadisticaFilterForm.isHiddenField(TIPUS)
-      && !estadisticaFilterForm.isGroupByField(TIPUS)) {
+       && !estadisticaFilterForm.isGroupByField(TIPUS)
+       && !estadisticaFilterForm.isFilterByField(TIPUS)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -636,7 +637,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, EstadisticaFilterForm estadisticaFilterForm,
        List<Estadistica> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (estadisticaFilterForm.isHiddenField(ENTITATID)
-      && !estadisticaFilterForm.isGroupByField(ENTITATID)) {
+       && !estadisticaFilterForm.isGroupByField(ENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -707,7 +708,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "EstadisticaWebDB_FilterForm";
+    return "Estadistica_FilterForm_" + this.getClass().getName();
   }
 
 

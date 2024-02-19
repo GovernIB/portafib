@@ -76,25 +76,14 @@ public class PluginFirmaWebPerUsuariEntitatFilterForm extends PortaFIBBaseFilter
   }
 
 
-  private java.lang.Integer accioDesde;
+  private java.util.List<java.lang.Integer> accioSelect;
 
-  public java.lang.Integer getAccioDesde() {
-    return this.accioDesde;
+  public java.util.List<java.lang.Integer> getAccioSelect() {
+    return this.accioSelect;
   }
 
-  public void setAccioDesde(java.lang.Integer accioDesde) {
-    this.accioDesde = accioDesde;
-  }
-
-
-  private java.lang.Integer accioFins;
-
-  public java.lang.Integer getAccioFins() {
-    return this.accioFins;
-  }
-
-  public void setAccioFins(java.lang.Integer accioFins) {
-    this.accioFins = accioFins;
+  public void setAccioSelect(java.util.List<java.lang.Integer> accioSelect) {
+    this.accioSelect = accioSelect;
   }
 
 
@@ -108,8 +97,7 @@ public class PluginFirmaWebPerUsuariEntitatFilterForm extends PortaFIBBaseFilter
     this.usuariEntitatID = __toClone.usuariEntitatID;
     this.pluginFirmaWebIDDesde = __toClone.pluginFirmaWebIDDesde;
     this.pluginFirmaWebIDFins = __toClone.pluginFirmaWebIDFins;
-    this.accioDesde = __toClone.accioDesde;
-    this.accioFins = __toClone.accioFins;
+    this.accioSelect = __toClone.accioSelect;
     this.mapOfUsuariEntitatForUsuariEntitatID = __toClone.mapOfUsuariEntitatForUsuariEntitatID;
     this.mapOfPluginForPluginFirmaWebID = __toClone.mapOfPluginForPluginFirmaWebID;
     this.mapOfValuesForAccio = __toClone.mapOfValuesForAccio;

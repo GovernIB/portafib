@@ -51,8 +51,8 @@
 
 
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.PLUGINCRIDADAID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="pluginCridada.pluginCridadaID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -86,7 +86,7 @@
             <div class="input-group" style="padding-right:4px;padding-bottom:4px;align-items:center;">
               <span class="add-on"><fmt:message key="pluginCridada.data" />:</span>
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="dataDesde" data-target-input="nearest">
                       <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataDesde" path="dataDesde" />
                     <c:if test="${!false}" >
@@ -107,7 +107,7 @@
                 });
             });
         </script>              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="dataFins" data-target-input="nearest">
                       <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataFins" path="dataFins" />
                     <c:if test="${!false}" >
@@ -132,8 +132,8 @@
     
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.PLUGINID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="pluginCridada.pluginID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -189,8 +189,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.TIPUSTESULTAT)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="pluginCridada.tipusTesultat" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -207,8 +207,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.TEMPSEXECUCIO)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="pluginCridada.tempsExecucio" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>

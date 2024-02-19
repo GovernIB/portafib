@@ -15,25 +15,25 @@ import es.caib.portafib.commons.utils.Constants;
 public class UsuariAplicacioConfiguracioEJB extends UsuariAplicacioConfiguracioJPAManager implements UsuariAplicacioConfiguracioService {
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public void delete(UsuariAplicacioConfiguracio instance) {
         super.delete(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public UsuariAplicacioConfiguracio create(UsuariAplicacioConfiguracio instance) throws I18NException {
         return super.create(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public UsuariAplicacioConfiguracio update(UsuariAplicacioConfiguracio instance) throws I18NException {
          return super.update(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public void deleteIncludingFiles(UsuariAplicacioConfiguracio instance,  FitxerService fitxerEjb)
             throws I18NException {
 
@@ -41,7 +41,7 @@ public class UsuariAplicacioConfiguracioEJB extends UsuariAplicacioConfiguracioJ
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
     public UsuariAplicacioConfiguracioJPA findByPrimaryKey(Long _ID_) {
         return (UsuariAplicacioConfiguracioJPA)super.findByPrimaryKey(_ID_);
     }

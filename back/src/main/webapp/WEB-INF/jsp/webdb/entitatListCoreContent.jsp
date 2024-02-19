@@ -101,7 +101,10 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SUPORTWEB)}">
           <td>
-          ${entitat.suportWeb}
+                       <c:if test="${ not empty entitat.suportWeb}">
+               <a href="${entitat.suportWeb}" target="_blank">${entitat.suportWeb}</a>
+             </c:if>
+
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SUPORTEMAIL)}">

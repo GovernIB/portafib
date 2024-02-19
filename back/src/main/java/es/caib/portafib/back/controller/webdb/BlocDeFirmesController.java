@@ -416,9 +416,9 @@ public class BlocDeFirmesController
       return null;
     }
     try {
-      BlocDeFirmes blocDeFirmes = blocDeFirmesEjb.findByPrimaryKey(blocDeFirmesID);
+      BlocDeFirmes blocDeFirmes = this.findByPrimaryKey(request, blocDeFirmesID);
       if (blocDeFirmes == null) {
-        String __msg =createMessageError(request, "error.notfound", blocDeFirmesID);
+        String __msg = createMessageError(request, "error.notfound", blocDeFirmesID);
         return getRedirectWhenDelete(request, blocDeFirmesID, new Exception(__msg));
       } else {
         delete(request, blocDeFirmes);
@@ -584,7 +584,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, BlocDeFirmesFilterForm blocDeFirmesFilterForm,
        List<BlocDeFirmes> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (blocDeFirmesFilterForm.isHiddenField(FLUXDEFIRMESID)
-      && !blocDeFirmesFilterForm.isGroupByField(FLUXDEFIRMESID)) {
+       && !blocDeFirmesFilterForm.isGroupByField(FLUXDEFIRMESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -654,7 +654,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "BlocDeFirmesWebDB_FilterForm";
+    return "BlocDeFirmes_FilterForm_" + this.getClass().getName();
   }
 
 

@@ -1,13 +1,13 @@
 
 <%-- ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! --%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
- 
-  <%@include file="codiBarresFormTitle.jsp" %>
 
 
 <form:form modelAttribute="codiBarresForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
+  <%@include file="codiBarresFormTitle.jsp" %>
+ 
   <c:set var="contexte" value="${codiBarresForm.contexte}"/>
   <form:hidden path="nou" />
   

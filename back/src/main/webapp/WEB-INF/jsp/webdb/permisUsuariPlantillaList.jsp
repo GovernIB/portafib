@@ -18,7 +18,7 @@
   <%-- Inici de div de TAULA CONTINGUTS --%>
   <div style="width: 100%;">
   <%@include file="permisUsuariPlantillaListCore.jsp" %>
-  <c:if test="${not empty permisUsuariPlantillaItems}">
+  <c:if test="${not empty permisUsuariPlantillaItems && __theFilterForm.footerListVisible}">
           <%@include file="webdbPagination.jsp" %>
 
   </c:if>

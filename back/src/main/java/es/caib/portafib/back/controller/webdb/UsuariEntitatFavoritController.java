@@ -436,9 +436,9 @@ public class UsuariEntitatFavoritController
       return null;
     }
     try {
-      UsuariEntitatFavorit usuariEntitatFavorit = usuariEntitatFavoritEjb.findByPrimaryKey(iD);
+      UsuariEntitatFavorit usuariEntitatFavorit = this.findByPrimaryKey(request, iD);
       if (usuariEntitatFavorit == null) {
-        String __msg =createMessageError(request, "error.notfound", iD);
+        String __msg = createMessageError(request, "error.notfound", iD);
         return getRedirectWhenDelete(request, iD, new Exception(__msg));
       } else {
         delete(request, usuariEntitatFavorit);
@@ -604,7 +604,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariEntitatFavoritFilterForm usuariEntitatFavoritFilterForm,
        List<UsuariEntitatFavorit> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariEntitatFavoritFilterForm.isHiddenField(ORIGENID)
-      && !usuariEntitatFavoritFilterForm.isGroupByField(ORIGENID)) {
+       && !usuariEntitatFavoritFilterForm.isGroupByField(ORIGENID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -643,7 +643,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariEntitatFavoritFilterForm usuariEntitatFavoritFilterForm,
        List<UsuariEntitatFavorit> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariEntitatFavoritFilterForm.isHiddenField(FAVORITID)
-      && !usuariEntitatFavoritFilterForm.isGroupByField(FAVORITID)) {
+       && !usuariEntitatFavoritFilterForm.isGroupByField(FAVORITID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -713,7 +713,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "UsuariEntitatFavoritWebDB_FilterForm";
+    return "UsuariEntitatFavorit_FilterForm_" + this.getClass().getName();
   }
 
 

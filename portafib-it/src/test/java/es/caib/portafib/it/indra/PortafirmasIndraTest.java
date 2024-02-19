@@ -120,7 +120,7 @@ public class PortafirmasIndraTest extends IndraTestUtils {
     final CodeBase codeBase = CodeBase.ENTERPRISE;
     test(codeBase);
   }
-
+  
   /**
    * 
    * @param codeBase Codi Font en que es basa la creació de la peticio

@@ -471,9 +471,9 @@ public class TipusDocumentController
       return null;
     }
     try {
-      TipusDocument tipusDocument = tipusDocumentEjb.findByPrimaryKey(tipusDocumentID);
+      TipusDocument tipusDocument = this.findByPrimaryKey(request, tipusDocumentID);
       if (tipusDocument == null) {
-        String __msg =createMessageError(request, "error.notfound", tipusDocumentID);
+        String __msg = createMessageError(request, "error.notfound", tipusDocumentID);
         return getRedirectWhenDelete(request, tipusDocumentID, new Exception(__msg));
       } else {
         delete(request, tipusDocument);
@@ -625,7 +625,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, TipusDocumentFilterForm tipusDocumentFilterForm,
        List<TipusDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentFilterForm.isHiddenField(NOMID)
-      && !tipusDocumentFilterForm.isGroupByField(NOMID)) {
+       && !tipusDocumentFilterForm.isGroupByField(NOMID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -660,7 +660,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, TipusDocumentFilterForm tipusDocumentFilterForm,
        List<TipusDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentFilterForm.isHiddenField(TIPUSDOCUMENTBASEID)
-      && !tipusDocumentFilterForm.isGroupByField(TIPUSDOCUMENTBASEID)) {
+       && !tipusDocumentFilterForm.isGroupByField(TIPUSDOCUMENTBASEID)
+       && !tipusDocumentFilterForm.isFilterByField(TIPUSDOCUMENTBASEID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -732,7 +733,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, TipusDocumentFilterForm tipusDocumentFilterForm,
        List<TipusDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentFilterForm.isHiddenField(USUARIAPLICACIOID)
-      && !tipusDocumentFilterForm.isGroupByField(USUARIAPLICACIOID)) {
+       && !tipusDocumentFilterForm.isGroupByField(USUARIAPLICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -803,7 +804,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "TipusDocumentWebDB_FilterForm";
+    return "TipusDocument_FilterForm_" + this.getClass().getName();
   }
 
 

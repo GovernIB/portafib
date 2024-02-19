@@ -459,9 +459,9 @@ public class ColaboracioDelegacioController
       return null;
     }
     try {
-      ColaboracioDelegacio colaboracioDelegacio = colaboracioDelegacioEjb.findByPrimaryKey(colaboracioDelegacioID);
+      ColaboracioDelegacio colaboracioDelegacio = this.findByPrimaryKey(request, colaboracioDelegacioID);
       if (colaboracioDelegacio == null) {
-        String __msg =createMessageError(request, "error.notfound", colaboracioDelegacioID);
+        String __msg = createMessageError(request, "error.notfound", colaboracioDelegacioID);
         return getRedirectWhenDelete(request, colaboracioDelegacioID, new Exception(__msg));
       } else {
         delete(request, colaboracioDelegacio);
@@ -650,7 +650,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, ColaboracioDelegacioFilterForm colaboracioDelegacioFilterForm,
        List<ColaboracioDelegacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (colaboracioDelegacioFilterForm.isHiddenField(DESTINATARIID)
-      && !colaboracioDelegacioFilterForm.isGroupByField(DESTINATARIID)) {
+       && !colaboracioDelegacioFilterForm.isGroupByField(DESTINATARIID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -689,7 +689,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, ColaboracioDelegacioFilterForm colaboracioDelegacioFilterForm,
        List<ColaboracioDelegacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (colaboracioDelegacioFilterForm.isHiddenField(COLABORADORDELEGATID)
-      && !colaboracioDelegacioFilterForm.isGroupByField(COLABORADORDELEGATID)) {
+       && !colaboracioDelegacioFilterForm.isGroupByField(COLABORADORDELEGATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -759,7 +759,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "ColaboracioDelegacioWebDB_FilterForm";
+    return "ColaboracioDelegacio_FilterForm_" + this.getClass().getName();
   }
 
 

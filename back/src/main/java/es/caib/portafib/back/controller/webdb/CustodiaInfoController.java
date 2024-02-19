@@ -558,9 +558,9 @@ public class CustodiaInfoController
       return null;
     }
     try {
-      CustodiaInfo custodiaInfo = custodiaInfoEjb.findByPrimaryKey(custodiaInfoID);
+      CustodiaInfo custodiaInfo = this.findByPrimaryKey(request, custodiaInfoID);
       if (custodiaInfo == null) {
-        String __msg =createMessageError(request, "error.notfound", custodiaInfoID);
+        String __msg = createMessageError(request, "error.notfound", custodiaInfoID);
         return getRedirectWhenDelete(request, custodiaInfoID, new Exception(__msg));
       } else {
         delete(request, custodiaInfo);
@@ -726,7 +726,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, CustodiaInfoFilterForm custodiaInfoFilterForm,
        List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (custodiaInfoFilterForm.isHiddenField(PLUGINID)
-      && !custodiaInfoFilterForm.isGroupByField(PLUGINID)) {
+       && !custodiaInfoFilterForm.isGroupByField(PLUGINID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -761,7 +761,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, CustodiaInfoFilterForm custodiaInfoFilterForm,
        List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (custodiaInfoFilterForm.isHiddenField(MISSATGEPOSICIOPAGINAID)
-      && !custodiaInfoFilterForm.isGroupByField(MISSATGEPOSICIOPAGINAID)) {
+       && !custodiaInfoFilterForm.isGroupByField(MISSATGEPOSICIOPAGINAID)
+       && !custodiaInfoFilterForm.isFilterByField(MISSATGEPOSICIOPAGINAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -798,7 +799,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, CustodiaInfoFilterForm custodiaInfoFilterForm,
        List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (custodiaInfoFilterForm.isHiddenField(CODIBARRESID)
-      && !custodiaInfoFilterForm.isGroupByField(CODIBARRESID)) {
+       && !custodiaInfoFilterForm.isGroupByField(CODIBARRESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -833,7 +834,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, CustodiaInfoFilterForm custodiaInfoFilterForm,
        List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (custodiaInfoFilterForm.isHiddenField(CODIBARRESPOSICIOPAGINAID)
-      && !custodiaInfoFilterForm.isGroupByField(CODIBARRESPOSICIOPAGINAID)) {
+       && !custodiaInfoFilterForm.isGroupByField(CODIBARRESPOSICIOPAGINAID)
+       && !custodiaInfoFilterForm.isFilterByField(CODIBARRESPOSICIOPAGINAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -870,7 +872,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, CustodiaInfoFilterForm custodiaInfoFilterForm,
        List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (custodiaInfoFilterForm.isHiddenField(USUARIENTITATID)
-      && !custodiaInfoFilterForm.isGroupByField(USUARIENTITATID)) {
+       && !custodiaInfoFilterForm.isGroupByField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -910,7 +912,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, CustodiaInfoFilterForm custodiaInfoFilterForm,
        List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (custodiaInfoFilterForm.isHiddenField(USUARIAPLICACIOID)
-      && !custodiaInfoFilterForm.isGroupByField(USUARIAPLICACIOID)) {
+       && !custodiaInfoFilterForm.isGroupByField(USUARIAPLICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -950,7 +952,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, CustodiaInfoFilterForm custodiaInfoFilterForm,
        List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (custodiaInfoFilterForm.isHiddenField(ENTITATID)
-      && !custodiaInfoFilterForm.isGroupByField(ENTITATID)) {
+       && !custodiaInfoFilterForm.isGroupByField(ENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1021,7 +1023,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "CustodiaInfoWebDB_FilterForm";
+    return "CustodiaInfo_FilterForm_" + this.getClass().getName();
   }
 
 

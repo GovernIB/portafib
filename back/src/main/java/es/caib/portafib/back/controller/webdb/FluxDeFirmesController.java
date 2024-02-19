@@ -387,9 +387,9 @@ public class FluxDeFirmesController
       return null;
     }
     try {
-      FluxDeFirmes fluxDeFirmes = fluxDeFirmesEjb.findByPrimaryKey(fluxDeFirmesID);
+      FluxDeFirmes fluxDeFirmes = this.findByPrimaryKey(request, fluxDeFirmesID);
       if (fluxDeFirmes == null) {
-        String __msg =createMessageError(request, "error.notfound", fluxDeFirmesID);
+        String __msg = createMessageError(request, "error.notfound", fluxDeFirmesID);
         return getRedirectWhenDelete(request, fluxDeFirmesID, new Exception(__msg));
       } else {
         delete(request, fluxDeFirmes);
@@ -586,7 +586,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "FluxDeFirmesWebDB_FilterForm";
+    return "FluxDeFirmes_FilterForm_" + this.getClass().getName();
   }
 
 

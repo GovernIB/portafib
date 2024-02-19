@@ -454,9 +454,9 @@ public class AnnexFirmatController
       return null;
     }
     try {
-      AnnexFirmat annexFirmat = annexFirmatEjb.findByPrimaryKey(annexfirmatID);
+      AnnexFirmat annexFirmat = this.findByPrimaryKey(request, annexfirmatID);
       if (annexFirmat == null) {
-        String __msg =createMessageError(request, "error.notfound", annexfirmatID);
+        String __msg = createMessageError(request, "error.notfound", annexfirmatID);
         return getRedirectWhenDelete(request, annexfirmatID, new Exception(__msg));
       } else {
         delete(request, annexFirmat);
@@ -644,7 +644,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, AnnexFirmatFilterForm annexFirmatFilterForm,
        List<AnnexFirmat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (annexFirmatFilterForm.isHiddenField(ANNEXID)
-      && !annexFirmatFilterForm.isGroupByField(ANNEXID)) {
+       && !annexFirmatFilterForm.isGroupByField(ANNEXID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -683,7 +683,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, AnnexFirmatFilterForm annexFirmatFilterForm,
        List<AnnexFirmat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (annexFirmatFilterForm.isHiddenField(FIRMAID)
-      && !annexFirmatFilterForm.isGroupByField(FIRMAID)) {
+       && !annexFirmatFilterForm.isGroupByField(FIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -753,7 +753,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "AnnexFirmatWebDB_FilterForm";
+    return "AnnexFirmat_FilterForm_" + this.getClass().getName();
   }
 
 

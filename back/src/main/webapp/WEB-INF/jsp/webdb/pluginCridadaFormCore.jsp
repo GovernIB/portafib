@@ -54,7 +54,7 @@
             </td>
           <td id="pluginCridada_data_columnvalueid">
     <form:errors path="pluginCridada.data" cssClass="errorField alert alert-danger" />
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="pluginCridada_data" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.DATA)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#pluginCridada_data" path="pluginCridada.data" />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.DATA)}" >

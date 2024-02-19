@@ -440,9 +440,9 @@ public class PermisUsuariPlantillaController
       return null;
     }
     try {
-      PermisUsuariPlantilla permisUsuariPlantilla = permisUsuariPlantillaEjb.findByPrimaryKey(permisUsuariPlantillaID);
+      PermisUsuariPlantilla permisUsuariPlantilla = this.findByPrimaryKey(request, permisUsuariPlantillaID);
       if (permisUsuariPlantilla == null) {
-        String __msg =createMessageError(request, "error.notfound", permisUsuariPlantillaID);
+        String __msg = createMessageError(request, "error.notfound", permisUsuariPlantillaID);
         return getRedirectWhenDelete(request, permisUsuariPlantillaID, new Exception(__msg));
       } else {
         delete(request, permisUsuariPlantilla);
@@ -608,7 +608,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PermisUsuariPlantillaFilterForm permisUsuariPlantillaFilterForm,
        List<PermisUsuariPlantilla> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (permisUsuariPlantillaFilterForm.isHiddenField(USUARIENTITATID)
-      && !permisUsuariPlantillaFilterForm.isGroupByField(USUARIENTITATID)) {
+       && !permisUsuariPlantillaFilterForm.isGroupByField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -647,7 +647,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PermisUsuariPlantillaFilterForm permisUsuariPlantillaFilterForm,
        List<PermisUsuariPlantilla> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (permisUsuariPlantillaFilterForm.isHiddenField(PLANTILLAFLUXDEFIRMESID)
-      && !permisUsuariPlantillaFilterForm.isGroupByField(PLANTILLAFLUXDEFIRMESID)) {
+       && !permisUsuariPlantillaFilterForm.isGroupByField(PLANTILLAFLUXDEFIRMESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -717,7 +717,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "PermisUsuariPlantillaWebDB_FilterForm";
+    return "PermisUsuariPlantilla_FilterForm_" + this.getClass().getName();
   }
 
 

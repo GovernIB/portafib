@@ -440,9 +440,9 @@ public class TipusDocumentColaboracioDelegacioController
       return null;
     }
     try {
-      TipusDocumentColaboracioDelegacio tipusDocumentColaboracioDelegacio = tipusDocumentColaboracioDelegacioEjb.findByPrimaryKey(id);
+      TipusDocumentColaboracioDelegacio tipusDocumentColaboracioDelegacio = this.findByPrimaryKey(request, id);
       if (tipusDocumentColaboracioDelegacio == null) {
-        String __msg =createMessageError(request, "error.notfound", id);
+        String __msg = createMessageError(request, "error.notfound", id);
         return getRedirectWhenDelete(request, id, new Exception(__msg));
       } else {
         delete(request, tipusDocumentColaboracioDelegacio);
@@ -608,7 +608,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, TipusDocumentColaboracioDelegacioFilterForm tipusDocumentColaboracioDelegacioFilterForm,
        List<TipusDocumentColaboracioDelegacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentColaboracioDelegacioFilterForm.isHiddenField(COLABORACIODELEGACIOID)
-      && !tipusDocumentColaboracioDelegacioFilterForm.isGroupByField(COLABORACIODELEGACIOID)) {
+       && !tipusDocumentColaboracioDelegacioFilterForm.isGroupByField(COLABORACIODELEGACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -647,7 +647,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, TipusDocumentColaboracioDelegacioFilterForm tipusDocumentColaboracioDelegacioFilterForm,
        List<TipusDocumentColaboracioDelegacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (tipusDocumentColaboracioDelegacioFilterForm.isHiddenField(TIPUSDOCUMENTID)
-      && !tipusDocumentColaboracioDelegacioFilterForm.isGroupByField(TIPUSDOCUMENTID)) {
+       && !tipusDocumentColaboracioDelegacioFilterForm.isGroupByField(TIPUSDOCUMENTID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -717,7 +717,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "TipusDocumentColaboracioDelegacioWebDB_FilterForm";
+    return "TipusDocumentColaboracioDelegacio_FilterForm_" + this.getClass().getName();
   }
 
 

@@ -1,6 +1,7 @@
 package org.fundaciobit.apisib.jerseycore;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.fundaciobit.apisib.core.beans.ApisIBError;
 import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
@@ -73,6 +74,7 @@ public abstract class AbstractApisIBConnectionManagerJersey<E extends ApisIBErro
         if (this.client4 == null) {
             ClientConfig config = new DefaultApacheHttpClient4Config();
             config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+            config.getClasses().add(JacksonJsonProvider.class);
             final String proxyHost = System.getProperty("http.proxyHost");
             if (proxyHost != null && !"".equals(proxyHost)) {
                 if (!validateNonProxyHosts(endPointBase)) {

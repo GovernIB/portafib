@@ -534,9 +534,9 @@ public class PluginController
       return null;
     }
     try {
-      Plugin plugin = pluginEjb.findByPrimaryKey(pluginID);
+      Plugin plugin = this.findByPrimaryKey(request, pluginID);
       if (plugin == null) {
-        String __msg =createMessageError(request, "error.notfound", pluginID);
+        String __msg = createMessageError(request, "error.notfound", pluginID);
         return getRedirectWhenDelete(request, pluginID, new Exception(__msg));
       } else {
         delete(request, plugin);
@@ -688,7 +688,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PluginFilterForm pluginFilterForm,
        List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFilterForm.isHiddenField(NOMID)
-      && !pluginFilterForm.isGroupByField(NOMID)) {
+       && !pluginFilterForm.isGroupByField(NOMID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -713,7 +713,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PluginFilterForm pluginFilterForm,
        List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFilterForm.isHiddenField(DESCRIPCIOCURTAID)
-      && !pluginFilterForm.isGroupByField(DESCRIPCIOCURTAID)) {
+       && !pluginFilterForm.isGroupByField(DESCRIPCIOCURTAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -748,7 +748,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PluginFilterForm pluginFilterForm,
        List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFilterForm.isHiddenField(TIPUS)
-      && !pluginFilterForm.isGroupByField(TIPUS)) {
+       && !pluginFilterForm.isGroupByField(TIPUS)
+       && !pluginFilterForm.isFilterByField(TIPUS)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -780,7 +781,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PluginFilterForm pluginFilterForm,
        List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFilterForm.isHiddenField(POLITICADEUS)
-      && !pluginFilterForm.isGroupByField(POLITICADEUS)) {
+       && !pluginFilterForm.isGroupByField(POLITICADEUS)
+       && !pluginFilterForm.isFilterByField(POLITICADEUS)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -815,7 +817,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PluginFilterForm pluginFilterForm,
        List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFilterForm.isHiddenField(ENTITATID)
-      && !pluginFilterForm.isGroupByField(ENTITATID)) {
+       && !pluginFilterForm.isGroupByField(ENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -851,7 +853,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PluginFilterForm pluginFilterForm,
        List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFilterForm.isHiddenField(POLITICAMOSTRARPROPIETATS)
-      && !pluginFilterForm.isGroupByField(POLITICAMOSTRARPROPIETATS)) {
+       && !pluginFilterForm.isGroupByField(POLITICAMOSTRARPROPIETATS)
+       && !pluginFilterForm.isFilterByField(POLITICAMOSTRARPROPIETATS)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -918,7 +921,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "PluginWebDB_FilterForm";
+    return "Plugin_FilterForm_" + this.getClass().getName();
   }
 
 

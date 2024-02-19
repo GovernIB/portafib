@@ -443,9 +443,9 @@ public class RevisorDeFirmaController
       return null;
     }
     try {
-      RevisorDeFirma revisorDeFirma = revisorDeFirmaEjb.findByPrimaryKey(revisorDeFirmaID);
+      RevisorDeFirma revisorDeFirma = this.findByPrimaryKey(request, revisorDeFirmaID);
       if (revisorDeFirma == null) {
-        String __msg =createMessageError(request, "error.notfound", revisorDeFirmaID);
+        String __msg = createMessageError(request, "error.notfound", revisorDeFirmaID);
         return getRedirectWhenDelete(request, revisorDeFirmaID, new Exception(__msg));
       } else {
         delete(request, revisorDeFirma);
@@ -611,7 +611,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, RevisorDeFirmaFilterForm revisorDeFirmaFilterForm,
        List<RevisorDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (revisorDeFirmaFilterForm.isHiddenField(USUARIENTITATID)
-      && !revisorDeFirmaFilterForm.isGroupByField(USUARIENTITATID)) {
+       && !revisorDeFirmaFilterForm.isGroupByField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -650,7 +650,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, RevisorDeFirmaFilterForm revisorDeFirmaFilterForm,
        List<RevisorDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (revisorDeFirmaFilterForm.isHiddenField(FIRMAID)
-      && !revisorDeFirmaFilterForm.isGroupByField(FIRMAID)) {
+       && !revisorDeFirmaFilterForm.isGroupByField(FIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -720,7 +720,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "RevisorDeFirmaWebDB_FilterForm";
+    return "RevisorDeFirma_FilterForm_" + this.getClass().getName();
   }
 
 

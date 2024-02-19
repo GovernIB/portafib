@@ -440,9 +440,9 @@ public class PermisGrupPlantillaController
       return null;
     }
     try {
-      PermisGrupPlantilla permisGrupPlantilla = permisGrupPlantillaEjb.findByPrimaryKey(permisGrupPlantillaID);
+      PermisGrupPlantilla permisGrupPlantilla = this.findByPrimaryKey(request, permisGrupPlantillaID);
       if (permisGrupPlantilla == null) {
-        String __msg =createMessageError(request, "error.notfound", permisGrupPlantillaID);
+        String __msg = createMessageError(request, "error.notfound", permisGrupPlantillaID);
         return getRedirectWhenDelete(request, permisGrupPlantillaID, new Exception(__msg));
       } else {
         delete(request, permisGrupPlantilla);
@@ -608,7 +608,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PermisGrupPlantillaFilterForm permisGrupPlantillaFilterForm,
        List<PermisGrupPlantilla> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (permisGrupPlantillaFilterForm.isHiddenField(GRUPENTITATID)
-      && !permisGrupPlantillaFilterForm.isGroupByField(GRUPENTITATID)) {
+       && !permisGrupPlantillaFilterForm.isGroupByField(GRUPENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -647,7 +647,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PermisGrupPlantillaFilterForm permisGrupPlantillaFilterForm,
        List<PermisGrupPlantilla> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (permisGrupPlantillaFilterForm.isHiddenField(PLANTILLAFLUXDEFIRMESID)
-      && !permisGrupPlantillaFilterForm.isGroupByField(PLANTILLAFLUXDEFIRMESID)) {
+       && !permisGrupPlantillaFilterForm.isGroupByField(PLANTILLAFLUXDEFIRMESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -717,7 +717,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "PermisGrupPlantillaWebDB_FilterForm";
+    return "PermisGrupPlantilla_FilterForm_" + this.getClass().getName();
   }
 
 

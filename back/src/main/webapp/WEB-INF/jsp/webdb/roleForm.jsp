@@ -1,13 +1,13 @@
 
 <%-- ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! --%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
- 
-  <%@include file="roleFormTitle.jsp" %>
 
 
 <form:form modelAttribute="roleForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
+  <%@include file="roleFormTitle.jsp" %>
+ 
   <c:set var="contexte" value="${roleForm.contexte}"/>
   <form:hidden path="nou" />
   

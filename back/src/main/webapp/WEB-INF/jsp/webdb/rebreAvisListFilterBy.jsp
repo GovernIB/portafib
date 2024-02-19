@@ -51,8 +51,8 @@
 
 
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,RebreAvisFields.ID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="rebreAvis.id" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -82,8 +82,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,RebreAvisFields.TIPUSNOTIFICACIOID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="rebreAvis.tipusNotificacioID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -100,8 +100,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,RebreAvisFields.REBREAGRUPAT)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="rebreAvis.rebreAgrupat" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>

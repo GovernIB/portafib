@@ -504,9 +504,9 @@ public class EstatDeFirmaController
       return null;
     }
     try {
-      EstatDeFirma estatDeFirma = estatDeFirmaEjb.findByPrimaryKey(estatDeFirmaID);
+      EstatDeFirma estatDeFirma = this.findByPrimaryKey(request, estatDeFirmaID);
       if (estatDeFirma == null) {
-        String __msg =createMessageError(request, "error.notfound", estatDeFirmaID);
+        String __msg = createMessageError(request, "error.notfound", estatDeFirmaID);
         return getRedirectWhenDelete(request, estatDeFirmaID, new Exception(__msg));
       } else {
         delete(request, estatDeFirma);
@@ -672,7 +672,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, EstatDeFirmaFilterForm estatDeFirmaFilterForm,
        List<EstatDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (estatDeFirmaFilterForm.isHiddenField(FIRMAID)
-      && !estatDeFirmaFilterForm.isGroupByField(FIRMAID)) {
+       && !estatDeFirmaFilterForm.isGroupByField(FIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -711,7 +711,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, EstatDeFirmaFilterForm estatDeFirmaFilterForm,
        List<EstatDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (estatDeFirmaFilterForm.isHiddenField(USUARIENTITATID)
-      && !estatDeFirmaFilterForm.isGroupByField(USUARIENTITATID)) {
+       && !estatDeFirmaFilterForm.isGroupByField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -746,7 +746,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, EstatDeFirmaFilterForm estatDeFirmaFilterForm,
        List<EstatDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (estatDeFirmaFilterForm.isHiddenField(TIPUSESTATDEFIRMAINICIALID)
-      && !estatDeFirmaFilterForm.isGroupByField(TIPUSESTATDEFIRMAINICIALID)) {
+       && !estatDeFirmaFilterForm.isGroupByField(TIPUSESTATDEFIRMAINICIALID)
+       && !estatDeFirmaFilterForm.isFilterByField(TIPUSESTATDEFIRMAINICIALID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -778,7 +779,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, EstatDeFirmaFilterForm estatDeFirmaFilterForm,
        List<EstatDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (estatDeFirmaFilterForm.isHiddenField(TIPUSESTATDEFIRMAFINALID)
-      && !estatDeFirmaFilterForm.isGroupByField(TIPUSESTATDEFIRMAFINALID)) {
+       && !estatDeFirmaFilterForm.isGroupByField(TIPUSESTATDEFIRMAFINALID)
+       && !estatDeFirmaFilterForm.isFilterByField(TIPUSESTATDEFIRMAFINALID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -816,7 +818,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, EstatDeFirmaFilterForm estatDeFirmaFilterForm,
        List<EstatDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (estatDeFirmaFilterForm.isHiddenField(COLABORACIODELEGACIOID)
-      && !estatDeFirmaFilterForm.isGroupByField(COLABORACIODELEGACIOID)) {
+       && !estatDeFirmaFilterForm.isGroupByField(COLABORACIODELEGACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -887,7 +889,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "EstatDeFirmaWebDB_FilterForm";
+    return "EstatDeFirma_FilterForm_" + this.getClass().getName();
   }
 
 

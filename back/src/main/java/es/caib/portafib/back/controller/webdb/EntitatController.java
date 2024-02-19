@@ -725,9 +725,9 @@ public class EntitatController
       return null;
     }
     try {
-      Entitat entitat = entitatEjb.findByPrimaryKey(entitatID);
+      Entitat entitat = this.findByPrimaryKey(request, entitatID);
       if (entitat == null) {
-        String __msg =createMessageError(request, "error.notfound", entitatID);
+        String __msg = createMessageError(request, "error.notfound", entitatID);
         return getRedirectWhenDelete(request, entitatID, new Exception(__msg));
       } else {
         delete(request, entitat);
@@ -955,7 +955,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(USUARIAPLICACIOID)
-      && !entitatFilterForm.isGroupByField(USUARIAPLICACIOID)) {
+       && !entitatFilterForm.isGroupByField(USUARIAPLICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -991,7 +991,8 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(USPOLITICADEFIRMA)
-      && !entitatFilterForm.isGroupByField(USPOLITICADEFIRMA)) {
+       && !entitatFilterForm.isGroupByField(USPOLITICADEFIRMA)
+       && !entitatFilterForm.isFilterByField(USPOLITICADEFIRMA)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1012,7 +1013,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(MOTIUDELEGACIOID)
-      && !entitatFilterForm.isGroupByField(MOTIUDELEGACIOID)) {
+       && !entitatFilterForm.isGroupByField(MOTIUDELEGACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1038,7 +1039,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(FIRMATPERFORMATID)
-      && !entitatFilterForm.isGroupByField(FIRMATPERFORMATID)) {
+       && !entitatFilterForm.isGroupByField(FIRMATPERFORMATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1074,7 +1075,8 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(ALGORISMEDEFIRMAID)
-      && !entitatFilterForm.isGroupByField(ALGORISMEDEFIRMAID)) {
+       && !entitatFilterForm.isGroupByField(ALGORISMEDEFIRMAID)
+       && !entitatFilterForm.isFilterByField(ALGORISMEDEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1106,7 +1108,8 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(POLITICACUSTODIA)
-      && !entitatFilterForm.isGroupByField(POLITICACUSTODIA)) {
+       && !entitatFilterForm.isGroupByField(POLITICACUSTODIA)
+       && !entitatFilterForm.isFilterByField(POLITICACUSTODIA)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1144,7 +1147,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(CUSTODIAINFOID)
-      && !entitatFilterForm.isGroupByField(CUSTODIAINFOID)) {
+       && !entitatFilterForm.isGroupByField(CUSTODIAINFOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1180,7 +1183,8 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(POLITICATAULAFIRMES)
-      && !entitatFilterForm.isGroupByField(POLITICATAULAFIRMES)) {
+       && !entitatFilterForm.isGroupByField(POLITICATAULAFIRMES)
+       && !entitatFilterForm.isFilterByField(POLITICATAULAFIRMES)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1212,7 +1216,8 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(POSICIOTAULAFIRMES)
-      && !entitatFilterForm.isGroupByField(POSICIOTAULAFIRMES)) {
+       && !entitatFilterForm.isGroupByField(POSICIOTAULAFIRMES)
+       && !entitatFilterForm.isFilterByField(POSICIOTAULAFIRMES)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1244,7 +1249,8 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(POLITICASEGELLATDETEMPS)
-      && !entitatFilterForm.isGroupByField(POLITICASEGELLATDETEMPS)) {
+       && !entitatFilterForm.isGroupByField(POLITICASEGELLATDETEMPS)
+       && !entitatFilterForm.isFilterByField(POLITICASEGELLATDETEMPS)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1280,7 +1286,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(PLUGINSEGELLTEMPSID)
-      && !entitatFilterForm.isGroupByField(PLUGINSEGELLTEMPSID)) {
+       && !entitatFilterForm.isGroupByField(PLUGINSEGELLTEMPSID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1320,7 +1326,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(PLUGINRUBRICAID)
-      && !entitatFilterForm.isGroupByField(PLUGINRUBRICAID)) {
+       && !entitatFilterForm.isGroupByField(PLUGINRUBRICAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1360,7 +1366,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(PLUGINVALIDAFIRMESID)
-      && !entitatFilterForm.isGroupByField(PLUGINVALIDAFIRMESID)) {
+       && !entitatFilterForm.isGroupByField(PLUGINVALIDAFIRMESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1400,7 +1406,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (entitatFilterForm.isHiddenField(PLUGINVALIDACERTIFICATID)
-      && !entitatFilterForm.isGroupByField(PLUGINVALIDACERTIFICATID)) {
+       && !entitatFilterForm.isGroupByField(PLUGINVALIDACERTIFICATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1471,7 +1477,7 @@ public java.lang.String stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "EntitatWebDB_FilterForm";
+    return "Entitat_FilterForm_" + this.getClass().getName();
   }
 
 

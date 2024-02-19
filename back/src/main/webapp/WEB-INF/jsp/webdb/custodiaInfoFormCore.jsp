@@ -448,7 +448,7 @@
             </td>
           <td id="custodiaInfo_dataCustodia_columnvalueid">
     <form:errors path="custodiaInfo.dataCustodia" cssClass="errorField alert alert-danger" />
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="custodiaInfo_dataCustodia" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DATACUSTODIA)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#custodiaInfo_dataCustodia" path="custodiaInfo.dataCustodia" />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DATACUSTODIA)}" >

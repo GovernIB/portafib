@@ -19,9 +19,9 @@ import javax.persistence.Id;
 @Table(name = "pfi_estatdefirma" , indexes = { 
         @Index(name="pfi_estatdefirma_pk_i", columnList = "estatdefirmaid"),
         @Index(name="pfi_estatdefirma_firmaid_fk_i", columnList = "firmaid"),
-        @Index(name="pfi_estatfirma_usrestats_i", columnList = "usuarientitatid"),
-        @Index(name="pfi_estatfirma_usrestats_i", columnList = "tipusestatdefirmainicialid"),
-        @Index(name="pfi_estatfirma_usrestats_i", columnList = "tipusestatdefirmafinalid"),
+        @Index(name="pfi_estatfirma_usuenti_fk_i", columnList = "usuarientitatid"),
+        @Index(name="pfi_estatfirma_usuenti_fk_i", columnList = "tipusestatdefirmainicialid"),
+        @Index(name="pfi_estatfirma_usuenti_fk_i", columnList = "tipusestatdefirmafinalid"),
         @Index(name="pfi_estatfirma_coladele_fk_i", columnList = "colaboraciodelegacioid")})
 @SequenceGenerator(name="ESTATDEFIRMA_SEQ", sequenceName="pfi_estatdefirma_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement

@@ -50,7 +50,7 @@
             </td>
           <td id="bitacola_data_columnvalueid">
     <form:errors path="bitacola.data" cssClass="errorField alert alert-danger" />
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="bitacola_data" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.DATA)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#bitacola_data" path="bitacola.data" />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,BitacolaFields.DATA)}" >

@@ -496,9 +496,9 @@ public class PerfilDeFirmaController
       return null;
     }
     try {
-      PerfilDeFirma perfilDeFirma = perfilDeFirmaEjb.findByPrimaryKey(usuariAplicacioPerfilID);
+      PerfilDeFirma perfilDeFirma = this.findByPrimaryKey(request, usuariAplicacioPerfilID);
       if (perfilDeFirma == null) {
-        String __msg =createMessageError(request, "error.notfound", usuariAplicacioPerfilID);
+        String __msg = createMessageError(request, "error.notfound", usuariAplicacioPerfilID);
         return getRedirectWhenDelete(request, usuariAplicacioPerfilID, new Exception(__msg));
       } else {
         delete(request, perfilDeFirma);
@@ -664,7 +664,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PerfilDeFirmaFilterForm perfilDeFirmaFilterForm,
        List<PerfilDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (perfilDeFirmaFilterForm.isHiddenField(CONFIGURACIODEFIRMA1ID)
-      && !perfilDeFirmaFilterForm.isGroupByField(CONFIGURACIODEFIRMA1ID)) {
+       && !perfilDeFirmaFilterForm.isGroupByField(CONFIGURACIODEFIRMA1ID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -703,7 +703,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PerfilDeFirmaFilterForm perfilDeFirmaFilterForm,
        List<PerfilDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (perfilDeFirmaFilterForm.isHiddenField(CONFIGURACIODEFIRMA2ID)
-      && !perfilDeFirmaFilterForm.isGroupByField(CONFIGURACIODEFIRMA2ID)) {
+       && !perfilDeFirmaFilterForm.isGroupByField(CONFIGURACIODEFIRMA2ID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -743,7 +743,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PerfilDeFirmaFilterForm perfilDeFirmaFilterForm,
        List<PerfilDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (perfilDeFirmaFilterForm.isHiddenField(CONFIGURACIODEFIRMA3ID)
-      && !perfilDeFirmaFilterForm.isGroupByField(CONFIGURACIODEFIRMA3ID)) {
+       && !perfilDeFirmaFilterForm.isGroupByField(CONFIGURACIODEFIRMA3ID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -783,7 +783,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PerfilDeFirmaFilterForm perfilDeFirmaFilterForm,
        List<PerfilDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (perfilDeFirmaFilterForm.isHiddenField(CONFIGURACIODEFIRMA4ID)
-      && !perfilDeFirmaFilterForm.isGroupByField(CONFIGURACIODEFIRMA4ID)) {
+       && !perfilDeFirmaFilterForm.isGroupByField(CONFIGURACIODEFIRMA4ID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -823,7 +823,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PerfilDeFirmaFilterForm perfilDeFirmaFilterForm,
        List<PerfilDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (perfilDeFirmaFilterForm.isHiddenField(CONFIGURACIODEFIRMA5ID)
-      && !perfilDeFirmaFilterForm.isGroupByField(CONFIGURACIODEFIRMA5ID)) {
+       && !perfilDeFirmaFilterForm.isGroupByField(CONFIGURACIODEFIRMA5ID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -894,7 +894,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "PerfilDeFirmaWebDB_FilterForm";
+    return "PerfilDeFirma_FilterForm_" + this.getClass().getName();
   }
 
 

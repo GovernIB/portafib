@@ -436,9 +436,9 @@ public class AnnexController
       return null;
     }
     try {
-      Annex annex = annexEjb.findByPrimaryKey(annexID);
+      Annex annex = this.findByPrimaryKey(request, annexID);
       if (annex == null) {
-        String __msg =createMessageError(request, "error.notfound", annexID);
+        String __msg = createMessageError(request, "error.notfound", annexID);
         return getRedirectWhenDelete(request, annexID, new Exception(__msg));
       } else {
         delete(request, annex);
@@ -626,7 +626,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, AnnexFilterForm annexFilterForm,
        List<Annex> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (annexFilterForm.isHiddenField(PETICIODEFIRMAID)
-      && !annexFilterForm.isGroupByField(PETICIODEFIRMAID)) {
+       && !annexFilterForm.isGroupByField(PETICIODEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -696,7 +696,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "AnnexWebDB_FilterForm";
+    return "Annex_FilterForm_" + this.getClass().getName();
   }
 
 

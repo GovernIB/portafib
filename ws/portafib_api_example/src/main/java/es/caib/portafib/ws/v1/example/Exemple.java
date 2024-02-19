@@ -112,7 +112,7 @@ public class Exemple {
       log.info("Versio " + api.getVersion());
       log.info("Idiomes:" + Arrays.toString(api.getSupportedLanguages().toArray()));
       
-      if (true) return;
+      //if (true) return;
 
       final String titol = "Peticio de Test amb Custodia - "
          + ((System.currentTimeMillis() / 1000 ) % 100000);
@@ -136,7 +136,7 @@ public class Exemple {
       if (custodiaInfoBean == null) {
         log.info("Avis: No hi ha sistema de custodia definit"
             + " o l´usuari aplicació " + usr_app + " no pot custodiar");
-      } else {        
+      } else {
         if (!custodiaInfoBean.isEditable()) {
           log.info("Avis: La custòdia per defecte NO ES MODIFICABLE");
         }
@@ -170,7 +170,6 @@ public class Exemple {
         String mime =  "application/octet-stream";
         fitxerAFirmar = PeticioDeFirmaUtils.constructFitxerBeanFromFile(f, mime);
       }
-
 
       // Crear Peticio
       PeticioDeFirmaWs peticioDeFirmaWs;

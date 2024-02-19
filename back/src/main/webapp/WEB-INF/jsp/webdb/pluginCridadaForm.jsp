@@ -1,13 +1,13 @@
 
 <%-- ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! --%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
- 
-  <%@include file="pluginCridadaFormTitle.jsp" %>
 
 
 <form:form modelAttribute="pluginCridadaForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
+  <%@include file="pluginCridadaFormTitle.jsp" %>
+ 
   <c:set var="contexte" value="${pluginCridadaForm.contexte}"/>
   <form:hidden path="nou" />
   

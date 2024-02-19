@@ -527,9 +527,9 @@ public class UsuariEntitatController
       return null;
     }
     try {
-      UsuariEntitat usuariEntitat = usuariEntitatEjb.findByPrimaryKey(usuariEntitatID);
+      UsuariEntitat usuariEntitat = this.findByPrimaryKey(request, usuariEntitatID);
       if (usuariEntitat == null) {
-        String __msg =createMessageError(request, "error.notfound", usuariEntitatID);
+        String __msg = createMessageError(request, "error.notfound", usuariEntitatID);
         return getRedirectWhenDelete(request, usuariEntitatID, new Exception(__msg));
       } else {
         delete(request, usuariEntitat);
@@ -718,7 +718,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, UsuariEntitatFilterForm usuariEntitatFilterForm,
        List<UsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariEntitatFilterForm.isHiddenField(USUARIPERSONAID)
-      && !usuariEntitatFilterForm.isGroupByField(USUARIPERSONAID)) {
+       && !usuariEntitatFilterForm.isGroupByField(USUARIPERSONAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -757,7 +757,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, UsuariEntitatFilterForm usuariEntitatFilterForm,
        List<UsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariEntitatFilterForm.isHiddenField(ENTITATID)
-      && !usuariEntitatFilterForm.isGroupByField(ENTITATID)) {
+       && !usuariEntitatFilterForm.isGroupByField(ENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -792,7 +792,8 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, UsuariEntitatFilterForm usuariEntitatFilterForm,
        List<UsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariEntitatFilterForm.isHiddenField(POLITICADEPLUGINFIRMAWEB)
-      && !usuariEntitatFilterForm.isGroupByField(POLITICADEPLUGINFIRMAWEB)) {
+       && !usuariEntitatFilterForm.isGroupByField(POLITICADEPLUGINFIRMAWEB)
+       && !usuariEntitatFilterForm.isFilterByField(POLITICADEPLUGINFIRMAWEB)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -823,7 +824,8 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, UsuariEntitatFilterForm usuariEntitatFilterForm,
        List<UsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariEntitatFilterForm.isHiddenField(POLITICACUSTODIA)
-      && !usuariEntitatFilterForm.isGroupByField(POLITICACUSTODIA)) {
+       && !usuariEntitatFilterForm.isGroupByField(POLITICACUSTODIA)
+       && !usuariEntitatFilterForm.isFilterByField(POLITICACUSTODIA)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -863,7 +865,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, UsuariEntitatFilterForm usuariEntitatFilterForm,
        List<UsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariEntitatFilterForm.isHiddenField(CUSTODIAINFOID)
-      && !usuariEntitatFilterForm.isGroupByField(CUSTODIAINFOID)) {
+       && !usuariEntitatFilterForm.isGroupByField(CUSTODIAINFOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -934,7 +936,7 @@ public java.lang.String stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "UsuariEntitatWebDB_FilterForm";
+    return "UsuariEntitat_FilterForm_" + this.getClass().getName();
   }
 
 

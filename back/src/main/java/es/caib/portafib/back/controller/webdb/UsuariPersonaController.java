@@ -433,9 +433,9 @@ public class UsuariPersonaController
       return null;
     }
     try {
-      UsuariPersona usuariPersona = usuariPersonaEjb.findByPrimaryKey(usuariPersonaID);
+      UsuariPersona usuariPersona = this.findByPrimaryKey(request, usuariPersonaID);
       if (usuariPersona == null) {
-        String __msg =createMessageError(request, "error.notfound", usuariPersonaID);
+        String __msg = createMessageError(request, "error.notfound", usuariPersonaID);
         return getRedirectWhenDelete(request, usuariPersonaID, new Exception(__msg));
       } else {
         delete(request, usuariPersona);
@@ -624,7 +624,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, UsuariPersonaFilterForm usuariPersonaFilterForm,
        List<UsuariPersona> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariPersonaFilterForm.isHiddenField(IDIOMAID)
-      && !usuariPersonaFilterForm.isGroupByField(IDIOMAID)) {
+       && !usuariPersonaFilterForm.isGroupByField(IDIOMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -694,7 +694,7 @@ public java.lang.String stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "UsuariPersonaWebDB_FilterForm";
+    return "UsuariPersona_FilterForm_" + this.getClass().getName();
   }
 
 

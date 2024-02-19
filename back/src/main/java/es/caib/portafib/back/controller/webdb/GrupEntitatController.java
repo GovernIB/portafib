@@ -416,9 +416,9 @@ public class GrupEntitatController
       return null;
     }
     try {
-      GrupEntitat grupEntitat = grupEntitatEjb.findByPrimaryKey(grupEntitatID);
+      GrupEntitat grupEntitat = this.findByPrimaryKey(request, grupEntitatID);
       if (grupEntitat == null) {
-        String __msg =createMessageError(request, "error.notfound", grupEntitatID);
+        String __msg = createMessageError(request, "error.notfound", grupEntitatID);
         return getRedirectWhenDelete(request, grupEntitatID, new Exception(__msg));
       } else {
         delete(request, grupEntitat);
@@ -584,7 +584,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, GrupEntitatFilterForm grupEntitatFilterForm,
        List<GrupEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (grupEntitatFilterForm.isHiddenField(ENTITATID)
-      && !grupEntitatFilterForm.isGroupByField(ENTITATID)) {
+       && !grupEntitatFilterForm.isGroupByField(ENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -654,7 +654,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "GrupEntitatWebDB_FilterForm";
+    return "GrupEntitat_FilterForm_" + this.getClass().getName();
   }
 
 

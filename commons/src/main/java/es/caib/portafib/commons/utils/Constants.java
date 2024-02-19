@@ -14,6 +14,7 @@ public interface Constants {
     // TRUE ROLES
     public static final String PFI_ADMIN="PFI_ADMIN";
     public static final String PFI_USER="PFI_USER";
+    public static final String PFI_WS = "PFI_WS";
 
     // VIRTUAL SECURITY ROLES
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
@@ -22,5 +23,6 @@ public interface Constants {
     // EJB HIGH LEVEL ROLES
     public static final String ROLE_EJB_FULL_ACCESS  = PFI_ADMIN;
     public static final String ROLE_EJB_BASIC_ACCESS = PFI_USER;
+    public static final String ROLE_EJB_WS_ACCESS = PFI_WS;
 
 }

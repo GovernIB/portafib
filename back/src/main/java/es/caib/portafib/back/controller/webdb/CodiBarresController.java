@@ -387,9 +387,9 @@ public class CodiBarresController
       return null;
     }
     try {
-      CodiBarres codiBarres = codiBarresEjb.findByPrimaryKey(codiBarresID);
+      CodiBarres codiBarres = this.findByPrimaryKey(request, codiBarresID);
       if (codiBarres == null) {
-        String __msg =createMessageError(request, "error.notfound", codiBarresID);
+        String __msg = createMessageError(request, "error.notfound", codiBarresID);
         return getRedirectWhenDelete(request, codiBarresID, new Exception(__msg));
       } else {
         delete(request, codiBarres);
@@ -586,7 +586,7 @@ public java.lang.String stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "CodiBarresWebDB_FilterForm";
+    return "CodiBarres_FilterForm_" + this.getClass().getName();
   }
 
 

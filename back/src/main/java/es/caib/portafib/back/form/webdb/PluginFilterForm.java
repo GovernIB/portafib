@@ -131,25 +131,14 @@ public class PluginFilterForm extends PortaFIBBaseFilterForm implements PluginFi
   }
 
 
-  private java.lang.Integer tipusDesde;
+  private java.util.List<java.lang.Integer> tipusSelect;
 
-  public java.lang.Integer getTipusDesde() {
-    return this.tipusDesde;
+  public java.util.List<java.lang.Integer> getTipusSelect() {
+    return this.tipusSelect;
   }
 
-  public void setTipusDesde(java.lang.Integer tipusDesde) {
-    this.tipusDesde = tipusDesde;
-  }
-
-
-  private java.lang.Integer tipusFins;
-
-  public java.lang.Integer getTipusFins() {
-    return this.tipusFins;
-  }
-
-  public void setTipusFins(java.lang.Integer tipusFins) {
-    this.tipusFins = tipusFins;
+  public void setTipusSelect(java.util.List<java.lang.Integer> tipusSelect) {
+    this.tipusSelect = tipusSelect;
   }
 
 
@@ -175,25 +164,14 @@ public class PluginFilterForm extends PortaFIBBaseFilterForm implements PluginFi
   }
 
 
-  private java.lang.Integer politicaDeUsDesde;
+  private java.util.List<java.lang.Integer> politicaDeUsSelect;
 
-  public java.lang.Integer getPoliticaDeUsDesde() {
-    return this.politicaDeUsDesde;
+  public java.util.List<java.lang.Integer> getPoliticaDeUsSelect() {
+    return this.politicaDeUsSelect;
   }
 
-  public void setPoliticaDeUsDesde(java.lang.Integer politicaDeUsDesde) {
-    this.politicaDeUsDesde = politicaDeUsDesde;
-  }
-
-
-  private java.lang.Integer politicaDeUsFins;
-
-  public java.lang.Integer getPoliticaDeUsFins() {
-    return this.politicaDeUsFins;
-  }
-
-  public void setPoliticaDeUsFins(java.lang.Integer politicaDeUsFins) {
-    this.politicaDeUsFins = politicaDeUsFins;
+  public void setPoliticaDeUsSelect(java.util.List<java.lang.Integer> politicaDeUsSelect) {
+    this.politicaDeUsSelect = politicaDeUsSelect;
   }
 
 
@@ -208,25 +186,14 @@ public class PluginFilterForm extends PortaFIBBaseFilterForm implements PluginFi
   }
 
 
-  private java.lang.Integer politicaMostrarPropietatsDesde;
+  private java.util.List<java.lang.Integer> politicaMostrarPropietatsSelect;
 
-  public java.lang.Integer getPoliticaMostrarPropietatsDesde() {
-    return this.politicaMostrarPropietatsDesde;
+  public java.util.List<java.lang.Integer> getPoliticaMostrarPropietatsSelect() {
+    return this.politicaMostrarPropietatsSelect;
   }
 
-  public void setPoliticaMostrarPropietatsDesde(java.lang.Integer politicaMostrarPropietatsDesde) {
-    this.politicaMostrarPropietatsDesde = politicaMostrarPropietatsDesde;
-  }
-
-
-  private java.lang.Integer politicaMostrarPropietatsFins;
-
-  public java.lang.Integer getPoliticaMostrarPropietatsFins() {
-    return this.politicaMostrarPropietatsFins;
-  }
-
-  public void setPoliticaMostrarPropietatsFins(java.lang.Integer politicaMostrarPropietatsFins) {
-    this.politicaMostrarPropietatsFins = politicaMostrarPropietatsFins;
+  public void setPoliticaMostrarPropietatsSelect(java.util.List<java.lang.Integer> politicaMostrarPropietatsSelect) {
+    this.politicaMostrarPropietatsSelect = politicaMostrarPropietatsSelect;
   }
 
 
@@ -245,15 +212,12 @@ public class PluginFilterForm extends PortaFIBBaseFilterForm implements PluginFi
     this.classe = __toClone.classe;
     this.ordreDesde = __toClone.ordreDesde;
     this.ordreFins = __toClone.ordreFins;
-    this.tipusDesde = __toClone.tipusDesde;
-    this.tipusFins = __toClone.tipusFins;
+    this.tipusSelect = __toClone.tipusSelect;
     this.propertiesAdmin = __toClone.propertiesAdmin;
     this.propertiesEntitat = __toClone.propertiesEntitat;
-    this.politicaDeUsDesde = __toClone.politicaDeUsDesde;
-    this.politicaDeUsFins = __toClone.politicaDeUsFins;
+    this.politicaDeUsSelect = __toClone.politicaDeUsSelect;
     this.entitatID = __toClone.entitatID;
-    this.politicaMostrarPropietatsDesde = __toClone.politicaMostrarPropietatsDesde;
-    this.politicaMostrarPropietatsFins = __toClone.politicaMostrarPropietatsFins;
+    this.politicaMostrarPropietatsSelect = __toClone.politicaMostrarPropietatsSelect;
     this.mapOfTraduccioForNomID = __toClone.mapOfTraduccioForNomID;
     this.mapOfTraduccioForDescripcioCurtaID = __toClone.mapOfTraduccioForDescripcioCurtaID;
     this.mapOfValuesForTipus = __toClone.mapOfValuesForTipus;

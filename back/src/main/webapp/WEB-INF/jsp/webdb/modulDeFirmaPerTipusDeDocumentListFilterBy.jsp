@@ -51,8 +51,8 @@
 
 
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ModulDeFirmaPerTipusDeDocumentFields.ID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="modulDeFirmaPerTipusDeDocument.ID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -82,8 +82,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ModulDeFirmaPerTipusDeDocumentFields.TIPUSDOCUMENTID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="modulDeFirmaPerTipusDeDocument.tipusDocumentID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -100,8 +100,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ModulDeFirmaPerTipusDeDocumentFields.PLUGINID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="modulDeFirmaPerTipusDeDocument.pluginID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>

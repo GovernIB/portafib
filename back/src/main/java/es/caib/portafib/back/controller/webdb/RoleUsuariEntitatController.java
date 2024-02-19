@@ -440,9 +440,9 @@ public class RoleUsuariEntitatController
       return null;
     }
     try {
-      RoleUsuariEntitat roleUsuariEntitat = roleUsuariEntitatEjb.findByPrimaryKey(id);
+      RoleUsuariEntitat roleUsuariEntitat = this.findByPrimaryKey(request, id);
       if (roleUsuariEntitat == null) {
-        String __msg =createMessageError(request, "error.notfound", id);
+        String __msg = createMessageError(request, "error.notfound", id);
         return getRedirectWhenDelete(request, id, new Exception(__msg));
       } else {
         delete(request, roleUsuariEntitat);
@@ -608,7 +608,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, RoleUsuariEntitatFilterForm roleUsuariEntitatFilterForm,
        List<RoleUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (roleUsuariEntitatFilterForm.isHiddenField(ROLEID)
-      && !roleUsuariEntitatFilterForm.isGroupByField(ROLEID)) {
+       && !roleUsuariEntitatFilterForm.isGroupByField(ROLEID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -647,7 +647,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, RoleUsuariEntitatFilterForm roleUsuariEntitatFilterForm,
        List<RoleUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (roleUsuariEntitatFilterForm.isHiddenField(USUARIENTITATID)
-      && !roleUsuariEntitatFilterForm.isGroupByField(USUARIENTITATID)) {
+       && !roleUsuariEntitatFilterForm.isGroupByField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -717,7 +717,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "RoleUsuariEntitatWebDB_FilterForm";
+    return "RoleUsuariEntitat_FilterForm_" + this.getClass().getName();
   }
 
 

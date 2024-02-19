@@ -76,91 +76,47 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
-  private java.lang.Integer tipusOperacioFirmaDesde;
+  private java.util.List<java.lang.Integer> tipusOperacioFirmaSelect;
 
-  public java.lang.Integer getTipusOperacioFirmaDesde() {
-    return this.tipusOperacioFirmaDesde;
+  public java.util.List<java.lang.Integer> getTipusOperacioFirmaSelect() {
+    return this.tipusOperacioFirmaSelect;
   }
 
-  public void setTipusOperacioFirmaDesde(java.lang.Integer tipusOperacioFirmaDesde) {
-    this.tipusOperacioFirmaDesde = tipusOperacioFirmaDesde;
-  }
-
-
-  private java.lang.Integer tipusOperacioFirmaFins;
-
-  public java.lang.Integer getTipusOperacioFirmaFins() {
-    return this.tipusOperacioFirmaFins;
-  }
-
-  public void setTipusOperacioFirmaFins(java.lang.Integer tipusOperacioFirmaFins) {
-    this.tipusOperacioFirmaFins = tipusOperacioFirmaFins;
+  public void setTipusOperacioFirmaSelect(java.util.List<java.lang.Integer> tipusOperacioFirmaSelect) {
+    this.tipusOperacioFirmaSelect = tipusOperacioFirmaSelect;
   }
 
 
-  private java.lang.Integer tipusFirmaIDDesde;
+  private java.util.List<java.lang.Integer> tipusFirmaIDSelect;
 
-  public java.lang.Integer getTipusFirmaIDDesde() {
-    return this.tipusFirmaIDDesde;
+  public java.util.List<java.lang.Integer> getTipusFirmaIDSelect() {
+    return this.tipusFirmaIDSelect;
   }
 
-  public void setTipusFirmaIDDesde(java.lang.Integer tipusFirmaIDDesde) {
-    this.tipusFirmaIDDesde = tipusFirmaIDDesde;
-  }
-
-
-  private java.lang.Integer tipusFirmaIDFins;
-
-  public java.lang.Integer getTipusFirmaIDFins() {
-    return this.tipusFirmaIDFins;
-  }
-
-  public void setTipusFirmaIDFins(java.lang.Integer tipusFirmaIDFins) {
-    this.tipusFirmaIDFins = tipusFirmaIDFins;
+  public void setTipusFirmaIDSelect(java.util.List<java.lang.Integer> tipusFirmaIDSelect) {
+    this.tipusFirmaIDSelect = tipusFirmaIDSelect;
   }
 
 
-  private java.lang.Integer algorismeDeFirmaIDDesde;
+  private java.util.List<java.lang.Integer> algorismeDeFirmaIDSelect;
 
-  public java.lang.Integer getAlgorismeDeFirmaIDDesde() {
-    return this.algorismeDeFirmaIDDesde;
+  public java.util.List<java.lang.Integer> getAlgorismeDeFirmaIDSelect() {
+    return this.algorismeDeFirmaIDSelect;
   }
 
-  public void setAlgorismeDeFirmaIDDesde(java.lang.Integer algorismeDeFirmaIDDesde) {
-    this.algorismeDeFirmaIDDesde = algorismeDeFirmaIDDesde;
-  }
-
-
-  private java.lang.Integer algorismeDeFirmaIDFins;
-
-  public java.lang.Integer getAlgorismeDeFirmaIDFins() {
-    return this.algorismeDeFirmaIDFins;
-  }
-
-  public void setAlgorismeDeFirmaIDFins(java.lang.Integer algorismeDeFirmaIDFins) {
-    this.algorismeDeFirmaIDFins = algorismeDeFirmaIDFins;
+  public void setAlgorismeDeFirmaIDSelect(java.util.List<java.lang.Integer> algorismeDeFirmaIDSelect) {
+    this.algorismeDeFirmaIDSelect = algorismeDeFirmaIDSelect;
   }
 
 
-  private java.lang.Integer usPoliticaDeFirmaDesde;
+  private java.util.List<java.lang.Integer> usPoliticaDeFirmaSelect;
 
-  public java.lang.Integer getUsPoliticaDeFirmaDesde() {
-    return this.usPoliticaDeFirmaDesde;
+  public java.util.List<java.lang.Integer> getUsPoliticaDeFirmaSelect() {
+    return this.usPoliticaDeFirmaSelect;
   }
 
-  public void setUsPoliticaDeFirmaDesde(java.lang.Integer usPoliticaDeFirmaDesde) {
-    this.usPoliticaDeFirmaDesde = usPoliticaDeFirmaDesde;
-  }
-
-
-  private java.lang.Integer usPoliticaDeFirmaFins;
-
-  public java.lang.Integer getUsPoliticaDeFirmaFins() {
-    return this.usPoliticaDeFirmaFins;
-  }
-
-  public void setUsPoliticaDeFirmaFins(java.lang.Integer usPoliticaDeFirmaFins) {
-    this.usPoliticaDeFirmaFins = usPoliticaDeFirmaFins;
+  public void setUsPoliticaDeFirmaSelect(java.util.List<java.lang.Integer> usPoliticaDeFirmaSelect) {
+    this.usPoliticaDeFirmaSelect = usPoliticaDeFirmaSelect;
   }
 
 
@@ -230,47 +186,25 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
-  private java.lang.Integer politicaTaulaFirmesDesde;
+  private java.util.List<java.lang.Integer> politicaTaulaFirmesSelect;
 
-  public java.lang.Integer getPoliticaTaulaFirmesDesde() {
-    return this.politicaTaulaFirmesDesde;
+  public java.util.List<java.lang.Integer> getPoliticaTaulaFirmesSelect() {
+    return this.politicaTaulaFirmesSelect;
   }
 
-  public void setPoliticaTaulaFirmesDesde(java.lang.Integer politicaTaulaFirmesDesde) {
-    this.politicaTaulaFirmesDesde = politicaTaulaFirmesDesde;
-  }
-
-
-  private java.lang.Integer politicaTaulaFirmesFins;
-
-  public java.lang.Integer getPoliticaTaulaFirmesFins() {
-    return this.politicaTaulaFirmesFins;
-  }
-
-  public void setPoliticaTaulaFirmesFins(java.lang.Integer politicaTaulaFirmesFins) {
-    this.politicaTaulaFirmesFins = politicaTaulaFirmesFins;
+  public void setPoliticaTaulaFirmesSelect(java.util.List<java.lang.Integer> politicaTaulaFirmesSelect) {
+    this.politicaTaulaFirmesSelect = politicaTaulaFirmesSelect;
   }
 
 
-  private java.lang.Integer posicioTaulaFirmesIDDesde;
+  private java.util.List<java.lang.Integer> posicioTaulaFirmesIDSelect;
 
-  public java.lang.Integer getPosicioTaulaFirmesIDDesde() {
-    return this.posicioTaulaFirmesIDDesde;
+  public java.util.List<java.lang.Integer> getPosicioTaulaFirmesIDSelect() {
+    return this.posicioTaulaFirmesIDSelect;
   }
 
-  public void setPosicioTaulaFirmesIDDesde(java.lang.Integer posicioTaulaFirmesIDDesde) {
-    this.posicioTaulaFirmesIDDesde = posicioTaulaFirmesIDDesde;
-  }
-
-
-  private java.lang.Integer posicioTaulaFirmesIDFins;
-
-  public java.lang.Integer getPosicioTaulaFirmesIDFins() {
-    return this.posicioTaulaFirmesIDFins;
-  }
-
-  public void setPosicioTaulaFirmesIDFins(java.lang.Integer posicioTaulaFirmesIDFins) {
-    this.posicioTaulaFirmesIDFins = posicioTaulaFirmesIDFins;
+  public void setPosicioTaulaFirmesIDSelect(java.util.List<java.lang.Integer> posicioTaulaFirmesIDSelect) {
+    this.posicioTaulaFirmesIDSelect = posicioTaulaFirmesIDSelect;
   }
 
 
@@ -307,25 +241,14 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
-  private java.lang.Integer politicaSegellatDeTempsDesde;
+  private java.util.List<java.lang.Integer> politicaSegellatDeTempsSelect;
 
-  public java.lang.Integer getPoliticaSegellatDeTempsDesde() {
-    return this.politicaSegellatDeTempsDesde;
+  public java.util.List<java.lang.Integer> getPoliticaSegellatDeTempsSelect() {
+    return this.politicaSegellatDeTempsSelect;
   }
 
-  public void setPoliticaSegellatDeTempsDesde(java.lang.Integer politicaSegellatDeTempsDesde) {
-    this.politicaSegellatDeTempsDesde = politicaSegellatDeTempsDesde;
-  }
-
-
-  private java.lang.Integer politicaSegellatDeTempsFins;
-
-  public java.lang.Integer getPoliticaSegellatDeTempsFins() {
-    return this.politicaSegellatDeTempsFins;
-  }
-
-  public void setPoliticaSegellatDeTempsFins(java.lang.Integer politicaSegellatDeTempsFins) {
-    this.politicaSegellatDeTempsFins = politicaSegellatDeTempsFins;
+  public void setPoliticaSegellatDeTempsSelect(java.util.List<java.lang.Integer> politicaSegellatDeTempsSelect) {
+    this.politicaSegellatDeTempsSelect = politicaSegellatDeTempsSelect;
   }
 
 
@@ -384,25 +307,14 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
-  private java.lang.Integer upgradeSignFormatDesde;
+  private java.util.List<java.lang.Integer> upgradeSignFormatSelect;
 
-  public java.lang.Integer getUpgradeSignFormatDesde() {
-    return this.upgradeSignFormatDesde;
+  public java.util.List<java.lang.Integer> getUpgradeSignFormatSelect() {
+    return this.upgradeSignFormatSelect;
   }
 
-  public void setUpgradeSignFormatDesde(java.lang.Integer upgradeSignFormatDesde) {
-    this.upgradeSignFormatDesde = upgradeSignFormatDesde;
-  }
-
-
-  private java.lang.Integer upgradeSignFormatFins;
-
-  public java.lang.Integer getUpgradeSignFormatFins() {
-    return this.upgradeSignFormatFins;
-  }
-
-  public void setUpgradeSignFormatFins(java.lang.Integer upgradeSignFormatFins) {
-    this.upgradeSignFormatFins = upgradeSignFormatFins;
+  public void setUpgradeSignFormatSelect(java.util.List<java.lang.Integer> upgradeSignFormatSelect) {
+    this.upgradeSignFormatSelect = upgradeSignFormatSelect;
   }
 
 
@@ -416,36 +328,28 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.nom = __toClone.nom;
     this.entitatID = __toClone.entitatID;
     this.filtreCertificats = __toClone.filtreCertificats;
-    this.tipusOperacioFirmaDesde = __toClone.tipusOperacioFirmaDesde;
-    this.tipusOperacioFirmaFins = __toClone.tipusOperacioFirmaFins;
-    this.tipusFirmaIDDesde = __toClone.tipusFirmaIDDesde;
-    this.tipusFirmaIDFins = __toClone.tipusFirmaIDFins;
-    this.algorismeDeFirmaIDDesde = __toClone.algorismeDeFirmaIDDesde;
-    this.algorismeDeFirmaIDFins = __toClone.algorismeDeFirmaIDFins;
-    this.usPoliticaDeFirmaDesde = __toClone.usPoliticaDeFirmaDesde;
-    this.usPoliticaDeFirmaFins = __toClone.usPoliticaDeFirmaFins;
+    this.tipusOperacioFirmaSelect = __toClone.tipusOperacioFirmaSelect;
+    this.tipusFirmaIDSelect = __toClone.tipusFirmaIDSelect;
+    this.algorismeDeFirmaIDSelect = __toClone.algorismeDeFirmaIDSelect;
+    this.usPoliticaDeFirmaSelect = __toClone.usPoliticaDeFirmaSelect;
     this.policyIdentifier = __toClone.policyIdentifier;
     this.policyIdentifierHash = __toClone.policyIdentifierHash;
     this.policyIdentifierHashAlgorithm = __toClone.policyIdentifierHashAlgorithm;
     this.policyUrlDocument = __toClone.policyUrlDocument;
     this.motiuDelegacioIDDesde = __toClone.motiuDelegacioIDDesde;
     this.motiuDelegacioIDFins = __toClone.motiuDelegacioIDFins;
-    this.politicaTaulaFirmesDesde = __toClone.politicaTaulaFirmesDesde;
-    this.politicaTaulaFirmesFins = __toClone.politicaTaulaFirmesFins;
-    this.posicioTaulaFirmesIDDesde = __toClone.posicioTaulaFirmesIDDesde;
-    this.posicioTaulaFirmesIDFins = __toClone.posicioTaulaFirmesIDFins;
+    this.politicaTaulaFirmesSelect = __toClone.politicaTaulaFirmesSelect;
+    this.posicioTaulaFirmesIDSelect = __toClone.posicioTaulaFirmesIDSelect;
     this.firmatPerFormatIDDesde = __toClone.firmatPerFormatIDDesde;
     this.firmatPerFormatIDFins = __toClone.firmatPerFormatIDFins;
     this.propietatsTaulaFirmes = __toClone.propietatsTaulaFirmes;
-    this.politicaSegellatDeTempsDesde = __toClone.politicaSegellatDeTempsDesde;
-    this.politicaSegellatDeTempsFins = __toClone.politicaSegellatDeTempsFins;
+    this.politicaSegellatDeTempsSelect = __toClone.politicaSegellatDeTempsSelect;
     this.pluginSegellatIDDesde = __toClone.pluginSegellatIDDesde;
     this.pluginSegellatIDFins = __toClone.pluginSegellatIDFins;
     this.htmlPerLlistarPluginsFirmaWeb = __toClone.htmlPerLlistarPluginsFirmaWeb;
     this.pluginFirmaServidorIDDesde = __toClone.pluginFirmaServidorIDDesde;
     this.pluginFirmaServidorIDFins = __toClone.pluginFirmaServidorIDFins;
-    this.upgradeSignFormatDesde = __toClone.upgradeSignFormatDesde;
-    this.upgradeSignFormatFins = __toClone.upgradeSignFormatFins;
+    this.upgradeSignFormatSelect = __toClone.upgradeSignFormatSelect;
     this.mapOfEntitatForEntitatID = __toClone.mapOfEntitatForEntitatID;
     this.mapOfValuesForTipusOperacioFirma = __toClone.mapOfValuesForTipusOperacioFirma;
     this.mapOfValuesForTipusFirmaID = __toClone.mapOfValuesForTipusFirmaID;

@@ -436,9 +436,9 @@ public class MetadadaController
       return null;
     }
     try {
-      Metadada metadada = metadadaEjb.findByPrimaryKey(metadadaID);
+      Metadada metadada = this.findByPrimaryKey(request, metadadaID);
       if (metadada == null) {
-        String __msg =createMessageError(request, "error.notfound", metadadaID);
+        String __msg = createMessageError(request, "error.notfound", metadadaID);
         return getRedirectWhenDelete(request, metadadaID, new Exception(__msg));
       } else {
         delete(request, metadada);
@@ -604,7 +604,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, MetadadaFilterForm metadadaFilterForm,
        List<Metadada> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (metadadaFilterForm.isHiddenField(PETICIODEFIRMAID)
-      && !metadadaFilterForm.isGroupByField(PETICIODEFIRMAID)) {
+       && !metadadaFilterForm.isGroupByField(PETICIODEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -639,7 +639,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, MetadadaFilterForm metadadaFilterForm,
        List<Metadada> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (metadadaFilterForm.isHiddenField(TIPUSMETADADAID)
-      && !metadadaFilterForm.isGroupByField(TIPUSMETADADAID)) {
+       && !metadadaFilterForm.isGroupByField(TIPUSMETADADAID)
+       && !metadadaFilterForm.isFilterByField(TIPUSMETADADAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -708,7 +709,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "MetadadaWebDB_FilterForm";
+    return "Metadada_FilterForm_" + this.getClass().getName();
   }
 
 

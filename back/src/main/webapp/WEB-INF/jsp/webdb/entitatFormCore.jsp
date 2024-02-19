@@ -462,8 +462,20 @@
               </c:if>
             </td>
           <td id="entitat_suportWeb_columnvalueid">
+           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB)}">
+
+             <c:if test="${ not empty __theForm.entitat.suportWeb}">
+               <a href="${__theForm.entitat.suportWeb}" target="_blank">${__theForm.entitat.suportWeb}</a>
+
+             </c:if>
+           </c:if>
+
+           <c:if test="${not (gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB))}">
+
             <form:errors path="entitat.suportWeb" cssClass="errorField alert alert-danger" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB)? ' uneditable-input' : ''}"  style="" maxlength="250" path="entitat.suportWeb"   />
+
+           </c:if>
 
            </td>
         </tr>

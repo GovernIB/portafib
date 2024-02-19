@@ -440,9 +440,9 @@ public class GrupEntitatUsuariEntitatController
       return null;
     }
     try {
-      GrupEntitatUsuariEntitat grupEntitatUsuariEntitat = grupEntitatUsuariEntitatEjb.findByPrimaryKey(grupEntitatUsuariEntitatID);
+      GrupEntitatUsuariEntitat grupEntitatUsuariEntitat = this.findByPrimaryKey(request, grupEntitatUsuariEntitatID);
       if (grupEntitatUsuariEntitat == null) {
-        String __msg =createMessageError(request, "error.notfound", grupEntitatUsuariEntitatID);
+        String __msg = createMessageError(request, "error.notfound", grupEntitatUsuariEntitatID);
         return getRedirectWhenDelete(request, grupEntitatUsuariEntitatID, new Exception(__msg));
       } else {
         delete(request, grupEntitatUsuariEntitat);
@@ -608,7 +608,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, GrupEntitatUsuariEntitatFilterForm grupEntitatUsuariEntitatFilterForm,
        List<GrupEntitatUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (grupEntitatUsuariEntitatFilterForm.isHiddenField(USUARIENTITATID)
-      && !grupEntitatUsuariEntitatFilterForm.isGroupByField(USUARIENTITATID)) {
+       && !grupEntitatUsuariEntitatFilterForm.isGroupByField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -647,7 +647,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, GrupEntitatUsuariEntitatFilterForm grupEntitatUsuariEntitatFilterForm,
        List<GrupEntitatUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (grupEntitatUsuariEntitatFilterForm.isHiddenField(GRUPENTITATID)
-      && !grupEntitatUsuariEntitatFilterForm.isGroupByField(GRUPENTITATID)) {
+       && !grupEntitatUsuariEntitatFilterForm.isGroupByField(GRUPENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -717,7 +717,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "GrupEntitatUsuariEntitatWebDB_FilterForm";
+    return "GrupEntitatUsuariEntitat_FilterForm_" + this.getClass().getName();
   }
 
 

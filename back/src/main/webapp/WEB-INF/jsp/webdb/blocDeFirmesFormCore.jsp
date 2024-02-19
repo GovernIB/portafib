@@ -32,7 +32,7 @@
             </td>
           <td id="blocDeFirmes_dataFinalitzacio_columnvalueid">
     <form:errors path="blocDeFirmes.dataFinalitzacio" cssClass="errorField alert alert-danger" />
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="blocDeFirmes_dataFinalitzacio" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.DATAFINALITZACIO)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#blocDeFirmes_dataFinalitzacio" path="blocDeFirmes.dataFinalitzacio" />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.DATAFINALITZACIO)}" >

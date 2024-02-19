@@ -714,9 +714,9 @@ public class UsuariAplicacioConfiguracioController
       return null;
     }
     try {
-      UsuariAplicacioConfiguracio usuariAplicacioConfiguracio = usuariAplicacioConfiguracioEjb.findByPrimaryKey(usuariAplicacioConfigID);
+      UsuariAplicacioConfiguracio usuariAplicacioConfiguracio = this.findByPrimaryKey(request, usuariAplicacioConfigID);
       if (usuariAplicacioConfiguracio == null) {
-        String __msg =createMessageError(request, "error.notfound", usuariAplicacioConfigID);
+        String __msg = createMessageError(request, "error.notfound", usuariAplicacioConfigID);
         return getRedirectWhenDelete(request, usuariAplicacioConfigID, new Exception(__msg));
       } else {
         delete(request, usuariAplicacioConfiguracio);
@@ -882,7 +882,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
        List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioConfiguracioFilterForm.isHiddenField(ENTITATID)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(ENTITATID)) {
+       && !usuariAplicacioConfiguracioFilterForm.isGroupByField(ENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -917,7 +917,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
        List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioConfiguracioFilterForm.isHiddenField(TIPUSOPERACIOFIRMA)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(TIPUSOPERACIOFIRMA)) {
+       && !usuariAplicacioConfiguracioFilterForm.isGroupByField(TIPUSOPERACIOFIRMA)
+       && !usuariAplicacioConfiguracioFilterForm.isFilterByField(TIPUSOPERACIOFIRMA)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -948,7 +949,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
        List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioConfiguracioFilterForm.isHiddenField(TIPUSFIRMAID)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(TIPUSFIRMAID)) {
+       && !usuariAplicacioConfiguracioFilterForm.isGroupByField(TIPUSFIRMAID)
+       && !usuariAplicacioConfiguracioFilterForm.isFilterByField(TIPUSFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -980,7 +982,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
        List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioConfiguracioFilterForm.isHiddenField(ALGORISMEDEFIRMAID)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(ALGORISMEDEFIRMAID)) {
+       && !usuariAplicacioConfiguracioFilterForm.isGroupByField(ALGORISMEDEFIRMAID)
+       && !usuariAplicacioConfiguracioFilterForm.isFilterByField(ALGORISMEDEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1012,7 +1015,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
        List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioConfiguracioFilterForm.isHiddenField(USPOLITICADEFIRMA)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(USPOLITICADEFIRMA)) {
+       && !usuariAplicacioConfiguracioFilterForm.isGroupByField(USPOLITICADEFIRMA)
+       && !usuariAplicacioConfiguracioFilterForm.isFilterByField(USPOLITICADEFIRMA)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1034,7 +1038,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
        List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioConfiguracioFilterForm.isHiddenField(MOTIUDELEGACIOID)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(MOTIUDELEGACIOID)) {
+       && !usuariAplicacioConfiguracioFilterForm.isGroupByField(MOTIUDELEGACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1070,7 +1074,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
        List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioConfiguracioFilterForm.isHiddenField(POLITICATAULAFIRMES)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(POLITICATAULAFIRMES)) {
+       && !usuariAplicacioConfiguracioFilterForm.isGroupByField(POLITICATAULAFIRMES)
+       && !usuariAplicacioConfiguracioFilterForm.isFilterByField(POLITICATAULAFIRMES)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1102,7 +1107,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
        List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioConfiguracioFilterForm.isHiddenField(POSICIOTAULAFIRMESID)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(POSICIOTAULAFIRMESID)) {
+       && !usuariAplicacioConfiguracioFilterForm.isGroupByField(POSICIOTAULAFIRMESID)
+       && !usuariAplicacioConfiguracioFilterForm.isFilterByField(POSICIOTAULAFIRMESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1124,7 +1130,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
        List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioConfiguracioFilterForm.isHiddenField(FIRMATPERFORMATID)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(FIRMATPERFORMATID)) {
+       && !usuariAplicacioConfiguracioFilterForm.isGroupByField(FIRMATPERFORMATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1160,7 +1166,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
        List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioConfiguracioFilterForm.isHiddenField(POLITICASEGELLATDETEMPS)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(POLITICASEGELLATDETEMPS)) {
+       && !usuariAplicacioConfiguracioFilterForm.isGroupByField(POLITICASEGELLATDETEMPS)
+       && !usuariAplicacioConfiguracioFilterForm.isFilterByField(POLITICASEGELLATDETEMPS)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1197,7 +1204,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
        List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioConfiguracioFilterForm.isHiddenField(PLUGINSEGELLATID)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(PLUGINSEGELLATID)) {
+       && !usuariAplicacioConfiguracioFilterForm.isGroupByField(PLUGINSEGELLATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1237,7 +1244,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
        List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioConfiguracioFilterForm.isHiddenField(PLUGINFIRMASERVIDORID)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(PLUGINFIRMASERVIDORID)) {
+       && !usuariAplicacioConfiguracioFilterForm.isGroupByField(PLUGINFIRMASERVIDORID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1273,7 +1280,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
        List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioConfiguracioFilterForm.isHiddenField(UPGRADESIGNFORMAT)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(UPGRADESIGNFORMAT)) {
+       && !usuariAplicacioConfiguracioFilterForm.isGroupByField(UPGRADESIGNFORMAT)
+       && !usuariAplicacioConfiguracioFilterForm.isFilterByField(UPGRADESIGNFORMAT)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -1381,7 +1389,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "UsuariAplicacioConfiguracioWebDB_FilterForm";
+    return "UsuariAplicacioConfiguracio_FilterForm_" + this.getClass().getName();
   }
 
 

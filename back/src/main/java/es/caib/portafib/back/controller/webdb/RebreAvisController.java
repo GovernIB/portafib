@@ -443,9 +443,9 @@ public class RebreAvisController
       return null;
     }
     try {
-      RebreAvis rebreAvis = rebreAvisEjb.findByPrimaryKey(id);
+      RebreAvis rebreAvis = this.findByPrimaryKey(request, id);
       if (rebreAvis == null) {
-        String __msg =createMessageError(request, "error.notfound", id);
+        String __msg = createMessageError(request, "error.notfound", id);
         return getRedirectWhenDelete(request, id, new Exception(__msg));
       } else {
         delete(request, rebreAvis);
@@ -611,7 +611,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, RebreAvisFilterForm rebreAvisFilterForm,
        List<RebreAvis> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (rebreAvisFilterForm.isHiddenField(USUARIENTITATID)
-      && !rebreAvisFilterForm.isGroupByField(USUARIENTITATID)) {
+       && !rebreAvisFilterForm.isGroupByField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -650,7 +650,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, RebreAvisFilterForm rebreAvisFilterForm,
        List<RebreAvis> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (rebreAvisFilterForm.isHiddenField(TIPUSNOTIFICACIOID)
-      && !rebreAvisFilterForm.isGroupByField(TIPUSNOTIFICACIOID)) {
+       && !rebreAvisFilterForm.isGroupByField(TIPUSNOTIFICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -720,7 +720,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "RebreAvisWebDB_FilterForm";
+    return "RebreAvis_FilterForm_" + this.getClass().getName();
   }
 
 

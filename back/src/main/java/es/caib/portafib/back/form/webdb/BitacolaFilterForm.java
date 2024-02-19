@@ -87,25 +87,14 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
   }
 
 
-  private java.lang.Integer tipusObjecteDesde;
+  private java.util.List<java.lang.Integer> tipusObjecteSelect;
 
-  public java.lang.Integer getTipusObjecteDesde() {
-    return this.tipusObjecteDesde;
+  public java.util.List<java.lang.Integer> getTipusObjecteSelect() {
+    return this.tipusObjecteSelect;
   }
 
-  public void setTipusObjecteDesde(java.lang.Integer tipusObjecteDesde) {
-    this.tipusObjecteDesde = tipusObjecteDesde;
-  }
-
-
-  private java.lang.Integer tipusObjecteFins;
-
-  public java.lang.Integer getTipusObjecteFins() {
-    return this.tipusObjecteFins;
-  }
-
-  public void setTipusObjecteFins(java.lang.Integer tipusObjecteFins) {
-    this.tipusObjecteFins = tipusObjecteFins;
+  public void setTipusObjecteSelect(java.util.List<java.lang.Integer> tipusObjecteSelect) {
+    this.tipusObjecteSelect = tipusObjecteSelect;
   }
 
 
@@ -120,25 +109,14 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
   }
 
 
-  private java.lang.Integer tipusOperacioDesde;
+  private java.util.List<java.lang.Integer> tipusOperacioSelect;
 
-  public java.lang.Integer getTipusOperacioDesde() {
-    return this.tipusOperacioDesde;
+  public java.util.List<java.lang.Integer> getTipusOperacioSelect() {
+    return this.tipusOperacioSelect;
   }
 
-  public void setTipusOperacioDesde(java.lang.Integer tipusOperacioDesde) {
-    this.tipusOperacioDesde = tipusOperacioDesde;
-  }
-
-
-  private java.lang.Integer tipusOperacioFins;
-
-  public java.lang.Integer getTipusOperacioFins() {
-    return this.tipusOperacioFins;
-  }
-
-  public void setTipusOperacioFins(java.lang.Integer tipusOperacioFins) {
-    this.tipusOperacioFins = tipusOperacioFins;
+  public void setTipusOperacioSelect(java.util.List<java.lang.Integer> tipusOperacioSelect) {
+    this.tipusOperacioSelect = tipusOperacioSelect;
   }
 
 
@@ -175,11 +153,9 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
     this.usuariid = __toClone.usuariid;
     this.dataDesde = __toClone.dataDesde;
     this.dataFins = __toClone.dataFins;
-    this.tipusObjecteDesde = __toClone.tipusObjecteDesde;
-    this.tipusObjecteFins = __toClone.tipusObjecteFins;
+    this.tipusObjecteSelect = __toClone.tipusObjecteSelect;
     this.objecteid = __toClone.objecteid;
-    this.tipusOperacioDesde = __toClone.tipusOperacioDesde;
-    this.tipusOperacioFins = __toClone.tipusOperacioFins;
+    this.tipusOperacioSelect = __toClone.tipusOperacioSelect;
     this.descripcio = __toClone.descripcio;
     this.objecteSerialitzat = __toClone.objecteSerialitzat;
     this.mapOfValuesForTipusObjecte = __toClone.mapOfValuesForTipusObjecte;

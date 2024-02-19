@@ -120,25 +120,14 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
   }
 
 
-  private java.lang.Long missatgePosicioPaginaIDDesde;
+  private java.util.List<java.lang.Long> missatgePosicioPaginaIDSelect;
 
-  public java.lang.Long getMissatgePosicioPaginaIDDesde() {
-    return this.missatgePosicioPaginaIDDesde;
+  public java.util.List<java.lang.Long> getMissatgePosicioPaginaIDSelect() {
+    return this.missatgePosicioPaginaIDSelect;
   }
 
-  public void setMissatgePosicioPaginaIDDesde(java.lang.Long missatgePosicioPaginaIDDesde) {
-    this.missatgePosicioPaginaIDDesde = missatgePosicioPaginaIDDesde;
-  }
-
-
-  private java.lang.Long missatgePosicioPaginaIDFins;
-
-  public java.lang.Long getMissatgePosicioPaginaIDFins() {
-    return this.missatgePosicioPaginaIDFins;
-  }
-
-  public void setMissatgePosicioPaginaIDFins(java.lang.Long missatgePosicioPaginaIDFins) {
-    this.missatgePosicioPaginaIDFins = missatgePosicioPaginaIDFins;
+  public void setMissatgePosicioPaginaIDSelect(java.util.List<java.lang.Long> missatgePosicioPaginaIDSelect) {
+    this.missatgePosicioPaginaIDSelect = missatgePosicioPaginaIDSelect;
   }
 
 
@@ -153,25 +142,14 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
   }
 
 
-  private java.lang.Long codiBarresPosicioPaginaIDDesde;
+  private java.util.List<java.lang.Long> codiBarresPosicioPaginaIDSelect;
 
-  public java.lang.Long getCodiBarresPosicioPaginaIDDesde() {
-    return this.codiBarresPosicioPaginaIDDesde;
+  public java.util.List<java.lang.Long> getCodiBarresPosicioPaginaIDSelect() {
+    return this.codiBarresPosicioPaginaIDSelect;
   }
 
-  public void setCodiBarresPosicioPaginaIDDesde(java.lang.Long codiBarresPosicioPaginaIDDesde) {
-    this.codiBarresPosicioPaginaIDDesde = codiBarresPosicioPaginaIDDesde;
-  }
-
-
-  private java.lang.Long codiBarresPosicioPaginaIDFins;
-
-  public java.lang.Long getCodiBarresPosicioPaginaIDFins() {
-    return this.codiBarresPosicioPaginaIDFins;
-  }
-
-  public void setCodiBarresPosicioPaginaIDFins(java.lang.Long codiBarresPosicioPaginaIDFins) {
-    this.codiBarresPosicioPaginaIDFins = codiBarresPosicioPaginaIDFins;
+  public void setCodiBarresPosicioPaginaIDSelect(java.util.List<java.lang.Long> codiBarresPosicioPaginaIDSelect) {
+    this.codiBarresPosicioPaginaIDSelect = codiBarresPosicioPaginaIDSelect;
   }
 
 
@@ -365,11 +343,9 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
     this.custodiaPluginParameters = __toClone.custodiaPluginParameters;
     this.pagines = __toClone.pagines;
     this.missatge = __toClone.missatge;
-    this.missatgePosicioPaginaIDDesde = __toClone.missatgePosicioPaginaIDDesde;
-    this.missatgePosicioPaginaIDFins = __toClone.missatgePosicioPaginaIDFins;
+    this.missatgePosicioPaginaIDSelect = __toClone.missatgePosicioPaginaIDSelect;
     this.codiBarresID = __toClone.codiBarresID;
-    this.codiBarresPosicioPaginaIDDesde = __toClone.codiBarresPosicioPaginaIDDesde;
-    this.codiBarresPosicioPaginaIDFins = __toClone.codiBarresPosicioPaginaIDFins;
+    this.codiBarresPosicioPaginaIDSelect = __toClone.codiBarresPosicioPaginaIDSelect;
     this.codiBarresText = __toClone.codiBarresText;
     this.usuariEntitatID = __toClone.usuariEntitatID;
     this.usuariAplicacioID = __toClone.usuariAplicacioID;

@@ -509,9 +509,9 @@ public class FirmaController
       return null;
     }
     try {
-      Firma firma = firmaEjb.findByPrimaryKey(firmaID);
+      Firma firma = this.findByPrimaryKey(request, firmaID);
       if (firma == null) {
-        String __msg =createMessageError(request, "error.notfound", firmaID);
+        String __msg = createMessageError(request, "error.notfound", firmaID);
         return getRedirectWhenDelete(request, firmaID, new Exception(__msg));
       } else {
         delete(request, firma);
@@ -700,7 +700,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, FirmaFilterForm firmaFilterForm,
        List<Firma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (firmaFilterForm.isHiddenField(DESTINATARIID)
-      && !firmaFilterForm.isGroupByField(DESTINATARIID)) {
+       && !firmaFilterForm.isGroupByField(DESTINATARIID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -739,7 +739,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, FirmaFilterForm firmaFilterForm,
        List<Firma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (firmaFilterForm.isHiddenField(BLOCDEFIRMAID)
-      && !firmaFilterForm.isGroupByField(BLOCDEFIRMAID)) {
+       && !firmaFilterForm.isGroupByField(BLOCDEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -774,7 +774,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, FirmaFilterForm firmaFilterForm,
        List<Firma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (firmaFilterForm.isHiddenField(TIPUSESTATDEFIRMAFINALID)
-      && !firmaFilterForm.isGroupByField(TIPUSESTATDEFIRMAFINALID)) {
+       && !firmaFilterForm.isGroupByField(TIPUSESTATDEFIRMAFINALID)
+       && !firmaFilterForm.isFilterByField(TIPUSESTATDEFIRMAFINALID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -805,7 +806,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, FirmaFilterForm firmaFilterForm,
        List<Firma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (firmaFilterForm.isHiddenField(USUARIEXTERNNIVELLSEGURETAT)
-      && !firmaFilterForm.isGroupByField(USUARIEXTERNNIVELLSEGURETAT)) {
+       && !firmaFilterForm.isGroupByField(USUARIEXTERNNIVELLSEGURETAT)
+       && !firmaFilterForm.isFilterByField(USUARIEXTERNNIVELLSEGURETAT)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -871,7 +873,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "FirmaWebDB_FilterForm";
+    return "Firma_FilterForm_" + this.getClass().getName();
   }
 
 

@@ -440,9 +440,9 @@ public class PerfilsPerUsuariAplicacioController
       return null;
     }
     try {
-      PerfilsPerUsuariAplicacio perfilsPerUsuariAplicacio = perfilsPerUsuariAplicacioEjb.findByPrimaryKey(perfilsPerUsrAppID);
+      PerfilsPerUsuariAplicacio perfilsPerUsuariAplicacio = this.findByPrimaryKey(request, perfilsPerUsrAppID);
       if (perfilsPerUsuariAplicacio == null) {
-        String __msg =createMessageError(request, "error.notfound", perfilsPerUsrAppID);
+        String __msg = createMessageError(request, "error.notfound", perfilsPerUsrAppID);
         return getRedirectWhenDelete(request, perfilsPerUsrAppID, new Exception(__msg));
       } else {
         delete(request, perfilsPerUsuariAplicacio);
@@ -608,7 +608,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PerfilsPerUsuariAplicacioFilterForm perfilsPerUsuariAplicacioFilterForm,
        List<PerfilsPerUsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (perfilsPerUsuariAplicacioFilterForm.isHiddenField(PERFILDEFIRMAID)
-      && !perfilsPerUsuariAplicacioFilterForm.isGroupByField(PERFILDEFIRMAID)) {
+       && !perfilsPerUsuariAplicacioFilterForm.isGroupByField(PERFILDEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -647,7 +647,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PerfilsPerUsuariAplicacioFilterForm perfilsPerUsuariAplicacioFilterForm,
        List<PerfilsPerUsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (perfilsPerUsuariAplicacioFilterForm.isHiddenField(USUARIAPLICACIOID)
-      && !perfilsPerUsuariAplicacioFilterForm.isGroupByField(USUARIAPLICACIOID)) {
+       && !perfilsPerUsuariAplicacioFilterForm.isGroupByField(USUARIAPLICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -717,7 +717,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "PerfilsPerUsuariAplicacioWebDB_FilterForm";
+    return "PerfilsPerUsuariAplicacio_FilterForm_" + this.getClass().getName();
   }
 
 

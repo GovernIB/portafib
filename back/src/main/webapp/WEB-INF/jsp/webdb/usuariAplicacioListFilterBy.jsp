@@ -90,19 +90,28 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.CALLBACKVERSIO)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
-              <span class="add-on"><fmt:message key="usuariAplicacio.callbackVersio" />:</span>
+              <%-- FILTRE NUMERO SELECT MULTIPLE --%>
+              <div class="input-group-prepend" style="padding-top: 5px;padding-right: 5px;">
+                 <span class="add-on"><fmt:message key="usuariAplicacio.callbackVersio" />:</span>
+              </div>
 
-              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
-              
-              <form:input cssClass="input-append input-small" path="callbackVersioDesde" />
+              <div class="input-group-prepend" style="min-width:200px">
+                <form:select id="usrapp_callbackVersio_select" path="callbackVersioSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+                    <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForCallbackVersio}">
+                      <option value="${_entry.key}" ${fn:contains(__theFilterForm.callbackVersioSelect, _entry.key)?'selected':''} >${_entry.value}</option>
+                    </c:forEach>
+                </form:select>
+              </div>
 
-
-              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
-
-              <form:input cssClass="input-append input-small search-query" path="callbackVersioFins" />
-
+              <script type="text/javascript">
+                $(document).ready(function() {
+                    $('#usrapp_callbackVersio_select').select2({
+                        closeOnSelect: false
+                    });
+                    $('.select2-selection__rendered').css('padding-bottom','5px');
+                });
+              </script>
             </div>
 
 
@@ -121,8 +130,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.ACTIU)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="usuariAplicacio.actiu" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -165,44 +174,62 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
-              <span class="add-on"><fmt:message key="usuariAplicacio.politicaDePluginFirmaWeb" />:</span>
+              <%-- FILTRE NUMERO SELECT MULTIPLE --%>
+              <div class="input-group-prepend" style="padding-top: 5px;padding-right: 5px;">
+                 <span class="add-on"><fmt:message key="usuariAplicacio.politicaDePluginFirmaWeb" />:</span>
+              </div>
 
-              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
-              
-              <form:input cssClass="input-append input-small" path="politicaDePluginFirmaWebDesde" />
+              <div class="input-group-prepend" style="min-width:200px">
+                <form:select id="usrapp_politicaDePluginFirmaWeb_select" path="politicaDePluginFirmaWebSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+                    <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForPoliticaDePluginFirmaWeb}">
+                      <option value="${_entry.key}" ${fn:contains(__theFilterForm.politicaDePluginFirmaWebSelect, _entry.key)?'selected':''} >${_entry.value}</option>
+                    </c:forEach>
+                </form:select>
+              </div>
 
-
-              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
-
-              <form:input cssClass="input-append input-small search-query" path="politicaDePluginFirmaWebFins" />
-
+              <script type="text/javascript">
+                $(document).ready(function() {
+                    $('#usrapp_politicaDePluginFirmaWeb_select').select2({
+                        closeOnSelect: false
+                    });
+                    $('.select2-selection__rendered').css('padding-bottom','5px');
+                });
+              </script>
             </div>
 
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.POLITICACUSTODIA)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
-              <span class="add-on"><fmt:message key="usuariAplicacio.politicaCustodia" />:</span>
+              <%-- FILTRE NUMERO SELECT MULTIPLE --%>
+              <div class="input-group-prepend" style="padding-top: 5px;padding-right: 5px;">
+                 <span class="add-on"><fmt:message key="usuariAplicacio.politicaCustodia" />:</span>
+              </div>
 
-              <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
-              
-              <form:input cssClass="input-append input-small" path="politicaCustodiaDesde" />
+              <div class="input-group-prepend" style="min-width:200px">
+                <form:select id="usrapp_politicaCustodia_select" path="politicaCustodiaSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+                    <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForPoliticaCustodia}">
+                      <option value="${_entry.key}" ${fn:contains(__theFilterForm.politicaCustodiaSelect, _entry.key)?'selected':''} >${_entry.value}</option>
+                    </c:forEach>
+                </form:select>
+              </div>
 
-
-              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
-
-              <form:input cssClass="input-append input-small search-query" path="politicaCustodiaFins" />
-
+              <script type="text/javascript">
+                $(document).ready(function() {
+                    $('#usrapp_politicaCustodia_select').select2({
+                        closeOnSelect: false
+                    });
+                    $('.select2-selection__rendered').css('padding-bottom','5px');
+                });
+              </script>
             </div>
 
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.CUSTODIAINFOID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="usuariAplicacio.custodiaInfoID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -219,8 +246,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.CREARUSUARIS)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="usuariAplicacio.crearUsuaris" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>

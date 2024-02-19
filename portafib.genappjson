@@ -2678,7 +2678,7 @@
           "orderBy": 0,
           "groupBy": false,
           "webFieldInfo": {
-            "webtype": 1
+            "webtype": 13
           },
           "foreignKeys": []
         },
@@ -3837,7 +3837,7 @@
           ]
         },
         {
-          "index": "pfi_estatfirma_usrestats_i",
+          "index": "pfi_estatfirma_usuenti_fk_i",
           "isAutoIncrement": false,
           "sqlName": "usuarientitatid",
           "sqlType": 12,
@@ -3928,7 +3928,7 @@
           "foreignKeys": []
         },
         {
-          "index": "pfi_estatfirma_usrestats_i",
+          "index": "pfi_estatfirma_usuenti_fk_i",
           "isAutoIncrement": false,
           "sqlName": "tipusestatdefirmainicialid",
           "sqlType": -5,
@@ -3956,7 +3956,7 @@
           "foreignKeys": []
         },
         {
-          "index": "pfi_estatfirma_usrestats_i",
+          "index": "pfi_estatfirma_usuenti_fk_i",
           "isAutoIncrement": false,
           "sqlName": "tipusestatdefirmafinalid",
           "sqlType": -5,
@@ -13898,5 +13898,7 @@
     "es"
   ],
   "generateBack": true,
-  "generateWS": false
+  "generateFront": false,
+  "generateApiInterna": false,
+  "generateApiExterna": false
 }

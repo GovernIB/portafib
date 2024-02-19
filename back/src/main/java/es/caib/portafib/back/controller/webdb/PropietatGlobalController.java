@@ -416,9 +416,9 @@ public class PropietatGlobalController
       return null;
     }
     try {
-      PropietatGlobal propietatGlobal = propietatGlobalEjb.findByPrimaryKey(propietatGlobalID);
+      PropietatGlobal propietatGlobal = this.findByPrimaryKey(request, propietatGlobalID);
       if (propietatGlobal == null) {
-        String __msg =createMessageError(request, "error.notfound", propietatGlobalID);
+        String __msg = createMessageError(request, "error.notfound", propietatGlobalID);
         return getRedirectWhenDelete(request, propietatGlobalID, new Exception(__msg));
       } else {
         delete(request, propietatGlobal);
@@ -584,7 +584,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, PropietatGlobalFilterForm propietatGlobalFilterForm,
        List<PropietatGlobal> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (propietatGlobalFilterForm.isHiddenField(ENTITATID)
-      && !propietatGlobalFilterForm.isGroupByField(ENTITATID)) {
+       && !propietatGlobalFilterForm.isGroupByField(ENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -655,7 +655,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "PropietatGlobalWebDB_FilterForm";
+    return "PropietatGlobal_FilterForm_" + this.getClass().getName();
   }
 
 

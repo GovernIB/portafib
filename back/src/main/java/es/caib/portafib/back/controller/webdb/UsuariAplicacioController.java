@@ -544,9 +544,9 @@ public class UsuariAplicacioController
       return null;
     }
     try {
-      UsuariAplicacio usuariAplicacio = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
+      UsuariAplicacio usuariAplicacio = this.findByPrimaryKey(request, usuariAplicacioID);
       if (usuariAplicacio == null) {
-        String __msg =createMessageError(request, "error.notfound", usuariAplicacioID);
+        String __msg = createMessageError(request, "error.notfound", usuariAplicacioID);
         return getRedirectWhenDelete(request, usuariAplicacioID, new Exception(__msg));
       } else {
         delete(request, usuariAplicacio);
@@ -735,7 +735,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioFilterForm usuariAplicacioFilterForm,
        List<UsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioFilterForm.isHiddenField(ENTITATID)
-      && !usuariAplicacioFilterForm.isGroupByField(ENTITATID)) {
+       && !usuariAplicacioFilterForm.isGroupByField(ENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -770,7 +770,8 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioFilterForm usuariAplicacioFilterForm,
        List<UsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioFilterForm.isHiddenField(CALLBACKVERSIO)
-      && !usuariAplicacioFilterForm.isGroupByField(CALLBACKVERSIO)) {
+       && !usuariAplicacioFilterForm.isGroupByField(CALLBACKVERSIO)
+       && !usuariAplicacioFilterForm.isFilterByField(CALLBACKVERSIO)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -805,7 +806,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioFilterForm usuariAplicacioFilterForm,
        List<UsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioFilterForm.isHiddenField(IDIOMAID)
-      && !usuariAplicacioFilterForm.isGroupByField(IDIOMAID)) {
+       && !usuariAplicacioFilterForm.isGroupByField(IDIOMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -840,7 +841,8 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioFilterForm usuariAplicacioFilterForm,
        List<UsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioFilterForm.isHiddenField(POLITICADEPLUGINFIRMAWEB)
-      && !usuariAplicacioFilterForm.isGroupByField(POLITICADEPLUGINFIRMAWEB)) {
+       && !usuariAplicacioFilterForm.isGroupByField(POLITICADEPLUGINFIRMAWEB)
+       && !usuariAplicacioFilterForm.isFilterByField(POLITICADEPLUGINFIRMAWEB)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -871,7 +873,8 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioFilterForm usuariAplicacioFilterForm,
        List<UsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioFilterForm.isHiddenField(POLITICACUSTODIA)
-      && !usuariAplicacioFilterForm.isGroupByField(POLITICACUSTODIA)) {
+       && !usuariAplicacioFilterForm.isGroupByField(POLITICACUSTODIA)
+       && !usuariAplicacioFilterForm.isFilterByField(POLITICACUSTODIA)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -911,7 +914,7 @@ public java.lang.String stringToPK(String value) {
        ModelAndView mav, UsuariAplicacioFilterForm usuariAplicacioFilterForm,
        List<UsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (usuariAplicacioFilterForm.isHiddenField(CUSTODIAINFOID)
-      && !usuariAplicacioFilterForm.isGroupByField(CUSTODIAINFOID)) {
+       && !usuariAplicacioFilterForm.isGroupByField(CUSTODIAINFOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -982,7 +985,7 @@ public java.lang.String stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "UsuariAplicacioWebDB_FilterForm";
+    return "UsuariAplicacio_FilterForm_" + this.getClass().getName();
   }
 
 

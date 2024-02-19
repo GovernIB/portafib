@@ -432,9 +432,9 @@ public class BitacolaController
       return null;
     }
     try {
-      Bitacola bitacola = bitacolaEjb.findByPrimaryKey(bitacolaID);
+      Bitacola bitacola = this.findByPrimaryKey(request, bitacolaID);
       if (bitacola == null) {
-        String __msg =createMessageError(request, "error.notfound", bitacolaID);
+        String __msg = createMessageError(request, "error.notfound", bitacolaID);
         return getRedirectWhenDelete(request, bitacolaID, new Exception(__msg));
       } else {
         delete(request, bitacola);
@@ -596,7 +596,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, BitacolaFilterForm bitacolaFilterForm,
        List<Bitacola> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (bitacolaFilterForm.isHiddenField(TIPUSOBJECTE)
-      && !bitacolaFilterForm.isGroupByField(TIPUSOBJECTE)) {
+       && !bitacolaFilterForm.isGroupByField(TIPUSOBJECTE)
+       && !bitacolaFilterForm.isFilterByField(TIPUSOBJECTE)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -626,7 +627,8 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, BitacolaFilterForm bitacolaFilterForm,
        List<Bitacola> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (bitacolaFilterForm.isHiddenField(TIPUSOPERACIO)
-      && !bitacolaFilterForm.isGroupByField(TIPUSOPERACIO)) {
+       && !bitacolaFilterForm.isGroupByField(TIPUSOPERACIO)
+       && !bitacolaFilterForm.isFilterByField(TIPUSOPERACIO)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -705,7 +707,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "BitacolaWebDB_FilterForm";
+    return "Bitacola_FilterForm_" + this.getClass().getName();
   }
 
 

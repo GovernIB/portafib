@@ -387,9 +387,9 @@ public class RoleController
       return null;
     }
     try {
-      Role role = roleEjb.findByPrimaryKey(roleID);
+      Role role = this.findByPrimaryKey(request, roleID);
       if (role == null) {
-        String __msg =createMessageError(request, "error.notfound", roleID);
+        String __msg = createMessageError(request, "error.notfound", roleID);
         return getRedirectWhenDelete(request, roleID, new Exception(__msg));
       } else {
         delete(request, role);
@@ -586,7 +586,7 @@ public java.lang.String stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "RoleWebDB_FilterForm";
+    return "Role_FilterForm_" + this.getClass().getName();
   }
 
 

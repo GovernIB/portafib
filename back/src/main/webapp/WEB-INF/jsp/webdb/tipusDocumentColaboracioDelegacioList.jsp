@@ -18,7 +18,7 @@
   <%-- Inici de div de TAULA CONTINGUTS --%>
   <div style="width: 100%;">
   <%@include file="tipusDocumentColaboracioDelegacioListCore.jsp" %>
-  <c:if test="${not empty tipusDocumentColaboracioDelegacioItems}">
+  <c:if test="${not empty tipusDocumentColaboracioDelegacioItems && __theFilterForm.footerListVisible}">
           <%@include file="webdbPagination.jsp" %>
 
   </c:if>

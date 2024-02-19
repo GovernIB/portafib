@@ -1,13 +1,13 @@
 
 <%-- ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! --%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
- 
-  <%@include file="propietatGlobalFormTitle.jsp" %>
 
 
 <form:form modelAttribute="propietatGlobalForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
+  <%@include file="propietatGlobalFormTitle.jsp" %>
+ 
   <c:set var="contexte" value="${propietatGlobalForm.contexte}"/>
   <form:hidden path="nou" />
   

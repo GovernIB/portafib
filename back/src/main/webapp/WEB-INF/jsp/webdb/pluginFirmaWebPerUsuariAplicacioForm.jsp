@@ -1,13 +1,13 @@
 
 <%-- ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! --%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
- 
-  <%@include file="pluginFirmaWebPerUsuariAplicacioFormTitle.jsp" %>
 
 
 <form:form modelAttribute="pluginFirmaWebPerUsuariAplicacioForm" method="${(empty method)?'post':method}"
   enctype="multipart/form-data">
   
+  <%@include file="pluginFirmaWebPerUsuariAplicacioFormTitle.jsp" %>
+ 
   <c:set var="contexte" value="${pluginFirmaWebPerUsuariAplicacioForm.contexte}"/>
   <form:hidden path="nou" />
   

@@ -65,25 +65,14 @@ public class TipusDocumentFilterForm extends PortaFIBBaseFilterForm implements T
   }
 
 
-  private java.lang.Long tipusDocumentBaseIDDesde;
+  private java.util.List<java.lang.Long> tipusDocumentBaseIDSelect;
 
-  public java.lang.Long getTipusDocumentBaseIDDesde() {
-    return this.tipusDocumentBaseIDDesde;
+  public java.util.List<java.lang.Long> getTipusDocumentBaseIDSelect() {
+    return this.tipusDocumentBaseIDSelect;
   }
 
-  public void setTipusDocumentBaseIDDesde(java.lang.Long tipusDocumentBaseIDDesde) {
-    this.tipusDocumentBaseIDDesde = tipusDocumentBaseIDDesde;
-  }
-
-
-  private java.lang.Long tipusDocumentBaseIDFins;
-
-  public java.lang.Long getTipusDocumentBaseIDFins() {
-    return this.tipusDocumentBaseIDFins;
-  }
-
-  public void setTipusDocumentBaseIDFins(java.lang.Long tipusDocumentBaseIDFins) {
-    this.tipusDocumentBaseIDFins = tipusDocumentBaseIDFins;
+  public void setTipusDocumentBaseIDSelect(java.util.List<java.lang.Long> tipusDocumentBaseIDSelect) {
+    this.tipusDocumentBaseIDSelect = tipusDocumentBaseIDSelect;
   }
 
 
@@ -118,8 +107,7 @@ public class TipusDocumentFilterForm extends PortaFIBBaseFilterForm implements T
     this.tipusDocumentIDFins = __toClone.tipusDocumentIDFins;
     this.nomIDDesde = __toClone.nomIDDesde;
     this.nomIDFins = __toClone.nomIDFins;
-    this.tipusDocumentBaseIDDesde = __toClone.tipusDocumentBaseIDDesde;
-    this.tipusDocumentBaseIDFins = __toClone.tipusDocumentBaseIDFins;
+    this.tipusDocumentBaseIDSelect = __toClone.tipusDocumentBaseIDSelect;
     this.descripcio = __toClone.descripcio;
     this.usuariAplicacioID = __toClone.usuariAplicacioID;
     this.mapOfTraduccioForNomID = __toClone.mapOfTraduccioForNomID;

@@ -76,7 +76,7 @@
             </td>
           <td id="estatDeFirma_dataInici_columnvalueid">
     <form:errors path="estatDeFirma.dataInici" cssClass="errorField alert alert-danger" />
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="estatDeFirma_dataInici" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DATAINICI)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#estatDeFirma_dataInici" path="estatDeFirma.dataInici" />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DATAINICI)}" >
@@ -112,7 +112,7 @@
             </td>
           <td id="estatDeFirma_dataFi_columnvalueid">
     <form:errors path="estatDeFirma.dataFi" cssClass="errorField alert alert-danger" />
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="estatDeFirma_dataFi" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DATAFI)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#estatDeFirma_dataFi" path="estatDeFirma.dataFi" />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DATAFI)}" >

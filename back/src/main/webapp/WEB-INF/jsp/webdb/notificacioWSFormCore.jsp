@@ -63,7 +63,7 @@
             </td>
           <td id="notificacioWS_dataCreacio_columnvalueid">
     <form:errors path="notificacioWS.dataCreacio" cssClass="errorField alert alert-danger" />
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="notificacioWS_dataCreacio" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATACREACIO)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#notificacioWS_dataCreacio" path="notificacioWS.dataCreacio" />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATACREACIO)}" >
@@ -99,7 +99,7 @@
             </td>
           <td id="notificacioWS_dataEnviament_columnvalueid">
     <form:errors path="notificacioWS.dataEnviament" cssClass="errorField alert alert-danger" />
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="notificacioWS_dataEnviament" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATAENVIAMENT)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#notificacioWS_dataEnviament" path="notificacioWS.dataEnviament" />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATAENVIAMENT)}" >
@@ -238,7 +238,7 @@
             </td>
           <td id="notificacioWS_dataError_columnvalueid">
     <form:errors path="notificacioWS.dataError" cssClass="errorField alert alert-danger" />
-            <div class="form-group">
+            <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="notificacioWS_dataError" data-target-input="nearest">
                       <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATAERROR)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#notificacioWS_dataError" path="notificacioWS.dataError" />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATAERROR)}" >

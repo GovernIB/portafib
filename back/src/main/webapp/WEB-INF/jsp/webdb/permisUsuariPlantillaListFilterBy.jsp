@@ -51,8 +51,8 @@
 
 
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PermisUsuariPlantillaFields.PERMISUSUARIPLANTILLAID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="permisUsuariPlantilla.permisUsuariPlantillaID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
@@ -82,8 +82,8 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID)}">
-            <%-- FILTRE NUMERO --%>      
             <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <%-- FILTRE NUMERO DESDE-FINS --%>
               <span class="add-on"><fmt:message key="permisUsuariPlantilla.plantillaFluxDeFirmesID" />:</span>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>

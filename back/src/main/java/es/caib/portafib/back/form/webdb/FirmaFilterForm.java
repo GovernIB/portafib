@@ -252,25 +252,14 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
   }
 
 
-  private java.lang.Long tipusEstatDeFirmaFinalIDDesde;
+  private java.util.List<java.lang.Long> tipusEstatDeFirmaFinalIDSelect;
 
-  public java.lang.Long getTipusEstatDeFirmaFinalIDDesde() {
-    return this.tipusEstatDeFirmaFinalIDDesde;
+  public java.util.List<java.lang.Long> getTipusEstatDeFirmaFinalIDSelect() {
+    return this.tipusEstatDeFirmaFinalIDSelect;
   }
 
-  public void setTipusEstatDeFirmaFinalIDDesde(java.lang.Long tipusEstatDeFirmaFinalIDDesde) {
-    this.tipusEstatDeFirmaFinalIDDesde = tipusEstatDeFirmaFinalIDDesde;
-  }
-
-
-  private java.lang.Long tipusEstatDeFirmaFinalIDFins;
-
-  public java.lang.Long getTipusEstatDeFirmaFinalIDFins() {
-    return this.tipusEstatDeFirmaFinalIDFins;
-  }
-
-  public void setTipusEstatDeFirmaFinalIDFins(java.lang.Long tipusEstatDeFirmaFinalIDFins) {
-    this.tipusEstatDeFirmaFinalIDFins = tipusEstatDeFirmaFinalIDFins;
+  public void setTipusEstatDeFirmaFinalIDSelect(java.util.List<java.lang.Long> tipusEstatDeFirmaFinalIDSelect) {
+    this.tipusEstatDeFirmaFinalIDSelect = tipusEstatDeFirmaFinalIDSelect;
   }
 
 
@@ -373,25 +362,14 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
   }
 
 
-  private java.lang.Integer usuariExternNivellSeguretatDesde;
+  private java.util.List<java.lang.Integer> usuariExternNivellSeguretatSelect;
 
-  public java.lang.Integer getUsuariExternNivellSeguretatDesde() {
-    return this.usuariExternNivellSeguretatDesde;
+  public java.util.List<java.lang.Integer> getUsuariExternNivellSeguretatSelect() {
+    return this.usuariExternNivellSeguretatSelect;
   }
 
-  public void setUsuariExternNivellSeguretatDesde(java.lang.Integer usuariExternNivellSeguretatDesde) {
-    this.usuariExternNivellSeguretatDesde = usuariExternNivellSeguretatDesde;
-  }
-
-
-  private java.lang.Integer usuariExternNivellSeguretatFins;
-
-  public java.lang.Integer getUsuariExternNivellSeguretatFins() {
-    return this.usuariExternNivellSeguretatFins;
-  }
-
-  public void setUsuariExternNivellSeguretatFins(java.lang.Integer usuariExternNivellSeguretatFins) {
-    this.usuariExternNivellSeguretatFins = usuariExternNivellSeguretatFins;
+  public void setUsuariExternNivellSeguretatSelect(java.util.List<java.lang.Integer> usuariExternNivellSeguretatSelect) {
+    this.usuariExternNivellSeguretatSelect = usuariExternNivellSeguretatSelect;
   }
 
 
@@ -421,8 +399,7 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
     this.numeroSerieCertificatFins = __toClone.numeroSerieCertificatFins;
     this.emissorCertificat = __toClone.emissorCertificat;
     this.nomCertificat = __toClone.nomCertificat;
-    this.tipusEstatDeFirmaFinalIDDesde = __toClone.tipusEstatDeFirmaFinalIDDesde;
-    this.tipusEstatDeFirmaFinalIDFins = __toClone.tipusEstatDeFirmaFinalIDFins;
+    this.tipusEstatDeFirmaFinalIDSelect = __toClone.tipusEstatDeFirmaFinalIDSelect;
     this.motiu = __toClone.motiu;
     this.minimDeRevisorsDesde = __toClone.minimDeRevisorsDesde;
     this.minimDeRevisorsFins = __toClone.minimDeRevisorsFins;
@@ -432,8 +409,7 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
     this.usuariExternEmail = __toClone.usuariExternEmail;
     this.usuariExternIdioma = __toClone.usuariExternIdioma;
     this.usuariExternToken = __toClone.usuariExternToken;
-    this.usuariExternNivellSeguretatDesde = __toClone.usuariExternNivellSeguretatDesde;
-    this.usuariExternNivellSeguretatFins = __toClone.usuariExternNivellSeguretatFins;
+    this.usuariExternNivellSeguretatSelect = __toClone.usuariExternNivellSeguretatSelect;
     this.mapOfUsuariEntitatForDestinatariID = __toClone.mapOfUsuariEntitatForDestinatariID;
     this.mapOfBlocDeFirmesForBlocDeFirmaID = __toClone.mapOfBlocDeFirmesForBlocDeFirmaID;
     this.mapOfValuesForTipusEstatDeFirmaFinalID = __toClone.mapOfValuesForTipusEstatDeFirmaFinalID;

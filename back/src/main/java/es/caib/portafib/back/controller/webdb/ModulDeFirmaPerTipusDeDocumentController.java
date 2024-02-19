@@ -440,9 +440,9 @@ public class ModulDeFirmaPerTipusDeDocumentController
       return null;
     }
     try {
-      ModulDeFirmaPerTipusDeDocument modulDeFirmaPerTipusDeDocument = modulDeFirmaPerTipusDeDocumentEjb.findByPrimaryKey(iD);
+      ModulDeFirmaPerTipusDeDocument modulDeFirmaPerTipusDeDocument = this.findByPrimaryKey(request, iD);
       if (modulDeFirmaPerTipusDeDocument == null) {
-        String __msg =createMessageError(request, "error.notfound", iD);
+        String __msg = createMessageError(request, "error.notfound", iD);
         return getRedirectWhenDelete(request, iD, new Exception(__msg));
       } else {
         delete(request, modulDeFirmaPerTipusDeDocument);
@@ -608,7 +608,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, ModulDeFirmaPerTipusDeDocumentFilterForm modulDeFirmaPerTipusDeDocumentFilterForm,
        List<ModulDeFirmaPerTipusDeDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (modulDeFirmaPerTipusDeDocumentFilterForm.isHiddenField(TIPUSDOCUMENTID)
-      && !modulDeFirmaPerTipusDeDocumentFilterForm.isGroupByField(TIPUSDOCUMENTID)) {
+       && !modulDeFirmaPerTipusDeDocumentFilterForm.isGroupByField(TIPUSDOCUMENTID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -647,7 +647,7 @@ public java.lang.Long stringToPK(String value) {
        ModelAndView mav, ModulDeFirmaPerTipusDeDocumentFilterForm modulDeFirmaPerTipusDeDocumentFilterForm,
        List<ModulDeFirmaPerTipusDeDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (modulDeFirmaPerTipusDeDocumentFilterForm.isHiddenField(PLUGINID)
-      && !modulDeFirmaPerTipusDeDocumentFilterForm.isGroupByField(PLUGINID)) {
+       && !modulDeFirmaPerTipusDeDocumentFilterForm.isGroupByField(PLUGINID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
@@ -717,7 +717,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "ModulDeFirmaPerTipusDeDocumentWebDB_FilterForm";
+    return "ModulDeFirmaPerTipusDeDocument_FilterForm_" + this.getClass().getName();
   }
 
 

@@ -390,9 +390,9 @@ public class TipusNotificacioController
       return null;
     }
     try {
-      TipusNotificacio tipusNotificacio = tipusNotificacioEjb.findByPrimaryKey(tipusNotificacioID);
+      TipusNotificacio tipusNotificacio = this.findByPrimaryKey(request, tipusNotificacioID);
       if (tipusNotificacio == null) {
-        String __msg =createMessageError(request, "error.notfound", tipusNotificacioID);
+        String __msg = createMessageError(request, "error.notfound", tipusNotificacioID);
         return getRedirectWhenDelete(request, tipusNotificacioID, new Exception(__msg));
       } else {
         delete(request, tipusNotificacio);
@@ -589,7 +589,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getSessionAttributeFilterForm() {
-    return "TipusNotificacioWebDB_FilterForm";
+    return "TipusNotificacio_FilterForm_" + this.getClass().getName();
   }
 
 
