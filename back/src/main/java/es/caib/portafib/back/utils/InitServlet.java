@@ -89,7 +89,7 @@ public class InitServlet extends HttpServlet {
         }
 
         Class<?> clazz = Class.forName(classFSM);
-        Object instancia = clazz.newInstance();
+        Object instancia = clazz.getDeclaredConstructor().newInstance();
 
         FileSystemManager.setFileSystemManager((IFileSystemManager) instancia);
 

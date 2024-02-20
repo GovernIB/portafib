@@ -212,9 +212,7 @@ public class GestioEntitatAdminController extends EntitatController implements C
 
     @Override
     public void delete(HttpServletRequest request, Entitat entitat) throws I18NException {
-
         entitatLogicaEjb.deleteFull(entitat.getEntitatID());
-
     }
 
     @Override
