@@ -11,6 +11,16 @@
         <connection>scm:git:https://github.com/GovernIB/portafib.git</connection>
         <url>https://github.com/GovernIB/portafib</url>
     </scm>
+    <licenses>
+        <license>
+            <name>GPL-v2.0</name>
+            <url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+        </license>
+        <license>
+            <name>EUPL-v1.1</name>
+            <url>http://joinup.ec.europa.eu/system/files/ES/EUPL%20v.1.1%20-%20Licencia.pdf</url>
+        </license>
+    </licenses>
     <modules>
         <!-- Llibreries de Firma Simple, Firma Asincrona Simple, Firma Web i Firma en Servidor -->
         <module>apisib</module>
