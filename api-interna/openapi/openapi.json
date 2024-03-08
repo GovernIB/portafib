@@ -1,0 +1,292 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "API REST INTERNA de PortaFIB",
+    "description" : "Conjunt de Serveis REST de PortaFIB per ser accedits des de l'interior",
+    "contact" : {
+      "name" : "Departament de Govern Digital a la Fundació Bit",
+      "url" : "http://otae.fundaciobit.org",
+      "email" : "otae@fundaciobit.org"
+    },
+    "license" : {
+      "name" : "License Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0"
+    },
+    "version" : "1.0.0"
+  },
+  "externalDocs" : {
+    "description" : "Java Client (GovernIB Github)",
+    "url" : "https://github.com/GovernIB/portafib/tree/portafib-1.0/portafib-api-interna-client"
+  },
+  "servers" : [ {
+    "url" : "/portafibapi/interna"
+  }, {
+    "url" : "http://localhost:8080/portafibapi/interna"
+  }, {
+    "url" : "https://dev.caib.es/portafibapi/interna"
+  }, {
+    "url" : "https://proves.caib.es/portafibapi/interna"
+  }, {
+    "url" : "https://se.caib.es/portafibapi/interna"
+  }, {
+    "url" : "https://www.caib.es/portafibapi/interna"
+  } ],
+  "tags" : [ {
+    "name" : "InfoVersion",
+    "description" : "Informació basica del servidor: versió producte, versió API, ..."
+  }, {
+    "name" : "Revisors",
+    "description" : "Informació basica del servidor: versió producte, versió API, ..."
+  } ],
+  "paths" : {
+    "/public/infoversion/versionapi" : {
+      "get" : {
+        "tags" : [ "InfoVersion" ],
+        "summary" : "Retorna la versió de PortaFIB REST",
+        "operationId" : "versionApi",
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InfoVersion"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/infoversion/versionapp" : {
+      "get" : {
+        "tags" : [ "InfoVersion" ],
+        "summary" : "Retorna la versió de PortaFIB",
+        "operationId" : "versionApp",
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InfoVersion"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/secure/revisors/revisorsbydestinatarinif" : {
+      "get" : {
+        "tags" : [ "Revisors" ],
+        "summary" : "Retorna una llista dels Revisors globals i els associats al NIF d'un Destinatari",
+        "operationId" : "revisorsByDestinatariNIF",
+        "parameters" : [ {
+          "name" : "administrationID",
+          "in" : "query",
+          "description" : "DNI del destinatari del qual volen els revisors associats. Opcional.",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'enviaran els missatges d'error",
+          "schema" : {
+            "pattern" : "^|ca|es$",
+            "type" : "string"
+          },
+          "example" : "ca"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BasicUserInfoList"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "InfoVersion" : {
+        "required" : [ "buildTime", "caib", "jdkVersion", "version" ],
+        "type" : "object",
+        "properties" : {
+          "caib" : {
+            "type" : "boolean",
+            "description" : "És un servidor de la CAIB"
+          },
+          "version" : {
+            "type" : "string",
+            "description" : "Versió"
+          },
+          "buildTime" : {
+            "type" : "string",
+            "description" : "Data compilació"
+          },
+          "jdkVersion" : {
+            "type" : "string",
+            "description" : "Versió de JDK en que s'ha compilat"
+          }
+        },
+        "description" : "Model de dades de Informació bàsica a retornar."
+      },
+      "RestExceptionInfo" : {
+        "required" : [ "code", "errorMessage" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "integer",
+            "description" : "Codi de HTTP de l'error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.",
+            "format" : "int32"
+          },
+          "errorMessage" : {
+            "type" : "string",
+            "description" : "Missatge de l'error"
+          },
+          "stackTrace" : {
+            "type" : "string",
+            "description" : "Stacktrace de l'excepció si n'hi hagués."
+          },
+          "causeException" : {
+            "type" : "string",
+            "description" : "Tipus de l'excepció origen (cause) si n'hi hagués."
+          },
+          "causeStackTrace" : {
+            "type" : "string",
+            "description" : "Stacktrace de l'excepció origen (cause) si n'hi hagués."
+          }
+        },
+        "description" : "Estructura de dades utilitzada per passar informació d'un error"
+      },
+      "BasicUserInfo" : {
+        "type" : "object",
+        "properties" : {
+          "username" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "surname" : {
+            "type" : "string"
+          },
+          "administrationId" : {
+            "type" : "string",
+            "description" : "NIF de l'usuari"
+          }
+        },
+        "description" : "Informació basica d'un usuari"
+      },
+      "BasicUserInfoList" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "description" : "Elements retornats. Pot retornar un null o una llista buida si no hi ha elements.",
+            "items" : {
+              "$ref" : "#/components/schemas/BasicUserInfo"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "BasicAuth" : {
+        "type" : "http",
+        "scheme" : "basic"
+      }
+    }
+  }
+}

@@ -7,7 +7,7 @@
     "usr": "portafib",
     "pwd": "portafib"
   },
-  "modulSeguretat": "seycon",
+  "modulSeguretat": "keycloak",
   "prefix": "pfi",
   "prefixDirectori": "",
   "schema": "portafib",
@@ -13899,6 +13899,6 @@
   ],
   "generateBack": true,
   "generateFront": false,
-  "generateApiInterna": false,
+  "generateApiInterna": true,
   "generateApiExterna": false
 }

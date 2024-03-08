@@ -28,6 +28,8 @@
     menu1.add(MenuItem.retallaDarrerPath("colaboracio.gestio", "/dest/colaborador/list"));
     menu1.add(null);
     menu1.add(MenuItem.retallaDarrerPath("delegacio.gestio", "/dest/delegat/list"));
+    menu1.add(null);
+    menu1.add(MenuItem.retallaDarrerPath("revisor.gestio", "/dest/revisor/selecciousuari"));
   }
 
   pageContext.setAttribute("menu", menu1);

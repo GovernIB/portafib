@@ -796,6 +796,12 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/seleccioUsuariForm.jsp" />
     </definition>
     
+    
+    <definition name="gestioRoleRevisorDestForm" extends="role_dest">
+        <put-attribute name="titol" value="roleUsuariEntitat.roleUsuariEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariEntitatForm.jsp" />
+    </definition>
+    
 
     <!--  ===========  SOL·LICITANT ================== -->
     
