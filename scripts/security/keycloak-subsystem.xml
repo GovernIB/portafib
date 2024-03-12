@@ -19,7 +19,7 @@
 		<bearer-only>true</bearer-only>
 		<enable-basic-auth>true</enable-basic-auth>
 		<principal-attribute>preferred_username</principal-attribute>
-		<credential name="secret">e2e2e1dd-0abc-4926-9abd-90bfb3b3ee78</credential>
+		<credential name="secret">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</credential>
 	</secure-deployment>
 	<secure-deployment name="portafib-api-interna.war">
 		<realm>GOIB</realm>
@@ -28,6 +28,6 @@
 		<bearer-only>true</bearer-only>
 		<enable-basic-auth>true</enable-basic-auth>
 		<principal-attribute>preferred_username</principal-attribute>
-		<credential name="secret">e2e2e1dd-0abc-4926-9abd-90bfb3b3ee78</credential>
+		<credential name="secret">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</credential>
 	</secure-deployment>
 </subsystem>
