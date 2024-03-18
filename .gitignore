@@ -197,3 +197,4 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /api-interna-client/README.md
 /api-interna-client/settings.gradle
 /api-interna-client/test.properties
+/api-interna-client/.gitignore

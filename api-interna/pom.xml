@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>portafib</artifactId>
@@ -10,9 +12,11 @@
     <packaging>war</packaging>
     <name>PortaFIB - API Rest - Interna</name>
     <properties>
+        <output-dir-api>${project.basedir}/../api-interna-client</output-dir-api>
         <auth.method>BASIC</auth.method>
         <client.default.package>es.caib.portafib.apiinterna.client</client.default.package>
-        <!-- La darrera versió disponible: https://github.com/swagger-api/swagger-ui/releases -->
+        <!-- La darrera versió disponible:
+        https://github.com/swagger-api/swagger-ui/releases -->
         <swagger-ui.version>3.52.5</swagger-ui.version>
     </properties>
 
@@ -80,7 +84,8 @@
         <plugins>
             <!-- Genera el descriptor openapi.json de forma estàtica, després 
                 el posarem l'arrel del WAR -->
-            <!-- https://github.com/swagger-api/swagger-core/tree/master/modules/swagger-maven-plugin -->
+            <!--
+            https://github.com/swagger-api/swagger-core/tree/master/modules/swagger-maven-plugin -->
             <plugin>
 
                 <groupId>io.swagger.core.v3</groupId>
@@ -101,8 +106,10 @@
                             <outputFormat>JSON</outputFormat>
                             <resourcePackages>
                                 <package>es.caib.portafib.api.interna.config</package>
-                                <package>es.caib.portafib.api.interna.all.infoversion</package>
-                                <package>es.caib.portafib.api.interna.secure.revisors</package>
+                                <package>
+                                    es.caib.portafib.api.interna.all.infoversion</package>
+                                <package>
+                                    es.caib.portafib.api.interna.secure.revisors</package>
                             </resourcePackages>
                             <prettyPrint>TRUE</prettyPrint>
                         </configuration>
@@ -118,6 +125,9 @@
 
                 <executions>
                     <execution>
+                        <!-- NOU -->
+                        <!-- process-classes és abans de install i install
+                        posar-ho al postprocess -->
                         <phase>install</phase>
                         <goals>
                             <goal>generate</goal>
@@ -126,25 +136,28 @@
                             <inputSpec>${project.basedir}/openapi/openapi.json</inputSpec>
                             <generatorName>java</generatorName>
                             <skipValidateSpec>true</skipValidateSpec>
-                            <configHelp>java</configHelp>
                             <library>resteasy</library>
                             <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
                             <!-- <configHelp>true</configHelp> -->
                             <addCompileSourceRoot>false</addCompileSourceRoot>
-                            <output>${project.basedir}/../api-interna-client</output>
+                            <!-- NOU -->
+                            <output>${output-dir-api}</output>
                             <apiPackage>${client.default.package}.api</apiPackage>
                             <modelPackage>${client.default.package}.model</modelPackage>
                             <invokerPackage>${client.default.package}.services</invokerPackage>
                             <generateModelTests>false</generateModelTests>
+                            <enablePostProcessFile>true</enablePostProcessFile>
                             <configOptions>
                                 <groupId>es.caib.portafib</groupId>
                                 <artifactId>portafib-api-interna-client</artifactId>
                                 <artifactVersion>3.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>portafib - API Rest - Interna Client</artifactDescription>
+                                <artifactDescription>portafib - API Rest -
+                                    Interna Client</artifactDescription>
                                 <dateLibrary>java8</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <java11>true</java11>
+                                <enablePostProcessFile>true</enablePostProcessFile>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -152,7 +165,8 @@
             </plugin>
 
             <!-- Profile per incloure swagger-ui dins el mòdul -->
-            <!-- Davalla la versió de swagger-ui (Web UI que parseja openapi.json. 
+            <!-- Davalla la versió de swagger-ui (Web UI que parseja
+            openapi.json. 
                 Veure index.html) -->
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
@@ -166,7 +180,8 @@
                         </goals>
                         <configuration>
                             <skipCache>false</skipCache>
-                            <url>https://github.com/swagger-api/swagger-ui/archive/v${swagger-ui.version}.tar.gz</url>
+                            <url>
+                                https://github.com/swagger-api/swagger-ui/archive/v${swagger-ui.version}.tar.gz</url>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}</outputDirectory>
                         </configuration>
@@ -188,7 +203,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <file>${project.build.directory}/swagger-ui-${swagger-ui.version}/dist/index.html</file>
+                    <file>
+                        ${project.build.directory}/swagger-ui-${swagger-ui.version}/dist/index.html</file>
                     <replacements>
                         <replacement>
                             <token>https://petstore.swagger.io/v2/swagger.json</token>
@@ -206,7 +222,8 @@
                     <webResources>
                         <!--  combine.children="append">  -->
                         <resource>
-                            <directory>${project.build.directory}/swagger-ui-${swagger-ui.version}/dist</directory>
+                            <directory>
+                                ${project.build.directory}/swagger-ui-${swagger-ui.version}/dist</directory>
                         </resource>
                         <resource>
                             <directory>${project.basedir}/openapi</directory>
@@ -214,31 +231,40 @@
                     </webResources>
                 </configuration>
             </plugin>
-            <!--   Llevar el .gitignore del codi generat -->
+
+
+            <!--NOU -->
+            <!--
             <plugin>
-                <groupId>com.coderplus.maven.plugins</groupId>
-                <artifactId>copy-rename-maven-plugin</artifactId>
-                <version>1.0</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.2.0</version>
                 <executions>
-                    <execution>
-                        <id>copy-file</id>
-                        <phase>install</phase>
+                    <execution>                        
+                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>rename</goal>
+                            <goal>exec</goal>
                         </goals>
-                        <configuration>
-                            <sourceFile>${basedir}/../portafib-api-interna-client/.gitignore</sourceFile>
-                            <destinationFile>${project.build.directory}/client_gitignore_renamed.txt</destinationFile>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <executable>cmd.exe</executable>
+                    <arguments>
+                        <argument>/C</argument>
+                        <argument>postprocessapi.bat ${output-dir-api}</argument>
+                    </arguments>
+                </configuration>
             </plugin>
-
-        </plugins>
+            -->
+        </plugins> 
+        
+        <!--This plugin's configuration is used to store Eclipse 
+                    m2e settings only. It has no influence on the Maven build itself. -->
+        <!-- NOU -->
+        <!--
         <pluginManagement>
             <plugins>
-                <!--This plugin's configuration is used to store Eclipse 
-                    m2e settings only. It has no influence on the Maven build itself. -->
+
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -271,6 +297,7 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        -->
     </build>
 
 </project>

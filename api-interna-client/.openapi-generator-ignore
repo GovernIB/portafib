@@ -23,3 +23,5 @@
 #!docs/README.md
 
 pom.xml
+
+.gitignore
