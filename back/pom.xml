@@ -152,13 +152,7 @@
 			<version>2.0</version>
 			<scope>provided</scope>
 		</dependency>
-<!--
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<scope>provided</scope>
-		</dependency>
--->
+
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>

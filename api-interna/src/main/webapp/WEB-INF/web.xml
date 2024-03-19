@@ -51,6 +51,7 @@
 
     <login-config>
         <!-- Per defecte BASIC. Si profile -Pcaib llavors KEYCLOAK -->
+        <!--  ${auth.method} -->
         <auth-method>${auth.method}</auth-method>
         <realm-name>Govern de les Illes Balears</realm-name>
     </login-config>
