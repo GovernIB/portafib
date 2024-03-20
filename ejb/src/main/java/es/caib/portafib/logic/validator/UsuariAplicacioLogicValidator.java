@@ -33,36 +33,16 @@ public class UsuariAplicacioLogicValidator<T extends UsuariAplicacio> extends Us
                 __usuariAplicacioManager);
         
         int callbackVersion = __target__.getCallbackVersio();
-        //log.info("\n\n\n Validate CALLBACKVERSIO => " + callbackVersion + "   \n\n\n");
-        if (callbackVersion != -1) {
-            __vr.rejectValue(CALLBACKURL, "usuariaplicacio.error.notecallback");
-        }
 
         // Afegir per #520. Si la URL de callback no és obligatoria a nivell de base de dades cal comprovar
         // que només pot ser buida quan s'ha especificat la versió "-1", no callback.
-                /*
-        String callbackUrl = (String) __vr.getFieldValue(__target__, CALLBACKURL);
-        if (callbackUrl == null || callbackUrl.isEmpty()) {
-
-            Object obj = __vr.getFieldValue(__target__, CALLBACKVERSIO);
-
-            log.info("\n\n\n Validate CALLBACKVERSIO => " + obj + "   \n\n\n");
-            log.info("\n\n\n Validate CALLBACKVERSIO class => " + obj.getClass() + "   \n\n\n");
-
-            Class<?> objClass = obj.getClass();
-
-            int callbackVersion;
-            if (String.class.equals(objClass)) {
-                callbackVersion = Integer.parseInt((String) obj);
-            } else {
-                callbackVersion = (Integer) obj;
-            }
-            //int callbackVersion = Integer.parseInt(callbackVersionStr);
-            if (callbackVersion != -1) {
+        if (callbackVersion != -1) {     
+            String callbackUrl = __target__.getCallbackURL(); // (String) __vr.getFieldValue(__target__, CALLBACKURL);
+            if (callbackUrl == null || callbackUrl.isEmpty()) {
                 __vr.rejectValue(CALLBACKURL, "usuariaplicacio.error.notecallback");
             }
         }
-        */
+        
 
         if (__isNou__ && __vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
             String userApp = (String) __vr.getFieldValue(__target__, USUARIAPLICACIOID);
