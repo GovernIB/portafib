@@ -17,7 +17,6 @@
 
     <module>indra_callback_api</module>
     <module>portafib_callback_api</module>
-    <module>portafib_revisordefirma_rest_api</module>
 
     <module>portafib_externalsignature_rest_api</module>
     <module>portafib_externalsignature_rest_jersey</module>
