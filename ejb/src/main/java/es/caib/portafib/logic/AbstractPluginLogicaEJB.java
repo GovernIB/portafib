@@ -57,7 +57,7 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
         );
     }
 
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     @Override
     public I getInstanceByPluginID(long pluginID) throws I18NException {
 

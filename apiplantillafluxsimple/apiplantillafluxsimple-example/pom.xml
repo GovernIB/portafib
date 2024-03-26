@@ -1,47 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>    
- 
-  <artifactId>apiplantillafluxsimple-example</artifactId>
-  <groupId>org.fundaciobit.apisib.apiplantillafluxsimple</groupId>
-  <version>2.0.2</version>
-  <packaging>jar</packaging>
+    <modelVersion>4.0.0</modelVersion>
 
-  <name>FundacioBit - ApisIB - API Plantilla Flux Simple - Exemple</name>
-
-  <parent>
-    <artifactId>apiplantillafluxsimple</artifactId>
+    <artifactId>apiplantillafluxsimple-example</artifactId>
     <groupId>org.fundaciobit.apisib.apiplantillafluxsimple</groupId>
-    <version>1.0.0</version>
-  </parent>
+    <version>2.0.2</version>
+    <packaging>jar</packaging>
 
-  <properties>
-  </properties>
+    <name>FundacioBit - ApisIB - API Plantilla Flux Simple - Exemple</name>
 
-  <dependencies>
+    <parent>
+        <artifactId>apiplantillafluxsimple</artifactId>
+        <groupId>org.fundaciobit.apisib.apiplantillafluxsimple</groupId>
+        <version>1.0.0</version>
+    </parent>
 
-    <dependency>
-      <artifactId>apiplantillafluxsimple-jersey</artifactId>
-      <groupId>org.fundaciobit.apisib.apiplantillafluxsimple</groupId>
-      <version>1.0.2</version>
-      <scope>test</scope>
-    </dependency>
+    <properties>
+    </properties>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.2</version>
-      <scope>test</scope>
-    </dependency>
+    <dependencies>
 
-    <dependency>
-      <groupId>org.fundaciobit.pluginsib.core</groupId>
-      <artifactId>pluginsib-core</artifactId>
-      <version>2.0.0</version>
-      <scope>test</scope>
-    </dependency>
+        <dependency>
+            <artifactId>apiplantillafluxsimple-jersey</artifactId>
+            <groupId>org.fundaciobit.apisib.apiplantillafluxsimple</groupId>
+            <version>1.0.2</version>
+            <scope>test</scope>
+        </dependency>
 
-  </dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.core</groupId>
+            <artifactId>pluginsib-core</artifactId>
+            <version>2.0.0</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- JAXB API -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JAXB RI -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.4</version>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
 
 </project>

@@ -422,16 +422,16 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
     
     
     String nomActor;
-    String usernameActor;
+    //String usernameActor;
     if (actorID == null) {
       nomActor = null;
-      usernameActor = null;
+      //usernameActor = null;
     } else {
       UsuariEntitatJPA actor = UsuariEntitatLogicaEJB.findByPrimaryKeyFull(usuariEntitatEjb, actorID);
       UsuariPersona upActor = actor.getUsuariPersona();
       nomActor = upActor.getNom() + " " + upActor.getLlinatges() + "(" + upActor.getNif() + ")";
-      usernameActor = upActor.getUsuariPersonaID();
-      }
+      //usernameActor = upActor.getUsuariPersonaID();
+    }
 
     final String avis = I18NLogicUtils.tradueix(loc, msgCode,  titol, nomActor, argDesc);
 //    final String avis = I18NLogicUtils.tradueix(loc, msgCode,  nomActor, usernameActor , argDesc);

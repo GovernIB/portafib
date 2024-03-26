@@ -635,7 +635,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     private static <K, V> Map<K, V> sortByValue(Map<K, V> map) {
         List<Entry<K, V>> list = new LinkedList<Map.Entry<K, V>>(map.entrySet());
         Collections.sort(list, new Comparator<Object>() {
-            @SuppressWarnings("unchecked")
+            //@SuppressWarnings("unchecked")
             public int compare(Object o1, Object o2) {
                 return ((Comparable<V>) ((Map.Entry<K, V>) (o1)).getValue()).compareTo(((Map.Entry<K, V>) (o2)).getValue());
             }

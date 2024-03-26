@@ -661,7 +661,7 @@ public class TestJPA {
   public void testUsuariPersonaUsuariEntitat(EntityManager em) {
     Query query = em.createQuery("select up from UsuariPersonaJPA up where up.usuariEntitats.entitatID='caib'");
 
-    @SuppressWarnings("unchecked")
+    
     List<UsuariPersonaJPA> firmes =   query.getResultList();
     
     for (UsuariPersonaJPA usuariPersonaJPA : firmes) {
@@ -684,7 +684,7 @@ public class TestJPA {
     // ( firma.blocDeFirmes.fluxDeFirmes.peticioDeFirma.peticioDeFirmaID = 58900 )
     
     
-    @SuppressWarnings("unchecked")
+    
     List<FirmaJPA> firmes =   (List<FirmaJPA>)query.getResultList();
     
     int size = firmes.size();
@@ -725,7 +725,7 @@ public class TestJPA {
     
     // ( firma.blocDeFirmes.fluxDeFirmes.peticioDeFirma.peticioDeFirmaID = 58900 )
     
-    @SuppressWarnings("unchecked")
+    
     List<PeticioDeFirmaJPA> peticions =   query.getResultList();
     
     int size = peticions.size();

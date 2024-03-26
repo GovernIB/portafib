@@ -57,6 +57,16 @@ public class ApiFlowTemplateSimpleTester {
 
       api = getApiFlowTemplateSimple(prop);
       
+      
+       FlowTemplateSimpleFlowTemplateList list = api.getAllFlowTemplates(languageUI);
+       
+       for (FlowTemplateSimpleKeyValue flowTemplateSimpleKeyValue : list.getList()) {
+           System.out
+                   .println("   " + flowTemplateSimpleKeyValue.getKey() + " => " + flowTemplateSimpleKeyValue.getValue());
+       }
+      
+      if (true) return;
+      
       String lastKey;
 
       // Crear Flux

@@ -32,7 +32,7 @@ public class CadesSignatureExtractor implements SignatureExtractor {
     private final SignatureFactory signatureFactory = SignatureFactory.getInstance();
 
     @Override
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public List<Signature> extract(IPortaFIBDataSource source) throws I18NException {
 
         InputStream inputStream = source.getInputStream();

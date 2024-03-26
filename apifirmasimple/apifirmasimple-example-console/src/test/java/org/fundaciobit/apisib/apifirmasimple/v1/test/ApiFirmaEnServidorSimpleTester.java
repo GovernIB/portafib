@@ -65,9 +65,9 @@ public class ApiFirmaEnServidorSimpleTester {
 
             //tester.testGetAvailableProfiles();
 
-            //tester.testSignatureServerPAdES();
+            tester.testSignatureServerPAdES();
 
-            tester.testSignatureServerCAdES();
+            //tester.testSignatureServerCAdES();
 
             // tester.testSignatureServerXAdESBinary();
 

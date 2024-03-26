@@ -1,53 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>    
-  <artifactId>apifirmasimple-example-console</artifactId>
-  <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
-  <version>1.0.3</version>
-  <packaging>jar</packaging>
-
-  <name>FundacioBit - ApisIB - API Firma Simple - Exemple Consola</name>
-
-  <parent>
-    <artifactId>apifirmasimple</artifactId>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>apifirmasimple-example-console</artifactId>
     <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
     <version>1.0.3</version>
-  </parent>
+    <packaging>jar</packaging>
 
-  <properties>
-  </properties>
+    <name>FundacioBit - ApisIB - API Firma Simple - Exemple Consola</name>
 
-  <dependencies>
+    <parent>
+        <artifactId>apifirmasimple</artifactId>
+        <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
+        <version>1.0.3</version>
+    </parent>
 
-    <dependency>
-      <artifactId>apifirmasimple-jersey</artifactId>
-      <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
-      <version>1.0.3</version>
-      <scope>test</scope>
-    </dependency>
+    <properties>
+    </properties>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.2</version>
-      <scope>test</scope>
-    </dependency>
+    <dependencies>
 
-    <dependency>
-      <groupId>org.fundaciobit.pluginsib.core</groupId>
-      <artifactId>pluginsib-core</artifactId>
-      <version>2.0.2</version>
-      <scope>test</scope>
-    </dependency>
-<!--
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>1.5.2</version>
-        <scope>test</scope>
-    </dependency>
--->
-  </dependencies>
+        <dependency>
+            <artifactId>apifirmasimple-jersey</artifactId>
+            <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
+            <version>1.0.3</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.core</groupId>
+            <artifactId>pluginsib-core</artifactId>
+            <version>2.0.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JAXB API -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JAXB RI -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.4</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>
