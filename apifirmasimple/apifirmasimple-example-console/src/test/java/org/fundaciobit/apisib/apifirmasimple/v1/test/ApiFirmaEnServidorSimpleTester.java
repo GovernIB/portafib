@@ -455,7 +455,7 @@ public class ApiFirmaEnServidorSimpleTester {
     @Test
     public void testUpgradeSignaturePAdES() throws Exception, FileNotFoundException, IOException {
 
-        FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("hola_signed.pdf", "application/pdf");
+        FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("signed_adaptat.pdf", "application/pdf");
 
         internalFullTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, null, "hola-signed-upgraded.pdf");
 

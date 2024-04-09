@@ -129,8 +129,8 @@
         
         <c:if test="${isPlantillaRest && not readOnly}">
         <center>
-        <a href="<c:url value="${contexte}/finalRestOK"/>" class="btn btn-large btn-primary disabled"> <fmt:message key="genapp.save" /> </a>
-        <a href="<c:url value="${contexte}/finalRestCanceled"/>" class="btn btn-large btn-primary disabled"><fmt:message key="genapp.cancel" /></a>
+        <a href="<c:url value="${contexte}/finalRestOK"/>" class="btn btn-large btn-primary"> <fmt:message key="genapp.save" /> </a>
+        <a href="<c:url value="${contexte}/finalRestCanceled"/>" class="btn btn-large btn-secondary"><fmt:message key="genapp.cancel" /></a>
         </center>
         </c:if>
         

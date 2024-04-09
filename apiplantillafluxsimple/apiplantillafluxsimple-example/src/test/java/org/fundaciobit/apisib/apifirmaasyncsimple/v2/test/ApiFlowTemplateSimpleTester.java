@@ -60,12 +60,16 @@ public class ApiFlowTemplateSimpleTester {
       
        FlowTemplateSimpleFlowTemplateList list = api.getAllFlowTemplates(languageUI);
        
-       for (FlowTemplateSimpleKeyValue flowTemplateSimpleKeyValue : list.getList()) {
-           System.out
-                   .println("   " + flowTemplateSimpleKeyValue.getKey() + " => " + flowTemplateSimpleKeyValue.getValue());
+       if (list == null || list.getList() == null || list.getList().isEmpty()) {
+           System.out.println("No hi ha cap plantilla de flux !!!!");
+       } else {
+           for (FlowTemplateSimpleKeyValue flowTemplateSimpleKeyValue : list.getList()) {
+               System.out
+                       .println("   " + flowTemplateSimpleKeyValue.getKey() + " => " + flowTemplateSimpleKeyValue.getValue());
+           }
        }
       
-      if (true) return;
+      //if (true) return;
       
       String lastKey;
 
