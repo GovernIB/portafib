@@ -434,8 +434,9 @@ public interface ConstantsV2 {
   public static final int SIGN_ALGORITHM_SHA384WITHRSA=2;
   public static final int SIGN_ALGORITHM_SHA512WITHRSA=3;
 
+  // Attached
   public static final boolean SIGN_MODE_IMPLICIT = false;
-
+  // Detached
   public static final boolean SIGN_MODE_EXPLICIT = true;
 
   // ========================================================

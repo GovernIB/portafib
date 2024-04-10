@@ -65,13 +65,13 @@ public class ApiFirmaEnServidorSimpleTester {
 
             //tester.testGetAvailableProfiles();
 
-            tester.testSignatureServerPAdES();
+            //tester.testSignatureServerPAdES();
 
             //tester.testSignatureServerCAdES();
 
             // tester.testSignatureServerXAdESBinary();
 
-            //tester.testSignatureServerXAdESXml();
+            tester.testSignatureServerXAdESXml();
 
             //tester.testSignatureServerPAdESXAdESCAdES();
 
@@ -348,7 +348,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
         internalSignDocument(api, perfil, fileToSign);
     }
-    
+
     protected FirmaSimpleSignatureResult internalSignDocument(ApiFirmaEnServidorSimple api, final String perfil,
             FirmaSimpleFile fileToSign) throws Exception, FileNotFoundException, IOException {
         return internalSignDocument(api, perfil, fileToSign, null);

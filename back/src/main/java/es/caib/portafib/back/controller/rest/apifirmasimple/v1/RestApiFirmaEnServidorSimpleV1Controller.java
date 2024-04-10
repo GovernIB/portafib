@@ -553,6 +553,8 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
       signatureFileInfo = new FirmaSimpleSignedFileInfo();
       signatureFileInfo.setSignOperation(signOperation);
       signatureFileInfo.setSignType(signType);
+      
+      signatureFileInfo.setSignMode(fileInfo.getSignMode());
       signatureFileInfo.setSignAlgorithm(signAlgorithm);
       signatureFileInfo.setValidationInfo(new FirmaSimpleValidationInfo());
       signatureFileInfo.setEniPerfilFirma(eniPerfilFirma);
@@ -579,6 +581,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
       Integer signMode;
 
       if (signFormat == null) {
+          log.warn("Ens ha arribat un signFormat = null: es retorna signMode null");
         signMode = null;
       } else if (ValidateSignatureResponse.SIGNFORMAT_IMPLICIT_ENVELOPED_ATTACHED
           .equals(signFormat)
@@ -590,6 +593,9 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
               .equals(signFormat)) {
         signMode = FirmaSimpleSignedFileInfo.SIGN_MODE_EXPLICIT_DETACHED;
       } else {
+          
+        log.error("Ens ha arribat un signFormat = " + signFormat + ". S'hauria de comunicar aquest fet als desenvolupadors !!!!!");
+          
         signMode = null;
       }
 

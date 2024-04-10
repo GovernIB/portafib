@@ -39,15 +39,33 @@ public class FirmaSimpleSignedFileInfo {
   public static final String SIGN_ALGORITHM_SHA384 = "SHA-384";
   public static final String SIGN_ALGORITHM_SHA512 = "SHA-512";
 
+//========================  MODES DE FIRMA =========================
+  // Veure https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#Packaging
+  // veure https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#SignatureProfileGuide
+
+  /** El fitxer de dades resultant inclou la firma: PDF, ODT, ... */
+  public static final int SIGN_MODE_ATTACHED_ENVELOPED = 0;
+
+  /** El fitxer resultant serà la firma que incloura les dades originals */
+  public static final int SIGN_MODE_ATTACHED_ENVELOPING = 3;
+
+  /** El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer original */
+  public static final int SIGN_MODE_DETACHED = 1;
+
+  /** Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma */
+  public static final int SIGN_MODE_INTERNALLY_DETACHED = 4;
+  
   /*
    * implicit La firma resultante incluirá internamente una copia de los datos firmados. El uso
    * de este valor podría generar firmas de gran tamaño.
    */
-  public static final int SIGN_MODE_IMPLICIT_ATTACHED = 0;
+  @Deprecated
+  public static final int SIGN_MODE_IMPLICIT_ATTACHED = SIGN_MODE_ATTACHED_ENVELOPED;
   /*
    * explicit La firma resultante no incluirá los datos firmados.
    */
-  public static final int SIGN_MODE_EXPLICIT_DETACHED = 1;
+  @Deprecated
+  public static final int SIGN_MODE_EXPLICIT_DETACHED = SIGN_MODE_DETACHED;
 
   public static final int SIGNATURESTABLELOCATION_WITHOUT = 0;
   public static final int SIGNATURESTABLELOCATION_FIRSTPAGE = 1;
