@@ -46,6 +46,11 @@
                 <updatePolicy>never</updatePolicy>
             </snapshots>
         </repository>
+        <repository>
+            <id>redhat-repository</id>
+            <name>Redhat Repository</name>
+            <url>https://maven.repository.redhat.com/ga/</url>
+        </repository>
     </repositories>
 
 
