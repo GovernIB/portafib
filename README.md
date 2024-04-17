@@ -65,15 +65,17 @@ QuadernCarrega_v2.2.odt | Quadern de Carrega v2.2 | [Document](./doc/QuadernCarr
 
 | Plugin  | Versió |
 | ------------- | ------------- |
-| plugin-signatureserver-miniappletutils | 3.0.0 |
-| plugin-signatureserver-afirmaserver | 3.0.0 |
-| plugin-signatureserver-miniappletinserver | 3.0.0 |
-| plugin-signatureserver-portafib | 3.0.0 |
+| plugin-signatureserver-miniappletutils | 3.1.0-SNAPSHOT |
+| plugin-signatureserver-afirmaserver | 3.1.0-SNAPSHOT |
+| plugin-signatureserver-miniappletinserver | 3.1.0-SNAPSHOT |
+| plugin-signatureserver-portafib | 3.1.0-SNAPSHOT |
 | - | - |
-| plugin-signatureweb-miniappletutils | 3.0.0 |
-| plugin-signatureweb-miniappletinserver | 3.0.0 |
-| plugin-signatureweb-miniappletinserversia | 3.0.0 |
-| plugin-signatureweb-miniappletinclient | 3.0.0 |
-| plugin-signatureweb-clavefirma | 3.0.0 |
-| plugin-signatureweb-afirma_triphase_server | 3.0.0 |
-| plugin-signatureweb-portafib | 3.0.0 |
+| plugin-signatureweb-miniappletutils | 3.1.0-SNAPSHOT |
+| plugin-signatureweb-afirma_triphase_server | 3.1.0-SNAPSHOT |
+| plugin-signatureweb-miniappletinserversia | 3.1.0-SNAPSHOT |
+
+| plugin-signatureweb-afirma_triphase_server | 3.1.0-SNAPSHOT |
+| plugin-signatureweb-fortress | 3.1.0-SNAPSHOT |
+| plugin-signatureweb-fire | 3.1.0-SNAPSHOT |
+| plugin-signatureweb-firmanocriptografica | 3.1.0-SNAPSHOT |
+| plugin-signatureweb-fnmtcloud | 3.1.0-SNAPSHOT |

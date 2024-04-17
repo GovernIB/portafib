@@ -10,11 +10,6 @@ Per compilar en mode produccio: deploypro.sh/bat [OPCIONS]
 -Psqlgen          Genera scripts SQL dins /scripts/sqlgenerator. Mes
                   informacio a /scripts/sqlgenerator/readme.txt
 
--Pminiappletui    Compila l'applet i el firma amb el afirma.keystore. Sino
-                  s'ha d'executar install_portafib_applet_signed_jar.sh/bat
-
--Psia             Compila i inclou dins l'ear el Modul de Firma de SIA
-
 -Ppassarelaweb-v1    Compila el Modul de Firma Web de Passarel·la PortaFIB
                   Tambe crea l'API i WS per atacar a Passarela Web de PortaFIB.
                   Els WS definits son 
@@ -55,16 +50,11 @@ Per compilar en mode produccio: deploypro.sh/bat [OPCIONS]
                   i callback versio 0. Per veure les cridades accedir a
                   http://HOST:8080/portafib/portafirmascb
 
--Dclavefirma      Al ser incompatible el plugin de FIRe amb el de Cl@veFirma,
-                  aquest darrer esta desactivat. Aquesta opcio serveix per
-                  utilitzar Cl@veFirma enlloc de FIRe.
-
 -Parxiudigitalcaib Inclou el Plugin de DocumentCustody de l'Arxiu Digital CAIB
 
 -Palfresco       Inclou el Plugin de DocumentCustody de Alfresco
-
--Pback-client-cert  Configura el web.xml del modul back (/portafib) per emprar autenticacio
-                  tipus CLIENT-CERT enlloc de BASIC dins el <login-config><auth-method>
+                 
+-Psia             Compila i inclou dins l'ear el Modul de Firma de SIA
 
 -Pfortress        Compila i inclou dins l'ear el Modul de Firma Web de ViaFirma-Fortress
 
