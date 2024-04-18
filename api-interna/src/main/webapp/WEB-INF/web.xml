@@ -11,7 +11,9 @@
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/index.html</url-pattern>
-        <url-pattern>/openapi.json</url-pattern>
+        <!-- NOU -->
+        <url-pattern>/openapi_revisors_v1.json</url-pattern>
+        <url-pattern>/openapi_infoversio_v1.json</url-pattern>
         <url-pattern>/index.css</url-pattern>
         <url-pattern>/favicon-32x32.png</url-pattern>
         <url-pattern>/favicon-16x16.png</url-pattern>

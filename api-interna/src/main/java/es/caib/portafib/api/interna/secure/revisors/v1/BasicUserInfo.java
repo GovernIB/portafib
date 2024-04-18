@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.revisors;
+package es.caib.portafib.api.interna.secure.revisors.v1;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

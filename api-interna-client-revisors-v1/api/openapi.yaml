@@ -1,0 +1,160 @@
+openapi: 3.0.1
+info:
+  contact:
+    email: otae@fundaciobit.org
+    name: Departament de Govern Digital a la Fundació Bit
+    url: http://governdigital.fundaciobit.org
+  description: Conjunt de Serveis REST de PortaFIB per atendre consultes sobre REVISORS
+    d'un destinatari.
+  license:
+    name: European Union Public Licence (EUPL v1.2)
+    url: https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf
+  title: API Interna de PortaFIB de consulta de Revisors d'un destinatari
+  version: 1.0-SNAPSHOT
+externalDocs:
+  description: Java API Interna Client (Github Source Code)
+  url: https://github.com/GovernIB/portafib/tree/portafib-2.2/
+servers:
+- url: /portafibapi/interna
+- url: http://localhost:8080/portafibapi/interna
+- url: https://dev.caib.es/portafibapi/interna
+- url: https://proves.caib.es/portafibapi/interna
+- url: https://se.caib.es/portafibapi/interna
+- url: https://www.caib.es/portafibapi/interna
+tags:
+- description: Revisors d'un destinatari.
+  name: Revisors v1
+paths:
+  /secure/revisors/v1/revisorsbydestinatarinif:
+    get:
+      operationId: revisorsByDestinatariNIF
+      parameters:
+      - description: DNI del destinatari del qual volen els revisors associats. Opcional.
+        explode: true
+        in: query
+        name: administrationID
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Idioma en que s'enviaran els missatges d'error
+        example: ca
+        explode: true
+        in: query
+        name: languageUI
+        required: false
+        schema:
+          pattern: ^|ca|es$
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicUserInfoList'
+          description: Operació realitzada correctament
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+      security:
+      - BasicAuth: []
+      summary: Retorna una llista dels Revisors globals i els associats al NIF d'un
+        Destinatari
+      tags:
+      - Revisors v1
+      x-accepts: application/json
+components:
+  schemas:
+    BasicUserInfo:
+      description: Informació basica d'un usuari
+      example:
+        administrationId: administrationId
+        surname: surname
+        name: name
+        username: username
+      properties:
+        username:
+          type: string
+        name:
+          type: string
+        surname:
+          type: string
+        administrationId:
+          description: NIF de l'usuari
+          type: string
+      type: object
+    BasicUserInfoList:
+      example:
+        data:
+        - administrationId: administrationId
+          surname: surname
+          name: name
+          username: username
+        - administrationId: administrationId
+          surname: surname
+          name: name
+          username: username
+      properties:
+        data:
+          description: Elements retornats. Pot retornar un null o una llista buida
+            si no hi ha elements.
+          items:
+            $ref: '#/components/schemas/BasicUserInfo'
+          type: array
+      type: object
+    RestExceptionInfo:
+      description: Estructura de dades utilitzada per passar informació d'un error
+      example:
+        code: 0
+        causeStackTrace: causeStackTrace
+        causeException: causeException
+        errorMessage: errorMessage
+        stackTrace: stackTrace
+      properties:
+        code:
+          description: Codi de HTTP de l'error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
+          format: int32
+          type: integer
+        errorMessage:
+          description: Missatge de l'error
+          type: string
+        stackTrace:
+          description: Stacktrace de l'excepció si n'hi hagués.
+          type: string
+        causeException:
+          description: Tipus de l'excepció origen (cause) si n'hi hagués.
+          type: string
+        causeStackTrace:
+          description: Stacktrace de l'excepció origen (cause) si n'hi hagués.
+          type: string
+      required:
+      - code
+      - errorMessage
+      type: object
+  securitySchemes:
+    BasicAuth:
+      scheme: basic
+      type: http
+

@@ -94,22 +94,37 @@
 
                 <executions>
                     <execution>
-                        <id>openapi1</id>
+                        <id>openapi_infoversio_v1</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>resolve</goal>
                         </goals>
                         <configuration>
-                            <contextId>openapi1</contextId>
-                            <outputFileName>openapi</outputFileName>
+                            <contextId>openapi_infoversio_v1</contextId>
+                            <outputFileName>openapi_infoversio_v1</outputFileName>
                             <outputPath>${project.basedir}/openapi/</outputPath>
                             <outputFormat>JSON</outputFormat>
                             <resourcePackages>
                                 <package>es.caib.portafib.api.interna.config</package>
-                                <package>
-                                    es.caib.portafib.api.interna.all.infoversion</package>
-                                <package>
-                                    es.caib.portafib.api.interna.secure.revisors</package>
+                                <package>es.caib.portafib.api.interna.all.infoversio</package>
+                            </resourcePackages>
+                            <prettyPrint>TRUE</prettyPrint>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>openapi_revisors_v1</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>resolve</goal>
+                        </goals>
+                        <configuration>
+                            <contextId>openapi_revisors_v1</contextId>
+                            <outputFileName>openapi_revisors_v1</outputFileName>
+                            <outputPath>${project.basedir}/openapi/</outputPath>
+                            <outputFormat>JSON</outputFormat>
+                            <resourcePackages>
+                                <package>es.caib.portafib.api.interna.config</package>
+                                <package>es.caib.portafib.api.interna.secure.revisors</package>
                             </resourcePackages>
                             <prettyPrint>TRUE</prettyPrint>
                         </configuration>
@@ -128,12 +143,13 @@
                         <!-- NOU -->
                         <!-- process-classes és abans de install i install
                         posar-ho al postprocess -->
+                        <id>revisors</id>
                         <phase>install</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/openapi/openapi.json</inputSpec>
+                            <inputSpec>${project.basedir}/openapi/openapi_revisors_v1.json</inputSpec>
                             <generatorName>java</generatorName>
                             <skipValidateSpec>true</skipValidateSpec>
                             <library>resteasy</library>
@@ -141,18 +157,18 @@
                             <!-- <configHelp>true</configHelp> -->
                             <addCompileSourceRoot>false</addCompileSourceRoot>
                             <!-- NOU -->
-                            <output>${output-dir-api}</output>
-                            <apiPackage>${client.default.package}.api</apiPackage>
-                            <modelPackage>${client.default.package}.model</modelPackage>
-                            <invokerPackage>${client.default.package}.services</invokerPackage>
+                            <output>${project.basedir}/../api-interna-client-revisors-v1</output>
+                            <apiPackage>${client.default.package}.revisors.v1.api</apiPackage>
+                            <modelPackage>${client.default.package}.revisors.v1.model</modelPackage>
+                            <invokerPackage>${client.default.package}.revisors.v1.services</invokerPackage>
                             <generateModelTests>false</generateModelTests>
                             <enablePostProcessFile>true</enablePostProcessFile>
                             <configOptions>
                                 <groupId>es.caib.portafib</groupId>
-                                <artifactId>portafib-api-interna-client</artifactId>
-                                <artifactVersion>3.0-SNAPSHOT</artifactVersion>
+                                <artifactId>portafib-api-interna-client-revisors-v1</artifactId>
+                                <artifactVersion>1.0-SNAPSHOT</artifactVersion>
                                 <artifactDescription>portafib - API Rest -
-                                    Interna Client</artifactDescription>
+                                    Interna Client - Revisors v1</artifactDescription>
                                 <dateLibrary>java8</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
@@ -161,6 +177,48 @@
                             </configOptions>
                         </configuration>
                     </execution>
+                    
+                    
+                    <execution>
+                        <!-- NOU -->
+                        <!-- process-classes és abans de install i install
+                        posar-ho al postprocess -->
+                        <id>info</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/openapi/openapi_infoversio_v1.json</inputSpec>
+                            <generatorName>java</generatorName>
+                            <skipValidateSpec>true</skipValidateSpec>
+                            <library>resteasy</library>
+                            <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
+                            <!-- <configHelp>true</configHelp> -->
+                            <addCompileSourceRoot>false</addCompileSourceRoot>
+                            <!-- NOU -->
+                            <output>${project.basedir}/../api-interna-client-infoversio-v1</output>
+                            <apiPackage>${client.default.package}.infoversio.v1.api</apiPackage>
+                            <modelPackage>${client.default.package}.infoversio.v1.model</modelPackage>
+                            <invokerPackage>${client.default.package}.infoversio.v1.services</invokerPackage>
+                            <generateModelTests>false</generateModelTests>
+                            <enablePostProcessFile>true</enablePostProcessFile>
+                            <configOptions>
+                                <groupId>es.caib.portafib</groupId>
+                                <artifactId>portafib-api-interna-client-infoversio-v1</artifactId>
+                                <artifactVersion>1.0-SNAPSHOT</artifactVersion>
+                                <artifactDescription>portafib - API Rest - Interna Client - Informació de Versions v1</artifactDescription>
+                                <dateLibrary>java8</dateLibrary>
+                                <useTags>true</useTags>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                <java11>true</java11>
+                                <enablePostProcessFile>true</enablePostProcessFile>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    
+                    
+                    
                 </executions>
             </plugin>
 
@@ -207,8 +265,8 @@
                         ${project.build.directory}/swagger-ui-${swagger-ui.version}/dist/index.html</file>
                     <replacements>
                         <replacement>
-                            <token>https://petstore.swagger.io/v2/swagger.json</token>
-                            <value>./openapi.json</value>
+                            <token>url: "https://petstore.swagger.io/v2/swagger.json"</token>
+                            <value>urls: [{url: "./openapi_revisors_v1.json", name: "Revisors v1"},{url: "./openapi_infoversio_v1.json", name: "Informació Versió v1"}]</value>
                         </replacement>
                     </replacements>
                 </configuration>

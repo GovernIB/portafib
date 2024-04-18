@@ -1,5 +1,4 @@
-package es.caib.portafib.api.interna.all.infoversion;
-
+package es.caib.portafib.api.interna.all.infoversio.v1;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -20,8 +19,12 @@ import es.caib.portafib.commons.utils.StaticVersion;
 import es.caib.portafib.commons.utils.Version;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,24 +35,36 @@ import io.swagger.v3.oas.annotations.media.Content;
  *
  * @author anadal
   */
-@Path(InfoVersionService.PATH)
+@Path(InfoVersioService.PATH)
+
 @OpenAPIDefinition(
+        info = @Info(
+                title = "API Interna de PortaFIB de consulta de informació de versions de PortaFIB",
+                description = "Conjunt de Serveis REST de PortaFIB per atendre consultes informació de versions.",
+                version = "1.0-SNAPSHOT",
+                license = @License(
+                        name = "European Union Public Licence (EUPL v1.2)",
+                        url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"),
+                contact = @Contact(
+                        name = "Departament de Govern Digital a la Fundació Bit",
+                        email = "otae@fundaciobit.org",
+                        url = "http://governdigital.fundaciobit.org")),
         tags = @Tag(
-                name = InfoVersionService.TAG_NAME,
+                name = InfoVersioService.TAG_NAME,
                 description = "Informació basica del servidor: versió producte, versió API, ..."))
-public class InfoVersionService extends RestUtils {
+public class InfoVersioService extends RestUtils {
 
-    protected static Logger log = Logger.getLogger(InfoVersionService.class);
+    protected static Logger log = Logger.getLogger(InfoVersioService.class);
 
-    public static final String PATH = "/public/infoversion";
+    public static final String PATH = "/public/infoversio/v1";
 
     // TODO Canviar pel nom corresponent
-    public static final String TAG_NAME = "InfoVersion";
+    public static final String TAG_NAME = "InfoVersio v1";
 
-    @Path("/versionapi")
+    @Path("/versioapi")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(tags = TAG_NAME, operationId = "versionApi", summary = "Retorna la versió de PortaFIB REST")
+    @Operation(tags = TAG_NAME, operationId = "versioApi", summary = "Retorna la versió de PortaFIB REST")
     @ApiResponses(
             value = {
                     @ApiResponse(
@@ -57,7 +72,7 @@ public class InfoVersionService extends RestUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = InfoVersion.class))),
+                                    schema = @Schema(implementation = InfoVersio.class))),
                     @ApiResponse(
                             responseCode = "404",
                             description = "Paràmetres incorrectes",
@@ -70,22 +85,19 @@ public class InfoVersionService extends RestUtils {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
                                     schema = @Schema(implementation = RestExceptionInfo.class))) })
-    public InfoVersion versionApi(
-            @Parameter(hidden = true) @Context HttpServletRequest request) throws RestException {
+    public InfoVersio versioApi(@Parameter(hidden = true) @Context HttpServletRequest request) throws RestException {
 
         // Realitzar Consulta
         try {
 
-            InfoVersion iv = new InfoVersion();
+            InfoVersio iv = new InfoVersio();
             // TODO XYZ ZZZ Falta Collir la versió de l'API            
-            iv.setVersion("3.0-SNAPSHOT");
+            iv.setVersion("1.0-SNAPSHOT");
             iv.setCaib(Configuracio.isCAIB());
-            
-            
+
             Version v = StaticVersion.getVersion();
             iv.setBuildTime(v.getBuildTime());
             iv.setJdkVersion(v.getJdkVersion());
-            
 
             return iv;
 
@@ -99,10 +111,10 @@ public class InfoVersionService extends RestUtils {
 
     }
 
-    @Path("/versionapp")
+    @Path("/versioapp")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(tags = TAG_NAME, operationId = "versionApp", summary = "Retorna la versió de PortaFIB")
+    @Operation(tags = TAG_NAME, operationId = "versioApp", summary = "Retorna la versió de PortaFIB")
     @ApiResponses(
             value = {
                     @ApiResponse(
@@ -110,7 +122,7 @@ public class InfoVersionService extends RestUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = InfoVersion.class))),
+                                    schema = @Schema(implementation = InfoVersio.class))),
 
                     @ApiResponse(
                             responseCode = "404",
@@ -124,15 +136,13 @@ public class InfoVersionService extends RestUtils {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
                                     schema = @Schema(implementation = RestExceptionInfo.class))) })
-    public InfoVersion versionApp(
-            @Parameter(hidden = true) @Context HttpServletRequest request) throws RestException {
+    public InfoVersio versioApp(@Parameter(hidden = true) @Context HttpServletRequest request) throws RestException {
 
         // Realitzar Consulta
         try {
-            
 
-            InfoVersion iv = new InfoVersion();
-            
+            InfoVersio iv = new InfoVersio();
+
             Version v = StaticVersion.getVersion();
             iv.setVersion(v.getVersion());
             iv.setCaib(Configuracio.isCAIB());

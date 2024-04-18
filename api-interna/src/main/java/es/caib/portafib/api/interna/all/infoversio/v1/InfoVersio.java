@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.all.infoversion;
+package es.caib.portafib.api.interna.all.infoversio.v1;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @JsonPropertyOrder({ "versio", "caib" })
 @Schema(description = "Model de dades de Informació bàsica a retornar.")
-public class InfoVersion {
+public class InfoVersio {
 
     @Schema(required = true, description = "Versió")
     @JsonProperty("version")

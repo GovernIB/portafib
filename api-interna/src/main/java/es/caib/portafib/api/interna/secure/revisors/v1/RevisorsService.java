@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.revisors;
+package es.caib.portafib.api.interna.secure.revisors.v1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +36,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -49,12 +53,21 @@ import io.swagger.v3.oas.annotations.media.Content;
  * Informació basica del servidor: versió producte, versió API, ...
  *
  * @author anadal
-  */
+ */
 @Path(RevisorsService.PATH)
 @OpenAPIDefinition(
-        tags = @Tag(
-                name = RevisorsService.TAG_NAME,
-                description = "Informació basica del servidor: versió producte, versió API, ..."))
+        info = @Info(
+                title = "API Interna de PortaFIB de consulta de Revisors d'un destinatari",
+                description = "Conjunt de Serveis REST de PortaFIB per atendre consultes sobre REVISORS d'un destinatari.",
+                version = "1.0-SNAPSHOT",
+                license = @License(
+                        name = "European Union Public Licence (EUPL v1.2)",
+                        url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"),
+                contact = @Contact(
+                        name = "Departament de Govern Digital a la Fundació Bit",
+                        email = "otae@fundaciobit.org",
+                        url = "http://governdigital.fundaciobit.org")),
+        tags = @Tag(name = RevisorsService.TAG_NAME, description = "Revisors d'un destinatari."))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = RevisorsService.SECURITY_NAME, scheme = "basic")
 public class RevisorsService extends RestUtils {
 
@@ -62,9 +75,9 @@ public class RevisorsService extends RestUtils {
 
     protected static final String SECURITY_NAME = "BasicAuth";
 
-    public static final String PATH = "/secure/revisors";
+    public static final String PATH = "/secure/revisors/v1";
 
-    public static final String TAG_NAME = "Revisors";
+    public static final String TAG_NAME = "Revisors v1";
 
     @EJB(mappedName = es.caib.portafib.ejb.RoleUsuariEntitatService.JNDI_NAME)
     protected es.caib.portafib.ejb.RoleUsuariEntitatService roleUsuariEntitatEjb;
