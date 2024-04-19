@@ -37,7 +37,8 @@
         <module>testjpa</module>
         <module>back</module>
         <module>api-interna</module>
-        <module>api-interna-client</module>
+        <module>api-interna-client-infoversio-v1</module>
+        <module>api-interna-client-revisors-v1</module>
         <module>ear</module>
     </modules>
     <repositories>

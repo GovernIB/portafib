@@ -144,7 +144,7 @@
                         <!-- process-classes és abans de install i install
                         posar-ho al postprocess -->
                         <id>revisors</id>
-                        <phase>install</phase>
+                        <phase>process-classes</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -184,7 +184,7 @@
                         <!-- process-classes és abans de install i install
                         posar-ho al postprocess -->
                         <id>info</id>
-                        <phase>install</phase>
+                        <phase>process-classes</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -291,29 +291,49 @@
             </plugin>
 
 
-            <!--NOU -->
+            <!--NOU TODO -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+              <phase>install</phase>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <includeProjectDependencies>false</includeProjectDependencies>
+          <includePluginDependencies>true</includePluginDependencies>
+          <executableDependency>
+              <artifactId>pluginsib-utils-rest</artifactId>
+              <groupId>org.fundaciobit.pluginsib.utils</groupId>
+          </executableDependency>
+          <mainClass>org.fundaciobit.pluginsib.utils.rest.adaptpom.AdaptApiClientPomToJboss72</mainClass>
+          <arguments>
+            <argument>${project.basedir}</argument>
+          </arguments>
+          
+        </configuration>
+        <dependencies>
+            <dependency>
+            <artifactId>pluginsib-utils-rest</artifactId>
+            <groupId>org.fundaciobit.pluginsib.utils</groupId>
+            <version>2.0.0-SNAPSHOT</version>
+        </dependency>
             <!--
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>                        
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>cmd.exe</executable>
-                    <arguments>
-                        <argument>/C</argument>
-                        <argument>postprocessapi.bat ${output-dir-api}</argument>
-                    </arguments>
-                </configuration>
-            </plugin>
-            -->
+          <dependency>
+            <groupId>com.example.myproject</groupId>
+            <artifactId>mylib</artifactId>
+            <version>1.3.5</version>
+            <type>jar</type>
+          </dependency>
+          -->
+        </dependencies>
+      </plugin>
+            
         </plugins> 
         
         <!--This plugin's configuration is used to store Eclipse 

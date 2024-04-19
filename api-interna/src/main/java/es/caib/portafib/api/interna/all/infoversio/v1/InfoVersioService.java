@@ -24,7 +24,6 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -42,13 +41,13 @@ import io.swagger.v3.oas.annotations.media.Content;
                 title = "API Interna de PortaFIB de consulta de informació de versions de PortaFIB",
                 description = "Conjunt de Serveis REST de PortaFIB per atendre consultes informació de versions.",
                 version = "1.0-SNAPSHOT",
-                license = @License(
+                license = @License(                        
                         name = "European Union Public Licence (EUPL v1.2)",
                         url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"),
                 contact = @Contact(
                         name = "Departament de Govern Digital a la Fundació Bit",
                         email = "otae@fundaciobit.org",
-                        url = "http://governdigital.fundaciobit.org")),
+                        url = "https://governdigital.fundaciobit.org")),
         tags = @Tag(
                 name = InfoVersioService.TAG_NAME,
                 description = "Informació basica del servidor: versió producte, versió API, ..."))

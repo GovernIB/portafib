@@ -3,7 +3,7 @@ info:
   contact:
     email: otae@fundaciobit.org
     name: Departament de Govern Digital a la Fundació Bit
-    url: http://governdigital.fundaciobit.org
+    url: https://governdigital.fundaciobit.org
   description: Conjunt de Serveis REST de PortaFIB per atendre consultes informació
     de versions.
   license:

@@ -5,7 +5,7 @@
     "description" : "Conjunt de Serveis REST de PortaFIB per atendre consultes informació de versions.",
     "contact" : {
       "name" : "Departament de Govern Digital a la Fundació Bit",
-      "url" : "http://governdigital.fundaciobit.org",
+      "url" : "https://governdigital.fundaciobit.org",
       "email" : "otae@fundaciobit.org"
     },
     "license" : {
