@@ -1,4 +1,4 @@
-﻿SET TRANSACTION READ WRITE;
+﻿BEGIN;
 
 INSERT INTO pfi_usuariaplicacio(usuariaplicacioid,
             entitatid, emailadmin, callbackurl, descripcio, callbackversio, 
