@@ -32,6 +32,7 @@ UPDATE pfi_pluginfirmawebperusrapp SET usuariaplicacioid=concat(usuariaplicacioi
 UPDATE pfi_tipusdocument SET usuariaplicacioid=concat(usuariaplicacioid,'_dev') where usuariaplicacioid is not null; -- TEST AND usuariaplicacioid = 'uib_app'; 
 
 -- FALTA ESBORRAR ELS USUARIS APLICACIÓ ORIGINALS
+-- DELETE FROM pfi_usuariaplicacio where not usuariaplicacioid like '%_dev';
 
 COMMIT;
 
