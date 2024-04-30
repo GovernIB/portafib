@@ -89,11 +89,14 @@
             <!--
             https://github.com/swagger-api/swagger-core/tree/master/modules/swagger-maven-plugin -->
             <plugin>
-
                 <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-maven-plugin</artifactId>
                 <version>2.2.15</version>
-
+                <configuration>
+                    <outputFormat>JSON</outputFormat>
+                    <prettyPrint>TRUE</prettyPrint>
+                    <outputPath>${project.basedir}/openapi/</outputPath>                    
+                </configuration>
                 <executions>
                     <execution>
                         <id>openapi_1</id>
@@ -102,16 +105,12 @@
                             <goal>resolve</goal>
                         </goals>
                         <configuration>
-                            <!-- NOU -->
                             <contextId>Info Versio v1</contextId>
                             <outputFileName>openapi_infoversio_v1</outputFileName>
-                            <outputPath>${project.basedir}/openapi/</outputPath>
-                            <outputFormat>JSON</outputFormat>
                             <resourcePackages>
                                 <package>es.caib.portafib.api.interna.config</package>
                                 <package>es.caib.portafib.api.interna.all.infoversio</package>
                             </resourcePackages>
-                            <prettyPrint>TRUE</prettyPrint>
                         </configuration>
                     </execution>
                     <execution>
@@ -121,16 +120,12 @@
                             <goal>resolve</goal>
                         </goals>
                         <configuration>
-                            <!-- NOU -->
                             <contextId>Revisors v1</contextId>
                             <outputFileName>openapi_revisors_v1</outputFileName>
-                            <outputPath>${project.basedir}/openapi/</outputPath>
-                            <outputFormat>JSON</outputFormat>
                             <resourcePackages>
                                 <package>es.caib.portafib.api.interna.config</package>
                                 <package>es.caib.portafib.api.interna.secure.revisors</package>
                             </resourcePackages>
-                            <prettyPrint>TRUE</prettyPrint>
                         </configuration>
                     </execution>
                 </executions>
