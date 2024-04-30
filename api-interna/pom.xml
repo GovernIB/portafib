@@ -74,7 +74,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>swager-ui-configurable</artifactId>
@@ -95,7 +95,7 @@
                 <configuration>
                     <outputFormat>JSON</outputFormat>
                     <prettyPrint>TRUE</prettyPrint>
-                    <outputPath>${project.basedir}/openapi/</outputPath>                    
+                    <outputPath>${project.basedir}/openapi/</outputPath>
                 </configuration>
                 <executions>
                     <execution>
@@ -109,7 +109,8 @@
                             <outputFileName>openapi_infoversio_v1</outputFileName>
                             <resourcePackages>
                                 <package>es.caib.portafib.api.interna.config</package>
-                                <package>es.caib.portafib.api.interna.all.infoversio</package>
+                                <package>
+                                    es.caib.portafib.api.interna.all.infoversio</package>
                             </resourcePackages>
                         </configuration>
                     </execution>
@@ -124,7 +125,8 @@
                             <outputFileName>openapi_revisors_v1</outputFileName>
                             <resourcePackages>
                                 <package>es.caib.portafib.api.interna.config</package>
-                                <package>es.caib.portafib.api.interna.secure.revisors</package>
+                                <package>
+                                    es.caib.portafib.api.interna.secure.revisors</package>
                             </resourcePackages>
                         </configuration>
                     </execution>
@@ -132,10 +134,11 @@
             </plugin>
 
 
-
-            <!-- ==================================================================  -->
-            <!-- Genera el Client Rest per Java a partir del fitxers openapi_*.json -->
-            <!-- ==================================================================  -->
+            <!--
+            ==================================================================  -->
+            <!-- Genera el Client Rest Java a partir del fitxers openapi_*.json -->
+            <!--
+            ==================================================================  -->
             <plugin>
                 <!-- https://openapi-generator.tech/docs/generators/java/ -->
                 <groupId>org.openapitools</groupId>
@@ -150,22 +153,67 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/openapi/openapi_revisors_v1.json</inputSpec>
+                            <inputSpec>
+                                ${project.basedir}/openapi/openapi_infoversio_v1.json</inputSpec>
                             <generatorName>java</generatorName>
-                            <skipValidateSpec>true</skipValidateSpec>
+                            <skipValidateSpec>false</skipValidateSpec>
                             <library>resteasy</library>
                             <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
                             <!-- <configHelp>true</configHelp> -->
                             <addCompileSourceRoot>false</addCompileSourceRoot>
                             <!-- NOU -->
-                            <output>${project.basedir}/../api-interna-client-revisors-v1</output>
-                            <apiPackage>${client.default.package}.revisors.v1.api</apiPackage>
-                            <modelPackage>${client.default.package}.revisors.v1.model</modelPackage>
-                            <invokerPackage>${client.default.package}.revisors.v1.services</invokerPackage>
+                            <output>
+                                ${project.basedir}/../api-interna-client-infoversio-v1</output>
+                            <apiPackage>
+                                ${client.default.package}.infoversio.v1.api</apiPackage>
+                            <modelPackage>
+                                ${client.default.package}.infoversio.v1.model</modelPackage>
+                            <invokerPackage>
+                                ${client.default.package}.infoversio.v1.services</invokerPackage>
                             <generateModelTests>false</generateModelTests>
                             <configOptions>
                                 <groupId>es.caib.portafib</groupId>
-                                <artifactId>portafib-api-interna-client-revisors-v1</artifactId>
+                                <artifactId>
+                                    portafib-api-interna-client-infoversio-v1</artifactId>
+                                <artifactVersion>1.0-SNAPSHOT</artifactVersion>
+                                <artifactDescription>portafib - API Rest -
+                                    Interna Client - Informació de Versions v1</artifactDescription>
+                                <dateLibrary>java8</dateLibrary>
+                                <useTags>true</useTags>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                <java11>true</java11>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>openapi2</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>
+                                ${project.basedir}/openapi/openapi_revisors_v1.json</inputSpec>
+                            <generatorName>java</generatorName>
+                            <skipValidateSpec>false</skipValidateSpec>
+                            <library>resteasy</library>
+                            <addCompileSourceRoot>false</addCompileSourceRoot>
+                            <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
+                            <!-- <configHelp>true</configHelp> -->
+                            <output>
+                                ${project.basedir}/../api-interna-client-revisors-v1</output>
+                            <apiPackage>
+                                ${client.default.package}.revisors.v1.api</apiPackage>
+                            <modelPackage>
+                                ${client.default.package}.revisors.v1.model</modelPackage>
+                            <invokerPackage>
+                                ${client.default.package}.revisors.v1.services</invokerPackage>
+                            <generateModelTests>false</generateModelTests>
+                            <configOptions>
+                                <groupId>es.caib.portafib</groupId>
+                                <artifactId>
+                                    portafib-api-interna-client-revisors-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
                                 <artifactDescription>portafib - API Rest -
                                     Interna Client - Revisors v1</artifactDescription>
@@ -176,40 +224,7 @@
                             </configOptions>
                         </configuration>
                     </execution>
-                    
-                    
-                    <execution>
-                        <id>openapi2</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/openapi/openapi_infoversio_v1.json</inputSpec>
-                            <generatorName>java</generatorName>
-                            <skipValidateSpec>true</skipValidateSpec>
-                            <library>resteasy</library>
-                            <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
-                            <!-- <configHelp>true</configHelp> -->
-                            <addCompileSourceRoot>false</addCompileSourceRoot>
-                            <!-- NOU -->
-                            <output>${project.basedir}/../api-interna-client-infoversio-v1</output>
-                            <apiPackage>${client.default.package}.infoversio.v1.api</apiPackage>
-                            <modelPackage>${client.default.package}.infoversio.v1.model</modelPackage>
-                            <invokerPackage>${client.default.package}.infoversio.v1.services</invokerPackage>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <groupId>es.caib.portafib</groupId>
-                                <artifactId>portafib-api-interna-client-infoversio-v1</artifactId>
-                                <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>portafib - API Rest - Interna Client - Informació de Versions v1</artifactDescription>
-                                <dateLibrary>java8</dateLibrary>
-                                <useTags>true</useTags>
-                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                                <java11>true</java11>
-                            </configOptions>
-                        </configuration>
-                    </execution>
+
                 </executions>
             </plugin>
 
@@ -249,7 +264,8 @@
                 </dependencies>
             </plugin>
 
-            <!-- Inclou els openapi_*.json i el swaggerui-urls.json dins del jar war -->
+            <!-- Inclou els openapi_*.json i el swaggerui-urls.json dins del jar
+            war -->
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
@@ -264,43 +280,44 @@
 
 
             <!--NOU TODO -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>3.2.0</version>
-        <executions>
-          <execution>
-              <phase>install</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <includeProjectDependencies>false</includeProjectDependencies>
-          <includePluginDependencies>true</includePluginDependencies>
-          <executableDependency>
-              <artifactId>pluginsib-utils-rest</artifactId>
-              <groupId>org.fundaciobit.pluginsib.utils</groupId>
-          </executableDependency>
-          <mainClass>org.fundaciobit.pluginsib.utils.rest.pomadaptertojboss72.AdaptApiClientPomToJboss72</mainClass>
-          <arguments>
-            <argument>${project.basedir}</argument>
-          </arguments>
-          
-        </configuration>
-        <dependencies>
-            <dependency>
-            <artifactId>pluginsib-utils-rest</artifactId>
-            <groupId>org.fundaciobit.pluginsib.utils</groupId>
-            <version>2.0.0-SNAPSHOT</version>
-        </dependency>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includeProjectDependencies>false</includeProjectDependencies>
+                    <includePluginDependencies>true</includePluginDependencies>
+                    <executableDependency>
+                        <artifactId>pluginsib-utils-rest</artifactId>
+                        <groupId>org.fundaciobit.pluginsib.utils</groupId>
+                    </executableDependency>
+                    <mainClass>
+                        org.fundaciobit.pluginsib.utils.rest.pomadaptertojboss72.AdaptApiClientPomToJboss72</mainClass>
+                    <arguments>
+                        <argument>${project.basedir}</argument>
+                    </arguments>
 
-        </dependencies>
-      </plugin>
-            
-        </plugins> 
-        
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <artifactId>pluginsib-utils-rest</artifactId>
+                        <groupId>org.fundaciobit.pluginsib.utils</groupId>
+                        <version>2.0.0-SNAPSHOT</version>
+                    </dependency>
+
+                </dependencies>
+            </plugin>
+
+        </plugins>
+
     </build>
 
 </project>
