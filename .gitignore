@@ -220,3 +220,6 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /api-interna-client-revisors-v1/.github
 /api-interna-client-revisors-v1/.openapi-generator
 /api-interna-client-revisors-v1/gradle
+/api-interna-client-infoversio-v1/pom_backup.xml
+/api-interna-client-revisors-v1/pom_backup.xml
+/api-interna/openapi/swaggerui_urls.json

@@ -123,7 +123,7 @@ public class PluginValidacioFirmesLogicaEJB extends
       throw new I18NException("genapp.comodi", "El validador de firmes "
           + plugin.getNom().getTraduccio(languageUI).getValor()
           + " no suporta validar fitxers del tipus " + signType
-          + " o hi ha algun problema amb el validador: " + error);
+          + ". El problema amb el validador és el següent: " + error);
     }
     ValidateSignatureResponse vsresp;
     try {
@@ -138,6 +138,7 @@ public class PluginValidacioFirmesLogicaEJB extends
       PluginJPA plugin = findByPrimaryKey(pluginValidateSignatureID);
       String msg = "Error no controlat cridant al validador de firmes "
           + plugin.getNom().getTraduccio(languageUI).getValor() + ": " + e.getMessage();
+      log.error(msg, e);
       // XYZ ZZZ Traduir
       throw new I18NException("genapp.comodi", msg);
     }

@@ -27,7 +27,7 @@
             <organization>OpenAPITools.org</organization>
             <organizationUrl>http://openapitools.org</organizationUrl>
         </developer>
-        </developers>
+    </developers>
 
 
     <!-- NOU -->
@@ -235,7 +235,6 @@
     </build>
     <dependencies>
 
-        <!-- NOU -->
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
@@ -243,7 +242,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- NOU -->
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>

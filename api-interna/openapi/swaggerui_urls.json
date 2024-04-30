@@ -1,0 +1,11 @@
+[
+    {
+        "url": "./openapi_infoversio_v1.json",
+        "name": "Info Versio v1"
+    }
+,
+    {
+        "url": "./openapi_revisors_v1.json",
+        "name": "Revisors v1"
+    }
+]

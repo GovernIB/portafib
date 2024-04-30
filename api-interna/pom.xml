@@ -10,14 +10,10 @@
     </parent>
     <artifactId>portafib-api-interna</artifactId>
     <packaging>war</packaging>
-    <name>PortaFIB - API Rest - Interna</name>
+    <name>PortaFIB - API Rest - Interna Server</name>
     <properties>
-        <output-dir-api>${project.basedir}/../api-interna-client</output-dir-api>
         <auth.method>BASIC</auth.method>
         <client.default.package>es.caib.portafib.apiinterna.client</client.default.package>
-        <!-- La darrera versió disponible:
-        https://github.com/swagger-api/swagger-ui/releases -->
-        <swagger-ui.version>3.52.5</swagger-ui.version>
     </properties>
 
     <dependencies>
@@ -78,6 +74,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>swager-ui-configurable</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -94,13 +96,14 @@
 
                 <executions>
                     <execution>
-                        <id>openapi_infoversio_v1</id>
+                        <id>openapi_1</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>resolve</goal>
                         </goals>
                         <configuration>
-                            <contextId>openapi_infoversio_v1</contextId>
+                            <!-- NOU -->
+                            <contextId>Info Versio v1</contextId>
                             <outputFileName>openapi_infoversio_v1</outputFileName>
                             <outputPath>${project.basedir}/openapi/</outputPath>
                             <outputFormat>JSON</outputFormat>
@@ -112,13 +115,14 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>openapi_revisors_v1</id>
+                        <id>openapi_2</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>resolve</goal>
                         </goals>
                         <configuration>
-                            <contextId>openapi_revisors_v1</contextId>
+                            <!-- NOU -->
+                            <contextId>Revisors v1</contextId>
                             <outputFileName>openapi_revisors_v1</outputFileName>
                             <outputPath>${project.basedir}/openapi/</outputPath>
                             <outputFormat>JSON</outputFormat>
@@ -131,7 +135,12 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Genera el Client Rest per Java a partir del fitxer openapi.json -->
+
+
+
+            <!-- ==================================================================  -->
+            <!-- Genera el Client Rest per Java a partir del fitxers openapi_*.json -->
+            <!-- ==================================================================  -->
             <plugin>
                 <!-- https://openapi-generator.tech/docs/generators/java/ -->
                 <groupId>org.openapitools</groupId>
@@ -140,11 +149,8 @@
 
                 <executions>
                     <execution>
-                        <!-- NOU -->
-                        <!-- process-classes és abans de install i install
-                        posar-ho al postprocess -->
-                        <id>revisors</id>
-                        <phase>process-classes</phase>
+                        <id>openapi1</id>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -162,7 +168,6 @@
                             <modelPackage>${client.default.package}.revisors.v1.model</modelPackage>
                             <invokerPackage>${client.default.package}.revisors.v1.services</invokerPackage>
                             <generateModelTests>false</generateModelTests>
-                            <enablePostProcessFile>true</enablePostProcessFile>
                             <configOptions>
                                 <groupId>es.caib.portafib</groupId>
                                 <artifactId>portafib-api-interna-client-revisors-v1</artifactId>
@@ -173,18 +178,14 @@
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <java11>true</java11>
-                                <enablePostProcessFile>true</enablePostProcessFile>
                             </configOptions>
                         </configuration>
                     </execution>
                     
                     
                     <execution>
-                        <!-- NOU -->
-                        <!-- process-classes és abans de install i install
-                        posar-ho al postprocess -->
-                        <id>info</id>
-                        <phase>process-classes</phase>
+                        <id>openapi2</id>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -202,7 +203,6 @@
                             <modelPackage>${client.default.package}.infoversio.v1.model</modelPackage>
                             <invokerPackage>${client.default.package}.infoversio.v1.services</invokerPackage>
                             <generateModelTests>false</generateModelTests>
-                            <enablePostProcessFile>true</enablePostProcessFile>
                             <configOptions>
                                 <groupId>es.caib.portafib</groupId>
                                 <artifactId>portafib-api-interna-client-infoversio-v1</artifactId>
@@ -212,77 +212,54 @@
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <java11>true</java11>
-                                <enablePostProcessFile>true</enablePostProcessFile>
                             </configOptions>
                         </configuration>
                     </execution>
-                    
-                    
-                    
                 </executions>
             </plugin>
 
-            <!-- Profile per incloure swagger-ui dins el mòdul -->
-            <!-- Davalla la versió de swagger-ui (Web UI que parseja
-            openapi.json. 
-                Veure index.html) -->
+            <!--NOU TODO -->
             <plugin>
-                <groupId>com.googlecode.maven-download-plugin</groupId>
-                <artifactId>download-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
-                        <id>swagger-ui</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>wget</goal>
-                        </goals>
-                        <configuration>
-                            <skipCache>false</skipCache>
-                            <url>
-                                https://github.com/swagger-api/swagger-ui/archive/v${swagger-ui.version}.tar.gz</url>
-                            <unpack>true</unpack>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Canvia l'adreça de la configuració d'exemple per la real, 
-                ./openapi.json -->
-            <plugin>
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>replacer</artifactId>
-                <executions>
-                    <execution>
-                        <id>index</id>
                         <phase>prepare-package</phase>
                         <goals>
-                            <goal>replace</goal>
+                            <goal>java</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <file>
-                        ${project.build.directory}/swagger-ui-${swagger-ui.version}/dist/index.html</file>
-                    <replacements>
-                        <replacement>
-                            <token>url: "https://petstore.swagger.io/v2/swagger.json"</token>
-                            <value>urls: [{url: "./openapi_revisors_v1.json", name: "Revisors v1"},{url: "./openapi_infoversio_v1.json", name: "Informació Versió v1"}]</value>
-                        </replacement>
-                    </replacements>
+                    <includeProjectDependencies>false</includeProjectDependencies>
+                    <includePluginDependencies>true</includePluginDependencies>
+                    <executableDependency>
+                        <artifactId>pluginsib-utils-rest</artifactId>
+                        <groupId>org.fundaciobit.pluginsib.utils</groupId>
+                    </executableDependency>
+                    <mainClass>
+                        org.fundaciobit.pluginsib.utils.rest.pomadaptertojboss72.AdaptApiClientPomToJboss72</mainClass>
+                    <arguments>
+                        <argument>${project.basedir}</argument>
+                    </arguments>
+
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <artifactId>pluginsib-utils-rest</artifactId>
+                        <groupId>org.fundaciobit.pluginsib.utils</groupId>
+                        <version>2.0.0-SNAPSHOT</version>
+                    </dependency>
+                </dependencies>
             </plugin>
 
-            <!-- Inclou el openapi.json i el swagger-ui dins el war -->
+            <!-- Inclou els openapi_*.json i el swaggerui-urls.json dins del jar war -->
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
                     <webResources>
-                        <!--  combine.children="append">  -->
-                        <resource>
-                            <directory>
-                                ${project.build.directory}/swagger-ui-${swagger-ui.version}/dist</directory>
-                        </resource>
                         <resource>
                             <directory>${project.basedir}/openapi</directory>
                         </resource>
@@ -311,7 +288,7 @@
               <artifactId>pluginsib-utils-rest</artifactId>
               <groupId>org.fundaciobit.pluginsib.utils</groupId>
           </executableDependency>
-          <mainClass>org.fundaciobit.pluginsib.utils.rest.adaptpom.AdaptApiClientPomToJboss72</mainClass>
+          <mainClass>org.fundaciobit.pluginsib.utils.rest.pomadaptertojboss72.AdaptApiClientPomToJboss72</mainClass>
           <arguments>
             <argument>${project.basedir}</argument>
           </arguments>
@@ -323,59 +300,12 @@
             <groupId>org.fundaciobit.pluginsib.utils</groupId>
             <version>2.0.0-SNAPSHOT</version>
         </dependency>
-            <!--
-          <dependency>
-            <groupId>com.example.myproject</groupId>
-            <artifactId>mylib</artifactId>
-            <version>1.3.5</version>
-            <type>jar</type>
-          </dependency>
-          -->
+
         </dependencies>
       </plugin>
             
         </plugins> 
         
-        <!--This plugin's configuration is used to store Eclipse 
-                    m2e settings only. It has no influence on the Maven build itself. -->
-        <!-- NOU -->
-        <!--
-        <pluginManagement>
-            <plugins>
-
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>
-                                            org.apache.geronimo
-                                        </groupId>
-                                        <artifactId>
-                                            geronimo-openapi-maven-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [1.0.12,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>openapi.json</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        -->
     </build>
 
 </project>
