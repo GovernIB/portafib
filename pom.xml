@@ -79,10 +79,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <!-- NOU_XXX -->
-            <!--
-            <version>${junit.version}</version>
-            -->
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -90,23 +86,12 @@
             <artifactId>log4j</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!--
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>${jaxb-api.version}</version>
-			<scope>provided</scope>
-		</dependency>
-	-->
     </dependencies>
     <properties>
         <contextroot>portafib</contextroot>
         <!-- Veure Profiles -->
         <version_txt_template_file>./scripts/templates/versio.txt.template</version_txt_template_file>
         <version_txt_file>./versio.txt</version_txt_file>
-        <!--
-        <portafib.version>2.2.0</portafib.version>
-        -->
         <plugins.version>2.0.0</plugins.version>
         <pluginsib.barcode.api.version>3.0.0</pluginsib.barcode.api.version>
         <pluginsib.barcode.impl.version>3.0.0-SNAPSHOT</pluginsib.barcode.impl.version>
@@ -132,7 +117,7 @@
         <javaee-api.version>8.0.1</javaee-api.version>
         <activation.version>1.1.1</activation.version>
         <mp-openapi.version>1.0.1</mp-openapi.version>
-        <jaxb-api.version>2.3.0</jaxb-api.version>
+
         <!--2.3.1 -->
         <slf4j.version>1.7.30</slf4j.version>
         <keycloak.version>6.0.1</keycloak.version>
@@ -146,13 +131,7 @@
         <spring.version>4.3.30.RELEASE</spring.version>
         <spring-security.version>4.2.20.RELEASE</spring-security.version>
         <spring-data-jpa>1.6.6.RELEASE</spring-data-jpa>
-        <!--
-		<spring.version>4.3.30.RELEASE</spring.version>
-		<spring-security.version>4.2.20.RELEASE</spring-security.version>
-		-->
         <tiles.version>3.0.8</tiles.version>
-        <!-- XYZ ZZZ -->
-        <global.version>${project.version}</global.version>
         <cglib.version>2.2.2</cglib.version>
         <!-- S'ha de fer la substitució -->
         <genapp.version>2.0.0-SNAPSHOT</genapp.version>
@@ -188,6 +167,17 @@
                 <artifactId>jaxb-impl</artifactId>
                 <version>2.3.0</version>
             </dependency>
+            
+            
+            
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>2.3.0</version>
+                <scope>provided</scope>
+            </dependency>
+            
+            
             <!-- Definició de les versions de les llibreries, especificacions i eines disponibles dins JBoss -->
             <!-- Dependències de JAVA EE 8 -->
             <dependency>
@@ -643,7 +633,6 @@
                 <version>3.0.0-M3</version>
                 <configuration>
                     <rules>
-                        
                         <requireMavenVersion>
                             <version>3.6.1</version>
                         </requireMavenVersion>
@@ -653,7 +642,6 @@
                         
                         <banDuplicatePomDependencyVersions/>
                         <dependencyConvergence/>                        
-                        
                     </rules>
                 </configuration>
                 <executions>

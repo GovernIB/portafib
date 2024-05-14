@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>portafib-ear</artifactId>
     <packaging>ear</packaging>
-    <name>PortaFIB Ear</name>
+    <name>PortaFIB - EAR</name>
     <parent>
         <groupId>es.caib.portafib</groupId>
         <artifactId>portafib</artifactId>
