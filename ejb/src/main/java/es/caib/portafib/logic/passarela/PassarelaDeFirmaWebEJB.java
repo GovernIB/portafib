@@ -867,7 +867,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         // Aqui es fan totes les validacions completes !!!!!!
         ValidacioCompletaResponse validacioResponse;
         try {
-            validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest);
+            final boolean validateChangesInAttachedFiles = administrationIdCanBeValidatedFromPlugin;
+            validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest, validateChangesInAttachedFiles);
         } catch (ValidacioException e) {
             throw new I18NException("genapp.comodi", e.getMessage());
         }

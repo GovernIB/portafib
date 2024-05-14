@@ -232,21 +232,21 @@
                             <dependency>
                                 <groupId>es.caib.portafib</groupId>
                                 <artifactId>portafib-ws-server</artifactId>
-                                <version>${portafib.version}</version>
+                                <version>${parent.version}</version>
                                 <scope>compile</scope>
                             </dependency>
 
                             <dependency>
                                 <groupId>es.caib.portafib</groupId>
                                 <artifactId>portafib-persistence</artifactId>
-                                <version>${portafib.version}</version>
+                                <version>${parent.version}</version>
                                 <scope>compile</scope>
                             </dependency>
 
                             <dependency>
                                 <groupId>es.caib.portafib</groupId>
                                 <artifactId>portafib-ejb</artifactId>
-                                <version>${portafib.version}</version>
+                                <version>${parent.version}</version>
                                 <scope>compile</scope>
                             </dependency>
                         </dependencies>

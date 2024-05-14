@@ -57,9 +57,9 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
   @Override
   public ValidacioCompletaResponse validateCompletaFirma(
-          ValidacioCompletaRequest validacioRequest) throws ValidacioException {
+          ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles) throws ValidacioException {
     try {
-      return internalValidateCompletaFirma(validacioRequest);
+      return internalValidateCompletaFirma(validacioRequest, validateChangesInAttachedFiles);
     } catch (I18NException e) {
       String message = I18NLogicUtils.getMessage(e, new Locale(validacioRequest.getLanguageUI()));
       log.error("Rebut error de validació de firma: " + message);
@@ -68,7 +68,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
   }
 
   private ValidacioCompletaResponse internalValidateCompletaFirma(
-      ValidacioCompletaRequest validacioRequest) throws I18NException, ValidacioException {
+      ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles) throws I18NException, ValidacioException {
 
     String signType;
     String mime;
@@ -214,7 +214,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
           int posTaulaDeFirmes = validacioRequest.getPosTaulaDeFirmes();
 
           PdfComparator.compare(validacioRequest.getAdaptedData(),
-              validacioRequest.getSignatureData(), tmpDir, posTaulaDeFirmes);
+              validacioRequest.getSignatureData(), tmpDir, posTaulaDeFirmes, validateChangesInAttachedFiles);
 
           checkDocumentModifications = true;
         }

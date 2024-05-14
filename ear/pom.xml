@@ -7,7 +7,7 @@
     <parent>
         <groupId>es.caib.portafib</groupId>
         <artifactId>portafib</artifactId>
-        <version>2.2.0</version>
+        <version>3.0.0</version>
     </parent>
     <properties>
         <timestamp>${maven.build.timestamp}</timestamp>
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-ws-server</artifactId>
-            <version>${portafib.version}</version>
+            <version>${project.version}</version>
             <type>ejb</type>
         </dependency>
         <!-- Externes -->
@@ -86,11 +86,7 @@
             <artifactId>commons-digester</artifactId>
             <version>2.0</version>
         </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-        </dependency>
+
         
         <!-- =====================================================  -->
         <!-- Necessitam les llibreries d'AXIS ja que ho requereix   -->
@@ -506,7 +502,7 @@
                 <dependency>
                     <groupId>es.caib.portafib</groupId>
                     <artifactId>portafib-ws-indra-callback-server</artifactId>
-                    <version>${portafib.version}</version>
+                    <version>${project.version}</version>
                     <type>war</type>
                 </dependency>
             </dependencies>
@@ -538,7 +534,7 @@
                 <dependency>
                     <groupId>es.caib.portafib</groupId>
                     <artifactId>portafib-ws-indra-server</artifactId>
-                    <version>${portafib.version}</version>
+                    <version>${project.version}</version>
                     <type>ejb</type>
                 </dependency>
             </dependencies>
@@ -571,7 +567,7 @@
         <dependency>
           <groupId>es.caib.portafib</groupId>
           <artifactId>portafib-ws-server</artifactId>
-          <version>${portafib.version}</version>
+          <version>${project.version}</version>
           <type>ejb</type>
         </dependency>
       </dependencies>
@@ -606,19 +602,19 @@
                 <dependency>
                     <groupId>es.caib.portafib</groupId>
                     <artifactId>portafib-ws-callback-server</artifactId>
-                    <version>${portafib.version}</version>
+                    <version>${project.version}</version>
                     <type>ejb</type>
                 </dependency>
                 <dependency>
                     <groupId>es.caib.portafib</groupId>
                     <artifactId>portafib-ws-callback-server-web</artifactId>
-                    <version>${portafib.version}</version>
+                    <version>${project.version}</version>
                     <type>war</type>
                 </dependency>
                 <dependency>
                     <groupId>es.caib.portafib</groupId>
                     <artifactId>portafib-callback-server-rest</artifactId>
-                    <version>${portafib.version}</version>
+                    <version>${project.version}</version>
                     <type>war</type>
                 </dependency>
                 <dependency>

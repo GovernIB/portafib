@@ -13,23 +13,10 @@
     <parent>
         <groupId>es.caib.portafib</groupId>
         <artifactId>portafib-ws</artifactId>
-        <version>2.2.0</version>
+        <version>3.0.0</version>
     </parent>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>11</source>
-                        <target>11</target>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
 
         <plugins>
             <plugin>
@@ -57,13 +44,14 @@
     </build>
 
     <dependencies>
-
+<!--
         <dependency>
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-commons</artifactId>
-            <version>${portafib.version}</version>
+            <version></version>
             <scope>compile</scope>
         </dependency>
+        -->
 
         <dependency>
             <artifactId>portafib-callback-beans</artifactId>

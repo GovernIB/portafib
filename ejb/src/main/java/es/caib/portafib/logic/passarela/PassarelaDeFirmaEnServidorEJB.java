@@ -255,8 +255,9 @@ public class PassarelaDeFirmaEnServidorEJB extends
           // Aqui es fan totes les validacions completes !!!!!!
           ValidacioCompletaResponse validacioResponse;
           try {
+            final boolean validateChangesInAttachedFiles = true;
             validacioResponse = validacioCompletaLogicaEjb
-                  .validateCompletaFirma(validacioRequest);
+                  .validateCompletaFirma(validacioRequest, validateChangesInAttachedFiles);
 
             if (isDebug) {
               log.info("n\n validacioResponse[" + pfis.getSignID() + "] => " + validacioResponse);
@@ -514,7 +515,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
     // Aqui es fan totes les validacions completes !!!!!!
     ValidacioCompletaResponse validacioResponse;
     try {
-      validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest);
+        final boolean validateChangesInAttachedFiles = true;
+      validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest, validateChangesInAttachedFiles);
     } catch (ValidacioException e) {
       throw new I18NException("genapp.comodi", e.getMessage());
     }

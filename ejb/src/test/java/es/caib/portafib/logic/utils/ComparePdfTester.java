@@ -72,10 +72,12 @@ public class ComparePdfTester implements ConstantsV2 {
       long start = System.currentTimeMillis();
       File adap = new File(testDir, testFiles[i][0]);
       File sign = new File(testDir, testFiles[i][1]);
+      final boolean administrationIdCanBeValidatedFromPlugin = true;
 
       String error = null;
       try {
-        PdfComparator.compare(new FileDataSource(adap), new FileDataSource(sign), tmpDir, Integer.parseInt(testFiles[i][2]));
+        PdfComparator.compare(new FileDataSource(adap), new FileDataSource(sign), tmpDir, Integer.parseInt(testFiles[i][2]),
+                administrationIdCanBeValidatedFromPlugin );
       } catch (I18NException e) {
 
         error = e.getTraduccio().getArgs()[0].getValue();

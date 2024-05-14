@@ -246,7 +246,8 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
                 numFirmaPortaFIB, numFirmesOriginals, nifEsperat, ConstantsV2.TAULADEFIRMES_SENSETAULA);
 
         try {
-            validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest);
+            final boolean validateChangesInAttachedFiles= true;
+            validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest, validateChangesInAttachedFiles);
         } catch (ValidacioException e) {
             throw new I18NException("genapp.comodi", e.getMessage());
         }

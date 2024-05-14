@@ -38,7 +38,7 @@ public class PdfComparator implements ConstantsV2 {
    * @throws I18NException
    */
   public static void compare(IPortaFIBDataSource adaptat, IPortaFIBDataSource signed,
-      File tmpDir, int posTaulaDeFirmes) throws I18NException {
+      File tmpDir, int posTaulaDeFirmes, boolean validateChangesInAttachedFiles) throws I18NException {
 
     int esborrar = -1; // -1 significa esborrar les imatges generades
 
@@ -110,87 +110,92 @@ public class PdfComparator implements ConstantsV2 {
       signats = null;
     }
 
-    // XYZ ZZZ Falta revisar Annexos que s'hagin mantingut
-    List<AttachedFile> adaptatAdjunts = null;
-    List<AttachedFile> firmatsAdjunts = null;
-    try {
+    log.info("validateChangesInAttachedFiles = " + validateChangesInAttachedFiles);
 
-      InputStream is1 = null;
-      InputStream is2 = null;
-      try {
-        is1 = adaptat.getInputStream();
-        PdfReader reader = new PdfReader(is1);
-        adaptatAdjunts = PdfUtils.extractAttachments(reader);
-        reader.close();
-
-        is2 = signed.getInputStream();
-        PdfReader reader2 = new PdfReader(is2);
-        firmatsAdjunts = PdfUtils.extractAttachments(reader2);
-        reader2.close();
-      } catch (Exception e) {
-        // XYZ ZZZ TRA
-        String msg = "Error desconegut intentant extreure adjunts d'un fitxer PDF: " + e.getMessage();
-        log.error(msg, e);
-        throw new I18NException("genapp.comodi", msg);
-      }
-
-      if (adaptatAdjunts.size() != firmatsAdjunts.size()) {
-        // XYZ ZZZ TRA
-        throw new I18NException("genapp.comodi",
-            "El document original i el signat tenen diferent nombre d´adjunts [Orig: "
-                + adaptatAdjunts.size() + "] [Signats: " + firmatsAdjunts.size() + "]");
-      }
-
-      // NOTA: Hi pot haver multiples fitxers amb el mateix nom i descripcio
-      Map<String, List<AttachedFile>> originalsAdjuntsMap;
-      originalsAdjuntsMap = new HashMap<String, List<AttachedFile>>();
-
-      for (AttachedFile attachedFile : adaptatAdjunts) {
-        String nom = attachedFile.getName();
-        List<AttachedFile> list = originalsAdjuntsMap.get(nom);
-        if (list == null) {
-          list = new ArrayList<AttachedFile>();
-          originalsAdjuntsMap.put(nom, list);
-        }
-        list.add(attachedFile);
-      }
-
-      for (AttachedFile attachedFile : firmatsAdjunts) {
-        List<AttachedFile> adjuntsList = originalsAdjuntsMap.get(attachedFile.getName());
-
-        if (adjuntsList == null) {
-          // XYZ ZZZ TRA
-          throw new I18NException("genapp.comodi",
-              "El document signat conté un adjunt amb nom " + attachedFile.getName()
-                  + " que no existeix en el document original.");
-        }
-
-        boolean trobat = false;
-        for (AttachedFile af : adjuntsList) {
-          if (compare(attachedFile, af)) {
-            adjuntsList.remove(af);
-            trobat = true;
-            break;
+    if (validateChangesInAttachedFiles) {
+        // XYZ ZZZ Falta revisar Annexos que s'hagin mantingut
+        List<AttachedFile> adaptatAdjunts = null;
+        List<AttachedFile> firmatsAdjunts = null;
+        try {
+    
+          InputStream is1 = null;
+          InputStream is2 = null;
+          try {
+            is1 = adaptat.getInputStream();
+            PdfReader reader = new PdfReader(is1);
+            adaptatAdjunts = PdfUtils.extractAttachments(reader);
+            reader.close();
+    
+            is2 = signed.getInputStream();
+            PdfReader reader2 = new PdfReader(is2);
+            firmatsAdjunts = PdfUtils.extractAttachments(reader2);
+            reader2.close();
+          } catch (Exception e) {
+            // XYZ ZZZ TRA
+            String msg = "Error desconegut intentant extreure adjunts d'un fitxer PDF: " + e.getMessage();
+            log.error(msg, e);
+            throw new I18NException("genapp.comodi", msg);
           }
-        }
-
-        if (trobat) {
-          if (adjuntsList.size() == 0) {
-            originalsAdjuntsMap.remove(attachedFile.getName());
+    
+        
+          if (adaptatAdjunts.size() != firmatsAdjunts.size()) {
+            // XYZ ZZZ TRA
+            throw new I18NException("genapp.comodi",
+                "El document original i el signat tenen diferent nombre d´adjunts [Orig: "
+                    + adaptatAdjunts.size() + "] [Signats: " + firmatsAdjunts.size() + "]");
           }
-        } else {
-          // XYZ ZZZ TRA
-          throw new I18NException("genapp.comodi",
-              "El document adaptat i el signat conté un adjunt amb nom "
-                  + attachedFile.getName()
-                  + " però no coincideixen en la descripció o en el contingut.");
+    
+          // NOTA: Hi pot haver multiples fitxers amb el mateix nom i descripcio
+          Map<String, List<AttachedFile>> originalsAdjuntsMap;
+          originalsAdjuntsMap = new HashMap<String, List<AttachedFile>>();
+    
+          for (AttachedFile attachedFile : adaptatAdjunts) {
+            String nom = attachedFile.getName();
+            List<AttachedFile> list = originalsAdjuntsMap.get(nom);
+            if (list == null) {
+              list = new ArrayList<AttachedFile>();
+              originalsAdjuntsMap.put(nom, list);
+            }
+            list.add(attachedFile);
+          }
+    
+          for (AttachedFile attachedFile : firmatsAdjunts) {
+            List<AttachedFile> adjuntsList = originalsAdjuntsMap.get(attachedFile.getName());
+    
+            if (adjuntsList == null) {
+              // XYZ ZZZ TRA
+              throw new I18NException("genapp.comodi",
+                  "El document signat conté un adjunt amb nom " + attachedFile.getName()
+                      + " que no existeix en el document original.");
+            }
+    
+            boolean trobat = false;
+            for (AttachedFile af : adjuntsList) {
+              if (compare(attachedFile, af)) {
+                adjuntsList.remove(af);
+                trobat = true;
+                break;
+              }
+            }
+    
+            if (trobat) {
+              if (adjuntsList.size() == 0) {
+                originalsAdjuntsMap.remove(attachedFile.getName());
+              }
+            } else {
+              // XYZ ZZZ TRA
+              throw new I18NException("genapp.comodi",
+                  "El document adaptat i el signat conté un adjunt amb nom "
+                      + attachedFile.getName()
+                      + " però no coincideixen en la descripció o en el contingut.");
+            }
+          }
+    
+        } finally {
+          // Falta Esborrar fitxers
+          clean(adaptatAdjunts);
+          clean(firmatsAdjunts);
         }
-      }
-
-    } finally {
-      // Falta Esborrar fitxers
-      clean(adaptatAdjunts);
-      clean(firmatsAdjunts);
     }
 
   }
