@@ -393,6 +393,32 @@ public class UsuariEntitatJPA implements UsuariEntitat {
     }
 
 
+// EXP  Field:destinatariid | Table: pfi_revisordedestinatari | Type: 0  
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "destinatariID")
+    private Set<RevisorDeDestinatariJPA> revisorDeDestinatari_destinatariids = new HashSet<RevisorDeDestinatariJPA>(0);
+    public  Set<RevisorDeDestinatariJPA> getRevisorDeDestinatari_destinatariids() {
+    return this.revisorDeDestinatari_destinatariids;
+  }
+
+    public void setRevisorDeDestinatari_destinatariids(Set<RevisorDeDestinatariJPA> revisorDeDestinatari_destinatariids) {
+      this.revisorDeDestinatari_destinatariids = revisorDeDestinatari_destinatariids;
+    }
+
+
+// EXP  Field:revisorid | Table: pfi_revisordedestinatari | Type: 0  
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "revisorID")
+    private Set<RevisorDeDestinatariJPA> revisorDeDestinatari_revisorids = new HashSet<RevisorDeDestinatariJPA>(0);
+    public  Set<RevisorDeDestinatariJPA> getRevisorDeDestinatari_revisorids() {
+    return this.revisorDeDestinatari_revisorids;
+  }
+
+    public void setRevisorDeDestinatari_revisorids(Set<RevisorDeDestinatariJPA> revisorDeDestinatari_revisorids) {
+      this.revisorDeDestinatari_revisorids = revisorDeDestinatari_revisorids;
+    }
+
+
 // EXP  Field:usuarientitatid | Table: pfi_revisordefirma | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariEntitat")
@@ -589,6 +615,10 @@ public class UsuariEntitatJPA implements UsuariEntitat {
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitatFavorit_favoritids) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitatFavorit_favoritids())) ) {
       __tmp.setUsuariEntitatFavorit_favoritids(UsuariEntitatFavoritJPA.copyJPA(__jpa.getUsuariEntitatFavorit_favoritids(), __alreadyCopied,"UsuariEntitatJPA"));
     }
+    if(!"RevisorDeDestinatariJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.revisorDeDestinatari_destinatariids) || org.hibernate.Hibernate.isInitialized(__jpa.getRevisorDeDestinatari_destinatariids())) ) {
+      __tmp.setRevisorDeDestinatari_destinatariids(RevisorDeDestinatariJPA.copyJPA(__jpa.getRevisorDeDestinatari_destinatariids(), __alreadyCopied,"UsuariEntitatJPA"));
+    }
     if(!"UsuariEntitatFavoritJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitatFavorit_origenids) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitatFavorit_origenids())) ) {
       __tmp.setUsuariEntitatFavorit_origenids(UsuariEntitatFavoritJPA.copyJPA(__jpa.getUsuariEntitatFavorit_origenids(), __alreadyCopied,"UsuariEntitatJPA"));
@@ -612,6 +642,10 @@ public class UsuariEntitatJPA implements UsuariEntitat {
     if(!"PeticioDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma_usuarientitatids) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma_usuarientitatids())) ) {
       __tmp.setPeticioDeFirma_usuarientitatids(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma_usuarientitatids(), __alreadyCopied,"UsuariEntitatJPA"));
+    }
+    if(!"RevisorDeDestinatariJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.revisorDeDestinatari_revisorids) || org.hibernate.Hibernate.isInitialized(__jpa.getRevisorDeDestinatari_revisorids())) ) {
+      __tmp.setRevisorDeDestinatari_revisorids(RevisorDeDestinatariJPA.copyJPA(__jpa.getRevisorDeDestinatari_revisorids(), __alreadyCopied,"UsuariEntitatJPA"));
     }
     if(!"PeticioDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma_solicitantpersona3ids) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma_solicitantpersona3ids())) ) {

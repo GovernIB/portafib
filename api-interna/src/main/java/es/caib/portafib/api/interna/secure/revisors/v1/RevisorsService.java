@@ -1,7 +1,9 @@
 package es.caib.portafib.api.interna.secure.revisors.v1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.security.RolesAllowed;
 
@@ -26,8 +28,11 @@ import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 import org.fundaciobit.pluginsib.utils.rest.RestUtils;
 
 import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
+import es.caib.portafib.model.fields.RevisorDeDestinatariQueryPath;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatQueryPath;
+import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
@@ -43,7 +48,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -84,6 +88,12 @@ public class RevisorsService extends RestUtils {
 
     @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioService.JNDI_NAME)
     protected es.caib.portafib.ejb.UsuariAplicacioService usuariAplicacioEjb;
+
+    @EJB(mappedName = es.caib.portafib.ejb.RevisorDeDestinatariService.JNDI_NAME)
+    protected es.caib.portafib.ejb.RevisorDeDestinatariService revisorDeDestinatariEjb;
+    
+    @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatService.JNDI_NAME)
+    protected es.caib.portafib.ejb.UsuariEntitatService usuariEntitatEjb;
 
     @Path("/revisorsbydestinatarinif")
     @GET
@@ -132,20 +142,22 @@ public class RevisorsService extends RestUtils {
                     description = "DNI del destinatari del qual volen els revisors associats. Opcional.",
                     required = false,
                     in = ParameterIn.QUERY,
-                    schema = @Schema(implementation = String.class)) @QueryParam("dni") String dni,
+                    schema = @Schema(implementation = String.class)) @QueryParam("administrationID") String dni,
             @Parameter(
                     name = "languageUI",
                     description = "Idioma en que s'enviaran els missatges d'error",
                     required = false,
                     example = "ca",
                     in = ParameterIn.QUERY,
-                    schema = @Schema(implementation = String.class)) @Pattern(regexp = "^|ca|es$") String languageUI,
+                    schema = @Schema(implementation = String.class)) @Pattern(regexp = "^|ca|es$") @QueryParam("languageUI") String languageUI,
             @Parameter(hidden = true) @Context HttpServletRequest request) throws RestException {
 
         // Realitzar Consulta
         try {
+            // Check Idioma
             languageUI = RestUtils.checkLanguage(languageUI);
 
+            // Check usuari aplicació
             String usernameApp = getUserApp(request);
 
             UsuariAplicacioJPA userApp = usuariAplicacioEjb.findByPrimaryKey(usernameApp);
@@ -160,40 +172,111 @@ public class RevisorsService extends RestUtils {
                 log.error(msg);
                 throw new RestException(msg, Status.BAD_REQUEST);
             }
-
+            
             String entitatID = userApp.getEntitatID();
+            log.info("XXX revisorsByDestinatariNIF:: entitatID: " + entitatID);
+            log.info("XXX revisorsByDestinatariNIF:: dni: " + dni);
+            
+            // Comprovar NIF de Destinatari
+            String destinatariUsuariEntitatID = null;
+            if (dni != null && !dni.isEmpty()) {
+                
+                log.info("XXX revisorsByDestinatariNIF:: Entra a dni!= null");
+               
+                // Comprovar que NIF de DESTINATARI existeix en l'entitat de l'usuari-aplicacio
+                dni = dni.toUpperCase();
+                
+                UsuariEntitatQueryPath ueqp = new UsuariEntitatQueryPath();
+                Where w1 = ueqp.ENTITATID().equal(entitatID);
+                Where w2 = ueqp.USUARIPERSONA().NIF().equal(dni);
+                Where w3 = UsuariEntitatFields.ACTIU.equal(true);
+                Where w4 = ueqp.USUARIPERSONA().USUARIINTERN().equal(true);
+                
+                destinatariUsuariEntitatID = usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.USUARIENTITATID, Where.AND(w1,w2,w3,w4));
+                
+                log.info(
+                        "XXX revisorsByDestinatariNIF:: destinatariUsuariEntitatID: " + destinatariUsuariEntitatID);
+                if (destinatariUsuariEntitatID == null) {
 
-            RoleUsuariEntitatQueryPath rueqp = new RoleUsuariEntitatQueryPath();
-            UsuariEntitatQueryPath ueqp = rueqp.USUARIENTITAT();
-            Where w1 = ueqp.ENTITATID().equal(entitatID);
-            Where w2 = ueqp.ACTIU().equal(true);
-            Where w3 = RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_REVI);
-
-            //  1 username,
-            //  2 administrationId
-            //  3 name
-            //  4 surname            
-            UsuariPersonaQueryPath upqp = ueqp.USUARIPERSONA();
-
-            Select4Columns<String, String, String, String> sc;
-            sc = new Select4Columns<String, String, String, String>(upqp.USUARIPERSONAID().select, upqp.NIF().select,
-                    upqp.NOM().select, upqp.LLINATGES().select);
-
-            List<Select4Values<String, String, String, String>> result = roleUsuariEntitatEjb.executeQuery(sc,
-                    Where.AND(w1, w2, w3));
-
-            List<BasicUserInfo> list = new ArrayList<BasicUserInfo>();
-
-            for (Select4Values<String, String, String, String> sv : result) {
-                BasicUserInfo bui = new BasicUserInfo();
-                bui.setUsername(sv.getValue1());
-                bui.setAdministrationId(sv.getValue2());
-                bui.setName(sv.getValue3());
-                bui.setSurname(sv.getValue4());
-                list.add(bui);
+                    String msg;
+                    msg = "NIF de Destinatari incorrecte o inexistent: " + dni;
+                    log.error(msg);
+                    throw new RestException(msg, Status.BAD_REQUEST);
+                }
             }
 
-            return new BasicUserInfoList(list);
+            Map<String,BasicUserInfo> list = new HashMap<String, BasicUserInfo>();
+
+            if (destinatariUsuariEntitatID != null) {
+
+                RevisorDeDestinatariQueryPath rdqp = new RevisorDeDestinatariQueryPath();
+                UsuariPersonaQueryPath upqp = rdqp.REVISOR().USUARIPERSONA();
+
+                Select4Columns<String, String, String, String> sc;
+                sc = new Select4Columns<String, String, String, String>(upqp.USUARIPERSONAID().select,
+                        upqp.NIF().select, upqp.NOM().select, upqp.LLINATGES().select);
+
+                List<Select4Values<String, String, String, String>> result;
+                result = revisorDeDestinatariEjb.executeQuery(sc, rdqp.DESTINATARIID().equal(destinatariUsuariEntitatID));
+                
+                log.info("XXX resultat revisorDeDestinatari[" + dni + "|" + destinatariUsuariEntitatID + "] => Numero: " + result.size());
+
+                for (Select4Values<String, String, String, String> sv : result) {
+                    BasicUserInfo bui = new BasicUserInfo();
+                    bui.setUsername(sv.getValue1());
+                    bui.setAdministrationId(sv.getValue2());
+                    bui.setName(sv.getValue3());
+                    bui.setSurname(sv.getValue4());
+                    list.put(bui.getAdministrationId(), bui);
+                }
+
+            }
+
+            // Afegir els Usuaris Revisors Globals ???
+            
+            final  boolean prop = PropietatGlobalUtil.getServeiRestRetornaRevisorsGlobals(entitatID);
+            
+            log.info("XXX revisorsByDestinatariNIF:: getServeiRestRetornaRevisorsGlobals: " + prop);
+            
+            if (destinatariUsuariEntitatID == null || prop) {
+                
+                log.info("XXX resultat revisorDeDestinatari[GLOBALS] => Entra ... ");
+
+
+                RoleUsuariEntitatQueryPath rueqp = new RoleUsuariEntitatQueryPath();
+                UsuariEntitatQueryPath ueqp = rueqp.USUARIENTITAT();
+                Where w1 = ueqp.ENTITATID().equal(entitatID);
+                Where w2 = ueqp.ACTIU().equal(true);
+                Where w3 = RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_REVI);
+
+                //  1 username,
+                //  2 administrationId
+                //  3 name
+                //  4 surname            
+                UsuariPersonaQueryPath upqp = ueqp.USUARIPERSONA();
+
+                Select4Columns<String, String, String, String> sc;
+                sc = new Select4Columns<String, String, String, String>(upqp.USUARIPERSONAID().select,
+                        upqp.NIF().select, upqp.NOM().select, upqp.LLINATGES().select);
+                
+                
+                List<Select4Values<String, String, String, String>> result = roleUsuariEntitatEjb.executeQuery(sc,
+                        Where.AND(w1, w2, w3));
+                
+                log.info("XXX resultat revisorDeDestinatari[GLOBALS] => Numero: " + result.size());
+
+
+                for (Select4Values<String, String, String, String> sv : result) {
+                    BasicUserInfo bui = new BasicUserInfo();
+                    bui.setUsername(sv.getValue1());
+                    bui.setAdministrationId(sv.getValue2());
+                    bui.setName(sv.getValue3());
+                    bui.setSurname(sv.getValue4());
+                    list.put(bui.getAdministrationId(), bui);
+                }
+            }
+
+            return new BasicUserInfoList(new ArrayList<BasicUserInfo>(list.values()));
 
         } catch (RestException re) {
             throw re;

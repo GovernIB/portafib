@@ -558,6 +558,24 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     }
     return val;
   }
+  
+  
+  
+  /**
+   * Nou a la versió 3.0.0 Opcional. Valor per defecte false.
+   *  Si val true en la consulta al servei rest de RevisorDeDestinatari també retorna els Revisors Globals.
+   */
+
+  public static boolean getServeiRestRetornaRevisorsGlobals(String entitatID) {
+      final String partialPropertyName = "revisordedestinatari.restretornarrevisorsglobals";
+      Boolean val = getBooleanByEntitat(entitatID, partialPropertyName);
+      if (val == null) {
+        val = false;
+      }
+      return val;
+    }
+  
+  
 
   // ----------------------------------------------------------------------------------
   // ----------------------------------------------------------------------------------

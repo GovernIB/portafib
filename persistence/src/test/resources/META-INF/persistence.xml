@@ -38,6 +38,7 @@
 		<class>es.caib.portafib.persistence.PluginFirmaWebPerUsuariEntitatJPA</class>
 		<class>es.caib.portafib.persistence.PropietatGlobalJPA</class>
 		<class>es.caib.portafib.persistence.RebreAvisJPA</class>
+		<class>es.caib.portafib.persistence.RevisorDeDestinatariJPA</class>
 		<class>es.caib.portafib.persistence.RevisorDeFirmaJPA</class>
 		<class>es.caib.portafib.persistence.RoleJPA</class>
 		<class>es.caib.portafib.persistence.RoleUsuariEntitatJPA</class>

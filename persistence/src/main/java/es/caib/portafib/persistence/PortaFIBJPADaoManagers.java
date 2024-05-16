@@ -37,6 +37,7 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
    private final PluginFirmaWebPerUsuariEntitatJPAManager pfi_pluginfirmawebperusrent;
    private final PropietatGlobalJPAManager pfi_propietatglobal;
    private final RebreAvisJPAManager pfi_rebreavis;
+   private final RevisorDeDestinatariJPAManager pfi_revisordedestinatari;
    private final RevisorDeFirmaJPAManager pfi_revisordefirma;
    private final RoleJPAManager pfi_role;
    private final RoleUsuariEntitatJPAManager pfi_roleusuarientitat;
@@ -82,6 +83,7 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
     this.pfi_pluginfirmawebperusrent = new PluginFirmaWebPerUsuariEntitatJPAManager(__em);
     this.pfi_propietatglobal = new PropietatGlobalJPAManager(__em);
     this.pfi_rebreavis = new RebreAvisJPAManager(__em);
+    this.pfi_revisordedestinatari = new RevisorDeDestinatariJPAManager(__em);
     this.pfi_revisordefirma = new RevisorDeFirmaJPAManager(__em);
     this.pfi_role = new RoleJPAManager(__em);
     this.pfi_roleusuarientitat = new RoleUsuariEntitatJPAManager(__em);
@@ -218,6 +220,10 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
 
     public IRebreAvisManager getRebreAvisManager() {
         return this.pfi_rebreavis;
+    };
+
+    public IRevisorDeDestinatariManager getRevisorDeDestinatariManager() {
+        return this.pfi_revisordedestinatari;
     };
 
     public IRevisorDeFirmaManager getRevisorDeFirmaManager() {

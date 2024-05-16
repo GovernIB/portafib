@@ -29,7 +29,7 @@
     menu1.add(null);
     menu1.add(MenuItem.retallaDarrerPath("delegacio.gestio", "/dest/delegat/list"));
     menu1.add(null);
-    menu1.add(MenuItem.retallaDarrerPath("revisor.gestio", "/dest/revisor/selecciousuari"));
+    menu1.add(MenuItem.retallaDarrerPath("revisor.gestio", "/dest/revisordedestinatari/list"));   
   }
 
   pageContext.setAttribute("menu", menu1);

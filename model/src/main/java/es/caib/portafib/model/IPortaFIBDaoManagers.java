@@ -34,6 +34,7 @@ public interface IPortaFIBDaoManagers {
 	public IPluginFirmaWebPerUsuariEntitatManager getPluginFirmaWebPerUsuariEntitatManager();
 	public IPropietatGlobalManager getPropietatGlobalManager();
 	public IRebreAvisManager getRebreAvisManager();
+	public IRevisorDeDestinatariManager getRevisorDeDestinatariManager();
 	public IRevisorDeFirmaManager getRevisorDeFirmaManager();
 	public IRoleManager getRoleManager();
 	public IRoleUsuariEntitatManager getRoleUsuariEntitatManager();

@@ -218,6 +218,13 @@ ${entityname}
         </span></a>
         </li>
 
+    <%-- RevisorDeDestinatari --%>
+       <fmt:message var="entityname" key="revisorDeDestinatari.revisorDeDestinatari.plural"/>
+        <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/webdb/revisorDeDestinatari/list/1"/>" ><span style="${(fn:contains(url, 'revisorDeDestinatari/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" >
+${entityname}
+        </span></a>
+        </li>
+
     <%-- RevisorDeFirma --%>
        <fmt:message var="entityname" key="revisorDeFirma.revisorDeFirma.plural"/>
         <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/webdb/revisorDeFirma/list/1"/>" ><span style="${(fn:contains(url, 'revisorDeFirma/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" >

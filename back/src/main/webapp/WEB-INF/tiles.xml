@@ -10,7 +10,7 @@
     <definition name="base.contingutbuit" template="/WEB-INF/jsp/moduls/blanc.jsp"/>
     <definition name="base.menubuit" template="/WEB-INF/jsp/moduls/blanc.jsp"/>
     <definition name="base.contingut" template="/WEB-INF/jsp/moduls/contingut.jsp"/>
-	  <definition name="base.peu" template="/WEB-INF/jsp/moduls/peu.jsp" preparer="peuPreparer"/>
+	<definition name="base.peu" template="/WEB-INF/jsp/moduls/peu.jsp" preparer="peuPreparer"/>
 
     <definition name="base.definition" template="/WEB-INF/jsp/layout/layout.jsp" preparer="basePreparer">
         <put-attribute name="cap" value="base.cap" />
@@ -795,11 +795,10 @@
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/seleccioUsuariForm.jsp" />
     </definition>
-    
-    
-    <definition name="gestioRoleRevisorDestForm" extends="role_dest">
-        <put-attribute name="titol" value="roleUsuariEntitat.roleUsuariEntitat" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariEntitatForm.jsp" />
+   
+
+    <definition name="revisorDeDestinatariList_ROLE_DEST" extends="role_dest">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/revisorDeDestinatariList.jsp" />
     </definition>
     
 
@@ -1181,6 +1180,16 @@
     
     <definition name="rebreAvisListWebDB" extends="webdb">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/rebreAvisList.jsp" />
+    </definition>
+
+
+    <definition name="revisorDeDestinatariFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="revisorDeDestinatari.revisorDeDestinatari" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/revisorDeDestinatariForm.jsp" />
+    </definition>
+    
+    <definition name="revisorDeDestinatariListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/revisorDeDestinatariList.jsp" />
     </definition>
 
 

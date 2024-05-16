@@ -1,0 +1,5 @@
+administrationID=12345678Z
+languageUI=ca
+basePath=http://localhost:8080/portafibapi/interna
+username=usr
+password=pass

@@ -10248,6 +10248,146 @@
       ]
     },
     {
+      "name": "pfi_revisordedestinatari",
+      "nameJava": "RevisorDeDestinatari",
+      "shortName": "revdedest",
+      "labels": {
+        "en": "Recipient reviewer",
+        "ca": "Revisor de Destinatari",
+        "es": "Revisor de Destinatario"
+      },
+      "labelsPlural": {
+        "en": "Recipients reviewer",
+        "ca": "Revisors de Destinatari",
+        "es": "Revisores de Destinatario"
+      },
+      "generate": true,
+      "fileMappingEntity": false,
+      "languageMappingEntity": false,
+      "translationEntity": false,
+      "translationMapEntity": false,
+      "fields": [
+        {
+          "PK": "pfi_revisordedestinatari_pk",
+          "index": "pfi_revisordedestinatari_pk_i",
+          "isAutoIncrement": true,
+          "sqlName": "revisordedestinatariid",
+          "sqlType": -5,
+          "size": 19,
+          "digits": 0,
+          "isNotNullable": true,
+          "labels": {
+            "en": "ID",
+            "ca": "ID",
+            "es": "ID"
+          },
+          "javaName": "revisorDeDestinatariID",
+          "javaType": "long",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": false,
+          "transientField": false,
+          "defaultValue": "nextval(\u0027pfi_revisordedestinatari_seq\u0027::regclass)",
+          "filter": false,
+          "orderBy": 0,
+          "groupBy": false,
+          "webFieldInfo": {
+            "webtype": 0
+          },
+          "foreignKeys": []
+        },
+        {
+          "index": "pfi_revdedest_destid_fk_i",
+          "isAutoIncrement": false,
+          "sqlName": "destinatariid",
+          "sqlType": 12,
+          "size": 101,
+          "digits": 0,
+          "isNotNullable": true,
+          "labels": {
+            "en": "destinatariid",
+            "ca": "Destinatari",
+            "es": "Destinatario"
+          },
+          "javaName": "destinatariID",
+          "javaType": "java.lang.String",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": true,
+          "transientField": false,
+          "filter": false,
+          "orderBy": 0,
+          "groupBy": true,
+          "webFieldInfo": {
+            "webtype": 3,
+            "foreignKey": {
+              "name": "pfi_revdedest_usrent_dest_fk",
+              "table": "pfi_usuarientitat",
+              "field": "usuarientitatid",
+              "type": 1
+            }
+          },
+          "foreignKeys": [
+            {
+              "name": "pfi_revdedest_usrentitat_de_fk",
+              "table": "pfi_usuarientitat",
+              "field": "usuarientitatid",
+              "type": 1
+            }
+          ]
+        },
+        {
+          "index": "pfi_revdedest_revisorid_fk_i",
+          "isAutoIncrement": false,
+          "sqlName": "revisorid",
+          "sqlType": 12,
+          "size": 101,
+          "digits": 0,
+          "isNotNullable": true,
+          "labels": {
+            "en": "revisorid",
+            "ca": "Revisor",
+            "es": "Revisor"
+          },
+          "javaName": "revisorID",
+          "javaType": "java.lang.String",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": true,
+          "transientField": false,
+          "filter": false,
+          "orderBy": 0,
+          "groupBy": true,
+          "webFieldInfo": {
+            "webtype": 3,
+            "foreignKey": {
+              "name": "pfi_revdedest_usrent_rev_fk",
+              "table": "pfi_usuarientitat",
+              "field": "usuarientitatid",
+              "type": 1
+            }
+          },
+          "foreignKeys": [
+            {
+              "name": "pfi_revdedest_usrentitat_re_fk",
+              "table": "pfi_usuarientitat",
+              "field": "usuarientitatid",
+              "type": 1
+            }
+          ]
+        }
+      ],
+      "multipleUniques": [
+        {
+          "name": "pfi_revdedest_dest_rev_uk",
+          "sqlColumns": [
+            "destinatariid",
+            "revisorid"
+          ]
+        }
+      ]
+    },
+    {
       "name": "pfi_revisordefirma",
       "nameJava": "RevisorDeFirma",
       "shortName": "revfirma",
@@ -13054,6 +13194,18 @@
               "name": "pfi_rebreavis_usrentitat_fk",
               "table": "pfi_rebreavis",
               "field": "usuarientitatid",
+              "type": 0
+            },
+            {
+              "name": "pfi_revdedest_usrentitat_de_fk",
+              "table": "pfi_revisordedestinatari",
+              "field": "destinatariid",
+              "type": 0
+            },
+            {
+              "name": "pfi_revdedest_usrentitat_re_fk",
+              "table": "pfi_revisordedestinatari",
+              "field": "revisorid",
               "type": 0
             },
             {
