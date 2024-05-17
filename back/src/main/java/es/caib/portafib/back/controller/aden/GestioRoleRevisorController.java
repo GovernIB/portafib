@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NTranslation;
 import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
@@ -26,6 +27,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.logic.FirmaLogicaLocal;
+import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
 import es.caib.portafib.model.entity.RevisorDeFirma;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
@@ -46,11 +48,8 @@ import es.caib.portafib.utils.ConstantsV2;
 @SessionAttributes(types = { RoleUsuariEntitatForm.class, RoleUsuariEntitatFilterForm.class, SeleccioUsuariForm.class })
 public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitatController {
 
-    @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaService.JNDI_NAME)
-    protected es.caib.portafib.ejb.RevisorDeFirmaService revisorDeFirmaEjb;
-
-    @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
-    protected FirmaLogicaLocal firmaLogicaEjb;
+    @EJB(mappedName = RevisorDeDestinatariLogicaService.JNDI_NAME)
+    protected RevisorDeDestinatariLogicaService revisorDeDestinatariEjb;
 
     @Override
     public String getRoleGestionat() {
@@ -162,70 +161,14 @@ public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitat
     @Override
     public void delete(HttpServletRequest request, RoleUsuariEntitat roleUsuariEntitat) throws I18NException {
 
-        // #169 Ho feim a SACO => Si apareix a alguna Peticio de Firma
-        // com a revisor llavors no es pot esborrar
-
-        List<RevisorDeFirma> revisions;
-        revisions = revisorDeFirmaEjb
-                .select(RevisorDeFirmaFields.USUARIENTITATID.equal(roleUsuariEntitat.getUsuariEntitatID()));
-
-        if (revisions == null || revisions.size() == 0) {
-            super.delete(request, roleUsuariEntitat);
+        String usuariEntitatID = roleUsuariEntitat.getUsuariEntitatID();
+        
+        I18NTranslation i18n =  revisorDeDestinatariEjb.pucEsborrarRevisor(usuariEntitatID);
+        
+        if (i18n == null) {
+          super.delete(request, roleUsuariEntitat);
         } else {
-
-            List<Long> firmesID = new ArrayList<Long>();
-            for (RevisorDeFirma revisorDeFirma : revisions) {
-                firmesID.add(revisorDeFirma.getFirmaID());
-            }
-
-            // Revisors de Firma en Peticions de Firma
-            {
-                FirmaQueryPath fqp = new FirmaQueryPath();
-
-                PeticioDeFirmaQueryPath pfqp = fqp.BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA();
-
-                SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(pfqp.PETICIODEFIRMAID().select,
-                        pfqp.TITOL().select);
-
-                List<StringKeyValue> skvList = firmaLogicaEjb.executeQuery(smskv, FirmaFields.FIRMAID.in(firmesID));
-
-                if (skvList != null && skvList.size() != 0) {
-                    StringBuffer str = new StringBuffer();
-                    for (StringKeyValue skv : skvList) {
-                        str.append(skv.getValue()).append(" (").append(skv.getKey()).append("), ");
-                    }
-
-                    // "El revisor amb usuari-entitat {0} no es pot esborrar ja que esta donat
-                    // d´alta com a revisor en les següent peticions de firma: {1}
-                    HtmlUtils.saveMessageError(request, I18NUtils.tradueix("revisor.error.apareixenpeticions",
-                            roleUsuariEntitat.getUsuariEntitatID(), str.toString()));
-                }
-            }
-
-            // Revisors de Firma en Plantilles de Flux de Firma
-            {
-                FirmaQueryPath fqp = new FirmaQueryPath();
-
-                FluxDeFirmesQueryPath pfqp = fqp.BLOCDEFIRMES().FLUXDEFIRMES();
-
-                SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(pfqp.FLUXDEFIRMESID().select,
-                        pfqp.NOM().select);
-
-                List<StringKeyValue> skvList = firmaLogicaEjb.executeQuery(smskv, FirmaFields.FIRMAID.in(firmesID));
-
-                if (skvList != null && skvList.size() != 0) {
-                    StringBuffer str = new StringBuffer();
-                    for (StringKeyValue skv : skvList) {
-                        str.append(skv.getValue()).append(" (").append(skv.getKey()).append("), ");
-                    }
-
-                    // "El revisor amb usuari-entitat {0} no es pot esborrar ja que esta donat
-                    // d´alta com a revisor en les següent peticions de firma: {1}
-                    HtmlUtils.saveMessageError(request, I18NUtils.tradueix("revisor.error.apareixenflux",
-                            roleUsuariEntitat.getUsuariEntitatID(), str.toString()));
-                }
-            }
-
+            HtmlUtils.saveMessageError(request,I18NUtils.tradueix(i18n));
         }
 
     }

@@ -32,8 +32,10 @@ import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.FirmaLogicaLocal;
+import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
+import es.caib.portafib.model.entity.RevisorDeDestinatari;
 import es.caib.portafib.model.fields.RevisorDeDestinatariFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
@@ -65,6 +67,9 @@ public class GestioRevisorDeDestinatariDestController extends RevisorDeDestinata
 
     @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
     protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
+
+    @EJB(mappedName = RevisorDeDestinatariLogicaService.JNDI_NAME)
+    protected RevisorDeDestinatariLogicaService revisorDeDestinatariLogicaEjb;
 
     // ---------------------------------------------------------------------
     // == GESTIONA FORMULARI PREVI A ALTA-MODIFICACIO D'UN USUARI-ENTITAT ==
@@ -105,8 +110,6 @@ public class GestioRevisorDeDestinatariDestController extends RevisorDeDestinata
         }
 
         try {
-            //redirect = checksPostNif(request,usuariPersona, seleccioUsuariForm.getParam1(), seleccioUsuariForm.getParam2() );
-
             // Usuari loguejat
             LoginInfo login = LoginInfo.getInstance();
             String entitatActualID = login.getEntitatID();
@@ -162,18 +165,14 @@ public class GestioRevisorDeDestinatariDestController extends RevisorDeDestinata
 
     //=====  LLISTAT DE REVISORS DE DESTINATARI
 
-    
     @PostConstruct
     public void init() {
 
-      UsuariPersonaQueryPath upqp = new UsuariEntitatQueryPath().USUARIPERSONA();
-      this.usuariEntitatRefList = new UsuariEntitatRefList(this.usuariEntitatRefList);
-      this.usuariEntitatRefList.setSelects(new Select<?>[] {
-          upqp.LLINATGES().select , new SelectConstant(", "), 
-          upqp.NOM().select, new SelectConstant(" ("),
-          upqp.NIF().select, new SelectConstant(")")
-      });
-      
+        UsuariPersonaQueryPath upqp = new UsuariEntitatQueryPath().USUARIPERSONA();
+        this.usuariEntitatRefList = new UsuariEntitatRefList(this.usuariEntitatRefList);
+        this.usuariEntitatRefList.setSelects(new Select<?>[] { upqp.LLINATGES().select, new SelectConstant(", "),
+                upqp.NOM().select, new SelectConstant(" ("), upqp.NIF().select, new SelectConstant(")") });
+
     }
 
     @Override
@@ -181,17 +180,16 @@ public class GestioRevisorDeDestinatariDestController extends RevisorDeDestinata
         return "revisorDeDestinatariList_ROLE_DEST";
     }
 
-    
     @Override
     public boolean isActiveFormNew() {
         return false;
     }
-    
+
     @Override
     public boolean isActiveFormView() {
         return false;
     }
-    
+
     @Override
     public boolean isActiveFormEdit() {
         return false;
@@ -207,7 +205,7 @@ public class GestioRevisorDeDestinatariDestController extends RevisorDeDestinata
             filterForm.setVisibleMultipleSelection(false);
             filterForm.setDeleteSelectedButtonVisible(false);
             filterForm.setEditButtonVisible(false);
-            
+
             filterForm.addHiddenField(DESTINATARIID);
             filterForm.addHiddenField(REVISORDEDESTINATARIID);
         }
@@ -223,6 +221,20 @@ public class GestioRevisorDeDestinatariDestController extends RevisorDeDestinata
         ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/selecciousuari", true));
 
         return mav;
+    }
+
+    @Override
+    public void delete(HttpServletRequest request, RevisorDeDestinatari revisorDeDestinatari) throws I18NException {
+
+        String usuariEntitatID = revisorDeDestinatari.getRevisorID();
+
+        I18NTranslation i18n = revisorDeDestinatariLogicaEjb.pucEsborrarRevisor(usuariEntitatID);
+
+        if (i18n == null) {
+            super.delete(request, revisorDeDestinatari);
+        } else {
+            HtmlUtils.saveMessageError(request, I18NUtils.tradueix(i18n));
+        }
     }
 
 }

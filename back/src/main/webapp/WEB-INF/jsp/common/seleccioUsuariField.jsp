@@ -71,11 +71,21 @@ $('#search${usuarimodalconfig}').typeahead({
         $('#id').val("");
 
         map = {};
-     
+        
+        var parameters = { query: query };
+        var p1 = document.getElementById('param1');
+        if (p1 != null) {
+            parameters['param1'] = p1.value;
+        }
+        var p2 = document.getElementById('param2');
+        if (p2 != null) {
+            parameters['param2'] = p2.value;
+        }
+
         return $.ajax({
             url: '<c:url value="${seleccioUsuariForm.urlData}"/>',
             type: 'post',
-            data: { query: query },
+            data: parameters, //{ query: query },
             dataType: 'json',
             success: function (result) {
                 var resultList = result.map(function (item) {

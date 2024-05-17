@@ -396,7 +396,7 @@
 
                                     <c:if test="${readOnly == false}">
 
-                                      <button type="button" class="btn btn-success btn-sm" onclick="javascript:afegirRevisorDeFirma('${firma.firmaID}')" title="<fmt:message key="firma.afegirrevisor"/>">
+                                      <button type="button" class="btn btn-success btn-sm" onclick="javascript:afegirRevisorDeFirma('${firma.firmaID}','${firma.usuariEntitat.usuariEntitatID}')" title="<fmt:message key="firma.afegirrevisor"/>">
                                          &nbsp;<i class="fas fa-plus-circle"></i>&nbsp;                      
                                       </button>
                                       
@@ -834,10 +834,11 @@
       return false;
   }
   
-  function afegirRevisorDeFirma(firmaID) {
+  function afegirRevisorDeFirma(firmaID, destinatariID) {
     <%-- alert("FirmaID = " + firmaID); --%>
     document.getElementById("seleccioUsuariRevisorForm").action='<c:url value="${contexte}/afegirRevisorDesDeModal"/>';
     document.getElementById("param1").value = firmaID;
+    document.getElementById("param2").value = destinatariID;
     openSelectUserRevisorDialog();
     return false;
   }

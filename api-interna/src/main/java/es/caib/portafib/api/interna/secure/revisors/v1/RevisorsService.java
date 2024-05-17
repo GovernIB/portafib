@@ -28,8 +28,9 @@ import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 import org.fundaciobit.pluginsib.utils.rest.RestUtils;
 
 import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
-import es.caib.portafib.model.fields.RevisorDeDestinatariQueryPath;
+import es.caib.portafib.model.bean.UsuariPersonaBean;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
@@ -89,8 +90,8 @@ public class RevisorsService extends RestUtils {
     @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioService.JNDI_NAME)
     protected es.caib.portafib.ejb.UsuariAplicacioService usuariAplicacioEjb;
 
-    @EJB(mappedName = es.caib.portafib.ejb.RevisorDeDestinatariService.JNDI_NAME)
-    protected es.caib.portafib.ejb.RevisorDeDestinatariService revisorDeDestinatariEjb;
+    @EJB(mappedName = RevisorDeDestinatariLogicaService.JNDI_NAME)
+    protected RevisorDeDestinatariLogicaService revisorDeDestinatariEjb;
     
     @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatService.JNDI_NAME)
     protected es.caib.portafib.ejb.UsuariEntitatService usuariEntitatEjb;
@@ -209,24 +210,18 @@ public class RevisorsService extends RestUtils {
 
             if (destinatariUsuariEntitatID != null) {
 
-                RevisorDeDestinatariQueryPath rdqp = new RevisorDeDestinatariQueryPath();
-                UsuariPersonaQueryPath upqp = rdqp.REVISOR().USUARIPERSONA();
-
-                Select4Columns<String, String, String, String> sc;
-                sc = new Select4Columns<String, String, String, String>(upqp.USUARIPERSONAID().select,
-                        upqp.NIF().select, upqp.NOM().select, upqp.LLINATGES().select);
-
-                List<Select4Values<String, String, String, String>> result;
-                result = revisorDeDestinatariEjb.executeQuery(sc, rdqp.DESTINATARIID().equal(destinatariUsuariEntitatID));
+                List<UsuariPersonaBean> persones = revisorDeDestinatariEjb.getRevisorsDeDestinatariUsingUsuariEntitatID(
+                        destinatariUsuariEntitatID);
                 
-                log.info("XXX resultat revisorDeDestinatari[" + dni + "|" + destinatariUsuariEntitatID + "] => Numero: " + result.size());
-
-                for (Select4Values<String, String, String, String> sv : result) {
+                
+                log.info("XXX resultat revisorDeDestinatari[" + dni + "|" + destinatariUsuariEntitatID + "] => Numero: " + persones.size());
+                
+                for (UsuariPersonaBean up : persones) {
                     BasicUserInfo bui = new BasicUserInfo();
-                    bui.setUsername(sv.getValue1());
-                    bui.setAdministrationId(sv.getValue2());
-                    bui.setName(sv.getValue3());
-                    bui.setSurname(sv.getValue4());
+                    bui.setUsername(up.getUsuariPersonaID());
+                    bui.setAdministrationId(up.getNif());
+                    bui.setName(up.getNom());
+                    bui.setSurname(up.getLlinatges());
                     list.put(bui.getAdministrationId(), bui);
                 }
 
@@ -288,6 +283,7 @@ public class RevisorsService extends RestUtils {
 
     }
 
+   
     /**
      * Get username of the user from the request
      * 

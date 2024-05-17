@@ -29,6 +29,7 @@ import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
+import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.usuaris.CreateUsuariServiceLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
@@ -148,9 +149,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
     @EJB(mappedName = CreateUsuariServiceLocal.JNDI_NAME)
     protected CreateUsuariServiceLocal createUsuariServiceEjb;
-    
-    @EJB(mappedName = RoleUsuariEntitatService.JNDI_NAME)
-    protected RoleUsuariEntitatService roleUsuariEntitatEjb;
+
+    @EJB(mappedName = RevisorDeDestinatariLogicaService.JNDI_NAME)
+    protected RevisorDeDestinatariLogicaService revisorDeDestinatariEjb;
 
     // -------------------------------------------------------------------
     // -------------------------------------------------------------------
@@ -158,9 +159,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     // -------------------------------------------------------------------
     // -------------------------------------------------------------------
 
-    @RequestMapping(
-            value = "/" + ApiFirmaAsyncSimple.AVAILABLELANGUAGES,
-            method = RequestMethod.POST)
+    @RequestMapping(value = "/" + ApiFirmaAsyncSimple.AVAILABLELANGUAGES, method = RequestMethod.POST)
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -182,8 +181,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
             List<StringKeyValue> idiomes;
 
-            SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(
-                    IdiomaFields.IDIOMAID.select, IdiomaFields.NOM.select);
+            SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(IdiomaFields.IDIOMAID.select,
+                    IdiomaFields.NOM.select);
 
             idiomes = idiomaEjb.executeQuery(smskv, IdiomaFields.SUPORTAT.equal(true));
 
@@ -218,9 +217,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
     }
 
-    @RequestMapping(
-            value = "/" + ApiFirmaAsyncSimple.AVAILABLEPROFILES,
-            method = RequestMethod.POST)
+    @RequestMapping(value = "/" + ApiFirmaAsyncSimple.AVAILABLEPROFILES, method = RequestMethod.POST)
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -232,9 +229,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         return internalGetAvailableProfiles(request, languageUI);
     }
 
-    @RequestMapping(
-            value = "/" + ApiFirmaAsyncSimple.AVAILABLETYPESOFDOCUMENTS,
-            method = RequestMethod.POST)
+    @RequestMapping(value = "/" + ApiFirmaAsyncSimple.AVAILABLETYPESOFDOCUMENTS, method = RequestMethod.POST)
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -288,8 +283,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                 TraduccioMapJPA tramap;
                 tramap = ((TipusDocumentJPA) td).getNom().getTraduccio(languageUI);
                 if (tramap == null) {
-                    tramap = ((TipusDocumentJPA) td).getNom()
-                            .getTraduccio(Configuracio.getDefaultLanguage());
+                    tramap = ((TipusDocumentJPA) td).getNom().getTraduccio(Configuracio.getDefaultLanguage());
                 }
 
                 long id = td.getTipusDocumentID();
@@ -301,8 +295,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             HttpHeaders headers = addAccessControllAllowOrigin();
 
             ResponseEntity<List<FirmaAsyncSimpleDocumentTypeInformation>> res;
-            res = new ResponseEntity<List<FirmaAsyncSimpleDocumentTypeInformation>>(tipus, headers,
-                    HttpStatus.OK);
+            res = new ResponseEntity<List<FirmaAsyncSimpleDocumentTypeInformation>>(tipus, headers, HttpStatus.OK);
 
             return res;
 
@@ -315,8 +308,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         } catch (Throwable th) {
 
             // XYZ ZZZ TRA
-            String msg = "Error desconegut cridant a getTypesOfDocumentsAvailable: "
-                    + th.getMessage();
+            String msg = "Error desconegut cridant a getTypesOfDocumentsAvailable: " + th.getMessage();
 
             log.error(msg, th);
 
@@ -331,8 +323,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> createAndStartSignatureRequestWithFlowTemplateCode(
-            HttpServletRequest request,
+    public ResponseEntity<?> createAndStartSignatureRequestWithFlowTemplateCode(HttpServletRequest request,
             @RequestBody FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode signatureRequest) {
 
         String error = autenticateUsrApp(request);
@@ -357,8 +348,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             languageUI = signatureRequest.getLanguageUI();
             if (languageUI == null || languageUI.trim().length() == 0) {
                 // XYZ ZZZ TRA
-                return generateServerError(
-                        "El parametre d'entrada languageUI no pot ser null o buit.");
+                return generateServerError("El parametre d'entrada languageUI no pot ser null o buit.");
             }
 
             // Per ara collirem el Codi com l'ID de les plantilles !!!!
@@ -374,12 +364,11 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             }
 
             // Cercar per ID
-            FluxDeFirmesJPA flux = fluxDeFirmesLogicaEjb
-                    .findByPrimaryKeyFullForPlantilla(plantillaDeFluxDeFirmesID);
+            FluxDeFirmesJPA flux = fluxDeFirmesLogicaEjb.findByPrimaryKeyFullForPlantilla(plantillaDeFluxDeFirmesID);
             if (flux == null || flux.getPlantillaFluxDeFirmes() == null) {
                 // XYZ ZZZ TRA
-                return generateServerError("El codi de plantilla " + codiPlantilla
-                        + " no existeix o no és una plantilla.");
+                return generateServerError(
+                        "El codi de plantilla " + codiPlantilla + " no existeix o no és una plantilla.");
             }
             // Check que la plantilla és de l'usuari que crida o esta compartida
             // per algun usuari-entitat o usuari-aplicacio de la pròpia entitat
@@ -388,8 +377,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                 String userapp = loginInfo.getUsuariAplicacio().getUsuariAplicacioID();
                 if (!userapp.equals(plantilla.getUsuariAplicacioID())) {
                     // TODO XYZ ZZZ TRA Traduir
-                    String msg = "L'usuari app connectat " + userapp
-                            + " no té permis sobre la plantilla amd ID "
+                    String msg = "L'usuari app connectat " + userapp + " no té permis sobre la plantilla amd ID "
                             + plantillaDeFluxDeFirmesID;
                     log.error(msg);
                     // Error desconegut: {0}
@@ -399,15 +387,13 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
             // Eliminar identificadors
 
-            Set<BlocDeFirmesJPA> blocs = flux.getPlantillaFluxDeFirmes().getFluxDeFirmes()
-                    .getBlocDeFirmess();
+            Set<BlocDeFirmesJPA> blocs = flux.getPlantillaFluxDeFirmes().getFluxDeFirmes().getBlocDeFirmess();
 
             signatureBlocks = new FirmaAsyncSimpleSignatureBlock[blocs.size()];
 
             int count = 0;
 
-            TreeSet<BlocDeFirmesJPA> blocsOrdered = new TreeSet<BlocDeFirmesJPA>(
-                    new ComparatorBlocDeFirmesJPA());
+            TreeSet<BlocDeFirmesJPA> blocsOrdered = new TreeSet<BlocDeFirmesJPA>(new ComparatorBlocDeFirmesJPA());
             blocsOrdered.addAll(blocs);
 
             for (BlocDeFirmesJPA blocDeFirmes : blocsOrdered) {
@@ -426,10 +412,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
                         for (RevisorDeFirmaJPA revisorDeFirmaJPA : revisorsJPA) {
                             FirmaAsyncSimplePerson person = new FirmaAsyncSimplePerson();
-                            person.setIntermediateServerUsername(
-                                    revisorDeFirmaJPA.getUsuariEntitatID());
-                            revisers.add(new FirmaAsyncSimpleReviser(person,
-                                    revisorDeFirmaJPA.isObligatori()));
+                            person.setIntermediateServerUsername(revisorDeFirmaJPA.getUsuariEntitatID());
+                            revisers.add(new FirmaAsyncSimpleReviser(person, revisorDeFirmaJPA.isObligatori()));
                         }
                     }
 
@@ -446,10 +430,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                             UsuariPersonaJPA persona = ue.getUsuariPersona();
                             FirmaAsyncSimpleExternalSigner exSigner = new FirmaAsyncSimpleExternalSigner(
                                     persona.getNif(),
-                                    firma.getUsuariExternNom() == null ? persona.getNom()
-                                            : firma.getUsuariExternNom(),
-                                    firma.getUsuariExternLlinatges() == null
-                                            ? persona.getLlinatges()
+                                    firma.getUsuariExternNom() == null ? persona.getNom() : firma.getUsuariExternNom(),
+                                    firma.getUsuariExternLlinatges() == null ? persona.getLlinatges()
                                             : firma.getUsuariExternLlinatges(),
                                     firma.getUsuariExternEmail() == null ? persona.getEmail()
                                             : firma.getUsuariExternEmail(),
@@ -467,15 +449,14 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                     String reason = firma.getMotiu();
                     int minimumNumberOfRevisers = firma.getMinimDeRevisors();
 
-                    FirmaAsyncSimpleSignature sign = new FirmaAsyncSimpleSignature(personToSign,
-                            required, reason, minimumNumberOfRevisers, revisers);
+                    FirmaAsyncSimpleSignature sign = new FirmaAsyncSimpleSignature(personToSign, required, reason,
+                            minimumNumberOfRevisers, revisers);
 
                     signers.add(sign);
 
                 }
 
-                signatureBlocks[count] = new FirmaAsyncSimpleSignatureBlock(
-                        minimumNumberOfSignaturesRequired, signers);
+                signatureBlocks[count] = new FirmaAsyncSimpleSignatureBlock(minimumNumberOfSignaturesRequired, signers);
                 count++;
             }
 
@@ -532,13 +513,13 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             LoginInfo loginInfo = commonChecks();
 
             UsuariAplicacioJPA a = loginInfo.getUsuariAplicacio();
-            
+
             if (!a.isActiu()) {
                 // XYZ ZZZ TRA
                 // XYZ COMPROVAR SI USUARI ESTA ACTIU #27
                 return generateServerError("L'usuari aplicació '" + a.getUsuariAplicacioID() + "' no està actiu.");
             }
-            
+
             if (signatureRequest == null) {
                 // XYZ ZZZ TRA
                 return generateServerError("La peticio de firma no pot valer null.");
@@ -548,20 +529,17 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             languageUI = signatureRequest.getLanguageUI();
             if (languageUI == null || languageUI.trim().length() == 0) {
                 // XYZ ZZZ TRA
-                return generateServerError(
-                        "El paràmetre d'entrada languageUI no pot ser null o buit.");
+                return generateServerError("El paràmetre d'entrada languageUI no pot ser null o buit.");
             }
 
             FirmaAsyncSimpleFile fileToConvertInfo = signatureRequest.getFileToSign();
 
             if (fileToConvertInfo == null) {
-                throw new I18NException("genapp.validation.required",
-                        PeticioDeFirmaFields.FITXERAFIRMARID.fullName);
+                throw new I18NException("genapp.validation.required", PeticioDeFirmaFields.FITXERAFIRMARID.fullName);
             }
 
-            PeticioDeFirmaJPA peticioDeFirmaJPA = signatureRequestToPeticioDeFirmaJPAFull(
-                    signatureRequest, loginInfo.getUsuariAplicacio(), loginInfo.getEntitat(),
-                    fitxersCreats, languageUI);
+            PeticioDeFirmaJPA peticioDeFirmaJPA = signatureRequestToPeticioDeFirmaJPAFull(signatureRequest,
+                    loginInfo.getUsuariAplicacio(), loginInfo.getEntitat(), fitxersCreats, languageUI);
 
             // Convertir Fitxers
             /*
@@ -598,11 +576,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             UsuariAplicacioJPA ua = loginInfo.getUsuariAplicacio();
 
             try {
-                peticioDeFirmaLogicaEjb.start(peticioDeFirmaJPA.getPeticioDeFirmaID(), true,
-                        ua.getUsuariAplicacioID());
+                peticioDeFirmaLogicaEjb.start(peticioDeFirmaJPA.getPeticioDeFirmaID(), true, ua.getUsuariAplicacioID());
             } catch (I18NException th) {
-                deletePeticioDeFirma(peticioDeFirmaID,
-                        loginInfo.getUsuariAplicacio().getUsuariAplicacioID());
+                deletePeticioDeFirma(peticioDeFirmaID, loginInfo.getUsuariAplicacio().getUsuariAplicacioID());
                 throw th;
             }
 
@@ -629,8 +605,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         } catch (Throwable th) {
 
             // XYZ ZZZ TRA
-            String msg = "Error desconegut cridant a createAndStartSignatureRequest: "
-                    + th.getMessage();
+            String msg = "Error desconegut cridant a createAndStartSignatureRequest: " + th.getMessage();
             log.error(msg, th);
             fitxerLogicaEjb.cleanSet(fitxersCreats);
             return generateServerError(msg, th);
@@ -638,9 +613,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
     }
 
-    @RequestMapping(
-            value = "/" + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE,
-            method = RequestMethod.POST)
+    @RequestMapping(value = "/" + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE, method = RequestMethod.POST)
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -664,8 +637,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             // Check propietari
             checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, loginInfo);
 
-            Integer estat = peticioDeFirmaLogicaEjb.executeQueryOne(
-                    PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID,
+            Integer estat = peticioDeFirmaLogicaEjb.executeQueryOne(PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID,
                     PeticioDeFirmaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
             if (estat == null) {
@@ -678,8 +650,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             String message = null;
             if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT) {
 
-                message = peticioDeFirmaLogicaEjb.executeQueryOne(
-                        PeticioDeFirmaFields.MOTIUDEREBUIG,
+                message = peticioDeFirmaLogicaEjb.executeQueryOne(PeticioDeFirmaFields.MOTIUDEREBUIG,
                         PeticioDeFirmaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
             }
@@ -690,8 +661,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             HttpHeaders headers = addAccessControllAllowOrigin();
 
             ResponseEntity<FirmaAsyncSimpleSignatureRequestState> res;
-            res = new ResponseEntity<FirmaAsyncSimpleSignatureRequestState>(state, headers,
-                    HttpStatus.OK);
+            res = new ResponseEntity<FirmaAsyncSimpleSignatureRequestState>(state, headers, HttpStatus.OK);
 
             return res;
 
@@ -704,8 +674,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         } catch (Throwable th) {
 
             // XYZ ZZZ TRA
-            String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE
-                    + ": " + th.getMessage();
+            String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE + ": "
+                    + th.getMessage();
 
             log.error(msg, th);
 
@@ -736,8 +706,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             // Check propietari
             checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, loginInfo);
 
-            long fluxDeFirmesId = peticioDeFirmaLogicaEjb.executeQueryOne(
-                    PeticioDeFirmaFields.FLUXDEFIRMESID,
+            long fluxDeFirmesId = peticioDeFirmaLogicaEjb.executeQueryOne(PeticioDeFirmaFields.FLUXDEFIRMESID,
                     PeticioDeFirmaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
             HttpHeaders headers = addAccessControllAllowOrigin();
@@ -756,8 +725,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         } catch (Throwable th) {
 
             // XYZ ZZZ TRA
-            String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE
-                    + ": " + th.getMessage();
+            String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE + ": "
+                    + th.getMessage();
             log.error(msg, th);
             return generateServerError(msg, th);
         }
@@ -768,9 +737,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
      *         els fitxer adaptat si la petició esta en marxa i ningú ha firmat o el
      *         fitxer original si la peticio no s'ha iniciat.
      */
-    @RequestMapping(
-            value = "/" + ApiFirmaAsyncSimple.SIGNEDFILEOFSIGNATUREREQUEST,
-            method = RequestMethod.POST)
+    @RequestMapping(value = "/" + ApiFirmaAsyncSimple.SIGNEDFILEOFSIGNATUREREQUEST, method = RequestMethod.POST)
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -793,22 +760,18 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             // Check propietari
             checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, loginInfo);
 
-            FitxerJPA fitxerJPA = peticioDeFirmaLogicaEjb
-                    .getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
+            FitxerJPA fitxerJPA = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
 
-            FirmaAsyncSimpleFile signedFile = new FirmaAsyncSimpleFile(fitxerJPA.getNom(),
-                    fitxerJPA.getMime(), FileSystemManager.getFileContent(fitxerJPA.getFitxerID()));
+            FirmaAsyncSimpleFile signedFile = new FirmaAsyncSimpleFile(fitxerJPA.getNom(), fitxerJPA.getMime(),
+                    FileSystemManager.getFileContent(fitxerJPA.getFitxerID()));
 
             PeticioDeFirmaJPA peticioDeFirma = peticioDeFirmaLogicaEjb
                     .findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
 
             int signOperation = peticioDeFirma.getTipusOperacioFirma();
-            String signType = SignatureUtils
-                    .convertPortafibSignTypeToApiSignType(peticioDeFirma.getTipusFirmaID());
-            String signAlgorithm = SignatureUtils
-                    .convertSignAlgorithmID(peticioDeFirma.getAlgorismeDeFirmaID());
-            Integer signMode = SignatureUtils
-                    .convertPortafibSignMode2ApiSignMode(peticioDeFirma.getModeDeFirma());
+            String signType = SignatureUtils.convertPortafibSignTypeToApiSignType(peticioDeFirma.getTipusFirmaID());
+            String signAlgorithm = SignatureUtils.convertSignAlgorithmID(peticioDeFirma.getAlgorismeDeFirmaID());
+            Integer signMode = SignatureUtils.convertPortafibSignMode2ApiSignMode(peticioDeFirma.getModeDeFirma());
             int signaturesTableLocation = peticioDeFirma.getPosicioTaulaFirmesID();
             boolean timeStampIncluded = peticioDeFirma.isSegellatDeTemps();
 
@@ -821,8 +784,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                 UsuariAplicacioConfiguracioJPA config;
                 config = configuracioUsuariAplicacioLogicaLocalEjb
                         .findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
-                policyIncluded = SignatureUtils.getPolicyInfoSignature(
-                        LoginInfo.getInstance().getEntitat(), config) != null;
+                policyIncluded = SignatureUtils.getPolicyInfoSignature(LoginInfo.getInstance().getEntitat(),
+                        config) != null;
             }
 
             FirmaAsyncSimpleCustodyInfo custodyInfo;
@@ -845,11 +808,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                 final String printableFileDirectUrl = custodiaInfoJPA.getPrintableFileDirectUrl();
                 final String eniFileDirectUrl = custodiaInfoJPA.getEniFileDirectUrl();
 
-                custodyInfo = new FirmaAsyncSimpleCustodyInfo(custodyID, csv, csvValidationWeb,
-                        custodyFileURL, csvGenerationDefinition, originalFileDirectURL,
-                        printableFileDirectUrl, eniFileDirectUrl,
-                        custodiaInfoJPA.getExpedientArxiuId(),
-                        custodiaInfoJPA.getDocumentArxiuId());
+                custodyInfo = new FirmaAsyncSimpleCustodyInfo(custodyID, csv, csvValidationWeb, custodyFileURL,
+                        csvGenerationDefinition, originalFileDirectURL, printableFileDirectUrl, eniFileDirectUrl,
+                        custodiaInfoJPA.getExpedientArxiuId(), custodiaInfoJPA.getDocumentArxiuId());
             }
 
             FirmaAsyncSimpleValidationInfo validationInfo = null;
@@ -878,8 +839,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
                         for (EstatDeFirmaJPA estat : firma.getEstatDeFirmas()) {
 
-                            if (estat
-                                    .getTipusEstatDeFirmaFinalID() != ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT) {
+                            if (estat.getTipusEstatDeFirmaFinalID() != ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT) {
                                 continue;
                             }
 
@@ -899,10 +859,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                             String subjectCert = firma.getNomCertificat();
                             List<FirmaAsyncSimpleKeyValue> additionInformation = null;
 
-                            FirmaAsyncSimpleSignerInfo signerInfo = new FirmaAsyncSimpleSignerInfo(
-                                    eniRolFirma, eniSignerName, eniSignerAdministrationId,
-                                    eniSignLevel, signDate, serialNumberCert, issuerCert,
-                                    subjectCert, additionInformation);
+                            FirmaAsyncSimpleSignerInfo signerInfo = new FirmaAsyncSimpleSignerInfo(eniRolFirma,
+                                    eniSignerName, eniSignerAdministrationId, eniSignLevel, signDate, serialNumberCert,
+                                    issuerCert, subjectCert, additionInformation);
                             signers.add(signerInfo);
                             // Només hi ha una firma en els EstatsDeFirma
                             break;
@@ -919,20 +878,16 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                     }
                     eniPerfilFirma = firma.getPerfilDeFirma();
 
-                    validationInfo = new FirmaAsyncSimpleValidationInfo(
-                            firma.getCheckAdministrationIdOfSigner(),
-                            firma.getCheckDocumentModifications(),
-                            firma.getCheckValidationSignature());
+                    validationInfo = new FirmaAsyncSimpleValidationInfo(firma.getCheckAdministrationIdOfSigner(),
+                            firma.getCheckDocumentModifications(), firma.getCheckValidationSignature());
                 }
             }
 
-            FirmaAsyncSimpleSignedFileInfo signedFileInfo = new FirmaAsyncSimpleSignedFileInfo(
-                    signOperation, signType, signAlgorithm, signMode, signaturesTableLocation,
-                    timeStampIncluded, policyIncluded, eniTipoFirma, eniPerfilFirma, signers,
-                    custodyInfo, validationInfo);
+            FirmaAsyncSimpleSignedFileInfo signedFileInfo = new FirmaAsyncSimpleSignedFileInfo(signOperation, signType,
+                    signAlgorithm, signMode, signaturesTableLocation, timeStampIncluded, policyIncluded, eniTipoFirma,
+                    eniPerfilFirma, signers, custodyInfo, validationInfo);
 
-            FirmaAsyncSimpleSignedFile response = new FirmaAsyncSimpleSignedFile(signedFile,
-                    signedFileInfo);
+            FirmaAsyncSimpleSignedFile response = new FirmaAsyncSimpleSignedFile(signedFile, signedFileInfo);
 
             HttpHeaders headers = addAccessControllAllowOrigin();
 
@@ -949,8 +904,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         } catch (Throwable th) {
 
             // XYZ ZZZ TRA
-            String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE
-                    + ": " + th.getMessage();
+            String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE + ": "
+                    + th.getMessage();
 
             log.error(msg, th);
 
@@ -961,9 +916,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     /**
      * @return El fitxer original de la petició
      */
-    @RequestMapping(
-            value = "/" + ApiFirmaAsyncSimple.ORIGINALFILEOFSIGNATUREREQUEST,
-            method = RequestMethod.POST)
+    @RequestMapping(value = "/" + ApiFirmaAsyncSimple.ORIGINALFILEOFSIGNATUREREQUEST, method = RequestMethod.POST)
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -986,12 +939,11 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             // Check propietari
             checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, loginInfo);
 
-            PeticioDeFirma peticioDeFirma = peticioDeFirmaLogicaEjb
-                    .findByPrimaryKey(peticioDeFirmaID);
+            PeticioDeFirma peticioDeFirma = peticioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirmaID);
             FitxerJPA fitxerJPA = peticioDeFirma.getFitxerAFirmar();
 
-            FirmaAsyncSimpleFile originalFile = new FirmaAsyncSimpleFile(fitxerJPA.getNom(),
-                    fitxerJPA.getMime(), FileSystemManager.getFileContent(fitxerJPA.getFitxerID()));
+            FirmaAsyncSimpleFile originalFile = new FirmaAsyncSimpleFile(fitxerJPA.getNom(), fitxerJPA.getMime(),
+                    FileSystemManager.getFileContent(fitxerJPA.getFitxerID()));
 
             HttpHeaders headers = addAccessControllAllowOrigin();
 
@@ -1003,16 +955,14 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
         } catch (Throwable th) {
             // XYZ ZZZ TRA
-            String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE
-                    + ": " + th.getMessage();
+            String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE + ": "
+                    + th.getMessage();
             log.error(msg, th);
             return generateServerError(msg, th);
         }
     }
 
-    @RequestMapping(
-            value = "/" + ApiFirmaAsyncSimple.DELETESIGNATUREREQUEST,
-            method = RequestMethod.POST)
+    @RequestMapping(value = "/" + ApiFirmaAsyncSimple.DELETESIGNATUREREQUEST, method = RequestMethod.POST)
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -1034,8 +984,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
             checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, loginInfo);
 
-            deletePeticioDeFirma(peticioDeFirmaID,
-                    loginInfo.getUsuariAplicacio().getUsuariAplicacioID());
+            deletePeticioDeFirma(peticioDeFirmaID, loginInfo.getUsuariAplicacio().getUsuariAplicacioID());
 
             HttpHeaders headers = addAccessControllAllowOrigin();
 
@@ -1054,8 +1003,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         } catch (Throwable th) {
 
             // XYZ ZZZ TRA
-            String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE
-                    + ": " + th.getMessage();
+            String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE + ": "
+                    + th.getMessage();
 
             log.error(msg, th);
 
@@ -1065,16 +1014,14 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
     protected void deletePeticioDeFirma(long peticioDeFirmaID, String usrApp) throws I18NException {
 
-        Set<Long> fitxers = peticioDeFirmaLogicaEjb.deleteFullUsingUsuariAplicacio(peticioDeFirmaID,
-                usrApp);
+        Set<Long> fitxers = peticioDeFirmaLogicaEjb.deleteFullUsingUsuariAplicacio(peticioDeFirmaID, usrApp);
         FileSystemManager.eliminarArxius(fitxers);
     }
 
-    protected void checkIfPeticioDeFirmaIsPropertyOfUsrApp(long peticioDeFirmaID,
-            LoginInfo loginInfo) throws I18NException {
+    protected void checkIfPeticioDeFirmaIsPropertyOfUsrApp(long peticioDeFirmaID, LoginInfo loginInfo)
+            throws I18NException {
 
-        checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID,
-                loginInfo.getUsuariAplicacio().getUsuariAplicacioID(),
+        checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, loginInfo.getUsuariAplicacio().getUsuariAplicacioID(),
                 loginInfo.hasRole(ConstantsV2.ROLE_ADMIN));
     }
 
@@ -1082,8 +1029,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
      * Check propietari de la peticio de firma
      *
      */
-    protected void checkIfPeticioDeFirmaIsPropertyOfUsrApp(long peticioDeFirmaID, String userapp,
-            boolean hasRoleAdmin) throws I18NException {
+    protected void checkIfPeticioDeFirmaIsPropertyOfUsrApp(long peticioDeFirmaID, String userapp, boolean hasRoleAdmin)
+            throws I18NException {
 
         if (!hasRoleAdmin) {
 
@@ -1092,17 +1039,16 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                     PeticioDeFirmaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
             if (!userapp.equals(usrappPropietari)) {
-                throw new I18NException("peticiodefirma.error.nopropietari", userapp,
-                        String.valueOf(peticioDeFirmaID));
+                throw new I18NException("peticiodefirma.error.nopropietari", userapp, String.valueOf(peticioDeFirmaID));
             }
         }
 
     }
 
     protected PeticioDeFirmaJPA signatureRequestToPeticioDeFirmaJPAFull(
-            FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest,
-            UsuariAplicacioJPA usrapp, EntitatJPA entitatJPA, Set<Long> fitxersCreats,
-            String languageUI) throws I18NException, I18NValidationException {
+            FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest, UsuariAplicacioJPA usrapp,
+            EntitatJPA entitatJPA, Set<Long> fitxersCreats, String languageUI)
+            throws I18NException, I18NValidationException {
 
         // Agafar perfil per defecte si no en tenim. #458
         String profileCode = signatureRequest.getProfileCode();
@@ -1116,13 +1062,11 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         // De Perfil de Firma i Configuracio de Firma
         // XYZ ZZZ ZZZ
         UsuariAplicacioConfiguracioJPA config;
-        config = configuracioUsuariAplicacioLogicaLocalEjb
-                .getConfiguracioFirmaPerApiFirmaAsyncSimple(usrapp.getUsuariAplicacioID(),
-                        signatureRequest.getProfileCode(), signatureRequest);
+        config = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioFirmaPerApiFirmaAsyncSimple(
+                usrapp.getUsuariAplicacioID(), signatureRequest.getProfileCode(), signatureRequest);
 
         // Bean
-        PeticioDeFirmaJPA jpa = signatureRequestToPeticioDeFirmaJPA(signatureRequest, usrapp,
-                entitatJPA, config);
+        PeticioDeFirmaJPA jpa = signatureRequestToPeticioDeFirmaJPA(signatureRequest, usrapp, entitatJPA, config);
 
         // Fitxer
         if (signatureRequest.getFileToSign() == null) {
@@ -1130,11 +1074,10 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                     new I18NArgumentCode(PeticioDeFirmaFields.FITXERAFIRMARID.fullName));
         } else {
             FirmaAsyncSimpleFile fileToSign = signatureRequest.getFileToSign();
-            FitxerJPA fitxerAFirmar = new FitxerJPA(fileToSign.getNom(), null,
-                    fileToSign.getData().length, fileToSign.getMime());
+            FitxerJPA fitxerAFirmar = new FitxerJPA(fileToSign.getNom(), null, fileToSign.getData().length,
+                    fileToSign.getMime());
             FitxerJPA f = fitxerLogicaEjb.createFitxerField(fitxerAFirmar,
-                    new ByteArrayDataSource(fileToSign.getData()), fitxersCreats,
-                    PeticioDeFirmaFields.FITXERAFIRMARID);
+                    new ByteArrayDataSource(fileToSign.getData()), fitxersCreats, PeticioDeFirmaFields.FITXERAFIRMARID);
             jpa.setFitxerAFirmarID(f == null ? null : f.getFitxerID());
             jpa.setFitxerAFirmar(null);
         }
@@ -1146,8 +1089,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             FitxerJPA logoSegellCopia = FitxerJPA.toJPA(logoSegellOrig);
             logoSegellCopia.setFitxerID(0);
             FitxerJPA f = fitxerLogicaEjb.createFitxerField(logoSegellCopia,
-                    new FitxerIdDataSource(jpa.getLogoSegellID()), fitxersCreats,
-                    PeticioDeFirmaFields.LOGOSEGELLID);
+                    new FitxerIdDataSource(jpa.getLogoSegellID()), fitxersCreats, PeticioDeFirmaFields.LOGOSEGELLID);
 
             jpa.setLogoSegellID(f == null ? 0 : f.getFitxerID());
             jpa.setLogoSegell(null);
@@ -1191,9 +1133,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         return jpa;
     }
 
-    protected FluxDeFirmesJPA toJPA(FirmaAsyncSimpleSignatureBlock[] blocks, String entitatID,
-            Set<Long> fitxersCreats, String languageUI, String titolPeticio, boolean canCreate)
-            throws I18NException {
+    protected FluxDeFirmesJPA toJPA(FirmaAsyncSimpleSignatureBlock[] blocks, String entitatID, Set<Long> fitxersCreats,
+            String languageUI, String titolPeticio, boolean canCreate) throws I18NException {
 
         // #562
         String nomFlux = "Flux per Petició Async " + titolPeticio;
@@ -1212,19 +1153,16 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         return jpa;
     }
 
-    protected BlocDeFirmesJPA toJPA(int ordre, FirmaAsyncSimpleSignatureBlock bloc,
-            String entitatID, Set<Long> fitxersCreats, String languageUI, boolean canCreate)
-            throws I18NException {
+    protected BlocDeFirmesJPA toJPA(int ordre, FirmaAsyncSimpleSignatureBlock bloc, String entitatID,
+            Set<Long> fitxersCreats, String languageUI, boolean canCreate) throws I18NException {
 
         if (bloc == null) {
             // XYZ ZZZ TRA
-            throw new I18NException("genapp.comodi",
-                    "El Bloc de Firmes de la posició " + ordre + " val NULL.");
+            throw new I18NException("genapp.comodi", "El Bloc de Firmes de la posició " + ordre + " val NULL.");
         }
 
         // Bean
-        BlocDeFirmesJPA jpa = new BlocDeFirmesJPA(ordre, null, 0,
-                bloc.getMinimumNumberOfSignaturesRequired());
+        BlocDeFirmesJPA jpa = new BlocDeFirmesJPA(ordre, null, 0, bloc.getMinimumNumberOfSignaturesRequired());
         // Firmes
         List<FirmaAsyncSimpleSignature> firmants = bloc.getSigners();
         if (firmants == null || firmants.size() == 0) {
@@ -1244,8 +1182,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         return jpa;
     }
 
-    protected FirmaJPA toJPA(FirmaAsyncSimpleSignature firmaBean, String entitatID,
-            Set<Long> fitxersCreats, String languageUI, boolean canCreate) throws I18NException {
+    protected FirmaJPA toJPA(FirmaAsyncSimpleSignature firmaBean, String entitatID, Set<Long> fitxersCreats,
+            String languageUI, boolean canCreate) throws I18NException {
 
         if (firmaBean == null) {
             // XYZ ZZZ TRA
@@ -1272,8 +1210,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         java.lang.String motiu = firmaBean.getReason();
         int minimDeRevisors = firmaBean.getMinimumNumberOfRevisers();
 
-        java.lang.String destinatariID = searchUser(firmaBean.getSigner(), entitatID,
-                FirmaFields.DESTINATARIID, languageUI, canCreate);
+        java.lang.String destinatariID = searchUser(firmaBean.getSigner(), entitatID, FirmaFields.DESTINATARIID,
+                languageUI, canCreate);
         java.lang.Long fitxerFirmatID = null;
 
         // External Signer
@@ -1296,50 +1234,44 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             extern_token = firmaLogicaEjb.getUniqueTokenForFirma();
         }
 
-        FirmaJPA jpa = new FirmaJPA(firmaID, destinatariID, blocDeFirmaID, obligatori,
-                fitxerFirmatID, numFirmaDocument, caixaPagina, caixaX, caixaY, caixaAmple, caixaAlt,
-                numeroSerieCertificat, emissorCertificat, nomCertificat, tipusEstatDeFirmaFinalID,
-                mostrarRubrica, motiu, minimDeRevisors, null, null, null, null, extern_nom,
-                extern_llinatges, extern_email, extern_idioma, extern_token,
-                extern_nivellseguretat);
+        FirmaJPA jpa = new FirmaJPA(firmaID, destinatariID, blocDeFirmaID, obligatori, fitxerFirmatID, numFirmaDocument,
+                caixaPagina, caixaX, caixaY, caixaAmple, caixaAlt, numeroSerieCertificat, emissorCertificat,
+                nomCertificat, tipusEstatDeFirmaFinalID, mostrarRubrica, motiu, minimDeRevisors, null, null, null, null,
+                extern_nom, extern_llinatges, extern_email, extern_idioma, extern_token, extern_nivellseguretat);
 
         List<FirmaAsyncSimpleReviser> revisors = firmaBean.getRevisers();
 
         if (revisors != null && revisors.size() > 0) {
             for (FirmaAsyncSimpleReviser rev : revisors) {
-                String usuariEntitatID = searchUser(rev, entitatID,
-                        RevisorDeFirmaFields.USUARIENTITATID, languageUI, false);// canCreate=false
-                                                                                 // pq no cream
-                                                                                 // automàticament
-                                                                                 // revisors
-                
-                Long count = roleUsuariEntitatEjb.count(Where.AND(RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_REVI),
-                        RoleUsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID)));
+                String usuariEntitatID = searchUser(rev, entitatID, RevisorDeFirmaFields.USUARIENTITATID, languageUI,
+                        false);// canCreate=false
+                                                                                                                                     // pq no cream
+                                                                                                                                     // automàticament
+                                                                                                                                     // revisors
 
-                if (count == null || count != 1) {
-                    log.error("XXXXXXXXXX- L'usuari " + usuariEntitatID + " no es revisor");
+                // Comprovar que l'usuari es revisor
+
+                if (!revisorDeDestinatariEjb.usuariEntitatIdEsRevisor(usuariEntitatID)) {
+                    log.error("XXXXXXXXXX- L'usuari " + usuariEntitatID + " no es revisor", new Exception());
                     throw new I18NException("error.noesrevisor", usuariEntitatID);
-                }else {
-                    log.info("Afegim al revisor: " + usuariEntitatID);
-                    RevisorDeFirmaJPA revisor = new RevisorDeFirmaJPA(usuariEntitatID, 0,
-                            rev.isRequired());
-                    jpa.getRevisorDeFirmas().add(revisor);
                 }
 
-                
+                log.info("Afegim al revisor: " + usuariEntitatID);
+                RevisorDeFirmaJPA revisor = new RevisorDeFirmaJPA(usuariEntitatID, 0, rev.isRequired());
+                jpa.getRevisorDeFirmas().add(revisor);
+
             }
         }
 
         return jpa;
     }
 
-    protected String searchUser(FirmaAsyncSimplePerson person, String entitatID, Field<?> camp,
-            String languageUI, boolean canCreate) throws I18NException {
+    protected String searchUser(FirmaAsyncSimplePerson person, String entitatID, Field<?> camp, String languageUI,
+            boolean canCreate) throws I18NException {
 
         int count = 0;
         int type = -1;
-        if (person.getAdministrationID() != null
-                && person.getAdministrationID().trim().length() != 0) {
+        if (person.getAdministrationID() != null && person.getAdministrationID().trim().length() != 0) {
             count++;
             type = 0;
         }
@@ -1352,8 +1284,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             count++;
             type = 2;
         }
-        if (person.getPositionInTheCompany() != null
-                && person.getPositionInTheCompany().trim().length() != 0) {
+        if (person.getPositionInTheCompany() != null && person.getPositionInTheCompany().trim().length() != 0) {
             type = 3;
             count++;
         }
@@ -1368,8 +1299,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         if (count == 0) {
             // XYZ ZZZ TRA
             throw new I18NException("genapp.comodi",
-                    "No s´ha definit cap camp de l´objecte FirmaAsyncSimplePerson declarat "
-                            + camp.fullName);
+                    "No s´ha definit cap camp de l´objecte FirmaAsyncSimplePerson declarat " + camp.fullName);
         }
 
         if (count != 1) {
@@ -1384,24 +1314,18 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
             case 0: // NIF
                 ue = canCreate
-                        ? createUsuariServiceEjb.getOrCreateByAdministrationId(
-                                person.getAdministrationID(), entitatID)
-                        : usuariEntitatLogicaEjb.findUsuariEntitatInternByNif(entitatID,
-                                person.getAdministrationID());
+                        ? createUsuariServiceEjb.getOrCreateByAdministrationId(person.getAdministrationID(), entitatID)
+                        : usuariEntitatLogicaEjb.findUsuariEntitatInternByNif(entitatID, person.getAdministrationID());
                 if (ue == null) {
                     // XYZ ZZZ TRA
-                    throw new I18NException("genapp.comodi",
-                            "No existeix cap usuari amb NIF " + person.getAdministrationID()
-                                    + " i l'aplicació no té permís per crear-ne");
+                    throw new I18NException("genapp.comodi", "No existeix cap usuari amb NIF "
+                            + person.getAdministrationID() + " i l'aplicació no té permís per crear-ne");
                 }
             break;
 
             case 1: // Username
-                ue = canCreate
-                        ? createUsuariServiceEjb.getOrCreateByUsername(person.getUsername(),
-                                entitatID)
-                        : usuariEntitatLogicaEjb.findUsuariEntitatByUsername(entitatID,
-                                person.getUsername());
+                ue = canCreate ? createUsuariServiceEjb.getOrCreateByUsername(person.getUsername(), entitatID)
+                        : usuariEntitatLogicaEjb.findUsuariEntitatByUsername(entitatID, person.getUsername());
                 if (ue == null) {
                     // XYZ ZZZ TRA
                     throw new I18NException("genapp.comodi", "No existeix cap usuari amb username "
@@ -1411,8 +1335,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             break;
 
             case 2: // UsuariEntitatID
-                ue = usuariEntitatLogicaEjb
-                        .findByPrimaryKey(person.getIntermediateServerUsername());
+                ue = usuariEntitatLogicaEjb.findByPrimaryKey(person.getIntermediateServerUsername());
                 if (ue == null) {
                     // XYZ ZZZ TRA
                     throw new I18NException("genapp.comodi",
@@ -1431,8 +1354,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                 if (ue == null) {
                     // XYZ ZZZ TRA
                     throw new I18NException("genapp.comodi",
-                            "No existeix cap càrrec (PositionInTheCompany) "
-                                    + person.getIntermediateServerUsername());
+                            "No existeix cap càrrec (PositionInTheCompany) " + person.getIntermediateServerUsername());
                 }
                 // Comprovar que
                 if (ue.getCarrec() == null) {
@@ -1455,34 +1377,28 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
                 if (nif == null || nif.trim().length() == 0) {
                     // XYZ ZZZ TRA
-                    throw new I18NException("genapp.comodi",
-                            "El camp NIF de l'Usuari Extern val null o està buit");
+                    throw new I18NException("genapp.comodi", "El camp NIF de l'Usuari Extern val null o està buit");
                 }
 
                 // XYZ ZZZ ZZZ CHECK NIF
                 if (nif.length() > 9) {
                     // XYZ ZZZ TRA
                     throw new I18NException("genapp.validation.sizeexceeds", // XYZ ZZZ TRA
-                            new org.fundaciobit.genapp.common.i18n.I18NArgumentString(
-                                    "NIF de l'Usuari Extern"),
-                            new org.fundaciobit.genapp.common.i18n.I18NArgumentString(
-                                    String.valueOf(9)));
+                            new org.fundaciobit.genapp.common.i18n.I18NArgumentString("NIF de l'Usuari Extern"),
+                            new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(9)));
                 }
 
                 // XYZ ZZZ TRA
-                java.util.regex.Pattern p = java.util.regex.Pattern
-                        .compile("([XYZ][0-9]{7}[A-Z])|([0-9]{8}[A-Z])");
+                java.util.regex.Pattern p = java.util.regex.Pattern.compile("([XYZ][0-9]{7}[A-Z])|([0-9]{8}[A-Z])");
                 if (!p.matcher(nif).matches()) {
                     throw new I18NException("genapp.validation.malformed",
                             // XYZ ZZZ TRA
-                            new org.fundaciobit.genapp.common.i18n.I18NArgumentString(
-                                    "NIF de l'Usuari Extern"));
+                            new org.fundaciobit.genapp.common.i18n.I18NArgumentString("NIF de l'Usuari Extern"));
                 }
 
                 ue = usuariEntitatLogicaEjb.findUsuariEntitatExternByNif(entitatID, nif);
                 if (ue == null) {
-                    log.warn(
-                            "No existeix cap usuari entitat extern amb NIF " + nif + ". El cream.");
+                    log.warn("No existeix cap usuari entitat extern amb NIF " + nif + ". El cream.");
 
                     // L'hem de crear persona i usuari entitat extern
                     UsuariPersonaJPA persona = new UsuariPersonaJPA();
@@ -1493,9 +1409,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                     persona.setNom(extSigner.getName());
                     persona.setUsuariIntern(false);
 
-                    log.info("Cridant a crear persona externa: " + extSigner.getName() + " "
-                            + extSigner.getSurnames() + "[" + extSigner.getEmail() + "] {"
-                            + extSigner.getAdministrationId() + "}");
+                    log.info("Cridant a crear persona externa: " + extSigner.getName() + " " + extSigner.getSurnames()
+                            + "[" + extSigner.getEmail() + "] {" + extSigner.getAdministrationId() + "}");
 
                     UsuariEntitatJPA ueExtern = new UsuariEntitatJPA();
                     ueExtern.setActiu(true);
@@ -1536,13 +1451,11 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                         case FirmaAsyncSimpleExternalSigner.SECURITY_LEVEL_PASSWORD:
                             // XYZ ZZZ XYZ
                             throw new I18NException("genapp.comodi",
-                                    "Encara no es suporta el nivell de seguretat "
-                                            + extSigner.getSecurityLevel());
+                                    "Encara no es suporta el nivell de seguretat " + extSigner.getSecurityLevel());
                         default:
                             // XYZ ZZZ XYZ
                             throw new I18NException("genapp.comodi",
-                                    "Nivell de seguretat desconegut"
-                                            + extSigner.getSecurityLevel());
+                                    "Nivell de seguretat desconegut" + extSigner.getSecurityLevel());
 
                     }
 
@@ -1573,10 +1486,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         AnnexJPA jpa = new AnnexJPA(0, 0, annexBean.isAttach(), annexBean.isSign());
 
         FirmaAsyncSimpleFile annexFile = annexBean.getAnnex();
-        FitxerJPA fitxer = new FitxerJPA(annexFile.getNom(), null, annexFile.getData().length,
-                annexFile.getMime());
-        FitxerJPA f = fitxerLogicaEjb.createFitxerField(fitxer,
-                new ByteArrayDataSource(annexFile.getData()), fitxersCreats, AnnexFields.FITXERID);
+        FitxerJPA fitxer = new FitxerJPA(annexFile.getNom(), null, annexFile.getData().length, annexFile.getMime());
+        FitxerJPA f = fitxerLogicaEjb.createFitxerField(fitxer, new ByteArrayDataSource(annexFile.getData()),
+                fitxersCreats, AnnexFields.FITXERID);
         jpa.setFitxerID(f.getFitxerID());
         jpa.setFitxer(null);
 
@@ -1590,30 +1502,30 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         switch (type) {
 
             case FirmaAsyncSimpleMetadata.INTEGER:
-                metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(),
-                        metadada.getDescription(), 0, ConstantsV2.TIPUSMETADADA_INTEGER);
+                metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(), metadada.getDescription(), 0,
+                        ConstantsV2.TIPUSMETADADA_INTEGER);
             break;
             case FirmaAsyncSimpleMetadata.DECIMAL:
-                metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(),
-                        metadada.getDescription(), 0, ConstantsV2.TIPUSMETADADA_DECIMAL);
+                metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(), metadada.getDescription(), 0,
+                        ConstantsV2.TIPUSMETADADA_DECIMAL);
             break;
             case FirmaAsyncSimpleMetadata.BOOLEAN:
-                metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(),
-                        metadada.getDescription(), 0, ConstantsV2.TIPUSMETADADA_BOOLEAN);
+                metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(), metadada.getDescription(), 0,
+                        ConstantsV2.TIPUSMETADADA_BOOLEAN);
             break;
             case FirmaAsyncSimpleMetadata.BASE64:
-                metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(),
-                        metadada.getDescription(), 0, ConstantsV2.TIPUSMETADADA_BASE64);
+                metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(), metadada.getDescription(), 0,
+                        ConstantsV2.TIPUSMETADADA_BASE64);
             break;
             case FirmaAsyncSimpleMetadata.DATE: // ISO8601
-                metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(),
-                        metadada.getDescription(), 0, ConstantsV2.TIPUSMETADADA_DATE);
+                metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(), metadada.getDescription(), 0,
+                        ConstantsV2.TIPUSMETADADA_DATE);
             break;
 
             default:
             case FirmaAsyncSimpleMetadata.STRING:
-                metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(),
-                        metadada.getDescription(), 0, ConstantsV2.TIPUSMETADADA_STRING);
+                metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(), metadada.getDescription(), 0,
+                        ConstantsV2.TIPUSMETADADA_STRING);
             break;
 
         }
@@ -1670,9 +1582,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     }
 
     protected PeticioDeFirmaJPA signatureRequestToPeticioDeFirmaJPA(
-            FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest,
-            UsuariAplicacioJPA usrapp, EntitatJPA entitatJPA, UsuariAplicacioConfiguracioJPA config)
-            throws I18NException {
+            FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest, UsuariAplicacioJPA usrapp,
+            EntitatJPA entitatJPA, UsuariAplicacioConfiguracioJPA config) throws I18NException {
 
         long peticioDeFirmaID = 0;
         java.lang.String titol = signatureRequest.getTitle();
@@ -1700,8 +1611,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         java.lang.String procedimentCodi = signatureRequest.getProcedureCode();
         java.lang.String procedimentNom = signatureRequest.getProcedureName();
         java.lang.String informacioAddicional = signatureRequest.getAdditionalInformation();
-        java.lang.Double informacioAddicionalAvaluable = signatureRequest
-                .getAdditionalInformationEvaluable();
+        java.lang.Double informacioAddicionalAvaluable = signatureRequest.getAdditionalInformationEvaluable();
 
         // XYZ ZZZ ZZZ LOGO DE l'USUARI APLICACIO
         java.lang.Long logoSegellID = usrapp.getLogoSegellID();
@@ -1730,13 +1640,12 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         }
 
         // TAULA DE FIRMES
-        int posicioTaulaFirmesID = SignatureUtils.getSignaturesTableLocationOfConfig(
-                solicitantUsuariAplicacioID, config, entitatJPA);
+        int posicioTaulaFirmesID = SignatureUtils.getSignaturesTableLocationOfConfig(solicitantUsuariAplicacioID,
+                config, entitatJPA);
 
         // TODO XYZ ZZZ Cercar-ho a info de l'usuari-app. Ara cercar-ho de les
         // DADES DE l'ENTITAT
-        final boolean segellatDeTemps = getUseTimestampOfConfig(solicitantUsuariAplicacioID, config,
-                entitatJPA);
+        final boolean segellatDeTemps = getUseTimestampOfConfig(solicitantUsuariAplicacioID, config, entitatJPA);
 
         // XYZ ZZZ ZZZ
         java.lang.Long fitxerAFirmarID = null;
@@ -1747,17 +1656,14 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
         final int origenPeticioDeFirma = ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2;
 
-        PeticioDeFirmaJPA peticio = new PeticioDeFirmaJPA(peticioDeFirmaID, titol, descripcio,
-                motiu, fitxerAFirmarID, firmaOriginalDetachedID, fitxerAdaptatID, tipusDocumentID,
-                descripcioTipusDocument, dataSolicitud, dataFinal, dataCaducitat,
-                tipusOperacioFirma, tipusFirmaID, algorismeDeFirmaID, modeDeFirma,
-                posicioTaulaFirmesID, tipusEstatPeticioDeFirmaID, motiuDeRebuig, idiomaID,
-                prioritatID, fluxDeFirmesID, solicitantUsuariAplicacioID, remitentNom,
-                remitentDescripcio, expedientCodi, expedientNom, expedientUrl, procedimentCodi,
-                procedimentNom, informacioAddicional, informacioAddicionalAvaluable, logoSegellID,
-                custodiaInfoID, solicitantUsuariEntitat1ID, solicitantUsuariEntitat2ID,
-                solicitantUsuariEntitat3ID, avisWeb, segellatDeTemps, origenPeticioDeFirma,
-                config.getUsuariAplicacioConfigID());
+        PeticioDeFirmaJPA peticio = new PeticioDeFirmaJPA(peticioDeFirmaID, titol, descripcio, motiu, fitxerAFirmarID,
+                firmaOriginalDetachedID, fitxerAdaptatID, tipusDocumentID, descripcioTipusDocument, dataSolicitud,
+                dataFinal, dataCaducitat, tipusOperacioFirma, tipusFirmaID, algorismeDeFirmaID, modeDeFirma,
+                posicioTaulaFirmesID, tipusEstatPeticioDeFirmaID, motiuDeRebuig, idiomaID, prioritatID, fluxDeFirmesID,
+                solicitantUsuariAplicacioID, remitentNom, remitentDescripcio, expedientCodi, expedientNom, expedientUrl,
+                procedimentCodi, procedimentNom, informacioAddicional, informacioAddicionalAvaluable, logoSegellID,
+                custodiaInfoID, solicitantUsuariEntitat1ID, solicitantUsuariEntitat2ID, solicitantUsuariEntitat3ID,
+                avisWeb, segellatDeTemps, origenPeticioDeFirma, config.getUsuariAplicacioConfigID());
 
         return peticio;
 

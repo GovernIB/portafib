@@ -14,6 +14,7 @@ import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
+import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
 import es.caib.portafib.logic.TipusDocumentLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
@@ -26,203 +27,207 @@ import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
  */
 public final class EjbManager {
 
-  protected static final Logger log = Logger.getLogger(EjbManager.class);
+    protected static final Logger log = Logger.getLogger(EjbManager.class);
 
-  protected static NotificacionsCallBackTimerLocal notificacioTimerEjb = null;
+    protected static RevisorDeDestinatariLogicaService revisorDeDestinatariEjb = null;
 
-  protected static PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb = null;
+    protected static NotificacionsCallBackTimerLocal notificacioTimerEjb = null;
 
-  protected static FirmaLogicaLocal firmaLogicaEjb = null;
+    protected static PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb = null;
 
-  protected static UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
+    protected static FirmaLogicaLocal firmaLogicaEjb = null;
 
-  protected static UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
-  
-  protected static UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
+    protected static UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
 
-  protected static ColaboracioDelegacioLogicaLocal colaboracioDelegacioLogicaEjb;
+    protected static UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-  protected static IdiomaService idiomaEjb;
-  
-  protected static TipusDocumentLogicaLocal tipusDocumentLogicaEjb;
+    protected static UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
 
-  protected static FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
+    protected static ColaboracioDelegacioLogicaLocal colaboracioDelegacioLogicaEjb;
 
-  protected static PropietatGlobalLogicaLocal propietatLogicaEjb;
+    protected static IdiomaService idiomaEjb;
 
-  protected static BitacolaLogicaLocal bitacolaLogicaEjb;
-  
+    protected static TipusDocumentLogicaLocal tipusDocumentLogicaEjb;
 
-  private static void throwNewI18NException(Throwable e, String name) throws I18NException {
-    throw new I18NException(e, "error.unknown",
-      new I18NArgumentString("No puc instanciar " + name + ": " + e.getMessage()));
-  }
-  
+    protected static FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
 
-  public static NotificacionsCallBackTimerLocal getNotificacioTimerEjb() throws I18NException {
-    if (notificacioTimerEjb == null) {
-      try {
-        String jndiName = NotificacionsCallBackTimerLocal.JNDI_NAME;
+    protected static PropietatGlobalLogicaLocal propietatLogicaEjb;
 
-        notificacioTimerEjb = (NotificacionsCallBackTimerLocal) new InitialContext()
-            .lookup(jndiName);
-      } catch (Throwable e) {
-        throwNewI18NException(e, "NotificacionsCallBackTimerLocal");
-      }
+    protected static BitacolaLogicaLocal bitacolaLogicaEjb;
+
+    private static void throwNewI18NException(Throwable e, String name) throws I18NException {
+        throw new I18NException(e, "error.unknown",
+                new I18NArgumentString("No puc instanciar " + name + ": " + e.getMessage()));
     }
-    return notificacioTimerEjb;
-  }
 
-  public static PeticioDeFirmaLogicaLocal getPeticioDeFirmaLogicaEJB() throws I18NException {
+    public static RevisorDeDestinatariLogicaService getRevisorDeDestinatariEJB() throws I18NException {
+        if (revisorDeDestinatariEjb == null) {
+            try {
+                String jndiName = RevisorDeDestinatariLogicaService.JNDI_NAME;
 
-    if (peticioDeFirmaLogicaEjb == null) {
-      try {
-        peticioDeFirmaLogicaEjb = (PeticioDeFirmaLogicaLocal) new InitialContext()
-            .lookup(PeticioDeFirmaLogicaLocal.JNDI_NAME);
-      } catch (Throwable e) {
-        throwNewI18NException(e, "PeticioDeFirmaLogicaLocal");
-      }
+                revisorDeDestinatariEjb = (RevisorDeDestinatariLogicaService) new InitialContext().lookup(jndiName);
+            } catch (Throwable e) {
+                throwNewI18NException(e, "NotificacionsCallBackTimerLocal");
+            }
+        }
+        return revisorDeDestinatariEjb;
     }
-    return peticioDeFirmaLogicaEjb;
-  }
 
-  public static FirmaLogicaLocal getFirmaLogicaEJB() throws I18NException {
 
-    if (firmaLogicaEjb == null) {
-      try {
-        firmaLogicaEjb = (FirmaLogicaLocal) new InitialContext()
-            .lookup(FirmaLogicaLocal.JNDI_NAME);
-      } catch (Throwable e) {
-        throwNewI18NException(e, "FirmaLogicaLocal");
-      }
+
+    public static NotificacionsCallBackTimerLocal getNotificacioTimerEjb() throws I18NException {
+        if (notificacioTimerEjb == null) {
+            try {
+                String jndiName = NotificacionsCallBackTimerLocal.JNDI_NAME;
+
+                notificacioTimerEjb = (NotificacionsCallBackTimerLocal) new InitialContext().lookup(jndiName);
+            } catch (Throwable e) {
+                throwNewI18NException(e, "NotificacionsCallBackTimerLocal");
+            }
+        }
+        return notificacioTimerEjb;
     }
-    return firmaLogicaEjb;
-  }
 
-  public static UsuariAplicacioLogicaLocal getUsuariAplicacioLogicaEJB() throws I18NException {
+    public static PeticioDeFirmaLogicaLocal getPeticioDeFirmaLogicaEJB() throws I18NException {
 
-    if (usuariAplicacioLogicaEjb == null) {
-      try {
-        usuariAplicacioLogicaEjb = (UsuariAplicacioLogicaLocal) new InitialContext()
-            .lookup(UsuariAplicacioLogicaLocal.JNDI_NAME);
-      } catch (Throwable e) {
-        throwNewI18NException(e, "UsuariAplicacioLogicaLocal");
-      }
+        if (peticioDeFirmaLogicaEjb == null) {
+            try {
+                peticioDeFirmaLogicaEjb = (PeticioDeFirmaLogicaLocal) new InitialContext()
+                        .lookup(PeticioDeFirmaLogicaLocal.JNDI_NAME);
+            } catch (Throwable e) {
+                throwNewI18NException(e, "PeticioDeFirmaLogicaLocal");
+            }
+        }
+        return peticioDeFirmaLogicaEjb;
     }
-    return usuariAplicacioLogicaEjb;
-  }
 
-  public static UsuariEntitatLogicaLocal getUsuariEntitatLogicaEJB() throws I18NException {
+    public static FirmaLogicaLocal getFirmaLogicaEJB() throws I18NException {
 
-    if (usuariEntitatLogicaEjb == null) {
-      try {
-        usuariEntitatLogicaEjb = (UsuariEntitatLogicaLocal) new InitialContext()
-            .lookup(UsuariEntitatLogicaLocal.JNDI_NAME);
-      } catch (Throwable e) {
-        throwNewI18NException(e, "UsuariEntitatLogicaLocal");
-      }
+        if (firmaLogicaEjb == null) {
+            try {
+                firmaLogicaEjb = (FirmaLogicaLocal) new InitialContext().lookup(FirmaLogicaLocal.JNDI_NAME);
+            } catch (Throwable e) {
+                throwNewI18NException(e, "FirmaLogicaLocal");
+            }
+        }
+        return firmaLogicaEjb;
     }
-    return usuariEntitatLogicaEjb;
-  }
-  
-  
-  
-  public static UsuariPersonaLogicaLocal getUsuariPersonaLogicaEJB() throws I18NException {
 
-    if (usuariPersonaLogicaEjb == null) {
-      try {
-        usuariPersonaLogicaEjb = (UsuariPersonaLogicaLocal) new InitialContext()
-            .lookup(UsuariPersonaLogicaLocal.JNDI_NAME);
-      } catch (Throwable e) {
-        throwNewI18NException(e, "UsuariPersonaLogicaLocal");
-      }
+    public static UsuariAplicacioLogicaLocal getUsuariAplicacioLogicaEJB() throws I18NException {
+
+        if (usuariAplicacioLogicaEjb == null) {
+            try {
+                usuariAplicacioLogicaEjb = (UsuariAplicacioLogicaLocal) new InitialContext()
+                        .lookup(UsuariAplicacioLogicaLocal.JNDI_NAME);
+            } catch (Throwable e) {
+                throwNewI18NException(e, "UsuariAplicacioLogicaLocal");
+            }
+        }
+        return usuariAplicacioLogicaEjb;
     }
-    return usuariPersonaLogicaEjb;
-  }
 
-  
+    public static UsuariEntitatLogicaLocal getUsuariEntitatLogicaEJB() throws I18NException {
 
-  public static ColaboracioDelegacioLogicaLocal getColaboracioDelegacioEJB() throws I18NException {
-    if (colaboracioDelegacioLogicaEjb == null) {
-      try {
-        colaboracioDelegacioLogicaEjb = (ColaboracioDelegacioLogicaLocal) new InitialContext()
-            .lookup(ColaboracioDelegacioLogicaLocal.JNDI_NAME);
-      } catch (Throwable e) {
-        throwNewI18NException(e, "ColaboracioDelegacioLogicaEJB");
-      }
+        if (usuariEntitatLogicaEjb == null) {
+            try {
+                usuariEntitatLogicaEjb = (UsuariEntitatLogicaLocal) new InitialContext()
+                        .lookup(UsuariEntitatLogicaLocal.JNDI_NAME);
+            } catch (Throwable e) {
+                throwNewI18NException(e, "UsuariEntitatLogicaLocal");
+            }
+        }
+        return usuariEntitatLogicaEjb;
     }
-    return colaboracioDelegacioLogicaEjb;
-  }
 
-  public static IdiomaService getIdiomaEJB() throws I18NException {
+    public static UsuariPersonaLogicaLocal getUsuariPersonaLogicaEJB() throws I18NException {
 
-    if (idiomaEjb == null) {
-      try {
-        idiomaEjb = (IdiomaService) new InitialContext()
-            .lookup(IdiomaService.JNDI_NAME);
-      } catch (Throwable e) {
-        throwNewI18NException(e, "IdiomaEJB");
-      }
+        if (usuariPersonaLogicaEjb == null) {
+            try {
+                usuariPersonaLogicaEjb = (UsuariPersonaLogicaLocal) new InitialContext()
+                        .lookup(UsuariPersonaLogicaLocal.JNDI_NAME);
+            } catch (Throwable e) {
+                throwNewI18NException(e, "UsuariPersonaLogicaLocal");
+            }
+        }
+        return usuariPersonaLogicaEjb;
     }
-    return idiomaEjb;
-  }
-  
 
-  public static TipusDocumentLogicaLocal getTipusDocumentLogicaEJB() throws I18NException {
-
-    if (tipusDocumentLogicaEjb == null) {
-      try {
-        tipusDocumentLogicaEjb = (TipusDocumentLogicaLocal) new InitialContext()
-            .lookup(TipusDocumentLogicaLocal.JNDI_NAME);
-      } catch (Throwable e) {
-        throwNewI18NException(e, "TipusDocumentLogicaEJB");
-      }
+    public static ColaboracioDelegacioLogicaLocal getColaboracioDelegacioEJB() throws I18NException {
+        if (colaboracioDelegacioLogicaEjb == null) {
+            try {
+                colaboracioDelegacioLogicaEjb = (ColaboracioDelegacioLogicaLocal) new InitialContext()
+                        .lookup(ColaboracioDelegacioLogicaLocal.JNDI_NAME);
+            } catch (Throwable e) {
+                throwNewI18NException(e, "ColaboracioDelegacioLogicaEJB");
+            }
+        }
+        return colaboracioDelegacioLogicaEjb;
     }
-    return tipusDocumentLogicaEjb;
-  }
-  
-  /**
-   * S'ha tengut que fer així ja que injectat a traves del tag @EJB, el jboss 
-   * llançava un error de dependències.
-   */
-  public static FluxDeFirmesLogicaLocal getFluxDeFirmesEjb() throws I18NException  {
-    if (fluxDeFirmesLogicaEjb == null) {
-      try {
-        fluxDeFirmesLogicaEjb = (FluxDeFirmesLogicaLocal) new InitialContext()
-            .lookup(FluxDeFirmesLogicaLocal.JNDI_NAME);
-        } catch (Throwable e) {
-        throwNewI18NException(e, "FluxDeFirmesLogicaEjb");
-      }
-    }
-    return fluxDeFirmesLogicaEjb;
-  }
-  
-  
-  
-  public static PropietatGlobalLogicaLocal getPropietatLogicaEJB() throws I18NException {
 
-    if (propietatLogicaEjb == null) {
-      try {
-        propietatLogicaEjb = (PropietatGlobalLogicaLocal) new InitialContext()
-            .lookup(PropietatGlobalLogicaLocal.JNDI_NAME);
-      } catch (Throwable e) {
-        throwNewI18NException(e, PropietatGlobalLogicaLocal.JNDI_NAME);
-      }
-    }
-    return propietatLogicaEjb;
-  }
+    public static IdiomaService getIdiomaEJB() throws I18NException {
 
-  public static BitacolaLogicaLocal getBitacolaLogicaEJB() throws I18NException {
-
-    if (bitacolaLogicaEjb == null) {
-      try {
-        bitacolaLogicaEjb = (BitacolaLogicaLocal) new InitialContext()
-            .lookup(BitacolaLogicaLocal.JNDI_NAME);
-      } catch (Throwable e) {
-        throwNewI18NException(e, BitacolaLogicaLocal.JNDI_NAME);
-      }
+        if (idiomaEjb == null) {
+            try {
+                idiomaEjb = (IdiomaService) new InitialContext().lookup(IdiomaService.JNDI_NAME);
+            } catch (Throwable e) {
+                throwNewI18NException(e, "IdiomaEJB");
+            }
+        }
+        return idiomaEjb;
     }
-    return bitacolaLogicaEjb;
-  }
+
+    public static TipusDocumentLogicaLocal getTipusDocumentLogicaEJB() throws I18NException {
+
+        if (tipusDocumentLogicaEjb == null) {
+            try {
+                tipusDocumentLogicaEjb = (TipusDocumentLogicaLocal) new InitialContext()
+                        .lookup(TipusDocumentLogicaLocal.JNDI_NAME);
+            } catch (Throwable e) {
+                throwNewI18NException(e, "TipusDocumentLogicaEJB");
+            }
+        }
+        return tipusDocumentLogicaEjb;
+    }
+
+    /**
+     * S'ha tengut que fer així ja que injectat a traves del tag @EJB, el jboss 
+     * llançava un error de dependències.
+     */
+    public static FluxDeFirmesLogicaLocal getFluxDeFirmesEjb() throws I18NException {
+        if (fluxDeFirmesLogicaEjb == null) {
+            try {
+                fluxDeFirmesLogicaEjb = (FluxDeFirmesLogicaLocal) new InitialContext()
+                        .lookup(FluxDeFirmesLogicaLocal.JNDI_NAME);
+            } catch (Throwable e) {
+                throwNewI18NException(e, "FluxDeFirmesLogicaEjb");
+            }
+        }
+        return fluxDeFirmesLogicaEjb;
+    }
+
+    public static PropietatGlobalLogicaLocal getPropietatLogicaEJB() throws I18NException {
+
+        if (propietatLogicaEjb == null) {
+            try {
+                propietatLogicaEjb = (PropietatGlobalLogicaLocal) new InitialContext()
+                        .lookup(PropietatGlobalLogicaLocal.JNDI_NAME);
+            } catch (Throwable e) {
+                throwNewI18NException(e, PropietatGlobalLogicaLocal.JNDI_NAME);
+            }
+        }
+        return propietatLogicaEjb;
+    }
+
+    public static BitacolaLogicaLocal getBitacolaLogicaEJB() throws I18NException {
+
+        if (bitacolaLogicaEjb == null) {
+            try {
+                bitacolaLogicaEjb = (BitacolaLogicaLocal) new InitialContext().lookup(BitacolaLogicaLocal.JNDI_NAME);
+            } catch (Throwable e) {
+                throwNewI18NException(e, BitacolaLogicaLocal.JNDI_NAME);
+            }
+        }
+        return bitacolaLogicaEjb;
+    }
 
 }
