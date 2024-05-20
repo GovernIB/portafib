@@ -20,7 +20,7 @@ import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;

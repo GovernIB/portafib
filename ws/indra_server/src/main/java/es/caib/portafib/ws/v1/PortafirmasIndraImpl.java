@@ -40,7 +40,7 @@ import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 import es.indra.portafirmasws.cws.Annex;

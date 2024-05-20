@@ -16,7 +16,7 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.NotificacioWS;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.NotificacioWSFields;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;

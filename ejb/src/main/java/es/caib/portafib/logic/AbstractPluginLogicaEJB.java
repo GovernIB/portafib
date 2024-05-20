@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Properties;
 
 import es.caib.portafib.persistence.PluginJPA;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.utils.ConstantsV2;
 import java.io.ByteArrayInputStream;
@@ -40,18 +41,12 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
 
     @Override
     public List<Plugin> getAllPluginsSenseEntitat() throws I18NException {
-        Where where = Where.AND(
-                TIPUS.equal(getTipusDePlugin()),
-                ACTIU.equal(true),
-                ENTITATID.isNull());
+        Where where = Where.AND(TIPUS.equal(getTipusDePlugin()), ACTIU.equal(true), ENTITATID.isNull());
         return select(where);
     }
 
     public Where getWhere(String entitatID) {
-        return Where.AND(
-                TIPUS.equal(getTipusDePlugin()),
-                ACTIU.equal(true),
-                ENTITATID.equal(entitatID)
+        return Where.AND(TIPUS.equal(getTipusDePlugin()), ACTIU.equal(true), ENTITATID.equal(entitatID)
         // TODO Elegim plugin entre les genèriques o entre els específics per l'entitat
         // Where.OR(ENTITATID.isNull(), ENTITATID.equal(entitatID))
         );
@@ -73,8 +68,7 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
 
             Properties prop = new Properties();
 
-            if (plugin.getPropertiesAdmin() != null
-                    && plugin.getPropertiesAdmin().trim().length() != 0) {
+            if (plugin.getPropertiesAdmin() != null && plugin.getPropertiesAdmin().trim().length() != 0) {
                 try {
 
                     prop.load(new StringReader(plugin.getPropertiesAdmin()));
@@ -84,8 +78,7 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
                 }
             }
 
-            if (plugin.getPropertiesEntitat() != null
-                    && plugin.getPropertiesEntitat().trim().length() != 0) {
+            if (plugin.getPropertiesEntitat() != null && plugin.getPropertiesEntitat().trim().length() != 0) {
                 try {
 
                     prop.load(new StringReader(plugin.getPropertiesEntitat()));
@@ -101,8 +94,10 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
 
                 String propietats = writer.getBuffer().toString().replace("[\\=", "[=");
 
+                Properties propietatsProp = Configuracio.getSystemAndFileProperties();
+
                 Map<String, Object> parameters = new HashMap<String, Object>();
-                parameters.put("SP", System.getProperties());
+                parameters.put("SP", propietatsProp);
 
                 String t = TemplateEngine.processExpressionLanguageSquareBrackets(propietats, parameters);
 
@@ -116,8 +111,7 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
                     ConstantsV2.PORTAFIB_PROPERTY_BASE, prop);
 
             if (pluginInstance == null) {
-                throw new I18NException("plugin.donotinstantiate", getName() + " ("
-                        + plugin.getClasse() + ")");
+                throw new I18NException("plugin.donotinstantiate", getName() + " (" + plugin.getClasse() + ")");
             }
 
             addPluginToCache(pluginID, pluginInstance);
@@ -135,16 +129,12 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
     }
 
     @Override
-    public List<I> getPluginInstancesBy(String entitatID, List<Long> filterByPluginID,
-            List<String> filterByPluginCode) throws I18NException {
+    public List<I> getPluginInstancesBy(String entitatID, List<Long> filterByPluginID, List<String> filterByPluginCode)
+            throws I18NException {
 
         List<I> plugins = new ArrayList<I>();
 
-        Where where = Where.AND(
-                TIPUS.equal(getTipusDePlugin()),
-                ACTIU.equal(true),
-                ENTITATID.equal(entitatID)
-        );
+        Where where = Where.AND(TIPUS.equal(getTipusDePlugin()), ACTIU.equal(true), ENTITATID.equal(entitatID));
 
         if (filterByPluginID != null && filterByPluginID.size() != 0) {
             where = Where.AND(where, PLUGINID.in(filterByPluginID));

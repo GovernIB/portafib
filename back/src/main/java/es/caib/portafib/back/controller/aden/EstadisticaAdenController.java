@@ -8,7 +8,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBDataExporter;
 import es.caib.portafib.model.entity.Estadistica;
 import es.caib.portafib.model.fields.EstadisticaFields;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;

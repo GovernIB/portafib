@@ -2,7 +2,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="es.caib.portafib.utils.ConstantsV2"
-%><%@page import="es.caib.portafib.utils.Configuracio"
+%><%@page import="es.caib.portafib.commons.utils.Configuracio"
 %><%@page import="java.util.HashMap"
 %><%@page import="java.util.Map"
 %><%@ page contentType="text/html;charset=UTF-8" language="java"

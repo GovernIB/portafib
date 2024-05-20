@@ -7,7 +7,7 @@
 %><%@page import="es.caib.portafib.model.fields.PerfilDeFirmaFields"
 %><%@page import="es.caib.portafib.back.controller.aden.ConfiguracioDeFirmaAdenController"
 %><%@page import="es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields"
-%><%@page import="es.caib.portafib.utils.Configuracio"
+%><%@page import="es.caib.portafib.commons.utils.Configuracio"
 %><%@page import="es.caib.portafib.back.security.LoginInfo"
 %><%@page import="java.util.HashMap"
 %><%@page import="java.util.Map"

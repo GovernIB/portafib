@@ -8,7 +8,7 @@ import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsTimerLocal;
 import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.ProviderRegistration;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

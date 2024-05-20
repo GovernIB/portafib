@@ -4,7 +4,7 @@ import es.caib.portafib.back.controller.AbstractPeticioDeFirmaByTipusSolicitant;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;

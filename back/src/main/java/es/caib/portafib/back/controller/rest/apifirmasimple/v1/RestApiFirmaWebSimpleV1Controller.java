@@ -46,7 +46,7 @@ import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.fields.TipusDocumentFields;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 import javax.ejb.EJB;

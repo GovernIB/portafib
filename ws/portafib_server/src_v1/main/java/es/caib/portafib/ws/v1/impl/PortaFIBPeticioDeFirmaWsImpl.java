@@ -21,7 +21,7 @@ import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;

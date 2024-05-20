@@ -19,7 +19,7 @@ import es.caib.portafib.model.fields.BlocDeFirmesQueryPath;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 import javax.annotation.security.RunAs;

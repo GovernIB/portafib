@@ -1,4 +1,4 @@
-<%@page import="es.caib.portafib.utils.Configuracio"
+<%@page import="es.caib.portafib.commons.utils.Configuracio"
 %><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <%--  ======  AQUI COMEN�A MODAL DE SELECCI� D'USUARI ============ --%>
 

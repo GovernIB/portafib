@@ -41,7 +41,7 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.StringKeyValue;

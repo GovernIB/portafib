@@ -1,7 +1,7 @@
 package es.caib.portafib.back.controller.common;
 
 import es.caib.portafib.back.utils.Utils;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;

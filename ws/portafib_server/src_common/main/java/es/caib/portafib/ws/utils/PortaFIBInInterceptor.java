@@ -25,7 +25,7 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 
 import org.apache.cxf.service.Service;

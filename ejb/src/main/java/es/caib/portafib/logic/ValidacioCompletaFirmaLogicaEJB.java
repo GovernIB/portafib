@@ -14,7 +14,7 @@ import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.logic.utils.ValidationsCAdES;
 import es.caib.portafib.logic.utils.ValidationsXAdES;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;

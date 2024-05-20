@@ -1,24 +1,17 @@
 package es.caib.portafib.ws.v1.example;
 
-import es.caib.portafib.ws.api.v1.PortaFIBPeticioDeFirmaWs;
-import es.caib.portafib.ws.api.v1.PortaFIBPeticioDeFirmaWsService;
+
 import es.caib.portafib.ws.api.v1.PortaFIBUsuariEntitatWs;
 import es.caib.portafib.ws.api.v1.PortaFIBUsuariEntitatWsService;
 import es.caib.portafib.ws.api.v1.UsuariEntitatBean;
-import es.caib.portafib.ws.api.v1.UsuariPersonaBean;
 import es.caib.portafib.ws.api.v1.WsI18NException;
 import es.caib.portafib.ws.api.v1.WsValidationException;
 import es.caib.portafib.ws.api.v1.utils.WsClientUtils;
 import org.apache.log4j.Logger;
 
 import javax.xml.ws.BindingProvider;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 /**

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.persistence.EntitatJPA;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 import org.apache.log4j.Logger;

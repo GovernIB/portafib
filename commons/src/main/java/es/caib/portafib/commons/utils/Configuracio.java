@@ -3,9 +3,10 @@ package es.caib.portafib.commons.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -17,103 +18,130 @@ public class Configuracio implements Constants {
 
     private static final Logger LOG = LoggerFactory.getLogger(Configuracio.class);
 
-    private static final Properties fileProperties = new Properties();
-    
-    private static final Properties fileAndSystemProperties = new Properties();
+    private static Properties portafibProperties;
 
-    /*
-     * Agafa els fitxers de propietats definits a l'standalone
-     *
-     * Seguim els estandars de la CAIB 
-     */
-    public static Properties getFilesProperties() {
-        
-        if (fileProperties.isEmpty()) {
-            // matches the property name as defined in the system-properties element in
-            // WildFly
-            String propertyFile = System.getProperty(Constants.PORTAFIB_PROPERTY_BASE + "properties");
-            File file = new File(propertyFile);
-    
-            String propertySystemFile = System.getProperty(Constants.PORTAFIB_PROPERTY_BASE + "system.properties");
-            File systemFile = new File(propertySystemFile);
-    
+    private static Properties portafibSystemProperties;
+
+    public static Properties getPortaFIBProperties() {
+        if (portafibProperties == null) {
+            portafibProperties = loadPropertiesFromKey("es.caib.portafib.properties");
+        }
+        return portafibProperties;
+    }
+
+    public static Properties getPortaFIBSystemProperties() {
+        if (portafibSystemProperties == null) {
+            portafibSystemProperties = loadPropertiesFromKey("es.caib.portafib.system.properties");
+        }
+        return portafibSystemProperties;
+    }
+
+    private static Properties loadPropertiesFromKey(String key) {
+        String propertyFileName = System.getProperty(key);
+        try (Reader reader = new FileReader(propertyFileName)) {
+            Properties prop = new Properties();
+            prop.load(reader);
+            return prop;
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+    }
+
+    private static Long getLongPortaFIBProperty(String key) {
+        String value = getPortaFIBProperties().getProperty(key);
+        Long valueLong = null;
+        if (value != null) {
             try {
-                fileProperties.load(new FileInputStream(file));
-                fileProperties.load(new FileInputStream(systemFile));
-            } catch (IOException e) {
-                LOG.error("No es pot carregar algun dels fitxers de propietats ... ", e);
+                valueLong = Long.parseLong(value);
+            } catch (Exception e) {
+                LOG.error("Error parsing long value for key " + key, e);
             }
         }
-        
-        return fileProperties;
+
+        return valueLong;
 
     }
-
+    
+    
     public static Properties getSystemAndFileProperties() {
-
-        if (fileAndSystemProperties.isEmpty()) {
-            fileAndSystemProperties.putAll(getFilesProperties());
-            fileAndSystemProperties.putAll(System.getProperties());
-        }
-        return fileAndSystemProperties;
-    }
-
-    public static String getProperty(String key) {
-
-        return  getFilesProperties().getProperty(key);
-
-    }
-
-    public static String getProperty(String key, String def) {
-        
-        return getFilesProperties().getProperty(key, def);
-
-    }
-
-    public static boolean isDesenvolupament() {
-
-        return Boolean.parseBoolean(getProperty(PORTAFIB_PROPERTY_BASE + "development"));
+        Properties properties = new Properties();
+        properties.putAll(System.getProperties());
+        properties.putAll(getPortaFIBSystemProperties());
+        properties.putAll(getPortaFIBProperties());
+        return properties;
     }
 
     public static boolean isCAIB() {
-        return Boolean.parseBoolean(getProperty(PORTAFIB_PROPERTY_BASE + "iscaib"));
+        return "true".equalsIgnoreCase(getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "iscaib"));
     }
 
-    public static String getAppUrl() {
-        return getProperty(PORTAFIB_PROPERTY_BASE + "url");
+    public static String getFilesDirectory() {
+        return getPortaFIBSystemProperties().getProperty(PORTAFIB_PROPERTY_BASE + "filesdirectory");
     }
 
-    public static String getAppEmail() {
-        return getProperty(PORTAFIB_PROPERTY_BASE + "email.from");
+    public static String getFileSystemManagerClass() {
+        return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "filesystemmanagerclass");
     }
 
-    public static String getAppName() {
-        return getProperty(PORTAFIB_PROPERTY_BASE + "name", "PortaFIB");
+    public static boolean isDesenvolupament() {
+        return "true".equalsIgnoreCase(getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "development"));
     }
 
     public static String getDefaultLanguage() {
-        return getProperty(PORTAFIB_PROPERTY_BASE + "defaultlanguage", "ca");
+        return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "defaultlanguage", "ca");
+    }
+
+    public static Locale getDefaultLocale() {
+        String defaultLanguage = getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "defaultlanguage", "ca");
+        return new Locale(defaultLanguage);
+    }
+
+    /**
+     * Permet indicar si volem mostrar als usuaris un enllaç cap a una APK de Android.
+     * Si no existeix o el valor és buid, no es mostrarà cap enllaç.
+     * Si el valor és "server", emprarà un APK distribuit amb l'aplicació.
+     * Si el valor és una ruta de fitxers, emprarà l'APK indicat a la ruta de fitxers.
+     */
+    public static String getAndroidApk() {
+        return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "androidapk", null);
     }
 
     public static byte[] getEncryptKey() {
-        return getProperty(PORTAFIB_PROPERTY_BASE + "encryptkey", "0123456789123456").getBytes();
+        return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "encryptkey", "portafibportafib")
+                .getBytes();
+    }
+
+    public static String getExportDataPlugins() {
+        return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "exportdataplugins", null);
+    }
+
+    /**
+     * Indica si s'ha de validar el certificat emprant el Plugin de CheckCertificate quan 
+     * l'autenticació es realitza emprant ClientCert
+     */
+    public static boolean checkCertificateInClientCert() {
+        return "true".equalsIgnoreCase(
+                getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "checkcertificateinclientcert"));
+    }
+
+    public static String getAppUrl() {
+        return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "url");
+    }
+
+    public static String getAppEmail() {
+        return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "email.from");
+    }
+
+    public static String getAppName() {
+        return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "name", "PortaFIB");
     }
 
     public static Long getMaxUploadSizeInBytes() {
-        return Long.getLong(PORTAFIB_PROPERTY_BASE + "maxuploadsizeinbytes");
+        return getLongPortaFIBProperty(PORTAFIB_PROPERTY_BASE + "maxuploadsizeinbytes");
     }
 
     public static Long getMaxFitxerAdaptatSizeInBytes() {
-        return Long.getLong(PORTAFIB_PROPERTY_BASE + "maxfitxeradaptatsizeinbytes");
-    }
-
-    public static File getFilesDirectory() {
-        String path = getProperty(PORTAFIB_PROPERTY_BASE + "filesdirectory");
-        return new File(path);
-    }
-
-    public static String getFileSystemManager() {
-        return getProperty(PORTAFIB_PROPERTY_BASE + "filesystemmanagerclass");
+        return getLongPortaFIBProperty(PORTAFIB_PROPERTY_BASE + "maxfitxeradaptatsizeinbytes");
     }
 
 }

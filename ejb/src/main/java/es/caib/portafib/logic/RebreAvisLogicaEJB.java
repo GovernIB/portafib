@@ -6,7 +6,7 @@ import es.caib.portafib.persistence.RebreAvisJPA;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.model.entity.RebreAvis;
 import es.caib.portafib.model.fields.RebreAvisFields;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;

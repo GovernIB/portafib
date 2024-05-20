@@ -1,10 +1,8 @@
 package es.caib.portafib.commons.utils;
 
-import es.caib.portafib.utils.Configuracio;
-
 /**
  * 
- * @author anadal
+ * @author anadal (u80067)
  *
  */
 public class StaticVersion {

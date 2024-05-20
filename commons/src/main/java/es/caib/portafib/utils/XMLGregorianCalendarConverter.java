@@ -20,7 +20,7 @@ public class XMLGregorianCalendarConverter {
         try {
             df = DatatypeFactory.newInstance();
         } catch (DatatypeConfigurationException dce) {
-            throw new IllegalStateException(
+            throw new RuntimeException(
                 "Exception while obtaining DatatypeFactory instance", dce);
         }
     }  

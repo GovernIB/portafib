@@ -202,7 +202,6 @@
 		<dependency>
 			<groupId>org.jboss.ws.cxf</groupId>
 			<artifactId>jbossws-cxf-client</artifactId>
-			<version>5.2.4.Final-redhat-00001</version>
 			<scope>provided</scope>
 		</dependency>
 		
@@ -217,7 +216,7 @@
 		<dependency>
 			<artifactId>portafib-ws-server</artifactId>
 			<groupId>es.caib.portafib</groupId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

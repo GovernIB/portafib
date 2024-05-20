@@ -16,19 +16,16 @@
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-persistence</artifactId>
             <version>${project.version}</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-model</artifactId>
             <version>${project.version}</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-commons</artifactId>
             <version>${project.version}</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.fundaciobit.genapp</groupId>

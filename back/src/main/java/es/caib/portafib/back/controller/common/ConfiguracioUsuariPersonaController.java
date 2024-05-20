@@ -9,7 +9,7 @@ import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.UsuariPersona;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;

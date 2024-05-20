@@ -18,34 +18,34 @@ import es.caib.portafib.logic.utils.PropietatsConstants;
 @SessionAttributes(types = { PropietatGlobalForm.class, PropietatGlobalFilterForm.class })
 public class PropietatSistemaAdminController extends PropietatGlobalAdminController {
 
-  @Override
-  public String getTileForm() {
-    return "propietatSistemaFormAdmin";
-  }
+    @Override
+    public String getTileForm() {
+        return "propietatSistemaFormAdmin";
+    }
 
-  @Override
-  public String getTileList() {
-    return "propietatSistemaListAdmin";
-  }
+    @Override
+    public String getTileList() {
+        return "propietatSistemaListAdmin";
+    }
 
-  @Override
-  public String getSessionAttributeFilterForm() {
-    return "PropietatSistemaAdmin_FilterForm";
-  }
+    @Override
+    public String getSessionAttributeFilterForm() {
+        return "PropietatSistemaAdmin_FilterForm";
+    }
 
-  @Override
-  protected int getTipusPropietat() {
-    return PropietatsConstants.TIPUS_PROPIETAT_SISTEMA;
-  }
+    @Override
+    protected int getTipusPropietat() {
+        return PropietatsConstants.TIPUS_PROPIETAT_SISTEMA;
+    }
 
-  @Override
-  public String getEntityNameCode() {
-    return "propietatSistema";
-  }
+    @Override
+    public String getEntityNameCode() {
+        return "propietatSistema";
+    }
 
-  @Override
-  public String getEntityNameCodePlural() {
-    return "propietatSistema.plural";
-  }
+    @Override
+    public String getEntityNameCodePlural() {
+        return "propietatSistema.plural";
+    }
 
 }

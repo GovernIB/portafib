@@ -7,7 +7,7 @@ import es.caib.portafib.back.controller.aden.ConfiguracioDeFirmaAdenController;
 import es.caib.portafib.back.controller.aden.PerfilDeFirmaAdenController;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**

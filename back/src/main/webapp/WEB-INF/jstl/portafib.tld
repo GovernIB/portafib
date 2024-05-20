@@ -97,7 +97,7 @@
 <function>
         <description>Retorna si estam en mode desenvolupament</description>
         <name>isDesenvolupament</name>
-        <function-class>es.caib.portafib.utils.Configuracio</function-class>
+        <function-class>es.caib.portafib.commons.utils.Configuracio</function-class>
         <function-signature>boolean isDesenvolupament()</function-signature>
 </function>
 

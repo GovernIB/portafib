@@ -25,6 +25,7 @@ import es.caib.portafib.back.controller.webdb.PropietatGlobalController;
 import es.caib.portafib.back.form.webdb.PropietatGlobalFilterForm;
 import es.caib.portafib.back.form.webdb.PropietatGlobalForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.persistence.PropietatGlobalJPA;
 import es.caib.portafib.logic.utils.PropietatsConstants;
 import es.caib.portafib.logic.utils.PropietatsConstants.Propietat;
@@ -45,152 +46,155 @@ import org.springframework.validation.FieldError;
 @RequestMapping(value = "/admin/propietatglobal")
 @SessionAttributes(types = { PropietatGlobalForm.class, PropietatGlobalFilterForm.class })
 public class PropietatGlobalAdminController extends PropietatGlobalController {
-    
-  @EJB(mappedName = es.caib.portafib.logic.PropietatGlobalLogicaLocal.JNDI_NAME)
-  protected es.caib.portafib.logic.PropietatGlobalLogicaLocal propietatGlobalLogicaEjb;
 
-  public static final int COLUMN_ESTAT_PROPIETAT = 1;
+    @EJB(mappedName = es.caib.portafib.logic.PropietatGlobalLogicaLocal.JNDI_NAME)
+    protected es.caib.portafib.logic.PropietatGlobalLogicaLocal propietatGlobalLogicaEjb;
 
-  @Override
-  public String getTileForm() {
-    return "propietatGlobalFormAdmin";
-  }
-
-  @Override
-  public String getTileList() {
-    return "propietatGlobalListAdmin";
-  }
-
-  @Override
-  public String getSessionAttributeFilterForm() {
-    return "PropietatGlobalAdmin_FilterForm";
-  }
-
-  protected int getTipusPropietat() {
-    return PropietatsConstants.TIPUS_PROPIETAT_GLOBAL;
-  }
-
-  @Override
-  public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-
-    switch (getTipusPropietat()) {
-      case PropietatsConstants.TIPUS_PROPIETAT_GLOBAL:
-        return ENTITATID.isNull();
-
-      case PropietatsConstants.TIPUS_PROPIETAT_ENTITAT:
-        return ENTITATID.equal(LoginInfo.getInstance().getEntitatID());
-
-      case PropietatsConstants.TIPUS_PROPIETAT_SISTEMA:
-      default:
-        return null;
-    }
-  }
-
-  @Override
-  public List<PropietatGlobal> executeSelect(
-      ITableManager<PropietatGlobal, java.lang.Long> ejb, Where where,
-      final OrderBy[] orderBy, final Integer itemsPerPage, final int inici)
-      throws I18NException {
-
-    if (getTipusPropietat() == PropietatsConstants.TIPUS_PROPIETAT_SISTEMA) {
-
-      Properties all = System.getProperties();
-
-      List<PropietatGlobal> list = new ArrayList<PropietatGlobal>();
-      int count = 0;
-
-      for (Object keyObj : all.keySet()) {
-        String key = (String) keyObj;
-        if (key.startsWith(ConstantsV2.PORTAFIB_PROPERTY_BASE)) {
-          list.add(new PropietatGlobalJPA(count++, key, (String) all.get(key), null, null));
-          count++;
-        }
-      }
-
-      Collections.sort(list, new Comparator<PropietatGlobal>() {
-
-        @Override
-        public int compare(PropietatGlobal o1, PropietatGlobal o2) {
-          return o1.getClau().compareTo(o2.getClau());
-        }
-      });
-
-      return list;
-
-    } else {
-      return super.executeSelect(ejb, where, orderBy, itemsPerPage, inici);
-    }
-
-  }
-
-  @Override
-  public PropietatGlobalFilterForm getPropietatGlobalFilterForm(Integer pagina,
-      ModelAndView mav, HttpServletRequest request) throws I18NException {
-    PropietatGlobalFilterForm propietatGlobalFilterForm;
-    propietatGlobalFilterForm = super.getPropietatGlobalFilterForm(pagina, mav, request);
-    if (propietatGlobalFilterForm.isNou()) {
-      propietatGlobalFilterForm.addHiddenField(ENTITATID);
-      propietatGlobalFilterForm.addHiddenField(DESCRIPCIO);
-      propietatGlobalFilterForm.addHiddenField(PROPIETATGLOBALID);
-      propietatGlobalFilterForm.setGroupByFields(new ArrayList<Field<?>>());
-
-      switch (getTipusPropietat()) {
-        case PropietatsConstants.TIPUS_PROPIETAT_GLOBAL:
-        break;
-
-        case PropietatsConstants.TIPUS_PROPIETAT_ENTITAT:
-        break;
-
-        case PropietatsConstants.TIPUS_PROPIETAT_SISTEMA:
-        default:
-          propietatGlobalFilterForm.setDeleteButtonVisible(false);
-          propietatGlobalFilterForm.setAddButtonVisible(false);
-          propietatGlobalFilterForm.setVisibleMultipleSelection(false);
-          propietatGlobalFilterForm.setEditButtonVisible(false);
-          propietatGlobalFilterForm.setItemsPerPage(-1);
-
-          propietatGlobalFilterForm.setFilterByFields(new ArrayList<Field<?>>());
-
-      }
-
-    }
-
-    return propietatGlobalFilterForm;
-  }
-
-  @Override
-  public PropietatGlobalForm getPropietatGlobalForm(PropietatGlobalJPA _jpa, boolean __isView,
-      HttpServletRequest request, ModelAndView mav) throws I18NException {
-    PropietatGlobalForm propietatGlobalForm = super.getPropietatGlobalForm(_jpa, __isView,
-        request, mav);
-    if (propietatGlobalForm.isNou()) {
-      propietatGlobalForm.getPropietatGlobal().setClau(ConstantsV2.PORTAFIB_PROPERTY_BASE);
-      switch (getTipusPropietat()) {
-        case PropietatsConstants.TIPUS_PROPIETAT_GLOBAL:
-        break;
-
-        case PropietatsConstants.TIPUS_PROPIETAT_ENTITAT:
-          propietatGlobalForm.getPropietatGlobal().setEntitatID(
-              LoginInfo.getInstance().getEntitatID());
-        break;
-
-        case PropietatsConstants.TIPUS_PROPIETAT_SISTEMA:
-        default:
-          throw new I18NException("genapp.comodi",
-              "No podem crear Propietats de Tipus Sistema");
-
-      }
-
-    }
-
-    propietatGlobalForm.addHiddenField(ENTITATID);
-
-    return propietatGlobalForm;
-  }
+    public static final int COLUMN_ESTAT_PROPIETAT = -1;
 
     @Override
-    public void postList(HttpServletRequest request, ModelAndView mav,
-            PropietatGlobalFilterForm filterForm, List<PropietatGlobal> list) throws I18NException {
+    public String getTileForm() {
+        return "propietatGlobalFormAdmin";
+    }
+
+    @Override
+    public String getTileList() {
+        return "propietatGlobalListAdmin";
+    }
+
+    @Override
+    public String getSessionAttributeFilterForm() {
+        return "PropietatGlobalAdmin_FilterForm";
+    }
+
+    protected int getTipusPropietat() {
+        return PropietatsConstants.TIPUS_PROPIETAT_GLOBAL;
+    }
+
+    @Override
+    public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
+
+        switch (getTipusPropietat()) {
+            case PropietatsConstants.TIPUS_PROPIETAT_GLOBAL:
+                return ENTITATID.isNull();
+
+            case PropietatsConstants.TIPUS_PROPIETAT_ENTITAT:
+                return ENTITATID.equal(LoginInfo.getInstance().getEntitatID());
+
+            case PropietatsConstants.TIPUS_PROPIETAT_SISTEMA:
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public List<PropietatGlobal> executeSelect(ITableManager<PropietatGlobal, java.lang.Long> ejb, Where where,
+            final OrderBy[] orderBy, final Integer itemsPerPage, final int inici) throws I18NException {
+
+        if (getTipusPropietat() == PropietatsConstants.TIPUS_PROPIETAT_SISTEMA) {
+
+            Properties all = Configuracio.getPortaFIBProperties();
+            
+            
+            log.info("\n\n\n  Configuracio.getPortaFIBProperties() => " + all.size() + "   \n\n\n");
+            
+
+            List<PropietatGlobal> list = new ArrayList<PropietatGlobal>();
+            int count = 0;
+
+            for (Object keyObj : all.keySet()) {
+                String key = (String) keyObj;
+                if (key.startsWith(ConstantsV2.PORTAFIB_PROPERTY_BASE)) {
+                    
+                    if (key.startsWith(ConstantsV2.PORTAFIB_PROPERTY_BASE + "plugins") 
+                            ||  key.startsWith(ConstantsV2.PORTAFIB_PROPERTY_BASE + "pluginsib")) {
+                        continue;
+                    }
+                    
+                    list.add(new PropietatGlobalJPA(count++, key, (String) all.get(key), null, null));
+                    count++;
+                }
+            }
+
+            Collections.sort(list, new Comparator<PropietatGlobal>() {
+                @Override
+                public int compare(PropietatGlobal o1, PropietatGlobal o2) {
+                    return o1.getClau().compareTo(o2.getClau());
+                }
+            });
+
+            return list;
+
+        } else {
+            return super.executeSelect(ejb, where, orderBy, itemsPerPage, inici);
+        }
+    }
+
+    @Override
+    public PropietatGlobalFilterForm getPropietatGlobalFilterForm(Integer pagina, ModelAndView mav,
+            HttpServletRequest request) throws I18NException {
+        PropietatGlobalFilterForm propietatGlobalFilterForm;
+        propietatGlobalFilterForm = super.getPropietatGlobalFilterForm(pagina, mav, request);
+        if (propietatGlobalFilterForm.isNou()) {
+            propietatGlobalFilterForm.addHiddenField(ENTITATID);
+            propietatGlobalFilterForm.addHiddenField(DESCRIPCIO);
+            propietatGlobalFilterForm.addHiddenField(PROPIETATGLOBALID);
+            propietatGlobalFilterForm.setGroupByFields(new ArrayList<Field<?>>());
+
+            switch (getTipusPropietat()) {
+                case PropietatsConstants.TIPUS_PROPIETAT_GLOBAL:
+                break;
+
+                case PropietatsConstants.TIPUS_PROPIETAT_ENTITAT:
+                break;
+
+                case PropietatsConstants.TIPUS_PROPIETAT_SISTEMA:
+                default:
+                    propietatGlobalFilterForm.setDeleteButtonVisible(false);
+                    propietatGlobalFilterForm.setAddButtonVisible(false);
+                    propietatGlobalFilterForm.setVisibleMultipleSelection(false);
+                    propietatGlobalFilterForm.setEditButtonVisible(false);
+                    propietatGlobalFilterForm.setItemsPerPage(-1);
+
+                    propietatGlobalFilterForm.setFilterByFields(new ArrayList<Field<?>>());
+
+            }
+
+        }
+
+        return propietatGlobalFilterForm;
+    }
+
+    @Override
+    public PropietatGlobalForm getPropietatGlobalForm(PropietatGlobalJPA _jpa, boolean __isView,
+            HttpServletRequest request, ModelAndView mav) throws I18NException {
+        PropietatGlobalForm propietatGlobalForm = super.getPropietatGlobalForm(_jpa, __isView, request, mav);
+        if (propietatGlobalForm.isNou()) {
+            propietatGlobalForm.getPropietatGlobal().setClau(ConstantsV2.PORTAFIB_PROPERTY_BASE);
+            switch (getTipusPropietat()) {
+                case PropietatsConstants.TIPUS_PROPIETAT_GLOBAL:
+                break;
+
+                case PropietatsConstants.TIPUS_PROPIETAT_ENTITAT:
+                    propietatGlobalForm.getPropietatGlobal().setEntitatID(LoginInfo.getInstance().getEntitatID());
+                break;
+
+                case PropietatsConstants.TIPUS_PROPIETAT_SISTEMA:
+                default:
+                    throw new I18NException("genapp.comodi", "No podem crear Propietats de Tipus Sistema");
+
+            }
+
+        }
+
+        propietatGlobalForm.addHiddenField(ENTITATID);
+
+        return propietatGlobalForm;
+    }
+
+    @Override
+    public void postList(HttpServletRequest request, ModelAndView mav, PropietatGlobalFilterForm filterForm,
+            List<PropietatGlobal> list) throws I18NException {
 
         filterForm.getAdditionalFields().remove(COLUMN_ESTAT_PROPIETAT);
 
@@ -201,11 +205,11 @@ public class PropietatGlobalAdminController extends PropietatGlobalController {
         switch (getTipusPropietat()) {
             case PropietatsConstants.TIPUS_PROPIETAT_GLOBAL:
                 propietats = PropietatsConstants.propietatsGlobals;
-                break;
+            break;
 
             case PropietatsConstants.TIPUS_PROPIETAT_ENTITAT:
                 propietats = PropietatsConstants.propietatsEntitat;
-                break;
+            break;
 
             case PropietatsConstants.TIPUS_PROPIETAT_SISTEMA:
             default:
@@ -225,16 +229,14 @@ public class PropietatGlobalAdminController extends PropietatGlobalController {
             Propietat prop = propietats.get(clau);
             if (prop == null) {
 
-                if (isSistema
-                        && (clau.startsWith("es.caib.portafib.hibernate.")
+                if (isSistema && (clau.startsWith("es.caib.portafib.hibernate.")
                         || clau.startsWith("es.caib.portafib.plugins.certificate")
                         || clau.startsWith("es.caib.portafib.plugins.userinformation")
                         || clau.startsWith("es.caib.portafib.hibernate"))) {
                     continue;
                 }
 
-                map.put(
-                        pg.getPropietatGlobalID(),
+                map.put(pg.getPropietatGlobalID(),
                         "<b><a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Propietat Desconeguda\">????</a></b>");
             } else {
 
@@ -243,8 +245,7 @@ public class PropietatGlobalAdminController extends PropietatGlobalController {
                     // &#9745; OK Millor &#10004;
                     // &#9746; ERR Millor &#9888;
                     // Unknown
-                    map.put(
-                            pg.getPropietatGlobalID(),
+                    map.put(pg.getPropietatGlobalID(),
                             "<b><a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Propietat Obsoleta\">&#9888;</a></b>");
 
                 }
@@ -267,7 +268,8 @@ public class PropietatGlobalAdminController extends PropietatGlobalController {
     }
 
     @Override
-    public void postValidate(HttpServletRequest request, PropietatGlobalForm propietatGlobalForm, BindingResult result) throws I18NException {
+    public void postValidate(HttpServletRequest request, PropietatGlobalForm propietatGlobalForm, BindingResult result)
+            throws I18NException {
 
         //super.postValidate(request, propietatGlobalForm, result); //To change body of generated methods, choose Tools | Templates.
         if (result.hasErrors()) {
@@ -292,70 +294,63 @@ public class PropietatGlobalAdminController extends PropietatGlobalController {
             }
 
         }
-        
+
         Long idPropietat = propietatGlobalForm.getPropietatGlobal().getPropietatGlobalID();
         String clau = propietatGlobalForm.getPropietatGlobal().getClau();
         String entitat = propietatGlobalForm.getPropietatGlobal().getEntitatID();
-        
+
         List<Long> ids = propietatGlobalLogicaEjb.getIdsProperty(entitat, clau);
-        
-        for (Long id:ids){
-            if ((idPropietat!=null) && !idPropietat.equals(id)){
-                 result.rejectValue(get(CLAU), "=Valor repetit",
-                    new Object[] { I18NUtils.tradueix(CLAU.fullName) },
-                    "Clau repetida amb codi " + id);
+
+        for (Long id : ids) {
+            if ((idPropietat != null) && !idPropietat.equals(id)) {
+                result.rejectValue(get(CLAU), "=Valor repetit", new Object[] { I18NUtils.tradueix(CLAU.fullName) },
+                        "Clau repetida amb codi " + id);
             }
         }
-        
 
     }
 
-  
-   /**
-   * Gets an accessible {@link Field} by name, breaking scope if requested.
-   * Superclasses/interfaces will be considered.
-   * 
-   * @param cls
-   *          the {@link Class} to reflect, must not be {@code null}
-   * @param fieldName
-   *          the field name to obtain
-   * @param forceAccess
-   *          whether to break scope restrictions using the
-   *          {@link java.lang.reflect.AccessibleObject#setAccessible(boolean)} method.
-   *          {@code false} will only match {@code public} fields.
-   * @return the Field object
-   * @throws IllegalArgumentException
-   *           if the class is {@code null}, or the field name is blank or empty or is matched
-   *           at multiple places in the inheritance hierarchy
-   */
-  public static java.lang.reflect.Field getField(final Class<?> cls, final String fieldName,
-      final boolean forceAccess) {
+    /**
+    * Gets an accessible {@link Field} by name, breaking scope if requested.
+    * Superclasses/interfaces will be considered.
+    * 
+    * @param cls
+    *          the {@link Class} to reflect, must not be {@code null}
+    * @param fieldName
+    *          the field name to obtain
+    * @param forceAccess
+    *          whether to break scope restrictions using the
+    *          {@link java.lang.reflect.AccessibleObject#setAccessible(boolean)} method.
+    *          {@code false} will only match {@code public} fields.
+    * @return the Field object
+    * @throws IllegalArgumentException
+    *           if the class is {@code null}, or the field name is blank or empty or is matched
+    *           at multiple places in the inheritance hierarchy
+    */
+    public static java.lang.reflect.Field getField(final Class<?> cls, final String fieldName,
+            final boolean forceAccess) {
 
-    // check up the superclass hierarchy
-    for (Class<?> acls = cls; acls != null; acls = acls.getSuperclass()) {
-      try {
-        final java.lang.reflect.Field field = acls.getDeclaredField(fieldName);
-        // getDeclaredField checks for non-public scopes as well
-        // and it returns accurate results
-        if (!java.lang.reflect.Modifier.isPublic(field.getModifiers())) {
-          if (forceAccess) {
-            field.setAccessible(true);
-          } else {
-            continue;
-          }
+        // check up the superclass hierarchy
+        for (Class<?> acls = cls; acls != null; acls = acls.getSuperclass()) {
+            try {
+                final java.lang.reflect.Field field = acls.getDeclaredField(fieldName);
+                // getDeclaredField checks for non-public scopes as well
+                // and it returns accurate results
+                if (!java.lang.reflect.Modifier.isPublic(field.getModifiers())) {
+                    if (forceAccess) {
+                        field.setAccessible(true);
+                    } else {
+                        continue;
+                    }
+                }
+                return field;
+            } catch (final NoSuchFieldException ex) { // NOPMD
+                // ignore
+            }
         }
-        return field;
-      } catch (final NoSuchFieldException ex) { // NOPMD
-        // ignore
-      }
+
+        return null;
+
     }
-
-    return null;
-
-  }
-  
-  
-  
-  
 
 }

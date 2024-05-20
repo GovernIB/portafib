@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import org.apache.log4j.Logger;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;

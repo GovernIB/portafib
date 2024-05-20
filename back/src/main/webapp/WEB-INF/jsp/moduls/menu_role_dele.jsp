@@ -1,7 +1,7 @@
 <%@page import="es.caib.portafib.back.utils.MenuItem"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="es.caib.portafib.utils.Configuracio"
+<%@page import="es.caib.portafib.commons.utils.Configuracio"
 %><%@page import="es.caib.portafib.utils.ConstantsV2"
 %><%@page import="java.util.HashMap"
 %><%@page import="java.util.Map"

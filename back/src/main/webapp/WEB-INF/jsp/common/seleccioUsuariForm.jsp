@@ -1,5 +1,5 @@
 <%@page import="org.fundaciobit.genapp.common.web.html.HtmlCSS"
-%><%@page import="es.caib.portafib.utils.Configuracio"
+%><%@page import="es.caib.portafib.commons.utils.Configuracio"
 %><%@include file="/WEB-INF/jsp/moduls/includes.jsp"
 %>
 <form:form modelAttribute="seleccioUsuariForm" method="post" name="seleccioUsuariForm">

@@ -56,7 +56,7 @@ import es.caib.portafib.model.fields.RevisorDeFirmaQueryPath;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.fundaciobit.genapp.common.KeyValue;

@@ -10,7 +10,7 @@ import es.caib.portafib.logic.validator.UsuariPersonaLogicValidator;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 import java.util.HashSet;

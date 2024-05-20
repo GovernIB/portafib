@@ -2,7 +2,7 @@ package es.caib.portafib.logic.utils;
 
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.model.entity.PerfilDeFirma;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 import org.apache.log4j.Logger;
@@ -450,7 +450,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
    * @return
    */
   public static String getDefaultEntity() {
-    // return System.getProperty(PORTAFIB_PROPERTY_BASE + "defaultentity");
     final String partialPropertyName = "defaultentity";
     String val = getString(partialPropertyName);
     if (log.isDebugEnabled()) {
