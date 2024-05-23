@@ -63,9 +63,8 @@ public class PortaFIBDataExporter implements IDataExporter {
     }
 
     @Override
-    public DataExported exportList(BaseFilterForm filterForm, List<? extends IGenAppEntity> list,
-            Field<?>[] allFields, Map<Field<?>, Map<String, String>> mapValuesByField,
-            Field<?>[] primaryKeys) throws Exception {
+    public DataExported exportList(BaseFilterForm filterForm, List<? extends IGenAppEntity> list, Field<?>[] allFields,
+            Map<Field<?>, Map<String, String>> mapValuesByField, Field<?>[] primaryKeys) throws Exception {
 
         // TODO Falten columnes adicionals
 
@@ -74,8 +73,7 @@ public class PortaFIBDataExporter implements IDataExporter {
         // 1.1 Columnes Visibles
         Field<?>[] visibleFields = getVisibleFields(filterForm, allFields);
 
-        ExportData exportData = getExportData(filterForm, list, visibleFields, mapValuesByField,
-                primaryKeys);
+        ExportData exportData = getExportData(filterForm, list, visibleFields, mapValuesByField, primaryKeys);
 
         // 2. Passar exportData al tipus de document
 
@@ -84,8 +82,7 @@ public class PortaFIBDataExporter implements IDataExporter {
         if (exportData == null) {
             return null;
         } else {
-            return new DataExported(exportFile.getContentType(), exportFile.getFilename(),
-                    exportFile.getData());
+            return new DataExported(exportFile.getContentType(), exportFile.getFilename(), exportFile.getData());
         }
 
     }
@@ -98,9 +95,8 @@ public class PortaFIBDataExporter implements IDataExporter {
         this.exportDataPlugin = exportDataPlugin;
     }
 
-    private ExportData getExportData(BaseFilterForm filterForm, List<? extends Object> list,
-            Field<?>[] visibleFields, Map<Field<?>, Map<String, String>> mapValues,
-            Field<?>... primaryKeys) {
+    private ExportData getExportData(BaseFilterForm filterForm, List<? extends Object> list, Field<?>[] visibleFields,
+            Map<Field<?>, Map<String, String>> mapValues, Field<?>... primaryKeys) {
 
         // 1.1 Titols de les Columnes
         TreeMap<Integer, AdditionalField<?, ?>> additionalFields = filterForm.getAdditionalFields();
@@ -242,8 +238,7 @@ public class PortaFIBDataExporter implements IDataExporter {
                     str = String.valueOf(value);
                 } else {
                     // TODO nomes claus primaries uniques
-                    Object primaryKeyValue = Utils.getValueOfJavaField(list.get(j),
-                            primaryKeys[0].javaName);
+                    Object primaryKeyValue = Utils.getValueOfJavaField(list.get(j), primaryKeys[0].javaName);
                     str = values.get(primaryKeyValue);
                 }
 

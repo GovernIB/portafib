@@ -65,7 +65,7 @@
         <dependency>
             <artifactId>pluginsib-utils-rest</artifactId>
             <groupId>org.fundaciobit.pluginsib.utils</groupId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>3.0.0-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <!-- Esta en LIB de l'EAR -->
@@ -76,9 +76,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>swager-ui-configurable</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <groupId>org.fundaciobit.pluginsib.utils</groupId>
+            <artifactId>pluginsib-utils-swager-ui-configurable-webjar</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>
@@ -259,7 +259,7 @@
                     <dependency>
                         <artifactId>pluginsib-utils-rest</artifactId>
                         <groupId>org.fundaciobit.pluginsib.utils</groupId>
-                        <version>2.0.0-SNAPSHOT</version>
+                        <version>3.0.0-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -276,44 +276,6 @@
                         </resource>
                     </webResources>
                 </configuration>
-            </plugin>
-
-
-            <!--NOU TODO -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <includeProjectDependencies>false</includeProjectDependencies>
-                    <includePluginDependencies>true</includePluginDependencies>
-                    <executableDependency>
-                        <artifactId>pluginsib-utils-rest</artifactId>
-                        <groupId>org.fundaciobit.pluginsib.utils</groupId>
-                    </executableDependency>
-                    <mainClass>
-                        org.fundaciobit.pluginsib.utils.rest.pomadaptertojboss72.AdaptApiClientPomToJboss72</mainClass>
-                    <arguments>
-                        <argument>${project.basedir}</argument>
-                    </arguments>
-
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <artifactId>pluginsib-utils-rest</artifactId>
-                        <groupId>org.fundaciobit.pluginsib.utils</groupId>
-                        <version>2.0.0-SNAPSHOT</version>
-                    </dependency>
-
-                </dependencies>
             </plugin>
 
         </plugins>
