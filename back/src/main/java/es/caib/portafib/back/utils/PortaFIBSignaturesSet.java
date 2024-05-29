@@ -3,7 +3,7 @@ package es.caib.portafib.back.utils;
 import es.caib.portafib.persistence.EntitatJPA;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
+import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
 
 import java.util.Date;
 import java.util.HashMap;

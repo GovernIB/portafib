@@ -11,7 +11,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
+import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
 
 import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;

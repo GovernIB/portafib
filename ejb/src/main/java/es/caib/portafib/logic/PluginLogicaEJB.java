@@ -5,8 +5,6 @@ import es.caib.portafib.ejb.PluginEJB;
 import es.caib.portafib.model.entity.Plugin;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.pluginsib.core.IPlugin;
-
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,7 +20,8 @@ import java.util.Map;
 @Stateless(name = "PluginLogicaEJB")
 public class PluginLogicaEJB extends PluginEJB implements PluginLogicaLocal {
 
-  private static final Map<Long, IPlugin> pluginsCache = new HashMap<Long, IPlugin>();
+    /** XYZ ZZZ TODO Object => IPluginIB */
+  private static final Map<Long, Object> pluginsCache = new HashMap<Long, Object>();
 
   @EJB(mappedName = es.caib.portafib.ejb.TraduccioService.JNDI_NAME)
   protected es.caib.portafib.ejb.TraduccioService traduccioEjb;
@@ -39,7 +38,8 @@ public class PluginLogicaEJB extends PluginEJB implements PluginLogicaLocal {
   @Override
   public boolean deleteOfCache(Long pluginID) {
     synchronized (pluginsCache) {
-      IPlugin p = pluginsCache.remove(pluginID);
+      //IPlugin
+      Object p = pluginsCache.remove(pluginID);
       return p != null;
     }
   }
@@ -62,14 +62,15 @@ public class PluginLogicaEJB extends PluginEJB implements PluginLogicaLocal {
     }
   }
   
-  
-  public void addPluginToCache(Long pluginID, IPlugin pluginInstance) { 
+  /** XYZ ZZZ TODO Object => IPluginIB */
+  public void addPluginToCache(Long pluginID, Object pluginInstance) { 
     synchronized (pluginsCache) {
       pluginsCache.put(pluginID, pluginInstance);  
     }
   }
   
-  public IPlugin getPluginFromCache(Long pluginID) {
+  /** TODO XYZ ZZZ Object =>  IPluginIB */
+  public Object getPluginFromCache(Long pluginID) {
     synchronized (pluginsCache) {
       return  pluginsCache.get(pluginID);  
     }

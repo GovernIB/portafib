@@ -10,7 +10,6 @@ import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NTranslation;
-import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
@@ -26,16 +25,9 @@ import es.caib.portafib.back.form.webdb.RoleUsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
-import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
-import es.caib.portafib.model.entity.RevisorDeFirma;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
-import es.caib.portafib.model.fields.FirmaFields;
-import es.caib.portafib.model.fields.FirmaQueryPath;
-import es.caib.portafib.model.fields.FluxDeFirmesQueryPath;
-import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
-import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**

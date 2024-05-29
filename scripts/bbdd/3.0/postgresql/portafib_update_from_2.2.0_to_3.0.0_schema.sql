@@ -27,3 +27,5 @@ CREATE TABLE pfi_revisordedestinatari
 create index pfi_revisordedestinatari_pk_i on pfi_revisordedestinatari (revisordedestinatariid);
 create index pfi_revdedest_destid_fk_i on pfi_revisordedestinatari (destinatariid);
 create index pfi_revdedest_revisorid_fk_i on pfi_revisordedestinatari (revisorid);
+
+

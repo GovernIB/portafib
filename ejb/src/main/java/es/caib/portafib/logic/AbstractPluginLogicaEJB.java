@@ -1,13 +1,10 @@
 package es.caib.portafib.logic;
 
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import es.caib.portafib.persistence.PluginJPA;
 import es.caib.portafib.commons.utils.Configuracio;
-import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.utils.ConstantsV2;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -16,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.core.IPlugin;
 import org.fundaciobit.pluginsib.core.utils.PluginsManager;
 import org.fundaciobit.pluginsib.utils.templateengine.TemplateEngine;
@@ -26,13 +22,13 @@ import org.fundaciobit.pluginsib.utils.templateengine.TemplateEngine;
  * @author anadal
  *
  */
-public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginLogicaEJB
+public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends AbstractCommonPluginLogicaEJB<I>
         implements AbstractPluginLogicaLocal<I> {
 
     protected abstract int getTipusDePlugin();
 
     protected abstract String getName();
-
+/*
     @Override
     public List<Plugin> getAllPlugins(String entitatID) throws I18NException {
         Where where = getWhere(entitatID);
@@ -51,12 +47,12 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
         // Where.OR(ENTITATID.isNull(), ENTITATID.equal(entitatID))
         );
     }
-
+*/
     //@SuppressWarnings("unchecked")
     @Override
     public I getInstanceByPluginID(long pluginID) throws I18NException {
 
-        IPlugin pluginInstance = getPluginFromCache(pluginID);
+        IPlugin pluginInstance = (IPlugin)getPluginFromCache(pluginID);
 
         if (pluginInstance == null) {
 
@@ -120,7 +116,7 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
         return (I) pluginInstance;
 
     }
-
+/*
     @Override
     public List<I> getPluginInstancesByEntitatID(String entitatID) throws I18NException {
 
@@ -153,5 +149,5 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
         return plugins;
 
     }
-
+*/
 }

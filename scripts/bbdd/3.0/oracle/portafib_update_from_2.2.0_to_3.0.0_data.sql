@@ -11,3 +11,12 @@ select pfi_propietatglobal_seq.nextval as propietaglobalid ,'es.caib.portafib.re
         from pfi_entitat;
 
 
+
+--###########################################################################
+--#####  Actualitzar PluginsIB-SignatureServer i PluginsIB-SignatureWeb #827  
+--###########################################################################
+
+
+UPDATE pfi_plugin SET classe=REPLACE(classe, 'org.fundaciobit.plugins.', 'org.fundaciobit.pluginsib.')  WHERE tipus=0 OR tipus=3;
+UPDATE pfi_plugin SET propertiesadmin=REPLACE(propertiesadmin, 'es.caib.portafib.plugins.', 'es.caib.portafib.pluginsib.')  WHERE tipus=0 OR tipus=3;
+UPDATE pfi_plugin SET propertiesentitat=REPLACE(propertiesentitat, 'es.caib.portafib.plugins.', 'es.caib.portafib.pluginsib.')  WHERE tipus=0 OR tipus=3;

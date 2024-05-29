@@ -9,7 +9,7 @@ import es.caib.portafib.persistence.FirmaJPA;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
-import es.caib.portafib.logic.AbstractPluginLogicaLocal;
+import es.caib.portafib.logic.AbstractPluginIBLogicaLocal;
 import es.caib.portafib.logic.BitacolaLogicaLocal;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
@@ -50,8 +50,8 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
+import org.fundaciobit.pluginsib.signatureweb.api.ISignatureWebPlugin;
+import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
 import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
 
@@ -115,7 +115,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     protected SignaturesSetValidator<PassarelaSignaturesSet> validator = new SignaturesSetValidator<PassarelaSignaturesSet>();
 
     @Override
-    protected AbstractPluginLogicaLocal<ISignatureWebPlugin> getModulDeFirmaEJB() {
+    protected AbstractPluginIBLogicaLocal<ISignatureWebPlugin> getModulDeFirmaEJB() {
+        // AbstractPluginIBLogicaLocal
         return modulDeFirmaEjb;
     }
 

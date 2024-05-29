@@ -42,8 +42,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.ejb.EJB;
-
 /**
  *
  * @author anadal(u80067)

@@ -24,7 +24,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.persistence.PluginJPA;
 import es.caib.portafib.persistence.TraduccioJPA;
 import es.caib.portafib.persistence.TraduccioMapJPA;
-import es.caib.portafib.logic.AbstractPluginLogicaLocal;
+import es.caib.portafib.logic.AbstractCommonPluginLogicaLocal;
 import es.caib.portafib.model.entity.Plugin;
 
 
@@ -36,7 +36,7 @@ import es.caib.portafib.model.entity.Plugin;
 
 public abstract class AbstractPluginAdenController<I> extends AbstractPluginAdminController {
   
-  public abstract AbstractPluginLogicaLocal<I> getPluginEjb();
+  public abstract AbstractCommonPluginLogicaLocal<I> getPluginEjb();
   
   public abstract String getCrearTranslationCode();
   

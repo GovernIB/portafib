@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
 
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.ejb.CustodiaInfoEJB;
 import es.caib.portafib.ejb.CustodiaInfoService;
 import es.caib.portafib.ejb.EntitatService;
@@ -1006,8 +1007,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
 
       String javaName = custodiaInfo.getCodiBarresID();
 
-      IBarcodePlugin barcode = (IBarcodePlugin) PluginsManager
-          .instancePluginByClassName(javaName);
+      IBarcodePlugin barcode = (IBarcodePlugin) PluginsManager.instancePluginByClassName(javaName, "",Configuracio.getSystemAndFileProperties());
       if (barcode == null) {
         throw new I18NException("plugin.donotinstantiate", javaName);
       }

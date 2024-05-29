@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import es.caib.portafib.model.entity.Plugin;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
+import org.fundaciobit.pluginsib.signatureweb.api.ISignatureWebPlugin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.AbstractPluginAdenController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
-import es.caib.portafib.logic.AbstractPluginLogicaLocal;
+import es.caib.portafib.logic.AbstractCommonPluginLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -42,7 +42,7 @@ public class ModulDeFirmaWebAdenController extends AbstractPluginAdenController<
   }
 
   @Override
-  public AbstractPluginLogicaLocal<ISignatureWebPlugin> getPluginEjb() {
+  public AbstractCommonPluginLogicaLocal<ISignatureWebPlugin> getPluginEjb() {
     return modulDeFirmaEjb;
   }
 

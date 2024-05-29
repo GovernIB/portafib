@@ -15,7 +15,7 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
+import org.fundaciobit.pluginsib.signatureweb.api.ISignatureWebPlugin;
 
 
 import javax.ejb.EJB;
@@ -30,7 +30,7 @@ import java.util.Set;
  * @author areus
  */
 @Stateless(name = "ModulDeFirmaWebLogicaEJB")
-public class ModulDeFirmaWebLogicaEJB extends AbstractPluginLogicaEJB<ISignatureWebPlugin>
+public class ModulDeFirmaWebLogicaEJB extends AbstractPluginIBLogicaEJB<ISignatureWebPlugin>
     implements ModulDeFirmaWebLogicaLocal {
 
   @EJB(mappedName = UsuariEntitatService.JNDI_NAME, beanName = "UsuariEntitatEJB")

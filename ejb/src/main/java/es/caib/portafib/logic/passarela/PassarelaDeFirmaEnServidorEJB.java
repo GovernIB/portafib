@@ -6,7 +6,7 @@ import es.caib.portafib.persistence.EstadisticaJPA;
 import es.caib.portafib.persistence.PluginJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
-import es.caib.portafib.logic.AbstractPluginLogicaLocal;
+import es.caib.portafib.logic.AbstractCommonPluginLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaServidorLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsPublicLogicaLocal;
 import es.caib.portafib.logic.ValidacioCompletaFirmaLogicaLocal;
@@ -92,7 +92,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
   protected ValidacioCompletaFirmaLogicaLocal validacioCompletaLogicaEjb;
 
   @Override
-  protected AbstractPluginLogicaLocal<ISignatureServerPlugin> getModulDeFirmaEJB() {
+  protected AbstractCommonPluginLogicaLocal<ISignatureServerPlugin> getModulDeFirmaEJB() {
     return modulDeFirmaServidorEjb;
   }
 

@@ -2,7 +2,7 @@ package es.caib.portafib.logic;
 
 import es.caib.portafib.model.entity.Plugin;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
+import org.fundaciobit.pluginsib.signatureweb.api.ISignatureWebPlugin;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.Set;
  */
 @Local
 public interface ModulDeFirmaWebLogicaLocal extends
-    AbstractPluginLogicaLocal<ISignatureWebPlugin> {
+    AbstractPluginIBLogicaLocal<ISignatureWebPlugin> {
 
   String JNDI_NAME = "java:app/portafib-ejb/ModulDeFirmaWebLogicaEJB";
 

@@ -13,7 +13,7 @@ import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
  */
 @Stateless(name = "ModulDeFirmaServidorLogicaEJB")
 public class ModulDeFirmaServidorLogicaEJB extends
-    AbstractPluginLogicaEJB<ISignatureServerPlugin> implements ModulDeFirmaServidorLogicaLocal {
+    AbstractPluginIBLogicaEJB<ISignatureServerPlugin> implements ModulDeFirmaServidorLogicaLocal {
 
   @Override
   public int getTipusDePlugin() {

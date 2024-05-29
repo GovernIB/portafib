@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.AbstractPluginAdenController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
-import es.caib.portafib.logic.AbstractPluginLogicaLocal;
+import es.caib.portafib.logic.AbstractCommonPluginLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaServidorLogicaLocal;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -40,7 +40,7 @@ public class ModulDeFirmaEnServidorAdenController extends AbstractPluginAdenCont
   }
 
   @Override
-  public AbstractPluginLogicaLocal<ISignatureServerPlugin> getPluginEjb() {
+  public AbstractCommonPluginLogicaLocal<ISignatureServerPlugin> getPluginEjb() {
     return modulDeFirmaEnServidorEjb;
   }
 
