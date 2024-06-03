@@ -99,8 +99,7 @@
         <pluginsib.userinformation.impl.version>3.1.0-SNAPSHOT</pluginsib.userinformation.impl.version>
         <plugins.signatureserver.version>4.0.0-SNAPSHOT</plugins.signatureserver.version>
         <plugins.signatureweb.version>4.0.0-SNAPSHOT</plugins.signatureweb.version>
-        <plugins.validatesignature.version>2.1.0-SNAPSHOT</plugins.validatesignature.version>
-        <plugins.validatecertificate.version>2.1.1-SNAPSHOT</plugins.validatecertificate.version>
+        <plugins.validatesignature.version>3.0.0-SNAPSHOT</plugins.validatesignature.version>
         <apifirmasimple.version>1.0.3</apifirmasimple.version>
         <picketbox.version>5.0.2.Final</picketbox.version>
         <!-- Versions de JBoss -->
@@ -167,9 +166,7 @@
                 <artifactId>jaxb-impl</artifactId>
                 <version>2.3.0</version>
             </dependency>
-            
-            
-            
+
             <dependency>
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>

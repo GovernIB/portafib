@@ -110,12 +110,6 @@
             <version>${pluginsib.userinformation.api.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.fundaciobit.pluginsib.validatecertificate</groupId>
-            <artifactId>pluginsib-validatecertificate-api</artifactId>
-            <version>${plugins.validatecertificate.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
             <artifactId>pluginsib-documentcustody-api</artifactId>
             <version>4.0.0</version>

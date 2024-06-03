@@ -8,10 +8,10 @@ import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.validatesignature.api.IValidateSignaturePlugin;
-import org.fundaciobit.plugins.validatesignature.api.SignatureRequestedInformation;
-import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureRequest;
-import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
+import org.fundaciobit.pluginsib.validatesignature.api.IValidateSignaturePlugin;
+import org.fundaciobit.pluginsib.validatesignature.api.SignatureRequestedInformation;
+import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureRequest;
+import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
 
 
 import javax.ejb.EJB;
@@ -24,7 +24,7 @@ import java.util.Locale;
  */
 @Stateless(name = "PluginValidacioFirmesLogicaEJB")
 public class PluginValidacioFirmesLogicaEJB extends
-    AbstractPluginLogicaEJB<IValidateSignaturePlugin> implements PluginValidacioFirmesLogicaLocal {
+    AbstractPluginIBLogicaEJB<IValidateSignaturePlugin> implements PluginValidacioFirmesLogicaLocal {
 
   @EJB(mappedName = EntitatService.JNDI_NAME, beanName = "EntitatEJB")
   private EntitatService entitatEjb;

@@ -71,13 +71,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.fundaciobit.pluginsib.validatecertificate</groupId>
-			<artifactId>pluginsib-validatecertificate-api</artifactId>
-			<version>${plugins.validatecertificate.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>org.fundaciobit.pluginsib.exportdata</groupId>
 			<artifactId>pluginsib-exportdata-api</artifactId>
 			<version>3.0.0-SNAPSHOT</version>

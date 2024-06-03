@@ -19,3 +19,13 @@ select nextval('pfi_propietatglobal_seq') as propietaglobalid ,'es.caib.portafib
 UPDATE pfi_plugin SET classe=REPLACE(classe, 'org.fundaciobit.plugins.', 'org.fundaciobit.pluginsib.')  WHERE tipus=0 OR tipus=3;
 UPDATE pfi_plugin SET propertiesadmin=REPLACE(propertiesadmin, 'es.caib.portafib.plugins.', 'es.caib.portafib.pluginsib.')  WHERE tipus=0 OR tipus=3;
 UPDATE pfi_plugin SET propertiesentitat=REPLACE(propertiesentitat, 'es.caib.portafib.plugins.', 'es.caib.portafib.pluginsib.')  WHERE tipus=0 OR tipus=3;
+
+
+
+--###########################################################################
+--## Actualitzar Plugin de Validació de Certificats i De Firmes a versió 3.0.0-SNAPSHOT #828   
+--###########################################################################
+
+UPDATE pfi_plugin SET classe=REPLACE(classe, 'org.fundaciobit.plugins.', 'org.fundaciobit.pluginsib.')  WHERE tipus=4;
+UPDATE pfi_plugin SET propertiesadmin=REPLACE(propertiesadmin, 'es.caib.portafib.plugins.', 'es.caib.portafib.pluginsib.')  WHERE tipus=4;
+UPDATE pfi_plugin SET propertiesentitat=REPLACE(propertiesentitat, 'es.caib.portafib.plugins.', 'es.caib.portafib.pluginsib.')  WHERE tipus=4;

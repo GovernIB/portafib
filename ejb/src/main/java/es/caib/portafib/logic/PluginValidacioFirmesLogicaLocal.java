@@ -2,8 +2,8 @@ package es.caib.portafib.logic;
 
 import javax.ejb.Local;
 
-import org.fundaciobit.plugins.validatesignature.api.IValidateSignaturePlugin;
-import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
+import org.fundaciobit.pluginsib.validatesignature.api.IValidateSignaturePlugin;
+import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
 
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 
@@ -14,7 +14,7 @@ import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
  */
 @Local
 public interface PluginValidacioFirmesLogicaLocal extends
-    AbstractPluginLogicaLocal<IValidateSignaturePlugin> {
+    AbstractPluginIBLogicaLocal<IValidateSignaturePlugin> {
 
   String JNDI_NAME = "java:app/portafib-ejb/PluginValidacioFirmesLogicaEJB";
 

@@ -3,7 +3,7 @@ package es.caib.portafib.logic.utils;
 import java.math.BigInteger;
 import java.security.cert.X509Certificate;
 
-import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
+import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
 
 /**
  * 

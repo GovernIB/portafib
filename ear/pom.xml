@@ -194,19 +194,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- ============================================ -->
-        <!-- =====      PLUGINS DE CERTIFICATE      ===== -->
-        <!-- ============================================ -->
-        <dependency>
-            <groupId>org.fundaciobit.pluginsib.validatecertificate</groupId>
-            <artifactId>pluginsib-validatecertificate-afirmacxf</artifactId>
-            <version>${plugins.validatecertificate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fundaciobit.pluginsib.validatecertificate</groupId>
-            <artifactId>pluginsib-validatecertificate-fake</artifactId>
-            <version>${plugins.validatecertificate.version}</version>
-        </dependency>
+
         <!-- ====================================== -->
         <!-- ===== PLUGINS DE USERINFORMATION ===== -->
         <!-- ====================================== -->

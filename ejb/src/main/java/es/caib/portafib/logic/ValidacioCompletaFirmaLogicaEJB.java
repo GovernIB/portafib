@@ -23,9 +23,9 @@ import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.pluginsib.validatecertificate.InformacioCertificat;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.validatesignature.api.SignatureDetailInfo;
-import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
-import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
+import org.fundaciobit.pluginsib.validatesignature.api.SignatureDetailInfo;
+import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
+import org.fundaciobit.pluginsib.validatesignature.api.ValidationStatus;
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 
 

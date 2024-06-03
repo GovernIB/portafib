@@ -52,8 +52,8 @@ import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.pluginsib.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
-import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
-import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
+import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
+import org.fundaciobit.pluginsib.validatesignature.api.ValidationStatus;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;

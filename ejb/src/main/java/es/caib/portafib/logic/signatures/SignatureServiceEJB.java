@@ -9,8 +9,8 @@ import es.caib.portafib.model.entity.Fitxer;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
-import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
+import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
+import org.fundaciobit.pluginsib.validatesignature.api.ValidationStatus;
 
 
 import javax.annotation.PostConstruct;
