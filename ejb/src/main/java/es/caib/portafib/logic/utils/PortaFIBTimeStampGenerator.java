@@ -3,7 +3,7 @@ package es.caib.portafib.logic.utils;
 import java.util.Calendar;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.pluginsib.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.timestamp.api.ITimeStampPlugin;
 
 

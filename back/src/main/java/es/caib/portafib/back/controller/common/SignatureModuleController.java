@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.pluginsib.signature.api.StatusSignaturesSet;
 import org.fundaciobit.pluginsib.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.pluginsib.utils.webutils.AbstractWebPlugin;

@@ -6,7 +6,7 @@ import javax.ejb.Local;
 
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
+import org.fundaciobit.pluginsib.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;

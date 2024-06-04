@@ -2,7 +2,7 @@ package es.caib.portafib.logic;
 
 import javax.ejb.Local;
 
-import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
+import org.fundaciobit.pluginsib.signatureserver.api.ISignatureServerPlugin;
 
 /**
  * 

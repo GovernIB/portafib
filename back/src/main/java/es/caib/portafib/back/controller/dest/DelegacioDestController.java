@@ -56,12 +56,12 @@ import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.pluginsib.signature.api.CommonInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.ITimeStampGenerator;
+import org.fundaciobit.pluginsib.signature.api.PolicyInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.StatusSignature;
+import org.fundaciobit.pluginsib.signature.api.StatusSignaturesSet;
 import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -107,10 +107,10 @@ import java.util.Set;
  */
 @Controller
 @RequestMapping(value = "/dest/delegat")
-@SessionAttributes(types = {ColaboracioDelegacioDestForm.class,
-        ColaboracioDelegacioForm.class, ColaboracioDelegacioFilterForm.class, SeleccioUsuariForm.class})
-public class DelegacioDestController extends ColaboracioDelegacioController implements
-        ConstantsV2 {
+@SessionAttributes(
+        types = { ColaboracioDelegacioDestForm.class, ColaboracioDelegacioForm.class,
+                ColaboracioDelegacioFilterForm.class, SeleccioUsuariForm.class })
+public class DelegacioDestController extends ColaboracioDelegacioController implements ConstantsV2 {
 
     public static final String SELECTION_DELE_COLA_USUARI_ENTITAT = "SELECTION_DELE_COLA_USUARI_ENTITAT_ID";
 
@@ -169,29 +169,25 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
         {
             this.carrecRefList = new UsuariEntitatRefList(carrecRefList);
-            this.carrecRefList.setSelects(new Select<?>[]{UsuariEntitatFields.CARREC.select});
+            this.carrecRefList.setSelects(new Select<?>[] { UsuariEntitatFields.CARREC.select });
         }
-
 
         final UsuariPersonaQueryPath personaQueryPath = new UsuariEntitatQueryPath().USUARIPERSONA();
         {
             this.personaRefList = new UsuariEntitatRefList(personaRefList);
-            this.personaRefList.setSelects(new Select<?>[]{
-                    personaQueryPath.LLINATGES().select, new SelectConstant(", "),
-                    personaQueryPath.NOM().select, new SelectConstant(" ("),
-                    personaQueryPath.NIF().select, new SelectConstant(")")});
+            this.personaRefList.setSelects(new Select<?>[] { personaQueryPath.LLINATGES().select,
+                    new SelectConstant(", "), personaQueryPath.NOM().select, new SelectConstant(" ("),
+                    personaQueryPath.NIF().select, new SelectConstant(")") });
             this.personaRefList.setSeparator("");
         }
-
 
         {
             this.usuariEntitatRefList = new UsuariEntitatRefList(usuariEntitatRefList);
 
-            this.usuariEntitatRefList.setSelects(new Select<?>[]{personaQueryPath.NOM().select,
-                    personaQueryPath.LLINATGES().select});
+            this.usuariEntitatRefList
+                    .setSelects(new Select<?>[] { personaQueryPath.NOM().select, personaQueryPath.LLINATGES().select });
         }
     }
-
 
     /**
      * @return true indica que gestiona delegacions, false gestiona col·laboracions
@@ -218,7 +214,6 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         return "seleccioUsuariForm" + (esDeCarrec() ? "_ADEN" : "_DEST");
     }
 
-
     @RequestMapping(value = "/selecciousuari", method = RequestMethod.GET)
     public ModelAndView seleccioUsuariGet() {
 
@@ -235,10 +230,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         seleccioUsuariForm.setCancelUrl("/canviarPipella/" + ConstantsV2.ROLE_DEST);
         seleccioUsuariForm.setUrlData("/common/json/usuarientitat");
         try {
-            seleccioUsuariForm.setUsuarisFavorits(
-                    SearchJSONController.favoritsToUsuariEntitat(
-                            usuariEntitatLogicaEjb.selectFavorits(
-                                    LoginInfo.getInstance().getUsuariEntitatID(), null, false)));
+            seleccioUsuariForm.setUsuarisFavorits(SearchJSONController.favoritsToUsuariEntitat(
+                    usuariEntitatLogicaEjb.selectFavorits(LoginInfo.getInstance().getUsuariEntitatID(), null, false)));
         } catch (I18NException e) {
             log.error("Error cercant favorits" + I18NUtils.getMessage(e), e);
         }
@@ -248,10 +241,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         return mav;
     }
 
-
     @RequestMapping(value = "/selecciousuari", method = RequestMethod.POST)
-    public ModelAndView seleccioUsuariPost(SeleccioUsuariForm seleccioUsuariForm,
-                                           BindingResult result, HttpServletRequest request) {
+    public ModelAndView seleccioUsuariPost(SeleccioUsuariForm seleccioUsuariForm, BindingResult result,
+            HttpServletRequest request) {
 
         ModelAndView mav = new ModelAndView(getTileSeleccioUsuari());
 
@@ -309,12 +301,11 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     }
 
     @Override
-    public ColaboracioDelegacioFilterForm getColaboracioDelegacioFilterForm(Integer pagina,
-                                                                            ModelAndView mav, HttpServletRequest request) throws I18NException {
+    public ColaboracioDelegacioFilterForm getColaboracioDelegacioFilterForm(Integer pagina, ModelAndView mav,
+            HttpServletRequest request) throws I18NException {
 
         ColaboracioDelegacioFilterForm colaboracioDelegacioFilterForm;
-        colaboracioDelegacioFilterForm = super.getColaboracioDelegacioFilterForm(pagina, mav,
-                request);
+        colaboracioDelegacioFilterForm = super.getColaboracioDelegacioFilterForm(pagina, mav, request);
 
         if (colaboracioDelegacioFilterForm.isNou()) {
 
@@ -357,12 +348,10 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     }
 
     @Override
-    public ColaboracioDelegacioForm getColaboracioDelegacioForm(ColaboracioDelegacioJPA _jpa,
-                                                                boolean __isView, HttpServletRequest request, ModelAndView mav) throws I18NException {
-
+    public ColaboracioDelegacioForm getColaboracioDelegacioForm(ColaboracioDelegacioJPA _jpa, boolean __isView,
+            HttpServletRequest request, ModelAndView mav) throws I18NException {
 
         ColaboracioDelegacioForm cdoriginal = super.getColaboracioDelegacioForm(_jpa, __isView, request, mav);
-
 
         ColaboracioDelegacioDestForm colaboracioDelegacioForm;
         if (cdoriginal instanceof ColaboracioDelegacioDestForm) {
@@ -451,13 +440,11 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                 colaboracioDelegacioJPA.setActiva(true);
                 colaboracioDelegacioForm.getReadOnlyFields().remove(ACTIVA);
             }
-            colaboracioDelegacioJPA.setDataInici(new Timestamp(
-                    System.currentTimeMillis() + 5 * 60 * 1000));
+            colaboracioDelegacioJPA.setDataInici(new Timestamp(System.currentTimeMillis() + 5 * 60 * 1000));
 
         } else {
 
-            currentTipusDocument = getCurrentTipusDocument(colaboracioDelegacioJPA,
-                    allTipusDocumentInfo, isDebug);
+            currentTipusDocument = getCurrentTipusDocument(colaboracioDelegacioJPA, allTipusDocumentInfo, isDebug);
 
             int estat;
 
@@ -490,19 +477,20 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                         colaboracioDelegacioJPA.setActiva(false);
                         colaboracioDelegacioForm.addHiddenField(FITXERAUTORITZACIOID);
                         // Afegim boto per firmar
-                        colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton("fas fa-file-signature",
-                                "firmar",
-                                "javascript:firmar('" + request.getContextPath() + getContextWeb() + "/firmarautoritzacio/"
-                                        + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID() + "');",
-                                "btn-warning"));
+                        colaboracioDelegacioForm
+                                .addAdditionalButton(new AdditionalButton("fas fa-file-signature", "firmar",
+                                        "javascript:firmar('" + request.getContextPath() + getContextWeb()
+                                                + "/firmarautoritzacio/" + colaboracioDelegacioForm
+                                                        .getColaboracioDelegacio().getColaboracioDelegacioID()
+                                                + "');",
+                                        "btn-warning"));
                         // Missatge informatiu
-                        HtmlUtils.saveMessageInfo(request,
-                                I18NUtils.tradueix("delegacio.avisnofirmadaautoritzacio"));
+                        HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("delegacio.avisnofirmadaautoritzacio"));
                     } else {
-                        colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton("fas fa-play",
-                                "activar", getContextWeb() + "/activar/{0}", "btn-success"));
+                        colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton("fas fa-play", "activar",
+                                getContextWeb() + "/activar/{0}", "btn-success"));
                     }
-                    break;
+                break;
 
                 case ESTAT_ACTIVADA:
                 case ESTAT_DESACTIVADA:
@@ -540,13 +528,13 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                         if (estatDeFirmaEjb.count(Where.AND(w, w2)) == 0) {
                             // No hi ha cap col.laboracio en funcionament en aquest mateix
                             // moment, afegim un boto per si la volen desactivar
-                            colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton(
-                                    "fas fa-ban", "desactivar", "javascript:desactivar({0})", "btn-warning"));
+                            colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton("fas fa-ban",
+                                    "desactivar", "javascript:desactivar({0})", "btn-warning"));
                         }
                     } else {
                         colaboracioDelegacioForm.getHiddenFields().remove(MOTIUDESHABILITADA);
                     }
-                    break;
+                break;
             }
         }
 
@@ -566,9 +554,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         return colaboracioDelegacioForm;
     }
 
-
     public List<Long> getCurrentTipusDocument(ColaboracioDelegacioJPA colaboracioDelegacioJPA,
-                                              Map<Long, String> allTipusDocumentInfo, boolean isDebug) {
+            Map<Long, String> allTipusDocumentInfo, boolean isDebug) {
         List<Long> currentTipusDocument;
         Set<TipusDocumentColaboracioDelegacioJPA> tipus;
         tipus = colaboracioDelegacioJPA.getTipusDocumentColaboracioDelegacios();
@@ -595,7 +582,6 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         return currentTipusDocument;
     }
 
-
     public Map<Long, String> getAllTipusDocumentInfo(boolean isDebug) throws I18NException {
         Map<Long, String> allTipusDocumentInfo;
         {
@@ -607,9 +593,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             Where whereAll = Where.OR(TipusDocumentFields.USUARIAPLICACIOID.isNull(),
                     TipusDocumentFields.USUARIAPLICACIOID.in(subQuery));
 
-
-            allTipusDocumentList = tipusDocumentRefList.getReferenceList(
-                    TipusDocumentFields.TIPUSDOCUMENTID, whereAll);
+            allTipusDocumentList = tipusDocumentRefList.getReferenceList(TipusDocumentFields.TIPUSDOCUMENTID, whereAll);
             // Ordenam pel nom
             allTipusDocumentInfo = new HashMap<Long, String>();
 
@@ -623,21 +607,20 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             if (isDebug) {
                 log.debug(" COUNT allTipusDocument = " + allTipusDocumentList.size());
                 for (StringKeyValue skv : allTipusDocumentList) {
-                    log.debug("      - Trobat allTipusDocument == " + skv.getKey() + " --> "
-                            + skv.getValue());
+                    log.debug("      - Trobat allTipusDocument == " + skv.getKey() + " --> " + skv.getValue());
                 }
             }
         }
         return allTipusDocumentInfo;
     }
 
-
     private static <K, V> Map<K, V> sortByValue(Map<K, V> map) {
         List<Entry<K, V>> list = new LinkedList<Map.Entry<K, V>>(map.entrySet());
         Collections.sort(list, new Comparator<Object>() {
             //@SuppressWarnings("unchecked")
             public int compare(Object o1, Object o2) {
-                return ((Comparable<V>) ((Map.Entry<K, V>) (o1)).getValue()).compareTo(((Map.Entry<K, V>) (o2)).getValue());
+                return ((Comparable<V>) ((Map.Entry<K, V>) (o1)).getValue())
+                        .compareTo(((Map.Entry<K, V>) (o2)).getValue());
             }
         });
 
@@ -649,10 +632,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         return result;
     }
 
-
     @Override
-    public List<StringKeyValue> getReferenceListForDestinatariID(HttpServletRequest request,
-                                                                 ModelAndView mav, Where where) throws I18NException {
+    public List<StringKeyValue> getReferenceListForDestinatariID(HttpServletRequest request, ModelAndView mav,
+            Where where) throws I18NException {
 
         List<StringKeyValue> ueList;
         if (esDeCarrec()) {
@@ -674,10 +656,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         Where w;
         if (esDeCarrec()) {
             ColaboracioDelegacioQueryPath cdqp = new ColaboracioDelegacioQueryPath();
-            w = Where.AND(
-                    cdqp.DESTINATARI().CARREC().isNotNull(),
-                    cdqp.DESTINATARI().ENTITATID().equal(LoginInfo.getInstance().getEntitatID())
-            );
+            w = Where.AND(cdqp.DESTINATARI().CARREC().isNotNull(),
+                    cdqp.DESTINATARI().ENTITATID().equal(LoginInfo.getInstance().getEntitatID()));
         } else {
             w = DESTINATARIID.equal(LoginInfo.getInstance().getUsuariEntitatID());
         }
@@ -687,9 +667,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     }
 
     @Override
-    public void postValidate(HttpServletRequest request,
-                             ColaboracioDelegacioForm colaboracioDelegacioForm,
-                             BindingResult result) throws I18NException {
+    public void postValidate(HttpServletRequest request, ColaboracioDelegacioForm colaboracioDelegacioForm,
+            BindingResult result) throws I18NException {
 
         ColaboracioDelegacioDestForm form = (ColaboracioDelegacioDestForm) colaboracioDelegacioForm;
         ColaboracioDelegacioJPA colaboracioDelegacioJPA;
@@ -701,7 +680,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                 Timestamp tsInici = colaboracioDelegacioJPA.getDataInici();
                 if (System.currentTimeMillis() > tsInici.getTime()) {
                     result.rejectValue(get(DATAINICI), "typeMismatch.java.sql.Timestamp",
-                            new String[]{I18NUtils.tradueix(get(DATAINICI))}, null);
+                            new String[] { I18NUtils.tradueix(get(DATAINICI)) }, null);
                 }
 
                 // Validar Data-Fi si Data-Inici és correcte
@@ -711,13 +690,12 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                         // Check 1
                         if (tsFi.getTime() <= tsInici.getTime()) {
                             result.rejectValue(get(DATAFI), "typeMismatch.java.sql.Timestamp",
-                                    new String[]{I18NUtils.tradueix(get(DATAFI))}, null);
+                                    new String[] { I18NUtils.tradueix(get(DATAFI)) }, null);
                         }
                     }
                 }
             }
         }
-
 
         final boolean isDebug = log.isDebugEnabled();
 
@@ -731,7 +709,6 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             }
         }
 
-
         // Validar Tipus de Document
         final List<Long> tipusSeleccionats = form.getCurrentTipusDocument();
         final int type = form.getTipus();
@@ -744,8 +721,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         tipusPerColaDele = new HashSet<TipusDocumentColaboracioDelegacioJPA>();
         if (tipusSeleccionats != null && tipusSeleccionats.size() != 0 && type != 1) {
             if (isDebug) {
-                log.info(" ----------  CurrentTipusDocument List Size= "
-                        + tipusSeleccionats.size() + "  -----------");
+                log.info(" ----------  CurrentTipusDocument List Size= " + tipusSeleccionats.size() + "  -----------");
             }
             if (colaboracioDelegacioForm.isNou()) {
                 // === NOU
@@ -774,8 +750,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                 }
 
                 // Miram quins es mantenen, quins s'han eliminat i quins s'han creat
-                long id = colaboracioDelegacioForm.getColaboracioDelegacio()
-                        .getColaboracioDelegacioID();
+                long id = colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID();
 
                 for (Long tip : tipusSeleccionats) {
                     if (isDebug) {
@@ -800,8 +775,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             }
         }
 
-        colaboracioDelegacioForm.getColaboracioDelegacio().setTipusDocumentColaboracioDelegacios(
-                tipusPerColaDele);
+        colaboracioDelegacioForm.getColaboracioDelegacio().setTipusDocumentColaboracioDelegacios(tipusPerColaDele);
 
     }
 
@@ -823,18 +797,15 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     }
 
     @Override
-    public ColaboracioDelegacioJPA create(HttpServletRequest request,
-                                          ColaboracioDelegacioJPA colaboracioDelegacio)
+    public ColaboracioDelegacioJPA create(HttpServletRequest request, ColaboracioDelegacioJPA colaboracioDelegacio)
             throws I18NException {
         return colaboracioDelegacioLogicaEjb.createFull(colaboracioDelegacio);
     }
 
     @Override
-    public void delete(HttpServletRequest request, ColaboracioDelegacio colaboracioDelegacio)
-            throws I18NException {
+    public void delete(HttpServletRequest request, ColaboracioDelegacio colaboracioDelegacio) throws I18NException {
 
-        Set<Long> fitxers = colaboracioDelegacioLogicaEjb
-                .deleteFull((ColaboracioDelegacioJPA) colaboracioDelegacio);
+        Set<Long> fitxers = colaboracioDelegacioLogicaEjb.deleteFull((ColaboracioDelegacioJPA) colaboracioDelegacio);
 
         borrarFitxers(fitxers);
         cleanUpFitxerPlantilla(colaboracioDelegacio.getColaboracioDelegacioID());
@@ -842,7 +813,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
     @Override
     public String getRedirectWhenCreated(HttpServletRequest request,
-                                         ColaboracioDelegacioForm colaboracioDelegacioForm) {
+            ColaboracioDelegacioForm colaboracioDelegacioForm) {
 
         if (esDelegat()) {
             // Anam a la pàgina de Firma
@@ -855,23 +826,20 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         } else {
             enviarNotificacioMailColaDele(request, colaboracioDelegacioForm.getColaboracioDelegacio());
 
-
             return "redirect:" + getContextWeb() + "/"
-                    + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID()
-                    + "/edit";
+                    + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID() + "/edit";
         }
     }
 
-
-    public void enviarNotificacioMailColaDele(HttpServletRequest request,
-                                              ColaboracioDelegacio coladele) {
+    public void enviarNotificacioMailColaDele(HttpServletRequest request, ColaboracioDelegacio coladele) {
         final String entitatID = LoginInfo.getInstance().getEntitatID();
         // El col·laborador s'activa directament
         if (PropietatGlobalUtil.isSendNotificationWhenCreateDelegacioColaboracio(entitatID) && !esDeCarrec()) {
 
-
-            UsuariEntitatJPA coladeleUser = usuariEntitatLogicaEjb.findByPrimaryKeyFull(coladele.getColaboradorDelegatID());
-            String email_coladele = (coladeleUser.getEmail() == null) ? coladeleUser.getUsuariPersona().getEmail() : coladeleUser.getEmail();
+            UsuariEntitatJPA coladeleUser = usuariEntitatLogicaEjb
+                    .findByPrimaryKeyFull(coladele.getColaboradorDelegatID());
+            String email_coladele = (coladeleUser.getEmail() == null) ? coladeleUser.getUsuariPersona().getEmail()
+                    : coladeleUser.getEmail();
 
             EmailInfo email = new EmailInfo();
             email.setHtml(true);
@@ -885,13 +853,14 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             email.setSubject(I18NUtils.tradueix("email.delecola.titol", tipus, destNom));
             //Bones:<br/> Voliem informar-li que a partir del dia {0} serà {3} de {1}, per més informació pot accedir a la següent adreça <a href=\"{2}\">{2}</a>.
 
-
             SimpleDateFormat sdf;
-            sdf = new I18NDateTimeFormat().getSimpleDateFormat(new Locale(coladeleUser.getUsuariPersona().getIdiomaID()));
+            sdf = new I18NDateTimeFormat()
+                    .getSimpleDateFormat(new Locale(coladeleUser.getUsuariPersona().getIdiomaID()));
 
             String dia = sdf.format(coladele.getDataInici());
 
-            String urlList = PropietatGlobalUtil.getAppUrl() + "/" + (esDelegat() ? "dele/delegatde" : "cola/colaboradorde") + "/list";
+            String urlList = PropietatGlobalUtil.getAppUrl() + "/"
+                    + (esDelegat() ? "dele/delegatde" : "cola/colaboradorde") + "/list";
 
             email.setMessage(I18NUtils.tradueix("email.delecola.msg", dia, destNom, urlList, tipus));
             email.setEmail(email_coladele);
@@ -912,11 +881,10 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     }
 
     @RequestMapping(value = "/desactivar/{delegacioID}", method = RequestMethod.POST)
-    public ModelAndView desactivar(@PathVariable("delegacioID") Long delegacioID,
-                                   HttpServletRequest request, HttpServletResponse response) throws I18NException {
+    public ModelAndView desactivar(@PathVariable("delegacioID") Long delegacioID, HttpServletRequest request,
+            HttpServletResponse response) throws I18NException {
 
-        ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/" + delegacioID
-                + "/edit", true));
+        ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/" + delegacioID + "/edit", true));
 
         String motiu = request.getParameter("motiu");
 
@@ -934,15 +902,14 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
         delegacio.setActiva(false);
         delegacio.setMotiuDeshabilitada(motiu);
-        update(request,delegacio);
+        update(request, delegacio);
 
         return mav;
 
     }
 
     @RequestMapping(value = "/activar/{delegacioColaboracioID}", method = RequestMethod.GET)
-    public ModelAndView activarColaboracioDelegacio(
-            @PathVariable("delegacioColaboracioID") Long delegacioColaboracioID,
+    public ModelAndView activarColaboracioDelegacio(@PathVariable("delegacioColaboracioID") Long delegacioColaboracioID,
             HttpServletRequest request, HttpServletResponse response) throws I18NException {
 
         // TODO findByPrimaryKey
@@ -967,15 +934,13 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
         update(request, deleColaJPA);
 
-        return new ModelAndView(new RedirectView(getContextWeb() + "/"
-                + delegacioColaboracioID + "/edit", true));
+        return new ModelAndView(new RedirectView(getContextWeb() + "/" + delegacioColaboracioID + "/edit", true));
 
     }
 
     @RequestMapping(value = "/existsautoritzacio/{delegacioID}", method = RequestMethod.GET)
-    public void checkAutoritzacio(
-            @PathVariable("delegacioID") Long delegacioID,
-            HttpServletRequest request, HttpServletResponse response) throws I18NException {
+    public void checkAutoritzacio(@PathVariable("delegacioID") Long delegacioID, HttpServletRequest request,
+            HttpServletResponse response) throws I18NException {
 
         ColaboracioDelegacioJPA deleColaJPA = findByPrimaryKey(request, delegacioID);
         if (deleColaJPA == null || deleColaJPA.getFitxerAutoritzacioID() == null) {
@@ -992,15 +957,13 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     public static final String FITXER_AUTORITZACIO_PREFIX = "FitxerAutoritzacioDelegacio_";
 
     @RequestMapping(value = "/firmarautoritzacio/{delegacioID}", method = RequestMethod.GET)
-    public ModelAndView firmarAutoritzacioDelegacio(HttpServletRequest request,
-                                                    HttpServletResponse response, @PathVariable("delegacioID") Long delegacioID,
-                                                    @RequestParam("url_user") String baseUrlFull) throws I18NException {
-
+    public ModelAndView firmarAutoritzacioDelegacio(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable("delegacioID") Long delegacioID, @RequestParam("url_user") String baseUrlFull)
+            throws I18NException {
 
         ColaboracioDelegacioJPA delegacio = findByPrimaryKey(request, delegacioID);
 
-        if (delegacio == null || !delegacio.isEsDelegat()
-                || delegacio.getFitxerAutoritzacioID() != null) {
+        if (delegacio == null || !delegacio.isEsDelegat() || delegacio.getFitxerAutoritzacioID() != null) {
             createMessageError(request, "error.notfound", delegacioID);
             return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
         }
@@ -1017,8 +980,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         Where where = TipusDocumentFields.TIPUSDOCUMENTID.in(llistaTipusDocID);
 
         List<StringKeyValue> allTipusDocumentList;
-        allTipusDocumentList = tipusDocumentRefList.getReferenceList(
-                TipusDocumentFields.TIPUSDOCUMENTID, where);
+        allTipusDocumentList = tipusDocumentRefList.getReferenceList(TipusDocumentFields.TIPUSDOCUMENTID, where);
 
         String documents;
         if (allTipusDocumentList.size() == 0) {
@@ -1063,9 +1025,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
             SimpleDateFormat sdf = new SimpleDateFormat(I18NUtils.getDateTimePattern());
             fields.setField("DATA_INICI", sdf.format(new Date(delegacio.getDataInici().getTime())));
-            fields.setField("DATA_FI",
-                    delegacio.getDataFi() == null ? I18NUtils.tradueix("genapp.notdefined") : sdf
-                            .format(new Date(delegacio.getDataFi().getTime())));
+            fields.setField("DATA_FI", delegacio.getDataFi() == null ? I18NUtils.tradueix("genapp.notdefined")
+                    : sdf.format(new Date(delegacio.getDataFi().getTime())));
 
             fields.setField("MOTIU", delegacio.getMotiu());
             fields.setField("DOCUMENTS", documents);
@@ -1102,11 +1063,13 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         EntitatJPA entitat = loginInfo.getEntitat();
 
         // S'ha d'emprar timestamp si és obligatori o si es l'opció per defecte
-        boolean userRequiresTimeStamp =
-                (entitat.getPoliticaSegellatDeTemps() == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI)
-                        || (entitat.getPoliticaSegellatDeTemps() == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI);
+        boolean userRequiresTimeStamp = (entitat
+                .getPoliticaSegellatDeTemps() == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI)
+                || (entitat
+                        .getPoliticaSegellatDeTemps() == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI);
 
-        ITimeStampGenerator timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat, userRequiresTimeStamp);
+        ITimeStampGenerator timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat,
+                userRequiresTimeStamp);
 
         PolicyInfoSignature policyInfoSignature = SignatureUtils.getPolicyInfoSignature(entitat, null);
 
@@ -1117,22 +1080,21 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         final String procedureCode = null;
         final String procedureName = null;
 
-        FileInfoSignature fis = SignatureUtils.getFileInfoSignature(signatureID,
-                dstPDF, FileInfoSignature.PDF_MIME_TYPE, idname,
-                ConstantsV2.TAULADEFIRMES_SENSETAULA, reason, location, signerEmail, sign_number,
-                langUI, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
-                ConstantsV2.SIGN_MODE_IMPLICIT,
-                SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langUI), timeStampGenerator,
-                policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
+        FileInfoSignature fis = SignatureUtils.getFileInfoSignature(signatureID, dstPDF,
+                FileInfoSignature.PDF_MIME_TYPE, idname, ConstantsV2.TAULADEFIRMES_SENSETAULA, reason, location,
+                signerEmail, sign_number, langUI, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
+                ConstantsV2.SIGN_MODE_IMPLICIT, SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langUI),
+                timeStampGenerator, policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode,
+                procedureName);
 
-        FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[]{fis};
+        FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
 
         CommonInfoSignature commonInfoSignature;
         {
             final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
             final String administrationID = loginInfo.getUsuariPersona().getNif();
-            commonInfoSignature = SignatureUtils.getCommonInfoSignature(entitat, null,
-                    langUI, username, administrationID);
+            commonInfoSignature = SignatureUtils.getCommonInfoSignature(entitat, null, langUI, username,
+                    administrationID);
         }
 
         // Vuls suposar que abans de 10 minuts haurà firmat
@@ -1144,13 +1106,13 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         final String urlFirmaFinal = response.encodeURL(relativeControllerBase + "/finalFirma/" + signaturesSetID);
 
         // Sabem que no té cap firma
-        final int[] originalNumberOfSignsArray = new int[]{0};
+        final int[] originalNumberOfSignsArray = new int[] { 0 };
 
         String baseUrl = Utils.getUrlBaseFromFullUrl(request, baseUrlFull);
 
-        PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
-                caducitat.getTime(), commonInfoSignature, fileInfoSignatureArray,
-                originalNumberOfSignsArray, entitat, urlFirmaFinal, true, baseUrl);
+        PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
+                commonInfoSignature, fileInfoSignatureArray, originalNumberOfSignsArray, entitat, urlFirmaFinal, true,
+                baseUrl);
 
         signaturesSet.setPluginsFirmaBySignatureID(null);
 
@@ -1165,10 +1127,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         return SignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);
     }
 
-
     @RequestMapping(value = "/finalFirma/{signaturesSetID}")
     public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
-                                           @PathVariable("signaturesSetID") String signaturesSetID) {
+            @PathVariable("signaturesSetID") String signaturesSetID) {
 
         SignaturesSetWeb ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
         StatusSignaturesSet sss = ss.getStatusSignaturesSet();
@@ -1194,12 +1155,12 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                                 log.debug("Ruta Fitxer Firmat: " + firmat.getAbsolutePath());
                             }
 
-                            colaboracioDelegacioLogicaEjb.assignarAutoritzacioADelegacio(delegacioID,
-                                    signFileInfo, firmat,
-                                    DelegacioDestController.FITXER_AUTORITZACIO_PREFIX + delegacioID + ".pdf");
+                            colaboracioDelegacioLogicaEjb.assignarAutoritzacioADelegacio(delegacioID, signFileInfo,
+                                    firmat, DelegacioDestController.FITXER_AUTORITZACIO_PREFIX + delegacioID + ".pdf");
 
                             // Enviar mail a delegat o col·laborador
-                            enviarNotificacioMailColaDele(request, colaboracioDelegacioEjb.findByPrimaryKey(delegacioID));
+                            enviarNotificacioMailColaDele(request,
+                                    colaboracioDelegacioEjb.findByPrimaryKey(delegacioID));
 
                         } catch (Throwable e) {
                             log.error(" CLASS = " + e.getClass());
@@ -1214,8 +1175,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                             }
 
                             //  TODO Traduir
-                            String fullMsg = "S´ha produit un error processant el fitxer firmat ´" +
-                                    signFileInfo.getName() + "´: " + msg;
+                            String fullMsg = "S´ha produit un error processant el fitxer firmat ´"
+                                    + signFileInfo.getName() + "´: " + msg;
 
                             HtmlUtils.saveMessageError(request, fullMsg);
                         }
@@ -1228,14 +1189,14 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
                 case StatusSignaturesSet.STATUS_FINAL_ERROR:
                     statusError = sss;
-                    break;
+                break;
 
                 case StatusSignaturesSet.STATUS_CANCELLED:
                     if (sss.getErrorMsg() == null) {
                         sss.setErrorMsg(I18NUtils.tradueix("plugindefirma.cancelat"));
                     }
                     statusError = sss;
-                    break;
+                break;
 
                 default:
                     String inconsistentState = "El mòdul de firma ha finalitzat inesperadament "

@@ -9,7 +9,7 @@ import es.caib.portafib.persistence.ColaboracioDelegacioJPA;
 import javax.ejb.Local;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
 
 /**
  * 

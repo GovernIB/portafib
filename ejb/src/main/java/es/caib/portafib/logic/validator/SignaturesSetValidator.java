@@ -10,13 +10,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-
-
-
-
-
-
+import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
 
 import es.caib.portafib.logic.passarela.AbstractPassarelaDeFirmaLocal;
 import es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal;

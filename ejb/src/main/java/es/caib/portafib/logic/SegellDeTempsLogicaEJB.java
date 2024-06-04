@@ -11,7 +11,7 @@ import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
 import javax.ejb.Stateless;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.pluginsib.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.timestamp.api.ITimeStampPlugin;
 
 

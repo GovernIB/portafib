@@ -17,9 +17,9 @@ import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.commons.utils.Configuracio;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.SignaturesSet;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.SignaturesSet;
+import org.fundaciobit.pluginsib.signature.api.StatusSignature;
 import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,213 +46,206 @@ import java.util.Set;
 @RequestMapping(value = PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH)
 public class PassarelaDeFirmaController {
 
-  protected final Logger log = Logger.getLogger(this.getClass());
+    protected final Logger log = Logger.getLogger(this.getClass());
 
-  @EJB(mappedName = PassarelaDeFirmaWebLocal.JNDI_NAME)
-  protected PassarelaDeFirmaWebLocal passarelaDeFirmaEjb;
+    @EJB(mappedName = PassarelaDeFirmaWebLocal.JNDI_NAME)
+    protected PassarelaDeFirmaWebLocal passarelaDeFirmaEjb;
 
-  @EJB(mappedName = ModulDeFirmaWebPublicLogicaLocal.JNDI_NAME)
-  protected ModulDeFirmaWebPublicLogicaLocal modulDeFirmaPublicEjb;
+    @EJB(mappedName = ModulDeFirmaWebPublicLogicaLocal.JNDI_NAME)
+    protected ModulDeFirmaWebPublicLogicaLocal modulDeFirmaPublicEjb;
 
-  @EJB(mappedName = SegellDeTempsPublicLogicaLocal.JNDI_NAME)
-  protected SegellDeTempsPublicLogicaLocal segellDeTempsPublicEjb;
+    @EJB(mappedName = SegellDeTempsPublicLogicaLocal.JNDI_NAME)
+    protected SegellDeTempsPublicLogicaLocal segellDeTempsPublicEjb;
 
-  @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
-  public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
+    @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
+    public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
 
-  @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
-  protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
+    @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
+    protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
 
-  /**
-   * 
-   */
-  public PassarelaDeFirmaController() {
-    super();
-  }
-
-  @RequestMapping(value = "/start/{transactionID}", method = RequestMethod.GET)
-  public ModelAndView passarelaGet(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable("transactionID") String signaturesSetID) throws Exception, I18NException {
-
-    PassarelaSignaturesSetWebInternalUse ssf = passarelaDeFirmaEjb
-        .getSignaturesSetFullByTransactionID(signaturesSetID);
-
-    if (ssf == null) {
-      // XYZ ZZZ Enviar a pàgina que digui que algua cosa ha passat
-      // XYZ ZZZ TODO Traduir
-      throw new Exception("La transacció amb ID " + signaturesSetID
-          + " no existeix o ja ha caducat.");
+    /**
+     * 
+     */
+    public PassarelaDeFirmaController() {
+        super();
     }
 
-    // Passarela només pot tenir una sola Configuracio
-    try {
+    @RequestMapping(value = "/start/{transactionID}", method = RequestMethod.GET)
+    public ModelAndView passarelaGet(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable("transactionID") String signaturesSetID) throws Exception, I18NException {
 
-      PassarelaSignaturesSet pss = ssf.getSignaturesSet();
+        PassarelaSignaturesSetWebInternalUse ssf = passarelaDeFirmaEjb
+                .getSignaturesSetFullByTransactionID(signaturesSetID);
 
-      EntitatJPA entitat = passarelaDeFirmaEjb.getEntitat(ssf.getEntitatID());
-      
-      UsuariAplicacioJPA usrApp = usuariAplicacioLogicaEjb.findByPrimaryKey(ssf.getApplicationID());
-      
-      Set<String> timeStampUrls = new HashSet<String>();
-      SignaturesSet ss = SignatureUtils.passarelaSignaturesSetToSignaturesSet(
-          passarelaDeFirmaEjb, segellDeTempsPublicEjb, pss, usrApp, ssf.getPerfilDeFirma(),
-          ssf.getConfigBySignID(), entitat, timeStampUrls);
+        if (ssf == null) {
+            // XYZ ZZZ Enviar a pàgina que digui que algua cosa ha passat
+            // XYZ ZZZ TODO Traduir
+            throw new Exception("La transacció amb ID " + signaturesSetID + " no existeix o ja ha caducat.");
+        }
 
-      // Vull suposar que abans de 10 minuts haurà firmat
-      java.util.Date caducitat = pss.getExpiryDate();
+        // Passarela només pot tenir una sola Configuracio
+        try {
 
-      String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(
-          request, PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH);
-      final String urlFinal = response.encodeURL(relativeControllerBase
-          + PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "/" + signaturesSetID);
+            PassarelaSignaturesSet pss = ssf.getSignaturesSet();
 
-      PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
-          caducitat, ss.getCommonInfoSignature(), ss.getFileInfoSignatureArray(),
-          ssf.getOriginalNumberOfSignsArray(), entitat, urlFinal, !ssf.isFullView(),
-          ssf.getBaseUrl());
+            EntitatJPA entitat = passarelaDeFirmaEjb.getEntitat(ssf.getEntitatID());
 
-      // Filtres definits en l'Aplicació CLient
-      List<Long> filterByPluginsID = pss.getCommonInfoSignature().getAcceptedPlugins();
-      if (filterByPluginsID != null && filterByPluginsID.size() == 0) {
-        filterByPluginsID = null;
-      }
-      signaturesSet.setFilterByPluginID(filterByPluginsID);
+            UsuariAplicacioJPA usrApp = usuariAplicacioLogicaEjb.findByPrimaryKey(ssf.getApplicationID());
 
-      // No tenim cap restricció de plugins per tipus de document
-      signaturesSet.setPluginsFirmaBySignatureID(null);
+            Set<String> timeStampUrls = new HashSet<String>();
+            SignaturesSet ss = SignatureUtils.passarelaSignaturesSetToSignaturesSet(passarelaDeFirmaEjb,
+                    segellDeTempsPublicEjb, pss, usrApp, ssf.getPerfilDeFirma(), ssf.getConfigBySignID(), entitat,
+                    timeStampUrls);
 
-      // Afegir usuariAplicació per #173
-      // En passarela l'aplicació és la mateixa per totes les signatures.
-      for (FileInfoSignature fis : ss.getFileInfoSignatureArray()) {
-        signaturesSet.getApplicationBySignatureID().put(fis.getSignID(), ssf.getApplicationID());
-      }
+            // Vull suposar que abans de 10 minuts haurà firmat
+            java.util.Date caducitat = pss.getExpiryDate();
 
-      final String view = "PluginDeFirmaContenidor_Passarela";
+            String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request,
+                    PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH);
+            final String urlFinal = response.encodeURL(relativeControllerBase
+                    + PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "/" + signaturesSetID);
 
-      ModelAndView mav = SignatureModuleController.startPublicSignatureProcess(request, response, view,
-          signaturesSet);
+            PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat,
+                    ss.getCommonInfoSignature(), ss.getFileInfoSignatureArray(), ssf.getOriginalNumberOfSignsArray(),
+                    entitat, urlFinal, !ssf.isFullView(), ssf.getBaseUrl());
 
-      LoginInfo loginInfo = null;
-      try {
-        loginInfo = LoginInfo.getInstance();
-      } catch (Throwable e) {
-      }
+            // Filtres definits en l'Aplicació CLient
+            List<Long> filterByPluginsID = pss.getCommonInfoSignature().getAcceptedPlugins();
+            if (filterByPluginsID != null && filterByPluginsID.size() == 0) {
+                filterByPluginsID = null;
+            }
+            signaturesSet.setFilterByPluginID(filterByPluginsID);
 
-      String idioma = signaturesSet.getCommonInfoSignature().getLanguageUI();
+            // No tenim cap restricció de plugins per tipus de document
+            signaturesSet.setPluginsFirmaBySignatureID(null);
 
-      if (idioma == null || idioma.trim().length() == 0) {
-        idioma = Configuracio.getDefaultLanguage();
-      }
-      if (loginInfo == null || loginInfo.getUsuariAplicacio() != null) {
-        PortaFIBSessionLocaleResolver.setLocaleManually(request, idioma);
-        mav.addObject("lang", idioma);
-      }
+            // Afegir usuariAplicació per #173
+            // En passarela l'aplicació és la mateixa per totes les signatures.
+            for (FileInfoSignature fis : ss.getFileInfoSignatureArray()) {
+                signaturesSet.getApplicationBySignatureID().put(fis.getSignID(), ssf.getApplicationID());
+            }
 
-      if (log.isDebugEnabled()) {
-        log.debug(" ===startPublicSignatureProcess() ==> idioma " + idioma);
-        log.debug(" ===startPublicSignatureProcess() ==> signaturesSetID: " + signaturesSetID);
-        log.debug(" ===startPublicSignatureProcess() ==> urlFinal: "
-            + signaturesSet.getUrlFinal());
-      }
+            final String view = "PluginDeFirmaContenidor_Passarela";
 
-      // En passarela de firma requerim dins d'un frame
-      mav.addObject("fullView", ssf.isFullView());
+            ModelAndView mav = SignatureModuleController.startPublicSignatureProcess(request, response, view,
+                    signaturesSet);
 
-      return mav;
+            LoginInfo loginInfo = null;
+            try {
+                loginInfo = LoginInfo.getInstance();
+            } catch (Throwable e) {
+            }
 
-    } catch (Throwable th) {
+            String idioma = signaturesSet.getCommonInfoSignature().getLanguageUI();
 
-      String msg;
+            if (idioma == null || idioma.trim().length() == 0) {
+                idioma = Configuracio.getDefaultLanguage();
+            }
+            if (loginInfo == null || loginInfo.getUsuariAplicacio() != null) {
+                PortaFIBSessionLocaleResolver.setLocaleManually(request, idioma);
+                mav.addObject("lang", idioma);
+            }
 
-      if (th instanceof I18NException) {
-        I18NException i18ne = (I18NException) th;
+            if (log.isDebugEnabled()) {
+                log.debug(" ===startPublicSignatureProcess() ==> idioma " + idioma);
+                log.debug(" ===startPublicSignatureProcess() ==> signaturesSetID: " + signaturesSetID);
+                log.debug(" ===startPublicSignatureProcess() ==> urlFinal: " + signaturesSet.getUrlFinal());
+            }
 
-        Locale loc = new Locale(ssf.getSignaturesSet().getCommonInfoSignature()
-            .getLanguageUI());
+            // En passarela de firma requerim dins d'un frame
+            mav.addObject("fullView", ssf.isFullView());
 
-        msg = I18NLogicUtils.getMessage(i18ne, loc);
+            return mav;
 
-      } else {
-        msg = th.getMessage();
-      }
-      
-      log.error(msg, th);
+        } catch (Throwable th) {
 
-      ssf.setStatus(StatusSignature.STATUS_FINAL_ERROR);
-      ssf.setErrorMessage(msg);
+            String msg;
 
-      StringWriter trace = new StringWriter();
-      th.printStackTrace(new java.io.PrintWriter(trace));
-      ssf.setErrorStackTrace(trace.toString());
+            if (th instanceof I18NException) {
+                I18NException i18ne = (I18NException) th;
 
-      return new ModelAndView(new RedirectView(ssf.getSignaturesSet().getCommonInfoSignature()
-          .getUrlFinal(), false));
+                Locale loc = new Locale(ssf.getSignaturesSet().getCommonInfoSignature().getLanguageUI());
+
+                msg = I18NLogicUtils.getMessage(i18ne, loc);
+
+            } else {
+                msg = th.getMessage();
+            }
+
+            log.error(msg, th);
+
+            ssf.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+            ssf.setErrorMessage(msg);
+
+            StringWriter trace = new StringWriter();
+            th.printStackTrace(new java.io.PrintWriter(trace));
+            ssf.setErrorStackTrace(trace.toString());
+
+            return new ModelAndView(
+                    new RedirectView(ssf.getSignaturesSet().getCommonInfoSignature().getUrlFinal(), false));
+
+        }
 
     }
 
-  }
+    /** 
+     * Quan acaba el mòdul de firma mostram espera de validacions de firma
+     * @param request
+     * @param response
+     * @param transactionID
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "/{transactionID}")
+    public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable("transactionID") String transactionID) throws Exception {
 
+        log.debug("PASSA PER PassarelaDeFirmaController::finalProcesDeFirma[" + transactionID + "]");
 
-  /** 
-   * Quan acaba el mòdul de firma mostram espera de validacions de firma
-   * @param request
-   * @param response
-   * @param transactionID
-   * @return
-   * @throws Exception
-   */
-  @RequestMapping(value = PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "/{transactionID}")
-  public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable("transactionID") String transactionID) throws Exception {
+        ModelAndView mav = new ModelAndView("passarela_wait");
 
-    log.debug("PASSA PER PassarelaDeFirmaController::finalProcesDeFirma[" + transactionID + "]");
+        mav.addObject("finalURL", PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH
+                + PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "Real/" + transactionID);
 
-    ModelAndView mav = new ModelAndView("passarela_wait");
+        return mav;
 
-    mav.addObject("finalURL", PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH + PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "Real/" + transactionID);
-
-    return mav;
-
-  }
-  
-  @RequestMapping(value = PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "Real"
-      + "/{transactionID}")
-  public ModelAndView finalProcesDeFirmaReal(HttpServletRequest request,
-      HttpServletResponse response, @PathVariable("transactionID") String transactionID)
-      throws Exception, I18NException {
-
-    final boolean debug = log.isDebugEnabled();
-
-    if (debug) {
-      log.debug(" ===finalProcesDeFirma() ==> signaturesSetID: " + transactionID);
     }
 
-    SignaturesSetWeb ss;
-    boolean administrationIdCanBeValidatedFromPlugin;
-    {
-      PortaFIBSignaturesSet pss = SignatureModuleController.getPortaFIBSignaturesSet(request, transactionID,
-        modulDeFirmaPublicEjb);
-      administrationIdCanBeValidatedFromPlugin = modulDeFirmaPublicEjb.administrationIdCanBeValidatedFromPlugin(pss.getSelectedPluginID());
-      ss = pss;
+    @RequestMapping(value = PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "Real" + "/{transactionID}")
+    public ModelAndView finalProcesDeFirmaReal(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable("transactionID") String transactionID) throws Exception, I18NException {
+
+        final boolean debug = log.isDebugEnabled();
+
+        if (debug) {
+            log.debug(" ===finalProcesDeFirma() ==> signaturesSetID: " + transactionID);
+        }
+
+        SignaturesSetWeb ss;
+        boolean administrationIdCanBeValidatedFromPlugin;
+        {
+            PortaFIBSignaturesSet pss = SignatureModuleController.getPortaFIBSignaturesSet(request, transactionID,
+                    modulDeFirmaPublicEjb);
+            administrationIdCanBeValidatedFromPlugin = modulDeFirmaPublicEjb
+                    .administrationIdCanBeValidatedFromPlugin(pss.getSelectedPluginID());
+            ss = pss;
+        }
+
+        // TODO Comprovar si ss és null i mostrar missatge de firma caducada
+
+        PassarelaSignaturesSetWebInternalUse ssf = passarelaDeFirmaEjb.finalProcesDeFirma(transactionID, ss,
+                administrationIdCanBeValidatedFromPlugin);
+
+        // Eliminam la informació dins SignatureModuleController ja que tenim gurardada la
+        // informació dins la capa EJB
+        SignatureModuleController.closeSignaturesSet(request, transactionID, modulDeFirmaPublicEjb);
+
+        final String url = ssf.getSignaturesSet().getCommonInfoSignature().getUrlFinal();
+
+        log.info("PassarelaDeFirmaController::finalProcessDeFirma(); => URL redirect = " + url);
+
+        return new ModelAndView(new RedirectView(url));
+
     }
-
-    // TODO Comprovar si ss és null i mostrar missatge de firma caducada
-
-    PassarelaSignaturesSetWebInternalUse ssf = passarelaDeFirmaEjb.finalProcesDeFirma(
-        transactionID, ss, administrationIdCanBeValidatedFromPlugin);
-
-    // Eliminam la informació dins SignatureModuleController ja que tenim gurardada la
-    // informació dins la capa EJB
-    SignatureModuleController
-        .closeSignaturesSet(request, transactionID, modulDeFirmaPublicEjb);
-
-    final String url = ssf.getSignaturesSet().getCommonInfoSignature().getUrlFinal();
-
-    log.info("PassarelaDeFirmaController::finalProcessDeFirma(); => URL redirect = "
-        + url);
-
-    return new ModelAndView(new RedirectView(url));
-
-  }
 
 }

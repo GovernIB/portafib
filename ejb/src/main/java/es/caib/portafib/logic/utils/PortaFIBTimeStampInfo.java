@@ -1,6 +1,6 @@
 package es.caib.portafib.logic.utils;
 
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.pluginsib.signature.api.ITimeStampGenerator;
 
 /**
  * 

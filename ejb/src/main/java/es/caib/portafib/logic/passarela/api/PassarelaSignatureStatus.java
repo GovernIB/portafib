@@ -1,6 +1,6 @@
 package es.caib.portafib.logic.passarela.api;
 
-import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.pluginsib.signature.api.StatusSignature;
 
 /**
  * 

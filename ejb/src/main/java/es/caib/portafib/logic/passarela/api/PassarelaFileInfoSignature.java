@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
 
 import es.caib.portafib.logic.passarela.PassarelaKeyValue;
 import es.caib.portafib.model.bean.FitxerBean;

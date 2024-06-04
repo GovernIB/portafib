@@ -20,7 +20,7 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
+import org.fundaciobit.pluginsib.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,323 +43,308 @@ import java.util.Set;
  */
 @Controller
 @RequestMapping(value = ConfiguracioDeFirmaAdenController.CONTEXT_WEB)
-@SessionAttributes(types = { UsuariAplicacioConfiguracioForm.class,
-    UsuariAplicacioConfiguracioFilterForm.class })
+@SessionAttributes(types = { UsuariAplicacioConfiguracioForm.class, UsuariAplicacioConfiguracioFilterForm.class })
 public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfiguracioController {
 
-  public static final String CONTEXT_WEB = "/aden/configdefirma";
+    public static final String CONTEXT_WEB = "/aden/configdefirma";
 
-  @EJB(mappedName = UsuariAplicacioConfiguracioLogicaLocal.JNDI_NAME)
-  private UsuariAplicacioConfiguracioLogicaLocal usuariAplicacioConfiguracioLogicaEjb;
+    @EJB(mappedName = UsuariAplicacioConfiguracioLogicaLocal.JNDI_NAME)
+    private UsuariAplicacioConfiguracioLogicaLocal usuariAplicacioConfiguracioLogicaEjb;
 
-  @Override
-  public String getTileForm() {
-    return "usuariAplicacioConfiguracioFormAden";
-  }
-
-  @Override
-  public String getTileList() {
-    return "usuariAplicacioConfiguracioListAden";
-  }
-
-  @Override
-  public String getSessionAttributeFilterForm() {
-    return "UsuariAplicacioConfiguracioADEN_FilterForm";
-  }
-
-  @Override
-  public UsuariAplicacioConfiguracioForm getUsuariAplicacioConfiguracioForm(
-      UsuariAplicacioConfiguracioJPA _jpa, boolean __isView, HttpServletRequest request,
-      ModelAndView mav) throws I18NException {
-
-    UsuariAplicacioConfiguracioForm form = super.getUsuariAplicacioConfiguracioForm(_jpa,
-        __isView, request, mav);
-
-    if (form.isNou()) {
-      // Creació
-      UsuariAplicacioConfiguracio uac = form.getUsuariAplicacioConfiguracio();
-
-      uac.setTipusOperacioFirma(ConstantsV2.TIPUS_OPERACIO_FIRMA_FIRMAR);
-
-      uac.setComprovarNifFirma(false);
-      uac.setCheckCanviatDocFirmat(false);
-      uac.setValidarCertificat(false);
-      uac.setValidarFirma(false);
-
-      // XYZ ZZZ Falta valors per politiques de custodia, taula i segell de temps !!!!
-      // XYZ ZZZ ConstantsPortaFIB.POLITICA_TAULA_FIRMES_NO_ES_PERMET
-
-      uac.setPoliticaSegellatDeTemps(ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR);
-      uac.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
-      uac.setPluginFirmaServidorID(null);
-      uac.setEntitatID(LoginInfo.getInstance().getEntitatID());
-      uac.setUsEnFirmaAsyncRest2(true);
-      uac.setUsEnFirmaWeb(true);
-      uac.setUsEnFirmaApiSimpleWeb(true);
+    @Override
+    public String getTileForm() {
+        return "usuariAplicacioConfiguracioFormAden";
     }
 
-    if (__isView) {
-      
-      form.setCancelButtonVisible(false);
-      form.addAdditionalButton(new AdditionalButton("far fa-edit","genapp.edit",
-          CONTEXT_WEB + "/" + form.getUsuariAplicacioConfiguracio().getUsuariAplicacioConfigID()
-              + "/edit", "btn-warning"));
-    }
-    
-    // Codi comu
-    form.addHiddenField(ENTITATID);
-    form.addHiddenField(ESDEPETICIO);
-    
-
-    form.addHelpToField(FILTRECERTIFICATS,
-        I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
-    form.addHelpToField(MOTIUDELEGACIOID,
-        I18NUtils.tradueix("motiudelegacio.help") + "\n" +
-        I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
-    form.addHelpToField(FIRMATPERFORMATID,
-        I18NUtils.tradueix("firmatperformat.help") + "\n" +
-        I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
-    form.addHelpToField(HTMLPERLLISTARPLUGINSFIRMAWEB,
-        I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
-  
-    form.addReadOnlyField(TIPUSOPERACIOFIRMA);
-    form.addReadOnlyField(VALIDARCERTIFICAT);
-
-    // XYZ ZZZ Pendent de Implementar
-    form.addReadOnlyField(HTMLPERLLISTARPLUGINSFIRMAWEB);
-
-    // Pentent de que s'implementi XYZ ZZZ
-    // #176 Configuració etiquetes de la Taula de Firmes
-    form.addReadOnlyField(PROPIETATSTAULAFIRMES);
-
-    if (!__isView) {
-      form.setAttachedAdditionalJspCode(true);
+    @Override
+    public String getTileList() {
+        return "usuariAplicacioConfiguracioListAden";
     }
 
-    return form;
-  }
+    @Override
+    public String getSessionAttributeFilterForm() {
+        return "UsuariAplicacioConfiguracioADEN_FilterForm";
+    }
 
-  @Override
-  public List<StringKeyValue> getReferenceListForUsPoliticaDeFirma(HttpServletRequest request,
-      ModelAndView mav, Where where) throws I18NException {
-    final boolean isEntitat = false;
-    return GestioEntitatAdminController.staticGetReferenceListForUsPoliticaDeFirma(isEntitat);
-  }
+    @Override
+    public UsuariAplicacioConfiguracioForm getUsuariAplicacioConfiguracioForm(UsuariAplicacioConfiguracioJPA _jpa,
+            boolean __isView, HttpServletRequest request, ModelAndView mav) throws I18NException {
 
-  @Override
-  public List<StringKeyValue> getReferenceListForTipusOperacioFirma(
-      HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
+        UsuariAplicacioConfiguracioForm form = super.getUsuariAplicacioConfiguracioForm(_jpa, __isView, request, mav);
 
-    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-    __tmp.add(new StringKeyValue("" + ConstantsV2.TIPUS_OPERACIO_FIRMA_FIRMAR, I18NUtils
-        .tradueix("usuariaplicacioconfig.operaciofirma."
-            + ConstantsV2.TIPUS_OPERACIO_FIRMA_FIRMAR)));
-    __tmp.add(new StringKeyValue("" + ConstantsV2.TIPUS_OPERACIO_FIRMA_COFIRMAR, I18NUtils
-        .tradueix("usuariaplicacioconfig.operaciofirma."
-            + +ConstantsV2.TIPUS_OPERACIO_FIRMA_COFIRMAR)));
-    __tmp.add(new StringKeyValue("" + ConstantsV2.TIPUS_OPERACIO_FIRMA_CONTRAFIRMAR, I18NUtils
-        .tradueix("usuariaplicacioconfig.operaciofirma."
-            + +ConstantsV2.TIPUS_OPERACIO_FIRMA_CONTRAFIRMAR)));
-    return __tmp;
-  }
+        if (form.isNou()) {
+            // Creació
+            UsuariAplicacioConfiguracio uac = form.getUsuariAplicacioConfiguracio();
 
-  @Override
-  public List<StringKeyValue> getReferenceListForPosicioTaulaFirmesID(
-      HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
-    return GestioEntitatAdminController.staticGetReferenceListForPosicioTaulaFirmes();
-  }
+            uac.setTipusOperacioFirma(ConstantsV2.TIPUS_OPERACIO_FIRMA_FIRMAR);
 
-  @Override
-  public List<StringKeyValue> getReferenceListForPluginFirmaServidorID(
-      HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
+            uac.setComprovarNifFirma(false);
+            uac.setCheckCanviatDocFirmat(false);
+            uac.setValidarCertificat(false);
+            uac.setValidarFirma(false);
 
-    final Where w = Where.AND(where,
-        PluginFields.TIPUS.equal(ConstantsV2.TIPUS_PLUGIN_MODULDEFIRMA_SERVIDOR),
-        PluginFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()));
+            // XYZ ZZZ Falta valors per politiques de custodia, taula i segell de temps !!!!
+            // XYZ ZZZ ConstantsPortaFIB.POLITICA_TAULA_FIRMES_NO_ES_PERMET
 
-    List<StringKeyValue> list = pluginRefList.getReferenceList(PluginFields.PLUGINID, w);
-
-    return list;
-  }
-
-  @Override
-  public List<StringKeyValue> getReferenceListForPluginSegellatID(HttpServletRequest request,
-      ModelAndView mav, Where where) throws I18NException {
-    Where where2 = Where.AND(where,
-        PluginFields.ENTITATID.equal(LoginInfo.getInstance().getEntitat().getEntitatID()),
-        PluginFields.TIPUS.equal(ConstantsV2.TIPUS_PLUGIN_SEGELLDETEMPS));
-
-    return pluginRefList.getReferenceList(PluginFields.PLUGINID, where2);
-  }
-
-  /**
-   * #166
-   */
-  @Override
-  public List<StringKeyValue> getReferenceListForPoliticaTaulaFirmes(
-      HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
-
-    boolean isEntitat = false;
-    return GestioEntitatAdminController.staticGetReferenceListForPoliticaTaulaFirmes(isEntitat);
-  }
-
-  /**
-   * #148
-   */
-  @Override
-  public List<StringKeyValue> getReferenceListForPoliticaSegellatDeTemps(
-      HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
-    final boolean isEntitat = false;
-    return GestioEntitatAdminController.staticGetReferenceListForPoliticaSegellatDeTemps(isEntitat);
-  }
-
-  @Override
-  public void postValidate(HttpServletRequest request,
-      UsuariAplicacioConfiguracioForm usuariAplicacioConfiguracioForm, BindingResult result)
-      throws I18NException {
-
-    UsuariAplicacioConfiguracio uac = usuariAplicacioConfiguracioForm
-        .getUsuariAplicacioConfiguracio();
-
-    // Politica de Firma
-    int usPoliticaDeFirma = uac.getUsPoliticaDeFirma();
-
-    if (usPoliticaDeFirma == ConstantsPortaFIB.US_POLITICA_DE_FIRMA_OBLIGATORI_DEFINIT) {
-
-      Field<?>[] fields = { POLICYIDENTIFIER, POLICYIDENTIFIERHASH,
-          POLICYIDENTIFIERHASHALGORITHM, POLICYURLDOCUMENT };
-
-      for (Field<?> field : fields) {
-        String value = (String) result.getFieldValue(get(field));
-
-        log.info(" VALOR CAMP[" + field.getFullName() + "] => " + value);
-
-        if (value == null || value.trim().length() == 0) {
-          // El camp {0} és obligatori.
-          result.rejectValue(get(field), "genapp.validation.required",
-              new String[] { I18NUtils.tradueix(get(field)) }, null);
+            uac.setPoliticaSegellatDeTemps(ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR);
+            uac.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
+            uac.setPluginFirmaServidorID(null);
+            uac.setEntitatID(LoginInfo.getInstance().getEntitatID());
+            uac.setUsEnFirmaAsyncRest2(true);
+            uac.setUsEnFirmaWeb(true);
+            uac.setUsEnFirmaApiSimpleWeb(true);
         }
-      }
 
-    } else {
-      uac.setPolicyIdentifier(null);
-      uac.setPolicyIdentifierHash(null);
-      uac.setPolicyIdentifierHashAlgorithm(null);
-      uac.setPolicyUrlDocument(null);
-    }
+        if (__isView) {
 
-
-    // Segellat de temps
-    int politicaSegellat = uac.getPoliticaSegellatDeTemps();
-
-    if (politicaSegellat == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_DEFINIT_EN_ENTITAT
-        || politicaSegellat == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR) {
-      uac.setPluginSegellatID(null);
-    } else {
-      if (uac.getPluginSegellatID() == null) {
-        // El camp {0} és obligatori.
-        result.rejectValue(get(PLUGINSEGELLATID), "genapp.validation.required",
-            new String[] { I18NUtils.tradueix(get(PLUGINSEGELLATID)) }, null);
-      }
-    }
-
-    // Comprovar que la configuracio de firma inclou el Plugin de Firma en Servidor
-    {
-      if (uac.isUsEnFirmaApiSimpleServidor() || uac.isUsEnFirmaPassarelaServidor()) {
-        if (uac.getPluginFirmaServidorID() == null) {
-          result.rejectValue(get(PLUGINFIRMASERVIDORID), "conf.nofirmaservidor",
-              new String[] {}, null);
+            form.setCancelButtonVisible(false);
+            form.addAdditionalButton(new AdditionalButton("far fa-edit", "genapp.edit",
+                    CONTEXT_WEB + "/" + form.getUsuariAplicacioConfiguracio().getUsuariAplicacioConfigID() + "/edit",
+                    "btn-warning"));
         }
-      }
+
+        // Codi comu
+        form.addHiddenField(ENTITATID);
+        form.addHiddenField(ESDEPETICIO);
+
+        form.addHelpToField(FILTRECERTIFICATS, I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
+        form.addHelpToField(MOTIUDELEGACIOID, I18NUtils.tradueix("motiudelegacio.help") + "\n"
+                + I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
+        form.addHelpToField(FIRMATPERFORMATID, I18NUtils.tradueix("firmatperformat.help") + "\n"
+                + I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
+        form.addHelpToField(HTMLPERLLISTARPLUGINSFIRMAWEB,
+                I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
+
+        form.addReadOnlyField(TIPUSOPERACIOFIRMA);
+        form.addReadOnlyField(VALIDARCERTIFICAT);
+
+        // XYZ ZZZ Pendent de Implementar
+        form.addReadOnlyField(HTMLPERLLISTARPLUGINSFIRMAWEB);
+
+        // Pentent de que s'implementi XYZ ZZZ
+        // #176 Configuració etiquetes de la Taula de Firmes
+        form.addReadOnlyField(PROPIETATSTAULAFIRMES);
+
+        if (!__isView) {
+            form.setAttachedAdditionalJspCode(true);
+        }
+
+        return form;
     }
 
-  }
-
-  @Override
-  public List<StringKeyValue> getReferenceListForUpgradeSignFormat(HttpServletRequest request,
-      ModelAndView mav, Where where) throws I18NException {
-    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-
-    for (SignatureTypeFormEnumForUpgrade up : SignatureTypeFormEnumForUpgrade.values()) {
-      __tmp.add(new StringKeyValue(String.valueOf(up.getId()), up.getName()));
+    @Override
+    public List<StringKeyValue> getReferenceListForUsPoliticaDeFirma(HttpServletRequest request, ModelAndView mav,
+            Where where) throws I18NException {
+        final boolean isEntitat = false;
+        return GestioEntitatAdminController.staticGetReferenceListForUsPoliticaDeFirma(isEntitat);
     }
 
-    return __tmp;
-  }
+    @Override
+    public List<StringKeyValue> getReferenceListForTipusOperacioFirma(HttpServletRequest request, ModelAndView mav,
+            Where where) throws I18NException {
 
-  @Override
-  public List<StringKeyValue> getReferenceListForTipusFirmaID(HttpServletRequest request,
-      ModelAndView mav, Where where) throws I18NException {
-    List<StringKeyValue> __tmp = AbstractPeticioDeFirmaController
-        .staticGetReferenceListForTipusFirmaID();
-    return __tmp;
-  }
+        List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+        __tmp.add(new StringKeyValue("" + ConstantsV2.TIPUS_OPERACIO_FIRMA_FIRMAR,
+                I18NUtils.tradueix("usuariaplicacioconfig.operaciofirma." + ConstantsV2.TIPUS_OPERACIO_FIRMA_FIRMAR)));
+        __tmp.add(new StringKeyValue("" + ConstantsV2.TIPUS_OPERACIO_FIRMA_COFIRMAR, I18NUtils
+                .tradueix("usuariaplicacioconfig.operaciofirma." + +ConstantsV2.TIPUS_OPERACIO_FIRMA_COFIRMAR)));
+        __tmp.add(new StringKeyValue("" + ConstantsV2.TIPUS_OPERACIO_FIRMA_CONTRAFIRMAR, I18NUtils
+                .tradueix("usuariaplicacioconfig.operaciofirma." + +ConstantsV2.TIPUS_OPERACIO_FIRMA_CONTRAFIRMAR)));
+        return __tmp;
+    }
 
-  @Override
-  public List<StringKeyValue> getReferenceListForAlgorismeDeFirmaID(
-      HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
-    return AbstractPeticioDeFirmaController.staticGetReferenceListForAlgorismeDeFirmaID();
-  }
+    @Override
+    public List<StringKeyValue> getReferenceListForPosicioTaulaFirmesID(HttpServletRequest request, ModelAndView mav,
+            Where where) throws I18NException {
+        return GestioEntitatAdminController.staticGetReferenceListForPosicioTaulaFirmes();
+    }
 
-  @Override
-  public UsuariAplicacioConfiguracioFilterForm getUsuariAplicacioConfiguracioFilterForm(
-      Integer pagina, ModelAndView mav, HttpServletRequest request) throws I18NException {
-    UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm;
-    usuariAplicacioConfiguracioFilterForm = super.getUsuariAplicacioConfiguracioFilterForm(
-        pagina, mav, request);
+    @Override
+    public List<StringKeyValue> getReferenceListForPluginFirmaServidorID(HttpServletRequest request, ModelAndView mav,
+            Where where) throws I18NException {
 
-    if (usuariAplicacioConfiguracioFilterForm.isNou()) {
-      Set<Field<?>> hiddenFields = new HashSet<Field<?>>(
-          Arrays
-              .asList(UsuariAplicacioConfiguracioFields.ALL_USUARIAPLICACIOCONFIGURACIO_FIELDS));
-      hiddenFields.remove(NOM);
-      hiddenFields.remove(UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES);
-      // hiddenFields.remove(UsuariAplicacioConfiguracioFields.POLITICACUSTODIA);
-      hiddenFields.remove(UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID);
-      hiddenFields.remove(UsuariAplicacioConfiguracioFields.TIPUSFIRMAID);
-      hiddenFields.remove(UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS);
+        final Where w = Where.AND(where, PluginFields.TIPUS.equal(ConstantsV2.TIPUS_PLUGIN_MODULDEFIRMA_SERVIDOR),
+                PluginFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()));
 
-      usuariAplicacioConfiguracioFilterForm.setHiddenFields(hiddenFields);
+        List<StringKeyValue> list = pluginRefList.getReferenceList(PluginFields.PLUGINID, w);
 
-      usuariAplicacioConfiguracioFilterForm.setDeleteSelectedButtonVisible(false);
+        return list;
+    }
 
-      usuariAplicacioConfiguracioFilterForm.setVisibleMultipleSelection(false);
+    @Override
+    public List<StringKeyValue> getReferenceListForPluginSegellatID(HttpServletRequest request, ModelAndView mav,
+            Where where) throws I18NException {
+        Where where2 = Where.AND(where,
+                PluginFields.ENTITATID.equal(LoginInfo.getInstance().getEntitat().getEntitatID()),
+                PluginFields.TIPUS.equal(ConstantsV2.TIPUS_PLUGIN_SEGELLDETEMPS));
 
-      usuariAplicacioConfiguracioFilterForm.addAdditionalButton(new AdditionalButton(
-          "fas fa-info-circle icon-white", "ajuda.titol", "javascript:window.open('"
-              + request.getContextPath()
-              + "/img/perfil_i_configuracio_de_firma.png', '_blank');", "btn-info"));
+        return pluginRefList.getReferenceList(PluginFields.PLUGINID, where2);
+    }
+
+    /**
+     * #166
+     */
+    @Override
+    public List<StringKeyValue> getReferenceListForPoliticaTaulaFirmes(HttpServletRequest request, ModelAndView mav,
+            Where where) throws I18NException {
+
+        boolean isEntitat = false;
+        return GestioEntitatAdminController.staticGetReferenceListForPoliticaTaulaFirmes(isEntitat);
+    }
+
+    /**
+     * #148
+     */
+    @Override
+    public List<StringKeyValue> getReferenceListForPoliticaSegellatDeTemps(HttpServletRequest request, ModelAndView mav,
+            Where where) throws I18NException {
+        final boolean isEntitat = false;
+        return GestioEntitatAdminController.staticGetReferenceListForPoliticaSegellatDeTemps(isEntitat);
+    }
+
+    @Override
+    public void postValidate(HttpServletRequest request,
+            UsuariAplicacioConfiguracioForm usuariAplicacioConfiguracioForm, BindingResult result)
+            throws I18NException {
+
+        UsuariAplicacioConfiguracio uac = usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio();
+
+        // Politica de Firma
+        int usPoliticaDeFirma = uac.getUsPoliticaDeFirma();
+
+        if (usPoliticaDeFirma == ConstantsPortaFIB.US_POLITICA_DE_FIRMA_OBLIGATORI_DEFINIT) {
+
+            Field<?>[] fields = { POLICYIDENTIFIER, POLICYIDENTIFIERHASH, POLICYIDENTIFIERHASHALGORITHM,
+                    POLICYURLDOCUMENT };
+
+            for (Field<?> field : fields) {
+                String value = (String) result.getFieldValue(get(field));
+
+                log.info(" VALOR CAMP[" + field.getFullName() + "] => " + value);
+
+                if (value == null || value.trim().length() == 0) {
+                    // El camp {0} és obligatori.
+                    result.rejectValue(get(field), "genapp.validation.required",
+                            new String[] { I18NUtils.tradueix(get(field)) }, null);
+                }
+            }
+
+        } else {
+            uac.setPolicyIdentifier(null);
+            uac.setPolicyIdentifierHash(null);
+            uac.setPolicyIdentifierHashAlgorithm(null);
+            uac.setPolicyUrlDocument(null);
+        }
+
+        // Segellat de temps
+        int politicaSegellat = uac.getPoliticaSegellatDeTemps();
+
+        if (politicaSegellat == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_DEFINIT_EN_ENTITAT
+                || politicaSegellat == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR) {
+            uac.setPluginSegellatID(null);
+        } else {
+            if (uac.getPluginSegellatID() == null) {
+                // El camp {0} és obligatori.
+                result.rejectValue(get(PLUGINSEGELLATID), "genapp.validation.required",
+                        new String[] { I18NUtils.tradueix(get(PLUGINSEGELLATID)) }, null);
+            }
+        }
+
+        // Comprovar que la configuracio de firma inclou el Plugin de Firma en Servidor
+        {
+            if (uac.isUsEnFirmaApiSimpleServidor() || uac.isUsEnFirmaPassarelaServidor()) {
+                if (uac.getPluginFirmaServidorID() == null) {
+                    result.rejectValue(get(PLUGINFIRMASERVIDORID), "conf.nofirmaservidor", new String[] {}, null);
+                }
+            }
+        }
 
     }
 
-    return usuariAplicacioConfiguracioFilterForm;
-  }
+    @Override
+    public List<StringKeyValue> getReferenceListForUpgradeSignFormat(HttpServletRequest request, ModelAndView mav,
+            Where where) throws I18NException {
+        List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
 
-  @Override
-  public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-    return Where.AND(
-        ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
-        ESDEPETICIO.equal(false)            
-       );
-  }
+        for (SignatureTypeFormEnumForUpgrade up : SignatureTypeFormEnumForUpgrade.values()) {
+            __tmp.add(new StringKeyValue(String.valueOf(up.getId()), up.getName()));
+        }
 
-  /*
-  Sobreescriure operacions de crear/actualitzar/esborrar per emprar UsuariAplicacioConfiguracioLogica que genera bitàcola
-   */
+        return __tmp;
+    }
 
-  @Override
-  public UsuariAplicacioConfiguracioJPA create(HttpServletRequest request, UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio) throws I18NException, I18NValidationException {
-    return (UsuariAplicacioConfiguracioJPA) usuariAplicacioConfiguracioLogicaEjb.create(usuariAplicacioConfiguracio);
-  }
+    @Override
+    public List<StringKeyValue> getReferenceListForTipusFirmaID(HttpServletRequest request, ModelAndView mav,
+            Where where) throws I18NException {
+        List<StringKeyValue> __tmp = AbstractPeticioDeFirmaController.staticGetReferenceListForTipusFirmaID();
+        return __tmp;
+    }
 
-  @Override
-  public UsuariAplicacioConfiguracioJPA update(HttpServletRequest request, UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio) throws I18NException, I18NValidationException {
-    return (UsuariAplicacioConfiguracioJPA) usuariAplicacioConfiguracioLogicaEjb.update(usuariAplicacioConfiguracio);
-  }
+    @Override
+    public List<StringKeyValue> getReferenceListForAlgorismeDeFirmaID(HttpServletRequest request, ModelAndView mav,
+            Where where) throws I18NException {
+        return AbstractPeticioDeFirmaController.staticGetReferenceListForAlgorismeDeFirmaID();
+    }
 
-  @Override
-  public void delete(HttpServletRequest request, UsuariAplicacioConfiguracio usuariAplicacioConfiguracio) throws I18NException {
-    usuariAplicacioConfiguracioLogicaEjb.delete(usuariAplicacioConfiguracio);
-  }
+    @Override
+    public UsuariAplicacioConfiguracioFilterForm getUsuariAplicacioConfiguracioFilterForm(Integer pagina,
+            ModelAndView mav, HttpServletRequest request) throws I18NException {
+        UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm;
+        usuariAplicacioConfiguracioFilterForm = super.getUsuariAplicacioConfiguracioFilterForm(pagina, mav, request);
+
+        if (usuariAplicacioConfiguracioFilterForm.isNou()) {
+            Set<Field<?>> hiddenFields = new HashSet<Field<?>>(
+                    Arrays.asList(UsuariAplicacioConfiguracioFields.ALL_USUARIAPLICACIOCONFIGURACIO_FIELDS));
+            hiddenFields.remove(NOM);
+            hiddenFields.remove(UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES);
+            // hiddenFields.remove(UsuariAplicacioConfiguracioFields.POLITICACUSTODIA);
+            hiddenFields.remove(UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID);
+            hiddenFields.remove(UsuariAplicacioConfiguracioFields.TIPUSFIRMAID);
+            hiddenFields.remove(UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS);
+
+            usuariAplicacioConfiguracioFilterForm.setHiddenFields(hiddenFields);
+
+            usuariAplicacioConfiguracioFilterForm.setDeleteSelectedButtonVisible(false);
+
+            usuariAplicacioConfiguracioFilterForm.setVisibleMultipleSelection(false);
+
+            usuariAplicacioConfiguracioFilterForm.addAdditionalButton(new AdditionalButton(
+                    "fas fa-info-circle icon-white", "ajuda.titol", "javascript:window.open('"
+                            + request.getContextPath() + "/img/perfil_i_configuracio_de_firma.png', '_blank');",
+                    "btn-info"));
+
+        }
+
+        return usuariAplicacioConfiguracioFilterForm;
+    }
+
+    @Override
+    public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
+        return Where.AND(ENTITATID.equal(LoginInfo.getInstance().getEntitatID()), ESDEPETICIO.equal(false));
+    }
+
+    /*
+    Sobreescriure operacions de crear/actualitzar/esborrar per emprar UsuariAplicacioConfiguracioLogica que genera bitàcola
+     */
+
+    @Override
+    public UsuariAplicacioConfiguracioJPA create(HttpServletRequest request,
+            UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio) throws I18NException, I18NValidationException {
+        return (UsuariAplicacioConfiguracioJPA) usuariAplicacioConfiguracioLogicaEjb
+                .create(usuariAplicacioConfiguracio);
+    }
+
+    @Override
+    public UsuariAplicacioConfiguracioJPA update(HttpServletRequest request,
+            UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio) throws I18NException, I18NValidationException {
+        return (UsuariAplicacioConfiguracioJPA) usuariAplicacioConfiguracioLogicaEjb
+                .update(usuariAplicacioConfiguracio);
+    }
+
+    @Override
+    public void delete(HttpServletRequest request, UsuariAplicacioConfiguracio usuariAplicacioConfiguracio)
+            throws I18NException {
+        usuariAplicacioConfiguracioLogicaEjb.delete(usuariAplicacioConfiguracio);
+    }
 
 }

@@ -82,12 +82,12 @@ import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.pluginsib.signature.api.CommonInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.ITimeStampGenerator;
+import org.fundaciobit.pluginsib.signature.api.PolicyInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.StatusSignature;
+import org.fundaciobit.pluginsib.signature.api.StatusSignaturesSet;
 import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
@@ -1119,22 +1119,20 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
         // Ens asseguram que a la pàgina final sempre es mostren els missatges
         request.getSession().removeAttribute("keepMessages");
-        
+
         SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
-        
 
         SignaturesSetWeb ss;
         boolean administrationIdCanBeValidatedFromPlugin;
         {
-           PortaFIBSignaturesSet pss = SignatureModuleController.getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
-           
-           administrationIdCanBeValidatedFromPlugin = this.modulDeFirmaEjb.administrationIdCanBeValidatedFromPlugin(pss.getSelectedPluginID());
-           
-           ss = pss;  
+            PortaFIBSignaturesSet pss = SignatureModuleController.getPortaFIBSignaturesSet(request, signaturesSetID,
+                    modulDeFirmaEjb);
+
+            administrationIdCanBeValidatedFromPlugin = this.modulDeFirmaEjb
+                    .administrationIdCanBeValidatedFromPlugin(pss.getSelectedPluginID());
+
+            ss = pss;
         }
-        
-        
-        
 
         StatusSignaturesSet sss = ss.getStatusSignaturesSet();
 
@@ -1143,9 +1141,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         switch (sss.getStatus()) {
 
             case StatusSignaturesSet.STATUS_FINAL_OK:
-                
-                
-                
+
                 signPostProcessOfSignaturesSet(request, ss, administrationIdCanBeValidatedFromPlugin);
             break;
 
@@ -1353,8 +1349,6 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
         }
     }
-
-    
 
     protected String encodeSignatureID(Long peticioDeFirmaID, Long estatDeFirmaID, String token) {
         return peticioDeFirmaID + "|" + estatDeFirmaID + "|" + token;

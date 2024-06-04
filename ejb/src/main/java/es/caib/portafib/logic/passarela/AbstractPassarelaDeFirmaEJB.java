@@ -11,7 +11,7 @@ import javax.ejb.EJB;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.signature.api.ISignaturePlugin;
+import org.fundaciobit.pluginsib.signature.api.ISignaturePlugin;
 
 import es.caib.portafib.ejb.EntitatService;
 import es.caib.portafib.persistence.EntitatJPA;

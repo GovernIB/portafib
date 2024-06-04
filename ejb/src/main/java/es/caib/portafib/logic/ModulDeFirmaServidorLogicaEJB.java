@@ -4,7 +4,7 @@ import es.caib.portafib.utils.ConstantsV2;
 
 import javax.ejb.Stateless;
 
-import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
+import org.fundaciobit.pluginsib.signatureserver.api.ISignatureServerPlugin;
 
 
 /**

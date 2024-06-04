@@ -14,7 +14,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import es.caib.portafib.ejb.EstatDeFirmaService;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
 import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;

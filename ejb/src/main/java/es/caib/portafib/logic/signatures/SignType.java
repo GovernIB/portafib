@@ -2,7 +2,7 @@ package es.caib.portafib.logic.signatures;
 
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.utils.ConstantsV2;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
 
 import java.util.HashMap;
 import java.util.Map;
