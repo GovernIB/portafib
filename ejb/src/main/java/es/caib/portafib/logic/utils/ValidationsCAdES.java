@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.bouncycastle.cert.X509CertificateHolder;
+import org.bouncycastle.cms.CMSProcessable;
 import org.bouncycastle.cms.CMSProcessableByteArray;
 import org.bouncycastle.cms.CMSSignedData;
-import org.bouncycastle.cms.CMSTypedData;
 import org.bouncycastle.cms.SignerId;
 import org.bouncycastle.cms.SignerInformation;
 import org.bouncycastle.cms.SignerInformationStore;
@@ -36,7 +36,7 @@ public class ValidationsCAdES {
       CMSSignedData signedData = null;
 
       signedData = new CMSSignedData(eSignature);
-      CMSTypedData data = signedData.getSignedContent();
+      CMSProcessable data = signedData.getSignedContent();
 
       if (data == null) {
         // Detached -- Se exige que se suministre el documento

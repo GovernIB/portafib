@@ -12,7 +12,7 @@ import es.caib.portafib.utils.ConstantsV2;
 import javax.ejb.Stateless;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.pluginsib.signature.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.timestamp.api.ITimeStampPlugin;
+import org.fundaciobit.pluginsib.timestamp.api.ITimeStampPlugin;
 
 
 /**
@@ -21,7 +21,7 @@ import org.fundaciobit.plugins.timestamp.api.ITimeStampPlugin;
  * @author areus
  */
 @Stateless(name = "SegellDeTempsLogicaEJB")
-public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPlugin>
+public class SegellDeTempsLogicaEJB extends AbstractPluginIBLogicaEJB<ITimeStampPlugin>
     implements SegellDeTempsLogicaLocal {
 
   @Override

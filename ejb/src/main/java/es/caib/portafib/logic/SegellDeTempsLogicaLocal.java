@@ -4,7 +4,7 @@ import javax.ejb.Local;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.pluginsib.signature.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.timestamp.api.ITimeStampPlugin;
+import org.fundaciobit.pluginsib.timestamp.api.ITimeStampPlugin;
 
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.logic.utils.PortaFIBTimeStampInfo;
@@ -19,7 +19,7 @@ import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
  *
  */
 @Local
-public interface SegellDeTempsLogicaLocal extends AbstractPluginLogicaLocal<ITimeStampPlugin> {
+public interface SegellDeTempsLogicaLocal extends AbstractPluginIBLogicaLocal<ITimeStampPlugin> {
 
   String JNDI_NAME = "java:app/portafib-ejb/SegellDeTempsLogicaEJB";
 

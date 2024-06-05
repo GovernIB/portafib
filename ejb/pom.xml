@@ -130,7 +130,7 @@
         <dependency>
             <groupId>org.fundaciobit.pluginsib.timestamp</groupId>
             <artifactId>pluginsib-timestamp-api</artifactId>
-            <version>${plugins.version}</version>
+            <version>${pluginsib.timestamp.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -274,6 +274,7 @@
 		</dependency>
 				-->
 
+
         <dependency>
             <groupId>es.gob.afirma</groupId>
             <artifactId>Integra-commons</artifactId>
@@ -289,10 +290,34 @@
                     <groupId>xerces</groupId>
                     <artifactId>xercesImpl</artifactId>
                 </exclusion>
+                
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcprov-jdk16</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcmail-jdk16</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bctsp-jdk16</artifactId>
+                </exclusion>
             </exclusions>
 
         </dependency>
 
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!--
 		<dependency>

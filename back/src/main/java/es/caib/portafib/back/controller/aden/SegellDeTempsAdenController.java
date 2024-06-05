@@ -3,7 +3,7 @@ package es.caib.portafib.back.controller.aden;
 
 import javax.ejb.EJB;
 
-import org.fundaciobit.plugins.timestamp.api.ITimeStampPlugin;
+import org.fundaciobit.pluginsib.timestamp.api.ITimeStampPlugin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.AbstractPluginAdenController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
-import es.caib.portafib.logic.AbstractPluginLogicaLocal;
+import es.caib.portafib.logic.AbstractCommonPluginLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -40,7 +40,7 @@ public class SegellDeTempsAdenController extends AbstractPluginAdenController<IT
   }
 
   @Override
-  public AbstractPluginLogicaLocal<ITimeStampPlugin> getPluginEjb() {
+  public AbstractCommonPluginLogicaLocal<ITimeStampPlugin> getPluginEjb() {
     return segellDeTempsEjb;
   }
 

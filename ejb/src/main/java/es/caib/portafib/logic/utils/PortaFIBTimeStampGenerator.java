@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.pluginsib.signature.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.timestamp.api.ITimeStampPlugin;
+import org.fundaciobit.pluginsib.timestamp.api.ITimeStampPlugin;
 
 
 /**
