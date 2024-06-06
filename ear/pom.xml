@@ -90,7 +90,7 @@
         </dependency>
 
         <!-- ============================================ -->
-        <!-- ========== PLUGINS DE DATAEXPORT =========== -->
+        <!-- ========== PLUGINS DE EXPORTDATA =========== -->
         <!-- ============================================ -->
         <!-- API -->
         <dependency>
@@ -139,6 +139,7 @@
             <artifactId>pluginsib-barcode-barcode128</artifactId>
             <version>${pluginsib.barcode.impl.version}</version>
         </dependency>
+
         <!-- ============================================ -->
         <!-- ============= PLUGINS DE CUSTODIA ========== -->
         <!-- ============================================ -->
@@ -152,6 +153,34 @@
             <artifactId>pluginsib-documentcustody-filesystem</artifactId>
             <version>4.0.0</version>
         </dependency>
+        <!-- Plugin de Document Custody de Arxiu Digital CAIB -->
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
+            <artifactId>pluginsib-documentcustody-arxiudigitalcaib</artifactId>
+            <version>4.0.2</version>
+        </dependency>
+
+        <!-- Plugin de Document Custody de Alfresco -->
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
+            <artifactId>pluginsib-documentcustody-alfresco</artifactId>
+            <version>4.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.xml.stream</groupId>
+                    <artifactId>stax-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xpp3</groupId>
+                    <artifactId>xpp3</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <!-- ALTRES PLUGINS EN l'APARTAT DE PROFILES -->
         <!-- ============================================ -->
         <!-- ===== PLUGIN DE CONVERSIO DE DOCUMENTS ===== -->
@@ -208,6 +237,8 @@
             <artifactId>pluginsib-userinformation-ldap</artifactId>
             <version>${pluginsib.userinformation.impl.version}</version>
         </dependency>
+
+
         <!-- ====================================== -->
         <!-- =======  PLUGINS DE FIRMA WEB  ======= -->
         <!-- ====================================== -->
@@ -216,28 +247,46 @@
             <artifactId>pluginsib-signatureweb-api</artifactId>
             <version>${plugins.signatureweb.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
             <artifactId>pluginsib-signatureweb-afirma_triphase_server</artifactId>
             <version>${plugins.signatureweb.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
             <artifactId>pluginsib-signatureweb-fire</artifactId>
             <version>${plugins.signatureweb.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
             <artifactId>pluginsib-signatureweb-fnmtcloud</artifactId>
             <version>${plugins.signatureweb.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
             <artifactId>pluginsib-signatureweb-firmanocriptografica</artifactId>
             <version>${plugins.signatureweb.version}</version>
         </dependency>
-        <!--  Els Plugins de firma en web SIA, Cl@veFirma i FIRe s'han -->
-        <!--  definit en l'apartat de profiles (Veure més abaix)       -->
+
+        <!--  Modul de FIRMA WEB SIA -->
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+            <artifactId>pluginsib-signatureweb-miniappletinserversia</artifactId>
+            <version>${plugins.signatureweb.version}</version>
+        </dependency>
+
+        <!-- Modul de FIRMA WEB DE ViaFirma fortress -->
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+            <artifactId>pluginsib-signatureweb-fortress</artifactId>
+            <version>${plugins.signatureweb.version}</version>
+        </dependency>
+
+
         <!-- ====================================== -->
         <!-- ==== PLUGINS DE FIRMA EN SERVIDOR ==== -->
         <!-- ====================================== -->
@@ -268,6 +317,8 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+
         <!-- ====================================== -->
         <!-- ===  PLUGINS DE SEGELLAT DE TEMPS  === -->
         <!-- ====================================== -->
@@ -286,6 +337,8 @@
             <artifactId>pluginsib-timestamp-afirmarfc-cliente_tsa_rfc</artifactId>
             <version>${pluginsib.timestamp.version}</version>
         </dependency>
+
+
         <!-- ======================================== -->
         <!-- ===  PLUGINS DE VALIDACIO DE FIRMES  === -->
         <!-- ======================================== -->
@@ -301,9 +354,7 @@
         </dependency>
 
 
-
         <!-- BOUNCY CASTLE -->
-
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk15on</artifactId>
@@ -348,71 +399,8 @@
                 <contextroot>${contextrootportafib}</contextroot>
             </properties>
         </profile>
-        <!-- =================================================== -->
-        <!-- =====  PLUGINS DE DOCUMENTCUSTODY PER PROFILE ===== -->
-        <!-- =================================================== -->
-        <!-- Profile per Incloure Plugin de Document Custody de Arxiu Digital
-        CAIB -->
-        <profile>
-            <id>arxiudigitalcaib</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
-                    <artifactId>pluginsib-documentcustody-arxiudigitalcaib</artifactId>
-                    <version>4.0.2</version>
-                </dependency>
-            </dependencies>
-        </profile>
-        <!-- Profile per Incloure Plugin de Document Custody de Alfresco -->
-        <profile>
-            <id>alfresco</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
-                    <artifactId>pluginsib-documentcustody-alfresco</artifactId>
-                    <version>4.0.0</version>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>org.slf4j</groupId>
-                            <artifactId>slf4j-api</artifactId>
-                        </exclusion>
-                        <exclusion>
-                            <groupId>javax.xml.stream</groupId>
-                            <artifactId>stax-api</artifactId>
-                        </exclusion>
-                        <exclusion>
-                            <groupId>xpp3</groupId>
-                            <artifactId>xpp3</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-            </dependencies>
-        </profile>
-        <!-- ============================================= -->
-        <!-- =====  PLUGINS DE FIRMA WEB PER PROFILE ===== -->
-        <!-- ============================================= -->
-        <!-- PROFILE PER INCLOURE Modul de FIRMA WEB SIA -->
-        <profile>
-            <id>sia</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
-                    <artifactId>pluginsib-signatureweb-miniappletinserversia</artifactId>
-                    <version>${plugins.signatureweb.version}</version>
-                </dependency>
-            </dependencies>
-        </profile>
-        <!-- PROFILE PER INCLOURE Modul de FIRMA WEB DE ViaFirma fortress -->
-        <profile>
-            <id>fortress</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
-                    <artifactId>pluginsib-signatureweb-fortress</artifactId>
-                    <version>${plugins.signatureweb.version}</version>
-                </dependency>
-            </dependencies>
-        </profile>
+
+
         <!-- FRONT WEB PORTAFIB AMB AUTENTICACIO CLIENT-CERT -->
         <!-- WS PORTAFIRMAS CALLBACK SERVER - RECEPTOR DE CRIDADES CALLBACK -->
         <!-- 
