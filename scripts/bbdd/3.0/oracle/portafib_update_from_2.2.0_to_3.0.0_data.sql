@@ -29,3 +29,12 @@ UPDATE pfi_plugin SET propertiesentitat=REPLACE(propertiesentitat, 'es.caib.port
 UPDATE pfi_plugin SET classe=REPLACE(classe, 'org.fundaciobit.plugins.', 'org.fundaciobit.pluginsib.')  WHERE tipus=4;
 UPDATE pfi_plugin SET propertiesadmin=REPLACE(propertiesadmin, 'es.caib.portafib.plugins.', 'es.caib.portafib.pluginsib.')  WHERE tipus=4;
 UPDATE pfi_plugin SET propertiesentitat=REPLACE(propertiesentitat, 'es.caib.portafib.plugins.', 'es.caib.portafib.pluginsib.')  WHERE tipus=4;
+
+
+--###########################################################################
+--##  Actualitzar versió de pluginsib-timestamp a versió 3.0.0 #829    
+--###########################################################################
+
+UPDATE pfi_plugin SET classe=REPLACE(classe, 'org.fundaciobit.plugins.', 'org.fundaciobit.pluginsib.')  WHERE tipus=1;
+UPDATE pfi_plugin SET propertiesadmin=REPLACE(propertiesadmin, 'es.caib.portafib.plugins.', 'es.caib.portafib.pluginsib.')  WHERE tipus=1;
+UPDATE pfi_plugin SET propertiesentitat=REPLACE(propertiesentitat, 'es.caib.portafib.plugins.', 'es.caib.portafib.pluginsib.')  WHERE tipus=1;

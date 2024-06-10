@@ -32,13 +32,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-<!--
-		<dependency>
-			<artifactId>portafib-revisordefirma-rest-api</artifactId>
-			<groupId>es.caib.portafib</groupId>
-			<version>1.0</version>
-		</dependency>
--->
 
 		<!-- Externas -->
 
@@ -87,7 +80,7 @@
 		<dependency>
 			<groupId>org.fundaciobit.pluginsib.timestamp</groupId>
 			<artifactId>pluginsib-timestamp-api</artifactId>
-			<version>${plugins.version}</version>
+			<version>${pluginsib.timestamp.version}</version>
 			<scope>provided</scope>
 		</dependency>
 

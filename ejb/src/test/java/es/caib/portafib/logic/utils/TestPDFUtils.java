@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.barcode.barcode128.BarCode128Plugin;
 import org.fundaciobit.plugins.barcode.pdf417.Pdf417Plugin;
 import org.fundaciobit.plugins.barcode.qrcode.QrCodePlugin;
-import org.fundaciobit.pluginsib.barcode.IBarcodePlugin;
+import org.fundaciobit.pluginsib.barcode.api.IBarcodePlugin;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.utils.Utils;
 import org.junit.Test;

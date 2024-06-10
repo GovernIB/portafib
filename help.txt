@@ -50,14 +50,6 @@ Per compilar en mode produccio: deploypro.sh/bat [OPCIONS]
                   i callback versio 0. Per veure les cridades accedir a
                   http://HOST:8080/portafib/portafirmascb
 
--Parxiudigitalcaib Inclou el Plugin de DocumentCustody de l'Arxiu Digital CAIB
-
--Palfresco       Inclou el Plugin de DocumentCustody de Alfresco
-                 
--Psia             Compila i inclou dins l'ear el Modul de Firma de SIA
-
--Pfortress        Compila i inclou dins l'ear el Modul de Firma Web de ViaFirma-Fortress
-
 -Dcontextrootportafib=<<NOU_CONTEXT_ROOT>>  Canvia el contextroot de back de /portafib per /<<NOU_CONTEXT_ROOT>>
 
 clean             Neteja els projectes abans de compilar.

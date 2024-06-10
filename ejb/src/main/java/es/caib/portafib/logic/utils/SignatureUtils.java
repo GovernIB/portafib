@@ -39,7 +39,7 @@ import org.fundaciobit.pluginsib.signature.api.PolicyInfoSignature;
 import org.fundaciobit.pluginsib.signature.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.pluginsib.signature.api.SignaturesSet;
 import org.fundaciobit.pluginsib.signature.api.SignaturesTableHeader;
-import org.fundaciobit.pluginsib.barcode.IBarcodePlugin;
+import org.fundaciobit.pluginsib.barcode.api.IBarcodePlugin;
 import org.fundaciobit.pluginsib.core.utils.PluginsManager;
 
 import javax.activation.DataHandler;
