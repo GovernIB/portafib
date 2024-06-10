@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>es.caib.portafib</groupId>
 		<artifactId>portafib-ws</artifactId>
-		<version>2.2.0</version>
+		<version>2.2.1</version>
 	</parent>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -217,7 +217,7 @@
 		<dependency>
 			<artifactId>portafib-ws-server</artifactId>
 			<groupId>es.caib.portafib</groupId>
-			<version>${portafib.version}</version>
+			<version>${parent.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

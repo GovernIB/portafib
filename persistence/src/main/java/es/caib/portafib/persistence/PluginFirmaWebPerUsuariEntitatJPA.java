@@ -23,7 +23,7 @@ import javax.persistence.Id;
         @Index(name="pfi_pfwpue_plugin_fk_i", columnList = "pluginfirmawebid")},
            uniqueConstraints = {
             @UniqueConstraint(name="pfi_pfwpue_usuent_plug_uk", columnNames={"usuarientitatid","pluginfirmawebid"}) } )
-@SequenceGenerator(name="PLUGINFIRMAWEBPERUSUARIENTITAT_SEQ", sequenceName="pfi_pluginfirmawebperusrent_seq", allocationSize=1, initialValue=1000)
+@SequenceGenerator(name="PLUGINFIRMAWEBPERUSUARIENTITAT_SEQ", sequenceName="pfi_pluginfirmawebperusren_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PluginFirmaWebPerUsuariEntitatJPA implements PluginFirmaWebPerUsuariEntitat {
 

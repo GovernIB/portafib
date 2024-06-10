@@ -5449,7 +5449,7 @@
           "showInWebList": true,
           "showInReferenceList": true,
           "transientField": false,
-          "defaultValue": "nextval(\u0027pfi_grupentitatusuarientitat_seq\u0027::regclass)",
+          "defaultValue": "nextval(\u0027pfi_grupentitatusuarientit_seq\u0027::regclass)",
           "filter": false,
           "orderBy": 0,
           "groupBy": false,
@@ -9606,7 +9606,7 @@
           "showInWebList": true,
           "showInReferenceList": false,
           "transientField": false,
-          "defaultValue": "nextval(\u0027pfi_pluginfirmawebperusrapp_seq\u0027::regclass)",
+          "defaultValue": "nextval(\u0027pfi_pluginfirmawebperusrap_seq\u0027::regclass)",
           "filter": false,
           "orderBy": 0,
           "groupBy": false,
@@ -9775,7 +9775,7 @@
           "showInWebList": true,
           "showInReferenceList": false,
           "transientField": false,
-          "defaultValue": "nextval(\u0027pfi_pluginfirmawebperusrent_seq\u0027::regclass)",
+          "defaultValue": "nextval(\u0027pfi_pluginfirmawebperusren_seq\u0027::regclass)",
           "filter": false,
           "orderBy": 0,
           "groupBy": false,
@@ -13054,6 +13054,18 @@
               "name": "pfi_rebreavis_usrentitat_fk",
               "table": "pfi_rebreavis",
               "field": "usuarientitatid",
+              "type": 0
+            },
+            {
+              "name": "pfi_revdedest_usrentitat_de_fk",
+              "table": "pfi_revisordedestinatari",
+              "field": "destinatariid",
+              "type": 0
+            },
+            {
+              "name": "pfi_revdedest_usrentitat_re_fk",
+              "table": "pfi_revisordedestinatari",
+              "field": "revisorid",
               "type": 0
             },
             {

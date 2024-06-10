@@ -23,7 +23,7 @@ import javax.persistence.Id;
         @Index(name="pfi_grupusrent_grupentid_fk_i", columnList = "grupentitatid")},
            uniqueConstraints = {
             @UniqueConstraint(name="pfi_grupusrent_usrgrup_uk", columnNames={"usuarientitatid","grupentitatid"}) } )
-@SequenceGenerator(name="GRUPENTITATUSUARIENTITAT_SEQ", sequenceName="pfi_grupentitatusuarientitat_seq", allocationSize=1, initialValue=1000)
+@SequenceGenerator(name="GRUPENTITATUSUARIENTITAT_SEQ", sequenceName="pfi_grupentitatusuarientit_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class GrupEntitatUsuariEntitatJPA implements GrupEntitatUsuariEntitat {
 

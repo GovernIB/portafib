@@ -1,0 +1,110 @@
+
+
+create sequence pfi_annex_seq start 1000 increment 1;
+create sequence pfi_annexfirmat_seq start 1000 increment 1;
+create sequence pfi_bitacola_seq start 1000 increment 1;
+create sequence pfi_blocdefirmes_seq start 1000 increment 1;
+create sequence pfi_colaboraciodelegacio_seq start 1000 increment 1;
+create sequence pfi_custodiainfo_seq start 1000 increment 1;
+create sequence pfi_estadistica_seq start 1000 increment 1;
+create sequence pfi_estatdefirma_seq start 1000 increment 1;
+create sequence pfi_firma_seq start 1000 increment 1;
+create sequence pfi_fitxer_seq start 1000 increment 1;
+create sequence pfi_fluxdefirmes_seq start 1000 increment 1;
+create sequence pfi_grupentitat_seq start 1000 increment 1;
+create sequence pfi_grupentitatusuarientit_seq start 1000 increment 1;
+create sequence pfi_metadada_seq start 1000 increment 1;
+create sequence pfi_modulfirmapertipusdoc_seq start 1000 increment 1;
+create sequence pfi_notificacio_seq start 1000 increment 1;
+create sequence pfi_perfilsperusrapp_seq start 1000 increment 1;
+create sequence pfi_permisgrupplantilla_seq start 1000 increment 1;
+create sequence pfi_permisusuariplantilla_seq start 1000 increment 1;
+create sequence pfi_peticiodefirma_seq start 1000 increment 1;
+create sequence pfi_plugin_seq start 1000 increment 1;
+create sequence pfi_plugincridada_seq start 1000 increment 1;
+create sequence pfi_pluginfirmawebperusrap_seq start 1000 increment 1;
+create sequence pfi_pluginfirmawebperusren_seq start 1000 increment 1;
+create sequence pfi_propietatglobal_seq start 1000 increment 1;
+create sequence pfi_rebreavis_seq start 1000 increment 1;
+create sequence pfi_revisordefirma_seq start 1000 increment 1;
+create sequence pfi_roleusuarientitat_seq start 1000 increment 1;
+create sequence pfi_tipusdocumentcoladele_seq start 1000 increment 1;
+create sequence pfi_traduccio_seq start 1000 increment 1;
+create sequence pfi_usuariaplicacioconfig_seq start 1000 increment 1;
+create sequence pfi_usuariaplicacioperfil_seq start 1000 increment 1;
+create sequence pfi_usuarientitatfavorit_seq start 1000 increment 1;
+
+
+select setval('pfi_annex_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_annexfirmat_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_bitacola_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_blocdefirmes_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_colaboraciodelegacio_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_custodiainfo_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_estadistica_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_estatdefirma_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_firma_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_fitxer_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_fluxdefirmes_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_grupentitat_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_grupentitatusuarientit_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_metadada_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_modulfirmapertipusdoc_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_notificacio_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_perfilsperusrapp_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_permisgrupplantilla_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_permisusuariplantilla_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_peticiodefirma_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_plugin_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_plugincridada_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_pluginfirmawebperusrap_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_pluginfirmawebperusren_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_propietatglobal_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_rebreavis_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_revisordefirma_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_roleusuarientitat_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_tipusdocumentcoladele_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_traduccio_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_usuariaplicacioconfig_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_usuariaplicacioperfil_seq',  (SELECT nextval('pfi_portafib_seq')));
+select setval('pfi_usuarientitatfavorit_seq',  (SELECT nextval('pfi_portafib_seq')));
+
+
+
+
+alter table pfi_annex alter annexid set DEFAULT nextval('pfi_annex_seq');
+alter table pfi_annexfirmat alter annexfirmatid set DEFAULT nextval('pfi_annexfirmat_seq');
+alter table pfi_bitacola alter bitacolaid set DEFAULT nextval('pfi_bitacola_seq');
+alter table pfi_blocdefirmes alter blocdefirmesid set DEFAULT nextval('pfi_blocdefirmes_seq');
+alter table pfi_colaboraciodelegacio alter colaboraciodelegacioid set DEFAULT nextval('pfi_colaboraciodelegacio_seq');
+alter table pfi_custodiainfo alter custodiainfoid set DEFAULT nextval('pfi_custodiainfo_seq');
+alter table pfi_estadistica alter estadisticaid set DEFAULT nextval('pfi_estadistica_seq');
+alter table pfi_estatdefirma alter estatdefirmaid set DEFAULT nextval('pfi_estatdefirma_seq');
+alter table pfi_firma alter firmaid set DEFAULT nextval('pfi_firma_seq');
+alter table pfi_fitxer alter fitxerid set DEFAULT nextval('pfi_fitxer_seq');
+alter table pfi_fluxdefirmes alter fluxdefirmesid set DEFAULT nextval('pfi_fluxdefirmes_seq');
+alter table pfi_grupentitat alter grupentitatid set DEFAULT nextval('pfi_grupentitat_seq');
+alter table pfi_grupentitatusuarientitat alter grupentitatusuarientitatid set DEFAULT nextval('pfi_grupentitatusuarientit_seq');
+alter table pfi_metadada alter metadadaid set DEFAULT nextval('pfi_metadada_seq');
+alter table pfi_modulfirmapertipusdoc alter id set DEFAULT nextval('pfi_modulfirmapertipusdoc_seq');
+alter table pfi_notificacio alter notificacioid set DEFAULT nextval('pfi_notificacio_seq');
+alter table pfi_perfilsperusrapp alter perfilsperusrappid set DEFAULT nextval('pfi_perfilsperusrapp_seq');
+alter table pfi_permisgrupplantilla alter permisgrupplantillaid set DEFAULT nextval('pfi_permisgrupplantilla_seq');
+alter table pfi_permisusuariplantilla alter permisusuariplantillaid set DEFAULT nextval('pfi_permisusuariplantilla_seq');
+alter table pfi_peticiodefirma alter peticiodefirmaid set DEFAULT nextval('pfi_peticiodefirma_seq');
+alter table pfi_plugin alter pluginid set DEFAULT nextval('pfi_plugin_seq');
+alter table pfi_plugincridada alter plugincridadaid set DEFAULT nextval('pfi_plugincridada_seq');
+alter table pfi_pluginfirmawebperusrapp alter pluginfirmawebperusrappid set DEFAULT nextval('pfi_pluginfirmawebperusrap_seq');
+alter table pfi_pluginfirmawebperusrent alter pluginfirmawebperusrentid set DEFAULT nextval('pfi_pluginfirmawebperusren_seq');
+alter table pfi_propietatglobal alter propietatglobalid set DEFAULT nextval('pfi_propietatglobal_seq');
+alter table pfi_rebreavis alter id set DEFAULT nextval('pfi_rebreavis_seq');
+alter table pfi_revisordefirma alter revisordefirmaid set DEFAULT nextval('pfi_revisordefirma_seq');
+alter table pfi_roleusuarientitat alter id set DEFAULT nextval('pfi_roleusuarientitat_seq');
+alter table pfi_tipusdocumentcoladele alter id set DEFAULT nextval('pfi_tipusdocumentcoladele_seq');
+alter table pfi_traduccio alter traduccioid set DEFAULT nextval('pfi_traduccio_seq');
+alter table pfi_usuariaplicacioconfig alter usuariaplicacioconfigid set DEFAULT nextval('pfi_usuariaplicacioconfig_seq');
+alter table pfi_usuariaplicacioperfil alter usuariaplicacioperfilid set DEFAULT nextval('pfi_usuariaplicacioperfil_seq');
+alter table pfi_usuarientitatfavorit alter id set DEFAULT nextval('pfi_usuarientitatfavorit_seq');
+
+
+DROP SEQUENCE pfi_portafib_seq;
