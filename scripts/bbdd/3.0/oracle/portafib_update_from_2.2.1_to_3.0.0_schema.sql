@@ -33,12 +33,3 @@ create index pfi_revdedest_revisorid_fk_i on pfi_revisordedestinatari (revisorid
 grant select,insert,delete,update on pfi_revisordedestinatari to www_portafib;
 
 
---######################################################################
---#####   Arreglar seqüències amb més de 30 caràcters de longitud. #833 
---######################################################################
-
-ALTER SEQUENCE pfi_grupentitatusuarientitat_seq RENAME TO pfi_grupentitatusuarientit_seq;
-ALTER SEQUENCE pfi_pluginfirmawebperusrapp_seq RENAME TO pfi_pluginfirmawebperusrap_seq;
-ALTER SEQUENCE pfi_pluginfirmawebperusrent_seq RENAME TO pfi_pluginfirmawebperusren_seq;
-
-
