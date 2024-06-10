@@ -115,9 +115,9 @@ import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.plugins.documentcustody.api.CustodyException;
-import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
-import org.fundaciobit.plugins.documentcustody.api.NotSupportedCustodyException;
+import org.fundaciobit.pluginsib.documentcustody.api.CustodyException;
+import org.fundaciobit.pluginsib.documentcustody.api.IDocumentCustodyPlugin;
+import org.fundaciobit.pluginsib.documentcustody.api.NotSupportedCustodyException;
 import org.hibernate.Hibernate;
 
 import javax.annotation.PostConstruct;
@@ -2189,7 +2189,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             ValidacioCompletaResponse validacioResponse = null;
             try {
                 final boolean validateChangesInAttachedFiles = administrationIdCanBeValidatedFromPlugin;
-                validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest, validateChangesInAttachedFiles);
+                validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest,
+                        validateChangesInAttachedFiles);
             } catch (ValidacioException e) {
                 throw new I18NException("genapp.comodi", e.getMessage());
             }

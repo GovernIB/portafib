@@ -2,7 +2,7 @@ package es.caib.portafib.logic;
 
 import javax.ejb.Local;
 
-import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
+import org.fundaciobit.pluginsib.documentcustody.api.IDocumentCustodyPlugin;
 
 /**
  * 
@@ -10,9 +10,8 @@ import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
  *
  */
 @Local
-public interface PluginDeCustodiaLogicaLocal extends
-    AbstractPluginLogicaLocal<IDocumentCustodyPlugin> {
+public interface PluginDeCustodiaLogicaLocal extends AbstractPluginIBLogicaLocal<IDocumentCustodyPlugin> {
 
-  String JNDI_NAME = "java:app/portafib-ejb/PluginDeCustodiaLogicaEJB";
+    String JNDI_NAME = "java:app/portafib-ejb/PluginDeCustodiaLogicaEJB";
 
 }

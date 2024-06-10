@@ -29,71 +29,61 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 @Local
 public interface CustodiaInfoLogicaLocal extends CustodiaInfoService {
 
-  String JNDI_NAME = "java:app/portafib-ejb/CustodiaInfoLogicaEJB";
-  
-  public CustodiaInfoJPA findByPrimaryKeyUnathorized(Long _ID_);
+    String JNDI_NAME = "java:app/portafib-ejb/CustodiaInfoLogicaEJB";
 
-  public Integer getPoliticaDeCustodiaFinalPerUA(String usuariAplicacioID,
-      EntitatJPA entitatJPA) throws I18NException;
+    public CustodiaInfoJPA findByPrimaryKeyUnathorized(Long _ID_);
 
-  public Integer getPoliticaDeCustodiaFinalPerUA(UsuariAplicacio usuariAplicacio,
-      EntitatJPA entitatJPA) throws I18NException;
+    public Integer getPoliticaDeCustodiaFinalPerUA(String usuariAplicacioID, EntitatJPA entitatJPA)
+            throws I18NException;
 
-  public Integer getPoliticaDeCustodiaFinalPerUE(String usuariEntitatID, EntitatJPA entitatJPA)
-      throws I18NException;
+    public Integer getPoliticaDeCustodiaFinalPerUA(UsuariAplicacio usuariAplicacio, EntitatJPA entitatJPA)
+            throws I18NException;
 
-  public Integer getPoliticaDeCustodiaFinalPerUE(UsuariEntitat usuariEntitat,
-      EntitatJPA entitatJPA) throws I18NException;
+    public Integer getPoliticaDeCustodiaFinalPerUE(String usuariEntitatID, EntitatJPA entitatJPA) throws I18NException;
 
-  public CustodiaInfo getCustodiaUE(EntitatJPA entitatJPA, UsuariEntitat usuariEntitat,
-      String usuariAplicacioID, CustodiaInfoJPA custodiaSentByUser, String titol)
-      throws I18NException, I18NValidationException;
+    public Integer getPoliticaDeCustodiaFinalPerUE(UsuariEntitat usuariEntitat, EntitatJPA entitatJPA)
+            throws I18NException;
 
-  public CustodiaInfo getCustodiaUA(UsuariAplicacio usuariAplicacio,
-      CustodiaInfoJPA custodiaSentByUser, String titol, EntitatJPA entitatJPA)
-      throws I18NException, I18NValidationException;
+    public CustodiaInfo getCustodiaUE(EntitatJPA entitatJPA, UsuariEntitat usuariEntitat, String usuariAplicacioID,
+            CustodiaInfoJPA custodiaSentByUser, String titol) throws I18NException, I18NValidationException;
 
-  public CustodiaInfo getAllowedCustodyInfo(PeticioDeFirmaJPA peticio, EntitatJPA entitatJPA,
-      UsuariAplicacio usuariAplicacio, UsuariEntitat usuariEntitat) throws I18NException,
-      I18NValidationException;
+    public CustodiaInfo getCustodiaUA(UsuariAplicacio usuariAplicacio, CustodiaInfoJPA custodiaSentByUser, String titol,
+            EntitatJPA entitatJPA) throws I18NException, I18NValidationException;
 
-  // public CustodiaInfoBean constructDefaultCustodiaInfo(String titol, String entitatID,
-  // String usuariEntitatID, String usuariAplicacioID, String idioma);
+    public CustodiaInfo getAllowedCustodyInfo(PeticioDeFirmaJPA peticio, EntitatJPA entitatJPA,
+            UsuariAplicacio usuariAplicacio, UsuariEntitat usuariEntitat) throws I18NException, I18NValidationException;
 
-  public CustodiaInfo getAllowedCustodyInfo(PeticioDeFirmaJPA peticio, EntitatJPA entitatJPA)
-      throws I18NException, I18NValidationException;
+    // public CustodiaInfoBean constructDefaultCustodiaInfo(String titol, String entitatID,
+    // String usuariEntitatID, String usuariAplicacioID, String idioma);
 
-  public void deleteCustodiaInfoOfPeticioDeFirma(CustodiaInfo custodiaInfo)
-      throws I18NException;
+    public CustodiaInfo getAllowedCustodyInfo(PeticioDeFirmaJPA peticio, EntitatJPA entitatJPA)
+            throws I18NException, I18NValidationException;
 
-  public CustodiaInfo getCustodyInfoOnCreatePeticio(PeticioDeFirmaJPA peticio,
-      EntitatJPA entitatJPA, UsuariEntitat usuariEntitat, UsuariAplicacio usuariAplicacio)
-      throws I18NException, I18NValidationException;
+    public void deleteCustodiaInfoOfPeticioDeFirma(CustodiaInfo custodiaInfo) throws I18NException;
 
-  public CustodiaInfo getCustodyInfoOnAddCustodyToPeticio(PeticioDeFirmaJPA peticio,
-      EntitatJPA entitatJPA) throws I18NException, I18NValidationException;
+    public CustodiaInfo getCustodyInfoOnCreatePeticio(PeticioDeFirmaJPA peticio, EntitatJPA entitatJPA,
+            UsuariEntitat usuariEntitat, UsuariAplicacio usuariAplicacio) throws I18NException, I18NValidationException;
 
-  public CustodiaInfoJPA defaultValuesForCustodiaInfo(String entitatID,
-      CustodiaInfoJPA custodiaInfo) throws I18NException;
+    public CustodiaInfo getCustodyInfoOnAddCustodyToPeticio(PeticioDeFirmaJPA peticio, EntitatJPA entitatJPA)
+            throws I18NException, I18NValidationException;
 
-  public CustodiaForStartPeticioDeFirma custodiaCommonActionsOnStartPeticioDeFirma(
-      PeticioDeFirmaJPA peticioDeFirma, CustodiaInfo custodiaInfo)
-      throws I18NException;
+    public CustodiaInfoJPA defaultValuesForCustodiaInfo(String entitatID, CustodiaInfoJPA custodiaInfo)
+            throws I18NException;
 
-  public es.caib.portafib.logic.utils.StampCustodiaInfo custodiaPAdESActionsOnStartPeticioDeFirma(
-      PeticioDeFirmaJPA peticioDeFirma, CustodiaInfo custodiaInfo,
-      CustodiaForStartPeticioDeFirma custodiaForStartPeticioDeFirma, Locale locale)
-      throws I18NException;
+    public CustodiaForStartPeticioDeFirma custodiaCommonActionsOnStartPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma,
+            CustodiaInfo custodiaInfo) throws I18NException;
 
-  public void custodiaThingToDoOnFinishPeticioDeFirma(String fitxerAFirmarNom, 
-      IPortaFIBDataSource originalFile, File signatureFile, 
-      PeticioDeFirmaJPA peticioDeFirma, FirmaJPA firma, CustodiaInfo custInfo)
-      throws I18NException;
+    public es.caib.portafib.logic.utils.StampCustodiaInfo custodiaPAdESActionsOnStartPeticioDeFirma(
+            PeticioDeFirmaJPA peticioDeFirma, CustodiaInfo custodiaInfo,
+            CustodiaForStartPeticioDeFirma custodiaForStartPeticioDeFirma, Locale locale) throws I18NException;
 
-  public Map<String, Object> getAdditionalParametersForDocumentCustody(
-      PeticioDeFirmaJPA peticioDeFirma, FirmaJPA firma, CustodiaInfo custodiaInfo)
-      throws I18NException;
-  
-  // ZZZZ
-  public EntityManager getEntityManager();  
+    public void custodiaThingToDoOnFinishPeticioDeFirma(String fitxerAFirmarNom, IPortaFIBDataSource originalFile,
+            File signatureFile, PeticioDeFirmaJPA peticioDeFirma, FirmaJPA firma, CustodiaInfo custInfo)
+            throws I18NException;
+
+    public Map<String, Object> getAdditionalParametersForDocumentCustody(PeticioDeFirmaJPA peticioDeFirma,
+            FirmaJPA firma, CustodiaInfo custodiaInfo) throws I18NException;
+
+    // ZZZZ
+    public EntityManager getEntityManager();
 }
