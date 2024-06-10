@@ -122,22 +122,22 @@
         <dependency>
             <groupId>org.fundaciobit.pluginsib.barcode</groupId>
             <artifactId>pluginsib-barcode-api</artifactId>
-            <version>${pluginsib.barcode.api.version}</version>
+            <version>${pluginsib.barcode.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fundaciobit.pluginsib.barcode</groupId>
             <artifactId>pluginsib-barcode-pdf417</artifactId>
-            <version>${pluginsib.barcode.impl.version}</version>
+            <version>${pluginsib.barcode.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fundaciobit.pluginsib.barcode</groupId>
             <artifactId>pluginsib-barcode-qr</artifactId>
-            <version>${pluginsib.barcode.impl.version}</version>
+            <version>${pluginsib.barcode.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fundaciobit.pluginsib.barcode</groupId>
             <artifactId>pluginsib-barcode-barcode128</artifactId>
-            <version>${pluginsib.barcode.impl.version}</version>
+            <version>${pluginsib.barcode.version}</version>
         </dependency>
 
         <!-- ============================================ -->
