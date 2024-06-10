@@ -60,7 +60,7 @@ import org.fundaciobit.pluginsib.documentcustody.api.DocumentCustody;
 import org.fundaciobit.pluginsib.documentcustody.api.IDocumentCustodyPlugin;
 import org.fundaciobit.pluginsib.documentcustody.api.NotSupportedCustodyException;
 import org.fundaciobit.pluginsib.documentcustody.api.SignatureCustody;
-import org.fundaciobit.pluginsib.barcode.IBarcodePlugin;
+import org.fundaciobit.pluginsib.barcode.api.IBarcodePlugin;
 import org.fundaciobit.pluginsib.core.v3.utils.MetadataFormatException;
 import org.fundaciobit.pluginsib.core.v3.utils.PluginsManager;
 
