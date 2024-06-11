@@ -1043,7 +1043,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
                 dc = new DocumentCustody();
                 try {
                     InputStream inputStream = fitxerAFirmar.getInputStream();
-                    dc.setData(org.fundaciobit.pluginsib.core.utils.FileUtils.toByteArray(inputStream));
+                    dc.setData(org.fundaciobit.pluginsib.core.v3.utils.FileUtils.toByteArray(inputStream));
                     inputStream.close();
                 } catch (Exception e) {
                     // XYZ ZZZ TRA

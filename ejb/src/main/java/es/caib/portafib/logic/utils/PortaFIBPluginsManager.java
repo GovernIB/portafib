@@ -1,10 +1,10 @@
 package es.caib.portafib.logic.utils;
 
 import org.apache.log4j.Logger;
+import org.fundaciobit.pluginsib.core.v3.utils.PluginsManager;
 //import org.fundaciobit.pluginsib.validatecertificate.ICertificatePlugin;/
 import org.fundaciobit.pluginsib.documentconverter.IDocumentConverterPlugin;
 import org.fundaciobit.pluginsib.userinformation.IUserInformationPlugin;
-import org.fundaciobit.pluginsib.core.utils.PluginsManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
@@ -52,7 +52,7 @@ public class PortaFIBPluginsManager implements ConstantsV2 {
         if (loginPlugin == null) {
             final String propertyPlugin = LOGIN_PLUGIN_KEY;
 
-            Object pluginInstance = org.fundaciobit.pluginsib.core.v3.utils.PluginsManager.instancePluginByProperty(
+            Object pluginInstance = PluginsManager.instancePluginByProperty(
                     propertyPlugin, ConstantsV2.PORTAFIB_PROPERTY_BASE, Configuracio.getPortaFIBProperties());
             if (pluginInstance == null) {
                 throw new I18NException("plugin.donotinstantiateplugin", new I18NArgumentCode("plugin.userinfo"));

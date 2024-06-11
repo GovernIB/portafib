@@ -19,7 +19,7 @@ import java.io.InputStream;
 import java.security.cert.X509Certificate;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.v3.utils.CertificateUtils;
 
 /**
  * 

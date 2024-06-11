@@ -19,9 +19,11 @@ import javax.validation.Valid;
 import es.caib.portafib.back.security.LoginException;
 import es.caib.portafib.logic.utils.BlocUtils;
 import es.caib.portafib.logic.utils.FirmaUtils;
+
+import org.apache.commons.lang3.StringUtils;
 import org.fundaciobit.genapp.common.KeyValue.KeyValueComparator;
 import org.fundaciobit.genapp.common.crypt.FileIDEncrypter;
-import org.apache.commons.lang.StringUtils;
+
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;

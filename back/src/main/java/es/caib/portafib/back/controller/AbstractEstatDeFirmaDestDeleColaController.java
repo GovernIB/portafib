@@ -58,7 +58,8 @@ import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
-import org.apache.commons.lang.StringEscapeUtils;
+
+import org.apache.commons.text.StringEscapeUtils;
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
@@ -2087,8 +2088,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     pfTitolCut = (pfTitol.length() > titleLength) ? pfTitol.substring(0, titleLength) + "..." : pfTitol;
                 }
 
-                pfTitol = StringEscapeUtils.escapeXml(pfTitol);
-                pfTitolCut = StringEscapeUtils.escapeXml(pfTitolCut);
+                pfTitol = StringEscapeUtils.escapeXml11(pfTitol);
+                pfTitolCut = StringEscapeUtils.escapeXml11(pfTitolCut);
 
                 String pfTitolView = (titleLength > 0)
                         ? "<a href=\"#\" data-toggle=\"tooltip\" title=\"" + pfTitol + "\">" + pfTitolCut + "</a>"

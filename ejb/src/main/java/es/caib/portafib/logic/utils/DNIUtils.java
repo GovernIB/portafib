@@ -1,6 +1,7 @@
 package es.caib.portafib.logic.utils;
 
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.v3.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.v3.utils.DNIExtractor;
 
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class DNIUtils {
 
         String[] patterns = dniPattern.split("[\r\n]+");
         List<String> patternsList = new ArrayList<String>(Arrays.asList(patterns));
-        patternsList.add(CertificateUtils.DEFAULT_DNI_PATTERN);
+        patternsList.add(DNIExtractor.DEFAULT_DNI_PATTERN);
 
         return CertificateUtils.getDNI(certificate, patternsList);
     }

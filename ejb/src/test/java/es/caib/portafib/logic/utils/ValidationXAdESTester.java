@@ -5,7 +5,7 @@ import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.v3.utils.CertificateUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

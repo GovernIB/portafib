@@ -18,6 +18,10 @@ import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.bouncycastle.asn1.ASN1InputStream;
+import org.bouncycastle.asn1.ASN1Sequence;
+import org.bouncycastle.asn1.DEROctetString;
+import org.bouncycastle.asn1.x509.PolicyInformation;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -26,8 +30,8 @@ import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
 import org.fundaciobit.pluginsib.validatesignature.api.SignatureDetailInfo;
 import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
 import org.fundaciobit.pluginsib.validatesignature.api.ValidationStatus;
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 
+import org.fundaciobit.pluginsib.core.v3.utils.CertificateUtils;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -431,7 +435,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
             boolean isPseudonymCertificate;
             try {
-              isPseudonymCertificate = CertificateUtils.isPseudonymCertificate(certificateLastSign);
+              isPseudonymCertificate = isPseudonymCertificate(certificateLastSign);
             } catch (Exception e) {
               log.error("Error intentant descobrir si el certificat és de PSEUDONIM: " + e.getMessage() , e);
               log.error(certificateLastSign.toString());
@@ -485,6 +489,45 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
     return resposta;
   }
+  
+  
+
+  public static boolean isPseudonymCertificate(X509Certificate certificate) throws Exception {
+      String politica = getCertificatePolicyId(certificate);
+      return politica != null && politica.startsWith("2.16.724.1.3.5.4.");
+  }
+  
+  public static String getCertificatePolicyId(X509Certificate cert) throws Exception {
+
+      byte[] extvalue = cert.getExtensionValue("2.5.29.32");
+      
+      int pos = 0;
+      if (extvalue != null) {
+
+          ASN1InputStream extAsn1InputStream = new ASN1InputStream(new ByteArrayInputStream(extvalue));
+          try {
+              DEROctetString oct = (DEROctetString) (extAsn1InputStream.readObject());
+              ASN1InputStream octAsn1InputStream = new ASN1InputStream(new ByteArrayInputStream(oct.getOctets()));
+              try {
+                  ASN1Sequence seq = (ASN1Sequence) octAsn1InputStream.readObject();
+                  // Check the size so we don't ArrayIndexOutOfBounds
+                  if (seq.size() < pos + 1) {
+                      return null;
+                  }
+                  PolicyInformation pol = PolicyInformation.getInstance((ASN1Sequence) seq.getObjectAt(pos));
+                  return pol.getPolicyIdentifier().getId();
+              } finally {
+                  octAsn1InputStream.close();
+              }
+          } finally {
+              extAsn1InputStream.close();
+          }
+      }
+
+      return null;
+  }
+
+  
 
   public static X509Certificate getLastCertificateOfSignedPdf(
       IPortaFIBDataSource signedPDFData, int numFirmaPortaFIB, int numFirmesOriginals)

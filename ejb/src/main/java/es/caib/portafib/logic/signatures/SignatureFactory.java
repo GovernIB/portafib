@@ -1,7 +1,7 @@
 package es.caib.portafib.logic.signatures;
 
 import es.caib.portafib.logic.utils.DNIUtils;
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.v3.utils.CertificateUtils;
 
 import java.security.cert.X509Certificate;
 import java.util.Date;

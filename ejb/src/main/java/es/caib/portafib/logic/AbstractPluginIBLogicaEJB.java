@@ -27,7 +27,7 @@ import org.fundaciobit.pluginsib.utils.templateengine.TemplateEngine;
  *
  */
 public abstract class AbstractPluginIBLogicaEJB<I extends IPluginIB> extends AbstractCommonPluginLogicaEJB<I>
-        implements AbstractPluginLogicaLocal<I> {
+        implements AbstractPluginIBLogicaLocal<I> {
 
     protected abstract int getTipusDePlugin();
 

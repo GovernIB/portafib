@@ -24,7 +24,8 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsPortaFIB.POLITICA_CUSTODIA;
 import es.caib.portafib.utils.ConstantsV2;
-import org.apache.commons.lang.exception.ExceptionUtils;
+
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
