@@ -1,13 +1,14 @@
 package es.caib.portafib.logic.utils;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.pluginsib.validatecertificate.ICertificatePlugin;
+//import org.fundaciobit.pluginsib.validatecertificate.ICertificatePlugin;/
 import org.fundaciobit.pluginsib.documentconverter.IDocumentConverterPlugin;
 import org.fundaciobit.pluginsib.userinformation.IUserInformationPlugin;
 import org.fundaciobit.pluginsib.core.utils.PluginsManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -17,49 +18,53 @@ import es.caib.portafib.utils.ConstantsV2;
  */
 public class PortaFIBPluginsManager implements ConstantsV2 {
 
-  protected static Logger log = Logger.getLogger(PortaFIBPluginsManager.class);
+    protected static Logger log = Logger.getLogger(PortaFIBPluginsManager.class);
 
-  public static final String LOGIN_PLUGIN_KEY = PORTAFIB_PROPERTY_BASE + "userinformationplugin";
+    public static final String LOGIN_PLUGIN_KEY = PORTAFIB_PROPERTY_BASE + "userinformationplugin";
 
-  public static final String CERTIFICATE_PLUGIN_KEY = PORTAFIB_PROPERTY_BASE + "certificateplugin";
+    //public static final String CERTIFICATE_PLUGIN_KEY = PORTAFIB_PROPERTY_BASE + "certificateplugin";
 
-  public static final String DOCUMENTCONVERTER_PLUGIN_KEY = PORTAFIB_PROPERTY_BASE + "documentconverterplugin";
+    public static final String DOCUMENTCONVERTER_PLUGIN_KEY = PORTAFIB_PROPERTY_BASE + "documentconverterplugin";
 
-  public static IUserInformationPlugin loginPlugin = null;
+    public static IUserInformationPlugin loginPlugin = null;
 
-  public static ICertificatePlugin certificatePlugin = null;
-  
-  public static IDocumentConverterPlugin documentConverterPlugin = null;
+    //public static ICertificatePlugin certificatePlugin = null;
 
-  /**
-   * 
-   * @return null si no existeix 
-   * @throws Exception
-   */
-  public static IDocumentConverterPlugin getDocumentConverterPluginInstance() {
+    public static IDocumentConverterPlugin documentConverterPlugin = null;
 
-    if (documentConverterPlugin == null) {
-      final String propertyPlugin = DOCUMENTCONVERTER_PLUGIN_KEY;
-      Object pluginInstance = PluginsManager.instancePluginByProperty(propertyPlugin, ConstantsV2.PORTAFIB_PROPERTY_BASE);
-      documentConverterPlugin = (IDocumentConverterPlugin) pluginInstance;
+    /**
+     * 
+     * @return null si no existeix 
+     * @throws Exception
+     */
+    public static IDocumentConverterPlugin getDocumentConverterPluginInstance() {
+
+        if (documentConverterPlugin == null) {
+            final String propertyPlugin = DOCUMENTCONVERTER_PLUGIN_KEY;
+            Object pluginInstance = PluginsManager.instancePluginByProperty(propertyPlugin,
+                    ConstantsV2.PORTAFIB_PROPERTY_BASE, Configuracio.getPortaFIBProperties());
+            documentConverterPlugin = (IDocumentConverterPlugin) pluginInstance;
+        }
+        return documentConverterPlugin;
     }
-    return documentConverterPlugin;
-  }
 
-  public static IUserInformationPlugin getUserInformationPluginInstance() throws I18NException {
-    if (loginPlugin == null) {
-      final String propertyPlugin = LOGIN_PLUGIN_KEY;
-      Object pluginInstance = PluginsManager.instancePluginByProperty(propertyPlugin, ConstantsV2.PORTAFIB_PROPERTY_BASE);
-      if (pluginInstance == null) {
-        throw new I18NException("plugin.donotinstantiateplugin", new I18NArgumentCode("plugin.userinfo"));
-      }
-      loginPlugin = (IUserInformationPlugin) pluginInstance;
+    public static IUserInformationPlugin getUserInformationPluginInstance() throws I18NException {
+        if (loginPlugin == null) {
+            final String propertyPlugin = LOGIN_PLUGIN_KEY;
+
+            Object pluginInstance = org.fundaciobit.pluginsib.core.v3.utils.PluginsManager.instancePluginByProperty(
+                    propertyPlugin, ConstantsV2.PORTAFIB_PROPERTY_BASE, Configuracio.getPortaFIBProperties());
+            if (pluginInstance == null) {
+                throw new I18NException("plugin.donotinstantiateplugin", new I18NArgumentCode("plugin.userinfo"));
+            }
+            loginPlugin = (IUserInformationPlugin) pluginInstance;
+        }
+        return loginPlugin;
     }
-    return loginPlugin;
-  }
 
-  public static ICertificatePlugin getCertificatePluginInstance() throws I18NException {
-
+    /*
+    public static ICertificatePlugin getCertificatePluginInstance() throws I18NException {
+    
     if (certificatePlugin == null) {
       final String propertyPlugin = CERTIFICATE_PLUGIN_KEY;
       Object pluginInstance = PluginsManager.instancePluginByProperty(propertyPlugin, ConstantsV2.PORTAFIB_PROPERTY_BASE);
@@ -69,7 +74,7 @@ public class PortaFIBPluginsManager implements ConstantsV2 {
       certificatePlugin = (ICertificatePlugin) pluginInstance;
     }
     return certificatePlugin;
-  }
-
+    }
+    */
 
 }

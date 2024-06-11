@@ -98,7 +98,7 @@
         <dependency>
             <artifactId>pluginsib-userinformation-api</artifactId>
             <groupId>org.fundaciobit.pluginsib.userinformation</groupId>
-            <version>${pluginsib.userinformation.api.version}</version>
+            <version>${pluginsib.userinformation.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>

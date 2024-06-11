@@ -95,8 +95,7 @@
         <plugins.version>2.0.0</plugins.version>
         <pluginsib.barcode.version>4.0.0-SNAPSHOT</pluginsib.barcode.version>
         <pluginsib.timestamp.version>3.0.0-SNAPSHOT</pluginsib.timestamp.version>
-        <pluginsib.userinformation.api.version>3.1.0</pluginsib.userinformation.api.version>
-        <pluginsib.userinformation.impl.version>3.1.0-SNAPSHOT</pluginsib.userinformation.impl.version>
+        <pluginsib.userinformation.version>4.0.0-SNAPSHOT</pluginsib.userinformation.version>
         <plugins.signatureserver.version>4.0.0-SNAPSHOT</plugins.signatureserver.version>
         <plugins.signatureweb.version>4.0.0-SNAPSHOT</plugins.signatureweb.version>
         <plugins.validatesignature.version>3.0.0-SNAPSHOT</plugins.validatesignature.version>

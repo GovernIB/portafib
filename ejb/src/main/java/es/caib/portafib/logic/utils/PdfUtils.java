@@ -27,8 +27,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.pluginsib.validatecertificate.ICertificatePlugin;
-import org.fundaciobit.pluginsib.validatecertificate.ResultatValidacio;
+//import org.fundaciobit.pluginsib.validatecertificate.ICertificatePlugin;
+//import org.fundaciobit.pluginsib.validatecertificate.ResultatValidacio;
 import org.fundaciobit.pluginsib.documentconverter.IDocumentConverterPlugin;
 import org.fundaciobit.pluginsib.documentconverter.InputDocumentNotSupportedException;
 import org.fundaciobit.pluginsib.documentconverter.OutputDocumentNotSupportedException;
@@ -152,6 +152,7 @@ public class PdfUtils implements ConstantsV2 {
 
     }
 
+    /*
     public static ResultatValidacio validateCertificat(X509Certificate cert)
             throws I18NException, Exception {
         ICertificatePlugin certPlugin = PortaFIBPluginsManager.getCertificatePluginInstance();
@@ -165,6 +166,7 @@ public class PdfUtils implements ConstantsV2 {
         }
         return validacio;
     }
+    */
 
     public static int add_TableSign_Attachments_CustodyInfo_PDF(File srcPDF, File dstPDF,
             final List<AttachedFile> attachmentsOrig, Long maxSize,
