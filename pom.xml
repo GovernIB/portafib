@@ -92,7 +92,7 @@
         <!-- Veure Profiles -->
         <version_txt_template_file>./scripts/templates/versio.txt.template</version_txt_template_file>
         <version_txt_file>./versio.txt</version_txt_file>
-        <plugins.version>2.0.0</plugins.version>
+        <pluginsib.core.version>3.0.0-SNAPSHOT</pluginsib.core.version>
         <pluginsib.documentconverter.version>3.0.0-SNAPSHOT</pluginsib.documentconverter.version>
         <pluginsib.barcode.version>4.0.0-SNAPSHOT</pluginsib.barcode.version>
         <pluginsib.timestamp.version>3.0.0-SNAPSHOT</pluginsib.timestamp.version>

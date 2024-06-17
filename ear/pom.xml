@@ -46,6 +46,20 @@
             <type>ejb</type>
         </dependency>
         <!-- Externes -->
+        
+        
+       <dependency>
+            <groupId>org.fundaciobit.pluginsib.core.v3</groupId>
+            <artifactId>pluginsib-core</artifactId>
+            <version>${pluginsib.core.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.core</groupId>
+            <artifactId>pluginsib-core</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+        
         <!-- Commons Dependencies -->
         <dependency>
             <groupId>commons-fileupload</groupId>

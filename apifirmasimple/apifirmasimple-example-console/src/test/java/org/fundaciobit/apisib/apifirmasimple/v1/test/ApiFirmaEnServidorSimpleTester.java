@@ -16,7 +16,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.NoAvailablePluginExce
 import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaEnServidorSimpleJersey;
 import org.fundaciobit.apisib.core.exceptions.ApisIBClientException;
 import org.fundaciobit.apisib.core.exceptions.ApisIBServerException;
-import org.fundaciobit.pluginsib.core.utils.FileUtils;
+import org.fundaciobit.pluginsib.core.v3.utils.FileUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;

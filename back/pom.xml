@@ -59,9 +59,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.fundaciobit.pluginsib.core</groupId>
+            <groupId>org.fundaciobit.pluginsib.core.v3</groupId>
             <artifactId>pluginsib-core</artifactId>
-            <version>${plugins.version}</version>
+            <version>${pluginsib.core.version}</version>
             <scope>provided</scope>
         </dependency>
 
