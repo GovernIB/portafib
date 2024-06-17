@@ -10,22 +10,7 @@
 		<artifactId>portafib-ws</artifactId>
 		<version>3.0.0</version>
 	</parent>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- JBoss dependency versions -->
-		<version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>
-	</properties>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.jboss.spec</groupId>
-				<artifactId>jboss-javaee-6.0</artifactId>
-				<version>${version.org.jboss.spec.jboss.javaee.6.0}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -116,19 +101,19 @@
 							<dependency>
 								<groupId>es.caib.portafib</groupId>
 								<artifactId>portafib-ws-server</artifactId>
-								<version>${parent.version}</version>
+								<version>${project.parent.version}</version>
 								<scope>compile</scope>
 							</dependency>
 							<dependency>
 								<groupId>es.caib.portafib</groupId>
 								<artifactId>portafib-jpa</artifactId>
-								<version>${parent.version}</version>
+								<version>${project.parent.version}</version>
 								<scope>compile</scope>
 							</dependency>
 							<dependency>
 								<groupId>es.caib.portafib</groupId>
 								<artifactId>portafib-logic</artifactId>
-								<version>${parent.version}</version>
+								<version>${project.parent.version}</version>
 								<scope>compile</scope>
 							</dependency>
 						</dependencies>
