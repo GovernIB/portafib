@@ -10,10 +10,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -35,6 +37,14 @@ import org.springframework.web.util.UrlPathHelper;
 @ComponentScan(basePackages = {"es.caib.portafib"})
 @EnableWebMvc
 public class MvcConfiguration extends WebMvcConfigurerAdapter {
+    
+    /**
+     * Obliga a tots els Serveis Rest a retornar JSON. 
+     */
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        configurer.defaultContentType(MediaType.APPLICATION_JSON);
+    }
 
 	@Bean
 	public LocaleChangeInterceptor localeChangeInterceptor() {
