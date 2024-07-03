@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.AbstractPluginAdenController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
-import es.caib.portafib.logic.AbstractCommonPluginLogicaLocal;
+import es.caib.portafib.logic.AbstractPluginIBLogicaLocal;
 import es.caib.portafib.logic.PluginValidacioFirmesLogicaLocal;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -38,7 +38,7 @@ public class ValidacioFirmesAdenController extends AbstractPluginAdenController<
     }
 
     @Override
-    public AbstractCommonPluginLogicaLocal<IValidateSignaturePlugin> getPluginEjb() {
+    public AbstractPluginIBLogicaLocal<IValidateSignaturePlugin> getPluginEjb() {
         return validacioFirmesEnServidorEjb;
     }
 

@@ -12,10 +12,10 @@ import es.caib.portafib.ejb.PluginService;
 @Local
 public interface PluginLogicaLocal extends PluginService {
 
-  String JNDI_NAME = "java:app/portafib-ejb/PluginLogicaEJB";
-  
-  public boolean deleteOfCache(Long pluginID);
-  
-  public void clearCache();
+    String JNDI_NAME = "java:app/portafib-ejb/PluginLogicaEJB";
+
+    public boolean deleteOfCache(Long pluginID);
+
+    public void clearCache();
 
 }

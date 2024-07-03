@@ -26,7 +26,7 @@ import org.fundaciobit.pluginsib.utils.templateengine.TemplateEngine;
  * @author anadal
  *
  */
-public abstract class AbstractPluginIBLogicaEJB<I extends IPluginIB> extends AbstractCommonPluginLogicaEJB<I>
+public abstract class AbstractPluginIBLogicaEJB<I extends IPluginIB> extends PluginLogicaEJB
         implements AbstractPluginIBLogicaLocal<I> {
 
     protected abstract int getTipusDePlugin();
@@ -45,18 +45,23 @@ public abstract class AbstractPluginIBLogicaEJB<I extends IPluginIB> extends Abs
         return select(where);
     }
 
+    @Override
     public Where getWhere(String entitatID) {
-        return Where.AND(TIPUS.equal(getTipusDePlugin()), ACTIU.equal(true), ENTITATID.equal(entitatID)
-        // TODO Elegim plugin entre les genèriques o entre els específics per l'entitat
-        // Where.OR(ENTITATID.isNull(), ENTITATID.equal(entitatID))
-        );
+        if (entitatID == null || entitatID.trim().length() == 0) {
+            return TIPUS.equal(getTipusDePlugin());
+        } else {
+            // Plugins de l'entitat o plugins per totes les entitats
+            return Where.AND(TIPUS.equal(getTipusDePlugin()), ACTIU.equal(true), Where.OR(
+                    Where.AND(POLITICADEUS.equal(ConstantsV2.PLUGIN_POLITICA_DE_US_NOMES_ENTITAT),
+                            ENTITATID.equal(entitatID)),
+                    Where.AND(POLITICADEUS.equal(ConstantsV2.PLUGIN_POLITICA_DE_US_USAR_TOTHOM))));
+        }
     }
 
-    //@SuppressWarnings("unchecked")
     @Override
     public I getInstanceByPluginID(long pluginID) throws I18NException {
 
-        IPluginIB pluginInstance = (IPluginIB)getPluginFromCache(pluginID);
+        IPluginIB pluginInstance = (IPluginIB) getPluginFromCache(pluginID);
 
         if (pluginInstance == null) {
 
@@ -134,7 +139,7 @@ public abstract class AbstractPluginIBLogicaEJB<I extends IPluginIB> extends Abs
 
         List<I> plugins = new ArrayList<I>();
 
-        Where where = Where.AND(TIPUS.equal(getTipusDePlugin()), ACTIU.equal(true), ENTITATID.equal(entitatID));
+        Where where = getWhere(entitatID); //Where.AND(TIPUS.equal(getTipusDePlugin()), ACTIU.equal(true),getPluginsPerEntitat(entitatID));
 
         if (filterByPluginID != null && filterByPluginID.size() != 0) {
             where = Where.AND(where, PLUGINID.in(filterByPluginID));

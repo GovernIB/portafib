@@ -16,7 +16,7 @@ import org.fundaciobit.pluginsib.signature.api.ISignaturePlugin;
 import es.caib.portafib.ejb.EntitatService;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
-import es.caib.portafib.logic.AbstractCommonPluginLogicaLocal;
+import es.caib.portafib.logic.AbstractPluginIBLogicaLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.fields.CodiBarresFields;
@@ -64,7 +64,7 @@ public abstract class AbstractPassarelaDeFirmaEJB<T extends ISignaturePlugin> im
   }
   
   
-  protected abstract AbstractCommonPluginLogicaLocal<T> getModulDeFirmaEJB();
+  protected abstract AbstractPluginIBLogicaLocal<T> getModulDeFirmaEJB();
   
   
   

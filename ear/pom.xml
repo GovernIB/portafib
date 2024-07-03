@@ -115,25 +115,25 @@
         <dependency>
             <groupId>org.fundaciobit.pluginsib.exportdata</groupId>
             <artifactId>pluginsib-exportdata-api</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+            <version>${pluginsib.exportdata.version}</version>
         </dependency>
         <!-- Excel Plugin -->
         <dependency>
             <groupId>org.fundaciobit.pluginsib.exportdata</groupId>
             <artifactId>pluginsib-exportdata-excel</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+            <version>${pluginsib.exportdata.version}</version>
         </dependency>
         <!-- ODS Plugin -->
         <dependency>
             <groupId>org.fundaciobit.pluginsib.exportdata</groupId>
             <artifactId>pluginsib-exportdata-ods</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+            <version>${pluginsib.exportdata.version}</version>
         </dependency>
         <!-- CSV Plugin -->
         <dependency>
             <groupId>org.fundaciobit.pluginsib.exportdata</groupId>
             <artifactId>pluginsib-exportdata-csv</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+            <version>${pluginsib.exportdata.version}</version>
         </dependency>
         <!-- ============================================ -->
         <!-- ============= PLUGINS DE BARCODE =========== -->
@@ -165,25 +165,25 @@
         <dependency>
             <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
             <artifactId>pluginsib-documentcustody-api</artifactId>
-            <version>5.0.0-SNAPSHOT</version>
+            <version>${pluginsib.documentcustody.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
             <artifactId>pluginsib-documentcustody-filesystem</artifactId>
-            <version>5.0.0-SNAPSHOT</version>
+            <version>${pluginsib.documentcustody.version}</version>
         </dependency>
         <!-- Plugin de Document Custody de Arxiu Digital CAIB -->
         <dependency>
             <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
             <artifactId>pluginsib-documentcustody-arxiudigitalcaib</artifactId>
-            <version>5.0.0-SNAPSHOT</version>
+            <version>${pluginsib.documentcustody.version}</version>
         </dependency>
 
         <!-- Plugin de Document Custody de Alfresco -->
         <dependency>
             <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
             <artifactId>pluginsib-documentcustody-alfresco</artifactId>
-            <version>5.0.0-SNAPSHOT</version>
+            <version>${pluginsib.documentcustody.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -655,6 +655,7 @@
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <skinnyWars>true</skinnyWars>
                     <!-- **/*redhat*.jar, -->
+                    <!--  -->
                     <packagingExcludes>
                         **/cxf-*.redhat*.jar,**/opensaml-*.redhat*.jar,**/wss4j-*.redhat*.jar,**/guava-*.redhat*.jar,**/saaj-*-redhat*.jar,**/joda-time-*.redhat*.jar,**/java-support-*.redhat*.jar,lib/axis-jaxrpc-1.4.jar,lib/jaxb-impl-*.jar,lib/jaxb-jxc-2.3.3.jar,lib/jaxb-xjc-2.3.3.jar,lib/jaxws-eclipselink-plugin-2.3.3.jar,lib/jaxws-rt-2.3.3.jar,lib/jaxws-tools-2.3.3.jar
                     </packagingExcludes>

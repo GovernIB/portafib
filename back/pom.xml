@@ -68,7 +68,14 @@
         <dependency>
             <groupId>org.fundaciobit.pluginsib.exportdata</groupId>
             <artifactId>pluginsib-exportdata-api</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+            <version>${pluginsib.exportdata.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
+            <artifactId>pluginsib-documentcustody-api</artifactId>
+            <version>${pluginsib.documentcustody.version}</version>
             <scope>provided</scope>
         </dependency>
 

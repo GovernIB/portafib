@@ -696,7 +696,7 @@ public class AutoFirmaController extends FitxerController implements PeticioDeFi
             fitxerFilterForm.setSubTitleCode("autofirma.subtitle");
 
             fitxerFilterForm.addAdditionalButton(new AdditionalButton("fas fa-plus-circle icon-white", "autofirma.nova",
-                    "/common/autofirma", "btn btn-primary"));
+                    "/common/autofirma", "btn-primary"));
             fitxerFilterForm.setAddButtonVisible(false);
             fitxerFilterForm.setEditButtonVisible(false);
 

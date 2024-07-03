@@ -47,3 +47,10 @@ UPDATE pfi_plugin SET propertiesentitat=REPLACE(propertiesentitat, 'es.caib.port
 UPDATE pfi_plugin SET classe=REPLACE(classe, 'org.fundaciobit.plugins.', 'org.fundaciobit.pluginsib.')  WHERE tipus=2;
 UPDATE pfi_plugin SET propertiesadmin=REPLACE(propertiesadmin, 'es.caib.portafib.plugins.', 'es.caib.portafib.pluginsib.')  WHERE tipus=2;
 UPDATE pfi_plugin SET propertiesentitat=REPLACE(propertiesentitat, 'es.caib.portafib.plugins.', 'es.caib.portafib.pluginsib.')  WHERE tipus=2;
+
+
+
+--###########################################################################
+--##   Programar gestió de Plantilles de Plugins i de Plugins segons el valor de "política de us" #843  
+--###########################################################################
+UPDATE pfi_plugin SET politicadeus=1 WHERE entitatid IS NOT NULL;

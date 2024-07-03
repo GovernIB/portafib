@@ -1,6 +1,5 @@
 package es.caib.portafib.back.controller.aden;
 
-
 import javax.ejb.EJB;
 
 import org.fundaciobit.pluginsib.timestamp.api.ITimeStampPlugin;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.AbstractPluginAdenController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
-import es.caib.portafib.logic.AbstractCommonPluginLogicaLocal;
+import es.caib.portafib.logic.AbstractPluginIBLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -24,44 +23,43 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = "/aden/segelldetemps")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
 public class SegellDeTempsAdenController extends AbstractPluginAdenController<ITimeStampPlugin> {
-  
-  @EJB(mappedName = SegellDeTempsLogicaLocal.JNDI_NAME)
-  protected SegellDeTempsLogicaLocal segellDeTempsEjb;
-  
-  
-  @Override
-  public String getTileForm() {
-    return "segellDeTempsFormAden";
-  }
 
-  @Override
-  public String getTileList() {
-    return "segellDeTempsListAden";
-  }
+    @EJB(mappedName = SegellDeTempsLogicaLocal.JNDI_NAME)
+    protected SegellDeTempsLogicaLocal segellDeTempsEjb;
 
-  @Override
-  public AbstractCommonPluginLogicaLocal<ITimeStampPlugin> getPluginEjb() {
-    return segellDeTempsEjb;
-  }
+    @Override
+    public String getTileForm() {
+        return "segellDeTempsFormAden";
+    }
 
-  @Override
-  public String getCrearTranslationCode() {
-    return "segelldetemps.crear";
-  }
+    @Override
+    public String getTileList() {
+        return "segellDeTempsListAden";
+    }
 
-  @Override
-  public int getTipusDePlugin() {
-    return ConstantsV2.TIPUS_PLUGIN_SEGELLDETEMPS;
-  }
+    @Override
+    public AbstractPluginIBLogicaLocal<ITimeStampPlugin> getPluginEjb() {
+        return segellDeTempsEjb;
+    }
 
-  @Override
-  public String getCodeName() {
-    return "segelldetemps";
-  }
+    @Override
+    public String getCrearTranslationCode() {
+        return "segelldetemps.crear";
+    }
 
-  @Override
-  public String getTitolModalCode() {
-    return "segelldetemps.titolmodal";
-  }
+    @Override
+    public int getTipusDePlugin() {
+        return ConstantsV2.TIPUS_PLUGIN_SEGELLDETEMPS;
+    }
+
+    @Override
+    public String getCodeName() {
+        return "segelldetemps";
+    }
+
+    @Override
+    public String getTitolModalCode() {
+        return "segelldetemps.titolmodal";
+    }
 
 }

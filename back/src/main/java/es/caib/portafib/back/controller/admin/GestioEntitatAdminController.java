@@ -443,11 +443,14 @@ public class GestioEntitatAdminController extends EntitatController implements C
     public List<StringKeyValue> getReferenceListForPluginValidaFirmesID(HttpServletRequest request, ModelAndView mav,
             EntitatForm entitatForm, Where where) throws I18NException {
 
-        Where where2;
-        where2 = Where.AND(where, PluginFields.TIPUS.equal(ConstantsV2.TIPUS_PLUGIN_VALIDACIOFIRMES),
+        Where w1 = Where.AND(PluginFields.POLITICADEUS.equal(ConstantsV2.PLUGIN_POLITICA_DE_US_NOMES_ENTITAT),
                 PluginFields.ENTITATID.equal(entitatForm.getEntitat().getEntitatID()));
+        Where w2 = Where.AND(PluginFields.POLITICADEUS.equal(ConstantsV2.PLUGIN_POLITICA_DE_US_USAR_TOTHOM));
 
-        return super.getReferenceListForPluginValidaFirmesID(request, mav, entitatForm, where2);
+        Where whereFinal = Where.AND(where, PluginFields.TIPUS.equal(ConstantsV2.TIPUS_PLUGIN_VALIDACIOFIRMES),
+                Where.OR(w1, w2));
+
+        return super.getReferenceListForPluginValidaFirmesID(request, mav, entitatForm, whereFinal);
 
     }
 

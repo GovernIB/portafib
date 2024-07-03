@@ -9,7 +9,6 @@ import es.caib.portafib.back.validator.webdb.UsuariAplicacioWebValidator;
 import es.caib.portafib.logic.validator.UsuariAplicacioLogicValidator;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 
-
 /**
  * 
  * @author anadal
@@ -18,17 +17,14 @@ import es.caib.portafib.model.entity.UsuariAplicacio;
 @Component
 public class UsuariAplicacioWebLogicValidator extends UsuariAplicacioWebValidator {
 
-  protected UsuariAplicacioLogicValidator validatorLogic = new UsuariAplicacioLogicValidator();
+    protected UsuariAplicacioLogicValidator validatorLogic = new UsuariAplicacioLogicValidator();
 
-  
-  @Override
-  public void validate(UsuariAplicacioForm __form, UsuariAplicacio __bean, Errors errors,
-      WebValidationResult<UsuariAplicacioForm> wvr, boolean isNou) {
-    
-    validatorLogic.validate(wvr, __bean, isNou, custodiaInfoEjb, entitatEjb, idiomaEjb, usuariAplicacioEjb);
+    @Override
+    public void validate(UsuariAplicacioForm __form, UsuariAplicacio __bean, Errors errors,
+            WebValidationResult<UsuariAplicacioForm> wvr, boolean isNou) {
 
-  } // Final de mètode
-  
-  
+        validatorLogic.validate(wvr, __bean, isNou, custodiaInfoEjb, entitatEjb, idiomaEjb, usuariAplicacioEjb);
+
+    } // Final de mètode
 
 }

@@ -1,9 +1,10 @@
 package es.caib.portafib.back.controller.admin;
 
-
+import es.caib.portafib.logic.AbstractPluginIBLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.model.entity.Plugin;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.pluginsib.signatureweb.api.ISignatureWebPlugin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -16,7 +17,6 @@ import es.caib.portafib.utils.ConstantsV2;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * 
  * @author anadal
@@ -25,36 +25,41 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping(value = "/admin/modulDeFirma")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
-public class ModulDeFirmaWebAdminController extends AbstractPluginAdminController {
+public class ModulDeFirmaWebAdminController extends AbstractPluginAdminController<ISignatureWebPlugin> {
 
-  @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
-  protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;
+    @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
+    protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;
 
-  @Override
-  public String getTileForm() {
-    return "modulDeFirmaFormAdmin";
-  }
+    @Override
+    public AbstractPluginIBLogicaLocal<ISignatureWebPlugin> getPluginEjb() {
+        return modulDeFirmaEjb;
+    }
 
-  @Override
-  public String getTileList() {
-    return "modulDeFirmaListAdmin";
-  }
+    @Override
+    public String getTileForm() {
+        return "modulDeFirmaFormAdmin";
+    }
 
-  @Override
-  public int getTipusDePlugin() {
-    return ConstantsV2.TIPUS_PLUGIN_MODULDEFIRMA_WEB;
-  }
+    @Override
+    public String getTileList() {
+        return "modulDeFirmaListAdmin";
+    }
 
-  @Override
-  public String getCodeName() {
-    return "moduldefirma.plantilla";
-  }
+    @Override
+    public int getTipusDePlugin() {
+        return ConstantsV2.TIPUS_PLUGIN_MODULDEFIRMA_WEB;
+    }
 
-  /**
-   * Empra el mètode específic que comprova que no es borri si està relacionat amb tipus documental.
-   */
-  @Override
-  public void delete(HttpServletRequest request, Plugin plugin) throws I18NException {
-    modulDeFirmaEjb.deleteFull(plugin);
-  }
+    @Override
+    public String getCodeName() {
+        return "moduldefirma.plantilla";
+    }
+
+    /**
+     * Empra el mètode específic que comprova que no es borri si està relacionat amb tipus documental.
+     */
+    @Override
+    public void delete(HttpServletRequest request, Plugin plugin) throws I18NException {
+        modulDeFirmaEjb.deleteFull(plugin);
+    }
 }

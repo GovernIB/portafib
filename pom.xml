@@ -94,7 +94,9 @@
         <version_txt_file>./versio.txt</version_txt_file>
         <pluginsib.core.version>3.0.0-SNAPSHOT</pluginsib.core.version>
         <pluginsib.documentconverter.version>3.0.0-SNAPSHOT</pluginsib.documentconverter.version>
+        <pluginsib.documentcustody.version>5.0.0-SNAPSHOT</pluginsib.documentcustody.version>
         <pluginsib.barcode.version>4.0.0-SNAPSHOT</pluginsib.barcode.version>
+        <pluginsib.exportdata.version>3.0.0-SNAPSHOT</pluginsib.exportdata.version>
         <pluginsib.timestamp.version>3.0.0-SNAPSHOT</pluginsib.timestamp.version>
         <pluginsib.userinformation.version>4.0.0-SNAPSHOT</pluginsib.userinformation.version>
         <plugins.signatureserver.version>4.0.0-SNAPSHOT</plugins.signatureserver.version>
