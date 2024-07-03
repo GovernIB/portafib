@@ -12,6 +12,7 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,6 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Controller per mostrar la bitàcola d'una petició de firma
  *
@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @RequestMapping(value = BitacolaPeticioAdenController.CONTEXT_WEB)
-@SessionAttributes(types = {BitacolaForm.class, BitacolaFilterForm.class })
+@SessionAttributes(types = { BitacolaForm.class, BitacolaFilterForm.class })
 public class BitacolaPeticioAdenController extends AbstractBitacolaAdenController {
 
     public static final String CONTEXT_WEB = "/aden/bitacolapeticio";
@@ -57,9 +57,8 @@ public class BitacolaPeticioAdenController extends AbstractBitacolaAdenControlle
     }
 
     @Override
-    public BitacolaFilterForm getBitacolaFilterForm(Integer pagina, ModelAndView mav,
-                                                HttpServletRequest request) throws I18NException {
-
+    public BitacolaFilterForm getBitacolaFilterForm(Integer pagina, ModelAndView mav, HttpServletRequest request)
+            throws I18NException {
 
         BitacolaFilterForm bitacolaFilterForm = super.getBitacolaFilterForm(pagina, mav, request);
 
@@ -81,11 +80,9 @@ public class BitacolaPeticioAdenController extends AbstractBitacolaAdenControlle
             bitacolaFilterForm.addHiddenField(BitacolaFields.OBJECTEID);
             bitacolaFilterForm.addHiddenField(BitacolaFields.OBJECTESERIALITZAT);
 
-            bitacolaFilterForm.addAdditionalButton(
-                    new AdditionalButton("fas fa-arrow-left", "tornar",
-                            CONTEXT_WEB + "/tornar", "btn-primary"));
+            bitacolaFilterForm.addAdditionalButton(new AdditionalButton("fas fa-arrow-left", "tornar",
+                    CONTEXT_WEB + "/tornar", AdditionalButtonStyle.PRIMARY));
 
-            
         }
 
         Long peticioID = (Long) request.getSession().getAttribute(SESSION_PETICIOID);
@@ -98,12 +95,11 @@ public class BitacolaPeticioAdenController extends AbstractBitacolaAdenControlle
     @Override
     @RequestMapping(value = "/list/{pagina}", method = RequestMethod.GET)
     public ModelAndView llistatPaginat(HttpServletRequest request, HttpServletResponse response,
-                                       @PathVariable Integer pagina) throws I18NException {
+            @PathVariable Integer pagina) throws I18NException {
         Long peticioID = (Long) request.getSession().getAttribute(SESSION_PETICIOID);
         if (peticioID == null) {
             HtmlUtils.saveMessageError(request, I18NUtils.tradueix("bitacolapeticio.nopeticio"));
-            return new ModelAndView(
-                    new RedirectView("/canviarPipella/" + ConstantsV2.ROLE_ADEN, true));
+            return new ModelAndView(new RedirectView("/canviarPipella/" + ConstantsV2.ROLE_ADEN, true));
         } else {
             return super.llistatPaginat(request, response, pagina);
         }
@@ -120,8 +116,7 @@ public class BitacolaPeticioAdenController extends AbstractBitacolaAdenControlle
 
     @RequestMapping(value = "/peticio/{peticioID}", method = RequestMethod.GET)
     public ModelAndView seleccioPeticio(HttpServletRequest request, HttpServletResponse response,
-                                        @PathVariable Long peticioID,
-                                        @RequestParam("returnPath") String returnPath) {
+            @PathVariable Long peticioID, @RequestParam("returnPath") String returnPath) {
         request.getSession().setAttribute(SESSION_PETICIOID, peticioID);
         request.getSession().setAttribute(SESSION_RETURNPATH, returnPath);
 

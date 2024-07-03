@@ -36,6 +36,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
@@ -696,15 +697,15 @@ public class AutoFirmaController extends FitxerController implements PeticioDeFi
             fitxerFilterForm.setSubTitleCode("autofirma.subtitle");
 
             fitxerFilterForm.addAdditionalButton(new AdditionalButton("fas fa-plus-circle icon-white", "autofirma.nova",
-                    "/common/autofirma", "btn-primary"));
+                    "/common/autofirma", AdditionalButtonStyle.PRIMARY));
             fitxerFilterForm.setAddButtonVisible(false);
             fitxerFilterForm.setEditButtonVisible(false);
 
             {
                 String url = request.getContextPath() + getContextWeb() + "/original/{0}";
                 String js = "javascript:var win = window.open('" + url + "', '_blank'); win.focus();";
-                fitxerFilterForm.addAdditionalButtonForEachItem(
-                        new AdditionalButton("fas fa-download", "autofirma.fitxeroriginal", js, "btn btn-info"));
+                fitxerFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("fas fa-download",
+                        "autofirma.fitxeroriginal", js, AdditionalButtonStyle.INFO));
             }
 
             AdditionalField<String, String> adfieldTD = new AdditionalField<String, String>();
@@ -846,8 +847,8 @@ public class AutoFirmaController extends FitxerController implements PeticioDeFi
 
                 String url = request.getContextPath() + getContextWeb() + "/download/{0}";
                 String js = "javascript:var win = window.open('" + url + "', '_blank'); win.focus();";
-                filterForm.addAdditionalButtonByPK(id,
-                        new AdditionalButton("fas fa-file-signature", "autofirma.fitxerfirmat", js, "btn btn-success"));
+                filterForm.addAdditionalButtonByPK(id, new AdditionalButton("fas fa-file-signature",
+                        "autofirma.fitxerfirmat", js, AdditionalButtonStyle.SUCCESS));
             }
         }
 

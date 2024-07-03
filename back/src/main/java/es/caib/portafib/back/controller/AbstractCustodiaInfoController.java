@@ -17,6 +17,7 @@ import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -315,7 +316,7 @@ public abstract class AbstractCustodiaInfoController extends CustodiaInfoControl
             filterForm.setEditButtonVisible(false);
 
             filterForm.addAdditionalButtonForEachItem(new AdditionalButton("fas fa-eye icon-white", "vistacompleta",
-                    getContextWeb() + "/view/{0}", "btn-info"));
+                    getContextWeb() + "/view/{0}", AdditionalButtonStyle.INFO));
 
             // TODO AGRUPAR i LLISTAT
             filterForm.setDeleteSelectedButtonVisible(false);
@@ -377,8 +378,8 @@ public abstract class AbstractCustodiaInfoController extends CustodiaInfoControl
         for (CustodiaInfo cust : list) {
             String url = cust.getUrlFitxerCustodiat();
             if (url != null && url.trim().length() != 0)
-                filterForm.addAdditionalButtonByPK(cust.getCustodiaInfoID(),
-                        new AdditionalButton("fas fa-download  icon-white", "descarregar", url, "btn-success"));
+                filterForm.addAdditionalButtonByPK(cust.getCustodiaInfoID(), new AdditionalButton(
+                        "fas fa-download  icon-white", "descarregar", url, AdditionalButtonStyle.SUCCESS));
         }
 
     }

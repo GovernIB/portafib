@@ -30,6 +30,7 @@ import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -155,7 +156,7 @@ public class GestioEntitatAdminController extends EntitatController implements C
          * "/docfirmat/" + peticioDeFirmaID, "javascript:var win = window.open('" +
          * request.getContextPath() +
          * "/doc/MCFv1.3_manual-integrador_ES_Filtros.pdf', '_blank'); win.focus();",
-         * "btn-info") );
+         * AdditionalButtonStyle.INFO) );
          */
 
         return entitatForm;
@@ -195,7 +196,7 @@ public class GestioEntitatAdminController extends EntitatController implements C
             entitatFilterForm.addFilterByField(POLITICATAULAFIRMES);
 
             AdditionalButton additionalButton = new AdditionalButton("fas fa-user-plus", "administradorentitat.alta",
-                    "/admin/adminentitat/selecciousuari?entitatID={0}", "btn-warning");
+                    "/admin/adminentitat/selecciousuari?entitatID={0}", AdditionalButtonStyle.WARNING);
             entitatFilterForm.addAdditionalButtonForEachItem(additionalButton);
 
             entitatFilterForm.setAttachedAdditionalJspCode(true);

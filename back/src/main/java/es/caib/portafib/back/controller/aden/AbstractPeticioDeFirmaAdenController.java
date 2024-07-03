@@ -9,6 +9,7 @@ import es.caib.portafib.commons.utils.Configuracio;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,197 +29,188 @@ import java.util.Map;
  * @author anadal(u80067)
  * @author areus
  */
-public abstract class AbstractPeticioDeFirmaAdenController extends
-    AbstractPeticioDeFirmaByTipusSolicitant {
+public abstract class AbstractPeticioDeFirmaAdenController extends AbstractPeticioDeFirmaByTipusSolicitant {
 
-  private int COLUMN_REMITENT = 1;
+    private int COLUMN_REMITENT = 1;
 
-  @Override
-  public String getAnnexPath() {
-    return AnnexAdenController.CONTEXT_WEB + "/list";
-  }
-
-  @Override
-  public String getFluxPath() {
-    return  FluxDeFirmesAdenController.CONTEXT_WEB;
-  }
-  
-  
-  public String getBitacolaContextWeb() {
-    return BitacolaPeticioAdenController.CONTEXT_WEB;
-  }
-  
-
-  @Override
-  public String getCustodiaContext() {
-    return CustodiaInfoAdenController.ADEN_CUSTODIA_CONTEXT;
-  }
-
-  @Override
-  public String getTileForm() {
-    return "peticioDeFirmaAplicacioForm";
-  }
-
-  @Override
-  public String getTileList() {
-    return "peticioDeFirmaAplicacioList";
-  }
-
-  @Override
-  public String getTileSeleccioFlux() {
-    return "seleccionaFluxDeFirmaPerAplicacioForm";
-  }
-
-  @RequestMapping(value = "/fitxerspeticio/{peticioDeFirmaID}", method = RequestMethod.GET)
-  public String fitxerspeticio(HttpServletRequest request, @PathVariable Long peticioDeFirmaID) {
-    request.getSession().setAttribute(FitxersDePeticioAdenController.SESSION_BACK_URL,
-        getContextWeb() + "/list/");
-    return "redirect:" + FitxersDePeticioAdenController.CONTEXT_WEB + "/peticio/"
-        + peticioDeFirmaID;
-  }
-
-  @Override
-  public PeticioDeFirmaFilterForm getPeticioDeFirmaFilterForm(Integer pagina,
-      ModelAndView mav, HttpServletRequest request) throws I18NException {
-
-    PeticioDeFirmaFilterForm peticioDeFirmaFilterForm = super.getPeticioDeFirmaFilterForm(pagina, mav, request);
-
-    if (peticioDeFirmaFilterForm.isNou()) {
-
-      {
-        // Amagam el remitent per defecte i cream una nova columna que juntarà remitentNom i remitentDescripció
-        peticioDeFirmaFilterForm.addHiddenField(REMITENTNOM);
-
-        AdditionalField<Long, String> additionalField = new AdditionalField<Long, String>();
-        additionalField.setCodeName(REMITENTNOM.codeLabel);
-        additionalField.setPosition(COLUMN_REMITENT);
-        additionalField.setEscapeXml(false);
-        // Els valors s'ompliran al mètode postList()
-        additionalField.setValueMap(new HashMap<Long, String>());
-        // Per ordenar feim servir el mateix camp de nom del remitent
-        additionalField.setOrderBy(REMITENTNOM);
-
-        peticioDeFirmaFilterForm.addAdditionalField(additionalField);
-      }
-
-      peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-          "fas fa-list-alt icon-white", "peticiodefirma.fitxerspeticio", getContextWeb()
-              + "/fitxerspeticio/{0}",
-          // FitxersDePeticioAdenController.CONTEXT_WEB + "/peticio/{0}",
-          "btn-info"));
-
-      String bitacolaLink = getBitacolaContextWeb()
-          + "/peticio/{0}?returnPath=" + getContextWeb() + "/list";
-      peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-          "fas fa-cog icon-white", "peticiodefirma.bitacola", bitacolaLink, "btn-info"));
+    @Override
+    public String getAnnexPath() {
+        return AnnexAdenController.CONTEXT_WEB + "/list";
     }
 
-    final boolean showUsuariEntitat = false;
-    final boolean showUsuariAplicacio = true;
-
-    AbstractPeticioDeFirmaAdenController.configureFilterFieldsPeticioDeFirma(
-        peticioDeFirmaFilterForm, showUsuariEntitat, showUsuariAplicacio);
-
-    AbstractPeticioDeFirmaAdenController.configureGroupByFieldsPeticioDeFirma(
-        peticioDeFirmaFilterForm, showUsuariEntitat, showUsuariAplicacio);
-
-    AbstractPeticioDeFirmaAdenController.cleanFiltersAndGroups(peticioDeFirmaFilterForm);
-
-    return peticioDeFirmaFilterForm;
-
-  }
-
-  protected static void cleanFiltersAndGroups(PeticioDeFirmaFilterForm peticioDeFirmaFilterForm) {
-
-    List<Field<?>> list = peticioDeFirmaFilterForm.getFilterByFields();
-
-    if (list != null) {
-      peticioDeFirmaFilterForm.setFilterByFields(new ArrayList<Field<?>>(
-          new HashSet<Field<?>>(list)));
+    @Override
+    public String getFluxPath() {
+        return FluxDeFirmesAdenController.CONTEXT_WEB;
     }
 
-    list = peticioDeFirmaFilterForm.getGroupByFields();
-    if (list != null) {
-      peticioDeFirmaFilterForm.setGroupByFields(new ArrayList<Field<?>>(new HashSet<Field<?>>(
-          list)));
+    public String getBitacolaContextWeb() {
+        return BitacolaPeticioAdenController.CONTEXT_WEB;
     }
 
-  }
-
-  protected static void configureGroupByFieldsPeticioDeFirma(
-      PeticioDeFirmaFilterForm peticioDeFirmaFilterForm, boolean showUsuariEntitat,
-      boolean showUsuariAplicacio) {
-    if (peticioDeFirmaFilterForm.isNou() && Configuracio.isCAIB()) {
-
-      List<Field<?>> campsGroupBy = new ArrayList<Field<?>>();
-
-      //campsGroupBy.add(TIPUSDOCUMENTID);
-      campsGroupBy.add(TIPUSESTATPETICIODEFIRMAID);
-      //campsGroupBy.add(PRIORITATID);
-
-      if (showUsuariAplicacio) {
-        campsGroupBy.add(PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID);
-      }
-
-      if (showUsuariEntitat) {
-        campsGroupBy.add(PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID);
-      }
-
-      peticioDeFirmaFilterForm.setGroupByFields(campsGroupBy);
+    @Override
+    public String getCustodiaContext() {
+        return CustodiaInfoAdenController.ADEN_CUSTODIA_CONTEXT;
     }
 
-  }
+    @Override
+    public String getTileForm() {
+        return "peticioDeFirmaAplicacioForm";
+    }
 
-  public static void configureFilterFieldsPeticioDeFirma(
-      PeticioDeFirmaFilterForm peticioDeFirmaFilterForm, boolean showUsuariEntitat,
-      boolean showUsuariAplicacio) {
-    if (peticioDeFirmaFilterForm.isNou() && Configuracio.isCAIB()) {
+    @Override
+    public String getTileList() {
+        return "peticioDeFirmaAplicacioList";
+    }
 
-      List<Field<?>> campsFiltre = new ArrayList<Field<?>>();
+    @Override
+    public String getTileSeleccioFlux() {
+        return "seleccionaFluxDeFirmaPerAplicacioForm";
+    }
 
-      campsFiltre.add(PETICIODEFIRMAID);
-      campsFiltre.add(TITOL);
-      campsFiltre.add(DESCRIPCIO);
-      campsFiltre.add(MOTIU);
-      campsFiltre.add(REMITENTNOM);
-      campsFiltre.add(REMITENTDESCRIPCIO);
-      campsFiltre.add(DATASOLICITUD);
-      campsFiltre.add(DATAFINAL);
-      campsFiltre.add(DATACADUCITAT);
+    @RequestMapping(value = "/fitxerspeticio/{peticioDeFirmaID}", method = RequestMethod.GET)
+    public String fitxerspeticio(HttpServletRequest request, @PathVariable Long peticioDeFirmaID) {
+        request.getSession().setAttribute(FitxersDePeticioAdenController.SESSION_BACK_URL, getContextWeb() + "/list/");
+        return "redirect:" + FitxersDePeticioAdenController.CONTEXT_WEB + "/peticio/" + peticioDeFirmaID;
+    }
 
-      if (showUsuariAplicacio) {
-        campsFiltre.add(SOLICITANTUSUARIAPLICACIOID);
-      }
+    @Override
+    public PeticioDeFirmaFilterForm getPeticioDeFirmaFilterForm(Integer pagina, ModelAndView mav,
+            HttpServletRequest request) throws I18NException {
 
-      if (showUsuariEntitat) {
-        campsFiltre.add(SOLICITANTUSUARIENTITAT1ID);
-      }
+        PeticioDeFirmaFilterForm peticioDeFirmaFilterForm = super.getPeticioDeFirmaFilterForm(pagina, mav, request);
 
-      peticioDeFirmaFilterForm.setFilterByFields(campsFiltre);
+        if (peticioDeFirmaFilterForm.isNou()) {
+
+            {
+                // Amagam el remitent per defecte i cream una nova columna que juntarà remitentNom i remitentDescripció
+                peticioDeFirmaFilterForm.addHiddenField(REMITENTNOM);
+
+                AdditionalField<Long, String> additionalField = new AdditionalField<Long, String>();
+                additionalField.setCodeName(REMITENTNOM.codeLabel);
+                additionalField.setPosition(COLUMN_REMITENT);
+                additionalField.setEscapeXml(false);
+                // Els valors s'ompliran al mètode postList()
+                additionalField.setValueMap(new HashMap<Long, String>());
+                // Per ordenar feim servir el mateix camp de nom del remitent
+                additionalField.setOrderBy(REMITENTNOM);
+
+                peticioDeFirmaFilterForm.addAdditionalField(additionalField);
+            }
+
+            peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("fas fa-list-alt icon-white",
+                    "peticiodefirma.fitxerspeticio", getContextWeb() + "/fitxerspeticio/{0}",
+                    // FitxersDePeticioAdenController.CONTEXT_WEB + "/peticio/{0}",
+                    AdditionalButtonStyle.INFO));
+
+            String bitacolaLink = getBitacolaContextWeb() + "/peticio/{0}?returnPath=" + getContextWeb() + "/list";
+            peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("fas fa-cog icon-white",
+                    "peticiodefirma.bitacola", bitacolaLink, AdditionalButtonStyle.INFO));
+        }
+
+        final boolean showUsuariEntitat = false;
+        final boolean showUsuariAplicacio = true;
+
+        AbstractPeticioDeFirmaAdenController.configureFilterFieldsPeticioDeFirma(peticioDeFirmaFilterForm,
+                showUsuariEntitat, showUsuariAplicacio);
+
+        AbstractPeticioDeFirmaAdenController.configureGroupByFieldsPeticioDeFirma(peticioDeFirmaFilterForm,
+                showUsuariEntitat, showUsuariAplicacio);
+
+        AbstractPeticioDeFirmaAdenController.cleanFiltersAndGroups(peticioDeFirmaFilterForm);
+
+        return peticioDeFirmaFilterForm;
 
     }
 
-  }
+    protected static void cleanFiltersAndGroups(PeticioDeFirmaFilterForm peticioDeFirmaFilterForm) {
 
-  @Override
-  public void postList(HttpServletRequest request, ModelAndView mav, PeticioDeFirmaFilterForm filterForm, List<PeticioDeFirma> list) throws I18NException {
+        List<Field<?>> list = peticioDeFirmaFilterForm.getFilterByFields();
 
-    super.postList(request, mav, filterForm, list);
+        if (list != null) {
+            peticioDeFirmaFilterForm.setFilterByFields(new ArrayList<Field<?>>(new HashSet<Field<?>>(list)));
+        }
 
-    Map<Long, String> mapRemitent = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_REMITENT).getValueMap();
-    mapRemitent.clear();
+        list = peticioDeFirmaFilterForm.getGroupByFields();
+        if (list != null) {
+            peticioDeFirmaFilterForm.setGroupByFields(new ArrayList<Field<?>>(new HashSet<Field<?>>(list)));
+        }
 
-    for (PeticioDeFirma pf : list) {
-      StringBuffer str = new StringBuffer();
-      str.append("<small><b>");
-      str.append(pf.getRemitentNom()).append("</b>");
-      String remiDesc = pf.getRemitentDescripcio();
-      if (remiDesc != null) {
-        str.append("<br/>").append(remiDesc);
-      }
-      str.append("</small>");
-      mapRemitent.put(pf.getPeticioDeFirmaID(),  str.toString());
     }
 
-  }
+    protected static void configureGroupByFieldsPeticioDeFirma(PeticioDeFirmaFilterForm peticioDeFirmaFilterForm,
+            boolean showUsuariEntitat, boolean showUsuariAplicacio) {
+        if (peticioDeFirmaFilterForm.isNou() && Configuracio.isCAIB()) {
+
+            List<Field<?>> campsGroupBy = new ArrayList<Field<?>>();
+
+            //campsGroupBy.add(TIPUSDOCUMENTID);
+            campsGroupBy.add(TIPUSESTATPETICIODEFIRMAID);
+            //campsGroupBy.add(PRIORITATID);
+
+            if (showUsuariAplicacio) {
+                campsGroupBy.add(PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID);
+            }
+
+            if (showUsuariEntitat) {
+                campsGroupBy.add(PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID);
+            }
+
+            peticioDeFirmaFilterForm.setGroupByFields(campsGroupBy);
+        }
+
+    }
+
+    public static void configureFilterFieldsPeticioDeFirma(PeticioDeFirmaFilterForm peticioDeFirmaFilterForm,
+            boolean showUsuariEntitat, boolean showUsuariAplicacio) {
+        if (peticioDeFirmaFilterForm.isNou() && Configuracio.isCAIB()) {
+
+            List<Field<?>> campsFiltre = new ArrayList<Field<?>>();
+
+            campsFiltre.add(PETICIODEFIRMAID);
+            campsFiltre.add(TITOL);
+            campsFiltre.add(DESCRIPCIO);
+            campsFiltre.add(MOTIU);
+            campsFiltre.add(REMITENTNOM);
+            campsFiltre.add(REMITENTDESCRIPCIO);
+            campsFiltre.add(DATASOLICITUD);
+            campsFiltre.add(DATAFINAL);
+            campsFiltre.add(DATACADUCITAT);
+
+            if (showUsuariAplicacio) {
+                campsFiltre.add(SOLICITANTUSUARIAPLICACIOID);
+            }
+
+            if (showUsuariEntitat) {
+                campsFiltre.add(SOLICITANTUSUARIENTITAT1ID);
+            }
+
+            peticioDeFirmaFilterForm.setFilterByFields(campsFiltre);
+
+        }
+
+    }
+
+    @Override
+    public void postList(HttpServletRequest request, ModelAndView mav, PeticioDeFirmaFilterForm filterForm,
+            List<PeticioDeFirma> list) throws I18NException {
+
+        super.postList(request, mav, filterForm, list);
+
+        Map<Long, String> mapRemitent = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_REMITENT)
+                .getValueMap();
+        mapRemitent.clear();
+
+        for (PeticioDeFirma pf : list) {
+            StringBuffer str = new StringBuffer();
+            str.append("<small><b>");
+            str.append(pf.getRemitentNom()).append("</b>");
+            String remiDesc = pf.getRemitentDescripcio();
+            if (remiDesc != null) {
+                str.append("<br/>").append(remiDesc);
+            }
+            str.append("</small>");
+            mapRemitent.put(pf.getPeticioDeFirmaID(), str.toString());
+        }
+
+    }
 }

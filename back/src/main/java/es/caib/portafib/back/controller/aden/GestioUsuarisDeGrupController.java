@@ -12,6 +12,7 @@ import org.fundaciobit.genapp.common.query.SelectConstant;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,229 +37,206 @@ import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 
 @Controller
 @RequestMapping(value = "/aden/usuarisgrup")
-@SessionAttributes(types = { GrupEntitatUsuariEntitatForm.class,
-    GrupEntitatUsuariEntitatFilterForm.class, SeleccioUsuariForm.class })
+@SessionAttributes(
+        types = { GrupEntitatUsuariEntitatForm.class, GrupEntitatUsuariEntitatFilterForm.class,
+                SeleccioUsuariForm.class })
 public class GestioUsuarisDeGrupController extends GrupEntitatUsuariEntitatController {
 
-  public static final String _GRUPENTITATID_ = "grupEntitatId";
+    public static final String _GRUPENTITATID_ = "grupEntitatId";
 
-  @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
-  protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
-  
-  @EJB(mappedName = GrupEntitatService.JNDI_NAME)
-  protected GrupEntitatService grupEntitatEjb;
-  
-  @PostConstruct
-  public void init() {
+    @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
+    protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-    this.usuariEntitatRefList = new UsuariEntitatRefList(usuariEntitatRefList);
+    @EJB(mappedName = GrupEntitatService.JNDI_NAME)
+    protected GrupEntitatService grupEntitatEjb;
 
-    UsuariPersonaQueryPath personaQueryPath = new UsuariEntitatQueryPath().USUARIPERSONA();
-    usuariEntitatRefList.setSelects(new Select<?>[] {
-        personaQueryPath.NOM().select,
-        new SelectConstant(" "),
-        personaQueryPath.LLINATGES().select,
-        new SelectConstant(" ("),
-        personaQueryPath.NIF().select,
-        new SelectConstant(")") }
-     );
-    usuariEntitatRefList.setSeparator("");
-  }
-  
+    @PostConstruct
+    public void init() {
 
-  @Override
-  public GrupEntitatUsuariEntitatFilterForm getGrupEntitatUsuariEntitatFilterForm(
-      Integer pagina, ModelAndView mav, HttpServletRequest request) throws I18NException {
-    GrupEntitatUsuariEntitatFilterForm grupEntitatUsuariEntitatFilterForm;
-    grupEntitatUsuariEntitatFilterForm = super.getGrupEntitatUsuariEntitatFilterForm(pagina,
-        mav, request);
+        this.usuariEntitatRefList = new UsuariEntitatRefList(usuariEntitatRefList);
 
-    if (grupEntitatUsuariEntitatFilterForm.isNou()) {
-      grupEntitatUsuariEntitatFilterForm.addHiddenField(GRUPENTITATUSUARIENTITATID);
-      grupEntitatUsuariEntitatFilterForm.addHiddenField(GRUPENTITATID);
-      grupEntitatUsuariEntitatFilterForm.setDeleteButtonVisible(true);
-      grupEntitatUsuariEntitatFilterForm.setAddButtonVisible(false);
-      grupEntitatUsuariEntitatFilterForm.setEditButtonVisible(false);
-
-      grupEntitatUsuariEntitatFilterForm.addAdditionalButton(new AdditionalButton(
-          "fas fa-plus-circle", "afegir", "javascript:openSelectUserDialog();",
-          "btn-secondary"));
-
-      grupEntitatUsuariEntitatFilterForm.addAdditionalButton(new AdditionalButton(
-          " fas fa-long-arrow-alt-left", "tornar", getContextWeb() + "/tornar", "btn-secondary"));
-      
-    }
-    return grupEntitatUsuariEntitatFilterForm;
-  }
-
-  @Override
-  public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-
-    GrupEntitatUsuariEntitatFilterForm ff;
-    ff = (GrupEntitatUsuariEntitatFilterForm) request.getSession().getAttribute(
-        getSessionAttributeFilterForm());
-
-    if (ff != null) {
-      Object obj = ff.getAdditionalObject();
-      Long idGrup = (Long) obj;
-      if (idGrup != null) {
-        return GRUPENTITATID.equal(idGrup);
-      }
+        UsuariPersonaQueryPath personaQueryPath = new UsuariEntitatQueryPath().USUARIPERSONA();
+        usuariEntitatRefList.setSelects(new Select<?>[] { personaQueryPath.NOM().select, new SelectConstant(" "),
+                personaQueryPath.LLINATGES().select, new SelectConstant(" ("), personaQueryPath.NIF().select,
+                new SelectConstant(")") });
+        usuariEntitatRefList.setSeparator("");
     }
 
-    return null;
-  }
+    @Override
+    public GrupEntitatUsuariEntitatFilterForm getGrupEntitatUsuariEntitatFilterForm(Integer pagina, ModelAndView mav,
+            HttpServletRequest request) throws I18NException {
+        GrupEntitatUsuariEntitatFilterForm grupEntitatUsuariEntitatFilterForm;
+        grupEntitatUsuariEntitatFilterForm = super.getGrupEntitatUsuariEntitatFilterForm(pagina, mav, request);
 
-  @Override
-  public boolean isActiveFormNew() {
-    return false;
-  }
+        if (grupEntitatUsuariEntitatFilterForm.isNou()) {
+            grupEntitatUsuariEntitatFilterForm.addHiddenField(GRUPENTITATUSUARIENTITATID);
+            grupEntitatUsuariEntitatFilterForm.addHiddenField(GRUPENTITATID);
+            grupEntitatUsuariEntitatFilterForm.setDeleteButtonVisible(true);
+            grupEntitatUsuariEntitatFilterForm.setAddButtonVisible(false);
+            grupEntitatUsuariEntitatFilterForm.setEditButtonVisible(false);
 
-  @Override
-  public boolean isActiveFormEdit() {
-    return false;
-  }
+            grupEntitatUsuariEntitatFilterForm.addAdditionalButton(new AdditionalButton("fas fa-plus-circle", "afegir",
+                    "javascript:openSelectUserDialog();", AdditionalButtonStyle.SECONDARY));
 
-  @Override
-  public String getSessionAttributeFilterForm() {
-    return "UsuarisDeGrup_Aden";
-  }
+            grupEntitatUsuariEntitatFilterForm.addAdditionalButton(new AdditionalButton(" fas fa-long-arrow-alt-left",
+                    "tornar", getContextWeb() + "/tornar", AdditionalButtonStyle.SECONDARY));
 
-  @Override
-  public String getTileList() {
-    return "usuarisDeGrupList_aden";
-  }
-  
-  
-  
-  
-  @RequestMapping(value = "/listusuaris/{grupEntitatID}", method = RequestMethod.POST)
-  public ModelAndView listusuarisPOST(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable("grupEntitatID") long grupEntitatID) throws I18NException {
-    return listusuarisGET(request, response, grupEntitatID);
-  }
-  
-
-  @RequestMapping(value = "/listusuaris/{grupEntitatID}", method = RequestMethod.GET)
-  public ModelAndView listusuarisGET(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable("grupEntitatID") long grupEntitatID) throws I18NException {
-    
-    
-    // Checks
-
-    // Generar FILTER-FORM
-    GrupEntitat grupEntitat = grupEntitatEjb.findByPrimaryKey(grupEntitatID);
-    
-    if (grupEntitat == null) {
-      return new ModelAndView(new RedirectView("/aden/grup/list/1", true));
+        }
+        return grupEntitatUsuariEntitatFilterForm;
     }
 
+    @Override
+    public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
 
-    ModelAndView mav = new ModelAndView(getTileList());
-    final Integer pagina = 1;
+        GrupEntitatUsuariEntitatFilterForm ff;
+        ff = (GrupEntitatUsuariEntitatFilterForm) request.getSession().getAttribute(getSessionAttributeFilterForm());
 
-    GrupEntitatUsuariEntitatFilterForm filterForm;
-
-    filterForm = getGrupEntitatUsuariEntitatFilterForm(pagina, mav, request);
-
-    filterForm.setAdditionalObject(grupEntitatID);
-    
-    filterForm.setTitleCode("grups.gestionarpersones");
-    filterForm.setTitleParam(grupEntitat.getNom());
-    
-    llistat(mav, request, filterForm);
-    
-    
-    // FORMULARI SELECCIO USUARI Cada vegada s'ha de calcular
-    SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
-    seleccioUsuariForm.setTitol("grups.afegirusuarialgrup");
-    seleccioUsuariForm.setUrlData("/common/json/usuarientitat");
-    seleccioUsuariForm.setParam1(String.valueOf(grupEntitatID));
-
-    try {
-      seleccioUsuariForm.setUsuarisFavorits(
-          SearchJSONController.favoritsToUsuariEntitat(
-              usuariEntitatLogicaEjb.selectFavorits(
-                LoginInfo.getInstance().getUsuariEntitatID(), null, false)));
-    } catch (I18NException e) {
-      log.error("Error cercant favorits" + I18NUtils.getMessage(e), e);
-    }
-    
-    mav.addObject(seleccioUsuariForm);
-    
-    
-    
-    return mav;
-
-  }
-
-  @RequestMapping(value = "/tornar", method = RequestMethod.GET)
-  public String tornar(
-      //@ModelAttribute("grupEntitatUsuariEntitatFilterForm") @Valid GrupEntitatUsuariEntitatFilterForm grupEntitatUsuariEntitatFilterForm
-      ) throws I18NException {
-
-    // Long id = (Long)grupEntitatUsuariEntitatFilterForm.getAdditionalObject();
-    // if (id != null) {
-    // return "redirect:/aden/grup/" + id + "/edit";
-    // } else {
-    return "redirect:/aden/grup/list/1";
-    // }
-
-  }
-
-  @RequestMapping(value = "/addUserToGroup", method = RequestMethod.POST)
-  public String addUserToGroup(
-      //@ModelAttribute("grupEntitatUsuariEntitatFilterForm") @Valid GrupEntitatUsuariEntitatFilterForm grupEntitatUsuariEntitatFilterForm,
-      //@RequestParam("userToAdd") String nifOrUsername,
-      SeleccioUsuariForm seleccioUsuariForm,
-      HttpServletRequest request,
-      HttpServletResponse response) throws I18NException {
-
-
-    //Long grupEntitatID = (Long) grupEntitatUsuariEntitatFilterForm.getAdditionalObject();
-
-    String usuariEntitatID = seleccioUsuariForm.getId();
-    Long grupEntitatID = Long.parseLong(seleccioUsuariForm.getParam1());
-
-    if (usuariEntitatID == null || usuariEntitatID.trim().equals("")) {
-
-      // TODO Arreglar missatges
-      HtmlUtils.saveMessageError(request, 
-          I18NUtils.tradueix("peticionsdefirma.destinatari.nif.error.nifsenseusuarisentitat",
-              usuariEntitatID));
-
-    } else {
-
-      if (log.isDebugEnabled()) {
-        log.debug(" usuariEntitatID = |" + usuariEntitatID + "|");
-      }
-      {
-
-        GrupEntitatUsuariEntitatJPA geu;
-        geu = new GrupEntitatUsuariEntitatJPA(usuariEntitatID, grupEntitatID);
-
-        // TODO Mirar si ja està duplicat
-        
-        
-        try {
-          grupEntitatUsuariEntitatEjb.create(geu);
-          if (log.isDebugEnabled()) {
-            log.debug("Creat permis amb ID = " + geu.getGrupEntitatUsuariEntitatID());
-          }
-        } catch (I18NException e) {
-          // Ja existeix.  Gestionar error
-          String msg = I18NUtils.getMessage(e);
-          log.error(msg, e);
-          HtmlUtils.saveMessageError(request, msg);
-        } catch(Exception ex) {
-          
-          log.error(ex.getMessage(), ex);
+        if (ff != null) {
+            Object obj = ff.getAdditionalObject();
+            Long idGrup = (Long) obj;
+            if (idGrup != null) {
+                return GRUPENTITATID.equal(idGrup);
+            }
         }
 
-      }
+        return null;
     }
 
-    return "redirect:" + getContextWeb() + "/listusuaris/" + grupEntitatID;
-  }
+    @Override
+    public boolean isActiveFormNew() {
+        return false;
+    }
+
+    @Override
+    public boolean isActiveFormEdit() {
+        return false;
+    }
+
+    @Override
+    public String getSessionAttributeFilterForm() {
+        return "UsuarisDeGrup_Aden";
+    }
+
+    @Override
+    public String getTileList() {
+        return "usuarisDeGrupList_aden";
+    }
+
+    @RequestMapping(value = "/listusuaris/{grupEntitatID}", method = RequestMethod.POST)
+    public ModelAndView listusuarisPOST(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable("grupEntitatID") long grupEntitatID) throws I18NException {
+        return listusuarisGET(request, response, grupEntitatID);
+    }
+
+    @RequestMapping(value = "/listusuaris/{grupEntitatID}", method = RequestMethod.GET)
+    public ModelAndView listusuarisGET(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable("grupEntitatID") long grupEntitatID) throws I18NException {
+
+        // Checks
+
+        // Generar FILTER-FORM
+        GrupEntitat grupEntitat = grupEntitatEjb.findByPrimaryKey(grupEntitatID);
+
+        if (grupEntitat == null) {
+            return new ModelAndView(new RedirectView("/aden/grup/list/1", true));
+        }
+
+        ModelAndView mav = new ModelAndView(getTileList());
+        final Integer pagina = 1;
+
+        GrupEntitatUsuariEntitatFilterForm filterForm;
+
+        filterForm = getGrupEntitatUsuariEntitatFilterForm(pagina, mav, request);
+
+        filterForm.setAdditionalObject(grupEntitatID);
+
+        filterForm.setTitleCode("grups.gestionarpersones");
+        filterForm.setTitleParam(grupEntitat.getNom());
+
+        llistat(mav, request, filterForm);
+
+        // FORMULARI SELECCIO USUARI Cada vegada s'ha de calcular
+        SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
+        seleccioUsuariForm.setTitol("grups.afegirusuarialgrup");
+        seleccioUsuariForm.setUrlData("/common/json/usuarientitat");
+        seleccioUsuariForm.setParam1(String.valueOf(grupEntitatID));
+
+        try {
+            seleccioUsuariForm.setUsuarisFavorits(SearchJSONController.favoritsToUsuariEntitat(
+                    usuariEntitatLogicaEjb.selectFavorits(LoginInfo.getInstance().getUsuariEntitatID(), null, false)));
+        } catch (I18NException e) {
+            log.error("Error cercant favorits" + I18NUtils.getMessage(e), e);
+        }
+
+        mav.addObject(seleccioUsuariForm);
+
+        return mav;
+
+    }
+
+    @RequestMapping(value = "/tornar", method = RequestMethod.GET)
+    public String tornar(
+    //@ModelAttribute("grupEntitatUsuariEntitatFilterForm") @Valid GrupEntitatUsuariEntitatFilterForm grupEntitatUsuariEntitatFilterForm
+    ) throws I18NException {
+
+        // Long id = (Long)grupEntitatUsuariEntitatFilterForm.getAdditionalObject();
+        // if (id != null) {
+        // return "redirect:/aden/grup/" + id + "/edit";
+        // } else {
+        return "redirect:/aden/grup/list/1";
+        // }
+
+    }
+
+    @RequestMapping(value = "/addUserToGroup", method = RequestMethod.POST)
+    public String addUserToGroup(
+            //@ModelAttribute("grupEntitatUsuariEntitatFilterForm") @Valid GrupEntitatUsuariEntitatFilterForm grupEntitatUsuariEntitatFilterForm,
+            //@RequestParam("userToAdd") String nifOrUsername,
+            SeleccioUsuariForm seleccioUsuariForm, HttpServletRequest request, HttpServletResponse response)
+            throws I18NException {
+
+        //Long grupEntitatID = (Long) grupEntitatUsuariEntitatFilterForm.getAdditionalObject();
+
+        String usuariEntitatID = seleccioUsuariForm.getId();
+        Long grupEntitatID = Long.parseLong(seleccioUsuariForm.getParam1());
+
+        if (usuariEntitatID == null || usuariEntitatID.trim().equals("")) {
+
+            // TODO Arreglar missatges
+            HtmlUtils.saveMessageError(request, I18NUtils
+                    .tradueix("peticionsdefirma.destinatari.nif.error.nifsenseusuarisentitat", usuariEntitatID));
+
+        } else {
+
+            if (log.isDebugEnabled()) {
+                log.debug(" usuariEntitatID = |" + usuariEntitatID + "|");
+            }
+            {
+
+                GrupEntitatUsuariEntitatJPA geu;
+                geu = new GrupEntitatUsuariEntitatJPA(usuariEntitatID, grupEntitatID);
+
+                // TODO Mirar si ja està duplicat
+
+                try {
+                    grupEntitatUsuariEntitatEjb.create(geu);
+                    if (log.isDebugEnabled()) {
+                        log.debug("Creat permis amb ID = " + geu.getGrupEntitatUsuariEntitatID());
+                    }
+                } catch (I18NException e) {
+                    // Ja existeix.  Gestionar error
+                    String msg = I18NUtils.getMessage(e);
+                    log.error(msg, e);
+                    HtmlUtils.saveMessageError(request, msg);
+                } catch (Exception ex) {
+
+                    log.error(ex.getMessage(), ex);
+                }
+
+            }
+        }
+
+        return "redirect:" + getContextWeb() + "/listusuaris/" + grupEntitatID;
+    }
 
 }

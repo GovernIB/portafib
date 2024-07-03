@@ -34,6 +34,7 @@ import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -64,491 +65,453 @@ import java.util.Set;
  */
 @Controller
 @RequestMapping(value = "/aden/carrec")
-@SessionAttributes(types = { UsuariEntitatForm.class, UsuariEntitatFilterForm.class,
-      SeleccioCarrecForm.class, SeleccioUsuariForm.class })
+@SessionAttributes(
+        types = { UsuariEntitatForm.class, UsuariEntitatFilterForm.class, SeleccioCarrecForm.class,
+                SeleccioUsuariForm.class })
 public class GestioCarrecsAdenController extends UsuariEntitatController {
 
-  public static final String SELECTION_CARREC_USUARI_ENTITAT_ID
-    = "SELECTION_CARREC_USUARI_ENTITAT_ID";
+    public static final String SELECTION_CARREC_USUARI_ENTITAT_ID = "SELECTION_CARREC_USUARI_ENTITAT_ID";
 
-  public static final StringField USUARI_PERSONA_FIELD = new UsuariEntitatQueryPath().USUARIPERSONA().NIF();
+    public static final StringField USUARI_PERSONA_FIELD = new UsuariEntitatQueryPath().USUARIPERSONA().NIF();
 
-  @EJB(mappedName = UsuariEntitatFavoritService.JNDI_NAME)
-  protected UsuariEntitatFavoritService usuariEntitatFavoritEjb;
-  
-  @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
-  protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
+    @EJB(mappedName = UsuariEntitatFavoritService.JNDI_NAME)
+    protected UsuariEntitatFavoritService usuariEntitatFavoritEjb;
 
-  @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
-  protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
+    @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
+    protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
 
-  @EJB(mappedName = EntitatService.JNDI_NAME)
-  protected EntitatService entitatEjb;
+    @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
+    protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-  @EJB(mappedName = BlocDeFirmesService.JNDI_NAME)
-  protected BlocDeFirmesService blocDeFirmesEjb;
+    @EJB(mappedName = EntitatService.JNDI_NAME)
+    protected EntitatService entitatEjb;
 
-  @EJB(mappedName = FirmaService.JNDI_NAME)
-  protected FirmaService firmaEjb;
+    @EJB(mappedName = BlocDeFirmesService.JNDI_NAME)
+    protected BlocDeFirmesService blocDeFirmesEjb;
 
-  @Autowired
-  protected SelectCarrecValidator selectCarrecValidator;
-  
-  @Autowired
-  protected SeleccioUsuariValidator seleccioUsuariValidator;
+    @EJB(mappedName = FirmaService.JNDI_NAME)
+    protected FirmaService firmaEjb;
 
-  @Override
-  public String getTileForm() {
-    return "carrecFormAden";
-  }
+    @Autowired
+    protected SelectCarrecValidator selectCarrecValidator;
 
-  @Override
-  public String getTileList() {
-    return "carrecListAden";
-  }
+    @Autowired
+    protected SeleccioUsuariValidator seleccioUsuariValidator;
 
-  public String getTileSeleccionaForm() {
-    return "seleccionaCarrecForm";
-  }
-
-  @PostConstruct
-  public void init() {
-
-    usuariPersonaRefList = new UsuariPersonaRefList(usuariPersonaRefList);
-
-    usuariPersonaRefList.setSelects(new Select<?>[] {
-        UsuariPersonaFields.NOM.select,
-        new SelectConstant(" "),
-        UsuariPersonaFields.LLINATGES.select,
-        new SelectConstant(" ("),
-        UsuariPersonaFields.NIF.select,
-        new SelectConstant(")")
-    });
-    usuariPersonaRefList.setSeparator("");
-  }
-
-  // ============================ ALTA CARREC ===========================
-
-   @RequestMapping(value = "/selectcarrec", method = RequestMethod.GET)
-   public ModelAndView seleccionarCarrecGet(HttpServletRequest request) throws Exception {
-
-      ModelAndView mav = new ModelAndView(getTileSeleccionaForm());
-      SeleccioCarrecForm seleccioCarrecForm = new SeleccioCarrecForm();
-
-      seleccioCarrecForm.setTitol("carrec.alta");
-      seleccioCarrecForm.setEntitatID(LoginInfo.getInstance().getEntitatID());
-
-      seleccioCarrecForm.setCancelUrl("/canviarPipella/" + ConstantsV2.ROLE_ADEN);
-      seleccioCarrecForm.setUrlData("/common/json/usuarientitatintern");
-     
-      try {
-        seleccioCarrecForm.setUsuarisFavorits(
-            SearchJSONController.favoritsToUsuariEntitat(
-                usuariEntitatLogicaEjb.selectFavorits(
-                  LoginInfo.getInstance().getUsuariEntitatID(), null, false)));
-      } catch (I18NException e) {
-        log.error("Error cercant favorits" + I18NUtils.getMessage(e), e);
-      }
-      
-      mav.addObject(seleccioCarrecForm);
-
-      return mav;
-   }
-
-
-
-  @RequestMapping(value = "/selectcarrec", method = RequestMethod.POST)
-  public ModelAndView seleccionarCarrecPost(SeleccioCarrecForm seleccioCarrecForm,
-      BindingResult result, HttpServletRequest request) throws I18NException {
-
-    // Obtenim la entitat actual.
-    ModelAndView mav = new ModelAndView(getTileSeleccionaForm());
-
-    selectCarrecValidator.validate(seleccioCarrecForm, result);
-    if (result.hasErrors()) {
-       return mav;
+    @Override
+    public String getTileForm() {
+        return "carrecFormAden";
     }
 
-    HttpSession session = request.getSession();
-
-    String usuariEntitatID = seleccioCarrecForm.getId();
-   
-    // Comprobar que existeix un usuari-entitat real actiu 
-    // en la nostra entitat associat a  l'identificador de l'usuari-entitat 
-    String entitatActualID = LoginInfo.getInstance().getEntitatID();
-    Where checkUE = Where.AND(
-        USUARIENTITATID.equal(usuariEntitatID),
-        // ENTITATID.equal(entitatActualID),
-        CARREC.equal((String)null),
-        ACTIU.equal(true)
-            );
-    Long count = usuariEntitatEjb.count(checkUE);
-    if (count == 0) {
-      // La persona seleccionada no està activa dins l´entitat {0}
-      result.rejectValue("id","usuarientitat.noactiva",
-          new Object[]{entitatActualID},null);
-      return mav;
+    @Override
+    public String getTileList() {
+        return "carrecListAden";
     }
 
-    // Comprovam que no existeix un ID de càrrec igual ( idCarrec == usuarientitatID )
-    String idCarrec = entitatActualID + "_" + seleccioCarrecForm.getIdCarrec();
-    Where w = USUARIENTITATID.equal(idCarrec);
-    count = usuariEntitatEjb.count(w);
-    if(count != 0) {
-      result.rejectValue("idCarrec","usuarientitat.existeix",
-          new Object[]{"idCarrec", idCarrec, entitatActualID},null);
-      return mav;
+    public String getTileSeleccionaForm() {
+        return "seleccionaCarrecForm";
     }
 
-    // Comprovam que no existeix un nom de càrrec igual ( carrec == nomcarrec )
-    String carrec = seleccioCarrecForm.getCarrec();
-    if (!checkNomDeCarrec(result, entitatActualID, "carrec", carrec)) {
-      return mav;
+    @PostConstruct
+    public void init() {
+
+        usuariPersonaRefList = new UsuariPersonaRefList(usuariPersonaRefList);
+
+        usuariPersonaRefList.setSelects(new Select<?>[] { UsuariPersonaFields.NOM.select, new SelectConstant(" "),
+                UsuariPersonaFields.LLINATGES.select, new SelectConstant(" ("), UsuariPersonaFields.NIF.select,
+                new SelectConstant(")") });
+        usuariPersonaRefList.setSeparator("");
     }
 
-    seleccioCarrecForm.setIdCarrec(idCarrec);
+    // ============================ ALTA CARREC ===========================
 
-    session.setAttribute(SELECTION_CARREC_USUARI_ENTITAT_ID, seleccioCarrecForm);
-    return new ModelAndView(new RedirectView(getContextWeb() + "/new", true));
+    @RequestMapping(value = "/selectcarrec", method = RequestMethod.GET)
+    public ModelAndView seleccionarCarrecGet(HttpServletRequest request) throws Exception {
 
-  }
+        ModelAndView mav = new ModelAndView(getTileSeleccionaForm());
+        SeleccioCarrecForm seleccioCarrecForm = new SeleccioCarrecForm();
 
-  private boolean checkNomDeCarrec(BindingResult result,
-      String entitatActualID, String carrecField, String carrec) throws I18NException {
-    Where wCheck = Where.AND( CARREC.like(carrec),
-        ENTITATID.equal(entitatActualID));
-    Long countC = usuariEntitatEjb.count(wCheck);
-    if(countC != 0) {
-      result.rejectValue(carrecField, "usuarientitat.existeix",
-          new Object[]{I18NUtils.tradueix(CARREC.fullName), carrec, entitatActualID},null);
-      return false;
-    } else {
-      return true;
-    }
-  }
-  
-  
-  // ======================== MODIFICACIO PERSONA ASSOCIADA AL CARREC ==================
+        seleccioCarrecForm.setTitol("carrec.alta");
+        seleccioCarrecForm.setEntitatID(LoginInfo.getInstance().getEntitatID());
 
-  
-  @RequestMapping(value = "/modificarpersona/{usuariEntitatCarrecID}", method = RequestMethod.GET)
-  public ModelAndView modificarPersonaCarrecGet(@PathVariable String usuariEntitatCarrecID) throws Exception {
-    
-   
+        seleccioCarrecForm.setCancelUrl("/canviarPipella/" + ConstantsV2.ROLE_ADEN);
+        seleccioCarrecForm.setUrlData("/common/json/usuarientitatintern");
 
-      ModelAndView mav = new ModelAndView("seleccioUsuariForm_ADEN");
+        try {
+            seleccioCarrecForm.setUsuarisFavorits(SearchJSONController.favoritsToUsuariEntitat(
+                    usuariEntitatLogicaEjb.selectFavorits(LoginInfo.getInstance().getUsuariEntitatID(), null, false)));
+        } catch (I18NException e) {
+            log.error("Error cercant favorits" + I18NUtils.getMessage(e), e);
+        }
 
-      SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
+        mav.addObject(seleccioCarrecForm);
 
-      UsuariEntitatJPA ue = usuariEntitatLogicaEjb.findByPrimaryKeyFull(usuariEntitatCarrecID);
-      
-      if (ue == null) {
-        mav.setView(new RedirectView(getContextWeb() + "/list", true));
-        // TODO Falta un missatges
-        // HtmlUtils.saveMessageWarning(request, "no s'ha trobat !!!");
         return mav;
-      }
-
-      seleccioUsuariForm.setTitol("carrec.modificaciopersona.titol");
-      String subtitol = "=" + 
-          I18NUtils.tradueix("carrec.modificaciopersona.subtitol",
-              ue.getCarrec(), Utils.getOnlyNom(ue.getUsuariPersona()) );
-
-      seleccioUsuariForm.setSubtitol(subtitol);
-      seleccioUsuariForm.setCancelUrl("/aden/carrec/list");
-      seleccioUsuariForm.setUrlData("/common/json/usuaripersonaentitat");
-      //seleccioUsuariForm.setParam1(usuariEntitatCarrecID);
-      
-      try {
-        seleccioUsuariForm.setUsuarisFavorits(
-            SearchJSONController.favoritsToUsuariPersona(
-                usuariEntitatLogicaEjb.selectFavorits(
-                  LoginInfo.getInstance().getUsuariEntitatID(), null, false)));
-      } catch (I18NException e) {
-        log.error("Error cercant favorits" + I18NUtils.getMessage(e), e);
-      }
-      
-      mav.addObject(seleccioUsuariForm);
-
-      return mav;
-  }
-  
-  
-
-
-  @RequestMapping(value = "/modificarpersona/{usuariEntitatCarrecID}", method = RequestMethod.POST)
-  public ModelAndView modificarPersonaCarrecPost(SeleccioUsuariForm seleccioUsuariForm,
-      BindingResult result, HttpServletRequest request,@PathVariable String usuariEntitatCarrecID) throws I18NException {
-    
-    ModelAndView mav = new ModelAndView("seleccioUsuariForm_ADEN");
-
-    seleccioUsuariValidator.validate(seleccioUsuariForm, result);
-    if (result.hasErrors()) {
-      return mav;
     }
 
-    String usuariPersonaID = seleccioUsuariForm.getId();
-    
-    // Ha d'estar activa !!!!
-    
+    @RequestMapping(value = "/selectcarrec", method = RequestMethod.POST)
+    public ModelAndView seleccionarCarrecPost(SeleccioCarrecForm seleccioCarrecForm, BindingResult result,
+            HttpServletRequest request) throws I18NException {
 
-    // Comprovam que no existesqui un usuarientitat ja per a aquest usuari persona.
-    UsuariEntitatJPA ueCarrec = usuariEntitatLogicaEjb.findByPrimaryKey(usuariEntitatCarrecID);
-    
-    ueCarrec.setUsuariPersonaID(usuariPersonaID);
-    
-    try {
-      usuariEntitatLogicaEjb.updateFull(ueCarrec);
-      createMessageSuccess(request, "success.modification", ueCarrec.getUsuariEntitatID());
-    } catch (I18NValidationException e) {
-      String msg = I18NUtils.getMessage(e);
-      log.error(msg, e);
-      HtmlUtils.saveMessageError(request, msg);
+        // Obtenim la entitat actual.
+        ModelAndView mav = new ModelAndView(getTileSeleccionaForm());
+
+        selectCarrecValidator.validate(seleccioCarrecForm, result);
+        if (result.hasErrors()) {
+            return mav;
+        }
+
+        HttpSession session = request.getSession();
+
+        String usuariEntitatID = seleccioCarrecForm.getId();
+
+        // Comprobar que existeix un usuari-entitat real actiu 
+        // en la nostra entitat associat a  l'identificador de l'usuari-entitat 
+        String entitatActualID = LoginInfo.getInstance().getEntitatID();
+        Where checkUE = Where.AND(USUARIENTITATID.equal(usuariEntitatID),
+                // ENTITATID.equal(entitatActualID),
+                CARREC.equal((String) null), ACTIU.equal(true));
+        Long count = usuariEntitatEjb.count(checkUE);
+        if (count == 0) {
+            // La persona seleccionada no està activa dins l´entitat {0}
+            result.rejectValue("id", "usuarientitat.noactiva", new Object[] { entitatActualID }, null);
+            return mav;
+        }
+
+        // Comprovam que no existeix un ID de càrrec igual ( idCarrec == usuarientitatID )
+        String idCarrec = entitatActualID + "_" + seleccioCarrecForm.getIdCarrec();
+        Where w = USUARIENTITATID.equal(idCarrec);
+        count = usuariEntitatEjb.count(w);
+        if (count != 0) {
+            result.rejectValue("idCarrec", "usuarientitat.existeix",
+                    new Object[] { "idCarrec", idCarrec, entitatActualID }, null);
+            return mav;
+        }
+
+        // Comprovam que no existeix un nom de càrrec igual ( carrec == nomcarrec )
+        String carrec = seleccioCarrecForm.getCarrec();
+        if (!checkNomDeCarrec(result, entitatActualID, "carrec", carrec)) {
+            return mav;
+        }
+
+        seleccioCarrecForm.setIdCarrec(idCarrec);
+
+        session.setAttribute(SELECTION_CARREC_USUARI_ENTITAT_ID, seleccioCarrecForm);
+        return new ModelAndView(new RedirectView(getContextWeb() + "/new", true));
+
     }
 
-
-      mav.setView(new RedirectView(getContextWeb() + "/list", true));
-      return mav;
-    
-  }
-
-
-  // =====================================
-
-
-  @Override
-  public UsuariEntitatForm getUsuariEntitatForm(UsuariEntitatJPA _jpa, boolean __isView,
-        HttpServletRequest request, ModelAndView mav) throws I18NException {
-
-    UsuariEntitatForm usuariEntitatForm = super.getUsuariEntitatForm(_jpa, __isView, request, mav);
-
-    // Cas d'alta
-    if(usuariEntitatForm.isNou()) {
-      
-      HttpSession session = request.getSession();
-      SeleccioCarrecForm transmissioDadesForm = (SeleccioCarrecForm)session.getAttribute(SELECTION_CARREC_USUARI_ENTITAT_ID);
-      if(_jpa == null && transmissioDadesForm == null){
-            mav.setView(new RedirectView("/aden/carrec/selectcarrec", true));
-            return new UsuariEntitatForm();
-      }
-
-      String usuariEntitatID = transmissioDadesForm.getId();
-      
-      UsuariEntitatJPA ueSeleccionat = usuariEntitatLogicaEjb.findByPrimaryKey(usuariEntitatID);  
-
-
-      // Si no han indicat usuaripersona o entitat  tornam a demanar-ho
-      if(ueSeleccionat == null){
-          mav.setView(new RedirectView("/aden/carrec/selectcarrec", true));
-          return usuariEntitatForm;
-      }
-
-
-      UsuariEntitat usuariEntitatCarrec = usuariEntitatForm.getUsuariEntitat();
-
-      usuariEntitatCarrec.setUsuariPersonaID(ueSeleccionat.getUsuariPersonaID());
-      usuariEntitatCarrec.setEntitatID(ueSeleccionat.getEntitatID());
-      usuariEntitatCarrec.setActiu(true);
-
-      usuariEntitatCarrec.setUsuariEntitatID(transmissioDadesForm.getIdCarrec());
-      usuariEntitatCarrec.setCarrec(transmissioDadesForm.getCarrec());
-      if (log.isDebugEnabled()) {
-        log.debug(" --------------- ");
-        log.debug("NOU CARREC UsusariEntitatCarrecID(" + usuariEntitatCarrec.getUsuariEntitatID() + ");");
-        log.debug("NOU CARREC UsuariPersonaID(" + ueSeleccionat.getUsuariPersonaID() + ");");
-        log.debug("NOU CARREC Entitat(" + ueSeleccionat.getEntitatID() + ");");
-        log.debug("NOU CARREC CarrecID(" + transmissioDadesForm.getIdCarrec() + ");");
-        log.debug("NOU CARREC CarrecNom(" + transmissioDadesForm.getCarrec() + ");");
-      }
-
-      // LLevam de la sessio el formulari de selecció.
-      session.removeAttribute(SELECTION_CARREC_USUARI_ENTITAT_ID);
-      
-      usuariEntitatForm.addReadOnlyField(USUARIPERSONAID);
-      
-      HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("verificardades"));
-      
-    } else {
-      // Cas modificació
-      usuariEntitatForm.addReadOnlyField(ACTIU);
-      
-      if (usuariEntitatForm.getUsuariEntitat().isActiu()) {
-        usuariEntitatForm.addAdditionalButton(new AdditionalButton(
-          "fas fa-ban", "desactivar", getContextWeb() + "/desactivar/{0}", "btn-warning"));
-      } else {
-        usuariEntitatForm.addAdditionalButton(new AdditionalButton(
-          "fas fa-play", "activar", getContextWeb() + "/activar/{0}", "btn-success"));
-      }
+    private boolean checkNomDeCarrec(BindingResult result, String entitatActualID, String carrecField, String carrec)
+            throws I18NException {
+        Where wCheck = Where.AND(CARREC.like(carrec), ENTITATID.equal(entitatActualID));
+        Long countC = usuariEntitatEjb.count(wCheck);
+        if (countC != 0) {
+            result.rejectValue(carrecField, "usuarientitat.existeix",
+                    new Object[] { I18NUtils.tradueix(CARREC.fullName), carrec, entitatActualID }, null);
+            return false;
+        } else {
+            return true;
+        }
     }
 
-    // Ocultam camps del formulari
-    usuariEntitatForm.addHiddenField(EMAIL);
-    usuariEntitatForm.addHiddenField(LOGOSEGELLID);
-    usuariEntitatForm.addHiddenField(PREDETERMINAT);
-    usuariEntitatForm.addHiddenField(REBRETOTSELSAVISOS);
-    usuariEntitatForm.addHiddenField(ENTITATID);
-    usuariEntitatForm.addHiddenField(POLITICACUSTODIA);
-    usuariEntitatForm.addHiddenField(POLITICADEPLUGINFIRMAWEB);
+    // ======================== MODIFICACIO PERSONA ASSOCIADA AL CARREC ==================
 
-    // Ocultar la plantilla de custòdia #324
-    usuariEntitatForm.addHiddenField(CUSTODIAINFOID);
+    @RequestMapping(value = "/modificarpersona/{usuariEntitatCarrecID}", method = RequestMethod.GET)
+    public ModelAndView modificarPersonaCarrecGet(@PathVariable String usuariEntitatCarrecID) throws Exception {
 
-    // Camps de només lectura
-    usuariEntitatForm.addReadOnlyField(USUARIENTITATID);
-    usuariEntitatForm.addReadOnlyField(USUARIPERSONAID);
-    return usuariEntitatForm;
-  }
+        ModelAndView mav = new ModelAndView("seleccioUsuariForm_ADEN");
 
-  @Override
-  public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-      Where w = Where.AND(ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),CARREC.isNotNull() );
-      return w;
-  }
+        SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
 
-   @Override
-   public UsuariEntitatFilterForm getUsuariEntitatFilterForm(Integer pagina,
-       ModelAndView mav, HttpServletRequest request) throws I18NException {
-       UsuariEntitatFilterForm filterForm;
+        UsuariEntitatJPA ue = usuariEntitatLogicaEjb.findByPrimaryKeyFull(usuariEntitatCarrecID);
 
-       filterForm = super.getUsuariEntitatFilterForm(pagina, mav, request);
-       // Si es nou ocultam i marcam a readOnly camps del formulari
-       if(filterForm.isNou()){
-          filterForm.addGroupByField(ACTIU);
-          filterForm.addGroupByField(USUARI_PERSONA_FIELD);
+        if (ue == null) {
+            mav.setView(new RedirectView(getContextWeb() + "/list", true));
+            // TODO Falta un missatges
+            // HtmlUtils.saveMessageWarning(request, "no s'ha trobat !!!");
+            return mav;
+        }
 
-          filterForm.addHiddenField(REBRETOTSELSAVISOS);
-          filterForm.addHiddenField(ENTITATID);
-          filterForm.addHiddenField(EMAIL);
-          filterForm.addHiddenField(LOGOSEGELLID);
-          filterForm.addHiddenField(PREDETERMINAT);
-          
-          filterForm.addHiddenField(POLITICACUSTODIA);
+        seleccioUsuariForm.setTitol("carrec.modificaciopersona.titol");
+        String subtitol = "=" + I18NUtils.tradueix("carrec.modificaciopersona.subtitol", ue.getCarrec(),
+                Utils.getOnlyNom(ue.getUsuariPersona()));
 
-          filterForm.addHiddenField(POLITICADEPLUGINFIRMAWEB);
+        seleccioUsuariForm.setSubtitol(subtitol);
+        seleccioUsuariForm.setCancelUrl("/aden/carrec/list");
+        seleccioUsuariForm.setUrlData("/common/json/usuaripersonaentitat");
+        //seleccioUsuariForm.setParam1(usuariEntitatCarrecID);
 
-          filterForm.setDefaultOrderBy(new OrderBy[] { new OrderBy(CARREC)  });
+        try {
+            seleccioUsuariForm.setUsuarisFavorits(SearchJSONController.favoritsToUsuariPersona(
+                    usuariEntitatLogicaEjb.selectFavorits(LoginInfo.getInstance().getUsuariEntitatID(), null, false)));
+        } catch (I18NException e) {
+            log.error("Error cercant favorits" + I18NUtils.getMessage(e), e);
+        }
 
-          filterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-        		"fas fa-user-edit", "carrec.modificaciopersona.titol", getContextWeb() + "/modificarpersona/{0}", "btn-success"));
+        mav.addObject(seleccioUsuariForm);
 
-       }
-
-       return filterForm;
-   }
-
-
-  @InitBinder("seleccioCarrecForm")
-  public void initBinderSeleccio(WebDataBinder binder) {
-    super.initBinder(binder);
-    binder.setValidator(this.selectCarrecValidator);
-  }
-
-
-  @Override
-  public String getSessionAttributeFilterForm() {
-    return "currentPageList_Carrec_aden";
-  }
-
-  @Override
-  public void fillReferencesForForm(UsuariEntitatForm usuariEntitatForm,
-      HttpServletRequest request, ModelAndView mav) throws I18NException {
-    if (usuariEntitatForm.getUsuariEntitat() != null) {
-      super.fillReferencesForForm(usuariEntitatForm, request, mav);
-    }
-  }
-  
-  @Override
-  public Map<Field<?>, GroupByItem> fillReferencesForList(UsuariEntitatFilterForm filterForm,
-      HttpServletRequest request, ModelAndView mav,
-        List<UsuariEntitat> list, List<GroupByItem> groupItems) throws I18NException {
-    
-      Map<Field<?>, GroupByItem> groupByItemsMap = super.fillReferencesForList(filterForm, request, mav, list, groupItems);
-
-      Map<String, String> _tmp;
-      List<StringKeyValue> _listSKV;
-
-      // Field NIF
-      final String model = UsuariPersonaFields._TABLE_MODEL;
-      _listSKV = this.usuariPersonaRefList.getReferenceList(UsuariPersonaFields.NIF,
-            null, new OrderBy(UsuariPersonaFields.LLINATGES));
-      _tmp = org.fundaciobit.genapp.common.utils.Utils.listToMap(_listSKV);
-      groupByItemsMap.get(USUARI_PERSONA_FIELD).setCodeLabel(model + "." + model);
-      fillValuesToGroupByItems(_tmp, groupByItemsMap, USUARI_PERSONA_FIELD, false);
-
-      return groupByItemsMap;
-  }
-
-  @Override
-  public void delete(HttpServletRequest request, UsuariEntitat usuariEntitat) throws I18NException {
-    Set<Long> fitxers;
-    fitxers = usuariEntitatLogicaEjb.deleteFull(usuariEntitat.getUsuariEntitatID());
-    borrarFitxers(fitxers);
-  }
-  
-  @Override
-  public UsuariEntitatJPA create(HttpServletRequest request, UsuariEntitatJPA usuariEntitat)
-    throws I18NException, I18NValidationException {
-    return (UsuariEntitatJPA) usuariEntitatLogicaEjb.createFull(usuariEntitat);
-  }
-
-  @Override
-  public UsuariEntitatJPA update(HttpServletRequest request, UsuariEntitatJPA usuariEntitat)
-    throws I18NException, I18NValidationException {
-    return (UsuariEntitatJPA) usuariEntitatLogicaEjb.updateFull(usuariEntitat);
-  }
-  
-  
-  @Override
-  public String getEntityNameCode() {
-    return "carrec";
-  }
-
-  @Override
-  public String getEntityNameCodePlural() {
-    return "carrec.plural";
-  }
-  
-
-  @RequestMapping(value = "/activar/{usuariEntitatID:.+}", method = RequestMethod.GET)
-  public ModelAndView activarCarrec(
-      @PathVariable("usuariEntitatID") String usuariEntitatID, 
-      HttpServletRequest request,  HttpServletResponse response) throws Exception {
-
-    return activaDesactivarCarrec(usuariEntitatID, request, true);
-  }
-  
-  
-
-  @RequestMapping(value = "/desactivar/{usuariEntitatID:.+}", method = RequestMethod.GET)
-  public ModelAndView desactivarCarrec(
-      @PathVariable("usuariEntitatID") String usuariEntitatID, 
-      HttpServletRequest request,  HttpServletResponse response) throws Exception {
-
-    return activaDesactivarCarrec(usuariEntitatID, request, false);
-  }
-
-  public ModelAndView activaDesactivarCarrec(String usuariEntitatID,
-      HttpServletRequest request, boolean activar) {
-    try {
-      if (activar) {
-        usuariEntitatLogicaEjb.activarCarrec(usuariEntitatID);
-      } else {
-        usuariEntitatLogicaEjb.desactivarCarrec(usuariEntitatID);
-      }
-    } catch(I18NException i18ne) {
-      String msg = I18NUtils.getMessage(i18ne);
-      log.error(msg, i18ne);
-      HtmlUtils.saveMessageError(request, msg);
-    } catch(Exception e) {
-      String msg = I18NUtils.tradueix("error.unknown", e.getMessage());
-      log.error(msg, e);
-      HtmlUtils.saveMessageError(request, msg);
+        return mav;
     }
 
-    ModelAndView mav = new ModelAndView(new RedirectView(
-        getContextWeb() + "/" + usuariEntitatID + "/edit", true));
-    return mav;
-  }
+    @RequestMapping(value = "/modificarpersona/{usuariEntitatCarrecID}", method = RequestMethod.POST)
+    public ModelAndView modificarPersonaCarrecPost(SeleccioUsuariForm seleccioUsuariForm, BindingResult result,
+            HttpServletRequest request, @PathVariable String usuariEntitatCarrecID) throws I18NException {
 
+        ModelAndView mav = new ModelAndView("seleccioUsuariForm_ADEN");
+
+        seleccioUsuariValidator.validate(seleccioUsuariForm, result);
+        if (result.hasErrors()) {
+            return mav;
+        }
+
+        String usuariPersonaID = seleccioUsuariForm.getId();
+
+        // Ha d'estar activa !!!!
+
+        // Comprovam que no existesqui un usuarientitat ja per a aquest usuari persona.
+        UsuariEntitatJPA ueCarrec = usuariEntitatLogicaEjb.findByPrimaryKey(usuariEntitatCarrecID);
+
+        ueCarrec.setUsuariPersonaID(usuariPersonaID);
+
+        try {
+            usuariEntitatLogicaEjb.updateFull(ueCarrec);
+            createMessageSuccess(request, "success.modification", ueCarrec.getUsuariEntitatID());
+        } catch (I18NValidationException e) {
+            String msg = I18NUtils.getMessage(e);
+            log.error(msg, e);
+            HtmlUtils.saveMessageError(request, msg);
+        }
+
+        mav.setView(new RedirectView(getContextWeb() + "/list", true));
+        return mav;
+
+    }
+
+    // =====================================
+
+    @Override
+    public UsuariEntitatForm getUsuariEntitatForm(UsuariEntitatJPA _jpa, boolean __isView, HttpServletRequest request,
+            ModelAndView mav) throws I18NException {
+
+        UsuariEntitatForm usuariEntitatForm = super.getUsuariEntitatForm(_jpa, __isView, request, mav);
+
+        // Cas d'alta
+        if (usuariEntitatForm.isNou()) {
+
+            HttpSession session = request.getSession();
+            SeleccioCarrecForm transmissioDadesForm = (SeleccioCarrecForm) session
+                    .getAttribute(SELECTION_CARREC_USUARI_ENTITAT_ID);
+            if (_jpa == null && transmissioDadesForm == null) {
+                mav.setView(new RedirectView("/aden/carrec/selectcarrec", true));
+                return new UsuariEntitatForm();
+            }
+
+            String usuariEntitatID = transmissioDadesForm.getId();
+
+            UsuariEntitatJPA ueSeleccionat = usuariEntitatLogicaEjb.findByPrimaryKey(usuariEntitatID);
+
+            // Si no han indicat usuaripersona o entitat  tornam a demanar-ho
+            if (ueSeleccionat == null) {
+                mav.setView(new RedirectView("/aden/carrec/selectcarrec", true));
+                return usuariEntitatForm;
+            }
+
+            UsuariEntitat usuariEntitatCarrec = usuariEntitatForm.getUsuariEntitat();
+
+            usuariEntitatCarrec.setUsuariPersonaID(ueSeleccionat.getUsuariPersonaID());
+            usuariEntitatCarrec.setEntitatID(ueSeleccionat.getEntitatID());
+            usuariEntitatCarrec.setActiu(true);
+
+            usuariEntitatCarrec.setUsuariEntitatID(transmissioDadesForm.getIdCarrec());
+            usuariEntitatCarrec.setCarrec(transmissioDadesForm.getCarrec());
+            if (log.isDebugEnabled()) {
+                log.debug(" --------------- ");
+                log.debug("NOU CARREC UsusariEntitatCarrecID(" + usuariEntitatCarrec.getUsuariEntitatID() + ");");
+                log.debug("NOU CARREC UsuariPersonaID(" + ueSeleccionat.getUsuariPersonaID() + ");");
+                log.debug("NOU CARREC Entitat(" + ueSeleccionat.getEntitatID() + ");");
+                log.debug("NOU CARREC CarrecID(" + transmissioDadesForm.getIdCarrec() + ");");
+                log.debug("NOU CARREC CarrecNom(" + transmissioDadesForm.getCarrec() + ");");
+            }
+
+            // LLevam de la sessio el formulari de selecció.
+            session.removeAttribute(SELECTION_CARREC_USUARI_ENTITAT_ID);
+
+            usuariEntitatForm.addReadOnlyField(USUARIPERSONAID);
+
+            HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("verificardades"));
+
+        } else {
+            // Cas modificació
+            usuariEntitatForm.addReadOnlyField(ACTIU);
+
+            if (usuariEntitatForm.getUsuariEntitat().isActiu()) {
+                usuariEntitatForm.addAdditionalButton(new AdditionalButton("fas fa-ban", "desactivar",
+                        getContextWeb() + "/desactivar/{0}", AdditionalButtonStyle.WARNING));
+            } else {
+                usuariEntitatForm.addAdditionalButton(new AdditionalButton("fas fa-play", "activar",
+                        getContextWeb() + "/activar/{0}", AdditionalButtonStyle.SUCCESS));
+            }
+        }
+
+        // Ocultam camps del formulari
+        usuariEntitatForm.addHiddenField(EMAIL);
+        usuariEntitatForm.addHiddenField(LOGOSEGELLID);
+        usuariEntitatForm.addHiddenField(PREDETERMINAT);
+        usuariEntitatForm.addHiddenField(REBRETOTSELSAVISOS);
+        usuariEntitatForm.addHiddenField(ENTITATID);
+        usuariEntitatForm.addHiddenField(POLITICACUSTODIA);
+        usuariEntitatForm.addHiddenField(POLITICADEPLUGINFIRMAWEB);
+
+        // Ocultar la plantilla de custòdia #324
+        usuariEntitatForm.addHiddenField(CUSTODIAINFOID);
+
+        // Camps de només lectura
+        usuariEntitatForm.addReadOnlyField(USUARIENTITATID);
+        usuariEntitatForm.addReadOnlyField(USUARIPERSONAID);
+        return usuariEntitatForm;
+    }
+
+    @Override
+    public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
+        Where w = Where.AND(ENTITATID.equal(LoginInfo.getInstance().getEntitatID()), CARREC.isNotNull());
+        return w;
+    }
+
+    @Override
+    public UsuariEntitatFilterForm getUsuariEntitatFilterForm(Integer pagina, ModelAndView mav,
+            HttpServletRequest request) throws I18NException {
+        UsuariEntitatFilterForm filterForm;
+
+        filterForm = super.getUsuariEntitatFilterForm(pagina, mav, request);
+        // Si es nou ocultam i marcam a readOnly camps del formulari
+        if (filterForm.isNou()) {
+            filterForm.addGroupByField(ACTIU);
+            filterForm.addGroupByField(USUARI_PERSONA_FIELD);
+
+            filterForm.addHiddenField(REBRETOTSELSAVISOS);
+            filterForm.addHiddenField(ENTITATID);
+            filterForm.addHiddenField(EMAIL);
+            filterForm.addHiddenField(LOGOSEGELLID);
+            filterForm.addHiddenField(PREDETERMINAT);
+
+            filterForm.addHiddenField(POLITICACUSTODIA);
+
+            filterForm.addHiddenField(POLITICADEPLUGINFIRMAWEB);
+
+            filterForm.setDefaultOrderBy(new OrderBy[] { new OrderBy(CARREC) });
+
+            filterForm.addAdditionalButtonForEachItem(
+                    new AdditionalButton("fas fa-user-edit", "carrec.modificaciopersona.titol",
+                            getContextWeb() + "/modificarpersona/{0}", AdditionalButtonStyle.SUCCESS));
+
+        }
+
+        return filterForm;
+    }
+
+    @InitBinder("seleccioCarrecForm")
+    public void initBinderSeleccio(WebDataBinder binder) {
+        super.initBinder(binder);
+        binder.setValidator(this.selectCarrecValidator);
+    }
+
+    @Override
+    public String getSessionAttributeFilterForm() {
+        return "currentPageList_Carrec_aden";
+    }
+
+    @Override
+    public void fillReferencesForForm(UsuariEntitatForm usuariEntitatForm, HttpServletRequest request, ModelAndView mav)
+            throws I18NException {
+        if (usuariEntitatForm.getUsuariEntitat() != null) {
+            super.fillReferencesForForm(usuariEntitatForm, request, mav);
+        }
+    }
+
+    @Override
+    public Map<Field<?>, GroupByItem> fillReferencesForList(UsuariEntitatFilterForm filterForm,
+            HttpServletRequest request, ModelAndView mav, List<UsuariEntitat> list, List<GroupByItem> groupItems)
+            throws I18NException {
+
+        Map<Field<?>, GroupByItem> groupByItemsMap = super.fillReferencesForList(filterForm, request, mav, list,
+                groupItems);
+
+        Map<String, String> _tmp;
+        List<StringKeyValue> _listSKV;
+
+        // Field NIF
+        final String model = UsuariPersonaFields._TABLE_MODEL;
+        _listSKV = this.usuariPersonaRefList.getReferenceList(UsuariPersonaFields.NIF, null,
+                new OrderBy(UsuariPersonaFields.LLINATGES));
+        _tmp = org.fundaciobit.genapp.common.utils.Utils.listToMap(_listSKV);
+        groupByItemsMap.get(USUARI_PERSONA_FIELD).setCodeLabel(model + "." + model);
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, USUARI_PERSONA_FIELD, false);
+
+        return groupByItemsMap;
+    }
+
+    @Override
+    public void delete(HttpServletRequest request, UsuariEntitat usuariEntitat) throws I18NException {
+        Set<Long> fitxers;
+        fitxers = usuariEntitatLogicaEjb.deleteFull(usuariEntitat.getUsuariEntitatID());
+        borrarFitxers(fitxers);
+    }
+
+    @Override
+    public UsuariEntitatJPA create(HttpServletRequest request, UsuariEntitatJPA usuariEntitat)
+            throws I18NException, I18NValidationException {
+        return (UsuariEntitatJPA) usuariEntitatLogicaEjb.createFull(usuariEntitat);
+    }
+
+    @Override
+    public UsuariEntitatJPA update(HttpServletRequest request, UsuariEntitatJPA usuariEntitat)
+            throws I18NException, I18NValidationException {
+        return (UsuariEntitatJPA) usuariEntitatLogicaEjb.updateFull(usuariEntitat);
+    }
+
+    @Override
+    public String getEntityNameCode() {
+        return "carrec";
+    }
+
+    @Override
+    public String getEntityNameCodePlural() {
+        return "carrec.plural";
+    }
+
+    @RequestMapping(value = "/activar/{usuariEntitatID:.+}", method = RequestMethod.GET)
+    public ModelAndView activarCarrec(@PathVariable("usuariEntitatID") String usuariEntitatID,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        return activaDesactivarCarrec(usuariEntitatID, request, true);
+    }
+
+    @RequestMapping(value = "/desactivar/{usuariEntitatID:.+}", method = RequestMethod.GET)
+    public ModelAndView desactivarCarrec(@PathVariable("usuariEntitatID") String usuariEntitatID,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        return activaDesactivarCarrec(usuariEntitatID, request, false);
+    }
+
+    public ModelAndView activaDesactivarCarrec(String usuariEntitatID, HttpServletRequest request, boolean activar) {
+        try {
+            if (activar) {
+                usuariEntitatLogicaEjb.activarCarrec(usuariEntitatID);
+            } else {
+                usuariEntitatLogicaEjb.desactivarCarrec(usuariEntitatID);
+            }
+        } catch (I18NException i18ne) {
+            String msg = I18NUtils.getMessage(i18ne);
+            log.error(msg, i18ne);
+            HtmlUtils.saveMessageError(request, msg);
+        } catch (Exception e) {
+            String msg = I18NUtils.tradueix("error.unknown", e.getMessage());
+            log.error(msg, e);
+            HtmlUtils.saveMessageError(request, msg);
+        }
+
+        ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/" + usuariEntitatID + "/edit", true));
+        return mav;
+    }
 
 }

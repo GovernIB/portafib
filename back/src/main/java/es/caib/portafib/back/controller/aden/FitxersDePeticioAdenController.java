@@ -22,6 +22,7 @@ import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
@@ -53,7 +54,7 @@ import java.util.Map;
 public class FitxersDePeticioAdenController extends FitxerController {
 
     public static final String CONTEXT_WEB = "/aden/fitxerspeticio";
-    
+
     public static final String SESSION_BACK_URL = "SESSION_BACK_URL";
 
     public static final int COLUMN_NOUFITXERID = -3;
@@ -112,9 +113,8 @@ public class FitxersDePeticioAdenController extends FitxerController {
     }
 
     @Override
-    public FitxerFilterForm getFitxerFilterForm(Integer pagina, ModelAndView mav,
-                                                HttpServletRequest request) throws I18NException {
-
+    public FitxerFilterForm getFitxerFilterForm(Integer pagina, ModelAndView mav, HttpServletRequest request)
+            throws I18NException {
 
         FitxerFilterForm fitxerFilterForm = super.getFitxerFilterForm(pagina, mav, request);
 
@@ -145,7 +145,7 @@ public class FitxersDePeticioAdenController extends FitxerController {
             }
 
             {
-                AdditionalField<Long,String> origenField = new AdditionalField<Long,String>();
+                AdditionalField<Long, String> origenField = new AdditionalField<Long, String>();
                 origenField.setEscapeXml(false);
                 origenField.setCodeName("fitxersPeticio.origen");
                 origenField.setPosition(COLUMN_ORIGEN);
@@ -153,24 +153,22 @@ public class FitxersDePeticioAdenController extends FitxerController {
                 fitxerFilterForm.addAdditionalField(origenField);
             }
             {
-                AdditionalField<Long,String> destinatariField = new AdditionalField<Long,String>();
+                AdditionalField<Long, String> destinatariField = new AdditionalField<Long, String>();
                 destinatariField.setCodeName("fitxersPeticio.origen.destinatariFirma");
                 destinatariField.setPosition(COLUMN_DESTINATARI);
                 destinatariField.setValueMap(new HashMap<Long, String>());
                 fitxerFilterForm.addAdditionalField(destinatariField);
             }
             {
-                AdditionalField<Long,String> rutaField = new AdditionalField<Long,String>();
+                AdditionalField<Long, String> rutaField = new AdditionalField<Long, String>();
                 rutaField.setCodeName("fitxersPeticio.ruta");
                 rutaField.setPosition(COLUMN_RUTA);
                 rutaField.setValueMap(new HashMap<Long, String>());
                 fitxerFilterForm.addAdditionalField(rutaField);
             }
 
-            fitxerFilterForm.addAdditionalButton(
-                    new AdditionalButton("fas fa-long-arrow-alt-left icon-white", "tornar",
-                            CONTEXT_WEB + "/tornar", "btn-primary"));
-
+            fitxerFilterForm.addAdditionalButton(new AdditionalButton("fas fa-long-arrow-alt-left icon-white", "tornar",
+                    CONTEXT_WEB + "/tornar", AdditionalButtonStyle.PRIMARY));
 
         }
 
@@ -182,24 +180,24 @@ public class FitxersDePeticioAdenController extends FitxerController {
     }
 
     @Override
-    public void postList(HttpServletRequest request, ModelAndView mav,
-                         FitxerFilterForm filterForm, List<Fitxer> list) throws I18NException {
+    public void postList(HttpServletRequest request, ModelAndView mav, FitxerFilterForm filterForm, List<Fitxer> list)
+            throws I18NException {
         super.postList(request, mav, filterForm, list);
 
         Map<Long, String> mapFitxerId;
-        mapFitxerId = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_NOUFITXERID).getValueMap();
+        mapFitxerId = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_NOUFITXERID).getValueMap();
         mapFitxerId.clear();
 
         Map<Long, String> mapOrigen;
-        mapOrigen = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_ORIGEN).getValueMap();
+        mapOrigen = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_ORIGEN).getValueMap();
         mapOrigen.clear();
 
         Map<Long, String> mapDestinatari;
-        mapDestinatari= (Map<Long, String>)filterForm.getAdditionalField(COLUMN_DESTINATARI).getValueMap();
+        mapDestinatari = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_DESTINATARI).getValueMap();
         mapDestinatari.clear();
 
         Map<Long, String> mapRuta;
-        mapRuta = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_RUTA).getValueMap();
+        mapRuta = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_RUTA).getValueMap();
         mapRuta.clear();
 
         filterForm.getAdditionalButtonsByPK().clear();
@@ -211,53 +209,55 @@ public class FitxersDePeticioAdenController extends FitxerController {
                 mapRuta.put(fitxer.getFitxerID(), FileSystemManager.getFile(fitxer.getFitxerID()).getAbsolutePath());
 
                 filterForm.addAdditionalButtonByPK(fitxer.getFitxerID(),
-                        new AdditionalButton("fas fa-download icon-white",
-                                "descarregar", FileDownloadController.fileUrl(fitxer), "btn-success"));
+                        new AdditionalButton("fas fa-download icon-white", "descarregar",
+                                FileDownloadController.fileUrl(fitxer), AdditionalButtonStyle.SUCCESS));
 
             } else {
                 mapFitxerId.put(fitxer.getFitxerID(), I18NUtils.tradueix("fitxersPeticio.fitxerID.buid"));
             }
 
-            mapOrigen.put(fitxer.getFitxerID(), I18NUtils.tradueix( ((FitxerPeticioFirma)fitxer).getOrigen()));
-            mapDestinatari.put(fitxer.getFitxerID(), ((FitxerPeticioFirma)fitxer).getDestinatari());
+            mapOrigen.put(fitxer.getFitxerID(), I18NUtils.tradueix(((FitxerPeticioFirma) fitxer).getOrigen()));
+            mapDestinatari.put(fitxer.getFitxerID(), ((FitxerPeticioFirma) fitxer).getDestinatari());
         }
-
 
     }
 
     @Override
     public List<Fitxer> executeSelect(ITableManager<Fitxer, Long> ejb, Where where2, OrderBy[] orderBy2,
-                                      Integer itemsPerPage, int inici) throws I18NException {
+            Integer itemsPerPage, int inici) throws I18NException {
         //return itemsPerPage == null ? ejb.select(where, orderBy) : ejb.select(where, inici, itemsPerPage, orderBy);
 
         List<Fitxer> llistaFitxers = new ArrayList<Fitxer>();
 
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest();
         Long peticioFirmaID = (Long) request.getSession().getAttribute(SESSION_PETICIOID);
         PeticioDeFirma peticio = peticioDeFirmaLogicaEjb.findByPrimaryKey(peticioFirmaID);
 
         // FITXERS DIRECTES DE LA PETICIÓ
         int negativeID = 0;
 
-        llistaFitxers.add( peticio.getFitxerAFirmarID() == null
-                ? new FitxerPeticioFirma(--negativeID, ORIGEN_PETICIO, I18NUtils.tradueix("fitxersPeticio.origen.peticio.buid"), null)
-                : new FitxerPeticioFirma(peticio.getFitxerAFirmar(), ORIGEN_PETICIO, "", null ));
-
+        llistaFitxers.add(peticio.getFitxerAFirmarID() == null
+                ? new FitxerPeticioFirma(--negativeID, ORIGEN_PETICIO,
+                        I18NUtils.tradueix("fitxersPeticio.origen.peticio.buid"), null)
+                : new FitxerPeticioFirma(peticio.getFitxerAFirmar(), ORIGEN_PETICIO, "", null));
 
         if (peticio.getFitxerAdaptatID() != null) {
-            llistaFitxers.add(new FitxerPeticioFirma(peticio.getFitxerAdaptat(), ORIGEN_ADAPTAT, "", null ));
+            llistaFitxers.add(new FitxerPeticioFirma(peticio.getFitxerAdaptat(), ORIGEN_ADAPTAT, "", null));
         } else {
             if (peticio.getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
-                llistaFitxers.add(new FitxerPeticioFirma(--negativeID, ORIGEN_ADAPTAT, I18NUtils.tradueix("fitxersPeticio.origen.adaptat.nogenerat"), null ));
+                llistaFitxers.add(new FitxerPeticioFirma(--negativeID, ORIGEN_ADAPTAT,
+                        I18NUtils.tradueix("fitxersPeticio.origen.adaptat.nogenerat"), null));
             } else {
-                llistaFitxers.add(new FitxerPeticioFirma(--negativeID, ORIGEN_ADAPTAT, I18NUtils.tradueix("fitxersPeticio.origen.adaptat.descartat"), null));
+                llistaFitxers.add(new FitxerPeticioFirma(--negativeID, ORIGEN_ADAPTAT,
+                        I18NUtils.tradueix("fitxersPeticio.origen.adaptat.descartat"), null));
             }
         }
 
-        llistaFitxers.add( peticio.getFirmaOriginalDetachedID() == null
-                ? new FitxerPeticioFirma(--negativeID, ORIGEN_DETACHED, I18NUtils.tradueix("fitxersPeticio.origen.detached.buid"), null)
-                : new FitxerPeticioFirma(peticio.getFirmaOriginalDetached(), ORIGEN_DETACHED, "", null ));
-
+        llistaFitxers.add(peticio.getFirmaOriginalDetachedID() == null
+                ? new FitxerPeticioFirma(--negativeID, ORIGEN_DETACHED,
+                        I18NUtils.tradueix("fitxersPeticio.origen.detached.buid"), null)
+                : new FitxerPeticioFirma(peticio.getFirmaOriginalDetached(), ORIGEN_DETACHED, "", null));
 
         // LLISTAT DE FIRMES
 
@@ -280,23 +280,33 @@ public class FitxersDePeticioAdenController extends FitxerController {
 
             if (firma.getNumFirmaDocument() == null) { // NO S'HA FIRMAT
                 if (firma.getTipusEstatDeFirmaFinalID() == null) { // PERQUÉ ENCARA ESTÀ PENDENT
-                    llistaFitxers.add( new FitxerPeticioFirma(--negativeID, ORIGEN_FIRMA_PENDENT, "", firma.getDestinatariID()));
-                } else if (firma.getTipusEstatDeFirmaFinalID() == ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT){ // PERQUÈ S'HA DESCARTAT
-                    llistaFitxers.add( new FitxerPeticioFirma(--negativeID, ORIGEN_FIRMA_DESCARTADA, I18NUtils.tradueix("fitxersPeticio.origen.firmaDescartada.buid"), firma.getDestinatariID()));
+                    llistaFitxers.add(
+                            new FitxerPeticioFirma(--negativeID, ORIGEN_FIRMA_PENDENT, "", firma.getDestinatariID()));
+                } else if (firma.getTipusEstatDeFirmaFinalID() == ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT) { // PERQUÈ S'HA DESCARTAT
+                    llistaFitxers.add(new FitxerPeticioFirma(--negativeID, ORIGEN_FIRMA_DESCARTADA,
+                            I18NUtils.tradueix("fitxersPeticio.origen.firmaDescartada.buid"),
+                            firma.getDestinatariID()));
                 } // ELSE? NO HAURIA DE PASSAR
             } else { // S'HA FIRMAT
                 if (firma.getFitxerFirmat() == null) { // I EL FITXER ES BUID
                     if (firma.getNumFirmaDocument() < maxFirma) { // PERQUE LA FIRMA NO ERA FINAL
-                        llistaFitxers.add( new FitxerPeticioFirma(--negativeID, ORIGEN_FIRMA_NOFINAL, I18NUtils.tradueix("fitxersPeticio.origen.firmaNoFinal.buid"), firma.getDestinatariID()));
+                        llistaFitxers.add(new FitxerPeticioFirma(--negativeID, ORIGEN_FIRMA_NOFINAL,
+                                I18NUtils.tradueix("fitxersPeticio.origen.firmaNoFinal.buid"),
+                                firma.getDestinatariID()));
                     } else { // LA FIRMA ES FINAL I ES BUIDA, AIXÔ NO HAURIA DE PASSAR
-                        log.warn("LA FIRMA [" + firma.getFirmaID() + "] ÉS LA FIRMA FINAL DE LA PETICIÓ, PERÒ EL FITXER ÉS BUID");
-                        llistaFitxers.add( new FitxerPeticioFirma(--negativeID, ORIGEN_FIRMA_FINAL, I18NUtils.tradueix("fitxersPeticio.origen.firmaFinal.buid"), firma.getDestinatariID()));
+                        log.warn("LA FIRMA [" + firma.getFirmaID()
+                                + "] ÉS LA FIRMA FINAL DE LA PETICIÓ, PERÒ EL FITXER ÉS BUID");
+                        llistaFitxers.add(new FitxerPeticioFirma(--negativeID, ORIGEN_FIRMA_FINAL,
+                                I18NUtils.tradueix("fitxersPeticio.origen.firmaFinal.buid"), firma.getDestinatariID()));
                     }
                 } else {
-                    if (firma.getNumFirmaDocument() < maxFirma || peticio.getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) { // S'HA FIRMAT I EL FITXER NO ES BUID
-                        llistaFitxers.add(new FitxerPeticioFirma(firma.getFitxerFirmat(), ORIGEN_FIRMA_NOFINAL, "", firma.getDestinatariID()));
+                    if (firma.getNumFirmaDocument() < maxFirma || peticio
+                            .getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) { // S'HA FIRMAT I EL FITXER NO ES BUID
+                        llistaFitxers.add(new FitxerPeticioFirma(firma.getFitxerFirmat(), ORIGEN_FIRMA_NOFINAL, "",
+                                firma.getDestinatariID()));
                     } else {
-                        llistaFitxers.add(new FitxerPeticioFirma(firma.getFitxerFirmat(), ORIGEN_FIRMA_FINAL, "", firma.getDestinatariID()));
+                        llistaFitxers.add(new FitxerPeticioFirma(firma.getFitxerFirmat(), ORIGEN_FIRMA_FINAL, "",
+                                firma.getDestinatariID()));
                     }
                 }
             }
@@ -309,20 +319,19 @@ public class FitxersDePeticioAdenController extends FitxerController {
     @Override
     @RequestMapping(value = "/list/{pagina}", method = RequestMethod.GET)
     public ModelAndView llistatPaginat(HttpServletRequest request, HttpServletResponse response,
-                                       @PathVariable Integer pagina) throws I18NException {
+            @PathVariable Integer pagina) throws I18NException {
         Long peticioID = (Long) request.getSession().getAttribute(SESSION_PETICIOID);
         if (peticioID == null) {
             HtmlUtils.saveMessageError(request, I18NUtils.tradueix("fitxerspeticio.nopeticio"));
-            return new ModelAndView(
-                    new RedirectView("/canviarPipella/" + ConstantsV2.ROLE_ADEN, true));
+            return new ModelAndView(new RedirectView("/canviarPipella/" + ConstantsV2.ROLE_ADEN, true));
         } else {
             return super.llistatPaginat(request, response, pagina);
         }
     }
 
     @RequestMapping(value = "/peticio/{peticioID}", method = RequestMethod.GET)
-    public ModelAndView seleccioPeticio(HttpServletRequest request,
-                                       HttpServletResponse response, @PathVariable Long peticioID) {
+    public ModelAndView seleccioPeticio(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable Long peticioID) {
         request.getSession().setAttribute(SESSION_PETICIOID, peticioID);
 
         return new ModelAndView(new RedirectView(CONTEXT_WEB + "/list", true));
@@ -331,13 +340,12 @@ public class FitxersDePeticioAdenController extends FitxerController {
     @RequestMapping(value = "/tornar", method = RequestMethod.GET)
     public ModelAndView tornar(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().removeAttribute(SESSION_PETICIOID);
-        
-        String url = (String)request.getSession().getAttribute(SESSION_BACK_URL);
-        
+
+        String url = (String) request.getSession().getAttribute(SESSION_BACK_URL);
+
         request.getSession().removeAttribute(SESSION_BACK_URL);
-        
+
         return new ModelAndView(new RedirectView(url, true));
     }
-
 
 }

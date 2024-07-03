@@ -13,6 +13,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
@@ -47,7 +48,6 @@ public class ProcessarEstatsCheckoutController extends EstatDeFirmaController {
     private static final int COLUMN_REMITENT = -1;
     private static final int COLUMN_ACCIO = 1;
 
-
     @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
     protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
@@ -81,10 +81,9 @@ public class ProcessarEstatsCheckoutController extends EstatDeFirmaController {
         return "checkout_FilterForm";
     }
 
-
     @Override
     public EstatDeFirmaFilterForm getEstatDeFirmaFilterForm(Integer pagina, ModelAndView mav,
-                                                            HttpServletRequest request) throws I18NException {
+            HttpServletRequest request) throws I18NException {
 
         EstatDeFirmaFilterForm filterForm = super.getEstatDeFirmaFilterForm(pagina, mav, request);
 
@@ -100,9 +99,8 @@ public class ProcessarEstatsCheckoutController extends EstatDeFirmaController {
             filterForm.setGroupByFields(Collections.<Field<?>>emptyList());
             filterForm.setFilterByFields(Collections.<Field<?>>emptyList());
 
-            filterForm.setHiddenFields(
-                    new HashSet<Field<?>>(
-                            Arrays.asList(EstatDeFirmaFields.ALL_ESTATDEFIRMA_FIELDS)));
+            filterForm
+                    .setHiddenFields(new HashSet<Field<?>>(Arrays.asList(EstatDeFirmaFields.ALL_ESTATDEFIRMA_FIELDS)));
             filterForm.setItemsPerPage(-1);
             filterForm.setAttachedAdditionalJspCode(true);
 
@@ -141,13 +139,11 @@ public class ProcessarEstatsCheckoutController extends EstatDeFirmaController {
             // BOTONERA
             filterForm.setContexte(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT);
 
-            filterForm.addAdditionalButton(
-                    new AdditionalButton("fas fa-power-off", "carret.processar.cancelar",
-                            ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/processar/cancelar", "btn-danger"));
+            filterForm.addAdditionalButton(new AdditionalButton("fas fa-power-off", "carret.processar.cancelar",
+                    ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/processar/cancelar", AdditionalButtonStyle.DANGER));
 
-            filterForm.addAdditionalButton(
-                    new AdditionalButton("far fa-edit", "carret.processar.executar",
-                            "javascript:processarExecutar()", "btn-success"));
+            filterForm.addAdditionalButton(new AdditionalButton("far fa-edit", "carret.processar.executar",
+                    "javascript:processarExecutar()", AdditionalButtonStyle.SUCCESS));
 
         }
 
@@ -158,8 +154,8 @@ public class ProcessarEstatsCheckoutController extends EstatDeFirmaController {
     }
 
     @Override
-    public void postList(HttpServletRequest request, ModelAndView mav,
-                         EstatDeFirmaFilterForm filterForm, List<EstatDeFirma> list) throws I18NException {
+    public void postList(HttpServletRequest request, ModelAndView mav, EstatDeFirmaFilterForm filterForm,
+            List<EstatDeFirma> list) throws I18NException {
         super.postList(request, mav, filterForm, list);
 
         String language = LoginInfo.getInstance().getUsuariPersona().getIdiomaID();
@@ -169,15 +165,19 @@ public class ProcessarEstatsCheckoutController extends EstatDeFirmaController {
         for (EstatDeFirma estat : list) {
             estatDeFirmaIDList.add(estat.getEstatDeFirmaID());
         }
-        Map<Long, PeticioDeFirma> peticionsByEstat = estatDeFirmaLogicaEjb.getPeticioDeFirmaFromEstatDeFirmaID(estatDeFirmaIDList);
+        Map<Long, PeticioDeFirma> peticionsByEstat = estatDeFirmaLogicaEjb
+                .getPeticioDeFirmaFromEstatDeFirmaID(estatDeFirmaIDList);
 
-        Map<Long, String> mapTitol = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_TITOL_PETICIO).getValueMap();
+        Map<Long, String> mapTitol = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_TITOL_PETICIO)
+                .getValueMap();
         mapTitol.clear();
 
-        Map<Long, String> mapTipus = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_TIPUS_DOCUMENT).getValueMap();
+        Map<Long, String> mapTipus = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_TIPUS_DOCUMENT)
+                .getValueMap();
         mapTipus.clear();
 
-        Map<Long, String> mapRemitent = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_REMITENT).getValueMap();
+        Map<Long, String> mapRemitent = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_REMITENT)
+                .getValueMap();
         mapRemitent.clear();
 
         Map<Long, String> mapAccio = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_ACCIO).getValueMap();
@@ -199,18 +199,15 @@ public class ProcessarEstatsCheckoutController extends EstatDeFirmaController {
 
             String accio;
             if (carret.getEstatsFirmar().contains(estatDeFirmaId)) {
-                accio = "<button type=\"button\" class=\"btn btn-sm btn-success\" disabled=\"disabled\">" +
-                        I18NUtils.tradueix("carret.processar.accio.firmar") +
-                        "</button>";
+                accio = "<button type=\"button\" class=\"btn btn-sm btn-success\" disabled=\"disabled\">"
+                        + I18NUtils.tradueix("carret.processar.accio.firmar") + "</button>";
             } else if (carret.getEstatsRebuig().containsKey(estatDeFirmaId)) {
                 String motiu = carret.getEstatsRebuig().get(estatDeFirmaId);
-                accio = "<button type=\"button\" class=\"btn btn-sm btn-danger\" disabled=\"disabled\">" +
-                        I18NUtils.tradueix("carret.processar.accio.rebutjar", motiu) +
-                        "</button>";
+                accio = "<button type=\"button\" class=\"btn btn-sm btn-danger\" disabled=\"disabled\">"
+                        + I18NUtils.tradueix("carret.processar.accio.rebutjar", motiu) + "</button>";
             } else {
-                accio = "<button type=\"button\" class=\"btn btn-sm btn-warning\" disabled=\"disabled\">" +
-                        I18NUtils.tradueix("carret.processar.accio.ignorar") +
-                        "</button>";
+                accio = "<button type=\"button\" class=\"btn btn-sm btn-warning\" disabled=\"disabled\">"
+                        + I18NUtils.tradueix("carret.processar.accio.ignorar") + "</button>";
             }
             mapAccio.put(estatDeFirmaId, accio);
         }
@@ -221,6 +218,5 @@ public class ProcessarEstatsCheckoutController extends EstatDeFirmaController {
         Carret carret = CarretHolder.getCarret(request);
         return EstatDeFirmaFields.ESTATDEFIRMAID.in(carret.getEstatsProcessar());
     }
-
 
 }

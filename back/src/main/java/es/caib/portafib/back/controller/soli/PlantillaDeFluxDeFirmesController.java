@@ -26,6 +26,7 @@ import org.fundaciobit.genapp.common.crypt.FileIDEncrypter;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
@@ -393,7 +394,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                 if (((FluxDeFirmesJPA) flux).getPlantillaFluxDeFirmes().getCompartir() == null)
                     filterForm.addAdditionalButtonByPK(flux.getFluxDeFirmesID(),
                             new AdditionalButton("fas fa-lock", "fluxDeFirmes.permisos",
-                                    "/" + parentContext + "/permisosplantilla/view/{0}", "btn-warning"));
+                                    "/" + parentContext + "/permisosplantilla/view/{0}",
+                                    AdditionalButtonStyle.WARNING));
             }
         }
 
@@ -705,7 +707,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                 urlCancel = form.getRedirectOnModify();
             }
         }
-        form.addAdditionalButton(new AdditionalButton("", "tornar", urlCancel, "btn-secondary"));
+        form.addAdditionalButton(new AdditionalButton("", "tornar", urlCancel, AdditionalButtonStyle.SECONDARY));
 
         form.setCancelButtonVisible(false);
 
@@ -729,7 +731,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
 
             String javascript = "$('#consultaNifUsuariExtern').modal('show');";
             seleccioUsuariForm.setSecondaryButton(new AdditionalButton("icon-white fas fa-share-square fas fa-user",
-                    "afegir.usuariextern", javascript, "btn-info"));
+                    "afegir.usuariextern", javascript, AdditionalButtonStyle.INFO));
 
             mav.addObject("seleccioUsuariForm", seleccioUsuariForm);
             request.getSession().setAttribute("seleccioUsuariForm", seleccioUsuariForm);

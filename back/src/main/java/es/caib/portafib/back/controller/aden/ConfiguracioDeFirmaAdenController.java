@@ -19,6 +19,7 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.pluginsib.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.springframework.stereotype.Controller;
@@ -100,7 +101,7 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
             form.setCancelButtonVisible(false);
             form.addAdditionalButton(new AdditionalButton("far fa-edit", "genapp.edit",
                     CONTEXT_WEB + "/" + form.getUsuariAplicacioConfiguracio().getUsuariAplicacioConfigID() + "/edit",
-                    "btn-warning"));
+                    AdditionalButtonStyle.WARNING));
         }
 
         // Codi comu
@@ -311,7 +312,7 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
             usuariAplicacioConfiguracioFilterForm.addAdditionalButton(new AdditionalButton(
                     "fas fa-info-circle icon-white", "ajuda.titol", "javascript:window.open('"
                             + request.getContextPath() + "/img/perfil_i_configuracio_de_firma.png', '_blank');",
-                    "btn-info"));
+                    AdditionalButtonStyle.INFO));
 
         }
 

@@ -54,6 +54,7 @@ import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.pluginsib.signature.api.CommonInfoSignature;
@@ -480,15 +481,16 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                         colaboracioDelegacioForm
                                 .addAdditionalButton(new AdditionalButton("fas fa-file-signature", "firmar",
                                         "javascript:firmar('" + request.getContextPath() + getContextWeb()
-                                                + "/firmarautoritzacio/" + colaboracioDelegacioForm
-                                                        .getColaboracioDelegacio().getColaboracioDelegacioID()
+                                                + "/firmarautoritzacio/"
+                                                + colaboracioDelegacioForm.getColaboracioDelegacio()
+                                                        .getColaboracioDelegacioID()
                                                 + "');",
-                                        "btn-warning"));
+                                        AdditionalButtonStyle.WARNING));
                         // Missatge informatiu
                         HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("delegacio.avisnofirmadaautoritzacio"));
                     } else {
                         colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton("fas fa-play", "activar",
-                                getContextWeb() + "/activar/{0}", "btn-success"));
+                                getContextWeb() + "/activar/{0}", AdditionalButtonStyle.SUCCESS));
                     }
                 break;
 
@@ -529,7 +531,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                             // No hi ha cap col.laboracio en funcionament en aquest mateix
                             // moment, afegim un boto per si la volen desactivar
                             colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton("fas fa-ban",
-                                    "desactivar", "javascript:desactivar({0})", "btn-warning"));
+                                    "desactivar", "javascript:desactivar({0})", AdditionalButtonStyle.WARNING));
                         }
                     } else {
                         colaboracioDelegacioForm.getHiddenFields().remove(MOTIUDESHABILITADA);

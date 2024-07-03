@@ -2353,21 +2353,21 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
             filterForm.addAdditionalButtonByPK(estatDeFirmaId, new AdditionalButton(
                     "far fa-file", "veuredoc",
                     "javascript:var win = window.open('" + request.getContextPath() + getContextWeb() + "/docfirmat/" + peticioID + "', '_blank'); win.focus();"
-                    , "btn-info"));
+                    , AdditionalButtonStyle.INFO));
 
             // DESCARREGAR DOC
             filterForm.addAdditionalButtonByPK(estatDeFirmaId, new AdditionalButton(
                     "fas fa-download", "descarregardoc",
                     // getContextWeb() + "/docfirmat/" + peticioDeFirmaID,
                     "javascript:var win = window.open('" + request.getContextPath() + getContextWeb() + "/docfirmat/descarregar/" + peticioID + "', '_blank'); win.focus();"
-                    , "btn-info"));
+                    , AdditionalButtonStyle.INFO));
 
 
             // Comprovar si hi ha anexes
             if (listPeticionsAmbAnnex.contains(peticioID)) {
                 filterForm.addAdditionalButtonByPK(estatDeFirmaId,
                         new AdditionalButton("far fa-folder-open", "annex.annex.plural",
-                                getContextWeb() + "/viewDocuments/" + estatDeFirmaId + "/" + peticioID, "btn-info"));
+                                getContextWeb() + "/viewDocuments/" + estatDeFirmaId + "/" + peticioID, AdditionalButtonStyle.INFO));
 
             }
 
@@ -2381,7 +2381,7 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
                 long peticioID = peticionsByEstat.get(ef.getEstatDeFirmaID()).getPeticioDeFirmaID();
                 filterForm.addAdditionalButtonByPK(ef.getEstatDeFirmaID(),
                         new AdditionalButton("fas fa-eye", "vistacompleta",
-                                getContextWeb() + "/fullView/" + ef.getEstatDeFirmaID() + "/" + peticioID, "btn-info"));
+                                getContextWeb() + "/fullView/" + ef.getEstatDeFirmaID() + "/" + peticioID, AdditionalButtonStyle.INFO));
             }
         }
 
@@ -2400,13 +2400,13 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
                     filterForm.addAdditionalButtonByPK(estatId,
                             new AdditionalButton("far fa-check-square", "revisor.acceptar",
                                     "javascript:acceptar('" + request.getContextPath() + getContextWeb() + "/acceptar/" + estatId + "/" + peticioID + "', {0})",
-                                    "btn-success"));
+                                    AdditionalButtonStyle.SUCCESS));
 
 
                     filterForm.addAdditionalButtonByPK(estatId,
                             new AdditionalButton("fas fa-times", "rebutjar",
                                     "javascript:rebutjar('" + request.getContextPath() + getContextWeb() + "/rebutjar/" + estatId + "/" + peticioID + "'," + estatId + ")",
-                                    "btn-danger"));
+                                    AdditionalButtonStyle.DANGER);
 
                 }
 
@@ -2416,13 +2416,13 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
                     filterForm.addAdditionalButtonByPK(estatId,
                             new AdditionalButton("fas fa-file-signature", "firmar",
                                     "javascript:firmar('" + request.getContextPath() + getContextWeb() + "/firmar/" + estatId + "/" + peticioID + "', {0})",
-                                    "btn-success"));
+                                    AdditionalButtonStyle.SUCCESS));
 
 
                     filterForm.addAdditionalButtonByPK(estatId,
                             new AdditionalButton("fas fa-times", "rebutjar",
                                     "javascript:rebutjar('" + request.getContextPath() + getContextWeb() + "/rebutjar/" + estatId + "/" + peticioID + "'," + estatId + ")",
-                                    "btn-danger"));
+                                    AdditionalButtonStyle.DANGER);
 
                 }
 
@@ -2432,7 +2432,7 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
                     filterForm.addAdditionalButtonByPK(estatId,
                             new AdditionalButton("fas fa-flag", "marcarrevisant",
                                     getContextWeb() + "/marcarrevisant/" + estatId + "/" + peticioID,
-                                    "btn-warning"));
+                                    AdditionalButtonStyle.WARNING));
                 }
 
                 if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR
@@ -2442,12 +2442,12 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
                     filterForm.addAdditionalButtonByPK(estatId,
                             new AdditionalButton("far fa-check-square", "validar",
                                     getContextWeb() + "/validar/" + estatId + "/" + peticioID,
-                                    "btn-success"));
+                                    AdditionalButtonStyle.SUCCESS));
 
                     filterForm.addAdditionalButtonByPK(estatId,
                             new AdditionalButton("fas fa-times", "invalidar",
                                     "javascript:invalidar('" + request.getContextPath() + "" + getContextWeb() + "/invalidar/" + estatId + "/" + peticioID + "')",
-                                    "btn-danger"));
+                                    AdditionalButtonStyle.DANGER);
 
                 }
 
@@ -2490,13 +2490,13 @@ public abstract class AbstractFirmaDestDeleColaController extends EstatDeFirmaCo
             if (filterForm.isVisibleMultipleSelection() && filterForm.getAdditionalButtons().isEmpty()) {
 
                 filterForm.addAdditionalButton(new AdditionalButton("fas fa-times",
-                        "rebutjarseleccionats", "javascript:rebutjarseleccionats()", "btn-danger"));
+                        "rebutjarseleccionats", "javascript:rebutjarseleccionats()", AdditionalButtonStyle.DANGER);
 
                 filterForm.addAdditionalButton(new AdditionalButton("far fa-edit",
-                        "firmarseleccionats", "javascript:firmarseleccionats()", "btn-success"));
+                        "firmarseleccionats", "javascript:firmarseleccionats()", AdditionalButtonStyle.SUCCESS));
 
                 filterForm.addAdditionalButton(new AdditionalButton("fas fa-tasks",
-                        "carret.processar.inici", "javascript:processarInici()", "btn-warning"));
+                        "carret.processar.inici", "javascript:processarInici()", AdditionalButtonStyle.WARNING));
             }
         }
 

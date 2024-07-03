@@ -13,6 +13,7 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -71,8 +72,9 @@ public abstract class AbstractPluginAdenController<I> extends AbstractPluginAdmi
             log.info("\n\n\n  Passa per getPluginFilterForm():: PRE  addAdditionalButton ... \n\n\n");
 
             // Afegir boto addiconal per afegir Plugins de Plantilla
-            modulDeFirmaFilterForm.addAdditionalButton(new AdditionalButton("fas fa-plus-circle",
-                    getCrearTranslationCode(), "javascript:openSelectModulDeFirmaDialog();", "btn-success"));
+            modulDeFirmaFilterForm
+                    .addAdditionalButton(new AdditionalButton("fas fa-plus-circle", getCrearTranslationCode(),
+                            "javascript:openSelectModulDeFirmaDialog();", AdditionalButtonStyle.SUCCESS));
 
         }
 

@@ -14,6 +14,7 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -84,8 +85,9 @@ public abstract class AbstractPluginAdminController<I> extends PluginController 
             pluginFilterForm.getDefaultGroupByFields().remove(ENTITATID);
             pluginFilterForm.getDefaultGroupByFields().remove(TIPUS);
 
-            pluginFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("fas fa-sync-alt",
-                    "plugin.netejardecache", getContextWeb() + "/netejarInstanciaDeCache/{0}", "btn-warning"));
+            pluginFilterForm
+                    .addAdditionalButtonForEachItem(new AdditionalButton("fas fa-sync-alt", "plugin.netejardecache",
+                            getContextWeb() + "/netejarInstanciaDeCache/{0}", AdditionalButtonStyle.WARNING));
 
             // TODO Ordenar per camp Traduit
             //pluginFilterForm.setDefaultOrderBy(new OrderBy[] { new OrderBy( new PluginQueryPath().NOM(). )} );
