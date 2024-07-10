@@ -5,10 +5,13 @@
         http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security.xsd">
 	<sec:http create-session="never" use-expressions="true" auto-config="false" entry-point-ref="preAuthenticatedProcessingFilterEntryPoint">
-		<sec:headers>
-			<sec:frame-options policy="SAMEORIGIN"/>
-			<!--  <sec:hsts  disabled="true"/>  -->
-		</sec:headers>
+
+
+        <sec:headers>
+        <!-- <sec:frame-options policy="SAMEORIGIN"/> -->
+        <sec:content-security-policy policy-directives="frame-ancestors ${es.caib.portafib.frame.ancestors:self}"/>
+        </sec:headers>
+
 		<!-- <sec:logout logout-success-url="/index.jsp" />  -->
 		<sec:csrf disabled="true"/>
 		<sec:intercept-url pattern="/carrecscaib/**" access="permitAll"/>
@@ -49,6 +52,11 @@
 		<sec:custom-filter position="PRE_AUTH_FILTER" ref="preauthFilter"/>
 		<sec:session-management session-fixation-protection="none"/>
 	</sec:http>
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="file:${es.caib.portafib.properties}"/>
+    </bean>
+
 	<sec:authentication-manager alias="authenticationManager">
 		<sec:authentication-provider ref="preAuthenticatedAuthenticationProvider"/>
 	</sec:authentication-manager>
