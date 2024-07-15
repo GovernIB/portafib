@@ -2804,6 +2804,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             case FILTRAR_PER_NOACCEPTAT: // Rebutjat o invalidat
                 if (role.equals(ROLE_COLA)) {
                     estatWhere = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT);
+                } else if (role.equals(ROLE_REVI)) {
+                    // Revisor ha rebutjat 
+                    estatWhere = TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_REBUTJAT);
                 } else {
                     estatWhere = Where.OR(
                             // El propi usuari (destinatari o delegat) ha rebutjat el document

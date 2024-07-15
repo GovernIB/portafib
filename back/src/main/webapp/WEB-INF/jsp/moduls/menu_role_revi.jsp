@@ -12,28 +12,28 @@
 <div>
   <h5><fmt:message key="ROLE_REVI.menu" /></h5>
   
-<%!
+<%!private static final List<List<MenuItem>> menus = new ArrayList<List<MenuItem>>();
 
-private static final List<List<MenuItem>> menus  = new ArrayList<List<MenuItem>>();
-    
-static {
-  
-  List<MenuItem> menu1;
-  
-  boolean compactar= false;
-  
-  menu1 = new ArrayList<MenuItem>();
+    static {
 
-  menu1.add(MenuItem.retallaDarrerPath("revisor.pendent.plural", ConstantsV2.CONTEXT_REVI_ESTATFIRMA_PENDENT + "/list"));
-  menu1.add(MenuItem.retallaDarrerPath("revisor.acceptada.plural", ConstantsV2.CONTEXT_REVI_ESTATFIRMA_ACCEPTADA + "/list"));
-  menu1.add(MenuItem.retallaDarrerPath("revisor.noacceptada.plural", ConstantsV2.CONTEXT_REVI_ESTATFIRMA_REBUTJAT + "/list"));
-  
-  menus.add(menu1);
+        List<MenuItem> menu1;
 
-}
+        boolean compactar = false;
 
+        menu1 = new ArrayList<MenuItem>();
 
-%><%
+        menu1.add(MenuItem.retallaDarrerPath("revisor.pendent.plural",
+                ConstantsV2.CONTEXT_REVI_ESTATFIRMA_PENDENT + "/list"));
+        menu1.add(MenuItem.retallaDarrerPath("revisor.acceptada.plural",
+                ConstantsV2.CONTEXT_REVI_ESTATFIRMA_ACCEPTADA + "/list"));
+        menu1.add(MenuItem.retallaDarrerPath("revisor.noacceptada.plural",
+                ConstantsV2.CONTEXT_REVI_ESTATFIRMA_REBUTJAT + "/list"));
+        menu1.add(MenuItem.retallaDarrerPath("revisor.ignorada.plural",
+                ConstantsV2.CONTEXT_REVI_ESTATFIRMA_DESCARTAT + "/list"));
+
+        menus.add(menu1);
+
+    }%><%
 
 int count = 0;
 

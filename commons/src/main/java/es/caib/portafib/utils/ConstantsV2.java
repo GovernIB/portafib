@@ -160,6 +160,8 @@ public interface ConstantsV2 {
     public static final String CONTEXT_REVI_ESTATFIRMA_PENDENT = CONTEXT_REVI_ESTATFIRMA + "Pendent";
     public static final String CONTEXT_REVI_ESTATFIRMA_ACCEPTADA = CONTEXT_REVI_ESTATFIRMA + "Acceptada";
     public static final String CONTEXT_REVI_ESTATFIRMA_REBUTJAT = CONTEXT_REVI_ESTATFIRMA + "Rebutjada";
+    public static final String CONTEXT_REVI_ESTATFIRMA_DESCARTAT = CONTEXT_REVI_ESTATFIRMA + "Descartades";
+    
 
     public static final String CONTEXT_ADEN_PETICIOFIRMA_USRAPP = "/aden/peticiofirmaaplicacio";
     public static final String CONTEXT_ADEN_PETICIOFIRMA_TOTES_CONSULTAR = "/aden/peticiofirmatotesconsultar";
