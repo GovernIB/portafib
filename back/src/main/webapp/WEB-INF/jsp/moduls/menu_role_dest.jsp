@@ -13,27 +13,34 @@
 <div>
   <h5><fmt:message key="ROLE_DEST.menu" /></h5>
   <%
-  List<MenuItem> menu1 = new ArrayList<MenuItem>(10);
-
-  if (Configuracio.isDesenvolupament()){
-    menu1.add(MenuItem.retallaDarrerPath("solicituddefirma.llistat.totes.plural", ConstantsV2.CONTEXT_DEST_ESTATFIRMA  + "/list"));
-    menu1.add(null);
-  }
-  menu1.add(MenuItem.retallaDarrerPath("solicituddefirma.llistat.pendent.plural", ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list"));
-  menu1.add(MenuItem.retallaDarrerPath("solicituddefirma.llistat.acceptada.plural", ConstantsV2.CONTEXT_DEST_ESTATFIRMA_FIRMAT + "/list"));
-  menu1.add(MenuItem.retallaDarrerPath("solicituddefirma.llistat.noacceptada.plural", ConstantsV2.CONTEXT_DEST_ESTATFIRMA_REBUTJAT + "/list"));
-
-  if (LoginInfo.getInstance().hasRole("ROLE_USER")) {
-    menu1.add(null);
-    menu1.add(MenuItem.retallaDarrerPath("colaboracio.gestio", "/dest/colaborador/list"));
-    menu1.add(null);
-    menu1.add(MenuItem.retallaDarrerPath("delegacio.gestio", "/dest/delegat/list"));
-    menu1.add(null);
-    menu1.add(MenuItem.retallaDarrerPath("revisor.gestio", "/dest/revisordedestinatari/list"));   
-  }
-
-  pageContext.setAttribute("menu", menu1);
-%>
+      List<MenuItem> menu1 = new ArrayList<MenuItem>();
+    
+      if (Configuracio.isDesenvolupament()) {
+          menu1.add(MenuItem.retallaDarrerPath("solicituddefirma.llistat.totes.plural",
+          ConstantsV2.CONTEXT_DEST_ESTATFIRMA + "/list"));
+          menu1.add(null);
+      }
+      menu1.add(MenuItem.retallaDarrerPath("solicituddefirma.llistat.pendent.plural",
+              ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list"));
+      menu1.add(MenuItem.retallaDarrerPath("solicituddefirma.llistat.acceptada.plural",
+              ConstantsV2.CONTEXT_DEST_ESTATFIRMA_FIRMAT + "/list"));
+      menu1.add(MenuItem.retallaDarrerPath("solicituddefirma.llistat.noacceptada.plural",
+              ConstantsV2.CONTEXT_DEST_ESTATFIRMA_REBUTJAT + "/list"));
+      
+      menu1.add(MenuItem.retallaDarrerPath("solicituddefirma.llistat.pendentderevisors.plural",
+              ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "DeRevisors/list"));
+    
+      if (LoginInfo.getInstance().hasRole("ROLE_USER")) {
+          menu1.add(null);
+          menu1.add(MenuItem.retallaDarrerPath("colaboracio.gestio", "/dest/colaborador/list"));
+          menu1.add(null);
+          menu1.add(MenuItem.retallaDarrerPath("delegacio.gestio", "/dest/delegat/list"));
+          menu1.add(null);
+          menu1.add(MenuItem.retallaDarrerPath("revisor.gestio", "/dest/revisordedestinatari/list"));
+      }
+    
+      pageContext.setAttribute("menu", menu1);
+  %>
   <ul class="tree" style="margin: 3px; padding: 0px;">
     <c:forEach var="item" items="${menu}" >
 

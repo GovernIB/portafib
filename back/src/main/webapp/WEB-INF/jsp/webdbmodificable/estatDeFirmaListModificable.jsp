@@ -43,11 +43,11 @@
       var iLen=firmes.length;
       
       if(typeof iLen === 'undefined'){
-        <%--  És un sol element --%>
+        <%--  ï¿½s un sol element --%>
         str = firmes.value;
         <%-- console.log("Unique Value= " + firmes.value); --%>
       } else {
-          <%--  És un array d'elements --%>
+          <%--  ï¿½s un array d'elements --%>
           console.log("iLen = " + iLen);
           for (var i=0; i<iLen; i++) {
             if (firmes[i].checked) {
@@ -87,7 +87,7 @@
 
      <%--  Boto de PROCESSAR --%>
      var botoProcessar = '<button type="button" class="btn btn-sm btn-warning" onclick="processarInici()">'
-         + '<i class="fas fa-tasks"></i><fmt:message key="carret.processar.inici" />'
+         + '<i class="fas fa-tasks"></i>&nbsp;<fmt:message key="carret.processar.inici" />'
          + '</button>';
 
      function processarInici() {
@@ -99,7 +99,7 @@
 
      <%--  Boto de FIRMA MULTIPLE --%>
      var botoFirmaMultiple = '<button type="button" class="btn btn-sm btn-success" onclick="firmarseleccionats()">'
-         + '<i class="fas fa-file-signature"></i><fmt:message key="firmarseleccionats" />'
+         + '<i class="fas fa-file-signature"></i>&nbsp;<fmt:message key="firmarseleccionats" />'
          + '</button>';
 
      function firmarseleccionats() {
@@ -111,7 +111,7 @@
 
      <%--  Boto de REBUIG MULTIPLE --%>
      var botoRebuigMultiple = '<button type="button" class="btn btn-sm btn-danger" onclick="rebutjarseleccionats()">'
-     + '<i class="fas fa-times"></i><fmt:message key="rebutjarseleccionats" />'
+     + '<i class="fas fa-times"></i>&nbsp;<fmt:message key="rebutjarseleccionats" />'
      + '</button>'
    
      function rebutjarseleccionats() {

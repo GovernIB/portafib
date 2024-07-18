@@ -12,8 +12,7 @@ import es.caib.portafib.utils.ConstantsV2;
 /**
  * @author anadal
  */
-public abstract class EstatFirmaAbstractDestController
-        extends AbstractEstatDeFirmaDestDeleColaController {
+public abstract class EstatFirmaAbstractDestController extends AbstractEstatDeFirmaDestDeleColaController {
 
     @Override
     public final String getBaseEntityNameCode() {
