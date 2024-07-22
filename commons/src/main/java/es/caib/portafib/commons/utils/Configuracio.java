@@ -80,7 +80,7 @@ public class Configuracio implements Constants {
     }
 
     public static String getFileSystemManagerClass() {
-        return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "filesystemmanagerclass");
+        return getPortaFIBSystemProperties().getProperty(PORTAFIB_PROPERTY_BASE + "filesystemmanagerclass");
     }
 
     public static boolean isDesenvolupament() {
