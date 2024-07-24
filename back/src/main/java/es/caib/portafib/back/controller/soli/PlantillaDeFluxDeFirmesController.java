@@ -1726,12 +1726,32 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                 if (isDebug) {
                     log.debug(" PreValidate:: NOU --> usuari Entitat es " + usuariEntitat);
                 }
+                
+                UsuariEntitatJPA  usuariEntitatJPA = usuariEntitatLogicaEjb.findByPrimaryKeyFull(usuariEntitat);
+                
+                if (usuariEntitatJPA == null) {
+                    final String name = PlantillaDeFluxDeFirmesForm.USUARI_ENTITAT_PRIMERA_FIRMA_FIELD;
+                    result.addError(new FieldError(name, name, null, false, new String[] { "genapp.validation.required" },
+                            new Object[] { I18NUtils.tradueix("usuarientitatprimerafirma") }, null));
+                }
 
                 BlocDeFirmesJPA bloc = new BlocDeFirmesJPA();
                 bloc.setMinimDeFirmes(1);
 
                 FirmaJPA firma = new FirmaJPA();
+                UsuariPersonaJPA usuariPersonaJPA = usuariEntitatJPA.getUsuariPersona();
+                
                 firma.setDestinatariID(usuariEntitat);
+                
+                if (!usuariPersonaJPA.isUsuariIntern()) {
+                    // usuari Extern
+                    firma.setUsuariExternEmail(usuariEntitatJPA.getEmail() == null? usuariPersonaJPA.getEmail() : usuariEntitatJPA.getEmail());
+                    firma.setUsuariExternNom(usuariPersonaJPA.getNom());
+                    firma.setUsuariExternLlinatges(usuariPersonaJPA.getLlinatges());
+                    firma.setUsuariExternIdioma(usuariPersonaJPA.getIdiomaID());
+                    firma.setUsuariExternNivellSeguretat(ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_TOKEN);
+                    firma.setUsuariExternToken(firmaLogicaEjb.getUniqueTokenForFirma());
+                }
                 firma.setObligatori(true);
 
                 bloc.getFirmas().add(firma);
