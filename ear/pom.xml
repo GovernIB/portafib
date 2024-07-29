@@ -53,13 +53,7 @@
             <artifactId>pluginsib-core</artifactId>
             <version>${pluginsib.core.version}</version>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>org.fundaciobit.pluginsib.core</groupId>
-            <artifactId>pluginsib-core</artifactId>
-            <version>2.0.2</version>
-        </dependency>
-        -->
+
         <!-- Commons Dependencies -->
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -89,22 +83,13 @@
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-            <scope>provided</scope>
+            <version>1.2</version>
         </dependency>
+
         <dependency>
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>
             <version>2.0</version>
-        </dependency>
-        
-        
-        
-        <!-- No se que passa però si no li pos això cull la versió 2.3.23 que no està enlloc !!!!! :-( -->
-        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>2.3.32</version>
         </dependency>
         
 
@@ -654,10 +639,15 @@
                     </archive>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <skinnyWars>true</skinnyWars>
-                    <!-- **/*redhat*.jar, -->
-                    <!--  -->
+                    
+                    <!-- **/xalan-*.redhat*.jar requereix entrades a jboss-deployment-structure.xml -->
+                    <!-- **/httpclient-*.redhat*.jar requereix entrades a jboss-deployment-structure.xml -->
+                    <!-- **/xmlsec-*.redhat*.jar requereix entrades a jboss-deployment-structure.xml -->
+                    <!-- **/jackson-*.redhat*.jar requreix entrades a jboss-deployment-structure.xml -->
+                    <!-- **/cxf-*.redhat*.jar requereix entrades a jboss-deployment-structure.xml -->
+
                     <packagingExcludes>
-                        **/cxf-*.redhat*.jar,**/opensaml-*.redhat*.jar,**/wss4j-*.redhat*.jar,**/guava-*.redhat*.jar,**/saaj-*-redhat*.jar,**/joda-time-*.redhat*.jar,**/java-support-*.redhat*.jar,lib/axis-jaxrpc-1.4.jar,lib/jaxb-impl-*.jar,lib/jaxb-jxc-2.3.3.jar,lib/jaxb-xjc-2.3.3.jar,lib/jaxws-eclipselink-plugin-2.3.3.jar,lib/jaxws-rt-2.3.3.jar,lib/jaxws-tools-2.3.3.jar
+                        **/xalan-*.redhat*.jar,**/httpclient-*.redhat*.jar,**/xmlsec-*.redhat*.jar,**/jackson-*.redhat*.jar,**/cxf-*.redhat*.jar,**/opensaml-*.redhat*.jar,**/wss4j-*.redhat*.jar,**/guava-*.redhat*.jar,**/saaj-*-redhat*.jar,**/joda-time-*.redhat*.jar,**/java-support-*.redhat*.jar,lib/axis-jaxrpc-1.4.jar,lib/jaxb-impl-*.jar,lib/jaxb-jxc-2.3.3.jar,lib/jaxb-xjc-2.3.3.jar,lib/jaxws-eclipselink-plugin-2.3.3.jar,lib/jaxws-rt-2.3.3.jar,lib/jaxws-tools-2.3.3.jar
                     </packagingExcludes>
                     <modules>
                         <webModule>

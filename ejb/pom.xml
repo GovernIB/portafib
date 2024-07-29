@@ -140,6 +140,7 @@
             <groupId>org.jboss.ws.cxf</groupId>
             <artifactId>jbossws-cxf-client</artifactId>
             <scope>provided</scope>
+            <!--
             <exclusions>
                 <exclusion>
                     <groupId>xerces</groupId>
@@ -150,12 +151,15 @@
                     <artifactId>ehcache</artifactId>
                 </exclusion>
             </exclusions>
+            -->
         </dependency>
+        <!--
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
             <version>2.10.6</version>
         </dependency>
+        -->
 
         <!-- CallBack REST v1 -->
         <dependency>

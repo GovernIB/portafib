@@ -3,17 +3,35 @@
     <deployment>
         <dependencies>
 		    <module name="org.hibernate" slot="5.3" export="true"/>
-            <module name="org.apache.cxf" export="true"/>
-            <module name="org.apache.cxf.impl" export="true"/>
+
             <module name="org.apache.ws.security"/>
-            <module name="org.apache.xerces" />
-            <module name="org.apache.santuario.xmlsec" export="true"/>
+            
             <module name="org.bouncycastle" export="true"/>
             <module name="org.keycloak.keycloak-adapter-core" export="true" optional="true" />
 			<module name="org.keycloak.keycloak-core" optional="true" export="true" />
 			<module name="org.keycloak.keycloak-server-spi" optional="true"  export="true" />
 			<module name="org.keycloak.keycloak-server-spi-private" optional="true" export="true" />
 			<module name="org.keycloak.keycloak-services" optional="true" export="true" />
+
+            <!--  APISIB JERSEY-CORE   -->
+            <module name="org.codehaus.jackson.jackson-core-asl" export="true"/>
+            <module name="org.codehaus.jackson.jackson-mapper-asl" export="true"/>
+
+            <!--  CLIENTS API-INTERNA & API-EXTERNA -->
+            <module name="com.fasterxml.jackson.datatype.jackson-datatype-jsr310" optional="true" export="true" />
+            
+            <!-- Integr@ -->
+            <module name="org.apache.xalan" optional="true" export="true" />
+            
+            <!-- CXF -->
+            <module name="org.apache.cxf" export="true"/>
+            <module name="org.apache.cxf.impl" export="true"/>
+            <module name="org.apache.xerces" />
+            <module name="org.apache.httpcomponents.core" optional="true" export="true" />
+            <module name="org.apache.santuario.xmlsec" export="true"/>
+
+            
+
         </dependencies>
     </deployment>
 </jboss-deployment-structure>
