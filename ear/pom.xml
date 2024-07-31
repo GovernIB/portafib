@@ -365,26 +365,32 @@
         </dependency>
 
 
-        <!-- BOUNCY CASTLE -->
+        <!-- BOUNCY CASTLE 
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.60.0.redhat-00001</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.60.0.redhat-00001</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcmail-jdk15on</artifactId>
+            <version>1.60.0.redhat-00001</version>
+        </dependency>
+        -->
+        
+        <!-- FIXIT Veure si es pot eliminar 
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bctsp-jdk16</artifactId>
             <version>1.46</version>
         </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk16</artifactId>
-            <version>1.46</version>
-        </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcmail-jdk16</artifactId>
-            <version>1.46</version>
-        </dependency>
+-->
 
 
         <!-- API INTERNA START -->
@@ -639,15 +645,75 @@
                     </archive>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <skinnyWars>true</skinnyWars>
-                    
-                    <!-- **/xalan-*.redhat*.jar requereix entrades a jboss-deployment-structure.xml -->
-                    <!-- **/httpclient-*.redhat*.jar requereix entrades a jboss-deployment-structure.xml -->
-                    <!-- **/xmlsec-*.redhat*.jar requereix entrades a jboss-deployment-structure.xml -->
-                    <!-- **/jackson-*.redhat*.jar requreix entrades a jboss-deployment-structure.xml -->
-                    <!-- **/cxf-*.redhat*.jar requereix entrades a jboss-deployment-structure.xml -->
 
                     <packagingExcludes>
-                        **/xalan-*.redhat*.jar,**/httpclient-*.redhat*.jar,**/xmlsec-*.redhat*.jar,**/jackson-*.redhat*.jar,**/cxf-*.redhat*.jar,**/opensaml-*.redhat*.jar,**/wss4j-*.redhat*.jar,**/guava-*.redhat*.jar,**/saaj-*-redhat*.jar,**/joda-time-*.redhat*.jar,**/java-support-*.redhat*.jar,lib/axis-jaxrpc-1.4.jar,lib/jaxb-impl-*.jar,lib/jaxb-jxc-2.3.3.jar,lib/jaxb-xjc-2.3.3.jar,lib/jaxws-eclipselink-plugin-2.3.3.jar,lib/jaxws-rt-2.3.3.jar,lib/jaxws-tools-2.3.3.jar
+                        <!-- Afegir modul org.apache.xalan a jboss-deployment-structure.xml -->
+                        **/xalan-*.redhat*.jar,
+                        **/serializer-*.redhat*.jar,
+                        <!-- Requereix afegir mòdul org.apache.httpcomponents.core a jboss-deployment-structure.xml -->
+                        **/httpclient-*.redhat*.jar,
+                        **/httpcore-*.redhat*.jar,
+                        <!-- Requereix afegir mòdul org.apache.httpcomponents a jboss-deployment-structure.xml -->
+                        **/httpmime-*.redhat*.jar,
+                        <!-- **/xmlsec-*.redhat*.jar requereix entrades a jboss-deployment-structure.xml -->
+                        **/xmlsec-*.redhat*.jar,
+                        <!-- **/jackson-*.redhat*.jar requreix entrades a jboss-deployment-structure.xml -->
+                        **/jackson-*.redhat*.jar,
+                        <!-- **/cxf-*.redhat*.jar requereix entrades a jboss-deployment-structure.xml -->
+                        **/cxf-*.redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.commons.collections' a jboss-deployment-structure.xml -->
+                        **/commons-collections-*.redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.commons.lang' a jboss-deployment-structure.xml -->
+                        **/commons-lang-*.redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.commons.lang3' a jboss-deployment-structure.xml -->
+                        **/commons-lang3-*.redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.commons.codec' a jboss-deployment-structure.xml -->
+                        **/commons-codec-*.redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.commons.beanutils' a jboss-deployment-structure.xml -->
+                        **/commons-beanutils-*.redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.commons.io' a jboss-deployment-structure.xml -->
+                        **/commons-io-*.redhat*.jar,
+                        <!-- Requereix afegir mòdul 'javax.xml.bind.api' a jboss-deployment-structure.xml -->
+                        **/jboss-jaxb-api*-redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.slf4j' a jboss-deployment-structure.xml -->
+                        **/slf4j-api*.redhat*.jar,
+                        <!-- Requereix afegir mòdul 'javax.annotation.api' a jboss-deployment-structure.xml -->
+                        **/jboss-annotations-api*-redhat*.jar,
+                        <!-- Requereix afegir mòdul 'com.squareup.okhttp3' a jboss-deployment-structure.xml -->
+                        **/okhttp-*.redhat*.jar,
+                        **/okio-*.redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.ws.xmlschema' a jboss-deployment-structure.xml -->
+                        **/xmlschema-core-*.redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.xml-resolver' a jboss-deployment-structure.xml -->
+                        **/xml-resolver-*.redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.codehaus.woodstox' a jboss-deployment-structure.xml -->
+                        **/woodstox-core-*.redhat*.jar,
+                        **/stax2-api-*.redhat*.jar,
+                        <!-- Requereix afegir mòdul 'javax.ws.rs.api' a jboss-deployment-structure.xml -->                        
+                        **/jboss-jaxrs-api_2.1_spec-*-redhat*.jar,
+                        <!-- Requereix afegir mòdul 'javax.xml.ws.api' a jboss-deployment-structure.xml -->
+                        **/jboss-jaxws-api_2.3_spec-*-redhat*.jar,
+                        
+                        <!-- Requereix afegir mòdul 'org.bouncycastle' a jboss-deployment-structure.xml -->
+                        **/bcprov-jdk*.redhat-*.jar,
+                        **/bcmail-jdk*.redhat-*.jar,
+                        **/bcpkix-jdk*.redhat-*.jar,
+                        
+
+                        <!-- ALTRES ENTRADES -->
+                        **/opensaml-*.redhat*.jar,
+                        **/wss4j-*.redhat*.jar,
+                        **/guava-*.redhat*.jar,
+                        **/saaj-*-redhat*.jar,
+                        **/joda-time-*.redhat*.jar,
+                        **/java-support-*.redhat*.jar,
+                        lib/axis-jaxrpc-1.4.jar,
+                        lib/jaxb-impl-*.jar,
+                        lib/jaxb-jxc-2.3.3.jar,
+                        lib/jaxb-xjc-2.3.3.jar,
+                        lib/jaxws-eclipselink-plugin-2.3.3.jar,
+                        lib/jaxws-rt-2.3.3.jar,
+                        lib/jaxws-tools-2.3.3.jar
                     </packagingExcludes>
                     <modules>
                         <webModule>

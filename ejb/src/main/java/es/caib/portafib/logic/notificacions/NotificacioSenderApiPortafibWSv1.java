@@ -156,8 +156,8 @@ public class NotificacioSenderApiPortafibWSv1 implements NotificacioSender {
       Client client = ClientProxy.getClient(callbackApi);
       HTTPConduit http = (HTTPConduit) client.getConduit();
       HTTPClientPolicy httpClientPolicy = new HTTPClientPolicy();
-      httpClientPolicy.setConnectionTimeout(CONNECTION_TIMEOUT);
-      httpClientPolicy.setReceiveTimeout(RECEIVE_TIMEOUT);
+      httpClientPolicy.setConnectionTimeout(CONNECTION_TIMEOUT_MS);
+      httpClientPolicy.setReceiveTimeout(RECEIVE_TIMEOUT_MS);
       http.setClient(httpClientPolicy);
 
       // Adreça servidor

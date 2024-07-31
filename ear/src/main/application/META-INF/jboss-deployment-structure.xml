@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jboss-deployment-structure>
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.1">
     <deployment>
         <dependencies>
 		    <module name="org.hibernate" slot="5.3" export="true"/>
@@ -26,11 +26,28 @@
             <!-- CXF -->
             <module name="org.apache.cxf" export="true"/>
             <module name="org.apache.cxf.impl" export="true"/>
-            <module name="org.apache.xerces" />
+            <module name="org.apache.xerces" export="true"/>
+            <module name="org.apache.ws.xmlschema" export="true"/>
+            <module name="org.apache.httpcomponents" optional="true" export="true" />
             <module name="org.apache.httpcomponents.core" optional="true" export="true" />
             <module name="org.apache.santuario.xmlsec" export="true"/>
+            <module name="org.apache.xml-resolver" export="true"/>
 
-            
+            <!-- Altres mòduls definits a l'atribut packagingExcludes de maven-ear-plugin del pom.xml  -->
+            <module name="org.apache.commons.collections" export="TRUE"/>
+            <module name="org.apache.commons.lang" export="TRUE"/>
+            <module name="org.apache.commons.lang3" export="TRUE"/>
+            <module name="org.apache.commons.codec" export="TRUE"/>
+            <module name="org.apache.commons.beanutils" export="TRUE"/>
+            <module name="org.apache.commons.io" export="TRUE"/>
+            <module name="javax.xml.bind.api" export="TRUE"/> <!-- JAXB API -->
+            <module name="org.slf4j" export="TRUE"/>
+            <module name="javax.annotation.api" export="TRUE"/>
+            <module name="com.squareup.okhttp3" export="TRUE"/>
+            <module name="org.codehaus.woodstox" export="TRUE"/>
+            <module name="javax.ws.rs.api" export="TRUE"/>
+            <module name="javax.xml.ws.api" export="TRUE"/>
+            <module name="org.bouncycastle" export="TRUE"/>
 
         </dependencies>
     </deployment>
