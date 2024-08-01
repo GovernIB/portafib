@@ -5,6 +5,15 @@
     <artifactId>portafib</artifactId>
     <packaging>pom</packaging>
     <name>PortaFIB</name>
+    <!--
+    <parent>
+        <groupId>es.caib.maven</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+        <artifactId>caib-artifacts-jdk11-jboss72</artifactId>
+    </parent>
+    -->
+    
+    
     <!-- Referència al sistema de control de versions, ja sigui GIT, SVN, CVS... -->
     <!-- permetrà al plugin buildnumber-maven-plugin agafar la revisió/versió    -->
     <scm>
@@ -153,9 +162,6 @@
         <javaee-api.version>8.0.1</javaee-api.version>
         <activation.version>1.1.1</activation.version>
         <mp-openapi.version>1.0.1</mp-openapi.version>
-
-        <!--2.3.1 
-        <slf4j.version>1.7.30</slf4j.version>-->
         <keycloak.version>6.0.1</keycloak.version>
         <!-- 6.0.1 -->
         <cxf.version>3.2.5.redhat-00001</cxf.version>
@@ -295,29 +301,6 @@
                 <artifactId>commons-text</artifactId>
                 <version>1.10.0</version>
             </dependency>
-            <!--
-            <dependency>
-                <groupId>apache-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>2.6.0.redhat-7</version>
-            </dependency>
-            -->
-            <!-- Dependencies que s'exclouen perque estan carregades a JBOSS -->
-            <!--
-            <dependency>
-                <groupId>org.bouncycastle</groupId>
-                <artifactId>bcprov-jdk15on</artifactId>
-                <version>1.60</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.bouncycastle</groupId>
-                <artifactId>bcpkix-jdk15on</artifactId>
-                <version>1.60</version>
-                <scope>provided</scope>
-            </dependency>
-            -->
-            
             <dependency>
                 <groupId>javax.json</groupId>
                 <artifactId>javax.json-api</artifactId>
@@ -573,7 +556,7 @@
         
             <!-- Gestió de requisits del build -->
             <!-- Veure: https://maven.apache.org/enforcer/enforcer-rules/index.html -->
-            <!--
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -599,7 +582,7 @@
                     </execution>
                 </executions>
             </plugin>
-            -->
+            
         
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>

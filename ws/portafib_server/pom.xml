@@ -98,6 +98,20 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-security</artifactId>
             <scope>provided</scope>
+            <exclusions>
+                <!-- Enforcer 2.10.6 != 2.10.5 -->
+                <exclusion>
+                     <groupId>net.sf.ehcache</groupId>
+                     <artifactId>ehcache</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Enforcer 2.10.6 != 2.10.5 (jbossws-cxf-client) -->
+        <dependency>
+             <groupId>net.sf.ehcache</groupId>
+             <artifactId>ehcache</artifactId>
+             <version>2.10.6</version>
         </dependency>
 
         <dependency>

@@ -90,6 +90,13 @@
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>
             <version>2.0</version>
+            <exclusions>
+                <!-- Enforcer 1.1.1 != 1.2 -->
+                <exclusion>
+                     <groupId>commons-logging</groupId>
+                     <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         
 
@@ -182,6 +189,11 @@
                     <groupId>xpp3</groupId>
                     <artifactId>xpp3</artifactId>
                 </exclusion>
+                <!-- Enforcer 4.4.1 != 4.2.0 -->
+                <exclusion>
+                     <groupId>org.codehaus.woodstox</groupId>
+                     <artifactId>woodstox-core-asl</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -235,6 +247,11 @@
                 <exclusion>
                     <groupId>org.jboss.resteasy</groupId>
                     <artifactId>resteasy-jackson2-provider</artifactId>
+                </exclusion>
+                <!-- Enforcer 1.1.1 != 1.2 -->
+                <exclusion>
+                     <groupId>commons-logging</groupId>
+                     <artifactId>commons-logging</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -315,6 +332,13 @@
             <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
             <artifactId>pluginsib-signatureserver-afirmaserver</artifactId>
             <version>${plugins.signatureserver.version}</version>
+            <exclusions>
+                <!-- Enforcer 1.0.1 != 1.2 -->
+                <exclusion>
+                     <groupId>commons-logging</groupId>
+                     <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- versió de xalan necessària per problemes de compatibilitat de
         afirma amb JBoss 5.2 -->
@@ -363,34 +387,6 @@
             <artifactId>pluginsib-validatesignature-afirmacxf</artifactId>
             <version>${plugins.validatesignature.version}</version>
         </dependency>
-
-
-        <!-- BOUNCY CASTLE 
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
-            <version>1.60.0.redhat-00001</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.60.0.redhat-00001</version>
-        </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcmail-jdk15on</artifactId>
-            <version>1.60.0.redhat-00001</version>
-        </dependency>
-        -->
-        
-        <!-- FIXIT Veure si es pot eliminar 
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bctsp-jdk16</artifactId>
-            <version>1.46</version>
-        </dependency>
--->
 
 
         <!-- API INTERNA START -->

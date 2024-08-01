@@ -140,15 +140,33 @@
             <groupId>org.jboss.ws.cxf</groupId>
             <artifactId>jbossws-cxf-client</artifactId>
             <scope>provided</scope>
-            <!--  Es per evitar problemes de 
+
+            <exclusions>
+                <!--  Es per evitar problemes de 
                   "The package org.w3c.dom is accessible from more than one module: <unnamed>, java.xml" 
                   dins l'eclipse -->
-            <exclusions>
                 <exclusion>
                     <groupId>xerces</groupId>
                     <artifactId>xercesImpl</artifactId>
                 </exclusion>
+                <!-- Enforcer 1.1.1 != 1.2 -->
+                <exclusion>
+                     <groupId>commons-logging</groupId>
+                     <artifactId>commons-logging</artifactId>
+                </exclusion>
+                <!-- Enforcer 2.10.6 != 2.10.5 -->
+                <exclusion>
+                     <groupId>net.sf.ehcache</groupId>
+                     <artifactId>ehcache</artifactId>
+                </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- Enforcer 2.10.6 != 2.10.5 (jbossws-cxf-client) -->
+        <dependency>
+             <groupId>net.sf.ehcache</groupId>
+             <artifactId>ehcache</artifactId>
+             <version>2.10.6</version>
         </dependency>
 
         <!-- CallBack REST v1 -->

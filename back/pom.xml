@@ -334,6 +334,17 @@
             <groupId>org.springframework.mobile</groupId>
             <artifactId>spring-mobile-device</artifactId>
             <version>1.1.5.RELEASE</version>
+            <exclusions>
+                <!-- Problemes amb enforcer -->  
+                <exclusion>
+                    <artifactId>spring-web</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-webmvc</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>
