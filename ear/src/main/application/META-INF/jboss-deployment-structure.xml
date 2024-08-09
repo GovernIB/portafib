@@ -48,6 +48,16 @@
             <module name="javax.ws.rs.api" export="TRUE"/>
             <module name="javax.xml.ws.api" export="TRUE"/>
             <module name="org.bouncycastle" export="TRUE"/>
+            
+            <module name="javax.jws.api" export="TRUE"/>
+            <module name="org.apache.neethi" export="TRUE"/>
+            <module name="org.apache.ws.security" export="TRUE"/>
+            <module name="org.jaxen" export="TRUE"/>
+            <module name="javax.wsdl4j.api" export="TRUE"/>
+            <module name="asm.asm" export="TRUE"/>
+            <module name="org.opensaml" export="TRUE"/>
+            <module name="nu.xom" export="TRUE"/>
+            <module name="javax.xml.soap.api" export="TRUE"/>
 
         </dependencies>
     </deployment>

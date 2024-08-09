@@ -710,6 +710,50 @@
                         lib/jaxws-eclipselink-plugin-2.3.3.jar,
                         lib/jaxws-rt-2.3.3.jar,
                         lib/jaxws-tools-2.3.3.jar
+                        
+                        
+                        <!-- Requereix afegir mòdul 'javax.jws.api' a jboss-deployment-structure.xml -->
+                         **/jsr181-api*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.neethi' a jboss-deployment-structure.xml -->
+                         **/neethi*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.ws.security' a jboss-deployment-structure.xml -->
+                         **/wss4j-bindings*redhat*.jar,
+                         **/wss4j-policy*redhat*.jar,
+                         **/wss4j-ws-security-common*redhat*.jar,
+                         **/wss4j-ws-security-dom*redhat*.jar,
+                         **/wss4j-ws-security-policy-stax*redhat*.jar,
+                         **/wss4j-ws-security-stax*redhat*.jar,
+                         **/jasypt*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.jaxen' a jboss-deployment-structure.xml -->
+                         **/jaxen*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'javax.wsdl4j.api' a jboss-deployment-structure.xml -->
+                         **/wsdl4j*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'asm.asm' a jboss-deployment-structure.xml -->
+                         **/asm*redhat*.jar,
+                         **/asm-util*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.opensaml' a jboss-deployment-structure.xml -->
+                         **/opensaml-core*redhat*.jar,
+                         **/opensaml-profile-api*redhat*.jar,
+                         **/opensaml-saml-api*redhat*.jar,
+                         **/opensaml-saml-impl*redhat*.jar,
+                         **/opensaml-security-api*redhat*.jar,
+                         **/opensaml-security-impl*redhat*.jar,
+                         **/opensaml-soap-api*redhat*.jar,
+                         **/opensaml-xacml-api*redhat*.jar,
+                         **/opensaml-xacml-impl*redhat*.jar,
+                         **/opensaml-xacml-saml-api*redhat*.jar,
+                         **/opensaml-xacml-saml-impl*redhat*.jar,
+                         **/opensaml-xmlsec-api*redhat*.jar,
+                         **/opensaml-xmlsec-impl*redhat*.jar,
+                         **/cryptacular*redhat*.jar,
+                         **/java-support*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'nu.xom' a jboss-deployment-structure.xml -->
+                         **/xom*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'javax.xml.soap.api' a jboss-deployment-structure.xml -->
+                         **/jboss-saaj-api_1.3_spec*redhat*.jar,
+                         <!-- Requereix afegir mòdul 'javax.jws.api' a jboss-deployment-structure.xml -->
+                         **/jsr181-api*redhat*.jar,
+                        
                     </packagingExcludes>
                     <modules>
                         <webModule>
