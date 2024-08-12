@@ -337,7 +337,7 @@
     </dependencies>
     <properties>
         <!-- NOU -->
-        <jboss-eap.version>7.2.6.GA</jboss-eap.version>
+        <jboss-eap.version>7.2.0.GA</jboss-eap.version>
         <maven.compiler.release>11</maven.compiler.release>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

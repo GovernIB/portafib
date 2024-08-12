@@ -38,7 +38,6 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -82,7 +81,7 @@
         <dependency>
             <groupId>org.fundaciobit.pluginsib.utils</groupId>
             <artifactId>pluginsib-utils-templateengine</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+            <version>${pluginsib.utils.version}</version>
         </dependency>
 
         <dependency>
@@ -94,31 +93,26 @@
             <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
             <artifactId>pluginsib-documentcustody-api</artifactId>
             <version>${pluginsib.documentcustody.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.fundaciobit.pluginsib.documentconverter</groupId>
             <artifactId>pluginsib-documentconverter-api</artifactId>
             <version>${pluginsib.documentconverter.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
             <artifactId>pluginsib-signatureweb-api</artifactId>
             <version>${plugins.signatureweb.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.fundaciobit.pluginsib.timestamp</groupId>
             <artifactId>pluginsib-timestamp-api</artifactId>
             <version>${pluginsib.timestamp.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.fundaciobit.pluginsib.validatesignature</groupId>
             <artifactId>pluginsib-validatesignature-api</artifactId>
             <version>${plugins.validatesignature.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.fundaciobit.pluginsib.barcode</groupId>
@@ -136,11 +130,16 @@
             <groupId>es.caib.portafib</groupId>
             <version>1.1</version>
         </dependency>
+        
+        
+        <!-- 
+           NOTA: S'ha afegit el mòdul org.jboss.ws.cxf.jbossws-cxf-client a jboss-deployment-structure.xml
+           per això aquest pot ser provided.
+         --> 
         <dependency>
             <groupId>org.jboss.ws.cxf</groupId>
             <artifactId>jbossws-cxf-client</artifactId>
             <scope>provided</scope>
-
             <exclusions>
                 <!--  Es per evitar problemes de 
                   "The package org.w3c.dom is accessible from more than one module: <unnamed>, java.xml" 
@@ -159,14 +158,27 @@
                      <groupId>net.sf.ehcache</groupId>
                      <artifactId>ehcache</artifactId>
                 </exclusion>
+                <!-- Enforcer 1.0.0.Final != 1.0.2.Final -->
+                <exclusion>
+                     <groupId>org.jboss.spec.javax.annotation</groupId>
+                     <artifactId>jboss-annotations-api_1.2_spec</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
+                
 
         <!-- Enforcer 2.10.6 != 2.10.5 (jbossws-cxf-client) -->
         <dependency>
              <groupId>net.sf.ehcache</groupId>
              <artifactId>ehcache</artifactId>
              <version>2.10.6</version>
+        </dependency>
+        
+        <!-- Enforcer 1.0.0.Final != 1.0.2.Final  (jbossws-cxf-client) -->
+        <dependency>
+             <groupId>org.jboss.spec.javax.annotation</groupId>
+             <artifactId>jboss-annotations-api_1.2_spec</artifactId>
+             <version>1.0.2.Final</version>
         </dependency>
 
         <!-- CallBack REST v1 -->
@@ -189,7 +201,6 @@
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>
             <version>1.0</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.itextpdf</groupId>
@@ -247,16 +258,6 @@
 
         <!-- Validació CAdES i XAdES -->
 
-        <!--
-		
-		<dependency>
-			<groupId>org.apache.santuario</groupId>
-			<artifactId>xmlsec</artifactId>
-			<scope>provided</scope>
-		</dependency>
-				-->
-
-
         <dependency>
             <groupId>es.gob.afirma</groupId>
             <artifactId>Integra-commons</artifactId>
@@ -284,25 +285,18 @@
                     <groupId>org.bouncycastle</groupId>
                     <artifactId>bcmail-jdk16</artifactId>
                 </exclusion>
-                <!--
-                <exclusion>
-                    <groupId>org.bouncycastle</groupId>
-                    <artifactId>bctsp-jdk16</artifactId>
-                </exclusion>
-                -->
+
             </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.60.0.redhat-00001</version>
         </dependency>
 
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcmail-jdk15on</artifactId>
-            <version>1.60.0.redhat-00001</version>
         </dependency>
 
 
@@ -386,6 +380,7 @@
                     <ejbVersion>3.0</ejbVersion>
                 </configuration>
             </plugin>
+            <!-- Per mostrar les libreries de que depen el projecte -->
             <!--
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>

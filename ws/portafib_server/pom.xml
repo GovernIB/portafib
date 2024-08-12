@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>portafib-ws-server</artifactId>
@@ -18,9 +19,25 @@
         <source_v1>${basedir}/src_empty/main/java</source_v1>
     </properties>
 
-    <build>
 
+    <build>
+        
+        <pluginManagement>
+            <plugins>
+                <!-- Necessari sinó llança un error -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.5.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -28,6 +45,7 @@
             </plugin>
 
             <!-- Sempre fer net -->
+            <!--
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <executions>
@@ -40,6 +58,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
 
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -101,17 +120,17 @@
             <exclusions>
                 <!-- Enforcer 2.10.6 != 2.10.5 -->
                 <exclusion>
-                     <groupId>net.sf.ehcache</groupId>
-                     <artifactId>ehcache</artifactId>
+                    <groupId>net.sf.ehcache</groupId>
+                    <artifactId>ehcache</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
 
         <!-- Enforcer 2.10.6 != 2.10.5 (jbossws-cxf-client) -->
         <dependency>
-             <groupId>net.sf.ehcache</groupId>
-             <artifactId>ehcache</artifactId>
-             <version>2.10.6</version>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>2.10.6</version>
         </dependency>
 
         <dependency>

@@ -1,19 +1,20 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>es.caib.portafib</groupId>
     <version>3.0.0</version>
     <artifactId>portafib</artifactId>
     <packaging>pom</packaging>
     <name>PortaFIB</name>
-    <!--
+
     <parent>
+        <artifactId>
+            caib-artifacts-github-governib-distribution-with-jdk11-jboss72</artifactId>
         <groupId>es.caib.maven</groupId>
         <version>1.0.0-SNAPSHOT</version>
-        <artifactId>caib-artifacts-jdk11-jboss72</artifactId>
     </parent>
-    -->
-    
-    
+
+
     <!-- Referència al sistema de control de versions, ja sigui GIT, SVN, CVS... -->
     <!-- permetrà al plugin buildnumber-maven-plugin agafar la revisió/versió    -->
     <scm>
@@ -51,20 +52,7 @@
         <module>ear</module>
     </modules>
     <repositories>
-        <repository>
-            <id>maven-nuxeo</id>
-            <name>Maven Nuxeo Repository</name>
-            <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </repository>
+
         <repository>
             <id>github-governib-maven</id>
             <name>GitHub GovernIB Maven Repository</name>
@@ -78,45 +66,7 @@
                 <updatePolicy>never</updatePolicy>
             </releases>
         </repository>
-        <repository>
-            <id>jboss-releases</id>
-            <name>JBoss Releases Repository</name>
-            <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </repository>
-        <repository>
-            <id>jboss-thirdparty-releases</id>
-            <name>JBoss 3rd-party Repository</name>
-            <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </repository>
-        <repository>
-            <id>redhat-repository</id>
-            <name>Redhat Repository</name>
-            <url>https://maven.repository.redhat.com/ga/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </repository>
+
     </repositories>
     <dependencies>
         <dependency>
@@ -129,6 +79,8 @@
             <artifactId>log4j</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        
     </dependencies>
     <properties>
         <contextroot>portafib</contextroot>
@@ -149,26 +101,21 @@
         <apifirmasimple.version>1.0.3</apifirmasimple.version>
         <picketbox.version>5.0.2.Final</picketbox.version>
         <!-- Versions de JBoss -->
+        <!--
         <jboss-eap.version>7.2.6.GA</jboss-eap.version>
         <jboss-javaee.version>1.0.1.Final-redhat-00003</jboss-javaee.version>
+        -->
         <!-- Propietats que afecten els plugins -->
-        <maven.compiler.release>11</maven.compiler.release>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.source>11</maven.compiler.source>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- No fer els tests per defecte. -->
         <maven.test.skip>true</maven.test.skip>
         <!-- Versions de les llibreries emprades dins els mòduls -->
-        <javaee-api.version>8.0.1</javaee-api.version>
-        <activation.version>1.1.1</activation.version>
+        <activation.version>1.1.1.redhat-5</activation.version>
         <mp-openapi.version>1.0.1</mp-openapi.version>
         <keycloak.version>6.0.1</keycloak.version>
         <!-- 6.0.1 -->
         <cxf.version>3.2.5.redhat-00001</cxf.version>
         <junit.version>4.13.1</junit.version>
         <hibernate.version>5.3.14.Final-redhat-00001</hibernate.version>
-        <resteasy.version>3.6.1.SP2-redhat-00001</resteasy.version>
-        <jboss-logging.version>3.3.2.Final-redhat-00001</jboss-logging.version>
         <spring.version>4.3.30.RELEASE</spring.version>
         <spring-security.version>4.2.20.RELEASE</spring-security.version>
         <spring-data-jpa>1.6.6.RELEASE</spring-data-jpa>
@@ -185,14 +132,12 @@
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
-            <!-- fixar versió de jboss-logging ja que Hibernate i RestEasy fan referència 
-				a varies versions -->
-            <dependency>
-                <groupId>org.jboss.logging</groupId>
-                <artifactId>jboss-logging</artifactId>
-                <version>${jboss-logging.version}</version>
-                <scope>test</scope>
-            </dependency>
+            
+            
+
+<!-- fixar versió de jboss-logging ja que Hibernate i RestEasy fan referència 
+                a varies versions -->
+
             <dependency>
                 <groupId>com.sun.xml.bind</groupId>
                 <artifactId>jaxb-xjc</artifactId>
@@ -213,68 +158,8 @@
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
                 <version>2.3.0</version>
-                <scope>provided</scope>
             </dependency>
-            
-            
-            <!-- Definició de les versions de les llibreries, especificacions i eines disponibles dins JBoss -->
-            <!-- Dependències de JAVA EE 8 -->
-            <dependency>
-                <groupId>javax</groupId>
-                <artifactId>javaee-api</artifactId>
-                <version>${javaee-api.version}</version>
-                <exclusions>
-                    <!-- La dependència de javax.mail fa referència a activation 1.1 enlloc 
-						de 1.1.1 -->
-                    <exclusion>
-                        <groupId>javax.activation</groupId>
-                        <artifactId>activation</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>eap-runtime-artifacts</artifactId>
-                <version>${jboss-eap.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>jboss-eap-javaee8-with-tools</artifactId>
-                <version>${jboss-eap.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-8.0</artifactId>
-                <version>${jboss-javaee.version}</version>
-                <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>xerces</groupId>
-                <artifactId>xercesImpl</artifactId>
-                <version>2.12.0.SP02-redhat-00001</version>
-                <scope>provided</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>xml-apis</groupId>
-                        <artifactId>xml-apis</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-core</artifactId>
-                <version>${hibernate.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.dom4j</groupId>
-                        <artifactId>dom4j</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+
             <!-- Altres llibreries emprades dins els mòduls -->
             <dependency>
                 <groupId>org.eclipse.microprofile.openapi</groupId>
@@ -291,141 +176,28 @@
                 <artifactId>mimepull</artifactId>
                 <version>1.9.10</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>3.6.0.redhat-1</version>
-            </dependency>
+
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-text</artifactId>
                 <version>1.10.0</version>
             </dependency>
-            <dependency>
-                <groupId>javax.json</groupId>
-                <artifactId>javax.json-api</artifactId>
-                <version>1.1.2.redhat-1</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>javax.json.bind</groupId>
-                <artifactId>javax.json.bind-api</artifactId>
-                <version>1.0.0.redhat-1</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>javax.persistence</groupId>
-                <artifactId>javax.persistence-api</artifactId>
-                <version>2.2.0.redhat-1</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>net.jcip</groupId>
-                <artifactId>jcip-annotations</artifactId>
-                <version>1.0.0.redhat-8</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.github.fge</groupId>
-                <artifactId>json-patch</artifactId>
-                <version>1.3.0.redhat-1</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.github.fge</groupId>
-                <artifactId>jackson-coreutils</artifactId>
-                <version>1.0.0.redhat-1</version>
-                <scope>provided</scope>
-            </dependency>
+
             <dependency>
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
                 <version>1.2.17</version>
-                <scope>provided</scope>
             </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>2.9.10.1-redhat-00001</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>2.9.10.redhat-00003</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>2.9.10.redhat-00003</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.jaxrs</groupId>
-                <artifactId>jackson-jaxrs-base</artifactId>
-                <version>2.9.10.redhat-00003</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.jaxrs</groupId>
-                <artifactId>jackson-jaxrs-json-provider</artifactId>
-                <version>2.9.10.redhat-00003</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.module</groupId>
-                <artifactId>jackson-module-jaxb-annotations</artifactId>
-                <version>2.9.10.redhat-00003</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-client</artifactId>
-                <version>${resteasy.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-multipart-provider</artifactId>
-                <version>${resteasy.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-jackson2-provider</artifactId>
-                <version>${resteasy.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-jaxb-provider</artifactId>
-                <version>${resteasy.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-jaxrs</artifactId>
-                <version>${resteasy.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>javax.activation</groupId>
-                <artifactId>activation</artifactId>
-                <version>1.1.1.redhat-5</version>
-                <scope>provided</scope>
-            </dependency>
+            
             <dependency>
                 <groupId>javax.xml.ws</groupId>
                 <artifactId>jaxws-api</artifactId>
                 <version>2.3.1</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>javax.annotation</groupId>
                 <artifactId>javax.annotation-api</artifactId>
                 <version>1.3.2</version>
-                <scope>provided</scope>
             </dependency>
             <!--  REST SERVICES -->
             <!-- Anotacions de documentació de openapi -->
@@ -434,129 +206,62 @@
                 <artifactId>swagger-annotations</artifactId>
                 <version>2.1.13</version>
             </dependency>
-            
+
         </dependencies>
     </dependencyManagement>
     <build>
-        <pluginManagement>
-            <plugins>
-                <!-- Definició dels plugins estàndar de maven -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
-                    <configuration>
-                        <source>11</source>
-                        <target>11</target>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.1.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>3.0.0-M1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.1.0</version>
-                    <configuration>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.1.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M4</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>3.0.0-M4</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.2.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-ejb-plugin</artifactId>
-                    <version>3.0.1</version>
-                    <configuration>
-                        <ejbVersion>3.0</ejbVersion>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>3.2.3</version>
-                    <configuration>
-                        <useCache>true</useCache>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-ear-plugin</artifactId>
-                    <version>3.0.2</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>3.0.0-M1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>3.8.2</version>
-                </plugin>
-                <!-- Altres plugins generals -->
-                <plugin>
-                    <groupId>com.googlecode.maven-download-plugin</groupId>
-                    <artifactId>download-maven-plugin</artifactId>
-                    <version>1.4.2</version>
-                </plugin>
-                <plugin>
-                    <groupId>com.google.code.maven-replacer-plugin</groupId>
-                    <artifactId>replacer</artifactId>
-                    <version>1.5.3</version>
-                </plugin>
-                <!-- Pluguin per generar informació OpenAPI de apis REST -->
-                <plugin>
-                    <groupId>org.apache.geronimo</groupId>
-                    <artifactId>geronimo-openapi-maven-plugin</artifactId>
-                    <version>1.0.12</version>
-                </plugin>
-                <!-- Plugin per generar la propietat ${buildNumber} amb la versio/revisio de GIT o SVN o CVS... -->
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>buildnumber-maven-plugin</artifactId>
-                    <version>1.4</version>
-                    <executions>
-                        <execution>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>create</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <!-- Veure https://www.mojohaus.org/buildnumber-maven-plugin/usage.html -->
-                        <!-- si volem que falli si s'intenta compilar i hi ha canvis no pujats o hi ha canvis no davallats. -->
-                        <!-- S'hauria de crear un profile per quan es fa una release s'activin. -->
-                        <!-- Sinó val més que estiguin a false (per defecte): -->
-                        <!-- <doCheck>true</doCheck> -->
-                        <!-- <doUpdate>true</doUpdate> -->
-                        <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
-                        <!-- Longitut màxima de la revisió -->
-                        <shortRevisionLength>8</shortRevisionLength>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+
         <plugins>
-        
+
+
+            <!-- Definició dels plugins estàndar de maven -->
+
+            <plugin>
+                <groupId>com.googlecode.maven-download-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId>
+                <version>1.4.2</version>
+            </plugin>
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <version>1.5.3</version>
+            </plugin>
+            <!-- Pluguin per generar informació OpenAPI de apis REST -->
+            <plugin>
+                <groupId>org.apache.geronimo</groupId>
+                <artifactId>geronimo-openapi-maven-plugin</artifactId>
+                <version>1.0.12</version>
+            </plugin>
+            <!-- Plugin per generar la propietat ${buildNumber} amb la versio/revisio de GIT o SVN o CVS... -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- Veure https://www.mojohaus.org/buildnumber-maven-plugin/usage.html -->
+                    <!-- si volem que falli si s'intenta compilar i hi ha canvis no pujats o hi ha canvis no davallats. -->
+                    <!-- S'hauria de crear un profile per quan es fa una release s'activin. -->
+                    <!-- Sinó val més que estiguin a false (per defecte): -->
+                    <!-- <doCheck>true</doCheck> -->
+                    <!-- <doUpdate>true</doUpdate> -->
+                    <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
+                    <!-- Longitut màxima de la revisió -->
+                    <shortRevisionLength>8</shortRevisionLength>
+                </configuration>
+            </plugin>
+
+
             <!-- Gestió de requisits del build -->
             <!-- Veure: https://maven.apache.org/enforcer/enforcer-rules/index.html -->
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -569,9 +274,9 @@
                         <requireJavaVersion>
                             <version>11</version>
                         </requireJavaVersion>
-                        
-                        <banDuplicatePomDependencyVersions/>
-                        <dependencyConvergence/>                        
+
+                        <banDuplicatePomDependencyVersions />
+                        <dependencyConvergence />
                     </rules>
                 </configuration>
                 <executions>
@@ -582,8 +287,8 @@
                     </execution>
                 </executions>
             </plugin>
-            
-        
+
+
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
                 <artifactId>maven-replacer-plugin</artifactId>

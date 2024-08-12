@@ -9,7 +9,6 @@
 
     <name>PortaFIB WS - Callback Server WS (Test)</name>
 
-
     <parent>
         <groupId>es.caib.portafib</groupId>
         <artifactId>portafib-ws</artifactId>
@@ -17,8 +16,25 @@
     </parent>
 
     <build>
-
+        
+        <pluginManagement>
+            <plugins>
+                <!-- Necessari sinó llança un error -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.5.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+            </plugin>
+
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ejb-plugin</artifactId>
@@ -27,7 +43,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Sempre fer net -->
+            <!-- Sempre fer net 
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <executions>
@@ -39,19 +55,11 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 
     <dependencies>
-<!--
-        <dependency>
-            <groupId>es.caib.portafib</groupId>
-            <artifactId>portafib-commons</artifactId>
-            <version></version>
-            <scope>compile</scope>
-        </dependency>
-        -->
 
         <dependency>
             <artifactId>portafib-callback-beans</artifactId>
@@ -65,27 +73,25 @@
             <artifactId>jbossws-api</artifactId>
             <scope>provided</scope>
         </dependency>
-	
-	    <dependency>
-			<groupId>javax.xml.ws</groupId>
-			<artifactId>jaxws-api</artifactId>
-			<version>2.2</version>
-			<scope>provided</scope>
-		</dependency>
+
+        <dependency>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>javax.jws</groupId>
             <artifactId>javax.jws-api</artifactId>
             <version>1.1</version>
-			<scope>provided</scope>
+            <scope>provided</scope>
         </dependency>
-	
-	
-		<dependency>
-			<groupId>com.sun.org.apache.xml.internal</groupId>
-			<artifactId>resolver</artifactId>
-			<version>20050927</version>
-		</dependency>
+
+        <dependency>
+            <groupId>com.sun.org.apache.xml.internal</groupId>
+            <artifactId>resolver</artifactId>
+            <version>20050927</version>
+        </dependency>
 
         <dependency>
             <groupId>javax</groupId>
@@ -94,6 +100,5 @@
         </dependency>
 
     </dependencies>
-
 
 </project>
