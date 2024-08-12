@@ -641,13 +641,14 @@
                 <artifactId>maven-ear-plugin</artifactId>
                 <configuration>
                     <version>5</version>
-                    <displayName>Portafirmes de les Illes Balears (PortaFIB)</displayName>
+                    <displayName>PortafIB</displayName>
                     <description>Portafirmes de les Illes Balears (PortaFIB)</description>
                     <outputFileNameMapping>
                         @{artifactId}@-@{version}@.@{extension}@</outputFileNameMapping>
                     <archive>
                         <manifest>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addClasspath>false</addClasspath>
                         </manifest>
                         <manifestEntries>
                             <PortaFIB-Version>${project.version}</PortaFIB-Version>

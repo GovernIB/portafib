@@ -18,7 +18,6 @@
     <dependencies>
 
         <!-- Internas -->
-
         <dependency>
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-ejb</artifactId>
@@ -137,14 +136,6 @@
             <version>1.12</version>
             <scope>provided</scope>
         </dependency>
-        <!--
-		<dependency>
-			<groupId>apache-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<scope>provided</scope>
-		</dependency>
--->
-
 
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -362,12 +353,6 @@
             </properties>
         </profile>
         <profile>
-            <id>back-client-cert</id>
-            <properties>
-                <webXml.authMethod>CLIENT-CERT</webXml.authMethod>
-            </properties>
-        </profile>
-        <profile>
             <id>keycloak</id>
             <properties>
                 <webXml.authMethod>KEYCLOAK</webXml.authMethod>
@@ -384,6 +369,11 @@
                 <configuration>
                     <useCache>${war.useCache}</useCache>
                     <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                    <archive>
+                        <manifest>
+                            <addClasspath>false</addClasspath>
+                        </manifest>
+                    </archive>
                     <webResources>
                         <!-- Documents pdf que es troben dins /doc/pdf i han
                         d'anar a WEBAPP/Documentacio -->

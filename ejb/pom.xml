@@ -378,6 +378,11 @@
                 <artifactId>maven-ejb-plugin</artifactId>
                 <configuration>
                     <ejbVersion>3.0</ejbVersion>
+                    <archive>
+                        <manifest>
+                            <addClasspath>false</addClasspath>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
             <!-- Per mostrar les libreries de que depen el projecte -->

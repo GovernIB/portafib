@@ -79,8 +79,6 @@
             <artifactId>log4j</artifactId>
             <scope>provided</scope>
         </dependency>
-
-        
     </dependencies>
     <properties>
         <contextroot>portafib</contextroot>
@@ -265,7 +263,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M3</version>
                 <configuration>
                     <rules>
                         <requireMavenVersion>
