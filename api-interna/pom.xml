@@ -12,7 +12,6 @@
     <packaging>war</packaging>
     <name>PortaFIB - API Rest - Interna Server</name>
     <properties>
-        <auth.method>BASIC</auth.method>
         <client.default.package>es.caib.portafib.apiinterna.client</client.default.package>
     </properties>
 
@@ -71,6 +70,11 @@
                     <!-- Esta en LIB de l'EAR -->
                     <groupId>org.fundaciobit.pluginsib.core</groupId>
                     <artifactId>pluginsib-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <!-- Esta en LIB de l'EAR -->
+                    <artifactId>genapp-core</artifactId>
+                    <groupId>org.fundaciobit.genapp</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -275,6 +279,32 @@
                             <directory>${project.basedir}/openapi</directory>
                         </resource>
                     </webResources>
+                    <packagingExcludes>
+                        <!-- Requereix afegir mòdul 'javax.activation.api' a jboss-deployment-structure.xml -->
+                         **/activation*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.commons.lang3' a jboss-deployment-structure.xml -->
+                         **/commons-lang3*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'com.fasterxml.jackson.core.jackson-annotations' a jboss-deployment-structure.xml -->
+                         **/jackson-annotations*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'com.fasterxml.jackson.core.jackson-core' a jboss-deployment-structure.xml -->
+                         **/jackson-core*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'com.fasterxml.jackson.core.jackson-databind' a jboss-deployment-structure.xml -->
+                         **/jackson-databind*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'com.fasterxml.jackson.jaxrs.jackson-jaxrs-json-provider' a jboss-deployment-structure.xml -->
+                         **/jackson-jaxrs-json-provider*redhat*.jar,
+                         **/jackson-jaxrs-base*redhat*.jar,
+                         **/jackson-module-jaxb-annotations*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'javax.persistence.api' a jboss-deployment-structure.xml -->
+                         **/javax.persistence-api*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'javax.annotation.api' a jboss-deployment-structure.xml -->
+                         **/jboss-annotations-api_1.3_spec*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'javax.xml.bind.api' a jboss-deployment-structure.xml -->
+                         **/jboss-jaxb-api_2.3_spec*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'javax.ws.rs.api' a jboss-deployment-structure.xml -->
+                         **/jboss-jaxrs-api_2.1_spec*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.jboss.logging' a jboss-deployment-structure.xml -->
+                         **/jboss-logging*redhat*.jar,
+                    </packagingExcludes>
                 </configuration>
             </plugin>
 

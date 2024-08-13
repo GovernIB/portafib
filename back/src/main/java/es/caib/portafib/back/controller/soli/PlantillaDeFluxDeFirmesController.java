@@ -465,6 +465,14 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
             // TODO llevar !!!!
             form.setRedirectOnModify(getContextWeb() + "/list/1");
 
+            final String javascript = "javascript:$('#consultaNifUsuariExtern').modal('show');";
+            form.addAdditionalButton(new AdditionalButton("icon-white fas fa-share-square fas fa-user",
+                    "afegir.usuariextern", javascript, AdditionalButtonStyle.INFO));
+
+            String subtitle = I18NUtils.tradueix("selectflux.externalsignature.ajudausuarisexterns",
+                    I18NUtils.tradueix("afegir.usuariextern"));
+            form.setSubTitleCode("=" + subtitle);
+
             PlantillaFluxDeFirmesJPA ua = new PlantillaFluxDeFirmesJPA();
             ua.setCompartir(false);
 
@@ -909,8 +917,9 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
      * Mètode REST de consulta de si existeix USUARI EXTERN
      */
     @RequestMapping(value = "/consultaNifUsuariExtern", method = RequestMethod.GET)
-    public void consultaNifUsuariExtern(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
-            HttpServletRequest request, HttpServletResponse response) {
+    // FIXIT TODO @Valid
+    public void consultaNifUsuariExtern(@ModelAttribute FluxDeFirmesForm fluxDeFirmesForm, HttpServletRequest request,
+            HttpServletResponse response) {
         try {
 
             String entitatID;
@@ -978,20 +987,13 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
      * Mètode creació de usuari-extern
      */
     @RequestMapping(value = "/afegirFirmaUsuariExtern", method = RequestMethod.POST)
-    public String afegirFirmaUsuariExtern(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
+    // FIXIT TODO @Valid
+    public String afegirFirmaUsuariExtern(@ModelAttribute FluxDeFirmesForm fluxDeFirmesForm,
             @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm, HttpServletRequest request,
             HttpServletResponse response) {
 
-        // String firmaid = request.getParameter("crearfirma_firmaid");
+        boolean nomes_crear_usuari_extern = "true".equals(request.getParameter("nomes_crear_usuari_extern"));
         try {
-
-            String blocOrdreStr = request.getParameter("crearfirma_blocOrdre");
-            String blocIDStr = request.getParameter("crearfirma_blocid");
-
-            log.info(" \n\n XYZ ZZZ Bloc ORDRE STR => ]" + blocOrdreStr + "[");
-            log.info("XYZ ZZZ Bloc ID STR => ]" + blocIDStr + "[");
-
-            long blocID;
 
             String usuariEntitatID = request.getParameter("crearfirma_usuarientitatid");
             String nif = request.getParameter("crearfirma_nif");
@@ -999,28 +1001,37 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
             boolean creatBloc = false;
             Set<BlocDeFirmesJPA> blocs = null;
             BlocDeFirmesJPA bloc = null;
+            long blocID = 0;
 
-            if ("".equals(blocOrdreStr)) {
-                //  Afegir Firma a Bloc Existent
-                blocID = Integer.parseInt(blocIDStr);
-            } else {
+            if (!nomes_crear_usuari_extern) {
+                String blocOrdreStr = request.getParameter("crearfirma_blocOrdre");
+                String blocIDStr = request.getParameter("crearfirma_blocid");
 
-                // Nou Bloc + Firma
+                log.info(" \n\n XYZ ZZZ Bloc ORDRE STR => ]" + blocOrdreStr + "[");
+                log.info("XYZ ZZZ Bloc ID STR => ]" + blocIDStr + "[");
 
-                int blocOrdre = Integer.parseInt(blocOrdreStr);
+                if ("".equals(blocOrdreStr)) {
+                    //  Afegir Firma a Bloc Existent
+                    blocID = Integer.parseInt(blocIDStr);
+                } else {
 
-                FluxDeFirmesJPA flux = fluxDeFirmesForm.getFluxDeFirmes();
-                long fluxID = flux.getFluxDeFirmesID();
-                bloc = fluxDeFirmesLogicaEjb.afegirBlocDeFirmesAFlux(fluxID, blocOrdre);
+                    // Nou Bloc + Firma
 
-                blocs = flux.getBlocDeFirmess();
-                blocs.add(bloc);
+                    int blocOrdre = Integer.parseInt(blocOrdreStr);
 
-                blocID = bloc.getBlocDeFirmesID();
+                    FluxDeFirmesJPA flux = fluxDeFirmesForm.getFluxDeFirmes();
+                    long fluxID = flux.getFluxDeFirmesID();
+                    bloc = fluxDeFirmesLogicaEjb.afegirBlocDeFirmesAFlux(fluxID, blocOrdre);
 
-                fluxDeFirmesLogicaEjb.regeneraOrdres(blocs);
+                    blocs = flux.getBlocDeFirmess();
+                    blocs.add(bloc);
 
-                creatBloc = true;
+                    blocID = bloc.getBlocDeFirmesID();
+
+                    fluxDeFirmesLogicaEjb.regeneraOrdres(blocs);
+
+                    creatBloc = true;
+                }
             }
 
             UsuariExtern usuariExtern;
@@ -1062,18 +1073,23 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
 
             }
 
-            if (!afegirFirma(fluxDeFirmesForm, request, usuariEntitat, usuariExtern, blocID)) {
+            if (!nomes_crear_usuari_extern) {
+                if (!afegirFirma(fluxDeFirmesForm, request, usuariEntitat, usuariExtern, blocID)) {
 
-                if (creatBloc) {
-                    blocs.remove(bloc);
-                    blocDeFirmesLogicaEjb.deleteFull(bloc.getBlocDeFirmesID());
+                    if (creatBloc) {
+                        blocs.remove(bloc);
+                        blocDeFirmesLogicaEjb.deleteFull(bloc.getBlocDeFirmesID());
+                    }
+
+                    return getTileForm();
                 }
 
-                return getTileForm();
+                // long fluxDeFirmesID = fluxDeFirmesForm.getFluxDeFirmes().getFluxDeFirmesID();
+                afegitUsuariAlFlux(seleccioUsuariForm, usuariEntitatID);
+            } else {
+                // TODO 
+                HtmlUtils.saveMessageSuccess(request, I18NUtils.tradueix("selectflux.externalsignature.created"));
             }
-
-            // long fluxDeFirmesID = fluxDeFirmesForm.getFluxDeFirmes().getFluxDeFirmesID();
-            afegitUsuariAlFlux(seleccioUsuariForm, usuariEntitatID);
         } catch (I18NValidationException ve) {
             HtmlUtils.saveMessageError(request, I18NUtils.getMessage(ve));
         } catch (I18NException e) {
@@ -1726,13 +1742,14 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                 if (isDebug) {
                     log.debug(" PreValidate:: NOU --> usuari Entitat es " + usuariEntitat);
                 }
-                
-                UsuariEntitatJPA  usuariEntitatJPA = usuariEntitatLogicaEjb.findByPrimaryKeyFull(usuariEntitat);
-                
+
+                UsuariEntitatJPA usuariEntitatJPA = usuariEntitatLogicaEjb.findByPrimaryKeyFull(usuariEntitat);
+
                 if (usuariEntitatJPA == null) {
                     final String name = PlantillaDeFluxDeFirmesForm.USUARI_ENTITAT_PRIMERA_FIRMA_FIELD;
-                    result.addError(new FieldError(name, name, null, false, new String[] { "genapp.validation.required" },
-                            new Object[] { I18NUtils.tradueix("usuarientitatprimerafirma") }, null));
+                    result.addError(
+                            new FieldError(name, name, null, false, new String[] { "genapp.validation.required" },
+                                    new Object[] { I18NUtils.tradueix("usuarientitatprimerafirma") }, null));
                 }
 
                 BlocDeFirmesJPA bloc = new BlocDeFirmesJPA();
@@ -1740,12 +1757,13 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
 
                 FirmaJPA firma = new FirmaJPA();
                 UsuariPersonaJPA usuariPersonaJPA = usuariEntitatJPA.getUsuariPersona();
-                
+
                 firma.setDestinatariID(usuariEntitat);
-                
+
                 if (!usuariPersonaJPA.isUsuariIntern()) {
                     // usuari Extern
-                    firma.setUsuariExternEmail(usuariEntitatJPA.getEmail() == null? usuariPersonaJPA.getEmail() : usuariEntitatJPA.getEmail());
+                    firma.setUsuariExternEmail(usuariEntitatJPA.getEmail() == null ? usuariPersonaJPA.getEmail()
+                            : usuariEntitatJPA.getEmail());
                     firma.setUsuariExternNom(usuariPersonaJPA.getNom());
                     firma.setUsuariExternLlinatges(usuariPersonaJPA.getLlinatges());
                     firma.setUsuariExternIdioma(usuariPersonaJPA.getIdiomaID());
