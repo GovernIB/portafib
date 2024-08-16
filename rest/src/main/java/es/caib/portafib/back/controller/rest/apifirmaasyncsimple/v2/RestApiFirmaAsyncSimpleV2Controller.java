@@ -1,8 +1,7 @@
 package es.caib.portafib.back.controller.rest.apifirmaasyncsimple.v2;
 
-import es.caib.portafib.back.controller.common.PlantillaDeFluxDeFirmesRestController;
 import es.caib.portafib.back.controller.rest.RestFirmaUtils;
-import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.controller.rest.utils.LoginInfo;
 import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.persistence.AnnexJPA;
 import es.caib.portafib.persistence.BlocDeFirmesJPA;
@@ -30,6 +29,7 @@ import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
+import es.caib.portafib.logic.apifluxcommon.RestApiPlantillaFluxLocal;
 import es.caib.portafib.logic.usuaris.CreateUsuariServiceLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
@@ -537,7 +537,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             }
 
             PeticioDeFirmaJPA peticioDeFirmaJPA = signatureRequestToPeticioDeFirmaJPAFull(signatureRequest,
-                    loginInfo.getUsuariAplicacio(), loginInfo.getEntitat(), fitxersCreats, languageUI);
+                    loginInfo.getUsuariAplicacio(), loginInfo.getUsuariAplicacio().getEntitat(), fitxersCreats,
+                    languageUI);
 
             // Convertir Fitxers
             /*
@@ -710,7 +711,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             HttpHeaders headers = addAccessControllAllowOrigin();
 
             String result = PropietatGlobalUtil.getUrlBaseForFlowTemplate()
-                    + PlantillaDeFluxDeFirmesRestController.CONTEXT + "/viewonlyflux/"
+                    + RestApiPlantillaFluxLocal.PlantillaDeFluxDeFirmesRestController_CONTEXT + "/viewonlyflux/"
                     + HibernateFileUtil.getEncrypter().encrypt(String.valueOf(fluxDeFirmesId));
 
             return new ResponseEntity<String>(result, headers, HttpStatus.OK);
@@ -782,8 +783,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                 UsuariAplicacioConfiguracioJPA config;
                 config = configuracioUsuariAplicacioLogicaLocalEjb
                         .findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
-                policyIncluded = SignatureUtils.getPolicyInfoSignature(LoginInfo.getInstance().getEntitat(),
-                        config) != null;
+                policyIncluded = SignatureUtils.getPolicyInfoSignature(
+                        LoginInfo.getInstance().getUsuariAplicacio().getEntitat(), config) != null;
             }
 
             FirmaAsyncSimpleCustodyInfo custodyInfo;
@@ -1019,8 +1020,15 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     protected void checkIfPeticioDeFirmaIsPropertyOfUsrApp(long peticioDeFirmaID, LoginInfo loginInfo)
             throws I18NException {
 
+        log.info("\n\n\n\n");
+        log.info("loginInfo.hasRole(ConstantsV2.ROLE_ADMIN) => " + loginInfo.hasRole(ConstantsV2.ROLE_ADMIN));
+        log.info("loginInfo.hasRole(ConstantsV2.PFI_ADMIN) => " + loginInfo.hasRole(ConstantsV2.PFI_ADMIN));
+        log.info("\n\n\n\n");
+
+        boolean hasRoleAdmin = loginInfo.hasRole(ConstantsV2.ROLE_ADMIN) || loginInfo.hasRole(ConstantsV2.PFI_ADMIN);
+
         checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, loginInfo.getUsuariAplicacio().getUsuariAplicacioID(),
-                loginInfo.hasRole(ConstantsV2.ROLE_ADMIN));
+                hasRoleAdmin);
     }
 
     /**

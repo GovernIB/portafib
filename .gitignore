@@ -224,3 +224,7 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /api-interna-client-revisors-v1/pom_backup.xml
 /api-interna/openapi/swaggerui_urls.json
 /api-interna-client-revisors-v1/test.properties
+/apis.bat
+/ear.bat
+/rest.bat
+/ejb.bat

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:sec="http://www.springframework.org/schema/security"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+    <sec:http create-session="never" use-expressions="true" auto-config="false"
+        entry-point-ref="preAuthenticatedProcessingFilterEntryPoint">
+
+        <!-- <sec:logout logout-success-url="/index.jsp" /> -->
+        <sec:csrf disabled="true" />
+
+        <sec:intercept-url pattern="/index.jsp" access="permitAll" />
+        <sec:intercept-url pattern="/public/rest/**" access="permitAll" />
+
+        <!-- REST -->
+        <sec:intercept-url pattern="/common/rest/apifirmaenservidorsimple/v1/**"
+            access="hasAnyRole('PFI_ANY', 'PFI_USER', 'PFI_ADMIN', 'PFI_WS')" />
+        <sec:intercept-url pattern="/common/rest/apifirmawebsimple/v1/**"
+            access="hasAnyRole('PFI_ANY', 'PFI_USER', 'PFI_ADMIN', 'PFI_WS')" />
+        <sec:intercept-url pattern="/common/rest/apiexternalsignature/v1/**"
+            access="hasAnyRole('PFI_ANY', 'PFI_USER', 'PFI_ADMIN', 'PFI_WS')" />
+        <sec:intercept-url pattern="/common/rest/revisordefirma/**"
+            access="hasAnyRole('PFI_ANY', 'PFI_USER', 'PFI_ADMIN', 'PFI_WS')" />
+        <sec:intercept-url pattern="/common/rest/apiflowtemplatesimple/v1/**"
+            access="hasAnyRole('PFI_ANY', 'PFI_USER', 'PFI_ADMIN', 'PFI_WS')" />
+
+        <!-- Nova API REST ASYNC V2 -->
+        <sec:intercept-url pattern="/common/rest/apifirmaasyncsimple/v2/**"
+            access="hasAnyRole('PFI_ANY', 'PFI_USER', 'PFI_ADMIN', 'PFI_WS')" />
+
+        <sec:session-management session-fixation-protection="none" />
+
+    </sec:http>
+
+    <sec:authentication-manager alias="authenticationManager">
+        <sec:authentication-provider ref="preAuthenticatedAuthenticationProvider" />
+    </sec:authentication-manager>
+    <bean id="defaultHttpFirewall" class="org.springframework.security.web.firewall.DefaultHttpFirewall" />
+    <sec:http-firewall ref="defaultHttpFirewall" />
+    <bean id="preAuthenticatedProcessingFilterEntryPoint"
+        class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
+    <bean id="preAuthenticatedAuthenticationProvider"
+        class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
+        <property name="preAuthenticatedUserDetailsService">
+            <bean class="org.springframework.security.web.authentication.preauth.PreAuthenticatedGrantedAuthoritiesUserDetailsService" />
+        </property>
+    </bean>
+
+
+</beans>

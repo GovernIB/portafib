@@ -58,9 +58,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.controller.common.PlantillaDeFluxDeFirmesRestController;
+
 import es.caib.portafib.back.controller.common.SearchJSONController;
-import es.caib.portafib.back.controller.rest.apiplantillaflux.v1.RestApiPlantillaFluxV1Controller;
-import es.caib.portafib.back.controller.rest.apiplantillaflux.v1.RestApiPlantillaFluxV1Controller.TransactionInfo;
 import es.caib.portafib.back.controller.webdb.FluxDeFirmesController;
 import es.caib.portafib.back.form.PlantillaDeFluxDeFirmesFilterForm;
 import es.caib.portafib.back.form.PlantillaDeFluxDeFirmesForm;
@@ -91,6 +90,8 @@ import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PlantillaFluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.RevisorDeFirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
+import es.caib.portafib.logic.apifluxcommon.RestApiPlantillaFluxLocal;
+import es.caib.portafib.logic.apifluxcommon.TransactionInfo;
 import es.caib.portafib.logic.utils.UsuariExtern;
 import es.caib.portafib.model.entity.FluxDeFirmes;
 import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
@@ -118,6 +119,9 @@ import es.caib.portafib.utils.ConstantsV2;
         types = { PlantillaDeFluxDeFirmesFilterForm.class, PlantillaDeFluxDeFirmesForm.class, FluxDeFirmesForm.class,
                 FluxDeFirmesFilterForm.class, SeleccioUsuariForm.class })
 public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController implements ConstantsV2 {
+
+    @EJB(mappedName = RestApiPlantillaFluxLocal.JNDI_NAME)
+    protected RestApiPlantillaFluxLocal restApiPlantillaFluxLocal;
 
     public static final StringField USUARIAPLICACIOID;
 
@@ -769,7 +773,9 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                 if (transactionID == null) {
                     restTransaction = null;
                 } else {
-                    restTransaction = RestApiPlantillaFluxV1Controller.currentTransactions.get(transactionID);
+                    //restTransaction = RestApiPlantillaFluxV1Controller.currentTransactions.get(transactionID);
+                    restTransaction = restApiPlantillaFluxLocal.readTransactionInfo(transactionID);
+
                 }
 
                 if (restTransaction == null) {
@@ -1914,7 +1920,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                 if (transactionID == null) {
                     restTransaction = null;
                 } else {
-                    restTransaction = RestApiPlantillaFluxV1Controller.currentTransactions.get(transactionID);
+                    //restTransaction = RestApiPlantillaFluxV1Controller.currentTransactions.get(transactionID);
+                    restTransaction = restApiPlantillaFluxLocal.readTransactionInfo(transactionID);
                 }
 
                 if (restTransaction == null) {

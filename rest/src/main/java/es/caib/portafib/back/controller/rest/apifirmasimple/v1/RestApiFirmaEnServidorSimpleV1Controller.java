@@ -1,7 +1,8 @@
 package es.caib.portafib.back.controller.rest.apifirmasimple.v1;
 
-import es.caib.portafib.back.security.LoginInfo;
+
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
+import es.caib.portafib.back.controller.rest.utils.LoginInfo;
 import es.caib.portafib.logic.ValidacioCompletaFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
 import es.caib.portafib.logic.passarela.PassarelaSignatureInServerResults;
@@ -486,6 +487,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
         log.info("XYZ ZZZ validateSignature:: fileInfo.getSignMode() => " + fileInfo.getSignMode());
 
+        @SuppressWarnings("unused")
         byte[] documentDetached = null;
         if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_EXPLICIT) {
 
@@ -615,10 +617,12 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
     @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<?> getAvailableProfiles(HttpServletRequest request,
             @RequestBody TextNode languageUITextNode) {
+        
+        log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableProfiles() => ENTRA");
 
         final String languageUI = languageUITextNode.asText();
 
-        log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableProfiles() => " + languageUI);
+        log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableProfiles() => LANG: " + languageUI);
         return internalGetAvailableProfiles(request, languageUI);
     }
 

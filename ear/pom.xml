@@ -41,6 +41,12 @@
         </dependency>
         <dependency>
             <groupId>es.caib.portafib</groupId>
+            <artifactId>portafib-rest</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-ws-server</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
@@ -415,18 +421,6 @@
         <!-- API INTERNA END -->
     </dependencies>
     <profiles>
-        <!-- ======   Canvi de contextroot   =============== -->
-        <profile>
-            <id>contextrootbyproperty</id>
-            <activation>
-                <property>
-                    <name>contextrootportafib</name>
-                </property>
-            </activation>
-            <properties>
-                <contextroot>${contextrootportafib}</contextroot>
-            </properties>
-        </profile>
 
 
         <!-- FRONT WEB PORTAFIB AMB AUTENTICACIO CLIENT-CERT -->
@@ -908,11 +902,19 @@
                         
                     </packagingExcludes>
                     <modules>
+                        <!-- BACK -->
                         <webModule>
                             <groupId>es.caib.portafib</groupId>
                             <artifactId>portafib-back</artifactId>
-                            <contextRoot>${contextroot}</contextRoot>
+                            <contextRoot>/portafibback</contextRoot>
                             <bundleFileName>portafib-back.war</bundleFileName>
+                        </webModule>
+                        <!-- REST -->
+                        <webModule>
+                            <groupId>es.caib.portafib</groupId>
+                            <artifactId>portafib-rest</artifactId>
+                            <contextRoot>/portafib</contextRoot>
+                            <bundleFileName>portafib-rest.war</bundleFileName>
                         </webModule>
                         <!-- API INTERNA START -->
                         <webModule>

@@ -50,8 +50,6 @@ Per compilar en mode produccio: deploypro.sh/bat [OPCIONS]
                   i callback versio 0. Per veure les cridades accedir a
                   http://HOST:8080/portafib/portafirmascb
 
--Dcontextrootportafib=<<NOU_CONTEXT_ROOT>>  Canvia el contextroot de back de /portafib per /<<NOU_CONTEXT_ROOT>>
-
 clean             Neteja els projectes abans de compilar.
 
 --------------------------------------------------------------------------

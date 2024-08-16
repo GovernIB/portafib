@@ -4,6 +4,6 @@
            xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/schema/jbossas/jboss-web_13_0.xsd"
            version="13.0">
            <!--  java:/jaas/seycon -->
- <security-domain flushOnSessionInvalidation="true">seycon</security-domain>
+ <security-domain flushOnSessionInvalidation="true">keycloak</security-domain>
  <proactive-authentication>false</proactive-authentication>
 </jboss-web>

@@ -1,7 +1,7 @@
 package es.caib.portafib.back.controller.rest.apifirmasimple.v1;
 
 import es.caib.portafib.back.controller.rest.RestFirmaUtils;
-import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.controller.rest.utils.LoginInfo;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;

@@ -67,11 +67,19 @@
             <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
             <version>${apifirmasimple.version}</version>
         </dependency>
+
         <dependency>
             <artifactId>apifirmaasyncsimple-api</artifactId>
             <groupId>org.fundaciobit.apisib.apifirmaasyncsimple</groupId>
             <version>2.0.1</version>
         </dependency>
+
+        <dependency>
+            <artifactId>apiplantillafluxsimple-api</artifactId>
+            <groupId>org.fundaciobit.apisib.apiplantillafluxsimple</groupId>
+            <version>1.0</version>
+        </dependency>
+        
         <dependency>
             <artifactId>portafib-externalsignaturerest-api</artifactId>
             <groupId>es.caib.portafib</groupId>

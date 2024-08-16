@@ -1,29 +1,9 @@
 package es.caib.portafib.back.controller.rest;
 
-import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.persistence.EntitatJPA;
-import es.caib.portafib.persistence.UsuariAplicacioJPA;
-import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
-import es.caib.portafib.logic.utils.EjbManager;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.pluginsib.core.v3.utils.Base64;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 
-import javax.security.auth.login.LoginContext;
-import javax.servlet.http.HttpServletRequest;
-
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.StringTokenizer;
 
 /**
  * 
@@ -39,7 +19,7 @@ public class RestUtils {
     headers.add("Access-Control-Allow-Origin", "*");
     return headers;
   }
-
+/*
   protected String autenticateUsrApp(HttpServletRequest request) {
 
     try {
@@ -122,14 +102,6 @@ public class RestUtils {
           return msg;
         }
 
-        User user = new User(username, password, seyconAuthorities);
-
-        // create a new authentication token for usuariAplicacio
-        LoginInfo loginInfo = new LoginInfo(user, usuariAplicacio, entitat, seyconAuthorities);
-
-        // and set the authentication of the current Session context
-        SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
-
         log.info("Inicialitzada Informació de UsuariAPLicacio dins de LoginInfo");
 
         return null; // OK
@@ -148,8 +120,9 @@ public class RestUtils {
       return msg;
     }
 
-  }
+  }*/
 
+  /*
   public static boolean authenticateUsernamePassword(HttpServletRequest request, String username,
       String password, Set<String> roles, Logger log) {
 
@@ -177,5 +150,5 @@ public class RestUtils {
       return false;
     }
   }
-
+*/
 }

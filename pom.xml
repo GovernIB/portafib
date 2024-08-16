@@ -46,6 +46,7 @@
         <module>scripts</module>
         <module>testjpa</module>
         <module>back</module>
+        <module>rest</module>
         <module>api-interna</module>
         <module>api-interna-client-infoversio-v1</module>
         <module>api-interna-client-revisors-v1</module>
@@ -81,7 +82,6 @@
         </dependency>
     </dependencies>
     <properties>
-        <contextroot>portafib</contextroot>
         <!-- Veure Profiles -->
         <version_txt_template_file>./scripts/templates/versio.txt.template</version_txt_template_file>
         <version_txt_file>./versio.txt</version_txt_file>
@@ -356,18 +356,6 @@
             <modules>
                 <module>portafib-it</module>
             </modules>
-        </profile>
-        <!-- ======   Canvi de contextroot   =============== -->
-        <profile>
-            <id>contextrootbyproperty</id>
-            <activation>
-                <property>
-                    <name>contextrootportafib</name>
-                </property>
-            </activation>
-            <properties>
-                <contextroot>${contextrootportafib}</contextroot>
-            </properties>
         </profile>
     </profiles>
     <distributionManagement>
