@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.rest.tipusdocumental;
+package es.caib.portafib.rest.controller.tipusdocumental;
 
 import es.caib.portafib.ejb.IdiomaService;
 import es.caib.portafib.ejb.TipusDocumentService;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import es.caib.portafib.back.controller.rest.RestUtils;
 import es.caib.portafib.persistence.TipusDocumentJPA;
 import es.caib.portafib.persistence.TraduccioMapJPA;
+import es.caib.portafib.rest.controller.RestUtils;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.model.entity.TipusDocument;

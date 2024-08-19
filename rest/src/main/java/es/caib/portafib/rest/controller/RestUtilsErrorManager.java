@@ -1,9 +1,8 @@
-package es.caib.portafib.back.controller.rest;
+package es.caib.portafib.rest.controller;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import es.caib.portafib.back.controller.rest.utils.LoginInfo;
 import es.caib.portafib.logic.generator.IdGeneratorFactory;
 
 import org.fundaciobit.apisib.core.beans.ApisIBError;

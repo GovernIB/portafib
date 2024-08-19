@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.rest.apiplantillaflux.v1;
+package es.caib.portafib.rest.controller.apiplantillaflux.v1;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,15 +47,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import es.caib.portafib.back.controller.rest.RestUtilsErrorManager;
-import es.caib.portafib.back.controller.rest.apifirmaasyncsimple.v2.RestApiFirmaAsyncSimpleV2Controller.ComparatorBlocDeFirmesJPA;
-import es.caib.portafib.back.controller.rest.utils.LoginInfo;
 import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.persistence.BlocDeFirmesJPA;
 import es.caib.portafib.persistence.FirmaJPA;
 import es.caib.portafib.persistence.FluxDeFirmesJPA;
 import es.caib.portafib.persistence.RevisorDeFirmaJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
+import es.caib.portafib.rest.controller.LoginInfo;
+import es.caib.portafib.rest.controller.RestUtilsErrorManager;
+import es.caib.portafib.rest.controller.apifirmaasyncsimple.v2.RestApiFirmaAsyncSimpleV2Controller.ComparatorBlocDeFirmesJPA;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PlantillaFluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.apifluxcommon.RestApiPlantillaFluxLocal;

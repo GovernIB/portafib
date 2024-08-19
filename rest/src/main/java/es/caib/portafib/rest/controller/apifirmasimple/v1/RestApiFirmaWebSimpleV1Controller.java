@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.rest.apifirmasimple.v1;
+package es.caib.portafib.rest.controller.apifirmasimple.v1;
 
 import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.node.TextNode;
@@ -34,6 +34,7 @@ import es.caib.portafib.persistence.TipusDocumentJPA;
 import es.caib.portafib.persistence.TraduccioMapJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
+import es.caib.portafib.rest.controller.LoginInfo;
 import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWebInternalUse;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
@@ -45,7 +46,6 @@ import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.fields.TipusDocumentFields;
-import es.caib.portafib.back.controller.rest.utils.LoginInfo;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 

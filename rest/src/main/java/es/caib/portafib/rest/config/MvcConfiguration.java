@@ -1,4 +1,4 @@
-package es.caib.portafib.back.config;
+package es.caib.portafib.rest.config;
 
 
 import org.springframework.context.MessageSource;

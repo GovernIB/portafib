@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.rest;
+package es.caib.portafib.rest.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import es.caib.portafib.persistence.EntitatJPA;
-import es.caib.portafib.back.controller.rest.utils.LoginInfo;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.entity.PerfilDeFirma;

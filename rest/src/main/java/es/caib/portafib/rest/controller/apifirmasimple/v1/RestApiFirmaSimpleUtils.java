@@ -1,9 +1,9 @@
-package es.caib.portafib.back.controller.rest.apifirmasimple.v1;
+package es.caib.portafib.rest.controller.apifirmasimple.v1;
 
-import es.caib.portafib.back.controller.rest.RestFirmaUtils;
-import es.caib.portafib.back.controller.rest.utils.LoginInfo;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
+import es.caib.portafib.rest.controller.LoginInfo;
+import es.caib.portafib.rest.controller.RestFirmaUtils;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
 import es.caib.portafib.logic.passarela.PassarelaKeyValue;

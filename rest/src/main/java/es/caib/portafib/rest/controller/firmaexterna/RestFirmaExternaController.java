@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.rest.firmaexterna;
+package es.caib.portafib.rest.controller.firmaexterna;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,13 +33,13 @@ import es.caib.portafib.apisib.externalsignaturerest.api.v1.ExternalSignatureAvi
 import es.caib.portafib.apisib.externalsignaturerest.api.v1.ExternalSignatureAvisosPeticioResponse;
 import es.caib.portafib.apisib.externalsignaturerest.api.v1.ExternalSignaturePerson;
 import es.caib.portafib.apisib.externalsignaturerest.api.v1.ExternalSignaturePeticio;
-import es.caib.portafib.back.controller.rest.RestUtilsErrorManager;
-import es.caib.portafib.back.controller.rest.utils.LoginInfo;
 import es.caib.portafib.ejb.EntitatService;
 import es.caib.portafib.ejb.PeticioDeFirmaService;
 import es.caib.portafib.persistence.RoleUsuariEntitatJPA;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.persistence.UsuariPersonaJPA;
+import es.caib.portafib.rest.controller.LoginInfo;
+import es.caib.portafib.rest.controller.RestUtilsErrorManager;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;

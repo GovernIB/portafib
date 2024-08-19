@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.rest.utils;
+package es.caib.portafib.rest.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

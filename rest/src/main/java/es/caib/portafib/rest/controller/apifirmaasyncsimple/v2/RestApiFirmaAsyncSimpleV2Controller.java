@@ -1,7 +1,5 @@
-package es.caib.portafib.back.controller.rest.apifirmaasyncsimple.v2;
+package es.caib.portafib.rest.controller.apifirmaasyncsimple.v2;
 
-import es.caib.portafib.back.controller.rest.RestFirmaUtils;
-import es.caib.portafib.back.controller.rest.utils.LoginInfo;
 import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.persistence.AnnexJPA;
 import es.caib.portafib.persistence.BlocDeFirmesJPA;
@@ -21,6 +19,8 @@ import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.persistence.UsuariPersonaJPA;
+import es.caib.portafib.rest.controller.LoginInfo;
+import es.caib.portafib.rest.controller.RestFirmaUtils;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.FirmaLogicaLocal;

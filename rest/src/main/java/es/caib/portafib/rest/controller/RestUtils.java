@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.rest;
+package es.caib.portafib.rest.controller;
 
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
