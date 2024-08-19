@@ -20,9 +20,9 @@ public class DirectGetVersion {
           + "<impl:getVersion/>"
           + "\n" + "</soapenv:Body>" + "\n" + "</soapenv:Envelope>" + "\n";
 
-      //String urlStr = "http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld";
+      String urlStr = "http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld";
       //String urlStr = "https://dev.caib.es/portafib/ws/v1/PortaFIBHelloWorld";
-      String urlStr = "https://dev.caib.es/portafib21/ws/v1/PortaFIBHelloWorld";
+      //String urlStr = "https://dev.caib.es/portafib21/ws/v1/PortaFIBHelloWorld";
       java.net.URL url = new java.net.URL(urlStr);
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
       // Set the necessary header fields

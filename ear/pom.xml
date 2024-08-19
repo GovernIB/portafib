@@ -637,8 +637,7 @@
                     <version>5</version>
                     <displayName>PortafIB</displayName>
                     <description>Portafirmes de les Illes Balears (PortaFIB)</description>
-                    <outputFileNameMapping>
-                        @{artifactId}@-@{version}@.@{extension}@</outputFileNameMapping>
+                    <outputFileNameMapping>@{artifactId}@-@{version}@.@{extension}@</outputFileNameMapping>
                     <archive>
                         <manifest>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -929,9 +928,8 @@
                             <artifactId>portafib-ejb</artifactId>
                             <bundleFileName>portafib-ejb.jar</bundleFileName>
                         </ejbModule>
-                        <!-- Sempre l'afegim, però podria passar que el jar
-                        estas buit 
-                 si no s'ha marcat cap profile de WS -->
+                        <!-- Sempre l'afegim, però podria passar que el jar estas buit
+                             si no s'ha marcat cap profile de WS -->
                         <ejbModule>
                             <groupId>es.caib.portafib</groupId>
                             <artifactId>portafib-ws-server</artifactId>

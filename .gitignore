@@ -228,3 +228,4 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /ear.bat
 /rest.bat
 /ejb.bat
+/ws.bat

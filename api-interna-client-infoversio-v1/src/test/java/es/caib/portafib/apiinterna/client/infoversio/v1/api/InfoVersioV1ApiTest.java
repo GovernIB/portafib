@@ -10,29 +10,49 @@
  * Do not edit the class manually.
  */
 
-
 package es.caib.portafib.apiinterna.client.infoversio.v1.api;
 
+import es.caib.portafib.apiinterna.client.infoversio.v1.services.ApiClient;
 import es.caib.portafib.apiinterna.client.infoversio.v1.services.ApiException;
 import es.caib.portafib.apiinterna.client.infoversio.v1.model.InfoVersio;
-import es.caib.portafib.apiinterna.client.infoversio.v1.model.RestExceptionInfo;
 import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.Assert;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.FileInputStream;
+
+import java.util.Properties;
 
 /**
  * API tests for InfoVersioV1Api
+ * @author anadal
  */
 public class InfoVersioV1ApiTest {
 
-    private final InfoVersioV1Api api = new InfoVersioV1Api();
+    public static void main(String[] args) {
+        try {
+            InfoVersioV1ApiTest test = new InfoVersioV1ApiTest();
+            test.versioApiTest();
+            //test.versioAppTest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static InfoVersioV1Api getApi() throws Exception {
+
+        /* Llegir les següents dades d'un fitxer de propietats */
+        Properties prop = new Properties();
+        prop.load(new FileInputStream("test.properties"));
+
+        String basePath = prop.getProperty("basePath");
+
+        ApiClient client = new ApiClient();
+        client.setBasePath(basePath);
+
+
+        InfoVersioV1Api api = new InfoVersioV1Api(client);
+
+        return api;
+    }
 
     /**
      * Retorna la versió de PortaFIB REST
@@ -41,12 +61,14 @@ public class InfoVersioV1ApiTest {
      *          if the Api call fails
      */
     @Test
-    public void versioApiTest() throws ApiException {
-        //
-        //InfoVersio response = api.versioApi();
+    public void versioApiTest() throws Exception {
 
-        // TODO: test validations
+        InfoVersioV1Api api = getApi();
+        InfoVersio response = api.versioApi();
+
+        System.out.println(response.toString());
     }
+
     /**
      * Retorna la versió de PortaFIB
      *

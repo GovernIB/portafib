@@ -5,6 +5,7 @@ import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.Local;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ public interface UsuariAplicacioLogicaLocal extends UsuariAplicacioService {
 
   String JNDI_NAME = "java:app/portafib-ejb/UsuariAplicacioLogicaEJB";
 
+  @PermitAll
   public UsuariAplicacioJPA findByPrimaryKeyFull(String _usuariAplicacioID_);
 
   public UsuariAplicacioJPA checkForDeletion(String usuariAplicacioID)

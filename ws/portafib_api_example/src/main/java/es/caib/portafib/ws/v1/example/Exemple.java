@@ -76,7 +76,7 @@ public class Exemple {
             {
                 // Adreça servidor
                 String endpoint = getEndPoint("PortaFIBPeticioDeFirma");
-                ;
+
                 PortaFIBPeticioDeFirmaWsService service;
                 log.info("endpoint " + endpoint);
 

@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>portafib-commons</artifactId>
     <packaging>jar</packaging>
@@ -9,20 +10,7 @@
     </parent>
     <name>PortaFIB - Commons</name>
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
-
-        <root_template_file>./templates/RootWs.java.template</root_template_file>
-        <root_file>src/main/java/es/caib/portafib/commons/utils/RootWs.java</root_file>
-
-        <!--
-        <version_template_file>./templates/StaticVersion.java.template</version_template_file>
-        <version_file>src/main/java/es/caib/portafib/commons/utils/StaticVersion.java</version_file>
-        -->
         <project.buildtime>${maven.build.timestamp}</project.buildtime>
-        <!--
-        <maven.build.timestamp.format>dd/MM/yyyy HH:mm</maven.build.timestamp.format>
-        -->
         <tiles.version>3.0.8</tiles.version>
     </properties>
     <build>
@@ -34,32 +22,8 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-        <plugins>
 
-            <plugin>
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>maven-replacer-plugin</artifactId>
-                <version>1.4.0</version>
-                <executions>
-                    <execution>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <file>${root_template_file}</file>
-                    <outputFile>${root_file}</outputFile>
-                    <replacements>
-                        <replacement>
-                            <token>@contextroot@</token>
-                            <value>${contextroot}</value>
-                        </replacement>
-                    </replacements>
-                </configuration>
-            </plugin>
-            
+        <plugins>
             <!-- Defineix la propietat {buildNumber} que s'empra al filtrat -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

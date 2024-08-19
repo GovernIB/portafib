@@ -42,6 +42,7 @@ import java.util.Set;
  * @author anadal
  * 
  */
+@PermitAll
 @Stateless
 public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
     UsuariAplicacioLogicaLocal {
@@ -91,11 +92,13 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
    * 
    */
   @Override
+  @PermitAll
   public UsuariAplicacioJPA findByPrimaryKeyFull(String _usuariAplicacioID_) {
     return findByPrimaryKeyFull(this, _usuariAplicacioID_);
   }
   
   
+  @PermitAll
   public static UsuariAplicacioJPA findByPrimaryKeyFull(
       UsuariAplicacioService usuariAplicacioEjb, String _usuariAplicacioID_) {
 
