@@ -6,12 +6,15 @@
     <description>REST - PortaFIB</description>
 
 
+    <!--  LOAD-ON-STARTUP SERVLET -->
+
+    <servlet>
+      <servlet-name>InitServlet</servlet-name>
+      <servlet-class>es.caib.portafib.rest.utils.InitServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
+    </servlet>
 
     <!-- LISTENER -->
-
-    <!-- Serveix per obtenir el HttpServletRequest en el AuthenticationSuccessListener <listener> <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class> 
-        </listener> -->
-
 
     <servlet>
         <servlet-name>portafib_rest</servlet-name>
@@ -24,10 +27,8 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- Spring 3 UTF-8 Encoding <filter> <filter-name>encoding-filter</filter-name> <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class> 
-        <init-param> <param-name>encoding</param-name> <param-value>UTF-8</param-value> </init-param> <init-param> <param-name>forceEncoding</param-name> 
-        <param-value>true</param-value> </init-param> </filter> <filter-mapping> <filter-name>encoding-filter</filter-name> <url-pattern>/*</url-pattern> 
-        </filter-mapping> -->
+
+    <!-- Spring 3 UTF-8 Encoding <filter>  -->
 
 
     <security-constraint>
@@ -107,21 +108,13 @@
     </welcome-file-list>
 
     <!-- Spring 3 Configuration -->
+  
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/applicationContext-security.xml</param-value>
     </context-param>
 
-    <servlet>
-        <servlet-name>portafib_rest</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <load-on-startup>2</load-on-startup>
-    </servlet>
 
-    <servlet-mapping>
-        <servlet-name>portafib_rest</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
 
 
 </web-app>

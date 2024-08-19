@@ -7,15 +7,9 @@ import es.caib.portafib.logic.utils.EjbManager;
 
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
@@ -71,7 +65,7 @@ public class RestUtils {
 
             boolean autenticat;
 
-            Set<String> roles = new HashSet<String>();
+            //Set<String> roles = new HashSet<String>();
 
             //autenticat = authenticateUsernamePassword(request, username, password, roles, log);
             autenticat = true;
