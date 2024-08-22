@@ -229,3 +229,4 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /rest.bat
 /ejb.bat
 /ws.bat
+/api-interna-client-infoversio-v1/test.properties

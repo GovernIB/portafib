@@ -208,11 +208,11 @@ public interface ConstantsV2 {
     public static final int PRIORITAT_NORMAL = 5;
     public static final int PRIORITAT_ALTA = 7;
 
-    public static final String BARCODE_PDF417_PLUGIN = "org.fundaciobit.plugins.barcode.pdf417.Pdf417Plugin";
+    public static final String BARCODE_PDF417_PLUGIN = "org.fundaciobit.pluginsib.barcode.pdf417.Pdf417Plugin";
 
-    public static final String BARCODE_QR_PLUGIN = "org.fundaciobit.plugins.barcode.qrcode.QrCodePlugin";
+    public static final String BARCODE_QR_PLUGIN = "org.fundaciobit.pluginsib.barcode.qrcode.QrCodePlugin";
 
-    public static final String BARCODE_128_PLUGIN = "org.fundaciobit.plugins.barcode.barcode128.BarCode128Plugin";
+    public static final String BARCODE_128_PLUGIN = "org.fundaciobit.pluginsib.barcode.barcode128.BarCode128Plugin";
 
     //==============================================================
     // --- POSICIO DE TAULA DE FIRMES - PORTAFIB v2.0 #166 -----
