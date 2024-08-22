@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>es.caib.portafib</groupId>
-    <version>2.2.1</version>
+    <version>2.2.2</version>
     <artifactId>portafib</artifactId>
     <packaging>pom</packaging>
     <name>PortaFIB</name>
@@ -106,7 +106,7 @@
         <!-- Veure Profiles -->
         <version_txt_template_file>./scripts/templates/versio.txt.template</version_txt_template_file>
         <version_txt_file>./versio.txt</version_txt_file>
-        <portafib.version>2.2.1</portafib.version>
+        <portafib.version>2.2.2</portafib.version>
         <plugins.version>2.0.0</plugins.version>
         <pluginsib.barcode.api.version>3.0.0</pluginsib.barcode.api.version>
         <pluginsib.barcode.impl.version>3.0.0-SNAPSHOT</pluginsib.barcode.impl.version>

@@ -67,7 +67,7 @@ public class LogicUtils {
       }
     } else {
 
-      if (!expectedCif.equals(cifFirmant)) {
+      if (!expectedCif.trim().equalsIgnoreCase(cifFirmant)) {
         // =S´ha firmat amb un certificat on el cif associat és {0}, però es requeria el cif
         // {1}
         final String codeError = "error.firmat_amb_cif_incorrecte";
