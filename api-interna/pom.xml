@@ -18,42 +18,37 @@
     <dependencies>
         <!-- Especificacions i llibreries proporcionades per JBoss -->
         <dependency>
-            <groupId>org.jboss.spec</groupId>
-            <artifactId>jboss-javaee-8.0</artifactId>
-            <type>pom</type>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        
+        
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <scope>provided</scope>
         </dependency>
         <!-- Altres mòduls del projecte -->
         <dependency>
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-commons</artifactId>
-            <version>3.0.0</version>
-            <scope>provided</scope>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-persistence</artifactId>
-            <version>3.0.0</version>
-            <scope>provided</scope>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-ejb</artifactId>
-            <version>3.0.0</version>
-            <scope>provided</scope>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- Anotacions de documentació de openapi -->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <!-- <version>2.1.13</version> -->
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -280,30 +275,6 @@
                         </resource>
                     </webResources>
                     <packagingExcludes>
-                        <!-- Requereix afegir mòdul 'javax.activation.api' a jboss-deployment-structure.xml -->
-                         **/activation*redhat*.jar,
-                        <!-- Requereix afegir mòdul 'org.apache.commons.lang3' a jboss-deployment-structure.xml -->
-                         **/commons-lang3*redhat*.jar,
-                        <!-- Requereix afegir mòdul 'com.fasterxml.jackson.core.jackson-annotations' a jboss-deployment-structure.xml -->
-                         **/jackson-annotations*redhat*.jar,
-                        <!-- Requereix afegir mòdul 'com.fasterxml.jackson.core.jackson-core' a jboss-deployment-structure.xml -->
-                         **/jackson-core*redhat*.jar,
-                        <!-- Requereix afegir mòdul 'com.fasterxml.jackson.core.jackson-databind' a jboss-deployment-structure.xml -->
-                         **/jackson-databind*redhat*.jar,
-                        <!-- Requereix afegir mòdul 'com.fasterxml.jackson.jaxrs.jackson-jaxrs-json-provider' a jboss-deployment-structure.xml -->
-                         **/jackson-jaxrs-json-provider*redhat*.jar,
-                         **/jackson-jaxrs-base*redhat*.jar,
-                         **/jackson-module-jaxb-annotations*redhat*.jar,
-                        <!-- Requereix afegir mòdul 'javax.persistence.api' a jboss-deployment-structure.xml -->
-                         **/javax.persistence-api*redhat*.jar,
-                        <!-- Requereix afegir mòdul 'javax.annotation.api' a jboss-deployment-structure.xml -->
-                         **/jboss-annotations-api_1.3_spec*redhat*.jar,
-                        <!-- Requereix afegir mòdul 'javax.xml.bind.api' a jboss-deployment-structure.xml -->
-                         **/jboss-jaxb-api_2.3_spec*redhat*.jar,
-                        <!-- Requereix afegir mòdul 'javax.ws.rs.api' a jboss-deployment-structure.xml -->
-                         **/jboss-jaxrs-api_2.1_spec*redhat*.jar,
-                        <!-- Requereix afegir mòdul 'org.jboss.logging' a jboss-deployment-structure.xml -->
-                         **/jboss-logging*redhat*.jar,
                     </packagingExcludes>
                 </configuration>
             </plugin>

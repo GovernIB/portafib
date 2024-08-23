@@ -22,7 +22,6 @@
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-ejb</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
         </dependency>
 
 
@@ -30,7 +29,6 @@
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-commons</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
         </dependency>
 
 
@@ -40,28 +38,24 @@
             <artifactId>apifirmasimple-api</artifactId>
             <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
             <version>${apifirmasimple.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <artifactId>apifirmaasyncsimple-api</artifactId>
             <groupId>org.fundaciobit.apisib.apifirmaasyncsimple</groupId>
             <version>2.0.1</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <artifactId>apiplantillafluxsimple-api</artifactId>
             <groupId>org.fundaciobit.apisib.apiplantillafluxsimple</groupId>
             <version>1.0</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.fundaciobit.pluginsib.core.v3</groupId>
             <artifactId>pluginsib-core</artifactId>
             <version>${pluginsib.core.version}</version>
-            <scope>provided</scope>
         </dependency>
 
 
@@ -69,7 +63,6 @@
             <groupId>org.fundaciobit.genapp</groupId>
             <artifactId>genapp-core</artifactId>
             <version>${genapp.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -81,31 +74,27 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-core-asl</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>
             <version>2.0</version>
-            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>commons-logging</groupId>
