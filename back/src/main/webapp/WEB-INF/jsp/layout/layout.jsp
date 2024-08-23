@@ -62,8 +62,7 @@
 				<c:set var="rol" value="${rolG.authority}" />
 				<c:if
 					test="${not( (rol eq 'ROLE_ANY') || (rol eq 'ROLE_USER')  || (rol eq 'ROLE_AUTOFIRMA') )}">
-					<li
-						class="nav-item ${(rol eq 'ROLE_COLA')?' dropdown' : '' } ${(pipella eq rol)?' active' : '' }"">
+					<li class="nav-item ${(rol eq 'ROLE_COLA')?' dropdown' : '' } ${(pipella eq rol)?' active' : '' }">
 						<c:url var="linktab" value="/canviarPipella/${rol}" /> <c:set
 							var="href" value="href=\" ${linktab}\"" /> <a
 						class="nav-link ${(pipella eq rol)?'active' : '' } " ${href}><fmt:message

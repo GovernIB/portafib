@@ -132,16 +132,14 @@
 
 								<c:if test="${loginInfo.usuariPersona.usuariIntern}">
 									<a class="dropdown-item"
-										href="<c:url value="/common/configuracio/usuaripersona/${pageContext.request.userPrincipal.name}/edit"/>">
+										href="<c:url value="/common/configuracio/usuaripersona/${pageContext.request.userPrincipal.name}/edit"/>" >
 										<i class="fas fa-cog"></i> <fmt:message key="configuracio" />
 									</a>
 								</c:if>
 
-
-
 								<c:if test="${not empty menuLogOutUrl}">
 									<a class="dropdown-item"
-										href="<c:url value="${menuLogOutUrl}" />"
+										href="<c:url value="${menuLogOutUrl}" />" >
 										<i class="fas fa-sign-out-alt"></i>
 										<fmt:message key="sortir" /></a>
 								</c:if>
