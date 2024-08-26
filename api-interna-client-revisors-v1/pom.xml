@@ -43,7 +43,7 @@
     <!-- NOU -->
     <repositories>
         <repository>
-            <id>github_governib_maven</id>
+            <id>github-governib-maven-repos</id>
             <name>GitHub GovernIB Maven Repository</name>
             <url>https://governib.github.io/maven/maven/</url>
             <snapshots>
