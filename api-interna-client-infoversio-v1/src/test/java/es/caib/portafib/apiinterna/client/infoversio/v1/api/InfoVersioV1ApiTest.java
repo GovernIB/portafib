@@ -31,7 +31,7 @@ public class InfoVersioV1ApiTest {
         try {
             InfoVersioV1ApiTest test = new InfoVersioV1ApiTest();
             test.versioApiTest();
-            //test.versioAppTest();
+            test.versioAppTest();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,7 +47,6 @@ public class InfoVersioV1ApiTest {
 
         ApiClient client = new ApiClient();
         client.setBasePath(basePath);
-
 
         InfoVersioV1Api api = new InfoVersioV1Api(client);
 
@@ -76,10 +75,10 @@ public class InfoVersioV1ApiTest {
      *          if the Api call fails
      */
     @Test
-    public void versioAppTest() throws ApiException {
-        //
-        //InfoVersio response = api.versioApp();
+    public void versioAppTest() throws Exception {
+        InfoVersioV1Api api = getApi();
+        InfoVersio response = api.versioApp();
 
-        // TODO: test validations
+        System.out.println(response.toString());
     }
 }
