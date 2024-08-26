@@ -349,9 +349,7 @@
         </dependency>
     </dependencies>
     <properties>
-        <!-- NOU <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> -->
-        <!-- NOU <resteasy-version>4.7.6.Final</resteasy-version>-->
-
+        <!-- NOU <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> -->        <resteasy-version>4.7.6.Final</resteasy-version>
         <!-- NOU <jackson-version>2.15.2</jackson-version>-->
         <jackson-databind-version>2.15.2</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
