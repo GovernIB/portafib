@@ -26,7 +26,8 @@ alter table pfi_revisordedestinatari
 
 alter table pfi_revisordedestinatari add constraint pfi_revdedest_dest_rev_uk unique (destinatariid, revisorid);
 
-create index pfi_revisordedestinatari_pk_i on pfi_revisordedestinatari (revisordedestinatariid);
+-- Pareix ser que Oracle genera automàticament l'index per les PK
+--create index pfi_revisordedestinatari_pk_i on pfi_revisordedestinatari (revisordedestinatariid);
 create index pfi_revdedest_destid_fk_i on pfi_revisordedestinatari (destinatariid);
 create index pfi_revdedest_revisorid_fk_i on pfi_revisordedestinatari (revisorid);
 
