@@ -16,8 +16,7 @@
     
     <!-- NOU -->
     <parent>
-        <artifactId>
-            caib-artifacts-github-governib-distribution-with-jdk11-jboss72</artifactId>
+        <artifactId>caib-artifacts-github-governib-distribution-with-jdk11-jboss72</artifactId>
         <groupId>es.caib.maven</groupId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath></relativePath>
@@ -44,44 +43,20 @@
     <!-- NOU -->
     <repositories>
         <repository>
-            <id>jboss-releases</id>
-            <name>JBoss Releases Repository</name>
-            <url>
-                https://repository.jboss.org/nexus/content/repositories/releases/</url>
+            <id>github_governib_maven</id>
+            <name>GitHub GovernIB Maven Repository</name>
+            <url>https://governib.github.io/maven/maven/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
             <releases>
+                <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
             </releases>
-            <snapshots>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>redhat-repository</id>
-            <name>Redhat Repository</name>
-            <url>https://maven.repository.redhat.com/ga/</url>
         </repository>
     </repositories>
 
-
-    <!-- NOU -->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>eap-runtime-artifacts</artifactId>
-                <version>${jboss-eap.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>jboss-eap-javaee8-with-tools</artifactId>
-                <version>${jboss-eap.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
