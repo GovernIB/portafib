@@ -262,11 +262,11 @@
             <scope>test</scope>
         </dependency>
         <!-- @Nullable annotation -->
-        <dependency>
+<!-- NOU        <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
-            <version>1.3.9</version><!-- NOU  -->
-        </dependency>
+            <version>3.0.2</version>
+        </dependency> -->
         <!-- HTTP client: jersey-client -->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
