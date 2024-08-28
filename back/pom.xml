@@ -360,8 +360,6 @@
                             <filtering>false</filtering>
                         </resource>
                     </webResources>
-                    <packagingExcludes>
-                    </packagingExcludes>
                 </configuration>
             </plugin>
             <plugin>

@@ -12,76 +12,103 @@
 			<module name="org.keycloak.keycloak-server-spi" optional="true"  export="true" />
 			<module name="org.keycloak.keycloak-server-spi-private" optional="true" export="true" />
 			<module name="org.keycloak.keycloak-services" optional="true" export="true" />
-            
-            
-            <!--  CAS ESPECIAL: Dpendència org.jboss.ws.cxf::jbossws-cxf-client  de portafib ejb --> 
-            <module name="org.jboss.ws.cxf.jbossws-cxf-client" export="true"/>
-            
 
-            <module name="javax.activation.api" export="TRUE"/>
-            <module name="org.apache.james.mime4j" export="TRUE"/>
+            <!--  CAS ESPECIAL: Dependència org.jboss.ws.cxf::jbossws-cxf-client  de portafib ejb --> 
+            <module name="org.jboss.ws.cxf.jbossws-cxf-client" export="true"/>
+
             <module name="asm.asm" export="TRUE"/>
-            <module name="org.bouncycastle" export="TRUE"/>
+            <module name="com.fasterxml.jackson.core.jackson-annotations" export="TRUE"/>
+            <module name="com.fasterxml.jackson.core.jackson-core" export="TRUE"/>
+            <module name="com.fasterxml.jackson.core.jackson-databind" export="TRUE"/>
+            <module name="com.fasterxml.jackson.datatype.jackson-datatype-jsr310" export="TRUE"/>
+            <module name="com.fasterxml.jackson.jaxrs.jackson-jaxrs-json-provider" export="TRUE"/>
+            <module name="com.github.fge.jackson-coreutils" export="TRUE"/>
+            <module name="com.github.fge.json-patch" export="TRUE"/>
+            <module name="com.google.guava" export="TRUE"/>
+            <module name="com.squareup.okhttp3" export="TRUE"/>
+            <module name="com.sun.istack" export="TRUE"/>
+            <module name="com.sun.xml.bind" export="TRUE"/>
+            <module name="com.sun.xml.fastinfoset" export="TRUE"/>
+            <module name="com.sun.xml.messaging.saaj" export="TRUE"/>
+            <module name="com.sun.xml.txw2" export="TRUE"/>
+            <module name="javax.activation.api" export="TRUE"/>
+            <module name="javax.annotation.api" export="TRUE"/>
+            <module name="javax.json.bind.api" export="TRUE"/>
+            <module name="javax.jws.api" export="TRUE"/>
+            <module name="javax.mail.api" export="TRUE"/>
+            <module name="javax.persistence.api" export="TRUE"/>
+            <module name="javax.validation.api" export="TRUE"/>
+            <module name="javax.ws.rs.api" export="TRUE"/>
+            <module name="javax.wsdl4j.api" export="TRUE"/>
+            <module name="javax.xml.bind.api" export="TRUE"/>
+            <module name="javax.xml.soap.api" export="TRUE"/>
+            <module name="javax.xml.ws.api" export="TRUE"/>
+            <module name="net.jcip" export="TRUE"/>
+            <module name="nu.xom" export="TRUE"/>
             <module name="org.apache.commons.beanutils" export="TRUE"/>
             <module name="org.apache.commons.codec" export="TRUE"/>
             <module name="org.apache.commons.collections" export="TRUE"/>
             <module name="org.apache.commons.io" export="TRUE"/>
             <module name="org.apache.commons.lang" export="TRUE"/>
             <module name="org.apache.commons.lang3" export="TRUE"/>
-            <module name="org.jboss.logging.commons.logging" export="TRUE"/>
-            <module name="org.opensaml" export="TRUE"/>
             <module name="org.apache.cxf" export="TRUE"/>
             <module name="org.apache.cxf.impl" export="TRUE"/>
             <module name="org.apache.cxf.ws-security" export="TRUE"/>
-            <module name="com.sun.xml.fastinfoset" export="TRUE"/>
-            <module name="com.google.guava" export="TRUE"/>
-            <module name="org.apache.httpcomponents.core" export="TRUE"/>
             <module name="org.apache.httpcomponents" export="TRUE"/>
-            <module name="com.sun.istack" export="TRUE"/>
-            <module name="com.fasterxml.jackson.core.jackson-annotations" export="TRUE"/>
-            <module name="com.fasterxml.jackson.core.jackson-core" export="TRUE"/>
-            <module name="org.codehaus.jackson.jackson-core-asl" export="TRUE"/>
-            <module name="com.github.fge.jackson-coreutils" export="TRUE"/>
-            <module name="com.fasterxml.jackson.core.jackson-databind" export="TRUE"/>
-            <module name="com.fasterxml.jackson.datatype.jackson-datatype-jsr310" export="TRUE"/>
-            <module name="com.fasterxml.jackson.jaxrs.jackson-jaxrs-json-provider" export="TRUE"/>
-            <module name="org.codehaus.jackson.jackson-mapper-asl" export="TRUE"/>
-            <module name="org.apache.ws.security" export="TRUE"/>
-            <module name="javax.json.bind.api" export="TRUE"/>
-            <module name="javax.mail.api" export="TRUE"/>
-            <module name="javax.persistence.api" export="TRUE"/>
-            <module name="com.sun.xml.bind" export="TRUE"/>
-            <module name="org.jaxen" export="TRUE"/>
-            <module name="javax.annotation.api" export="TRUE"/>
-            <module name="javax.xml.bind.api" export="TRUE"/>
-            <module name="javax.ws.rs.api" export="TRUE"/>
-            <module name="javax.xml.ws.api" export="TRUE"/>
-            <module name="org.jboss.logging" export="TRUE"/>
-            <module name="javax.xml.soap.api" export="TRUE"/>
-            <module name="net.jcip" export="TRUE"/>
-            <module name="org.joda.time" export="TRUE"/>
-            <module name="com.github.fge.json-patch" export="TRUE"/>
-            <module name="javax.jws.api" export="TRUE"/>
+            <module name="org.apache.httpcomponents.core" export="TRUE"/>
+            <module name="org.apache.james.mime4j" export="TRUE"/>
             <module name="org.apache.neethi" export="TRUE"/>
-            <module name="com.squareup.okhttp3" export="TRUE"/>
-            <module name="org.reactivestreams" export="TRUE"/>
-            <module name="org.jboss.resteasy.resteasy-jaxrs" export="TRUE"/>
-            <module name="org.jboss.resteasy.resteasy-jackson2-provider" export="TRUE"/>
-            <module name="org.jboss.resteasy.resteasy-jaxb-provider" export="TRUE"/>
-            <module name="org.jboss.resteasy.resteasy-multipart-provider" export="TRUE"/>
-            <module name="com.sun.xml.messaging.saaj" export="TRUE"/>
+            <module name="org.apache.santuario.xmlsec" export="TRUE"/>
+            <module name="org.apache.ws.security" export="TRUE"/>
+            <module name="org.apache.ws.xmlschema" export="TRUE"/>
             <module name="org.apache.xalan" export="TRUE"/>
-            <module name="org.slf4j" export="TRUE"/>
-            <module name="org.codehaus.woodstox" export="TRUE"/>
-            <module name="com.sun.xml.txw2" export="TRUE"/>
-            <module name="javax.validation.api" export="TRUE"/>
-            <module name="javax.wsdl4j.api" export="TRUE"/>
             <module name="org.apache.xerces" export="TRUE"/>
             <module name="org.apache.xml-resolver" export="TRUE"/>
-            <module name="org.apache.ws.xmlschema" export="TRUE"/>
-            <module name="org.apache.santuario.xmlsec" export="TRUE"/>
-            <module name="nu.xom" export="TRUE"/>
+            <module name="org.bouncycastle" export="TRUE"/>
+            <module name="org.codehaus.jackson.jackson-core-asl" export="TRUE"/>
+            <module name="org.codehaus.jackson.jackson-mapper-asl" export="TRUE"/>
+            <module name="org.codehaus.woodstox" export="TRUE"/>
+            <module name="org.jaxen" export="TRUE"/>
+            <module name="org.jboss.logging" export="TRUE"/>
+            <module name="org.jboss.logging.commons.logging" export="TRUE"/>
+            <module name="org.jboss.resteasy.resteasy-jackson2-provider" export="TRUE"/>
+            <module name="org.jboss.resteasy.resteasy-jaxb-provider" export="TRUE"/>
+            <module name="org.jboss.resteasy.resteasy-jaxrs" export="TRUE"/>
+            <module name="org.jboss.resteasy.resteasy-multipart-provider" export="TRUE"/>
+            <module name="org.joda.time" export="TRUE"/>
+            <module name="org.opensaml" export="TRUE"/>
+            <module name="org.reactivestreams" export="TRUE"/>
+            <module name="org.slf4j" export="TRUE"/>
 
         </dependencies>
-    </deployment>
+        <!-- Per evitar problemes amb els Bindings de les APIs RestEasy -->
+        <!-- Així suporten tipus especials com byte[], timestamp, ...   -->
+        <exclusions>
+                <module name="org.jboss.resteasy.resteasy-json-binding-provider"/>
+        </exclusions>
+        </deployment>
+    <sub-deployment name="portafib-back.war">
+        <exclusions>
+            <!-- Per evitar problemes amb els Bindings de les APIs RestEasy -->
+            <!-- Així suporten tipus especials com byte[], timestamp, ...   -->
+            <module name="org.jboss.resteasy.resteasy-json-binding-provider"/>
+        </exclusions>
+    </sub-deployment>
+
+    <sub-deployment name="portafib-rest.war">
+
+        <exclusions>
+            <!-- Per evitar problemes amb els Bindings de les APIs RestEasy -->
+            <!-- Així suporten tipus especials com byte[], timestamp, ...   -->
+            <module name="org.jboss.resteasy.resteasy-json-binding-provider"/>
+        </exclusions>
+    </sub-deployment>
+
+    <sub-deployment name="portafib-api-interna.war">
+        <exclusions>
+            <!-- Per evitar problemes amb els Bindings de les APIs RestEasy -->
+            <!-- Així suporten tipus especials com byte[], timestamp, ...   -->
+            <module name="org.jboss.resteasy.resteasy-json-binding-provider"/>
+        </exclusions>
+    </sub-deployment>
 </jboss-deployment-structure>

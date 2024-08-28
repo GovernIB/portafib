@@ -259,8 +259,6 @@
                             <directory>${project.basedir}/openapi</directory>
                         </resource>
                     </webResources>
-                    <packagingExcludes>
-                    </packagingExcludes>
                 </configuration>
             </plugin>
 
