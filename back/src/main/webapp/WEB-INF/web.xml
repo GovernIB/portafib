@@ -5,9 +5,7 @@
 
 	<display-name>PortaFIB</display-name>
 	<description>Back Office &amp; Front Office - PortaFIB</description>
-  
 
-	
 	<!--  LISTENER -->
 	<!-- 
 	<listener>
@@ -159,6 +157,7 @@
         <web-resource-collection>
             <web-resource-name>portafib_back-public</web-resource-name>
             <url-pattern>/carrecscaib/*</url-pattern>
+            <url-pattern>/usuariscaib/*</url-pattern>
             <url-pattern>/error.jsp</url-pattern>
             <url-pattern>/index.jsp</url-pattern>
             <url-pattern>/indexcc.jsp</url-pattern>
