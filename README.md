@@ -3,8 +3,8 @@
 
 ***Versions***
 
-> - Versió Estable: Tag [__portafib-2.0.25__](../../tree/portafib-2.0.25_2023-07-10))<br/>
-> - Versió en Desenvolupament: portafib-2.2 (branca [portafib-2.2](../../tree/portafib-2.2))
+> - Versió Estable: Tag [__portafib-2.2.2__] (branca [portafib-2.2](../../tree/portafib-2.2)<br/>
+> - Versió en Desenvolupament: portafib-3.0 (branca [portafib-3.0](../../tree/portafib-3.0))
 
 
 ***Documentació***
