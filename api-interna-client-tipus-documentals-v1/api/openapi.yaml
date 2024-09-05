@@ -1,0 +1,135 @@
+openapi: 3.0.1
+info:
+  contact:
+    email: otae@fundaciobit.org
+    name: Departament de Govern Digital a la Fundació Bit
+    url: https://governdigital.fundaciobit.org
+  description: Conjunt de Serveis REST de PortaFIB per atendre consultes de tipus
+    documentals.
+  license:
+    name: European Union Public Licence (EUPL v1.2)
+    url: https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf
+  title: API Interna de PortaFIB de consulta de tipus documentals de PortaFIB
+  version: 1.0-SNAPSHOT
+externalDocs:
+  description: Java API Interna Client (Github Source Code)
+  url: https://github.com/GovernIB/portafib/tree/portafib-2.2/
+servers:
+- url: /portafibapi/interna
+- url: http://localhost:8080/portafibapi/interna
+- url: https://dev.caib.es/portafibapi/interna
+- url: https://proves.caib.es/portafibapi/interna
+- url: https://se.caib.es/portafibapi/interna
+- url: https://www.caib.es/portafibapi/interna
+tags:
+- description: "Informació basica del servidor: versió producte, versió API, ..."
+  name: TipusDocumental v1
+paths:
+  /public/tipusdocumental/v1/list:
+    get:
+      operationId: list
+      parameters:
+      - description: Idioma en que s'han de retornar les dades(Només suportat 'ca'
+          o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: language
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
+      - description: Filtre pel nom de l'usuari aplicacio. Opcional.
+        explode: true
+        in: query
+        name: appuser
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TipusDocumentalRest'
+          description: Operació realitzada correctament
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+      summary: Retorna la versió de PortaFIB REST
+      tags:
+      - TipusDocumental v1
+      x-accepts: application/json
+components:
+  schemas:
+    TipusDocumentalRest:
+      example:
+        tipusDocumentNTI: 6
+        tipusDocumentID: 0
+        nom: nom
+      properties:
+        tipusDocumentID:
+          format: int64
+          type: integer
+        nom:
+          type: string
+        tipusDocumentNTI:
+          format: int64
+          type: integer
+      type: object
+    RestExceptionInfo:
+      description: Estructura de dades utilitzada per passar informació d'un error
+      example:
+        code: 1
+        causeStackTrace: causeStackTrace
+        causeException: causeException
+        errorMessage: errorMessage
+        stackTrace: stackTrace
+      properties:
+        code:
+          description: Codi de HTTP de l'error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
+          format: int32
+          type: integer
+        errorMessage:
+          description: Missatge de l'error
+          type: string
+        stackTrace:
+          description: Stacktrace de l'excepció si n'hi hagués.
+          type: string
+        causeException:
+          description: Tipus de l'excepció origen (cause) si n'hi hagués.
+          type: string
+        causeStackTrace:
+          description: Stacktrace de l'excepció origen (cause) si n'hi hagués.
+          type: string
+      required:
+      - code
+      - errorMessage
+      type: object
+    LlistaTipusDocumentalRest:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/TipusDocumentalRest'
+          type: array
+        language:
+          type: string
+      type: object
+

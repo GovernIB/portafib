@@ -233,3 +233,14 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 pemfiles/governib_github_io.pem
 pemfiles/maven_repository_redhat_com.pem
 pemfiles/repositorio_viavansi_com.pem
+api-interna-client-tipus-documentals-v1/gradle/
+api-interna-client-tipus-documentals-v1/.openapi-generator/
+api-interna-client-tipus-documentals-v1/.github/
+api-interna-client-tipus-documentals-v1/.travis.yml
+api-interna-client-tipus-documentals-v1/build.gradle
+api-interna-client-tipus-documentals-v1/build.sbt
+api-interna-client-tipus-documentals-v1/git_push.sh
+api-interna-client-tipus-documentals-v1/gradle.properties
+api-interna-client-tipus-documentals-v1/gradlew
+api-interna-client-tipus-documentals-v1/gradlew.bat
+api-interna-client-tipus-documentals-v1/settings.gradle
