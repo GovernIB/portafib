@@ -230,3 +230,6 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /ejb.bat
 /ws.bat
 /api-interna-client-infoversio-v1/test.properties
+pemfiles/governib_github_io.pem
+pemfiles/maven_repository_redhat_com.pem
+pemfiles/repositorio_viavansi_com.pem
