@@ -468,7 +468,7 @@
                                     <groupId>es.caib.portafib</groupId>
                                     <artifactId>
                                         portafib-ws-indra-callback-server</artifactId>
-                                    <contextRoot>${contextroot}/portafirmascb</contextRoot>
+                                    <contextRoot>portafib/portafirmascb</contextRoot>
                                     <bundleFileName>
                                         portafib-ws-indra-callback-server.war</bundleFileName>
                                 </webModule>
@@ -592,14 +592,14 @@
                                 <webModule>
                                     <groupId>es.caib.portafib</groupId>
                                     <artifactId>portafib-ws-callback-server-web</artifactId>
-                                    <contextRoot>${contextroot}/portafibcb</contextRoot>
+                                    <contextRoot>portafib/portafibcb</contextRoot>
                                     <bundleFileName>
                                         portafib-ws-callback-server-web.war</bundleFileName>
                                 </webModule>
                                 <webModule>
                                     <groupId>es.caib.portafib</groupId>
                                     <artifactId>portafib-callback-server-rest</artifactId>
-                                    <contextRoot>${contextroot}/cbrest</contextRoot>
+                                    <contextRoot>portafib/cbrest</contextRoot>
                                     <bundleFileName>
                                         portafib-callback-server-rest.war</bundleFileName>
                                 </webModule>

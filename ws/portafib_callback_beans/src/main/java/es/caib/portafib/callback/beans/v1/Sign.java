@@ -2,6 +2,7 @@ package es.caib.portafib.callback.beans.v1;
 
 import java.math.BigInteger;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * 
@@ -9,51 +10,45 @@ import java.math.BigInteger;
  *
  */
 public class Sign {
+    @JsonProperty("ID")
+    private long iD;
 
-  private long iD;
+    private BigInteger serialNumber;
 
-  private BigInteger serialNumber;
+    private String issuer;
 
-  private String issuer;
+    private String subject;
 
-  private String subject;
+    public BigInteger getSerialNumber() {
+        return serialNumber;
+    }
 
+    public void setSerialNumber(BigInteger serialNumber) {
+        this.serialNumber = serialNumber;
+    }
 
+    public String getIssuer() {
+        return issuer;
+    }
 
-  public BigInteger getSerialNumber() {
-    return serialNumber;
-  }
+    public void setIssuer(String issuer) {
+        this.issuer = issuer;
+    }
 
-  public void setSerialNumber(BigInteger serialNumber) {
-    this.serialNumber = serialNumber;
-  }
+    public String getSubject() {
+        return subject;
+    }
 
-  public String getIssuer() {
-    return issuer;
-  }
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
-  public void setIssuer(String issuer) {
-    this.issuer = issuer;
-  }
+    public long getID() {
+        return iD;
+    }
 
-  public String getSubject() {
-    return subject;
-  }
-
-  public void setSubject(String subject) {
-    this.subject = subject;
-  }
-
-  public long getID() {
-    return iD;
-  }
-
-  public void setID(long iD) {
-    this.iD = iD;
-  }
-
-
-  
-  
+    public void setID(long iD) {
+        this.iD = iD;
+    }
 
 }

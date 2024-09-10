@@ -14,6 +14,7 @@
         <maven.test.skip>false</maven.test.skip>
     </properties>
     <dependencies>
+        <!-- Dependències Internes -->
         <dependency>
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-persistence</artifactId>
@@ -44,6 +45,7 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <!-- Anotacions de documentació de openapi -->
+
         <dependency>
             <groupId>org.eclipse.microprofile.openapi</groupId>
             <artifactId>microprofile-openapi-api</artifactId>
@@ -85,7 +87,7 @@
             <groupId>es.caib.portafib</groupId>
             <version>1.0</version>
         </dependency>
-
+        
         <dependency>
             <groupId>org.fundaciobit.pluginsib.utils</groupId>
             <artifactId>pluginsib-utils-templateengine</artifactId>

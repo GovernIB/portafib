@@ -1,5 +1,7 @@
 package es.caib.portafib.callback.beans.v1;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * 
  * @author anadal
@@ -7,34 +9,35 @@ package es.caib.portafib.callback.beans.v1;
  */
 public class Actor {
 
-  private String iD;
+    @JsonProperty("ID")
+    private String iD;
 
-  private String name;
+    private String name;
 
-  private String administrationID;
+    private String administrationID;
 
-  public String getID() {
-    return iD;
-  }
+    public String getID() {
+        return iD;
+    }
 
-  public void setID(String iD) {
-    this.iD = iD;
-  }
+    public void setID(String iD) {
+        this.iD = iD;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public String getAdministrationID() {
-    return administrationID;
-  }
+    public String getAdministrationID() {
+        return administrationID;
+    }
 
-  public void setAdministrationID(String administrationID) {
-    this.administrationID = administrationID;
-  }
+    public void setAdministrationID(String administrationID) {
+        this.administrationID = administrationID;
+    }
 
 }
