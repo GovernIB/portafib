@@ -2,15 +2,13 @@ package es.caib.portafib.callback.beans.v1;
 
 import java.math.BigInteger;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * 
  * @author anadal
  *
  */
 public class Sign {
-    @JsonProperty("ID")
+    
     private long iD;
 
     private BigInteger serialNumber;

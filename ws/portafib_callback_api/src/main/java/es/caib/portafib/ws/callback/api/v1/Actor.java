@@ -1,10 +1,13 @@
 
 package es.caib.portafib.ws.callback.api.v1;
 
+import javax.json.bind.annotation.JsonbProperty;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 /**
@@ -38,6 +41,8 @@ public class Actor {
 
     protected String administrationID;
     @XmlElement(name = "ID")
+    @JsonProperty("id")
+    @JsonbProperty("id")
     protected String id;
     protected String name;
 

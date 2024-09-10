@@ -1,6 +1,6 @@
 package es.caib.portafib.callback.beans.v1;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 /**
  * 
@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Actor {
 
-    @JsonProperty("ID")
+
     private String iD;
 
     private String name;

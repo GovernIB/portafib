@@ -135,6 +135,7 @@
             <groupId>es.caib.portafib</groupId>
             <version>1.0.0</version>
         </dependency>
+        
         <dependency>
             <artifactId>portafib-ws-callback-api</artifactId>
             <groupId>es.caib.portafib</groupId>

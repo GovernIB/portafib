@@ -1,6 +1,5 @@
 package es.caib.portafib.callback.beans.v1;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * 
@@ -10,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SigningRequest {
 
-    @JsonProperty("ID")
+
     private long iD;
 
     private String title;
@@ -30,6 +29,7 @@ public class SigningRequest {
     public void setCustodyURL(String custodyURL) {
         this.custodyURL = custodyURL;
     }
+
 
     public long getID() {
         return iD;
