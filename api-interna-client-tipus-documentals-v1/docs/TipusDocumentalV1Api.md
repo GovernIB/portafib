@@ -10,7 +10,7 @@ All URIs are relative to */portafibapi/interna*
 
 ## callList
 
-> TipusDocumentalRest callList(language, appuser)
+> LlistaTipusDocumentalRest callList(language, appuser)
 
 Retorna la versió de PortaFIB REST
 
@@ -33,7 +33,7 @@ public class Example {
         String language = "ca"; // String | Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')
         String appuser = "appuser_example"; // String | Filtre pel nom de l'usuari aplicacio. Opcional.
         try {
-            TipusDocumentalRest result = apiInstance.callList(language, appuser);
+            LlistaTipusDocumentalRest result = apiInstance.callList(language, appuser);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling TipusDocumentalV1Api#callList");
@@ -56,7 +56,7 @@ public class Example {
 
 ### Return type
 
-[**TipusDocumentalRest**](TipusDocumentalRest.md)
+[**LlistaTipusDocumentalRest**](LlistaTipusDocumentalRest.md)
 
 ### Authorization
 

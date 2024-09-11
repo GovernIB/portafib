@@ -93,8 +93,8 @@ public class TipusDocumentalService extends RestUtils {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(tags = TAG_NAME, operationId = "list", summary = "Retorna la versió de PortaFIB REST")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Operació realitzada correctament", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = TipusDocumentalRest.class))),
-			@ApiResponse(responseCode = "404", description = "Paràmetres incorrectes", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = RestExceptionInfo.class))),
+			@ApiResponse(responseCode = "200", description = "Operació realitzada correctament", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = LlistaTipusDocumentalRest.class))),
+			@ApiResponse(responseCode = "400", description = "Paràmetres incorrectes", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = RestExceptionInfo.class))),
 			@ApiResponse(responseCode = "500", description = "Error no controlat", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = RestExceptionInfo.class))) })
 	public LlistaTipusDocumentalRest listTipusDocumental(@Parameter(hidden = true) @Context HttpServletRequest request, 
 			@Parameter(

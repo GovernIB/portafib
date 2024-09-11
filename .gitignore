@@ -244,3 +244,4 @@ api-interna-client-tipus-documentals-v1/gradle.properties
 api-interna-client-tipus-documentals-v1/gradlew
 api-interna-client-tipus-documentals-v1/gradlew.bat
 api-interna-client-tipus-documentals-v1/settings.gradle
+api-interna-client-tipus-documentals-v1/test.properties

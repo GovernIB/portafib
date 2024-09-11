@@ -59,7 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TipusDocumentalRest'
+                $ref: '#/components/schemas/LlistaTipusDocumentalRest'
           description: Operació realitzada correctament
         "404":
           content:
@@ -79,6 +79,24 @@ paths:
       x-accepts: application/json
 components:
   schemas:
+    LlistaTipusDocumentalRest:
+      example:
+        data:
+        - tipusDocumentNTI: 6
+          tipusDocumentID: 0
+          nom: nom
+        - tipusDocumentNTI: 6
+          tipusDocumentID: 0
+          nom: nom
+        language: language
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/TipusDocumentalRest'
+          type: array
+        language:
+          type: string
+      type: object
     TipusDocumentalRest:
       example:
         tipusDocumentNTI: 6
@@ -122,14 +140,5 @@ components:
       required:
       - code
       - errorMessage
-      type: object
-    LlistaTipusDocumentalRest:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/TipusDocumentalRest'
-          type: array
-        language:
-          type: string
       type: object
 

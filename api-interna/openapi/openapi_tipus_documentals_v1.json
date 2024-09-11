@@ -73,7 +73,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/TipusDocumentalRest"
+                  "$ref" : "#/components/schemas/LlistaTipusDocumentalRest"
                 }
               }
             }
@@ -104,6 +104,20 @@
   },
   "components" : {
     "schemas" : {
+      "LlistaTipusDocumentalRest" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TipusDocumentalRest"
+            }
+          },
+          "language" : {
+            "type" : "string"
+          }
+        }
+      },
       "TipusDocumentalRest" : {
         "type" : "object",
         "properties" : {
@@ -147,20 +161,6 @@
           }
         },
         "description" : "Estructura de dades utilitzada per passar informació d'un error"
-      },
-      "LlistaTipusDocumentalRest" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/TipusDocumentalRest"
-            }
-          },
-          "language" : {
-            "type" : "string"
-          }
-        }
       }
     }
   }

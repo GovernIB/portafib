@@ -7,8 +7,8 @@ import es.caib.portafib.apiinterna.client.tipusdocumentals.v1.services.Pair;
 
 import javax.ws.rs.core.GenericType;
 
+import es.caib.portafib.apiinterna.client.tipusdocumentals.v1.model.LlistaTipusDocumentalRest;
 import es.caib.portafib.apiinterna.client.tipusdocumentals.v1.model.RestExceptionInfo;
-import es.caib.portafib.apiinterna.client.tipusdocumentals.v1.model.TipusDocumentalRest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,10 +40,10 @@ public class TipusDocumentalV1Api {
    * 
    * @param language Idioma en que s&#39;han de retornar les dades(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
    * @param appuser Filtre pel nom de l&#39;usuari aplicacio. Opcional. (optional)
-   * @return a {@code TipusDocumentalRest}
+   * @return a {@code LlistaTipusDocumentalRest}
    * @throws ApiException if fails to make API call
    */
-  public TipusDocumentalRest callList(String language, String appuser) throws ApiException {
+  public LlistaTipusDocumentalRest callList(String language, String appuser) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -73,7 +73,7 @@ public class TipusDocumentalV1Api {
 
     String[] localVarAuthNames = new String[] {  };
 
-    GenericType<TipusDocumentalRest> localVarReturnType = new GenericType<TipusDocumentalRest>() {};
+    GenericType<LlistaTipusDocumentalRest> localVarReturnType = new GenericType<LlistaTipusDocumentalRest>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
 }

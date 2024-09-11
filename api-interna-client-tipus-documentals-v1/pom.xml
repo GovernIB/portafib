@@ -121,7 +121,7 @@
                         </property>
                     </systemProperties>
                     <argLine>-Xms512m -Xmx1500m</argLine>
-                    <parallel>methods</parallel>
+                    <!--<parallel>methods</parallel>-->
                     <!-- NOU <forkMode>pertest</forkMode> -->
                 </configuration>
             </plugin>
