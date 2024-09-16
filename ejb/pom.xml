@@ -81,13 +81,13 @@
             <groupId>org.fundaciobit.apisib.apiplantillafluxsimple</groupId>
             <version>1.0</version>
         </dependency>
-        
+
         <dependency>
             <artifactId>portafib-externalsignaturerest-api</artifactId>
             <groupId>es.caib.portafib</groupId>
             <version>1.0</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.fundaciobit.pluginsib.utils</groupId>
             <artifactId>pluginsib-utils-templateengine</artifactId>
@@ -135,18 +135,18 @@
             <groupId>es.caib.portafib</groupId>
             <version>1.0.0</version>
         </dependency>
-        
+
         <dependency>
             <artifactId>portafib-ws-callback-api</artifactId>
             <groupId>es.caib.portafib</groupId>
             <version>1.1</version>
         </dependency>
-        
-        
+
+
         <!-- 
            NOTA: S'ha afegit el mòdul org.jboss.ws.cxf.jbossws-cxf-client a jboss-deployment-structure.xml
            per això aquest pot ser provided.
-         --> 
+         -->
         <dependency>
             <groupId>org.jboss.ws.cxf</groupId>
             <artifactId>jbossws-cxf-client</artifactId>
@@ -161,34 +161,34 @@
                 </exclusion>
                 <!-- Enforcer 1.1.1 != 1.2 -->
                 <exclusion>
-                     <groupId>commons-logging</groupId>
-                     <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
                 </exclusion>
                 <!-- Enforcer 2.10.6 != 2.10.5 -->
                 <exclusion>
-                     <groupId>net.sf.ehcache</groupId>
-                     <artifactId>ehcache</artifactId>
+                    <groupId>net.sf.ehcache</groupId>
+                    <artifactId>ehcache</artifactId>
                 </exclusion>
                 <!-- Enforcer 1.0.0.Final != 1.0.2.Final i a més usar versió JBoss -->
                 <exclusion>
-                     <groupId>org.jboss.spec.javax.annotation</groupId>
-                     <artifactId>jboss-annotations-api_1.2_spec</artifactId>
+                    <groupId>org.jboss.spec.javax.annotation</groupId>
+                    <artifactId>jboss-annotations-api_1.2_spec</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
-                
+
 
         <!-- Enforcer 2.10.6 != 2.10.5 (jbossws-cxf-client) -->
         <dependency>
-             <groupId>net.sf.ehcache</groupId>
-             <artifactId>ehcache</artifactId>
-             <version>2.10.6</version>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>2.10.6</version>
         </dependency>
-        
+
         <!-- Enforcer 1.0.0.Final != 1.0.2.Final i a més usar versió JBoss (jbossws-cxf-client) -->
         <dependency>
-             <groupId>org.jboss.spec.javax.annotation</groupId>
-             <artifactId>jboss-annotations-api_1.3_spec</artifactId>
+            <groupId>org.jboss.spec.javax.annotation</groupId>
+            <artifactId>jboss-annotations-api_1.3_spec</artifactId>
         </dependency>
 
         <!-- CallBack REST v1 -->
@@ -323,6 +323,7 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -343,12 +344,14 @@
             <version>${pluginsib.barcode.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.fundaciobit.pluginsib.barcode</groupId>
             <artifactId>pluginsib-barcode-qr</artifactId>
             <version>${pluginsib.barcode.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.fundaciobit.pluginsib.barcode</groupId>
             <artifactId>pluginsib-barcode-barcode128</artifactId>
