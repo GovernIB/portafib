@@ -8,8 +8,8 @@
 
 
         <sec:headers>
-        <!-- <sec:frame-options policy="SAMEORIGIN"/>  -->
-        <sec:content-security-policy policy-directives="frame-ancestors ${es.caib.portafib.frame.ancestors:'self'}"/>
+            <sec:frame-options policy="SAMEORIGIN"/>
+            <sec:content-security-policy policy-directives="frame-ancestors ${es.caib.portafib.frame.ancestors:'self'}"/>
         </sec:headers>
 
 		<!-- <sec:logout logout-success-url="/index.jsp" />  -->
