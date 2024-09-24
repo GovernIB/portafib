@@ -3,13 +3,13 @@ info:
   contact:
     email: otae@fundaciobit.org
     name: Departament de Govern Digital a la Fundació Bit
-    url: https://governdigital.fundaciobit.org
-  description: Conjunt de Serveis REST de PortaFIB per atendre consultes de tipus
-    documentals.
+    url: http://governdigital.fundaciobit.org
+  description: Conjunt de Serveis REST de PortaFIB per atendre consultes generiques
+    de Portafib
   license:
     name: European Union Public Licence (EUPL v1.2)
     url: https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf
-  title: API Interna de PortaFIB de consulta de tipus documentals de PortaFIB
+  title: API Interna de PortaFIB de consulta de serveis d'utilitat
   version: 1.0-SNAPSHOT
 externalDocs:
   description: Java API Interna Client (Github Source Code)
@@ -22,12 +22,12 @@ servers:
 - url: https://se.caib.es/portafibapi/interna
 - url: https://www.caib.es/portafibapi/interna
 tags:
-- description: "Informació basica del servidor: versió producte, versió API, ..."
-  name: TipusDocumental v1
+- description: Utilitats
+  name: Utils v1
 paths:
-  /public/tipusdocumental/v1/list:
+  /secure/utils/v1/tipusdocumentalslist:
     get:
-      operationId: list
+      operationId: tipusdocumentalslist
       parameters:
       - description: Idioma en que s'han de retornar les dades(Només suportat 'ca'
           o 'es')
@@ -73,9 +73,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+      security:
+      - BasicAuth: []
       summary: Retorna la versió de PortaFIB REST
       tags:
-      - TipusDocumental v1
+      - Utils v1
       x-accepts: application/json
 components:
   schemas:
@@ -141,4 +143,8 @@ components:
       - code
       - errorMessage
       type: object
+  securitySchemes:
+    BasicAuth:
+      scheme: basic
+      type: http
 

@@ -1,10 +1,10 @@
-package es.caib.portafib.api.interna.all.tipusdocumentals.v1;
+package es.caib.portafib.api.interna.secure.apisimple.v1;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -22,78 +22,69 @@ import org.fundaciobit.pluginsib.utils.rest.RestException;
 import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 import org.fundaciobit.pluginsib.utils.rest.RestUtils;
 
-import es.caib.portafib.api.interna.secure.apisimple.v1.LlistaTipusDocumentalRest;
-import es.caib.portafib.api.interna.secure.apisimple.v1.TipusDocumentalRest;
 import es.caib.portafib.commons.utils.Configuracio;
-import es.caib.portafib.commons.utils.StaticVersion;
-import es.caib.portafib.commons.utils.Version;
-import es.caib.portafib.ejb.IdiomaService;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.TipusDocumentService;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.model.entity.TipusDocument;
-import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.persistence.TipusDocumentJPA;
 import es.caib.portafib.persistence.TraduccioMapJPA;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-/**
- * Informació basica del servidor: versió producte, versió API, ...
- *
- * @author anadal
- */
-@Path(TipusDocumentalService.PATH)
-
+@Path(UtilsService.PATH)
 @OpenAPIDefinition(
-		info = @Info(
-				title = "API Interna de PortaFIB de consulta de tipus documentals de PortaFIB", 
-				description = "Conjunt de Serveis REST de PortaFIB per atendre consultes de tipus documentals.", 
-				version = "1.0-SNAPSHOT", license = @License(name = "European Union Public Licence (EUPL v1.2)", 
-				url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"), 
-				contact = @Contact(
-						name = "Departament de Govern Digital a la Fundació Bit", 
-						email = "otae@fundaciobit.org", 
-						url = "https://governdigital.fundaciobit.org")), 
-		tags = @Tag(
-				name = TipusDocumentalService.TAG_NAME, 
-				description = "Informació basica del servidor: versió producte, versió API, ..."))
-public class TipusDocumentalService extends RestUtils {
+        info = @Info(
+                title = "API Interna de PortaFIB de consulta de serveis d'utilitat",
+                description = "Conjunt de Serveis REST de PortaFIB per atendre consultes generiques de Portafib",
+                version = "1.0-SNAPSHOT",
+                license = @License(
+                        name = "European Union Public Licence (EUPL v1.2)",
+                        url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"),
+                contact = @Contact(
+                        name = "Departament de Govern Digital a la Fundació Bit",
+                        email = "otae@fundaciobit.org",
+                        url = "http://governdigital.fundaciobit.org")),
+        tags = @Tag(name = UtilsService.TAG_NAME, description = "Utilitats"))
+@SecurityScheme(type = SecuritySchemeType.HTTP, name = UtilsService.SECURITY_NAME, scheme = "basic")
+public class UtilsService extends RestUtils {
+	protected static Logger log = Logger.getLogger(UtilsService.class);
 
-	protected static Logger log = Logger.getLogger(TipusDocumentalService.class);
-	
-	public static final String PATH = "/public/tipusdocumental/v1";
+    protected static final String SECURITY_NAME = "BasicAuth";
 
-	// TODO Canviar pel nom corresponent
-	public static final String TAG_NAME = "TipusDocumental v1";
-	
-	
-	@EJB(mappedName = TipusDocumentService.JNDI_NAME)
+    public static final String PATH = "/secure/utils/v1";
+
+    public static final String TAG_NAME = "Utils v1";
+    
+    @EJB(mappedName = TipusDocumentService.JNDI_NAME)
     protected TipusDocumentService tipusDocumentEjb;
 
     @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
     protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
-
     
-	
-
-	@Path("/list")
+    @Path("/tipusdocumentalslist")
 	@GET
+	@RolesAllowed({ Constants.ROLE_EJB_WS_ACCESS })
+    @SecurityRequirement(name = SECURITY_NAME)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(tags = TAG_NAME, operationId = "list", summary = "Retorna la versió de PortaFIB REST")
+	@Operation(tags = TAG_NAME, operationId = "tipusdocumentalslist", summary = "Retorna la versió de PortaFIB REST")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Operació realitzada correctament", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = LlistaTipusDocumentalRest.class))),
 			@ApiResponse(responseCode = "400", description = "Paràmetres incorrectes", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = RestExceptionInfo.class))),
@@ -202,5 +193,6 @@ public class TipusDocumentalService extends RestUtils {
 		 */
 
 	}
-
+    
+    
 }

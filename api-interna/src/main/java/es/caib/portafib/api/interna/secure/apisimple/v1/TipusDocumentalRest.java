@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.all.tipusdocumentals.v1;
+package es.caib.portafib.api.interna.secure.apisimple.v1;
 
 public class TipusDocumentalRest {
 	protected long tipusDocumentID;

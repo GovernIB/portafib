@@ -1,11 +1,11 @@
 {
   "openapi" : "3.0.1",
   "info" : {
-    "title" : "API Interna de PortaFIB de consulta de tipus documentals de PortaFIB",
-    "description" : "Conjunt de Serveis REST de PortaFIB per atendre consultes de tipus documentals.",
+    "title" : "API Interna de PortaFIB de consulta de serveis d'utilitat",
+    "description" : "Conjunt de Serveis REST de PortaFIB per atendre consultes generiques de Portafib",
     "contact" : {
       "name" : "Departament de Govern Digital a la Fundació Bit",
-      "url" : "https://governdigital.fundaciobit.org",
+      "url" : "http://governdigital.fundaciobit.org",
       "email" : "otae@fundaciobit.org"
     },
     "license" : {
@@ -32,15 +32,15 @@
     "url" : "https://www.caib.es/portafibapi/interna"
   } ],
   "tags" : [ {
-    "name" : "TipusDocumental v1",
-    "description" : "Informació basica del servidor: versió producte, versió API, ..."
+    "name" : "Utils v1",
+    "description" : "Utilitats"
   } ],
   "paths" : {
-    "/public/tipusdocumental/v1/list" : {
+    "/secure/utils/v1/tipusdocumentalslist" : {
       "get" : {
-        "tags" : [ "TipusDocumental v1" ],
+        "tags" : [ "Utils v1" ],
         "summary" : "Retorna la versió de PortaFIB REST",
-        "operationId" : "list",
+        "operationId" : "tipusdocumentalslist",
         "parameters" : [ {
           "name" : "language",
           "in" : "query",
@@ -98,7 +98,10 @@
               }
             }
           }
-        }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
       }
     }
   },
@@ -161,6 +164,12 @@
           }
         },
         "description" : "Estructura de dades utilitzada per passar informació d'un error"
+      }
+    },
+    "securitySchemes" : {
+      "BasicAuth" : {
+        "type" : "http",
+        "scheme" : "basic"
       }
     }
   }

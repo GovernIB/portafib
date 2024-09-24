@@ -1,16 +1,16 @@
-# TipusDocumentalV1Api
+# UtilsV1Api
 
 All URIs are relative to */portafibapi/interna*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**callList**](TipusDocumentalV1Api.md#callList) | **GET** /public/tipusdocumental/v1/list | Retorna la versió de PortaFIB REST |
+| [**tipusdocumentalslist**](UtilsV1Api.md#tipusdocumentalslist) | **GET** /secure/utils/v1/tipusdocumentalslist | Retorna la versió de PortaFIB REST |
 
 
 
-## callList
+## tipusdocumentalslist
 
-> LlistaTipusDocumentalRest callList(language, appuser)
+> LlistaTipusDocumentalRest tipusdocumentalslist(language, appuser)
 
 Retorna la versió de PortaFIB REST
 
@@ -18,25 +18,31 @@ Retorna la versió de PortaFIB REST
 
 ```java
 // Import classes:
-import es.caib.portafib.apiinterna.client.tipusdocumentals.v1.services.ApiClient;
-import es.caib.portafib.apiinterna.client.tipusdocumentals.v1.services.ApiException;
-import es.caib.portafib.apiinterna.client.tipusdocumentals.v1.services.Configuration;
-import es.caib.portafib.apiinterna.client.tipusdocumentals.v1.services.models.*;
-import es.caib.portafib.apiinterna.client.tipusdocumentals.v1.api.TipusDocumentalV1Api;
+import es.caib.portafib.apiinterna.client.utils.v1.services.ApiClient;
+import es.caib.portafib.apiinterna.client.utils.v1.services.ApiException;
+import es.caib.portafib.apiinterna.client.utils.v1.services.Configuration;
+import es.caib.portafib.apiinterna.client.utils.v1.services.auth.*;
+import es.caib.portafib.apiinterna.client.utils.v1.services.models.*;
+import es.caib.portafib.apiinterna.client.utils.v1.api.UtilsV1Api;
 
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("/portafibapi/interna");
+        
+        // Configure HTTP basic authorization: BasicAuth
+        HttpBasicAuth BasicAuth = (HttpBasicAuth) defaultClient.getAuthentication("BasicAuth");
+        BasicAuth.setUsername("YOUR USERNAME");
+        BasicAuth.setPassword("YOUR PASSWORD");
 
-        TipusDocumentalV1Api apiInstance = new TipusDocumentalV1Api(defaultClient);
+        UtilsV1Api apiInstance = new UtilsV1Api(defaultClient);
         String language = "ca"; // String | Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')
         String appuser = "appuser_example"; // String | Filtre pel nom de l'usuari aplicacio. Opcional.
         try {
-            LlistaTipusDocumentalRest result = apiInstance.callList(language, appuser);
+            LlistaTipusDocumentalRest result = apiInstance.tipusdocumentalslist(language, appuser);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling TipusDocumentalV1Api#callList");
+            System.err.println("Exception when calling UtilsV1Api#tipusdocumentalslist");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -60,7 +66,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[BasicAuth](../README.md#BasicAuth)
 
 ### HTTP request headers
 

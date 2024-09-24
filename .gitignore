@@ -245,3 +245,15 @@ api-interna-client-tipus-documentals-v1/gradlew
 api-interna-client-tipus-documentals-v1/gradlew.bat
 api-interna-client-tipus-documentals-v1/settings.gradle
 api-interna-client-tipus-documentals-v1/test.properties
+api-interna-client-utils-v1/gradle/
+api-interna-client-utils-v1/.travis.yml
+api-interna-client-utils-v1/build.gradle
+api-interna-client-utils-v1/build.sbt
+api-interna-client-utils-v1/git_push.sh
+api-interna-client-utils-v1/gradle.properties
+api-interna-client-utils-v1/gradlew
+api-interna-client-utils-v1/gradlew.bat
+api-interna-client-utils-v1/pom_backup.xml
+api-interna-client-utils-v1/settings.gradle
+api-interna-client-utils-v1/.github/
+api-interna-client-utils-v1/.openapi-generator/
