@@ -70,7 +70,12 @@ public class RevisorDeDestinatariLogicaEJB extends RevisorDeDestinatariEJB
         if (filterByUsername == null) {
             w = w1;
         } else {
-            Where w2 = upqp.USUARIPERSONAID().like("%" + filterByUsername + "%");
+            Where w2 = Where.OR( 
+                    upqp.USUARIPERSONAID().like("%" + filterByUsername + "%"),
+                    upqp.NIF().like("%" + filterByUsername + "%"),
+                    upqp.NOM().like("%" + filterByUsername + "%"),
+                    upqp.LLINATGES().like("%" + filterByUsername + "%")
+                    );
             w = Where.AND(w1, w2);
         }
 
