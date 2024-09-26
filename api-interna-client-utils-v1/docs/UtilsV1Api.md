@@ -4,15 +4,88 @@ All URIs are relative to */portafibapi/interna*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**tipusdocumentalslist**](UtilsV1Api.md#tipusdocumentalslist) | **GET** /secure/utils/v1/tipusdocumentalslist | Retorna la versió de PortaFIB REST |
+| [**getAvailableProfiles**](UtilsV1Api.md#getAvailableProfiles) | **GET** /secure/utils/v1/getAvailableProfiles | Retorna els perfils de firma. |
+| [**tipusdocumentalslist**](UtilsV1Api.md#tipusdocumentalslist) | **GET** /secure/utils/v1/tipusdocumentalslist | Retorna la llista de tipus documentals disponibles. |
 
+
+
+## getAvailableProfiles
+
+> AvailableProfilesRest getAvailableProfiles(language)
+
+Retorna els perfils de firma.
+
+### Example
+
+```java
+// Import classes:
+import es.caib.portafib.apiinterna.client.utils.v1.services.ApiClient;
+import es.caib.portafib.apiinterna.client.utils.v1.services.ApiException;
+import es.caib.portafib.apiinterna.client.utils.v1.services.Configuration;
+import es.caib.portafib.apiinterna.client.utils.v1.services.auth.*;
+import es.caib.portafib.apiinterna.client.utils.v1.services.models.*;
+import es.caib.portafib.apiinterna.client.utils.v1.api.UtilsV1Api;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("/portafibapi/interna");
+        
+        // Configure HTTP basic authorization: BasicAuth
+        HttpBasicAuth BasicAuth = (HttpBasicAuth) defaultClient.getAuthentication("BasicAuth");
+        BasicAuth.setUsername("YOUR USERNAME");
+        BasicAuth.setPassword("YOUR PASSWORD");
+
+        UtilsV1Api apiInstance = new UtilsV1Api(defaultClient);
+        String language = "ca"; // String | Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')
+        try {
+            AvailableProfilesRest result = apiInstance.getAvailableProfiles(language);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UtilsV1Api#getAvailableProfiles");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **language** | **String**| Idioma en que s&#39;han de retornar les dades(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
+
+### Return type
+
+[**AvailableProfilesRest**](AvailableProfilesRest.md)
+
+### Authorization
+
+[BasicAuth](../README.md#BasicAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Operació realitzada correctament |  -  |
+| **400** | Paràmetres incorrectes |  -  |
+| **500** | Error no controlat |  -  |
 
 
 ## tipusdocumentalslist
 
 > LlistaTipusDocumentalRest tipusdocumentalslist(language, appuser)
 
-Retorna la versió de PortaFIB REST
+Retorna la llista de tipus documentals disponibles.
 
 ### Example
 

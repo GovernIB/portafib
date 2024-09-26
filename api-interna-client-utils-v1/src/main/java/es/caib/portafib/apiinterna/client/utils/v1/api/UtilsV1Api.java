@@ -7,6 +7,7 @@ import es.caib.portafib.apiinterna.client.utils.v1.services.Pair;
 
 import javax.ws.rs.core.GenericType;
 
+import es.caib.portafib.apiinterna.client.utils.v1.model.AvailableProfilesRest;
 import es.caib.portafib.apiinterna.client.utils.v1.model.LlistaTipusDocumentalRest;
 import es.caib.portafib.apiinterna.client.utils.v1.model.RestExceptionInfo;
 
@@ -36,7 +37,46 @@ public class UtilsV1Api {
   }
 
   /**
-   * Retorna la versió de PortaFIB REST
+   * Retorna els perfils de firma.
+   * 
+   * @param language Idioma en que s&#39;han de retornar les dades(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
+   * @return a {@code AvailableProfilesRest}
+   * @throws ApiException if fails to make API call
+   */
+  public AvailableProfilesRest getAvailableProfiles(String language) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/secure/utils/v1/getAvailableProfiles".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "language", language));
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] { "BasicAuth" };
+
+    GenericType<AvailableProfilesRest> localVarReturnType = new GenericType<AvailableProfilesRest>() {};
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
+  /**
+   * Retorna la llista de tipus documentals disponibles.
    * 
    * @param language Idioma en que s&#39;han de retornar les dades(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
    * @param appuser Filtre pel nom de l&#39;usuari aplicacio. Opcional. (optional)

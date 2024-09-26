@@ -36,10 +36,71 @@
     "description" : "Utilitats"
   } ],
   "paths" : {
+    "/secure/utils/v1/getAvailableProfiles" : {
+      "get" : {
+        "tags" : [ "Utils v1" ],
+        "summary" : "Retorna els perfils de firma.",
+        "operationId" : "getAvailableProfiles",
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AvailableProfilesRest"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
     "/secure/utils/v1/tipusdocumentalslist" : {
       "get" : {
         "tags" : [ "Utils v1" ],
-        "summary" : "Retorna la versió de PortaFIB REST",
+        "summary" : "Retorna la llista de tipus documentals disponibles.",
         "operationId" : "tipusdocumentalslist",
         "parameters" : [ {
           "name" : "language",
@@ -107,33 +168,31 @@
   },
   "components" : {
     "schemas" : {
-      "LlistaTipusDocumentalRest" : {
+      "AvailableProfile" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      },
+      "AvailableProfilesRest" : {
         "type" : "object",
         "properties" : {
           "data" : {
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/TipusDocumentalRest"
+              "$ref" : "#/components/schemas/AvailableProfile"
             }
           },
           "language" : {
             "type" : "string"
-          }
-        }
-      },
-      "TipusDocumentalRest" : {
-        "type" : "object",
-        "properties" : {
-          "tipusDocumentID" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "nom" : {
-            "type" : "string"
-          },
-          "tipusDocumentNTI" : {
-            "type" : "integer",
-            "format" : "int64"
           }
         }
       },
@@ -164,6 +223,36 @@
           }
         },
         "description" : "Estructura de dades utilitzada per passar informació d'un error"
+      },
+      "LlistaTipusDocumentalRest" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TipusDocumentalRest"
+            }
+          },
+          "language" : {
+            "type" : "string"
+          }
+        }
+      },
+      "TipusDocumentalRest" : {
+        "type" : "object",
+        "properties" : {
+          "tipusDocumentID" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "nom" : {
+            "type" : "string"
+          },
+          "tipusDocumentNTI" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
       }
     },
     "securitySchemes" : {

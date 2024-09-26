@@ -25,6 +25,52 @@ tags:
 - description: Utilitats
   name: Utils v1
 paths:
+  /secure/utils/v1/getAvailableProfiles:
+    get:
+      operationId: getAvailableProfiles
+      parameters:
+      - description: Idioma en que s'han de retornar les dades(Només suportat 'ca'
+          o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: language
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableProfilesRest'
+          description: Operació realitzada correctament
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+      security:
+      - BasicAuth: []
+      summary: Retorna els perfils de firma.
+      tags:
+      - Utils v1
+      x-accepts: application/json
   /secure/utils/v1/tipusdocumentalslist:
     get:
       operationId: tipusdocumentalslist
@@ -75,12 +121,72 @@ paths:
           description: Error no controlat
       security:
       - BasicAuth: []
-      summary: Retorna la versió de PortaFIB REST
+      summary: Retorna la llista de tipus documentals disponibles.
       tags:
       - Utils v1
       x-accepts: application/json
 components:
   schemas:
+    AvailableProfile:
+      example:
+        code: code
+        name: name
+        description: description
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+      type: object
+    AvailableProfilesRest:
+      example:
+        data:
+        - code: code
+          name: name
+          description: description
+        - code: code
+          name: name
+          description: description
+        language: language
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/AvailableProfile'
+          type: array
+        language:
+          type: string
+      type: object
+    RestExceptionInfo:
+      description: Estructura de dades utilitzada per passar informació d'un error
+      example:
+        code: 0
+        causeStackTrace: causeStackTrace
+        causeException: causeException
+        errorMessage: errorMessage
+        stackTrace: stackTrace
+      properties:
+        code:
+          description: Codi de HTTP de l'error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
+          format: int32
+          type: integer
+        errorMessage:
+          description: Missatge de l'error
+          type: string
+        stackTrace:
+          description: Stacktrace de l'excepció si n'hi hagués.
+          type: string
+        causeException:
+          description: Tipus de l'excepció origen (cause) si n'hi hagués.
+          type: string
+        causeStackTrace:
+          description: Stacktrace de l'excepció origen (cause) si n'hi hagués.
+          type: string
+      required:
+      - code
+      - errorMessage
+      type: object
     LlistaTipusDocumentalRest:
       example:
         data:
@@ -113,35 +219,6 @@ components:
         tipusDocumentNTI:
           format: int64
           type: integer
-      type: object
-    RestExceptionInfo:
-      description: Estructura de dades utilitzada per passar informació d'un error
-      example:
-        code: 1
-        causeStackTrace: causeStackTrace
-        causeException: causeException
-        errorMessage: errorMessage
-        stackTrace: stackTrace
-      properties:
-        code:
-          description: Codi de HTTP de l'error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
-          format: int32
-          type: integer
-        errorMessage:
-          description: Missatge de l'error
-          type: string
-        stackTrace:
-          description: Stacktrace de l'excepció si n'hi hagués.
-          type: string
-        causeException:
-          description: Tipus de l'excepció origen (cause) si n'hi hagués.
-          type: string
-        causeStackTrace:
-          description: Stacktrace de l'excepció origen (cause) si n'hi hagués.
-          type: string
-      required:
-      - code
-      - errorMessage
       type: object
   securitySchemes:
     BasicAuth:

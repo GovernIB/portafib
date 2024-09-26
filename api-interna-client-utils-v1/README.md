@@ -98,12 +98,11 @@ public class UtilsV1ApiExample {
 
         UtilsV1Api apiInstance = new UtilsV1Api(defaultClient);
         String language = "ca"; // String | Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')
-        String appuser = "appuser_example"; // String | Filtre pel nom de l'usuari aplicacio. Opcional.
         try {
-            LlistaTipusDocumentalRest result = apiInstance.tipusdocumentalslist(language, appuser);
+            AvailableProfilesRest result = apiInstance.getAvailableProfiles(language);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling UtilsV1Api#tipusdocumentalslist");
+            System.err.println("Exception when calling UtilsV1Api#getAvailableProfiles");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -120,11 +119,14 @@ All URIs are relative to */portafibapi/interna*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*UtilsV1Api* | [**tipusdocumentalslist**](docs/UtilsV1Api.md#tipusdocumentalslist) | **GET** /secure/utils/v1/tipusdocumentalslist | Retorna la versió de PortaFIB REST
+*UtilsV1Api* | [**getAvailableProfiles**](docs/UtilsV1Api.md#getAvailableProfiles) | **GET** /secure/utils/v1/getAvailableProfiles | Retorna els perfils de firma.
+*UtilsV1Api* | [**tipusdocumentalslist**](docs/UtilsV1Api.md#tipusdocumentalslist) | **GET** /secure/utils/v1/tipusdocumentalslist | Retorna la llista de tipus documentals disponibles.
 
 
 ## Documentation for Models
 
+ - [AvailableProfile](docs/AvailableProfile.md)
+ - [AvailableProfilesRest](docs/AvailableProfilesRest.md)
  - [LlistaTipusDocumentalRest](docs/LlistaTipusDocumentalRest.md)
  - [RestExceptionInfo](docs/RestExceptionInfo.md)
  - [TipusDocumentalRest](docs/TipusDocumentalRest.md)
