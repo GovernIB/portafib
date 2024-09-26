@@ -165,6 +165,11 @@ public class GestioRevisorDeDestinatariDestController extends RevisorDeDestinata
 
     //=====  LLISTAT DE REVISORS DE DESTINATARI
 
+    @Override
+    public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
+        return RevisorDeDestinatariFields.DESTINATARIID.equal(LoginInfo.getInstance().getUsuariEntitatID());
+    }
+
     @PostConstruct
     public void init() {
 
