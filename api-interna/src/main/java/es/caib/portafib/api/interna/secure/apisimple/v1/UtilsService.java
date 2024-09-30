@@ -18,12 +18,20 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleAvailableProfile;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleKeyValue;
 import org.fundaciobit.apisib.core.beans.ApisIBAvailableProfile;
+import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.utils.rest.RestException;
 import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 import org.fundaciobit.pluginsib.utils.rest.RestUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.fasterxml.jackson.databind.node.TextNode;
 
 import es.caib.portafib.api.interna.secure.apisimple.v1.RestUtilsErrorManager;
 
@@ -35,6 +43,7 @@ import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.TipusDocument;
+import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 import es.caib.portafib.model.fields.PerfilsPerUsuariAplicacioFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
@@ -83,6 +92,9 @@ public class UtilsService extends RestUtilsErrorManager {
 
 	@EJB(mappedName = es.caib.portafib.ejb.PerfilDeFirmaService.JNDI_NAME)
 	protected es.caib.portafib.ejb.PerfilDeFirmaService perfilDeFirmaEjb;
+	
+	@EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
+    protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
 
 	@Path("/tipusdocumentalslist")
 	@GET
@@ -214,6 +226,80 @@ public class UtilsService extends RestUtilsErrorManager {
 		return internalGetAvailableProfiles(request, language);
 
 	}
+	
+	
+	@Path("/getAvailableLanguages")
+	@GET
+	@RolesAllowed({ Constants.ROLE_EJB_WS_ACCESS })
+	@SecurityRequirement(name = SECURITY_NAME)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(tags = TAG_NAME, operationId = "getAvailableLanguages", summary = "Retorna els idiomes disponibles.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Operació realitzada correctament", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AvailableLanguagesRest.class))),
+			@ApiResponse(responseCode = "400", description = "Paràmetres incorrectes", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = RestExceptionInfo.class))),
+			@ApiResponse(responseCode = "500", description = "Error no controlat", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = RestExceptionInfo.class))) })
+	public AvailableLanguagesRest getAvailableLanguages(@Parameter(hidden = true) @Context HttpServletRequest request,
+			@Parameter(name = "language", description = "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')", in = ParameterIn.QUERY, required = false, examples = {
+					@ExampleObject(name = "Català", value = "ca"),
+					@ExampleObject(name = "Castellano", value = "es") }, schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("language") String language)
+			throws RestException {
+
+		log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableProfiles() => ENTRA");
+		
+		//String lang = language.asText();
+
+		// Check Idioma
+		//language = RestUtils.checkLanguage(lang);
+		//Locale locale = new Locale(lang);
+
+		log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableLanguages() => LANG: " + language);
+		return internalGetAvailableLanguages(request, language);
+
+	}
+	
+	
+	public AvailableLanguagesRest internalGetAvailableLanguages (HttpServletRequest request, String language) {
+		
+		try {
+		
+		AvailableLanguagesRest response = new AvailableLanguagesRest();
+		response.list = new ArrayList<CommonsRestKeyValue>();
+		
+		// Check XYZ ZZZ languageUI
+        List<StringKeyValue> idiomes;
+
+        SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(IdiomaFields.IDIOMAID.select,
+                IdiomaFields.NOM.select);
+
+        idiomes = idiomaEjb.executeQuery(smskv, IdiomaFields.SUPORTAT.equal(true));
+
+        //List<FirmaAsyncSimpleKeyValue> list = new ArrayList<FirmaAsyncSimpleKeyValue>();
+
+        for (StringKeyValue skv : idiomes) {
+        	response.list.add(new CommonsRestKeyValue(skv.getKey(), skv.getValue()));
+        }
+
+        return response;
+
+    } catch (I18NException i18ne) {
+
+        String msg = I18NLogicUtils.getMessage(i18ne, new Locale(language));
+
+		throw new RestException(msg, Status.INTERNAL_SERVER_ERROR);
+
+
+    } catch (Throwable th) {
+
+        // XYZ ZZZ TRA
+        String msg = "Error desconegut cridant a getAvailableLanguages: " + th.getMessage();
+
+        log.error(msg, th);
+        
+		throw new RestException(msg, th, Status.INTERNAL_SERVER_ERROR);
+    }
+
+	}
+	
 
 	public AvailableProfilesRest internalGetAvailableProfiles(HttpServletRequest request, String locale) {
 		String error = autenticateUsrApp(request);

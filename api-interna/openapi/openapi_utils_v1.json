@@ -36,6 +36,67 @@
     "description" : "Utilitats"
   } ],
   "paths" : {
+    "/secure/utils/v1/getAvailableLanguages" : {
+      "get" : {
+        "tags" : [ "Utils v1" ],
+        "summary" : "Retorna els idiomes disponibles.",
+        "operationId" : "getAvailableLanguages",
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AvailableLanguagesRest"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
     "/secure/utils/v1/getAvailableProfiles" : {
       "get" : {
         "tags" : [ "Utils v1" ],
@@ -168,30 +229,24 @@
   },
   "components" : {
     "schemas" : {
-      "AvailableProfile" : {
+      "AvailableLanguagesRest" : {
         "type" : "object",
         "properties" : {
-          "code" : {
-            "type" : "string"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "description" : {
-            "type" : "string"
+          "list" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/CommonsRestKeyValue"
+            }
           }
         }
       },
-      "AvailableProfilesRest" : {
+      "CommonsRestKeyValue" : {
         "type" : "object",
         "properties" : {
-          "data" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/AvailableProfile"
-            }
+          "key" : {
+            "type" : "string"
           },
-          "language" : {
+          "value" : {
             "type" : "string"
           }
         }
@@ -223,6 +278,34 @@
           }
         },
         "description" : "Estructura de dades utilitzada per passar informació d'un error"
+      },
+      "AvailableProfile" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      },
+      "AvailableProfilesRest" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AvailableProfile"
+            }
+          },
+          "language" : {
+            "type" : "string"
+          }
+        }
       },
       "LlistaTipusDocumentalRest" : {
         "type" : "object",

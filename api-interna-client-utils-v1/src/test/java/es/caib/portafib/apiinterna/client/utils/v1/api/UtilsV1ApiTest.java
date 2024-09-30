@@ -15,6 +15,7 @@ package es.caib.portafib.apiinterna.client.utils.v1.api;
 
 import es.caib.portafib.apiinterna.client.utils.v1.services.ApiClient;
 import es.caib.portafib.apiinterna.client.utils.v1.services.ApiException;
+import es.caib.portafib.apiinterna.client.utils.v1.model.AvailableLanguagesRest;
 import es.caib.portafib.apiinterna.client.utils.v1.model.AvailableProfilesRest;
 import es.caib.portafib.apiinterna.client.utils.v1.model.LlistaTipusDocumentalRest;
 import es.caib.portafib.apiinterna.client.utils.v1.model.RestExceptionInfo;
@@ -51,9 +52,12 @@ public class UtilsV1ApiTest {
     	UtilsV1ApiTest utilsV1ApiTest = new UtilsV1ApiTest();
 		try {
 			
-			utilsV1ApiTest.callTipusDocumentalListTest();
+			//utilsV1ApiTest.callTipusDocumentalListTest();
 			
-			utilsV1ApiTest.callPerfilsDeFirmaListTest();
+			//utilsV1ApiTest.callPerfilsDeFirmaListTest();
+			
+			utilsV1ApiTest.callAvailableLanguagesTest();
+
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -105,15 +109,42 @@ public class UtilsV1ApiTest {
 	}
     
     @Test
-	public void callPerfilsDeFirmaListErrorUserTest() {
+	public void callAvailableLanguagesTest() {
 		
         String language = "ca";
-		String appuser = "pepito";
-		String expectedError = "{\"code\":400,\"errorMessage\":\"No existeix l'usuari aplicacio introduit\"}";
-		//Comu
+		String expectedError = null;
 		
-		internalTestPerfilsDeFirmaList(language, expectedError);
-	}
+		//Comu
+        internalTestAvailableLanguages(language, expectedError);
+	}    
+    
+    private AvailableLanguagesRest internalTestAvailableLanguages(String language, String expectedError) {
+    	UtilsV1Api api;
+        try {
+			api = getApi();
+		} catch (Exception e) {
+			Assert.fail("Error instanciant API => " + e.getMessage());
+			return null;
+		}
+        
+        try {
+        	AvailableLanguagesRest response = api.getAvailableLanguages(language);
+			if(expectedError != null) {
+				Assert.fail("S'espera un error i la cridada ha funcionat.");
+			}
+			System.out.println(response.toString());
+			return response;
+		} catch (ApiException e) {
+			
+			if(expectedError == null) {
+				Assert.fail("Error a la cridada de  TEST => " + e.getMessage());
+			}
+			
+			Assert.assertEquals(e.getMessage(), expectedError);
+			return null;
+		}
+    }
+    
     
     private AvailableProfilesRest internalTestPerfilsDeFirmaList(String language, String expectedError) {
     	UtilsV1Api api;
@@ -151,8 +182,6 @@ public class UtilsV1ApiTest {
 			Assert.fail("Error instanciant API => " + e.getMessage());
 			return null;
 		}
-        
-        
         
 	    try {
 			LlistaTipusDocumentalRest response = api.tipusdocumentalslist(language, appuser);

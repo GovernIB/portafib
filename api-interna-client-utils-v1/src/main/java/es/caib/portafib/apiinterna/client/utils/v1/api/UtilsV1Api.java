@@ -7,6 +7,7 @@ import es.caib.portafib.apiinterna.client.utils.v1.services.Pair;
 
 import javax.ws.rs.core.GenericType;
 
+import es.caib.portafib.apiinterna.client.utils.v1.model.AvailableLanguagesRest;
 import es.caib.portafib.apiinterna.client.utils.v1.model.AvailableProfilesRest;
 import es.caib.portafib.apiinterna.client.utils.v1.model.LlistaTipusDocumentalRest;
 import es.caib.portafib.apiinterna.client.utils.v1.model.RestExceptionInfo;
@@ -36,6 +37,45 @@ public class UtilsV1Api {
     this.apiClient = apiClient;
   }
 
+  /**
+   * Retorna els idiomes disponibles.
+   * 
+   * @param language Idioma en que s&#39;han de retornar les dades(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
+   * @return a {@code AvailableLanguagesRest}
+   * @throws ApiException if fails to make API call
+   */
+  public AvailableLanguagesRest getAvailableLanguages(String language) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/secure/utils/v1/getAvailableLanguages".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "language", language));
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] { "BasicAuth" };
+
+    GenericType<AvailableLanguagesRest> localVarReturnType = new GenericType<AvailableLanguagesRest>() {};
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
   /**
    * Retorna els perfils de firma.
    * 

@@ -25,6 +25,52 @@ tags:
 - description: Utilitats
   name: Utils v1
 paths:
+  /secure/utils/v1/getAvailableLanguages:
+    get:
+      operationId: getAvailableLanguages
+      parameters:
+      - description: Idioma en que s'han de retornar les dades(Només suportat 'ca'
+          o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: language
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableLanguagesRest'
+          description: Operació realitzada correctament
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+      security:
+      - BasicAuth: []
+      summary: Retorna els idiomes disponibles.
+      tags:
+      - Utils v1
+      x-accepts: application/json
   /secure/utils/v1/getAvailableProfiles:
     get:
       operationId: getAvailableProfiles
@@ -127,35 +173,27 @@ paths:
       x-accepts: application/json
 components:
   schemas:
-    AvailableProfile:
+    AvailableLanguagesRest:
       example:
-        code: code
-        name: name
-        description: description
+        list:
+        - value: value
+          key: key
+        - value: value
+          key: key
       properties:
-        code:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-      type: object
-    AvailableProfilesRest:
-      example:
-        data:
-        - code: code
-          name: name
-          description: description
-        - code: code
-          name: name
-          description: description
-        language: language
-      properties:
-        data:
+        list:
           items:
-            $ref: '#/components/schemas/AvailableProfile'
+            $ref: '#/components/schemas/CommonsRestKeyValue'
           type: array
-        language:
+      type: object
+    CommonsRestKeyValue:
+      example:
+        value: value
+        key: key
+      properties:
+        key:
+          type: string
+        value:
           type: string
       type: object
     RestExceptionInfo:
@@ -186,6 +224,37 @@ components:
       required:
       - code
       - errorMessage
+      type: object
+    AvailableProfile:
+      example:
+        code: code
+        name: name
+        description: description
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+      type: object
+    AvailableProfilesRest:
+      example:
+        data:
+        - code: code
+          name: name
+          description: description
+        - code: code
+          name: name
+          description: description
+        language: language
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/AvailableProfile'
+          type: array
+        language:
+          type: string
       type: object
     LlistaTipusDocumentalRest:
       example:
