@@ -18,7 +18,9 @@
 
 			<small> 
 				Build: <%=version.getBuildTime()%> <br /> 
-	     		JDK: <%=version.getJdkVersion()%> <br /> 
+	     		JDK: <%=version.getJdkVersion()%> <br />
+                Versió de JBoss Compatible: <%=version.getJBossCompliant() %><br />
+                Versió de JBoss Executant-se: ${jboss_version}<br />
  				<fmt:message key="revisio" />: 
 				<% if (version.getScmRevision() == null) { %>
 				   <fmt:message key="scmversion.msg" />

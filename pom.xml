@@ -83,6 +83,7 @@
         </dependency>
     </dependencies>
     <properties>
+        <jboss.compliant.version>7.2.0.GA</jboss.compliant.version>
         <!-- Veure Profiles -->
         <version_txt_template_file>./scripts/templates/versio.txt.template</version_txt_template_file>
         <version_txt_file>./versio.txt</version_txt_file>
@@ -99,11 +100,6 @@
         <plugins.validatesignature.version>3.0.0-SNAPSHOT</plugins.validatesignature.version>
         <apifirmasimple.version>1.0.3</apifirmasimple.version>
         <picketbox.version>5.0.2.Final</picketbox.version>
-        <!-- Versions de JBoss -->
-        <!--
-        <jboss-eap.version>7.2.6.GA</jboss-eap.version>
-        <jboss-javaee.version>1.0.1.Final-redhat-00003</jboss-javaee.version>
-        -->
         <!-- Propietats que afecten els plugins -->
         <!-- No fer els tests per defecte. -->
         <maven.test.skip>true</maven.test.skip>

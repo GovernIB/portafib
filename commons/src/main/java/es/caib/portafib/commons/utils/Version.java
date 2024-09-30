@@ -15,68 +15,74 @@ import java.util.ResourceBundle;
 @ApplicationScoped
 public class Version {
 
-  private String version;
-  private String buildTime;
-  private String scmRevision;
-  private String jdkVersion;
-  private String projectName;
+    private String version;
+    private String buildTime;
+    private String scmRevision;
+    private String jdkVersion;
+    private String projectName;
+    private String jBossCompliant;
 
-
-  public Version() {
-      init();
-  }
-
-  /**
-   * Inicialitza el bean amb els valors de Version.properties
-   */
-  @PostConstruct
-  protected void init() {
-      /* Agafa fitxer Version.properties amb el mateix package */
-    ResourceBundle bundle = ResourceBundle.getBundle("version.Version");
-    version = bundle.getString("project.version");
-    buildTime = bundle.getString("project.buildtime");
-    scmRevision = bundle.getString("scm.revision");
-    jdkVersion = bundle.getString("jdk.version");
-    projectName = bundle.getString("project.name");
-  }
-
-  /**
-   * Obté la versió del projecte
-   */
-  public String getVersion() {
-    return this.version;
-  }
-
-  /**
-   * Obté el moment de compilació del projecte
-   */
-  public String getBuildTime() {
-    return this.buildTime;
-  }
-
-  /**
-   * Obté la revisió del sistema de control de versions
-   */
-  public String getScmRevision() {
-    if ("${buildNumber}".equals(this.scmRevision)) {
-        return null;
-    } else {
-        return this.scmRevision;
+    public Version() {
+        init();
     }
-    
-  }
 
-  /**
-   * Obté el JDK amb el que es va compilar el projecte
-   */
-  public String getJdkVersion() {
-      return this.jdkVersion;
-  }
+    /**
+     * Inicialitza el bean amb els valors de Version.properties
+     */
+    @PostConstruct
+    protected void init() {
+        /* Agafa fitxer Version.properties amb el mateix package */
+        ResourceBundle bundle = ResourceBundle.getBundle("version.Version");
+        version = bundle.getString("project.version");
+        buildTime = bundle.getString("project.buildtime");
+        scmRevision = bundle.getString("scm.revision");
+        jdkVersion = bundle.getString("jdk.version");
+        projectName = bundle.getString("project.name");
+        jBossCompliant = bundle.getString("jboss.compliant.version");
+    }
 
-  /**
-   * Obté el nom del projecte
-   */
-  public String getProjectName() {
-    return this.projectName;
-  }
+    /**
+     * Obté la versió del projecte
+     */
+    public String getVersion() {
+        return this.version;
+    }
+
+    /**
+     * Obté el moment de compilació del projecte
+     */
+    public String getBuildTime() {
+        return this.buildTime;
+    }
+
+    /**
+     * Obté la revisió del sistema de control de versions
+     */
+    public String getScmRevision() {
+        if ("${buildNumber}".equals(this.scmRevision)) {
+            return null;
+        } else {
+            return this.scmRevision;
+        }
+
+    }
+
+    /**
+     * Obté el JDK amb el que es va compilar el projecte
+     */
+    public String getJdkVersion() {
+        return this.jdkVersion;
+    }
+
+    /**
+     * Obté el nom del projecte
+     */
+    public String getProjectName() {
+        return this.projectName;
+    }
+
+    public String getJBossCompliant() {
+        return jBossCompliant;
+    }
+
 }
