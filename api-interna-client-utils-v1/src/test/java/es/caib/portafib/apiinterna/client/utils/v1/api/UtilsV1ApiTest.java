@@ -52,9 +52,9 @@ public class UtilsV1ApiTest {
     	UtilsV1ApiTest utilsV1ApiTest = new UtilsV1ApiTest();
 		try {
 			
-			//utilsV1ApiTest.callTipusDocumentalListTest();
+			utilsV1ApiTest.callTipusDocumentalListTest();
 			
-			//utilsV1ApiTest.callPerfilsDeFirmaListTest();
+			utilsV1ApiTest.callPerfilsDeFirmaListTest();
 			
 			utilsV1ApiTest.callAvailableLanguagesTest();
 
