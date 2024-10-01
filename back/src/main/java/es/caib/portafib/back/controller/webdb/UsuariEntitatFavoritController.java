@@ -555,6 +555,14 @@ public java.lang.Long stringToPK(String value) {
      return getRedirectWhenCancel(request, iD);
   }
 
+  /**
+   * Entra aqui al pitjar el boto cancel en el la creació de UsuariEntitatFavorit
+   */
+  @RequestMapping(value = "/cancel")
+  public String cancelUsuariEntitatFavorit(HttpServletRequest request,HttpServletResponse response) {
+     return getRedirectWhenCancel(request, null);
+  }
+
   @Override
   public String getTableModelName() {
     return _TABLE_MODEL;

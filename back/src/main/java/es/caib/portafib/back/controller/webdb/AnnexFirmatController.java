@@ -573,6 +573,14 @@ public java.lang.Long stringToPK(String value) {
      return getRedirectWhenCancel(request, annexfirmatID);
   }
 
+  /**
+   * Entra aqui al pitjar el boto cancel en el la creació de AnnexFirmat
+   */
+  @RequestMapping(value = "/cancel")
+  public String cancelAnnexFirmat(HttpServletRequest request,HttpServletResponse response) {
+     return getRedirectWhenCancel(request, null);
+  }
+
   @Override
   public String getTableModelName() {
     return _TABLE_MODEL;

@@ -615,6 +615,14 @@ public java.lang.Long stringToPK(String value) {
      return getRedirectWhenCancel(request, usuariAplicacioPerfilID);
   }
 
+  /**
+   * Entra aqui al pitjar el boto cancel en el la creació de PerfilDeFirma
+   */
+  @RequestMapping(value = "/cancel")
+  public String cancelPerfilDeFirma(HttpServletRequest request,HttpServletResponse response) {
+     return getRedirectWhenCancel(request, null);
+  }
+
   @Override
   public String getTableModelName() {
     return _TABLE_MODEL;

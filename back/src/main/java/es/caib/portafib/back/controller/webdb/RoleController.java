@@ -506,6 +506,14 @@ public java.lang.String stringToPK(String value) {
      return getRedirectWhenCancel(request, roleID);
   }
 
+  /**
+   * Entra aqui al pitjar el boto cancel en el la creació de Role
+   */
+  @RequestMapping(value = "/cancel")
+  public String cancelRole(HttpServletRequest request,HttpServletResponse response) {
+     return getRedirectWhenCancel(request, null);
+  }
+
   @Override
   public String getTableModelName() {
     return _TABLE_MODEL;

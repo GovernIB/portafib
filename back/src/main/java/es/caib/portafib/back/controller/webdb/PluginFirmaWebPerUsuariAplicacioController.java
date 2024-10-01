@@ -579,6 +579,14 @@ public java.lang.Long stringToPK(String value) {
      return getRedirectWhenCancel(request, pluginfirmawebperusrappid);
   }
 
+  /**
+   * Entra aqui al pitjar el boto cancel en el la creació de PluginFirmaWebPerUsuariAplicacio
+   */
+  @RequestMapping(value = "/cancel")
+  public String cancelPluginFirmaWebPerUsuariAplicacio(HttpServletRequest request,HttpServletResponse response) {
+     return getRedirectWhenCancel(request, null);
+  }
+
   @Override
   public String getTableModelName() {
     return _TABLE_MODEL;

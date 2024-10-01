@@ -506,6 +506,14 @@ public java.lang.Long stringToPK(String value) {
      return getRedirectWhenCancel(request, fluxDeFirmesID);
   }
 
+  /**
+   * Entra aqui al pitjar el boto cancel en el la creació de FluxDeFirmes
+   */
+  @RequestMapping(value = "/cancel")
+  public String cancelFluxDeFirmes(HttpServletRequest request,HttpServletResponse response) {
+     return getRedirectWhenCancel(request, null);
+  }
+
   @Override
   public String getTableModelName() {
     return _TABLE_MODEL;

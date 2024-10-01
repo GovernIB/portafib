@@ -844,6 +844,14 @@ public java.lang.String stringToPK(String value) {
      return getRedirectWhenCancel(request, entitatID);
   }
 
+  /**
+   * Entra aqui al pitjar el boto cancel en el la creació de Entitat
+   */
+  @RequestMapping(value = "/cancel")
+  public String cancelEntitat(HttpServletRequest request,HttpServletResponse response) {
+     return getRedirectWhenCancel(request, null);
+  }
+
   @Override
   public String getTableModelName() {
     return _TABLE_MODEL;

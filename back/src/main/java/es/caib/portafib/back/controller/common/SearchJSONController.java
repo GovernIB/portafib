@@ -104,13 +104,13 @@ public class SearchJSONController {
      */
     @RequestMapping(value = "/usuarientitatrevisor", method = RequestMethod.POST)
     public void usuarientitatrevisor(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+/*
         log.info("\n\n\n XYZ ZZZ  ============ usuarientitatrevisor ======================");
         for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
             log.info("           " + entry.getKey() + " = " + entry.getValue()[0]);
         }
         log.info(" XYZ ZZZ  ==========================================================\n\n\n");
-
+*/
         // Revisors Globals
 
         SubQuery<RoleUsuariEntitat, String> subqueryrevisor;

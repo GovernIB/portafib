@@ -663,6 +663,14 @@ public java.lang.String stringToPK(String value) {
      return getRedirectWhenCancel(request, usuariAplicacioID);
   }
 
+  /**
+   * Entra aqui al pitjar el boto cancel en el la creació de UsuariAplicacio
+   */
+  @RequestMapping(value = "/cancel")
+  public String cancelUsuariAplicacio(HttpServletRequest request,HttpServletResponse response) {
+     return getRedirectWhenCancel(request, null);
+  }
+
   @Override
   public String getTableModelName() {
     return _TABLE_MODEL;
