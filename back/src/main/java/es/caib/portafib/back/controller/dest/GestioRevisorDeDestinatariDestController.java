@@ -28,6 +28,7 @@ import es.caib.portafib.back.form.webdb.RevisorDeDestinatariFilterForm;
 import es.caib.portafib.back.form.webdb.RevisorDeDestinatariForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.ObfuscatedNifStringField;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.persistence.UsuariPersonaJPA;
@@ -176,7 +177,7 @@ public class GestioRevisorDeDestinatariDestController extends RevisorDeDestinata
         UsuariPersonaQueryPath upqp = new UsuariEntitatQueryPath().USUARIPERSONA();
         this.usuariEntitatRefList = new UsuariEntitatRefList(this.usuariEntitatRefList);
         this.usuariEntitatRefList.setSelects(new Select<?>[] { upqp.LLINATGES().select, new SelectConstant(", "),
-                upqp.NOM().select, new SelectConstant(" ("), upqp.NIF().select, new SelectConstant(")") });
+                upqp.NOM().select, new SelectConstant(" ("), new ObfuscatedNifStringField(upqp.NIF()).select, new SelectConstant(")") });
 
     }
 

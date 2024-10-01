@@ -101,5 +101,11 @@
         <function-signature>boolean isDesenvolupament()</function-signature>
 </function>
 
+<function>
+        <description>Ofusca un DNI</description>
+        <name>ofuscar</name>
+        <function-class>es.caib.portafib.back.utils.Utils</function-class>
+        <function-signature>java.lang.String ofuscarDNI(java.lang.String)</function-signature>
+</function>
 
 </taglib>

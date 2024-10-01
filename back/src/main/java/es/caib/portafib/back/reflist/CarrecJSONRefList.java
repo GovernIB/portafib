@@ -14,6 +14,8 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.controller.RefListBase;
 import org.springframework.stereotype.Component;
 
+import es.caib.portafib.back.utils.ObfuscatedNifStringField;
+import es.caib.portafib.back.utils.ObfuscatedUsernameStringField;
 import es.caib.portafib.ejb.UsuariEntitatService;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
@@ -49,8 +51,8 @@ public class CarrecJSONRefList extends RefListBase {
          UsuariEntitatFields.CARREC.select,  new SelectConstant(" ("),
          personaQueryPath.NOM().select, new SelectConstant(" "),
          personaQueryPath.LLINATGES().select , new SelectConstant(" - "), 
-         personaQueryPath.NIF().select, new SelectConstant(" - "),
-         personaQueryPath.USUARIPERSONAID().select,new SelectConstant(")") });
+         new ObfuscatedNifStringField(personaQueryPath.NIF()).select, new SelectConstant(" - "),
+         new ObfuscatedUsernameStringField(personaQueryPath.USUARIPERSONAID()).select,new SelectConstant(")") });
      
      this.setSeparator("");
    }

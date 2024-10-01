@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import es.caib.portafib.ejb.RoleUsuariEntitatService;
 import org.apache.log4j.Logger;
@@ -28,6 +27,8 @@ import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
 import es.caib.portafib.back.reflist.CarrecJSONRefList;
 import es.caib.portafib.back.reflist.UsuariEntitatJSONRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.ObfuscatedNifStringField;
+import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
@@ -89,7 +90,7 @@ public class SearchJSONController {
 
             this.usuariPersonaRefList.setSelects(new Select<?>[] { UsuariPersonaFields.LLINATGES.select,
                     new SelectConstant(", "), UsuariPersonaFields.NOM.select, new SelectConstant(" ("),
-                    UsuariPersonaFields.NIF.select, new SelectConstant(" - "),
+                    new ObfuscatedNifStringField(UsuariPersonaFields.NIF).select, new SelectConstant(" - "),
                     UsuariPersonaFields.USUARIPERSONAID.select, new SelectConstant(")") });
 
             this.usuariPersonaRefList.setSeparator("");
@@ -104,13 +105,13 @@ public class SearchJSONController {
      */
     @RequestMapping(value = "/usuarientitatrevisor", method = RequestMethod.POST)
     public void usuarientitatrevisor(HttpServletRequest request, HttpServletResponse response) throws Exception {
-/*
+        /*
         log.info("\n\n\n XYZ ZZZ  ============ usuarientitatrevisor ======================");
         for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
             log.info("           " + entry.getKey() + " = " + entry.getValue()[0]);
         }
         log.info(" XYZ ZZZ  ==========================================================\n\n\n");
-*/
+        */
         // Revisors Globals
 
         SubQuery<RoleUsuariEntitat, String> subqueryrevisor;
@@ -146,7 +147,8 @@ public class SearchJSONController {
             // Contrasenya conté l'usuarientitatid
             for (UsuariPersonaBean usuariPersonaBean : persones) {
                 final String label = usuariPersonaBean.getLlinatges() + ", " + usuariPersonaBean.getNom() + " ("
-                        + usuariPersonaBean.getNif() + " - " + usuariPersonaBean.getUsuariPersonaID() + ")";
+                        + Utils.ofuscarDNI(usuariPersonaBean.getNif()) + " - "
+                        + Utils.ofuscarUsuariExtern(usuariPersonaBean.getUsuariPersonaID()) + ")";
                 entries.add(new StringKeyValue(usuariPersonaBean.getContrasenya(), label));
             }
         }
@@ -650,17 +652,19 @@ public class SearchJSONController {
     }
 
     protected static String usuariPersonaToString(UsuariPersonaJPA up) {
-        String tmp = up.getLlinatges() + ", " + up.getNom() + " (" + up.getNif() + " - " + up.getUsuariPersonaID()
-                + ")";
+        String tmp = up.getLlinatges() + ", " + up.getNom() + " (" + Utils.ofuscarDNI(up.getNif()) + " - "
+                + Utils.ofuscarUsuariExtern(up.getUsuariPersonaID()) + ")";
 
         return tmp.replace('"', '\'');
     }
 
     protected static String usuariPersonaCarrecToString(String carrec, UsuariPersonaJPA up) {
-        String tmp = "(*) " + carrec + " (" + up.getNom() + " " + up.getLlinatges() + " - " + up.getNif() + " - "
-                + up.getUsuariPersonaID() + ")";
+        String tmp = "(*) " + carrec + " (" + up.getNom() + " " + up.getLlinatges() + " - " + Utils.ofuscarDNI(up.getNif())
+                + " - " + Utils.ofuscarUsuariExtern(up.getUsuariPersonaID()) + ")";
 
         return tmp.replace('"', '\'');
     }
+    
+    
 
 }

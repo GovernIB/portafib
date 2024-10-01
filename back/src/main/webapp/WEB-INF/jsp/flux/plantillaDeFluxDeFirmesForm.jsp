@@ -1,11 +1,11 @@
-<%@page import="es.caib.portafib.persistence.UsuariEntitatJPA"%>
-<%@page import="es.caib.portafib.persistence.EstatDeFirmaJPA"%>
-<%@page import="es.caib.portafib.persistence.UsuariPersonaJPA"%>
-<%@page import="es.caib.portafib.model.entity.UsuariEntitat"%>
-<%@page import="es.caib.portafib.model.entity.EstatDeFirma"%>
-<%@page import="es.caib.portafib.model.entity.UsuariPersona"%>
-<%@page import="es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields"%>
-<%@ page contentType="text/html; charset=UTF-8" language="java"
+<%@page import="es.caib.portafib.persistence.UsuariEntitatJPA"
+%><%@page import="es.caib.portafib.persistence.EstatDeFirmaJPA"
+%><%@page import="es.caib.portafib.persistence.UsuariPersonaJPA"
+%><%@page import="es.caib.portafib.model.entity.UsuariEntitat"
+%><%@page import="es.caib.portafib.model.entity.EstatDeFirma"
+%><%@page import="es.caib.portafib.model.entity.UsuariPersona"
+%><%@page import="es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields"
+%><%@ page contentType="text/html; charset=UTF-8" language="java"
 %><%@page import="es.caib.portafib.logic.utils.BlocUtils"
 %><%@page import="es.caib.portafib.logic.utils.FirmaUtils"
 %><%@page import="es.caib.portafib.persistence.BlocDeFirmesJPA"
@@ -355,14 +355,14 @@
                                       <i>${firma.usuariExternNom}&nbsp;${firma.usuariExternLlinatges}</i><br/>
                                       <small>
                                         <i class="fas fa-envelope"></i>${firma.usuariExternEmail}<br/>
-                                        ${firma.usuariEntitat.usuariPersona.nif}
+                                        ${pfi:ofuscar(firma.usuariEntitat.usuariPersona.nif)}
                                       </small>
                                     </c:when>
                                     
                                     <%--  USUARI INTERN --%>
                                     <c:when test = "${empty firma.usuariExternNom}">
                                       ${firma.usuariEntitat.usuariPersona.nom}&nbsp;${firma.usuariEntitat.usuariPersona.llinatges}<br/>
-                                      ${firma.usuariEntitat.usuariPersona.nif}<br/>
+                                      ${pfi:ofuscar(firma.usuariEntitat.usuariPersona.nif)}<br/>
                                     </c:when>
                                      
                                     <c:otherwise>
@@ -466,7 +466,7 @@
                                     
                                     </center>
                                     <i>${revisor.usuariEntitat.usuariPersona.nom}&nbsp${revisor.usuariEntitat.usuariPersona.llinatges}<br/>
-                                    ${revisor.usuariEntitat.usuariPersona.nif}</i>
+                                    ${pfi:ofuscar(revisor.usuariEntitat.usuariPersona.nif)}</i>
                                     
                                     
                                     <br/>
