@@ -3,8 +3,8 @@
 
 ***Versions***
 
-> - Versió Estable: Tag [__portafib-2.2.2__] (branca [portafib-2.2](../../tree/portafib-2.2))<br/>
-> - Versió en Desenvolupament: portafib-3.0 (branca [portafib-3.0](../../tree/portafib-3.0))
+> - Versió Estable: portafib-3.0.0 (Tag [portafib-3.0.0](https://github.com/GovernIB/portafib/releases/tag/portafib-3.0.0_2024-09-26_fix))<br/>
+> - Versió en Desenvolupament: portafib-3.0.1 (Branca [portafib-3.0](../../tree/portafib-3.0))
 
 
 ***Documentació***
