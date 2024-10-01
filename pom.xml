@@ -51,6 +51,8 @@
         <module>api-interna</module>
         <module>api-interna-client-infoversio-v1</module>
         <module>api-interna-client-revisors-v1</module>
+        <module>api-interna-client-tipus-documentals-v1</module>
+        <module>api-interna-client-utils-v1</module>
         <module>ear</module>
     </modules>
     <repositories>
@@ -106,7 +108,7 @@
         <!-- Versions de les llibreries emprades dins els mòduls -->
         <activation.version>1.1.1.redhat-5</activation.version>
         <mp-openapi.version>1.0.1</mp-openapi.version>
-        <keycloak.version>6.0.1</keycloak.version>
+        <keycloak.version>8.0.1</keycloak.version>
         <!-- 6.0.1 -->
         <cxf.version>3.2.5.redhat-00001</cxf.version>
         <junit.version>4.13.1</junit.version>

@@ -176,7 +176,6 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             commonChecks();
 
             // Check XYZ ZZZ languageUI
-
             List<StringKeyValue> idiomes;
 
             SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(IdiomaFields.IDIOMAID.select,

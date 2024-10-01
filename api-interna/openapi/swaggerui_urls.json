@@ -8,4 +8,14 @@
         "url": "./openapi_revisors_v1.json",
         "name": "Revisors v1"
     }
+,
+    {
+        "url": "./openapi_tipus_documentals_v1.json",
+        "name": "Tipus Documentals v1"
+    }
+,
+    {
+        "url": "./openapi_utils_v1.json",
+        "name": "Utils v1"
+    }
 ]
