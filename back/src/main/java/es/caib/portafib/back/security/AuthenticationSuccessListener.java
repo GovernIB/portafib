@@ -134,7 +134,7 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
                     UserInfo info = plugin.getUserInfoByUserName(name);
                     if (info != null) {
                         UsuariPersonaJPA persona = new UsuariPersonaJPA();
-                        persona.setEmail(info.getEmail() == null ? PropietatGlobalUtil.getAppEmail() : info.getEmail());
+                        persona.setEmail((info.getEmail() == null || info.getEmail().trim().length() == 0) ? PropietatGlobalUtil.getAppEmail() : info.getEmail());
                         persona.setIdiomaID(Configuracio.getDefaultLanguage());
                         final String nom, llinatges;
                         {

@@ -1,0 +1,348 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "API Interna de PortaFIB de consulta de serveis d'utilitat",
+    "description" : "Conjunt de Serveis REST de PortaFIB per atendre consultes generiques de Portafib",
+    "contact" : {
+      "name" : "Departament de Govern Digital a la Fundació Bit",
+      "url" : "http://governdigital.fundaciobit.org",
+      "email" : "otae@fundaciobit.org"
+    },
+    "license" : {
+      "name" : "European Union Public Licence (EUPL v1.2)",
+      "url" : "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"
+    },
+    "version" : "1.0-SNAPSHOT"
+  },
+  "externalDocs" : {
+    "description" : "Java API Interna Client (Github Source Code)",
+    "url" : "https://github.com/GovernIB/portafib/tree/portafib-2.2/"
+  },
+  "servers" : [ {
+    "url" : "/portafibapi/interna"
+  }, {
+    "url" : "http://localhost:8080/portafibapi/interna"
+  }, {
+    "url" : "https://dev.caib.es/portafibapi/interna"
+  }, {
+    "url" : "https://proves.caib.es/portafibapi/interna"
+  }, {
+    "url" : "https://se.caib.es/portafibapi/interna"
+  }, {
+    "url" : "https://www.caib.es/portafibapi/interna"
+  } ],
+  "tags" : [ {
+    "name" : "Utils v1",
+    "description" : "Utilitats"
+  } ],
+  "paths" : {
+    "/secure/utils/v1/getAvailableLanguages" : {
+      "get" : {
+        "tags" : [ "Utils v1" ],
+        "summary" : "Retorna els idiomes disponibles.",
+        "operationId" : "getAvailableLanguages",
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AvailableLanguagesRest"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/utils/v1/getAvailableProfiles" : {
+      "get" : {
+        "tags" : [ "Utils v1" ],
+        "summary" : "Retorna els perfils de firma.",
+        "operationId" : "getAvailableProfiles",
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AvailableProfilesRest"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/utils/v1/tipusdocumentalslist" : {
+      "get" : {
+        "tags" : [ "Utils v1" ],
+        "summary" : "Retorna la llista de tipus documentals disponibles.",
+        "operationId" : "tipusdocumentalslist",
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        }, {
+          "name" : "appuser",
+          "in" : "query",
+          "description" : "Filtre pel nom de l'usuari aplicacio. Opcional.",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LlistaTipusDocumentalRest"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "AvailableLanguagesRest" : {
+        "type" : "object",
+        "properties" : {
+          "list" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/CommonsRestKeyValue"
+            }
+          }
+        }
+      },
+      "CommonsRestKeyValue" : {
+        "type" : "object",
+        "properties" : {
+          "key" : {
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "string"
+          }
+        }
+      },
+      "RestExceptionInfo" : {
+        "required" : [ "code", "errorMessage" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "integer",
+            "description" : "Codi de HTTP de l'error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.",
+            "format" : "int32"
+          },
+          "errorMessage" : {
+            "type" : "string",
+            "description" : "Missatge de l'error"
+          },
+          "stackTrace" : {
+            "type" : "string",
+            "description" : "Stacktrace de l'excepció si n'hi hagués."
+          },
+          "causeException" : {
+            "type" : "string",
+            "description" : "Tipus de l'excepció origen (cause) si n'hi hagués."
+          },
+          "causeStackTrace" : {
+            "type" : "string",
+            "description" : "Stacktrace de l'excepció origen (cause) si n'hi hagués."
+          }
+        },
+        "description" : "Estructura de dades utilitzada per passar informació d'un error"
+      },
+      "AvailableProfile" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      },
+      "AvailableProfilesRest" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AvailableProfile"
+            }
+          },
+          "language" : {
+            "type" : "string"
+          }
+        }
+      },
+      "LlistaTipusDocumentalRest" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TipusDocumentalRest"
+            }
+          },
+          "language" : {
+            "type" : "string"
+          }
+        }
+      },
+      "TipusDocumentalRest" : {
+        "type" : "object",
+        "properties" : {
+          "tipusDocumentID" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "nom" : {
+            "type" : "string"
+          },
+          "tipusDocumentNTI" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "BasicAuth" : {
+        "type" : "http",
+        "scheme" : "basic"
+      }
+    }
+  }
+}
