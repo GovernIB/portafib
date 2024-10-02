@@ -112,12 +112,9 @@
 
         });
      }
-     
-     
+
      function setValue(id, value) {
-       
        document.getElementById(id).value = value;
-       
      }
      
      function closeConsultaNifUsuariExternDialog() {
@@ -227,6 +224,7 @@
       if (!campsOk) {
           alert("<fmt:message key='firmausuariextern.formulari.incomplet'/>");
       } else {
+          <%-- alert('Ara pot escriure el nom o dni de l´usuari extern que acaba de crear al camp de text titulat "Usuari de la primera firma del flux "'); --%>
           document.getElementById('crearFirmaUsuariExternForm').submit();
       }
   }

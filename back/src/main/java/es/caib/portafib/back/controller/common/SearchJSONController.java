@@ -28,6 +28,7 @@ import es.caib.portafib.back.reflist.CarrecJSONRefList;
 import es.caib.portafib.back.reflist.UsuariEntitatJSONRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.ObfuscatedNifStringField;
+import es.caib.portafib.back.utils.ObfuscatedUsernameStringField;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.persistence.UsuariPersonaJPA;
@@ -91,7 +92,7 @@ public class SearchJSONController {
             this.usuariPersonaRefList.setSelects(new Select<?>[] { UsuariPersonaFields.LLINATGES.select,
                     new SelectConstant(", "), UsuariPersonaFields.NOM.select, new SelectConstant(" ("),
                     new ObfuscatedNifStringField(UsuariPersonaFields.NIF).select, new SelectConstant(" - "),
-                    UsuariPersonaFields.USUARIPERSONAID.select, new SelectConstant(")") });
+                    new ObfuscatedUsernameStringField(UsuariPersonaFields.USUARIPERSONAID).select, new SelectConstant(")") });
 
             this.usuariPersonaRefList.setSeparator("");
         }
