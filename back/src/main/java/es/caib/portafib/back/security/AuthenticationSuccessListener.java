@@ -134,7 +134,14 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
                     UserInfo info = plugin.getUserInfoByUserName(name);
                     if (info != null) {
                         UsuariPersonaJPA persona = new UsuariPersonaJPA();
-                        persona.setEmail((info.getEmail() == null || info.getEmail().trim().length() == 0) ? PropietatGlobalUtil.getAppEmail() : info.getEmail());
+                        if (info.getEmail() == null || info.getEmail().trim().length() == 0) {
+                            throw new I18NException("genapp.comodi",
+                                    "El sistema d´informació d'usuaris no està ben configurat."
+                                            + " No s'ha pogut obtenir el email de l´usuari " + name
+                                            + "." + " Contacti amb l´administrador per informar d'aquest problema.");
+                        } else {
+                            persona.setEmail(info.getEmail()); 
+                        } 
                         persona.setIdiomaID(Configuracio.getDefaultLanguage());
                         final String nom, llinatges;
                         {
@@ -166,7 +173,7 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
                             throw new I18NException("genapp.comodi",
                                     "El sistema d´informació d'usuaris no està ben configurat."
                                             + " No s'ha pogut obtenir el AdministrationID(nif) de l´usuari " + name
-                                            + "." + " Contacti amb l´administrador per informar-li d'aquest fet.");
+                                            + "." + " Contacti amb l´administrador per informar d'aquest problema.");
 
                         }
 
