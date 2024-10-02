@@ -1,0 +1,14 @@
+[01/10/2024, 10:18:24,05] 
+depth=1 C = ES, ST = ILLES BALEARS, L = PALMA, O = COMUNITAT AUT\C3\92NOMA DE LES ILLES BALEARS, OU = DIRECCI\C3\93 GENERAL DE MODERNITZACI\C3\93 I ADMINISTRACI\C3\93 DIGITAL, CN = AUTORITAT INTERNA DE CERTIFICACI\C3\93 DE LA CAIB
+verify error:num=19:self-signed certificate in certificate chain
+verify return:1
+depth=1 C = ES, ST = ILLES BALEARS, L = PALMA, O = COMUNITAT AUT\C3\92NOMA DE LES ILLES BALEARS, OU = DIRECCI\C3\93 GENERAL DE MODERNITZACI\C3\93 I ADMINISTRACI\C3\93 DIGITAL, CN = AUTORITAT INTERNA DE CERTIFICACI\C3\93 DE LA CAIB
+verify return:1
+depth=0 C = ES, ST = ILLES BALEARS, L = PALMA, O = COMUNITAT AUT\C3\92NOMA DE LES ILLES BALEARS, OU = DIRECCI\C3\93 GENERAL DE MODERNITZACI\C3\93 I ADMINISTRACI\C3\93 DIGITAL, CN = afirmades2.caib.es
+verify return:1
+Warning: use -cacerts option to access cacerts keystore
+afirmades2_caib_es, 18 oct. 2022, trustedCertEntry, 
+Certificate fingerprint (SHA-256): 7A:2B:7F:19:4D:89:6D:29:7D:DE:67:47:C6:14:77:23:F4:12:38:CB:4E:03:63:68:01:12:1E:B9:3F:66:F1:73
+Warning: use -cacerts option to access cacerts keystore
+Warning: use -cacerts option to access cacerts keystore
+Certificate was added to keystore

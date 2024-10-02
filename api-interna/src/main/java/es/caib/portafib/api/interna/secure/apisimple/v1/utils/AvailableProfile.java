@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.apisimple.v1;
+package es.caib.portafib.api.interna.secure.apisimple.v1.utils;
 
 import java.util.List;
 
@@ -20,14 +20,14 @@ public class AvailableProfile {
 
 	  protected String description;
 	  
-	  protected List<CommonsRestKeyValue> properties;
+	  protected List<ApisIBKeyValue> properties;
 
 
 	  public AvailableProfile() {
 	    super();
 	  }
 	  
-	  public AvailableProfile(String code, String name, String description, List<CommonsRestKeyValue> properties) {
+	  public AvailableProfile(String code, String name, String description, List<ApisIBKeyValue> properties) {
 	    super();
 	    this.code = code;
 	    this.name = name;

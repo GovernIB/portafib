@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.apisimple.v1;
+package es.caib.portafib.api.interna.secure.apisimple.v1.commons;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -43,23 +43,7 @@ public class RestUtilsErrorManager extends RestUtils {
         return new ResponseEntity<ApisIBError>(new ApisIBError(msg, ApisIBServerException.class.getName(), sStackTrace),
                 status);
     }
-
-    protected LoginInfo commonChecks() throws I18NException {
-        LoginInfo loginInfo = LoginInfo.getInstance();
-        
-
-        // Checks Globals
-        /*
-        if (loginInfo.getUsuariEntitat() != null) {
-          // TODO XYZ ZZZ Traduir
-          throw new I18NException("genapp.comodi",
-          "Aquest servei només el poden fer servir els Usuaris Aplicació");
-        }
-        */
-
-        return loginInfo;
-    }
-
+    
     protected String internalGetTransacction() {
         String transactionID = IdGeneratorFactory.getGenerator().generate();
         if (log.isDebugEnabled()) {

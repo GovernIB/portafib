@@ -1,6 +1,6 @@
-package es.caib.portafib.api.interna.secure.apisimple.v1;
+package es.caib.portafib.api.interna.secure.apisimple.v1.apisib;
 
-public class CommonsRestKeyValue {
+public class ApisIBKeyValue {
 
 
 	  protected String key;
@@ -10,7 +10,7 @@ public class CommonsRestKeyValue {
 	  /**
 	 * 
 	 */
-	  public CommonsRestKeyValue() {
+	  public ApisIBKeyValue() {
 	    super();
 	  }
 
@@ -18,7 +18,7 @@ public class CommonsRestKeyValue {
 	   * @param key
 	   * @param value
 	   */
-	  public CommonsRestKeyValue(String key, String value) {
+	  public ApisIBKeyValue(String key, String value) {
 	    super();
 	    this.key = key;
 	    this.value = value;

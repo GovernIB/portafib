@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.apisimple.v1;
+package es.caib.portafib.api.interna.secure.apisimple.v1.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +33,8 @@ import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.databind.node.TextNode;
 
-import es.caib.portafib.api.interna.secure.apisimple.v1.RestUtilsErrorManager;
-
+import es.caib.portafib.api.interna.secure.apisimple.v1.apisib.ApisIBKeyValue;
+import es.caib.portafib.api.interna.secure.apisimple.v1.commons.RestUtilsErrorManager;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.TipusDocumentService;
@@ -117,7 +117,6 @@ public class UtilsService extends RestUtilsErrorManager {
 
 			// Check Idioma
 			language = RestUtils.checkLanguage(language);
-			Locale locale = new Locale(language);
 
 			Where whereTD = null;
 			if (appuser != null && appuser.trim().length() != 0) {
@@ -263,7 +262,7 @@ public class UtilsService extends RestUtilsErrorManager {
 		try {
 		
 		AvailableLanguagesRest response = new AvailableLanguagesRest();
-		response.list = new ArrayList<CommonsRestKeyValue>();
+		response.list = new ArrayList<ApisIBKeyValue>();
 		
 		// Check XYZ ZZZ languageUI
         List<StringKeyValue> idiomes;
@@ -276,7 +275,7 @@ public class UtilsService extends RestUtilsErrorManager {
         //List<FirmaAsyncSimpleKeyValue> list = new ArrayList<FirmaAsyncSimpleKeyValue>();
 
         for (StringKeyValue skv : idiomes) {
-        	response.list.add(new CommonsRestKeyValue(skv.getKey(), skv.getValue()));
+        	response.list.add(new ApisIBKeyValue(skv.getKey(), skv.getValue()));
         }
 
         return response;
@@ -427,16 +426,7 @@ public class UtilsService extends RestUtilsErrorManager {
 					log.error(" XYZ ZZZ autenticate:: " + msg);
 					return msg;
 				}
-				/*
-				 * User user = new User(username, password, seyconAuthorities);
-				 * 
-				 * // create a new authentication token for usuariAplicacio LoginInfo loginInfo
-				 * = new LoginInfo(user, usuariAplicacio, entitat, seyconAuthorities);
-				 * 
-				 * // and set the authentication of the current Session context
-				 * SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken(
-				 * ));
-				 */
+				
 				log.info("Inicialitzada Informació de UsuariAPLicacio dins de LoginInfo");
 
 				return null; // OK

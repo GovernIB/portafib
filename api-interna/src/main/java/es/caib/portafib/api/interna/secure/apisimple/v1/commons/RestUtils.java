@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.apisimple.v1;
+package es.caib.portafib.api.interna.secure.apisimple.v1.commons;
 
 
 import es.caib.portafib.persistence.EntitatJPA;
