@@ -61,8 +61,7 @@ public class Configuracio implements Constants {
         return valueLong;
 
     }
-    
-    
+
     public static Properties getSystemAndFileProperties() {
         Properties properties = new Properties();
         properties.putAll(System.getProperties());
@@ -142,6 +141,16 @@ public class Configuracio implements Constants {
 
     public static Long getMaxFitxerAdaptatSizeInBytes() {
         return getLongPortaFIBProperty(PORTAFIB_PROPERTY_BASE + "maxfitxeradaptatsizeinbytes");
+    }
+
+    public static boolean isCheckApplicationUserWithUserInformationPlugin() {
+        final Properties sysprop = getPortaFIBSystemProperties();
+        String check = sysprop.getProperty(PORTAFIB_PROPERTY_BASE + "checkapplicationuserwithuserinformationplugin");
+        if (check == null) {
+            return true;
+        } else {
+            return "true".equalsIgnoreCase(check);
+        }
     }
 
 }

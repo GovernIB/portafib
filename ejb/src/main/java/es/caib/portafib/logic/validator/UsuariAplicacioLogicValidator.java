@@ -8,6 +8,7 @@ import org.fundaciobit.genapp.common.i18n.I18NTranslation;
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
 
 import es.caib.portafib.persistence.validator.UsuariAplicacioValidator;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 
@@ -31,39 +32,41 @@ public class UsuariAplicacioLogicValidator<T extends UsuariAplicacio> extends Us
 
         super.validate(__vr, __target__, __isNou__, __custodiaInfoManager, __entitatManager, __idiomaManager,
                 __usuariAplicacioManager);
-        
+
         int callbackVersion = __target__.getCallbackVersio();
 
         // Afegir per #520. Si la URL de callback no és obligatoria a nivell de base de dades cal comprovar
         // que només pot ser buida quan s'ha especificat la versió "-1", no callback.
-        if (callbackVersion != -1) {     
+        if (callbackVersion != -1) {
             String callbackUrl = __target__.getCallbackURL(); // (String) __vr.getFieldValue(__target__, CALLBACKURL);
             if (callbackUrl == null || callbackUrl.isEmpty()) {
                 __vr.rejectValue(CALLBACKURL, "usuariaplicacio.error.notecallback");
             }
         }
-        
 
         if (__isNou__ && __vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
             String userApp = (String) __vr.getFieldValue(__target__, USUARIAPLICACIOID);
 
             // Comprobar que aquest usuari està al sistema d'informació d'usuaris i que no és una persona.
-            try {
-                IUserInformationPlugin userInfoPlugin = PortaFIBPluginsManager.getUserInformationPluginInstance();
-                UserInfo userInfo = userInfoPlugin.getUserInfoByUserName(userApp);
-                String nif = userInfo.getAdministrationID();
-                if (nif != null && nif.trim().length() != 0) {
-                    //usuariaplicacio.error.esusuaripersona=L´usuari aplicació {0} és un usuari persona amb NIF {1}
-                    __vr.rejectValue(USUARIAPLICACIOID, "usuariaplicacio.error.esusuaripersona",
-                            new I18NArgumentString(userApp), new I18NArgumentString(nif));
+            if (Configuracio.isCheckApplicationUserWithUserInformationPlugin()) {
+                try {
+                    IUserInformationPlugin userInfoPlugin = PortaFIBPluginsManager.getUserInformationPluginInstance();
+                    UserInfo userInfo = userInfoPlugin.getUserInfoByUserName(userApp);
+                    String nif = userInfo.getAdministrationID();
+                    if (nif != null && nif.trim().length() != 0) {
+                        //usuariaplicacio.error.esusuaripersona=L´usuari aplicació {0} és un usuari persona amb NIF {1}
+                        __vr.rejectValue(USUARIAPLICACIOID, "usuariaplicacio.error.esusuaripersona",
+                                new I18NArgumentString(userApp), new I18NArgumentString(nif));
+                    }
+                } catch (I18NException e) {
+                    log.error(e.getMessage(), e);
+                    I18NTranslation i18n = e.getTraduccio();
+                    __vr.rejectValue(USUARIAPLICACIOID, i18n.getCode(), i18n.getArgs());
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                    __vr.rejectValue(USUARIAPLICACIOID, "usuariaplicacio.usuarinoseycon",
+                            new I18NArgumentString(userApp));
                 }
-            } catch (I18NException e) {
-                log.error(e.getMessage(), e);
-                I18NTranslation i18n = e.getTraduccio();
-                __vr.rejectValue(USUARIAPLICACIOID, i18n.getCode(), i18n.getArgs());
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-                __vr.rejectValue(USUARIAPLICACIOID, "usuariaplicacio.usuarinoseycon", new I18NArgumentString(userApp));
             }
         }
     }

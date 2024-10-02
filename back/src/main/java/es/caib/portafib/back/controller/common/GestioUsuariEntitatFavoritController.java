@@ -184,8 +184,7 @@ public class GestioUsuariEntitatFavoritController extends UsuariEntitatFavoritCo
         /*
         // Fixam la llista amb l'usuari favorit
         UsuariEntitatJPA ue = usuariEntitatLogicaEjb.findByPrimaryKeyFull(usuariEntitatIDFavorit);
-        
-        
+
         List<StringKeyValue> lskvFavorit = new ArrayList<StringKeyValue>(1);
         lskvFavorit.add(skvFavorit);
         usuariEntitatFavoritForm.setListOfUsuariEntitatForFavoritID(lskvFavorit);
