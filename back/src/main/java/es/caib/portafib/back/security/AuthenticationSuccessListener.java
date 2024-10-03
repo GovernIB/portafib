@@ -135,6 +135,7 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
                     if (info != null) {
                         UsuariPersonaJPA persona = new UsuariPersonaJPA();
                         if (info.getEmail() == null || info.getEmail().trim().length() == 0) {
+                            // https://github.com/GovernIB/portafib/issues/872
                             // Fer això és un problema ja que li surt un formulari de modificació de dades,
                             // però l'usuari pot anar a qualsevol lloc i deixariem el correu d'aquest usuari 
                             // amb un email incorrecte.
