@@ -76,6 +76,13 @@ public class UsuariAplicacioJPA implements UsuariAplicacio {
     @Column(name="crearusuaris",nullable = false,length = 1)
     boolean crearUsuaris = false;
 
+  /** En les consultes que requereixen revisors, indica quin tipus de revisors utilitzarà:
+    * true: revisors globals
+    * false: revisors de destinatari
+    * null: revisors globals i revisors de destinatari */
+    @Column(name="tipusrevisors",length = 1)
+    java.lang.Boolean tipusRevisors = false;
+
 
 
   /** Constructor Buit */
@@ -83,7 +90,7 @@ public class UsuariAplicacioJPA implements UsuariAplicacio {
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , int politicaDePluginFirmaWeb , int politicaCustodia , java.lang.Long custodiaInfoID , boolean crearUsuaris) {
+  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , int politicaDePluginFirmaWeb , int politicaCustodia , java.lang.Long custodiaInfoID , boolean crearUsuaris , java.lang.Boolean tipusRevisors) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.entitatID=entitatID;
     this.emailAdmin=emailAdmin;
@@ -97,6 +104,7 @@ public class UsuariAplicacioJPA implements UsuariAplicacio {
     this.politicaCustodia=politicaCustodia;
     this.custodiaInfoID=custodiaInfoID;
     this.crearUsuaris=crearUsuaris;
+    this.tipusRevisors=tipusRevisors;
 }
   /** Constructor dels valors Not Null */
   public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , boolean actiu , java.lang.String idiomaID , int politicaDePluginFirmaWeb , int politicaCustodia , boolean crearUsuaris) {
@@ -124,6 +132,7 @@ public class UsuariAplicacioJPA implements UsuariAplicacio {
     this.setPoliticaCustodia(__bean.getPoliticaCustodia());
     this.setCustodiaInfoID(__bean.getCustodiaInfoID());
     this.setCrearUsuaris(__bean.isCrearUsuaris());
+    this.setTipusRevisors(__bean.getTipusRevisors());
     // Fitxer
     this.setLogoSegell(FitxerJPA.toJPA(__bean.getLogoSegell()));
 	}
@@ -217,6 +226,13 @@ public class UsuariAplicacioJPA implements UsuariAplicacio {
 	};
 	public void setCrearUsuaris(boolean _crearUsuaris_) {
 		this.crearUsuaris = _crearUsuaris_;
+	};
+
+	public java.lang.Boolean getTipusRevisors() {
+		return(tipusRevisors);
+	};
+	public void setTipusRevisors(java.lang.Boolean _tipusRevisors_) {
+		this.tipusRevisors = _tipusRevisors_;
 	};
 
 
@@ -404,6 +420,7 @@ public class UsuariAplicacioJPA implements UsuariAplicacio {
     __tmp.setPoliticaCustodia(__bean.getPoliticaCustodia());
     __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
     __tmp.setCrearUsuaris(__bean.isCrearUsuaris());
+    __tmp.setTipusRevisors(__bean.getTipusRevisors());
     // Fitxer
     __tmp.setLogoSegell(FitxerJPA.toJPA(__bean.getLogoSegell()));
 		return __tmp;

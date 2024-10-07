@@ -175,7 +175,7 @@ public class UsuariAplicacioFilterForm extends PortaFIBBaseFilterForm implements
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { ENTITATID ,CALLBACKVERSIO ,ACTIU ,IDIOMAID }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { ENTITATID ,CALLBACKVERSIO ,ACTIU ,IDIOMAID ,TIPUSREVISORS }));
   }
 
 

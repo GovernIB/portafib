@@ -51,6 +51,9 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.CREARUSUARIS)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioFields.CREARUSUARIS)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.TIPUSREVISORS)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioFields.TIPUSREVISORS)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">

@@ -5,8 +5,6 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.SelectField;
 import org.fundaciobit.genapp.common.query.StringField;
 
-import es.caib.portafib.back.controller.common.SearchJSONController;
-
 /**
  * 
  * @author anadal

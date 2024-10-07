@@ -390,3 +390,28 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.TIPUSREVISORS)}">
+        <tr id="usuariAplicacio_tipusRevisors_rowid">
+          <td id="usuariAplicacio_tipusRevisors_columnlabelid">
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.TIPUSREVISORS])?'usuariAplicacio.tipusRevisors':__theForm.labels[UsuariAplicacioFields.TIPUSREVISORS]}" />
+             </label>
+              <c:if test="${not empty __theForm.help[UsuariAplicacioFields.TIPUSREVISORS]}">
+              <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.TIPUSREVISORS]}" ></i>
+              </c:if>
+            </td>
+          <td id="usuariAplicacio_tipusRevisors_columnvalueid">
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.TIPUSREVISORS)}" >
+              <form:select cssClass="form-control col-md-6" onchange="if(typeof onChangeTipusRevisors == 'function') {  onChangeTipusRevisors(this); };"  path="usuariAplicacio.tipusRevisors">
+                <form:option value=""><fmt:message key="tipusrevisors." /></form:option>
+                <form:option value="true" ><fmt:message key="tipusrevisors.true" /></form:option>
+                <form:option value="false" ><fmt:message key="tipusrevisors.false" /></form:option>
+              </form:select>
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.TIPUSREVISORS)}" >
+                <fmt:message key="tipusrevisors.${__theForm.usuariAplicacio.tipusRevisors}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        

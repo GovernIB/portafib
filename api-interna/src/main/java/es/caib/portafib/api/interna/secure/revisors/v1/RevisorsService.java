@@ -33,6 +33,7 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.bean.UsuariPersonaBean;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatQueryPath;
+import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
@@ -92,7 +93,7 @@ public class RevisorsService extends RestUtils {
 
     @EJB(mappedName = RevisorDeDestinatariLogicaService.JNDI_NAME)
     protected RevisorDeDestinatariLogicaService revisorDeDestinatariEjb;
-    
+
     @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatService.JNDI_NAME)
     protected es.caib.portafib.ejb.UsuariEntitatService usuariEntitatEjb;
 
@@ -181,20 +182,20 @@ public class RevisorsService extends RestUtils {
             // Comprovar NIF de Destinatari
             String destinatariUsuariEntitatID = null;
             if (dni != null && !dni.isEmpty()) {
-                
+
                 log.info("XXX revisorsByDestinatariNIF:: Entra a dni!= null");
-               
+
                 // Comprovar que NIF de DESTINATARI existeix en l'entitat de l'usuari-aplicacio
                 dni = dni.toUpperCase();
-                
+
                 UsuariEntitatQueryPath ueqp = new UsuariEntitatQueryPath();
                 Where w1 = ueqp.ENTITATID().equal(entitatID);
                 Where w2 = ueqp.USUARIPERSONA().NIF().equal(dni);
                 Where w3 = UsuariEntitatFields.ACTIU.equal(true);
                 Where w4 = ueqp.USUARIPERSONA().USUARIINTERN().equal(true);
-                
+
                 destinatariUsuariEntitatID = usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.USUARIENTITATID, Where.AND(w1,w2,w3,w4));
-                
+
                 log.info(
                         "XXX revisorsByDestinatariNIF:: destinatariUsuariEntitatID: " + destinatariUsuariEntitatID);
                 if (destinatariUsuariEntitatID == null) {
@@ -212,8 +213,7 @@ public class RevisorsService extends RestUtils {
 
                 List<UsuariPersonaBean> persones = revisorDeDestinatariEjb.getRevisorsDeDestinatariUsingUsuariEntitatID(
                         destinatariUsuariEntitatID);
-                
-                
+
                 log.info("XXX resultat revisorDeDestinatari[" + dni + "|" + destinatariUsuariEntitatID + "] => Numero: " + persones.size());
                 
                 for (UsuariPersonaBean up : persones) {
@@ -227,16 +227,19 @@ public class RevisorsService extends RestUtils {
 
             }
 
-            // Afegir els Usuaris Revisors Globals ???
-            
-            final  boolean prop = PropietatGlobalUtil.getServeiRestRetornaRevisorsGlobals(entitatID);
-            
-            log.info("XXX revisorsByDestinatariNIF:: getServeiRestRetornaRevisorsGlobals: " + prop);
-            
-            if (destinatariUsuariEntitatID == null || prop) {
-                
-                log.info("XXX resultat revisorDeDestinatari[GLOBALS] => Entra ... ");
+            // Quins revisors volem ???? 
+            //  true: revisors globals
+            //  false: revisors de destinatari
+            //  null: revisors globals i revisors de destinatari
+            Boolean quinsRevisors;
+            quinsRevisors = usuariAplicacioEjb.executeQueryOne(UsuariAplicacioFields.TIPUSREVISORS,
+                    UsuariAplicacioFields.USUARIAPLICACIOID.equal(usernameApp));
 
+            log.info("XXX revisorsByDestinatariNIF:: usrApp.quinsRevisors = " + quinsRevisors);
+            
+            if (destinatariUsuariEntitatID == null || quinsRevisors == null || quinsRevisors.booleanValue() == true) {
+
+                log.info("XXX resultat revisorDeDestinatari[GLOBALS] => Entra ... ");
 
                 RoleUsuariEntitatQueryPath rueqp = new RoleUsuariEntitatQueryPath();
                 UsuariEntitatQueryPath ueqp = rueqp.USUARIENTITAT();
@@ -253,13 +256,11 @@ public class RevisorsService extends RestUtils {
                 Select4Columns<String, String, String, String> sc;
                 sc = new Select4Columns<String, String, String, String>(upqp.USUARIPERSONAID().select,
                         upqp.NIF().select, upqp.NOM().select, upqp.LLINATGES().select);
-                
-                
+
                 List<Select4Values<String, String, String, String>> result = roleUsuariEntitatEjb.executeQuery(sc,
                         Where.AND(w1, w2, w3));
                 
                 log.info("XXX resultat revisorDeDestinatari[GLOBALS] => Numero: " + result.size());
-
 
                 for (Select4Values<String, String, String, String> sv : result) {
                     BasicUserInfo bui = new BasicUserInfo();
@@ -283,7 +284,6 @@ public class RevisorsService extends RestUtils {
 
     }
 
-   
     /**
      * Get username of the user from the request
      * 

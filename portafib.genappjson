@@ -11983,6 +11983,35 @@
             "webtype": 4
           },
           "foreignKeys": []
+        },
+        {
+          "isAutoIncrement": false,
+          "sqlName": "tipusrevisors",
+          "sqlType": -7,
+          "size": 1,
+          "digits": 0,
+          "isNotNullable": false,
+          "labels": {
+            "en": "Tipos de Revisores que Utilitzará",
+            "ca": "Tipus de Revisors que Utilitzarà",
+            "es": "Tipos de Revisores que Utilitzará"
+          },
+          "javaName": "tipusRevisors",
+          "javaType": "java.lang.Boolean",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": false,
+          "transientField": false,
+          "descripcio": "En les consultes que requereixen revisors, indica quin tipus de revisors utilitzarà:\n    * true: revisors globals\n    * false: revisors de destinatari\n    * null: revisors globals i revisors de destinatari",
+          "defaultValue": "false",
+          "minAllowedValue": "tipusrevisors",
+          "filter": false,
+          "orderBy": 0,
+          "groupBy": true,
+          "webFieldInfo": {
+            "webtype": 4
+          },
+          "foreignKeys": []
         }
       ]
     },

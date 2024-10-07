@@ -63,6 +63,10 @@ public class UsuariAplicacioQueryPath extends org.fundaciobit.genapp.common.quer
     return new BooleanField(getQueryPath(), UsuariAplicacioFields.CREARUSUARIS);
   }
 
+  public BooleanField TIPUSREVISORS() {
+    return new BooleanField(getQueryPath(), UsuariAplicacioFields.TIPUSREVISORS);
+  }
+
 
 
   @Override

@@ -109,6 +109,10 @@
             <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacio.crearUsuaris?'success':'error'}.png"/>">
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.TIPUSREVISORS)}">
+          <td>
+            <fmt:message key="tipusrevisors.${usuariAplicacio.tipusRevisors}" />          </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

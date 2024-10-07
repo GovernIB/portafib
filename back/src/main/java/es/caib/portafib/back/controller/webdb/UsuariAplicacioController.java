@@ -260,6 +260,9 @@ public class UsuariAplicacioController
       fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, CREARUSUARIS);
 
 
+      fillValuesToGroupByItemsBoolean("tipusrevisors", groupByItemsMap, TIPUSREVISORS);
+
+
     return groupByItemsMap;
   }
 

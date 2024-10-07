@@ -41,6 +41,9 @@ public interface UsuariAplicacio extends org.fundaciobit.genapp.common.IGenAppEn
 	public boolean isCrearUsuaris();
 	public void setCrearUsuaris(boolean _crearUsuaris_);
 
+	public java.lang.Boolean getTipusRevisors();
+	public void setTipusRevisors(java.lang.Boolean _tipusRevisors_);
+
   // Fitxer
   public <F extends Fitxer> F getLogoSegell();
 

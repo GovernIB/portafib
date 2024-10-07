@@ -38,6 +38,7 @@ import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.bean.UsuariPersonaBean;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
+import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
@@ -74,6 +75,9 @@ public class SearchJSONController {
     @EJB(mappedName = RevisorDeDestinatariLogicaService.JNDI_NAME)
     protected RevisorDeDestinatariLogicaService revisorDeDestinatariEjb;
 
+    //@EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
+    //protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
+
     @Autowired
     protected UsuariEntitatJSONRefList usuariEntitatRefList;
 
@@ -92,7 +96,8 @@ public class SearchJSONController {
             this.usuariPersonaRefList.setSelects(new Select<?>[] { UsuariPersonaFields.LLINATGES.select,
                     new SelectConstant(", "), UsuariPersonaFields.NOM.select, new SelectConstant(" ("),
                     new ObfuscatedNifStringField(UsuariPersonaFields.NIF).select, new SelectConstant(" - "),
-                    new ObfuscatedUsernameStringField(UsuariPersonaFields.USUARIPERSONAID).select, new SelectConstant(")") });
+                    new ObfuscatedUsernameStringField(UsuariPersonaFields.USUARIPERSONAID).select,
+                    new SelectConstant(")") });
 
             this.usuariPersonaRefList.setSeparator("");
         }
@@ -106,51 +111,98 @@ public class SearchJSONController {
      */
     @RequestMapping(value = "/usuarientitatrevisor", method = RequestMethod.POST)
     public void usuarientitatrevisor(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        /*
-        log.info("\n\n\n XYZ ZZZ  ============ usuarientitatrevisor ======================");
-        for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-            log.info("           " + entry.getKey() + " = " + entry.getValue()[0]);
+
+        // Quins revisors volem ???? 
+        //  true: revisors globals
+        //  false: revisors de destinatari
+        //  null: revisors globals i revisors de destinatari
+        Boolean quinsRevisors = null;
+        try {
+
+            LoginInfo loginInfo = LoginInfo.getInstance();
+
+            UsuariAplicacio usuariAplicacio = loginInfo.getUsuariAplicacio();
+
+            //log.info("usuarientitatrevisor() -> LoginInfo.usuariAplicacio: " + usuariAplicacio);
+
+            if (usuariAplicacio == null) {
+
+                // Accés des del BACK
+                usuariAplicacio = loginInfo.getEntitat().getUsuariAplicacio();
+
+                if (usuariAplicacio == null) {
+                    log.error(
+                            "usuarientitatrevisor() :: L'entitat " + loginInfo.getEntitatID()
+                                    + " no té cap usuari aplicació associat !!!! ",
+                            new Exception("No es pot obtenir getTipusRevisors()"));
+                } else {
+                    //usuariAplicacio = usuariAplicacioLogicaEjb.findByPrimaryKey(usuariAplicacioID);
+                    quinsRevisors = usuariAplicacio.getTipusRevisors();
+                    //log.info("usuarientitatrevisor() -> loginInfo.getEntitat().getUsuariAplicacio() => usr:" + usuariAplicacio + " ");
+                }
+            } else {
+                // Accés des de l'API de FLux
+                //log.info("usuarientitatrevisor() -> LoginINfo.usuariAplicacio: (XYZ  " + usuariAplicacio);
+                quinsRevisors = usuariAplicacio.getTipusRevisors();
+            }
+
+            //log.info("usuarientitatrevisor() -> quinsRevisors: " + quinsRevisors);
+
+        } catch (Exception e) {
+            log.error("usuarientitatrevisor():: Error intentant obtenir informació de "
+                    + "l'Usuari Aplicació per coneixer quinsRevisors: " + e.getMessage(), e);
         }
-        log.info(" XYZ ZZZ  ==========================================================\n\n\n");
-        */
+
+        final String queryFull = request.getParameter("query");
+        List<StringKeyValue> entries = new ArrayList<StringKeyValue>();
+
+        // -----------------------------------------
         // Revisors Globals
 
-        SubQuery<RoleUsuariEntitat, String> subqueryrevisor;
-        try {
-            subqueryrevisor = roleUsuariEntitatEjb.getSubQuery(RoleUsuariEntitatFields.USUARIENTITATID,
-                    RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_REVI));
-        } catch (I18NException e) {
-            log.error("Error cercant usuaris dins del mètode usuaripersonarevisor(1)", e);
-            subqueryrevisor = null;
+        if (quinsRevisors == null || quinsRevisors.booleanValue() == true) {
+
+            SubQuery<RoleUsuariEntitat, String> subqueryrevisor;
+            try {
+                subqueryrevisor = roleUsuariEntitatEjb.getSubQuery(RoleUsuariEntitatFields.USUARIENTITATID,
+                        RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_REVI));
+            } catch (I18NException e) {
+                log.error("Error cercant usuaris dins del mètode usuaripersonarevisor(1)", e);
+                subqueryrevisor = null;
+            }
+            final UsuariPersonaQueryPath personaQueryPath = new UsuariEntitatQueryPath().USUARIPERSONA();
+
+            Where additionalWhere = Where.AND(
+                    UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
+                    UsuariEntitatFields.CARREC.isNull(), UsuariEntitatFields.ACTIU.equal(true),
+                    UsuariEntitatFields.USUARIENTITATID.in(subqueryrevisor));
+
+            StringField keyField = UsuariEntitatFields.USUARIENTITATID;
+
+            entries.addAll(genericSearch(queryFull, personaQueryPath, usuariEntitatLogicaEjb, additionalWhere, keyField,
+                    usuariEntitatRefList));
         }
 
-        String queryFull = request.getParameter("query");
+        // -----------------------------------
+        // Revisors del destinatari
+        if (quinsRevisors == null || quinsRevisors.booleanValue() == false) {
 
-        final UsuariPersonaQueryPath personaQueryPath = new UsuariEntitatQueryPath().USUARIPERSONA();
+            String usuariEntitatID = request.getParameter("param2");
 
-        Where additionalWhere = Where.AND(UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
-                UsuariEntitatFields.CARREC.isNull(), UsuariEntitatFields.ACTIU.equal(true),
-                UsuariEntitatFields.USUARIENTITATID.in(subqueryrevisor));
+            //log.info("usuarientitatrevisor() -> Destinatari usuariEntitatID: " + usuariEntitatID);
 
-        StringField keyField = UsuariEntitatFields.USUARIENTITATID;
+            if (usuariEntitatID != null & usuariEntitatID.trim().length() != 0) {
 
-        List<StringKeyValue> entries = genericSearch(queryFull, personaQueryPath, usuariEntitatLogicaEjb,
-                additionalWhere, keyField, usuariEntitatRefList);
-
-        // Falta afegir els revisors del destinatari
-        String usuariEntitatID = request.getParameter("param2");
-
-        if (usuariEntitatID != null & usuariEntitatID.trim().length() != 0) {
-
-            // Cridada a EJB
-            List<UsuariPersonaBean> persones;
-            persones = revisorDeDestinatariEjb.getRevisorsDeDestinatariUsingUsuariEntitatID(usuariEntitatID, queryFull);
-            // Contrasenya conté l'usuarientitatid
-            for (UsuariPersonaBean usuariPersonaBean : persones) {
-                final String label = usuariPersonaBean.getLlinatges() + ", " + usuariPersonaBean.getNom() + " ("
-                        + Utils.ofuscarDNI(usuariPersonaBean.getNif()) + " - "
-                        + Utils.ofuscarUsuariExtern(usuariPersonaBean.getUsuariPersonaID()) + ")";
-                entries.add(new StringKeyValue(usuariPersonaBean.getContrasenya(), label));
+                // Cridada a EJB
+                List<UsuariPersonaBean> persones;
+                persones = revisorDeDestinatariEjb.getRevisorsDeDestinatariUsingUsuariEntitatID(usuariEntitatID,
+                        queryFull);
+                // Contrasenya conté l'usuarientitatid
+                for (UsuariPersonaBean usuariPersonaBean : persones) {
+                    final String label = usuariPersonaBean.getLlinatges() + ", " + usuariPersonaBean.getNom() + " ("
+                            + Utils.ofuscarDNI(usuariPersonaBean.getNif()) + " - "
+                            + Utils.ofuscarUsuariExtern(usuariPersonaBean.getUsuariPersonaID()) + ")";
+                    entries.add(new StringKeyValue(usuariPersonaBean.getContrasenya(), label));
+                }
             }
         }
 
@@ -660,12 +712,10 @@ public class SearchJSONController {
     }
 
     protected static String usuariPersonaCarrecToString(String carrec, UsuariPersonaJPA up) {
-        String tmp = "(*) " + carrec + " (" + up.getNom() + " " + up.getLlinatges() + " - " + Utils.ofuscarDNI(up.getNif())
-                + " - " + Utils.ofuscarUsuariExtern(up.getUsuariPersonaID()) + ")";
+        String tmp = "(*) " + carrec + " (" + up.getNom() + " " + up.getLlinatges() + " - "
+                + Utils.ofuscarDNI(up.getNif()) + " - " + Utils.ofuscarUsuariExtern(up.getUsuariPersonaID()) + ")";
 
         return tmp.replace('"', '\'');
     }
-    
-    
 
 }
