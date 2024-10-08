@@ -73,8 +73,10 @@ public class RevisorDeDestinatariLogicaEJB extends RevisorDeDestinatariEJB
             Where w2 = Where.OR( 
                     upqp.USUARIPERSONAID().like("%" + filterByUsername + "%"),
                     upqp.NIF().like("%" + filterByUsername + "%"),
-                    upqp.NOM().like("%" + filterByUsername + "%"),
-                    upqp.LLINATGES().like("%" + filterByUsername + "%")
+                    //upqp.NOM().like("%" + filterByUsername + "%"),
+                    upqp.NOM().likeSubstitutionsSimpleVowels("%" + filterByUsername + "%"),
+                    //upqp.LLINATGES().like("%" + filterByUsername + "%")
+                    upqp.LLINATGES().likeSubstitutionsSimpleVowels("%" + filterByUsername + "%")
                     );
             w = Where.AND(w1, w2);
         }
@@ -93,6 +95,8 @@ public class RevisorDeDestinatariLogicaEJB extends RevisorDeDestinatariEJB
         }
         return persones;
     }
+    
+    
 
     // Comprovar que l'usuari es revisor: té el rol global o es revisor d'un destinatari.
     @Override
@@ -120,7 +124,6 @@ public class RevisorDeDestinatariLogicaEJB extends RevisorDeDestinatariEJB
         return false;
 
     }
-    
     
     
 

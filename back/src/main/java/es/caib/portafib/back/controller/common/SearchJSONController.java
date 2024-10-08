@@ -214,29 +214,6 @@ public class SearchJSONController {
         pw.write(json);
         pw.flush();
 
-        /* XYZ ZZZ
-        SubQuery<UsuariEntitat, String> subquery;
-        
-        try {
-          subquery = usuariEntitatLogicaEjb.getSubQuery(UsuariEntitatFields.USUARIPERSONAID,
-          Where.AND(
-            UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
-            UsuariEntitatFields.CARREC.isNull(),
-            UsuariEntitatFields.ACTIU.equal(true),
-            UsuariEntitatFields.USUARIENTITATID.in(subqueryrevisor)
-            ) 
-          );
-        } catch (I18NException e) {
-          log.error("Error cercant usuaris dins del mètode usuaripersonarevisor(2)", e);
-          subquery = null;
-        }
-        
-        Where additionalWhere = UsuariPersonaFields.USUARIPERSONAID.in(subquery);
-        
-        
-        processUsuariPersonaRequest(request, response, additionalWhere);
-        */
-
     }
 
     /**
@@ -459,35 +436,7 @@ public class SearchJSONController {
             total.addAll(jsonCarrec);
 
             json = stringKeyValueList2Json(total);
-            /*
-            if (isDebug) {
-                log.debug("jsonUsuariEntitat = |" + jsonUsuariEntitat + "|");
-            }
-            
-            if (jsonUsuariEntitat.trim().equals("[]")) {
-                jsonUsuariEntitat = "";
-            } else {
-                // Llevam corchetes
-                jsonUsuariEntitat = jsonUsuariEntitat.substring(1, jsonUsuariEntitat.length() - 1).trim();
-            }
-            
-            if (isDebug) {
-                log.debug("jsonCarrec = |" + jsonCarrec + "|");
-            }
-            if (jsonCarrec.trim().equals("[]")) {
-                jsonCarrec = "";
-            } else {
-                // Llevam corchetes
-                jsonCarrec = jsonCarrec.substring(1, jsonCarrec.length() - 1).trim();
-            }
-            
-            if (jsonCarrec.length() != 0 && jsonUsuariEntitat.length() != 0) {
-                json = "[" + jsonUsuariEntitat + ", " + jsonCarrec + "]";
-            } else if (jsonCarrec.length() == 0) {
-                json = "[" + jsonUsuariEntitat + "]";
-            } else {
-                json = "[" + jsonCarrec + "]";
-            }*/
+
         }
         if (isDebug) {
             log.debug("  json = |" + json + "|");
@@ -547,8 +496,8 @@ public class SearchJSONController {
         for (String query : queryFull.split(" ")) {
 
             final String like = "%" + query + "%";
-            final Where whereQuery = Where.OR(personaQueryPath.NOM().like(like),
-                    personaQueryPath.LLINATGES().like(like), personaQueryPath.NIF().like(like),
+            final Where whereQuery = Where.OR(personaQueryPath.NOM().likeSubstitutionsSimpleVowels(like),
+                    personaQueryPath.LLINATGES().likeSubstitutionsSimpleVowels(like), personaQueryPath.NIF().like(like),
                     personaQueryPath.USUARIPERSONAID().like(like), (fieldOR == null) ? null : fieldOR.like(like));
 
             wheres.add(whereQuery);
