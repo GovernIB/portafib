@@ -232,10 +232,12 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
         final boolean validarFitxerFirma = entitat.isValidarfirma();
         final boolean checkCanviatDocFirmat = entitat.isCheckCanviatDocFirmat();
         final boolean comprovarNifFirma = true; // Forçam a que sigui true
+        
+        int signType = SignatureUtils.convertApiSignTypeToPortafibSignType(signFileInfo.getSignType());
 
         boolean signMode = SignatureUtils.convertApiSignMode2PortafibSignMode(signFileInfo.getSignMode());
 
-        int signType = SignatureUtils.convertApiSignTypeToPortafibSignType(signFileInfo.getSignType());
+        
 
         String entitatID = entitat.getEntitatID();
 

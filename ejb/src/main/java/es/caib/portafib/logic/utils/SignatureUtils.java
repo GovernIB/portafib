@@ -152,7 +152,7 @@ public class SignatureUtils {
 
         PdfVisibleSignature pdfInfoSignature = null;
 
-        final int signMode = convertPortafibSignMode2ApiSignMode(signModeBool);
+        
 
         final String signType = convertPortafibSignTypeToApiSignType(signTypeID);
         if (signType == null) {
@@ -200,6 +200,8 @@ public class SignatureUtils {
 
             }
         }
+        
+        final int signMode = convertPortafibSignMode2ApiSignMode(signModeBool, (int)signTypeID);
 
         String signAlgorithm = convertSignAlgorithmID(signAlgorithmID);
         // Ja s'ha arreglat abans
@@ -220,14 +222,59 @@ public class SignatureUtils {
         return fis;
     }
 
-    public static int convertPortafibSignMode2ApiSignMode(boolean signModeBool) {
+    public static int convertPortafibSignMode2ApiSignMode(boolean signModeBool, int signType) {
+        
+        if (signModeBool == ConstantsV2.SIGN_MODE_EXPLICIT) {
+            // Antic FileInfoSignature.SIGN_MODE_EXPLICIT
+            return FileInfoSignature.SIGN_MODE_DETACHED;
+        } else {
+        
+            // Abans sempre es responia  FileInfoSignature.SIGN_MODE_IMPLICIT
+            /*
+            ConstantsV2.TIPUSFIRMA_PADES:
+            ConstantsV2.TIPUSFIRMA_CADES
+            ConstantsV2.TIPUSFIRMA_XADES:
+            */
+            if (signType == ConstantsV2.TIPUSFIRMA_PADES) {
+                return FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED;
+            } else {
+                return FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING;
+            }
+            
+        }
+        /*
         return (signModeBool == ConstantsV2.SIGN_MODE_IMPLICIT) ? FileInfoSignature.SIGN_MODE_IMPLICIT
                 : FileInfoSignature.SIGN_MODE_EXPLICIT;
+                */
     }
 
-    public static boolean convertApiSignMode2PortafibSignMode(int signModeBool) {
+    public static boolean convertApiSignMode2PortafibSignMode(int signModeBool) throws I18NException {
+        
+        /* , int signType pot ser:
+         *  ConstantsV2.TIPUSFIRMA_PADES;
+         * ConstantsV2.TIPUSFIRMA_CADES;
+         *  ConstantsV2.TIPUSFIRMA_XADES;
+         */
+        
+        switch (signModeBool) {
+            case FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED:
+            //case FileInfoSignature.SIGN_MODE_IMPLICIT:
+                return ConstantsV2.SIGN_MODE_IMPLICIT;
+            case FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING:
+                return ConstantsV2.SIGN_MODE_IMPLICIT;
+            case FileInfoSignature.SIGN_MODE_DETACHED:
+            //  case FileInfoSignature.SIGN_MODE_EXPLICIT:
+                return ConstantsV2.SIGN_MODE_EXPLICIT;
+            case FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED:
+                return ConstantsV2.SIGN_MODE_IMPLICIT;
+            default:
+                throw new I18NException("error.unknown", "Tipus de mode de firma no suportat " + signModeBool);
+        }
+        
+        /*
         return (signModeBool == FileInfoSignature.SIGN_MODE_IMPLICIT) ? ConstantsV2.SIGN_MODE_IMPLICIT
                 : ConstantsV2.SIGN_MODE_EXPLICIT;
+                */
     }
 
     public static String convertPortafibSignTypeToApiSignType(long signTypeID) throws I18NException {
@@ -427,11 +474,36 @@ public class SignatureUtils {
         }
     }
 
+    
+    /**
+     *  El fitxer de dades resultant inclou la firma: PDF, ODT, ... 
+    *  SIGN_MODE_ATTACHED_ENVELOPED = 0;
+  *
+    ** El fitxer resultant serà la firma que incloura les dades originals 
+    SIGN_MODE_ATTACHED_ENVELOPING = 3;
+
+    * El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer original 
+    SIGN_MODE_DETACHED = 1;
+
+    Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma 
+    SIGN_MODE_INTERNALLY_DETACHED = 4;
+
+    
+    @Deprecated
+    SIGN_MODE_IMPLICIT == SIGN_MODE_ATTACHED_ENVELOPED; // 0;
+
+    
+    @Deprecated
+     SIGN_MODE_EXPLICIT = SIGN_MODE_DETACHED; // 1;
+    */
     public static boolean getSignModeToPortaFIB(int signMode) throws I18NException {
-        if (FileInfoSignature.SIGN_MODE_IMPLICIT == signMode) {
+        if (FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED == signMode || FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING == signMode) {
             return ConstantsV2.SIGN_MODE_IMPLICIT;
-        } else if (FileInfoSignature.SIGN_MODE_EXPLICIT == signMode) {
+        } else if (FileInfoSignature.SIGN_MODE_DETACHED == signMode) {
             return ConstantsV2.SIGN_MODE_EXPLICIT;
+        } else    if (FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED == signMode) {
+            /* Quan es canvii boolean per INT HI HAURA UN NOU TIPUS */
+            return ConstantsV2.SIGN_MODE_IMPLICIT;
         } else {
             throw new I18NException("error.unknown", "Tipus de mode de firma no suportat " + signMode);
         }
@@ -747,15 +819,21 @@ public class SignatureUtils {
         }
 
         if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
-            if (signMode == FileInfoSignature.SIGN_MODE_IMPLICIT) {
+            // SIGN_MODE_IMPLICIT està malament, només es per a PADES
+            if (signMode == FileInfoSignature.SIGN_MODE_IMPLICIT || signMode == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING) {
                 return "TF05"; // (CAdES attached/implicit signature),
-            } else {
+            }
+         
+            if (signMode == FileInfoSignature.SIGN_MODE_DETACHED) {
                 return "TF04"; // (CAdES detached/explicit
             }
         } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
-            if (signMode == FileInfoSignature.SIGN_MODE_IMPLICIT) {
+            // SIGN_MODE_IMPLICIT està malament, només es per a PADES (es deixa per retrocompatibilitat)
+            if (signMode == FileInfoSignature.SIGN_MODE_IMPLICIT || signMode == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED) {
                 return "TF03"; // (XAdES enveloped signature)
-            } else {
+            }
+            // No EXISTEIX ENI_TIPO_FIRMA per SIGN_MODE_EXPLICIT (ho deixam per retrocompatibilitat)
+            if (signMode == FileInfoSignature.SIGN_MODE_EXPLICIT || signMode == FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED ){
                 return "TF02"; // (XAdES internally detached signature), ,
             }
         }

@@ -489,7 +489,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
         @SuppressWarnings("unused")
         byte[] documentDetached = null;
-        if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_EXPLICIT) {
+        if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_DETACHED) {
 
             if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
                     || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {

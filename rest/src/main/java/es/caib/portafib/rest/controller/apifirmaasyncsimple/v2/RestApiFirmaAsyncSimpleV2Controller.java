@@ -769,7 +769,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             int signOperation = peticioDeFirma.getTipusOperacioFirma();
             String signType = SignatureUtils.convertPortafibSignTypeToApiSignType(peticioDeFirma.getTipusFirmaID());
             String signAlgorithm = SignatureUtils.convertSignAlgorithmID(peticioDeFirma.getAlgorismeDeFirmaID());
-            Integer signMode = SignatureUtils.convertPortafibSignMode2ApiSignMode(peticioDeFirma.getModeDeFirma());
+            Integer signMode = SignatureUtils.convertPortafibSignMode2ApiSignMode(peticioDeFirma.getModeDeFirma(), peticioDeFirma.getTipusFirmaID());
             int signaturesTableLocation = peticioDeFirma.getPosicioTaulaFirmesID();
             boolean timeStampIncluded = peticioDeFirma.isSegellatDeTemps();
 

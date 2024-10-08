@@ -500,9 +500,9 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
                 final int signMode;
                 if (config.getTipusFirmaID() == ConstantsV2.TIPUSFIRMA_PADES) {
                     // SI és una pADES llavors val implicit
-                    signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
+                    signMode = FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED;
                 } else {
-                    signMode = SignatureUtils.convertPortafibSignMode2ApiSignMode(config.isModeDeFirma());
+                    signMode = SignatureUtils.convertPortafibSignMode2ApiSignMode(config.isModeDeFirma(), config.getTipusFirmaID());
                 }
 
                 // TAULA DE FIRMES

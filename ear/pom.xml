@@ -809,7 +809,7 @@
                          **/serializer*redhat*.jar,
                          **/xalan*redhat*.jar,
                         <!-- Requereix afegir mòdul 'org.apache.xerces' a jboss-deployment-structure.xml -->
-                         **/xercesImpl*redhat*.jar,
+                        **/xercesImpl*redhat*.jar,
                         <!-- Requereix afegir mòdul 'org.apache.xml-resolver' a jboss-deployment-structure.xml -->
                          **/xml-resolver*redhat*.jar,
                         <!-- Requereix afegir mòdul 'org.bouncycastle' a jboss-deployment-structure.xml -->
