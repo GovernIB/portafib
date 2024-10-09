@@ -2039,7 +2039,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             boolean administrationIdCanBeValidatedFromPlugin) throws I18NException {
 
         Long fileID = null;
+        // XYZ ZZZ
+        //long start = System.currentTimeMillis();
         try {
+            //log.info("XYZ ZZZ---------------------ENTRA nouFitxerFirmat(" + peticioDeFirmaID + ") ----------------------------------------");
             FirmaEventList events = new FirmaEventList();
 
             // Check Bloqueig
@@ -2210,6 +2213,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             // Guardar EN BBDD
 
             // 1.- Crear fitxer en BBDD
+            
             FitxerJPA fitxer = new FitxerJPA();
             fitxer.setDescripcio("");
             fitxer.setMime(validacioResponse.getMime());
@@ -2412,6 +2416,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 }
 
             }
+            
+            
 
         } catch (Throwable error) {
 
@@ -2447,6 +2453,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
             }
+            // XYZ ZZZ
+            //long end = System.currentTimeMillis();
+            //log.info("XYZ ZZZ  =======  FINAL nouFitxerFirmat(" + peticioDeFirmaID + "): " + (end-start)+ " ms ====");
         }
     }
 

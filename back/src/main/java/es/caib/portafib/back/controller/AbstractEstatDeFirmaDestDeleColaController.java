@@ -1418,8 +1418,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             if (timeAliveToken == -1) {
                 timeAliveToken = PropietatGlobalUtil.getMaxTimeLockedSignInMs(entitatID);
             }
-            // Afegim 5 segons per cada firma de les peticions seleccionades
-            timeAliveToken = timeAliveToken + numberTotalOfSignatures * 5000;
+            // Afegim 45 segons per cada firma de les peticions seleccionades
+            timeAliveToken = timeAliveToken + numberTotalOfSignatures * 45000;
         }
 
         LoginInfo loginInfo = LoginInfo.getInstance();
