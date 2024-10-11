@@ -63,9 +63,9 @@ public class ApiFirmaEnServidorSimpleTester {
 
             ApiFirmaEnServidorSimpleTester tester = new ApiFirmaEnServidorSimpleTester();
 
-            tester.testGetAvailableProfiles();
+            //tester.testGetAvailableProfiles();
 
-            //tester.testSignatureServerPAdES();
+            tester.testSignatureServerPAdES();
 
             //tester.testSignatureServerCAdES();
 
