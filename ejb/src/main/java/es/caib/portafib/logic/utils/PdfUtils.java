@@ -17,6 +17,7 @@ import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.security.PdfPKCS7;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 import es.caib.portafib.commons.utils.StaticVersion;
@@ -26,6 +27,7 @@ import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 //import org.fundaciobit.pluginsib.validatecertificate.ICertificatePlugin;
 //import org.fundaciobit.pluginsib.validatecertificate.ResultatValidacio;
@@ -59,8 +61,7 @@ public class PdfUtils implements ConstantsV2 {
 
     protected static Logger log = Logger.getLogger(PdfUtils.class);
 
-    public static Fitxer convertToPDF(File fileToConvert, Fitxer fileToConvertInfo)
-            throws I18NException {
+    public static Fitxer convertToPDF(File fileToConvert, Fitxer fileToConvertInfo) throws I18NException {
 
         String mime = fileToConvertInfo.getMime();
         boolean isDebug = log.isDebugEnabled();
@@ -98,8 +99,7 @@ public class PdfUtils implements ConstantsV2 {
                     if (nom != null && nom.length() != 0 && nom.lastIndexOf('.') != -1) {
                         extensio = nom.substring(nom.lastIndexOf('.') + 1);
                     } else {
-                        throw new I18NException("formatfitxer.conversio.errorinput",
-                                fileToConvertInfo.getNom(), mime);
+                        throw new I18NException("formatfitxer.conversio.errorinput", fileToConvertInfo.getNom(), mime);
                     }
                     if (PDF_FILE_EXTENSION.equals(extensio.toLowerCase())) {
                         newFileName = fileToConvertInfo.getNom();
@@ -110,19 +110,17 @@ public class PdfUtils implements ConstantsV2 {
                             FileInputStream fis = new FileInputStream(fileToConvert);
                             try {
                                 if (isDebug) {
-                                    log.debug(
-                                            "convertToPDF(): Convert using extension: " + extensio);
+                                    log.debug("convertToPDF(): Convert using extension: " + extensio);
                                 }
                                 baos = new ByteArrayOutputStream();
-                                docPlugin.convertDocumentByExtension(fis, extensio, baos,
-                                        PDF_FILE_EXTENSION);
+                                docPlugin.convertDocumentByExtension(fis, extensio, baos, PDF_FILE_EXTENSION);
                             } finally {
                                 fis.close();
                             }
                             newFileName = fileToConvertInfo.getNom() + "." + PDF_FILE_EXTENSION;
                         } else {
-                            throw new I18NException("formatfitxer.conversio.errorinput",
-                                    fileToConvertInfo.getNom(), mime);
+                            throw new I18NException("formatfitxer.conversio.errorinput", fileToConvertInfo.getNom(),
+                                    mime);
                         }
                     }
                 }
@@ -132,13 +130,11 @@ public class PdfUtils implements ConstantsV2 {
                 fileConvertedInfo.setMime(MIME_TYPE_PDF);
                 fileConvertedInfo.setNom(newFileName);
                 fileConvertedInfo.setTamany(baos.size());
-                fileConvertedInfo.setData(
-                        new DataHandler(new ByteArrayDataSource(baos.toByteArray(), newFileName)));
+                fileConvertedInfo.setData(new DataHandler(new ByteArrayDataSource(baos.toByteArray(), newFileName)));
 
                 return fileConvertedInfo;
             } catch (InputDocumentNotSupportedException idnse) {
-                throw new I18NException("formatfitxer.conversio.errorinput",
-                        fileToConvertInfo.getNom(), mime);
+                throw new I18NException("formatfitxer.conversio.errorinput", fileToConvertInfo.getNom(), mime);
             } catch (OutputDocumentNotSupportedException odnse) {
                 throw new I18NException("formatfitxer.conversio.erroroutput",
                         fileToConvertInfo.getNom() + "." + PDF_FILE_EXTENSION, MIME_TYPE_PDF);
@@ -155,9 +151,9 @@ public class PdfUtils implements ConstantsV2 {
     public static ResultatValidacio validateCertificat(X509Certificate cert)
             throws I18NException, Exception {
         ICertificatePlugin certPlugin = PortaFIBPluginsManager.getCertificatePluginInstance();
-
+    
         ResultatValidacio validacio = certPlugin.getInfoCertificate(cert);
-
+    
         if (validacio.getResultatValidacioCodi() != ResultatValidacio.RESULTAT_VALIDACIO_OK) {
             // TODO XYZ ZZZ Traduir
             throw new Exception(
@@ -168,9 +164,8 @@ public class PdfUtils implements ConstantsV2 {
     */
 
     public static int add_TableSign_Attachments_CustodyInfo_PDF(File srcPDF, File dstPDF,
-            final List<AttachedFile> attachmentsOrig, Long maxSize,
-            StampTaulaDeFirmes taulaDeFirmesInfo, StampCustodiaInfo custodiaInfo,
-            boolean acceptTransformPDFA) throws Exception, I18NException {
+            final List<AttachedFile> attachmentsOrig, Long maxSize, StampTaulaDeFirmes taulaDeFirmesInfo,
+            StampCustodiaInfo custodiaInfo, boolean acceptTransformPDFA) throws Exception, I18NException {
 
         InputStream isPDF = null;
         final int originalNumberOfSigns;
@@ -195,8 +190,7 @@ public class PdfUtils implements ConstantsV2 {
             // c) No permetem custòdia si duu estampació
 
             // a.- Check No permetem taula de firmes
-            if (taulaDeFirmesInfo != null
-                    && taulaDeFirmesInfo.getPosicioTaulaDeFirmes() != TAULADEFIRMES_SENSETAULA) {
+            if (taulaDeFirmesInfo != null && taulaDeFirmesInfo.getPosicioTaulaDeFirmes() != TAULADEFIRMES_SENSETAULA) {
                 // El fitxer original conté firmes però s'ha demanat Taula de Firmes:
                 // aquests dos requeriments són incompatibles.
                 throw new I18NException("error.checkpdf.firmattaulafirmes");
@@ -210,8 +204,7 @@ public class PdfUtils implements ConstantsV2 {
             }
 
             // c.- Nom permetem custòdia si duu estampació
-            if (custodiaInfo != null
-                    && custodiaInfo.getPosicioCustodiaInfo() != POSICIO_PAGINA_CAP) {
+            if (custodiaInfo != null && custodiaInfo.getPosicioCustodiaInfo() != POSICIO_PAGINA_CAP) {
                 // El fitxer original conté firmes però s'ha demanat estampar
                 // el PDF amb informació de custòdia: aquests dos requeriments són
                 // incompatibles."
@@ -226,15 +219,13 @@ public class PdfUtils implements ConstantsV2 {
             return originalNumberOfSigns;
         }
 
-        final boolean requereixTaula_o_Custodia_o_Annexes = requereixTaula_o_Custodia_o_Annexes(
-                attachmentsOrig, taulaDeFirmesInfo, custodiaInfo);
+        final boolean requereixTaula_o_Custodia_o_Annexes = requereixTaula_o_Custodia_o_Annexes(attachmentsOrig,
+                taulaDeFirmesInfo, custodiaInfo);
 
         if (!requereixTaula_o_Custodia_o_Annexes) {
 
-            log.debug(
-                    "PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: NO TENIM TAULA NI CUSTODIA NI ANNEXES");
-            log.debug(
-                    "PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: NO ADAPTACIO. RETORNA ORIGINAL");
+            log.debug("PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: NO TENIM TAULA NI CUSTODIA NI ANNEXES");
+            log.debug("PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: NO ADAPTACIO. RETORNA ORIGINAL");
             // Copiar dins dstFile el fitxer Original
             FileUtils.copyFile(srcPDF, dstPDF);
 
@@ -263,8 +254,7 @@ public class PdfUtils implements ConstantsV2 {
             }
 
             if (sum > maxSize) {
-                throw new I18NException("tamanyfitxeradaptatsuperat", String.valueOf(sum),
-                        String.valueOf(maxSize));
+                throw new I18NException("tamanyfitxeradaptatsuperat", String.valueOf(sum), String.valueOf(maxSize));
             }
 
         }
@@ -344,8 +334,8 @@ public class PdfUtils implements ConstantsV2 {
                         File src = fa.getContent();
                         if (src != null && src.exists()) {
                             String name = fa.getName();
-                            PdfFileSpecification fs = PdfFileSpecification.fileEmbedded(
-                                    stamper.getWriter(), src.getAbsolutePath(), name, null);
+                            PdfFileSpecification fs = PdfFileSpecification.fileEmbedded(stamper.getWriter(),
+                                    src.getAbsolutePath(), name, null);
                             stamper.getWriter().addFileAttachment(fa.getDescription(), fs);
                         }
                     }
@@ -392,8 +382,8 @@ public class PdfUtils implements ConstantsV2 {
                     log.error("Error esborrant fitxer adaptat " + dstPDF.getAbsolutePath());
                     dstPDF.deleteOnExit();
                 }
-                throw new I18NException("tamanyfitxeradaptatsuperat",
-                        String.valueOf(dstPDF.length()), String.valueOf(maxSize));
+                throw new I18NException("tamanyfitxeradaptatsuperat", String.valueOf(dstPDF.length()),
+                        String.valueOf(maxSize));
             }
 
         }
@@ -402,12 +392,10 @@ public class PdfUtils implements ConstantsV2 {
 
     }
 
-    protected static boolean requereixTaula_o_Custodia_o_Annexes(
-            final List<AttachedFile> attachmentsOrig, StampTaulaDeFirmes taulaDeFirmesInfo,
-            StampCustodiaInfo custodiaInfo) {
+    protected static boolean requereixTaula_o_Custodia_o_Annexes(final List<AttachedFile> attachmentsOrig,
+            StampTaulaDeFirmes taulaDeFirmesInfo, StampCustodiaInfo custodiaInfo) {
         // a.- Requereix taula de firmes
-        if ((taulaDeFirmesInfo != null)
-                && (taulaDeFirmesInfo.getPosicioTaulaDeFirmes() != TAULADEFIRMES_SENSETAULA)) {
+        if ((taulaDeFirmesInfo != null) && (taulaDeFirmesInfo.getPosicioTaulaDeFirmes() != TAULADEFIRMES_SENSETAULA)) {
             return true;
         }
         ;
@@ -418,8 +406,7 @@ public class PdfUtils implements ConstantsV2 {
         }
 
         // c.- necessita estampació de custòdia
-        if ((custodiaInfo != null)
-                && (custodiaInfo.getPosicioCustodiaInfo() != POSICIO_PAGINA_CAP)) {
+        if ((custodiaInfo != null) && (custodiaInfo.getPosicioCustodiaInfo() != POSICIO_PAGINA_CAP)) {
             return true;
         }
 
@@ -453,8 +440,8 @@ public class PdfUtils implements ConstantsV2 {
      * @param taulaDeFirmes
      * @throws Exception
      */
-    public static void addTaulaDeFirmes(PdfReader reader, PdfStamper stamper,
-            StampTaulaDeFirmes taulaDeFirmes) throws Exception {
+    public static void addTaulaDeFirmes(PdfReader reader, PdfStamper stamper, StampTaulaDeFirmes taulaDeFirmes)
+            throws Exception {
         if (taulaDeFirmes.getPosicioTaulaDeFirmes() != TAULADEFIRMES_SENSETAULA) {
             float heightSignBoxInch = SIGNBOX_HEIGHT / 72f; // 0.5f;
             float boxLogoSide = LOGO_SIDE / 72f; // 1.1f;
@@ -489,19 +476,17 @@ public class PdfUtils implements ConstantsV2 {
                 StringBuffer html = new StringBuffer("<html><head></head><body>"
                         + "<div style='display:block;width:100%;" + "height:" + startSignTableInch
                         + "in; overflow:visible'>" + "<table style='width:100%;' >" // border: 1px
-                                                                                    // solid
+                                                                                                                                                                                                                                // solid
                         + "  <tr>" // style='height:" + heightHeaderInch + "in'
                         + "    <td style='width:" + boxLogoSide + "in;margin-right:7in;'>" // border:
                                                                                            // 1px
                                                                                            // solid;
                         + "       &nbsp;"
                         // + " <img src=\"" + urlLogo + "\" />"
-                        + "     </td>" + "    <td >" + "      <b><u>"
-                        + taulaDeFirmes.getResumLabel() + "</u></b><br/>" + "      <b>"
-                        + taulaDeFirmes.getTitolLabel() + ": </b>" + taulaDeFirmes.getTitol()
-                        + "<br/>" + "      <b>" + taulaDeFirmes.getDescLabel() + ": </b>"
-                        + taulaDeFirmes.getDesc() + "    </td>" + "  </tr>" + "</table>" + "</div>"
-                        + "<table style='width:100%'>");
+                        + "     </td>" + "    <td >" + "      <b><u>" + taulaDeFirmes.getResumLabel() + "</u></b><br/>"
+                        + "      <b>" + taulaDeFirmes.getTitolLabel() + ": </b>" + taulaDeFirmes.getTitol() + "<br/>"
+                        + "      <b>" + taulaDeFirmes.getDescLabel() + ": </b>" + taulaDeFirmes.getDesc() + "    </td>"
+                        + "  </tr>" + "</table>" + "</div>" + "<table style='width:100%'>");
 
                 for (int r = 0; r < taulaDeFirmes.getNumFirmes(); r++) {
                     html.append("  <tr style='height:" + heightSignBoxInch + "in;' >"
@@ -652,8 +637,7 @@ public class PdfUtils implements ConstantsV2 {
                         try {
                             files.add(extractAttachment(filespecs.getAsDict(i)));
                         } catch (Exception e) {
-                            log.error("Error desconegut extraient attachments del PDF: "
-                                    + e.getMessage(), e);
+                            log.error("Error desconegut extraient attachments del PDF: " + e.getMessage(), e);
                         }
                     }
                 }
@@ -668,8 +652,7 @@ public class PdfUtils implements ConstantsV2 {
         String description = filespec.getAsString(PdfName.DESC).toString();
 
         PdfDictionary contentDict = filespec.getAsDict(PdfName.EF);
-        PRStream stream = (PRStream) PdfReader
-                .getPdfObject(contentDict.getAsIndirectObject(PdfName.F));
+        PRStream stream = (PRStream) PdfReader.getPdfObject(contentDict.getAsIndirectObject(PdfName.F));
 
         File output = File.createTempFile("portafib_pdf_attached_", ".file");
         FileOutputStream fos = new FileOutputStream(output);
@@ -699,8 +682,8 @@ public class PdfUtils implements ConstantsV2 {
                 try {
                     is.close();
                 } catch (IOException e) {
-                    log.error("Error tancant InputStream del fitxer " + pdf.getAbsolutePath() + ":"
-                            + e.getMessage(), e);
+                    log.error("Error tancant InputStream del fitxer " + pdf.getAbsolutePath() + ":" + e.getMessage(),
+                            e);
                 }
             }
         }
@@ -713,13 +696,48 @@ public class PdfUtils implements ConstantsV2 {
      */
     public static int getNumberOfSignaturesInPDF(InputStream pdfis) {
         try {
-            PdfReader reader = new PdfReader(pdfis);
-            AcroFields fields = reader.getAcroFields();
-            return fields.getSignatureNames().size();
+            PdfReader reader;
+            try {
+                reader = new PdfReader(pdfis);
+            } catch (IOException e1) {
+                throw new I18NException(e1, "genapp",
+                        new I18NArgumentString("Error llegint PDF firmat: " + e1.getMessage()));
+            }
+
+            return getNumberOfSignaturesInPDF(reader);
         } catch (Throwable e) {
-            log.error("Error desconegut intentant obtenir numeo de firmes d'un PDF");
+            log.error("Error desconegut intentant obtenir numero de firmes d'un PDF: " + e.getMessage());
             return 0;
         }
+
+    }
+
+    /**
+     * 
+     * @param reader
+     * @return
+     */
+    public static int getNumberOfSignaturesInPDF(PdfReader reader) {
+        AcroFields af = reader.getAcroFields();
+        ArrayList<String> names = af.getSignatureNames();
+
+        if (names == null || names.size() == 0) {
+            return 0;
+        }
+
+        // Calculam només les firmes sense els Segells de Temps
+        int totalNomesFirmes = 0;
+        for (int i = names.size() - 1; i >= 0; i--) {
+
+            String name = names.get(i);
+            PdfPKCS7 pk = af.verifySignature(name);
+            if (!pk.isTsp()) {
+                totalNomesFirmes++;
+            }
+
+        }
+
+        return totalNomesFirmes;
     }
 
     public static Long selectMin(Long long1, Long long2) {
@@ -750,9 +768,8 @@ public class PdfUtils implements ConstantsV2 {
      * @param custodiaInfo
      * @throws Exception
      */
-    public static void addCustodiaInfo(PdfReader reader, PdfStamper stamp,
-            StampCustodiaInfo custodiaInfo, int posicioTaulaDeFirmes)
-            throws Exception, I18NException {
+    public static void addCustodiaInfo(PdfReader reader, PdfStamper stamp, StampCustodiaInfo custodiaInfo,
+            int posicioTaulaDeFirmes) throws Exception, I18NException {
 
         int positioCustodiaInfoGeneral = custodiaInfo.posicioCustodiaInfo;
 
@@ -769,8 +786,7 @@ public class PdfUtils implements ConstantsV2 {
          * NULL = no mostrar '*'= totes les pàgines '0'=primera pàgina (taula de firmes)
          * '-1' = darrera pàgina (taula de firmes) '1,3, 4-5' =format Imprimir
          */
-        Set<Integer> pagines = processarPagines(custodiaInfo.getPagines(), posicioTaulaDeFirmes,
-                numberOfPages);
+        Set<Integer> pagines = processarPagines(custodiaInfo.getPagines(), posicioTaulaDeFirmes, numberOfPages);
 
         if (pagines.isEmpty()) {
             return;
@@ -783,8 +799,7 @@ public class PdfUtils implements ConstantsV2 {
         float text_Y = 150;
         float rotation = 90;
 
-        Image image = (Image) custodiaInfo.getBarcodePlugin()
-                .generateTextBarCodeIText(custodiaInfo.barcodeText);
+        Image image = (Image) custodiaInfo.getBarcodePlugin().generateTextBarCodeIText(custodiaInfo.barcodeText);
 
         // PAGINES
         for (Integer pagina : pagines) {
@@ -797,13 +812,11 @@ public class PdfUtils implements ConstantsV2 {
             int SIGNATURE_SPLIT_LEN = 0;
             if (height > width) {
                 SIGNATURE_SPLIT_LEN = (positioCustodiaInfoGeneral == POSICIO_PAGINA_ESQUERRA
-                        || positioCustodiaInfoGeneral == POSICIO_PAGINA_DRETA)
-                                ? SIGNATURE_VERTICAL_SPLIT_LEN
+                        || positioCustodiaInfoGeneral == POSICIO_PAGINA_DRETA) ? SIGNATURE_VERTICAL_SPLIT_LEN
                                 : SIGNATURE_HORIZONTAL_SPLIT_LEN;
             } else {
                 SIGNATURE_SPLIT_LEN = (positioCustodiaInfoGeneral == POSICIO_PAGINA_ESQUERRA
-                        || positioCustodiaInfoGeneral == POSICIO_PAGINA_DRETA)
-                                ? SIGNATURE_HORIZONTAL_SPLIT_LEN
+                        || positioCustodiaInfoGeneral == POSICIO_PAGINA_DRETA) ? SIGNATURE_HORIZONTAL_SPLIT_LEN
                                 : SIGNATURE_VERTICAL_SPLIT_LEN;
             }
 
@@ -812,10 +825,8 @@ public class PdfUtils implements ConstantsV2 {
             String missatge = custodiaInfo.missatgeCustodia;
             while (counter != -1) {
                 if (counter + SIGNATURE_SPLIT_LEN < missatge.length()) {
-                    int prev = missatge.substring(counter, counter + SIGNATURE_SPLIT_LEN)
-                            .lastIndexOf(" "); //$NON-NLS-1$
-                    String next_string = missatge.substring(counter + SIGNATURE_SPLIT_LEN,
-                            missatge.length());
+                    int prev = missatge.substring(counter, counter + SIGNATURE_SPLIT_LEN).lastIndexOf(" "); //$NON-NLS-1$
+                    String next_string = missatge.substring(counter + SIGNATURE_SPLIT_LEN, missatge.length());
                     int next = next_string.indexOf(" "); //$NON-NLS-1$
                     // prev [-1,SPLIT_LEN]
                     // next[-1,inf]
@@ -925,13 +936,9 @@ public class PdfUtils implements ConstantsV2 {
                 over.beginText();
                 over.setFontAndSize(bf, 10);
                 float x = ((positioCustodiaInfoGeneral == POSICIO_PAGINA_ESQUERRA
-                        || positioCustodiaInfoGeneral == POSICIO_PAGINA_DRETA)
-                                ? text_X + counter * SEP_LINE
-                                : text_X);
+                        || positioCustodiaInfoGeneral == POSICIO_PAGINA_DRETA) ? text_X + counter * SEP_LINE : text_X);
                 float y = (positioCustodiaInfoGeneral == POSICIO_PAGINA_ADALT
-                        || positioCustodiaInfoGeneral == POSICIO_PAGINA_ABAIX)
-                                ? text_Y - counter * SEP_LINE
-                                : text_Y;
+                        || positioCustodiaInfoGeneral == POSICIO_PAGINA_ABAIX) ? text_Y - counter * SEP_LINE : text_Y;
                 over.showTextAligned(textAlign, lines.get(counter), x, y, rotation);
                 over.endText();
 
@@ -945,8 +952,8 @@ public class PdfUtils implements ConstantsV2 {
      * pàgina (taula de firmes) '-1' = darrera pàgina (taula de firmes) '-1, 0, 1,
      * 3, 4-5, 8-' =format Imprimir
      */
-    public static Set<Integer> processarPagines(String pagines, int posicioTaulaDeFirmes,
-            int lastPage) throws I18NException {
+    public static Set<Integer> processarPagines(String pagines, int posicioTaulaDeFirmes, int lastPage)
+            throws I18NException {
 
         Set<Integer> pages = new TreeSet<Integer>();
         if (pagines == null || "buit".equals(pagines) || pagines.trim().length() == 0) {
@@ -957,8 +964,7 @@ public class PdfUtils implements ConstantsV2 {
         final String permesos = " *,-0123456789";
         for (int i = 0; i < pagines.length(); i++) {
             if (permesos.indexOf(pagines.charAt(i)) == -1) {
-                throw new I18NException("custodiainfo.pagines.errorformat",
-                        String.valueOf(pagines.charAt(i)));
+                throw new I18NException("custodiainfo.pagines.errorformat", String.valueOf(pagines.charAt(i)));
             }
         }
 

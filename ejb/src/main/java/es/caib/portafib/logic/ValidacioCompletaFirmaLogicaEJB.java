@@ -8,6 +8,7 @@ import es.caib.portafib.logic.utils.DNIUtils;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfComparator;
+import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.ValidacioCompletaRequest;
 import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
@@ -551,26 +552,9 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                     new I18NArgumentString("Error llegint PDF firmat: " + e1.getMessage()));
         }
 
-        AcroFields af = reader.getAcroFields();
-        ArrayList<String> names = af.getSignatureNames();
-
-        if (names == null || names.size() == 0) {
-            // TODO XYZ ZZZ TRA
-            throw new I18NException("genapp.comodi", "No hi ha informació de signatures en el document firmat");
-        }
         {
             // Calculam només les firmes sense els Segells de Temps
-            int totalNomesFirmes = 0;
-            for (int i = names.size() - 1; i >= 0; i--) {
-
-                String name = names.get(i);
-                PdfPKCS7 pk = af.verifySignature(name);
-
-                if (!pk.isTsp()) {
-                    totalNomesFirmes++;
-                }
-
-            }
+            int totalNomesFirmes = PdfUtils.getNumberOfSignaturesInPDF(reader);
 
             if (totalNomesFirmes != (numFirmaPortaFIB + numFirmesOriginals)) {
                 // TODO XYZ ZZZ TRA
@@ -581,6 +565,8 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         }
 
         // ================ Validar el certificat de la darrera firma
+        AcroFields af = reader.getAcroFields();
+        ArrayList<String> names = af.getSignatureNames();
         for (int i = names.size() - 1; i >= 0; i--) {
             String name = names.get(i); // names.size() - 1
 
