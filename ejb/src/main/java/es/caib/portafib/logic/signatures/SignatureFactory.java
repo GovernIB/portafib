@@ -16,13 +16,14 @@ public class SignatureFactory {
         return INSTANCE;
     }
 
-    public Signature getSignature(X509Certificate certificate, Date date) {
+    public Signature getSignature(X509Certificate certificate, Date date, Boolean isTimeStamp) {
         if (certificate == null) {
             throw new IllegalArgumentException("certificate is null");
         }
 
         Signature.Builder builder = new Signature.Builder()
                 .signingTime(date)
+                .isTimeStamp(isTimeStamp)
                 .signerName(CertificateUtils.getSubjectCorrectName(certificate))
                 .signerAdministrationId(DNIUtils.getDNI(certificate));
 

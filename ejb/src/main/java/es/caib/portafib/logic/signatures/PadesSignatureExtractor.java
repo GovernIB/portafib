@@ -16,6 +16,11 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Serveis per mostrar les firmes d'un document PDF en la vista completa de Destinatari
+ * @author anadal
+ * 14 oct 2024 13:27:04
+ */
 public class PadesSignatureExtractor implements SignatureExtractor {
 
     private static final Logger log = Logger.getLogger(PadesSignatureExtractor.class);
@@ -35,10 +40,10 @@ public class PadesSignatureExtractor implements SignatureExtractor {
 
             for (String name : signatureNames) {
                 PdfPKCS7 pk = af.verifySignature(name);
-                // Sembla que IText no parseji bé el X509Certificate, per això obtenim el seus bytes i el recarregam
+                // Sembla que IText no parseja bé el X509Certificate, per això obtenim el seus bytes i el recarregam
                 byte[] certificateBytes = pk.getSigningCertificate().getEncoded();
                 X509Certificate cert = CertificateUtils.decodeCertificate(new ByteArrayInputStream(certificateBytes));
-                signatureList.add(signatureFactory.getSignature(cert, pk.getSignDate().getTime()));
+                signatureList.add(signatureFactory.getSignature(cert, pk.getSignDate().getTime(), pk.isTsp()));
             }
 
             reader.close();

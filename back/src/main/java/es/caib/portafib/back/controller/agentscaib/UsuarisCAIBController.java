@@ -46,17 +46,14 @@ public class UsuarisCAIBController {
         }
 
         String tipus = request.getParameter("tipus");
-
         String codusu = request.getParameter("codusu");
         //String nomrol = request.getParameter("nomrol");
         //String valordomini = request.getParameter("valordomini");
         String agentsql = request.getParameter("agentsql");
         //String nom = request.getParameter("nom");
         String password = request.getParameter("password");
-
         // Check password
         String passwordOK = PropietatGlobalUtil.getPasswordForAgentsSQL();
-
         if (passwordOK == null) {
             log.error("S'ha de definir la propietat es.caib.portafib.passwordforagentssql !!!!!");
             response.getOutputStream().println("ERROR");

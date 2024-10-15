@@ -85,7 +85,7 @@ public class XadesSignatureExtractor implements SignatureExtractor {
                             pubKeyAsBytes));
 
                 }
-                signatures.add(signatureFactory.getSignature(cert, signingTime));
+                signatures.add(signatureFactory.getSignature(cert, signingTime, null));
             }
 
             return signatures;

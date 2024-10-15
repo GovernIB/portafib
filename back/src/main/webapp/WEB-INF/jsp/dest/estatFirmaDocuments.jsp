@@ -45,9 +45,17 @@
                  }
              </style>
              <form class="bs-docs-signatures bs-docs-example form-inline" style="margin-bottom: 5px;">
+             <table>
+                 <tr>
+                   <td>
                <ul style="list-style-type:square;">
                <c:forEach var="signature" items="${signatures[fitxer.key.fitxerID]}">
                <li>
+                <table>
+                 <tr>
+                   <td>
+                       <img src="<%=request.getContextPath()%>/img/${signature.isTimeStamp?'segelldetemps.png':'firma.png'}" alt="Logo" />
+                   </td><td>
                <small>
                   <strong>${signature.signerName} (${signature.signerAdministrationId})<br />
                   <c:if test="${not empty signature.organizationName}">
@@ -58,19 +66,24 @@
                   </c:if>
                   <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${signature.signingTime}" /></strong>
                </small>
+               </td></tr></table>
+                
                </li>
                </c:forEach>
                </ul>
+               </td></tr>
+               <tr><td>
                <c:choose>
                    <c:when test="${empty signaturesValidation}">
                       <c:url var="validatingUrl" value="${contexte}/fullView/${estatID}/${peticioID}">
                         <c:param name="validar" value="1"/>
                       </c:url>
                       <a class="btn btn-sm btn-warning" href="#" onclick="goTo('${validatingUrl}')">
-                         <i class="far fa-check-square"></i> <fmt:message key="validar" /> </a>
+                         <i class="far fa-check-square"></i> <fmt:message key="validarfirmesprevies" /> </a>
                    </c:when>
                    <c:otherwise>
                        <p class="${signaturesValidation[fitxer.key.fitxerID].statusStyle}">
+                            <fmt:message key="validarfirmespreviesresultat" />
                            <strong>
                                <c:out value="${signaturesValidation[fitxer.key.fitxerID].status}" />&nbsp;
                                <c:out value="${signaturesValidation[fitxer.key.fitxerID].message}" />
@@ -78,6 +91,9 @@
                        </p>
                    </c:otherwise>
                </c:choose>
+                </td> 
+                 </tr>
+               </table>
              </form>
          </div>
        </c:if>

@@ -48,6 +48,8 @@ public class CadesSignatureExtractor implements SignatureExtractor {
 
             List<Signature> signatures = new ArrayList<Signature>(signers.size());
             for (SignerInformation signer : signers) {
+                
+                
                 Collection<X509CertificateHolder> certCollection = certStore.getMatches(signer.getSID());
                 X509CertificateHolder certHolder = certCollection.iterator().next();
                 X509Certificate cert = CertificateUtils
@@ -66,7 +68,7 @@ public class CadesSignatureExtractor implements SignatureExtractor {
                         }
                     }
                 }
-                signatures.add(signatureFactory.getSignature(cert, date));
+                signatures.add(signatureFactory.getSignature(cert, date, null));
             }
 
             return signatures;

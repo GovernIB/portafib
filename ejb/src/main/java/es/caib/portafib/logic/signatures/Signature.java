@@ -9,6 +9,7 @@ public class Signature {
     private final String organizationName;
     private final String organizationAdministrationId;
     private final Date signingTime;
+    private final Boolean isTimeStamp;
 
     protected static class Builder {
 
@@ -17,6 +18,7 @@ public class Signature {
         private String signerAdministrationId;
         private String organizationName;
         private String organizationAdministrationId;
+        private Boolean isTimeStamp = null;
 
         public Builder signingTime(Date signingTime) {
             this.signingTime = signingTime;
@@ -42,6 +44,11 @@ public class Signature {
             this.organizationAdministrationId = organizationAdministrationId;
             return this;
         }
+        
+        public Builder isTimeStamp(boolean isTimeStamp) {
+            this.isTimeStamp = isTimeStamp;
+            return this;
+        }
 
         public Signature build() {
             return new Signature(this);
@@ -54,6 +61,7 @@ public class Signature {
         this.signerAdministrationId = builder.signerAdministrationId;
         this.organizationAdministrationId = builder.organizationAdministrationId;
         this.organizationName = builder.organizationName;
+        this.isTimeStamp = builder.isTimeStamp;
     }
 
     public String getSignerName() {
@@ -75,6 +83,11 @@ public class Signature {
     public Date getSigningTime() {
         return signingTime;
     }
+    
+    public Boolean getIsTimeStamp() {
+        return isTimeStamp;
+    }
+
 
     @Override
     public String toString() {
@@ -84,6 +97,7 @@ public class Signature {
                 ", organizationName='" + organizationName + '\'' +
                 ", organizationAdministrationId='" + organizationAdministrationId + '\'' +
                 ", signingTime=" + signingTime +
+                ", isTimeStamp=" + signingTime +
                 '}';
     }
 
