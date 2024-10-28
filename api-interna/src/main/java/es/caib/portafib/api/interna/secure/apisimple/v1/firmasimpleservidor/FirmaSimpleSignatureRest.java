@@ -1,12 +1,13 @@
 package es.caib.portafib.api.interna.secure.apisimple.v1.firmasimpleservidor;
 
 import es.caib.portafib.api.interna.secure.apisimple.v1.commons.FirmaSimpleFile;
+import es.caib.portafib.api.interna.secure.apisimple.v1.commons.FirmaSimpleSignedFileInfo;
 import es.caib.portafib.api.interna.secure.apisimple.v1.commons.FirmaSimpleStatus;
 
 public class FirmaSimpleSignatureRest {
 
 	
-	protected String signID;
+	  protected String signID;
 
 	  protected FirmaSimpleStatus status;
 

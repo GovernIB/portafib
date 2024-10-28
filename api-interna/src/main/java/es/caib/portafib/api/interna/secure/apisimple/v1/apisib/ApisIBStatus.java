@@ -1,18 +1,20 @@
 package es.caib.portafib.api.interna.secure.apisimple.v1.apisib;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public class ApisIBStatus {
-
+	  
+	  
 	  public static final int STATUS_INITIALIZING = 0;
-
+	  
 	  public static final int STATUS_IN_PROGRESS = 1;
 
 	  public static final int STATUS_FINAL_OK = 2;
-
+	  
 	  public static final int STATUS_FINAL_ERROR = -1;
-
+	  
 	  public static final int STATUS_CANCELLED = -2;
-
+	  
 	  protected int status = STATUS_INITIALIZING;
 
 	  protected String errorMessage;

@@ -2,9 +2,6 @@ package es.caib.portafib.api.interna.secure.apisimple.v1.commons;
 
 import java.util.List;
 
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleKeyValue;
-
 public class FirmaSimpleFileInfoSignature {
 
 	  protected FirmaSimpleFile fileToSign;

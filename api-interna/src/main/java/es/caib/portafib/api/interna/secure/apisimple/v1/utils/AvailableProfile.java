@@ -2,15 +2,10 @@ package es.caib.portafib.api.interna.secure.apisimple.v1.utils;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import es.caib.portafib.api.interna.secure.apisimple.v1.apisib.ApisIBKeyValue;
 
-import org.fundaciobit.apisib.core.beans.ApisIBAvailableProfile;
-import org.fundaciobit.apisib.core.beans.ApisIBKeyValue;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+
 // XYZ ZZZ La classe de la que exten pot ser ApisIBAvailableProfile<FirmaSimpleKeyValue> o  ApisIBAvailableProfile<FirmaAsyncSimpleKeyValue>
 public class AvailableProfile {
 

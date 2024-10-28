@@ -1,9 +1,5 @@
 package es.caib.portafib.api.interna.secure.apisimple.v1.commons;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 
 /**
  * Resultat d'una firma
@@ -11,8 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author anadal
  *
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+
 public class FirmaSimpleSignatureStatus {
 
   protected String signID;

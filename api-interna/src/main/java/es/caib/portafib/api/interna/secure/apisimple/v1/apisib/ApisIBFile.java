@@ -1,11 +1,18 @@
 package es.caib.portafib.api.interna.secure.apisimple.v1.apisib;
 
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class ApisIBFile {
 
 	  protected java.lang.String nom;
 
 	  protected java.lang.String mime;
-
+	  
+	  @Schema(description = "Contingut del fitxer. En llistats aquest camp vendrà buit.",
+	            required = false,
+	            type = "string",
+	            format="byte")
 	  protected byte[] data;
 
 	  /** Constructor Buit */

@@ -1,16 +1,12 @@
 package es.caib.portafib.api.interna.secure.apisimple.v1.commons;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * 
  * @author anadal
  *
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+
 public class FirmaSimpleCustodyInfo {
 
   protected String custodyID = null;

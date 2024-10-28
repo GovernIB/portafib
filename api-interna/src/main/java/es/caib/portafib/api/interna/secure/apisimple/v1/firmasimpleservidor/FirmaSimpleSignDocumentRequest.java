@@ -1,9 +1,11 @@
 package es.caib.portafib.api.interna.secure.apisimple.v1.firmasimpleservidor;
 
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
+
+import es.caib.portafib.api.interna.secure.apisimple.v1.commons.FirmaSimpleCommonInfo;
+import es.caib.portafib.api.interna.secure.apisimple.v1.commons.FirmaSimpleFileInfoSignature;
 
 public class FirmaSimpleSignDocumentRequest {
+	
 	FirmaSimpleCommonInfo commonInfo;
 
 	FirmaSimpleFileInfoSignature fileInfoSignature;

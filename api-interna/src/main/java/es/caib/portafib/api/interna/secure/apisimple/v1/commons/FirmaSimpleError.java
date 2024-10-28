@@ -8,6 +8,7 @@ import es.caib.portafib.api.interna.secure.apisimple.v1.apisib.ApisIBError;
  * @author anadal
  *
  */
+
 public class FirmaSimpleError extends ApisIBError {
 
   public FirmaSimpleError() {

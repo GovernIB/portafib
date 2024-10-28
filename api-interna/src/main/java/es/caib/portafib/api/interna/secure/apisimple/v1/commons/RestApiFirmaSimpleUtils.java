@@ -31,8 +31,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import es.caib.portafib.api.interna.secure.apisimple.v1.apisib.ApisIBKeyValue;
-import es.caib.portafib.api.interna.secure.apisimple.v1.exceptions.NoAvailablePluginException;
 import es.caib.portafib.api.interna.secure.apisimple.v1.firmasimpleservidor.FirmaSimpleSignDocumentRequest;
+import es.caib.portafib.api.interna.secure.apisimple.v1.firmasimpleservidor.FirmaSimpleSignatureRest;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
 import es.caib.portafib.logic.passarela.PassarelaKeyValue;
@@ -61,7 +61,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
     protected static final String TIPUS_EN_SERVIDOR = "SERVER";
 
     @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
-    public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
+    protected ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
 
     public ResponseEntity<FirmaSimpleError> generateNoAvailablePlugin(String language, boolean firma,
             NoCompatibleSignaturePluginException ex) {
@@ -138,7 +138,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
         return folderTransaction;
     }
 
-    public FirmaSimpleSignatureResult convertPassarelaSignatureResult2FirmaSimpleSignatureResult(
+    public FirmaSimpleSignatureRest convertPassarelaSignatureResult2FirmaSimpleSignatureResult(
             PassarelaSignatureResult psr, PassarelaCommonInfoSignature commonInfo,
             PassarelaFileInfoSignature infoSignature, ValidacioCompletaResponse infoValidacio,
             boolean isSignatureInServer) throws Exception {
@@ -317,7 +317,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
                     signerInfo, custody, validation);
         }
 
-        return new FirmaSimpleSignatureResult(psr.getSignID(), status, file, sfi);
+        return new FirmaSimpleSignatureRest(psr.getSignID(), status, file, sfi);
 
     }
 
@@ -325,7 +325,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
      * Firma en Servidor
      */
     protected PassarelaSignaturesSet convertRestBean2PassarelaBeanServer(String transactionID,
-            FirmaSimpleSignDocumentRequest simpleSignature, PerfilDeFirma perfilFirma,
+            FirmaSimpleSignDocumentRequest simpleSignature, String usuariAplicacio, EntitatJPA entitat, PerfilDeFirma perfilFirma,
             Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) throws I18NException, I18NValidationException {
 
         final boolean esFirmaEnServidor = true;
@@ -334,10 +334,9 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
         simpleSignaturesSet = new FirmaSimpleSignDocumentsRequest(simpleSignature.getCommonInfo(),
                 new FirmaSimpleFileInfoSignature[] { simpleSignature.getFileInfoSignature() });
 
-        LoginInfo loginInfo = LoginInfo.getInstance();
 
-        PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID, simpleSignaturesSet,
-                esFirmaEnServidor, loginInfo, perfilFirma, configBySignID);
+        PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID, simpleSignaturesSet, esFirmaEnServidor, usuariAplicacio, entitat,
+                perfilFirma, configBySignID);
 
         return pss;
     }
@@ -346,27 +345,25 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
      * Firma Web
      */
     protected PassarelaSignaturesSet convertRestBean2PassarelaBeanWeb(String transactionID,
-            FirmaSimpleSignDocumentsRequest simpleSignaturesSet, PerfilDeFirma perfilWeb,
+            FirmaSimpleSignDocumentsRequest simpleSignaturesSet, String usuariAplicacio, EntitatJPA entitat, PerfilDeFirma perfilWeb,
             Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) throws I18NException {
 
         final boolean esFirmaEnServidor = false;
 
-        LoginInfo loginInfo = LoginInfo.getInstance();
-
-        PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID, simpleSignaturesSet,
-                esFirmaEnServidor, loginInfo, perfilWeb, configBySignID);
+        PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID, simpleSignaturesSet, esFirmaEnServidor, usuariAplicacio, entitat,
+                perfilWeb, configBySignID);
 
         return pss;
     }
 
     private PassarelaSignaturesSet convertRestBean2PassarelaBean(String transactionID,
-            FirmaSimpleSignDocumentsRequest simpleSignaturesSet, final boolean esFirmaEnServidor, LoginInfo loginInfo,
-            PerfilDeFirma perfilFirma, Map<String, UsuariAplicacioConfiguracioJPA> configBySignID)
+            FirmaSimpleSignDocumentsRequest simpleSignaturesSet, final boolean esFirmaEnServidor, String usuariAplicacio,
+            EntitatJPA entitat, PerfilDeFirma perfilFirma, Map<String, UsuariAplicacioConfiguracioJPA> configBySignID)
             throws I18NException {
 
         String languageUI = "ca";
 
-        final String usuariAplicacioID = loginInfo.getUsuariAplicacio().getUsuariAplicacioID();
+        final String usuariAplicacioID = usuariAplicacio;
 
         final String type = esFirmaEnServidor ? TIPUS_EN_SERVIDOR : TIPUS_WEB;
 
@@ -399,7 +396,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
                 throw new I18NException("genapp.comodi", "No ha enviat fitxers a firmar.");
             }
 
-            EntitatJPA entitatJPA = loginInfo.getEntitat();
+            EntitatJPA entitatJPA = entitat;
 
             String signerEmail = commonInfo.getSignerEmail();
 
@@ -634,22 +631,6 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
         return perfil;
     }
 
-    /**
-     * 
-     * @author anadal
-     *
-     */
-    public static class RestLoginInfo {
-
-        public final LoginInfo loginInfo;
-
-        public final PerfilDeFirma perfilDeFirma;
-
-        public RestLoginInfo(LoginInfo loginInfo, PerfilDeFirma perfilDeFirma) {
-            super();
-            this.loginInfo = loginInfo;
-            this.perfilDeFirma = perfilDeFirma;
-        }
-    }
-
+    
+    
 }
