@@ -18,4 +18,9 @@
         "url": "./openapi_utils_v1.json",
         "name": "Utils v1"
     }
+,
+    {
+        "url": "./openapi_firmaservidor_v1.json",
+        "name": "Firma Simple en Servidor v1"
+    }
 ]

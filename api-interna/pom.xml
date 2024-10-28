@@ -42,7 +42,6 @@
             <artifactId>portafib-ejb</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <!-- Anotacions de documentació de openapi -->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
@@ -77,7 +76,7 @@
             <artifactId>pluginsib-utils-swagger-ui-configurable-webjar</artifactId>
             <version>${pluginsib.utils.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -130,7 +129,8 @@
                             <outputFileName>openapi_infoversio_v1</outputFileName>
                             <resourcePackages>
                                 <package>es.caib.portafib.api.interna.config</package>
-                                <package>es.caib.portafib.api.interna.all.infoversio</package>
+                                <package>
+                                    es.caib.portafib.api.interna.all.infoversio</package>
                             </resourcePackages>
                         </configuration>
                     </execution>
@@ -145,7 +145,8 @@
                             <outputFileName>openapi_revisors_v1</outputFileName>
                             <resourcePackages>
                                 <package>es.caib.portafib.api.interna.config</package>
-                                <package>es.caib.portafib.api.interna.secure.revisors</package>
+                                <package>
+                                    es.caib.portafib.api.interna.secure.revisors</package>
                             </resourcePackages>
                         </configuration>
                     </execution>
@@ -160,7 +161,8 @@
                             <outputFileName>openapi_tipus_documentals_v1</outputFileName>
                             <resourcePackages>
                                 <package>es.caib.portafib.api.interna.config</package>
-                                <package>es.caib.portafib.api.interna.all.tipusdocumentals</package>
+                                <package>
+                                    es.caib.portafib.api.interna.all.tipusdocumentals</package>
                             </resourcePackages>
                         </configuration>
                     </execution>
@@ -175,7 +177,24 @@
                             <outputFileName>openapi_utils_v1</outputFileName>
                             <resourcePackages>
                                 <package>es.caib.portafib.api.interna.config</package>
-                                <package>es.caib.portafib.api.interna.secure.apisimple</package>
+                                <package>
+                                    es.caib.portafib.api.interna.secure.apisimple</package>
+                            </resourcePackages>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>openapi_5</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>resolve</goal>
+                        </goals>
+                        <configuration>
+                            <contextId>Firma Simple en Servidor v1</contextId>
+                            <outputFileName>openapi_firmaservidor_v1</outputFileName>
+                            <resourcePackages>
+                                <package>es.caib.portafib.api.interna.config</package>
+                                <package>
+                                    es.caib.portafib.api.interna.secure.apisimple</package>
                             </resourcePackages>
                         </configuration>
                     </execution>
@@ -211,16 +230,22 @@
                             <!-- <configHelp>true</configHelp> -->
                             <addCompileSourceRoot>false</addCompileSourceRoot>
                             <!-- NOU -->
-                            <output>${project.basedir}/../api-interna-client-infoversio-v1</output>
-                            <apiPackage>${client.default.package}.infoversio.v1.api</apiPackage>
-                            <modelPackage>${client.default.package}.infoversio.v1.model</modelPackage>
-                            <invokerPackage>${client.default.package}.infoversio.v1.services</invokerPackage>
+                            <output>
+                                ${project.basedir}/../api-interna-client-infoversio-v1</output>
+                            <apiPackage>
+                                ${client.default.package}.infoversio.v1.api</apiPackage>
+                            <modelPackage>
+                                ${client.default.package}.infoversio.v1.model</modelPackage>
+                            <invokerPackage>
+                                ${client.default.package}.infoversio.v1.services</invokerPackage>
                             <generateModelTests>false</generateModelTests>
                             <configOptions>
                                 <groupId>es.caib.portafib</groupId>
-                                <artifactId>portafib-api-interna-client-infoversio-v1</artifactId>
+                                <artifactId>
+                                    portafib-api-interna-client-infoversio-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>portafib - API Rest - Interna Client - Informació de Versions v1</artifactDescription>
+                                <artifactDescription>portafib - API Rest -
+                                    Interna Client - Informació de Versions v1</artifactDescription>
                                 <dateLibrary>legacy</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
@@ -237,23 +262,30 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/openapi/openapi_revisors_v1.json</inputSpec>
+                            <inputSpec>
+                                ${project.basedir}/openapi/openapi_revisors_v1.json</inputSpec>
                             <generatorName>java</generatorName>
                             <skipValidateSpec>false</skipValidateSpec>
                             <library>resteasy</library>
                             <addCompileSourceRoot>false</addCompileSourceRoot>
                             <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
                             <!-- <configHelp>true</configHelp> -->
-                            <output>${project.basedir}/../api-interna-client-revisors-v1</output>
-                            <apiPackage>${client.default.package}.revisors.v1.api</apiPackage>
-                            <modelPackage>${client.default.package}.revisors.v1.model</modelPackage>
-                            <invokerPackage>${client.default.package}.revisors.v1.services</invokerPackage>
+                            <output>
+                                ${project.basedir}/../api-interna-client-revisors-v1</output>
+                            <apiPackage>
+                                ${client.default.package}.revisors.v1.api</apiPackage>
+                            <modelPackage>
+                                ${client.default.package}.revisors.v1.model</modelPackage>
+                            <invokerPackage>
+                                ${client.default.package}.revisors.v1.services</invokerPackage>
                             <generateModelTests>false</generateModelTests>
                             <configOptions>
                                 <groupId>es.caib.portafib</groupId>
-                                <artifactId>portafib-api-interna-client-revisors-v1</artifactId>
+                                <artifactId>
+                                    portafib-api-interna-client-revisors-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>Portafib - API Rest - Interna Client - Revisors v1</artifactDescription>
+                                <artifactDescription>Portafib - API Rest -
+                                    Interna Client - Revisors v1</artifactDescription>
                                 <dateLibrary>legacy</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
@@ -262,7 +294,7 @@
                             </configOptions>
                         </configuration>
                     </execution>
-                    
+
                     <execution>
                         <id>openapi3</id>
                         <phase>prepare-package</phase>
@@ -270,23 +302,30 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/openapi/openapi_tipus_documentals_v1.json</inputSpec>
+                            <inputSpec>
+                                ${project.basedir}/openapi/openapi_tipus_documentals_v1.json</inputSpec>
                             <generatorName>java</generatorName>
                             <skipValidateSpec>false</skipValidateSpec>
                             <library>resteasy</library>
                             <addCompileSourceRoot>false</addCompileSourceRoot>
                             <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
                             <!-- <configHelp>true</configHelp> -->
-                            <output>${project.basedir}/../api-interna-client-tipus-documentals-v1</output>
-                            <apiPackage>${client.default.package}.tipusdocumentals.v1.api</apiPackage>
-                            <modelPackage>${client.default.package}.tipusdocumentals.v1.model</modelPackage>
-                            <invokerPackage>${client.default.package}.tipusdocumentals.v1.services</invokerPackage>
+                            <output>
+                                ${project.basedir}/../api-interna-client-tipus-documentals-v1</output>
+                            <apiPackage>
+                                ${client.default.package}.tipusdocumentals.v1.api</apiPackage>
+                            <modelPackage>
+                                ${client.default.package}.tipusdocumentals.v1.model</modelPackage>
+                            <invokerPackage>
+                                ${client.default.package}.tipusdocumentals.v1.services</invokerPackage>
                             <generateModelTests>false</generateModelTests>
                             <configOptions>
                                 <groupId>es.caib.portafib</groupId>
-                                <artifactId>portafib-api-interna-client-tipusdocumentals-v1</artifactId>
+                                <artifactId>
+                                    portafib-api-interna-client-tipusdocumentals-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>Portafib - API Rest - Interna Client - Tipus Documentals v1</artifactDescription>
+                                <artifactDescription>Portafib - API Rest -
+                                    Interna Client - Tipus Documentals v1</artifactDescription>
                                 <dateLibrary>legacy</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
@@ -295,7 +334,7 @@
                             </configOptions>
                         </configuration>
                     </execution>
-                    
+
                     <execution>
                         <id>openapi4</id>
                         <phase>prepare-package</phase>
@@ -303,23 +342,68 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/openapi/openapi_utils_v1.json</inputSpec>
+                            <inputSpec>
+                                ${project.basedir}/openapi/openapi_utils_v1.json</inputSpec>
                             <generatorName>java</generatorName>
                             <skipValidateSpec>false</skipValidateSpec>
                             <library>resteasy</library>
                             <addCompileSourceRoot>false</addCompileSourceRoot>
                             <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
                             <!-- <configHelp>true</configHelp> -->
-                            <output>${project.basedir}/../api-interna-client-utils-v1</output>
+                            <output>
+                                ${project.basedir}/../api-interna-client-utils-v1</output>
                             <apiPackage>${client.default.package}.utils.v1.api</apiPackage>
-                            <modelPackage>${client.default.package}.utils.v1.model</modelPackage>
-                            <invokerPackage>${client.default.package}.utils.v1.services</invokerPackage>
+                            <modelPackage>
+                                ${client.default.package}.utils.v1.model</modelPackage>
+                            <invokerPackage>
+                                ${client.default.package}.utils.v1.services</invokerPackage>
                             <generateModelTests>false</generateModelTests>
                             <configOptions>
                                 <groupId>es.caib.portafib</groupId>
                                 <artifactId>portafib-api-interna-client-utils-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>Portafib - API Rest - Interna Client - Utils v1</artifactDescription>
+                                <artifactDescription>Portafib - API Rest -
+                                    Interna Client - Utils v1</artifactDescription>
+                                <dateLibrary>legacy</dateLibrary>
+                                <useTags>true</useTags>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                <java11>true</java11>
+                                <useJakartaEe>false</useJakartaEe>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>openapi5</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>
+                                ${project.basedir}/openapi/openapi_firmaservidor_v1.json</inputSpec>
+                            <generatorName>java</generatorName>
+                            <skipValidateSpec>false</skipValidateSpec>
+                            <library>resteasy</library>
+                            <addCompileSourceRoot>false</addCompileSourceRoot>
+                            <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
+                            <!-- <configHelp>true</configHelp> -->
+                            <output>
+                                ${project.basedir}/../api-interna-client-firma-servidor-v1</output>
+                            <apiPackage>
+                                ${client.default.package}.firmaservidor.v1.api</apiPackage>
+                            <modelPackage>
+                                ${client.default.package}.firmaservidor.v1.model</modelPackage>
+                            <invokerPackage>
+                                ${client.default.package}.firmaservidor.v1.services</invokerPackage>
+                            <generateModelTests>false</generateModelTests>
+                            <configOptions>
+                                <groupId>es.caib.portafib</groupId>
+                                <artifactId>
+                                    portafib-api-interna-client-firmaservidor-v1</artifactId>
+                                <artifactVersion>1.0-SNAPSHOT</artifactVersion>
+                                <artifactDescription>Portafib - API Rest -
+                                    Interna Client - Firma en Servidor v1</artifactDescription>
                                 <dateLibrary>legacy</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>

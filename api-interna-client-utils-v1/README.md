@@ -83,9 +83,9 @@ Please follow the [installation](#installation) instruction and execute the foll
 import es.caib.portafib.apiinterna.client.utils.v1.services.*;
 import es.caib.portafib.apiinterna.client.utils.v1.services.auth.*;
 import es.caib.portafib.apiinterna.client.utils.v1.model.*;
-import es.caib.portafib.apiinterna.client.utils.v1.api.UtilsV1Api;
+import es.caib.portafib.apiinterna.client.utils.v1.api.FirmaEnServidorV1Api;
 
-public class UtilsV1ApiExample {
+public class FirmaEnServidorV1ApiExample {
 
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
@@ -96,13 +96,13 @@ public class UtilsV1ApiExample {
         BasicAuth.setUsername("YOUR USERNAME");
         BasicAuth.setPassword("YOUR PASSWORD");
 
-        UtilsV1Api apiInstance = new UtilsV1Api(defaultClient);
-        String language = "ca"; // String | Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')
+        FirmaEnServidorV1Api apiInstance = new FirmaEnServidorV1Api(defaultClient);
+        FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest = new FirmaSimpleSignDocumentRequest(); // FirmaSimpleSignDocumentRequest | Operacio de firma simple en servidor d'un document
         try {
-            AvailableLanguagesRest result = apiInstance.getAvailableLanguages(language);
+            FirmaSimpleSignatureRest result = apiInstance.signdocument(firmaSimpleSignDocumentRequest);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling UtilsV1Api#getAvailableLanguages");
+            System.err.println("Exception when calling FirmaEnServidorV1Api#signdocument");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -119,6 +119,8 @@ All URIs are relative to */portafibapi/interna*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FirmaEnServidorV1Api* | [**signdocument**](docs/FirmaEnServidorV1Api.md#signdocument) | **POST** /secure/firmaenservidor/v1/signdocument | Operacio de firma simple en servidor d&#39;un document
+*FirmaEnServidorV1Api* | [**versio**](docs/FirmaEnServidorV1Api.md#versio) | **GET** /secure/firmaenservidor/v1/versio | Retorna la versió d&#39;aquest Servei
 *UtilsV1Api* | [**getAvailableLanguages**](docs/UtilsV1Api.md#getAvailableLanguages) | **GET** /secure/utils/v1/getAvailableLanguages | Retorna els idiomes disponibles.
 *UtilsV1Api* | [**getAvailableProfiles**](docs/UtilsV1Api.md#getAvailableProfiles) | **GET** /secure/utils/v1/getAvailableProfiles | Retorna els perfils de firma.
 *UtilsV1Api* | [**tipusdocumentalslist**](docs/UtilsV1Api.md#tipusdocumentalslist) | **GET** /secure/utils/v1/tipusdocumentalslist | Retorna la llista de tipus documentals disponibles.
@@ -126,10 +128,22 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [ApisIBKeyValue](docs/ApisIBKeyValue.md)
  - [AvailableLanguagesRest](docs/AvailableLanguagesRest.md)
  - [AvailableProfile](docs/AvailableProfile.md)
  - [AvailableProfilesRest](docs/AvailableProfilesRest.md)
- - [CommonsRestKeyValue](docs/CommonsRestKeyValue.md)
+ - [ConstantsWs](docs/ConstantsWs.md)
+ - [FirmaSimpleCommonInfo](docs/FirmaSimpleCommonInfo.md)
+ - [FirmaSimpleCustodyInfo](docs/FirmaSimpleCustodyInfo.md)
+ - [FirmaSimpleFile](docs/FirmaSimpleFile.md)
+ - [FirmaSimpleFileInfoSignature](docs/FirmaSimpleFileInfoSignature.md)
+ - [FirmaSimpleKeyValue](docs/FirmaSimpleKeyValue.md)
+ - [FirmaSimpleSignDocumentRequest](docs/FirmaSimpleSignDocumentRequest.md)
+ - [FirmaSimpleSignatureRest](docs/FirmaSimpleSignatureRest.md)
+ - [FirmaSimpleSignedFileInfo](docs/FirmaSimpleSignedFileInfo.md)
+ - [FirmaSimpleSignerInfo](docs/FirmaSimpleSignerInfo.md)
+ - [FirmaSimpleStatus](docs/FirmaSimpleStatus.md)
+ - [FirmaSimpleValidationInfo](docs/FirmaSimpleValidationInfo.md)
  - [LlistaTipusDocumentalRest](docs/LlistaTipusDocumentalRest.md)
  - [RestExceptionInfo](docs/RestExceptionInfo.md)
  - [TipusDocumentalRest](docs/TipusDocumentalRest.md)

@@ -22,8 +22,8 @@ import org.fundaciobit.pluginsib.utils.rest.RestException;
 import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 import org.fundaciobit.pluginsib.utils.rest.RestUtils;
 
-import es.caib.portafib.api.interna.secure.apisimple.v1.LlistaTipusDocumentalRest;
-import es.caib.portafib.api.interna.secure.apisimple.v1.TipusDocumentalRest;
+import es.caib.portafib.api.interna.secure.apisimple.v1.utils.LlistaTipusDocumentalRest;
+import es.caib.portafib.api.interna.secure.apisimple.v1.utils.TipusDocumentalRest;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.commons.utils.StaticVersion;
 import es.caib.portafib.commons.utils.Version;

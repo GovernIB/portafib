@@ -258,3 +258,4 @@ api-interna-client-utils-v1/settings.gradle
 api-interna-client-utils-v1/.github/
 api-interna-client-utils-v1/.openapi-generator/
 /ejbback.bat
+api.bat
