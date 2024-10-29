@@ -481,7 +481,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
                     // SI és una pADES llavors val implicit
                     signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
                 } else {
-                    signMode = SignatureUtils.convertPortafibSignMode2ApiSignMode(config.isModeDeFirma());
+                    signMode = SignatureUtils.convertPortafibSignMode2ApiSignMode(config.isModeDeFirma(), config.getTipusFirmaID());
                 }
 
                 // TAULA DE FIRMES
