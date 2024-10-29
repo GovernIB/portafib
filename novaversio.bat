@@ -13,13 +13,6 @@ for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1)
 )
 
 @echo. 
-@echo. 
-call :ColorText 4F "--------------------------- IMPORTANT ---------------------------------"
-@echo. 
-call :ColorText 4F "[  Has d'actualitzar la propietat portafib.version del pom.xml arrel  ]"
-@echo. 
-call :ColorText 4F "-----------------------------------------------------------------------"
-
 @echo.
 @echo.
 @echo off
