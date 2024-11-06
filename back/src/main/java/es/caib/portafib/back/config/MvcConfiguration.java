@@ -34,7 +34,7 @@ import org.springframework.web.util.UrlPathHelper;
  *
  */
 @Configuration
-@ComponentScan(basePackages = {"es.caib.portafib"})
+//@ComponentScan(basePackages = {"es.caib.portafib"})
 @EnableWebMvc
 public class MvcConfiguration extends WebMvcConfigurerAdapter {
     

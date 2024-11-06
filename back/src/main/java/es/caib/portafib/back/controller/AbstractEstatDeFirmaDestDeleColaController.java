@@ -2049,7 +2049,10 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         //////////
 
         Device device = DeviceUtils.getRequiredCurrentDevice(request);
-        final boolean isMobile = (device != null && device.isMobile());
+
+        final boolean isMobile = (device != null && device.isMobile())
+                // Error en dispositiu mòbil al seleccionar "Vista ordenador"   #906
+                || (filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TIPUSDOC) == null);
 
         // Annexes, Peticio de Firma, Tipus Document , Remitent i DataInici
         {
