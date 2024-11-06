@@ -260,3 +260,8 @@ api-interna-client-utils-v1/.openapi-generator/
 /ejbback.bat
 api.bat
 pemfiles/
+api-interna-client-infoversio-v1/.gradle/
+api-interna-client-revisors-v1/.gradle/
+api-interna-client-revisors-v1/bin/
+api-interna-client-tipus-documentals-v1/.gradle/
+api-interna-client-tipus-documentals-v1/bin/

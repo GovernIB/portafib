@@ -1,7 +1,6 @@
 package es.caib.portafib.api.interna.all.tipusdocumentals.v1;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,17 +21,13 @@ import org.fundaciobit.pluginsib.utils.rest.RestException;
 import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 import org.fundaciobit.pluginsib.utils.rest.RestUtils;
 
-import es.caib.portafib.api.interna.secure.apisimple.v1.utils.LlistaTipusDocumentalRest;
-import es.caib.portafib.api.interna.secure.apisimple.v1.utils.TipusDocumentalRest;
+import es.caib.portafib.api.interna.secure.firma.v1.LlistaTipusDocumentalRest;
+import es.caib.portafib.api.interna.secure.firma.v1.TipusDocumentalRest;
 import es.caib.portafib.commons.utils.Configuracio;
-import es.caib.portafib.commons.utils.StaticVersion;
-import es.caib.portafib.commons.utils.Version;
-import es.caib.portafib.ejb.IdiomaService;
 import es.caib.portafib.ejb.TipusDocumentService;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.model.entity.TipusDocument;
-import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.persistence.TipusDocumentJPA;

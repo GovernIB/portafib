@@ -173,28 +173,12 @@
                             <goal>resolve</goal>
                         </goals>
                         <configuration>
-                            <contextId>Utils v1</contextId>
-                            <outputFileName>openapi_utils_v1</outputFileName>
+                            <contextId>Firma v1</contextId>
+                            <outputFileName>openapi_firma_v1</outputFileName>
                             <resourcePackages>
                                 <package>es.caib.portafib.api.interna.config</package>
                                 <package>
-                                    es.caib.portafib.api.interna.secure.apisimple</package>
-                            </resourcePackages>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>openapi_5</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>resolve</goal>
-                        </goals>
-                        <configuration>
-                            <contextId>Firma Simple en Servidor v1</contextId>
-                            <outputFileName>openapi_firmaservidor_v1</outputFileName>
-                            <resourcePackages>
-                                <package>es.caib.portafib.api.interna.config</package>
-                                <package>
-                                    es.caib.portafib.api.interna.secure.apisimple</package>
+                                    es.caib.portafib.api.interna.secure.firma</package>
                             </resourcePackages>
                         </configuration>
                     </execution>
@@ -343,7 +327,7 @@
                         </goals>
                         <configuration>
                             <inputSpec>
-                                ${project.basedir}/openapi/openapi_utils_v1.json</inputSpec>
+                                ${project.basedir}/openapi/openapi_firma_v1.json</inputSpec>
                             <generatorName>java</generatorName>
                             <skipValidateSpec>false</skipValidateSpec>
                             <library>resteasy</library>
@@ -351,19 +335,18 @@
                             <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
                             <!-- <configHelp>true</configHelp> -->
                             <output>
-                                ${project.basedir}/../api-interna-client-utils-v1</output>
-                            <apiPackage>${client.default.package}.utils.v1.api</apiPackage>
+                                ${project.basedir}/../api-interna-client-firma-v1</output>
+                            <apiPackage>${client.default.package}.firma.v1.api</apiPackage>
                             <modelPackage>
-                                ${client.default.package}.utils.v1.model</modelPackage>
+                                ${client.default.package}.firma.v1.model</modelPackage>
                             <invokerPackage>
-                                ${client.default.package}.utils.v1.services</invokerPackage>
+                                ${client.default.package}.firma.v1.services</invokerPackage>
                             <generateModelTests>false</generateModelTests>
                             <configOptions>
                                 <groupId>es.caib.portafib</groupId>
-                                <artifactId>portafib-api-interna-client-utils-v1</artifactId>
+                                <artifactId>portafib-api-interna-client-firma-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>Portafib - API Rest -
-                                    Interna Client - Utils v1</artifactDescription>
+                                <artifactDescription>Portafib - API Rest - Interna Client - Firma v1</artifactDescription>
                                 <dateLibrary>legacy</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
@@ -373,46 +356,7 @@
                         </configuration>
                     </execution>
 
-                    <execution>
-                        <id>openapi5</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>
-                                ${project.basedir}/openapi/openapi_firmaservidor_v1.json</inputSpec>
-                            <generatorName>java</generatorName>
-                            <skipValidateSpec>false</skipValidateSpec>
-                            <library>resteasy</library>
-                            <addCompileSourceRoot>false</addCompileSourceRoot>
-                            <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
-                            <!-- <configHelp>true</configHelp> -->
-                            <output>
-                                ${project.basedir}/../api-interna-client-firma-servidor-v1</output>
-                            <apiPackage>
-                                ${client.default.package}.firmaservidor.v1.api</apiPackage>
-                            <modelPackage>
-                                ${client.default.package}.firmaservidor.v1.model</modelPackage>
-                            <invokerPackage>
-                                ${client.default.package}.firmaservidor.v1.services</invokerPackage>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <groupId>es.caib.portafib</groupId>
-                                <artifactId>
-                                    portafib-api-interna-client-firmaservidor-v1</artifactId>
-                                <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>Portafib - API Rest -
-                                    Interna Client - Firma en Servidor v1</artifactDescription>
-                                <dateLibrary>legacy</dateLibrary>
-                                <useTags>true</useTags>
-                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                                <java11>true</java11>
-                                <useJakartaEe>false</useJakartaEe>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-
+                    
                 </executions>
             </plugin>
 
