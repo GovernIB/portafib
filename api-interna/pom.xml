@@ -151,22 +151,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>openapi_3</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>resolve</goal>
-                        </goals>
-                        <configuration>
-                            <contextId>Tipus Documentals v1</contextId>
-                            <outputFileName>openapi_tipus_documentals_v1</outputFileName>
-                            <resourcePackages>
-                                <package>es.caib.portafib.api.interna.config</package>
-                                <package>
-                                    es.caib.portafib.api.interna.all.tipusdocumentals</package>
-                            </resourcePackages>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>openapi_4</id>
                         <phase>compile</phase>
                         <goals>
@@ -278,47 +262,6 @@
                             </configOptions>
                         </configuration>
                     </execution>
-
-                    <execution>
-                        <id>openapi3</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>
-                                ${project.basedir}/openapi/openapi_tipus_documentals_v1.json</inputSpec>
-                            <generatorName>java</generatorName>
-                            <skipValidateSpec>false</skipValidateSpec>
-                            <library>resteasy</library>
-                            <addCompileSourceRoot>false</addCompileSourceRoot>
-                            <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
-                            <!-- <configHelp>true</configHelp> -->
-                            <output>
-                                ${project.basedir}/../api-interna-client-tipus-documentals-v1</output>
-                            <apiPackage>
-                                ${client.default.package}.tipusdocumentals.v1.api</apiPackage>
-                            <modelPackage>
-                                ${client.default.package}.tipusdocumentals.v1.model</modelPackage>
-                            <invokerPackage>
-                                ${client.default.package}.tipusdocumentals.v1.services</invokerPackage>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <groupId>es.caib.portafib</groupId>
-                                <artifactId>
-                                    portafib-api-interna-client-tipusdocumentals-v1</artifactId>
-                                <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>Portafib - API Rest -
-                                    Interna Client - Tipus Documentals v1</artifactDescription>
-                                <dateLibrary>legacy</dateLibrary>
-                                <useTags>true</useTags>
-                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                                <java11>true</java11>
-                                <useJakartaEe>false</useJakartaEe>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-
                     <execution>
                         <id>openapi4</id>
                         <phase>prepare-package</phase>
