@@ -208,6 +208,17 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
   }
 
 
+  private java.util.List<java.lang.Integer> modeDeFirmaSelect;
+
+  public java.util.List<java.lang.Integer> getModeDeFirmaSelect() {
+    return this.modeDeFirmaSelect;
+  }
+
+  public void setModeDeFirmaSelect(java.util.List<java.lang.Integer> modeDeFirmaSelect) {
+    this.modeDeFirmaSelect = modeDeFirmaSelect;
+  }
+
+
   private java.util.List<java.lang.Integer> posicioTaulaFirmesIDSelect;
 
   public java.util.List<java.lang.Integer> getPosicioTaulaFirmesIDSelect() {
@@ -516,6 +527,7 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
     this.tipusOperacioFirmaSelect = __toClone.tipusOperacioFirmaSelect;
     this.tipusFirmaIDSelect = __toClone.tipusFirmaIDSelect;
     this.algorismeDeFirmaIDSelect = __toClone.algorismeDeFirmaIDSelect;
+    this.modeDeFirmaSelect = __toClone.modeDeFirmaSelect;
     this.posicioTaulaFirmesIDSelect = __toClone.posicioTaulaFirmesIDSelect;
     this.tipusEstatPeticioDeFirmaIDSelect = __toClone.tipusEstatPeticioDeFirmaIDSelect;
     this.motiuDeRebuig = __toClone.motiuDeRebuig;
@@ -546,6 +558,7 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
     this.mapOfValuesForTipusOperacioFirma = __toClone.mapOfValuesForTipusOperacioFirma;
     this.mapOfValuesForTipusFirmaID = __toClone.mapOfValuesForTipusFirmaID;
     this.mapOfValuesForAlgorismeDeFirmaID = __toClone.mapOfValuesForAlgorismeDeFirmaID;
+    this.mapOfValuesForModeDeFirma = __toClone.mapOfValuesForModeDeFirma;
     this.mapOfValuesForPosicioTaulaFirmesID = __toClone.mapOfValuesForPosicioTaulaFirmesID;
     this.mapOfValuesForTipusEstatPeticioDeFirmaID = __toClone.mapOfValuesForTipusEstatPeticioDeFirmaID;
     this.mapOfIdiomaForIdiomaID = __toClone.mapOfIdiomaForIdiomaID;
@@ -636,6 +649,18 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
 
   public void setMapOfValuesForAlgorismeDeFirmaID(Map<String, String> mapOfValuesForAlgorismeDeFirmaID) {
     this.mapOfValuesForAlgorismeDeFirmaID = mapOfValuesForAlgorismeDeFirmaID;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForModeDeFirma;
+
+  public Map<String, String> getMapOfValuesForModeDeFirma() {
+    return this.mapOfValuesForModeDeFirma;
+  }
+
+  public void setMapOfValuesForModeDeFirma(Map<String, String> mapOfValuesForModeDeFirma) {
+    this.mapOfValuesForModeDeFirma = mapOfValuesForModeDeFirma;
   }
 
 

@@ -1,3 +1,8 @@
+<%@page import="org.fundaciobit.pluginsib.utils.signature.SignatureCommonUtils"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="es.caib.portafib.logic.utils.SignatureUtils"%>
+<%@page import="org.fundaciobit.pluginsib.utils.signature.SignatureConstants"%>
+<%@page import="java.util.Map"%>
 <%@page import="es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields"%>
 <%@page import="es.caib.portafib.utils.ConstantsPortaFIB"%>
 <%@page import="es.caib.portafib.utils.ConstantsV2"%>
@@ -25,6 +30,100 @@
         line-height: 10px;
     }
 </style>
+
+
+
+
+
+
+
+ <%
+ final Field<?>[] tipusFirma = {
+     UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES,
+     UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID,
+     UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID,
+     // UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID,
+     UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES
+  };
+ %>
+ <script type="text/javascript">
+ 
+
+ var modesFirmaPerTipusFirma = {
+         <%
+         Map<String,Integer[]> modesFirmaByTipusFirma = SignatureConstants.SIGNMODES_BY_SIGNTYPE;
+         for(String type : modesFirmaByTipusFirma.keySet() ) { 
+         %>
+         <%=SignatureUtils.convertApiSignTypeToPortafibSignType(type)%>: <%=Arrays.toString(modesFirmaByTipusFirma.get(type)) %>,
+         <%}%>
+ }
+ 
+ var modesFirmaToString = {
+         <%for (int mode :  SignatureConstants.ALL_SING_MODES) {
+             String modeStr = SignatureCommonUtils.signModeToString(mode);
+             int i = modeStr.indexOf('(');
+             if ( i != -1) {
+                 modeStr = modeStr.substring(0, i);
+             }
+             modeStr = modeStr.replace("SIGN_MODE_", "").replace("_", " ");
+         %>
+         <%=mode%>: '<%=modeStr%>',
+         <%}%>
+ }
+ 
+
+ 
+ function onChangeTipusFirmaID(combo) {
+   if (combo == null) {
+         return;
+   }
+       
+     
+   var value = combo.options[combo.selectedIndex].value;
+   if (value == <%=ConstantsV2.TIPUSFIRMA_PADES%>) {
+     //document.getElementById("<%=UsuariAplicacioConfiguracioFields.MODEDEFIRMA.fullName.replace('.', '_') %>_rowid").style.display = 'none';    
+     
+     <% for(int c=0;c < tipusFirma.length ;c++) { %>
+     document.getElementById("<%=tipusFirma[c].fullName.replace('.', '_') %>_rowid").style.display = '';
+     <% } %>
+
+     onChangePoliticaTaulaFirmes(document.getElementById("<%=UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES.fullName.replace('.', '_') %>"));
+     
+   } else {
+     //document.getElementById("<%=UsuariAplicacioConfiguracioFields.MODEDEFIRMA.fullName.replace('.', '_') %>_rowid").style.display = '';
+     <% for(int c=0;c < tipusFirma.length ;c++) { %>
+     document.getElementById("<%=tipusFirma[c].fullName.replace('.', '_') %>_rowid").style.display = 'none';
+     <% } %>
+   }
+   
+   
+
+   
+   var signType = combo.options[combo.selectedIndex].value;
+   
+   var modesFirma = modesFirmaPerTipusFirma[signType];
+   
+   var modeFirmaInput = document.getElementById("<%=UsuariAplicacioConfiguracioFields.MODEDEFIRMA.fullName.replace('.', '_') %>");
+   
+   // Eliminem els modes de firma existents
+   modeFirmaInput.innerHTML = "";
+   
+   // Afegim els modes de firma corresponents (guardats dins l'array modesFirma)
+   modesFirma.forEach(function(mode) {
+     var option = document.createElement("option");
+     option.text = modesFirmaToString[mode];
+     option.value = mode;
+     modeFirmaInput.add(option);
+   });
+
+ }
+ 
+ // Tipus Firma i Mode de Firma
+ onChangeTipusFirmaID(document.getElementById("<%=UsuariAplicacioConfiguracioFields.TIPUSFIRMAID.fullName.replace('.', '_') %>"));
+
+</script>
+
+
 
 <script type="text/javascript">
 
@@ -281,37 +380,6 @@ var usBgColor = [ 'red', 'green', 'blue', 'orange', 'grey', 'brown', 'violet' ];
  
  
  
- // Tipus Firma i Mode de Firma
- onChangeTipusFirmaID(document.getElementById("<%=UsuariAplicacioConfiguracioFields.TIPUSFIRMAID.fullName.replace('.', '_') %>"));
- <%
- final Field<?>[] tipusFirma = {
-     UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES,
-     UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID,
-     UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID,
-     // UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID,
-     UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES
-  };
- %>
- 
- function onChangeTipusFirmaID(combo) {
-   var value = combo.options[combo.selectedIndex].value;
-   if (value == <%=ConstantsV2.TIPUSFIRMA_PADES%>) {
-     document.getElementById("<%=UsuariAplicacioConfiguracioFields.MODEDEFIRMA.fullName.replace('.', '_') %>_rowid").style.display = 'none';    
-     
-     <% for(int c=0;c < tipusFirma.length ;c++) { %>
-     document.getElementById("<%=tipusFirma[c].fullName.replace('.', '_') %>_rowid").style.display = '';
-     <% } %>
-
-     onChangePoliticaTaulaFirmes(document.getElementById("<%=UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES.fullName.replace('.', '_') %>"));
-     
-   } else {
-     document.getElementById("<%=UsuariAplicacioConfiguracioFields.MODEDEFIRMA.fullName.replace('.', '_') %>_rowid").style.display = '';
-     <% for(int c=0;c < tipusFirma.length ;c++) { %>
-     document.getElementById("<%=tipusFirma[c].fullName.replace('.', '_') %>_rowid").style.display = 'none';
-     <% } %>
-   }
- }
-
  // ALGORISME DE FIRMA
  var sel = document.getElementById("<%=UsuariAplicacioConfiguracioFields.ALGORISMEDEFIRMAID.fullName.replace('.', '_') %>").options;
  for (i = 0; i < sel.length; i++) {
@@ -345,4 +413,7 @@ var usBgColor = [ 'red', 'green', 'blue', 'orange', 'grey', 'brown', 'violet' ];
  --%>
 
 </script>
+
+
+
 

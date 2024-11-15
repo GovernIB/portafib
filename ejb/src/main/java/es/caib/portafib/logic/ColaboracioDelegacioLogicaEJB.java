@@ -235,7 +235,7 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
         
         int signType = SignatureUtils.convertApiSignTypeToPortafibSignType(signFileInfo.getSignType());
 
-        boolean signMode = SignatureUtils.convertApiSignMode2PortafibSignMode(signFileInfo.getSignMode());
+        int signMode = SignatureUtils.convertApiSignMode2PortafibSignMode(signFileInfo.getSignMode());
 
         
 

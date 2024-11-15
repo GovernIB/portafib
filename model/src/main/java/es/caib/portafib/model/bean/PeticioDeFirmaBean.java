@@ -23,7 +23,7 @@ public class PeticioDeFirmaBean implements PeticioDeFirma {
 	int tipusOperacioFirma;
 	int tipusFirmaID;
 	int algorismeDeFirmaID;
-	java.lang.Boolean modeDeFirma;
+	int modeDeFirma;
 	int posicioTaulaFirmesID;
 	int tipusEstatPeticioDeFirmaID;
 	java.lang.String motiuDeRebuig;
@@ -56,7 +56,7 @@ public class PeticioDeFirmaBean implements PeticioDeFirma {
   }
 
   /** Constructor amb tots els camps  */
-  public PeticioDeFirmaBean(long peticioDeFirmaID , java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int posicioTaulaFirmesID , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentNom , java.lang.String informacioAddicional , java.lang.Double informacioAddicionalAvaluable , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String solicitantUsuariEntitat1ID , java.lang.String solicitantUsuariEntitat2ID , java.lang.String solicitantUsuariEntitat3ID , boolean avisWeb , boolean segellatDeTemps , int origenPeticioDeFirma , java.lang.Long configuracioDeFirmaID) {
+  public PeticioDeFirmaBean(long peticioDeFirmaID , java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , int modeDeFirma , int posicioTaulaFirmesID , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentNom , java.lang.String informacioAddicional , java.lang.Double informacioAddicionalAvaluable , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String solicitantUsuariEntitat1ID , java.lang.String solicitantUsuariEntitat2ID , java.lang.String solicitantUsuariEntitat3ID , boolean avisWeb , boolean segellatDeTemps , int origenPeticioDeFirma , java.lang.Long configuracioDeFirmaID) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.titol=titol;
     this.descripcio=descripcio;
@@ -100,7 +100,7 @@ public class PeticioDeFirmaBean implements PeticioDeFirma {
     this.configuracioDeFirmaID=configuracioDeFirmaID;
 }
   /** Constructor sense valors autoincrementals */
-  public PeticioDeFirmaBean(java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int posicioTaulaFirmesID , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentNom , java.lang.String informacioAddicional , java.lang.Double informacioAddicionalAvaluable , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String solicitantUsuariEntitat1ID , java.lang.String solicitantUsuariEntitat2ID , java.lang.String solicitantUsuariEntitat3ID , boolean avisWeb , boolean segellatDeTemps , int origenPeticioDeFirma , java.lang.Long configuracioDeFirmaID) {
+  public PeticioDeFirmaBean(java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , int modeDeFirma , int posicioTaulaFirmesID , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentNom , java.lang.String informacioAddicional , java.lang.Double informacioAddicionalAvaluable , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String solicitantUsuariEntitat1ID , java.lang.String solicitantUsuariEntitat2ID , java.lang.String solicitantUsuariEntitat3ID , boolean avisWeb , boolean segellatDeTemps , int origenPeticioDeFirma , java.lang.Long configuracioDeFirmaID) {
     this.titol=titol;
     this.descripcio=descripcio;
     this.motiu=motiu;
@@ -143,7 +143,7 @@ public class PeticioDeFirmaBean implements PeticioDeFirma {
     this.configuracioDeFirmaID=configuracioDeFirmaID;
 }
   /** Constructor dels valors Not Null */
-  public PeticioDeFirmaBean(long peticioDeFirmaID , java.lang.String titol , java.lang.String motiu , long tipusDocumentID , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int posicioTaulaFirmesID , int tipusEstatPeticioDeFirmaID , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , boolean avisWeb , boolean segellatDeTemps , int origenPeticioDeFirma) {
+  public PeticioDeFirmaBean(long peticioDeFirmaID , java.lang.String titol , java.lang.String motiu , long tipusDocumentID , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , int modeDeFirma , int posicioTaulaFirmesID , int tipusEstatPeticioDeFirmaID , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , boolean avisWeb , boolean segellatDeTemps , int origenPeticioDeFirma) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.titol=titol;
     this.motiu=motiu;
@@ -321,10 +321,10 @@ public class PeticioDeFirmaBean implements PeticioDeFirma {
 		this.algorismeDeFirmaID = _algorismeDeFirmaID_;
 	};
 
-	public java.lang.Boolean getModeDeFirma() {
+	public int getModeDeFirma() {
 		return(modeDeFirma);
 	};
-	public void setModeDeFirma(java.lang.Boolean _modeDeFirma_) {
+	public void setModeDeFirma(int _modeDeFirma_) {
 		this.modeDeFirma = _modeDeFirma_;
 	};
 

@@ -27,7 +27,7 @@ public class ValidacioCompletaRequest {
 
   protected int signTypeID;
 
-  protected boolean signMode;
+  protected int signMode;
 
   protected String languageUI;
 
@@ -45,7 +45,7 @@ public class ValidacioCompletaRequest {
       boolean checkCanviatDocFirmat, boolean comprovarNifFirma,
       IPortaFIBDataSource originalData, IPortaFIBDataSource adaptedData,
       IPortaFIBDataSource signatureData, IPortaFIBDataSource documentDetachedData,
-      int signTypeID, boolean signMode, String languageUI, int numFirmaPortaFIB,
+      int signTypeID, int signMode, String languageUI, int numFirmaPortaFIB,
       int numFirmesOriginals, String nifEsperat, int posTaulaDeFirmes) {
     this.entitatID = entitatID;
     this.validarFitxerFirma = validarFitxerFirma;
@@ -68,7 +68,7 @@ public class ValidacioCompletaRequest {
       boolean checkCanviatDocFirmat, boolean comprovarNifFirma,
       IPortaFIBDataSource originalData, IPortaFIBDataSource adaptedData,
       IPortaFIBDataSource signatureData, IPortaFIBDataSource documentDetachedData,
-      int signTypeID, boolean signMode, String languageUI, int numFirmaPortaFIB,
+      int signTypeID, int signMode, String languageUI, int numFirmaPortaFIB,
       int numFirmesOriginals, String nifEsperat, String cifEsperat, int posTaulaDeFirmes) {
     this.entitatID = entitatID;
     this.validarFitxerFirma = validarFitxerFirma;
@@ -192,11 +192,11 @@ public class ValidacioCompletaRequest {
     this.cifEsperat = cifEsperat;
   }
 
-  public boolean getSignMode() {
+  public int getSignMode() {
     return signMode;
   }
 
-  public void setSignMode(boolean signMode) {
+  public void setSignMode(int signMode) {
     this.signMode = signMode;
   }
 

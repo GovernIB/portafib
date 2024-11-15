@@ -23,6 +23,7 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
     this.listOfValuesForTipusOperacioFirma = __toClone.listOfValuesForTipusOperacioFirma;
     this.listOfValuesForTipusFirmaID = __toClone.listOfValuesForTipusFirmaID;
     this.listOfValuesForAlgorismeDeFirmaID = __toClone.listOfValuesForAlgorismeDeFirmaID;
+    this.listOfValuesForModeDeFirma = __toClone.listOfValuesForModeDeFirma;
     this.listOfValuesForUsPoliticaDeFirma = __toClone.listOfValuesForUsPoliticaDeFirma;
     this.listOfTraduccioForMotiuDelegacioID = __toClone.listOfTraduccioForMotiuDelegacioID;
     this.listOfValuesForPoliticaTaulaFirmes = __toClone.listOfValuesForPoliticaTaulaFirmes;
@@ -100,6 +101,18 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
 
   public void setListOfValuesForAlgorismeDeFirmaID(List<StringKeyValue> listOfValuesForAlgorismeDeFirmaID) {
     this.listOfValuesForAlgorismeDeFirmaID = listOfValuesForAlgorismeDeFirmaID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForModeDeFirma;
+
+  public List<StringKeyValue> getListOfValuesForModeDeFirma() {
+    return this.listOfValuesForModeDeFirma;
+  }
+
+  public void setListOfValuesForModeDeFirma(List<StringKeyValue> listOfValuesForModeDeFirma) {
+    this.listOfValuesForModeDeFirma = listOfValuesForModeDeFirma;
   }
 
 

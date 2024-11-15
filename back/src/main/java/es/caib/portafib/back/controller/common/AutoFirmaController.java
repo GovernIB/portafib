@@ -47,6 +47,7 @@ import org.fundaciobit.pluginsib.signature.api.PolicyInfoSignature;
 import org.fundaciobit.pluginsib.signature.api.StatusSignature;
 import org.fundaciobit.pluginsib.signature.api.StatusSignaturesSet;
 import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
+import org.fundaciobit.pluginsib.utils.signature.SignatureConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -270,7 +271,8 @@ public class AutoFirmaController extends FitxerController implements PeticioDeFi
             FileInfoSignature fis = SignatureUtils.getFileInfoSignature(signId, pdfAdaptat,
                     FileInfoSignature.PDF_MIME_TYPE, idname, (int) form.getPosicioTaulaFirmesID(), reason, location,
                     signerEmail, sign_number, langSign, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
-                    ConstantsV2.SIGN_MODE_IMPLICIT,
+                    //ConstantsV2.SIGN_MODE_IMPLICIT,
+                    SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPED,
                     SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langSign), timeStampGenerator,
                     policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
 

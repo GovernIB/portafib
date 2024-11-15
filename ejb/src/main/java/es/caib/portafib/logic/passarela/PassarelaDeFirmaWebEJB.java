@@ -319,7 +319,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                 algorismeDeFirmaID = algo;
             }
         }
-        Boolean modeDeFirma = SignatureUtils.convertApiSignMode2PortafibSignMode(pfis.getSignMode());
+        int modeDeFirma = SignatureUtils.convertApiSignMode2PortafibSignMode(pfis.getSignMode());
         int tipusEstatPeticioDeFirmaID = ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES;
         String motiuDeRebuig = null;
         String idiomaID = pfis.getLanguageSign();
@@ -848,7 +848,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
         final int signTypeID = SignatureUtils.convertApiSignTypeToPortafibSignType(fis.getSignType());
 
-        final boolean signMode = SignatureUtils.convertApiSignMode2PortafibSignMode(fis.getSignMode());
+        final int signMode = SignatureUtils.convertApiSignMode2PortafibSignMode(fis.getSignMode());
 
         String expectedNif = ssf.getSignaturesSet().getCommonInfoSignature().getAdministrationID();
         String expectedCif = ssf.getSignaturesSet().getCommonInfoSignature().getOrganizationID();

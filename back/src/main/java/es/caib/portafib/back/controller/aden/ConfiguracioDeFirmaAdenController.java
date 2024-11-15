@@ -97,7 +97,6 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
         }
 
         if (__isView) {
-
             form.setCancelButtonVisible(false);
             form.addAdditionalButton(new AdditionalButton("far fa-edit", "genapp.edit",
                     CONTEXT_WEB + "/" + form.getUsuariAplicacioConfiguracio().getUsuariAplicacioConfigID() + "/edit",
@@ -285,6 +284,12 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
     public List<StringKeyValue> getReferenceListForAlgorismeDeFirmaID(HttpServletRequest request, ModelAndView mav,
             Where where) throws I18NException {
         return AbstractPeticioDeFirmaController.staticGetReferenceListForAlgorismeDeFirmaID();
+    }
+
+    @Override
+    public List<StringKeyValue> getReferenceListForModeDeFirma(HttpServletRequest request, ModelAndView mav,
+            Where where) throws I18NException {
+        return AbstractPeticioDeFirmaController.getReferenceListForModeDeFirma();
     }
 
     @Override

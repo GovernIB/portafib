@@ -280,7 +280,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
             // SI es PADES llavors el signMode es attached
             if (FileInfoSignature.SIGN_TYPE_PADES.equals(signatureType)) {
-                upgradedFileInfo.setSignMode(FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED);
+                upgradedFileInfo.setSignMode(FirmaSimpleSignedFileInfo.SIGN_MODE_ATTACHED_ENVELOPED);
             }
 
         } else {
@@ -288,13 +288,13 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
             final String signType = vsr.getSignType();
             final String signAlgorithm = null;
 
-            String signFormat = vsr.getSignFormat();
+            int signFormat = vsr.getSignMode();
 
-            Integer signMode;
-
+            int signMode = signFormat;
+/*
             if (signFormat == null) {
                 signMode = null;
-            } else if (ValidateSignatureResponse.SIGNFORMAT_IMPLICIT_ENVELOPED_ATTACHED.equals(signFormat)
+            } else if (ValidateSignatureResponse.SIGN_MODE_ATTACHED_ENVELOPED.equals(signFormat)
                     || ValidateSignatureResponse.SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED.equals(signFormat)) {
                 signMode = FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED;
             } else if (ValidateSignatureResponse.SIGNFORMAT_EXPLICIT_DETACHED.equals(signFormat)
@@ -303,7 +303,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
             } else {
                 signMode = null;
             }
-
+*/
             // XYZ ZZZ
             String eniTipoFirma = SignatureUtils.getEniTipoFirma(signType, signMode);
 
@@ -523,7 +523,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
             // SI es PADES llavors el signMode es attached
             if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-                signatureFileInfo.setSignMode(FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED);
+                signatureFileInfo.setSignMode(FirmaSimpleSignedFileInfo.SIGN_MODE_ATTACHED_ENVELOPED);
             }
 
             signatureFileInfo.setEniTipoFirma(
@@ -535,10 +535,10 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
                 signType = vsr.getSignType();
             }
 
-            String signFormat = vsr.getSignFormat();
+            int signFormat = vsr.getSignMode();
 
-            Integer signMode;
-
+            int signMode = signFormat;
+/*
             if (signFormat == null) {
                 log.warn("Ens ha arribat un signFormat = null: es retorna signMode null");
                 signMode = null;
@@ -555,6 +555,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
                 signMode = null;
             }
+            */
 
             // XYZ ZZZ
             String eniTipoFirma = SignatureUtils.getEniTipoFirma(signType, signMode);

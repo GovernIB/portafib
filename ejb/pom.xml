@@ -142,6 +142,11 @@
             <version>1.1</version>
         </dependency>
 
+        <dependency>
+            <artifactId>pluginsib-utils-signature</artifactId>
+            <groupId>org.fundaciobit.pluginsib.utils</groupId>
+            <version>${pluginsib.utils.version}</version>
+        </dependency>
 
         <!-- 
            NOTA: S'ha afegit el mòdul org.jboss.ws.cxf.jbossws-cxf-client a jboss-deployment-structure.xml

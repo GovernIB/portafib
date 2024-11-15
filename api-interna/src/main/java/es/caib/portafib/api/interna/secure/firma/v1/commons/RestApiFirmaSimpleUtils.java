@@ -476,13 +476,15 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
                 String signAlgorithm = getAlgorismeDeFirmaOfConfig(config, entitatJPA);
 
                 // Mode de Firma
-                final int signMode;
+                final int signMode = config.getModeDeFirma();
+                /*
                 if (config.getTipusFirmaID() == ConstantsV2.TIPUSFIRMA_PADES) {
                     // SI és una pADES llavors val implicit
                     signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
                 } else {
                     signMode = SignatureUtils.convertPortafibSignMode2ApiSignMode(config.isModeDeFirma(), config.getTipusFirmaID());
                 }
+                */
 
                 // TAULA DE FIRMES
                 final int signaturesTableLocation = SignatureUtils.getSignaturesTableLocationOfConfig(usuariAplicacioID,

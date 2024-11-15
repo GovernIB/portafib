@@ -7693,8 +7693,8 @@
         {
           "isAutoIncrement": false,
           "sqlName": "modedefirma",
-          "sqlType": -7,
-          "size": 1,
+          "sqlType": 4,
+          "size": 10,
           "digits": 0,
           "isNotNullable": true,
           "labels": {
@@ -7703,17 +7703,17 @@
             "es": "Modo de firma"
           },
           "javaName": "modeDeFirma",
-          "javaType": "java.lang.Boolean",
+          "javaType": "int",
           "traduible": false,
           "showInWebList": true,
           "showInReferenceList": false,
           "transientField": false,
-          "minAllowedValue": "modedefirma",
+          "minAllowedValue": "0,1,3,4,5",
           "filter": false,
           "orderBy": 0,
           "groupBy": false,
           "webFieldInfo": {
-            "webtype": 4
+            "webtype": 16
           },
           "foreignKeys": []
         },
@@ -12470,8 +12470,8 @@
         {
           "isAutoIncrement": false,
           "sqlName": "modedefirma",
-          "sqlType": -7,
-          "size": 1,
+          "sqlType": 4,
+          "size": 10,
           "digits": 0,
           "isNotNullable": true,
           "labels": {
@@ -12480,17 +12480,17 @@
             "es": "Modo de Firma"
           },
           "javaName": "modeDeFirma",
-          "javaType": "boolean",
+          "javaType": "int",
           "traduible": false,
           "showInWebList": true,
           "showInReferenceList": false,
           "transientField": false,
-          "minAllowedValue": "modedefirma",
+          "minAllowedValue": "0,1,3,4,5",
           "filter": false,
           "orderBy": 0,
           "groupBy": false,
           "webFieldInfo": {
-            "webtype": 4
+            "webtype": 16
           },
           "foreignKeys": []
         },
@@ -14075,8 +14075,8 @@
   ],
   "languages": [
     "ca",
-    "en",
-    "es"
+    "es",
+    "en"
   ],
   "generateBack": true,
   "generateFront": false,

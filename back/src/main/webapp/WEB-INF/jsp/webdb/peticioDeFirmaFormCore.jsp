@@ -478,21 +478,28 @@
         <tr id="peticioDeFirma_modeDeFirma_rowid">
           <td id="peticioDeFirma_modeDeFirma_columnlabelid">
             <label>
-              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.MODEDEFIRMA])?'peticioDeFirma.modeDeFirma':__theForm.labels[PeticioDeFirmaFields.MODEDEFIRMA]}" />
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.MODEDEFIRMA])?'peticioDeFirma.modeDeFirma':__theForm.labels[PeticioDeFirmaFields.MODEDEFIRMA]}" /> &nbsp;(*)
              </label>
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.MODEDEFIRMA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[PeticioDeFirmaFields.MODEDEFIRMA]}" ></i>
               </c:if>
             </td>
           <td id="peticioDeFirma_modeDeFirma_columnvalueid">
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MODEDEFIRMA)}" >
-              <form:select cssClass="form-control col-md-6" onchange="if(typeof onChangeModeDeFirma == 'function') {  onChangeModeDeFirma(this); };"  path="peticioDeFirma.modeDeFirma">
-                <form:option value="true" ><fmt:message key="modedefirma.true" /></form:option>
-                <form:option value="false" ><fmt:message key="modedefirma.false" /></form:option>
-              </form:select>
-          </c:if>
+          <form:errors path="peticioDeFirma.modeDeFirma" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MODEDEFIRMA)}" >
-                <fmt:message key="modedefirma.${__theForm.peticioDeFirma.modeDeFirma}" />
+          <form:hidden path="peticioDeFirma.modeDeFirma"/>
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.modeDeFirma,__theForm.listOfValuesForModeDeFirma)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MODEDEFIRMA)}" >
+          <c:set var="containEmptyValue"  value="false" />
+          <form:select id="peticioDeFirma_modeDeFirma"  onchange="if(typeof onChangeModeDeFirma == 'function') {  onChangeModeDeFirma(this); };"  cssClass="form-control col-md-9-optional" path="peticioDeFirma.modeDeFirma">
+            <c:forEach items="${__theForm.listOfValuesForModeDeFirma}" var="tmp">
+                <form:option value="${tmp.key}">${tmp.value}</form:option>
+                <c:if test="${empty tmp.key}">
+                  <c:set var="containEmptyValue"  value="true" />
+                </c:if>
+            </c:forEach>
+          </form:select>
           </c:if>
            </td>
         </tr>

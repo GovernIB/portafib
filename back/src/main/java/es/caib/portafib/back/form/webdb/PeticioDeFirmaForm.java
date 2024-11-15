@@ -40,6 +40,7 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
     this.listOfValuesForTipusOperacioFirma = __toClone.listOfValuesForTipusOperacioFirma;
     this.listOfValuesForTipusFirmaID = __toClone.listOfValuesForTipusFirmaID;
     this.listOfValuesForAlgorismeDeFirmaID = __toClone.listOfValuesForAlgorismeDeFirmaID;
+    this.listOfValuesForModeDeFirma = __toClone.listOfValuesForModeDeFirma;
     this.listOfValuesForPosicioTaulaFirmesID = __toClone.listOfValuesForPosicioTaulaFirmesID;
     this.listOfValuesForTipusEstatPeticioDeFirmaID = __toClone.listOfValuesForTipusEstatPeticioDeFirmaID;
     this.listOfIdiomaForIdiomaID = __toClone.listOfIdiomaForIdiomaID;
@@ -167,6 +168,18 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
 
   public void setListOfValuesForAlgorismeDeFirmaID(List<StringKeyValue> listOfValuesForAlgorismeDeFirmaID) {
     this.listOfValuesForAlgorismeDeFirmaID = listOfValuesForAlgorismeDeFirmaID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForModeDeFirma;
+
+  public List<StringKeyValue> getListOfValuesForModeDeFirma() {
+    return this.listOfValuesForModeDeFirma;
+  }
+
+  public void setListOfValuesForModeDeFirma(List<StringKeyValue> listOfValuesForModeDeFirma) {
+    this.listOfValuesForModeDeFirma = listOfValuesForModeDeFirma;
   }
 
 

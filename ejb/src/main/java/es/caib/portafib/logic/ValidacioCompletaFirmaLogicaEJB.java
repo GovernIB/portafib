@@ -29,6 +29,7 @@ import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.pluginsib.validatecertificate.InformacioCertificat;
 import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
+import org.fundaciobit.pluginsib.utils.signature.SignatureConstants;
 import org.fundaciobit.pluginsib.validatesignature.api.SignatureDetailInfo;
 import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
 import org.fundaciobit.pluginsib.validatesignature.api.ValidationStatus;
@@ -127,7 +128,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 // detached, llavors getDocumentDetachedData() valdrà null, però per la
                 // validació necessitam el valor del fitxer original, sempre i quan
                 // no sigui un XAdES 'internally detached' que sí que inclou el document.
-                if (validacioRequest.getSignMode() == ConstantsV2.SIGN_MODE_EXPLICIT) {
+                if (validacioRequest.getSignMode() == SignatureConstants.SIGN_MODE_DETACHED) {
                     // per tant, comprovam que no és XAdES, o sí és XAdES no és un internally detached
                     if (validacioRequest.getSignTypeID() != ConstantsV2.TIPUSFIRMA_XADES || !ValidationsXAdES
                             .isXadesDettachedWithOriginalDocumentAsSibling(validacioRequest.getSignatureData())) {
@@ -226,7 +227,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 case ConstantsV2.TIPUSFIRMA_XADES:
 
                     // Si és attached llavors validam
-                    if (validacioRequest.getSignMode() == ConstantsV2.SIGN_MODE_IMPLICIT) {
+                    if (validacioRequest.getSignMode() != SignatureConstants.SIGN_MODE_DETACHED) {
 
                         byte[] documentOriginal = ValidationsXAdES
                                 .getProcessedOriginalData(validacioRequest.getAdaptedData());
@@ -270,7 +271,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 case ConstantsV2.TIPUSFIRMA_CADES:
 
                     // Si és attached llavors validam
-                    if (validacioRequest.getSignMode() == ConstantsV2.SIGN_MODE_IMPLICIT) {
+                    if (validacioRequest.getSignMode() != SignatureConstants.SIGN_MODE_DETACHED) {
 
                         IPortaFIBDataSource originalBo = validacioRequest.getAdaptedData();
 
@@ -363,7 +364,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                         case ConstantsV2.TIPUSFIRMA_CADES: {
 
                             byte[] document = null;
-                            if (validacioRequest.getSignMode() == ConstantsV2.SIGN_MODE_EXPLICIT) {
+                            if (validacioRequest.getSignMode() == SignatureConstants.SIGN_MODE_DETACHED) {
                                 IPortaFIBDataSource originalBo = validacioRequest.getAdaptedData();
                                 document = originalBo.getByteArray();
                             }

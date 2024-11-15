@@ -383,9 +383,15 @@ public interface ConstantsV2 {
     public static final int SIGN_ALGORITHM_SHA384WITHRSA = 2;
     public static final int SIGN_ALGORITHM_SHA512WITHRSA = 3;
 
-    // Attached
+    /** Attached
+     * @see SignnatureConstants#SIGN_MODE_ATTACHED_ENVELOPED, SignnatureConstants#SIGN_MODE_ATTACHED_ENVELOPING
+     */    
+    @Deprecated
     public static final boolean SIGN_MODE_IMPLICIT = false;
-    // Detached
+    /** Detached
+     * @see SignnatureConstants#SIGN_MODE_DETACHED
+     */
+    @Deprecated
     public static final boolean SIGN_MODE_EXPLICIT = true;
 
     // ========================================================

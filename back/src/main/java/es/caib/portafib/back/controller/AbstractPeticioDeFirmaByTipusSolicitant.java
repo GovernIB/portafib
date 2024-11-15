@@ -77,6 +77,7 @@ import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.pluginsib.utils.signature.SignatureConstants;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ValidationUtils;
@@ -1578,7 +1579,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
 
             peticioDeFirma.setTipusFirmaID(ConstantsV2.TIPUSFIRMA_PADES);
             peticioDeFirma.setAlgorismeDeFirmaID(entitat.getAlgorismeDeFirmaID());
-            peticioDeFirma.setModeDeFirma(ConstantsV2.SIGN_MODE_IMPLICIT);
+            peticioDeFirma.setModeDeFirma(SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPED);  //ConstantsV2.SIGN_MODE_IMPLICIT);
 
             peticioDeFirma.setTitol(nomPeticio);
             peticioDeFirma.setDescripcio(nomPeticio);
@@ -1654,7 +1655,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
                 switch (tipusFirma) {
 
                     case ConstantsV2.TIPUSFIRMA_PADES:
-                        peticioDeFirmaForm.addHiddenField(MODEDEFIRMA);
+                        //peticioDeFirmaForm.addHiddenField(MODEDEFIRMA);
                     break;
 
                     case ConstantsV2.TIPUSFIRMA_XADES:

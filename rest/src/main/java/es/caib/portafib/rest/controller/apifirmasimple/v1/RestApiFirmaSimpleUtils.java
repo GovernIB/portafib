@@ -21,7 +21,6 @@ import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
-import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.IOUtils;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCustodyInfo;
@@ -498,12 +497,15 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
 
                 // Mode de Firma
                 final int signMode;
+                signMode = config.getModeDeFirma();
+                /*
                 if (config.getTipusFirmaID() == ConstantsV2.TIPUSFIRMA_PADES) {
                     // SI és una pADES llavors val implicit
                     signMode = FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED;
                 } else {
                     signMode = SignatureUtils.convertPortafibSignMode2ApiSignMode(config.isModeDeFirma(), config.getTipusFirmaID());
                 }
+                */
 
                 // TAULA DE FIRMES
                 final int signaturesTableLocation = SignatureUtils.getSignaturesTableLocationOfConfig(usuariAplicacioID,

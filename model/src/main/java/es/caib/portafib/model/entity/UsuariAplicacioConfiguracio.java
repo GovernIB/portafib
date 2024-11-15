@@ -44,8 +44,8 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public java.lang.Integer getAlgorismeDeFirmaID();
 	public void setAlgorismeDeFirmaID(java.lang.Integer _algorismeDeFirmaID_);
 
-	public boolean isModeDeFirma();
-	public void setModeDeFirma(boolean _modeDeFirma_);
+	public int getModeDeFirma();
+	public void setModeDeFirma(int _modeDeFirma_);
 
 	public int getUsPoliticaDeFirma();
 	public void setUsPoliticaDeFirma(int _usPoliticaDeFirma_);

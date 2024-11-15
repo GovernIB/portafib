@@ -60,6 +60,7 @@ import org.fundaciobit.pluginsib.documentcustody.api.DocumentCustody;
 import org.fundaciobit.pluginsib.documentcustody.api.IDocumentCustodyPlugin;
 import org.fundaciobit.pluginsib.documentcustody.api.NotSupportedCustodyException;
 import org.fundaciobit.pluginsib.documentcustody.api.SignatureCustody;
+import org.fundaciobit.pluginsib.utils.signature.SignatureConstants;
 import org.fundaciobit.pluginsib.barcode.api.IBarcodePlugin;
 import org.fundaciobit.pluginsib.core.v3.utils.MetadataFormatException;
 import org.fundaciobit.pluginsib.core.v3.utils.PluginsManager;
@@ -1038,7 +1039,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
             // Si la firma es DETACHED (o sigui EXPLICID) s'ha de definir DocumentCustody
             DocumentCustody dc = null;
             if (tipusFirma != ConstantsV2.TIPUSFIRMA_PADES
-                    && peticioDeFirma.getModeDeFirma() == ConstantsV2.SIGN_MODE_EXPLICIT) {
+                    && peticioDeFirma.getModeDeFirma() == SignatureConstants.SIGN_MODE_DETACHED) {
 
                 dc = new DocumentCustody();
                 try {

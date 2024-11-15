@@ -21,7 +21,7 @@
      }
   }
 
-  // Politica de Cust�dia (ocultar o mostrar valor)
+  // Politica de Custòdia (ocultar o mostrar valor)
   onChangePoliticaCustodia(document.getElementById("<%=UsuariAplicacioFields.POLITICACUSTODIA.fullName.replace('.', '_') %>"));
 
   function onChangePoliticaCustodia(combo) {

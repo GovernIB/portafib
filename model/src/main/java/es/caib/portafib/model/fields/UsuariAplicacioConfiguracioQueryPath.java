@@ -67,8 +67,8 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.ALGORISMEDEFIRMAID);
   }
 
-  public BooleanField MODEDEFIRMA() {
-    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.MODEDEFIRMA);
+  public IntegerField MODEDEFIRMA() {
+    return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.MODEDEFIRMA);
   }
 
   public IntegerField USPOLITICADEFIRMA() {

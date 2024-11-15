@@ -64,6 +64,7 @@ import org.fundaciobit.pluginsib.signature.api.PolicyInfoSignature;
 import org.fundaciobit.pluginsib.signature.api.StatusSignature;
 import org.fundaciobit.pluginsib.signature.api.StatusSignaturesSet;
 import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
+import org.fundaciobit.pluginsib.utils.signature.SignatureConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -1085,7 +1086,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         FileInfoSignature fis = SignatureUtils.getFileInfoSignature(signatureID, dstPDF,
                 FileInfoSignature.PDF_MIME_TYPE, idname, ConstantsV2.TAULADEFIRMES_SENSETAULA, reason, location,
                 signerEmail, sign_number, langUI, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
-                ConstantsV2.SIGN_MODE_IMPLICIT, SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langUI),
+                //ConstantsV2.SIGN_MODE_IMPLICIT,
+                SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPED,
+                SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langUI),
                 timeStampGenerator, policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode,
                 procedureName);
 

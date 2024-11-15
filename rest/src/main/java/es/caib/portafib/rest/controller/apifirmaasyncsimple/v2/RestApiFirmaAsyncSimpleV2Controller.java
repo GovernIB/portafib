@@ -769,7 +769,10 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             int signOperation = peticioDeFirma.getTipusOperacioFirma();
             String signType = SignatureUtils.convertPortafibSignTypeToApiSignType(peticioDeFirma.getTipusFirmaID());
             String signAlgorithm = SignatureUtils.convertSignAlgorithmID(peticioDeFirma.getAlgorismeDeFirmaID());
-            Integer signMode = SignatureUtils.convertPortafibSignMode2ApiSignMode(peticioDeFirma.getModeDeFirma(), peticioDeFirma.getTipusFirmaID());
+            
+            //Integer signMode = SignatureUtils.convertPortafibSignMode2ApiSignMode(peticioDeFirma.getModeDeFirma(), peticioDeFirma.getTipusFirmaID());
+            int signMode = peticioDeFirma.getModeDeFirma();
+            
             int signaturesTableLocation = peticioDeFirma.getPosicioTaulaFirmesID();
             boolean timeStampIncluded = peticioDeFirma.isSegellatDeTemps();
 
@@ -1636,13 +1639,16 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         int algorismeDeFirmaID = getAlgorismeDeFirmaIDOfConfig(config, entitatJPA);
 
         // Mode de Firma
-        final boolean modeDeFirma;
+        final int modeDeFirma;
+        modeDeFirma = config.getModeDeFirma();
+        /*
         if (tipusFirmaID == ConstantsV2.TIPUSFIRMA_PADES) {
             // Si és una PAdES llavors val implicit
             modeDeFirma = ConstantsV2.SIGN_MODE_IMPLICIT;
         } else {
             modeDeFirma = config.isModeDeFirma();
         }
+        */
 
         // TAULA DE FIRMES
         int posicioTaulaFirmesID = SignatureUtils.getSignaturesTableLocationOfConfig(solicitantUsuariAplicacioID,

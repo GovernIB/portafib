@@ -71,8 +71,8 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new IntegerField(getQueryPath(), PeticioDeFirmaFields.ALGORISMEDEFIRMAID);
   }
 
-  public BooleanField MODEDEFIRMA() {
-    return new BooleanField(getQueryPath(), PeticioDeFirmaFields.MODEDEFIRMA);
+  public IntegerField MODEDEFIRMA() {
+    return new IntegerField(getQueryPath(), PeticioDeFirmaFields.MODEDEFIRMA);
   }
 
   public IntegerField POSICIOTAULAFIRMESID() {

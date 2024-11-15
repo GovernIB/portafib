@@ -47,8 +47,8 @@ public interface PeticioDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 	public int getAlgorismeDeFirmaID();
 	public void setAlgorismeDeFirmaID(int _algorismeDeFirmaID_);
 
-	public java.lang.Boolean getModeDeFirma();
-	public void setModeDeFirma(java.lang.Boolean _modeDeFirma_);
+	public int getModeDeFirma();
+	public void setModeDeFirma(int _modeDeFirma_);
 
 	public int getPosicioTaulaFirmesID();
 	public void setPosicioTaulaFirmesID(int _posicioTaulaFirmesID_);

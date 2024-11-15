@@ -99,9 +99,9 @@
         <pluginsib.exportdata.version>3.0.0-SNAPSHOT</pluginsib.exportdata.version>
         <pluginsib.timestamp.version>3.0.0-SNAPSHOT</pluginsib.timestamp.version>
         <pluginsib.userinformation.version>4.0.0-SNAPSHOT</pluginsib.userinformation.version>
-        <plugins.signatureserver.version>4.0.0-SNAPSHOT</plugins.signatureserver.version>
-        <plugins.signatureweb.version>4.0.0-SNAPSHOT</plugins.signatureweb.version>
-        <plugins.validatesignature.version>3.0.0-SNAPSHOT</plugins.validatesignature.version>
+        <plugins.signatureserver.version>4.1.0-SNAPSHOT</plugins.signatureserver.version>
+        <plugins.signatureweb.version>4.1.0-SNAPSHOT</plugins.signatureweb.version>
+        <plugins.validatesignature.version>3.1.0-SNAPSHOT</plugins.validatesignature.version>
         <apifirmasimple.version>1.0.3</apifirmasimple.version>
         <picketbox.version>5.0.2.Final</picketbox.version>
         <!-- Propietats que afecten els plugins -->

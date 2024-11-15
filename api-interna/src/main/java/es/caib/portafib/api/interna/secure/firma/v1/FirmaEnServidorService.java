@@ -497,10 +497,10 @@ public class FirmaEnServidorService extends RestApiFirmaSimpleUtils<FirmaSimpleK
 				signType = vsr.getSignType();
 			}
 
-			String signFormat = vsr.getSignFormat();
+			int signFormat = vsr.getSignMode();
 
-			Integer signMode;
-
+			int signMode = signFormat;
+/*
 			if (signFormat == null) {
 				log.warn("Ens ha arribat un signFormat = null: es retorna signMode null");
 				signMode = null;
@@ -517,7 +517,7 @@ public class FirmaEnServidorService extends RestApiFirmaSimpleUtils<FirmaSimpleK
 
 				signMode = null;
 			}
-
+*/
 			// XYZ ZZZ
 			String eniTipoFirma = SignatureUtils.getEniTipoFirma(signType, signMode);
 

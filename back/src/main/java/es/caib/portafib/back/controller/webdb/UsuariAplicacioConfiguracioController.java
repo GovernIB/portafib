@@ -254,8 +254,15 @@ public class UsuariAplicacioConfiguracioController
       };
     }
 
-
-      fillValuesToGroupByItemsBoolean("modedefirma", groupByItemsMap, MODEDEFIRMA);
+    // Field modeDeFirma
+    {
+      _listSKV = getReferenceListForModeDeFirma(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForModeDeFirma(_tmp);
+      if (filterForm.getGroupByFields().contains(MODEDEFIRMA)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, MODEDEFIRMA, false);
+      };
+    }
 
     // Field usPoliticaDeFirma
     {
@@ -381,6 +388,7 @@ public class UsuariAplicacioConfiguracioController
     __mapping.put(TIPUSOPERACIOFIRMA, filterForm.getMapOfValuesForTipusOperacioFirma());
     __mapping.put(TIPUSFIRMAID, filterForm.getMapOfValuesForTipusFirmaID());
     __mapping.put(ALGORISMEDEFIRMAID, filterForm.getMapOfValuesForAlgorismeDeFirmaID());
+    __mapping.put(MODEDEFIRMA, filterForm.getMapOfValuesForModeDeFirma());
     __mapping.put(USPOLITICADEFIRMA, filterForm.getMapOfValuesForUsPoliticaDeFirma());
     __mapping.put(MOTIUDELEGACIOID, filterForm.getMapOfTraduccioForMotiuDelegacioID());
     __mapping.put(POLITICATAULAFIRMES, filterForm.getMapOfValuesForPoliticaTaulaFirmes());
@@ -491,6 +499,15 @@ public class UsuariAplicacioConfiguracioController
           java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
       }
       usuariAplicacioConfiguracioForm.setListOfValuesForAlgorismeDeFirmaID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (usuariAplicacioConfiguracioForm.getListOfValuesForModeDeFirma() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForModeDeFirma(request, mav, usuariAplicacioConfiguracioForm, null);
+
+      if(_listSKV != null && !_listSKV.isEmpty()) { 
+          java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      }
+      usuariAplicacioConfiguracioForm.setListOfValuesForModeDeFirma(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (usuariAplicacioConfiguracioForm.getListOfValuesForUsPoliticaDeFirma() == null) {
@@ -1006,6 +1023,40 @@ public java.lang.Long stringToPK(String value) {
     __tmp.add(new StringKeyValue("1" , "1"));
     __tmp.add(new StringKeyValue("2" , "2"));
     __tmp.add(new StringKeyValue("3" , "3"));
+    return __tmp;
+  }
+
+
+  public List<StringKeyValue> getReferenceListForModeDeFirma(HttpServletRequest request,
+       ModelAndView mav, UsuariAplicacioConfiguracioForm usuariAplicacioConfiguracioForm, Where where)  throws I18NException {
+    if (usuariAplicacioConfiguracioForm.isHiddenField(MODEDEFIRMA)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForModeDeFirma(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForModeDeFirma(HttpServletRequest request,
+       ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
+       List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (usuariAplicacioConfiguracioFilterForm.isHiddenField(MODEDEFIRMA)
+       && !usuariAplicacioConfiguracioFilterForm.isGroupByField(MODEDEFIRMA)
+       && !usuariAplicacioConfiguracioFilterForm.isFilterByField(MODEDEFIRMA)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForModeDeFirma(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForModeDeFirma(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    __tmp.add(new StringKeyValue("4" , "4"));
+    __tmp.add(new StringKeyValue("5" , "5"));
     return __tmp;
   }
 
