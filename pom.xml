@@ -51,10 +51,7 @@
         <module>api-interna</module>
         <module>api-interna-client-infoversio-v1</module>
         <module>api-interna-client-revisors-v1</module>
-        <module>api-interna-client-tipus-documentals-v1</module>
         <module>api-interna-client-firma-v1</module>
-        <!--<module>api-interna-client-utils-v1</module>-->
-        <!--<module>api-interna-client-firma-servidor-v1</module>-->
         <module>ear</module>
     </modules>
     <repositories>
