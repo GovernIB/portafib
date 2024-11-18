@@ -16,7 +16,8 @@
 			</b>
 			<br /> 
 
-			<small> 
+			<small>
+                <sec:authorize access="hasAnyRole('ROLE_ADEN','ROLE_ADMIN')"> 
 				Build: <%=version.getBuildTime()%> <br /> 
 	     		JDK: <%=version.getJdkVersion()%> <br />
                 Versió de JBoss Compatible: <%=version.getJBossCompliant() %><br />
@@ -27,7 +28,8 @@
 				<% } else { %>
 					<%=version.getScmRevision()%>
 				<% } %>
-				<br/> 
+				<br/>
+                </sec:authorize> 
 	
 				<span style="padding-top: 2px"> 
 					<i><fmt:message key="desenvolupatper" /></i>
