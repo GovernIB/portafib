@@ -28,6 +28,7 @@ import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
+import es.caib.portafib.logic.TipusDocumentLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.apifluxcommon.RestApiPlantillaFluxLocal;
 import es.caib.portafib.logic.usuaris.CreateUsuariServiceLocal;
@@ -44,7 +45,6 @@ import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.RevisorDeFirmaFields;
-import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -78,9 +78,7 @@ import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
-import org.fundaciobit.genapp.common.query.Where;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -121,8 +119,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
     protected ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
 
-    @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentService.JNDI_NAME)
-    protected es.caib.portafib.ejb.TipusDocumentService tipusDocumentEjb;
+    @EJB(mappedName = TipusDocumentLogicaLocal.JNDI_NAME)
+    protected TipusDocumentLogicaLocal tipusDocumentEjb;
 
     @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
     protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
@@ -256,15 +254,10 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             }
 
             UsuariAplicacioJPA ua = loginInfo.getUsuariAplicacio();
+            
+            List<TipusDocument> list = tipusDocumentEjb.getTipusDocumentsByUsrApp(ua);
 
-            String userapp = ua.getUsuariAplicacioID();
-
-            Where whereTD = Where.OR(TipusDocumentFields.USUARIAPLICACIOID.equal(userapp),
-                    TipusDocumentFields.USUARIAPLICACIOID.isNull());
-
-            List<TipusDocument> list = tipusDocumentEjb.select(whereTD,
-                    new OrderBy(TipusDocumentFields.TIPUSDOCUMENTID));
-
+            
             /*
              * 
              * if (idioma == null || idioma.trim().length() != 2) { idioma =
@@ -769,10 +762,10 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             int signOperation = peticioDeFirma.getTipusOperacioFirma();
             String signType = SignatureUtils.convertPortafibSignTypeToApiSignType(peticioDeFirma.getTipusFirmaID());
             String signAlgorithm = SignatureUtils.convertSignAlgorithmID(peticioDeFirma.getAlgorismeDeFirmaID());
-            
+
             //Integer signMode = SignatureUtils.convertPortafibSignMode2ApiSignMode(peticioDeFirma.getModeDeFirma(), peticioDeFirma.getTipusFirmaID());
             int signMode = peticioDeFirma.getModeDeFirma();
-            
+
             int signaturesTableLocation = peticioDeFirma.getPosicioTaulaFirmesID();
             boolean timeStampIncluded = peticioDeFirma.isSegellatDeTemps();
 

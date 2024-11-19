@@ -6,7 +6,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>apiplantillafluxsimple-example</artifactId>
-    <groupId>org.fundaciobit.apisib.apiplantillafluxsimple</groupId>
     <version>2.0.2</version>
     <packaging>jar</packaging>
 
@@ -19,6 +18,7 @@
     </parent>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>

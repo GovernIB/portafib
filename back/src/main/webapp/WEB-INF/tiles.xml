@@ -449,7 +449,7 @@
 
     <definition name="role_aden2" extends="base.definition">
         <put-attribute name="pipella" value="ROLE_ADEN2" />
-        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_aden2.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_adapp.jsp" />
     </definition>
     
     <definition name="gestioUsuariAplicacioFormAden" extends="role_aden2">
@@ -482,6 +482,15 @@
 
     <definition name="perfilDeFirmaListAden" extends="role_aden2">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/perfilDeFirmaList.jsp" />
+    </definition>
+
+    <definition name="gestioTipusDocumentAdAppForm" extends="role_aden2">
+        <put-attribute name="titol" value="tipusDocument.tipusDocument" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusDocumentForm.jsp" />
+    </definition>
+        
+    <definition name="gestioTipusDocumentAdAppList" extends="role_aden2">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusDocumentList.jsp" />
     </definition>
 
     <definition name="peticioSincronaListAden" extends="role_aden2">

@@ -28,17 +28,16 @@ import es.caib.portafib.api.interna.secure.apisimple.v1.apisib.ApisIBKeyValue;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.RestUtilsErrorManager;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.commons.utils.Constants;
-import es.caib.portafib.ejb.TipusDocumentService;
+import es.caib.portafib.logic.TipusDocumentLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.TipusDocument;
+import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 import es.caib.portafib.model.fields.PerfilsPerUsuariAplicacioFields;
-import es.caib.portafib.model.fields.TipusDocumentFields;
-import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.TipusDocumentJPA;
 import es.caib.portafib.persistence.TraduccioMapJPA;
@@ -77,8 +76,8 @@ public class UtilsService extends RestUtilsErrorManager {
 
 	public static final String TAG_NAME = "Utils v1";
 
-	@EJB(mappedName = TipusDocumentService.JNDI_NAME)
-	protected TipusDocumentService tipusDocumentEjb;
+    @EJB(mappedName = TipusDocumentLogicaLocal.JNDI_NAME)
+    protected TipusDocumentLogicaLocal tipusDocumentEjb;
 
 	@EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
 	protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
@@ -114,31 +113,14 @@ public class UtilsService extends RestUtilsErrorManager {
 			// Check Idioma
 			language = RestUtils.checkLanguage(language);
 
-			Where whereTD = null;
-			if (appuser != null && appuser.trim().length() != 0) {
+			UsuariAplicacio ua;
+            if (appuser == null) {
+                ua = null;
+            } else {
+                ua = usuariAplicacioLogicaEjb.findByPrimaryKey(appuser);
+            }
 
-				appuser = appuser.trim();
-
-				Long count = usuariAplicacioLogicaEjb.count(UsuariAplicacioFields.USUARIAPLICACIOID.equal(appuser));
-				if (count == 0) {
-					// No existe el Usuario-Aplicación {0}.
-					// XYZ ZZZ Falta traduccio
-					// final String msg = I18NLogicUtils.tradueix(locale,
-					// "rest.usrappnoexisteix.error", appuser);
-					final String msg = "No existeix l'usuari aplicacio introduit";
-					throw new RestException(msg, Status.BAD_REQUEST);
-				}
-
-				whereTD = Where.OR(TipusDocumentFields.USUARIAPLICACIOID.equal(appuser),
-						TipusDocumentFields.USUARIAPLICACIOID.isNull());
-
-			}
-
-			if (whereTD == null) {
-				whereTD = TipusDocumentFields.USUARIAPLICACIOID.isNull();
-			}
-
-			List<TipusDocument> list = tipusDocumentEjb.select(whereTD);
+			List<TipusDocument> list = tipusDocumentEjb.getTipusDocumentsByUsrApp(ua);
 
 			LlistaTipusDocumentalRest resultat = new LlistaTipusDocumentalRest();
 			resultat.data = new ArrayList<TipusDocumentalRest>();
@@ -155,7 +137,7 @@ public class UtilsService extends RestUtilsErrorManager {
 				String nom = tramap.getValor();
 
 				// XYZ ZZZ PORTAFIB v2: Falta el pare del document NTI
-				Long tipusDocumentNTIID = ((id >= 0) && (id <= 99)) ? null : 99L; // ALTRES
+				Long tipusDocumentNTIID =td.getTipusDocumentBaseID();
 
 				resultat.data.add(new TipusDocumentalRest(id, nom, tipusDocumentNTIID));
 			}

@@ -86,10 +86,10 @@ public class ApiFirmaAsyncSimpleTester {
             // tester.getPerfilsDisponibles(languageUI, api);
 
             // ----------- Tipus de Documents DIsponibles
-            // tester.getTipusDeDocumentsDisponibles(languageUI, api);
+            tester.getTipusDeDocumentsDisponibles(languageUI, api);
 
             // ----------- Peticio de Firma
-            tester.createSignatureRequestAndStart(languageUI, api);
+            //tester.createSignatureRequestAndStart(languageUI, api);
 
         } catch (ApisIBClientException client) {
 

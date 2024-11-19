@@ -1,9 +1,7 @@
 package es.caib.portafib.rest.controller.tipusdocumental;
 
 import es.caib.portafib.ejb.IdiomaService;
-import es.caib.portafib.ejb.TipusDocumentService;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,12 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import es.caib.portafib.persistence.TipusDocumentJPA;
 import es.caib.portafib.persistence.TraduccioMapJPA;
 import es.caib.portafib.rest.controller.RestUtils;
+import es.caib.portafib.logic.TipusDocumentLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.model.entity.TipusDocument;
+import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.IdiomaFields;
-import es.caib.portafib.model.fields.TipusDocumentFields;
-import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.commons.utils.Configuracio;
 
 import javax.ejb.EJB;
@@ -41,8 +39,9 @@ import java.util.Locale;
 @RequestMapping(value = "/public/rest")
 public class RestTipusDocumentalController extends RestUtils {
 
-    @EJB(mappedName = TipusDocumentService.JNDI_NAME)
-    protected TipusDocumentService tipusDocumentEjb;
+
+    @EJB(mappedName = TipusDocumentLogicaLocal.JNDI_NAME)
+    protected TipusDocumentLogicaLocal tipusDocumentEjb;
 
     @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
     protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
@@ -72,6 +71,17 @@ public class RestTipusDocumentalController extends RestUtils {
                     return new ResponseEntity<String>(msg, HttpStatus.BAD_REQUEST);
                 }
             }
+            
+            UsuariAplicacio ua;
+            if (appuser == null) {
+                ua = null;
+            } else {
+                ua = usuariAplicacioLogicaEjb.findByPrimaryKey(appuser);
+            }
+            
+            List<TipusDocument> list = tipusDocumentEjb.getTipusDocumentsByUsrApp(ua);
+            
+            /*
 
             Where whereTD = null;
             if (appuser != null && appuser.trim().length() != 0) {
@@ -95,8 +105,10 @@ public class RestTipusDocumentalController extends RestUtils {
             }
 
             List<TipusDocument> list = tipusDocumentEjb.select(whereTD);
+            */
 
             List<TipusDocumentRest> resultat = new ArrayList<TipusDocumentRest>();
+            
 
             for (TipusDocument td : list) {
 

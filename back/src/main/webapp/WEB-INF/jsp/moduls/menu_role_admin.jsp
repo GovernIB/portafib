@@ -38,7 +38,7 @@ static {
   
   menu1.add(null);
   
-  menu1.add(MenuItem.retallaDarrerPath("tipusdocument.gestio", "/admin/gestiotipusdoc/list"));
+  menu1.add(MenuItem.retallaDarrerPath("tipusdocument.admin.plural", "/admin/gestiotipusdoc/list"));
   
   menu1.add(null);
   
