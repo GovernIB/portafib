@@ -10,7 +10,8 @@ public class SignatureFactory {
 
     private static final SignatureFactory INSTANCE = new SignatureFactory();
 
-    private SignatureFactory() {}
+    private SignatureFactory() {
+    }
 
     public static SignatureFactory getInstance() {
         return INSTANCE;
@@ -21,19 +22,18 @@ public class SignatureFactory {
             throw new IllegalArgumentException("certificate is null");
         }
 
-        Signature.Builder builder = new Signature.Builder()
-                .signingTime(date)
-                .isTimeStamp(isTimeStamp)
+        Signature.Builder builder = new Signature.Builder().signingTime(date)
+                .isTimeStamp(isTimeStamp == null ? false : isTimeStamp)
                 .signerName(CertificateUtils.getSubjectCorrectName(certificate))
                 .signerAdministrationId(DNIUtils.getDNI(certificate));
 
         try {
             String[] empresaNif = CertificateUtils.getEmpresaNIFNom(certificate);
             if (empresaNif != null) {
-                builder.organizationAdministrationId(empresaNif[0])
-                        .organizationName(empresaNif[1]);
+                builder.organizationAdministrationId(empresaNif[0]).organizationName(empresaNif[1]);
             }
-        } catch (Exception ignore) {}
+        } catch (Exception ignore) {
+        }
 
         return builder.build();
     }

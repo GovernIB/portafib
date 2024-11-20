@@ -14,6 +14,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactio
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaWebSimpleJersey;
 
+
 import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

@@ -994,8 +994,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
                     if (fitxerConvertit == fileToConvertInfo) {
                         // Es un PDF. No feim res.
-                    } else {
-                        // No és un PDF, ho substituim pel fitxer convertit
+                     } else {
+                        // No és un PDF o s'han canviat les dades, ho substituim pel fitxer convertit
                         Fitxer fileInfo = peticioDeFirma.getFitxerAFirmar();
                         fileInfo.setMime(fitxerConvertit.getMime());
                         fileInfo.setNom(fitxerConvertit.getNom());
@@ -1003,19 +1003,21 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                         // Actualitzam BBDD
                         fitxerLogicaEjb.update(fileInfo);
 
-                        // Actualitzam Sistema de Fitxers
-                        try {
-                            InputStream is = fitxerConvertit.getData().getInputStream();
-                            FileOutputStream fos = new FileOutputStream(fileToConvert);
-                            FileSystemManager.copy(is, fos);
-                            fos.flush();
-                            fos.close();
-                        } catch (Exception e) {
-                            log.error(e.getMessage(), e);
-                            // XYZ ZZZ TRA
-                            throw new I18NException("error.unknown",
-                                    "Error substituint fitxer original per fitxer original convertiti a pdf:"
-                                            + e.getMessage());
+                        // Actualitzam Sistema de Fitxers si es necessari
+                        if (fitxerConvertit.getData() != fileToConvertInfo.getData() ) {
+                            try {
+                                InputStream is = fitxerConvertit.getData().getInputStream();
+                                FileOutputStream fos = new FileOutputStream(fileToConvert);
+                                FileSystemManager.copy(is, fos);
+                                fos.flush();
+                                fos.close();
+                            } catch (Exception e) {
+                                log.error(e.getMessage(), e);
+                                // XYZ ZZZ TRA
+                                throw new I18NException("error.unknown",
+                                        "Error substituint fitxer original per fitxer original convertiti a pdf:"
+                                                + e.getMessage());
+                            }
                         }
 
                         // TODO PASSAR A DEBUG

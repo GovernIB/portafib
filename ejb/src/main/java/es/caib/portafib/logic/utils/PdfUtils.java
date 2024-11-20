@@ -72,8 +72,18 @@ public class PdfUtils implements ConstantsV2 {
             log.debug("convertToPDF(): MIME = " + mime);
         }
 
-        if (MIME_TYPE_PDF.equals(mime)) {
-            return fileToConvertInfo;
+        if (MIME_TYPE_PDF.equals(mime) || isPdf(fileToConvert)) {
+            
+            if (fileToConvertInfo.getNom().toLowerCase().endsWith("." + PDF_FILE_EXTENSION) && MIME_TYPE_PDF.equals(mime)) {
+                // No cal fer res
+                return fileToConvertInfo;
+            } else {
+                FitxerBean fileConvertedInfo = new FitxerBean(fileToConvertInfo);
+                fileConvertedInfo.setMime(MIME_TYPE_PDF);
+                fileConvertedInfo.setNom(fileToConvertInfo.getNom() + "." + PDF_FILE_EXTENSION);
+                return fileConvertedInfo;
+            }
+            
         } else {
             try {
                 IDocumentConverterPlugin docPlugin = null;
@@ -101,7 +111,7 @@ public class PdfUtils implements ConstantsV2 {
                     } else {
                         throw new I18NException("formatfitxer.conversio.errorinput", fileToConvertInfo.getNom(), mime);
                     }
-                    if (PDF_FILE_EXTENSION.equals(extensio.toLowerCase())) {
+                    if (PDF_FILE_EXTENSION.equals(extensio.toLowerCase()) ) {
                         newFileName = fileToConvertInfo.getNom();
                         baos = new ByteArrayOutputStream();
                         baos.write(FileUtils.readFileToByteArray(fileToConvert));
@@ -162,6 +172,23 @@ public class PdfUtils implements ConstantsV2 {
         return validacio;
     }
     */
+    
+    public static final boolean isPdf(File file) {
+        
+        // Llegeix el fitxer amb itext. Si llança excepció retornar false. Sinó retorna true
+        try {
+            PdfReader reader = new PdfReader(file.getAbsolutePath());
+            reader.close();
+            return true;
+        } catch (Throwable e) {
+            return false;
+        }
+        
+    }
+    
+    
+    
+    
 
     public static int add_TableSign_Attachments_CustodyInfo_PDF(File srcPDF, File dstPDF,
             final List<AttachedFile> attachmentsOrig, Long maxSize, StampTaulaDeFirmes taulaDeFirmesInfo,
