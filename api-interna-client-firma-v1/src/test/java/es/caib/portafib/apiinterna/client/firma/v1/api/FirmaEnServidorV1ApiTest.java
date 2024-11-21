@@ -231,7 +231,7 @@ public class FirmaEnServidorV1ApiTest extends ConstantsWs {
 	protected static Properties getConfigProperties() throws IOException, FileNotFoundException {
         Properties prop = new Properties();
 
-        prop.load(new FileInputStream(new File("./apifirmaenservidorsimple.properties")));
+        prop.load(new FileInputStream(new File("./test.properties")));
         return prop;
     }
 	
@@ -257,7 +257,7 @@ public class FirmaEnServidorV1ApiTest extends ConstantsWs {
 	public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String mime) throws Exception {
 		
 		File fileToSign = new File("./testfiles/" + fileName);
-        InputStream is = new FileInputStream(new File("./testfiles/" + fileName));
+        InputStream is = new FileInputStream(new File("./src/main/resources/" + fileName));
         
         //
         //File tmp = File.createTempFile("testFile", fileName);
