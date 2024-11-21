@@ -32,7 +32,7 @@ public class ObfuscatedUsernameStringField extends Field<String> {
 
         @Override
         public String getFromObject(Object obj) throws I18NException {
-            return Utils.ofuscarUsuariExtern((String) obj);
+            return Utils.ofuscarUserName((String) obj);
         }
 
     };

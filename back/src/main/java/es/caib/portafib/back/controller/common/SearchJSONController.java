@@ -200,7 +200,7 @@ public class SearchJSONController {
                 for (UsuariPersonaBean usuariPersonaBean : persones) {
                     final String label = usuariPersonaBean.getLlinatges() + ", " + usuariPersonaBean.getNom() + " ("
                             + Utils.ofuscarDNI(usuariPersonaBean.getNif()) + " - "
-                            + Utils.ofuscarUsuariExtern(usuariPersonaBean.getUsuariPersonaID()) + ")";
+                            + Utils.ofuscarUserName(usuariPersonaBean.getUsuariPersonaID()) + ")";
                     entries.add(new StringKeyValue(usuariPersonaBean.getContrasenya(), label));
                 }
             }
@@ -655,14 +655,14 @@ public class SearchJSONController {
 
     protected static String usuariPersonaToString(UsuariPersonaJPA up) {
         String tmp = up.getLlinatges() + ", " + up.getNom() + " (" + Utils.ofuscarDNI(up.getNif()) + " - "
-                + Utils.ofuscarUsuariExtern(up.getUsuariPersonaID()) + ")";
+                + Utils.ofuscarUserName(up.getUsuariPersonaID()) + ")";
 
         return tmp.replace('"', '\'');
     }
 
     protected static String usuariPersonaCarrecToString(String carrec, UsuariPersonaJPA up) {
         String tmp = "(*) " + carrec + " (" + up.getNom() + " " + up.getLlinatges() + " - "
-                + Utils.ofuscarDNI(up.getNif()) + " - " + Utils.ofuscarUsuariExtern(up.getUsuariPersonaID()) + ")";
+                + Utils.ofuscarDNI(up.getNif()) + " - " + Utils.ofuscarUserName(up.getUsuariPersonaID()) + ")";
 
         return tmp.replace('"', '\'');
     }

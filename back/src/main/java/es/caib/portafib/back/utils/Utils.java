@@ -297,22 +297,39 @@ public class Utils {
         if (dni == null) {
             return null;
         }
-
         if (dni.length() > 5) {
             return dni.substring(0, dni.length() - 5) + "****" + dni.charAt(dni.length() - 1);
         } else {
             return dni;
         }
-
     }
 
-    public static String ofuscarUsuariExtern(String usr) {
-
-        // Miram si és EXTERN ja que conté el NIF en el username
-        if (usr != null && usr.startsWith("EXTERN-")) {
-            usr = ofuscarDNI(usr);
+    /**
+     * 
+     * @param usr
+     * @return
+     */
+    public static String ofuscarUserName(String usr) {
+        final String ofuscat;
+        if (usr == null || usr.trim().length() == 0) {
+            ofuscat = "";
+        } else {
+            if (usr.startsWith("EXTERN-")) {
+                // Miram si és EXTERN ja que conté el NIF en el username
+                ofuscat = ofuscarDNI(usr);
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < usr.length(); i++) {
+                    if (i % 3 == 0) {
+                        sb.append('*');
+                    } else {
+                        sb.append(usr.charAt(i));
+                    }
+                }
+                ofuscat = sb.toString();
+            }
         }
-        return usr;
+        return ofuscat;
     }
 
 }
