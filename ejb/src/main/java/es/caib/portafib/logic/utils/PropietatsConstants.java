@@ -41,7 +41,9 @@ public class PropietatsConstants {
             new Propietat(true, "es.caib.portafib.acceptTransformPDFA",
                     " Nou a la versió 2.0.1 Opcional. Per defecte false. En firmes PAdES, si el tipus de PDF és PDF/A1 o PDF/A2 o PDF/A3 i si a més es requereix Estampar o Afegir Taula de Firmes o Annexar Documents, llavors això implica una transformació del PDF que a la vegada implica una pèrdua de la condició de PDF/A. Si val true s'accepta transformar el PDF/A i perdre a  la condició de PDF/A. Si val false es llança una excepció indicant que no es permeten Estampacions o Taules de Firmes o Annexes  en PDF/A."),
             new Propietat(false, "es.caib.portafib.revisordedestinatari.restretornarrevisorsglobals",
-                    "Eliminat a la versió 3.0.1. Creat a la versió 3.0.0 Opcional. Valor per defecte false. Si val true en la consulta al servei rest de RevisorDeDestinatari també retorna els Revisors Globals.")
+                    "Eliminat a la versió 3.0.1. Creat a la versió 3.0.0 Opcional. Valor per defecte false. Si val true en la consulta al servei rest de RevisorDeDestinatari també retorna els Revisors Globals."),
+            new Propietat(true, "es.caib.portafib.addnotificationstonewuser",
+                    "Afegida a la versió 3.0.2. Valor per defecte false. Si val true, als nous usuaris se´ls donarà d'alta en les notificacions de tipus ´Requerit per firmar´. ´Requerit per revisar´ i ´Requerit per validar´")
     };
 
     public static final Map<String, Propietat> propietatsGlobals = new HashMap<String, PropietatsConstants.Propietat>();
