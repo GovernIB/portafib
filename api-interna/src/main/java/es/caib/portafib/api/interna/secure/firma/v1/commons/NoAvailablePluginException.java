@@ -10,43 +10,43 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema
 public class NoAvailablePluginException extends AbstractApisIBException {
 
-  /**
-   * 
-   */
-  public NoAvailablePluginException() {
-    super();
-  }
+	private static final long serialVersionUID = 1L;
 
-  /**
-   * @param message
-   * @param description
-   */
-  public NoAvailablePluginException(String message, String description) {
-    super(message, description);
-  }
+	/**
+	 * 
+	 */
+	public NoAvailablePluginException() {
+		super();
+	}
 
-  /**
-   * @param message
-   * @param cause
-   */
-  public NoAvailablePluginException(String message, Throwable cause) {
-    super(message, cause);
-  }
+	/**
+	 * @param message
+	 * @param description
+	 */
+	public NoAvailablePluginException(String message, String description) {
+		super(message, description);
+	}
 
-  /**
-   * @param message
-   */
-  public NoAvailablePluginException(String message) {
-    super(message);
-  }
+	/**
+	 * @param message
+	 * @param cause
+	 */
+	public NoAvailablePluginException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
-  /**
-   * @param cause
-   */
-  public NoAvailablePluginException(Throwable cause) {
-    super(cause);
-  }
+	/**
+	 * @param message
+	 */
+	public NoAvailablePluginException(String message) {
+		super(message);
+	}
 
-
+	/**
+	 * @param cause
+	 */
+	public NoAvailablePluginException(Throwable cause) {
+		super(cause);
+	}
 
 }

@@ -4,43 +4,42 @@ import java.util.List;
 
 public class FirmaSimpleGetTransactionStatusResponse {
 
-  FirmaSimpleStatus transactionStatus;
+	FirmaSimpleStatus transactionStatus;
 
-  List<FirmaSimpleSignatureStatus> signaturesStatusList;
+	List<FirmaSimpleSignatureStatus> signaturesStatusList;
 
-  /**
-   * 
-   */
-  public FirmaSimpleGetTransactionStatusResponse() {
-    super();
-  }
+	/**
+	 * 
+	 */
+	public FirmaSimpleGetTransactionStatusResponse() {
+		super();
+	}
 
-  /**
-   * @param transactionStatus
-   * @param signaturesStatusMap
-   */
-  public FirmaSimpleGetTransactionStatusResponse(FirmaSimpleStatus transactionStatus,
-      List<FirmaSimpleSignatureStatus> signaturesStatusList) {
-    super();
-    this.transactionStatus = transactionStatus;
-    this.signaturesStatusList = signaturesStatusList;
-  }
+	/**
+	 * @param transactionStatus
+	 * @param signaturesStatusMap
+	 */
+	public FirmaSimpleGetTransactionStatusResponse(FirmaSimpleStatus transactionStatus,
+			List<FirmaSimpleSignatureStatus> signaturesStatusList) {
+		super();
+		this.transactionStatus = transactionStatus;
+		this.signaturesStatusList = signaturesStatusList;
+	}
 
-  public FirmaSimpleStatus getTransactionStatus() {
-    return transactionStatus;
-  }
+	public FirmaSimpleStatus getTransactionStatus() {
+		return transactionStatus;
+	}
 
-  public void setTransactionStatus(FirmaSimpleStatus transactionStatus) {
-    this.transactionStatus = transactionStatus;
-  }
+	public void setTransactionStatus(FirmaSimpleStatus transactionStatus) {
+		this.transactionStatus = transactionStatus;
+	}
 
-  public List<FirmaSimpleSignatureStatus> getSignaturesStatusList() {
-    return signaturesStatusList;
-  }
+	public List<FirmaSimpleSignatureStatus> getSignaturesStatusList() {
+		return signaturesStatusList;
+	}
 
-  public void setSignaturesStatusList(List<FirmaSimpleSignatureStatus> signaturesStatusList) {
-    this.signaturesStatusList = signaturesStatusList;
-  }
-
+	public void setSignaturesStatusList(List<FirmaSimpleSignatureStatus> signaturesStatusList) {
+		this.signaturesStatusList = signaturesStatusList;
+	}
 
 }

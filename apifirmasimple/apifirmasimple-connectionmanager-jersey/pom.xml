@@ -3,8 +3,6 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>apifirmasimple-jersey</artifactId>
-  <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
-  <version>1.0.3</version>
   <packaging>jar</packaging>
 
   <name>FundacioBit - ApisIB - API Firma Simple - Connection Manager Jersey</name>

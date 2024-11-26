@@ -1,61 +1,57 @@
 package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
+public class FirmaSimpleStartTransactionRequest {
 
-public class FirmaSimpleStartTransactionRequest  {
+	public static final String VIEW_FULLSCREEN = "fullview";
 
-  public static final String VIEW_FULLSCREEN = "fullview";
-  
-  public static final String VIEW_IFRAME = "iframe";
-  
-  String transactionID;
-  
-  String returnUrl;
+	public static final String VIEW_IFRAME = "iframe";
 
-  String view;
+	String transactionID;
 
-  /**
-   * 
-   */
-  public FirmaSimpleStartTransactionRequest() {
-    super();
-  }
+	String returnUrl;
 
-  /**
-   * @param transactionID
-   * @param fileInfoSignatureArray
-   */
-  public FirmaSimpleStartTransactionRequest(String transactionID,
-      String returnUrl, String view) {
+	String view;
 
-    this.transactionID = transactionID;
-    this.returnUrl = returnUrl;
-    this.view = view;
-  }
+	/**
+	 * 
+	 */
+	public FirmaSimpleStartTransactionRequest() {
+		super();
+	}
 
+	/**
+	 * @param transactionID
+	 * @param fileInfoSignatureArray
+	 */
+	public FirmaSimpleStartTransactionRequest(String transactionID, String returnUrl, String view) {
 
-  public String getReturnUrl() {
-    return returnUrl;
-  }
+		this.transactionID = transactionID;
+		this.returnUrl = returnUrl;
+		this.view = view;
+	}
 
-  public void setReturnUrl(String returnUrl) {
-    this.returnUrl = returnUrl;
-  }
+	public String getReturnUrl() {
+		return returnUrl;
+	}
 
-  public String getView() {
-    return view;
-  }
+	public void setReturnUrl(String returnUrl) {
+		this.returnUrl = returnUrl;
+	}
 
-  public void setView(String view) {
-    this.view = view;
-  }
-  
-  public String getTransactionID() {
-    return transactionID;
-  }
+	public String getView() {
+		return view;
+	}
 
-  public void setTransactionID(String transactionID) {
-    this.transactionID = transactionID;
-  }
+	public void setView(String view) {
+		this.view = view;
+	}
 
+	public String getTransactionID() {
+		return transactionID;
+	}
+
+	public void setTransactionID(String transactionID) {
+		this.transactionID = transactionID;
+	}
 
 }

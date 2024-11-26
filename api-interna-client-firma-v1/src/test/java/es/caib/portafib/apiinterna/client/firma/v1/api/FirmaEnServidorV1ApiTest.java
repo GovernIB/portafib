@@ -256,7 +256,7 @@ public class FirmaEnServidorV1ApiTest extends ConstantsWs {
 	
 	public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String mime) throws Exception {
 		
-		File fileToSign = new File("./testfiles/" + fileName);
+		//File fileToSign = new File("./testfiles/" + fileName);
         InputStream is = new FileInputStream(new File("./src/main/resources/" + fileName));
         
         //

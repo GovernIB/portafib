@@ -2,8 +2,7 @@ package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
 import java.util.List;
 
-import es.caib.portafib.api.interna.secure.firma.v1.FirmaSimpleSignatureRest;
-
+import es.caib.portafib.api.interna.secure.firma.v1.FirmaEnServidor.FirmaSimpleSignatureRest;
 
 /**
  * 
@@ -12,41 +11,41 @@ import es.caib.portafib.api.interna.secure.firma.v1.FirmaSimpleSignatureRest;
  */
 public class FirmaSimpleSignDocumentsResponse {
 
-  protected FirmaSimpleStatus statusSignatureProcess;
+	protected FirmaSimpleStatus statusSignatureProcess;
 
-  protected List<FirmaSimpleSignatureRest> results;
+	protected List<FirmaSimpleSignatureRest> results;
 
-  /**
-   * 
-   */
-  public FirmaSimpleSignDocumentsResponse() {
-    super();
-  }
+	/**
+	 * 
+	 */
+	public FirmaSimpleSignDocumentsResponse() {
+		super();
+	}
 
-  /**
-   * @param results
-   */
-  public FirmaSimpleSignDocumentsResponse(FirmaSimpleStatus statusSignatureProcess,
-      List<FirmaSimpleSignatureRest> results) {
-    super();
-    this.statusSignatureProcess = statusSignatureProcess;
-    this.results = results;
-  }
+	/**
+	 * @param results
+	 */
+	public FirmaSimpleSignDocumentsResponse(FirmaSimpleStatus statusSignatureProcess,
+			List<FirmaSimpleSignatureRest> results) {
+		super();
+		this.statusSignatureProcess = statusSignatureProcess;
+		this.results = results;
+	}
 
-  public List<FirmaSimpleSignatureRest> getResults() {
-    return results;
-  }
+	public List<FirmaSimpleSignatureRest> getResults() {
+		return results;
+	}
 
-  public void setResults(List<FirmaSimpleSignatureRest> results) {
-    this.results = results;
-  }
+	public void setResults(List<FirmaSimpleSignatureRest> results) {
+		this.results = results;
+	}
 
-  public FirmaSimpleStatus getStatusSignatureProcess() {
-    return statusSignatureProcess;
-  }
+	public FirmaSimpleStatus getStatusSignatureProcess() {
+		return statusSignatureProcess;
+	}
 
-  public void setStatusSignatureProcess(FirmaSimpleStatus statusSignatureProcess) {
-    this.statusSignatureProcess = statusSignatureProcess;
-  }
+	public void setStatusSignatureProcess(FirmaSimpleStatus statusSignatureProcess) {
+		this.statusSignatureProcess = statusSignatureProcess;
+	}
 
 }

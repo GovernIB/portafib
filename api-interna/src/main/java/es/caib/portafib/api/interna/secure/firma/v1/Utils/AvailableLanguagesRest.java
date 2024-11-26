@@ -1,12 +1,12 @@
-package es.caib.portafib.api.interna.secure.firma.v1;
+package es.caib.portafib.api.interna.secure.firma.v1.Utils;
 
 import java.util.List;
 
-import es.caib.portafib.api.interna.secure.apisimple.v1.apisib.ApisIBKeyValue;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.apisib.ApisIBKeyValue;
 
 
 public class AvailableLanguagesRest {
-	
+
 	public List<ApisIBKeyValue> list;
 
 	public List<ApisIBKeyValue> getList() {
@@ -16,6 +16,5 @@ public class AvailableLanguagesRest {
 	public void setList(List<ApisIBKeyValue> list) {
 		this.list = list;
 	}
-	
-	
+
 }
