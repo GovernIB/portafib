@@ -37,7 +37,7 @@
 
 
 <div class="navbar-form pagination-centered" style="margin-top: 15px;">
-  <button class="btn btn-primary" type="button" onclick="preSubmit()" ><fmt:message key="genapp.continue"/></button>
+  <button class="btn btn-primary" type="button" onclick="preSubmit();" ><fmt:message key="genapp.continue"/></button>
   <button class="btn btn-secondary" type="button" onclick="goTo('<c:url value="${seleccioUsuariForm.cancelUrl}"/>')">
     <fmt:message key="genapp.cancel"/>
   </button>

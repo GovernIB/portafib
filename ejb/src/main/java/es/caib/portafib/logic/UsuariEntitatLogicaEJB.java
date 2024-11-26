@@ -4,7 +4,6 @@ import es.caib.portafib.ejb.ColaboracioDelegacioService;
 import es.caib.portafib.ejb.EntitatService;
 import es.caib.portafib.ejb.FirmaService;
 import es.caib.portafib.ejb.PlantillaFluxDeFirmesService;
-import es.caib.portafib.ejb.RebreAvisService;
 import es.caib.portafib.ejb.UsuariEntitatEJB;
 import es.caib.portafib.ejb.UsuariEntitatFavoritService;
 import es.caib.portafib.ejb.UsuariEntitatService;

@@ -61,6 +61,8 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(value = "/common/json")
 public class SearchJSONController {
 
+    private static final String RECOLLECT_ALL_REVISORS = "#####__ALL__#####";
+
     protected static final Logger log = Logger.getLogger(SearchJSONController.class);
 
     @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
@@ -103,6 +105,26 @@ public class SearchJSONController {
         }
     }
 
+    
+    
+    
+    
+    /**
+     * Filtre totes els usuari-entitat que son revisors de l'entitat
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/usuarientitatrevisorall", method = RequestMethod.POST)
+    public void usuarientitatrevisorall(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        final String queryFull = RECOLLECT_ALL_REVISORS;
+        usuariEntitatRevisorInternal(request, response, queryFull);
+        
+    }
+    
+    
+    
     /**
      * Filtre totes els usuari-entitat que son revisors de l'entitat
      * @param request
@@ -110,7 +132,16 @@ public class SearchJSONController {
      * @throws Exception
      */
     @RequestMapping(value = "/usuarientitatrevisor", method = RequestMethod.POST)
-    public void usuarientitatrevisor(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void usuariEntitatRevisor(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final String queryFull = request.getParameter("query");
+        usuariEntitatRevisorInternal(request, response, queryFull);
+        
+    }
+
+        
+        
+    
+   private void usuariEntitatRevisorInternal(HttpServletRequest request, HttpServletResponse response, final String queryFull) throws Exception {
 
         // Quins revisors volem ???? 
         //  true: revisors globals
@@ -153,7 +184,7 @@ public class SearchJSONController {
                     + "l'Usuari Aplicació per coneixer quinsRevisors: " + e.getMessage(), e);
         }
 
-        final String queryFull = request.getParameter("query");
+        
         List<StringKeyValue> entries = new ArrayList<StringKeyValue>();
 
         // -----------------------------------------
@@ -188,14 +219,14 @@ public class SearchJSONController {
 
             String usuariEntitatID = request.getParameter("param2");
 
-            //log.info("usuarientitatrevisor() -> Destinatari usuariEntitatID: " + usuariEntitatID);
+            //log.info("\n\n\nusuariEntitatRevisorInternal() -> Destinatari usuariEntitatID[param2]: " + usuariEntitatID + "\n\n\n");
 
-            if (usuariEntitatID != null & usuariEntitatID.trim().length() != 0) {
+            if (usuariEntitatID != null && usuariEntitatID.trim().length() != 0) {
 
                 // Cridada a EJB
                 List<UsuariPersonaBean> persones;
                 persones = revisorDeDestinatariEjb.getRevisorsDeDestinatariUsingUsuariEntitatID(usuariEntitatID,
-                        queryFull);
+                        RECOLLECT_ALL_REVISORS.equals(queryFull)?null:queryFull);
                 // Contrasenya conté l'usuarientitatid
                 for (UsuariPersonaBean usuariPersonaBean : persones) {
                     final String label = usuariPersonaBean.getLlinatges() + ", " + usuariPersonaBean.getNom() + " ("
@@ -208,6 +239,8 @@ public class SearchJSONController {
 
         // Convertir a JSON
         String json = stringKeyValueList2Json(entries);
+        
+        response.setContentType("application/json");
 
         PrintWriter pw = response.getWriter();
 
@@ -484,35 +517,42 @@ public class SearchJSONController {
         }
 
         List<StringKeyValue> values = new ArrayList<StringKeyValue>();
+        
+        final OrderBy orderBy = new OrderBy(personaQueryPath.LLINATGES());
 
-        // Bug en MOZILLA FIREFOX (Fa una segonca cridada buida
+        // Bug en MOZILLA FIREFOX (Fa una segona cridada buida
         if (queryFull == null || queryFull.trim().length() == 0) {
             return values;
         }
 
-        final OrderBy orderBy = new OrderBy(personaQueryPath.LLINATGES());
-
-        List<Where> wheres = new ArrayList<Where>();
-        for (String query : queryFull.split(" ")) {
-
-            final String like = "%" + query + "%";
-            final Where whereQuery = Where.OR(personaQueryPath.NOM().likeSubstitutionsSimpleVowels(like),
-                    personaQueryPath.LLINATGES().likeSubstitutionsSimpleVowels(like), personaQueryPath.NIF().like(like),
-                    personaQueryPath.USUARIPERSONAID().like(like), (fieldOR == null) ? null : fieldOR.like(like));
-
-            wheres.add(whereQuery);
+        boolean recollectAll = RECOLLECT_ALL_REVISORS.equals(queryFull);
+        
+        final Where where;
+        if (recollectAll) {
+            where = additionalWhere;
+        } else {
+            List<Where> wheres = new ArrayList<Where>();
+            for (String query : queryFull.split(" ")) {
+    
+                final String like = "%" + query + "%";
+                final Where whereQuery = Where.OR(personaQueryPath.NOM().likeSubstitutionsSimpleVowels(like),
+                        personaQueryPath.LLINATGES().likeSubstitutionsSimpleVowels(like), personaQueryPath.NIF().like(like),
+                        personaQueryPath.USUARIPERSONAID().like(like), (fieldOR == null) ? null : fieldOR.like(like));
+    
+                wheres.add(whereQuery);
+            }
+    
+            Where whereQueryFull = Where.AND(wheres.toArray(new Where[wheres.size()]));
+    
+            where = Where.AND(additionalWhere, whereQueryFull);
         }
-
-        Where whereQueryFull = Where.AND(wheres.toArray(new Where[wheres.size()]));
-
-        final Where where = Where.AND(additionalWhere, whereQueryFull);
 
         String entitatID = null;
         if (LoginInfo.getInstance() != null) {
             entitatID = LoginInfo.getInstance().getEntitatID();
         }
 
-        final long max = PropietatGlobalUtil.getMaxItemsToShowInAutocomplete(entitatID);
+        final long max = recollectAll? Long.MAX_VALUE:PropietatGlobalUtil.getMaxItemsToShowInAutocomplete(entitatID);
 
         try {
             Long count = uem.count(where);
