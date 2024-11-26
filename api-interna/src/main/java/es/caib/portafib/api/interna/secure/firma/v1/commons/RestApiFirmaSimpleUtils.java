@@ -30,9 +30,9 @@ import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import es.caib.portafib.api.interna.secure.firma.v1.FirmaEnServidor.FirmaSimpleSignDocumentRequest;
-import es.caib.portafib.api.interna.secure.firma.v1.FirmaEnServidor.FirmaSimpleSignatureRest;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.apisib.ApisIBKeyValue;
+import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleSignDocumentRequest;
+import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleSignatureRest;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
 import es.caib.portafib.logic.passarela.PassarelaKeyValue;

@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.firma.v1.FirmaEnServidor;
+package es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor;
 
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFile;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleSignedFileInfo;

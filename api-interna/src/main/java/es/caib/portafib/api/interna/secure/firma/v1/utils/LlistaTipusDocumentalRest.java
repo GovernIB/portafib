@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.firma.v1.Utils;
+package es.caib.portafib.api.interna.secure.firma.v1.utils;
 
 import java.util.List;
 
