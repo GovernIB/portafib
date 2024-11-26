@@ -1,6 +1,5 @@
 package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
-
 /**
  * 
  * @author anadal
@@ -8,40 +7,38 @@ package es.caib.portafib.api.interna.secure.firma.v1.commons;
  */
 public class FirmaSimpleSignDocumentsRequest {
 
-  FirmaSimpleCommonInfo commonInfo;
+	FirmaSimpleCommonInfo commonInfo;
 
-  FirmaSimpleFileInfoSignature[] fileInfoSignatureArray;
+	FirmaSimpleFileInfoSignature[] fileInfoSignatureArray;
 
-  /**
-   * 
-   */
-  public FirmaSimpleSignDocumentsRequest() {
-    super();
-  }
+	/**
+	 * 
+	 */
+	public FirmaSimpleSignDocumentsRequest() {
+		super();
+	}
 
-  public FirmaSimpleSignDocumentsRequest(FirmaSimpleCommonInfo commonInfo,
-      FirmaSimpleFileInfoSignature[] fileInfoSignatureArray) {
-    super();
-    this.commonInfo = commonInfo;
-    this.fileInfoSignatureArray = fileInfoSignatureArray;
-  }
+	public FirmaSimpleSignDocumentsRequest(FirmaSimpleCommonInfo commonInfo,
+			FirmaSimpleFileInfoSignature[] fileInfoSignatureArray) {
+		super();
+		this.commonInfo = commonInfo;
+		this.fileInfoSignatureArray = fileInfoSignatureArray;
+	}
 
-  public FirmaSimpleFileInfoSignature[] getFileInfoSignatureArray() {
-    return fileInfoSignatureArray;
-  }
+	public FirmaSimpleFileInfoSignature[] getFileInfoSignatureArray() {
+		return fileInfoSignatureArray;
+	}
 
-  public void setFileInfoSignatureArray(FirmaSimpleFileInfoSignature[] fileInfoSignatureArray) {
-    this.fileInfoSignatureArray = fileInfoSignatureArray;
-  }
+	public void setFileInfoSignatureArray(FirmaSimpleFileInfoSignature[] fileInfoSignatureArray) {
+		this.fileInfoSignatureArray = fileInfoSignatureArray;
+	}
 
-  public FirmaSimpleCommonInfo getCommonInfo() {
-    return commonInfo;
-  }
+	public FirmaSimpleCommonInfo getCommonInfo() {
+		return commonInfo;
+	}
 
-  public void setCommonInfo(FirmaSimpleCommonInfo commonInfo) {
-    this.commonInfo = commonInfo;
-  }
-
-
+	public void setCommonInfo(FirmaSimpleCommonInfo commonInfo) {
+		this.commonInfo = commonInfo;
+	}
 
 }

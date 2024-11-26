@@ -3,8 +3,6 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>apifirmasimple-example-war</artifactId>
-  <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
-  <version>1.0.3</version>
   <packaging>war</packaging>
 
   <name>FundacioBit - ApisIB - API Firma Simple - Exemple WebApp</name>

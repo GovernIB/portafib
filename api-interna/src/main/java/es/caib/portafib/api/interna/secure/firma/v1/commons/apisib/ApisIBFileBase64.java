@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.apisimple.v1.apisib;
+package es.caib.portafib.api.interna.secure.firma.v1.commons.apisib;
 
 import es.caib.portafib.model.entity.Fitxer;
 import io.swagger.v3.oas.annotations.media.Schema;

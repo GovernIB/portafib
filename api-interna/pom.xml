@@ -151,7 +151,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>openapi_4</id>
+                        <id>openapi_3</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>resolve</goal>
@@ -263,7 +263,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>openapi4</id>
+                        <id>openapi3</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>generate</goal>

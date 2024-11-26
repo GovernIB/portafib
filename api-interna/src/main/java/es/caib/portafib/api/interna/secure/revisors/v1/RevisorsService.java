@@ -29,7 +29,6 @@ import org.fundaciobit.pluginsib.utils.rest.RestUtils;
 
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
-import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.bean.UsuariPersonaBean;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatQueryPath;

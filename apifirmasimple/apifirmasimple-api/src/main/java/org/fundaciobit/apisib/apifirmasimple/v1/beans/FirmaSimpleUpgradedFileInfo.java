@@ -150,7 +150,7 @@ public class FirmaSimpleUpgradedFileInfo {
     if(sfi.getSignMode() == null) {
       str.append("NULL");
     } else {
-      str.append((sfi.getSignMode() == FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED) ? "Attached - Implicit"
+      str.append((sfi.getSignMode() == FirmaSimpleSignedFileInfo.SIGN_MODE_ATTACHED_ENVELOPED) ? "Attached - Implicit"
                 : "Detached- Explicit");
     }
 

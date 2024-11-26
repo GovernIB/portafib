@@ -1,6 +1,5 @@
 package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
-
 /**
  * 
  * @author anadal
@@ -9,50 +8,41 @@ package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
 public class FirmaSimpleAddFileToSignRequest {
 
-  String transactionID;
+	String transactionID;
 
-  FirmaSimpleFileInfoSignature fileInfoSignature;
+	FirmaSimpleFileInfoSignature fileInfoSignature;
 
-  /**
-   *
-   */
-  public FirmaSimpleAddFileToSignRequest() {
-    super();
-  }
+	/**
+	 *
+	 */
+	public FirmaSimpleAddFileToSignRequest() {
+		super();
+	}
 
+	/**
+	 * @param transactionID
+	 * @param fileInfoSignature
+	 */
+	public FirmaSimpleAddFileToSignRequest(String transactionID, FirmaSimpleFileInfoSignature fileInfoSignature) {
+		super();
+		this.transactionID = transactionID;
+		this.fileInfoSignature = fileInfoSignature;
+	}
 
+	public String getTransactionID() {
+		return transactionID;
+	}
 
-  /**
-   * @param transactionID
-   * @param fileInfoSignature
-   */
-  public FirmaSimpleAddFileToSignRequest(String transactionID,
-      FirmaSimpleFileInfoSignature fileInfoSignature) {
-    super();
-    this.transactionID = transactionID;
-    this.fileInfoSignature = fileInfoSignature;
-  }
+	public void setTransactionID(String transactionID) {
+		this.transactionID = transactionID;
+	}
 
+	public FirmaSimpleFileInfoSignature getFileInfoSignature() {
+		return fileInfoSignature;
+	}
 
-
-  public String getTransactionID() {
-    return transactionID;
-  }
-
-
-
-  public void setTransactionID(String transactionID) {
-    this.transactionID = transactionID;
-  }
-
-
-
-  public FirmaSimpleFileInfoSignature getFileInfoSignature() {
-    return fileInfoSignature;
-  }
-
-  public void setFileInfoSignature(FirmaSimpleFileInfoSignature fileInfoSignature) {
-    this.fileInfoSignature = fileInfoSignature;
-  }
+	public void setFileInfoSignature(FirmaSimpleFileInfoSignature fileInfoSignature) {
+		this.fileInfoSignature = fileInfoSignature;
+	}
 
 }

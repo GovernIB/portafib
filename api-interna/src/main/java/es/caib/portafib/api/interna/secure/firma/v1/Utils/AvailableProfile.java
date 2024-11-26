@@ -1,14 +1,11 @@
-package es.caib.portafib.api.interna.secure.firma.v1.commons;
+package es.caib.portafib.api.interna.secure.firma.v1.Utils;
 
-import es.caib.portafib.api.interna.secure.firma.v1.commons.apisib.ApisIBAvailableProfile;
+import java.util.List;
 
-/**
- * 
- * @author anadal(u80067)
- *
- */
+import es.caib.portafib.api.interna.secure.firma.v1.commons.apisib.ApisIBKeyValue;
 
-public class FirmaSimpleAvailableProfile extends ApisIBAvailableProfile<FirmaSimpleKeyValue> {
+// XYZ ZZZ La classe de la que exten pot ser ApisIBAvailableProfile<FirmaSimpleKeyValue> o  ApisIBAvailableProfile<FirmaAsyncSimpleKeyValue>
+public class AvailableProfile {
 
 	protected String code;
 
@@ -16,15 +13,18 @@ public class FirmaSimpleAvailableProfile extends ApisIBAvailableProfile<FirmaSim
 
 	protected String description;
 
-	public FirmaSimpleAvailableProfile() {
+	protected List<ApisIBKeyValue> properties;
+
+	public AvailableProfile() {
 		super();
 	}
 
-	public FirmaSimpleAvailableProfile(String code, String name, String description) {
+	public AvailableProfile(String code, String name, String description, List<ApisIBKeyValue> properties) {
 		super();
 		this.code = code;
 		this.name = name;
 		this.description = description;
+		this.properties = properties;
 	}
 
 	public String getCode() {

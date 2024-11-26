@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.firma.v1;
+package es.caib.portafib.api.interna.secure.firma.v1.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,8 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.utils.rest.RestException;
 import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 import org.fundaciobit.pluginsib.utils.rest.RestUtils;
-import es.caib.portafib.api.interna.secure.apisimple.v1.apisib.ApisIBKeyValue;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.RestUtilsErrorManager;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.apisib.ApisIBKeyValue;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.logic.TipusDocumentLogicaLocal;
@@ -60,12 +60,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path(UtilsService.PATH)
-@OpenAPIDefinition(info = @Info(title = "API Interna de PortaFIB de consulta de serveis d'utilitat",
-description = "Conjunt de Serveis REST de PortaFIB per atendre consultes generiques de Portafib",
-version = "1.0-SNAPSHOT", license = @License(name = "European Union Public Licence (EUPL v1.2)",
-url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"),
-contact = @Contact(name = "Departament de Govern Digital a la Fundació Bit", email = "otae@fundaciobit.org",
-url = "http://governdigital.fundaciobit.org")), tags = @Tag(name = UtilsService.TAG_NAME, description = "Utilitats"))
+@OpenAPIDefinition(info = @Info(title = "API Interna de PortaFIB de consulta de serveis d'utilitat", description = "Conjunt de Serveis REST de PortaFIB per atendre consultes generiques de Portafib", version = "1.0-SNAPSHOT", license = @License(name = "European Union Public Licence (EUPL v1.2)", url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"), contact = @Contact(name = "Departament de Govern Digital a la Fundació Bit", email = "otae@fundaciobit.org", url = "http://governdigital.fundaciobit.org")), tags = @Tag(name = UtilsService.TAG_NAME, description = "Utilitats"))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = UtilsService.SECURITY_NAME, scheme = "basic")
 public class UtilsService extends RestUtilsErrorManager {
 	protected static Logger log = Logger.getLogger(UtilsService.class);
@@ -76,8 +71,8 @@ public class UtilsService extends RestUtilsErrorManager {
 
 	public static final String TAG_NAME = "Utils v1";
 
-    @EJB(mappedName = TipusDocumentLogicaLocal.JNDI_NAME)
-    protected TipusDocumentLogicaLocal tipusDocumentEjb;
+	@EJB(mappedName = TipusDocumentLogicaLocal.JNDI_NAME)
+	protected TipusDocumentLogicaLocal tipusDocumentEjb;
 
 	@EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
 	protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
@@ -87,9 +82,9 @@ public class UtilsService extends RestUtilsErrorManager {
 
 	@EJB(mappedName = es.caib.portafib.ejb.PerfilDeFirmaService.JNDI_NAME)
 	protected es.caib.portafib.ejb.PerfilDeFirmaService perfilDeFirmaEjb;
-	
+
 	@EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
-    protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
+	protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
 
 	@Path("/tipusdocumentalslist")
 	@GET
@@ -114,11 +109,11 @@ public class UtilsService extends RestUtilsErrorManager {
 			language = RestUtils.checkLanguage(language);
 
 			UsuariAplicacio ua;
-            if (appuser == null) {
-                ua = null;
-            } else {
-                ua = usuariAplicacioLogicaEjb.findByPrimaryKey(appuser);
-            }
+			if (appuser == null) {
+				ua = null;
+			} else {
+				ua = usuariAplicacioLogicaEjb.findByPrimaryKey(appuser);
+			}
 
 			List<TipusDocument> list = tipusDocumentEjb.getTipusDocumentsByUsrApp(ua);
 
@@ -137,7 +132,7 @@ public class UtilsService extends RestUtilsErrorManager {
 				String nom = tramap.getValor();
 
 				// XYZ ZZZ PORTAFIB v2: Falta el pare del document NTI
-				Long tipusDocumentNTIID =td.getTipusDocumentBaseID();
+				Long tipusDocumentNTIID = td.getTipusDocumentBaseID();
 
 				resultat.data.add(new TipusDocumentalRest(id, nom, tipusDocumentNTIID));
 			}
@@ -197,14 +192,12 @@ public class UtilsService extends RestUtilsErrorManager {
 
 		// Check Idioma
 		language = RestUtils.checkLanguage(language);
-		Locale locale = new Locale(language);
 
 		log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableProfiles() => LANG: " + language);
 		return internalGetAvailableProfiles(request, language);
 
 	}
-	
-	
+
 	@Path("/getAvailableLanguages")
 	@GET
 	@RolesAllowed({ Constants.ROLE_EJB_WS_ACCESS })
@@ -222,61 +215,59 @@ public class UtilsService extends RestUtilsErrorManager {
 			throws RestException {
 
 		log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableProfiles() => ENTRA");
-		
-		//String lang = language.asText();
+
+		// String lang = language.asText();
 
 		// Check Idioma
-		//language = RestUtils.checkLanguage(lang);
-		//Locale locale = new Locale(lang);
+		// language = RestUtils.checkLanguage(lang);
+		// Locale locale = new Locale(lang);
 
 		log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableLanguages() => LANG: " + language);
 		return internalGetAvailableLanguages(request, language);
 
 	}
-	
-	
-	public AvailableLanguagesRest internalGetAvailableLanguages (HttpServletRequest request, String language) {
-		
+
+	public AvailableLanguagesRest internalGetAvailableLanguages(HttpServletRequest request, String language) {
+
 		try {
-		
-		AvailableLanguagesRest response = new AvailableLanguagesRest();
-		response.list = new ArrayList<ApisIBKeyValue>();
-		
-		// Check XYZ ZZZ languageUI
-        List<StringKeyValue> idiomes;
 
-        SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(IdiomaFields.IDIOMAID.select,
-                IdiomaFields.NOM.select);
+			AvailableLanguagesRest response = new AvailableLanguagesRest();
+			response.list = new ArrayList<ApisIBKeyValue>();
 
-        idiomes = idiomaEjb.executeQuery(smskv, IdiomaFields.SUPORTAT.equal(true));
+			// Check XYZ ZZZ languageUI
+			List<StringKeyValue> idiomes;
 
-        //List<FirmaAsyncSimpleKeyValue> list = new ArrayList<FirmaAsyncSimpleKeyValue>();
+			SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(IdiomaFields.IDIOMAID.select,
+					IdiomaFields.NOM.select);
 
-        for (StringKeyValue skv : idiomes) {
-        	response.list.add(new ApisIBKeyValue(skv.getKey(), skv.getValue()));
-        }
+			idiomes = idiomaEjb.executeQuery(smskv, IdiomaFields.SUPORTAT.equal(true));
 
-        return response;
+			// List<FirmaAsyncSimpleKeyValue> list = new
+			// ArrayList<FirmaAsyncSimpleKeyValue>();
 
-    } catch (I18NException i18ne) {
+			for (StringKeyValue skv : idiomes) {
+				response.list.add(new ApisIBKeyValue(skv.getKey(), skv.getValue()));
+			}
 
-        String msg = I18NLogicUtils.getMessage(i18ne, new Locale(language));
+			return response;
 
-		throw new RestException(msg, Status.INTERNAL_SERVER_ERROR);
+		} catch (I18NException i18ne) {
 
+			String msg = I18NLogicUtils.getMessage(i18ne, new Locale(language));
 
-    } catch (Throwable th) {
+			throw new RestException(msg, Status.INTERNAL_SERVER_ERROR);
 
-        // XYZ ZZZ TRA
-        String msg = "Error desconegut cridant a getAvailableLanguages: " + th.getMessage();
+		} catch (Throwable th) {
 
-        log.error(msg, th);
-        
-		throw new RestException(msg, th, Status.INTERNAL_SERVER_ERROR);
-    }
+			// XYZ ZZZ TRA
+			String msg = "Error desconegut cridant a getAvailableLanguages: " + th.getMessage();
+
+			log.error(msg, th);
+
+			throw new RestException(msg, th, Status.INTERNAL_SERVER_ERROR);
+		}
 
 	}
-	
 
 	public AvailableProfilesRest internalGetAvailableProfiles(HttpServletRequest request, String locale) {
 		String error = autenticateUsrApp(request);
@@ -404,7 +395,7 @@ public class UtilsService extends RestUtilsErrorManager {
 					log.error(" XYZ ZZZ autenticate:: " + msg);
 					return msg;
 				}
-				
+
 				log.info("Inicialitzada Informació de UsuariAPLicacio dins de LoginInfo");
 
 				return null; // OK
@@ -443,15 +434,15 @@ public class UtilsService extends RestUtilsErrorManager {
 
 		return perfils;
 	}
-	
+
 	/**
-     * Get username of the user from the request
-     * 
-     * @param request
-     * @return
-     */
-    private String getUserApp(HttpServletRequest request) {
-        return request.getUserPrincipal().getName();
-    }
+	 * Get username of the user from the request
+	 * 
+	 * @param request
+	 * @return
+	 */
+	private String getUserApp(HttpServletRequest request) {
+		return request.getUserPrincipal().getName();
+	}
 
 }

@@ -9,63 +9,64 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @Schema
 public abstract class AbstractApisIBException extends Exception {
-  
-  protected String description = null;
 
-  /**
-   * 
-   */
-  public AbstractApisIBException() {
-    super();
-  }
+	private static final long serialVersionUID = 1L;
+	protected String description = null;
 
-  /**
-   * @param message
-   * @param cause
-   */
-  public AbstractApisIBException(String message, Throwable cause) {
-    super(message, cause);
-  }
+	/**
+	 * 
+	 */
+	public AbstractApisIBException() {
+		super();
+	}
 
-  /**
-   * @param message
-   */
-  public AbstractApisIBException(String message) {
-    super(message);
-  }
+	/**
+	 * @param message
+	 * @param cause
+	 */
+	public AbstractApisIBException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
-  /**
-   * @param message
-   */
-  public AbstractApisIBException(String message, String description) {
-    super(message);
-    this.description = description;
-  }
+	/**
+	 * @param message
+	 */
+	public AbstractApisIBException(String message) {
+		super(message);
+	}
 
-  /**
-   * @param cause
-   */
-  public AbstractApisIBException(Throwable cause) {
-    super(cause);
-  }
+	/**
+	 * @param message
+	 */
+	public AbstractApisIBException(String message, String description) {
+		super(message);
+		this.description = description;
+	}
 
-  public String getDescription() {
-    return description;
-  }
+	/**
+	 * @param cause
+	 */
+	public AbstractApisIBException(Throwable cause) {
+		super(cause);
+	}
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+	public String getDescription() {
+		return description;
+	}
 
-  public String toString() {
-    String msg = super.toString();
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    if (this.description != null) {
-      msg = msg + "\n" + this.description;
-    }
+	public String toString() {
+		String msg = super.toString();
 
-    return msg;
+		if (this.description != null) {
+			msg = msg + "\n" + this.description;
+		}
 
-  }
+		return msg;
+
+	}
 
 }

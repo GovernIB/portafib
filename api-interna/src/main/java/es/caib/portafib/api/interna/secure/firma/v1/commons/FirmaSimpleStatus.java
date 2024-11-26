@@ -1,8 +1,5 @@
 package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
-import es.caib.portafib.api.interna.secure.apisimple.v1.apisib.ApisIBStatus;
-import io.swagger.v3.oas.annotations.media.Schema;
-
 public class FirmaSimpleStatus{
 		
 	/*public enum STATUS {

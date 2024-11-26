@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.firma.v1;
+package es.caib.portafib.api.interna.secure.firma.v1.FirmaEnServidor;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,6 +32,8 @@ import org.fundaciobit.pluginsib.validatecertificate.InformacioCertificat;
 import org.fundaciobit.pluginsib.validatesignature.api.SignatureDetailInfo;
 import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
 
+import es.caib.portafib.api.interna.secure.firma.v1.ConstantsWs;
+import es.caib.portafib.api.interna.secure.firma.v1.Utils.UtilsService;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleCommonInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleCustodyInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFile;
@@ -130,7 +132,6 @@ public class FirmaEnServidorService extends RestApiFirmaSimpleUtils<FirmaSimpleK
 			@RequestBody FirmaSimpleSignDocumentRequest simpleSignature) throws RestException {
 
 		log.info(" XYZ ZZZ eNTRA A signDocuments => simpleSignature: " + simpleSignature);
-		String userApp = getUserApp(request);
 
 		// Validar simpleSignature
 		// XYZ ZZZ Canviar per idioma per defecte
@@ -276,10 +277,6 @@ public class FirmaEnServidorService extends RestApiFirmaSimpleUtils<FirmaSimpleK
 			}
 
 		}
-	}
-
-	private String getUserApp(HttpServletRequest request) {
-		return request.getUserPrincipal().getName();
 	}
 
 	protected String autenticateUsrApp(HttpServletRequest request) {
@@ -450,7 +447,7 @@ public class FirmaEnServidorService extends RestApiFirmaSimpleUtils<FirmaSimpleK
 
 		@SuppressWarnings("unused")
 		byte[] documentDetached = null;
-		if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_EXPLICIT) {
+		if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_DETACHED) {
 
 			if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
 					|| FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
@@ -484,7 +481,7 @@ public class FirmaEnServidorService extends RestApiFirmaSimpleUtils<FirmaSimpleK
 
 			// SI es PADES llavors el signMode es attached
 			if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-				signatureFileInfo.setSignMode(FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED);
+				signatureFileInfo.setSignMode(FirmaSimpleSignedFileInfo.SIGN_MODE_ATTACHED_ENVELOPED);
 			}
 
 			signatureFileInfo.setEniTipoFirma(
@@ -499,24 +496,25 @@ public class FirmaEnServidorService extends RestApiFirmaSimpleUtils<FirmaSimpleK
 			int signFormat = vsr.getSignMode();
 
 			int signMode = signFormat;
-/*
-			if (signFormat == null) {
-				log.warn("Ens ha arribat un signFormat = null: es retorna signMode null");
-				signMode = null;
-			} else if (ValidateSignatureResponse.SIGNFORMAT_IMPLICIT_ENVELOPED_ATTACHED.equals(signFormat)
-					|| ValidateSignatureResponse.SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED.equals(signFormat)) {
-				signMode = FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED;
-			} else if (ValidateSignatureResponse.SIGNFORMAT_EXPLICIT_DETACHED.equals(signFormat)
-					|| ValidateSignatureResponse.SIGNFORMAT_EXPLICIT_EXTERNALLY_DETACHED.equals(signFormat)) {
-				signMode = FirmaSimpleSignedFileInfo.SIGN_MODE_EXPLICIT_DETACHED;
-			} else {
-
-				log.error("Ens ha arribat un signFormat = " + signFormat
-						+ ". S'hauria de comunicar aquest fet als desenvolupadors !!!!!");
-
-				signMode = null;
-			}
-*/
+			/*
+			 * if (signFormat == null) {
+			 * log.warn("Ens ha arribat un signFormat = null: es retorna signMode null");
+			 * signMode = null; } else if
+			 * (ValidateSignatureResponse.SIGNFORMAT_IMPLICIT_ENVELOPED_ATTACHED.equals(
+			 * signFormat) ||
+			 * ValidateSignatureResponse.SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED.equals(
+			 * signFormat)) { signMode =
+			 * FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED; } else if
+			 * (ValidateSignatureResponse.SIGNFORMAT_EXPLICIT_DETACHED.equals(signFormat) ||
+			 * ValidateSignatureResponse.SIGNFORMAT_EXPLICIT_EXTERNALLY_DETACHED.equals(
+			 * signFormat)) { signMode =
+			 * FirmaSimpleSignedFileInfo.SIGN_MODE_EXPLICIT_DETACHED; } else {
+			 * 
+			 * log.error("Ens ha arribat un signFormat = " + signFormat +
+			 * ". S'hauria de comunicar aquest fet als desenvolupadors !!!!!");
+			 * 
+			 * signMode = null; }
+			 */
 			// XYZ ZZZ
 			String eniTipoFirma = SignatureUtils.getEniTipoFirma(signType, signMode);
 
@@ -650,7 +648,7 @@ public class FirmaEnServidorService extends RestApiFirmaSimpleUtils<FirmaSimpleK
 	private org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile getFirmaSimpleFile(
 			FirmaSimpleFile firmaSimpleFile) {
 		org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile newFirmaSimpleFile = new org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile();
-		if(firmaSimpleFile != null && firmaSimpleFile.getData() != null) {
+		if (firmaSimpleFile != null && firmaSimpleFile.getData() != null) {
 			newFirmaSimpleFile.setData(firmaSimpleFile.getData());
 			newFirmaSimpleFile.setMime(firmaSimpleFile.getMime());
 			newFirmaSimpleFile.setNom(firmaSimpleFile.getNom());
