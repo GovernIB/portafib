@@ -7,7 +7,6 @@ import es.caib.portafib.apiinterna.client.firma.v1.services.Pair;
 
 import javax.ws.rs.core.GenericType;
 
-import es.caib.portafib.apiinterna.client.firma.v1.model.ConstantsWs;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleSignDocumentRequest;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleSignatureRest;
 import es.caib.portafib.apiinterna.client.firma.v1.model.RestExceptionInfo;

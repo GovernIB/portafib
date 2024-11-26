@@ -132,7 +132,6 @@ Class | Method | HTTP request | Description
  - [AvailableLanguagesRest](docs/AvailableLanguagesRest.md)
  - [AvailableProfile](docs/AvailableProfile.md)
  - [AvailableProfilesRest](docs/AvailableProfilesRest.md)
- - [ConstantsWs](docs/ConstantsWs.md)
  - [FirmaSimpleCommonInfo](docs/FirmaSimpleCommonInfo.md)
  - [FirmaSimpleCustodyInfo](docs/FirmaSimpleCustodyInfo.md)
  - [FirmaSimpleFile](docs/FirmaSimpleFile.md)

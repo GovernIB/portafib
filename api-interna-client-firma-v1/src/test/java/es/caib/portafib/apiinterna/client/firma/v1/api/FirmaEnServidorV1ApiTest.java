@@ -14,7 +14,6 @@ package es.caib.portafib.apiinterna.client.firma.v1.api;
 
 import es.caib.portafib.apiinterna.client.firma.v1.services.ApiClient;
 import es.caib.portafib.apiinterna.client.firma.v1.services.ApiException;
-import es.caib.portafib.apiinterna.client.firma.v1.model.ConstantsWs;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleCommonInfo;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleFile;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleFileInfoSignature;
@@ -40,7 +39,7 @@ import java.util.Properties;
 /**
  * API tests for FirmaEnServidorV1Api
  */
-public class FirmaEnServidorV1ApiTest extends ConstantsWs {
+public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
 	
 	public static final String PROFILE_PADES_PROPERTY = "PROFILE_PADES";
 

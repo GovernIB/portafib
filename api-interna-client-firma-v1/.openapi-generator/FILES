@@ -8,7 +8,6 @@ docs/ApisIBKeyValue.md
 docs/AvailableLanguagesRest.md
 docs/AvailableProfile.md
 docs/AvailableProfilesRest.md
-docs/ConstantsWs.md
 docs/FirmaEnServidorV1Api.md
 docs/FirmaSimpleCommonInfo.md
 docs/FirmaSimpleCustodyInfo.md
@@ -39,7 +38,6 @@ src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/ApisIBKeyValue.j
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/AvailableLanguagesRest.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/AvailableProfile.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/AvailableProfilesRest.java
-src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/ConstantsWs.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleCommonInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleCustodyInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleFile.java

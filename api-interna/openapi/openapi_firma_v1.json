@@ -136,16 +136,6 @@
                 }
               }
             }
-          },
-          "510" : {
-            "description" : "Només s'utilitza per crear fitxer de constants...",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ConstantsWs"
-                }
-              }
-            }
           }
         },
         "security" : [ {
@@ -595,8 +585,44 @@
         }
       },
       "FirmaSimpleStatus" : {
+        "required" : [ "STATUS_CANCELLED", "STATUS_FINAL_ERROR", "STATUS_FINAL_OK", "STATUS_INITIALIZING", "STATUS_IN_PROGRESS" ],
         "type" : "object",
         "properties" : {
+          "STATUS_INITIALIZING" : {
+            "type" : "integer",
+            "description" : "Codi d'estat d'una petició de firma que indica un que s'esta inicialitzant",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 0
+          },
+          "STATUS_IN_PROGRESS" : {
+            "type" : "integer",
+            "description" : "Codi d'estat d'una petició de firma que indica un que esta en procés",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 1
+          },
+          "STATUS_FINAL_OK" : {
+            "type" : "integer",
+            "description" : "Codi d'estat d'una petició de firma que indica que ha finalitzat correctament",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 2
+          },
+          "STATUS_FINAL_ERROR" : {
+            "type" : "integer",
+            "description" : "Codi d'estat d'una petició de firma que indica que ha finalitzat amb errors",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : -1
+          },
+          "STATUS_CANCELLED" : {
+            "type" : "integer",
+            "description" : "Codi d'estat d'una petició de firma que indica que ha sigut cancelada",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : -2
+          },
           "status" : {
             "type" : "integer",
             "format" : "int32"
@@ -653,47 +679,6 @@
           }
         },
         "description" : "Estructura de dades utilitzada per passar informació d'un error"
-      },
-      "ConstantsWs" : {
-        "required" : [ "STATUS_CANCELLED", "STATUS_FINAL_ERROR", "STATUS_FINAL_OK", "STATUS_INITIALIZING", "STATUS_IN_PROGRESS" ],
-        "type" : "object",
-        "properties" : {
-          "STATUS_INITIALIZING" : {
-            "type" : "integer",
-            "description" : "Codi d'estat d'una petició de firma que indica un que s'esta inicialitzant",
-            "format" : "int32",
-            "readOnly" : true,
-            "default" : 0
-          },
-          "STATUS_IN_PROGRESS" : {
-            "type" : "integer",
-            "description" : "Codi d'estat d'una petició de firma que indica un que esta en procés",
-            "format" : "int32",
-            "readOnly" : true,
-            "default" : 1
-          },
-          "STATUS_FINAL_OK" : {
-            "type" : "integer",
-            "description" : "Codi d'estat d'una petició de firma que indica que ha finalitzat correctament",
-            "format" : "int32",
-            "readOnly" : true,
-            "default" : 2
-          },
-          "STATUS_FINAL_ERROR" : {
-            "type" : "integer",
-            "description" : "Codi d'estat d'una petició de firma que indica que ha finalitzat amb errors",
-            "format" : "int32",
-            "readOnly" : true,
-            "default" : -1
-          },
-          "STATUS_CANCELLED" : {
-            "type" : "integer",
-            "description" : "Codi d'estat d'una petició de firma que indica que ha sigut cancelada",
-            "format" : "int32",
-            "readOnly" : true,
-            "default" : -2
-          }
-        }
       },
       "ApisIBKeyValue" : {
         "type" : "object",

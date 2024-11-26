@@ -32,7 +32,6 @@ import org.fundaciobit.pluginsib.validatecertificate.InformacioCertificat;
 import org.fundaciobit.pluginsib.validatesignature.api.SignatureDetailInfo;
 import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
 
-import es.caib.portafib.api.interna.secure.firma.v1.ConstantsWs;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleCommonInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleCustodyInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFile;
@@ -259,11 +258,11 @@ public class FirmaEnServidorService extends RestApiFirmaSimpleUtils<FirmaSimpleK
 
             String signID = simpleSignature.getFileInfoSignature().getSignID();
 
-            if (statusGlobal.getStatus() == FirmaSimpleStatus.STATUS_FINAL_OK) {
+            if (statusGlobal.getStatus() == Constants.STATUS_FINAL_OK) {
                 // Només hi ha una firma
                 result = fssfrFull.getResults().get(0);
 
-                if (result.getStatus().getStatus() == FirmaSimpleStatus.STATUS_FINAL_OK) {
+                if (result.getStatus().getStatus() == Constants.STATUS_FINAL_OK) {
 
                     // En API DE FIRMA SIMPE; EN SERVIDOR NOMES S'ENVIA UN DOCUMENT DE FIRMA A LA
                     // VEGADA
@@ -733,13 +732,7 @@ public class FirmaEnServidorService extends RestApiFirmaSimpleUtils<FirmaSimpleK
                     description = "Error no controlat",
                     content = { @Content(
                             mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = RestExceptionInfo.class)) }),
-            @ApiResponse(
-                    responseCode = "510",
-                    description = "Només s'utilitza per crear fitxer de constants...",
-                    content = { @Content(
-                            mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = ConstantsWs.class)) }) })
+                            schema = @Schema(implementation = RestExceptionInfo.class)) }) })
     public String versio() {
         return "1.0";
     }

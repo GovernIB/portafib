@@ -27,12 +27,32 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * FirmaSimpleStatus
  */
 @JsonPropertyOrder({
+  FirmaSimpleStatus.JSON_PROPERTY_S_T_A_T_U_S_I_N_I_T_I_A_L_I_Z_I_N_G,
+  FirmaSimpleStatus.JSON_PROPERTY_S_T_A_T_U_S_I_N_P_R_O_G_R_E_S_S,
+  FirmaSimpleStatus.JSON_PROPERTY_S_T_A_T_U_S_F_I_N_A_L_O_K,
+  FirmaSimpleStatus.JSON_PROPERTY_S_T_A_T_U_S_F_I_N_A_L_E_R_R_O_R,
+  FirmaSimpleStatus.JSON_PROPERTY_S_T_A_T_U_S_C_A_N_C_E_L_L_E_D,
   FirmaSimpleStatus.JSON_PROPERTY_STATUS,
   FirmaSimpleStatus.JSON_PROPERTY_ERROR_MESSAGE,
   FirmaSimpleStatus.JSON_PROPERTY_ERROR_STACK_TRACE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FirmaSimpleStatus {
+  public static final String JSON_PROPERTY_S_T_A_T_U_S_I_N_I_T_I_A_L_I_Z_I_N_G = "STATUS_INITIALIZING";
+  private Integer STATUS_INITIALIZING = 0;
+
+  public static final String JSON_PROPERTY_S_T_A_T_U_S_I_N_P_R_O_G_R_E_S_S = "STATUS_IN_PROGRESS";
+  private Integer STATUS_IN_PROGRESS = 1;
+
+  public static final String JSON_PROPERTY_S_T_A_T_U_S_F_I_N_A_L_O_K = "STATUS_FINAL_OK";
+  private Integer STATUS_FINAL_OK = 2;
+
+  public static final String JSON_PROPERTY_S_T_A_T_U_S_F_I_N_A_L_E_R_R_O_R = "STATUS_FINAL_ERROR";
+  private Integer STATUS_FINAL_ERROR = -1;
+
+  public static final String JSON_PROPERTY_S_T_A_T_U_S_C_A_N_C_E_L_L_E_D = "STATUS_CANCELLED";
+  private Integer STATUS_CANCELLED = -2;
+
   public static final String JSON_PROPERTY_STATUS = "status";
   private Integer status;
 
@@ -44,6 +64,97 @@ public class FirmaSimpleStatus {
 
   public FirmaSimpleStatus() {
   }
+
+  @JsonCreator
+  public FirmaSimpleStatus(
+    @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_I_N_I_T_I_A_L_I_Z_I_N_G) Integer STATUS_INITIALIZING, 
+    @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_I_N_P_R_O_G_R_E_S_S) Integer STATUS_IN_PROGRESS, 
+    @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_F_I_N_A_L_O_K) Integer STATUS_FINAL_OK, 
+    @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_F_I_N_A_L_E_R_R_O_R) Integer STATUS_FINAL_ERROR, 
+    @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_C_A_N_C_E_L_L_E_D) Integer STATUS_CANCELLED
+  ) {
+    this();
+    this.STATUS_INITIALIZING = STATUS_INITIALIZING;
+    this.STATUS_IN_PROGRESS = STATUS_IN_PROGRESS;
+    this.STATUS_FINAL_OK = STATUS_FINAL_OK;
+    this.STATUS_FINAL_ERROR = STATUS_FINAL_ERROR;
+    this.STATUS_CANCELLED = STATUS_CANCELLED;
+  }
+
+   /**
+   * Codi d&#39;estat d&#39;una petició de firma que indica un que s&#39;esta inicialitzant
+   * @return STATUS_INITIALIZING
+  **/
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_I_N_I_T_I_A_L_I_Z_I_N_G)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public Integer getSTATUSINITIALIZING() {
+    return STATUS_INITIALIZING;
+  }
+
+
+
+
+   /**
+   * Codi d&#39;estat d&#39;una petició de firma que indica un que esta en procés
+   * @return STATUS_IN_PROGRESS
+  **/
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_I_N_P_R_O_G_R_E_S_S)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public Integer getSTATUSINPROGRESS() {
+    return STATUS_IN_PROGRESS;
+  }
+
+
+
+
+   /**
+   * Codi d&#39;estat d&#39;una petició de firma que indica que ha finalitzat correctament
+   * @return STATUS_FINAL_OK
+  **/
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_F_I_N_A_L_O_K)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public Integer getSTATUSFINALOK() {
+    return STATUS_FINAL_OK;
+  }
+
+
+
+
+   /**
+   * Codi d&#39;estat d&#39;una petició de firma que indica que ha finalitzat amb errors
+   * @return STATUS_FINAL_ERROR
+  **/
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_F_I_N_A_L_E_R_R_O_R)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public Integer getSTATUSFINALERROR() {
+    return STATUS_FINAL_ERROR;
+  }
+
+
+
+
+   /**
+   * Codi d&#39;estat d&#39;una petició de firma que indica que ha sigut cancelada
+   * @return STATUS_CANCELLED
+  **/
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_C_A_N_C_E_L_L_E_D)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public Integer getSTATUSCANCELLED() {
+    return STATUS_CANCELLED;
+  }
+
+
+
 
   public FirmaSimpleStatus status(Integer status) {
     
@@ -131,20 +242,30 @@ public class FirmaSimpleStatus {
       return false;
     }
     FirmaSimpleStatus firmaSimpleStatus = (FirmaSimpleStatus) o;
-    return Objects.equals(this.status, firmaSimpleStatus.status) &&
+    return Objects.equals(this.STATUS_INITIALIZING, firmaSimpleStatus.STATUS_INITIALIZING) &&
+        Objects.equals(this.STATUS_IN_PROGRESS, firmaSimpleStatus.STATUS_IN_PROGRESS) &&
+        Objects.equals(this.STATUS_FINAL_OK, firmaSimpleStatus.STATUS_FINAL_OK) &&
+        Objects.equals(this.STATUS_FINAL_ERROR, firmaSimpleStatus.STATUS_FINAL_ERROR) &&
+        Objects.equals(this.STATUS_CANCELLED, firmaSimpleStatus.STATUS_CANCELLED) &&
+        Objects.equals(this.status, firmaSimpleStatus.status) &&
         Objects.equals(this.errorMessage, firmaSimpleStatus.errorMessage) &&
         Objects.equals(this.errorStackTrace, firmaSimpleStatus.errorStackTrace);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(status, errorMessage, errorStackTrace);
+    return Objects.hash(STATUS_INITIALIZING, STATUS_IN_PROGRESS, STATUS_FINAL_OK, STATUS_FINAL_ERROR, STATUS_CANCELLED, status, errorMessage, errorStackTrace);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FirmaSimpleStatus {\n");
+    sb.append("    STATUS_INITIALIZING: ").append(toIndentedString(STATUS_INITIALIZING)).append("\n");
+    sb.append("    STATUS_IN_PROGRESS: ").append(toIndentedString(STATUS_IN_PROGRESS)).append("\n");
+    sb.append("    STATUS_FINAL_OK: ").append(toIndentedString(STATUS_FINAL_OK)).append("\n");
+    sb.append("    STATUS_FINAL_ERROR: ").append(toIndentedString(STATUS_FINAL_ERROR)).append("\n");
+    sb.append("    STATUS_CANCELLED: ").append(toIndentedString(STATUS_CANCELLED)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    errorMessage: ").append(toIndentedString(errorMessage)).append("\n");
     sb.append("    errorStackTrace: ").append(toIndentedString(errorStackTrace)).append("\n");

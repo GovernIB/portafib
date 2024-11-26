@@ -90,12 +90,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
-        "510":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ConstantsWs'
-          description: Només s'utilitza per crear fitxer de constants...
       security:
       - BasicAuth: []
       summary: Retorna la versió d'aquest Servei
@@ -452,8 +446,8 @@ components:
             signDate: 2000-01-23T04:56:07.000+00:00
             eniSignerAdministrationId: eniSignerAdministrationId
             serialNumberCert: serialNumberCert
-          signaturesTableLocation: 5
-          signOperation: 6
+          signaturesTableLocation: 3
+          signOperation: 7
           custodyInfo:
             validationFileUrl: validationFileUrl
             originalFileDirectURL: originalFileDirectURL
@@ -473,7 +467,7 @@ components:
             checkValidationSignature: true
             checkAdministrationIDOfSigner: true
           signType: signType
-          signMode: 1
+          signMode: 9
           signAlgorithm: signAlgorithm
           timeStampIncluded: true
           policyIncluded: true
@@ -484,8 +478,13 @@ components:
         signID: signID
         status:
           errorStackTrace: errorStackTrace
+          STATUS_FINAL_OK: 1
+          STATUS_FINAL_ERROR: 5
+          STATUS_INITIALIZING: 0
           errorMessage: errorMessage
-          status: 0
+          STATUS_IN_PROGRESS: 6
+          STATUS_CANCELLED: 5
+          status: 2
       properties:
         signID:
           type: string
@@ -512,8 +511,8 @@ components:
           signDate: 2000-01-23T04:56:07.000+00:00
           eniSignerAdministrationId: eniSignerAdministrationId
           serialNumberCert: serialNumberCert
-        signaturesTableLocation: 5
-        signOperation: 6
+        signaturesTableLocation: 3
+        signOperation: 7
         custodyInfo:
           validationFileUrl: validationFileUrl
           originalFileDirectURL: originalFileDirectURL
@@ -533,7 +532,7 @@ components:
           checkValidationSignature: true
           checkAdministrationIDOfSigner: true
         signType: signType
-        signMode: 1
+        signMode: 9
         signAlgorithm: signAlgorithm
         timeStampIncluded: true
         policyIncluded: true
@@ -607,69 +606,13 @@ components:
     FirmaSimpleStatus:
       example:
         errorStackTrace: errorStackTrace
-        errorMessage: errorMessage
-        status: 0
-      properties:
-        status:
-          format: int32
-          type: integer
-        errorMessage:
-          type: string
-        errorStackTrace:
-          type: string
-      type: object
-    FirmaSimpleValidationInfo:
-      example:
-        checkDocumentModifications: true
-        noCheckValidationReason: noCheckValidationReason
-        checkValidationSignature: true
-        checkAdministrationIDOfSigner: true
-      properties:
-        checkAdministrationIDOfSigner:
-          type: boolean
-        checkDocumentModifications:
-          type: boolean
-        checkValidationSignature:
-          type: boolean
-        noCheckValidationReason:
-          type: string
-      type: object
-    RestExceptionInfo:
-      description: Estructura de dades utilitzada per passar informació d'un error
-      example:
-        code: 5
-        causeStackTrace: causeStackTrace
-        causeException: causeException
-        errorMessage: errorMessage
-        stackTrace: stackTrace
-      properties:
-        code:
-          description: Codi de HTTP de l'error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
-          format: int32
-          type: integer
-        errorMessage:
-          description: Missatge de l'error
-          type: string
-        stackTrace:
-          description: Stacktrace de l'excepció si n'hi hagués.
-          type: string
-        causeException:
-          description: Tipus de l'excepció origen (cause) si n'hi hagués.
-          type: string
-        causeStackTrace:
-          description: Stacktrace de l'excepció origen (cause) si n'hi hagués.
-          type: string
-      required:
-      - code
-      - errorMessage
-      type: object
-    ConstantsWs:
-      example:
         STATUS_FINAL_OK: 1
         STATUS_FINAL_ERROR: 5
         STATUS_INITIALIZING: 0
+        errorMessage: errorMessage
         STATUS_IN_PROGRESS: 6
         STATUS_CANCELLED: 5
+        status: 2
       properties:
         STATUS_INITIALIZING:
           default: 0
@@ -706,12 +649,64 @@ components:
           format: int32
           readOnly: true
           type: integer
+        status:
+          format: int32
+          type: integer
+        errorMessage:
+          type: string
+        errorStackTrace:
+          type: string
       required:
       - STATUS_CANCELLED
       - STATUS_FINAL_ERROR
       - STATUS_FINAL_OK
       - STATUS_INITIALIZING
       - STATUS_IN_PROGRESS
+      type: object
+    FirmaSimpleValidationInfo:
+      example:
+        checkDocumentModifications: true
+        noCheckValidationReason: noCheckValidationReason
+        checkValidationSignature: true
+        checkAdministrationIDOfSigner: true
+      properties:
+        checkAdministrationIDOfSigner:
+          type: boolean
+        checkDocumentModifications:
+          type: boolean
+        checkValidationSignature:
+          type: boolean
+        noCheckValidationReason:
+          type: string
+      type: object
+    RestExceptionInfo:
+      description: Estructura de dades utilitzada per passar informació d'un error
+      example:
+        code: 2
+        causeStackTrace: causeStackTrace
+        causeException: causeException
+        errorMessage: errorMessage
+        stackTrace: stackTrace
+      properties:
+        code:
+          description: Codi de HTTP de l'error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
+          format: int32
+          type: integer
+        errorMessage:
+          description: Missatge de l'error
+          type: string
+        stackTrace:
+          description: Stacktrace de l'excepció si n'hi hagués.
+          type: string
+        causeException:
+          description: Tipus de l'excepció origen (cause) si n'hi hagués.
+          type: string
+        causeStackTrace:
+          description: Stacktrace de l'excepció origen (cause) si n'hi hagués.
+          type: string
+      required:
+      - code
+      - errorMessage
       type: object
     ApisIBKeyValue:
       example:

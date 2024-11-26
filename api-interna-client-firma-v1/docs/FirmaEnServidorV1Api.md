@@ -148,5 +148,4 @@ This endpoint does not need any parameter.
 | **401** | No Autenticat |  -  |
 | **403** | No Autoritzat |  -  |
 | **500** | Error no controlat |  -  |
-| **510** | Només s&#39;utilitza per crear fitxer de constants... |  -  |
 
