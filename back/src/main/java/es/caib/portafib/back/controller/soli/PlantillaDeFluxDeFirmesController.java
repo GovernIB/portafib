@@ -1191,10 +1191,14 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
 
     @RequestMapping(value = "/afegirRevisorDesDeModal", method = RequestMethod.POST)
     public String afegirRevisorDesDeModal(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
-            @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm, HttpServletRequest request) {
+            /*@ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm,*/ HttpServletRequest request) {
 
+        /*
         String usuariEntitatID = seleccioUsuariForm.getId();
         String firmaIDStr = seleccioUsuariForm.getParam1();
+        */
+        String usuariEntitatID = request.getParameter("usuariEntitatID");
+        String firmaIDStr = request.getParameter("paramRevi1");
 
         log.info("\n\n  --------- XYZ ZZZ afegirRevisorDesDeModal ----------");
         log.info("    usuariEntitatID = |" + usuariEntitatID + "|");
@@ -1228,26 +1232,38 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
     public String eliminarRevisor(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
             @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm, @RequestParam("blocID") long blocID,
             @RequestParam("firmaID") long firmaID, @RequestParam("revisorID") long revisorID,
-            HttpServletRequest request) throws I18NException {
+            HttpServletRequest request)  {
+        
+        try {
 
-        FluxDeFirmesJPA fluxDeFirmes = fluxDeFirmesForm.getFluxDeFirmes();
-        FirmaJPA firma = searchFirma(fluxDeFirmes, blocID, firmaID);
-
-        RevisorDeFirma rev = searchRevisor(firma, revisorID);
-
-        if (rev == null) {
-            htmlMessageNotFoundRevisor(revisorID, request);
-            return getTileForm();
+            FluxDeFirmesJPA fluxDeFirmes = fluxDeFirmesForm.getFluxDeFirmes();
+            FirmaJPA firma = searchFirma(fluxDeFirmes, blocID, firmaID);
+    
+            RevisorDeFirma rev = searchRevisor(firma, revisorID);
+    
+            if (rev == null) {
+                htmlMessageNotFoundRevisor(revisorID, request);
+                return getTileForm();
+            }
+    
+            // Eliminam el revisor de la bbdd
+            revisorDeFirmaLogicaEjb.delete(revisorID);
+    
+            
+            // Eliminam el revisor de l'entitat local
+            firma.getRevisorDeFirmas().remove(rev);
+    
+            // Recalcular minim de revisors de Firma!!!!
+            saveMinimRevisorsFirma(firma);
+        } catch (I18NException i18ne) {
+            String msg = I18NUtils.getMessage(i18ne);
+            log.error(msg, i18ne);
+            HtmlUtils.saveMessageError(request, I18NUtils.getMessage(i18ne));
+        } catch (Exception e) {
+            String msg = "Error intentant esborrar un Revisor: " +  e.getMessage();
+            log.error(msg, e);
+            HtmlUtils.saveMessageError(request, msg);
         }
-
-        // Eliminam el revisor de la bbdd
-        revisorDeFirmaLogicaEjb.delete(revisorID);
-
-        // Eliminam el revisor de l'entitat local
-        firma.getRevisorDeFirmas().remove(rev);
-
-        // Recalcular minim de revisors de Firma!!!!
-        saveMinimRevisorsFirma(firma);
 
         return getTileForm();
 
@@ -1602,7 +1618,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                 firma.setMinimDeRevisors(firma.getRevisorDeFirmas().size());
             }
         }
-        firmaLogicaEjb.update(firma);
+        firmaLogicaEjb.update(FirmaFields.MINIMDEREVISORS, firma.getMinimDeRevisors(), FirmaFields.FIRMAID.equal(firma.getFirmaID()));
     }
 
     @RequestMapping(value = "/eliminarFirma", method = RequestMethod.POST)

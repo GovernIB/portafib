@@ -571,29 +571,149 @@
     </div>
   </div>
   
-  
+  <%-- =========================================== --%>
+  <%-- Formulari per Seleccionar Revisor de Firma  --%>
+  <%-- =========================================== --%>
+  <form method="post" name="seleccioUsuariRevisorForm2"  id="seleccioUsuariRevisorForm2">
+    <input id="paramRevi1" name="paramRevi1" type="hidden" />
+    <input id="paramRevi2" name="paramRevi2" type="hidden" />
+    <div id="modalAfegirRevisorAFirma2" class="modal hide fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>
+                        <fmt:message key="selectflux.selectuserrevisor" />
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <select class="form-control" id="usuariEntitatID" name="usuariEntitatID">
 
-  
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div align="center">
+                        <button type="button" class="btn btn-primary" onclick="selectedUserRevisorFromModal2()"
+                            title="<fmt:message key="afegir" />">
+                            <i class="fas fa-plus-circle icon-white"></i>
+                            <fmt:message key="afegir" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+  </form>
 
-  <%-- FORMULARI MODAL DE SELECCIO D'USUARIS  --%>
-  <%-- REQUERIT:  Assignar un valor qualsevol com a valor inicial --%>
-  <c:url var="theURL" value="${contexte}/afegirBlocDesDeModal"/>
+    <%-- FORMULARI MODAL DE SELECCIO D'USUARIS  --%>
+    <%-- REQUERIT:  Assignar un valor qualsevol com a valor inicial --%>
+    <c:url var="theURL" value="${contexte}/afegirBlocDesDeModal" />
 
-  <%@ include file="/WEB-INF/jsp/common/seleccioUsuariModal.jsp"%>
-
-
-  <%-- FORMULARI MODAL DE SELECCIO DE REVISORS D'UNA FIRMA  --%>
-  <%-- REQUERIT:  Assignar un valor qualsevol com a valor inicial --%>
-  <c:url var="theURL" value="${contexte}/afegirBlocDesDeModal"/>
-
-  <c:set var="usuarimodalconfig" value="Revisor" />
-  <c:set var="seleccioUsuariForm" value="${seleccioUsuariRevisorForm}" />
-  <%@ include file="/WEB-INF/jsp/common/seleccioUsuariModal.jsp"%>
+    <%@ include file="/WEB-INF/jsp/common/seleccioUsuariModal.jsp"%>
 
 
-  <script type="text/javascript">
+    <%-- FORMULARI MODAL DE SELECCIO DE REVISORS D'UNA FIRMA  --%>
+    <%-- REQUERIT:  Assignar un valor qualsevol com a valor inicial --%>
+
+    <c:url var="theURL" value="${contexte}/afegirBlocDesDeModal" />
+
+    <c:set var="usuarimodalconfig" value="Revisor" />
+    <c:set var="seleccioUsuariForm" value="${seleccioUsuariRevisorForm}" />
+    <%@ include file="/WEB-INF/jsp/common/seleccioUsuariModal.jsp"%>
+
+
+<script type="text/javascript">
+
+  <%--  REVISORS --%>
+
+  function afegirRevisorDeFirma(firmaID, destinatariID) {
+    <%-- alert("FirmaID = " + firmaID); 
+    document.getElementById("seleccioUsuariRevisorForm").action='<c:url value="${contexte}/afegirRevisorDesDeModal"/>';
+    document.getElementById("param1").value = firmaID;
+    document.getElementById("param2").value = destinatariID;
+    openSelectUserRevisorDialog();--%>
+    
+    $('#seleccioUsuariRevisorForm2').attr('action', '<c:url value="${contexte}/afegirRevisorDesDeModal"/>');
+    $('#seleccioUsuariRevisorForm2 #paramRevi1').val(firmaID);
+    $('#seleccioUsuariRevisorForm2 #paramRevi2').val(destinatariID);
     
     
+<%--
+    //  Afegir codi per cridar a JSON que ompli el select amb tots els revisors
+    var parameters = { };
+    var p1 = document.getElementById('param1');
+    if (p1 != null) {
+        parameters['param1'] = p1.value;
+    }
+    var p2 = document.getElementById('param2');
+    if (p2 != null) {
+        parameters['param2'] = p2.value;
+    }
+    --%>
+    
+    const parametros = new URLSearchParams({
+        param1: firmaID,
+        param2: destinatariID
+    }).toString();
+    
+    <%--  Hacer la solicitud AJAX --%>
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("POST", '<c:url value="${seleccioUsuariRevisorForm.urlData}all"/>?' + parametros, false); // false para solicitud síncrona
+
+    <%-- Enviar la solicitud --%>
+    xhr.send();
+    
+    if (xhr.status === 200) { // Si el estado HTTP es OK
+        const result = JSON.parse(xhr.responseText); // Convertir el JSON a objeto
+        
+        if (result.length == 0) {
+            alert('<fmt:message key="selectflux.norevisors"/>');
+            return false;
+        }
+        
+        <%--    console.log("Datos obtenidos:", result); --%>
+        result.forEach(item => {
+            <%-- Añadir item.Id como value y item.Name como label de un elemento del select 
+            console.log("Afegir Item:", item);--%>
+            $('#seleccioUsuariRevisorForm2 #usuariEntitatID').append(
+                $('<option>', {
+                    value: item.Id,
+                    text: item.Name
+                })
+            );
+        });
+
+        $('#modalAfegirRevisorAFirma2').modal('show');
+        
+    } else {
+        alert("Error al obtener los datos:", xhr.responseText);
+        return false;
+    }
+
+  }
+  
+  
+  
+  function selectedUserRevisorFromModal2() {
+      var id = $('#seleccioUsuariRevisorForm2 #usuariEntitatID option:selected').val();
+      var text = $('#seleccioUsuariRevisorForm2 #usuariEntitatID option:selected').text();
+      <%--alert(" seleccioUsuariRevisorForm2 PRESUBMIT Valor de ID ]" + id + "[  ]" + text +"["); --%>
+
+      if (id) {
+          document.getElementById("seleccioUsuariRevisorForm2").submit();
+      } else {
+          alert("<fmt:message key="formselectionby.error.emptyid"/>");
+      }
+  }
+
+  <%-- FINAL DE REVISORS --%>
+
+
   function afegirBlocSelectUser(blocOrdre) {
       
       document.getElementById("seleccioUsuariForm").action='<c:url value="${contexte}/afegirBlocDesDeModal"/>';
@@ -616,14 +736,6 @@
       return false;
   }
   
-  function afegirRevisorDeFirma(firmaID, destinatariID) {
-    <%-- alert("FirmaID = " + firmaID); --%>
-    document.getElementById("seleccioUsuariRevisorForm").action='<c:url value="${contexte}/afegirRevisorDesDeModal"/>';
-    document.getElementById("param1").value = firmaID;
-    document.getElementById("param2").value = destinatariID;
-    openSelectUserRevisorDialog();
-    return false;
-  }
   
   
   function eliminarRevisor(blocID, firmaID, revisorID) {
@@ -729,7 +841,7 @@
   
   </script>
 
-  </c:if>
+</c:if>
 
   <c:if test="${readOnly == false}">
   
