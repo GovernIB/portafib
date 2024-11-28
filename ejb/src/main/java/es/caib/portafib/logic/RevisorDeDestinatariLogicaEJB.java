@@ -70,14 +70,12 @@ public class RevisorDeDestinatariLogicaEJB extends RevisorDeDestinatariEJB
         if (filterByUsername == null) {
             w = w1;
         } else {
-            Where w2 = Where.OR( 
-                    upqp.USUARIPERSONAID().like("%" + filterByUsername + "%"),
+            Where w2 = Where.OR(upqp.USUARIPERSONAID().like("%" + filterByUsername + "%"),
                     upqp.NIF().like("%" + filterByUsername + "%"),
                     //upqp.NOM().like("%" + filterByUsername + "%"),
                     upqp.NOM().likeSubstitutionsSimpleVowels("%" + filterByUsername + "%"),
                     //upqp.LLINATGES().like("%" + filterByUsername + "%")
-                    upqp.LLINATGES().likeSubstitutionsSimpleVowels("%" + filterByUsername + "%")
-                    );
+                    upqp.LLINATGES().likeSubstitutionsSimpleVowels("%" + filterByUsername + "%"));
             w = Where.AND(w1, w2);
         }
 
@@ -95,8 +93,6 @@ public class RevisorDeDestinatariLogicaEJB extends RevisorDeDestinatariEJB
         }
         return persones;
     }
-    
-    
 
     // Comprovar que l'usuari es revisor: té el rol global o es revisor d'un destinatari.
     @Override
@@ -124,8 +120,6 @@ public class RevisorDeDestinatariLogicaEJB extends RevisorDeDestinatariEJB
         return false;
 
     }
-    
-    
 
     /**
      * Comprova si es pot esborrar el revisor. 
@@ -136,14 +130,12 @@ public class RevisorDeDestinatariLogicaEJB extends RevisorDeDestinatariEJB
     @Override
     public I18NTranslation pucEsborrarRevisor(String usuariEntitatID) throws I18NException {
         I18NTranslation i18n = null;
-        {
-        
+
         // #169 Ho feim a SACO => Si apareix a alguna Peticio de Firma
         // com a revisor llavors no es pot esborrar
 
         List<RevisorDeFirma> revisions;
-        revisions = revisorDeFirmaEjb
-                .select(RevisorDeFirmaFields.USUARIENTITATID.equal(usuariEntitatID));
+        revisions = revisorDeFirmaEjb.select(RevisorDeFirmaFields.USUARIENTITATID.equal(usuariEntitatID));
 
         if (revisions == null || revisions.size() == 0) {
             i18n = null;
@@ -173,8 +165,7 @@ public class RevisorDeDestinatariLogicaEJB extends RevisorDeDestinatariEJB
 
                     // "El revisor amb usuari-entitat {0} no es pot esborrar ja que esta donat
                     // d´alta com a revisor en les següent peticions de firma: {1}
-                    i18n = new I18NTranslation("revisor.error.apareixenpeticions",
-                            usuariEntitatID, str.toString());
+                    i18n = new I18NTranslation("revisor.error.apareixenpeticions", usuariEntitatID, str.toString());
                 }
             }
 
@@ -197,18 +188,13 @@ public class RevisorDeDestinatariLogicaEJB extends RevisorDeDestinatariEJB
 
                     // "El revisor amb usuari-entitat {0} no es pot esborrar ja que esta donat
                     // d´alta com a revisor en les següent peticions de firma: {1}
-                    i18n = new I18NTranslation("revisor.error.apareixenflux",
-                            usuariEntitatID, str.toString());
+                    i18n = new I18NTranslation("revisor.error.apareixenflux", usuariEntitatID, str.toString());
                 }
             }
 
         }
-        
-        
-        
-        }
+
         return i18n;
     }
-
 
 }
