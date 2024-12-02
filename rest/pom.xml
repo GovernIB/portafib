@@ -17,19 +17,16 @@
 
     <dependencies>
 
+
+
         <!-- Internas -->
         <dependency>
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-ejb</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
 
-
-        <dependency>
-            <groupId>es.caib.portafib</groupId>
-            <artifactId>portafib-commons</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
 
         <!-- Externas -->

@@ -665,7 +665,7 @@
                     <skinnyWars>true</skinnyWars>
 
                     <packagingExcludes>
-                                                <!-- Requereix afegir mòdul 'asm.asm' a jboss-deployment-structure.xml -->
+                         <!-- Requereix afegir mòdul 'asm.asm' a jboss-deployment-structure.xml -->
                          **/asm*redhat*.jar,
                          **/asm-util*redhat*.jar,
                         <!-- Requereix afegir mòdul 'com.fasterxml.jackson.core.jackson-annotations' a jboss-deployment-structure.xml -->

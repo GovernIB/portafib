@@ -25,7 +25,6 @@ import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.SignBoxRectangle;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -40,6 +39,7 @@ import org.fundaciobit.pluginsib.signature.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.pluginsib.signature.api.SignaturesSet;
 import org.fundaciobit.pluginsib.signature.api.SignaturesTableHeader;
 import org.fundaciobit.pluginsib.utils.signature.SignatureConstants;
+import org.jboss.logging.Logger;
 import org.fundaciobit.pluginsib.barcode.api.IBarcodePlugin;
 import org.fundaciobit.pluginsib.core.v3.utils.PluginsManager;
 
@@ -590,15 +590,14 @@ public class SignatureUtils {
      *
      * @return
      */
-    public static void convertirDocumentAPDF(Fitxer srcInfo, File src, File dst) throws I18NException {
+    public static void convertirDocumentAPDF(Fitxer fileToConvertInfo, File fileToConvert, File dst) throws I18NException {
 
         try {
+            Fitxer fitxerConvertit = PdfUtils.convertToPDF(fileToConvert, fileToConvertInfo);
 
-            Fitxer fitxerConvertit = PdfUtils.convertToPDF(src, srcInfo);
-
-            if (fitxerConvertit == srcInfo) {
+            if (fitxerConvertit == fileToConvertInfo || fitxerConvertit.getData() == fileToConvertInfo.getData()) {
                 // Es un PDF. Movem l'original a l'adaptat
-                FileUtils.moveFile(src, dst);
+                FileUtils.moveFile(fileToConvert, dst);
             } else {
                 // No és un PDF, ho substituim pel fitxer convertit
 
@@ -608,10 +607,9 @@ public class SignatureUtils {
 
             }
             // OK
-
         } catch (Exception e) {
             log.error("Error desconegut convertint document a pdf: " + e.getMessage(), e);
-            throw new I18NException("formatfitxer.conversio.error", new I18NArgumentString(e.getMessage()));
+            throw new I18NException(e,"formatfitxer.conversio.error", new I18NArgumentString(e.getMessage()));
         }
 
     }

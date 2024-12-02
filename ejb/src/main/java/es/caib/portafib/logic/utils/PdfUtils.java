@@ -25,15 +25,15 @@ import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-//import org.fundaciobit.pluginsib.validatecertificate.ICertificatePlugin;
-//import org.fundaciobit.pluginsib.validatecertificate.ResultatValidacio;
+
 import org.fundaciobit.pluginsib.documentconverter.IDocumentConverterPlugin;
 import org.fundaciobit.pluginsib.documentconverter.InputDocumentNotSupportedException;
 import org.fundaciobit.pluginsib.documentconverter.OutputDocumentNotSupportedException;
+import org.jboss.logging.Logger;
 
 import javax.activation.DataHandler;
 import javax.mail.util.ByteArrayDataSource;
@@ -62,7 +62,6 @@ public class PdfUtils implements ConstantsV2 {
     protected static Logger log = Logger.getLogger(PdfUtils.class);
 
     public static Fitxer convertToPDF(File fileToConvert, Fitxer fileToConvertInfo) throws I18NException {
-
         String mime = fileToConvertInfo.getMime();
         boolean isDebug = log.isDebugEnabled();
         if (isDebug) {
@@ -73,8 +72,9 @@ public class PdfUtils implements ConstantsV2 {
         }
 
         if (MIME_TYPE_PDF.equals(mime) || isPdf(fileToConvert)) {
-            
-            if (fileToConvertInfo.getNom().toLowerCase().endsWith("." + PDF_FILE_EXTENSION) && MIME_TYPE_PDF.equals(mime)) {
+
+            if (fileToConvertInfo.getNom().toLowerCase().endsWith("." + PDF_FILE_EXTENSION)
+                    && (MIME_TYPE_PDF.equals(mime) || mime == null)) {
                 // No cal fer res
                 return fileToConvertInfo;
             } else {
@@ -83,7 +83,7 @@ public class PdfUtils implements ConstantsV2 {
                 fileConvertedInfo.setNom(fileToConvertInfo.getNom() + "." + PDF_FILE_EXTENSION);
                 return fileConvertedInfo;
             }
-            
+
         } else {
             try {
                 IDocumentConverterPlugin docPlugin = null;
@@ -111,7 +111,7 @@ public class PdfUtils implements ConstantsV2 {
                     } else {
                         throw new I18NException("formatfitxer.conversio.errorinput", fileToConvertInfo.getNom(), mime);
                     }
-                    if (PDF_FILE_EXTENSION.equals(extensio.toLowerCase()) ) {
+                    if (PDF_FILE_EXTENSION.equals(extensio.toLowerCase())) {
                         newFileName = fileToConvertInfo.getNom();
                         baos = new ByteArrayOutputStream();
                         baos.write(FileUtils.readFileToByteArray(fileToConvert));
@@ -172,9 +172,9 @@ public class PdfUtils implements ConstantsV2 {
         return validacio;
     }
     */
-    
+
     public static final boolean isPdf(File file) {
-        
+
         // Llegeix el fitxer amb itext. Si llança excepció retornar false. Sinó retorna true
         try {
             PdfReader reader = new PdfReader(file.getAbsolutePath());
@@ -183,12 +183,8 @@ public class PdfUtils implements ConstantsV2 {
         } catch (Throwable e) {
             return false;
         }
-        
+
     }
-    
-    
-    
-    
 
     public static int add_TableSign_Attachments_CustodyInfo_PDF(File srcPDF, File dstPDF,
             final List<AttachedFile> attachmentsOrig, Long maxSize, StampTaulaDeFirmes taulaDeFirmesInfo,
