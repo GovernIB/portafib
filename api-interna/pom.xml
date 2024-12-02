@@ -27,20 +27,12 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <!-- Altres mòduls del projecte -->
-        <dependency>
-            <groupId>es.caib.portafib</groupId>
-            <artifactId>portafib-commons</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>es.caib.portafib</groupId>
-            <artifactId>portafib-persistence</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-ejb</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <!-- Anotacions de documentació de openapi -->
         <dependency>
