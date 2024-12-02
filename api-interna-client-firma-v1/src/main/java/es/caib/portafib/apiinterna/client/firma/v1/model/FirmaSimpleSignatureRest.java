@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * FirmaSimpleSignatureRest
+ * Resposta de la petició de firma en servidor
  */
 @JsonPropertyOrder({
   FirmaSimpleSignatureRest.JSON_PROPERTY_SIGN_I_D,
@@ -59,12 +59,12 @@ public class FirmaSimpleSignatureRest {
   }
 
    /**
-   * Get signID
+   * Identificador de la firma
    * @return signID
   **/
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGN_I_D)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getSignID() {
     return signID;
@@ -72,7 +72,7 @@ public class FirmaSimpleSignatureRest {
 
 
   @JsonProperty(JSON_PROPERTY_SIGN_I_D)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setSignID(String signID) {
     this.signID = signID;
   }
@@ -88,9 +88,9 @@ public class FirmaSimpleSignatureRest {
    * Get status
    * @return status
   **/
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public FirmaSimpleStatus getStatus() {
     return status;
@@ -98,7 +98,7 @@ public class FirmaSimpleSignatureRest {
 
 
   @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setStatus(FirmaSimpleStatus status) {
     this.status = status;
   }

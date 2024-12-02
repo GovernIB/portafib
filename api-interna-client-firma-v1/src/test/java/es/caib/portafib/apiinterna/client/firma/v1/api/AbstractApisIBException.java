@@ -2,9 +2,7 @@ package es.caib.portafib.apiinterna.client.firma.v1.api;
 
 
 /**
- * 
  * @author anadal
- *
  */
 public abstract class AbstractApisIBException extends Exception {
   

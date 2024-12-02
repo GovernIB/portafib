@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * LlistaTipusDocumentalRest
+ * Resposta per la petició de llistats de tipus documentals.
  */
 @JsonPropertyOrder({
   LlistaTipusDocumentalRest.JSON_PROPERTY_DATA,
@@ -60,7 +60,7 @@ public class LlistaTipusDocumentalRest {
   }
 
    /**
-   * Get data
+   * Llistat de tipus documentals disponibles
    * @return data
   **/
   @javax.annotation.Nullable
@@ -86,7 +86,7 @@ public class LlistaTipusDocumentalRest {
   }
 
    /**
-   * Get language
+   * Llenguatge seleccionat per la resposta
    * @return language
   **/
   @javax.annotation.Nullable

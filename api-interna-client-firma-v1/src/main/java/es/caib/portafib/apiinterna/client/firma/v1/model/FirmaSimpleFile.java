@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * FirmaSimpleFile
+ * Document a signar
  */
 @JsonPropertyOrder({
   FirmaSimpleFile.JSON_PROPERTY_NOM,
@@ -52,12 +52,12 @@ public class FirmaSimpleFile {
   }
 
    /**
-   * Get nom
+   * Nom del fitxer.
    * @return nom
   **/
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NOM)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getNom() {
     return nom;
@@ -65,7 +65,7 @@ public class FirmaSimpleFile {
 
 
   @JsonProperty(JSON_PROPERTY_NOM)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setNom(String nom) {
     this.nom = nom;
   }
@@ -78,7 +78,7 @@ public class FirmaSimpleFile {
   }
 
    /**
-   * Get mime
+   * Tipus mime del fitxer.
    * @return mime
   **/
   @javax.annotation.Nullable

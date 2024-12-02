@@ -337,45 +337,64 @@
   "components" : {
     "schemas" : {
       "FirmaSimpleCommonInfo" : {
+        "required" : [ "administrationID", "languageUI" ],
         "type" : "object",
         "properties" : {
           "signProfile" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Identificador único del usuario",
+            "example" : "PROFILE_PADES"
           },
           "languageUI" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Idioma en que retornar valors i missatges d'error",
+            "example" : "ca"
           },
           "username" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : " - FIRMA WEB: Requerit. És el codi d'usuari dins l'entitat. Per exemple en entorn CAIB serien els \"u800xx\" o \"u[DNI]\"\r\n -FIRMA EN SERVIDOR: Opcional. Es reconama que valgui null a no ser que l'administrador digui el contrari. És la configuració de firma en el sistema específic de firma. Per exemple amb el Plugin de @firma federat et pots connectar amb un usuari-password però aquest pot tenir diverses configuracions per fer firmes en servidor o àlies: \"username\" s'utilitza de definir aquesta configuració o àlies.",
+            "example" : "\"u800xx\" / \"u[DNI]\""
           },
           "administrationID" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : " - FIRMA WEB: Requerit. És el DNI de la persona signant. Si esta activa la validació dins PortaFIB llavors es valida que el DNI del Certificat sigui el mateix que aquest.\r\n - FIRMA EN SERVIDOR: Opcional. És el CIF o NIF associat al certificat en servidor. Si es defineix i si esta activa la validació dins PortaFIB llavors es valida que el DNI del Certificat sigui el mateix que aquest.",
+            "example" : "99999999Z"
           },
           "organizationID" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Opcional. És el CIF de l'organització representada pel signant. Si esta activa la validació dins PortaFIB llavors es valida que el Certificat sigui un certificat de representant d'aquest CIF.",
+            "example" : "B99999999"
           },
           "signerEmail" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : " - FIRMA WEB: Opcional. Correu del Firmant. Per afegir a les dades de la firma.\r\n - FIRMA EN SERVIDOR: Opcional. Correu del departament que ordena la firma. Per afegir a les dades de la firma.",
+            "example" : "correufirmant@entitat.org"
           }
-        }
+        },
+        "description" : "Configuracions generals de firma i identificacio del solicitant i solicitat"
       },
       "FirmaSimpleFile" : {
+        "required" : [ "nom" ],
         "type" : "object",
         "properties" : {
           "nom" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Nom del fitxer."
           },
           "mime" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Tipus mime del fitxer."
           },
           "data" : {
             "type" : "string",
             "description" : "Contingut del fitxer. En llistats aquest camp vendrà buit.",
             "format" : "byte"
           }
-        }
+        },
+        "description" : "Document a signar"
       },
       "FirmaSimpleFileInfoSignature" : {
+        "required" : [ "fileToSign", "languageSign", "location", "name", "reason", "signID", "signNumber" ],
         "type" : "object",
         "properties" : {
           "fileToSign" : {
@@ -385,61 +404,92 @@
             "$ref" : "#/components/schemas/FirmaSimpleFile"
           },
           "signID" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Identificador de la Firma",
+            "example" : "1"
           },
           "name" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Nom descriptiu de la firma. Pot ser el nom del fitxer o un nom associat a la tasca per a la que es requereix la firma.",
+            "example" : "test.pdf"
           },
           "reason" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Raó de la realització de la firma.",
+            "example" : "Exemple de firma"
           },
           "location" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Lloc on es realitza la firma.",
+            "example" : "Palma"
           },
           "signNumber" : {
             "type" : "integer",
-            "format" : "int32"
+            "description" : "Posició de la firma dins el flux de firma.",
+            "format" : "int32",
+            "example" : 1
           },
           "languageSign" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Idioma del document.",
+            "example" : "ca"
           },
           "expedientCodi" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Codi de l'expedient.",
+            "example" : "ca"
           },
           "expedientNom" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Nom de l'expedient.",
+            "example" : "ca"
           },
           "expedientUrl" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "URL de l'expedient.",
+            "example" : "ca"
           },
           "procedimentCodi" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Codi del Procediment.",
+            "example" : "ca"
           },
           "procedimentNom" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Nom del Procediment.",
+            "example" : "ca"
           },
           "documentType" : {
             "type" : "integer",
+            "description" : "Tipus Documental. Si val null se li assigna 99",
             "format" : "int64"
           },
           "additionalInformation" : {
             "type" : "array",
+            "description" : "Informació Addicional.",
+            "example" : "ca",
             "items" : {
               "$ref" : "#/components/schemas/FirmaSimpleKeyValue"
             }
           }
-        }
+        },
+        "description" : "Informació especifica per a realitzar la firma"
       },
       "FirmaSimpleKeyValue" : {
+        "required" : [ "key", "value" ],
         "type" : "object",
         "properties" : {
           "key" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Clau del valor"
           },
           "value" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Valor de la clau"
           }
-        }
+        },
+        "description" : "Ofereix informació addicional sobre el firmant o la firma",
+        "example" : "ca"
       },
       "FirmaSimpleSignDocumentRequest" : {
         "type" : "object",
@@ -453,45 +503,59 @@
         }
       },
       "FirmaSimpleCustodyInfo" : {
+        "required" : [ "custodyID" ],
         "type" : "object",
         "properties" : {
           "custodyID" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Identificador del sistema de custòdia"
           },
           "csv" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "URL on descarregar directament el fitxer signat"
           },
           "csvValidationWeb" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Codi Segur de Validació d'aquest document custodiat."
           },
           "validationFileUrl" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "URL on descarregar-se la definició de com es genera el CSV"
           },
           "csvGenerationDefinition" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Pàgina web on validar el document, normalment a partir de CSV"
           },
           "originalFileDirectURL" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "URL al document original"
           },
           "printableFileDirectUrl" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "URL al document en format per imprimir"
           },
           "eniFileDirectUrl" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Url al eni File"
           },
           "expedientID" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Id del expedient si és un expedient o esta relacionat amb un expedient."
           },
           "documentID" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Id del document a signar"
           }
-        }
+        },
+        "description" : "Informació de Custòdia"
       },
       "FirmaSimpleSignatureRest" : {
+        "required" : [ "signID", "status" ],
         "type" : "object",
         "properties" : {
           "signID" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Identificador de la firma"
           },
           "status" : {
             "$ref" : "#/components/schemas/FirmaSimpleStatus"
@@ -502,40 +566,60 @@
           "signedFileInfo" : {
             "$ref" : "#/components/schemas/FirmaSimpleSignedFileInfo"
           }
-        }
+        },
+        "description" : "Resposta de la petició de firma en servidor"
       },
       "FirmaSimpleSignedFileInfo" : {
+        "required" : [ "policyIncluded", "signAlgorithm", "signMode", "signOperation", "signType", "signaturesTableLocation", "signerInfo", "timeStampIncluded" ],
         "type" : "object",
         "properties" : {
           "signOperation" : {
             "type" : "integer",
-            "format" : "int32"
+            "description" : "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma (2).",
+            "format" : "int32",
+            "example" : 1
           },
           "signType" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Tipus de Firma. Valors possibles:\r\n    - “PAdES” (Constant SIGN_TYPE_PADES)\r\n    - “XAdES” (Constant SIGN_TYPE_XADES)\r\n    - “CAdES” (Constant SIGN_TYPE_CADES)\r\n    - “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\n    - “OOXML” (Constant SIGN_TYPE_OOXML)\r\n    - “ODF” (Constant SIGN_TYPE_ODF)\r\n    - “SMIME” (Constant SIGN_TYPE_SMIME)\r\n    - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)\r\n    - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\n    - “PKCS#1” (Constant SIGN_TYPE_PKCS1)",
+            "example" : "PAdES"
           },
           "signAlgorithm" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Algorisme de Firma. Valors: \r\n    - \"SHA-1\"\r\n    - \"SHA-256\"\r\n    - \"SHA-384\"\r\n    - \"SHA-512\"",
+            "example" : "SHA-1"
           },
           "signMode" : {
             "type" : "integer",
-            "format" : "int32"
+            "description" : "Valors:\r\n    - 0: Implicit o Attached. La firma resultante incluye internamente una copia de los datos firmados. \r\n    - 1: Explicit o Detached: La firma resultante no incluye los datos firmados. ",
+            "format" : "int32",
+            "example" : 0
           },
           "signaturesTableLocation" : {
             "type" : "integer",
-            "format" : "int32"
+            "description" : "Posició de la Taula de firmes:\r\n    - 0: Sense taula de firmes\r\n    - 1: Taula de firmes en la 1a pàgina\r\n    - -1: Darrera pàgina",
+            "format" : "int32",
+            "example" : 1
           },
           "timeStampIncluded" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "description" : "Indica si s'ha afegit un segell de Temps durant la firma",
+            "example" : true
           },
           "policyIncluded" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "description" : "Indica si inclou política de firma (true, EPES) o no (false)",
+            "example" : true
           },
           "eniTipoFirma" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Denominación normalizada del tipo de firma. Los posibles valores asignables son los siguientes: \r\n    - TF01 - CSV \r\n    - TF02 - XAdES internally detached signature\"); \r\n    - TF03 - XAdES enveloped signature.\r\n    - TF04 - CAdES detached/explicit signature.\r\n    - TF05 – CadES attached/implicit signature.\r\n    - TF06 - PAdES. El tipo TF04 será establecido por defecto para documentos firmados, exceptuando los documentos en formato PDF o PDF/A, cuyo tipo será TF06.",
+            "example" : "TF01"
           },
           "eniPerfilFirma" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Perfil empleado en una firma con certificado electrónico. Los posibles valores asignables son los siguientes:\r\n  AdES-BES\r\n  AdES-EPES\r\n  AdES-T\r\n  AdES-C\r\n  AdES-X\r\n  AdES-X1\r\n  AdES-X2\r\n  AdES-XL\r\n  AdES-XL1\r\n  AdES-XL2\r\n  AdES-A\r\n  PAdES-LTV\r\n  PAdES-Basic",
+            "example" : "AdES-BES"
           },
           "signerInfo" : {
             "$ref" : "#/components/schemas/FirmaSimpleSignerInfo"
@@ -546,43 +630,54 @@
           "validationInfo" : {
             "$ref" : "#/components/schemas/FirmaSimpleValidationInfo"
           }
-        }
+        },
+        "description" : "Informació del fitxer signat."
       },
       "FirmaSimpleSignerInfo" : {
         "type" : "object",
         "properties" : {
           "eniRolFirma" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Esquemas desarrollados a nivel local y que pueden incluir valores como válida, autentica, refrenda, visa, representa, testimonia, etc.."
           },
           "eniSignerName" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Nombre o razón social de los firmantes."
           },
           "eniSignerAdministrationId" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "NIF del firmant."
           },
           "eniSignLevel" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Indicador normalizado que refleja el grado de  confianza de la firma utilizado. Ejemplos: Nick, PIN ciudadano, Firma electrónica avanzada, Claves concertadas, Firma electrónica avanzada basada en certificados, CSV, .."
           },
           "signDate" : {
             "type" : "string",
+            "description" : "Data en que es va realitzar la firma",
             "format" : "date-time"
           },
           "serialNumberCert" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Número de Sèrie del Certificat utilitzat en la firma"
           },
           "issuerCert" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Issuer del Certificat utilitzat en la firma"
           },
           "subjectCert" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Subject del Certificat utilitzat en la firma"
           },
           "additionalInformation" : {
             "type" : "array",
+            "description" : "Ofrecer cualquier otra información que se  considere útil acerca del firmante.",
             "items" : {
               "$ref" : "#/components/schemas/FirmaSimpleKeyValue"
             }
           }
-        }
+        },
+        "description" : "Informació del signant"
       },
       "FirmaSimpleStatus" : {
         "required" : [ "STATUS_CANCELLED", "STATUS_FINAL_ERROR", "STATUS_FINAL_OK", "STATUS_INITIALIZING", "STATUS_IN_PROGRESS" ],
@@ -633,24 +728,30 @@
           "errorStackTrace" : {
             "type" : "string"
           }
-        }
+        },
+        "description" : "Estat del procés de firma"
       },
       "FirmaSimpleValidationInfo" : {
         "type" : "object",
         "properties" : {
           "checkAdministrationIDOfSigner" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "description" : "S’ha verificat que l’identificador del firmant és la del que estava previst que firmàs. Valor buit indica que no s'ha realitzat la validació."
           },
           "checkDocumentModifications" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "description" : "S’ha verificat que no s’hagi modificat el document original. Valor buit indica que no s'ha realitzat la validació."
           },
           "checkValidationSignature" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "description" : "S’ha verificat que la firma és correcte. Valor buit indica que no s'ha realitzat la validació."
           },
           "noCheckValidationReason" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Només s'omple si checkValidationSignature val false"
           }
-        }
+        },
+        "description" : "Informació de les validacions realitzades despres de la firma."
       },
       "RestExceptionInfo" : {
         "required" : [ "code", "errorMessage" ],
@@ -681,15 +782,19 @@
         "description" : "Estructura de dades utilitzada per passar informació d'un error"
       },
       "ApisIBKeyValue" : {
+        "required" : [ "key", "value" ],
         "type" : "object",
         "properties" : {
           "key" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Clau del valor"
           },
           "value" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Valor de la clau"
           }
-        }
+        },
+        "description" : "Objecte per afegir informació addicional sobre la firma o el firmant"
       },
       "AvailableLanguagesRest" : {
         "type" : "object",
@@ -735,30 +840,37 @@
         "properties" : {
           "data" : {
             "type" : "array",
+            "description" : "Llistat de tipus documentals disponibles",
             "items" : {
               "$ref" : "#/components/schemas/TipusDocumentalRest"
             }
           },
           "language" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Llenguatge seleccionat per la resposta"
           }
-        }
+        },
+        "description" : "Resposta per la petició de llistats de tipus documentals."
       },
       "TipusDocumentalRest" : {
         "type" : "object",
         "properties" : {
           "tipusDocumentID" : {
             "type" : "integer",
+            "description" : "Identificador del tipus documental",
             "format" : "int64"
           },
           "nom" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Nom del tipus documental en l'idioma seleccionat"
           },
           "tipusDocumentNTI" : {
             "type" : "integer",
+            "description" : "Codi NTI del tipus documental",
             "format" : "int64"
           }
-        }
+        },
+        "description" : "Model de dades d'un tipus documental"
       }
     },
     "securitySchemes" : {

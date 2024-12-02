@@ -3,17 +3,20 @@ package es.caib.portafib.api.interna.secure.firma.v1.commons.apisib;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "Document a signar")
 public class ApisIBFile {
-
-	  protected java.lang.String nom;
-
-	  protected java.lang.String mime;
+      
+     @Schema(description = "Nom del fitxer.", required = true)
+	 protected java.lang.String nom;
+     @Schema(description = "Tipus mime del fitxer.", required = false,
+             type = "string")
+	 protected java.lang.String mime;
 	  
-	  @Schema(description = "Contingut del fitxer. En llistats aquest camp vendrà buit.",
-	            required = false,
-	            type = "string",
-	            format="byte")
-	  protected byte[] data;
+	 @Schema(description = "Contingut del fitxer. En llistats aquest camp vendrà buit.",
+	           required = false,
+	           type = "string",
+	           format="byte")
+	 protected byte[] data;
 
 	  /** Constructor Buit */
 	  public ApisIBFile() {

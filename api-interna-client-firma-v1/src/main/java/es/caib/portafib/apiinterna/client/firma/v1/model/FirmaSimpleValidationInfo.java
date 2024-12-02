@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * FirmaSimpleValidationInfo
+ * Informació de les validacions realitzades despres de la firma.
  */
 @JsonPropertyOrder({
   FirmaSimpleValidationInfo.JSON_PROPERTY_CHECK_ADMINISTRATION_I_D_OF_SIGNER,
@@ -56,7 +56,7 @@ public class FirmaSimpleValidationInfo {
   }
 
    /**
-   * Get checkAdministrationIDOfSigner
+   * S’ha verificat que l’identificador del firmant és la del que estava previst que firmàs. Valor buit indica que no s&#39;ha realitzat la validació.
    * @return checkAdministrationIDOfSigner
   **/
   @javax.annotation.Nullable
@@ -82,7 +82,7 @@ public class FirmaSimpleValidationInfo {
   }
 
    /**
-   * Get checkDocumentModifications
+   * S’ha verificat que no s’hagi modificat el document original. Valor buit indica que no s&#39;ha realitzat la validació.
    * @return checkDocumentModifications
   **/
   @javax.annotation.Nullable
@@ -108,7 +108,7 @@ public class FirmaSimpleValidationInfo {
   }
 
    /**
-   * Get checkValidationSignature
+   * S’ha verificat que la firma és correcte. Valor buit indica que no s&#39;ha realitzat la validació.
    * @return checkValidationSignature
   **/
   @javax.annotation.Nullable
@@ -134,7 +134,7 @@ public class FirmaSimpleValidationInfo {
   }
 
    /**
-   * Get noCheckValidationReason
+   * Només s&#39;omple si checkValidationSignature val false
    * @return noCheckValidationReason
   **/
   @javax.annotation.Nullable

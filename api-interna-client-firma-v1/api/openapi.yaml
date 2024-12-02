@@ -245,150 +245,219 @@ paths:
 components:
   schemas:
     FirmaSimpleCommonInfo:
+      description: Configuracions generals de firma i identificacio del solicitant
+        i solicitat
       example:
-        signProfile: signProfile
-        administrationID: administrationID
-        organizationID: organizationID
-        signerEmail: signerEmail
-        languageUI: languageUI
-        username: username
+        signProfile: PROFILE_PADES
+        administrationID: 99999999Z
+        organizationID: B99999999
+        signerEmail: correufirmant@entitat.org
+        languageUI: ca
+        username: "\"u800xx\" / \"u[DNI]\""
       properties:
         signProfile:
+          description: Identificador único del usuario
+          example: PROFILE_PADES
           type: string
         languageUI:
+          description: Idioma en que retornar valors i missatges d'error
+          example: ca
           type: string
         username:
+          description: " - FIRMA WEB: Requerit. És el codi d'usuari dins l'entitat.\
+            \ Per exemple en entorn CAIB serien els \"u800xx\" o \"u[DNI]\"\r\n -FIRMA\
+            \ EN SERVIDOR: Opcional. Es reconama que valgui null a no ser que l'administrador\
+            \ digui el contrari. És la configuració de firma en el sistema especí\
+            fic de firma. Per exemple amb el Plugin de @firma federat et pots connectar\
+            \ amb un usuari-password però aquest pot tenir diverses configuracions\
+            \ per fer firmes en servidor o àlies: \"username\" s'utilitza de definir\
+            \ aquesta configuració o àlies."
+          example: "\"u800xx\" / \"u[DNI]\""
           type: string
         administrationID:
+          description: " - FIRMA WEB: Requerit. És el DNI de la persona signant. Si\
+            \ esta activa la validació dins PortaFIB llavors es valida que el DNI\
+            \ del Certificat sigui el mateix que aquest.\r\n - FIRMA EN SERVIDOR:\
+            \ Opcional. És el CIF o NIF associat al certificat en servidor. Si es\
+            \ defineix i si esta activa la validació dins PortaFIB llavors es valida\
+            \ que el DNI del Certificat sigui el mateix que aquest."
+          example: 99999999Z
           type: string
         organizationID:
+          description: Opcional. És el CIF de l'organització representada pel signant.
+            Si esta activa la validació dins PortaFIB llavors es valida que el Certificat
+            sigui un certificat de representant d'aquest CIF.
+          example: B99999999
           type: string
         signerEmail:
+          description: " - FIRMA WEB: Opcional. Correu del Firmant. Per afegir a les\
+            \ dades de la firma.\r\n - FIRMA EN SERVIDOR: Opcional. Correu del departament\
+            \ que ordena la firma. Per afegir a les dades de la firma."
+          example: correufirmant@entitat.org
           type: string
+      required:
+      - administrationID
+      - languageUI
       type: object
     FirmaSimpleFile:
+      description: Document a signar
       example:
         data: data
         mime: mime
         nom: nom
       properties:
         nom:
+          description: Nom del fitxer.
           type: string
         mime:
+          description: Tipus mime del fitxer.
           type: string
         data:
           description: Contingut del fitxer. En llistats aquest camp vendrà buit.
           format: byte
           type: string
+      required:
+      - nom
       type: object
     FirmaSimpleFileInfoSignature:
+      description: Informació especifica per a realitzar la firma
       example:
-        reason: reason
-        additionalInformation:
-        - value: value
-          key: key
-        - value: value
-          key: key
-        expedientNom: expedientNom
-        languageSign: languageSign
-        documentType: 6
-        signID: signID
-        expedientCodi: expedientCodi
-        procedimentCodi: procedimentCodi
-        procedimentNom: procedimentNom
-        signNumber: 0
+        reason: Exemple de firma
+        additionalInformation: ca
+        expedientNom: ca
+        languageSign: ca
+        documentType: 0
+        signID: "1"
+        expedientCodi: ca
+        procedimentCodi: ca
+        procedimentNom: ca
+        signNumber: 1
         fileToSign:
           data: data
           mime: mime
           nom: nom
-        name: name
-        location: location
+        name: test.pdf
+        location: Palma
         previusSignatureDetachedFile:
           data: data
           mime: mime
           nom: nom
-        expedientUrl: expedientUrl
+        expedientUrl: ca
       properties:
         fileToSign:
           $ref: '#/components/schemas/FirmaSimpleFile'
         previusSignatureDetachedFile:
           $ref: '#/components/schemas/FirmaSimpleFile'
         signID:
+          description: Identificador de la Firma
+          example: "1"
           type: string
         name:
+          description: Nom descriptiu de la firma. Pot ser el nom del fitxer o un
+            nom associat a la tasca per a la que es requereix la firma.
+          example: test.pdf
           type: string
         reason:
+          description: Raó de la realització de la firma.
+          example: Exemple de firma
           type: string
         location:
+          description: Lloc on es realitza la firma.
+          example: Palma
           type: string
         signNumber:
+          description: Posició de la firma dins el flux de firma.
+          example: 1
           format: int32
           type: integer
         languageSign:
+          description: Idioma del document.
+          example: ca
           type: string
         expedientCodi:
+          description: Codi de l'expedient.
+          example: ca
           type: string
         expedientNom:
+          description: Nom de l'expedient.
+          example: ca
           type: string
         expedientUrl:
+          description: URL de l'expedient.
+          example: ca
           type: string
         procedimentCodi:
+          description: Codi del Procediment.
+          example: ca
           type: string
         procedimentNom:
+          description: Nom del Procediment.
+          example: ca
           type: string
         documentType:
+          description: Tipus Documental. Si val null se li assigna 99
           format: int64
           type: integer
         additionalInformation:
+          description: Informació Addicional.
+          example: ca
           items:
             $ref: '#/components/schemas/FirmaSimpleKeyValue'
           type: array
+      required:
+      - fileToSign
+      - languageSign
+      - location
+      - name
+      - reason
+      - signID
+      - signNumber
       type: object
     FirmaSimpleKeyValue:
-      example:
-        value: value
-        key: key
+      description: Ofereix informació addicional sobre el firmant o la firma
+      example: ca
       properties:
         key:
+          description: Clau del valor
           type: string
         value:
+          description: Valor de la clau
           type: string
+      required:
+      - key
+      - value
       type: object
     FirmaSimpleSignDocumentRequest:
       example:
         fileInfoSignature:
-          reason: reason
-          additionalInformation:
-          - value: value
-            key: key
-          - value: value
-            key: key
-          expedientNom: expedientNom
-          languageSign: languageSign
-          documentType: 6
-          signID: signID
-          expedientCodi: expedientCodi
-          procedimentCodi: procedimentCodi
-          procedimentNom: procedimentNom
-          signNumber: 0
+          reason: Exemple de firma
+          additionalInformation: ca
+          expedientNom: ca
+          languageSign: ca
+          documentType: 0
+          signID: "1"
+          expedientCodi: ca
+          procedimentCodi: ca
+          procedimentNom: ca
+          signNumber: 1
           fileToSign:
             data: data
             mime: mime
             nom: nom
-          name: name
-          location: location
+          name: test.pdf
+          location: Palma
           previusSignatureDetachedFile:
             data: data
             mime: mime
             nom: nom
-          expedientUrl: expedientUrl
+          expedientUrl: ca
         commonInfo:
-          signProfile: signProfile
-          administrationID: administrationID
-          organizationID: organizationID
-          signerEmail: signerEmail
-          languageUI: languageUI
-          username: username
+          signProfile: PROFILE_PADES
+          administrationID: 99999999Z
+          organizationID: B99999999
+          signerEmail: correufirmant@entitat.org
+          languageUI: ca
+          username: "\"u800xx\" / \"u[DNI]\""
       properties:
         commonInfo:
           $ref: '#/components/schemas/FirmaSimpleCommonInfo'
@@ -396,6 +465,7 @@ components:
           $ref: '#/components/schemas/FirmaSimpleFileInfoSignature'
       type: object
     FirmaSimpleCustodyInfo:
+      description: Informació de Custòdia
       example:
         validationFileUrl: validationFileUrl
         originalFileDirectURL: originalFileDirectURL
@@ -409,45 +479,58 @@ components:
         printableFileDirectUrl: printableFileDirectUrl
       properties:
         custodyID:
+          description: Identificador del sistema de custòdia
           type: string
         csv:
+          description: URL on descarregar directament el fitxer signat
           type: string
         csvValidationWeb:
+          description: Codi Segur de Validació d'aquest document custodiat.
           type: string
         validationFileUrl:
+          description: URL on descarregar-se la definició de com es genera el CSV
           type: string
         csvGenerationDefinition:
+          description: "Pàgina web on validar el document, normalment a partir de\
+            \ CSV"
           type: string
         originalFileDirectURL:
+          description: URL al document original
           type: string
         printableFileDirectUrl:
+          description: URL al document en format per imprimir
           type: string
         eniFileDirectUrl:
+          description: Url al eni File
           type: string
         expedientID:
+          description: Id del expedient si és un expedient o esta relacionat amb un
+            expedient.
           type: string
         documentID:
+          description: Id del document a signar
           type: string
+      required:
+      - custodyID
       type: object
     FirmaSimpleSignatureRest:
+      description: Resposta de la petició de firma en servidor
       example:
         signedFileInfo:
           signerInfo:
             issuerCert: issuerCert
             eniRolFirma: eniRolFirma
             additionalInformation:
-            - value: value
-              key: key
-            - value: value
-              key: key
+            - ca
+            - ca
             subjectCert: subjectCert
             eniSignerName: eniSignerName
             eniSignLevel: eniSignLevel
             signDate: 2000-01-23T04:56:07.000+00:00
             eniSignerAdministrationId: eniSignerAdministrationId
             serialNumberCert: serialNumberCert
-          signaturesTableLocation: 3
-          signOperation: 7
+          signaturesTableLocation: 1
+          signOperation: 1
           custodyInfo:
             validationFileUrl: validationFileUrl
             originalFileDirectURL: originalFileDirectURL
@@ -459,16 +542,16 @@ components:
             documentID: documentID
             csvGenerationDefinition: csvGenerationDefinition
             printableFileDirectUrl: printableFileDirectUrl
-          eniTipoFirma: eniTipoFirma
-          eniPerfilFirma: eniPerfilFirma
+          eniTipoFirma: TF01
+          eniPerfilFirma: AdES-BES
           validationInfo:
             checkDocumentModifications: true
             noCheckValidationReason: noCheckValidationReason
             checkValidationSignature: true
             checkAdministrationIDOfSigner: true
-          signType: signType
-          signMode: 9
-          signAlgorithm: signAlgorithm
+          signType: PAdES
+          signMode: 0
+          signAlgorithm: SHA-1
           timeStampIncluded: true
           policyIncluded: true
         signedFile:
@@ -487,6 +570,7 @@ components:
           status: 2
       properties:
         signID:
+          description: Identificador de la firma
           type: string
         status:
           $ref: '#/components/schemas/FirmaSimpleStatus'
@@ -494,25 +578,27 @@ components:
           $ref: '#/components/schemas/FirmaSimpleFile'
         signedFileInfo:
           $ref: '#/components/schemas/FirmaSimpleSignedFileInfo'
+      required:
+      - signID
+      - status
       type: object
     FirmaSimpleSignedFileInfo:
+      description: Informació del fitxer signat.
       example:
         signerInfo:
           issuerCert: issuerCert
           eniRolFirma: eniRolFirma
           additionalInformation:
-          - value: value
-            key: key
-          - value: value
-            key: key
+          - ca
+          - ca
           subjectCert: subjectCert
           eniSignerName: eniSignerName
           eniSignLevel: eniSignLevel
           signDate: 2000-01-23T04:56:07.000+00:00
           eniSignerAdministrationId: eniSignerAdministrationId
           serialNumberCert: serialNumberCert
-        signaturesTableLocation: 3
-        signOperation: 7
+        signaturesTableLocation: 1
+        signOperation: 1
         custodyInfo:
           validationFileUrl: validationFileUrl
           originalFileDirectURL: originalFileDirectURL
@@ -524,39 +610,79 @@ components:
           documentID: documentID
           csvGenerationDefinition: csvGenerationDefinition
           printableFileDirectUrl: printableFileDirectUrl
-        eniTipoFirma: eniTipoFirma
-        eniPerfilFirma: eniPerfilFirma
+        eniTipoFirma: TF01
+        eniPerfilFirma: AdES-BES
         validationInfo:
           checkDocumentModifications: true
           noCheckValidationReason: noCheckValidationReason
           checkValidationSignature: true
           checkAdministrationIDOfSigner: true
-        signType: signType
-        signMode: 9
-        signAlgorithm: signAlgorithm
+        signType: PAdES
+        signMode: 0
+        signAlgorithm: SHA-1
         timeStampIncluded: true
         policyIncluded: true
       properties:
         signOperation:
+          description: "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma\
+            \ (2)."
+          example: 1
           format: int32
           type: integer
         signType:
+          description: "Tipus de Firma. Valors possibles:\r\n    - “PAdES” (Constant\
+            \ SIGN_TYPE_PADES)\r\n    - “XAdES” (Constant SIGN_TYPE_XADES)\r\n   \
+            \ - “CAdES” (Constant SIGN_TYPE_CADES)\r\n    - “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\
+            \n    - “OOXML” (Constant SIGN_TYPE_OOXML)\r\n    - “ODF” (Constant SIGN_TYPE_ODF)\r\
+            \n    - “SMIME” (Constant SIGN_TYPE_SMIME)\r\n    - “CAdES-ASiC-S” (Constant\
+            \ SIGN_TYPE_CADES_ASIC_S)\r\n    - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\
+            \n    - “PKCS#1” (Constant SIGN_TYPE_PKCS1)"
+          example: PAdES
           type: string
         signAlgorithm:
+          description: "Algorisme de Firma. Valors: \r\n    - \"SHA-1\"\r\n    - \"\
+            SHA-256\"\r\n    - \"SHA-384\"\r\n    - \"SHA-512\""
+          example: SHA-1
           type: string
         signMode:
+          description: "Valors:\r\n    - 0: Implicit o Attached. La firma resultante\
+            \ incluye internamente una copia de los datos firmados. \r\n    - 1: Explicit\
+            \ o Detached: La firma resultante no incluye los datos firmados. "
+          example: 0
           format: int32
           type: integer
         signaturesTableLocation:
+          description: "Posició de la Taula de firmes:\r\n    - 0: Sense taula de\
+            \ firmes\r\n    - 1: Taula de firmes en la 1a pàgina\r\n    - -1: Darrera\
+            \ pàgina"
+          example: 1
           format: int32
           type: integer
         timeStampIncluded:
+          description: Indica si s'ha afegit un segell de Temps durant la firma
+          example: true
           type: boolean
         policyIncluded:
+          description: "Indica si inclou política de firma (true, EPES) o no (false)"
+          example: true
           type: boolean
         eniTipoFirma:
+          description: "Denominación normalizada del tipo de firma. Los posibles valores\
+            \ asignables son los siguientes: \r\n    - TF01 - CSV \r\n    - TF02 -\
+            \ XAdES internally detached signature\"); \r\n    - TF03 - XAdES enveloped\
+            \ signature.\r\n    - TF04 - CAdES detached/explicit signature.\r\n  \
+            \  - TF05 – CadES attached/implicit signature.\r\n    - TF06 - PAdES.\
+            \ El tipo TF04 será establecido por defecto para documentos firmados,\
+            \ exceptuando los documentos en formato PDF o PDF/A, cuyo tipo será TF06."
+          example: TF01
           type: string
         eniPerfilFirma:
+          description: "Perfil empleado en una firma con certificado electrónico.\
+            \ Los posibles valores asignables son los siguientes:\r\n  AdES-BES\r\n\
+            \  AdES-EPES\r\n  AdES-T\r\n  AdES-C\r\n  AdES-X\r\n  AdES-X1\r\n  AdES-X2\r\
+            \n  AdES-XL\r\n  AdES-XL1\r\n  AdES-XL2\r\n  AdES-A\r\n  PAdES-LTV\r\n\
+            \  PAdES-Basic"
+          example: AdES-BES
           type: string
         signerInfo:
           $ref: '#/components/schemas/FirmaSimpleSignerInfo'
@@ -564,16 +690,24 @@ components:
           $ref: '#/components/schemas/FirmaSimpleCustodyInfo'
         validationInfo:
           $ref: '#/components/schemas/FirmaSimpleValidationInfo'
+      required:
+      - policyIncluded
+      - signAlgorithm
+      - signMode
+      - signOperation
+      - signType
+      - signaturesTableLocation
+      - signerInfo
+      - timeStampIncluded
       type: object
     FirmaSimpleSignerInfo:
+      description: Informació del signant
       example:
         issuerCert: issuerCert
         eniRolFirma: eniRolFirma
         additionalInformation:
-        - value: value
-          key: key
-        - value: value
-          key: key
+        - ca
+        - ca
         subjectCert: subjectCert
         eniSignerName: eniSignerName
         eniSignLevel: eniSignLevel
@@ -582,28 +716,44 @@ components:
         serialNumberCert: serialNumberCert
       properties:
         eniRolFirma:
+          description: "Esquemas desarrollados a nivel local y que pueden incluir\
+            \ valores como válida, autentica, refrenda, visa, representa, testimonia,\
+            \ etc.."
           type: string
         eniSignerName:
+          description: Nombre o razón social de los firmantes.
           type: string
         eniSignerAdministrationId:
+          description: NIF del firmant.
           type: string
         eniSignLevel:
+          description: "Indicador normalizado que refleja el grado de  confianza de\
+            \ la firma utilizado. Ejemplos: Nick, PIN ciudadano, Firma electrónica\
+            \ avanzada, Claves concertadas, Firma electrónica avanzada basada en certificados,\
+            \ CSV, .."
           type: string
         signDate:
+          description: Data en que es va realitzar la firma
           format: date-time
           type: string
         serialNumberCert:
+          description: Número de Sèrie del Certificat utilitzat en la firma
           type: string
         issuerCert:
+          description: Issuer del Certificat utilitzat en la firma
           type: string
         subjectCert:
+          description: Subject del Certificat utilitzat en la firma
           type: string
         additionalInformation:
+          description: Ofrecer cualquier otra información que se  considere útil acerca
+            del firmante.
           items:
             $ref: '#/components/schemas/FirmaSimpleKeyValue'
           type: array
       type: object
     FirmaSimpleStatus:
+      description: Estat del procés de firma
       example:
         errorStackTrace: errorStackTrace
         STATUS_FINAL_OK: 1
@@ -664,6 +814,7 @@ components:
       - STATUS_IN_PROGRESS
       type: object
     FirmaSimpleValidationInfo:
+      description: Informació de les validacions realitzades despres de la firma.
       example:
         checkDocumentModifications: true
         noCheckValidationReason: noCheckValidationReason
@@ -671,18 +822,26 @@ components:
         checkAdministrationIDOfSigner: true
       properties:
         checkAdministrationIDOfSigner:
+          description: S’ha verificat que l’identificador del firmant és la del que
+            estava previst que firmàs. Valor buit indica que no s'ha realitzat la
+            validació.
           type: boolean
         checkDocumentModifications:
+          description: S’ha verificat que no s’hagi modificat el document original.
+            Valor buit indica que no s'ha realitzat la validació.
           type: boolean
         checkValidationSignature:
+          description: S’ha verificat que la firma és correcte. Valor buit indica
+            que no s'ha realitzat la validació.
           type: boolean
         noCheckValidationReason:
+          description: Només s'omple si checkValidationSignature val false
           type: string
       type: object
     RestExceptionInfo:
       description: Estructura de dades utilitzada per passar informació d'un error
       example:
-        code: 2
+        code: 7
         causeStackTrace: causeStackTrace
         causeException: causeException
         errorMessage: errorMessage
@@ -709,14 +868,20 @@ components:
       - errorMessage
       type: object
     ApisIBKeyValue:
+      description: Objecte per afegir informació addicional sobre la firma o el firmant
       example:
         value: value
         key: key
       properties:
         key:
+          description: Clau del valor
           type: string
         value:
+          description: Valor de la clau
           type: string
+      required:
+      - key
+      - value
       type: object
     AvailableLanguagesRest:
       example:
@@ -763,6 +928,7 @@ components:
           type: string
       type: object
     LlistaTipusDocumentalRest:
+      description: Resposta per la petició de llistats de tipus documentals.
       example:
         data:
         - tipusDocumentNTI: 6
@@ -774,24 +940,30 @@ components:
         language: language
       properties:
         data:
+          description: Llistat de tipus documentals disponibles
           items:
             $ref: '#/components/schemas/TipusDocumentalRest'
           type: array
         language:
+          description: Llenguatge seleccionat per la resposta
           type: string
       type: object
     TipusDocumentalRest:
+      description: Model de dades d'un tipus documental
       example:
         tipusDocumentNTI: 6
         tipusDocumentID: 0
         nom: nom
       properties:
         tipusDocumentID:
+          description: Identificador del tipus documental
           format: int64
           type: integer
         nom:
+          description: Nom del tipus documental en l'idioma seleccionat
           type: string
         tipusDocumentNTI:
+          description: Codi NTI del tipus documental
           format: int64
           type: integer
       type: object

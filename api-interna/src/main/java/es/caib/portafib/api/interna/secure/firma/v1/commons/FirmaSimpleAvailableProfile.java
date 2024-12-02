@@ -1,6 +1,7 @@
 package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
 import es.caib.portafib.api.interna.secure.firma.v1.commons.apisib.ApisIBAvailableProfile;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 
@@ -8,12 +9,13 @@ import es.caib.portafib.api.interna.secure.firma.v1.commons.apisib.ApisIBAvailab
  *
  */
 
+@Schema(description = "Indica si inclou política de firma (true, EPES) o no (false)", example="True", required = true)
 public class FirmaSimpleAvailableProfile extends ApisIBAvailableProfile<FirmaSimpleKeyValue> {
-
+    @Schema(description = "Codi del perfil", required = true)
 	protected String code;
-
+    @Schema(description = "Nom del perfil en l’idioma elegit.", required = true)
 	protected String name;
-
+    @Schema(description = "Descripció del perfil en l’idioma elegit.", required = true)
 	protected String description;
 
 	public FirmaSimpleAvailableProfile() {

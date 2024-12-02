@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * FirmaSimpleSignerInfo
+ * Informació del signant
  */
 @JsonPropertyOrder({
   FirmaSimpleSignerInfo.JSON_PROPERTY_ENI_ROL_FIRMA,
@@ -81,7 +81,7 @@ public class FirmaSimpleSignerInfo {
   }
 
    /**
-   * Get eniRolFirma
+   * Esquemas desarrollados a nivel local y que pueden incluir valores como válida, autentica, refrenda, visa, representa, testimonia, etc..
    * @return eniRolFirma
   **/
   @javax.annotation.Nullable
@@ -107,7 +107,7 @@ public class FirmaSimpleSignerInfo {
   }
 
    /**
-   * Get eniSignerName
+   * Nombre o razón social de los firmantes.
    * @return eniSignerName
   **/
   @javax.annotation.Nullable
@@ -133,7 +133,7 @@ public class FirmaSimpleSignerInfo {
   }
 
    /**
-   * Get eniSignerAdministrationId
+   * NIF del firmant.
    * @return eniSignerAdministrationId
   **/
   @javax.annotation.Nullable
@@ -159,7 +159,7 @@ public class FirmaSimpleSignerInfo {
   }
 
    /**
-   * Get eniSignLevel
+   * Indicador normalizado que refleja el grado de  confianza de la firma utilizado. Ejemplos: Nick, PIN ciudadano, Firma electrónica avanzada, Claves concertadas, Firma electrónica avanzada basada en certificados, CSV, ..
    * @return eniSignLevel
   **/
   @javax.annotation.Nullable
@@ -185,7 +185,7 @@ public class FirmaSimpleSignerInfo {
   }
 
    /**
-   * Get signDate
+   * Data en que es va realitzar la firma
    * @return signDate
   **/
   @javax.annotation.Nullable
@@ -211,7 +211,7 @@ public class FirmaSimpleSignerInfo {
   }
 
    /**
-   * Get serialNumberCert
+   * Número de Sèrie del Certificat utilitzat en la firma
    * @return serialNumberCert
   **/
   @javax.annotation.Nullable
@@ -237,7 +237,7 @@ public class FirmaSimpleSignerInfo {
   }
 
    /**
-   * Get issuerCert
+   * Issuer del Certificat utilitzat en la firma
    * @return issuerCert
   **/
   @javax.annotation.Nullable
@@ -263,7 +263,7 @@ public class FirmaSimpleSignerInfo {
   }
 
    /**
-   * Get subjectCert
+   * Subject del Certificat utilitzat en la firma
    * @return subjectCert
   **/
   @javax.annotation.Nullable
@@ -297,7 +297,7 @@ public class FirmaSimpleSignerInfo {
   }
 
    /**
-   * Get additionalInformation
+   * Ofrecer cualquier otra información que se  considere útil acerca del firmante.
    * @return additionalInformation
   **/
   @javax.annotation.Nullable

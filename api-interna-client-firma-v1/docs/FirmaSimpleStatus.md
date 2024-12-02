@@ -2,6 +2,7 @@
 
 # FirmaSimpleStatus
 
+Estat del procés de firma
 
 ## Properties
 

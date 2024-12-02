@@ -1,44 +1,56 @@
 package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * 
  * @author anadal
  *
  */
-
+@Schema(description = "Informació de Custòdia")
 public class FirmaSimpleCustodyInfo {
-
+    
+    @Schema(description = "Identificador del sistema de custòdia", required = true)
 	protected String custodyID = null;
 
 	// String getCsv
 	/** eEMGDE.Firma.FormatoFirma.ValorCSV (eEMGDE17.3) */
+    @Schema(description = "URL on descarregar directament el fitxer signat", required = false)
 	protected String csv;
 
 	// String getCsvValidationWeb
+    @Schema(description = "Codi Segur de Validació d'aquest document custodiat.", required = false)
 	protected String csvValidationWeb;
 
 	// String getValidationFileUrl
+    @Schema(description = "URL on descarregar-se la definició de com es genera el CSV", required = false)
 	protected String validationFileUrl;
 
 	// getCsvGenerationDefinition
 	/**
 	 * eEMGDE.DefinicionGeneracionCSV (eEMGDE17.4):
 	 */
+    @Schema(description = "Pàgina web on validar el document, normalment a partir de CSV", required = false)
 	protected String csvGenerationDefinition;
 
 	// String getOriginalFileUrl
+    @Schema(description = "URL al document original", required = false)
 	protected String originalFileDirectURL; //
 
 	// String getPrintableFileUrl
+    @Schema(description = "URL al document en format per imprimir", required = false)
 	protected String printableFileDirectUrl;
 
 	// String getEniFileUrl
+    @Schema(description = "Url al eni File", required = false)
 	protected String eniFileDirectUrl;
 
 	// Futura Integració amb Api d'Arxiu
+    @Schema(description = "Id del expedient si és un expedient o esta relacionat amb un expedient.", required = false)
 	protected String expedientID = null;
 
 	// Futura Integració amb Api d'Arxiu
+    @Schema(description = "Id del document a signar", required = false)
 	protected String documentID = null;
 
 	public FirmaSimpleCustodyInfo() {

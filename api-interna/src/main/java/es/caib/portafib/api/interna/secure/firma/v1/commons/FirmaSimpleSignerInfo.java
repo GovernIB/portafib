@@ -4,168 +4,187 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * 
  * @author anadal(u80067)
  *
  */
-
+@Schema(description = "Informació del signant", required = true)
 public class FirmaSimpleSignerInfo {
 
-	/**
-	 * - eEMGDE.Firma.RolFirma (eEMGDE17.2): Esquemas desarrollados a nivel local y
-	 * que pueden incluir valores como válida, autentica, refrenda, visa,
-	 * representa, testimonia, etc..
-	 */
-	protected String eniRolFirma;
+    /**
+     * - eEMGDE.Firma.RolFirma (eEMGDE17.2): Esquemas desarrollados a nivel local y
+     * que pueden incluir valores como válida, autentica, refrenda, visa,
+     * representa, testimonia, etc..
+     */
+    @Schema(
+            description = "Esquemas desarrollados a nivel local y que pueden incluir valores como válida, autentica, refrenda, visa, representa, testimonia, etc..",
+            required = false)
+    protected String eniRolFirma;
 
-	/**
-	 * eEMGDE.Firma.Firmante.NombreApellidos (eEMGDE17.5.1): Texto libre. Nombre o
-	 * razón social de los firmantes.
-	 */
-	protected String eniSignerName;
+    /**
+     * eEMGDE.Firma.Firmante.NombreApellidos (eEMGDE17.5.1): Texto libre. Nombre o
+     * razón social de los firmantes.
+     */
 
-	/**
-	 * eEMGDE.Firma.Firmante (eEMGDE17.5.2). Número Identificacion Firmantes (NIF)
-	 */
-	protected String eniSignerAdministrationId;
+    @Schema(description = "Nombre o razón social de los firmantes.", required = false)
+    protected String eniSignerName;
 
-	/**
-	 * eEMGDE.Firma.NivelFirma (eEMGDE17.5.4) Indicador normalizado que refleja el
-	 * grado de confianza de la firma utilizado. Ejemplos: Nick, PIN ciudadano,
-	 * Firma electrónica avanzada, Claves concertadas, Firma electrónica avanzada
-	 * basada en certificados, CSV, ..
-	 */
-	protected String eniSignLevel;
+    /**
+     * eEMGDE.Firma.Firmante (eEMGDE17.5.2). Número Identificacion Firmantes (NIF)
+     */
+    @Schema(description = "NIF del firmant.", required = false)
+    protected String eniSignerAdministrationId;
 
-	protected Date signDate;
+    /**
+     * eEMGDE.Firma.NivelFirma (eEMGDE17.5.4) Indicador normalizado que refleja el
+     * grado de confianza de la firma utilizado. Ejemplos: Nick, PIN ciudadano,
+     * Firma electrónica avanzada, Claves concertadas, Firma electrónica avanzada
+     * basada en certificados, CSV, ..
+     */
 
-	protected String serialNumberCert;
+    @Schema(
+            description = "Indicador normalizado que refleja el grado de  confianza de la firma utilizado. "
+                    + "Ejemplos: Nick, PIN ciudadano, Firma electrónica avanzada, Claves concertadas, "
+                    + "Firma electrónica avanzada basada en certificados, CSV, ..",
+            required = false)
+    protected String eniSignLevel;
+    @Schema(description = "Data en que es va realitzar la firma", required = false)
+    protected Date signDate;
 
-	protected String issuerCert;
+    @Schema(description = "Número de Sèrie del Certificat utilitzat en la firma", required = false)
+    protected String serialNumberCert;
 
-	protected String subjectCert;
+    @Schema(description = "Issuer del Certificat utilitzat en la firma", required = false)
+    protected String issuerCert;
 
-	/**
-	 * eEMGDE.Firma.InformacionAdicional (eEMGDE17.5.5) Ofrecer cualquier otra
-	 * información que se considere útil acerca del firmante.
-	 */
-	protected List<FirmaSimpleKeyValue> additionalInformation = null;
+    @Schema(description = "Subject del Certificat utilitzat en la firma", required = false)
+    protected String subjectCert;
 
-	public FirmaSimpleSignerInfo() {
-		super();
-	}
+    /**
+     * eEMGDE.Firma.InformacionAdicional (eEMGDE17.5.5) Ofrecer cualquier otra
+     * información que se considere útil acerca del firmante.
+     */
+    
+    @Schema(description = "Ofrecer cualquier otra información que se  considere útil acerca del firmante.", required = false)
+    protected List<FirmaSimpleKeyValue> additionalInformation = null;
 
-	public FirmaSimpleSignerInfo(String eniRolFirma, String eniSignerName, String eniSignerAdministrationId,
-			String eniSignLevel, Date signDate, String serialNumberCert, String issuerCert, String subjectCert,
-			List<FirmaSimpleKeyValue> additionalInformation) {
-		super();
-		this.eniRolFirma = eniRolFirma;
-		this.eniSignerName = eniSignerName;
-		this.eniSignerAdministrationId = eniSignerAdministrationId;
-		this.eniSignLevel = eniSignLevel;
-		this.signDate = signDate;
-		this.serialNumberCert = serialNumberCert;
-		this.issuerCert = issuerCert;
-		this.subjectCert = subjectCert;
-		this.additionalInformation = additionalInformation;
-	}
+    public FirmaSimpleSignerInfo() {
+        super();
+    }
 
-	public String getEniRolFirma() {
-		return eniRolFirma;
-	}
+    public FirmaSimpleSignerInfo(String eniRolFirma, String eniSignerName, String eniSignerAdministrationId,
+            String eniSignLevel, Date signDate, String serialNumberCert, String issuerCert, String subjectCert,
+            List<FirmaSimpleKeyValue> additionalInformation) {
+        super();
+        this.eniRolFirma = eniRolFirma;
+        this.eniSignerName = eniSignerName;
+        this.eniSignerAdministrationId = eniSignerAdministrationId;
+        this.eniSignLevel = eniSignLevel;
+        this.signDate = signDate;
+        this.serialNumberCert = serialNumberCert;
+        this.issuerCert = issuerCert;
+        this.subjectCert = subjectCert;
+        this.additionalInformation = additionalInformation;
+    }
 
-	public void setEniRolFirma(String eniRolFirma) {
-		this.eniRolFirma = eniRolFirma;
-	}
+    public String getEniRolFirma() {
+        return eniRolFirma;
+    }
 
-	public String getEniSignerName() {
-		return eniSignerName;
-	}
+    public void setEniRolFirma(String eniRolFirma) {
+        this.eniRolFirma = eniRolFirma;
+    }
 
-	public void setEniSignerName(String eniSignerName) {
-		this.eniSignerName = eniSignerName;
-	}
+    public String getEniSignerName() {
+        return eniSignerName;
+    }
 
-	public String getEniSignerAdministrationId() {
-		return eniSignerAdministrationId;
-	}
+    public void setEniSignerName(String eniSignerName) {
+        this.eniSignerName = eniSignerName;
+    }
 
-	public void setEniSignerAdministrationId(String eniSignerAdministrationId) {
-		this.eniSignerAdministrationId = eniSignerAdministrationId;
-	}
+    public String getEniSignerAdministrationId() {
+        return eniSignerAdministrationId;
+    }
 
-	public String getEniSignLevel() {
-		return eniSignLevel;
-	}
+    public void setEniSignerAdministrationId(String eniSignerAdministrationId) {
+        this.eniSignerAdministrationId = eniSignerAdministrationId;
+    }
 
-	public void setEniSignLevel(String eniSignLevel) {
-		this.eniSignLevel = eniSignLevel;
-	}
+    public String getEniSignLevel() {
+        return eniSignLevel;
+    }
 
-	public Date getSignDate() {
-		return signDate;
-	}
+    public void setEniSignLevel(String eniSignLevel) {
+        this.eniSignLevel = eniSignLevel;
+    }
 
-	public void setSignDate(Date signDate) {
-		this.signDate = signDate;
-	}
+    public Date getSignDate() {
+        return signDate;
+    }
 
-	public String getSerialNumberCert() {
-		return serialNumberCert;
-	}
+    public void setSignDate(Date signDate) {
+        this.signDate = signDate;
+    }
 
-	public void setSerialNumberCert(String serialNumberCert) {
-		this.serialNumberCert = serialNumberCert;
-	}
+    public String getSerialNumberCert() {
+        return serialNumberCert;
+    }
 
-	public String getIssuerCert() {
-		return issuerCert;
-	}
+    public void setSerialNumberCert(String serialNumberCert) {
+        this.serialNumberCert = serialNumberCert;
+    }
 
-	public void setIssuerCert(String issuerCert) {
-		this.issuerCert = issuerCert;
-	}
+    public String getIssuerCert() {
+        return issuerCert;
+    }
 
-	public String getSubjectCert() {
-		return subjectCert;
-	}
+    public void setIssuerCert(String issuerCert) {
+        this.issuerCert = issuerCert;
+    }
 
-	public void setSubjectCert(String subjectCert) {
-		this.subjectCert = subjectCert;
-	}
+    public String getSubjectCert() {
+        return subjectCert;
+    }
 
-	public List<FirmaSimpleKeyValue> getAdditionalInformation() {
-		return additionalInformation;
-	}
+    public void setSubjectCert(String subjectCert) {
+        this.subjectCert = subjectCert;
+    }
 
-	public void setAdditionalInformation(List<FirmaSimpleKeyValue> additionalInformation) {
-		this.additionalInformation = additionalInformation;
-	}
+    public List<FirmaSimpleKeyValue> getAdditionalInformation() {
+        return additionalInformation;
+    }
 
-	@Override
-	public String toString() {
-		StringBuffer str = new StringBuffer();
-		str.append("        + eniRolFirma:\t" + getEniRolFirma());
-		str.append("\n").append("        + eniSignerName:\t" + getEniSignerName());
-		str.append("\n").append("        + eniSignerAdministrationId:\t" + getEniSignerAdministrationId());
-		str.append("\n").append("        + eniSignLevel:\t" + getEniSignLevel());
-		str.append("\n").append("        + Sign Date:\t" + new SimpleDateFormat().format(getSignDate()));
-		str.append("\n").append("        + Subject Cert:\t" + getSubjectCert());
-		str.append("\n").append("        + Issuer Cert:\t" + getIssuerCert());
+    public void setAdditionalInformation(List<FirmaSimpleKeyValue> additionalInformation) {
+        this.additionalInformation = additionalInformation;
+    }
 
-		List<FirmaSimpleKeyValue> additionalInformation = getAdditionalInformation();
+    @Override
+    public String toString() {
+        StringBuffer str = new StringBuffer();
+        str.append("        + eniRolFirma:\t" + getEniRolFirma());
+        str.append("\n").append("        + eniSignerName:\t" + getEniSignerName());
+        str.append("\n").append("        + eniSignerAdministrationId:\t" + getEniSignerAdministrationId());
+        str.append("\n").append("        + eniSignLevel:\t" + getEniSignLevel());
+        str.append("\n").append("        + Sign Date:\t" + new SimpleDateFormat().format(getSignDate()));
+        str.append("\n").append("        + Subject Cert:\t" + getSubjectCert());
+        str.append("\n").append("        + Issuer Cert:\t" + getIssuerCert());
 
-		if (additionalInformation != null && additionalInformation.size() != 0) {
-			str.append("\n").append("        + INFORMACIO ADDICIONAL:");
-			for (FirmaSimpleKeyValue firmaSimpleKeyValue : additionalInformation) {
-				str.append("\n").append(
-						"          >> KEY[" + firmaSimpleKeyValue.getKey() + "]: " + firmaSimpleKeyValue.getValue());
-			}
-		}
+        List<FirmaSimpleKeyValue> additionalInformation = getAdditionalInformation();
 
-		return str.toString();
+        if (additionalInformation != null && additionalInformation.size() != 0) {
+            str.append("\n").append("        + INFORMACIO ADDICIONAL:");
+            for (FirmaSimpleKeyValue firmaSimpleKeyValue : additionalInformation) {
+                str.append("\n").append(
+                        "          >> KEY[" + firmaSimpleKeyValue.getKey() + "]: " + firmaSimpleKeyValue.getValue());
+            }
+        }
 
-	}
+        return str.toString();
+
+    }
 
 }

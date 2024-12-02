@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * FirmaSimpleKeyValue
+ * Ofereix informació addicional sobre el firmant o la firma
  */
 @JsonPropertyOrder({
   FirmaSimpleKeyValue.JSON_PROPERTY_KEY,
@@ -48,12 +48,12 @@ public class FirmaSimpleKeyValue {
   }
 
    /**
-   * Get key
+   * Clau del valor
    * @return key
   **/
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_KEY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getKey() {
     return key;
@@ -61,7 +61,7 @@ public class FirmaSimpleKeyValue {
 
 
   @JsonProperty(JSON_PROPERTY_KEY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setKey(String key) {
     this.key = key;
   }
@@ -74,12 +74,12 @@ public class FirmaSimpleKeyValue {
   }
 
    /**
-   * Get value
+   * Valor de la clau
    * @return value
   **/
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_VALUE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getValue() {
     return value;
@@ -87,7 +87,7 @@ public class FirmaSimpleKeyValue {
 
 
   @JsonProperty(JSON_PROPERTY_VALUE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setValue(String value) {
     this.value = value;
   }

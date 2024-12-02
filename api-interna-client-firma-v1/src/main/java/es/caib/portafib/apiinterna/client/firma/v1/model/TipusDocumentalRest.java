@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * TipusDocumentalRest
+ * Model de dades d&#39;un tipus documental
  */
 @JsonPropertyOrder({
   TipusDocumentalRest.JSON_PROPERTY_TIPUS_DOCUMENT_I_D,
@@ -52,7 +52,7 @@ public class TipusDocumentalRest {
   }
 
    /**
-   * Get tipusDocumentID
+   * Identificador del tipus documental
    * @return tipusDocumentID
   **/
   @javax.annotation.Nullable
@@ -78,7 +78,7 @@ public class TipusDocumentalRest {
   }
 
    /**
-   * Get nom
+   * Nom del tipus documental en l&#39;idioma seleccionat
    * @return nom
   **/
   @javax.annotation.Nullable
@@ -104,7 +104,7 @@ public class TipusDocumentalRest {
   }
 
    /**
-   * Get tipusDocumentNTI
+   * Codi NTI del tipus documental
    * @return tipusDocumentNTI
   **/
   @javax.annotation.Nullable

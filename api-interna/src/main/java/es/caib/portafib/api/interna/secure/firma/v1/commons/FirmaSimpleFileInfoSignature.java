@@ -2,39 +2,57 @@ package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
 import java.util.List;
 
-public class FirmaSimpleFileInfoSignature {
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "Informació especifica per a realitzar la firma")
+public class FirmaSimpleFileInfoSignature {
+    
+    @Schema(description = "Document a signar", required = true)
 	protected FirmaSimpleFile fileToSign;
 
 	/**
 	 * Només per CAdES i XAdEs Detached amb firma prèvia
 	 */
+    @Schema(description = "Només per CAdES i XAdEs Detached amb firma prèvia", required = false)
 	protected FirmaSimpleFile previusSignatureDetachedFile = null;
 
+    @Schema(description = "Identificador de la Firma", example="1", required = true)
 	protected String signID;
-
+    
+    @Schema(description = "Nom descriptiu de la firma. Pot ser el nom del fitxer o un nom associat a la tasca per a la que es requereix la firma.", example="test.pdf", required = true)
 	protected String name;
-
+    
+    @Schema(description = "Raó de la realització de la firma.", example="Exemple de firma", required = true)
 	protected String reason;
-
+    
+    @Schema(description = "Lloc on es realitza la firma.", example="Palma", required = true)
 	protected String location;
-
+    
+    @Schema(description = "Posició de la firma dins el flux de firma.", example="1", required = true)
 	protected int signNumber;
-
+    
+    @Schema(description = "Idioma del document.", example="ca", required = true)
 	protected String languageSign;
-
+    
+    @Schema(description = "Codi de l'expedient.", example="ca", required = false)
 	protected String expedientCodi;
-
+    
+    @Schema(description = "Nom de l'expedient.", example="ca", required = false)
 	protected String expedientNom;
 
+    @Schema(description = "URL de l'expedient.", example="ca", required = false)
 	protected String expedientUrl;
 
+    @Schema(description = "Codi del Procediment.", example="ca", required = false)
 	protected String procedimentCodi;
 
+    @Schema(description = "Nom del Procediment.", example="ca", required = false)
 	protected String procedimentNom;
 
+    @Schema(description = "Tipus Documental. Si val null se li assigna 99", example="TD99", required = false)
 	protected Long documentType;
 
+    @Schema(description = "Informació Addicional.", example="ca", required = false)
 	protected List<FirmaSimpleKeyValue> additionalInformation = null;
 
 	/**

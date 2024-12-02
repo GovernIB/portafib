@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * FirmaSimpleCustodyInfo
+ * Informació de Custòdia
  */
 @JsonPropertyOrder({
   FirmaSimpleCustodyInfo.JSON_PROPERTY_CUSTODY_I_D,
@@ -80,12 +80,12 @@ public class FirmaSimpleCustodyInfo {
   }
 
    /**
-   * Get custodyID
+   * Identificador del sistema de custòdia
    * @return custodyID
   **/
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CUSTODY_I_D)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getCustodyID() {
     return custodyID;
@@ -93,7 +93,7 @@ public class FirmaSimpleCustodyInfo {
 
 
   @JsonProperty(JSON_PROPERTY_CUSTODY_I_D)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setCustodyID(String custodyID) {
     this.custodyID = custodyID;
   }
@@ -106,7 +106,7 @@ public class FirmaSimpleCustodyInfo {
   }
 
    /**
-   * Get csv
+   * URL on descarregar directament el fitxer signat
    * @return csv
   **/
   @javax.annotation.Nullable
@@ -132,7 +132,7 @@ public class FirmaSimpleCustodyInfo {
   }
 
    /**
-   * Get csvValidationWeb
+   * Codi Segur de Validació d&#39;aquest document custodiat.
    * @return csvValidationWeb
   **/
   @javax.annotation.Nullable
@@ -158,7 +158,7 @@ public class FirmaSimpleCustodyInfo {
   }
 
    /**
-   * Get validationFileUrl
+   * URL on descarregar-se la definició de com es genera el CSV
    * @return validationFileUrl
   **/
   @javax.annotation.Nullable
@@ -184,7 +184,7 @@ public class FirmaSimpleCustodyInfo {
   }
 
    /**
-   * Get csvGenerationDefinition
+   * Pàgina web on validar el document, normalment a partir de CSV
    * @return csvGenerationDefinition
   **/
   @javax.annotation.Nullable
@@ -210,7 +210,7 @@ public class FirmaSimpleCustodyInfo {
   }
 
    /**
-   * Get originalFileDirectURL
+   * URL al document original
    * @return originalFileDirectURL
   **/
   @javax.annotation.Nullable
@@ -236,7 +236,7 @@ public class FirmaSimpleCustodyInfo {
   }
 
    /**
-   * Get printableFileDirectUrl
+   * URL al document en format per imprimir
    * @return printableFileDirectUrl
   **/
   @javax.annotation.Nullable
@@ -262,7 +262,7 @@ public class FirmaSimpleCustodyInfo {
   }
 
    /**
-   * Get eniFileDirectUrl
+   * Url al eni File
    * @return eniFileDirectUrl
   **/
   @javax.annotation.Nullable
@@ -288,7 +288,7 @@ public class FirmaSimpleCustodyInfo {
   }
 
    /**
-   * Get expedientID
+   * Id del expedient si és un expedient o esta relacionat amb un expedient.
    * @return expedientID
   **/
   @javax.annotation.Nullable
@@ -314,7 +314,7 @@ public class FirmaSimpleCustodyInfo {
   }
 
    /**
-   * Get documentID
+   * Id del document a signar
    * @return documentID
   **/
   @javax.annotation.Nullable

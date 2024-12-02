@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * FirmaSimpleCommonInfo
+ * Configuracions generals de firma i identificacio del solicitant i solicitat
  */
 @JsonPropertyOrder({
   FirmaSimpleCommonInfo.JSON_PROPERTY_SIGN_PROFILE,
@@ -64,7 +64,7 @@ public class FirmaSimpleCommonInfo {
   }
 
    /**
-   * Get signProfile
+   * Identificador único del usuario
    * @return signProfile
   **/
   @javax.annotation.Nullable
@@ -90,12 +90,12 @@ public class FirmaSimpleCommonInfo {
   }
 
    /**
-   * Get languageUI
+   * Idioma en que retornar valors i missatges d&#39;error
    * @return languageUI
   **/
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LANGUAGE_U_I)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getLanguageUI() {
     return languageUI;
@@ -103,7 +103,7 @@ public class FirmaSimpleCommonInfo {
 
 
   @JsonProperty(JSON_PROPERTY_LANGUAGE_U_I)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setLanguageUI(String languageUI) {
     this.languageUI = languageUI;
   }
@@ -116,7 +116,7 @@ public class FirmaSimpleCommonInfo {
   }
 
    /**
-   * Get username
+   *  - FIRMA WEB: Requerit. És el codi d&#39;usuari dins l&#39;entitat. Per exemple en entorn CAIB serien els \&quot;u800xx\&quot; o \&quot;u[DNI]\&quot;   -FIRMA EN SERVIDOR: Opcional. Es reconama que valgui null a no ser que l&#39;administrador digui el contrari. És la configuració de firma en el sistema específic de firma. Per exemple amb el Plugin de @firma federat et pots connectar amb un usuari-password però aquest pot tenir diverses configuracions per fer firmes en servidor o àlies: \&quot;username\&quot; s&#39;utilitza de definir aquesta configuració o àlies.
    * @return username
   **/
   @javax.annotation.Nullable
@@ -142,12 +142,12 @@ public class FirmaSimpleCommonInfo {
   }
 
    /**
-   * Get administrationID
+   *  - FIRMA WEB: Requerit. És el DNI de la persona signant. Si esta activa la validació dins PortaFIB llavors es valida que el DNI del Certificat sigui el mateix que aquest.   - FIRMA EN SERVIDOR: Opcional. És el CIF o NIF associat al certificat en servidor. Si es defineix i si esta activa la validació dins PortaFIB llavors es valida que el DNI del Certificat sigui el mateix que aquest.
    * @return administrationID
   **/
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ADMINISTRATION_I_D)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getAdministrationID() {
     return administrationID;
@@ -155,7 +155,7 @@ public class FirmaSimpleCommonInfo {
 
 
   @JsonProperty(JSON_PROPERTY_ADMINISTRATION_I_D)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setAdministrationID(String administrationID) {
     this.administrationID = administrationID;
   }
@@ -168,7 +168,7 @@ public class FirmaSimpleCommonInfo {
   }
 
    /**
-   * Get organizationID
+   * Opcional. És el CIF de l&#39;organització representada pel signant. Si esta activa la validació dins PortaFIB llavors es valida que el Certificat sigui un certificat de representant d&#39;aquest CIF.
    * @return organizationID
   **/
   @javax.annotation.Nullable
@@ -194,7 +194,7 @@ public class FirmaSimpleCommonInfo {
   }
 
    /**
-   * Get signerEmail
+   *  - FIRMA WEB: Opcional. Correu del Firmant. Per afegir a les dades de la firma.   - FIRMA EN SERVIDOR: Opcional. Correu del departament que ordena la firma. Per afegir a les dades de la firma.
    * @return signerEmail
   **/
   @javax.annotation.Nullable
