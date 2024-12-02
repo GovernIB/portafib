@@ -229,18 +229,4 @@ public class GestioRevisorDeDestinatariDestController extends RevisorDeDestinata
         return mav;
     }
 
-    @Override
-    public void delete(HttpServletRequest request, RevisorDeDestinatari revisorDeDestinatari) throws I18NException {
-
-        String usuariEntitatID = revisorDeDestinatari.getRevisorID();
-
-        I18NTranslation i18n = revisorDeDestinatariLogicaEjb.pucEsborrarRevisor(usuariEntitatID);
-
-        if (i18n == null) {
-            super.delete(request, revisorDeDestinatari);
-        } else {
-            HtmlUtils.saveMessageError(request, I18NUtils.tradueix(i18n));
-        }
-    }
-
 }
