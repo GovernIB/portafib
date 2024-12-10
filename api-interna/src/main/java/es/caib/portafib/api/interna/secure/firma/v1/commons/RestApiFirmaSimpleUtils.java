@@ -32,7 +32,7 @@ import org.springframework.http.ResponseEntity;
 
 import es.caib.portafib.api.interna.secure.firma.v1.commons.apisib.ApisIBKeyValue;
 import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleSignDocumentRequest;
-import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleSignatureRest;
+import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleSignatureResponse;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
 import es.caib.portafib.logic.passarela.PassarelaKeyValue;
@@ -80,7 +80,23 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
 				new FirmaSimpleError(msg, NoAvailablePluginException.class.getName()),
 				HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	public String getNoAvailablePluginErrorMessage(String language, boolean firma,
+            NoCompatibleSignaturePluginException ex) {
+        // TODO XYZ ZZZ Traduir
+        String msg;
+        if (firma) {
+            msg = "No s'ha trobat cap plugin que pugui realitzar la firma o alguna de les firmes sol·licitades.";
+        } else {
+            msg = "El plugin seleccionat no suporta el proces d'actualització de firma.";
+        }
 
+        if (ex != null && ex.getMessage() != null) {
+            msg = msg + " (" + ex.getMessage() + ")";
+        }
+
+        return msg;
+    }
 	public FirmaSimpleFile convertFitxerBeanToFirmaSimpleFile(FitxerBean fb) throws Exception {
 
 		if (fb == null) {
@@ -137,7 +153,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
 		return folderTransaction;
 	}
 
-	public FirmaSimpleSignatureRest convertPassarelaSignatureResult2FirmaSimpleSignatureResult(
+	public FirmaSimpleSignatureResponse convertPassarelaSignatureResult2FirmaSimpleSignatureResult(
 			PassarelaSignatureResult psr, PassarelaCommonInfoSignature commonInfo,
 			PassarelaFileInfoSignature infoSignature, ValidacioCompletaResponse infoValidacio,
 			boolean isSignatureInServer) throws Exception {
@@ -320,7 +336,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
 					signerInfo, custody, validation);
 		}
 
-		return new FirmaSimpleSignatureRest(psr.getSignID(), status, file, sfi);
+		return new FirmaSimpleSignatureResponse(psr.getSignID(), status, file, sfi);
 
 	}
 

@@ -60,7 +60,59 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/FirmaSimpleSignatureRest"
+                  "$ref" : "#/components/schemas/FirmaSimpleSignatureResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/firmaenservidor/v1/upgradeSignature" : {
+      "post" : {
+        "tags" : [ "Firma en Servidor v1" ],
+        "summary" : "Operacio de firma simple en servidor d'un document",
+        "operationId" : "upgradeSignature",
+        "requestBody" : {
+          "description" : "Funcio de upgrade se firma digital",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/FirmaSimpleUpgradeRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FirmaSimpleUpgradeResponse"
                 }
               }
             }
@@ -488,8 +540,7 @@
             "description" : "Valor de la clau"
           }
         },
-        "description" : "Ofereix informació addicional sobre el firmant o la firma",
-        "example" : "ca"
+        "description" : "Ofereix informació addicional sobre el firmant o la firma"
       },
       "FirmaSimpleSignDocumentRequest" : {
         "type" : "object",
@@ -549,7 +600,7 @@
         },
         "description" : "Informació de Custòdia"
       },
-      "FirmaSimpleSignatureRest" : {
+      "FirmaSimpleSignatureResponse" : {
         "required" : [ "signID", "status" ],
         "type" : "object",
         "properties" : {
@@ -780,6 +831,67 @@
           }
         },
         "description" : "Estructura de dades utilitzada per passar informació d'un error"
+      },
+      "FirmaSimpleUpgradeRequest" : {
+        "type" : "object",
+        "properties" : {
+          "profileCode" : {
+            "type" : "string"
+          },
+          "signature" : {
+            "$ref" : "#/components/schemas/FirmaSimpleFile"
+          },
+          "detachedDocument" : {
+            "$ref" : "#/components/schemas/FirmaSimpleFile"
+          },
+          "targetCertificate" : {
+            "$ref" : "#/components/schemas/FirmaSimpleFile"
+          },
+          "languageUI" : {
+            "type" : "string"
+          }
+        }
+      },
+      "FirmaSimpleUpgradeResponse" : {
+        "type" : "object",
+        "properties" : {
+          "upgradedFile" : {
+            "$ref" : "#/components/schemas/FirmaSimpleFile"
+          },
+          "upgradedFileInfo" : {
+            "$ref" : "#/components/schemas/FirmaSimpleUpgradedFileInfo"
+          }
+        }
+      },
+      "FirmaSimpleUpgradedFileInfo" : {
+        "type" : "object",
+        "properties" : {
+          "signType" : {
+            "type" : "string"
+          },
+          "signAlgorithm" : {
+            "type" : "string"
+          },
+          "signMode" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "eniTipoFirma" : {
+            "type" : "string"
+          },
+          "eniPerfilFirma" : {
+            "type" : "string"
+          },
+          "validationInfo" : {
+            "$ref" : "#/components/schemas/FirmaSimpleValidationInfo"
+          },
+          "additionInformation" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/FirmaSimpleKeyValue"
+            }
+          }
+        }
       },
       "ApisIBKeyValue" : {
         "required" : [ "key", "value" ],

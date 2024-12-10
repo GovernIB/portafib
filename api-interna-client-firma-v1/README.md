@@ -99,7 +99,7 @@ public class FirmaEnServidorV1ApiExample {
         FirmaEnServidorV1Api apiInstance = new FirmaEnServidorV1Api(defaultClient);
         FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest = new FirmaSimpleSignDocumentRequest(); // FirmaSimpleSignDocumentRequest | Operacio de firma simple en servidor d'un document
         try {
-            FirmaSimpleSignatureRest result = apiInstance.signdocument(firmaSimpleSignDocumentRequest);
+            FirmaSimpleSignatureResponse result = apiInstance.signdocument(firmaSimpleSignDocumentRequest);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FirmaEnServidorV1Api#signdocument");
@@ -120,6 +120,7 @@ All URIs are relative to */portafibapi/interna*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *FirmaEnServidorV1Api* | [**signdocument**](docs/FirmaEnServidorV1Api.md#signdocument) | **POST** /secure/firmaenservidor/v1/signdocument | Operacio de firma simple en servidor d&#39;un document
+*FirmaEnServidorV1Api* | [**upgradeSignature**](docs/FirmaEnServidorV1Api.md#upgradeSignature) | **POST** /secure/firmaenservidor/v1/upgradeSignature | Operacio de firma simple en servidor d&#39;un document
 *FirmaEnServidorV1Api* | [**versio**](docs/FirmaEnServidorV1Api.md#versio) | **GET** /secure/firmaenservidor/v1/versio | Retorna la versió d&#39;aquest Servei
 *UtilsV1Api* | [**getAvailableLanguages**](docs/UtilsV1Api.md#getAvailableLanguages) | **GET** /secure/utils/v1/getAvailableLanguages | Retorna els idiomes disponibles.
 *UtilsV1Api* | [**getAvailableProfiles**](docs/UtilsV1Api.md#getAvailableProfiles) | **GET** /secure/utils/v1/getAvailableProfiles | Retorna els perfils de firma.
@@ -138,10 +139,13 @@ Class | Method | HTTP request | Description
  - [FirmaSimpleFileInfoSignature](docs/FirmaSimpleFileInfoSignature.md)
  - [FirmaSimpleKeyValue](docs/FirmaSimpleKeyValue.md)
  - [FirmaSimpleSignDocumentRequest](docs/FirmaSimpleSignDocumentRequest.md)
- - [FirmaSimpleSignatureRest](docs/FirmaSimpleSignatureRest.md)
+ - [FirmaSimpleSignatureResponse](docs/FirmaSimpleSignatureResponse.md)
  - [FirmaSimpleSignedFileInfo](docs/FirmaSimpleSignedFileInfo.md)
  - [FirmaSimpleSignerInfo](docs/FirmaSimpleSignerInfo.md)
  - [FirmaSimpleStatus](docs/FirmaSimpleStatus.md)
+ - [FirmaSimpleUpgradeRequest](docs/FirmaSimpleUpgradeRequest.md)
+ - [FirmaSimpleUpgradeResponse](docs/FirmaSimpleUpgradeResponse.md)
+ - [FirmaSimpleUpgradedFileInfo](docs/FirmaSimpleUpgradedFileInfo.md)
  - [FirmaSimpleValidationInfo](docs/FirmaSimpleValidationInfo.md)
  - [LlistaTipusDocumentalRest](docs/LlistaTipusDocumentalRest.md)
  - [RestExceptionInfo](docs/RestExceptionInfo.md)

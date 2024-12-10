@@ -41,7 +41,42 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FirmaSimpleSignatureRest'
+                $ref: '#/components/schemas/FirmaSimpleSignatureResponse'
+          description: Operació realitzada correctament
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+      security:
+      - BasicAuth: []
+      summary: Operacio de firma simple en servidor d'un document
+      tags:
+      - Firma en Servidor v1
+      x-content-type: application/json
+      x-accepts: application/json
+  /secure/firmaenservidor/v1/upgradeSignature:
+    post:
+      operationId: upgradeSignature
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FirmaSimpleUpgradeRequest'
+        description: Funcio de upgrade se firma digital
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirmaSimpleUpgradeResponse'
           description: Operació realitzada correctament
         "400":
           content:
@@ -415,7 +450,9 @@ components:
       type: object
     FirmaSimpleKeyValue:
       description: Ofereix informació addicional sobre el firmant o la firma
-      example: ca
+      example:
+        value: value
+        key: key
       properties:
         key:
           description: Clau del valor
@@ -513,7 +550,7 @@ components:
       required:
       - custodyID
       type: object
-    FirmaSimpleSignatureRest:
+    FirmaSimpleSignatureResponse:
       description: Resposta de la petició de firma en servidor
       example:
         signedFileInfo:
@@ -521,8 +558,10 @@ components:
             issuerCert: issuerCert
             eniRolFirma: eniRolFirma
             additionalInformation:
-            - ca
-            - ca
+            - value: value
+              key: key
+            - value: value
+              key: key
             subjectCert: subjectCert
             eniSignerName: eniSignerName
             eniSignLevel: eniSignLevel
@@ -589,8 +628,10 @@ components:
           issuerCert: issuerCert
           eniRolFirma: eniRolFirma
           additionalInformation:
-          - ca
-          - ca
+          - value: value
+            key: key
+          - value: value
+            key: key
           subjectCert: subjectCert
           eniSignerName: eniSignerName
           eniSignLevel: eniSignLevel
@@ -706,8 +747,10 @@ components:
         issuerCert: issuerCert
         eniRolFirma: eniRolFirma
         additionalInformation:
-        - ca
-        - ca
+        - value: value
+          key: key
+        - value: value
+          key: key
         subjectCert: subjectCert
         eniSignerName: eniSignerName
         eniSignLevel: eniSignLevel
@@ -866,6 +909,98 @@ components:
       required:
       - code
       - errorMessage
+      type: object
+    FirmaSimpleUpgradeRequest:
+      example:
+        signature:
+          data: data
+          mime: mime
+          nom: nom
+        detachedDocument:
+          data: data
+          mime: mime
+          nom: nom
+        languageUI: languageUI
+        profileCode: profileCode
+        targetCertificate:
+          data: data
+          mime: mime
+          nom: nom
+      properties:
+        profileCode:
+          type: string
+        signature:
+          $ref: '#/components/schemas/FirmaSimpleFile'
+        detachedDocument:
+          $ref: '#/components/schemas/FirmaSimpleFile'
+        targetCertificate:
+          $ref: '#/components/schemas/FirmaSimpleFile'
+        languageUI:
+          type: string
+      type: object
+    FirmaSimpleUpgradeResponse:
+      example:
+        upgradedFileInfo:
+          additionInformation:
+          - value: value
+            key: key
+          - value: value
+            key: key
+          eniTipoFirma: eniTipoFirma
+          eniPerfilFirma: eniPerfilFirma
+          validationInfo:
+            checkDocumentModifications: true
+            noCheckValidationReason: noCheckValidationReason
+            checkValidationSignature: true
+            checkAdministrationIDOfSigner: true
+          signType: signType
+          signMode: 0
+          signAlgorithm: signAlgorithm
+        upgradedFile:
+          data: data
+          mime: mime
+          nom: nom
+      properties:
+        upgradedFile:
+          $ref: '#/components/schemas/FirmaSimpleFile'
+        upgradedFileInfo:
+          $ref: '#/components/schemas/FirmaSimpleUpgradedFileInfo'
+      type: object
+    FirmaSimpleUpgradedFileInfo:
+      example:
+        additionInformation:
+        - value: value
+          key: key
+        - value: value
+          key: key
+        eniTipoFirma: eniTipoFirma
+        eniPerfilFirma: eniPerfilFirma
+        validationInfo:
+          checkDocumentModifications: true
+          noCheckValidationReason: noCheckValidationReason
+          checkValidationSignature: true
+          checkAdministrationIDOfSigner: true
+        signType: signType
+        signMode: 0
+        signAlgorithm: signAlgorithm
+      properties:
+        signType:
+          type: string
+        signAlgorithm:
+          type: string
+        signMode:
+          format: int32
+          type: integer
+        eniTipoFirma:
+          type: string
+        eniPerfilFirma:
+          type: string
+        validationInfo:
+          $ref: '#/components/schemas/FirmaSimpleValidationInfo'
+        additionInformation:
+          items:
+            $ref: '#/components/schemas/FirmaSimpleKeyValue'
+          type: array
       type: object
     ApisIBKeyValue:
       description: Objecte per afegir informació addicional sobre la firma o el firmant

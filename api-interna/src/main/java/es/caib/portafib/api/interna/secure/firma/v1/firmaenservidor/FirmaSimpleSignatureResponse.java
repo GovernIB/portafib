@@ -6,7 +6,7 @@ import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Resposta de la petició de firma en servidor")
-public class FirmaSimpleSignatureRest {
+public class FirmaSimpleSignatureResponse {
     
     @Schema(description = "Identificador de la firma", required = true)
 	protected String signID;
@@ -20,11 +20,11 @@ public class FirmaSimpleSignatureRest {
     @Schema(description = "Informació del fitxer signat.", required = false)
 	protected FirmaSimpleSignedFileInfo signedFileInfo;
 
-	public FirmaSimpleSignatureRest() {
+	public FirmaSimpleSignatureResponse() {
 		super();
 	}
 
-	public FirmaSimpleSignatureRest(String signID, FirmaSimpleStatus status, FirmaSimpleFile signedFile,
+	public FirmaSimpleSignatureResponse(String signID, FirmaSimpleStatus status, FirmaSimpleFile signedFile,
 			FirmaSimpleSignedFileInfo signedFileInfo) {
 		super();
 		this.signID = signID;

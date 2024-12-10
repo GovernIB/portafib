@@ -30,13 +30,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * Resposta de la petició de firma en servidor
  */
 @JsonPropertyOrder({
-  FirmaSimpleSignatureRest.JSON_PROPERTY_SIGN_I_D,
-  FirmaSimpleSignatureRest.JSON_PROPERTY_STATUS,
-  FirmaSimpleSignatureRest.JSON_PROPERTY_SIGNED_FILE,
-  FirmaSimpleSignatureRest.JSON_PROPERTY_SIGNED_FILE_INFO
+  FirmaSimpleSignatureResponse.JSON_PROPERTY_SIGN_I_D,
+  FirmaSimpleSignatureResponse.JSON_PROPERTY_STATUS,
+  FirmaSimpleSignatureResponse.JSON_PROPERTY_SIGNED_FILE,
+  FirmaSimpleSignatureResponse.JSON_PROPERTY_SIGNED_FILE_INFO
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class FirmaSimpleSignatureRest {
+public class FirmaSimpleSignatureResponse {
   public static final String JSON_PROPERTY_SIGN_I_D = "signID";
   private String signID;
 
@@ -49,10 +49,10 @@ public class FirmaSimpleSignatureRest {
   public static final String JSON_PROPERTY_SIGNED_FILE_INFO = "signedFileInfo";
   private FirmaSimpleSignedFileInfo signedFileInfo;
 
-  public FirmaSimpleSignatureRest() {
+  public FirmaSimpleSignatureResponse() {
   }
 
-  public FirmaSimpleSignatureRest signID(String signID) {
+  public FirmaSimpleSignatureResponse signID(String signID) {
     
     this.signID = signID;
     return this;
@@ -78,7 +78,7 @@ public class FirmaSimpleSignatureRest {
   }
 
 
-  public FirmaSimpleSignatureRest status(FirmaSimpleStatus status) {
+  public FirmaSimpleSignatureResponse status(FirmaSimpleStatus status) {
     
     this.status = status;
     return this;
@@ -104,7 +104,7 @@ public class FirmaSimpleSignatureRest {
   }
 
 
-  public FirmaSimpleSignatureRest signedFile(FirmaSimpleFile signedFile) {
+  public FirmaSimpleSignatureResponse signedFile(FirmaSimpleFile signedFile) {
     
     this.signedFile = signedFile;
     return this;
@@ -130,7 +130,7 @@ public class FirmaSimpleSignatureRest {
   }
 
 
-  public FirmaSimpleSignatureRest signedFileInfo(FirmaSimpleSignedFileInfo signedFileInfo) {
+  public FirmaSimpleSignatureResponse signedFileInfo(FirmaSimpleSignedFileInfo signedFileInfo) {
     
     this.signedFileInfo = signedFileInfo;
     return this;
@@ -163,11 +163,11 @@ public class FirmaSimpleSignatureRest {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    FirmaSimpleSignatureRest firmaSimpleSignatureRest = (FirmaSimpleSignatureRest) o;
-    return Objects.equals(this.signID, firmaSimpleSignatureRest.signID) &&
-        Objects.equals(this.status, firmaSimpleSignatureRest.status) &&
-        Objects.equals(this.signedFile, firmaSimpleSignatureRest.signedFile) &&
-        Objects.equals(this.signedFileInfo, firmaSimpleSignatureRest.signedFileInfo);
+    FirmaSimpleSignatureResponse firmaSimpleSignatureResponse = (FirmaSimpleSignatureResponse) o;
+    return Objects.equals(this.signID, firmaSimpleSignatureResponse.signID) &&
+        Objects.equals(this.status, firmaSimpleSignatureResponse.status) &&
+        Objects.equals(this.signedFile, firmaSimpleSignatureResponse.signedFile) &&
+        Objects.equals(this.signedFileInfo, firmaSimpleSignatureResponse.signedFileInfo);
   }
 
   @Override
@@ -178,7 +178,7 @@ public class FirmaSimpleSignatureRest {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class FirmaSimpleSignatureRest {\n");
+    sb.append("class FirmaSimpleSignatureResponse {\n");
     sb.append("    signID: ").append(toIndentedString(signID)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    signedFile: ").append(toIndentedString(signedFile)).append("\n");

@@ -5,13 +5,14 @@ All URIs are relative to */portafibapi/interna*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**signdocument**](FirmaEnServidorV1Api.md#signdocument) | **POST** /secure/firmaenservidor/v1/signdocument | Operacio de firma simple en servidor d&#39;un document |
+| [**upgradeSignature**](FirmaEnServidorV1Api.md#upgradeSignature) | **POST** /secure/firmaenservidor/v1/upgradeSignature | Operacio de firma simple en servidor d&#39;un document |
 | [**versio**](FirmaEnServidorV1Api.md#versio) | **GET** /secure/firmaenservidor/v1/versio | Retorna la versió d&#39;aquest Servei |
 
 
 
 ## signdocument
 
-> FirmaSimpleSignatureRest signdocument(firmaSimpleSignDocumentRequest)
+> FirmaSimpleSignatureResponse signdocument(firmaSimpleSignDocumentRequest)
 
 Operacio de firma simple en servidor d&#39;un document
 
@@ -39,7 +40,7 @@ public class Example {
         FirmaEnServidorV1Api apiInstance = new FirmaEnServidorV1Api(defaultClient);
         FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest = new FirmaSimpleSignDocumentRequest(); // FirmaSimpleSignDocumentRequest | Operacio de firma simple en servidor d'un document
         try {
-            FirmaSimpleSignatureRest result = apiInstance.signdocument(firmaSimpleSignDocumentRequest);
+            FirmaSimpleSignatureResponse result = apiInstance.signdocument(firmaSimpleSignDocumentRequest);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FirmaEnServidorV1Api#signdocument");
@@ -61,7 +62,79 @@ public class Example {
 
 ### Return type
 
-[**FirmaSimpleSignatureRest**](FirmaSimpleSignatureRest.md)
+[**FirmaSimpleSignatureResponse**](FirmaSimpleSignatureResponse.md)
+
+### Authorization
+
+[BasicAuth](../README.md#BasicAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Operació realitzada correctament |  -  |
+| **400** | Paràmetres incorrectes |  -  |
+| **500** | Error no controlat |  -  |
+
+
+## upgradeSignature
+
+> FirmaSimpleUpgradeResponse upgradeSignature(firmaSimpleUpgradeRequest)
+
+Operacio de firma simple en servidor d&#39;un document
+
+### Example
+
+```java
+// Import classes:
+import es.caib.portafib.apiinterna.client.firma.v1.services.ApiClient;
+import es.caib.portafib.apiinterna.client.firma.v1.services.ApiException;
+import es.caib.portafib.apiinterna.client.firma.v1.services.Configuration;
+import es.caib.portafib.apiinterna.client.firma.v1.services.auth.*;
+import es.caib.portafib.apiinterna.client.firma.v1.services.models.*;
+import es.caib.portafib.apiinterna.client.firma.v1.api.FirmaEnServidorV1Api;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("/portafibapi/interna");
+        
+        // Configure HTTP basic authorization: BasicAuth
+        HttpBasicAuth BasicAuth = (HttpBasicAuth) defaultClient.getAuthentication("BasicAuth");
+        BasicAuth.setUsername("YOUR USERNAME");
+        BasicAuth.setPassword("YOUR PASSWORD");
+
+        FirmaEnServidorV1Api apiInstance = new FirmaEnServidorV1Api(defaultClient);
+        FirmaSimpleUpgradeRequest firmaSimpleUpgradeRequest = new FirmaSimpleUpgradeRequest(); // FirmaSimpleUpgradeRequest | Funcio de upgrade se firma digital
+        try {
+            FirmaSimpleUpgradeResponse result = apiInstance.upgradeSignature(firmaSimpleUpgradeRequest);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling FirmaEnServidorV1Api#upgradeSignature");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **firmaSimpleUpgradeRequest** | [**FirmaSimpleUpgradeRequest**](FirmaSimpleUpgradeRequest.md)| Funcio de upgrade se firma digital | [optional] |
+
+### Return type
+
+[**FirmaSimpleUpgradeResponse**](FirmaSimpleUpgradeResponse.md)
 
 ### Authorization
 

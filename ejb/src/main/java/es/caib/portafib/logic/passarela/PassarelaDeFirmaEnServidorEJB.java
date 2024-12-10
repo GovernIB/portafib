@@ -450,12 +450,9 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
         fitxerOriginal = new ByteArrayDataSource(signatureData);
 
         IPortaFIBDataSource documentDetachedDS = null;
-        if (documentDetached != null) {
-
+        if (documentDetached != null && documentDetached.getData() != null) {
             documentDetachedDS = new ByteArrayDataSource(documentDetached.getData());
-
         }
-
         final IPortaFIBDataSource upgradedSignatureDS = new ByteArrayDataSource(upgradedSignature);
 
         final int signTypeID = getSignTypeToPortaFIB(signTypeForm);

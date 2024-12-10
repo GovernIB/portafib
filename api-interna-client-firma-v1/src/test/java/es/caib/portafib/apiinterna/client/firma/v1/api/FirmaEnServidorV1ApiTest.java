@@ -18,8 +18,10 @@ import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleCommonInfo;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleFile;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleFileInfoSignature;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleSignDocumentRequest;
-import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleSignatureRest;
+import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleSignatureResponse;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleStatus;
+import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleUpgradeRequest;
+import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleUpgradeResponse;
 
 
 import org.junit.Test;
@@ -57,18 +59,24 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
 	 * @throws ApiException if the Api call fails
 	 */
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException, IOException {
     	FirmaEnServidorV1ApiTest test = new FirmaEnServidorV1ApiTest();
     	try {
-			test.signdocumentTest();
+			test.testSignDocument();
+
+			test.testUpgradeSignaturePAdES();
+			
 		} catch (ApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 	}
     
 	@Test
-	public void signdocumentTest() throws ApiException {
+	public void testSignDocument() throws ApiException {
 
 		FirmaEnServidorV1ApiTest firmaEnServidorV1ApiTest = new FirmaEnServidorV1ApiTest();
 		
@@ -124,12 +132,12 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
         internalSignDocument(api, perfil, fileToSign);
     }
 	
-	protected FirmaSimpleSignatureRest internalSignDocument(FirmaEnServidorV1Api api, final String perfil,
+	protected FirmaSimpleSignatureResponse internalSignDocument(FirmaEnServidorV1Api api, final String perfil,
             FirmaSimpleFile fileToSign) throws Exception, FileNotFoundException, IOException {
         return internalSignDocument(api, perfil, fileToSign, null);
     }
 
-    protected FirmaSimpleSignatureRest internalSignDocument(FirmaEnServidorV1Api api, final String perfil,
+    protected FirmaSimpleSignatureResponse internalSignDocument(FirmaEnServidorV1Api api, final String perfil,
             FirmaSimpleFile fileToSign, String alias) throws Exception, FileNotFoundException, IOException {
         String signID = "1";
         String name = fileToSign.getNom();
@@ -172,7 +180,7 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
         signature.setFileInfoSignature(fileInfoSignature);
         
         
-        FirmaSimpleSignatureRest fullResults = api.signdocument(signature);
+        FirmaSimpleSignatureResponse fullResults = api.signdocument(signature);
 
         FirmaSimpleStatus transactionStatus = fullResults.getStatus();
 
@@ -256,7 +264,7 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
 	public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String mime) throws Exception {
 		
 		//File fileToSign = new File("./testfiles/" + fileName);
-        InputStream is = new FileInputStream(new File("./src/main/resources/" + fileName));
+        InputStream is = new FileInputStream(new File("./src/test/resources/" + fileName));
         
         //
         //File tmp = File.createTempFile("testFile", fileName);
@@ -275,8 +283,62 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
         return asf;
     }
 	
-	public static void printSignatureInfo(FirmaSimpleSignatureRest fssr) {
-        System.out.println(fssr.getSignedFileInfo().toString());
+	@Test
+    public void testUpgradeSignaturePAdES() throws Exception, FileNotFoundException, IOException {
+
+        FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("signed_adaptat.pdf", "application/pdf");
+
+        internalFullTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, null, "hola-signed-upgraded.pdf");
+
+    }
+	
+	
+	protected void internalFullTestUpgrade(final String perfilProperty, FirmaSimpleFile fileToUpgrade,
+            FirmaSimpleFile documentDetached, String upgradedFileName)
+            throws IOException, FileNotFoundException, Exception {
+        FirmaSimpleUpgradeResponse upgradeResponse = internalTestUpgrade(perfilProperty, fileToUpgrade,
+                documentDetached);
+
+        FirmaSimpleFile upgraded = upgradeResponse.getUpgradedFile();
+
+        guardarFitxer(upgraded, upgradedFileName);
+    }
+	
+	protected FirmaSimpleUpgradeResponse internalTestUpgrade(final String perfilProperty, FirmaSimpleFile fileToUpgrade,
+            FirmaSimpleFile documentDetached) throws IOException, FileNotFoundException, Exception {
+        final String language = "ca";
+
+        Properties prop = getConfigProperties();
+
+        FirmaEnServidorV1Api api = getApiFirmaEnServidorSimple(prop);
+
+        final String perfil = prop.getProperty(perfilProperty);
+
+        if (perfil == null) {
+            logErrorPerfilBuit(perfilProperty);
+        }
+        
+        FirmaSimpleUpgradeRequest firmaSimpleUpgradeRequest = new FirmaSimpleUpgradeRequest();
+        
+        firmaSimpleUpgradeRequest.setProfileCode(perfil);
+        firmaSimpleUpgradeRequest.setDetachedDocument(documentDetached);
+        firmaSimpleUpgradeRequest.setSignature(fileToUpgrade);
+        firmaSimpleUpgradeRequest.setLanguageUI(language);
+        
+        FirmaSimpleUpgradeResponse upgradeResponse = api.upgradeSignature(firmaSimpleUpgradeRequest);
+
+        printSignatureInfo(upgradeResponse);
+        return upgradeResponse;
+    }
+
+	
+	public static void printSignatureInfo(FirmaSimpleSignatureResponse fssr) {
+	    System.out.println(fssr.getSignedFileInfo().toString());
+    }
+	
+	
+    public static void printSignatureInfo(FirmaSimpleUpgradeResponse fssr) {
+        System.out.println(fssr.getUpgradedFileInfo().toString());
     }
 	
 	public static void copyFileToOutputStream(InputStream input, OutputStream output) throws IOException {
@@ -285,6 +347,20 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
         while (-1 != (n = input.read(buffer))) {
             output.write(buffer, 0, n);
         }
+    }
+	
+	private static void guardarFitxer(FirmaSimpleFile upgraded, String fileName)
+            throws FileNotFoundException, IOException {
+        File parent = new File("results");
+        parent.mkdirs();
+
+        File f = new File(parent, fileName);
+        FileOutputStream fos = new FileOutputStream(f);
+        fos.write(upgraded.getData());
+        fos.flush();
+        fos.close();
+
+        System.out.println("Guardat " + fileName);
     }
 
 }

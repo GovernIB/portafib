@@ -2,7 +2,7 @@ package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
 import java.util.List;
 
-import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleSignatureRest;
+import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleSignatureResponse;
 
 /**
  * 
@@ -13,7 +13,7 @@ public class FirmaSimpleSignDocumentsResponse {
 
 	protected FirmaSimpleStatus statusSignatureProcess;
 
-	protected List<FirmaSimpleSignatureRest> results;
+	protected List<FirmaSimpleSignatureResponse> results;
 
 	/**
 	 * 
@@ -26,17 +26,17 @@ public class FirmaSimpleSignDocumentsResponse {
 	 * @param results
 	 */
 	public FirmaSimpleSignDocumentsResponse(FirmaSimpleStatus statusSignatureProcess,
-			List<FirmaSimpleSignatureRest> results) {
+			List<FirmaSimpleSignatureResponse> results) {
 		super();
 		this.statusSignatureProcess = statusSignatureProcess;
 		this.results = results;
 	}
 
-	public List<FirmaSimpleSignatureRest> getResults() {
+	public List<FirmaSimpleSignatureResponse> getResults() {
 		return results;
 	}
 
-	public void setResults(List<FirmaSimpleSignatureRest> results) {
+	public void setResults(List<FirmaSimpleSignatureResponse> results) {
 		this.results = results;
 	}
 
