@@ -2,6 +2,8 @@ package es.caib.portafib.api.interna.secure.firma.v1.commons.apisib;
 
 import java.util.List;
 
+import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleKeyValue;
+
 
 /**
  * 
@@ -9,7 +11,7 @@ import java.util.List;
  *
  */
 
-public class ApisIBAvailableProfile<K extends ApisIBKeyValue> {
+public class ApisIBAvailableProfile {
 
   protected String code;
 
@@ -17,14 +19,14 @@ public class ApisIBAvailableProfile<K extends ApisIBKeyValue> {
 
   protected String description;
 
-  protected List<K> properties;
+  protected List<FirmaSimpleKeyValue> properties;
 
   public ApisIBAvailableProfile() {
     super();
   }
 
   public ApisIBAvailableProfile(String code, String name, String description,
-      List<K> properties) {
+      List<FirmaSimpleKeyValue> properties) {
     super();
     this.code = code;
     this.name = name;
@@ -32,7 +34,7 @@ public class ApisIBAvailableProfile<K extends ApisIBKeyValue> {
     this.properties = properties;
   }
   
-  public ApisIBAvailableProfile(ApisIBAvailableProfile<K> availableProfile) {
+  public ApisIBAvailableProfile(ApisIBAvailableProfile availableProfile) {
     super();
     this.code = availableProfile.code;
     this.name = availableProfile.name;
@@ -67,11 +69,11 @@ public class ApisIBAvailableProfile<K extends ApisIBKeyValue> {
     this.description = description;
   }
 
-  public List<K> getProperties() {
+  public List<FirmaSimpleKeyValue> getProperties() {
     return properties;
   }
 
-  public void setProperties(List<K> properties) {
+  public void setProperties(List<FirmaSimpleKeyValue> properties) {
     this.properties = properties;
   }
 

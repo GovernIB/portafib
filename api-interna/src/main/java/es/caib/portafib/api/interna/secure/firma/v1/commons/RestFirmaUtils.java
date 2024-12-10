@@ -28,7 +28,7 @@ import es.caib.portafib.utils.ConstantsPortaFIB;
  * @author anadal(u80067)
  *
  */
-public class RestFirmaUtils<K extends ApisIBKeyValue> extends RestUtilsErrorManager {
+public class RestFirmaUtils extends RestUtilsErrorManager {
 
 	@EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioService.JNDI_NAME)
 	protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioService perfilsPerUsuariAplicacioEjb;
@@ -140,7 +140,7 @@ public class RestFirmaUtils<K extends ApisIBKeyValue> extends RestUtilsErrorMana
 			Where w = null;
 			List<PerfilDeFirma> perfils = commonAvailableProfiles(w, request.getUserPrincipal().getName());
 
-			List<ApisIBAvailableProfile<K>> list = new ArrayList<ApisIBAvailableProfile<K>>();
+			List<ApisIBAvailableProfile> list = new ArrayList<ApisIBAvailableProfile>();
 
 			for (PerfilDeFirma perfil : perfils) {
 
@@ -149,14 +149,14 @@ public class RestFirmaUtils<K extends ApisIBKeyValue> extends RestUtilsErrorMana
 				String descripcio = perfil.getDescripcio();
 
 				// Falta llegir-ho de la BBDD
-				ApisIBAvailableProfile<K> ap = new ApisIBAvailableProfile<K>(codiPerfil, perfil.getNom(), descripcio,
+				ApisIBAvailableProfile ap = new ApisIBAvailableProfile(codiPerfil, perfil.getNom(), descripcio,
 						null);
 
 				list.add(ap);
 			}
 
 			HttpHeaders headers = addAccessControllAllowOrigin();
-			ResponseEntity<?> re = new ResponseEntity<List<ApisIBAvailableProfile<K>>>(list, headers, HttpStatus.OK);
+			ResponseEntity<?> re = new ResponseEntity<List<ApisIBAvailableProfile>>(list, headers, HttpStatus.OK);
 
 			return re;
 

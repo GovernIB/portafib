@@ -53,7 +53,7 @@ import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 
-public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends RestFirmaUtils<K> {
+public abstract class RestApiFirmaSimpleUtils extends RestFirmaUtils {
 
 	protected static final String TIPUS_WEB = "WEB";
 
