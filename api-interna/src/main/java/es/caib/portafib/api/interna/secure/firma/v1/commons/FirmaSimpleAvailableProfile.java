@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 
 @Schema(description = "Indica si inclou política de firma (true, EPES) o no (false)", example="True", required = true)
-public class FirmaSimpleAvailableProfile extends ApisIBAvailableProfile<FirmaSimpleKeyValue> {
+public class FirmaSimpleAvailableProfile extends ApisIBAvailableProfile {
     @Schema(description = "Codi del perfil", required = true)
 	protected String code;
     @Schema(description = "Nom del perfil en l’idioma elegit.", required = true)
