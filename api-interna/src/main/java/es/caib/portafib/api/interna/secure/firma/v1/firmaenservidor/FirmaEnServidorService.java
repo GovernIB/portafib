@@ -109,7 +109,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
                         url = "http://governdigital.fundaciobit.org")),
         tags = @Tag(name = FirmaEnServidorService.TAG_NAME, description = "Firma en servidor"))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = FirmaEnServidorService.SECURITY_NAME, scheme = "basic")
-public class FirmaEnServidorService extends RestApiFirmaSimpleUtils<FirmaSimpleKeyValue> {
+public class FirmaEnServidorService extends RestApiFirmaSimpleUtils {
     protected static Logger log = Logger.getLogger(UtilsService.class);
 
     public static final String UPGRADESIGNATURE = "upgradeSignature";
