@@ -22,76 +22,17 @@
             <groupId>es.caib.portafib</groupId>
             <artifactId>portafib-ejb</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>es.caib.portafib</groupId>
-            <artifactId>portafib-commons</artifactId>
-            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
 
 
         <!-- Externas -->
-<!--
-        <dependency>
-            <artifactId>apifirmasimple-api</artifactId>
-            <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
-            <version>${apifirmasimple.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>apifirmaasyncsimple-api</artifactId>
-            <groupId>org.fundaciobit.apisib.apifirmaasyncsimple</groupId>
-            <version>2.0.1</version>
-         </dependency>
-
-        <dependency>
-            <artifactId>apiplantillafluxsimple-api</artifactId>
-            <groupId>org.fundaciobit.apisib.apiplantillafluxsimple</groupId>
-            <version>1.0</version>
-        </dependency>
--->
-        <dependency>
-            <groupId>org.fundaciobit.pluginsib.core.v3</groupId>
-            <artifactId>pluginsib-core</artifactId>
-            <version>${pluginsib.core.version}</version>
-        </dependency>
-
+        
         <dependency>
             <groupId>org.fundaciobit.pluginsib.exportdata</groupId>
             <artifactId>pluginsib-exportdata-api</artifactId>
             <version>${pluginsib.exportdata.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
-            <artifactId>pluginsib-documentcustody-api</artifactId>
-            <version>${pluginsib.documentcustody.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
-            <artifactId>pluginsib-signatureweb-api</artifactId>
-            <version>${plugins.signatureweb.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.fundaciobit.pluginsib.timestamp</groupId>
-            <artifactId>pluginsib-timestamp-api</artifactId>
-            <version>${pluginsib.timestamp.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.fundaciobit.pluginsib.validatesignature</groupId>
-            <artifactId>pluginsib-validatesignature-api</artifactId>
-            <version>${plugins.validatesignature.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.fundaciobit.genapp</groupId>
-            <artifactId>genapp-core</artifactId>
-            <version>${genapp.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -100,20 +41,6 @@
             <version>${genapp.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -334,7 +261,6 @@
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>

@@ -1039,7 +1039,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             stamper.setFormFlattening(true);
             stamper.close();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("Error omplint formulari d´autorització:" + e.getMessage(), e);
             // TODO traduir
             throw new I18NException("error.unknown", "Error omplint formulari d´autorització:" + e.getMessage());
         }
