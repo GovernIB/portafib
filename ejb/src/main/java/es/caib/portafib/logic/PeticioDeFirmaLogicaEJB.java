@@ -238,6 +238,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
     @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
     protected ConfiguracioUsuariAplicacioLogicaLocal configuracioDeFirmaLogicaEjb;
 
+    @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
+    private RebreAvisLogicaLocal rebreAvisLogicaEjb;
+
     @Resource
     private SessionContext context;
 
@@ -994,7 +997,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
                     if (fitxerConvertit == fileToConvertInfo) {
                         // Es un PDF. No feim res.
-                     } else {
+                    } else {
                         // No és un PDF o s'han canviat les dades, ho substituim pel fitxer convertit
                         Fitxer fileInfo = peticioDeFirma.getFitxerAFirmar();
                         fileInfo.setMime(fitxerConvertit.getMime());
@@ -1004,7 +1007,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                         fitxerLogicaEjb.update(fileInfo);
 
                         // Actualitzam Sistema de Fitxers si es necessari
-                        if (fitxerConvertit.getData() != fileToConvertInfo.getData() ) {
+                        if (fitxerConvertit.getData() != fileToConvertInfo.getData()) {
                             try {
                                 InputStream is = fitxerConvertit.getData().getInputStream();
                                 FileOutputStream fos = new FileOutputStream(fileToConvert);
@@ -2215,7 +2218,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             // Guardar EN BBDD
 
             // 1.- Crear fitxer en BBDD
-            
+
             FitxerJPA fitxer = new FitxerJPA();
             fitxer.setDescripcio("");
             fitxer.setMime(validacioResponse.getMime());
@@ -2418,8 +2421,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 }
 
             }
-            
-            
 
         } catch (Throwable error) {
 
@@ -3714,7 +3715,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             }
             log.debug(str);
         }
-        ;
 
         // Per no sobrecarregar ho farem entitat per entitat
         for (PropietatGlobal pg : entitatsID) {
@@ -3930,7 +3930,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
             // Enviar mails
             try {
-                EmailUtil.enviarMails(emailsEntitat);
+                EmailUtil.enviarMails(emailsEntitat, rebreAvisLogicaEjb);
             } catch (I18NException e) {
                 log.error("Error enviant correus de l'entitat " + entitatID + ": "
                         + I18NLogicUtils.getMessage(e, new Locale("ca")), e);

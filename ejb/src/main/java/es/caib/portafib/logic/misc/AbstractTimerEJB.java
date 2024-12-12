@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.NoMoreTimeoutsException;
 import javax.ejb.SessionContext;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
@@ -24,190 +25,184 @@ import org.quartz.impl.triggers.CronTriggerImpl;
  */
 @RolesAllowed("PFI_ADMIN")
 public abstract class AbstractTimerEJB implements AbstractTimerLocal {
-  
- 
-  
 
-  @Resource
-  TimerService timerService;
+    @Resource
+    TimerService timerService;
 
-  protected final Logger log = Logger.getLogger(getClass());
+    protected final Logger log = Logger.getLogger(getClass());
 
-  @Resource
-  private SessionContext context;
+    @Resource
+    private SessionContext context;
 
-  public AbstractTimerEJB() {
-  }
-
-  public void clearTimers() {
-    removeTimer(getTimerName());
-  }
-
-  @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-  @Timeout
-  public void timeOutHandler(Timer timer) {
-
-    try {
-      long timeRemaining = timer.getTimeRemaining();
-
-      timer.cancel();
-
-      removeTimer(getTimerName());
-
-      nextExecution();
-
-      // Si han passat més de 30segons de l'hora prevista d'execució
-      // llavors no l'executam.
-      if (timeRemaining > -30000) {
-        executeTask();
-      } else {
-        log.warn("[" + getTimerName() + "] Timer programat per "
-            + new Date(System.currentTimeMillis() + timeRemaining) + " no s'executara.");
-      }
-
-    } catch (Throwable e) {
-      Throwable cause = e.getCause();
-      log.error("timeOutHandler:: CAUSE => " + cause + "\n\n");
-      if (cause != null && cause instanceof javax.naming.NameNotFoundException ) {
-        log.error("timeOutHandler:: ERA UNA TASCA GUARDADA EN MEMORIA ==> " + cause);
-      } else {
-        log.error("timeOutHandler:: [" + getTimerName() + "] Error executant tasca: " + e.getMessage(), e);
-      }
-    }
-  }
-
-  @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-  protected Date nextExecution() throws ParseException {
-
-   
-    Date nextFireAt = computeNextExecution();
-    
-    if (nextFireAt == null) {
-      log.warn("El timer " + getTimerName() + "  s'ha aturat ja que no s'ha definit"
-          + " cap expressió de tipus cron.");
-      return null;
+    public AbstractTimerEJB() {
     }
 
-
-    TimerService timerService = context.getTimerService();
-
-    // 10:57:35,613 WARN  [loggerI18N] [com.arjuna.ats.internal.jta.transaction.arjunacore.lastResource.multipleWarning]
-    // [com.arjuna.ats.internal.jta.transaction.arjunacore.lastResource.multipleWarning] 
-    // Multiple last resources have been added to the current transaction. This is transactionally unsafe and
-    // should not be relied upon. Current resource is 
-    // org.jboss.resource.connectionmanager.TxConnectionManager$LocalXAResource@5e7a92ad
-    Timer timer2 = timerService.createSingleActionTimer(nextFireAt, new TimerConfig(getTimerName(), false));
-
-
-    if (log.isDebugEnabled()) {
-      log.debug("[" + getTimerName() + "] timeoutHandler : " + timer2.getInfo());
+    public void clearTimers() {
+        removeTimer(getTimerName());
     }
 
-    return nextFireAt;
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    @Timeout
+    public void timeOutHandler(Timer timer) {
 
-  }
+        try {
+            long timeRemaining;
+            try {
+                timeRemaining = timer.getTimeRemaining();
+            } catch (NoMoreTimeoutsException e) {
+                timeRemaining = 0;
+            }
+            timer.cancel();
 
-  @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-  protected Date computeNextExecution() throws ParseException {
-    String cronExpression = getCronExpression();
+            removeTimer(getTimerName());
 
-    if (cronExpression != null && cronExpression.trim().length() != 0
-        && !org.quartz.CronExpression.isValidExpression(cronExpression)) {
-      log.error("L'expressió cron per " + getTimerName() + " no és correcta: "
-          + cronExpression);
-      cronExpression = null;
+            nextExecution();
+
+            // Si han passat més de 30segons de l'hora prevista d'execució
+            // llavors no l'executam.
+            if (timeRemaining > -30000) {
+                executeTask();
+            } else {
+                log.warn("[" + getTimerName() + "] Timer programat per "
+                        + new Date(System.currentTimeMillis() + timeRemaining) + " no s'executara.");
+            }
+
+        } catch (Throwable e) {
+            Throwable cause = e.getCause();
+            log.error("timeOutHandler:: CAUSE => " + cause + "\n\n");
+            if (cause != null && cause instanceof javax.naming.NameNotFoundException) {
+                log.error("timeOutHandler:: ERA UNA TASCA GUARDADA EN MEMORIA ==> " + cause);
+            } else {
+                log.error("timeOutHandler:: [" + getTimerName() + "] Error executant tasca: " + e.getMessage(), e);
+            }
+        }
     }
 
-    if (cronExpression == null) {
-      cronExpression = getDefaultCronExpression();
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    protected Date nextExecution() throws ParseException {
+
+        Date nextFireAt = computeNextExecution();
+
+        if (nextFireAt == null) {
+            log.warn("El timer " + getTimerName() + "  s'ha aturat ja que no s'ha definit"
+                    + " cap expressió de tipus cron.");
+            return null;
+        }
+
+        TimerService timerService = context.getTimerService();
+
+        // 10:57:35,613 WARN  [loggerI18N] [com.arjuna.ats.internal.jta.transaction.arjunacore.lastResource.multipleWarning]
+        // [com.arjuna.ats.internal.jta.transaction.arjunacore.lastResource.multipleWarning] 
+        // Multiple last resources have been added to the current transaction. This is transactionally unsafe and
+        // should not be relied upon. Current resource is 
+        // org.jboss.resource.connectionmanager.TxConnectionManager$LocalXAResource@5e7a92ad
+        Timer timer2 = timerService.createSingleActionTimer(nextFireAt, new TimerConfig(getTimerName(), false));
+
+        if (log.isDebugEnabled()) {
+            log.debug("[" + getTimerName() + "] timeoutHandler : " + timer2.getInfo());
+        }
+
+        return nextFireAt;
+
     }
 
-    if (cronExpression == null) {
-      return null;
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    protected Date computeNextExecution() throws ParseException {
+        String cronExpression = getCronExpression();
+
+        if (cronExpression != null && cronExpression.trim().length() != 0
+                && !org.quartz.CronExpression.isValidExpression(cronExpression)) {
+            log.error("L'expressió cron per " + getTimerName() + " no és correcta: " + cronExpression);
+            cronExpression = null;
+        }
+
+        if (cronExpression == null) {
+            cronExpression = getDefaultCronExpression();
+        }
+
+        if (cronExpression == null) {
+            return null;
+        }
+
+        Date currTime = new Date();
+        CronTriggerImpl tr = new CronTriggerImpl();
+        tr.setCronExpression(cronExpression);
+        Date nextFireAt = tr.getFireTimeAfter(currTime);
+
+        if (log.isDebugEnabled()) {
+            log.debug("[" + getTimerName() + "] Reference time: " + currTime);
+            log.debug("[" + getTimerName() + "] Next fire after reference time: " + nextFireAt);
+        }
+        return nextFireAt;
     }
 
-    Date currTime = new Date();
-    CronTriggerImpl tr = new CronTriggerImpl();
-    tr.setCronExpression(cronExpression);
-    Date nextFireAt = tr.getFireTimeAfter(currTime);
-    
-    if (log.isDebugEnabled()) {
-      log.debug("[" + getTimerName() + "] Reference time: " + currTime);
-      log.debug("[" + getTimerName() + "] Next fire after reference time: " + nextFireAt);
+    @Override
+    public boolean isTimerRunning() {
+        return searchTimerByName(this.getTimerName()) != null;
     }
-    return nextFireAt;
-  }
 
-  @Override
-  public boolean isTimerRunning() {
-    return searchTimerByName(this.getTimerName()) != null;
-  }
-
-  protected Timer searchTimerByName(String name) {
-    javax.ejb.Timer timer = null;
-    TimerService timerService = context.getTimerService();
-    for (Object obj : timerService.getTimers()) {
-      timer = (javax.ejb.Timer) obj;
-      String scheduled = (String) timer.getInfo();
-      if (scheduled.equals(name)) {
+    protected Timer searchTimerByName(String name) {
+        javax.ejb.Timer timer = null;
+        TimerService timerService = context.getTimerService();
+        for (Object obj : timerService.getTimers()) {
+            timer = (javax.ejb.Timer) obj;
+            String scheduled = (String) timer.getInfo();
+            if (scheduled.equals(name)) {
+                return timer;
+            }
+        }
         return timer;
-      }
     }
-    return timer;
-  }
-  
-  
-  protected void removeTimer(String name) {
-    Timer timer = searchTimerByName(name);
-    if (timer != null) {
-      log.info("Removing old timer(" + getTimerName() + ") : " + name + "("
-          + timer.getNextTimeout() + ")");
-      timer.cancel();
+
+    protected void removeTimer(String name) {
+        Timer timer = searchTimerByName(name);
+        if (timer != null) {
+            log.info("Removing old timer(" + getTimerName() + ") : " + name + "(" + timer.getNextTimeout() + ")");
+            timer.cancel();
+        }
     }
-  }
 
+    @Override
+    public void startScheduler() {
 
-  @Override
-  public void startScheduler() {
+        try {
+            clearTimers();
 
-    try {
-      clearTimers();
+            Date nextExecution = nextExecution();
+            if (nextExecution != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                log.info("Primer enviament de " + getTimerName() + " sera " + sdf.format(nextExecution));
+            }
 
-      Date nextExecution = nextExecution();
-      if (nextExecution != null) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        log.info("Primer enviament de " + getTimerName() + " sera " + sdf.format(nextExecution));
-      }
-
-    } catch (ParseException e) {
-      log.fatal("Error creant timer de " + getTimerName() + ": " + e.getMessage(), e);
+        } catch (ParseException e) {
+            log.fatal("Error creant timer de " + getTimerName() + ": " + e.getMessage(), e);
+        }
     }
-  }
 
-  @Override
-  public void stopScheduler() {
-    clearTimers();
-  }
+    @Override
+    public void stopScheduler() {
+        clearTimers();
+    }
 
-  public abstract String getTimerName();
+    public abstract String getTimerName();
 
-  /**
-   * Consultar cronmaker.com
-   * 
-   * @return
-   */
-  public abstract String getCronExpression();
+    /**
+     * Consultar cronmaker.com
+     * 
+     * @return
+     */
+    public abstract String getCronExpression();
 
-  /**
-   * Consultar cronmaker.com
-   * 
-   * @return Si val null significa que no s'ha d'executar si el valor principal també val null
-   */
-  public abstract String getDefaultCronExpression();
+    /**
+     * Consultar cronmaker.com
+     * 
+     * @return Si val null significa que no s'ha d'executar si el valor principal també val null
+     */
+    public abstract String getDefaultCronExpression();
 
-  /**
-   * El que hagi de fer
-   */
-  public abstract void executeTask();
+    /**
+     * El que hagi de fer
+     */
+    public abstract void executeTask();
 
 }

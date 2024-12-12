@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
+import es.caib.portafib.logic.RebreAvisLogicaLocal;
 import es.caib.portafib.logic.utils.EmailInfo;
 import es.caib.portafib.logic.utils.EmailUtil;
 
@@ -35,245 +36,239 @@ import es.caib.portafib.logic.utils.EmailUtil;
  */
 public class EnviarCorreusAgrupatsUtils {
 
-  
-  protected static final Logger log = Logger.getLogger(EnviarCorreusAgrupatsUtils.class);
-  
-  public static final String BASE_PATH_AGRUPAR_CORREUS = "CORREUSAGRUPATS";
+    protected static final Logger log = Logger.getLogger(EnviarCorreusAgrupatsUtils.class);
 
-  public static File getFile(final String usuariEntitatId, final long eventID,
-      final String basePath) {
-    
-    File rebreAvisDir = new File(FileSystemManager.getFilesPath(), basePath);
-    rebreAvisDir.mkdirs();
-    if (usuariEntitatId == null) {
-      return rebreAvisDir;
-    } else {
-      String filename = usuariEntitatId + "_" + eventID;
-      File rebreAvisGrupatFile = new File(rebreAvisDir, filename);
-      return rebreAvisGrupatFile;
-    }
-  }
+    public static final String BASE_PATH_AGRUPAR_CORREUS = "CORREUSAGRUPATS";
 
-  public static File saveAvisAgrupat(final String usuariEntitatId, final long eventID,
-      EmailInfo emailInfo) throws Exception {
-    
-    synchronized (BASE_PATH_AGRUPAR_CORREUS) {
+    public static File getFile(final String usuariEntitatId, final long eventID, final String basePath) {
 
-    File f = getFile(usuariEntitatId, eventID, BASE_PATH_AGRUPAR_CORREUS);
-
-    FileOutputStream fos = new FileOutputStream(f, true);
-    PrintStream ps = new PrintStream(fos);
-
-    JAXBContext jc = JAXBContext.newInstance(EmailInfo.class);
-    Marshaller m = jc.createMarshaller();
-
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    m.marshal(emailInfo, baos);
-
-    ps.println(URLEncoder.encode(new String(baos.toByteArray()), "UTF-8"));
-
-    ps.flush();
-    ps.close();
-
-    fos.flush();
-    fos.close();
-
-    return f;
-    
-    }
-
-  }
-  
-
-  public static void enviarAvisosAgrupats() throws Exception {
-    
-    final boolean isDebug = log.isDebugEnabled();
-    
-    if (isDebug) { 
-      log.debug("Iniciant enviament de correus agrupats ...");
-    }
-    
-    File[] emailsAgrupats;
-    synchronized (BASE_PATH_AGRUPAR_CORREUS) {
-      
-      File dirAgrupats = getFile(null, 0, BASE_PATH_AGRUPAR_CORREUS);
-
-      emailsAgrupats = dirAgrupats.listFiles();
-     
-    }
-
-    for (File file : emailsAgrupats) {
-      String filename = file.getName();
-      if (isDebug) { 
-        log.debug("Processant fitxer de correus agrupats: " + filename);
-      }
-      
-      EmailInfo email;
-      synchronized (BASE_PATH_AGRUPAR_CORREUS) {
-            
-        List<EmailInfo> list = readEmailsFromFile(file);
-        
-        if (list != null && !list.isEmpty()) {
-          
-          email = list.get(0);
-          
-          StringBuffer html = new StringBuffer();
-          for (EmailInfo emailInfo : list) {
-            if (html.length() != 0) {
-              html.append("<br/><br/><hr/><br/><br/>");
-            }
-            html.append(emailInfo.getMessage());
-          }
-          
-          email.setMessage(html.toString());
+        File rebreAvisDir = new File(FileSystemManager.getFilesPath(), basePath);
+        rebreAvisDir.mkdirs();
+        if (usuariEntitatId == null) {
+            return rebreAvisDir;
         } else {
-          email = null;
+            String filename = usuariEntitatId + "_" + eventID;
+            File rebreAvisGrupatFile = new File(rebreAvisDir, filename);
+            return rebreAvisGrupatFile;
         }
-        
-        
-        
-        if(!file.delete()) {
-          log.error("NO PUC ESBORRAR FITXER [" + file.getAbsolutePath() + "]", new Exception());
-        };
-        
-      }
-      
-      if (email != null) {
-        email.setHtml(true);
-        // Això evita que ho torni a guardar per enviar més endavant 
-        email.setUsuariEntitatID(null);
-        email.setEventID(-1);
-        ArrayList<EmailInfo> one = new ArrayList<EmailInfo>();
-        one.add(email);
-        try {
-          EmailUtil.enviarMails(one);
-          if (isDebug) { 
-            log.debug("Enviat correu agrupat a " + email.getSubject());
-          }
-        } catch (I18NException e) {
-          log.error("Error enviant correu a " + email.getSubject() + " - " 
-            + email.getUsuariEntitatID() + "(" + e.getMessage() + "):\n" 
-            + email.getMessage(), e);
+    }
+
+    public static File saveAvisAgrupat(final String usuariEntitatId, final long eventID, EmailInfo emailInfo)
+            throws Exception {
+
+        synchronized (BASE_PATH_AGRUPAR_CORREUS) {
+
+            File f = getFile(usuariEntitatId, eventID, BASE_PATH_AGRUPAR_CORREUS);
+
+            FileOutputStream fos = new FileOutputStream(f, true);
+            PrintStream ps = new PrintStream(fos);
+
+            JAXBContext jc = JAXBContext.newInstance(EmailInfo.class);
+            Marshaller m = jc.createMarshaller();
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            m.marshal(emailInfo, baos);
+
+            ps.println(URLEncoder.encode(new String(baos.toByteArray()), "UTF-8"));
+
+            ps.flush();
+            ps.close();
+
+            fos.flush();
+            fos.close();
+
+            return f;
+
         }
-        // Per no saturar (1) el servidor, (2) ni l'enviament de correus (3) ni la firma de sol·licituds 
-        Thread.sleep(1000);
-      }
-    
-    }
-    
-    if (isDebug) { 
-      log.debug("Final enviament de correus agrupats ...");
-    }
-  }
 
-  protected static List<EmailInfo> readEmailsFromFile(File f) throws FileNotFoundException,
-      JAXBException, IOException, UnsupportedEncodingException {
-
-    if (!f.exists()) {
-      return new ArrayList<EmailInfo>();
     }
 
-    FileReader fr = new FileReader(f);
-    BufferedReader br = new BufferedReader(fr);
-    Object obj;
+    public static int enviarAvisosAgrupats(RebreAvisLogicaLocal rebreAvisLogicaEjb) throws Exception {
 
-    JAXBContext jc = JAXBContext.newInstance(EmailInfo.class);
-    Unmarshaller u = jc.createUnmarshaller();
+        final boolean isDebug = log.isDebugEnabled();
+        int count = 0;
 
-    ArrayList<EmailInfo> list = new ArrayList<EmailInfo>();
-    do {
+        if (isDebug) {
+            log.debug("Iniciant enviament de correus agrupats ...");
+        }
 
-      String lineEnc = br.readLine();
+        File[] emailsAgrupats;
+        synchronized (BASE_PATH_AGRUPAR_CORREUS) {
 
-      if (lineEnc == null) {
-        break;
-      }
+            File dirAgrupats = getFile(null, 0, BASE_PATH_AGRUPAR_CORREUS);
 
-      String lineXml = URLDecoder.decode(lineEnc, "UTF-8");
+            emailsAgrupats = dirAgrupats.listFiles();
 
-      obj = u.unmarshal(new ByteArrayInputStream(lineXml.getBytes()));
+        }
 
-      if (obj != null) {
-        list.add(((EmailInfo) obj));
-      }
+        for (File file : emailsAgrupats) {
+            String filename = file.getName();
+            if (isDebug) {
+                log.debug("Processant fitxer de correus agrupats: " + filename);
+            }
 
-    } while (true);
+            EmailInfo email;
+            synchronized (BASE_PATH_AGRUPAR_CORREUS) {
 
-    br.close();
-    fr.close();
+                List<EmailInfo> list = readEmailsFromFile(file);
 
-    return list;
-  }
+                if (list != null && !list.isEmpty()) {
 
-  
+                    email = list.get(0);
 
-  
-  // TEST
-  public static void main(String[] args) {
-    try {
+                    StringBuffer html = new StringBuffer();
+                    for (EmailInfo emailInfo : list) {
+                        if (html.length() != 0) {
+                            html.append("<br/><br/><hr/><br/><br/>");
+                        }
+                        html.append(emailInfo.getMessage());
+                    }
 
-      EmailInfo info1 = new EmailInfo(234L, "anadal@fundaciobit.org", "Holaà cáarïacol·la",
-          "HOLA CARAC OAL MESSAGE", true, "fundaciobit_anadal", 0L);
+                    email.setMessage(html.toString());
+                } else {
+                    email = null;
+                }
 
-      EmailInfo info2 = new EmailInfo(2345L, "anadal22@fundaciobit.org", "Hòla caraöcoçñla 2",
-          "HOLA CARAC\r\n OAL MESSAGE\r552\n422", true, "fundaciobit_anadal", 0L);
-      File f = new File("c:\\tmp\\hola.xml");
+                if (!file.delete()) {
+                    log.error("NO PUC ESBORRAR FITXER [" + file.getAbsolutePath() + "]", new Exception());
+                }
 
-      EmailInfo[] emails = { info1, info2 };
+            }
 
-      for (EmailInfo emailInfo : emails) {
-        FileOutputStream fos = new FileOutputStream(f, true);
-        PrintStream ps = new PrintStream(fos);
+            if (email != null) {
+                email.setHtml(true);
+                // Això evita que ho torni a guardar per enviar més endavant 
+                email.setUsuariEntitatID(null);
+                email.setEventID(-1);
+                ArrayList<EmailInfo> one = new ArrayList<EmailInfo>();
+                one.add(email);
+                try {
+                    EmailUtil.enviarMails(one, rebreAvisLogicaEjb);
+                    count++;
+                    if (isDebug) {
+                        log.debug("Enviat correu agrupat a " + email.getSubject());
+                    }
+                } catch (I18NException e) {
+                    log.error("Error enviant correu a " + email.getSubject() + " - " + email.getUsuariEntitatID() + "("
+                            + e.getMessage() + "):\n" + email.getMessage(), e);
+                }
+                // Per no saturar (1) el servidor, (2) ni l'enviament de correus (3) ni la firma de sol·licituds 
+                Thread.sleep(1000);
+            }
+
+        }
+
+        if (isDebug) {
+            log.debug("Final enviament de correus agrupats ...");
+        }
+        return count;
+    }
+
+    protected static List<EmailInfo> readEmailsFromFile(File f)
+            throws FileNotFoundException, JAXBException, IOException, UnsupportedEncodingException {
+
+        if (!f.exists()) {
+            return new ArrayList<EmailInfo>();
+        }
+
+        FileReader fr = new FileReader(f);
+        BufferedReader br = new BufferedReader(fr);
+        Object obj;
 
         JAXBContext jc = JAXBContext.newInstance(EmailInfo.class);
-        // Unmarshaller u = jc.createUnmarshaller();
-        // Object element = u.unmarshal( new File( "foo.xml" ) );
-        Marshaller m = jc.createMarshaller();
+        Unmarshaller u = jc.createUnmarshaller();
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        m.marshal(emailInfo, baos);
+        ArrayList<EmailInfo> list = new ArrayList<EmailInfo>();
+        do {
 
-        ps.println(URLEncoder.encode(new String(baos.toByteArray()), "UTF-8"));
+            String lineEnc = br.readLine();
 
-        ps.flush();
-        ps.close();
+            if (lineEnc == null) {
+                break;
+            }
 
-        fos.flush();
-        fos.close();
-      }
+            String lineXml = URLDecoder.decode(lineEnc, "UTF-8");
 
-      FileReader fr = new FileReader(f);
-      BufferedReader br = new BufferedReader(fr);
-      Object obj;
+            obj = u.unmarshal(new ByteArrayInputStream(lineXml.getBytes()));
 
-      JAXBContext jc = JAXBContext.newInstance(EmailInfo.class);
-      Unmarshaller u = jc.createUnmarshaller();
+            if (obj != null) {
+                list.add(((EmailInfo) obj));
+            }
 
-      do {
+        } while (true);
 
-        String lineEnc = br.readLine();
+        br.close();
+        fr.close();
 
-        if (lineEnc == null) {
-          break;
-        }
-
-        String lineXml = URLDecoder.decode(lineEnc, "UTF-8");
-
-        obj = u.unmarshal(new ByteArrayInputStream(lineXml.getBytes()));
-
-        if (obj != null) {
-          System.out.println(" INFO READ = " + ((EmailInfo) obj).getSubject());
-        }
-
-      } while (true);
-      br.close();
-      fr.close();
-
-    } catch (Exception e) {
-      // TODO: handle exception
-      e.printStackTrace();
+        return list;
     }
 
-  }
- 
+    // TEST
+    public static void main(String[] args) {
+        try {
+
+            EmailInfo info1 = new EmailInfo(234L, "anadal@fundaciobit.org", "Holaà cáarïacol·la",
+                    "HOLA CARAC OAL MESSAGE", true, "fundaciobit_anadal", 0L);
+
+            EmailInfo info2 = new EmailInfo(2345L, "anadal22@fundaciobit.org", "Hòla caraöcoçñla 2",
+                    "HOLA CARAC\r\n OAL MESSAGE\r552\n422", true, "fundaciobit_anadal", 0L);
+            File f = new File("c:\\tmp\\hola.xml");
+
+            EmailInfo[] emails = { info1, info2 };
+
+            for (EmailInfo emailInfo : emails) {
+                FileOutputStream fos = new FileOutputStream(f, true);
+                PrintStream ps = new PrintStream(fos);
+
+                JAXBContext jc = JAXBContext.newInstance(EmailInfo.class);
+                // Unmarshaller u = jc.createUnmarshaller();
+                // Object element = u.unmarshal( new File( "foo.xml" ) );
+                Marshaller m = jc.createMarshaller();
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                m.marshal(emailInfo, baos);
+
+                ps.println(URLEncoder.encode(new String(baos.toByteArray()), "UTF-8"));
+
+                ps.flush();
+                ps.close();
+
+                fos.flush();
+                fos.close();
+            }
+
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            Object obj;
+
+            JAXBContext jc = JAXBContext.newInstance(EmailInfo.class);
+            Unmarshaller u = jc.createUnmarshaller();
+
+            do {
+
+                String lineEnc = br.readLine();
+
+                if (lineEnc == null) {
+                    break;
+                }
+
+                String lineXml = URLDecoder.decode(lineEnc, "UTF-8");
+
+                obj = u.unmarshal(new ByteArrayInputStream(lineXml.getBytes()));
+
+                if (obj != null) {
+                    System.out.println(" INFO READ = " + ((EmailInfo) obj).getSubject());
+                }
+
+            } while (true);
+            br.close();
+            fr.close();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+
+    }
+
 }
