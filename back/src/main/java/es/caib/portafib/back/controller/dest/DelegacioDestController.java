@@ -25,6 +25,7 @@ import es.caib.portafib.persistence.TipusDocumentColaboracioDelegacioJPA;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
+import es.caib.portafib.logic.RebreAvisLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.utils.EmailInfo;
@@ -150,6 +151,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
     @EJB(mappedName = SegellDeTempsLogicaLocal.JNDI_NAME)
     protected SegellDeTempsLogicaLocal segellDeTempsEjb;
+
+    @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
+    private RebreAvisLogicaLocal rebreAvisLogicaEjb;
 
     @Autowired
     protected TipusDocumentRefList tipusDocumentRefList;
@@ -869,7 +873,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             email.setEmail(email_coladele);
 
             try {
-                EmailUtil.enviarMails(Collections.singletonList(email));
+                EmailUtil.enviarMails(Collections.singletonList(email), rebreAvisLogicaEjb);
             } catch (I18NException e) {
                 String missatge = I18NUtils.getMessage(e);
                 HtmlUtils.saveMessageError(request, missatge);
@@ -884,8 +888,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     }
 
     @RequestMapping(value = "/desactivar/{delegacioID}", method = RequestMethod.POST)
-    public ModelAndView desactivar(@PathVariable("delegacioID") Long delegacioID, HttpServletRequest request,
-            HttpServletResponse response) throws I18NException {
+    public ModelAndView desactivar(@PathVariable("delegacioID")
+    Long delegacioID, HttpServletRequest request, HttpServletResponse response) throws I18NException {
 
         ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/" + delegacioID + "/edit", true));
 
@@ -912,8 +916,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     }
 
     @RequestMapping(value = "/activar/{delegacioColaboracioID}", method = RequestMethod.GET)
-    public ModelAndView activarColaboracioDelegacio(@PathVariable("delegacioColaboracioID") Long delegacioColaboracioID,
-            HttpServletRequest request, HttpServletResponse response) throws I18NException {
+    public ModelAndView activarColaboracioDelegacio(@PathVariable("delegacioColaboracioID")
+    Long delegacioColaboracioID, HttpServletRequest request, HttpServletResponse response) throws I18NException {
 
         // TODO findByPrimaryKey
         ColaboracioDelegacioJPA deleColaJPA = findByPrimaryKey(request, delegacioColaboracioID);
@@ -942,8 +946,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     }
 
     @RequestMapping(value = "/existsautoritzacio/{delegacioID}", method = RequestMethod.GET)
-    public void checkAutoritzacio(@PathVariable("delegacioID") Long delegacioID, HttpServletRequest request,
-            HttpServletResponse response) throws I18NException {
+    public void checkAutoritzacio(@PathVariable("delegacioID")
+    Long delegacioID, HttpServletRequest request, HttpServletResponse response) throws I18NException {
 
         ColaboracioDelegacioJPA deleColaJPA = findByPrimaryKey(request, delegacioID);
         if (deleColaJPA == null || deleColaJPA.getFitxerAutoritzacioID() == null) {
@@ -961,8 +965,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
     @RequestMapping(value = "/firmarautoritzacio/{delegacioID}", method = RequestMethod.GET)
     public ModelAndView firmarAutoritzacioDelegacio(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable("delegacioID") Long delegacioID, @RequestParam("url_user") String baseUrlFull)
-            throws I18NException {
+            @PathVariable("delegacioID")
+            Long delegacioID, @RequestParam("url_user")
+            String baseUrlFull) throws I18NException {
 
         ColaboracioDelegacioJPA delegacio = findByPrimaryKey(request, delegacioID);
 
@@ -1039,7 +1044,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             stamper.setFormFlattening(true);
             stamper.close();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("Error omplint formulari d´autorització:" + e.getMessage(), e);
             // TODO traduir
             throw new I18NException("error.unknown", "Error omplint formulari d´autorització:" + e.getMessage());
         }
@@ -1088,9 +1093,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                 signerEmail, sign_number, langUI, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
                 //ConstantsV2.SIGN_MODE_IMPLICIT,
                 SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPED,
-                SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langUI),
-                timeStampGenerator, policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode,
-                procedureName);
+                SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langUI), timeStampGenerator,
+                policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
 
         FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
 
@@ -1134,7 +1138,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
     @RequestMapping(value = "/finalFirma/{signaturesSetID}")
     public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable("signaturesSetID") String signaturesSetID) {
+            @PathVariable("signaturesSetID")
+            String signaturesSetID) {
 
         SignaturesSetWeb ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
         StatusSignaturesSet sss = ss.getStatusSignaturesSet();

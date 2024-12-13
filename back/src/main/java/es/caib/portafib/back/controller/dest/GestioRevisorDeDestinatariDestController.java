@@ -36,7 +36,6 @@ import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
-import es.caib.portafib.model.entity.RevisorDeDestinatari;
 import es.caib.portafib.model.fields.RevisorDeDestinatariFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;

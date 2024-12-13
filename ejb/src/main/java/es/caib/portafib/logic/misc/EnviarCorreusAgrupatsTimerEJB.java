@@ -2,12 +2,12 @@ package es.caib.portafib.logic.misc;
 
 import javax.annotation.security.RolesAllowed;
 import javax.annotation.security.RunAs;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
-
-
+import es.caib.portafib.logic.RebreAvisLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 
 /**
@@ -18,48 +18,49 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 @Stateless(name = "EnviarCorreusAgrupatsTimerEJB")
 @RunAs("PFI_ADMIN")
 @RolesAllowed("PFI_ADMIN")
-public class EnviarCorreusAgrupatsTimerEJB extends AbstractTimerEJB implements
-    EnviarCorreusAgrupatsTimerLocal {
+public class EnviarCorreusAgrupatsTimerEJB extends AbstractTimerEJB implements EnviarCorreusAgrupatsTimerLocal {
 
-  @Override
-  public String getTimerName() {
-    return "CorreusAgrupatsTimer";
-  }
+    @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
+    private RebreAvisLogicaLocal rebreAvisLogicaEjb;
 
-  @Override
-  public String getCronExpression() {
-    return PropietatGlobalUtil.getEmailsGroupedSenderCronExpression();
-  }
-
-  /**
-   * 
-   * @return Si val null significa que no s'ha d'executar
-   */
-  @Override
-  public String getDefaultCronExpression() {
-    // Valor per defecte = cada dia a les 6:00
-    return "0 0 6 1/1 * ? *";
-  }
-
-  @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-  @Override
-  public void executeTask() {
-    try {
-
-      if (log.isDebugEnabled()) {
-        log.debug(" -----------------------------");
-      }
-      log.info(" -- executeTask() de " + getTimerName() + " --------------");
-      if (log.isDebugEnabled()) {
-        log.debug(" -----------------------------");
-      }
-      
-      EnviarCorreusAgrupatsUtils.enviarAvisosAgrupats();
-
-    } catch (Throwable e) {
-      log.error("Error enviant Avisos Agrupats: " + e.getMessage(), e);
+    @Override
+    public String getTimerName() {
+        return "CorreusAgrupatsTimer";
     }
 
-  }
+    @Override
+    public String getCronExpression() {
+        return PropietatGlobalUtil.getEmailsGroupedSenderCronExpression();
+    }
+
+    /**
+     * 
+     * @return Si val null significa que no s'ha d'executar
+     */
+    @Override
+    public String getDefaultCronExpression() {
+        // Valor per defecte = cada dia a les 6:00
+        return "0 0 6 * * ? *";
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    @Override
+    public void executeTask() {
+        try {
+
+            log.info(" -- executeTask() de " + getTimerName() + ": INICI --------------");
+
+            int count = EnviarCorreusAgrupatsUtils.enviarAvisosAgrupats(rebreAvisLogicaEjb);
+
+            if (count != 0) {
+                log.info(" -- executeTask() de " + getTimerName() + ": S'han enviat " + count
+                        + " Avisos Agrupats --------------");
+            }
+
+        } catch (Throwable e) {
+            log.error("Error enviant Avisos Agrupats: " + e.getMessage(), e);
+        }
+
+    }
 
 }
