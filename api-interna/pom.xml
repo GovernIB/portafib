@@ -6,7 +6,7 @@
     <parent>
         <artifactId>portafib</artifactId>
         <groupId>es.caib.portafib</groupId>
-        <version>3.0.2</version>
+        <version>3.0.3</version>
     </parent>
     <artifactId>portafib-api-interna</artifactId>
     <packaging>war</packaging>
