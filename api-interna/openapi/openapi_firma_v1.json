@@ -443,7 +443,7 @@
             "format" : "byte"
           }
         },
-        "description" : "Document a signar"
+        "description" : "Objecte que representa un Document/Fitxer"
       },
       "FirmaSimpleFileInfoSignature" : {
         "required" : [ "fileToSign", "languageSign", "location", "name", "reason", "signID", "signNumber" ],

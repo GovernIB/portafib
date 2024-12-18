@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Document a signar
+ * Objecte que representa un Document/Fitxer
  */
 @JsonPropertyOrder({
   FirmaSimpleFile.JSON_PROPERTY_NOM,

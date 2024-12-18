@@ -335,7 +335,7 @@ components:
       - languageUI
       type: object
     FirmaSimpleFile:
-      description: Objecte que representa un Document/Fitxer
+      description: Document a signar
       example:
         data: data
         mime: mime
@@ -437,7 +437,7 @@ components:
           description: Informació Addicional.
           example: ca
           items:
-            $ref: '#/components/schemas/KeyValue'
+            $ref: '#/components/schemas/FirmaSimpleKeyValue'
           type: array
       required:
       - fileToSign
@@ -447,6 +447,22 @@ components:
       - reason
       - signID
       - signNumber
+      type: object
+    FirmaSimpleKeyValue:
+      description: Ofereix informació addicional sobre el firmant o la firma
+      example:
+        value: value
+        key: key
+      properties:
+        key:
+          description: Clau del valor
+          type: string
+        value:
+          description: Valor de la clau
+          type: string
+      required:
+      - key
+      - value
       type: object
     FirmaSimpleSignDocumentRequest:
       example:
@@ -484,22 +500,6 @@ components:
           $ref: '#/components/schemas/FirmaSimpleCommonInfo'
         fileInfoSignature:
           $ref: '#/components/schemas/FirmaSimpleFileInfoSignature'
-      type: object
-    KeyValue:
-      description: Objecte per afegir informació addicional sobre la firma o el firmant
-      example:
-        value: value
-        key: key
-      properties:
-        key:
-          description: Clau del valor
-          type: string
-        value:
-          description: Valor de la clau
-          type: string
-      required:
-      - key
-      - value
       type: object
     FirmaSimpleCustodyInfo:
       description: Informació de Custòdia
@@ -792,7 +792,7 @@ components:
           description: Ofrecer cualquier otra información que se  considere útil acerca
             del firmante.
           items:
-            $ref: '#/components/schemas/KeyValue'
+            $ref: '#/components/schemas/FirmaSimpleKeyValue'
           type: array
       type: object
     FirmaSimpleStatus:
@@ -999,8 +999,24 @@ components:
           $ref: '#/components/schemas/FirmaSimpleValidationInfo'
         additionInformation:
           items:
-            $ref: '#/components/schemas/KeyValue'
+            $ref: '#/components/schemas/FirmaSimpleKeyValue'
           type: array
+      type: object
+    ApisIBKeyValue:
+      description: Objecte per afegir informació addicional sobre la firma o el firmant
+      example:
+        value: value
+        key: key
+      properties:
+        key:
+          description: Clau del valor
+          type: string
+        value:
+          description: Valor de la clau
+          type: string
+      required:
+      - key
+      - value
       type: object
     AvailableLanguagesRest:
       example:
@@ -1012,7 +1028,7 @@ components:
       properties:
         list:
           items:
-            $ref: '#/components/schemas/KeyValue'
+            $ref: '#/components/schemas/ApisIBKeyValue'
           type: array
       type: object
     AvailableProfile:

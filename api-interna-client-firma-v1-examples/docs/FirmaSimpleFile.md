@@ -2,7 +2,7 @@
 
 # FirmaSimpleFile
 
-Objecte que representa un Document/Fitxer
+Document a signar
 
 ## Properties
 
