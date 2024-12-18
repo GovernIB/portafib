@@ -4,7 +4,6 @@ README.md
 api/openapi.yaml
 build.gradle
 build.sbt
-docs/ApisIBKeyValue.md
 docs/AvailableLanguagesRest.md
 docs/AvailableProfile.md
 docs/AvailableProfilesRest.md
@@ -13,7 +12,6 @@ docs/FirmaSimpleCommonInfo.md
 docs/FirmaSimpleCustodyInfo.md
 docs/FirmaSimpleFile.md
 docs/FirmaSimpleFileInfoSignature.md
-docs/FirmaSimpleKeyValue.md
 docs/FirmaSimpleSignDocumentRequest.md
 docs/FirmaSimpleSignatureResponse.md
 docs/FirmaSimpleSignedFileInfo.md
@@ -23,6 +21,7 @@ docs/FirmaSimpleUpgradeRequest.md
 docs/FirmaSimpleUpgradeResponse.md
 docs/FirmaSimpleUpgradedFileInfo.md
 docs/FirmaSimpleValidationInfo.md
+docs/KeyValue.md
 docs/LlistaTipusDocumentalRest.md
 docs/RestExceptionInfo.md
 docs/TipusDocumentalRest.md
@@ -37,7 +36,6 @@ settings.gradle
 src/main/AndroidManifest.xml
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/api/FirmaEnServidorV1Api.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/api/UtilsV1Api.java
-src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/ApisIBKeyValue.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/AvailableLanguagesRest.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/AvailableProfile.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/AvailableProfilesRest.java
@@ -45,7 +43,6 @@ src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleCommo
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleCustodyInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleFile.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleFileInfoSignature.java
-src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleKeyValue.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleSignDocumentRequest.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleSignatureResponse.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleSignedFileInfo.java
@@ -55,6 +52,7 @@ src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleUpgra
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleUpgradeResponse.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleUpgradedFileInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/FirmaSimpleValidationInfo.java
+src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/KeyValue.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/LlistaTipusDocumentalRest.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/RestExceptionInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/TipusDocumentalRest.java

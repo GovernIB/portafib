@@ -24,24 +24,24 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Ofereix informació addicional sobre el firmant o la firma
+ * Objecte per afegir informació addicional sobre la firma o el firmant
  */
 @JsonPropertyOrder({
-  FirmaSimpleKeyValue.JSON_PROPERTY_KEY,
-  FirmaSimpleKeyValue.JSON_PROPERTY_VALUE
+  KeyValue.JSON_PROPERTY_KEY,
+  KeyValue.JSON_PROPERTY_VALUE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class FirmaSimpleKeyValue {
+public class KeyValue {
   public static final String JSON_PROPERTY_KEY = "key";
   private String key;
 
   public static final String JSON_PROPERTY_VALUE = "value";
   private String value;
 
-  public FirmaSimpleKeyValue() {
+  public KeyValue() {
   }
 
-  public FirmaSimpleKeyValue key(String key) {
+  public KeyValue key(String key) {
     
     this.key = key;
     return this;
@@ -67,7 +67,7 @@ public class FirmaSimpleKeyValue {
   }
 
 
-  public FirmaSimpleKeyValue value(String value) {
+  public KeyValue value(String value) {
     
     this.value = value;
     return this;
@@ -100,9 +100,9 @@ public class FirmaSimpleKeyValue {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    FirmaSimpleKeyValue firmaSimpleKeyValue = (FirmaSimpleKeyValue) o;
-    return Objects.equals(this.key, firmaSimpleKeyValue.key) &&
-        Objects.equals(this.value, firmaSimpleKeyValue.value);
+    KeyValue keyValue = (KeyValue) o;
+    return Objects.equals(this.key, keyValue.key) &&
+        Objects.equals(this.value, keyValue.value);
   }
 
   @Override
@@ -113,7 +113,7 @@ public class FirmaSimpleKeyValue {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class FirmaSimpleKeyValue {\n");
+    sb.append("class KeyValue {\n");
     sb.append("    key: ").append(toIndentedString(key)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("}");

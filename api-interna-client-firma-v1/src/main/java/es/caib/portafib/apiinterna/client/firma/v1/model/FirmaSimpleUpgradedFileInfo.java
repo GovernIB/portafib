@@ -20,8 +20,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleKeyValue;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleValidationInfo;
+import es.caib.portafib.apiinterna.client.firma.v1.model.KeyValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -61,7 +61,7 @@ public class FirmaSimpleUpgradedFileInfo {
   private FirmaSimpleValidationInfo validationInfo;
 
   public static final String JSON_PROPERTY_ADDITION_INFORMATION = "additionInformation";
-  private List<FirmaSimpleKeyValue> additionInformation;
+  private List<KeyValue> additionInformation;
 
   public FirmaSimpleUpgradedFileInfo() {
   }
@@ -222,13 +222,13 @@ public class FirmaSimpleUpgradedFileInfo {
   }
 
 
-  public FirmaSimpleUpgradedFileInfo additionInformation(List<FirmaSimpleKeyValue> additionInformation) {
+  public FirmaSimpleUpgradedFileInfo additionInformation(List<KeyValue> additionInformation) {
     
     this.additionInformation = additionInformation;
     return this;
   }
 
-  public FirmaSimpleUpgradedFileInfo addAdditionInformationItem(FirmaSimpleKeyValue additionInformationItem) {
+  public FirmaSimpleUpgradedFileInfo addAdditionInformationItem(KeyValue additionInformationItem) {
     if (this.additionInformation == null) {
       this.additionInformation = new ArrayList<>();
     }
@@ -244,14 +244,14 @@ public class FirmaSimpleUpgradedFileInfo {
   @JsonProperty(JSON_PROPERTY_ADDITION_INFORMATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<FirmaSimpleKeyValue> getAdditionInformation() {
+  public List<KeyValue> getAdditionInformation() {
     return additionInformation;
   }
 
 
   @JsonProperty(JSON_PROPERTY_ADDITION_INFORMATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAdditionInformation(List<FirmaSimpleKeyValue> additionInformation) {
+  public void setAdditionInformation(List<KeyValue> additionInformation) {
     this.additionInformation = additionInformation;
   }
 

@@ -2,7 +2,7 @@ package es.caib.portafib.api.interna.secure.firma.v1.commons.apisib;
 
 import java.util.List;
 
-import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleKeyValue;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.KeyValue;
 
 
 /**
@@ -19,14 +19,14 @@ public class ApisIBAvailableProfile {
 
   protected String description;
 
-  protected List<FirmaSimpleKeyValue> properties;
+  protected List<KeyValue> properties;
 
   public ApisIBAvailableProfile() {
     super();
   }
 
   public ApisIBAvailableProfile(String code, String name, String description,
-      List<FirmaSimpleKeyValue> properties) {
+      List<KeyValue> properties) {
     super();
     this.code = code;
     this.name = name;
@@ -69,11 +69,11 @@ public class ApisIBAvailableProfile {
     this.description = description;
   }
 
-  public List<FirmaSimpleKeyValue> getProperties() {
+  public List<KeyValue> getProperties() {
     return properties;
   }
 
-  public void setProperties(List<FirmaSimpleKeyValue> properties) {
+  public void setProperties(List<KeyValue> properties) {
     this.properties = properties;
   }
 

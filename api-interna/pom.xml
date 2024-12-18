@@ -92,6 +92,7 @@
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
+
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>

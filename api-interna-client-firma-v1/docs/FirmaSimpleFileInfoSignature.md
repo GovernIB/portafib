@@ -22,7 +22,7 @@ Informació especifica per a realitzar la firma
 |**procedimentCodi** | **String** | Codi del Procediment. |  [optional] |
 |**procedimentNom** | **String** | Nom del Procediment. |  [optional] |
 |**documentType** | **Long** | Tipus Documental. Si val null se li assigna 99 |  [optional] |
-|**additionalInformation** | [**List&lt;FirmaSimpleKeyValue&gt;**](FirmaSimpleKeyValue.md) | Informació Addicional. |  [optional] |
+|**additionalInformation** | [**List&lt;KeyValue&gt;**](KeyValue.md) | Informació Addicional. |  [optional] |
 
 
 

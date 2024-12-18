@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleKeyValue;
+import es.caib.portafib.apiinterna.client.firma.v1.model.KeyValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -69,7 +69,7 @@ public class FirmaSimpleSignerInfo {
   private String subjectCert;
 
   public static final String JSON_PROPERTY_ADDITIONAL_INFORMATION = "additionalInformation";
-  private List<FirmaSimpleKeyValue> additionalInformation;
+  private List<KeyValue> additionalInformation;
 
   public FirmaSimpleSignerInfo() {
   }
@@ -282,13 +282,13 @@ public class FirmaSimpleSignerInfo {
   }
 
 
-  public FirmaSimpleSignerInfo additionalInformation(List<FirmaSimpleKeyValue> additionalInformation) {
+  public FirmaSimpleSignerInfo additionalInformation(List<KeyValue> additionalInformation) {
     
     this.additionalInformation = additionalInformation;
     return this;
   }
 
-  public FirmaSimpleSignerInfo addAdditionalInformationItem(FirmaSimpleKeyValue additionalInformationItem) {
+  public FirmaSimpleSignerInfo addAdditionalInformationItem(KeyValue additionalInformationItem) {
     if (this.additionalInformation == null) {
       this.additionalInformation = new ArrayList<>();
     }
@@ -304,14 +304,14 @@ public class FirmaSimpleSignerInfo {
   @JsonProperty(JSON_PROPERTY_ADDITIONAL_INFORMATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<FirmaSimpleKeyValue> getAdditionalInformation() {
+  public List<KeyValue> getAdditionalInformation() {
     return additionalInformation;
   }
 
 
   @JsonProperty(JSON_PROPERTY_ADDITIONAL_INFORMATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAdditionalInformation(List<FirmaSimpleKeyValue> additionalInformation) {
+  public void setAdditionalInformation(List<KeyValue> additionalInformation) {
     this.additionalInformation = additionalInformation;
   }
 

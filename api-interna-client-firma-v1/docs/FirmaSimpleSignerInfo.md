@@ -16,7 +16,7 @@ Informació del signant
 |**serialNumberCert** | **String** | Número de Sèrie del Certificat utilitzat en la firma |  [optional] |
 |**issuerCert** | **String** | Issuer del Certificat utilitzat en la firma |  [optional] |
 |**subjectCert** | **String** | Subject del Certificat utilitzat en la firma |  [optional] |
-|**additionalInformation** | [**List&lt;FirmaSimpleKeyValue&gt;**](FirmaSimpleKeyValue.md) | Ofrecer cualquier otra información que se  considere útil acerca del firmante. |  [optional] |
+|**additionalInformation** | [**List&lt;KeyValue&gt;**](KeyValue.md) | Ofrecer cualquier otra información que se  considere útil acerca del firmante. |  [optional] |
 
 
 

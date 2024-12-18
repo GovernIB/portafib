@@ -69,7 +69,7 @@ public class FirmaSimpleSignerInfo {
      */
     
     @Schema(description = "Ofrecer cualquier otra información que se  considere útil acerca del firmante.", required = false)
-    protected List<FirmaSimpleKeyValue> additionalInformation = null;
+    protected List<KeyValue> additionalInformation = null;
 
     public FirmaSimpleSignerInfo() {
         super();
@@ -77,7 +77,7 @@ public class FirmaSimpleSignerInfo {
 
     public FirmaSimpleSignerInfo(String eniRolFirma, String eniSignerName, String eniSignerAdministrationId,
             String eniSignLevel, Date signDate, String serialNumberCert, String issuerCert, String subjectCert,
-            List<FirmaSimpleKeyValue> additionalInformation) {
+            List<KeyValue> additionalInformation) {
         super();
         this.eniRolFirma = eniRolFirma;
         this.eniSignerName = eniSignerName;
@@ -154,11 +154,11 @@ public class FirmaSimpleSignerInfo {
         this.subjectCert = subjectCert;
     }
 
-    public List<FirmaSimpleKeyValue> getAdditionalInformation() {
+    public List<KeyValue> getAdditionalInformation() {
         return additionalInformation;
     }
 
-    public void setAdditionalInformation(List<FirmaSimpleKeyValue> additionalInformation) {
+    public void setAdditionalInformation(List<KeyValue> additionalInformation) {
         this.additionalInformation = additionalInformation;
     }
 
@@ -173,13 +173,13 @@ public class FirmaSimpleSignerInfo {
         str.append("\n").append("        + Subject Cert:\t" + getSubjectCert());
         str.append("\n").append("        + Issuer Cert:\t" + getIssuerCert());
 
-        List<FirmaSimpleKeyValue> additionalInformation = getAdditionalInformation();
+        List<KeyValue> additionalInformation = getAdditionalInformation();
 
         if (additionalInformation != null && additionalInformation.size() != 0) {
             str.append("\n").append("        + INFORMACIO ADDICIONAL:");
-            for (FirmaSimpleKeyValue firmaSimpleKeyValue : additionalInformation) {
+            for (KeyValue KeyValue : additionalInformation) {
                 str.append("\n").append(
-                        "          >> KEY[" + firmaSimpleKeyValue.getKey() + "]: " + firmaSimpleKeyValue.getValue());
+                        "          >> KEY[" + KeyValue.getKey() + "]: " + KeyValue.getValue());
             }
         }
 

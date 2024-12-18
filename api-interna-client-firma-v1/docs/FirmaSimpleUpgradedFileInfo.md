@@ -13,7 +13,7 @@
 |**eniTipoFirma** | **String** |  |  [optional] |
 |**eniPerfilFirma** | **String** |  |  [optional] |
 |**validationInfo** | [**FirmaSimpleValidationInfo**](FirmaSimpleValidationInfo.md) |  |  [optional] |
-|**additionInformation** | [**List&lt;FirmaSimpleKeyValue&gt;**](FirmaSimpleKeyValue.md) |  |  [optional] |
+|**additionInformation** | [**List&lt;KeyValue&gt;**](KeyValue.md) |  |  [optional] |
 
 
 

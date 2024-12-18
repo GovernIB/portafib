@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import es.caib.portafib.apiinterna.client.firma.v1.model.ApisIBKeyValue;
+import es.caib.portafib.apiinterna.client.firma.v1.model.KeyValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,18 +36,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AvailableLanguagesRest {
   public static final String JSON_PROPERTY_LIST = "list";
-  private List<ApisIBKeyValue> _list;
+  private List<KeyValue> _list;
 
   public AvailableLanguagesRest() {
   }
 
-  public AvailableLanguagesRest _list(List<ApisIBKeyValue> _list) {
+  public AvailableLanguagesRest _list(List<KeyValue> _list) {
     
     this._list = _list;
     return this;
   }
 
-  public AvailableLanguagesRest addListItem(ApisIBKeyValue _listItem) {
+  public AvailableLanguagesRest addListItem(KeyValue _listItem) {
     if (this._list == null) {
       this._list = new ArrayList<>();
     }
@@ -63,14 +63,14 @@ public class AvailableLanguagesRest {
   @JsonProperty(JSON_PROPERTY_LIST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<ApisIBKeyValue> getList() {
+  public List<KeyValue> getList() {
     return _list;
   }
 
 
   @JsonProperty(JSON_PROPERTY_LIST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setList(List<ApisIBKeyValue> _list) {
+  public void setList(List<KeyValue> _list) {
     this._list = _list;
   }
 

@@ -1,9 +1,9 @@
-package es.caib.portafib.api.interna.secure.firma.v1.commons.apisib;
+package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Objecte per afegir informació addicional sobre la firma o el firmant")
-public class ApisIBKeyValue {
+public class KeyValue {
 
     @Schema(description = "Clau del valor", required = true)
     protected String key;
@@ -13,7 +13,7 @@ public class ApisIBKeyValue {
     /**
     * 
     */
-    public ApisIBKeyValue() {
+    public KeyValue() {
         super();
     }
 
@@ -21,7 +21,7 @@ public class ApisIBKeyValue {
      * @param key
      * @param value
      */
-    public ApisIBKeyValue(String key, String value) {
+    public KeyValue(String key, String value) {
         super();
         this.key = key;
         this.value = value;

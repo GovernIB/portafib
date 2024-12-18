@@ -521,13 +521,24 @@
             "description" : "Informació Addicional.",
             "example" : "ca",
             "items" : {
-              "$ref" : "#/components/schemas/FirmaSimpleKeyValue"
+              "$ref" : "#/components/schemas/KeyValue"
             }
           }
         },
         "description" : "Informació especifica per a realitzar la firma"
       },
-      "FirmaSimpleKeyValue" : {
+      "FirmaSimpleSignDocumentRequest" : {
+        "type" : "object",
+        "properties" : {
+          "commonInfo" : {
+            "$ref" : "#/components/schemas/FirmaSimpleCommonInfo"
+          },
+          "fileInfoSignature" : {
+            "$ref" : "#/components/schemas/FirmaSimpleFileInfoSignature"
+          }
+        }
+      },
+      "KeyValue" : {
         "required" : [ "key", "value" ],
         "type" : "object",
         "properties" : {
@@ -540,18 +551,7 @@
             "description" : "Valor de la clau"
           }
         },
-        "description" : "Ofereix informació addicional sobre el firmant o la firma"
-      },
-      "FirmaSimpleSignDocumentRequest" : {
-        "type" : "object",
-        "properties" : {
-          "commonInfo" : {
-            "$ref" : "#/components/schemas/FirmaSimpleCommonInfo"
-          },
-          "fileInfoSignature" : {
-            "$ref" : "#/components/schemas/FirmaSimpleFileInfoSignature"
-          }
-        }
+        "description" : "Objecte per afegir informació addicional sobre la firma o el firmant"
       },
       "FirmaSimpleCustodyInfo" : {
         "required" : [ "custodyID" ],
@@ -724,7 +724,7 @@
             "type" : "array",
             "description" : "Ofrecer cualquier otra información que se  considere útil acerca del firmante.",
             "items" : {
-              "$ref" : "#/components/schemas/FirmaSimpleKeyValue"
+              "$ref" : "#/components/schemas/KeyValue"
             }
           }
         },
@@ -888,25 +888,10 @@
           "additionInformation" : {
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/FirmaSimpleKeyValue"
+              "$ref" : "#/components/schemas/KeyValue"
             }
           }
         }
-      },
-      "ApisIBKeyValue" : {
-        "required" : [ "key", "value" ],
-        "type" : "object",
-        "properties" : {
-          "key" : {
-            "type" : "string",
-            "description" : "Clau del valor"
-          },
-          "value" : {
-            "type" : "string",
-            "description" : "Valor de la clau"
-          }
-        },
-        "description" : "Objecte per afegir informació addicional sobre la firma o el firmant"
       },
       "AvailableLanguagesRest" : {
         "type" : "object",
@@ -914,7 +899,7 @@
           "list" : {
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/ApisIBKeyValue"
+              "$ref" : "#/components/schemas/KeyValue"
             }
           }
         }

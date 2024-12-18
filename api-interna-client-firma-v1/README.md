@@ -129,7 +129,6 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
- - [ApisIBKeyValue](docs/ApisIBKeyValue.md)
  - [AvailableLanguagesRest](docs/AvailableLanguagesRest.md)
  - [AvailableProfile](docs/AvailableProfile.md)
  - [AvailableProfilesRest](docs/AvailableProfilesRest.md)
@@ -137,7 +136,6 @@ Class | Method | HTTP request | Description
  - [FirmaSimpleCustodyInfo](docs/FirmaSimpleCustodyInfo.md)
  - [FirmaSimpleFile](docs/FirmaSimpleFile.md)
  - [FirmaSimpleFileInfoSignature](docs/FirmaSimpleFileInfoSignature.md)
- - [FirmaSimpleKeyValue](docs/FirmaSimpleKeyValue.md)
  - [FirmaSimpleSignDocumentRequest](docs/FirmaSimpleSignDocumentRequest.md)
  - [FirmaSimpleSignatureResponse](docs/FirmaSimpleSignatureResponse.md)
  - [FirmaSimpleSignedFileInfo](docs/FirmaSimpleSignedFileInfo.md)
@@ -147,6 +145,7 @@ Class | Method | HTTP request | Description
  - [FirmaSimpleUpgradeResponse](docs/FirmaSimpleUpgradeResponse.md)
  - [FirmaSimpleUpgradedFileInfo](docs/FirmaSimpleUpgradedFileInfo.md)
  - [FirmaSimpleValidationInfo](docs/FirmaSimpleValidationInfo.md)
+ - [KeyValue](docs/KeyValue.md)
  - [LlistaTipusDocumentalRest](docs/LlistaTipusDocumentalRest.md)
  - [RestExceptionInfo](docs/RestExceptionInfo.md)
  - [TipusDocumentalRest](docs/TipusDocumentalRest.md)

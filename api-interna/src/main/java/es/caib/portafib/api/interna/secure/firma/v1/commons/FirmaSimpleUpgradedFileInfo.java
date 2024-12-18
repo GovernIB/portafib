@@ -56,7 +56,7 @@ public class FirmaSimpleUpgradedFileInfo {
 	 * Ofrecer cualquier otra información que se considere útil acerca del firmante
 	 * o la actualización de la firma.
 	 */
-	protected List<FirmaSimpleKeyValue> additionInformation = null;
+	protected List<KeyValue> additionInformation = null;
 
 	public FirmaSimpleUpgradedFileInfo() {
 		super();
@@ -64,7 +64,7 @@ public class FirmaSimpleUpgradedFileInfo {
 
 	public FirmaSimpleUpgradedFileInfo(String signType, String signAlgorithm, Integer signMode, String eniTipoFirma,
 			String eniPerfilFirma, FirmaSimpleValidationInfo validationInfo,
-			List<FirmaSimpleKeyValue> additionInformation) {
+			List<KeyValue> additionInformation) {
 		super();
 		this.signType = signType;
 		this.signAlgorithm = signAlgorithm;
@@ -123,11 +123,11 @@ public class FirmaSimpleUpgradedFileInfo {
 		this.validationInfo = validationInfo;
 	}
 
-	public List<FirmaSimpleKeyValue> getAdditionInformation() {
+	public List<KeyValue> getAdditionInformation() {
 		return additionInformation;
 	}
 
-	public void setAdditionInformation(List<FirmaSimpleKeyValue> additionInformation) {
+	public void setAdditionInformation(List<KeyValue> additionInformation) {
 		this.additionInformation = additionInformation;
 	}
 
@@ -162,11 +162,11 @@ public class FirmaSimpleUpgradedFileInfo {
 					+ FirmaSimpleSignedFileInfo.null2Str(validationInfo.getCheckValidationSignature()));
 		}
 
-		List<FirmaSimpleKeyValue> additionInformation = sfi.getAdditionInformation();
+		List<KeyValue> additionInformation = sfi.getAdditionInformation();
 
 		if (additionInformation != null && additionInformation.size() != 0) {
 			str.append("\n").append("  + INFORMACIO ADDICIONAL:");
-			for (FirmaSimpleKeyValue firmaSimpleKeyValue : additionInformation) {
+			for (KeyValue firmaSimpleKeyValue : additionInformation) {
 				str.append("\n")
 						.append("      * KEY[" + firmaSimpleKeyValue.getKey() + "]: " + firmaSimpleKeyValue.getValue());
 			}

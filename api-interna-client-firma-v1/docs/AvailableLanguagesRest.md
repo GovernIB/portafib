@@ -7,7 +7,7 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**_list** | [**List&lt;ApisIBKeyValue&gt;**](ApisIBKeyValue.md) |  |  [optional] |
+|**_list** | [**List&lt;KeyValue&gt;**](KeyValue.md) |  |  [optional] |
 
 
 
