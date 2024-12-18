@@ -32,13 +32,6 @@ import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 import org.fundaciobit.pluginsib.validatecertificate.InformacioCertificat;
 import org.fundaciobit.pluginsib.validatesignature.api.SignatureDetailInfo;
 import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleCommonInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleCustodyInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFile;
@@ -236,7 +229,7 @@ public class FirmaEnServidorService extends RestApiFirmaSimpleUtils {
             if (singTypeForm == null) {
                 // XYZ ZZZ Traduir
                 String errorMsg = "El identificador d'Extensió de Firma " + upgradeID + " no existeix.";
-                throw new RestException(error, Status.INTERNAL_SERVER_ERROR);
+                throw new RestException(errorMsg, Status.INTERNAL_SERVER_ERROR);
             }
 
             final boolean isDebug = log.isDebugEnabled();
@@ -286,7 +279,7 @@ public class FirmaEnServidorService extends RestApiFirmaSimpleUtils {
         } catch (NoCompatibleSignaturePluginException nape) {
 
             String errorMsg = getNoAvailablePluginErrorMessage(fsur.getLanguageUI(), false, nape);
-            throw new RestException(error, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(errorMsg, Status.INTERNAL_SERVER_ERROR);
 
         } catch (I18NException i18ne) {
             // XYZ ZZZ

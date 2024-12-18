@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.apisib.ApisIBAvailableProfile;
-import es.caib.portafib.api.interna.secure.firma.v1.commons.apisib.ApisIBKeyValue;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.entity.PerfilDeFirma;

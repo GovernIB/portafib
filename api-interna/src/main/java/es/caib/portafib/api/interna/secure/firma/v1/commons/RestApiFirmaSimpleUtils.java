@@ -30,7 +30,6 @@ import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import es.caib.portafib.api.interna.secure.firma.v1.commons.apisib.ApisIBKeyValue;
 import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleSignDocumentRequest;
 import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleSignatureResponse;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;

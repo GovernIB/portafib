@@ -1,4 +1,4 @@
-package es.caib.portafib.apiinterna.client.firma.v1.api;
+package es.caib.portafib.apiinterna.client.firma.v1.example.api;
 
 
 /**
