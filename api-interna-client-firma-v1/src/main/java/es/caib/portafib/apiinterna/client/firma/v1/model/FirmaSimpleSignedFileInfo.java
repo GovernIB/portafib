@@ -43,57 +43,69 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FirmaSimpleSignedFileInfo.JSON_PROPERTY_CUSTODY_INFO,
   FirmaSimpleSignedFileInfo.JSON_PROPERTY_VALIDATION_INFO
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleSignedFileInfo {
   public static final String JSON_PROPERTY_SIGN_OPERATION = "signOperation";
+  @javax.annotation.Nonnull
   private Integer signOperation;
 
   public static final String JSON_PROPERTY_SIGN_TYPE = "signType";
+  @javax.annotation.Nonnull
   private String signType;
 
   public static final String JSON_PROPERTY_SIGN_ALGORITHM = "signAlgorithm";
+  @javax.annotation.Nonnull
   private String signAlgorithm;
 
   public static final String JSON_PROPERTY_SIGN_MODE = "signMode";
+  @javax.annotation.Nonnull
   private Integer signMode;
 
   public static final String JSON_PROPERTY_SIGNATURES_TABLE_LOCATION = "signaturesTableLocation";
+  @javax.annotation.Nonnull
   private Integer signaturesTableLocation;
 
   public static final String JSON_PROPERTY_TIME_STAMP_INCLUDED = "timeStampIncluded";
+  @javax.annotation.Nonnull
   private Boolean timeStampIncluded;
 
   public static final String JSON_PROPERTY_POLICY_INCLUDED = "policyIncluded";
+  @javax.annotation.Nonnull
   private Boolean policyIncluded;
 
   public static final String JSON_PROPERTY_ENI_TIPO_FIRMA = "eniTipoFirma";
+  @javax.annotation.Nullable
   private String eniTipoFirma;
 
   public static final String JSON_PROPERTY_ENI_PERFIL_FIRMA = "eniPerfilFirma";
+  @javax.annotation.Nullable
   private String eniPerfilFirma;
 
   public static final String JSON_PROPERTY_SIGNER_INFO = "signerInfo";
+  @javax.annotation.Nonnull
   private FirmaSimpleSignerInfo signerInfo;
 
   public static final String JSON_PROPERTY_CUSTODY_INFO = "custodyInfo";
+  @javax.annotation.Nullable
   private FirmaSimpleCustodyInfo custodyInfo;
 
   public static final String JSON_PROPERTY_VALIDATION_INFO = "validationInfo";
+  @javax.annotation.Nullable
   private FirmaSimpleValidationInfo validationInfo;
 
   public FirmaSimpleSignedFileInfo() {
   }
 
-  public FirmaSimpleSignedFileInfo signOperation(Integer signOperation) {
+  public FirmaSimpleSignedFileInfo signOperation(@javax.annotation.Nonnull Integer signOperation) {
     
     this.signOperation = signOperation;
     return this;
   }
 
-   /**
+  /**
    * Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma (2).
    * @return signOperation
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGN_OPERATION)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -105,21 +117,20 @@ public class FirmaSimpleSignedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_SIGN_OPERATION)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setSignOperation(Integer signOperation) {
+  public void setSignOperation(@javax.annotation.Nonnull Integer signOperation) {
     this.signOperation = signOperation;
   }
 
-
-  public FirmaSimpleSignedFileInfo signType(String signType) {
+  public FirmaSimpleSignedFileInfo signType(@javax.annotation.Nonnull String signType) {
     
     this.signType = signType;
     return this;
   }
 
-   /**
+  /**
    * Tipus de Firma. Valors possibles:      - “PAdES” (Constant SIGN_TYPE_PADES)      - “XAdES” (Constant SIGN_TYPE_XADES)      - “CAdES” (Constant SIGN_TYPE_CADES)      - “FacturaE” (Constant SIGN_TYPE_FACTURAE)      - “OOXML” (Constant SIGN_TYPE_OOXML)      - “ODF” (Constant SIGN_TYPE_ODF)      - “SMIME” (Constant SIGN_TYPE_SMIME)      - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)      - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)      - “PKCS#1” (Constant SIGN_TYPE_PKCS1)
    * @return signType
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGN_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -131,21 +142,20 @@ public class FirmaSimpleSignedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_SIGN_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setSignType(String signType) {
+  public void setSignType(@javax.annotation.Nonnull String signType) {
     this.signType = signType;
   }
 
-
-  public FirmaSimpleSignedFileInfo signAlgorithm(String signAlgorithm) {
+  public FirmaSimpleSignedFileInfo signAlgorithm(@javax.annotation.Nonnull String signAlgorithm) {
     
     this.signAlgorithm = signAlgorithm;
     return this;
   }
 
-   /**
+  /**
    * Algorisme de Firma. Valors:       - \&quot;SHA-1\&quot;      - \&quot;SHA-256\&quot;      - \&quot;SHA-384\&quot;      - \&quot;SHA-512\&quot;
    * @return signAlgorithm
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGN_ALGORITHM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -157,21 +167,20 @@ public class FirmaSimpleSignedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_SIGN_ALGORITHM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setSignAlgorithm(String signAlgorithm) {
+  public void setSignAlgorithm(@javax.annotation.Nonnull String signAlgorithm) {
     this.signAlgorithm = signAlgorithm;
   }
 
-
-  public FirmaSimpleSignedFileInfo signMode(Integer signMode) {
+  public FirmaSimpleSignedFileInfo signMode(@javax.annotation.Nonnull Integer signMode) {
     
     this.signMode = signMode;
     return this;
   }
 
-   /**
+  /**
    * Valors:      - 0: Implicit o Attached. La firma resultante incluye internamente una copia de los datos firmados.       - 1: Explicit o Detached: La firma resultante no incluye los datos firmados. 
    * @return signMode
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGN_MODE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -183,21 +192,20 @@ public class FirmaSimpleSignedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_SIGN_MODE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setSignMode(Integer signMode) {
+  public void setSignMode(@javax.annotation.Nonnull Integer signMode) {
     this.signMode = signMode;
   }
 
-
-  public FirmaSimpleSignedFileInfo signaturesTableLocation(Integer signaturesTableLocation) {
+  public FirmaSimpleSignedFileInfo signaturesTableLocation(@javax.annotation.Nonnull Integer signaturesTableLocation) {
     
     this.signaturesTableLocation = signaturesTableLocation;
     return this;
   }
 
-   /**
+  /**
    * Posició de la Taula de firmes:      - 0: Sense taula de firmes      - 1: Taula de firmes en la 1a pàgina      - -1: Darrera pàgina
    * @return signaturesTableLocation
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGNATURES_TABLE_LOCATION)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -209,21 +217,20 @@ public class FirmaSimpleSignedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_SIGNATURES_TABLE_LOCATION)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setSignaturesTableLocation(Integer signaturesTableLocation) {
+  public void setSignaturesTableLocation(@javax.annotation.Nonnull Integer signaturesTableLocation) {
     this.signaturesTableLocation = signaturesTableLocation;
   }
 
-
-  public FirmaSimpleSignedFileInfo timeStampIncluded(Boolean timeStampIncluded) {
+  public FirmaSimpleSignedFileInfo timeStampIncluded(@javax.annotation.Nonnull Boolean timeStampIncluded) {
     
     this.timeStampIncluded = timeStampIncluded;
     return this;
   }
 
-   /**
+  /**
    * Indica si s&#39;ha afegit un segell de Temps durant la firma
    * @return timeStampIncluded
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_TIME_STAMP_INCLUDED)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -235,21 +242,20 @@ public class FirmaSimpleSignedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_TIME_STAMP_INCLUDED)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setTimeStampIncluded(Boolean timeStampIncluded) {
+  public void setTimeStampIncluded(@javax.annotation.Nonnull Boolean timeStampIncluded) {
     this.timeStampIncluded = timeStampIncluded;
   }
 
-
-  public FirmaSimpleSignedFileInfo policyIncluded(Boolean policyIncluded) {
+  public FirmaSimpleSignedFileInfo policyIncluded(@javax.annotation.Nonnull Boolean policyIncluded) {
     
     this.policyIncluded = policyIncluded;
     return this;
   }
 
-   /**
+  /**
    * Indica si inclou política de firma (true, EPES) o no (false)
    * @return policyIncluded
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_POLICY_INCLUDED)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -261,21 +267,20 @@ public class FirmaSimpleSignedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_POLICY_INCLUDED)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setPolicyIncluded(Boolean policyIncluded) {
+  public void setPolicyIncluded(@javax.annotation.Nonnull Boolean policyIncluded) {
     this.policyIncluded = policyIncluded;
   }
 
-
-  public FirmaSimpleSignedFileInfo eniTipoFirma(String eniTipoFirma) {
+  public FirmaSimpleSignedFileInfo eniTipoFirma(@javax.annotation.Nullable String eniTipoFirma) {
     
     this.eniTipoFirma = eniTipoFirma;
     return this;
   }
 
-   /**
+  /**
    * Denominación normalizada del tipo de firma. Los posibles valores asignables son los siguientes:       - TF01 - CSV       - TF02 - XAdES internally detached signature\&quot;);       - TF03 - XAdES enveloped signature.      - TF04 - CAdES detached/explicit signature.      - TF05 – CadES attached/implicit signature.      - TF06 - PAdES. El tipo TF04 será establecido por defecto para documentos firmados, exceptuando los documentos en formato PDF o PDF/A, cuyo tipo será TF06.
    * @return eniTipoFirma
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENI_TIPO_FIRMA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -287,21 +292,20 @@ public class FirmaSimpleSignedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_ENI_TIPO_FIRMA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEniTipoFirma(String eniTipoFirma) {
+  public void setEniTipoFirma(@javax.annotation.Nullable String eniTipoFirma) {
     this.eniTipoFirma = eniTipoFirma;
   }
 
-
-  public FirmaSimpleSignedFileInfo eniPerfilFirma(String eniPerfilFirma) {
+  public FirmaSimpleSignedFileInfo eniPerfilFirma(@javax.annotation.Nullable String eniPerfilFirma) {
     
     this.eniPerfilFirma = eniPerfilFirma;
     return this;
   }
 
-   /**
+  /**
    * Perfil empleado en una firma con certificado electrónico. Los posibles valores asignables son los siguientes:    AdES-BES    AdES-EPES    AdES-T    AdES-C    AdES-X    AdES-X1    AdES-X2    AdES-XL    AdES-XL1    AdES-XL2    AdES-A    PAdES-LTV    PAdES-Basic
    * @return eniPerfilFirma
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENI_PERFIL_FIRMA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -313,21 +317,20 @@ public class FirmaSimpleSignedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_ENI_PERFIL_FIRMA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEniPerfilFirma(String eniPerfilFirma) {
+  public void setEniPerfilFirma(@javax.annotation.Nullable String eniPerfilFirma) {
     this.eniPerfilFirma = eniPerfilFirma;
   }
 
-
-  public FirmaSimpleSignedFileInfo signerInfo(FirmaSimpleSignerInfo signerInfo) {
+  public FirmaSimpleSignedFileInfo signerInfo(@javax.annotation.Nonnull FirmaSimpleSignerInfo signerInfo) {
     
     this.signerInfo = signerInfo;
     return this;
   }
 
-   /**
+  /**
    * Get signerInfo
    * @return signerInfo
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGNER_INFO)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -339,21 +342,20 @@ public class FirmaSimpleSignedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_SIGNER_INFO)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setSignerInfo(FirmaSimpleSignerInfo signerInfo) {
+  public void setSignerInfo(@javax.annotation.Nonnull FirmaSimpleSignerInfo signerInfo) {
     this.signerInfo = signerInfo;
   }
 
-
-  public FirmaSimpleSignedFileInfo custodyInfo(FirmaSimpleCustodyInfo custodyInfo) {
+  public FirmaSimpleSignedFileInfo custodyInfo(@javax.annotation.Nullable FirmaSimpleCustodyInfo custodyInfo) {
     
     this.custodyInfo = custodyInfo;
     return this;
   }
 
-   /**
+  /**
    * Get custodyInfo
    * @return custodyInfo
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CUSTODY_INFO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -365,21 +367,20 @@ public class FirmaSimpleSignedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_CUSTODY_INFO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCustodyInfo(FirmaSimpleCustodyInfo custodyInfo) {
+  public void setCustodyInfo(@javax.annotation.Nullable FirmaSimpleCustodyInfo custodyInfo) {
     this.custodyInfo = custodyInfo;
   }
 
-
-  public FirmaSimpleSignedFileInfo validationInfo(FirmaSimpleValidationInfo validationInfo) {
+  public FirmaSimpleSignedFileInfo validationInfo(@javax.annotation.Nullable FirmaSimpleValidationInfo validationInfo) {
     
     this.validationInfo = validationInfo;
     return this;
   }
 
-   /**
+  /**
    * Get validationInfo
    * @return validationInfo
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_VALIDATION_INFO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -391,7 +392,7 @@ public class FirmaSimpleSignedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_VALIDATION_INFO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setValidationInfo(FirmaSimpleValidationInfo validationInfo) {
+  public void setValidationInfo(@javax.annotation.Nullable FirmaSimpleValidationInfo validationInfo) {
     this.validationInfo = validationInfo;
   }
 

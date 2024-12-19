@@ -32,27 +32,29 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FirmaSimpleUpgradeResponse.JSON_PROPERTY_UPGRADED_FILE,
   FirmaSimpleUpgradeResponse.JSON_PROPERTY_UPGRADED_FILE_INFO
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleUpgradeResponse {
   public static final String JSON_PROPERTY_UPGRADED_FILE = "upgradedFile";
+  @javax.annotation.Nullable
   private FirmaSimpleFile upgradedFile;
 
   public static final String JSON_PROPERTY_UPGRADED_FILE_INFO = "upgradedFileInfo";
+  @javax.annotation.Nullable
   private FirmaSimpleUpgradedFileInfo upgradedFileInfo;
 
   public FirmaSimpleUpgradeResponse() {
   }
 
-  public FirmaSimpleUpgradeResponse upgradedFile(FirmaSimpleFile upgradedFile) {
+  public FirmaSimpleUpgradeResponse upgradedFile(@javax.annotation.Nullable FirmaSimpleFile upgradedFile) {
     
     this.upgradedFile = upgradedFile;
     return this;
   }
 
-   /**
+  /**
    * Get upgradedFile
    * @return upgradedFile
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UPGRADED_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -64,21 +66,20 @@ public class FirmaSimpleUpgradeResponse {
 
   @JsonProperty(JSON_PROPERTY_UPGRADED_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUpgradedFile(FirmaSimpleFile upgradedFile) {
+  public void setUpgradedFile(@javax.annotation.Nullable FirmaSimpleFile upgradedFile) {
     this.upgradedFile = upgradedFile;
   }
 
-
-  public FirmaSimpleUpgradeResponse upgradedFileInfo(FirmaSimpleUpgradedFileInfo upgradedFileInfo) {
+  public FirmaSimpleUpgradeResponse upgradedFileInfo(@javax.annotation.Nullable FirmaSimpleUpgradedFileInfo upgradedFileInfo) {
     
     this.upgradedFileInfo = upgradedFileInfo;
     return this;
   }
 
-   /**
+  /**
    * Get upgradedFileInfo
    * @return upgradedFileInfo
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UPGRADED_FILE_INFO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -90,7 +91,7 @@ public class FirmaSimpleUpgradeResponse {
 
   @JsonProperty(JSON_PROPERTY_UPGRADED_FILE_INFO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUpgradedFileInfo(FirmaSimpleUpgradedFileInfo upgradedFileInfo) {
+  public void setUpgradedFileInfo(@javax.annotation.Nullable FirmaSimpleUpgradedFileInfo upgradedFileInfo) {
     this.upgradedFileInfo = upgradedFileInfo;
   }
 

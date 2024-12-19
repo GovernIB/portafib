@@ -34,39 +34,45 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FirmaSimpleCommonInfo.JSON_PROPERTY_ORGANIZATION_I_D,
   FirmaSimpleCommonInfo.JSON_PROPERTY_SIGNER_EMAIL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleCommonInfo {
   public static final String JSON_PROPERTY_SIGN_PROFILE = "signProfile";
+  @javax.annotation.Nullable
   private String signProfile;
 
   public static final String JSON_PROPERTY_LANGUAGE_U_I = "languageUI";
+  @javax.annotation.Nonnull
   private String languageUI;
 
   public static final String JSON_PROPERTY_USERNAME = "username";
+  @javax.annotation.Nullable
   private String username;
 
   public static final String JSON_PROPERTY_ADMINISTRATION_I_D = "administrationID";
+  @javax.annotation.Nonnull
   private String administrationID;
 
   public static final String JSON_PROPERTY_ORGANIZATION_I_D = "organizationID";
+  @javax.annotation.Nullable
   private String organizationID;
 
   public static final String JSON_PROPERTY_SIGNER_EMAIL = "signerEmail";
+  @javax.annotation.Nullable
   private String signerEmail;
 
   public FirmaSimpleCommonInfo() {
   }
 
-  public FirmaSimpleCommonInfo signProfile(String signProfile) {
+  public FirmaSimpleCommonInfo signProfile(@javax.annotation.Nullable String signProfile) {
     
     this.signProfile = signProfile;
     return this;
   }
 
-   /**
+  /**
    * Identificador único del usuario
    * @return signProfile
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SIGN_PROFILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -78,21 +84,20 @@ public class FirmaSimpleCommonInfo {
 
   @JsonProperty(JSON_PROPERTY_SIGN_PROFILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignProfile(String signProfile) {
+  public void setSignProfile(@javax.annotation.Nullable String signProfile) {
     this.signProfile = signProfile;
   }
 
-
-  public FirmaSimpleCommonInfo languageUI(String languageUI) {
+  public FirmaSimpleCommonInfo languageUI(@javax.annotation.Nonnull String languageUI) {
     
     this.languageUI = languageUI;
     return this;
   }
 
-   /**
+  /**
    * Idioma en que retornar valors i missatges d&#39;error
    * @return languageUI
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LANGUAGE_U_I)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -104,21 +109,20 @@ public class FirmaSimpleCommonInfo {
 
   @JsonProperty(JSON_PROPERTY_LANGUAGE_U_I)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setLanguageUI(String languageUI) {
+  public void setLanguageUI(@javax.annotation.Nonnull String languageUI) {
     this.languageUI = languageUI;
   }
 
-
-  public FirmaSimpleCommonInfo username(String username) {
+  public FirmaSimpleCommonInfo username(@javax.annotation.Nullable String username) {
     
     this.username = username;
     return this;
   }
 
-   /**
+  /**
    *  - FIRMA WEB: Requerit. És el codi d&#39;usuari dins l&#39;entitat. Per exemple en entorn CAIB serien els \&quot;u800xx\&quot; o \&quot;u[DNI]\&quot;   -FIRMA EN SERVIDOR: Opcional. Es reconama que valgui null a no ser que l&#39;administrador digui el contrari. És la configuració de firma en el sistema específic de firma. Per exemple amb el Plugin de @firma federat et pots connectar amb un usuari-password però aquest pot tenir diverses configuracions per fer firmes en servidor o àlies: \&quot;username\&quot; s&#39;utilitza de definir aquesta configuració o àlies.
    * @return username
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -130,21 +134,20 @@ public class FirmaSimpleCommonInfo {
 
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUsername(String username) {
+  public void setUsername(@javax.annotation.Nullable String username) {
     this.username = username;
   }
 
-
-  public FirmaSimpleCommonInfo administrationID(String administrationID) {
+  public FirmaSimpleCommonInfo administrationID(@javax.annotation.Nonnull String administrationID) {
     
     this.administrationID = administrationID;
     return this;
   }
 
-   /**
+  /**
    *  - FIRMA WEB: Requerit. És el DNI de la persona signant. Si esta activa la validació dins PortaFIB llavors es valida que el DNI del Certificat sigui el mateix que aquest.   - FIRMA EN SERVIDOR: Opcional. És el CIF o NIF associat al certificat en servidor. Si es defineix i si esta activa la validació dins PortaFIB llavors es valida que el DNI del Certificat sigui el mateix que aquest.
    * @return administrationID
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ADMINISTRATION_I_D)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -156,21 +159,20 @@ public class FirmaSimpleCommonInfo {
 
   @JsonProperty(JSON_PROPERTY_ADMINISTRATION_I_D)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setAdministrationID(String administrationID) {
+  public void setAdministrationID(@javax.annotation.Nonnull String administrationID) {
     this.administrationID = administrationID;
   }
 
-
-  public FirmaSimpleCommonInfo organizationID(String organizationID) {
+  public FirmaSimpleCommonInfo organizationID(@javax.annotation.Nullable String organizationID) {
     
     this.organizationID = organizationID;
     return this;
   }
 
-   /**
+  /**
    * Opcional. És el CIF de l&#39;organització representada pel signant. Si esta activa la validació dins PortaFIB llavors es valida que el Certificat sigui un certificat de representant d&#39;aquest CIF.
    * @return organizationID
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ORGANIZATION_I_D)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -182,21 +184,20 @@ public class FirmaSimpleCommonInfo {
 
   @JsonProperty(JSON_PROPERTY_ORGANIZATION_I_D)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOrganizationID(String organizationID) {
+  public void setOrganizationID(@javax.annotation.Nullable String organizationID) {
     this.organizationID = organizationID;
   }
 
-
-  public FirmaSimpleCommonInfo signerEmail(String signerEmail) {
+  public FirmaSimpleCommonInfo signerEmail(@javax.annotation.Nullable String signerEmail) {
     
     this.signerEmail = signerEmail;
     return this;
   }
 
-   /**
+  /**
    *  - FIRMA WEB: Opcional. Correu del Firmant. Per afegir a les dades de la firma.   - FIRMA EN SERVIDOR: Opcional. Correu del departament que ordena la firma. Per afegir a les dades de la firma.
    * @return signerEmail
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SIGNER_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -208,7 +209,7 @@ public class FirmaSimpleCommonInfo {
 
   @JsonProperty(JSON_PROPERTY_SIGNER_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignerEmail(String signerEmail) {
+  public void setSignerEmail(@javax.annotation.Nullable String signerEmail) {
     this.signerEmail = signerEmail;
   }
 

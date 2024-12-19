@@ -38,51 +38,61 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FirmaSimpleCustodyInfo.JSON_PROPERTY_EXPEDIENT_I_D,
   FirmaSimpleCustodyInfo.JSON_PROPERTY_DOCUMENT_I_D
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleCustodyInfo {
   public static final String JSON_PROPERTY_CUSTODY_I_D = "custodyID";
+  @javax.annotation.Nonnull
   private String custodyID;
 
   public static final String JSON_PROPERTY_CSV = "csv";
+  @javax.annotation.Nullable
   private String csv;
 
   public static final String JSON_PROPERTY_CSV_VALIDATION_WEB = "csvValidationWeb";
+  @javax.annotation.Nullable
   private String csvValidationWeb;
 
   public static final String JSON_PROPERTY_VALIDATION_FILE_URL = "validationFileUrl";
+  @javax.annotation.Nullable
   private String validationFileUrl;
 
   public static final String JSON_PROPERTY_CSV_GENERATION_DEFINITION = "csvGenerationDefinition";
+  @javax.annotation.Nullable
   private String csvGenerationDefinition;
 
   public static final String JSON_PROPERTY_ORIGINAL_FILE_DIRECT_U_R_L = "originalFileDirectURL";
+  @javax.annotation.Nullable
   private String originalFileDirectURL;
 
   public static final String JSON_PROPERTY_PRINTABLE_FILE_DIRECT_URL = "printableFileDirectUrl";
+  @javax.annotation.Nullable
   private String printableFileDirectUrl;
 
   public static final String JSON_PROPERTY_ENI_FILE_DIRECT_URL = "eniFileDirectUrl";
+  @javax.annotation.Nullable
   private String eniFileDirectUrl;
 
   public static final String JSON_PROPERTY_EXPEDIENT_I_D = "expedientID";
+  @javax.annotation.Nullable
   private String expedientID;
 
   public static final String JSON_PROPERTY_DOCUMENT_I_D = "documentID";
+  @javax.annotation.Nullable
   private String documentID;
 
   public FirmaSimpleCustodyInfo() {
   }
 
-  public FirmaSimpleCustodyInfo custodyID(String custodyID) {
+  public FirmaSimpleCustodyInfo custodyID(@javax.annotation.Nonnull String custodyID) {
     
     this.custodyID = custodyID;
     return this;
   }
 
-   /**
+  /**
    * Identificador del sistema de custòdia
    * @return custodyID
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CUSTODY_I_D)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -94,21 +104,20 @@ public class FirmaSimpleCustodyInfo {
 
   @JsonProperty(JSON_PROPERTY_CUSTODY_I_D)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setCustodyID(String custodyID) {
+  public void setCustodyID(@javax.annotation.Nonnull String custodyID) {
     this.custodyID = custodyID;
   }
 
-
-  public FirmaSimpleCustodyInfo csv(String csv) {
+  public FirmaSimpleCustodyInfo csv(@javax.annotation.Nullable String csv) {
     
     this.csv = csv;
     return this;
   }
 
-   /**
+  /**
    * URL on descarregar directament el fitxer signat
    * @return csv
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CSV)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -120,21 +129,20 @@ public class FirmaSimpleCustodyInfo {
 
   @JsonProperty(JSON_PROPERTY_CSV)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCsv(String csv) {
+  public void setCsv(@javax.annotation.Nullable String csv) {
     this.csv = csv;
   }
 
-
-  public FirmaSimpleCustodyInfo csvValidationWeb(String csvValidationWeb) {
+  public FirmaSimpleCustodyInfo csvValidationWeb(@javax.annotation.Nullable String csvValidationWeb) {
     
     this.csvValidationWeb = csvValidationWeb;
     return this;
   }
 
-   /**
+  /**
    * Codi Segur de Validació d&#39;aquest document custodiat.
    * @return csvValidationWeb
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CSV_VALIDATION_WEB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -146,21 +154,20 @@ public class FirmaSimpleCustodyInfo {
 
   @JsonProperty(JSON_PROPERTY_CSV_VALIDATION_WEB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCsvValidationWeb(String csvValidationWeb) {
+  public void setCsvValidationWeb(@javax.annotation.Nullable String csvValidationWeb) {
     this.csvValidationWeb = csvValidationWeb;
   }
 
-
-  public FirmaSimpleCustodyInfo validationFileUrl(String validationFileUrl) {
+  public FirmaSimpleCustodyInfo validationFileUrl(@javax.annotation.Nullable String validationFileUrl) {
     
     this.validationFileUrl = validationFileUrl;
     return this;
   }
 
-   /**
+  /**
    * URL on descarregar-se la definició de com es genera el CSV
    * @return validationFileUrl
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_VALIDATION_FILE_URL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -172,21 +179,20 @@ public class FirmaSimpleCustodyInfo {
 
   @JsonProperty(JSON_PROPERTY_VALIDATION_FILE_URL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setValidationFileUrl(String validationFileUrl) {
+  public void setValidationFileUrl(@javax.annotation.Nullable String validationFileUrl) {
     this.validationFileUrl = validationFileUrl;
   }
 
-
-  public FirmaSimpleCustodyInfo csvGenerationDefinition(String csvGenerationDefinition) {
+  public FirmaSimpleCustodyInfo csvGenerationDefinition(@javax.annotation.Nullable String csvGenerationDefinition) {
     
     this.csvGenerationDefinition = csvGenerationDefinition;
     return this;
   }
 
-   /**
+  /**
    * Pàgina web on validar el document, normalment a partir de CSV
    * @return csvGenerationDefinition
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CSV_GENERATION_DEFINITION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -198,21 +204,20 @@ public class FirmaSimpleCustodyInfo {
 
   @JsonProperty(JSON_PROPERTY_CSV_GENERATION_DEFINITION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCsvGenerationDefinition(String csvGenerationDefinition) {
+  public void setCsvGenerationDefinition(@javax.annotation.Nullable String csvGenerationDefinition) {
     this.csvGenerationDefinition = csvGenerationDefinition;
   }
 
-
-  public FirmaSimpleCustodyInfo originalFileDirectURL(String originalFileDirectURL) {
+  public FirmaSimpleCustodyInfo originalFileDirectURL(@javax.annotation.Nullable String originalFileDirectURL) {
     
     this.originalFileDirectURL = originalFileDirectURL;
     return this;
   }
 
-   /**
+  /**
    * URL al document original
    * @return originalFileDirectURL
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ORIGINAL_FILE_DIRECT_U_R_L)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -224,21 +229,20 @@ public class FirmaSimpleCustodyInfo {
 
   @JsonProperty(JSON_PROPERTY_ORIGINAL_FILE_DIRECT_U_R_L)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOriginalFileDirectURL(String originalFileDirectURL) {
+  public void setOriginalFileDirectURL(@javax.annotation.Nullable String originalFileDirectURL) {
     this.originalFileDirectURL = originalFileDirectURL;
   }
 
-
-  public FirmaSimpleCustodyInfo printableFileDirectUrl(String printableFileDirectUrl) {
+  public FirmaSimpleCustodyInfo printableFileDirectUrl(@javax.annotation.Nullable String printableFileDirectUrl) {
     
     this.printableFileDirectUrl = printableFileDirectUrl;
     return this;
   }
 
-   /**
+  /**
    * URL al document en format per imprimir
    * @return printableFileDirectUrl
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PRINTABLE_FILE_DIRECT_URL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -250,21 +254,20 @@ public class FirmaSimpleCustodyInfo {
 
   @JsonProperty(JSON_PROPERTY_PRINTABLE_FILE_DIRECT_URL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPrintableFileDirectUrl(String printableFileDirectUrl) {
+  public void setPrintableFileDirectUrl(@javax.annotation.Nullable String printableFileDirectUrl) {
     this.printableFileDirectUrl = printableFileDirectUrl;
   }
 
-
-  public FirmaSimpleCustodyInfo eniFileDirectUrl(String eniFileDirectUrl) {
+  public FirmaSimpleCustodyInfo eniFileDirectUrl(@javax.annotation.Nullable String eniFileDirectUrl) {
     
     this.eniFileDirectUrl = eniFileDirectUrl;
     return this;
   }
 
-   /**
+  /**
    * Url al eni File
    * @return eniFileDirectUrl
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENI_FILE_DIRECT_URL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -276,21 +279,20 @@ public class FirmaSimpleCustodyInfo {
 
   @JsonProperty(JSON_PROPERTY_ENI_FILE_DIRECT_URL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEniFileDirectUrl(String eniFileDirectUrl) {
+  public void setEniFileDirectUrl(@javax.annotation.Nullable String eniFileDirectUrl) {
     this.eniFileDirectUrl = eniFileDirectUrl;
   }
 
-
-  public FirmaSimpleCustodyInfo expedientID(String expedientID) {
+  public FirmaSimpleCustodyInfo expedientID(@javax.annotation.Nullable String expedientID) {
     
     this.expedientID = expedientID;
     return this;
   }
 
-   /**
+  /**
    * Id del expedient si és un expedient o esta relacionat amb un expedient.
    * @return expedientID
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EXPEDIENT_I_D)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -302,21 +304,20 @@ public class FirmaSimpleCustodyInfo {
 
   @JsonProperty(JSON_PROPERTY_EXPEDIENT_I_D)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setExpedientID(String expedientID) {
+  public void setExpedientID(@javax.annotation.Nullable String expedientID) {
     this.expedientID = expedientID;
   }
 
-
-  public FirmaSimpleCustodyInfo documentID(String documentID) {
+  public FirmaSimpleCustodyInfo documentID(@javax.annotation.Nullable String documentID) {
     
     this.documentID = documentID;
     return this;
   }
 
-   /**
+  /**
    * Id del document a signar
    * @return documentID
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DOCUMENT_I_D)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -328,7 +329,7 @@ public class FirmaSimpleCustodyInfo {
 
   @JsonProperty(JSON_PROPERTY_DOCUMENT_I_D)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDocumentID(String documentID) {
+  public void setDocumentID(@javax.annotation.Nullable String documentID) {
     this.documentID = documentID;
   }
 

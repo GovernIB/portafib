@@ -31,30 +31,33 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TipusDocumentalRest.JSON_PROPERTY_NOM,
   TipusDocumentalRest.JSON_PROPERTY_TIPUS_DOCUMENT_N_T_I
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class TipusDocumentalRest {
   public static final String JSON_PROPERTY_TIPUS_DOCUMENT_I_D = "tipusDocumentID";
+  @javax.annotation.Nullable
   private Long tipusDocumentID;
 
   public static final String JSON_PROPERTY_NOM = "nom";
+  @javax.annotation.Nullable
   private String nom;
 
   public static final String JSON_PROPERTY_TIPUS_DOCUMENT_N_T_I = "tipusDocumentNTI";
+  @javax.annotation.Nullable
   private Long tipusDocumentNTI;
 
   public TipusDocumentalRest() {
   }
 
-  public TipusDocumentalRest tipusDocumentID(Long tipusDocumentID) {
+  public TipusDocumentalRest tipusDocumentID(@javax.annotation.Nullable Long tipusDocumentID) {
     
     this.tipusDocumentID = tipusDocumentID;
     return this;
   }
 
-   /**
+  /**
    * Identificador del tipus documental
    * @return tipusDocumentID
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TIPUS_DOCUMENT_I_D)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -66,21 +69,20 @@ public class TipusDocumentalRest {
 
   @JsonProperty(JSON_PROPERTY_TIPUS_DOCUMENT_I_D)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTipusDocumentID(Long tipusDocumentID) {
+  public void setTipusDocumentID(@javax.annotation.Nullable Long tipusDocumentID) {
     this.tipusDocumentID = tipusDocumentID;
   }
 
-
-  public TipusDocumentalRest nom(String nom) {
+  public TipusDocumentalRest nom(@javax.annotation.Nullable String nom) {
     
     this.nom = nom;
     return this;
   }
 
-   /**
+  /**
    * Nom del tipus documental en l&#39;idioma seleccionat
    * @return nom
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NOM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -92,21 +94,20 @@ public class TipusDocumentalRest {
 
   @JsonProperty(JSON_PROPERTY_NOM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNom(String nom) {
+  public void setNom(@javax.annotation.Nullable String nom) {
     this.nom = nom;
   }
 
-
-  public TipusDocumentalRest tipusDocumentNTI(Long tipusDocumentNTI) {
+  public TipusDocumentalRest tipusDocumentNTI(@javax.annotation.Nullable Long tipusDocumentNTI) {
     
     this.tipusDocumentNTI = tipusDocumentNTI;
     return this;
   }
 
-   /**
+  /**
    * Codi NTI del tipus documental
    * @return tipusDocumentNTI
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TIPUS_DOCUMENT_N_T_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -118,7 +119,7 @@ public class TipusDocumentalRest {
 
   @JsonProperty(JSON_PROPERTY_TIPUS_DOCUMENT_N_T_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTipusDocumentNTI(Long tipusDocumentNTI) {
+  public void setTipusDocumentNTI(@javax.annotation.Nullable Long tipusDocumentNTI) {
     this.tipusDocumentNTI = tipusDocumentNTI;
   }
 

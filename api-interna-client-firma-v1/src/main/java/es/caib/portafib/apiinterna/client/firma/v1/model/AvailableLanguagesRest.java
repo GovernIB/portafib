@@ -33,15 +33,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   AvailableLanguagesRest.JSON_PROPERTY_LIST
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class AvailableLanguagesRest {
   public static final String JSON_PROPERTY_LIST = "list";
-  private List<KeyValue> _list;
+  @javax.annotation.Nullable
+  private List<KeyValue> _list = new ArrayList<>();
 
   public AvailableLanguagesRest() {
   }
 
-  public AvailableLanguagesRest _list(List<KeyValue> _list) {
+  public AvailableLanguagesRest _list(@javax.annotation.Nullable List<KeyValue> _list) {
     
     this._list = _list;
     return this;
@@ -55,10 +56,10 @@ public class AvailableLanguagesRest {
     return this;
   }
 
-   /**
+  /**
    * Get _list
    * @return _list
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LIST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -70,7 +71,7 @@ public class AvailableLanguagesRest {
 
   @JsonProperty(JSON_PROPERTY_LIST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setList(List<KeyValue> _list) {
+  public void setList(@javax.annotation.Nullable List<KeyValue> _list) {
     this._list = _list;
   }
 
