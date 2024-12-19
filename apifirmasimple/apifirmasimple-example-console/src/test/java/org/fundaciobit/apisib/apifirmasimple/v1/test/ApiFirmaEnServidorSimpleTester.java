@@ -240,7 +240,7 @@ public class ApiFirmaEnServidorSimpleTester {
         FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
 
         System.out.println(" PERFIL => " + perfil);
-        internalSignDocument(api, perfil, fileToSign);
+        internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
     }
 
     @Test
@@ -257,7 +257,7 @@ public class ApiFirmaEnServidorSimpleTester {
         {
             FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
 
-            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign);
+            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
 
             // Hauria de ser firma PADES
             if (result != null) {
@@ -272,7 +272,7 @@ public class ApiFirmaEnServidorSimpleTester {
         {
             FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml", "text/xml");
 
-            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign);
+            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
 
             // Hauria de ser firma PADES
             if (result != null) {
@@ -287,7 +287,7 @@ public class ApiFirmaEnServidorSimpleTester {
         {
             FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
 
-            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign);
+            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
 
             // Hauria de ser firma PADES
             if (result != null) {
@@ -331,7 +331,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
         FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
 
-        internalSignDocument(api, perfil, fileToSign);
+        internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
     }
 
     @Test
@@ -348,13 +348,11 @@ public class ApiFirmaEnServidorSimpleTester {
 
         FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml", "text/xml");
 
-        internalSignDocument(api, perfil, fileToSign);
+        internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
     }
 
-    protected FirmaSimpleSignatureResult internalSignDocument(ApiFirmaEnServidorSimple api, final String perfil,
-            FirmaSimpleFile fileToSign) throws Exception, FileNotFoundException, IOException {
-        return internalSignDocument(api, perfil, fileToSign, null);
-    }
+    
+
 
     protected FirmaSimpleSignatureResult internalSignDocument(ApiFirmaEnServidorSimple api, final String perfil,
             FirmaSimpleFile fileToSign, String alias) throws Exception, FileNotFoundException, IOException {

@@ -8,11 +8,6 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.utils.rest.RestException;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.TipusDocumentJPA;
@@ -62,8 +57,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author anadal
  * @author areus
  */
-@Controller
-@RequestMapping(value = FirmaWebService.CONTEXT)
+
+//@RequestMapping(value = FirmaWebService.CONTEXT)
 public class FirmaWebService extends RestFirmaUtils {
 
     private static final boolean ES_FIRMA_EN_SERVIDOR = false;
@@ -75,12 +70,12 @@ public class FirmaWebService extends RestFirmaUtils {
 
     protected static final Map<String, TransactionInfo> currentTransactions = new ConcurrentHashMap<String, TransactionInfo>();
 
-    @RequestMapping(value = "/" + ApiFirmaWebSimple.GETTRANSACTIONID, method = RequestMethod.POST)
-    @ResponseBody
+    //@RequestMapping(value = "/" + ApiFirmaWebSimple.GETTRANSACTIONID, method = RequestMethod.POST)
+    ////@ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String getTransactionID(HttpServletRequest request,
-            @RequestBody FirmaSimpleCommonInfo commonInfo) {
+            /* @RequestBody */  FirmaSimpleCommonInfo commonInfo) {
 
         String userName = checkUsuariAplicacio(request);
         
@@ -129,11 +124,11 @@ public class FirmaWebService extends RestFirmaUtils {
 
     }
 
-    @RequestMapping(value = "/" + ApiFirmaWebSimple.AVAILABLEPROFILES, method = RequestMethod.POST)
-    @ResponseBody
+    //@RequestMapping(value = "/" + ApiFirmaWebSimple.AVAILABLEPROFILES, method = RequestMethod.POST)
+    ////@ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public AvailableProfilesRest getAvailableProfiles(HttpServletRequest request, @RequestBody TextNode locale) {
+    public AvailableProfilesRest getAvailableProfiles(HttpServletRequest request, /* @RequestBody */ TextNode locale) {
         
         String usrApp = checkUsuariAplicacio(request);
 
@@ -141,12 +136,12 @@ public class FirmaWebService extends RestFirmaUtils {
 
     }
 
-    @RequestMapping(value = "/" + ApiFirmaWebSimple.ADDFILETOSIGN, method = RequestMethod.POST)
-    @ResponseBody
+    //@RequestMapping(value = "/" + ApiFirmaWebSimple.ADDFILETOSIGN, method = RequestMethod.POST)
+    ////@ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public void addFileToSign(HttpServletRequest request,
-            @RequestBody FirmaSimpleAddFileToSignRequest holder) {
+             /* @RequestBody */  FirmaSimpleAddFileToSignRequest holder) {
 
         checkUsuariAplicacio(request);
         
@@ -225,12 +220,13 @@ public class FirmaWebService extends RestFirmaUtils {
 
     }
 
-    @RequestMapping(value = "/" + ApiFirmaWebSimple.AVAILABLETYPESOFDOCUMENTS, method = RequestMethod.POST)
-    @ResponseBody
+    //@RequestMapping(value = "/" + ApiFirmaWebSimple.AVAILABLETYPESOFDOCUMENTS, method = RequestMethod.POST)
+    ////@ResponseBody
+     
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public List<FirmaSimpleDocumentTypeInformation> getAvailableTypesOfDocuments(HttpServletRequest request,
-            @RequestBody TextNode textNodeLanguageUI) {
+            /* @RequestBody */ TextNode textNodeLanguageUI) {
 
         String languageUI = textNodeLanguageUI.asText();
 
@@ -302,12 +298,12 @@ public class FirmaWebService extends RestFirmaUtils {
 
     }
 
-    @RequestMapping(value = "/" + ApiFirmaWebSimple.STARTTRANSACTION, method = RequestMethod.POST)
-    @ResponseBody
+    //@RequestMapping(value = "/" + ApiFirmaWebSimple.STARTTRANSACTION, method = RequestMethod.POST)
+    //@ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String startTransaction(HttpServletRequest request,
-            @RequestBody FirmaSimpleStartTransactionRequest startTransactionRequest) {
+            /* @RequestBody */ FirmaSimpleStartTransactionRequest startTransactionRequest) {
 
         UsuariAplicacioJPA usrAppJPA = checkUsuariAplicacioFull(request);
 
@@ -470,11 +466,11 @@ public class FirmaWebService extends RestFirmaUtils {
 
     }
 
-    @RequestMapping(value = "/" + ApiFirmaWebSimple.TRANSACTIONSTATUS, method = RequestMethod.POST)
-    @ResponseBody
+    //@RequestMapping(value = "/" + ApiFirmaWebSimple.TRANSACTIONSTATUS, method = RequestMethod.POST)
+    //@ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public FirmaSimpleGetTransactionStatusResponse getTransactionStatus(@RequestBody TextNode textNodeTransactionID,
+    public FirmaSimpleGetTransactionStatusResponse getTransactionStatus(/* @RequestBody */ TextNode textNodeTransactionID,
             HttpServletRequest request) {
         try {
 
@@ -534,12 +530,12 @@ public class FirmaWebService extends RestFirmaUtils {
 
     }
 
-    @RequestMapping(value = "/" + ApiFirmaWebSimple.SIGNATURERESULT, method = RequestMethod.POST)
-    @ResponseBody
+    //@RequestMapping(value = "/" + ApiFirmaWebSimple.SIGNATURERESULT, method = RequestMethod.POST)
+    //@ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public FirmaSimpleSignatureResponse getSignatureResult(
-            @RequestBody FirmaSimpleGetSignatureResultRequest signatureResultRequest, HttpServletRequest request) {
+            /* @RequestBody */ FirmaSimpleGetSignatureResultRequest signatureResultRequest, HttpServletRequest request) {
 
         log.info(" XYZ ZZZ getSignaturesResult => ENTRA");
 
@@ -605,11 +601,11 @@ public class FirmaWebService extends RestFirmaUtils {
 
     }
 
-    @RequestMapping(value = "/" + ApiFirmaWebSimple.CLOSETRANSACTION, method = RequestMethod.POST)
-    @ResponseBody
+    //@RequestMapping(value = "/" + ApiFirmaWebSimple.CLOSETRANSACTION, method = RequestMethod.POST)
+    //@ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void closeTransaction(@RequestBody TextNode textNodeTransactionID, HttpServletRequest request,
+    public void closeTransaction(/* @RequestBody */ TextNode textNodeTransactionID, HttpServletRequest request,
             HttpServletResponse response) {
 
         

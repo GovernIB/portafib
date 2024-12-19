@@ -21,6 +21,17 @@
 #docs/*.md
 # Then explicitly reverse the ignore rule for a single file:
 #!docs/README.md
+.github
+.travis.yml
+build.gradle
+build.sbt
+git_push.sh
+gradle/**
+gradle.properties
+gradlew
+gradlew.bat
+settings.gradle
+
 #_POM.XML_JA_PROCESSAT
 pom.xml
 .gitignore
