@@ -14,9 +14,6 @@ package es.caib.portafib.apiinterna.client.firma.v1.example.api;
 
 
 
-
-import org.junit.Test;
-
 import es.caib.portafib.apiinterna.client.firma.v1.api.FirmaEnServidorV1Api;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleCommonInfo;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleFile;
@@ -80,37 +77,28 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
 	public void testSignDocument() throws ApiException {
 
 		FirmaEnServidorV1ApiTest firmaEnServidorV1ApiTest = new FirmaEnServidorV1ApiTest();
-		
+
 		try {
-
-			firmaEnServidorV1ApiTest.testSignatureServerPAdES();
-
-		} catch (NoAvailablePluginException nape) {
-
-            nape.printStackTrace();
-
+            firmaEnServidorV1ApiTest.testSignatureServerPAdES();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            
             System.err.println(
-                    "No s'ha trobat cap plugin que pugui realitzar la firma o alguna de les firmes sol·licitades.");
-
-        } catch (ApisIBClientException client) {
-
-            client.printStackTrace();
-
+                    "No s'ha trobat el fitxer a signar.");
+        } catch (IOException e) {
+            
+            e.printStackTrace();
+            
             System.err.println(
-                    "S'ha produït un error intentant contactar amb el servidor intermedi:" + client.getMessage());
-
-        } catch (ApisIBServerException server) {
-
-            server.printStackTrace();
-
-            System.err.println("S'ha produït un error en el servidor intermedi:" + server.getMessage());
-
+                    "Error: IOException");
         } catch (Exception e) {
             e.printStackTrace();
-
-            System.err.println("Error desconegut intentant realitzar les firmes: " + e.getMessage());
+            
+            System.err.println(
+                    "Error: Exception");
         }
-		// TODO: test validations
+
+		
 	}
 	
 	
@@ -125,7 +113,7 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
             logErrorPerfilBuit(PROFILE_PADES_PROPERTY);
         }
 
-        FirmaSimpleFile fileToSign = getSimpleFileFromResource("src/test/resources/hola-test.pdf", "application/pdf");
+        FirmaSimpleFile fileToSign = getSimpleFileFromResource("src/main/resources/hola-test.pdf", "application/pdf");
 
         System.out.println(" PERFIL => " + perfil);
         System.out.println(" FILE NOM => " + fileToSign.getNom());
@@ -279,7 +267,7 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
     }
 	
     public void testUpgradeSignaturePAdES() throws Exception, FileNotFoundException, IOException {
-        FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("src/test/resources/hola-signed.pdf", "application/pdf");
+        FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("src/main/resources/hola-signed.pdf", "application/pdf");
 
         internalFullTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, null, "hola-signed-upgraded.pdf");
     }
