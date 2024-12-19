@@ -1016,17 +1016,25 @@ components:
           type: array
       type: object
     AvailableProfile:
+      description: Detalls del Perfil d'un usuari Aplicació
       example:
         code: code
         name: name
         description: description
       properties:
         code:
+          description: Codi del perfil
           type: string
         name:
+          description: Nom del perfil en l’idioma elegit.
           type: string
         description:
+          description: Descripció del perfil en l’idioma elegit.
           type: string
+      required:
+      - code
+      - description
+      - name
       type: object
     AvailableProfilesRest:
       example:

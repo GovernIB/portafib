@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.firma.v1.commons;
+package es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleFile;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleSignedFileInfo;
-import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleStatus;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 

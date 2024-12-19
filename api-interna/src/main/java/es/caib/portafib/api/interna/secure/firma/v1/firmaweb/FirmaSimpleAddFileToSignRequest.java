@@ -1,4 +1,6 @@
-package es.caib.portafib.api.interna.secure.firma.v1.commons;
+package es.caib.portafib.api.interna.secure.firma.v1.firmaweb;
+
+import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFileInfoSignature;
 
 /**
  * 

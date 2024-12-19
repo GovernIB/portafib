@@ -69,30 +69,6 @@
             <version>${pluginsib.utils.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -205,7 +181,7 @@
                                 <artifactId>
                                     portafib-api-interna-client-infoversio-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>portafib - API Rest -
+                                <artifactDescription>PortaFIB - API Rest -
                                     Interna Client - Informació de Versions v1</artifactDescription>
                                 <dateLibrary>legacy</dateLibrary>
                                 <useTags>true</useTags>
@@ -245,7 +221,7 @@
                                 <artifactId>
                                     portafib-api-interna-client-revisors-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>Portafib - API Rest -
+                                <artifactDescription>PortaFIB - API Rest -
                                     Interna Client - Revisors v1</artifactDescription>
                                 <dateLibrary>legacy</dateLibrary>
                                 <useTags>true</useTags>
@@ -278,11 +254,12 @@
                             <invokerPackage>
                                 ${client.default.package}.firma.v1.services</invokerPackage>
                             <generateModelTests>false</generateModelTests>
+                            <languageSpecificPrimitives>int,Integer,FirmaSimpleStatus</languageSpecificPrimitives>
                             <configOptions>
                                 <groupId>es.caib.portafib</groupId>
                                 <artifactId>portafib-api-interna-client-firma-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>Portafib - API Rest - Interna Client - Firma v1</artifactDescription>
+                                <artifactDescription>PortaFIB - API Rest - Interna Client - Firma v1</artifactDescription>
                                 <dateLibrary>legacy</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>

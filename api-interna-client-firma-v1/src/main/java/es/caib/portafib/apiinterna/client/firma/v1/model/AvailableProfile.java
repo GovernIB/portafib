@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * AvailableProfile
+ * Detalls del Perfil d&#39;un usuari Aplicació
  */
 @JsonPropertyOrder({
   AvailableProfile.JSON_PROPERTY_CODE,
@@ -52,12 +52,12 @@ public class AvailableProfile {
   }
 
    /**
-   * Get code
+   * Codi del perfil
    * @return code
   **/
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CODE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getCode() {
     return code;
@@ -65,7 +65,7 @@ public class AvailableProfile {
 
 
   @JsonProperty(JSON_PROPERTY_CODE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setCode(String code) {
     this.code = code;
   }
@@ -78,12 +78,12 @@ public class AvailableProfile {
   }
 
    /**
-   * Get name
+   * Nom del perfil en l’idioma elegit.
    * @return name
   **/
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getName() {
     return name;
@@ -91,7 +91,7 @@ public class AvailableProfile {
 
 
   @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(String name) {
     this.name = name;
   }
@@ -104,12 +104,12 @@ public class AvailableProfile {
   }
 
    /**
-   * Get description
+   * Descripció del perfil en l’idioma elegit.
    * @return description
   **/
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_DESCRIPTION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getDescription() {
     return description;
@@ -117,7 +117,7 @@ public class AvailableProfile {
 
 
   @JsonProperty(JSON_PROPERTY_DESCRIPTION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setDescription(String description) {
     this.description = description;
   }

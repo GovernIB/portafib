@@ -905,18 +905,23 @@
         }
       },
       "AvailableProfile" : {
+        "required" : [ "code", "description", "name" ],
         "type" : "object",
         "properties" : {
           "code" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Codi del perfil"
           },
           "name" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Nom del perfil en l’idioma elegit."
           },
           "description" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Descripció del perfil en l’idioma elegit."
           }
-        }
+        },
+        "description" : "Detalls del Perfil d'un usuari Aplicació"
       },
       "AvailableProfilesRest" : {
         "type" : "object",

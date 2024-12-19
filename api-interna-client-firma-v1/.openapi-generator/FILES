@@ -1,9 +1,6 @@
 .github/workflows/maven.yml
-.travis.yml
 README.md
 api/openapi.yaml
-build.gradle
-build.sbt
 docs/AvailableLanguagesRest.md
 docs/AvailableProfile.md
 docs/AvailableProfilesRest.md
@@ -26,13 +23,6 @@ docs/LlistaTipusDocumentalRest.md
 docs/RestExceptionInfo.md
 docs/TipusDocumentalRest.md
 docs/UtilsV1Api.md
-git_push.sh
-gradle.properties
-gradle/wrapper/gradle-wrapper.jar
-gradle/wrapper/gradle-wrapper.properties
-gradlew
-gradlew.bat
-settings.gradle
 src/main/AndroidManifest.xml
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/api/FirmaEnServidorV1Api.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/api/UtilsV1Api.java
