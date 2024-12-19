@@ -48,66 +48,81 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FirmaSimpleFileInfoSignature.JSON_PROPERTY_DOCUMENT_TYPE,
   FirmaSimpleFileInfoSignature.JSON_PROPERTY_ADDITIONAL_INFORMATION
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleFileInfoSignature {
   public static final String JSON_PROPERTY_FILE_TO_SIGN = "fileToSign";
+  @javax.annotation.Nonnull
   private FirmaSimpleFile fileToSign;
 
   public static final String JSON_PROPERTY_PREVIUS_SIGNATURE_DETACHED_FILE = "previusSignatureDetachedFile";
+  @javax.annotation.Nullable
   private FirmaSimpleFile previusSignatureDetachedFile;
 
   public static final String JSON_PROPERTY_SIGN_I_D = "signID";
+  @javax.annotation.Nonnull
   private String signID;
 
   public static final String JSON_PROPERTY_NAME = "name";
+  @javax.annotation.Nonnull
   private String name;
 
   public static final String JSON_PROPERTY_REASON = "reason";
+  @javax.annotation.Nonnull
   private String reason;
 
   public static final String JSON_PROPERTY_LOCATION = "location";
+  @javax.annotation.Nonnull
   private String location;
 
   public static final String JSON_PROPERTY_SIGN_NUMBER = "signNumber";
+  @javax.annotation.Nonnull
   private Integer signNumber;
 
   public static final String JSON_PROPERTY_LANGUAGE_SIGN = "languageSign";
+  @javax.annotation.Nonnull
   private String languageSign;
 
   public static final String JSON_PROPERTY_EXPEDIENT_CODI = "expedientCodi";
+  @javax.annotation.Nullable
   private String expedientCodi;
 
   public static final String JSON_PROPERTY_EXPEDIENT_NOM = "expedientNom";
+  @javax.annotation.Nullable
   private String expedientNom;
 
   public static final String JSON_PROPERTY_EXPEDIENT_URL = "expedientUrl";
+  @javax.annotation.Nullable
   private String expedientUrl;
 
   public static final String JSON_PROPERTY_PROCEDIMENT_CODI = "procedimentCodi";
+  @javax.annotation.Nullable
   private String procedimentCodi;
 
   public static final String JSON_PROPERTY_PROCEDIMENT_NOM = "procedimentNom";
+  @javax.annotation.Nullable
   private String procedimentNom;
 
   public static final String JSON_PROPERTY_DOCUMENT_TYPE = "documentType";
+  @javax.annotation.Nullable
   private Long documentType;
 
   public static final String JSON_PROPERTY_ADDITIONAL_INFORMATION = "additionalInformation";
-  private List<KeyValue> additionalInformation;
+  @javax.annotation.Nullable
+  private List<KeyValue> additionalInformation = new ArrayList<>();
 
   public FirmaSimpleFileInfoSignature() {
   }
 
-  public FirmaSimpleFileInfoSignature fileToSign(FirmaSimpleFile fileToSign) {
+  public FirmaSimpleFileInfoSignature fileToSign(@javax.annotation.Nonnull FirmaSimpleFile fileToSign) {
     
     this.fileToSign = fileToSign;
     return this;
   }
 
-   /**
+  /**
    * Get fileToSign
    * @return fileToSign
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_FILE_TO_SIGN)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -119,21 +134,20 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_FILE_TO_SIGN)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setFileToSign(FirmaSimpleFile fileToSign) {
+  public void setFileToSign(@javax.annotation.Nonnull FirmaSimpleFile fileToSign) {
     this.fileToSign = fileToSign;
   }
 
-
-  public FirmaSimpleFileInfoSignature previusSignatureDetachedFile(FirmaSimpleFile previusSignatureDetachedFile) {
+  public FirmaSimpleFileInfoSignature previusSignatureDetachedFile(@javax.annotation.Nullable FirmaSimpleFile previusSignatureDetachedFile) {
     
     this.previusSignatureDetachedFile = previusSignatureDetachedFile;
     return this;
   }
 
-   /**
+  /**
    * Get previusSignatureDetachedFile
    * @return previusSignatureDetachedFile
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PREVIUS_SIGNATURE_DETACHED_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -145,21 +159,20 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_PREVIUS_SIGNATURE_DETACHED_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPreviusSignatureDetachedFile(FirmaSimpleFile previusSignatureDetachedFile) {
+  public void setPreviusSignatureDetachedFile(@javax.annotation.Nullable FirmaSimpleFile previusSignatureDetachedFile) {
     this.previusSignatureDetachedFile = previusSignatureDetachedFile;
   }
 
-
-  public FirmaSimpleFileInfoSignature signID(String signID) {
+  public FirmaSimpleFileInfoSignature signID(@javax.annotation.Nonnull String signID) {
     
     this.signID = signID;
     return this;
   }
 
-   /**
+  /**
    * Identificador de la Firma
    * @return signID
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGN_I_D)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -171,21 +184,20 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_SIGN_I_D)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setSignID(String signID) {
+  public void setSignID(@javax.annotation.Nonnull String signID) {
     this.signID = signID;
   }
 
-
-  public FirmaSimpleFileInfoSignature name(String name) {
+  public FirmaSimpleFileInfoSignature name(@javax.annotation.Nonnull String name) {
     
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Nom descriptiu de la firma. Pot ser el nom del fitxer o un nom associat a la tasca per a la que es requereix la firma.
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -197,21 +209,20 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
-
-  public FirmaSimpleFileInfoSignature reason(String reason) {
+  public FirmaSimpleFileInfoSignature reason(@javax.annotation.Nonnull String reason) {
     
     this.reason = reason;
     return this;
   }
 
-   /**
+  /**
    * Raó de la realització de la firma.
    * @return reason
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_REASON)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -223,21 +234,20 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_REASON)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setReason(String reason) {
+  public void setReason(@javax.annotation.Nonnull String reason) {
     this.reason = reason;
   }
 
-
-  public FirmaSimpleFileInfoSignature location(String location) {
+  public FirmaSimpleFileInfoSignature location(@javax.annotation.Nonnull String location) {
     
     this.location = location;
     return this;
   }
 
-   /**
+  /**
    * Lloc on es realitza la firma.
    * @return location
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LOCATION)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -249,21 +259,20 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_LOCATION)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setLocation(String location) {
+  public void setLocation(@javax.annotation.Nonnull String location) {
     this.location = location;
   }
 
-
-  public FirmaSimpleFileInfoSignature signNumber(Integer signNumber) {
+  public FirmaSimpleFileInfoSignature signNumber(@javax.annotation.Nonnull Integer signNumber) {
     
     this.signNumber = signNumber;
     return this;
   }
 
-   /**
+  /**
    * Posició de la firma dins el flux de firma.
    * @return signNumber
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGN_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -275,21 +284,20 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_SIGN_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setSignNumber(Integer signNumber) {
+  public void setSignNumber(@javax.annotation.Nonnull Integer signNumber) {
     this.signNumber = signNumber;
   }
 
-
-  public FirmaSimpleFileInfoSignature languageSign(String languageSign) {
+  public FirmaSimpleFileInfoSignature languageSign(@javax.annotation.Nonnull String languageSign) {
     
     this.languageSign = languageSign;
     return this;
   }
 
-   /**
+  /**
    * Idioma del document.
    * @return languageSign
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LANGUAGE_SIGN)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -301,21 +309,20 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_LANGUAGE_SIGN)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setLanguageSign(String languageSign) {
+  public void setLanguageSign(@javax.annotation.Nonnull String languageSign) {
     this.languageSign = languageSign;
   }
 
-
-  public FirmaSimpleFileInfoSignature expedientCodi(String expedientCodi) {
+  public FirmaSimpleFileInfoSignature expedientCodi(@javax.annotation.Nullable String expedientCodi) {
     
     this.expedientCodi = expedientCodi;
     return this;
   }
 
-   /**
+  /**
    * Codi de l&#39;expedient.
    * @return expedientCodi
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EXPEDIENT_CODI)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -327,21 +334,20 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_EXPEDIENT_CODI)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setExpedientCodi(String expedientCodi) {
+  public void setExpedientCodi(@javax.annotation.Nullable String expedientCodi) {
     this.expedientCodi = expedientCodi;
   }
 
-
-  public FirmaSimpleFileInfoSignature expedientNom(String expedientNom) {
+  public FirmaSimpleFileInfoSignature expedientNom(@javax.annotation.Nullable String expedientNom) {
     
     this.expedientNom = expedientNom;
     return this;
   }
 
-   /**
+  /**
    * Nom de l&#39;expedient.
    * @return expedientNom
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EXPEDIENT_NOM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -353,21 +359,20 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_EXPEDIENT_NOM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setExpedientNom(String expedientNom) {
+  public void setExpedientNom(@javax.annotation.Nullable String expedientNom) {
     this.expedientNom = expedientNom;
   }
 
-
-  public FirmaSimpleFileInfoSignature expedientUrl(String expedientUrl) {
+  public FirmaSimpleFileInfoSignature expedientUrl(@javax.annotation.Nullable String expedientUrl) {
     
     this.expedientUrl = expedientUrl;
     return this;
   }
 
-   /**
+  /**
    * URL de l&#39;expedient.
    * @return expedientUrl
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EXPEDIENT_URL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -379,21 +384,20 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_EXPEDIENT_URL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setExpedientUrl(String expedientUrl) {
+  public void setExpedientUrl(@javax.annotation.Nullable String expedientUrl) {
     this.expedientUrl = expedientUrl;
   }
 
-
-  public FirmaSimpleFileInfoSignature procedimentCodi(String procedimentCodi) {
+  public FirmaSimpleFileInfoSignature procedimentCodi(@javax.annotation.Nullable String procedimentCodi) {
     
     this.procedimentCodi = procedimentCodi;
     return this;
   }
 
-   /**
+  /**
    * Codi del Procediment.
    * @return procedimentCodi
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PROCEDIMENT_CODI)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -405,21 +409,20 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_PROCEDIMENT_CODI)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setProcedimentCodi(String procedimentCodi) {
+  public void setProcedimentCodi(@javax.annotation.Nullable String procedimentCodi) {
     this.procedimentCodi = procedimentCodi;
   }
 
-
-  public FirmaSimpleFileInfoSignature procedimentNom(String procedimentNom) {
+  public FirmaSimpleFileInfoSignature procedimentNom(@javax.annotation.Nullable String procedimentNom) {
     
     this.procedimentNom = procedimentNom;
     return this;
   }
 
-   /**
+  /**
    * Nom del Procediment.
    * @return procedimentNom
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PROCEDIMENT_NOM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -431,21 +434,20 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_PROCEDIMENT_NOM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setProcedimentNom(String procedimentNom) {
+  public void setProcedimentNom(@javax.annotation.Nullable String procedimentNom) {
     this.procedimentNom = procedimentNom;
   }
 
-
-  public FirmaSimpleFileInfoSignature documentType(Long documentType) {
+  public FirmaSimpleFileInfoSignature documentType(@javax.annotation.Nullable Long documentType) {
     
     this.documentType = documentType;
     return this;
   }
 
-   /**
+  /**
    * Tipus Documental. Si val null se li assigna 99
    * @return documentType
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DOCUMENT_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -457,12 +459,11 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_DOCUMENT_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDocumentType(Long documentType) {
+  public void setDocumentType(@javax.annotation.Nullable Long documentType) {
     this.documentType = documentType;
   }
 
-
-  public FirmaSimpleFileInfoSignature additionalInformation(List<KeyValue> additionalInformation) {
+  public FirmaSimpleFileInfoSignature additionalInformation(@javax.annotation.Nullable List<KeyValue> additionalInformation) {
     
     this.additionalInformation = additionalInformation;
     return this;
@@ -476,10 +477,10 @@ public class FirmaSimpleFileInfoSignature {
     return this;
   }
 
-   /**
+  /**
    * Informació Addicional.
    * @return additionalInformation
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ADDITIONAL_INFORMATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -491,7 +492,7 @@ public class FirmaSimpleFileInfoSignature {
 
   @JsonProperty(JSON_PROPERTY_ADDITIONAL_INFORMATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAdditionalInformation(List<KeyValue> additionalInformation) {
+  public void setAdditionalInformation(@javax.annotation.Nullable List<KeyValue> additionalInformation) {
     this.additionalInformation = additionalInformation;
   }
 

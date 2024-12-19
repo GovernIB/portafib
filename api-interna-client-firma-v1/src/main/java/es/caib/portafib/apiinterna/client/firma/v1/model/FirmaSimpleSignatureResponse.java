@@ -34,33 +34,37 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FirmaSimpleSignatureResponse.JSON_PROPERTY_SIGNED_FILE,
   FirmaSimpleSignatureResponse.JSON_PROPERTY_SIGNED_FILE_INFO
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleSignatureResponse {
   public static final String JSON_PROPERTY_SIGN_I_D = "signID";
+  @javax.annotation.Nonnull
   private String signID;
 
   public static final String JSON_PROPERTY_STATUS = "status";
+  @javax.annotation.Nonnull
   private FirmaSimpleStatus status;
 
   public static final String JSON_PROPERTY_SIGNED_FILE = "signedFile";
+  @javax.annotation.Nullable
   private FirmaSimpleFile signedFile;
 
   public static final String JSON_PROPERTY_SIGNED_FILE_INFO = "signedFileInfo";
+  @javax.annotation.Nullable
   private FirmaSimpleSignedFileInfo signedFileInfo;
 
   public FirmaSimpleSignatureResponse() {
   }
 
-  public FirmaSimpleSignatureResponse signID(String signID) {
+  public FirmaSimpleSignatureResponse signID(@javax.annotation.Nonnull String signID) {
     
     this.signID = signID;
     return this;
   }
 
-   /**
+  /**
    * Identificador de la firma
    * @return signID
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGN_I_D)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -72,21 +76,20 @@ public class FirmaSimpleSignatureResponse {
 
   @JsonProperty(JSON_PROPERTY_SIGN_I_D)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setSignID(String signID) {
+  public void setSignID(@javax.annotation.Nonnull String signID) {
     this.signID = signID;
   }
 
-
-  public FirmaSimpleSignatureResponse status(FirmaSimpleStatus status) {
+  public FirmaSimpleSignatureResponse status(@javax.annotation.Nonnull FirmaSimpleStatus status) {
     
     this.status = status;
     return this;
   }
 
-   /**
+  /**
    * Get status
    * @return status
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -98,21 +101,20 @@ public class FirmaSimpleSignatureResponse {
 
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setStatus(FirmaSimpleStatus status) {
+  public void setStatus(@javax.annotation.Nonnull FirmaSimpleStatus status) {
     this.status = status;
   }
 
-
-  public FirmaSimpleSignatureResponse signedFile(FirmaSimpleFile signedFile) {
+  public FirmaSimpleSignatureResponse signedFile(@javax.annotation.Nullable FirmaSimpleFile signedFile) {
     
     this.signedFile = signedFile;
     return this;
   }
 
-   /**
+  /**
    * Get signedFile
    * @return signedFile
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SIGNED_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -124,21 +126,20 @@ public class FirmaSimpleSignatureResponse {
 
   @JsonProperty(JSON_PROPERTY_SIGNED_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignedFile(FirmaSimpleFile signedFile) {
+  public void setSignedFile(@javax.annotation.Nullable FirmaSimpleFile signedFile) {
     this.signedFile = signedFile;
   }
 
-
-  public FirmaSimpleSignatureResponse signedFileInfo(FirmaSimpleSignedFileInfo signedFileInfo) {
+  public FirmaSimpleSignatureResponse signedFileInfo(@javax.annotation.Nullable FirmaSimpleSignedFileInfo signedFileInfo) {
     
     this.signedFileInfo = signedFileInfo;
     return this;
   }
 
-   /**
+  /**
    * Get signedFileInfo
    * @return signedFileInfo
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SIGNED_FILE_INFO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -150,7 +151,7 @@ public class FirmaSimpleSignatureResponse {
 
   @JsonProperty(JSON_PROPERTY_SIGNED_FILE_INFO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignedFileInfo(FirmaSimpleSignedFileInfo signedFileInfo) {
+  public void setSignedFileInfo(@javax.annotation.Nullable FirmaSimpleSignedFileInfo signedFileInfo) {
     this.signedFileInfo = signedFileInfo;
   }
 

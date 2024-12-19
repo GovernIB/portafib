@@ -34,36 +34,41 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FirmaSimpleUpgradeRequest.JSON_PROPERTY_TARGET_CERTIFICATE,
   FirmaSimpleUpgradeRequest.JSON_PROPERTY_LANGUAGE_U_I
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleUpgradeRequest {
   public static final String JSON_PROPERTY_PROFILE_CODE = "profileCode";
+  @javax.annotation.Nullable
   private String profileCode;
 
   public static final String JSON_PROPERTY_SIGNATURE = "signature";
+  @javax.annotation.Nullable
   private FirmaSimpleFile signature;
 
   public static final String JSON_PROPERTY_DETACHED_DOCUMENT = "detachedDocument";
+  @javax.annotation.Nullable
   private FirmaSimpleFile detachedDocument;
 
   public static final String JSON_PROPERTY_TARGET_CERTIFICATE = "targetCertificate";
+  @javax.annotation.Nullable
   private FirmaSimpleFile targetCertificate;
 
   public static final String JSON_PROPERTY_LANGUAGE_U_I = "languageUI";
+  @javax.annotation.Nullable
   private String languageUI;
 
   public FirmaSimpleUpgradeRequest() {
   }
 
-  public FirmaSimpleUpgradeRequest profileCode(String profileCode) {
+  public FirmaSimpleUpgradeRequest profileCode(@javax.annotation.Nullable String profileCode) {
     
     this.profileCode = profileCode;
     return this;
   }
 
-   /**
+  /**
    * Get profileCode
    * @return profileCode
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PROFILE_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -75,21 +80,20 @@ public class FirmaSimpleUpgradeRequest {
 
   @JsonProperty(JSON_PROPERTY_PROFILE_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setProfileCode(String profileCode) {
+  public void setProfileCode(@javax.annotation.Nullable String profileCode) {
     this.profileCode = profileCode;
   }
 
-
-  public FirmaSimpleUpgradeRequest signature(FirmaSimpleFile signature) {
+  public FirmaSimpleUpgradeRequest signature(@javax.annotation.Nullable FirmaSimpleFile signature) {
     
     this.signature = signature;
     return this;
   }
 
-   /**
+  /**
    * Get signature
    * @return signature
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SIGNATURE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -101,21 +105,20 @@ public class FirmaSimpleUpgradeRequest {
 
   @JsonProperty(JSON_PROPERTY_SIGNATURE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignature(FirmaSimpleFile signature) {
+  public void setSignature(@javax.annotation.Nullable FirmaSimpleFile signature) {
     this.signature = signature;
   }
 
-
-  public FirmaSimpleUpgradeRequest detachedDocument(FirmaSimpleFile detachedDocument) {
+  public FirmaSimpleUpgradeRequest detachedDocument(@javax.annotation.Nullable FirmaSimpleFile detachedDocument) {
     
     this.detachedDocument = detachedDocument;
     return this;
   }
 
-   /**
+  /**
    * Get detachedDocument
    * @return detachedDocument
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DETACHED_DOCUMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -127,21 +130,20 @@ public class FirmaSimpleUpgradeRequest {
 
   @JsonProperty(JSON_PROPERTY_DETACHED_DOCUMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDetachedDocument(FirmaSimpleFile detachedDocument) {
+  public void setDetachedDocument(@javax.annotation.Nullable FirmaSimpleFile detachedDocument) {
     this.detachedDocument = detachedDocument;
   }
 
-
-  public FirmaSimpleUpgradeRequest targetCertificate(FirmaSimpleFile targetCertificate) {
+  public FirmaSimpleUpgradeRequest targetCertificate(@javax.annotation.Nullable FirmaSimpleFile targetCertificate) {
     
     this.targetCertificate = targetCertificate;
     return this;
   }
 
-   /**
+  /**
    * Get targetCertificate
    * @return targetCertificate
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TARGET_CERTIFICATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -153,21 +155,20 @@ public class FirmaSimpleUpgradeRequest {
 
   @JsonProperty(JSON_PROPERTY_TARGET_CERTIFICATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTargetCertificate(FirmaSimpleFile targetCertificate) {
+  public void setTargetCertificate(@javax.annotation.Nullable FirmaSimpleFile targetCertificate) {
     this.targetCertificate = targetCertificate;
   }
 
-
-  public FirmaSimpleUpgradeRequest languageUI(String languageUI) {
+  public FirmaSimpleUpgradeRequest languageUI(@javax.annotation.Nullable String languageUI) {
     
     this.languageUI = languageUI;
     return this;
   }
 
-   /**
+  /**
    * Get languageUI
    * @return languageUI
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LANGUAGE_U_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -179,7 +180,7 @@ public class FirmaSimpleUpgradeRequest {
 
   @JsonProperty(JSON_PROPERTY_LANGUAGE_U_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLanguageUI(String languageUI) {
+  public void setLanguageUI(@javax.annotation.Nullable String languageUI) {
     this.languageUI = languageUI;
   }
 

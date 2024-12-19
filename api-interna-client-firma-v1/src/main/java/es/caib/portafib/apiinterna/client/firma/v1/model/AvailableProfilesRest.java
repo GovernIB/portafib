@@ -34,18 +34,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   AvailableProfilesRest.JSON_PROPERTY_DATA,
   AvailableProfilesRest.JSON_PROPERTY_LANGUAGE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class AvailableProfilesRest {
   public static final String JSON_PROPERTY_DATA = "data";
-  private List<AvailableProfile> data;
+  @javax.annotation.Nullable
+  private List<AvailableProfile> data = new ArrayList<>();
 
   public static final String JSON_PROPERTY_LANGUAGE = "language";
+  @javax.annotation.Nullable
   private String language;
 
   public AvailableProfilesRest() {
   }
 
-  public AvailableProfilesRest data(List<AvailableProfile> data) {
+  public AvailableProfilesRest data(@javax.annotation.Nullable List<AvailableProfile> data) {
     
     this.data = data;
     return this;
@@ -59,10 +61,10 @@ public class AvailableProfilesRest {
     return this;
   }
 
-   /**
+  /**
    * Get data
    * @return data
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -74,21 +76,20 @@ public class AvailableProfilesRest {
 
   @JsonProperty(JSON_PROPERTY_DATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setData(List<AvailableProfile> data) {
+  public void setData(@javax.annotation.Nullable List<AvailableProfile> data) {
     this.data = data;
   }
 
-
-  public AvailableProfilesRest language(String language) {
+  public AvailableProfilesRest language(@javax.annotation.Nullable String language) {
     
     this.language = language;
     return this;
   }
 
-   /**
+  /**
    * Get language
    * @return language
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LANGUAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -100,7 +101,7 @@ public class AvailableProfilesRest {
 
   @JsonProperty(JSON_PROPERTY_LANGUAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLanguage(String language) {
+  public void setLanguage(@javax.annotation.Nullable String language) {
     this.language = language;
   }
 

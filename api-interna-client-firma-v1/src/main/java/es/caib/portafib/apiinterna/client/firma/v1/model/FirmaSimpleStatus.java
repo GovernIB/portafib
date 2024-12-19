@@ -36,35 +36,45 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FirmaSimpleStatus.JSON_PROPERTY_ERROR_MESSAGE,
   FirmaSimpleStatus.JSON_PROPERTY_ERROR_STACK_TRACE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleStatus {
   public static final String JSON_PROPERTY_S_T_A_T_U_S_I_N_I_T_I_A_L_I_Z_I_N_G = "STATUS_INITIALIZING";
+  @javax.annotation.Nonnull
   private Integer STATUS_INITIALIZING = 0;
 
   public static final String JSON_PROPERTY_S_T_A_T_U_S_I_N_P_R_O_G_R_E_S_S = "STATUS_IN_PROGRESS";
+  @javax.annotation.Nonnull
   private Integer STATUS_IN_PROGRESS = 1;
 
   public static final String JSON_PROPERTY_S_T_A_T_U_S_F_I_N_A_L_O_K = "STATUS_FINAL_OK";
+  @javax.annotation.Nonnull
   private Integer STATUS_FINAL_OK = 2;
 
   public static final String JSON_PROPERTY_S_T_A_T_U_S_F_I_N_A_L_E_R_R_O_R = "STATUS_FINAL_ERROR";
+  @javax.annotation.Nonnull
   private Integer STATUS_FINAL_ERROR = -1;
 
   public static final String JSON_PROPERTY_S_T_A_T_U_S_C_A_N_C_E_L_L_E_D = "STATUS_CANCELLED";
+  @javax.annotation.Nonnull
   private Integer STATUS_CANCELLED = -2;
 
   public static final String JSON_PROPERTY_STATUS = "status";
+  @javax.annotation.Nullable
   private Integer status;
 
   public static final String JSON_PROPERTY_ERROR_MESSAGE = "errorMessage";
+  @javax.annotation.Nullable
   private String errorMessage;
 
   public static final String JSON_PROPERTY_ERROR_STACK_TRACE = "errorStackTrace";
+  @javax.annotation.Nullable
   private String errorStackTrace;
 
   public FirmaSimpleStatus() {
   }
-
+  /**
+   * Constructor with only readonly parameters
+   */
   @JsonCreator
   public FirmaSimpleStatus(
     @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_I_N_I_T_I_A_L_I_Z_I_N_G) Integer STATUS_INITIALIZING, 
@@ -81,10 +91,10 @@ public class FirmaSimpleStatus {
     this.STATUS_CANCELLED = STATUS_CANCELLED;
   }
 
-   /**
+  /**
    * Codi d&#39;estat d&#39;una petició de firma que indica un que s&#39;esta inicialitzant
    * @return STATUS_INITIALIZING
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_I_N_I_T_I_A_L_I_Z_I_N_G)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -95,11 +105,10 @@ public class FirmaSimpleStatus {
 
 
 
-
-   /**
+  /**
    * Codi d&#39;estat d&#39;una petició de firma que indica un que esta en procés
    * @return STATUS_IN_PROGRESS
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_I_N_P_R_O_G_R_E_S_S)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -110,11 +119,10 @@ public class FirmaSimpleStatus {
 
 
 
-
-   /**
+  /**
    * Codi d&#39;estat d&#39;una petició de firma que indica que ha finalitzat correctament
    * @return STATUS_FINAL_OK
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_F_I_N_A_L_O_K)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -125,11 +133,10 @@ public class FirmaSimpleStatus {
 
 
 
-
-   /**
+  /**
    * Codi d&#39;estat d&#39;una petició de firma que indica que ha finalitzat amb errors
    * @return STATUS_FINAL_ERROR
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_F_I_N_A_L_E_R_R_O_R)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -140,11 +147,10 @@ public class FirmaSimpleStatus {
 
 
 
-
-   /**
+  /**
    * Codi d&#39;estat d&#39;una petició de firma que indica que ha sigut cancelada
    * @return STATUS_CANCELLED
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_S_T_A_T_U_S_C_A_N_C_E_L_L_E_D)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -155,17 +161,16 @@ public class FirmaSimpleStatus {
 
 
 
-
-  public FirmaSimpleStatus status(Integer status) {
+  public FirmaSimpleStatus status(@javax.annotation.Nullable Integer status) {
     
     this.status = status;
     return this;
   }
 
-   /**
+  /**
    * Get status
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -177,21 +182,20 @@ public class FirmaSimpleStatus {
 
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setStatus(Integer status) {
+  public void setStatus(@javax.annotation.Nullable Integer status) {
     this.status = status;
   }
 
-
-  public FirmaSimpleStatus errorMessage(String errorMessage) {
+  public FirmaSimpleStatus errorMessage(@javax.annotation.Nullable String errorMessage) {
     
     this.errorMessage = errorMessage;
     return this;
   }
 
-   /**
+  /**
    * Get errorMessage
    * @return errorMessage
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ERROR_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -203,21 +207,20 @@ public class FirmaSimpleStatus {
 
   @JsonProperty(JSON_PROPERTY_ERROR_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setErrorMessage(String errorMessage) {
+  public void setErrorMessage(@javax.annotation.Nullable String errorMessage) {
     this.errorMessage = errorMessage;
   }
 
-
-  public FirmaSimpleStatus errorStackTrace(String errorStackTrace) {
+  public FirmaSimpleStatus errorStackTrace(@javax.annotation.Nullable String errorStackTrace) {
     
     this.errorStackTrace = errorStackTrace;
     return this;
   }
 
-   /**
+  /**
    * Get errorStackTrace
    * @return errorStackTrace
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ERROR_STACK_TRACE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -229,7 +232,7 @@ public class FirmaSimpleStatus {
 
   @JsonProperty(JSON_PROPERTY_ERROR_STACK_TRACE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setErrorStackTrace(String errorStackTrace) {
+  public void setErrorStackTrace(@javax.annotation.Nullable String errorStackTrace) {
     this.errorStackTrace = errorStackTrace;
   }
 

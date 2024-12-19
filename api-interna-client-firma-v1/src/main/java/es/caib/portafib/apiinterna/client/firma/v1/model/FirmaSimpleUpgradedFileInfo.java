@@ -40,42 +40,49 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FirmaSimpleUpgradedFileInfo.JSON_PROPERTY_VALIDATION_INFO,
   FirmaSimpleUpgradedFileInfo.JSON_PROPERTY_ADDITION_INFORMATION
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleUpgradedFileInfo {
   public static final String JSON_PROPERTY_SIGN_TYPE = "signType";
+  @javax.annotation.Nullable
   private String signType;
 
   public static final String JSON_PROPERTY_SIGN_ALGORITHM = "signAlgorithm";
+  @javax.annotation.Nullable
   private String signAlgorithm;
 
   public static final String JSON_PROPERTY_SIGN_MODE = "signMode";
+  @javax.annotation.Nullable
   private Integer signMode;
 
   public static final String JSON_PROPERTY_ENI_TIPO_FIRMA = "eniTipoFirma";
+  @javax.annotation.Nullable
   private String eniTipoFirma;
 
   public static final String JSON_PROPERTY_ENI_PERFIL_FIRMA = "eniPerfilFirma";
+  @javax.annotation.Nullable
   private String eniPerfilFirma;
 
   public static final String JSON_PROPERTY_VALIDATION_INFO = "validationInfo";
+  @javax.annotation.Nullable
   private FirmaSimpleValidationInfo validationInfo;
 
   public static final String JSON_PROPERTY_ADDITION_INFORMATION = "additionInformation";
-  private List<KeyValue> additionInformation;
+  @javax.annotation.Nullable
+  private List<KeyValue> additionInformation = new ArrayList<>();
 
   public FirmaSimpleUpgradedFileInfo() {
   }
 
-  public FirmaSimpleUpgradedFileInfo signType(String signType) {
+  public FirmaSimpleUpgradedFileInfo signType(@javax.annotation.Nullable String signType) {
     
     this.signType = signType;
     return this;
   }
 
-   /**
+  /**
    * Get signType
    * @return signType
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SIGN_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -87,21 +94,20 @@ public class FirmaSimpleUpgradedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_SIGN_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignType(String signType) {
+  public void setSignType(@javax.annotation.Nullable String signType) {
     this.signType = signType;
   }
 
-
-  public FirmaSimpleUpgradedFileInfo signAlgorithm(String signAlgorithm) {
+  public FirmaSimpleUpgradedFileInfo signAlgorithm(@javax.annotation.Nullable String signAlgorithm) {
     
     this.signAlgorithm = signAlgorithm;
     return this;
   }
 
-   /**
+  /**
    * Get signAlgorithm
    * @return signAlgorithm
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SIGN_ALGORITHM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -113,21 +119,20 @@ public class FirmaSimpleUpgradedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_SIGN_ALGORITHM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignAlgorithm(String signAlgorithm) {
+  public void setSignAlgorithm(@javax.annotation.Nullable String signAlgorithm) {
     this.signAlgorithm = signAlgorithm;
   }
 
-
-  public FirmaSimpleUpgradedFileInfo signMode(Integer signMode) {
+  public FirmaSimpleUpgradedFileInfo signMode(@javax.annotation.Nullable Integer signMode) {
     
     this.signMode = signMode;
     return this;
   }
 
-   /**
+  /**
    * Get signMode
    * @return signMode
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SIGN_MODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -139,21 +144,20 @@ public class FirmaSimpleUpgradedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_SIGN_MODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignMode(Integer signMode) {
+  public void setSignMode(@javax.annotation.Nullable Integer signMode) {
     this.signMode = signMode;
   }
 
-
-  public FirmaSimpleUpgradedFileInfo eniTipoFirma(String eniTipoFirma) {
+  public FirmaSimpleUpgradedFileInfo eniTipoFirma(@javax.annotation.Nullable String eniTipoFirma) {
     
     this.eniTipoFirma = eniTipoFirma;
     return this;
   }
 
-   /**
+  /**
    * Get eniTipoFirma
    * @return eniTipoFirma
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENI_TIPO_FIRMA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -165,21 +169,20 @@ public class FirmaSimpleUpgradedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_ENI_TIPO_FIRMA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEniTipoFirma(String eniTipoFirma) {
+  public void setEniTipoFirma(@javax.annotation.Nullable String eniTipoFirma) {
     this.eniTipoFirma = eniTipoFirma;
   }
 
-
-  public FirmaSimpleUpgradedFileInfo eniPerfilFirma(String eniPerfilFirma) {
+  public FirmaSimpleUpgradedFileInfo eniPerfilFirma(@javax.annotation.Nullable String eniPerfilFirma) {
     
     this.eniPerfilFirma = eniPerfilFirma;
     return this;
   }
 
-   /**
+  /**
    * Get eniPerfilFirma
    * @return eniPerfilFirma
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENI_PERFIL_FIRMA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -191,21 +194,20 @@ public class FirmaSimpleUpgradedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_ENI_PERFIL_FIRMA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEniPerfilFirma(String eniPerfilFirma) {
+  public void setEniPerfilFirma(@javax.annotation.Nullable String eniPerfilFirma) {
     this.eniPerfilFirma = eniPerfilFirma;
   }
 
-
-  public FirmaSimpleUpgradedFileInfo validationInfo(FirmaSimpleValidationInfo validationInfo) {
+  public FirmaSimpleUpgradedFileInfo validationInfo(@javax.annotation.Nullable FirmaSimpleValidationInfo validationInfo) {
     
     this.validationInfo = validationInfo;
     return this;
   }
 
-   /**
+  /**
    * Get validationInfo
    * @return validationInfo
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_VALIDATION_INFO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -217,12 +219,11 @@ public class FirmaSimpleUpgradedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_VALIDATION_INFO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setValidationInfo(FirmaSimpleValidationInfo validationInfo) {
+  public void setValidationInfo(@javax.annotation.Nullable FirmaSimpleValidationInfo validationInfo) {
     this.validationInfo = validationInfo;
   }
 
-
-  public FirmaSimpleUpgradedFileInfo additionInformation(List<KeyValue> additionInformation) {
+  public FirmaSimpleUpgradedFileInfo additionInformation(@javax.annotation.Nullable List<KeyValue> additionInformation) {
     
     this.additionInformation = additionInformation;
     return this;
@@ -236,10 +237,10 @@ public class FirmaSimpleUpgradedFileInfo {
     return this;
   }
 
-   /**
+  /**
    * Get additionInformation
    * @return additionInformation
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ADDITION_INFORMATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -251,7 +252,7 @@ public class FirmaSimpleUpgradedFileInfo {
 
   @JsonProperty(JSON_PROPERTY_ADDITION_INFORMATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAdditionInformation(List<KeyValue> additionInformation) {
+  public void setAdditionInformation(@javax.annotation.Nullable List<KeyValue> additionInformation) {
     this.additionInformation = additionInformation;
   }
 

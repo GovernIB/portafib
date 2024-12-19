@@ -31,30 +31,33 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FirmaSimpleFile.JSON_PROPERTY_MIME,
   FirmaSimpleFile.JSON_PROPERTY_DATA
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleFile {
   public static final String JSON_PROPERTY_NOM = "nom";
+  @javax.annotation.Nonnull
   private String nom;
 
   public static final String JSON_PROPERTY_MIME = "mime";
+  @javax.annotation.Nullable
   private String mime;
 
   public static final String JSON_PROPERTY_DATA = "data";
+  @javax.annotation.Nullable
   private byte[] data;
 
   public FirmaSimpleFile() {
   }
 
-  public FirmaSimpleFile nom(String nom) {
+  public FirmaSimpleFile nom(@javax.annotation.Nonnull String nom) {
     
     this.nom = nom;
     return this;
   }
 
-   /**
+  /**
    * Nom del fitxer.
    * @return nom
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NOM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -66,21 +69,20 @@ public class FirmaSimpleFile {
 
   @JsonProperty(JSON_PROPERTY_NOM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setNom(String nom) {
+  public void setNom(@javax.annotation.Nonnull String nom) {
     this.nom = nom;
   }
 
-
-  public FirmaSimpleFile mime(String mime) {
+  public FirmaSimpleFile mime(@javax.annotation.Nullable String mime) {
     
     this.mime = mime;
     return this;
   }
 
-   /**
+  /**
    * Tipus mime del fitxer.
    * @return mime
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -92,21 +94,20 @@ public class FirmaSimpleFile {
 
   @JsonProperty(JSON_PROPERTY_MIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMime(String mime) {
+  public void setMime(@javax.annotation.Nullable String mime) {
     this.mime = mime;
   }
 
-
-  public FirmaSimpleFile data(byte[] data) {
+  public FirmaSimpleFile data(@javax.annotation.Nullable byte[] data) {
     
     this.data = data;
     return this;
   }
 
-   /**
+  /**
    * Contingut del fitxer. En llistats aquest camp vendrà buit.
    * @return data
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -118,7 +119,7 @@ public class FirmaSimpleFile {
 
   @JsonProperty(JSON_PROPERTY_DATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setData(byte[] data) {
+  public void setData(@javax.annotation.Nullable byte[] data) {
     this.data = data;
   }
 

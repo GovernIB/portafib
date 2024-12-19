@@ -34,18 +34,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   LlistaTipusDocumentalRest.JSON_PROPERTY_DATA,
   LlistaTipusDocumentalRest.JSON_PROPERTY_LANGUAGE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class LlistaTipusDocumentalRest {
   public static final String JSON_PROPERTY_DATA = "data";
-  private List<TipusDocumentalRest> data;
+  @javax.annotation.Nullable
+  private List<TipusDocumentalRest> data = new ArrayList<>();
 
   public static final String JSON_PROPERTY_LANGUAGE = "language";
+  @javax.annotation.Nullable
   private String language;
 
   public LlistaTipusDocumentalRest() {
   }
 
-  public LlistaTipusDocumentalRest data(List<TipusDocumentalRest> data) {
+  public LlistaTipusDocumentalRest data(@javax.annotation.Nullable List<TipusDocumentalRest> data) {
     
     this.data = data;
     return this;
@@ -59,10 +61,10 @@ public class LlistaTipusDocumentalRest {
     return this;
   }
 
-   /**
+  /**
    * Llistat de tipus documentals disponibles
    * @return data
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -74,21 +76,20 @@ public class LlistaTipusDocumentalRest {
 
   @JsonProperty(JSON_PROPERTY_DATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setData(List<TipusDocumentalRest> data) {
+  public void setData(@javax.annotation.Nullable List<TipusDocumentalRest> data) {
     this.data = data;
   }
 
-
-  public LlistaTipusDocumentalRest language(String language) {
+  public LlistaTipusDocumentalRest language(@javax.annotation.Nullable String language) {
     
     this.language = language;
     return this;
   }
 
-   /**
+  /**
    * Llenguatge seleccionat per la resposta
    * @return language
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LANGUAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -100,7 +101,7 @@ public class LlistaTipusDocumentalRest {
 
   @JsonProperty(JSON_PROPERTY_LANGUAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLanguage(String language) {
+  public void setLanguage(@javax.annotation.Nullable String language) {
     this.language = language;
   }
 

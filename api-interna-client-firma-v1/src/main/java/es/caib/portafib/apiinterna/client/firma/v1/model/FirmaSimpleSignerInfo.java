@@ -42,48 +42,57 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FirmaSimpleSignerInfo.JSON_PROPERTY_SUBJECT_CERT,
   FirmaSimpleSignerInfo.JSON_PROPERTY_ADDITIONAL_INFORMATION
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleSignerInfo {
   public static final String JSON_PROPERTY_ENI_ROL_FIRMA = "eniRolFirma";
+  @javax.annotation.Nullable
   private String eniRolFirma;
 
   public static final String JSON_PROPERTY_ENI_SIGNER_NAME = "eniSignerName";
+  @javax.annotation.Nullable
   private String eniSignerName;
 
   public static final String JSON_PROPERTY_ENI_SIGNER_ADMINISTRATION_ID = "eniSignerAdministrationId";
+  @javax.annotation.Nullable
   private String eniSignerAdministrationId;
 
   public static final String JSON_PROPERTY_ENI_SIGN_LEVEL = "eniSignLevel";
+  @javax.annotation.Nullable
   private String eniSignLevel;
 
   public static final String JSON_PROPERTY_SIGN_DATE = "signDate";
+  @javax.annotation.Nullable
   private Date signDate;
 
   public static final String JSON_PROPERTY_SERIAL_NUMBER_CERT = "serialNumberCert";
+  @javax.annotation.Nullable
   private String serialNumberCert;
 
   public static final String JSON_PROPERTY_ISSUER_CERT = "issuerCert";
+  @javax.annotation.Nullable
   private String issuerCert;
 
   public static final String JSON_PROPERTY_SUBJECT_CERT = "subjectCert";
+  @javax.annotation.Nullable
   private String subjectCert;
 
   public static final String JSON_PROPERTY_ADDITIONAL_INFORMATION = "additionalInformation";
-  private List<KeyValue> additionalInformation;
+  @javax.annotation.Nullable
+  private List<KeyValue> additionalInformation = new ArrayList<>();
 
   public FirmaSimpleSignerInfo() {
   }
 
-  public FirmaSimpleSignerInfo eniRolFirma(String eniRolFirma) {
+  public FirmaSimpleSignerInfo eniRolFirma(@javax.annotation.Nullable String eniRolFirma) {
     
     this.eniRolFirma = eniRolFirma;
     return this;
   }
 
-   /**
+  /**
    * Esquemas desarrollados a nivel local y que pueden incluir valores como válida, autentica, refrenda, visa, representa, testimonia, etc..
    * @return eniRolFirma
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENI_ROL_FIRMA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -95,21 +104,20 @@ public class FirmaSimpleSignerInfo {
 
   @JsonProperty(JSON_PROPERTY_ENI_ROL_FIRMA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEniRolFirma(String eniRolFirma) {
+  public void setEniRolFirma(@javax.annotation.Nullable String eniRolFirma) {
     this.eniRolFirma = eniRolFirma;
   }
 
-
-  public FirmaSimpleSignerInfo eniSignerName(String eniSignerName) {
+  public FirmaSimpleSignerInfo eniSignerName(@javax.annotation.Nullable String eniSignerName) {
     
     this.eniSignerName = eniSignerName;
     return this;
   }
 
-   /**
+  /**
    * Nombre o razón social de los firmantes.
    * @return eniSignerName
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENI_SIGNER_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -121,21 +129,20 @@ public class FirmaSimpleSignerInfo {
 
   @JsonProperty(JSON_PROPERTY_ENI_SIGNER_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEniSignerName(String eniSignerName) {
+  public void setEniSignerName(@javax.annotation.Nullable String eniSignerName) {
     this.eniSignerName = eniSignerName;
   }
 
-
-  public FirmaSimpleSignerInfo eniSignerAdministrationId(String eniSignerAdministrationId) {
+  public FirmaSimpleSignerInfo eniSignerAdministrationId(@javax.annotation.Nullable String eniSignerAdministrationId) {
     
     this.eniSignerAdministrationId = eniSignerAdministrationId;
     return this;
   }
 
-   /**
+  /**
    * NIF del firmant.
    * @return eniSignerAdministrationId
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENI_SIGNER_ADMINISTRATION_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -147,21 +154,20 @@ public class FirmaSimpleSignerInfo {
 
   @JsonProperty(JSON_PROPERTY_ENI_SIGNER_ADMINISTRATION_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEniSignerAdministrationId(String eniSignerAdministrationId) {
+  public void setEniSignerAdministrationId(@javax.annotation.Nullable String eniSignerAdministrationId) {
     this.eniSignerAdministrationId = eniSignerAdministrationId;
   }
 
-
-  public FirmaSimpleSignerInfo eniSignLevel(String eniSignLevel) {
+  public FirmaSimpleSignerInfo eniSignLevel(@javax.annotation.Nullable String eniSignLevel) {
     
     this.eniSignLevel = eniSignLevel;
     return this;
   }
 
-   /**
+  /**
    * Indicador normalizado que refleja el grado de  confianza de la firma utilizado. Ejemplos: Nick, PIN ciudadano, Firma electrónica avanzada, Claves concertadas, Firma electrónica avanzada basada en certificados, CSV, ..
    * @return eniSignLevel
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENI_SIGN_LEVEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -173,21 +179,20 @@ public class FirmaSimpleSignerInfo {
 
   @JsonProperty(JSON_PROPERTY_ENI_SIGN_LEVEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEniSignLevel(String eniSignLevel) {
+  public void setEniSignLevel(@javax.annotation.Nullable String eniSignLevel) {
     this.eniSignLevel = eniSignLevel;
   }
 
-
-  public FirmaSimpleSignerInfo signDate(Date signDate) {
+  public FirmaSimpleSignerInfo signDate(@javax.annotation.Nullable Date signDate) {
     
     this.signDate = signDate;
     return this;
   }
 
-   /**
+  /**
    * Data en que es va realitzar la firma
    * @return signDate
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SIGN_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -199,21 +204,20 @@ public class FirmaSimpleSignerInfo {
 
   @JsonProperty(JSON_PROPERTY_SIGN_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignDate(Date signDate) {
+  public void setSignDate(@javax.annotation.Nullable Date signDate) {
     this.signDate = signDate;
   }
 
-
-  public FirmaSimpleSignerInfo serialNumberCert(String serialNumberCert) {
+  public FirmaSimpleSignerInfo serialNumberCert(@javax.annotation.Nullable String serialNumberCert) {
     
     this.serialNumberCert = serialNumberCert;
     return this;
   }
 
-   /**
+  /**
    * Número de Sèrie del Certificat utilitzat en la firma
    * @return serialNumberCert
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SERIAL_NUMBER_CERT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -225,21 +229,20 @@ public class FirmaSimpleSignerInfo {
 
   @JsonProperty(JSON_PROPERTY_SERIAL_NUMBER_CERT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSerialNumberCert(String serialNumberCert) {
+  public void setSerialNumberCert(@javax.annotation.Nullable String serialNumberCert) {
     this.serialNumberCert = serialNumberCert;
   }
 
-
-  public FirmaSimpleSignerInfo issuerCert(String issuerCert) {
+  public FirmaSimpleSignerInfo issuerCert(@javax.annotation.Nullable String issuerCert) {
     
     this.issuerCert = issuerCert;
     return this;
   }
 
-   /**
+  /**
    * Issuer del Certificat utilitzat en la firma
    * @return issuerCert
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ISSUER_CERT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -251,21 +254,20 @@ public class FirmaSimpleSignerInfo {
 
   @JsonProperty(JSON_PROPERTY_ISSUER_CERT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setIssuerCert(String issuerCert) {
+  public void setIssuerCert(@javax.annotation.Nullable String issuerCert) {
     this.issuerCert = issuerCert;
   }
 
-
-  public FirmaSimpleSignerInfo subjectCert(String subjectCert) {
+  public FirmaSimpleSignerInfo subjectCert(@javax.annotation.Nullable String subjectCert) {
     
     this.subjectCert = subjectCert;
     return this;
   }
 
-   /**
+  /**
    * Subject del Certificat utilitzat en la firma
    * @return subjectCert
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SUBJECT_CERT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -277,12 +279,11 @@ public class FirmaSimpleSignerInfo {
 
   @JsonProperty(JSON_PROPERTY_SUBJECT_CERT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSubjectCert(String subjectCert) {
+  public void setSubjectCert(@javax.annotation.Nullable String subjectCert) {
     this.subjectCert = subjectCert;
   }
 
-
-  public FirmaSimpleSignerInfo additionalInformation(List<KeyValue> additionalInformation) {
+  public FirmaSimpleSignerInfo additionalInformation(@javax.annotation.Nullable List<KeyValue> additionalInformation) {
     
     this.additionalInformation = additionalInformation;
     return this;
@@ -296,10 +297,10 @@ public class FirmaSimpleSignerInfo {
     return this;
   }
 
-   /**
+  /**
    * Ofrecer cualquier otra información que se  considere útil acerca del firmante.
    * @return additionalInformation
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ADDITIONAL_INFORMATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -311,7 +312,7 @@ public class FirmaSimpleSignerInfo {
 
   @JsonProperty(JSON_PROPERTY_ADDITIONAL_INFORMATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAdditionalInformation(List<KeyValue> additionalInformation) {
+  public void setAdditionalInformation(@javax.annotation.Nullable List<KeyValue> additionalInformation) {
     this.additionalInformation = additionalInformation;
   }
 

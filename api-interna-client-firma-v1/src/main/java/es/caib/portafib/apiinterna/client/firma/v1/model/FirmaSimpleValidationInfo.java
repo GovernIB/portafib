@@ -32,33 +32,37 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FirmaSimpleValidationInfo.JSON_PROPERTY_CHECK_VALIDATION_SIGNATURE,
   FirmaSimpleValidationInfo.JSON_PROPERTY_NO_CHECK_VALIDATION_REASON
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleValidationInfo {
   public static final String JSON_PROPERTY_CHECK_ADMINISTRATION_I_D_OF_SIGNER = "checkAdministrationIDOfSigner";
+  @javax.annotation.Nullable
   private Boolean checkAdministrationIDOfSigner;
 
   public static final String JSON_PROPERTY_CHECK_DOCUMENT_MODIFICATIONS = "checkDocumentModifications";
+  @javax.annotation.Nullable
   private Boolean checkDocumentModifications;
 
   public static final String JSON_PROPERTY_CHECK_VALIDATION_SIGNATURE = "checkValidationSignature";
+  @javax.annotation.Nullable
   private Boolean checkValidationSignature;
 
   public static final String JSON_PROPERTY_NO_CHECK_VALIDATION_REASON = "noCheckValidationReason";
+  @javax.annotation.Nullable
   private String noCheckValidationReason;
 
   public FirmaSimpleValidationInfo() {
   }
 
-  public FirmaSimpleValidationInfo checkAdministrationIDOfSigner(Boolean checkAdministrationIDOfSigner) {
+  public FirmaSimpleValidationInfo checkAdministrationIDOfSigner(@javax.annotation.Nullable Boolean checkAdministrationIDOfSigner) {
     
     this.checkAdministrationIDOfSigner = checkAdministrationIDOfSigner;
     return this;
   }
 
-   /**
+  /**
    * S’ha verificat que l’identificador del firmant és la del que estava previst que firmàs. Valor buit indica que no s&#39;ha realitzat la validació.
    * @return checkAdministrationIDOfSigner
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CHECK_ADMINISTRATION_I_D_OF_SIGNER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -70,21 +74,20 @@ public class FirmaSimpleValidationInfo {
 
   @JsonProperty(JSON_PROPERTY_CHECK_ADMINISTRATION_I_D_OF_SIGNER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCheckAdministrationIDOfSigner(Boolean checkAdministrationIDOfSigner) {
+  public void setCheckAdministrationIDOfSigner(@javax.annotation.Nullable Boolean checkAdministrationIDOfSigner) {
     this.checkAdministrationIDOfSigner = checkAdministrationIDOfSigner;
   }
 
-
-  public FirmaSimpleValidationInfo checkDocumentModifications(Boolean checkDocumentModifications) {
+  public FirmaSimpleValidationInfo checkDocumentModifications(@javax.annotation.Nullable Boolean checkDocumentModifications) {
     
     this.checkDocumentModifications = checkDocumentModifications;
     return this;
   }
 
-   /**
+  /**
    * S’ha verificat que no s’hagi modificat el document original. Valor buit indica que no s&#39;ha realitzat la validació.
    * @return checkDocumentModifications
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CHECK_DOCUMENT_MODIFICATIONS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -96,21 +99,20 @@ public class FirmaSimpleValidationInfo {
 
   @JsonProperty(JSON_PROPERTY_CHECK_DOCUMENT_MODIFICATIONS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCheckDocumentModifications(Boolean checkDocumentModifications) {
+  public void setCheckDocumentModifications(@javax.annotation.Nullable Boolean checkDocumentModifications) {
     this.checkDocumentModifications = checkDocumentModifications;
   }
 
-
-  public FirmaSimpleValidationInfo checkValidationSignature(Boolean checkValidationSignature) {
+  public FirmaSimpleValidationInfo checkValidationSignature(@javax.annotation.Nullable Boolean checkValidationSignature) {
     
     this.checkValidationSignature = checkValidationSignature;
     return this;
   }
 
-   /**
+  /**
    * S’ha verificat que la firma és correcte. Valor buit indica que no s&#39;ha realitzat la validació.
    * @return checkValidationSignature
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CHECK_VALIDATION_SIGNATURE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -122,21 +124,20 @@ public class FirmaSimpleValidationInfo {
 
   @JsonProperty(JSON_PROPERTY_CHECK_VALIDATION_SIGNATURE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCheckValidationSignature(Boolean checkValidationSignature) {
+  public void setCheckValidationSignature(@javax.annotation.Nullable Boolean checkValidationSignature) {
     this.checkValidationSignature = checkValidationSignature;
   }
 
-
-  public FirmaSimpleValidationInfo noCheckValidationReason(String noCheckValidationReason) {
+  public FirmaSimpleValidationInfo noCheckValidationReason(@javax.annotation.Nullable String noCheckValidationReason) {
     
     this.noCheckValidationReason = noCheckValidationReason;
     return this;
   }
 
-   /**
+  /**
    * Només s&#39;omple si checkValidationSignature val false
    * @return noCheckValidationReason
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NO_CHECK_VALIDATION_REASON)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -148,7 +149,7 @@ public class FirmaSimpleValidationInfo {
 
   @JsonProperty(JSON_PROPERTY_NO_CHECK_VALIDATION_REASON)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNoCheckValidationReason(String noCheckValidationReason) {
+  public void setNoCheckValidationReason(@javax.annotation.Nullable String noCheckValidationReason) {
     this.noCheckValidationReason = noCheckValidationReason;
   }
 
