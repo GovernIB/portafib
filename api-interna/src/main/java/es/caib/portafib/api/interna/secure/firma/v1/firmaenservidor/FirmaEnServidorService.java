@@ -34,17 +34,12 @@ import org.fundaciobit.pluginsib.validatesignature.api.SignatureDetailInfo;
 import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
 
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleCommonInfo;
-import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleCustodyInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFile;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFileInfoSignature;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.KeyValue;
-import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleSignDocumentsResponse;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.RestFirmaUtils;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleSignedFileInfo;
-import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleSignerInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleStatus;
-import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleUpgradedFileInfo;
-import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleValidationInfo;
-import es.caib.portafib.api.interna.secure.firma.v1.commons.RestApiFirmaSimpleUtils;
 import es.caib.portafib.api.interna.secure.firma.v1.utils.UtilsService;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.UsuariPersonaService;
@@ -100,7 +95,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
                         url = "http://governdigital.fundaciobit.org")),
         tags = @Tag(name = FirmaEnServidorService.TAG_NAME, description = "Firma en servidor"))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = FirmaEnServidorService.SECURITY_NAME, scheme = "basic")
-public class FirmaEnServidorService extends RestApiFirmaSimpleUtils {
+public class FirmaEnServidorService extends RestFirmaUtils {
     protected static Logger log = Logger.getLogger(UtilsService.class);
 
     public static final String UPGRADESIGNATURE = "upgradeSignature";
@@ -171,7 +166,7 @@ public class FirmaEnServidorService extends RestApiFirmaSimpleUtils {
     HttpServletRequest request, @RequestBody
     FirmaSimpleUpgradeRequest fsur) {
 
-        checkUsuariAplicacio(request);
+        String usuariAplicacioID = checkUsuariAplicacio(request);
 
         if (fsur == null) {
             // XYZ ZZZ TRA
@@ -188,8 +183,6 @@ public class FirmaEnServidorService extends RestApiFirmaSimpleUtils {
         log.info(" XYZ ZZZ eNTRA A upgradeSignature => signature: " + signature);
 
         try {
-
-            String usuariAplicacioID = request.getUserPrincipal().getName();
 
             final PerfilDeFirma perfilDeFirma;
             {

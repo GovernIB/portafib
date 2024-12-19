@@ -1,5 +1,10 @@
-package es.caib.portafib.api.interna.secure.firma.v1.commons;
+package es.caib.portafib.api.interna.secure.firma.v1.firmaweb;
 
+/**
+ * 
+ * @author anadal
+ * 18 dic 2024 14:57:03
+ */
 public class FirmaSimpleGetSignatureResultRequest {
 
 	protected String transactionID;

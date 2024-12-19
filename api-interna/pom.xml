@@ -205,7 +205,7 @@
                                 <artifactId>
                                     portafib-api-interna-client-infoversio-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>portafib - API Rest -
+                                <artifactDescription>PortaFIB - API Rest -
                                     Interna Client - Informació de Versions v1</artifactDescription>
                                 <dateLibrary>legacy</dateLibrary>
                                 <useTags>true</useTags>
@@ -245,7 +245,7 @@
                                 <artifactId>
                                     portafib-api-interna-client-revisors-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>Portafib - API Rest -
+                                <artifactDescription>PortaFIB - API Rest -
                                     Interna Client - Revisors v1</artifactDescription>
                                 <dateLibrary>legacy</dateLibrary>
                                 <useTags>true</useTags>
@@ -282,7 +282,7 @@
                                 <groupId>es.caib.portafib</groupId>
                                 <artifactId>portafib-api-interna-client-firma-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>Portafib - API Rest - Interna Client - Firma v1</artifactDescription>
+                                <artifactDescription>PortaFIB - API Rest - Interna Client - Firma v1</artifactDescription>
                                 <dateLibrary>legacy</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>

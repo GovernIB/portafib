@@ -1,5 +1,8 @@
 package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
+import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleCustodyInfo;
+import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleSignerInfo;
+import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleValidationInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Informació del fitxer signat.")

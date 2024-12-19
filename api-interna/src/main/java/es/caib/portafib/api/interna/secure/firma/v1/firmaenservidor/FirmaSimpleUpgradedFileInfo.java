@@ -1,6 +1,9 @@
-package es.caib.portafib.api.interna.secure.firma.v1.commons;
+package es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor;
 
 import java.util.List;
+
+import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleSignedFileInfo;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.KeyValue;
 
 /**
  * 
