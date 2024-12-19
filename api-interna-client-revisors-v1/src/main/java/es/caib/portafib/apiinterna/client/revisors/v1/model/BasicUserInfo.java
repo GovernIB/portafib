@@ -32,33 +32,37 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   BasicUserInfo.JSON_PROPERTY_SURNAME,
   BasicUserInfo.JSON_PROPERTY_ADMINISTRATION_ID
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class BasicUserInfo {
   public static final String JSON_PROPERTY_USERNAME = "username";
+  @javax.annotation.Nullable
   private String username;
 
   public static final String JSON_PROPERTY_NAME = "name";
+  @javax.annotation.Nullable
   private String name;
 
   public static final String JSON_PROPERTY_SURNAME = "surname";
+  @javax.annotation.Nullable
   private String surname;
 
   public static final String JSON_PROPERTY_ADMINISTRATION_ID = "administrationId";
+  @javax.annotation.Nullable
   private String administrationId;
 
   public BasicUserInfo() {
   }
 
-  public BasicUserInfo username(String username) {
+  public BasicUserInfo username(@javax.annotation.Nullable String username) {
     
     this.username = username;
     return this;
   }
 
-   /**
+  /**
    * Get username
    * @return username
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -70,21 +74,20 @@ public class BasicUserInfo {
 
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUsername(String username) {
+  public void setUsername(@javax.annotation.Nullable String username) {
     this.username = username;
   }
 
-
-  public BasicUserInfo name(String name) {
+  public BasicUserInfo name(@javax.annotation.Nullable String name) {
     
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -96,21 +99,20 @@ public class BasicUserInfo {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 
-
-  public BasicUserInfo surname(String surname) {
+  public BasicUserInfo surname(@javax.annotation.Nullable String surname) {
     
     this.surname = surname;
     return this;
   }
 
-   /**
+  /**
    * Get surname
    * @return surname
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SURNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -122,21 +124,20 @@ public class BasicUserInfo {
 
   @JsonProperty(JSON_PROPERTY_SURNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSurname(String surname) {
+  public void setSurname(@javax.annotation.Nullable String surname) {
     this.surname = surname;
   }
 
-
-  public BasicUserInfo administrationId(String administrationId) {
+  public BasicUserInfo administrationId(@javax.annotation.Nullable String administrationId) {
     
     this.administrationId = administrationId;
     return this;
   }
 
-   /**
+  /**
    * NIF de l&#39;usuari
    * @return administrationId
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ADMINISTRATION_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -148,7 +149,7 @@ public class BasicUserInfo {
 
   @JsonProperty(JSON_PROPERTY_ADMINISTRATION_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAdministrationId(String administrationId) {
+  public void setAdministrationId(@javax.annotation.Nullable String administrationId) {
     this.administrationId = administrationId;
   }
 

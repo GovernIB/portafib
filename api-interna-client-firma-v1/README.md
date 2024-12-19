@@ -4,6 +4,8 @@ API Interna de PortaFIB de consulta de serveis d&#39;utilitat
 
 - API version: 1.0-SNAPSHOT
 
+- Generator version: 7.10.0
+
 Conjunt de Serveis REST de PortaFIB per atendre consultes generiques de Portafib
 
   For more information, please visit [http://governdigital.fundaciobit.org](http://governdigital.fundaciobit.org)

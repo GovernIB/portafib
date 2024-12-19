@@ -3,7 +3,6 @@ package es.caib.portafib.api.interna.secure.exempleenumsecuritzat;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 
-
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 
@@ -149,7 +148,7 @@ public class ExempleEnumSecuritzatService extends RestUtils {
 
     @Path("/sendnotificationtomobile")
     @GET
-	@RolesAllowed({ Constants.PFI_WS })
+    @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = ExempleEnumSecuritzatService.SECURITY_NAME)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -196,15 +195,16 @@ public class ExempleEnumSecuritzatService extends RestUtils {
                     required = true,
                     example = "",
                     array = @ArraySchema(
-                            schema = @Schema(
-                                    type = "string"))) @NotNull @QueryParam("notificationParameters") String[] notificationParameters,
+                            schema = @Schema(type = "string"))) @NotNull @QueryParam("notificationParameters")
+            String[] notificationParameters,
 
             @Parameter(
                     description = "Idioma en que s'enviaran els missatges d'error",
                     required = true,
                     example = "ca",
                     schema = @Schema(implementation = String.class)) @Pattern(
-                            regexp = "^ca|es$") @QueryParam("langError") String langError) {
+                            regexp = "^ca|es$") @QueryParam("langError")
+            String langError) {
 
         langError = checkLanguage(langError);
 
@@ -321,17 +321,18 @@ public class ExempleEnumSecuritzatService extends RestUtils {
                             mediaType = RestUtils.MIME_APPLICATION_JSON,
                             schema = @Schema(implementation = RestExceptionInfo.class)) }), })
 
-    public TipusDocumentalsPaginacio list(
-            @Parameter(
-                    description = "Pàgina de la que es volen obtenir les dades. Comença per 1.",
-                    in = ParameterIn.QUERY,
-                    required = false,
-                    example = "1") @QueryParam("page") Integer page,
+    public TipusDocumentalsPaginacio list(@Parameter(
+            description = "Pàgina de la que es volen obtenir les dades. Comença per 1.",
+            in = ParameterIn.QUERY,
+            required = false,
+            example = "1") @QueryParam("page")
+    Integer page,
             @Parameter(
                     description = "Quantitat d'elements a retornar",
                     in = ParameterIn.QUERY,
                     required = false,
-                    example = "10") @QueryParam("pagesize") Integer pagesize,
+                    example = "10") @QueryParam("pagesize")
+            Integer pagesize,
             @Parameter(
                     name = "language",
                     description = "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
@@ -340,9 +341,10 @@ public class ExempleEnumSecuritzatService extends RestUtils {
                     example = "ca",
                     examples = { @ExampleObject(name = "Català", value = "ca"),
                             @ExampleObject(name = "Castellano", value = "es") },
-                    schema = @Schema(implementation = String.class)) @QueryParam("language") String language,
-            @Parameter(hidden = true) @Context HttpServletRequest request,
-            @Parameter(hidden = true) @Context SecurityContext security) throws RestException {
+                    schema = @Schema(implementation = String.class)) @QueryParam("language")
+            String language, @Parameter(hidden = true) @Context
+            HttpServletRequest request, @Parameter(hidden = true) @Context
+            SecurityContext security) throws RestException {
 
         log.info(" Entra a list()" + page + " " + pagesize + "...[" + request.getRemoteUser() + "]");
 

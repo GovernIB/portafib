@@ -33,36 +33,41 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   RestExceptionInfo.JSON_PROPERTY_CAUSE_EXCEPTION,
   RestExceptionInfo.JSON_PROPERTY_CAUSE_STACK_TRACE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class RestExceptionInfo {
   public static final String JSON_PROPERTY_CODE = "code";
+  @javax.annotation.Nonnull
   private Integer code;
 
   public static final String JSON_PROPERTY_ERROR_MESSAGE = "errorMessage";
+  @javax.annotation.Nonnull
   private String errorMessage;
 
   public static final String JSON_PROPERTY_STACK_TRACE = "stackTrace";
+  @javax.annotation.Nullable
   private String stackTrace;
 
   public static final String JSON_PROPERTY_CAUSE_EXCEPTION = "causeException";
+  @javax.annotation.Nullable
   private String causeException;
 
   public static final String JSON_PROPERTY_CAUSE_STACK_TRACE = "causeStackTrace";
+  @javax.annotation.Nullable
   private String causeStackTrace;
 
   public RestExceptionInfo() {
   }
 
-  public RestExceptionInfo code(Integer code) {
+  public RestExceptionInfo code(@javax.annotation.Nonnull Integer code) {
     
     this.code = code;
     return this;
   }
 
-   /**
+  /**
    * Codi de HTTP de l&#39;error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
    * @return code
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -74,21 +79,20 @@ public class RestExceptionInfo {
 
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setCode(Integer code) {
+  public void setCode(@javax.annotation.Nonnull Integer code) {
     this.code = code;
   }
 
-
-  public RestExceptionInfo errorMessage(String errorMessage) {
+  public RestExceptionInfo errorMessage(@javax.annotation.Nonnull String errorMessage) {
     
     this.errorMessage = errorMessage;
     return this;
   }
 
-   /**
+  /**
    * Missatge de l&#39;error
    * @return errorMessage
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ERROR_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -100,21 +104,20 @@ public class RestExceptionInfo {
 
   @JsonProperty(JSON_PROPERTY_ERROR_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setErrorMessage(String errorMessage) {
+  public void setErrorMessage(@javax.annotation.Nonnull String errorMessage) {
     this.errorMessage = errorMessage;
   }
 
-
-  public RestExceptionInfo stackTrace(String stackTrace) {
+  public RestExceptionInfo stackTrace(@javax.annotation.Nullable String stackTrace) {
     
     this.stackTrace = stackTrace;
     return this;
   }
 
-   /**
+  /**
    * Stacktrace de l&#39;excepció si n&#39;hi hagués.
    * @return stackTrace
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STACK_TRACE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -126,21 +129,20 @@ public class RestExceptionInfo {
 
   @JsonProperty(JSON_PROPERTY_STACK_TRACE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setStackTrace(String stackTrace) {
+  public void setStackTrace(@javax.annotation.Nullable String stackTrace) {
     this.stackTrace = stackTrace;
   }
 
-
-  public RestExceptionInfo causeException(String causeException) {
+  public RestExceptionInfo causeException(@javax.annotation.Nullable String causeException) {
     
     this.causeException = causeException;
     return this;
   }
 
-   /**
+  /**
    * Tipus de l&#39;excepció origen (cause) si n&#39;hi hagués.
    * @return causeException
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CAUSE_EXCEPTION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -152,21 +154,20 @@ public class RestExceptionInfo {
 
   @JsonProperty(JSON_PROPERTY_CAUSE_EXCEPTION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCauseException(String causeException) {
+  public void setCauseException(@javax.annotation.Nullable String causeException) {
     this.causeException = causeException;
   }
 
-
-  public RestExceptionInfo causeStackTrace(String causeStackTrace) {
+  public RestExceptionInfo causeStackTrace(@javax.annotation.Nullable String causeStackTrace) {
     
     this.causeStackTrace = causeStackTrace;
     return this;
   }
 
-   /**
+  /**
    * Stacktrace de l&#39;excepció origen (cause) si n&#39;hi hagués.
    * @return causeStackTrace
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CAUSE_STACK_TRACE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -178,7 +179,7 @@ public class RestExceptionInfo {
 
   @JsonProperty(JSON_PROPERTY_CAUSE_STACK_TRACE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCauseStackTrace(String causeStackTrace) {
+  public void setCauseStackTrace(@javax.annotation.Nullable String causeStackTrace) {
     this.causeStackTrace = causeStackTrace;
   }
 

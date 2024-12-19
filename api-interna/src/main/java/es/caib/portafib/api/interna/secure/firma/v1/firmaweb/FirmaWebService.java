@@ -2,7 +2,6 @@ package es.caib.portafib.api.interna.secure.firma.v1.firmaweb;
 
 import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.node.TextNode;
-import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaWebSimple;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.OrderBy;

@@ -4,6 +4,7 @@ import java.util.List;
 
 import es.caib.portafib.api.interna.secure.firma.v1.commons.KeyValue;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 
@@ -13,11 +14,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Detalls del Perfil d'un usuari Aplicació")
 public class AvailableProfile {
 
-    @Schema(description = "Codi del perfil", required = true)
+    @Schema(description = "Codi del perfil",  requiredMode = RequiredMode.REQUIRED)
     protected String code;
-    @Schema(description = "Nom del perfil en l’idioma elegit.", required = true)
+    @Schema(description = "Nom del perfil en l’idioma elegit.",  requiredMode = RequiredMode.REQUIRED)
     protected String name;
-    @Schema(description = "Descripció del perfil en l’idioma elegit.", required = true)
+    @Schema(description = "Descripció del perfil en l’idioma elegit.",  requiredMode = RequiredMode.REQUIRED)
     protected String description;
 
     protected List<KeyValue> properties;

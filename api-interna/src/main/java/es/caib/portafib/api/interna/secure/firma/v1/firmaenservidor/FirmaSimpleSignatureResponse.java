@@ -4,20 +4,21 @@ import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFile;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleSignedFileInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 @Schema(description = "Resposta de la petició de firma en servidor")
 public class FirmaSimpleSignatureResponse {
     
-    @Schema(description = "Identificador de la firma", required = true)
+    @Schema(description = "Identificador de la firma",  requiredMode = RequiredMode.REQUIRED)
 	protected String signID;
     
-    @Schema(description = "Estat del procés de firma", required = true)
+    @Schema(description = "Estat del procés de firma",  requiredMode = RequiredMode.REQUIRED)
 	protected FirmaSimpleStatus status;
 
-    @Schema(description = "Fitxer signat.", required = false)
+    @Schema(description = "Fitxer signat.", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected FirmaSimpleFile signedFile;
 
-    @Schema(description = "Informació del fitxer signat.", required = false)
+    @Schema(description = "Informació del fitxer signat.", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected FirmaSimpleSignedFileInfo signedFileInfo;
 
 	public FirmaSimpleSignatureResponse() {

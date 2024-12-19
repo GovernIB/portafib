@@ -50,7 +50,8 @@ paths:
       summary: Retorna la versió de PortaFIB REST
       tags:
       - InfoVersio v1
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /public/infoversio/v1/versioapp:
     get:
       operationId: versioApp
@@ -76,7 +77,8 @@ paths:
       summary: Retorna la versió de PortaFIB
       tags:
       - InfoVersio v1
-      x-accepts: application/json
+      x-accepts:
+      - application/json
 components:
   schemas:
     InfoVersio:

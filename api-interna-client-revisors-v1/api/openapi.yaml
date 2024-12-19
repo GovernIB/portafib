@@ -84,7 +84,8 @@ paths:
         Destinatari
       tags:
       - Revisors v1
-      x-accepts: application/json
+      x-accepts:
+      - application/json
 components:
   schemas:
     BasicUserInfo:

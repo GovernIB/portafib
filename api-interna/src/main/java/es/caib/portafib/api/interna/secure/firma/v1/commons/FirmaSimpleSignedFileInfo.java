@@ -4,6 +4,7 @@ import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleC
 import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleSignerInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleValidationInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 @Schema(description = "Informació del fitxer signat.")
 public class FirmaSimpleSignedFileInfo {
@@ -92,7 +93,7 @@ public class FirmaSimpleSignedFileInfo {
     @Schema(
             description = "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma (2).",
             example = "1",
-            required = true)
+             requiredMode = RequiredMode.REQUIRED)
     protected int signOperation;
 
     @Schema(
@@ -105,14 +106,14 @@ public class FirmaSimpleSignedFileInfo {
                     + "    - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\n"
                     + "    - “PKCS#1” (Constant SIGN_TYPE_PKCS1)",
             example = "PAdES",
-            required = true)
+             requiredMode = RequiredMode.REQUIRED)
     protected String signType;
 
     @Schema(
             description = "Algorisme de Firma. Valors: \r\n" + "    - \"SHA-1\"\r\n" + "    - \"SHA-256\"\r\n"
                     + "    - \"SHA-384\"\r\n" + "    - \"SHA-512\"",
             example = "SHA-1",
-            required = true)
+             requiredMode = RequiredMode.REQUIRED)
     protected String signAlgorithm;
 
     @Schema(
@@ -120,24 +121,24 @@ public class FirmaSimpleSignedFileInfo {
                     + "    - 0: Implicit o Attached. La firma resultante incluye internamente una copia de los datos firmados. \r\n"
                     + "    - 1: Explicit o Detached: La firma resultante no incluye los datos firmados. ",
             example = "0",
-            required = true)
+             requiredMode = RequiredMode.REQUIRED)
     protected Integer signMode;
 
     @Schema(
             description = "Posició de la Taula de firmes:\r\n" + "    - 0: Sense taula de firmes\r\n"
                     + "    - 1: Taula de firmes en la 1a pàgina\r\n" + "    - -1: Darrera pàgina",
             example = "1",
-            required = true)
+             requiredMode = RequiredMode.REQUIRED)
     protected int signaturesTableLocation;
 
-    @Schema(description = "Indica si s'ha afegit un segell de Temps durant la firma", example = "True", required = true)
+    @Schema(description = "Indica si s'ha afegit un segell de Temps durant la firma", example = "True",  requiredMode = RequiredMode.REQUIRED)
     protected boolean timeStampIncluded;
 
     // BES o EPES
     @Schema(
             description = "Indica si inclou política de firma (true, EPES) o no (false)",
             example = "True",
-            required = true)
+             requiredMode = RequiredMode.REQUIRED)
     protected boolean policyIncluded;
 
     /**
@@ -164,7 +165,7 @@ public class FirmaSimpleSignedFileInfo {
                     + "    - TF05 – CadES attached/implicit signature.\r\n"
                     + "    - TF06 - PAdES. El tipo TF04 será establecido por defecto para documentos firmados, exceptuando los documentos en formato PDF o PDF/A, cuyo tipo será TF06.",
             example = "TF01",
-            required = false)
+            requiredMode = RequiredMode.NOT_REQUIRED)
     protected String eniTipoFirma;
 
     /**
@@ -181,22 +182,22 @@ public class FirmaSimpleSignedFileInfo {
                     + "  AdES-X1\r\n" + "  AdES-X2\r\n" + "  AdES-XL\r\n" + "  AdES-XL1\r\n" + "  AdES-XL2\r\n"
                     + "  AdES-A\r\n" + "  PAdES-LTV\r\n" + "  PAdES-Basic",
             example = "AdES-BES",
-            required = false)
+            requiredMode = RequiredMode.NOT_REQUIRED)
     protected String eniPerfilFirma;
 
-    @Schema(description = "Informació del signant", required = false)
+    @Schema(description = "Informació del signant", requiredMode = RequiredMode.NOT_REQUIRED)
     protected FirmaSimpleSignerInfo signerInfo;
 
     /**
      * Informacio de Custòdia
      */
-    @Schema(description = "Informació de Custòdia", required = false)
+    @Schema(description = "Informació de Custòdia", requiredMode = RequiredMode.NOT_REQUIRED)
     protected FirmaSimpleCustodyInfo custodyInfo = null;
 
     /**
      * Informació de les validacions realitzades
      */
-    @Schema(description = "Informació de les validacions realitzades despres de la firma.", required = false)
+    @Schema(description = "Informació de les validacions realitzades despres de la firma.", requiredMode = RequiredMode.NOT_REQUIRED)
     protected FirmaSimpleValidationInfo validationInfo = null;
 
     public FirmaSimpleSignedFileInfo() {

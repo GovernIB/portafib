@@ -3,6 +3,7 @@ package es.caib.portafib.api.interna.secure.firma.v1.commons;
 import es.caib.portafib.commons.utils.Constants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.AccessMode;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 public class FirmaSimpleStatus {
 
@@ -29,7 +30,7 @@ public class FirmaSimpleStatus {
             nullable = false,
             defaultValue = "" + Constants.STATUS_INITIALIZING,
             implementation = Integer.class,
-            required = true,
+            requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
     public final int STATUS_INITIALIZING = Constants.STATUS_INITIALIZING;
 
@@ -38,7 +39,7 @@ public class FirmaSimpleStatus {
             nullable = false,
             defaultValue = "" + Constants.STATUS_IN_PROGRESS,
             implementation = Integer.class,
-            required = true,
+            requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
     public final int STATUS_IN_PROGRESS = Constants.STATUS_IN_PROGRESS;
 
@@ -47,7 +48,7 @@ public class FirmaSimpleStatus {
             nullable = false,
             defaultValue = "" + Constants.STATUS_FINAL_OK,
             implementation = Integer.class,
-            required = true,
+            requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
     public final int STATUS_FINAL_OK = Constants.STATUS_FINAL_OK;
 
@@ -56,7 +57,7 @@ public class FirmaSimpleStatus {
             nullable = false,
             defaultValue = "" + Constants.STATUS_FINAL_ERROR,
             implementation = Integer.class,
-            required = true,
+            requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
     public final int STATUS_FINAL_ERROR = Constants.STATUS_FINAL_ERROR;
 
@@ -65,7 +66,7 @@ public class FirmaSimpleStatus {
             nullable = false,
             defaultValue = "" + Constants.STATUS_CANCELLED,
             implementation = Integer.class,
-            required = true,
+            requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
     public final int STATUS_CANCELLED = Constants.STATUS_CANCELLED;
 

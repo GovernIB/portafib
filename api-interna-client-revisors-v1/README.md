@@ -4,6 +4,8 @@ API Interna de PortaFIB de consulta de Revisors d&#39;un destinatari
 
 - API version: 1.0-SNAPSHOT
 
+- Generator version: 7.10.0
+
 Conjunt de Serveis REST de PortaFIB per atendre consultes sobre REVISORS d'un destinatari.
 
   For more information, please visit [http://governdigital.fundaciobit.org](http://governdigital.fundaciobit.org)

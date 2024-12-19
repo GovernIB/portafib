@@ -6,13 +6,14 @@ import java.util.List;
 
 import es.caib.portafib.api.interna.secure.firma.v1.commons.KeyValue;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 
  * @author anadal(u80067)
  *
  */
-@Schema(description = "Informació del signant", required = true)
+@Schema(description = "Informació del signant",  requiredMode = RequiredMode.REQUIRED)
 public class FirmaSimpleSignerInfo {
 
     /**
@@ -22,7 +23,7 @@ public class FirmaSimpleSignerInfo {
      */
     @Schema(
             description = "Esquemas desarrollados a nivel local y que pueden incluir valores como válida, autentica, refrenda, visa, representa, testimonia, etc..",
-            required = false)
+            requiredMode = RequiredMode.NOT_REQUIRED)
     protected String eniRolFirma;
 
     /**
@@ -30,13 +31,13 @@ public class FirmaSimpleSignerInfo {
      * razón social de los firmantes.
      */
 
-    @Schema(description = "Nombre o razón social de los firmantes.", required = false)
+    @Schema(description = "Nombre o razón social de los firmantes.", requiredMode = RequiredMode.NOT_REQUIRED)
     protected String eniSignerName;
 
     /**
      * eEMGDE.Firma.Firmante (eEMGDE17.5.2). Número Identificacion Firmantes (NIF)
      */
-    @Schema(description = "NIF del firmant.", required = false)
+    @Schema(description = "NIF del firmant.", requiredMode = RequiredMode.NOT_REQUIRED)
     protected String eniSignerAdministrationId;
 
     /**
@@ -50,18 +51,18 @@ public class FirmaSimpleSignerInfo {
             description = "Indicador normalizado que refleja el grado de  confianza de la firma utilizado. "
                     + "Ejemplos: Nick, PIN ciudadano, Firma electrónica avanzada, Claves concertadas, "
                     + "Firma electrónica avanzada basada en certificados, CSV, ..",
-            required = false)
+            requiredMode = RequiredMode.NOT_REQUIRED)
     protected String eniSignLevel;
-    @Schema(description = "Data en que es va realitzar la firma", required = false)
+    @Schema(description = "Data en que es va realitzar la firma", requiredMode = RequiredMode.NOT_REQUIRED)
     protected Date signDate;
 
-    @Schema(description = "Número de Sèrie del Certificat utilitzat en la firma", required = false)
+    @Schema(description = "Número de Sèrie del Certificat utilitzat en la firma", requiredMode = RequiredMode.NOT_REQUIRED)
     protected String serialNumberCert;
 
-    @Schema(description = "Issuer del Certificat utilitzat en la firma", required = false)
+    @Schema(description = "Issuer del Certificat utilitzat en la firma", requiredMode = RequiredMode.NOT_REQUIRED)
     protected String issuerCert;
 
-    @Schema(description = "Subject del Certificat utilitzat en la firma", required = false)
+    @Schema(description = "Subject del Certificat utilitzat en la firma", requiredMode = RequiredMode.NOT_REQUIRED)
     protected String subjectCert;
 
     /**
@@ -69,7 +70,7 @@ public class FirmaSimpleSignerInfo {
      * información que se considere útil acerca del firmante.
      */
     
-    @Schema(description = "Ofrecer cualquier otra información que se  considere útil acerca del firmante.", required = false)
+    @Schema(description = "Ofrecer cualquier otra información que se  considere útil acerca del firmante.", requiredMode = RequiredMode.NOT_REQUIRED)
     protected List<KeyValue> additionalInformation = null;
 
     public FirmaSimpleSignerInfo() {

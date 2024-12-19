@@ -141,13 +141,13 @@ public class RevisorsService extends RestUtils {
             @Parameter(
                     name = "administrationID",
                     description = "DNI del destinatari del qual volen els revisors associats. Opcional.",
-                    required = false,
+                            required = false,
                     in = ParameterIn.QUERY,
                     schema = @Schema(implementation = String.class)) @QueryParam("administrationID") String dni,
             @Parameter(
                     name = "languageUI",
                     description = "Idioma en que s'enviaran els missatges d'error",
-                    required = false,
+                            required = false,
                     example = "ca",
                     in = ParameterIn.QUERY,
                     schema = @Schema(implementation = String.class)) @Pattern(regexp = "^|ca|es$") @QueryParam("languageUI") String languageUI,

@@ -1,13 +1,14 @@
 package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 @Schema(description = "Objecte per afegir informació addicional sobre la firma o el firmant")
 public class KeyValue {
 
-    @Schema(description = "Clau del valor", required = true)
+    @Schema(description = "Clau del valor",  requiredMode = RequiredMode.REQUIRED)
     protected String key;
-    @Schema(description = "Valor de la clau", required = true)
+    @Schema(description = "Valor de la clau",  requiredMode = RequiredMode.REQUIRED)
     protected String value;
 
     /**

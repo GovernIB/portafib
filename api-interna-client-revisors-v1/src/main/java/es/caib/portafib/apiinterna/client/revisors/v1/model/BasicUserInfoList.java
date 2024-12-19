@@ -33,15 +33,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   BasicUserInfoList.JSON_PROPERTY_DATA
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class BasicUserInfoList {
   public static final String JSON_PROPERTY_DATA = "data";
-  private List<BasicUserInfo> data;
+  @javax.annotation.Nullable
+  private List<BasicUserInfo> data = new ArrayList<>();
 
   public BasicUserInfoList() {
   }
 
-  public BasicUserInfoList data(List<BasicUserInfo> data) {
+  public BasicUserInfoList data(@javax.annotation.Nullable List<BasicUserInfo> data) {
     
     this.data = data;
     return this;
@@ -55,10 +56,10 @@ public class BasicUserInfoList {
     return this;
   }
 
-   /**
+  /**
    * Elements retornats. Pot retornar un null o una llista buida si no hi ha elements.
    * @return data
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -70,7 +71,7 @@ public class BasicUserInfoList {
 
   @JsonProperty(JSON_PROPERTY_DATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setData(List<BasicUserInfo> data) {
+  public void setData(@javax.annotation.Nullable List<BasicUserInfo> data) {
     this.data = data;
   }
 

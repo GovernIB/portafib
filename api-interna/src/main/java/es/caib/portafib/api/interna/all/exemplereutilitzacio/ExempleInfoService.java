@@ -57,14 +57,14 @@ public class ExempleInfoService extends RestUtils {
 
     // TODO Canviar pel nom corresponent
     public static final String TAG_NAME = "ExempleServei";
-    
+
     @Path("/exempleconsultapaginada")
     @GET
     // Descomentar aquest codi si es vol securitzar el servei
     /*
     @RolesAllowed({ LLISTA DE ROLS ENTRE COMETES SEPARATS PER COMES })
     @SecurityRequirement(name = SECURITY_NAME)
-     */    
+     */
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(tags = TAG_NAME, operationId = "consultapaginada", summary = "Retorna informació d'exemple paginada")
     @ApiResponses(
@@ -99,13 +99,13 @@ public class ExempleInfoService extends RestUtils {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
                                     schema = @Schema(implementation = RestExceptionInfo.class))) })
-    public LlistaDeExempleInfoPaginada consultaPaginada(
-            @Parameter(
-                    name = "name",
-                    description = "Filtre pel Nom de l'objecte ExempleInfo. Opcional.",
-                    required = false,
-                    in = ParameterIn.QUERY,
-                    schema = @Schema(implementation = String.class)) @QueryParam("name") String name,
+    public LlistaDeExempleInfoPaginada consultaPaginada(@Parameter(
+            name = "name",
+            description = "Filtre pel Nom de l'objecte ExempleInfo. Opcional.",
+            required = false,
+            in = ParameterIn.QUERY,
+            schema = @Schema(implementation = String.class)) @QueryParam("name")
+    String name,
             @Parameter(
                     name = "startdate",
                     description = "Filtre Data d'inici de la consulta. Opcional. Format yyyy-MM-dd (ISO 8601)",
@@ -114,7 +114,8 @@ public class ExempleInfoService extends RestUtils {
                     in = ParameterIn.QUERY,
                     schema = @Schema(
                             implementation = String.class,
-                            pattern = DATE_PATTERN_ISO8601_ONLYDATE)) @QueryParam("startdate") String startdate,
+                            pattern = DATE_PATTERN_ISO8601_ONLYDATE)) @QueryParam("startdate")
+            String startdate,
 
             @Parameter(
                     name = "enddate",
@@ -124,13 +125,15 @@ public class ExempleInfoService extends RestUtils {
                     in = ParameterIn.QUERY,
                     schema = @Schema(
                             implementation = String.class,
-                            pattern = DATE_PATTERN_ISO8601_ONLYDATE)) @QueryParam("enddate") String enddate,
+                            pattern = DATE_PATTERN_ISO8601_ONLYDATE)) @QueryParam("enddate")
+            String enddate,
             @Parameter(
                     name = "page",
                     description = "Numero de pàgina quan el llistat és paginat. Opcional. Per defecte 1.",
                     required = false,
                     in = ParameterIn.QUERY,
-                    schema = @Schema(implementation = Integer.class)) @QueryParam("page") Integer page,
+                    schema = @Schema(implementation = Integer.class)) @QueryParam("page")
+            Integer page,
 
             @Parameter(
                     name = "page-size",
@@ -138,7 +141,8 @@ public class ExempleInfoService extends RestUtils {
                             + DEFAULT_ITEMS_PER_PAGE,
                     required = false,
                     in = ParameterIn.QUERY,
-                    schema = @Schema(implementation = Integer.class)) @QueryParam("page-size") Integer pageSize,
+                    schema = @Schema(implementation = Integer.class)) @QueryParam("page-size")
+            Integer pageSize,
 
             @Parameter(
                     name = "language",
@@ -147,11 +151,11 @@ public class ExempleInfoService extends RestUtils {
                     required = false,
                     examples = { @ExampleObject(name = "Català", value = "ca"),
                             @ExampleObject(name = "Castellano", value = "es") },
-                    schema = @Schema(
-                            defaultValue = "ca",
-                            implementation = String.class)) @QueryParam("language") String language,
+                    schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("language")
+            String language,
 
-            @Parameter(hidden = true) @Context HttpServletRequest request) throws RestException {
+            @Parameter(hidden = true) @Context
+            HttpServletRequest request) throws RestException {
 
         // Check de page i pagesize
         if (page == null || page <= 0) {
@@ -264,13 +268,13 @@ public class ExempleInfoService extends RestUtils {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
                                     schema = @Schema(implementation = RestExceptionInfo.class))) })
-    public LlistaDeExempleInfoCompleta consultaCompleta(
-            @Parameter(
-                    name = "name",
-                    description = "Filtre pel Nom de l'objecte ExempleInfo. Opcional.",
-                    required = false,
-                    in = ParameterIn.QUERY,
-                    schema = @Schema(implementation = String.class)) @QueryParam("name") String name,
+    public LlistaDeExempleInfoCompleta consultaCompleta(@Parameter(
+            name = "name",
+            description = "Filtre pel Nom de l'objecte ExempleInfo. Opcional.",
+            required = false,
+            in = ParameterIn.QUERY,
+            schema = @Schema(implementation = String.class)) @QueryParam("name")
+    String name,
             @Parameter(
                     name = "startdate",
                     description = "Filtre Data d'inici de la consulta. Opcional. Format yyyy-MM-dd (ISO 8601)",
@@ -279,7 +283,8 @@ public class ExempleInfoService extends RestUtils {
                     in = ParameterIn.QUERY,
                     schema = @Schema(
                             implementation = String.class,
-                            pattern = DATE_PATTERN_ISO8601_ONLYDATE)) @QueryParam("startdate") String startdate,
+                            pattern = DATE_PATTERN_ISO8601_ONLYDATE)) @QueryParam("startdate")
+            String startdate,
 
             @Parameter(
                     name = "enddate",
@@ -289,7 +294,8 @@ public class ExempleInfoService extends RestUtils {
                     in = ParameterIn.QUERY,
                     schema = @Schema(
                             implementation = String.class,
-                            pattern = DATE_PATTERN_ISO8601_ONLYDATE)) @QueryParam("enddate") String enddate,
+                            pattern = DATE_PATTERN_ISO8601_ONLYDATE)) @QueryParam("enddate")
+            String enddate,
             @Parameter(
                     name = "language",
                     description = "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
@@ -297,11 +303,11 @@ public class ExempleInfoService extends RestUtils {
                     required = false,
                     examples = { @ExampleObject(name = "Català", value = "ca"),
                             @ExampleObject(name = "Castellano", value = "es") },
-                    schema = @Schema(
-                            defaultValue = "ca",
-                            implementation = String.class)) @QueryParam("language") String language,
+                    schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("language")
+            String language,
 
-            @Parameter(hidden = true) @Context HttpServletRequest request) throws RestException {
+            @Parameter(hidden = true) @Context
+            HttpServletRequest request) throws RestException {
 
         // Check de language
         if (language == null || language.trim().length() == 0) {

@@ -1,75 +1,86 @@
 package es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 
  * @author anadal
  *
  */
-@Schema(description = "Informació de les validacions realitzades despres de la firma.", required = false)
+@Schema(
+        description = "Informació de les validacions realitzades despres de la firma.",
+        requiredMode = RequiredMode.NOT_REQUIRED)
 public class FirmaSimpleValidationInfo {
-    
-    @Schema(description = "S’ha verificat que l’identificador del firmant és la del que estava "
-            + "previst que firmàs. Valor buit indica que no s'ha realitzat la validació.", required = false)
-	protected Boolean checkAdministrationIDOfSigner;
 
-    @Schema(description = "S’ha verificat que no s’hagi modificat el document original."
-            + " Valor buit indica que no s'ha realitzat la validació.", required = false)
-	protected Boolean checkDocumentModifications;
+    @Schema(
+            description = "S’ha verificat que l’identificador del firmant és la del que estava "
+                    + "previst que firmàs. Valor buit indica que no s'ha realitzat la validació.",
+            requiredMode = RequiredMode.NOT_REQUIRED)
+    protected Boolean checkAdministrationIDOfSigner;
 
-    @Schema(description = "S’ha verificat que la firma és correcte. Valor buit indica que no s'ha realitzat la validació.", required = false)
-	protected Boolean checkValidationSignature;
+    @Schema(
+            description = "S’ha verificat que no s’hagi modificat el document original."
+                    + " Valor buit indica que no s'ha realitzat la validació.",
+            requiredMode = RequiredMode.NOT_REQUIRED)
+    protected Boolean checkDocumentModifications;
 
-	/**
-	 * Només s'omple si checkValidationSignature val false
-	 */
-    @Schema(description = "Només s'omple si checkValidationSignature val false", required = false)
-	protected String noCheckValidationReason;
+    @Schema(
+            description = "S’ha verificat que la firma és correcte. Valor buit indica que no s'ha realitzat la validació.",
+            requiredMode = RequiredMode.NOT_REQUIRED)
+    protected Boolean checkValidationSignature;
 
-	public FirmaSimpleValidationInfo() {
-		super();
-	}
+    /**
+     * Només s'omple si checkValidationSignature val false
+     */
+    @Schema(
+            description = "Només s'omple si checkValidationSignature val false",
+            requiredMode = RequiredMode.NOT_REQUIRED)
+    protected String noCheckValidationReason;
 
-	public FirmaSimpleValidationInfo(Boolean checkAdministrationIDOfSigner, Boolean checkDocumentModifications,
-			Boolean checkValidationSignature, String noCheckValidationReason) {
-		super();
-		this.checkAdministrationIDOfSigner = checkAdministrationIDOfSigner;
-		this.checkDocumentModifications = checkDocumentModifications;
-		this.checkValidationSignature = checkValidationSignature;
-		this.noCheckValidationReason = noCheckValidationReason;
-	}
+    public FirmaSimpleValidationInfo() {
+        super();
+    }
 
-	public Boolean getCheckAdministrationIDOfSigner() {
-		return checkAdministrationIDOfSigner;
-	}
+    public FirmaSimpleValidationInfo(Boolean checkAdministrationIDOfSigner, Boolean checkDocumentModifications,
+            Boolean checkValidationSignature, String noCheckValidationReason) {
+        super();
+        this.checkAdministrationIDOfSigner = checkAdministrationIDOfSigner;
+        this.checkDocumentModifications = checkDocumentModifications;
+        this.checkValidationSignature = checkValidationSignature;
+        this.noCheckValidationReason = noCheckValidationReason;
+    }
 
-	public void setCheckAdministrationIDOfSigner(Boolean checkAdministrationIDOfSigner) {
-		this.checkAdministrationIDOfSigner = checkAdministrationIDOfSigner;
-	}
+    public Boolean getCheckAdministrationIDOfSigner() {
+        return checkAdministrationIDOfSigner;
+    }
 
-	public Boolean getCheckDocumentModifications() {
-		return checkDocumentModifications;
-	}
+    public void setCheckAdministrationIDOfSigner(Boolean checkAdministrationIDOfSigner) {
+        this.checkAdministrationIDOfSigner = checkAdministrationIDOfSigner;
+    }
 
-	public void setCheckDocumentModifications(Boolean checkDocumentModifications) {
-		this.checkDocumentModifications = checkDocumentModifications;
-	}
+    public Boolean getCheckDocumentModifications() {
+        return checkDocumentModifications;
+    }
 
-	public Boolean getCheckValidationSignature() {
-		return checkValidationSignature;
-	}
+    public void setCheckDocumentModifications(Boolean checkDocumentModifications) {
+        this.checkDocumentModifications = checkDocumentModifications;
+    }
 
-	public void setCheckValidationSignature(Boolean checkValidationSignature) {
-		this.checkValidationSignature = checkValidationSignature;
-	}
+    public Boolean getCheckValidationSignature() {
+        return checkValidationSignature;
+    }
 
-	public String getNoCheckValidationReason() {
-		return noCheckValidationReason;
-	}
+    public void setCheckValidationSignature(Boolean checkValidationSignature) {
+        this.checkValidationSignature = checkValidationSignature;
+    }
 
-	public void setNoCheckValidationReason(String noCheckValidationReason) {
-		this.noCheckValidationReason = noCheckValidationReason;
-	}
+    public String getNoCheckValidationReason() {
+        return noCheckValidationReason;
+    }
+
+    public void setNoCheckValidationReason(String noCheckValidationReason) {
+        this.noCheckValidationReason = noCheckValidationReason;
+    }
 
 }

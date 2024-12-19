@@ -63,7 +63,7 @@ public class ExemplePublicService {
 
             @Parameter(
                     description = "Codi de l'idioma",
-                    required = false,
+                            required = false,
                     example = "ca",
                     schema = @Schema(implementation = String.class)) @Pattern(regexp = "^ca|es$") @QueryParam("idioma")
             String idioma) {

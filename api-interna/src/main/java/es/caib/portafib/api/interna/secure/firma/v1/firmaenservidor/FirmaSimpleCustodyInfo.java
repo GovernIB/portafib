@@ -1,6 +1,7 @@
 package es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 
@@ -10,47 +11,47 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Informació de Custòdia")
 public class FirmaSimpleCustodyInfo {
     
-    @Schema(description = "Identificador del sistema de custòdia", required = true)
+    @Schema(description = "Identificador del sistema de custòdia",  requiredMode = RequiredMode.REQUIRED)
 	protected String custodyID = null;
 
 	// String getCsv
 	/** eEMGDE.Firma.FormatoFirma.ValorCSV (eEMGDE17.3) */
-    @Schema(description = "URL on descarregar directament el fitxer signat", required = false)
+    @Schema(description = "URL on descarregar directament el fitxer signat", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected String csv;
 
 	// String getCsvValidationWeb
-    @Schema(description = "Codi Segur de Validació d'aquest document custodiat.", required = false)
+    @Schema(description = "Codi Segur de Validació d'aquest document custodiat.", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected String csvValidationWeb;
 
 	// String getValidationFileUrl
-    @Schema(description = "URL on descarregar-se la definició de com es genera el CSV", required = false)
+    @Schema(description = "URL on descarregar-se la definició de com es genera el CSV", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected String validationFileUrl;
 
 	// getCsvGenerationDefinition
 	/**
 	 * eEMGDE.DefinicionGeneracionCSV (eEMGDE17.4):
 	 */
-    @Schema(description = "Pàgina web on validar el document, normalment a partir de CSV", required = false)
+    @Schema(description = "Pàgina web on validar el document, normalment a partir de CSV", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected String csvGenerationDefinition;
 
 	// String getOriginalFileUrl
-    @Schema(description = "URL al document original", required = false)
+    @Schema(description = "URL al document original", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected String originalFileDirectURL; //
 
 	// String getPrintableFileUrl
-    @Schema(description = "URL al document en format per imprimir", required = false)
+    @Schema(description = "URL al document en format per imprimir", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected String printableFileDirectUrl;
 
 	// String getEniFileUrl
-    @Schema(description = "Url al eni File", required = false)
+    @Schema(description = "Url al eni File", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected String eniFileDirectUrl;
 
 	// Futura Integració amb Api d'Arxiu
-    @Schema(description = "Id del expedient si és un expedient o esta relacionat amb un expedient.", required = false)
+    @Schema(description = "Id del expedient si és un expedient o esta relacionat amb un expedient.", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected String expedientID = null;
 
 	// Futura Integració amb Api d'Arxiu
-    @Schema(description = "Id del document a signar", required = false)
+    @Schema(description = "Id del document a signar", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected String documentID = null;
 
 	public FirmaSimpleCustodyInfo() {

@@ -6,26 +6,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 // TODO A modificar pel Desenvolupador. Adaptar a les dades que hagi de tornar.
 @JsonPropertyOrder({ "itemID", "nom", "valor", "data" })
 @Schema(description = "Model de dades de Informació bàsica a retornar.")
 public class ExempleInfo {
 
-    @Schema(required = true, description = "Identificador intern de l'objecte")
+    @Schema(requiredMode = RequiredMode.REQUIRED, description = "Identificador intern de l'objecte")
     @JsonProperty("itemID")
     protected long itemID;
 
-    @Schema(required = true, description = "Nom de l'entrada")
+    @Schema(requiredMode = RequiredMode.REQUIRED, description = "Nom de l'entrada")
     @JsonProperty("name")
     protected String nom;
 
-    @Schema(required = false, description = "Valor de l'entrada")
+    @Schema( requiredMode = RequiredMode.NOT_REQUIRED, description = "Valor de l'entrada")
     @JsonProperty("value")
     protected String valor;
 
     @Schema(
-            required = true,
+            requiredMode = RequiredMode.REQUIRED,
             description = "Data en que es va fer crear aquest element",
             type = "string",
             format = "date-time",

@@ -1,6 +1,7 @@
 package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 
@@ -10,14 +11,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Objecte que representa un Document/Fitxer")
 public class FirmaSimpleFile {
 
-    @Schema(description = "Nom del fitxer.", required = true)
+    @Schema(description = "Nom del fitxer.", requiredMode = RequiredMode.REQUIRED)
     protected java.lang.String nom;
-    @Schema(description = "Tipus mime del fitxer.", required = false, type = "string")
+    @Schema(description = "Tipus mime del fitxer.",  requiredMode = RequiredMode.NOT_REQUIRED, type = "string")
     protected java.lang.String mime;
 
     @Schema(
             description = "Contingut del fitxer. En llistats aquest camp vendrà buit.",
-            required = false,
+             requiredMode = RequiredMode.NOT_REQUIRED,
             type = "string",
             format = "byte")
     protected byte[] data;

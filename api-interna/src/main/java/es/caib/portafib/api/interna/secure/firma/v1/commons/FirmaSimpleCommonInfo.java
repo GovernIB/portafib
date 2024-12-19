@@ -1,30 +1,31 @@
 package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 @Schema(description = "Configuracions generals de firma i identificacio del solicitant i solicitat")
 public class FirmaSimpleCommonInfo {
 
 	// Perfil de Firma definit en el servidor intermig
-    @Schema(description = "Identificador único del usuario", example = "PROFILE_PADES", required = false)
+    @Schema(description = "Identificador único del usuario", example = "PROFILE_PADES", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected String signProfile;
 
-    @Schema(description = "Idioma en que retornar valors i missatges d'error", example = "ca", required = true)
+    @Schema(description = "Idioma en que retornar valors i missatges d'error", example = "ca",  requiredMode = RequiredMode.REQUIRED)
 	protected String languageUI;
     
     @Schema(description = " - FIRMA WEB: Requerit. És el codi d'usuari dins l'entitat. Per exemple en entorn CAIB serien els \"u800xx\" o \"u[DNI]\"\r\n"
-            + " -FIRMA EN SERVIDOR: Opcional. Es reconama que valgui null a no ser que l'administrador digui el contrari. És la configuració de firma en el sistema específic de firma. Per exemple amb el Plugin de @firma federat et pots connectar amb un usuari-password però aquest pot tenir diverses configuracions per fer firmes en servidor o àlies: \"username\" s'utilitza de definir aquesta configuració o àlies.", example = "\"u800xx\" / \"u[DNI]\"", required = false)
+            + " -FIRMA EN SERVIDOR: Opcional. Es reconama que valgui null a no ser que l'administrador digui el contrari. És la configuració de firma en el sistema específic de firma. Per exemple amb el Plugin de @firma federat et pots connectar amb un usuari-password però aquest pot tenir diverses configuracions per fer firmes en servidor o àlies: \"username\" s'utilitza de definir aquesta configuració o àlies.", example = "\"u800xx\" / \"u[DNI]\"", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected String username;
 
     @Schema(description = " - FIRMA WEB: Requerit. És el DNI de la persona signant. Si esta activa la validació dins PortaFIB llavors es valida que el DNI del Certificat sigui el mateix que aquest.\r\n"
-            + " - FIRMA EN SERVIDOR: Opcional. És el CIF o NIF associat al certificat en servidor. Si es defineix i si esta activa la validació dins PortaFIB llavors es valida que el DNI del Certificat sigui el mateix que aquest.", example = "99999999Z", required = true)
+            + " - FIRMA EN SERVIDOR: Opcional. És el CIF o NIF associat al certificat en servidor. Si es defineix i si esta activa la validació dins PortaFIB llavors es valida que el DNI del Certificat sigui el mateix que aquest.", example = "99999999Z",  requiredMode = RequiredMode.REQUIRED)
 	protected String administrationID;
 
-    @Schema(description = "Opcional. És el CIF de l'organització representada pel signant. Si esta activa la validació dins PortaFIB llavors es valida que el Certificat sigui un certificat de representant d'aquest CIF.", example = "B99999999", required = false)
+    @Schema(description = "Opcional. És el CIF de l'organització representada pel signant. Si esta activa la validació dins PortaFIB llavors es valida que el Certificat sigui un certificat de representant d'aquest CIF.", example = "B99999999", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected String organizationID;
     
     @Schema(description = " - FIRMA WEB: Opcional. Correu del Firmant. Per afegir a les dades de la firma.\r\n"
-            + " - FIRMA EN SERVIDOR: Opcional. Correu del departament que ordena la firma. Per afegir a les dades de la firma.", example = "correufirmant@entitat.org", required = false)
+            + " - FIRMA EN SERVIDOR: Opcional. Correu del departament que ordena la firma. Per afegir a les dades de la firma.", example = "correufirmant@entitat.org", requiredMode = RequiredMode.NOT_REQUIRED)
 	protected String signerEmail;
 
 	public FirmaSimpleCommonInfo() {

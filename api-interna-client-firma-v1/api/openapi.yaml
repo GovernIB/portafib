@@ -61,7 +61,8 @@ paths:
       tags:
       - Firma en Servidor v1
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /secure/firmaenservidor/v1/upgradeSignature:
     post:
       operationId: upgradeSignature
@@ -96,7 +97,8 @@ paths:
       tags:
       - Firma en Servidor v1
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /secure/firmaenservidor/v1/versio:
     get:
       operationId: versio
@@ -130,7 +132,8 @@ paths:
       summary: Retorna la versió d'aquest Servei
       tags:
       - Firma en Servidor v1
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /secure/utils/v1/getAvailableLanguages:
     get:
       operationId: getAvailableLanguages
@@ -176,7 +179,8 @@ paths:
       summary: Retorna els idiomes disponibles.
       tags:
       - Utils v1
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /secure/utils/v1/getAvailableProfiles:
     get:
       operationId: getAvailableProfiles
@@ -222,7 +226,8 @@ paths:
       summary: Retorna els perfils de firma.
       tags:
       - Utils v1
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /secure/utils/v1/tipusdocumentalslist:
     get:
       operationId: tipusdocumentalslist
@@ -276,7 +281,8 @@ paths:
       summary: Retorna la llista de tipus documentals disponibles.
       tags:
       - Utils v1
-      x-accepts: application/json
+      x-accepts:
+      - application/json
 components:
   schemas:
     FirmaSimpleCommonInfo:
