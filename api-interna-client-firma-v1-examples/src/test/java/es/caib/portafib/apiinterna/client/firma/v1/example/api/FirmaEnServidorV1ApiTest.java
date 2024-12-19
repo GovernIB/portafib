@@ -66,7 +66,7 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
     	try {
 			test.testSignDocument();
 
-			//test.testUpgradeSignaturePAdES();
+			test.testUpgradeSignaturePAdES();
 			
 		} catch (ApiException e) {
 			// TODO Auto-generated catch block
@@ -77,7 +77,6 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
         }
 	}
     
-	@Test
 	public void testSignDocument() throws ApiException {
 
 		FirmaEnServidorV1ApiTest firmaEnServidorV1ApiTest = new FirmaEnServidorV1ApiTest();
@@ -115,7 +114,6 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
 	}
 	
 	
-	@Test
     public void testSignatureServerPAdES() throws Exception, FileNotFoundException, IOException {
 
         Properties prop = getConfigProperties();
@@ -127,7 +125,7 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
             logErrorPerfilBuit(PROFILE_PADES_PROPERTY);
         }
 
-        FirmaSimpleFile fileToSign = getSimpleFileFromResource("test.pdf", "application/pdf");
+        FirmaSimpleFile fileToSign = getSimpleFileFromResource("src/test/resources/hola-test.pdf", "application/pdf");
 
         System.out.println(" PERFIL => " + perfil);
         System.out.println(" FILE NOM => " + fileToSign.getNom());
@@ -216,7 +214,7 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
 
                 System.err.println("  RESULT: OK");
                 FirmaSimpleFile fsf = fullResults.getSignedFile();
-                FileOutputStream fos = new FileOutputStream("testfiles/"+fsf.getNom());
+                FileOutputStream fos = new FileOutputStream(fsf.getNom());
                 fos.write(fsf.getData());
                 fos.flush();
                 fos.close();
@@ -240,7 +238,7 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
 	protected static Properties getConfigProperties() throws IOException, FileNotFoundException {
         Properties prop = new Properties();
 
-        prop.load(new FileInputStream(new File("./test.properties")));
+        prop.load(new FileInputStream(new File("./apifirmaenservidor.properties")));
         return prop;
     }
 	
@@ -265,13 +263,8 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
 	
 	public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String mime) throws Exception {
 		
-		//File fileToSign = new File("./testfiles/" + fileName);
-        InputStream is = new FileInputStream(new File("./src/test/resources/" + fileName));
+        InputStream is = new FileInputStream(new File(fileName));
         
-        //
-        //File tmp = File.createTempFile("testFile", fileName);
-        //tmp.deleteOnExit();
-
         ByteArrayOutputStream fos = new ByteArrayOutputStream();
         copyFileToOutputStream(is, fos);
 
@@ -285,13 +278,10 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
         return asf;
     }
 	
-	@Test
     public void testUpgradeSignaturePAdES() throws Exception, FileNotFoundException, IOException {
-
-        FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("/testfiles/signed_adaptat.pdf", "application/pdf");
+        FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("src/test/resources/hola-signed.pdf", "application/pdf");
 
         internalFullTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, null, "hola-signed-upgraded.pdf");
-
     }
 	
 	
@@ -353,10 +343,8 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
 	
 	private static void guardarFitxer(FirmaSimpleFile upgraded, String fileName)
             throws FileNotFoundException, IOException {
-        File parent = new File("results");
-        parent.mkdirs();
-
-        File f = new File(parent, fileName);
+        
+        File f = new File(fileName);
         FileOutputStream fos = new FileOutputStream(f);
         fos.write(upgraded.getData());
         fos.flush();

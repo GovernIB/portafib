@@ -44,11 +44,11 @@ public class UtilsV1ApiTest {
 		UtilsV1ApiTest utilsV1ApiTest = new UtilsV1ApiTest();
 		try {
 
-			//utilsV1ApiTest.callTipusDocumentalListTest();
+			utilsV1ApiTest.callTipusDocumentalListTest();
 
-			// utilsV1ApiTest.callPerfilsDeFirmaListTest();
+			utilsV1ApiTest.callPerfilsDeFirmaListTest();
 
-			// utilsV1ApiTest.callAvailableLanguagesTest();
+			utilsV1ApiTest.callAvailableLanguagesTest();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,7 +65,6 @@ public class UtilsV1ApiTest {
 		}
 	}
 
-	@Test
 	public void callTipusDocumentalListTest() {
 
 		String language = "ca";
@@ -76,7 +75,6 @@ public class UtilsV1ApiTest {
 		internalTestTipusDocumentalList(language, appuser, expectedError);
 	}
 
-	@Test
 	public void callPerfilsDeFirmaListTest() {
 
 		String language = "ca";
@@ -86,7 +84,6 @@ public class UtilsV1ApiTest {
 		internalTestPerfilsDeFirmaList(language, expectedError);
 	}
 
-	@Test
 	public void callAvailableLanguagesTest() {
 
 		String language = "ca";
@@ -183,7 +180,7 @@ public class UtilsV1ApiTest {
         System.out.println("----------------- GET PROPERTIES");
 
 		Properties prop = new Properties();
-		File f = new File("test.properties");
+		File f = new File("apifirmautils.properties");
 		if (!f.exists()) {
             System.out.println("----------------- PROPERTIES NOT FOUND");
 		    log.info("----------------- PROPERTIES NOT FOUND");
@@ -203,7 +200,7 @@ public class UtilsV1ApiTest {
 		client.setBasePath(basePath);
 		client.setUsername(username);
 		client.setPassword(password);
-
+		
 		UtilsV1Api api = new UtilsV1Api(client);
 		return api;
 	}

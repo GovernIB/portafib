@@ -1,9 +1,0 @@
-endpoint=http://localhost:8080/portafibapi/interna
-username=test_username
-password=test_password
-# Alias Opcional
-#alias=
-
-PROFILE_PADES=PROFILE_PADES
-PROFILE_XADES=PROFILE_XADES
-PROFILE_CADES=PROFILE_CADES

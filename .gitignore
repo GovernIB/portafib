@@ -269,3 +269,5 @@ api-interna-client-firma-v1/signed_adaptat.pdf
 api-interna-client-firma-v1/test .properties
 api-interna-client-firma-v1/test.properties
 api-interna-client-firma-v1-examples/test.properties
+api-interna-client-firma-v1-examples/apifirmaenservidor.properties
+api-interna-client-firma-v1-examples/apifirmautils.properties

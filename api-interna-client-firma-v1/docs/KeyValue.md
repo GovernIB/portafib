@@ -1,8 +1,8 @@
 
 
-# FirmaSimpleKeyValue
+# KeyValue
 
-Ofereix informació addicional sobre el firmant o la firma
+Objecte per afegir informació addicional sobre la firma o el firmant
 
 ## Properties
 
