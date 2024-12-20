@@ -11,7 +11,7 @@ public class FirmaSimpleSignatureStatus {
 
 	protected String signID;
 
-	FirmaSimpleStatus status;
+	protected FirmaSimpleStatus status;
 
 	/**
 	 * 

@@ -15,7 +15,6 @@ import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.logic.utils.ValidationsCAdES;
 import es.caib.portafib.logic.utils.ValidationsXAdES;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
-import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 import org.apache.commons.io.IOUtils;
@@ -446,6 +445,8 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                     log.debug("ValidacioCompleta::getCifEsperat(): " + validacioRequest.getCifEsperat());
                 }
 
+                final boolean doChecks;
+
                 if (nifFirmant == null) {
 
                     boolean isPseudonymCertificate;
@@ -460,18 +461,26 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                     if (isPseudonymCertificate) {
                         // Acceptam "barco" ja que no tenim els Pseudonim amb que comparar
                         checkAdministrationIDOfSigner = null;
+                        doChecks = false;
                     } else {
-                        final String codeError = "error.no_nif_en_certificat";
-                        if (Configuracio.isDesenvolupament()) {
-                            // Només mostram l'error pel LOG
-                            // TODO S'ha de crear un idioma per defecte dins configuracio
-                            log.error(I18NLogicUtils.tradueix(new Locale("ca"), codeError), new Exception());
+
+                        // Com a darrer recurs,miram si el Certificat té CIF i convertim el CIF en NIF
+                        if (cifFirmant != null) {
+                            nifFirmant = cifFirmant;
+                            doChecks = true;
                         } else {
+                            // No es pot comprovar que la persona que ha firmat sigui la que toca ja que no s´ha 
+                            // pogut extreure el NIF del certificat usat per firmar.
+                            final String codeError = "error.no_nif_en_certificat";
                             throw new I18NException(codeError);
                         }
                     }
 
                 } else {
+                    doChecks = true;
+                }
+
+                if (doChecks) {
 
                     LogicUtils.checkExpectedNif(nifFirmant, validacioRequest.getNifEsperat());
                     if (validacioRequest.getCifEsperat() != null) {
