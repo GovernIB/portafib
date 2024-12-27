@@ -1,5 +1,8 @@
 package es.caib.portafib.api.interna.secure.firma.v1.firmaweb;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+
 /**
  * 
  * @author anadal(u80067)
@@ -7,11 +10,22 @@ package es.caib.portafib.api.interna.secure.firma.v1.firmaweb;
  */
 
 public class FirmaSimpleDocumentTypeInformation {
-
+    @Schema(
+            description = "Identificador de Tipus Documental",
+            example = "",
+            requiredMode = RequiredMode.REQUIRED)
 	protected long documentType;
-
+    
+    @Schema(
+            description = "Nom del Tipus Documental",
+            example = "",
+            requiredMode = RequiredMode.REQUIRED)
 	protected String name;
-
+    
+    @Schema(
+            description = "Identificador de Tipus Documental associat als valors ENI",
+            example = "",
+            requiredMode = RequiredMode.REQUIRED)
 	protected long documentTypeBase;
 
 	/**

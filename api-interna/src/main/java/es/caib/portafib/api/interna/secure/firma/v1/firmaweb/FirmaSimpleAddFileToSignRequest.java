@@ -1,6 +1,8 @@
 package es.caib.portafib.api.interna.secure.firma.v1.firmaweb;
 
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFileInfoSignature;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 
@@ -9,14 +11,22 @@ import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFileInfoS
  */
 
 public class FirmaSimpleAddFileToSignRequest {
-
+    @Schema(
+            description = "Identificador de transacció",
+            example = "",
+            requiredMode = RequiredMode.REQUIRED)
 	String transactionID;
-
+    
+    @Schema(
+            description = "Document a signar i informació associada a la firma a realitzar",
+            example = "",
+            requiredMode = RequiredMode.REQUIRED)
 	FirmaSimpleFileInfoSignature fileInfoSignature;
 
 	/**
 	 *
 	 */
+	
 	public FirmaSimpleAddFileToSignRequest() {
 		super();
 	}

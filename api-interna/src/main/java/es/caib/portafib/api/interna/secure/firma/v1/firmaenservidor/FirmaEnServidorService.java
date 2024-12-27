@@ -73,6 +73,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -139,7 +140,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
                             mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(
                                     name = "upgradeSimpleSignDocumentRequest",
-                                    required = true,
+                                    requiredMode = RequiredMode.REQUIRED,
                                     implementation = FirmaSimpleUpgradeRequest.class))),
             summary = "Operacio de firma simple en servidor d'un document")
     @ApiResponses(
@@ -295,7 +296,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
                             mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(
                                     name = "firmaSimpleSignDocumentRequest",
-                                    required = true,
+                                    requiredMode = RequiredMode.REQUIRED,
                                     implementation = FirmaSimpleSignDocumentRequest.class))),
             summary = "Operacio de firma simple en servidor d'un document")
     @ApiResponses(
