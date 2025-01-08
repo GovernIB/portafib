@@ -8,7 +8,10 @@ import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsTimerLocal;
 import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.ProviderRegistration;
+import es.caib.portafib.back.utils.menuoptions.DiscoverMenuOptionAnnotations;
+import es.caib.portafib.back.utils.menuoptions.MenuOptionManager;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -197,6 +200,21 @@ public class InitServlet extends HttpServlet {
         } catch (Throwable th) {
             log.error("Error desconegut inicialitzant Timer d'enviament de Notificacions: " + th.getMessage(), th);
         }
+
+        // Inicialitzar sistema de menus
+        new Thread(
+        new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    MenuOptionManager.setDiscoverMenuOptionAnnotations(
+                            new DiscoverMenuOptionAnnotations(Constants.PORTAFIB_PROPERTY_BASE + "back.controller"));
+                } catch (Throwable th) {
+                    log.error("Error inicialitzant sistema de menus: " + th.getMessage(), th);
+                }
+            }
+        }).start();
+       
 
         // Mostrar Versió
         Version versio = StaticVersion.getVersion();

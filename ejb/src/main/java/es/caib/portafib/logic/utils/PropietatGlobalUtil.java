@@ -22,20 +22,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     public static final String PROPERTY_BYENTITY_AVISOS_FIRMES_PENDENTS_DIESABANS = PORTAFIB_PROPERTY_BASE
             + "avisosfirmespendents.diesabans";
 
-    /**
-    es.caib.portafib.compactmenuoptionsofaden
-    Nou a la versió 2.0.1 Opcional. Per defecte false. Per entorn CAIB sempre val true.
-    En entorn NO CAIB si val true indica que varies opcions del menú d’Administrador 
-    d’Entitat associades a Llistat de Peticions de Firma no es mostraran.
-    */
-    public static boolean compactMenuOptionsOfAdEn() {
-        if (Configuracio.isCAIB()) {
-            return true;
-        }
-        final String partialname = "compactmenuoptionsofaden";
-        Boolean val = getBoolean(partialname);
-        return (val == null) ? false : val;
-    }
 
     /**
      * Nou a 2.0.21. Opcional.

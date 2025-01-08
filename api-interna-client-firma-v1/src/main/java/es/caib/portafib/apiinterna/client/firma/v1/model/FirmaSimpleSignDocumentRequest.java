@@ -35,17 +35,17 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleSignDocumentRequest {
   public static final String JSON_PROPERTY_COMMON_INFO = "commonInfo";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private FirmaSimpleCommonInfo commonInfo;
 
   public static final String JSON_PROPERTY_FILE_INFO_SIGNATURE = "fileInfoSignature";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private FirmaSimpleFileInfoSignature fileInfoSignature;
 
   public FirmaSimpleSignDocumentRequest() {
   }
 
-  public FirmaSimpleSignDocumentRequest commonInfo(@javax.annotation.Nullable FirmaSimpleCommonInfo commonInfo) {
+  public FirmaSimpleSignDocumentRequest commonInfo(@javax.annotation.Nonnull FirmaSimpleCommonInfo commonInfo) {
     
     this.commonInfo = commonInfo;
     return this;
@@ -55,9 +55,9 @@ public class FirmaSimpleSignDocumentRequest {
    * Get commonInfo
    * @return commonInfo
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_COMMON_INFO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public FirmaSimpleCommonInfo getCommonInfo() {
     return commonInfo;
@@ -65,12 +65,12 @@ public class FirmaSimpleSignDocumentRequest {
 
 
   @JsonProperty(JSON_PROPERTY_COMMON_INFO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCommonInfo(@javax.annotation.Nullable FirmaSimpleCommonInfo commonInfo) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setCommonInfo(@javax.annotation.Nonnull FirmaSimpleCommonInfo commonInfo) {
     this.commonInfo = commonInfo;
   }
 
-  public FirmaSimpleSignDocumentRequest fileInfoSignature(@javax.annotation.Nullable FirmaSimpleFileInfoSignature fileInfoSignature) {
+  public FirmaSimpleSignDocumentRequest fileInfoSignature(@javax.annotation.Nonnull FirmaSimpleFileInfoSignature fileInfoSignature) {
     
     this.fileInfoSignature = fileInfoSignature;
     return this;
@@ -80,9 +80,9 @@ public class FirmaSimpleSignDocumentRequest {
    * Get fileInfoSignature
    * @return fileInfoSignature
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_FILE_INFO_SIGNATURE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public FirmaSimpleFileInfoSignature getFileInfoSignature() {
     return fileInfoSignature;
@@ -90,8 +90,8 @@ public class FirmaSimpleSignDocumentRequest {
 
 
   @JsonProperty(JSON_PROPERTY_FILE_INFO_SIGNATURE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFileInfoSignature(@javax.annotation.Nullable FirmaSimpleFileInfoSignature fileInfoSignature) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setFileInfoSignature(@javax.annotation.Nonnull FirmaSimpleFileInfoSignature fileInfoSignature) {
     this.fileInfoSignature = fileInfoSignature;
   }
 

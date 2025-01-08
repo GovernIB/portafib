@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.aden;
+package es.caib.portafib.back.controller.adapp;
 
 import es.caib.portafib.back.controller.AbstractPeticioDeFirmaController;
 import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
@@ -6,6 +6,7 @@ import es.caib.portafib.back.controller.webdb.UsuariAplicacioConfiguracioControl
 import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.menuoptions.MenuOption;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.UsuariAplicacioConfiguracioLogicaLocal;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
@@ -43,9 +44,11 @@ import java.util.Set;
  * @author areus
  */
 @Controller
-@RequestMapping(value = ConfiguracioDeFirmaAdenController.CONTEXT_WEB)
+@RequestMapping(value = ConfiguracioDeFirmaAdappController.CONTEXT_WEB)
 @SessionAttributes(types = { UsuariAplicacioConfiguracioForm.class, UsuariAplicacioConfiguracioFilterForm.class })
-public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfiguracioController {
+@MenuOption(group = ConstantsV2.ROLE_ADEN2, labelCode = UsuariAplicacioConfiguracioFields._TABLE_MODEL + "."
+        + UsuariAplicacioConfiguracioFields._TABLE_MODEL + ".plural",  order = 30)
+public class ConfiguracioDeFirmaAdappController extends UsuariAplicacioConfiguracioController {
 
     public static final String CONTEXT_WEB = "/aden/configdefirma";
 

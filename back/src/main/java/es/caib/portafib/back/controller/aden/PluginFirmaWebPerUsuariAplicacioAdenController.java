@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.aden;
 
+import es.caib.portafib.back.controller.adapp.GestioUsuariAplicacioAdappController;
 import es.caib.portafib.back.controller.webdb.PluginFirmaWebPerUsuariAplicacioController;
 import es.caib.portafib.back.form.webdb.PluginFirmaWebPerUsuariAplicacioFilterForm;
 import es.caib.portafib.back.form.webdb.PluginFirmaWebPerUsuariAplicacioForm;
@@ -45,10 +46,10 @@ import java.util.List;
         types = { PluginFirmaWebPerUsuariAplicacioForm.class, PluginFirmaWebPerUsuariAplicacioFilterForm.class })
 public class PluginFirmaWebPerUsuariAplicacioAdenController extends PluginFirmaWebPerUsuariAplicacioController {
 
-    static final String CONTEXT_WEB = "/aden/pluginFirmaWebPerUsuariAplicacio";
+    public static final String CONTEXT_WEB = "/aden/pluginFirmaWebPerUsuariAplicacio";
 
     /** Vista a la que botar si no està seleccioant un usuari aplicació */
-    private static final String NO_USUARIAPLICACIO_VIEW = GestioUsuariAplicacioAdenController.CONTEXTWEB + "/list";
+    private static final String NO_USUARIAPLICACIO_VIEW = GestioUsuariAplicacioAdappController.CONTEXTWEB + "/list";
 
     /** Atribut de sessió que emmagatzemarà l'id d'usuari aplicació del qual gestionam els seus plugins */
     private static final String SESSION_USUARIAPLICACIOID = "pluginFirmaWebPerUsuariAplicacioListAden_usuariAplicacioID";

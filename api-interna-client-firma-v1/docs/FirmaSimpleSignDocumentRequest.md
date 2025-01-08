@@ -7,8 +7,8 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**commonInfo** | [**FirmaSimpleCommonInfo**](FirmaSimpleCommonInfo.md) |  |  [optional] |
-|**fileInfoSignature** | [**FirmaSimpleFileInfoSignature**](FirmaSimpleFileInfoSignature.md) |  |  [optional] |
+|**commonInfo** | [**FirmaSimpleCommonInfo**](FirmaSimpleCommonInfo.md) |  |  |
+|**fileInfoSignature** | [**FirmaSimpleFileInfoSignature**](FirmaSimpleFileInfoSignature.md) |  |  |
 
 
 

@@ -41,6 +41,7 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
  */
 @Controller
 @RequestMapping(value = "/admin/gestiotipusdoc")
+@SessionAttributes(types = { TipusDocumentForm.class, TipusDocumentFilterForm.class })
 public class GestioTipusDocumentAdminController extends TipusDocumentController {
 
     @EJB(mappedName = UsuariAplicacioService.JNDI_NAME)

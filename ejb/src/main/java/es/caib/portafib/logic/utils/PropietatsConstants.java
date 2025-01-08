@@ -96,8 +96,8 @@ public class PropietatsConstants {
                     "Si val true indica que les validacions per tipus XAdES i CAdES s'han de fer si o si, i en el cas de no haver-hi validador, llavors llançar un error. Si val false i no hi ha validador per algun tipus de xequeig (validador de firma, de nif firmant  o de document original modificat) llavors es marcarà aquell xequeig a false però  no fallarà."),
             new Propietat(true, "es.caib.portafib.maxuploadsizeinbytes",
                     "Tamany màxim de pujada de fitxers en bytes. No definit significa sense límit."),
-            new Propietat(true, "es.caib.portafib.compactmenuoptionsofaden",
-                    "Nou a la versió 2.0.1. Opcional. Per defecte false. Per entorn CAIB sempre val true. En entorn NO CAIB si val true indica que varies opcions del menú d’Administrador d’Entitat associades a Llistat de Peticions de Firma no es mostraran."),
+            new Propietat(false, "es.caib.portafib.compactmenuoptionsofaden",
+                    "Deprecat a la 3.0.3. Nou a la versió 2.0.1. Opcional. Per defecte false. Per entorn CAIB sempre val true. En entorn NO CAIB si val true indica que varies opcions del menú d’Administrador d’Entitat associades a Llistat de Peticions de Firma no es mostraran."),
             new Propietat(true, "es.caib.portafib.dniPattern",
                     "Nou a la versió 2.0.21. Opcional. Llista de expressions regulars, separades per bots de línia que s'empraran per extreure el NIF/NIE de dins el serialNumber del Subject dels certificats. el NIF/NIE ha d'estar dins el primer grup. Exemple: \"^IDCES-([0-9]{8}[A-Z])$\", \"^PNOES-([0-9]{8}[A-Z])$\", \"^([0-9]{8}[A-Z])$\"")
 

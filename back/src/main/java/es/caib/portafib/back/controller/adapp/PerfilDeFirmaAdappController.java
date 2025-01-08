@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.aden;
+package es.caib.portafib.back.controller.adapp;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -25,7 +25,9 @@ import es.caib.portafib.back.controller.webdb.PerfilDeFirmaController;
 import es.caib.portafib.back.form.webdb.PerfilDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PerfilDeFirmaForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.menuoptions.MenuOption;
 import es.caib.portafib.persistence.PerfilDeFirmaJPA;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 import es.caib.portafib.model.fields.PerfilDeFirmaQueryPath;
 
@@ -35,9 +37,11 @@ import es.caib.portafib.model.fields.PerfilDeFirmaQueryPath;
  * @author areus
  */
 @Controller
-@RequestMapping(value = PerfilDeFirmaAdenController.CONTEXT_WEB)
+@RequestMapping(value = PerfilDeFirmaAdappController.CONTEXT_WEB)
 @SessionAttributes(types = { PerfilDeFirmaForm.class, PerfilDeFirmaFilterForm.class })
-public class PerfilDeFirmaAdenController extends PerfilDeFirmaController {
+@MenuOption(group = ConstantsV2.ROLE_ADEN2, labelCode = PerfilDeFirmaFields._TABLE_MODEL + "." + PerfilDeFirmaFields._TABLE_MODEL
++ ".plural", order = 20)
+public class PerfilDeFirmaAdappController extends PerfilDeFirmaController {
 
     public static final String CONTEXT_WEB = "/aden/perfildefirma";
 
@@ -117,7 +121,7 @@ public class PerfilDeFirmaAdenController extends PerfilDeFirmaController {
 
                 if (configuracions[i] != null) {
                     form.addAdditionalButton(new AdditionalButton("fas fa-info-circle", "Configuració " + (i + 1),
-                            ConfiguracioDeFirmaAdenController.CONTEXT_WEB + "/view/" + configuracions[i],
+                            ConfiguracioDeFirmaAdappController.CONTEXT_WEB + "/view/" + configuracions[i],
                             AdditionalButtonStyle.INFO));
                 }
             }

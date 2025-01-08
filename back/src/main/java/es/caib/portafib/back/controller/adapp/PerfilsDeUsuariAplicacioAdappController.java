@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.aden;
+package es.caib.portafib.back.controller.adapp;
 
 import es.caib.portafib.back.controller.webdb.PerfilsPerUsuariAplicacioController;
 import es.caib.portafib.back.form.webdb.PerfilsPerUsuariAplicacioForm;
@@ -27,9 +27,9 @@ import java.util.List;
  *
  */
 @Controller
-@RequestMapping(value = PerfilsDeUsuariAplicacioAdenController.CONTEXT_WEB)
+@RequestMapping(value = PerfilsDeUsuariAplicacioAdappController.CONTEXT_WEB)
 @SessionAttributes(types = { PerfilsPerUsuariAplicacioForm.class })
-public class PerfilsDeUsuariAplicacioAdenController extends
+public class PerfilsDeUsuariAplicacioAdappController extends
     PerfilsPerUsuariAplicacioController {
 
   public static final String CONTEXT_WEB = "/aden/perfilsPerUsuariAplicacio";
@@ -58,7 +58,7 @@ public class PerfilsDeUsuariAplicacioAdenController extends
       log.warn("S'ha cridat a crear configuració d'Aplicació però no s'ha guardat el USUARIAPLICACIOID dins la sessió.");
 
       mav.setView(new RedirectView(
-          GestioUsuariAplicacioAdenController.CONTEXTWEB + "/list",
+          GestioUsuariAplicacioAdappController.CONTEXTWEB + "/list",
           true));
       return perfilsPerUsuariAplicacioForm;
     }
@@ -92,7 +92,7 @@ public class PerfilsDeUsuariAplicacioAdenController extends
   public String getRedirectWhenCancel(HttpServletRequest request,
       java.lang.Long perfilPerUsrAppID) {
     return "redirect:"
-        + GestioUsuariAplicacioAdenController.CONTEXTWEB + "/list";
+        + GestioUsuariAplicacioAdappController.CONTEXTWEB + "/list";
   }
 
   @Override

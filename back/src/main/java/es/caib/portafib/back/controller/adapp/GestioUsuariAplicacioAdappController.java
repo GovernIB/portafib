@@ -1,5 +1,6 @@
-package es.caib.portafib.back.controller.aden;
+package es.caib.portafib.back.controller.adapp;
 
+import es.caib.portafib.back.controller.aden.PluginFirmaWebPerUsuariAplicacioAdenController;
 import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.controller.common.ConfiguracioUsuariEntitatController;
 import es.caib.portafib.back.controller.webdb.UsuariAplicacioController;
@@ -9,6 +10,7 @@ import es.caib.portafib.back.form.webdb.UsuariAplicacioForm;
 import es.caib.portafib.back.reflist.IdiomaSuportatRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
+import es.caib.portafib.back.utils.menuoptions.MenuOption;
 import es.caib.portafib.back.validator.UsuariAplicacioWebLogicValidator;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
@@ -67,11 +69,12 @@ import java.util.Set;
  * @author areus
  */
 @Controller
-@RequestMapping(value = GestioUsuariAplicacioAdenController.CONTEXTWEB)
+@RequestMapping(value = GestioUsuariAplicacioAdappController.CONTEXTWEB)
 @SessionAttributes(types = { UsuariAplicacioForm.class, UsuariAplicacioFilterForm.class })
-public class GestioUsuariAplicacioAdenController extends UsuariAplicacioController {
+@MenuOption(group = ConstantsV2.ROLE_ADEN2, labelCode = "usuariaplicacio.gestio" , order = 10)
+public class GestioUsuariAplicacioAdappController extends UsuariAplicacioController {
 
-    static final String CONTEXTWEB = "/aden/usuariAplicacio";
+    public static final String CONTEXTWEB = "/aden/usuariAplicacio";
 
     protected static final int PERFILS = 1;
 
@@ -386,7 +389,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
                                 // Edit -> Link Nom i Codi
                                 "<tr><td>\n" + "<a href=\"" + request.getContextPath()
 
-                                        + PerfilDeFirmaAdenController.CONTEXT_WEB + "/view/"
+                                        + PerfilDeFirmaAdappController.CONTEXT_WEB + "/view/"
                                         + perfil.getUsuariAplicacioPerfilID() + "\"> " + perfil.getNom() + " (<b>"
                                         + perfil.getCodi() + "</b>)</a>" + "</td><td>\n"
                                         // Delete => Icon trash
@@ -411,9 +414,9 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
     public String newConfiguracioUsuariAplicacio(@PathVariable("usuariAplicacioID") String usuariAplicacioID,
             HttpServletRequest request, HttpServletResponse response) {
 
-        request.getSession().setAttribute(PerfilsDeUsuariAplicacioAdenController.SESSION_USUARIAPLICACIOID,
+        request.getSession().setAttribute(PerfilsDeUsuariAplicacioAdappController.SESSION_USUARIAPLICACIOID,
                 usuariAplicacioID);
-        return "redirect:" + PerfilsDeUsuariAplicacioAdenController.CONTEXT_WEB + "/new";
+        return "redirect:" + PerfilsDeUsuariAplicacioAdappController.CONTEXT_WEB + "/new";
     }
 
     @Override

@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.aden;
+package es.caib.portafib.back.controller.adapp;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -27,7 +27,9 @@ import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.menuoptions.MenuOption;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
@@ -42,7 +44,8 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 @Controller
 @RequestMapping(value = "/aden/peticiosincrona")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-public class PeticioSincronaAdenController extends PeticioDeFirmaController {
+@MenuOption(group = ConstantsV2.ROLE_ADEN2, labelCode="peticiosincrona.menu", order=120)
+public class PeticioSincronaAdappController extends PeticioDeFirmaController {
 
   @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal.JNDI_NAME)
   protected es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal passarelaDeFirmaWebEjb;

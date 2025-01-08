@@ -3,8 +3,8 @@ package es.caib.portafib.back.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-import es.caib.portafib.back.controller.aden.ConfiguracioDeFirmaAdenController;
-import es.caib.portafib.back.controller.aden.PerfilDeFirmaAdenController;
+import es.caib.portafib.back.controller.adapp.ConfiguracioDeFirmaAdappController;
+import es.caib.portafib.back.controller.adapp.PerfilDeFirmaAdappController;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
 import es.caib.portafib.commons.utils.Configuracio;
@@ -119,9 +119,9 @@ public class MenuItem {
 
         mapping.put("usuariaplicacio.gestio", "/aden/usuariAplicacio/list");
 
-        mapping.put(CONFIGURACIO_DE_FIRMA, ConfiguracioDeFirmaAdenController.CONTEXT_WEB + "/list");
+        mapping.put(CONFIGURACIO_DE_FIRMA, ConfiguracioDeFirmaAdappController.CONTEXT_WEB + "/list");
 
-        mapping.put(PERFIL_DE_FIRMA, PerfilDeFirmaAdenController.CONTEXT_WEB + "/list");
+        mapping.put(PERFIL_DE_FIRMA, PerfilDeFirmaAdappController.CONTEXT_WEB + "/list");
 
         mapping.put("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/aden/plantilla/list");
 
