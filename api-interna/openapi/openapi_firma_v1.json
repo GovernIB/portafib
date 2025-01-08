@@ -528,6 +528,7 @@
         "description" : "Informació especifica per a realitzar la firma"
       },
       "FirmaSimpleSignDocumentRequest" : {
+        "required" : [ "commonInfo", "fileInfoSignature" ],
         "type" : "object",
         "properties" : {
           "commonInfo" : {

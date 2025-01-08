@@ -3,86 +3,339 @@ package es.caib.portafib.api.interna.secure.firma.v1.commons;
 import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleCustodyInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleSignerInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleValidationInfo;
+import es.caib.portafib.commons.utils.Constants;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.AccessMode;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 @Schema(description = "Informació del fitxer signat.")
 public class FirmaSimpleSignedFileInfo {
 
-    /** Identificador de la firma PAdES. */
-    public static final String SIGN_TYPE_PADES = "PAdES";
-    /** Identificador de la firma XAdES por defecto. */
-    public static final String SIGN_TYPE_XADES = "XAdES";
-    /** Identificador de la firma CAdES. */
-    public static final String SIGN_TYPE_CADES = "CAdES";
-    /** Identificador de la firma Factura-e (derivado de XAdES-EPES). */
-    public static final String SIGN_TYPE_FACTURAE = "FacturaE";
-    /** Identificador de la firma OOXML (<i>Office Open XML</i>). */
-    public static final String SIGN_TYPE_OOXML = "OOXML";
-    /** Identificador de la firma ODF (<i>Open Document Format</i>). */
-    public static final String SIGN_TYPE_ODF = "ODF";
-    /** Identificador de Firma SMIME */
-    public static final String SIGN_TYPE_SMIME = "SMIME";
-    /** CAdES-ASiC-S: Formato de firma avanzada ASiC de tipo CAdES. */
-    public static final String SIGN_TYPE_CADES_ASIC_S = "CAdES-ASiC-S";
-    /** XAdES-ASiC-S: Formato de firma avanzada ASiC de tipo XAdES. */
-    public static final String SIGN_TYPE_XADES_ASIC_S = "XAdES-ASiC-S";
-    /** NONE: Firma PKCS#1. **/
-    public static final String SIGN_TYPE_PKCS1 = "PKCS#1";
-
-    public static final String SIGN_ALGORITHM_SHA1 = "SHA-1";
-    public static final String SIGN_ALGORITHM_SHA256 = "SHA-256";
-    public static final String SIGN_ALGORITHM_SHA384 = "SHA-384";
-    public static final String SIGN_ALGORITHM_SHA512 = "SHA-512";
+    @Schema(
+            description = "Identificador de la firma PAdES.",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_TYPE_PADES,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGN_TYPE_PADES = Constants.SIGN_TYPE_PADES;
+    
+    
+    @Schema(
+            description = "Identificador de la firma XAdES por defecto.",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_TYPE_XADES,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGN_TYPE_XADES = Constants.SIGN_TYPE_XADES;
+    
+    @Schema(
+            description = "Identificador de la firma CAdES.",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_TYPE_CADES,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGN_TYPE_CADES = Constants.SIGN_TYPE_CADES;
+    
+    @Schema(
+            description = "Identificador de la firma Factura-e (derivado de XAdES-EPES).",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_TYPE_FACTURAE,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGN_TYPE_FACTURAE = Constants.SIGN_TYPE_FACTURAE;
+    
+    @Schema(
+            description = "Identificador de la firma OOXML (<i>Office Open XML</i>).",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_TYPE_OOXML,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGN_TYPE_OOXML = Constants.SIGN_TYPE_OOXML;
+    
+    @Schema(
+            description = "Identificador de la firma ODF (<i>Open Document Format</i>).",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_TYPE_ODF,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGN_TYPE_ODF = Constants.SIGN_TYPE_ODF;
+    
+    @Schema(
+            description = "Identificador de Firma SMIME",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_TYPE_SMIME,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGN_TYPE_SMIME = Constants.SIGN_TYPE_SMIME;
+    
+    @Schema(
+            description = "CAdES-ASiC-S: Formato de firma avanzada ASiC de tipo CAdES.",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_TYPE_CADES_ASIC_S,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGN_TYPE_CADES_ASIC_S = Constants.SIGN_TYPE_CADES_ASIC_S;
+    
+    @Schema(
+            description = "XAdES-ASiC-S: Formato de firma avanzada ASiC de tipo XAdES.",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_TYPE_XADES_ASIC_S,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGN_TYPE_XADES_ASIC_S = Constants.SIGN_TYPE_XADES_ASIC_S;
+    
+    @Schema(
+            description = "NONE: Firma PKCS#1",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_TYPE_PKCS1,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGN_TYPE_PKCS1 = Constants.SIGN_TYPE_PKCS1;
+    
+    @Schema(
+            description = "Identificador d'algoritme de firma SHA-1",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_ALGORITHM_SHA1,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGN_ALGORITHM_SHA1 = Constants.SIGN_ALGORITHM_SHA1;
+    @Schema(
+            description = "Identificador d'algoritme de firma SHA-256",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_ALGORITHM_SHA256,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGN_ALGORITHM_SHA256 = Constants.SIGN_ALGORITHM_SHA256;
+    @Schema(
+            description = "Identificador d'algoritme de firma SHA-384",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_ALGORITHM_SHA384,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGN_ALGORITHM_SHA384 = Constants.SIGN_ALGORITHM_SHA384;
+    @Schema(
+            description = "Identificador d'algoritme de firma SHA-512",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_ALGORITHM_SHA512,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGN_ALGORITHM_SHA512 = Constants.SIGN_ALGORITHM_SHA512;
 
     //========================  MODES DE FIRMA =========================
     // Veure
     // https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#Packaging
     // veure
     // https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#SignatureProfileGuide
+    @Schema(
+            description = "El fitxer de dades resultant inclou la firma: PDF, ODT, ...",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_MODE_ATTACHED_ENVELOPED,
+            implementation = Integer.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final int SIGN_MODE_ATTACHED_ENVELOPED = Constants.SIGN_MODE_ATTACHED_ENVELOPED;
 
-    /** El fitxer de dades resultant inclou la firma: PDF, ODT, ... */
-    public static final int SIGN_MODE_ATTACHED_ENVELOPED = 0;
+    @Schema(
+            description = "El fitxer resultant serà la firma que incloura les dades originals",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_MODE_ATTACHED_ENVELOPING,
+            implementation = Integer.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final int SIGN_MODE_ATTACHED_ENVELOPING = Constants.SIGN_MODE_ATTACHED_ENVELOPING;
 
-    /** El fitxer resultant serà la firma que incloura les dades originals */
-    public static final int SIGN_MODE_ATTACHED_ENVELOPING = 3;
+    
+    @Schema(
+            description = "El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer original",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_MODE_DETACHED,
+            implementation = Integer.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final int SIGN_MODE_DETACHED = Constants.SIGN_MODE_DETACHED;
 
-    /**
-     * El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de
-     * firma i el fitxer original
-     */
-    public static final int SIGN_MODE_DETACHED = 1;
-
-    /**
-     * Firma especial XAdES en que la firma i les dades estan al mateix nivell dins
-     * de l'XML: ni la firma inclou les dades ni les dades inclouen la firma
-     */
-    public static final int SIGN_MODE_INTERNALLY_DETACHED = 4;
-
-    public static final int SIGNATURESTABLELOCATION_WITHOUT = 0;
-    public static final int SIGNATURESTABLELOCATION_FIRSTPAGE = 1;
-    public static final int SIGNATURESTABLELOCATION_LASTPAGE = -1;
+    @Schema(
+            description = "Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_MODE_INTERNALLY_DETACHED,
+            implementation = Integer.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final int SIGN_MODE_INTERNALLY_DETACHED = Constants.SIGN_MODE_INTERNALLY_DETACHED;
+    
+    @Schema(
+            description = "Localitzador de la signatura al document. (Sense signatura visible)",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNATURESTABLELOCATION_WITHOUT,
+            implementation = Integer.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final int SIGNATURESTABLELOCATION_WITHOUT = Constants.SIGNATURESTABLELOCATION_WITHOUT;
+    
+    @Schema(
+            description = "Localitzador de la signatura al document. (Primera pagina)",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNATURESTABLELOCATION_FIRSTPAGE,
+            implementation = Integer.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final int SIGNATURESTABLELOCATION_FIRSTPAGE = Constants.SIGNATURESTABLELOCATION_FIRSTPAGE;
+    
+    @Schema(
+            description = "Localitzador de la signatura al document. (Darrera pagina)",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNATURESTABLELOCATION_LASTPAGE,
+            implementation = Integer.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final int SIGNATURESTABLELOCATION_LASTPAGE = Constants.SIGNATURESTABLELOCATION_LASTPAGE;
 
     // FIRMA
-    public static final int SIGN_OPERATION_SIGN = 0;
+    @Schema(
+            description = "Identificador d'operació per Firma",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_OPERATION_SIGN,
+            implementation = Integer.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final int SIGN_OPERATION_SIGN = Constants.SIGN_OPERATION_SIGN;
     // COFIRMA
-    public static final int SIGN_OPERATION_COSIGN = 1;
+    @Schema(
+            description = "Identificador d'operació per Cofirma",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_OPERATION_COSIGN,
+            implementation = Integer.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final int SIGN_OPERATION_COSIGN = Constants.SIGN_OPERATION_COSIGN;
     // CONTRAFIRMA
-    public static final int SIGN_OPERATION_COUNTERSIGN = 2;
-
-    public static final String SIGNPROFILE_BES = "AdES-BES";
-    public static final String SIGNPROFILE_EPES = "AdES-EPES";
-    public static final String SIGNPROFILE_T = "AdES-T";
-    public static final String SIGNPROFILE_C = "AdES-C";
-    public static final String SIGNPROFILE_X = "AdES-X";
-    public static final String SIGNPROFILE_X1 = "AdES-X1";
-    public static final String SIGNPROFILE_X2 = "AdES-X2";
-    public static final String SIGNPROFILE_XL = "AdES-XL";
-    public static final String SIGNPROFILE_XL1 = "AdES-XL1";
-    public static final String SIGNPROFILE_XL2 = "AdES-XL2";
-    public static final String SIGNPROFILE_A = "AdES-A";
-    public static final String SIGNPROFILE_PADES_LTV = "PAdES-LTV";
-    public static final String SIGNPROFILE_PADES_BASIC = "PAdES-Basic";
+    @Schema(
+            description = "Identificador d'operació per Contrafirma",
+            nullable = false,
+            defaultValue = "" + Constants.SIGN_OPERATION_COUNTERSIGN,
+            implementation = Integer.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final int SIGN_OPERATION_COUNTERSIGN = Constants.SIGN_OPERATION_COUNTERSIGN;
+    
+    @Schema(
+            description = "Perfil de firma AdES-BES",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNPROFILE_BES,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGNPROFILE_BES = Constants.SIGNPROFILE_BES;
+    @Schema(
+            description = "Perfil de firma AdES-EPES",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNPROFILE_EPES,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGNPROFILE_EPES = Constants.SIGNPROFILE_EPES;
+    @Schema(
+            description = "Perfil de firma AdES-T",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNPROFILE_T,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGNPROFILE_T = Constants.SIGNPROFILE_T;
+    @Schema(
+            description = "Perfil de firma AdES-C",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNPROFILE_C,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGNPROFILE_C = Constants.SIGNPROFILE_C;
+    @Schema(
+            description = "Perfil de firma AdES-X",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNPROFILE_X,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGNPROFILE_X = Constants.SIGNPROFILE_X;
+    @Schema(
+            description = "Perfil de firma AdES-X1",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNPROFILE_X1,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGNPROFILE_X1 = Constants.SIGNPROFILE_X1;
+    @Schema(
+            description = "Perfil de firma AdES-X2",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNPROFILE_X2,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGNPROFILE_X2 = Constants.SIGNPROFILE_X2;
+    @Schema(
+            description = "Perfil de firma AdES-XL",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNPROFILE_XL,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGNPROFILE_XL = Constants.SIGNPROFILE_XL;
+    @Schema(
+            description = "Perfil de firma AdES-XL1",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNPROFILE_XL1,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGNPROFILE_XL1 = Constants.SIGNPROFILE_XL1;
+    @Schema(
+            description = "Perfil de firma AdES-XL2",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNPROFILE_XL2,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGNPROFILE_XL2 = Constants.SIGNPROFILE_XL2;
+    @Schema(
+            description = "Perfil de firma AdES-A",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNPROFILE_A,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGNPROFILE_A = Constants.SIGNPROFILE_A;
+    @Schema(
+            description = "Perfil de firma PAdES-LTV",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNPROFILE_PADES_LTV,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGNPROFILE_PADES_LTV = Constants.SIGNPROFILE_PADES_LTV;
+    @Schema(
+            description = "Perfil de firma PAdES-Basic",
+            nullable = false,
+            defaultValue = "" + Constants.SIGNPROFILE_PADES_BASIC,
+            implementation = String.class,
+            requiredMode = RequiredMode.REQUIRED,
+            accessMode = AccessMode.READ_ONLY)
+    public static final String SIGNPROFILE_PADES_BASIC = Constants.SIGNPROFILE_PADES_BASIC;
 
     /**
      * eEMGDE.Firma.Firmante.EnCalidadDe(eEMGDE17.5.3): Firmante; Cofirmante;

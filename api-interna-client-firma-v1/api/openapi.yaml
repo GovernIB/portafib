@@ -490,6 +490,9 @@ components:
           $ref: '#/components/schemas/FirmaSimpleCommonInfo'
         fileInfoSignature:
           $ref: '#/components/schemas/FirmaSimpleFileInfoSignature'
+      required:
+      - commonInfo
+      - fileInfoSignature
       type: object
     KeyValue:
       description: Objecte per afegir informació addicional sobre la firma o el firmant
