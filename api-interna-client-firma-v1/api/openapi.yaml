@@ -929,7 +929,7 @@ components:
           data: data
           mime: mime
           nom: nom
-        languageUI: languageUI
+        languageUI: ca
         profileCode: profileCode
         targetCertificate:
           data: data
@@ -937,6 +937,8 @@ components:
           nom: nom
       properties:
         profileCode:
+          description: "Codi del perfil a utilitzar. Si no es defineix, llavors requerim\
+            \ que quest usuari aplicación només tengui un Perfil definit."
           type: string
         signature:
           $ref: '#/components/schemas/FirmaSimpleFile'
@@ -945,7 +947,12 @@ components:
         targetCertificate:
           $ref: '#/components/schemas/FirmaSimpleFile'
         languageUI:
+          description: Idioma dels missatges en cas d'informar o d'errors.
+          example: ca
           type: string
+      required:
+      - languageUI
+      - signature
       type: object
     FirmaSimpleUpgradeResponse:
       example:
@@ -962,9 +969,9 @@ components:
             noCheckValidationReason: noCheckValidationReason
             checkValidationSignature: true
             checkAdministrationIDOfSigner: true
-          signType: signType
+          signType: PAdES
           signMode: 0
-          signAlgorithm: signAlgorithm
+          signAlgorithm: SHA-1
         upgradedFile:
           data: data
           mime: mime
@@ -976,6 +983,7 @@ components:
           $ref: '#/components/schemas/FirmaSimpleUpgradedFileInfo'
       type: object
     FirmaSimpleUpgradedFileInfo:
+      description: Informació de la firma actualitzada
       example:
         additionInformation:
         - value: value
@@ -989,15 +997,28 @@ components:
           noCheckValidationReason: noCheckValidationReason
           checkValidationSignature: true
           checkAdministrationIDOfSigner: true
-        signType: signType
+        signType: PAdES
         signMode: 0
-        signAlgorithm: signAlgorithm
+        signAlgorithm: SHA-1
       properties:
         signType:
+          description: "Tipus de Firma. Valors possibles:\r\n    • “PAdES” (Constant\
+            \ SIGN_TYPE_PADES)\r\n    • “XAdES” (Constant SIGN_TYPE_XADES)\r\n   \
+            \ • “CAdES” (Constant SIGN_TYPE_CADES)\r\n    • “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\
+            \n    • “OOXML” (Constant SIGN_TYPE_OOXML)\r\n    • “ODF” (Constant SIGN_TYPE_ODF)\r\
+            \n    • “SMIME” (Constant SIGN_TYPE_SMIME)\r\n    • “CAdES-ASiC-S” (Constant\
+            \ SIGN_TYPE_CADES_ASIC_S)\r\n    • “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\
+            \n    • “PKCS#1” (Constant SIGN_TYPE_PKCS1)"
+          example: PAdES
           type: string
         signAlgorithm:
+          description: "Algorisme de Firma. Valors:\r\n    • \"SHA-1\"\r\n    • \"\
+            SHA-256\"\r\n    • \"SHA-384\"\r\n    • \"SHA-512\""
+          example: SHA-1
           type: string
         signMode:
+          description: Mode de firma attached (0) o detached (1)
+          example: 0
           format: int32
           type: integer
         eniTipoFirma:
@@ -1010,6 +1031,10 @@ components:
           items:
             $ref: '#/components/schemas/KeyValue'
           type: array
+      required:
+      - signAlgorithm
+      - signMode
+      - signType
       type: object
     AvailableLanguagesRest:
       example:

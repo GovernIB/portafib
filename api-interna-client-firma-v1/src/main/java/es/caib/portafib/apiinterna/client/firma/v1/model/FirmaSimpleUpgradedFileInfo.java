@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * FirmaSimpleUpgradedFileInfo
+ * Informació de la firma actualitzada
  */
 @JsonPropertyOrder({
   FirmaSimpleUpgradedFileInfo.JSON_PROPERTY_SIGN_TYPE,
@@ -43,15 +43,15 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleUpgradedFileInfo {
   public static final String JSON_PROPERTY_SIGN_TYPE = "signType";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String signType;
 
   public static final String JSON_PROPERTY_SIGN_ALGORITHM = "signAlgorithm";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String signAlgorithm;
 
   public static final String JSON_PROPERTY_SIGN_MODE = "signMode";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Integer signMode;
 
   public static final String JSON_PROPERTY_ENI_TIPO_FIRMA = "eniTipoFirma";
@@ -73,19 +73,19 @@ public class FirmaSimpleUpgradedFileInfo {
   public FirmaSimpleUpgradedFileInfo() {
   }
 
-  public FirmaSimpleUpgradedFileInfo signType(@javax.annotation.Nullable String signType) {
+  public FirmaSimpleUpgradedFileInfo signType(@javax.annotation.Nonnull String signType) {
     
     this.signType = signType;
     return this;
   }
 
   /**
-   * Get signType
+   * Tipus de Firma. Valors possibles:      • “PAdES” (Constant SIGN_TYPE_PADES)      • “XAdES” (Constant SIGN_TYPE_XADES)      • “CAdES” (Constant SIGN_TYPE_CADES)      • “FacturaE” (Constant SIGN_TYPE_FACTURAE)      • “OOXML” (Constant SIGN_TYPE_OOXML)      • “ODF” (Constant SIGN_TYPE_ODF)      • “SMIME” (Constant SIGN_TYPE_SMIME)      • “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)      • “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)      • “PKCS#1” (Constant SIGN_TYPE_PKCS1)
    * @return signType
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGN_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getSignType() {
     return signType;
@@ -93,24 +93,24 @@ public class FirmaSimpleUpgradedFileInfo {
 
 
   @JsonProperty(JSON_PROPERTY_SIGN_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignType(@javax.annotation.Nullable String signType) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setSignType(@javax.annotation.Nonnull String signType) {
     this.signType = signType;
   }
 
-  public FirmaSimpleUpgradedFileInfo signAlgorithm(@javax.annotation.Nullable String signAlgorithm) {
+  public FirmaSimpleUpgradedFileInfo signAlgorithm(@javax.annotation.Nonnull String signAlgorithm) {
     
     this.signAlgorithm = signAlgorithm;
     return this;
   }
 
   /**
-   * Get signAlgorithm
+   * Algorisme de Firma. Valors:      • \&quot;SHA-1\&quot;      • \&quot;SHA-256\&quot;      • \&quot;SHA-384\&quot;      • \&quot;SHA-512\&quot;
    * @return signAlgorithm
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGN_ALGORITHM)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getSignAlgorithm() {
     return signAlgorithm;
@@ -118,24 +118,24 @@ public class FirmaSimpleUpgradedFileInfo {
 
 
   @JsonProperty(JSON_PROPERTY_SIGN_ALGORITHM)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignAlgorithm(@javax.annotation.Nullable String signAlgorithm) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setSignAlgorithm(@javax.annotation.Nonnull String signAlgorithm) {
     this.signAlgorithm = signAlgorithm;
   }
 
-  public FirmaSimpleUpgradedFileInfo signMode(@javax.annotation.Nullable Integer signMode) {
+  public FirmaSimpleUpgradedFileInfo signMode(@javax.annotation.Nonnull Integer signMode) {
     
     this.signMode = signMode;
     return this;
   }
 
   /**
-   * Get signMode
+   * Mode de firma attached (0) o detached (1)
    * @return signMode
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGN_MODE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getSignMode() {
     return signMode;
@@ -143,8 +143,8 @@ public class FirmaSimpleUpgradedFileInfo {
 
 
   @JsonProperty(JSON_PROPERTY_SIGN_MODE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignMode(@javax.annotation.Nullable Integer signMode) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setSignMode(@javax.annotation.Nonnull Integer signMode) {
     this.signMode = signMode;
   }
 

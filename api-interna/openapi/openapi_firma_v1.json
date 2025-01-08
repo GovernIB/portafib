@@ -834,10 +834,12 @@
         "description" : "Estructura de dades utilitzada per passar informació d'un error"
       },
       "FirmaSimpleUpgradeRequest" : {
+        "required" : [ "languageUI", "signature" ],
         "type" : "object",
         "properties" : {
           "profileCode" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Codi del perfil a utilitzar. Si no es defineix, llavors requerim que quest usuari aplicación només tengui un Perfil definit."
           },
           "signature" : {
             "$ref" : "#/components/schemas/FirmaSimpleFile"
@@ -849,7 +851,9 @@
             "$ref" : "#/components/schemas/FirmaSimpleFile"
           },
           "languageUI" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Idioma dels missatges en cas d'informar o d'errors.",
+            "example" : "ca"
           }
         }
       },
@@ -865,17 +869,24 @@
         }
       },
       "FirmaSimpleUpgradedFileInfo" : {
+        "required" : [ "signAlgorithm", "signMode", "signType" ],
         "type" : "object",
         "properties" : {
           "signType" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Tipus de Firma. Valors possibles:\r\n    • “PAdES” (Constant SIGN_TYPE_PADES)\r\n    • “XAdES” (Constant SIGN_TYPE_XADES)\r\n    • “CAdES” (Constant SIGN_TYPE_CADES)\r\n    • “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\n    • “OOXML” (Constant SIGN_TYPE_OOXML)\r\n    • “ODF” (Constant SIGN_TYPE_ODF)\r\n    • “SMIME” (Constant SIGN_TYPE_SMIME)\r\n    • “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)\r\n    • “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\n    • “PKCS#1” (Constant SIGN_TYPE_PKCS1)",
+            "example" : "PAdES"
           },
           "signAlgorithm" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Algorisme de Firma. Valors:\r\n    • \"SHA-1\"\r\n    • \"SHA-256\"\r\n    • \"SHA-384\"\r\n    • \"SHA-512\"",
+            "example" : "SHA-1"
           },
           "signMode" : {
             "type" : "integer",
-            "format" : "int32"
+            "description" : "Mode de firma attached (0) o detached (1)",
+            "format" : "int32",
+            "example" : 0
           },
           "eniTipoFirma" : {
             "type" : "string"
@@ -892,7 +903,8 @@
               "$ref" : "#/components/schemas/KeyValue"
             }
           }
-        }
+        },
+        "description" : "Informació de la firma actualitzada"
       },
       "AvailableLanguagesRest" : {
         "type" : "object",

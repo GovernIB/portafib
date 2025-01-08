@@ -1,6 +1,8 @@
 package es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor;
 
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFile;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * Resultat d'una actualització de firma
@@ -9,9 +11,17 @@ import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFile;
  *
  */
 public class FirmaSimpleUpgradeResponse {
-
+    
+    @Schema(
+            description = "Firma actualitzada",
+            example = "",
+            requiredMode = RequiredMode.NOT_REQUIRED)
 	protected FirmaSimpleFile upgradedFile;
-
+    
+    @Schema(
+            description = "Informació de la firma actualitzada",
+            example = "",
+            requiredMode = RequiredMode.NOT_REQUIRED)
 	protected FirmaSimpleUpgradedFileInfo upgradedFileInfo;
 
 	/**

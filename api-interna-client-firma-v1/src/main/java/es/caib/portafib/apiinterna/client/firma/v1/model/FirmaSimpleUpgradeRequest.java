@@ -41,7 +41,7 @@ public class FirmaSimpleUpgradeRequest {
   private String profileCode;
 
   public static final String JSON_PROPERTY_SIGNATURE = "signature";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private FirmaSimpleFile signature;
 
   public static final String JSON_PROPERTY_DETACHED_DOCUMENT = "detachedDocument";
@@ -53,7 +53,7 @@ public class FirmaSimpleUpgradeRequest {
   private FirmaSimpleFile targetCertificate;
 
   public static final String JSON_PROPERTY_LANGUAGE_U_I = "languageUI";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String languageUI;
 
   public FirmaSimpleUpgradeRequest() {
@@ -66,7 +66,7 @@ public class FirmaSimpleUpgradeRequest {
   }
 
   /**
-   * Get profileCode
+   * Codi del perfil a utilitzar. Si no es defineix, llavors requerim que quest usuari aplicación només tengui un Perfil definit.
    * @return profileCode
    */
   @javax.annotation.Nullable
@@ -84,7 +84,7 @@ public class FirmaSimpleUpgradeRequest {
     this.profileCode = profileCode;
   }
 
-  public FirmaSimpleUpgradeRequest signature(@javax.annotation.Nullable FirmaSimpleFile signature) {
+  public FirmaSimpleUpgradeRequest signature(@javax.annotation.Nonnull FirmaSimpleFile signature) {
     
     this.signature = signature;
     return this;
@@ -94,9 +94,9 @@ public class FirmaSimpleUpgradeRequest {
    * Get signature
    * @return signature
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGNATURE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public FirmaSimpleFile getSignature() {
     return signature;
@@ -104,8 +104,8 @@ public class FirmaSimpleUpgradeRequest {
 
 
   @JsonProperty(JSON_PROPERTY_SIGNATURE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignature(@javax.annotation.Nullable FirmaSimpleFile signature) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setSignature(@javax.annotation.Nonnull FirmaSimpleFile signature) {
     this.signature = signature;
   }
 
@@ -159,19 +159,19 @@ public class FirmaSimpleUpgradeRequest {
     this.targetCertificate = targetCertificate;
   }
 
-  public FirmaSimpleUpgradeRequest languageUI(@javax.annotation.Nullable String languageUI) {
+  public FirmaSimpleUpgradeRequest languageUI(@javax.annotation.Nonnull String languageUI) {
     
     this.languageUI = languageUI;
     return this;
   }
 
   /**
-   * Get languageUI
+   * Idioma dels missatges en cas d&#39;informar o d&#39;errors.
    * @return languageUI
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LANGUAGE_U_I)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getLanguageUI() {
     return languageUI;
@@ -179,8 +179,8 @@ public class FirmaSimpleUpgradeRequest {
 
 
   @JsonProperty(JSON_PROPERTY_LANGUAGE_U_I)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLanguageUI(@javax.annotation.Nullable String languageUI) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setLanguageUI(@javax.annotation.Nonnull String languageUI) {
     this.languageUI = languageUI;
   }
 

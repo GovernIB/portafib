@@ -4,6 +4,8 @@ import java.util.List;
 
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleSignedFileInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.KeyValue;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 
@@ -11,11 +13,37 @@ import es.caib.portafib.api.interna.secure.firma.v1.commons.KeyValue;
  *
  */
 public class FirmaSimpleUpgradedFileInfo {
-
+    
+    @Schema(
+            description = "Tipus de Firma. Valors possibles:\r\n"
+                    + "    • “PAdES” (Constant SIGN_TYPE_PADES)\r\n"
+                    + "    • “XAdES” (Constant SIGN_TYPE_XADES)\r\n"
+                    + "    • “CAdES” (Constant SIGN_TYPE_CADES)\r\n"
+                    + "    • “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\n"
+                    + "    • “OOXML” (Constant SIGN_TYPE_OOXML)\r\n"
+                    + "    • “ODF” (Constant SIGN_TYPE_ODF)\r\n"
+                    + "    • “SMIME” (Constant SIGN_TYPE_SMIME)\r\n"
+                    + "    • “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)\r\n"
+                    + "    • “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\n"
+                    + "    • “PKCS#1” (Constant SIGN_TYPE_PKCS1)",
+            example = "PAdES",
+            requiredMode = RequiredMode.REQUIRED)
 	protected String signType;
-
+    
+    @Schema(
+            description = "Algorisme de Firma. Valors:\r\n"
+                    + "    • \"SHA-1\"\r\n"
+                    + "    • \"SHA-256\"\r\n"
+                    + "    • \"SHA-384\"\r\n"
+                    + "    • \"SHA-512\"",
+            example = "SHA-1",
+            requiredMode = RequiredMode.REQUIRED)
 	protected String signAlgorithm;
 
+    @Schema(
+            description = "Mode de firma attached (0) o detached (1)",
+            example = "0",
+            requiredMode = RequiredMode.REQUIRED)
 	protected Integer signMode;
 
 	/**
