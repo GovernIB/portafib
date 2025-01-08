@@ -1,6 +1,8 @@
 package es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor;
 
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFile;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 
@@ -9,18 +11,37 @@ import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFile;
  */
 
 public class FirmaSimpleUpgradeRequest {
-
+    @Schema(
+            description = "Codi del perfil a utilitzar. Si no es defineix, llavors requerim que quest usuari aplicación només tengui un Perfil definit.",
+            example = "",
+            requiredMode = RequiredMode.NOT_REQUIRED)
 	String profileCode;
 
+    @Schema(
+            description = "Firma a actualitzar",
+            example = "",
+            requiredMode = RequiredMode.REQUIRED)
 	FirmaSimpleFile signature;
-
+    
+    @Schema(
+            description = "Document detached. Només s'usa per les validacions",
+            example = "",
+            requiredMode = RequiredMode.NOT_REQUIRED)
 	FirmaSimpleFile detachedDocument;
 
 	/**
 	 * Certificat del que penjar l'upgrade a l'hora de fer cofirmes i contrafirmes
 	 */
+    @Schema(
+            description = "Certificat del que penjar l'upgrade a l'hora de fer cofirmes i contrafirmes",
+            example = "",
+            requiredMode = RequiredMode.NOT_REQUIRED)
 	FirmaSimpleFile targetCertificate;
 
+    @Schema(
+            description = "Idioma dels missatges en cas d'informar o d'errors.",
+            example = "ca",
+            requiredMode = RequiredMode.REQUIRED)
 	String languageUI;
 
 	public FirmaSimpleUpgradeRequest() {
