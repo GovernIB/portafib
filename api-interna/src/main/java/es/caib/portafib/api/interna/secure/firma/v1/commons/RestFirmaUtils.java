@@ -71,13 +71,32 @@ import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 import es.caib.portafib.model.fields.PerfilsPerUsuariAplicacioFields;
 import es.caib.portafib.utils.ConstantsPortaFIB;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 
 /**
  * 
  * @author anadal(u80067)
  *
  */
+@OpenAPIDefinition(
+        info = @Info(
+                title = "API Interna de PortaFIB que ofereix serveis associats amb la firma digital",
+                description = "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma en servidor,"
+                        + " firma web, firma asincrona, utilitats de firma i plantilla de flux de firma.",
+                version = "1.0-SNAPSHOT",
+                license = @License(
+                        name = "European Union Public Licence (EUPL v1.2)",
+                        url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"),
+                contact = @Contact(
+                        name = "Departament de Govern Digital a la Fundació Bit",
+                        email = "firma@fundaciobit.org",
+                        url = "https://governdigital.fundaciobit.org")))
 public class RestFirmaUtils extends RestUtils {
+    
+    public static final String SECURITY_NAME = "BasicAuth";
 
     protected static final String TIPUS_WEB = "WEB";
 
@@ -165,10 +184,8 @@ public class RestFirmaUtils extends RestUtils {
 
     }
 
-
     protected AvailableProfilesRest internalGetAvailableProfiles(HttpServletRequest request, String language,
             String userApp) {
-
 
         try {
 

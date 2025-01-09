@@ -13,7 +13,7 @@ info:
   version: 1.0-SNAPSHOT
 externalDocs:
   description: Java API Interna Client (Github Source Code)
-  url: https://github.com/GovernIB/portafib/tree/portafib-2.2/
+  url: https://github.com/GovernIB/portafib/tree/portafib-3.0/
 servers:
 - url: /portafibapi/interna
 - url: http://localhost:8080/portafibapi/interna

@@ -1,19 +1,20 @@
 openapi: 3.0.1
 info:
   contact:
-    email: otae@fundaciobit.org
+    email: firma@fundaciobit.org
     name: Departament de Govern Digital a la Fundació Bit
-    url: http://governdigital.fundaciobit.org
-  description: Conjunt de Serveis REST de PortaFIB per atendre consultes generiques
-    de Portafib
+    url: https://governdigital.fundaciobit.org
+  description: "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma\
+    \ en servidor, firma web, firma asincrona, utilitats de firma i plantilla de flux\
+    \ de firma."
   license:
     name: European Union Public Licence (EUPL v1.2)
     url: https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf
-  title: API Interna de PortaFIB de consulta de serveis d'utilitat
+  title: API Interna de PortaFIB que ofereix serveis associats amb la firma digital
   version: 1.0-SNAPSHOT
 externalDocs:
   description: Java API Interna Client (Github Source Code)
-  url: https://github.com/GovernIB/portafib/tree/portafib-2.2/
+  url: https://github.com/GovernIB/portafib/tree/portafib-3.0/
 servers:
 - url: /portafibapi/interna
 - url: http://localhost:8080/portafibapi/interna
@@ -22,9 +23,10 @@ servers:
 - url: https://se.caib.es/portafibapi/interna
 - url: https://www.caib.es/portafibapi/interna
 tags:
-- description: Firma en servidor
+- description: API Interna de PortaFIB que ofereix serveis de firma en servidor.
   name: Firma en Servidor v1
-- description: Utilitats
+- description: API Interna de PortaFIB de consulta de serveis d'utilitat associats
+    a la firma electrònica
   name: Utils v1
 paths:
   /secure/firmaenservidor/v1/signdocument:

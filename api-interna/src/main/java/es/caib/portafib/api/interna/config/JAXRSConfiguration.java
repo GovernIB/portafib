@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
                 @Server(url = "https://www.caib.es/portafibapi/interna") },
         externalDocs = @ExternalDocumentation(
                 description = "Java API Interna Client (Github Source Code)",
-                url = "https://github.com/GovernIB/portafib/tree/portafib-2.2/")
+                url = "https://github.com/GovernIB/portafib/tree/portafib-3.0/")
 )
 @ApplicationPath("/")
 public class JAXRSConfiguration extends Application {

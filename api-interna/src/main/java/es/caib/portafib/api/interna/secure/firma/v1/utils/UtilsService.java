@@ -40,9 +40,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.info.Contact;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -59,23 +56,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @Path(UtilsService.PATH)
 @OpenAPIDefinition(
-        info = @Info(
-                title = "API Interna de PortaFIB de consulta de serveis d'utilitat",
-                description = "Conjunt de Serveis REST de PortaFIB per atendre consultes generiques de Portafib",
-                version = "1.0-SNAPSHOT",
-                license = @License(
-                        name = "European Union Public Licence (EUPL v1.2)",
-                        url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"),
-                contact = @Contact(
-                        name = "Departament de Govern Digital a la Fundació Bit",
-                        email = "firma@fundaciobit.org",
-                        url = "https://governdigital.fundaciobit.org")),
-        tags = @Tag(name = UtilsService.TAG_NAME, description = "Utilitats"))
+        tags = @Tag(name = UtilsService.TAG_NAME,
+        description = "API Interna de PortaFIB de consulta de serveis d'utilitat associats a la firma electrònica"))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = UtilsService.SECURITY_NAME, scheme = "basic")
 public class UtilsService extends RestFirmaUtils {
-    protected static Logger log = Logger.getLogger(UtilsService.class);
 
-    protected static final String SECURITY_NAME = "BasicAuth";
+    protected static Logger log = Logger.getLogger(UtilsService.class);
 
     public static final String PATH = "/secure/utils/v1";
 

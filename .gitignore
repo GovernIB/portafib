@@ -271,3 +271,6 @@ api-interna-client-firma-v1/test.properties
 api-interna-client-firma-v1-examples/test.properties
 api-interna-client-firma-v1-examples/apifirmaenservidor.properties
 api-interna-client-firma-v1-examples/apifirmautils.properties
+/api-interna-client-firma-v1/.openapi-generator/FILES
+/api-interna-client-firma-v1/.openapi-generator/VERSION
+/api-interna-client-firma-v1/.openapi-generator/openapi_firma_v1.json-openapi3.sha256

@@ -1,12 +1,12 @@
 {
   "openapi" : "3.0.1",
   "info" : {
-    "title" : "API Interna de PortaFIB de consulta de serveis d'utilitat",
-    "description" : "Conjunt de Serveis REST de PortaFIB per atendre consultes generiques de Portafib",
+    "title" : "API Interna de PortaFIB que ofereix serveis associats amb la firma digital",
+    "description" : "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma en servidor, firma web, firma asincrona, utilitats de firma i plantilla de flux de firma.",
     "contact" : {
       "name" : "Departament de Govern Digital a la Fundació Bit",
-      "url" : "http://governdigital.fundaciobit.org",
-      "email" : "otae@fundaciobit.org"
+      "url" : "https://governdigital.fundaciobit.org",
+      "email" : "firma@fundaciobit.org"
     },
     "license" : {
       "name" : "European Union Public Licence (EUPL v1.2)",
@@ -16,7 +16,7 @@
   },
   "externalDocs" : {
     "description" : "Java API Interna Client (Github Source Code)",
-    "url" : "https://github.com/GovernIB/portafib/tree/portafib-2.2/"
+    "url" : "https://github.com/GovernIB/portafib/tree/portafib-3.0/"
   },
   "servers" : [ {
     "url" : "/portafibapi/interna"
@@ -33,10 +33,10 @@
   } ],
   "tags" : [ {
     "name" : "Firma en Servidor v1",
-    "description" : "Firma en servidor"
+    "description" : "API Interna de PortaFIB que ofereix serveis de firma en servidor."
   }, {
     "name" : "Utils v1",
-    "description" : "Utilitats"
+    "description" : "API Interna de PortaFIB de consulta de serveis d'utilitat associats a la firma electrònica"
   } ],
   "paths" : {
     "/secure/firmaenservidor/v1/signdocument" : {
