@@ -16,10 +16,19 @@ import java.lang.annotation.Target;
 public @interface MenuOption {
 
     /**
+     * @return Codi traduïble de l'etiqueta. Si comença per "=" es un literal ja traduït
+     */
+    public String labelCode();
+
+    public String relativeLink() default "/list";
+
+    public String baseLink() default "";
+
+    /**
      * ordre del menú. Si no s'indica es posa al final
      * @return
      */
-    public int order() default -1;
+    public int order() default Integer.MAX_VALUE;
 
     /**
      * Si es vol afegir un separador abans de l'opció
@@ -31,15 +40,6 @@ public @interface MenuOption {
      * @return  Si es vol afegir un separador després de l'opció
      */
     public boolean addSeparatorAfter() default false;
-
-    /**
-     * @return Codi traduïble de l'etiqueta. Si comença per "=" es un literal ja traduït
-     */
-    public String labelCode();
-
-    public String relativeLink() default "/list";
-    
-    public String baseLink() default "";
 
     /**     
      * @return El Menu en que s'ha de ficar. "" Significa cercar a partir del context web
