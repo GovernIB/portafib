@@ -75,6 +75,26 @@
               }
             }
           },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
           "500" : {
             "description" : "Error no controlat",
             "content" : {
@@ -123,6 +143,26 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
                 }
               }
             }
@@ -240,6 +280,26 @@
               }
             }
           },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
           "500" : {
             "description" : "Error no controlat",
             "content" : {
@@ -297,6 +357,26 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
                 }
               }
             }
@@ -365,6 +445,26 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
                 }
               }
             }
@@ -705,6 +805,7 @@
             "description" : "Indicador normalizado que refleja el grado de  confianza de la firma utilizado. Ejemplos: Nick, PIN ciudadano, Firma electrónica avanzada, Claves concertadas, Firma electrónica avanzada basada en certificados, CSV, .."
           },
           "signDate" : {
+            "pattern" : "yyyy-MM-dd'T'HH:mm:ss",
             "type" : "string",
             "description" : "Data en que es va realitzar la firma",
             "format" : "date-time"
@@ -806,12 +907,12 @@
         "description" : "Informació de les validacions realitzades despres de la firma."
       },
       "RestExceptionInfo" : {
-        "required" : [ "code", "errorMessage" ],
+        "required" : [ "errorMessage" ],
         "type" : "object",
         "properties" : {
-          "code" : {
+          "errorCode" : {
             "type" : "integer",
-            "description" : "Codi de HTTP de l'error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.",
+            "description" : "Codi intern de l'error. Si l'Aplicació no gestiona codis d'error llavors val null.",
             "format" : "int32"
           },
           "errorMessage" : {
@@ -820,15 +921,15 @@
           },
           "stackTrace" : {
             "type" : "string",
-            "description" : "Stacktrace de l'excepció si n'hi hagués."
+            "description" : "Stacktrace de l'excepció"
           },
-          "causeException" : {
+          "stackTraceCause" : {
             "type" : "string",
-            "description" : "Tipus de l'excepció origen (cause) si n'hi hagués."
+            "description" : "Stacktrace de l'excepció causant de l'error si n'hi hagués."
           },
-          "causeStackTrace" : {
+          "field" : {
             "type" : "string",
-            "description" : "Stacktrace de l'excepció origen (cause) si n'hi hagués."
+            "description" : "Indica el camp en que hi ha un error de validació."
           }
         },
         "description" : "Estructura de dades utilitzada per passar informació d'un error"

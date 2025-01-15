@@ -1,8 +1,8 @@
 package es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor;
 
 import java.io.File;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -142,6 +142,18 @@ public class FirmaEnServidorService extends RestFirmaUtils {
                                     mediaType = MediaType.APPLICATION_JSON,
                                     schema = @Schema(implementation = RestExceptionInfo.class))),
                     @ApiResponse(
+                            responseCode = "401",
+                            description = "No Autenticat",
+                            content = { @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = String.class)) }),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "No autoritzat",
+                            content = { @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = String.class)) }),
+                    @ApiResponse(
                             responseCode = "500",
                             description = "Error no controlat",
                             content = @Content(
@@ -156,7 +168,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
         if (fsur == null) {
             // XYZ ZZZ TRA
             String errorMsg = "L'objecte FirmaSimpleUpgradeRequest val null.";
-            throw new RestException(errorMsg);
+            throw new RestException(errorMsg, "FirmaSimpleUpgradeRequest");
         }
 
         String lang = RestUtils.checkLanguage(fsur.getLanguageUI());
@@ -200,7 +212,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
             if (singTypeForm == null) {
                 // XYZ ZZZ Traduir
                 String errorMsg = "El identificador d'Extensió de Firma " + upgradeID + " no existeix.";
-                throw new RestException(errorMsg, Status.INTERNAL_SERVER_ERROR);
+                throw new RestException(Status.INTERNAL_SERVER_ERROR,errorMsg);
             }
 
             final boolean isDebug = log.isDebugEnabled();
@@ -248,19 +260,19 @@ public class FirmaEnServidorService extends RestFirmaUtils {
         } catch (NoCompatibleSignaturePluginException nape) {
 
             String errorMsg = getNoAvailablePluginErrorMessage(lang, false, nape);
-            throw new RestException(errorMsg, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException( Status.INTERNAL_SERVER_ERROR, errorMsg);
 
         } catch (I18NException i18ne) {
             // XYZ ZZZ
             String msg = I18NLogicUtils.getMessage(i18ne, new Locale(lang));
             log.error(msg, i18ne);
-            throw new RestException(msg, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(Status.INTERNAL_SERVER_ERROR, msg);
 
         } catch (Throwable th) {
             // XYZ ZZZ TRA
             String msg = "Error desconegut durant el procés d'actualització de firma: " + th.getMessage();
             log.error(msg, th);
-            throw new RestException(msg, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(Status.INTERNAL_SERVER_ERROR, msg);
 
         }
 
@@ -298,6 +310,18 @@ public class FirmaEnServidorService extends RestFirmaUtils {
                                     mediaType = MediaType.APPLICATION_JSON,
                                     schema = @Schema(implementation = RestExceptionInfo.class))),
                     @ApiResponse(
+                            responseCode = "401",
+                            description = "No Autenticat",
+                            content = { @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "No autoritzat",
+                            content = { @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
+                    @ApiResponse(
                             responseCode = "500",
                             description = "Error no controlat",
                             content = @Content(
@@ -315,22 +339,20 @@ public class FirmaEnServidorService extends RestFirmaUtils {
         if (simpleSignature == null) {
             // XYZ ZZZ TRA
             String errMsg = "L´objecte FirmaSimpleSignDocumentRequest passat per paràmetre val null";
-            throw new RestException(errMsg, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(Status.BAD_REQUEST, errMsg, "FirmaSimpleSignDocumentRequest");
         }
 
         if (simpleSignature.getCommonInfo() == null) {
-
             // XYZ ZZZ TRA
-            String errMsg = "L´objecte FirmaSimpleSignDocumentRequest.FirmaSimpleCommonInfo passat per paràmetre val null";
-            throw new RestException(errMsg, Status.INTERNAL_SERVER_ERROR);
-
+            String errMsg = "L´objecte commonInfo(FirmaSimpleCommonInfo) definit dins de FirmaSimpleSignDocumentRequest val null";
+            throw new RestException(Status.BAD_REQUEST, errMsg, "FirmaSimpleSignDocumentRequest.commonInfo");
         }
 
         String languageUI = simpleSignature.getCommonInfo().getLanguageUI();
         if (languageUI == null || languageUI.trim().length() == 0) {
             // XYZ ZZZ TRA
             String errMsg = "El camp languageUI definit dins de FirmaSimpleSignDocumentRequest.FirmaSimpleCommonInfo està buit o val null";
-            throw new RestException(errMsg, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(Status.BAD_REQUEST, errMsg, "FirmaSimpleSignDocumentRequest.commonInfo.languageUI");
         }
 
         languageUI = RestUtils.checkLanguage(languageUI);
@@ -418,8 +440,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
             return result;
         } catch (NoCompatibleSignaturePluginException nape) {
 
-            throw new RestException(getNoAvailablePluginErrorMessage(languageUI, isSignatureInServer, nape), nape,
-                    Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(Status.INTERNAL_SERVER_ERROR, getNoAvailablePluginErrorMessage(languageUI, isSignatureInServer, nape), nape);
 
         } catch (Throwable th) {
             
@@ -439,7 +460,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
             // XYZ ZZZ TRA
             String msg = "Error desconegut iniciant el proces de Firma: " + msgOrig;
             log.error(msg, th);
-            throw new RestException(msg, th, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(Status.INTERNAL_SERVER_ERROR, msg, th);
 
         } finally {
             if (transactionID != null) {
@@ -465,7 +486,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
 
             String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
             log.error(msg, i18ne);
-            throw new RestException(msg, i18ne, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(Status.INTERNAL_SERVER_ERROR, msg, i18ne);
         }
     }
 
@@ -637,7 +658,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
 
                     String eniSignerName = info.getNomCompletResponsable();
                     String eniSignerAdministrationId = info.getNifResponsable();
-                    Date signDate = new Date();
+                    Timestamp signDate = new Timestamp(System.currentTimeMillis());
 
                     String issuerCert = info.getEmissorID();
                     String subjectCert = info.getSubject();

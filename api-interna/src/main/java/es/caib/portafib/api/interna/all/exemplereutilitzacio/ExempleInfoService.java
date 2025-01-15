@@ -216,7 +216,7 @@ public class ExempleInfoService extends RestUtils {
                 msg = "Error desconegut retornant les dades paginades: " + th.getMessage();
             }
             log.error(msg, th);
-            throw new RestException(msg, th, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(Status.INTERNAL_SERVER_ERROR, msg, th);
         }
 
     }
@@ -341,7 +341,7 @@ public class ExempleInfoService extends RestUtils {
                 msg = "Error desconegut retornant dades completes: " + th.getMessage();
             }
             log.error(msg, th);
-            throw new RestException(msg, th, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(Status.INTERNAL_SERVER_ERROR, msg, th);
         }
 
     }

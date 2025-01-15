@@ -214,12 +214,11 @@ public class ExempleEnumSecuritzatService extends RestUtils {
 
                 case 0:
                     // Simula un error en els paràmetres
-                    throw new RestException("El codi de notificacio és null o buit.", Status.BAD_REQUEST);
+                    throw new RestException(Status.BAD_REQUEST, "El codi de notificacio és null o buit.");
 
                 case 1:
                     // Simula un error en els paràmetres
-                    throw new RestException("El codi de notificacio 'notificationCode' no està registrat.",
-                            Status.BAD_REQUEST);
+                    throw new RestException(Status.BAD_REQUEST,"El codi de notificacio 'notificationCode' no està registrat.");
 
                 case 2:
                     return generateMessageResult(SendMessageResultCode.UNKNOWN_ERROR,
@@ -409,7 +408,7 @@ public class ExempleEnumSecuritzatService extends RestUtils {
             } else {
                 msg = th.getMessage();
             }
-            oae = new RestException(msg, th, Status.INTERNAL_SERVER_ERROR);
+            oae = new RestException(Status.INTERNAL_SERVER_ERROR, msg, th);
         }
 
         log.error("Error en " + methodName + ": " + msg, th);

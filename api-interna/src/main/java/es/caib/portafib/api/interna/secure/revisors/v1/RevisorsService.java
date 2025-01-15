@@ -171,7 +171,7 @@ public class RevisorsService extends RestUtils {
                     msg = "Usuari Aplicació " + usernameApp + " no trobat";
                 }
                 log.error(msg);
-                throw new RestException(msg, Status.BAD_REQUEST);
+                throw new RestException(Status.BAD_REQUEST,msg);
             }
             
             String entitatID = userApp.getEntitatID();
@@ -202,7 +202,7 @@ public class RevisorsService extends RestUtils {
                     String msg;
                     msg = "NIF de Destinatari incorrecte o inexistent: " + dni;
                     log.error(msg);
-                    throw new RestException(msg, Status.BAD_REQUEST);
+                    throw new RestException(Status.BAD_REQUEST, msg);
                 }
             }
 
@@ -278,7 +278,7 @@ public class RevisorsService extends RestUtils {
         } catch (Throwable th) {
             String msg = "Error desconegut retornant informació dels revisors: " + th.getMessage();
             log.error(msg, th);
-            throw new RestException(msg, th, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(msg, th);
         }
 
     }

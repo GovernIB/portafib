@@ -13,7 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -100,6 +99,18 @@ public class UtilsService extends RestFirmaUtils {
                                     mediaType = MediaType.APPLICATION_JSON,
                                     schema = @Schema(implementation = RestExceptionInfo.class))),
                     @ApiResponse(
+                            responseCode = "401",
+                            description = "No Autenticat",
+                            content = { @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = String.class)) }),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "No autoritzat",
+                            content = { @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = String.class)) }),
+                    @ApiResponse(
                             responseCode = "500",
                             description = "Error no controlat",
                             content = @Content(
@@ -166,13 +177,13 @@ public class UtilsService extends RestFirmaUtils {
         } catch (I18NException i18ne) {
             Locale locale = new Locale(Configuracio.getDefaultLanguage());
             String msg = I18NLogicUtils.getMessage(i18ne, locale);
-            throw new RestException(msg, i18ne, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(msg, i18ne);
         } catch (RestException re) {
             throw re;
         } catch (Throwable th) {
             String msg = "Error desconegut retornant informació de l'API REST: " + th.getMessage();
             log.error(msg, th);
-            throw new RestException(msg, th, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(msg, th);
         }
     }
 
@@ -213,6 +224,18 @@ public class UtilsService extends RestFirmaUtils {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
                                     schema = @Schema(implementation = RestExceptionInfo.class))),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "No Autenticat",
+                            content = { @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = String.class)) }),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "No autoritzat",
+                            content = { @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = String.class)) }),
                     @ApiResponse(
                             responseCode = "500",
                             description = "Error no controlat",
@@ -264,6 +287,18 @@ public class UtilsService extends RestFirmaUtils {
                                     mediaType = MediaType.APPLICATION_JSON,
                                     schema = @Schema(implementation = RestExceptionInfo.class))),
                     @ApiResponse(
+                            responseCode = "401",
+                            description = "No Autenticat",
+                            content = { @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = String.class)) }),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "No autoritzat",
+                            content = { @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = String.class)) }),
+                    @ApiResponse(
                             responseCode = "500",
                             description = "Error no controlat",
                             content = @Content(
@@ -294,7 +329,7 @@ public class UtilsService extends RestFirmaUtils {
 
     }
 
-    public AvailableLanguagesRest internalGetAvailableLanguages(HttpServletRequest request, String language) {
+    protected AvailableLanguagesRest internalGetAvailableLanguages(HttpServletRequest request, String language) {
 
         try {
 
@@ -322,7 +357,7 @@ public class UtilsService extends RestFirmaUtils {
 
             String msg = I18NLogicUtils.getMessage(i18ne, new Locale(language));
 
-            throw new RestException(msg, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(msg, i18ne);
 
         } catch (Throwable th) {
 
@@ -331,7 +366,7 @@ public class UtilsService extends RestFirmaUtils {
 
             log.error(msg, th);
 
-            throw new RestException(msg, th, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(msg, th);
         }
 
     }

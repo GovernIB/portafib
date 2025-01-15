@@ -110,30 +110,30 @@ components:
     RestExceptionInfo:
       description: Estructura de dades utilitzada per passar informació d'un error
       example:
-        code: 0
-        causeStackTrace: causeStackTrace
-        causeException: causeException
+        field: field
         errorMessage: errorMessage
+        stackTraceCause: stackTraceCause
+        errorCode: 0
         stackTrace: stackTrace
       properties:
-        code:
-          description: Codi de HTTP de l'error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
+        errorCode:
+          description: Codi intern de l'error. Si l'Aplicació no gestiona codis d'error
+            llavors val null.
           format: int32
           type: integer
         errorMessage:
           description: Missatge de l'error
           type: string
         stackTrace:
-          description: Stacktrace de l'excepció si n'hi hagués.
+          description: Stacktrace de l'excepció
           type: string
-        causeException:
-          description: Tipus de l'excepció origen (cause) si n'hi hagués.
+        stackTraceCause:
+          description: Stacktrace de l'excepció causant de l'error si n'hi hagués.
           type: string
-        causeStackTrace:
-          description: Stacktrace de l'excepció origen (cause) si n'hi hagués.
+        field:
+          description: Indica el camp en que hi ha un error de validació.
           type: string
       required:
-      - code
       - errorMessage
       type: object
 

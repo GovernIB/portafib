@@ -6,7 +6,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response.Status;
+
 
 import org.apache.log4j.Logger;
 
@@ -105,7 +105,7 @@ public class InfoVersioService extends RestUtils {
         } catch (Throwable th) {
             String msg = "Error desconegut retornant informació de l'API REST: " + th.getMessage();
             log.error(msg, th);
-            throw new RestException(msg, th, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(msg, th);
         }
 
     }
@@ -154,7 +154,7 @@ public class InfoVersioService extends RestUtils {
         } catch (Throwable th) {
             String msg = "Error desconegut retornant informació de l'API REST: " + th.getMessage();
             log.error(msg, th);
-            throw new RestException(msg, th, Status.INTERNAL_SERVER_ERROR);
+            throw new RestException(msg, th);
         }
 
     }

@@ -5,9 +5,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.cert.X509Certificate;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -616,7 +616,7 @@ public class RestFirmaUtils extends RestUtils {
             }
 
             final List<KeyValue> additionInformation = null;
-            final Date signDate = new Date();
+            final Timestamp signDate = new Timestamp(System.currentTimeMillis());;
 
             // XYZ ZZZ ZZZ Que passarela retorni dades de la validació de la firma
             // i que aqui es puguin usar !!!!
