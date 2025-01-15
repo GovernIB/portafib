@@ -115,7 +115,12 @@
 
         <script type="text/javascript">
            <%-- plantillaFluxDeFirmes.descripcio --%>
-           document.getElementById("<%=PlantillaFluxDeFirmesFields.DESCRIPCIO.getFullName()%>").rows=1;
+           {
+               var descObj = document.getElementById("<%=PlantillaFluxDeFirmesFields.DESCRIPCIO.getFullName()%>");
+               if (descObj) {
+                   descObj.rows=1;   
+               }
+           }
         </script> 
   
         <%-- Final de if de onlyFlux --%>

@@ -30,6 +30,7 @@
 		<sec:intercept-url pattern="/common/arxiu/**" access="permitAll"/>
 		<!--  REST Autenticació per Codi -->
 		<sec:intercept-url pattern="/common/json/usuarientitatrevisor" access="permitAll"/>
+        <sec:intercept-url pattern="/common/json/usuarientitatrevisorall" access="permitAll"/>
 		<!-- Nova API REST ASYNC V2 -->
 		<sec:intercept-url pattern="/common/**" access="hasAnyRole('ROLE_ANY', 'ROLE_USER', 'ROLE_ADMIN')"/>
 		<sec:intercept-url pattern="/canviarPipella/**" access="hasAnyRole('ROLE_ANY', 'ROLE_USER', 'ROLE_ADMIN')"/>
