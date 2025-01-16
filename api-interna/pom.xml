@@ -328,7 +328,7 @@
                     <dependency>
                         <artifactId>pluginsib-utils-rest</artifactId>
                         <groupId>org.fundaciobit.pluginsib.utils</groupId>
-                        <version>${pluginsib.utils.version}</version>
+                        <version>3.0.1-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
             </plugin>

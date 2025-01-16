@@ -154,8 +154,6 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
         commonInfo.setUsername(username);
         commonInfo.setAdministrationID(administrationID);
         commonInfo.setSignerEmail(signerEmail);
-        
-        commonInfo= null;
 
         System.out.println("languageUI = |" + languageUI + "|");
 
