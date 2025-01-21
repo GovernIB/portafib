@@ -205,8 +205,7 @@
                                 <artifactId>
                                     portafib-api-interna-client-infoversio-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>PortaFIB - API Rest -
-                                    Interna Client - Informació de Versions v1</artifactDescription>
+                                <artifactDescription>PortaFIB - API Rest - Interna Client - Informació de Versions v1</artifactDescription>
                                 <dateLibrary>java8</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
@@ -245,8 +244,7 @@
                                 <artifactId>
                                     portafib-api-interna-client-revisors-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>PortaFIB - API Rest -
-                                    Interna Client - Revisors v1</artifactDescription>
+                                <artifactDescription>PortaFIB - API Rest - Interna Client - Revisors v1</artifactDescription>
                                 <dateLibrary>java8</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
