@@ -8,7 +8,8 @@ import javax.annotation.PostConstruct;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
+
 
 /**
  *
@@ -16,20 +17,18 @@ import org.apache.log4j.Logger;
  *
  */
 @OpenAPIDefinition(
-        servers = { @Server(url = "/portafibapi/interna"),
-                @Server(url = "http://localhost:8080/portafibapi/interna"),
+        servers = { @Server(url = "/portafibapi/interna"), @Server(url = "http://localhost:8080/portafibapi/interna"),
                 @Server(url = "https://dev.caib.es/portafibapi/interna"),
                 @Server(url = "https://proves.caib.es/portafibapi/interna"),
                 @Server(url = "https://se.caib.es/portafibapi/interna"),
                 @Server(url = "https://www.caib.es/portafibapi/interna") },
         externalDocs = @ExternalDocumentation(
                 description = "Java API Interna Client (Github Source Code)",
-                url = "https://github.com/GovernIB/portafib/tree/portafib-2.2/")
-)
+                url = "https://github.com/GovernIB/portafib/tree/portafib-3.0/"))
 @ApplicationPath("/")
 public class JAXRSConfiguration extends Application {
 
-    protected Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
+    protected Logger log = Logger.getLogger(this.getClass());
 
     /**
      * Les aplicacions JAX-RS necessiten un constructor buid.

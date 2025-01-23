@@ -8,11 +8,11 @@ Estructura de dades utilitzada per passar informació d'un error
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**code** | **Integer** | Codi de HTTP de l&#39;error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes. |  |
+|**errorCode** | **Integer** | Codi intern de l&#39;error. Si l&#39;Aplicació no gestiona codis d&#39;error llavors val null. |  [optional] |
 |**errorMessage** | **String** | Missatge de l&#39;error |  |
-|**stackTrace** | **String** | Stacktrace de l&#39;excepció si n&#39;hi hagués. |  [optional] |
-|**causeException** | **String** | Tipus de l&#39;excepció origen (cause) si n&#39;hi hagués. |  [optional] |
-|**causeStackTrace** | **String** | Stacktrace de l&#39;excepció origen (cause) si n&#39;hi hagués. |  [optional] |
+|**stackTrace** | **String** | Stacktrace de l&#39;excepció |  [optional] |
+|**stackTraceCause** | **String** | Stacktrace de l&#39;excepció causant de l&#39;error si n&#39;hi hagués. |  [optional] |
+|**field** | **String** | Indica el camp en que hi ha un error de validació. |  [optional] |
 
 
 

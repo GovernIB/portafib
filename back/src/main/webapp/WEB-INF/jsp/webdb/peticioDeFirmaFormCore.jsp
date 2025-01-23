@@ -249,6 +249,11 @@
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
             </c:forEach>
+          <script>
+              $(document).ready(function() {
+                  $('#peticioDeFirma_tipusDocumentID').select2();
+              });
+          </script>
           </form:select>
           </c:if>
            </td>

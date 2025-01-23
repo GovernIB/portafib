@@ -1,12 +1,12 @@
 # portafib-api-interna-client-firma-v1
 
-API Interna de PortaFIB de consulta de serveis d&#39;utilitat
+API Interna de PortaFIB que ofereix serveis de firma web.
 
 - API version: 1.0-SNAPSHOT
 
 - Generator version: 7.10.0
 
-Conjunt de Serveis REST de PortaFIB per atendre consultes generiques de Portafib
+Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de PortaFIB
 
   For more information, please visit [http://governdigital.fundaciobit.org](http://governdigital.fundaciobit.org)
 

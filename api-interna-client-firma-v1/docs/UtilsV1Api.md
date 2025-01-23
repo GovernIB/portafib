@@ -79,6 +79,8 @@ public class Example {
 |-------------|-------------|------------------|
 | **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
 
 
@@ -151,6 +153,8 @@ public class Example {
 |-------------|-------------|------------------|
 | **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
 
 
@@ -225,5 +229,7 @@ public class Example {
 |-------------|-------------|------------------|
 | **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
 

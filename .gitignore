@@ -271,3 +271,17 @@ api-interna-client-firma-v1/test.properties
 api-interna-client-firma-v1-examples/test.properties
 api-interna-client-firma-v1-examples/apifirmaenservidor.properties
 api-interna-client-firma-v1-examples/apifirmautils.properties
+/api-interna-client-firma-v1/.openapi-generator/FILES
+/api-interna-client-firma-v1/.openapi-generator/VERSION
+/api-interna-client-firma-v1/.openapi-generator/openapi_firma_v1.json-openapi3.sha256
+/api-interna-client-firma-v1/.travis.yml
+/api-interna-client-firma-v1/build.gradle
+/api-interna-client-firma-v1/build.sbt
+/api-interna-client-firma-v1/git_push.sh
+/api-interna-client-firma-v1/gradle.properties
+/api-interna-client-firma-v1/gradle/wrapper/gradle-wrapper.jar
+/api-interna-client-firma-v1/gradle/wrapper/gradle-wrapper.properties
+/api-interna-client-firma-v1/gradlew
+/api-interna-client-firma-v1/gradlew.bat
+/api-interna-client-firma-v1/pom_backup.xml
+/api-interna-client-firma-v1/settings.gradle

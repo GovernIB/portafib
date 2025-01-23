@@ -1,3 +1,12 @@
+<!--                                                                     -->
+<!--                                                                     -->
+<!--             IMPORTANT: NO MODIFICAR AQUEST FITXER!!!!!!!            -->
+<!--             ============================================            -->
+<!--  Aquest fitxer s'ha generat emprant el plugin maven de OpenApiTools -->
+<!--  org.openapitools::openapi-generator-maven-plugin i modificat per   -->
+<!--  org.fundaciobit.pluginsib.utils.rest.pomadaptertojboss72.AdaptApiClientPomToJboss72 -->
+<!--  de PluginsIB-Utils-Rest. NO modificar-ho a ma !!!!!                -->
+<!--                                                                     -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -112,17 +121,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <!-- NOU <version>2.12</version> -->
+                <!-- NOU <version>2.22.2</version> -->
                 <configuration>
-                    <systemProperties>
+                    <systemPropertyVariables>
                         <property>
                             <name>loggerPath</name>
                             <value>conf/log4j.properties</value>
                         </property>
-                    </systemProperties>
+                    </systemPropertyVariables>
                     <argLine>-Xms512m -Xmx1500m</argLine>
                     <parallel>methods</parallel>
-                    <!-- NOU <forkMode>pertest</forkMode> -->
                 </configuration>
             </plugin>
 
@@ -223,18 +231,15 @@
     </build>
     <dependencies>
 
+        <!-- NOU -->
         <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
-            <scope>test</scope>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>commons-logging-jboss-logging</artifactId>
         </dependency>
-
+        <!-- NOU -->
         <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4.3</version>
-            <scope>test</scope>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
         </dependency>
         <!-- @Nullable annotation -->
 <!-- NOU         <dependency>
@@ -320,9 +325,15 @@
         -->
         <!-- test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <!-- NOU  <version>${junit-version}</version> -->
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -330,12 +341,13 @@
         <!-- NOU <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> -->
         <!-- NOU <resteasy-version>4.7.6.Final</resteasy-version> -->
 
-        <!-- NOU <jackson-version>2.15.2</jackson-version>-->
-        <jackson-databind-version>2.15.2</jackson-databind-version>
+        <!-- NOU <jackson-version>2.17.1</jackson-version>-->
+        <!-- NOU <jackson-databind-version>2.17.1</jackson-databind-version>-->
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         <!-- NOU <jakarta-annotation-version>1.3.5</jakarta-annotation-version> -->
         <!-- NOU <threetenbp-version>2.9.10</threetenbp-version> -->
         <!-- NOU <maven-plugin-version>1.0.0</maven-plugin-version> -->
-        <!-- NOU <junit-version>4.13</junit-version>-->
+        <assertj-version>3.23.1</assertj-version>
+        <junit-version>5.10.2</junit-version>
     </properties>
 </project>

@@ -1,6 +1,6 @@
 /*
- * API Interna de PortaFIB de consulta de serveis d'utilitat
- * Conjunt de Serveis REST de PortaFIB per atendre consultes generiques de Portafib
+ * API Interna de PortaFIB que ofereix serveis de firma web.
+ * Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de PortaFIB
  *
  * The version of the OpenAPI document: 1.0-SNAPSHOT
  * Contact: otae@fundaciobit.org
@@ -19,9 +19,9 @@ import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleSignatureRes
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleUpgradeRequest;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleUpgradeResponse;
 import es.caib.portafib.apiinterna.client.firma.v1.model.RestExceptionInfo;
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * API tests for FirmaEnServidorV1Api
  */
-public class FirmaEnServidorV1ApiTest {
+class FirmaEnServidorV1ApiTest {
 
     private final FirmaEnServidorV1Api api = new FirmaEnServidorV1Api();
 
@@ -44,7 +44,7 @@ public class FirmaEnServidorV1ApiTest {
      *          if the Api call fails
      */
     @Test
-    public void signdocumentTest() throws ApiException {
+    void signdocumentTest() throws ApiException {
         //
         //FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest = null;
         //
@@ -59,7 +59,7 @@ public class FirmaEnServidorV1ApiTest {
      *          if the Api call fails
      */
     @Test
-    public void upgradeSignatureTest() throws ApiException {
+    void upgradeSignatureTest() throws ApiException {
         //
         //FirmaSimpleUpgradeRequest firmaSimpleUpgradeRequest = null;
         //
@@ -74,7 +74,7 @@ public class FirmaEnServidorV1ApiTest {
      *          if the Api call fails
      */
     @Test
-    public void versioTest() throws ApiException {
+    void versioTest() throws ApiException {
         //
         //String response = api.versio();
 

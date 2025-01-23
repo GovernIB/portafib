@@ -1,6 +1,6 @@
 /*
- * API Interna de PortaFIB de consulta de serveis d'utilitat
- * Conjunt de Serveis REST de PortaFIB per atendre consultes generiques de Portafib
+ * API Interna de PortaFIB que ofereix serveis de firma web.
+ * Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de PortaFIB
  *
  * The version of the OpenAPI document: 1.0-SNAPSHOT
  * Contact: otae@fundaciobit.org
@@ -18,9 +18,9 @@ import es.caib.portafib.apiinterna.client.firma.v1.model.AvailableLanguagesRest;
 import es.caib.portafib.apiinterna.client.firma.v1.model.AvailableProfilesRest;
 import es.caib.portafib.apiinterna.client.firma.v1.model.LlistaTipusDocumentalRest;
 import es.caib.portafib.apiinterna.client.firma.v1.model.RestExceptionInfo;
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * API tests for UtilsV1Api
  */
-public class UtilsV1ApiTest {
+class UtilsV1ApiTest {
 
     private final UtilsV1Api api = new UtilsV1Api();
 
@@ -43,7 +43,7 @@ public class UtilsV1ApiTest {
      *          if the Api call fails
      */
     @Test
-    public void getAvailableLanguagesTest() throws ApiException {
+    void getAvailableLanguagesTest() throws ApiException {
         //
         //String language = null;
         //
@@ -58,11 +58,11 @@ public class UtilsV1ApiTest {
      *          if the Api call fails
      */
     @Test
-    public void getAvailableProfilesTest() throws ApiException {
+    void getAvailableProfiles1Test() throws ApiException {
         //
         //String language = null;
         //
-        //AvailableProfilesRest response = api.getAvailableProfiles(language);
+        //AvailableProfilesRest response = api.getAvailableProfiles1(language);
 
         // TODO: test validations
     }
@@ -73,7 +73,7 @@ public class UtilsV1ApiTest {
      *          if the Api call fails
      */
     @Test
-    public void tipusdocumentalslistTest() throws ApiException {
+    void tipusdocumentalslistTest() throws ApiException {
         //
         //String language = null;
         //

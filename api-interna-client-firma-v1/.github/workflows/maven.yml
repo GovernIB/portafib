@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    name: Build API Interna de PortaFIB de consulta de serveis d'utilitat
+    name: Build API Interna de PortaFIB que ofereix serveis de firma web.
     runs-on: ubuntu-latest
     strategy:
       matrix:

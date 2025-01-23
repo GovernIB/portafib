@@ -4,16 +4,16 @@ info:
     email: otae@fundaciobit.org
     name: Departament de Govern Digital a la Fundació Bit
     url: http://governdigital.fundaciobit.org
-  description: Conjunt de Serveis REST de PortaFIB per atendre consultes generiques
-    de Portafib
+  description: Conjunt de Serveis REST de PortaFIB per atendre peticions de firma
+    a través de web de PortaFIB
   license:
     name: European Union Public Licence (EUPL v1.2)
     url: https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf
-  title: API Interna de PortaFIB de consulta de serveis d'utilitat
+  title: API Interna de PortaFIB que ofereix serveis de firma web.
   version: 1.0-SNAPSHOT
 externalDocs:
   description: Java API Interna Client (Github Source Code)
-  url: https://github.com/GovernIB/portafib/tree/portafib-2.2/
+  url: https://github.com/GovernIB/portafib/tree/portafib-3.0/
 servers:
 - url: /portafibapi/interna
 - url: http://localhost:8080/portafibapi/interna
@@ -22,11 +22,12 @@ servers:
 - url: https://se.caib.es/portafibapi/interna
 - url: https://www.caib.es/portafibapi/interna
 tags:
-- description: Firma en servidor
+- description: API Interna de PortaFIB que ofereix serveis de firma en servidor.
   name: Firma en Servidor v1
 - description: Firma web
   name: Firma Web v1
-- description: Utilitats
+- description: API Interna de PortaFIB de consulta de serveis d'utilitat associats
+    a la firma electrònica
   name: Utils v1
 paths:
   /secure/firmaenservidor/v1/signdocument:
@@ -51,6 +52,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
         "500":
           content:
             application/json:
@@ -87,6 +100,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: No autoritzat
         "500":
           content:
             application/json:
@@ -467,6 +492,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: No autoritzat
         "500":
           content:
             application/json:
@@ -514,6 +551,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: No autoritzat
         "500":
           content:
             application/json:
@@ -569,6 +618,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: No autoritzat
         "500":
           content:
             application/json:
@@ -1086,6 +1147,7 @@ components:
         signDate:
           description: Data en que es va realitzar la firma
           format: date-time
+          pattern: yyyy-MM-dd'T'HH:mm:ss
           type: string
         serialNumberCert:
           description: Número de Sèrie del Certificat utilitzat en la firma
@@ -1191,30 +1253,30 @@ components:
     RestExceptionInfo:
       description: Estructura de dades utilitzada per passar informació d'un error
       example:
-        code: 7
-        causeStackTrace: causeStackTrace
-        causeException: causeException
+        field: field
         errorMessage: errorMessage
+        stackTraceCause: stackTraceCause
+        errorCode: 7
         stackTrace: stackTrace
       properties:
-        code:
-          description: Codi de HTTP de l'error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
+        errorCode:
+          description: Codi intern de l'error. Si l'Aplicació no gestiona codis d'error
+            llavors val null.
           format: int32
           type: integer
         errorMessage:
           description: Missatge de l'error
           type: string
         stackTrace:
-          description: Stacktrace de l'excepció si n'hi hagués.
+          description: Stacktrace de l'excepció
           type: string
-        causeException:
-          description: Tipus de l'excepció origen (cause) si n'hi hagués.
+        stackTraceCause:
+          description: Stacktrace de l'excepció causant de l'error si n'hi hagués.
           type: string
-        causeStackTrace:
-          description: Stacktrace de l'excepció origen (cause) si n'hi hagués.
+        field:
+          description: Indica el camp en que hi ha un error de validació.
           type: string
       required:
-      - code
       - errorMessage
       type: object
     FirmaSimpleUpgradeRequest:

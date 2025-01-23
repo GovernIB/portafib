@@ -16,8 +16,8 @@ import io.github.classgraph.ScanResult;
  */
 public class DiscoverMenuOptionAnnotations {
 
-    private final Map<String, Map<MenuOption, Class<?>>> menuOptionsCache;
-    
+    private final Map<String, TreeMap<MenuItemOption, Class<?>>> menuOptionsCache;
+
     public DiscoverMenuOptionAnnotations() {
         this(null);
     }
@@ -35,7 +35,7 @@ public class DiscoverMenuOptionAnnotations {
 
         ArrayList<ClassInfo> cil = scanResult.getClassesWithAnnotation(MenuOption.class);
 
-        Map<String, Map<MenuOption, Class<?>>> menuOptionsCacheLocal = new HashMap<String, Map<MenuOption, Class<?>>>();
+        Map<String, TreeMap<MenuItemOption, Class<?>>> menuOptionsCacheLocal = new HashMap<String, TreeMap<MenuItemOption, Class<?>>>();
 
         for (ClassInfo classInfo2 : cil) {
             // Obtén la clase
@@ -47,13 +47,18 @@ public class DiscoverMenuOptionAnnotations {
 
                 String grup = anotacio.group();
 
-                Map<MenuOption, Class<?>> menuOptions = menuOptionsCacheLocal.get(grup);
+                TreeMap<MenuItemOption, Class<?>> menuOptions = menuOptionsCacheLocal.get(grup);
 
                 if (menuOptions == null) {
-                    menuOptions = new TreeMap<MenuOption, Class<?>>(new MenuOptionComparator());
+                    menuOptions = new TreeMap<MenuItemOption, Class<?>>(new MenuItemOptionComparator());
                     menuOptionsCacheLocal.put(grup, menuOptions);
                 }
-                menuOptions.put(anotacio, classe);
+
+                MenuItemOption menuItemOption = new MenuItemOption(anotacio.labelCode(), anotacio.relativeLink(),
+                        anotacio.baseLink(), anotacio.order(), anotacio.addSeparatorBefore(),
+                        anotacio.addSeparatorAfter(), anotacio.group());
+
+                menuOptions.put(menuItemOption, classe);
 
             }
         }
@@ -67,7 +72,7 @@ public class DiscoverMenuOptionAnnotations {
      * @return
      */
 
-    public Map<String, Map<MenuOption, Class<?>>> getAllMenuOptions() {
+    public Map<String, TreeMap<MenuItemOption, Class<?>>> getAllMenuOptions() {
         return menuOptionsCache;
     }
 
@@ -76,7 +81,7 @@ public class DiscoverMenuOptionAnnotations {
      * @param filterGroup
      * @return
      */
-    public Map<MenuOption, Class<?>> getMenuOptionByGroup(String filterGroup) {
+    public TreeMap<MenuItemOption, Class<?>> getMenuOptionByGroup(String filterGroup) {
         return menuOptionsCache.get(filterGroup);
     }
 

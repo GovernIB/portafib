@@ -1,7 +1,7 @@
 package es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import es.caib.portafib.api.interna.secure.firma.v1.commons.KeyValue;
@@ -53,8 +53,16 @@ public class FirmaSimpleSignerInfo {
                     + "Firma electrónica avanzada basada en certificados, CSV, ..",
             requiredMode = RequiredMode.NOT_REQUIRED)
     protected String eniSignLevel;
-    @Schema(description = "Data en que es va realitzar la firma", requiredMode = RequiredMode.NOT_REQUIRED)
-    protected Date signDate;
+    
+    //@Schema(description = "Data en que es va realitzar la firma", requiredMode = RequiredMode.NOT_REQUIRED)
+    // protected Date signDate;
+    @Schema(
+            requiredMode = RequiredMode.NOT_REQUIRED,
+            description = "Data en que es va realitzar la firma",
+            type = "string",
+            format = "date-time",
+            pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    protected Timestamp signDate;
 
     @Schema(description = "Número de Sèrie del Certificat utilitzat en la firma", requiredMode = RequiredMode.NOT_REQUIRED)
     protected String serialNumberCert;
@@ -78,7 +86,7 @@ public class FirmaSimpleSignerInfo {
     }
 
     public FirmaSimpleSignerInfo(String eniRolFirma, String eniSignerName, String eniSignerAdministrationId,
-            String eniSignLevel, Date signDate, String serialNumberCert, String issuerCert, String subjectCert,
+            String eniSignLevel, Timestamp signDate, String serialNumberCert, String issuerCert, String subjectCert,
             List<KeyValue> additionalInformation) {
         super();
         this.eniRolFirma = eniRolFirma;
@@ -124,11 +132,12 @@ public class FirmaSimpleSignerInfo {
         this.eniSignLevel = eniSignLevel;
     }
 
-    public Date getSignDate() {
+
+    public Timestamp getSignDate() {
         return signDate;
     }
 
-    public void setSignDate(Date signDate) {
+    public void setSignDate(Timestamp signDate) {
         this.signDate = signDate;
     }
 

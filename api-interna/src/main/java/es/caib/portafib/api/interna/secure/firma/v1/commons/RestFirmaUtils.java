@@ -5,9 +5,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.cert.X509Certificate;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -71,13 +71,32 @@ import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 import es.caib.portafib.model.fields.PerfilsPerUsuariAplicacioFields;
 import es.caib.portafib.utils.ConstantsPortaFIB;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 
 /**
  * 
  * @author anadal(u80067)
  *
  */
+@OpenAPIDefinition(
+        info = @Info(
+                title = "API Interna de PortaFIB que ofereix serveis associats amb la firma digital",
+                description = "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma en servidor,"
+                        + " firma web, firma asincrona, utilitats de firma i plantilla de flux de firma.",
+                version = "1.0-SNAPSHOT",
+                license = @License(
+                        name = "European Union Public Licence (EUPL v1.2)",
+                        url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"),
+                contact = @Contact(
+                        name = "Departament de Govern Digital a la Fundació Bit",
+                        email = "firma@fundaciobit.org",
+                        url = "https://governdigital.fundaciobit.org")))
 public class RestFirmaUtils extends RestUtils {
+    
+    public static final String SECURITY_NAME = "BasicAuth";
 
     protected static final String TIPUS_WEB = "WEB";
 
@@ -165,10 +184,8 @@ public class RestFirmaUtils extends RestUtils {
 
     }
 
-
     protected AvailableProfilesRest internalGetAvailableProfiles(HttpServletRequest request, String language,
             String userApp) {
-
 
         try {
 
@@ -599,7 +616,7 @@ public class RestFirmaUtils extends RestUtils {
             }
 
             final List<KeyValue> additionInformation = null;
-            final Date signDate = new Date();
+            final Timestamp signDate = new Timestamp(System.currentTimeMillis());;
 
             // XYZ ZZZ ZZZ Que passarela retorni dades de la validació de la firma
             // i que aqui es puguin usar !!!!

@@ -1,6 +1,6 @@
 /*
- * API Interna de PortaFIB de consulta de serveis d'utilitat
- * Conjunt de Serveis REST de PortaFIB per atendre consultes generiques de Portafib
+ * API Interna de PortaFIB que ofereix serveis de firma web.
+ * Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de PortaFIB
  *
  * The version of the OpenAPI document: 1.0-SNAPSHOT
  * Contact: otae@fundaciobit.org

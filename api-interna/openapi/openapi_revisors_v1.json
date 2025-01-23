@@ -16,7 +16,7 @@
   },
   "externalDocs" : {
     "description" : "Java API Interna Client (Github Source Code)",
-    "url" : "https://github.com/GovernIB/portafib/tree/portafib-2.2/"
+    "url" : "https://github.com/GovernIB/portafib/tree/portafib-3.0/"
   },
   "servers" : [ {
     "url" : "/portafibapi/interna"
@@ -150,12 +150,12 @@
         }
       },
       "RestExceptionInfo" : {
-        "required" : [ "code", "errorMessage" ],
+        "required" : [ "errorMessage" ],
         "type" : "object",
         "properties" : {
-          "code" : {
+          "errorCode" : {
             "type" : "integer",
-            "description" : "Codi de HTTP de l'error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.",
+            "description" : "Codi intern de l'error. Si l'Aplicació no gestiona codis d'error llavors val null.",
             "format" : "int32"
           },
           "errorMessage" : {
@@ -164,15 +164,15 @@
           },
           "stackTrace" : {
             "type" : "string",
-            "description" : "Stacktrace de l'excepció si n'hi hagués."
+            "description" : "Stacktrace de l'excepció"
           },
-          "causeException" : {
+          "stackTraceCause" : {
             "type" : "string",
-            "description" : "Tipus de l'excepció origen (cause) si n'hi hagués."
+            "description" : "Stacktrace de l'excepció causant de l'error si n'hi hagués."
           },
-          "causeStackTrace" : {
+          "field" : {
             "type" : "string",
-            "description" : "Stacktrace de l'excepció origen (cause) si n'hi hagués."
+            "description" : "Indica el camp en que hi ha un error de validació."
           }
         },
         "description" : "Estructura de dades utilitzada per passar informació d'un error"
