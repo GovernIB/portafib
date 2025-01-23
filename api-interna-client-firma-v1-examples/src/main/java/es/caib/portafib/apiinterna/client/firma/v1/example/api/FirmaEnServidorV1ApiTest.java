@@ -34,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -63,7 +64,7 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
     	try {
 			test.testSignDocument();
 
-			test.testUpgradeSignaturePAdES();
+			//test.testUpgradeSignaturePAdES();
 			
 		} catch (ApiException e) {
 			// TODO Auto-generated catch block
@@ -113,7 +114,7 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
             logErrorPerfilBuit(PROFILE_PADES_PROPERTY);
         }
 
-        FirmaSimpleFile fileToSign = getSimpleFileFromResource("src/main/resources/hola-test.pdf", "application/pdf");
+        FirmaSimpleFile fileToSign = UtilsV1ApiTest.getSimpleFileFromResource("src/main/resources/hola-test.pdf", "application/pdf");
 
         System.out.println(" PERFIL => " + perfil);
         System.out.println(" FILE NOM => " + fileToSign.getNom());
@@ -235,6 +236,7 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
 		FirmaEnServidorV1Api api;
         
         ApiClient client = new ApiClient();
+        System.out.println("Pattern: "+((SimpleDateFormat) client.getDateFormat()).toPattern());
         client.setBasePath(prop.getProperty("basePath"));
         client.setUsername(prop.getProperty("username"));
         client.setPassword(prop.getProperty("password"));
@@ -249,25 +251,9 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
                 + " està buida. Això significa que si l'usuari aplicacio té més d'un perfil assignat, llavors llançarà un error.");
     }
 	
-	public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String mime) throws Exception {
-		
-        InputStream is = new FileInputStream(new File(fileName));
-        
-        ByteArrayOutputStream fos = new ByteArrayOutputStream();
-        copyFileToOutputStream(is, fos);
-
-        FirmaSimpleFile asf = new FirmaSimpleFile();
-        asf.setNom(fileName);
-        asf.setMime(mime);
-        ArrayList<byte[]> fosBytes = new ArrayList<byte[]>();
-        fosBytes.add(fos.toByteArray());
-        asf.setData(fosBytes.get(0));
-        
-        return asf;
-    }
 	
     public void testUpgradeSignaturePAdES() throws Exception, FileNotFoundException, IOException {
-        FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("src/main/resources/hola-signed.pdf", "application/pdf");
+        FirmaSimpleFile fileToUpgrade = UtilsV1ApiTest.getSimpleFileFromResource("src/main/resources/hola-signed.pdf", "application/pdf");
 
         internalFullTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, null, "hola-signed-upgraded.pdf");
     }
@@ -321,13 +307,7 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
         System.out.println(fssr.getUpgradedFileInfo().toString());
     }
 	
-	public static void copyFileToOutputStream(InputStream input, OutputStream output) throws IOException {
-        byte[] buffer = new byte[4096];
-        int n = 0;
-        while (-1 != (n = input.read(buffer))) {
-            output.write(buffer, 0, n);
-        }
-    }
+	
 	
 	private static void guardarFitxer(FirmaSimpleFile upgraded, String fileName)
             throws FileNotFoundException, IOException {

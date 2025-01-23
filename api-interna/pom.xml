@@ -183,7 +183,7 @@
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
                                 <artifactDescription>PortaFIB - API Rest -
                                     Interna Client - Informació de Versions v1</artifactDescription>
-                                <dateLibrary>legacy</dateLibrary>
+                                <dateLibrary>java8</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <java11>true</java11>
@@ -223,7 +223,7 @@
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
                                 <artifactDescription>PortaFIB - API Rest -
                                     Interna Client - Revisors v1</artifactDescription>
-                                <dateLibrary>legacy</dateLibrary>
+                                <dateLibrary>java8</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <java11>true</java11>
@@ -260,7 +260,7 @@
                                 <artifactId>portafib-api-interna-client-firma-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
                                 <artifactDescription>PortaFIB - API Rest - Interna Client - Firma v1</artifactDescription>
-                                <dateLibrary>legacy</dateLibrary>
+                                <dateLibrary>java8</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <java11>true</java11>

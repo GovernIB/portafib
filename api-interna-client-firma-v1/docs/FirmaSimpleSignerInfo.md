@@ -12,7 +12,7 @@ Informació del signant
 |**eniSignerName** | **String** | Nombre o razón social de los firmantes. |  [optional] |
 |**eniSignerAdministrationId** | **String** | NIF del firmant. |  [optional] |
 |**eniSignLevel** | **String** | Indicador normalizado que refleja el grado de  confianza de la firma utilizado. Ejemplos: Nick, PIN ciudadano, Firma electrónica avanzada, Claves concertadas, Firma electrónica avanzada basada en certificados, CSV, .. |  [optional] |
-|**signDate** | **Date** | Data en que es va realitzar la firma |  [optional] |
+|**signDate** | **OffsetDateTime** | Data en que es va realitzar la firma |  [optional] |
 |**serialNumberCert** | **String** | Número de Sèrie del Certificat utilitzat en la firma |  [optional] |
 |**issuerCert** | **String** | Issuer del Certificat utilitzat en la firma |  [optional] |
 |**subjectCert** | **String** | Subject del Certificat utilitzat en la firma |  [optional] |

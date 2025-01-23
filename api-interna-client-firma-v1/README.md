@@ -124,8 +124,16 @@ Class | Method | HTTP request | Description
 *FirmaEnServidorV1Api* | [**signdocument**](docs/FirmaEnServidorV1Api.md#signdocument) | **POST** /secure/firmaenservidor/v1/signdocument | Operacio de firma simple en servidor d&#39;un document
 *FirmaEnServidorV1Api* | [**upgradeSignature**](docs/FirmaEnServidorV1Api.md#upgradeSignature) | **POST** /secure/firmaenservidor/v1/upgradeSignature | Operacio de firma simple en servidor d&#39;un document
 *FirmaEnServidorV1Api* | [**versio**](docs/FirmaEnServidorV1Api.md#versio) | **GET** /secure/firmaenservidor/v1/versio | Retorna la versió d&#39;aquest Servei
+*FirmaWebV1Api* | [**addFileToSign**](docs/FirmaWebV1Api.md#addFileToSign) | **POST** /secure/firmaweb/v1/addFileToSign | Afegeix un document  al conjunt de Peticions de Firma a realitzar per l&#39;usuari.
+*FirmaWebV1Api* | [**closeTransaction**](docs/FirmaWebV1Api.md#closeTransaction) | **POST** /secure/firmaweb/v1/closeTransaction | Indica al component de firma que la informació s’ha recuperat correctament i que pot fer neteja en el servidor.
+*FirmaWebV1Api* | [**getAvailableProfiles**](docs/FirmaWebV1Api.md#getAvailableProfiles) | **POST** /secure/firmaweb/v1/getAvailableProfiles | Retorna una llista dels perfils o profiles de firma en servidor disponibles per l&#39;usuari aplicació que realitza la cridada
+*FirmaWebV1Api* | [**getAvailableTypesOfDocuments**](docs/FirmaWebV1Api.md#getAvailableTypesOfDocuments) | **POST** /secure/firmaweb/v1/getAvailableTypesOfDocuments | Retorna una llista dels Tipus Documentals disponibles en el servidor
+*FirmaWebV1Api* | [**getSignatureResult**](docs/FirmaWebV1Api.md#getSignatureResult) | **POST** /secure/firmaweb/v1/getSignatureResult | Document signat  i informació d&#39;una firma
+*FirmaWebV1Api* | [**getTransactionID**](docs/FirmaWebV1Api.md#getTransactionID) | **POST** /secure/firmaweb/v1/getTransactionID | Operacio per obtenir el Id de una transaccio de la API
+*FirmaWebV1Api* | [**getTransactionStatus**](docs/FirmaWebV1Api.md#getTransactionStatus) | **POST** /secure/firmaweb/v1/getTransactionStatus | Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma
+*FirmaWebV1Api* | [**startTransaction**](docs/FirmaWebV1Api.md#startTransaction) | **POST** /secure/firmaweb/v1/startTransaction | Envia identificador de la transacció, url de retorn i tipus de vista web (amb o sense iframe) i inicia el procés de firma retornant una URL de redirecció.
 *UtilsV1Api* | [**getAvailableLanguages**](docs/UtilsV1Api.md#getAvailableLanguages) | **GET** /secure/utils/v1/getAvailableLanguages | Retorna els idiomes disponibles.
-*UtilsV1Api* | [**getAvailableProfiles**](docs/UtilsV1Api.md#getAvailableProfiles) | **GET** /secure/utils/v1/getAvailableProfiles | Retorna els perfils de firma.
+*UtilsV1Api* | [**getAvailableProfiles1**](docs/UtilsV1Api.md#getAvailableProfiles1) | **GET** /secure/utils/v1/getAvailableProfiles | Retorna els perfils de firma.
 *UtilsV1Api* | [**tipusdocumentalslist**](docs/UtilsV1Api.md#tipusdocumentalslist) | **GET** /secure/utils/v1/tipusdocumentalslist | Retorna la llista de tipus documentals disponibles.
 
 
@@ -134,19 +142,26 @@ Class | Method | HTTP request | Description
  - [AvailableLanguagesRest](docs/AvailableLanguagesRest.md)
  - [AvailableProfile](docs/AvailableProfile.md)
  - [AvailableProfilesRest](docs/AvailableProfilesRest.md)
+ - [FirmaSimpleAddFileToSignRequest](docs/FirmaSimpleAddFileToSignRequest.md)
  - [FirmaSimpleCommonInfo](docs/FirmaSimpleCommonInfo.md)
  - [FirmaSimpleCustodyInfo](docs/FirmaSimpleCustodyInfo.md)
+ - [FirmaSimpleDocumentTypeInformation](docs/FirmaSimpleDocumentTypeInformation.md)
  - [FirmaSimpleFile](docs/FirmaSimpleFile.md)
  - [FirmaSimpleFileInfoSignature](docs/FirmaSimpleFileInfoSignature.md)
+ - [FirmaSimpleGetSignatureResultRequest](docs/FirmaSimpleGetSignatureResultRequest.md)
+ - [FirmaSimpleGetTransactionStatusResponse](docs/FirmaSimpleGetTransactionStatusResponse.md)
  - [FirmaSimpleSignDocumentRequest](docs/FirmaSimpleSignDocumentRequest.md)
  - [FirmaSimpleSignatureResponse](docs/FirmaSimpleSignatureResponse.md)
+ - [FirmaSimpleSignatureStatus](docs/FirmaSimpleSignatureStatus.md)
  - [FirmaSimpleSignedFileInfo](docs/FirmaSimpleSignedFileInfo.md)
  - [FirmaSimpleSignerInfo](docs/FirmaSimpleSignerInfo.md)
+ - [FirmaSimpleStartTransactionRequest](docs/FirmaSimpleStartTransactionRequest.md)
  - [FirmaSimpleStatus](docs/FirmaSimpleStatus.md)
  - [FirmaSimpleUpgradeRequest](docs/FirmaSimpleUpgradeRequest.md)
  - [FirmaSimpleUpgradeResponse](docs/FirmaSimpleUpgradeResponse.md)
  - [FirmaSimpleUpgradedFileInfo](docs/FirmaSimpleUpgradedFileInfo.md)
  - [FirmaSimpleValidationInfo](docs/FirmaSimpleValidationInfo.md)
+ - [GetAvailableTypesOfDocumentsResponse](docs/GetAvailableTypesOfDocumentsResponse.md)
  - [KeyValue](docs/KeyValue.md)
  - [LlistaTipusDocumentalRest](docs/LlistaTipusDocumentalRest.md)
  - [RestExceptionInfo](docs/RestExceptionInfo.md)

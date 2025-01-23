@@ -24,6 +24,8 @@ servers:
 tags:
 - description: Firma en servidor
   name: Firma en Servidor v1
+- description: Firma web
+  name: Firma Web v1
 - description: Utilitats
   name: Utils v1
 paths:
@@ -134,6 +136,303 @@ paths:
       - Firma en Servidor v1
       x-accepts:
       - application/json
+  /secure/firmaweb/v1/addFileToSign:
+    post:
+      operationId: addFileToSign
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FirmaSimpleAddFileToSignRequest'
+        description: Document a signar i dades específiques de la firma a realitzar.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Operació realitzada correctament
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+      security:
+      - BasicAuth: []
+      summary: Afegeix un document  al conjunt de Peticions de Firma a realitzar per
+        l'usuari.
+      tags:
+      - Firma Web v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/firmaweb/v1/closeTransaction:
+    post:
+      operationId: closeTransaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: Identificador de la transacció.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Operació realitzada correctament
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+      security:
+      - BasicAuth: []
+      summary: Indica al component de firma que la informació s’ha recuperat correctament
+        i que pot fer neteja en el servidor.
+      tags:
+      - Firma Web v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/firmaweb/v1/getAvailableProfiles:
+    post:
+      operationId: getAvailableProfiles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: "Idioma en què es retornarà el nom i descripció dels perfils,\
+          \ així com els missatges d'errors"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableProfilesRest'
+          description: Operació realitzada correctament
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+      security:
+      - BasicAuth: []
+      summary: Retorna una llista dels perfils o profiles de firma en servidor disponibles
+        per l'usuari aplicació que realitza la cridada
+      tags:
+      - Firma Web v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/firmaweb/v1/getAvailableTypesOfDocuments:
+    post:
+      operationId: getAvailableTypesOfDocuments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: Idioma en què es retornarà el nom dels tipus de documents així
+          com els missatges d'errors
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAvailableTypesOfDocumentsResponse'
+          description: Operació realitzada correctament
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+      security:
+      - BasicAuth: []
+      summary: Retorna una llista dels Tipus Documentals disponibles en el servidor
+      tags:
+      - Firma Web v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/firmaweb/v1/getSignatureResult:
+    post:
+      operationId: getSignatureResult
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FirmaSimpleGetSignatureResultRequest'
+        description: Identificador de transacció i de firma.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirmaSimpleSignatureResponse'
+          description: Operació realitzada correctament
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+      security:
+      - BasicAuth: []
+      summary: Document signat  i informació d'una firma
+      tags:
+      - Firma Web v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/firmaweb/v1/getTransactionID:
+    post:
+      operationId: getTransactionID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FirmaSimpleCommonInfo'
+        description: Solicita i configura una transacció de firma web
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Operació realitzada correctament
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+      security:
+      - BasicAuth: []
+      summary: Operacio per obtenir el Id de una transaccio de la API
+      tags:
+      - Firma Web v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/firmaweb/v1/getTransactionStatus:
+    post:
+      operationId: getTransactionStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FirmaSimpleStartTransactionRequest'
+        description: Identificador de transacció retornat de la cridada getTransactionID().
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirmaSimpleGetTransactionStatusResponse'
+          description: Operació realitzada correctament
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+      security:
+      - BasicAuth: []
+      summary: Retorna estat de la transacció (el procés de firma en general) i resultat
+        del procés de cada firma
+      tags:
+      - Firma Web v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/firmaweb/v1/startTransaction:
+    post:
+      operationId: startTransaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FirmaSimpleStartTransactionRequest'
+        description: "Envia identificador de la transacció, url de retorn i tipus\
+          \ de vista web (amb o sense iframe)"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Operació realitzada correctament
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+      security:
+      - BasicAuth: []
+      summary: "Envia identificador de la transacció, url de retorn i tipus de vista\
+        \ web (amb o sense iframe) i inicia el procés de firma retornant una URL de\
+        \ redirecció."
+      tags:
+      - Firma Web v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
   /secure/utils/v1/getAvailableLanguages:
     get:
       operationId: getAvailableLanguages
@@ -183,7 +482,7 @@ paths:
       - application/json
   /secure/utils/v1/getAvailableProfiles:
     get:
-      operationId: getAvailableProfiles
+      operationId: getAvailableProfiles_1
       parameters:
       - description: Idioma en que s'han de retornar les dades(Només suportat 'ca'
           o 'es')
@@ -805,7 +1104,6 @@ components:
           type: array
       type: object
     FirmaSimpleStatus:
-      description: Estat del procés de firma
       example:
         errorStackTrace: errorStackTrace
         STATUS_FINAL_OK: 1
@@ -1036,18 +1334,40 @@ components:
       - signMode
       - signType
       type: object
-    AvailableLanguagesRest:
+    FirmaSimpleAddFileToSignRequest:
       example:
-        list:
-        - value: value
-          key: key
-        - value: value
-          key: key
+        fileInfoSignature:
+          reason: Exemple de firma
+          additionalInformation: ca
+          expedientNom: ca
+          languageSign: ca
+          documentType: 0
+          signID: "1"
+          expedientCodi: ca
+          procedimentCodi: ca
+          procedimentNom: ca
+          signNumber: 1
+          fileToSign:
+            data: data
+            mime: mime
+            nom: nom
+          name: test.pdf
+          location: Palma
+          previusSignatureDetachedFile:
+            data: data
+            mime: mime
+            nom: nom
+          expedientUrl: ca
+        transactionID: transactionID
       properties:
-        list:
-          items:
-            $ref: '#/components/schemas/KeyValue'
-          type: array
+        transactionID:
+          description: Identificador de transacció
+          type: string
+        fileInfoSignature:
+          $ref: '#/components/schemas/FirmaSimpleFileInfoSignature'
+      required:
+      - fileInfoSignature
+      - transactionID
       type: object
     AvailableProfile:
       description: Detalls del Perfil d'un usuari Aplicació
@@ -1087,6 +1407,164 @@ components:
           type: array
         language:
           type: string
+      type: object
+    FirmaSimpleDocumentTypeInformation:
+      example:
+        documentTypeBase: 6
+        documentType: 0
+        name: name
+      properties:
+        documentType:
+          description: Identificador de Tipus Documental
+          format: int64
+          type: integer
+        name:
+          description: Nom del Tipus Documental
+          type: string
+        documentTypeBase:
+          description: Identificador de Tipus Documental associat als valors ENI
+          format: int64
+          type: integer
+      required:
+      - documentType
+      - documentTypeBase
+      - name
+      type: object
+    GetAvailableTypesOfDocumentsResponse:
+      example:
+        getAvailableTypesOfDocumentsResponse:
+        - documentTypeBase: 6
+          documentType: 0
+          name: name
+        - documentTypeBase: 6
+          documentType: 0
+          name: name
+      properties:
+        getAvailableTypesOfDocumentsResponse:
+          items:
+            $ref: '#/components/schemas/FirmaSimpleDocumentTypeInformation'
+          type: array
+      type: object
+    FirmaSimpleGetSignatureResultRequest:
+      example:
+        signID: signID
+        transactionID: transactionID
+      properties:
+        transactionID:
+          description: Identificador de la transaccio
+          type: string
+        signID:
+          description: Identificador de la firma
+          type: string
+      required:
+      - signID
+      - transactionID
+      type: object
+    FirmaSimpleStartTransactionRequest:
+      example:
+        view: view
+        language: language
+        returnUrl: returnUrl
+        transactionID: transactionID
+      properties:
+        transactionID:
+          description: Identificador de transacció
+          type: string
+        returnUrl:
+          description: Adreça web on retornar una vegada finalitzat tot el procés
+            de firma.
+          type: string
+        view:
+          description: "Indica si la presentació de la firma es farà a pantalla completa\
+            \ o dins d'un iframe:\r\n    • \"fullview\" (Constant VIEW_FULLSCREEN)\r\
+            \n    • \"iframe\" (Constant VIEW_IFRAME)"
+          type: string
+        language:
+          description: Idioma seleccionat
+          type: string
+      required:
+      - language
+      - returnUrl
+      - transactionID
+      - view
+      type: object
+    FirmaSimpleGetTransactionStatusResponse:
+      example:
+        transactionStatus:
+          errorStackTrace: errorStackTrace
+          STATUS_FINAL_OK: 1
+          STATUS_FINAL_ERROR: 5
+          STATUS_INITIALIZING: 0
+          errorMessage: errorMessage
+          STATUS_IN_PROGRESS: 6
+          STATUS_CANCELLED: 5
+          status: 2
+        signaturesStatusList:
+        - signID: signID
+          status:
+            errorStackTrace: errorStackTrace
+            STATUS_FINAL_OK: 1
+            STATUS_FINAL_ERROR: 5
+            STATUS_INITIALIZING: 0
+            errorMessage: errorMessage
+            STATUS_IN_PROGRESS: 6
+            STATUS_CANCELLED: 5
+            status: 2
+        - signID: signID
+          status:
+            errorStackTrace: errorStackTrace
+            STATUS_FINAL_OK: 1
+            STATUS_FINAL_ERROR: 5
+            STATUS_INITIALIZING: 0
+            errorMessage: errorMessage
+            STATUS_IN_PROGRESS: 6
+            STATUS_CANCELLED: 5
+            status: 2
+      properties:
+        transactionStatus:
+          $ref: '#/components/schemas/FirmaSimpleStatus'
+        signaturesStatusList:
+          description: "Estat de cada firma. Pot passar que l'estat general sigui\
+            \ que tot ha anat bé, però que totes o algunes de les firmes no."
+          items:
+            $ref: '#/components/schemas/FirmaSimpleSignatureStatus'
+          type: array
+      required:
+      - signaturesStatusList
+      - transactionStatus
+      type: object
+    FirmaSimpleSignatureStatus:
+      description: "Estat de cada firma. Pot passar que l'estat general sigui que\
+        \ tot ha anat bé, però que totes o algunes de les firmes no."
+      example:
+        signID: signID
+        status:
+          errorStackTrace: errorStackTrace
+          STATUS_FINAL_OK: 1
+          STATUS_FINAL_ERROR: 5
+          STATUS_INITIALIZING: 0
+          errorMessage: errorMessage
+          STATUS_IN_PROGRESS: 6
+          STATUS_CANCELLED: 5
+          status: 2
+      properties:
+        signID:
+          type: string
+        status:
+          $ref: '#/components/schemas/FirmaSimpleStatus'
+      type: object
+    AvailableLanguagesRest:
+      example:
+        list:
+        - value: value
+          key: key
+        - value: value
+          key: key
+      properties:
+        list:
+          items:
+            $ref: '#/components/schemas/KeyValue'
+          type: array
       type: object
     LlistaTipusDocumentalRest:
       description: Resposta per la petició de llistats de tipus documentals.

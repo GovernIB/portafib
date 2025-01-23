@@ -15,13 +15,19 @@ package es.caib.portafib.apiinterna.client.firma.v1.example.api;
 import es.caib.portafib.apiinterna.client.firma.v1.api.UtilsV1Api;
 import es.caib.portafib.apiinterna.client.firma.v1.model.AvailableLanguagesRest;
 import es.caib.portafib.apiinterna.client.firma.v1.model.AvailableProfilesRest;
+import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleFile;
 import es.caib.portafib.apiinterna.client.firma.v1.model.LlistaTipusDocumentalRest;
 import es.caib.portafib.apiinterna.client.firma.v1.services.ApiClient;
 
 import org.jboss.logging.Logger;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Properties;
 
 /**
@@ -104,7 +110,7 @@ public class UtilsV1ApiTest {
         UtilsV1Api api;
         api = getApi();
 
-        AvailableProfilesRest response = api.getAvailableProfiles(language);
+        AvailableProfilesRest response = api.getAvailableProfiles1(language);
         if (expectedError != null) {
             log.error("internalTestPerfilsDeFirmaList: S'espera un error i la cridada ha funcionat.");
         }
@@ -155,5 +161,30 @@ public class UtilsV1ApiTest {
         UtilsV1Api api = new UtilsV1Api(client);
         return api;
     }
+    
+public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String mime) throws Exception {
+        
+        InputStream is = new FileInputStream(new File(fileName));
+        
+        ByteArrayOutputStream fos = new ByteArrayOutputStream();
+        copyFileToOutputStream(is, fos);
+
+        FirmaSimpleFile asf = new FirmaSimpleFile();
+        asf.setNom(fileName);
+        asf.setMime(mime);
+        ArrayList<byte[]> fosBytes = new ArrayList<byte[]>();
+        fosBytes.add(fos.toByteArray());
+        asf.setData(fosBytes.get(0));
+        
+        return asf;
+    }
+
+public static void copyFileToOutputStream(InputStream input, OutputStream output) throws IOException {
+    byte[] buffer = new byte[4096];
+    int n = 0;
+    while (-1 != (n = input.read(buffer))) {
+        output.write(buffer, 0, n);
+    }
+}
 
 }

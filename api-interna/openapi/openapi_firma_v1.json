@@ -35,6 +35,9 @@
     "name" : "Firma en Servidor v1",
     "description" : "Firma en servidor"
   }, {
+    "name" : "Firma Web v1",
+    "description" : "Firma web"
+  }, {
     "name" : "Utils v1",
     "description" : "Utilitats"
   } ],
@@ -195,6 +198,422 @@
         } ]
       }
     },
+    "/secure/firmaweb/v1/addFileToSign" : {
+      "post" : {
+        "tags" : [ "Firma Web v1" ],
+        "summary" : "Afegeix un document  al conjunt de Peticions de Firma a realitzar per l'usuari.",
+        "operationId" : "addFileToSign",
+        "requestBody" : {
+          "description" : "Document a signar i dades específiques de la firma a realitzar.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/FirmaSimpleAddFileToSignRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/firmaweb/v1/closeTransaction" : {
+      "post" : {
+        "tags" : [ "Firma Web v1" ],
+        "summary" : "Indica al component de firma que la informació s’ha recuperat correctament i que pot fer neteja en el servidor.",
+        "operationId" : "closeTransaction",
+        "requestBody" : {
+          "description" : "Identificador de la transacció.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/firmaweb/v1/getAvailableProfiles" : {
+      "post" : {
+        "tags" : [ "Firma Web v1" ],
+        "summary" : "Retorna una llista dels perfils o profiles de firma en servidor disponibles per l'usuari aplicació que realitza la cridada",
+        "operationId" : "getAvailableProfiles",
+        "requestBody" : {
+          "description" : "Idioma en què es retornarà el nom i descripció dels perfils, així com els missatges d'errors",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AvailableProfilesRest"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/firmaweb/v1/getAvailableTypesOfDocuments" : {
+      "post" : {
+        "tags" : [ "Firma Web v1" ],
+        "summary" : "Retorna una llista dels Tipus Documentals disponibles en el servidor",
+        "operationId" : "getAvailableTypesOfDocuments",
+        "requestBody" : {
+          "description" : "Idioma en què es retornarà el nom dels tipus de documents així com els missatges d'errors",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetAvailableTypesOfDocumentsResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/firmaweb/v1/getSignatureResult" : {
+      "post" : {
+        "tags" : [ "Firma Web v1" ],
+        "summary" : "Document signat  i informació d'una firma",
+        "operationId" : "getSignatureResult",
+        "requestBody" : {
+          "description" : "Identificador de transacció i de firma.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/FirmaSimpleGetSignatureResultRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FirmaSimpleSignatureResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/firmaweb/v1/getTransactionID" : {
+      "post" : {
+        "tags" : [ "Firma Web v1" ],
+        "summary" : "Operacio per obtenir el Id de una transaccio de la API",
+        "operationId" : "getTransactionID",
+        "requestBody" : {
+          "description" : "Solicita i configura una transacció de firma web",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/FirmaSimpleCommonInfo"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/firmaweb/v1/getTransactionStatus" : {
+      "post" : {
+        "tags" : [ "Firma Web v1" ],
+        "summary" : "Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma",
+        "operationId" : "getTransactionStatus",
+        "requestBody" : {
+          "description" : "Identificador de transacció retornat de la cridada getTransactionID().",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/FirmaSimpleStartTransactionRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FirmaSimpleGetTransactionStatusResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/firmaweb/v1/startTransaction" : {
+      "post" : {
+        "tags" : [ "Firma Web v1" ],
+        "summary" : "Envia identificador de la transacció, url de retorn i tipus de vista web (amb o sense iframe) i inicia el procés de firma retornant una URL de redirecció.",
+        "operationId" : "startTransaction",
+        "requestBody" : {
+          "description" : "Envia identificador de la transacció, url de retorn i tipus de vista web (amb o sense iframe)",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/FirmaSimpleStartTransactionRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
     "/secure/utils/v1/getAvailableLanguages" : {
       "get" : {
         "tags" : [ "Utils v1" ],
@@ -260,7 +679,7 @@
       "get" : {
         "tags" : [ "Utils v1" ],
         "summary" : "Retorna els perfils de firma.",
-        "operationId" : "getAvailableProfiles",
+        "operationId" : "getAvailableProfiles_1",
         "parameters" : [ {
           "name" : "language",
           "in" : "query",
@@ -780,8 +1199,7 @@
           "errorStackTrace" : {
             "type" : "string"
           }
-        },
-        "description" : "Estat del procés de firma"
+        }
       },
       "FirmaSimpleValidationInfo" : {
         "type" : "object",
@@ -906,14 +1324,16 @@
         },
         "description" : "Informació de la firma actualitzada"
       },
-      "AvailableLanguagesRest" : {
+      "FirmaSimpleAddFileToSignRequest" : {
+        "required" : [ "fileInfoSignature", "transactionID" ],
         "type" : "object",
         "properties" : {
-          "list" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/KeyValue"
-            }
+          "transactionID" : {
+            "type" : "string",
+            "description" : "Identificador de transacció"
+          },
+          "fileInfoSignature" : {
+            "$ref" : "#/components/schemas/FirmaSimpleFileInfoSignature"
           }
         }
       },
@@ -947,6 +1367,112 @@
           },
           "language" : {
             "type" : "string"
+          }
+        }
+      },
+      "FirmaSimpleDocumentTypeInformation" : {
+        "required" : [ "documentType", "documentTypeBase", "name" ],
+        "type" : "object",
+        "properties" : {
+          "documentType" : {
+            "type" : "integer",
+            "description" : "Identificador de Tipus Documental",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Nom del Tipus Documental"
+          },
+          "documentTypeBase" : {
+            "type" : "integer",
+            "description" : "Identificador de Tipus Documental associat als valors ENI",
+            "format" : "int64"
+          }
+        }
+      },
+      "GetAvailableTypesOfDocumentsResponse" : {
+        "type" : "object",
+        "properties" : {
+          "getAvailableTypesOfDocumentsResponse" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/FirmaSimpleDocumentTypeInformation"
+            }
+          }
+        }
+      },
+      "FirmaSimpleGetSignatureResultRequest" : {
+        "required" : [ "signID", "transactionID" ],
+        "type" : "object",
+        "properties" : {
+          "transactionID" : {
+            "type" : "string",
+            "description" : "Identificador de la transaccio"
+          },
+          "signID" : {
+            "type" : "string",
+            "description" : "Identificador de la firma"
+          }
+        }
+      },
+      "FirmaSimpleStartTransactionRequest" : {
+        "required" : [ "language", "returnUrl", "transactionID", "view" ],
+        "type" : "object",
+        "properties" : {
+          "transactionID" : {
+            "type" : "string",
+            "description" : "Identificador de transacció"
+          },
+          "returnUrl" : {
+            "type" : "string",
+            "description" : "Adreça web on retornar una vegada finalitzat tot el procés de firma."
+          },
+          "view" : {
+            "type" : "string",
+            "description" : "Indica si la presentació de la firma es farà a pantalla completa o dins d'un iframe:\r\n    • \"fullview\" (Constant VIEW_FULLSCREEN)\r\n    • \"iframe\" (Constant VIEW_IFRAME)"
+          },
+          "language" : {
+            "type" : "string",
+            "description" : "Idioma seleccionat"
+          }
+        }
+      },
+      "FirmaSimpleGetTransactionStatusResponse" : {
+        "required" : [ "signaturesStatusList", "transactionStatus" ],
+        "type" : "object",
+        "properties" : {
+          "transactionStatus" : {
+            "$ref" : "#/components/schemas/FirmaSimpleStatus"
+          },
+          "signaturesStatusList" : {
+            "type" : "array",
+            "description" : "Estat de cada firma. Pot passar que l'estat general sigui que tot ha anat bé, però que totes o algunes de les firmes no.",
+            "items" : {
+              "$ref" : "#/components/schemas/FirmaSimpleSignatureStatus"
+            }
+          }
+        }
+      },
+      "FirmaSimpleSignatureStatus" : {
+        "type" : "object",
+        "properties" : {
+          "signID" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/FirmaSimpleStatus"
+          }
+        },
+        "description" : "Estat de cada firma. Pot passar que l'estat general sigui que tot ha anat bé, però que totes o algunes de les firmes no."
+      },
+      "AvailableLanguagesRest" : {
+        "type" : "object",
+        "properties" : {
+          "list" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/KeyValue"
+            }
           }
         }
       },

@@ -1,6 +1,6 @@
 /*
- * API Interna de PortaFIB de consulta de Revisors d'un destinatari
- * Conjunt de Serveis REST de PortaFIB per atendre consultes sobre REVISORS d'un destinatari.
+ * API Interna de PortaFIB de consulta de serveis d'utilitat
+ * Conjunt de Serveis REST de PortaFIB per atendre consultes generiques de Portafib
  *
  * The version of the OpenAPI document: 1.0-SNAPSHOT
  * Contact: otae@fundaciobit.org
@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-package es.caib.portafib.apiinterna.client.revisors.v1.services;
+package es.caib.portafib.apiinterna.client.firma.v1.services;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;

@@ -21,9 +21,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import es.caib.portafib.apiinterna.client.firma.v1.model.KeyValue;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -62,7 +62,7 @@ public class FirmaSimpleSignerInfo {
 
   public static final String JSON_PROPERTY_SIGN_DATE = "signDate";
   @javax.annotation.Nullable
-  private Date signDate;
+  private OffsetDateTime signDate;
 
   public static final String JSON_PROPERTY_SERIAL_NUMBER_CERT = "serialNumberCert";
   @javax.annotation.Nullable
@@ -183,7 +183,7 @@ public class FirmaSimpleSignerInfo {
     this.eniSignLevel = eniSignLevel;
   }
 
-  public FirmaSimpleSignerInfo signDate(@javax.annotation.Nullable Date signDate) {
+  public FirmaSimpleSignerInfo signDate(@javax.annotation.Nullable OffsetDateTime signDate) {
     
     this.signDate = signDate;
     return this;
@@ -197,14 +197,14 @@ public class FirmaSimpleSignerInfo {
   @JsonProperty(JSON_PROPERTY_SIGN_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Date getSignDate() {
+  public OffsetDateTime getSignDate() {
     return signDate;
   }
 
 
   @JsonProperty(JSON_PROPERTY_SIGN_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignDate(@javax.annotation.Nullable Date signDate) {
+  public void setSignDate(@javax.annotation.Nullable OffsetDateTime signDate) {
     this.signDate = signDate;
   }
 
