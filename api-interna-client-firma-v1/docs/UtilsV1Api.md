@@ -5,7 +5,7 @@ All URIs are relative to */portafibapi/interna*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**getAvailableLanguages**](UtilsV1Api.md#getAvailableLanguages) | **GET** /secure/utils/v1/getAvailableLanguages | Retorna els idiomes disponibles. |
-| [**getAvailableProfiles**](UtilsV1Api.md#getAvailableProfiles) | **GET** /secure/utils/v1/getAvailableProfiles | Retorna els perfils de firma. |
+| [**getAvailableProfiles1**](UtilsV1Api.md#getAvailableProfiles1) | **GET** /secure/utils/v1/getAvailableProfiles | Retorna els perfils de firma. |
 | [**tipusdocumentalslist**](UtilsV1Api.md#tipusdocumentalslist) | **GET** /secure/utils/v1/tipusdocumentalslist | Retorna la llista de tipus documentals disponibles. |
 
 
@@ -84,9 +84,9 @@ public class Example {
 | **500** | Error no controlat |  -  |
 
 
-## getAvailableProfiles
+## getAvailableProfiles1
 
-> AvailableProfilesRest getAvailableProfiles(language)
+> AvailableProfilesRest getAvailableProfiles1(language)
 
 Retorna els perfils de firma.
 
@@ -114,10 +114,10 @@ public class Example {
         UtilsV1Api apiInstance = new UtilsV1Api(defaultClient);
         String language = "ca"; // String | Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')
         try {
-            AvailableProfilesRest result = apiInstance.getAvailableProfiles(language);
+            AvailableProfilesRest result = apiInstance.getAvailableProfiles1(language);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling UtilsV1Api#getAvailableProfiles");
+            System.err.println("Exception when calling UtilsV1Api#getAvailableProfiles1");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());

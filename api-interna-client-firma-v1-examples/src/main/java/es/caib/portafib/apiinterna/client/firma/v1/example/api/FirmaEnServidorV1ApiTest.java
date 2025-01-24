@@ -31,6 +31,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -57,13 +58,40 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
      * @throws ApiException if the Api call fails
      */
 
-    public static void main(String[] args)  {
-        FirmaEnServidorV1ApiTest test = new FirmaEnServidorV1ApiTest();
-        try {
-            test.testSignDocument();
-        
-            test.testUpgradeSignaturePAdES();
+   
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+    	FirmaEnServidorV1ApiTest test = new FirmaEnServidorV1ApiTest();
+    	try {
+			test.testSignDocument();
+
+			//test.testUpgradeSignaturePAdES();
+			
+		} catch (ApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+	}
     
+	public void testSignDocument() throws ApiException {
+
+		FirmaEnServidorV1ApiTest firmaEnServidorV1ApiTest = new FirmaEnServidorV1ApiTest();
+
+		try {
+            firmaEnServidorV1ApiTest.testSignatureServerPAdES();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            
+            System.err.println(
+                    "No s'ha trobat el fitxer a signar.");
+        } catch (IOException e) {
+            
+            e.printStackTrace();
+            
+            System.err.println(
+                    "Error: IOException");
         } catch (ApiException e) {
             System.err.println("Error durant la realització dels Tests de Firma en Servidor:");
             System.err.println("    - Code: " + e.getCode() + " (" + Status.fromStatusCode(e.getCode()).name() + ")");
@@ -87,15 +115,15 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
         }
     }
 
-    public void testSignDocument() throws ApiException, FileNotFoundException, IOException {
+    /*public void testSignDocument() throws ApiException, FileNotFoundException, IOException {
 
         FirmaEnServidorV1ApiTest firmaEnServidorV1ApiTest = new FirmaEnServidorV1ApiTest();
 
         firmaEnServidorV1ApiTest.testSignatureServerPAdES();
 
-    }
+    }*/
 
-    public void testSignatureServerPAdES() throws FileNotFoundException, IOException, ApiException {
+    public void testSignatureServerPAdES() throws Exception {
 
         Properties prop = getConfigProperties();
         
@@ -108,7 +136,7 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
             logErrorPerfilBuit(PROFILE_PADES_PROPERTY);
         }
 
-        FirmaSimpleFile fileToSign = getSimpleFileFromResource("src/main/resources/hola-test.pdf", "application/pdf");
+        FirmaSimpleFile fileToSign = UtilsV1ApiTest.getSimpleFileFromResource("src/main/resources/hola-test.pdf", "application/pdf");
 
         System.out.println(" PERFIL => " + perfil);
         System.out.println(" FILE NOM => " + fileToSign.getNom());
@@ -226,6 +254,7 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
         FirmaEnServidorV1Api api;
 
         ApiClient client = new ApiClient();
+        System.out.println("Pattern: "+((SimpleDateFormat) client.getDateFormat()).toPattern());
 
         client.setBasePath(prop.getProperty("basePath"));
         client.setUsername(prop.getProperty("username"));
@@ -243,6 +272,9 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
         System.err.println("La propietat " + perfilProperty
                 + " està buida. Això significa que si l'usuari aplicacio té més d'un perfil assignat, llavors llançarà un error.");
     }
+	
+	
+   
 
     public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String mime) throws IOException {
 
@@ -316,6 +348,10 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
     public static void printSignatureInfo(FirmaSimpleUpgradeResponse fssr) {
         System.out.println(fssr.getUpgradedFileInfo().toString());
     }
+	
+	
+	
+
 
     public static void copyFileToOutputStream(InputStream input, OutputStream output) throws IOException {
         byte[] buffer = new byte[4096];

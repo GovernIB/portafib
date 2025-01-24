@@ -83,7 +83,7 @@ public class UtilsV1Api {
    * @return a {@code AvailableProfilesRest}
    * @throws ApiException if fails to make API call
    */
-  public AvailableProfilesRest getAvailableProfiles(String language) throws ApiException {
+  public AvailableProfilesRest getAvailableProfiles1(String language) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables

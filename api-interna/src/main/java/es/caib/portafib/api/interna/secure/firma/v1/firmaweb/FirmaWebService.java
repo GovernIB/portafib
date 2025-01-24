@@ -1,12 +1,12 @@
 package es.caib.portafib.api.interna.secure.firma.v1.firmaweb;
 
 import org.apache.commons.io.FileUtils;
-import org.codehaus.jackson.node.TextNode;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.utils.rest.RestException;
+import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.TipusDocumentJPA;
@@ -30,15 +30,35 @@ import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleSignature
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleStatus;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.RestFirmaUtils;
 import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleSignatureResponse;
+import es.caib.portafib.api.interna.secure.firma.v1.firmaweb.responses.GetAvailableTypesOfDocumentsResponse;
 import es.caib.portafib.api.interna.secure.firma.v1.utils.AvailableProfilesRest;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import java.io.File;
@@ -53,31 +73,81 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Controller REST per l'API de Firma Simple Web.
  *
- * @author anadal
- * @author areus
  */
 
-//@RequestMapping(value = FirmaWebService.CONTEXT)
+@Path(FirmaWebService.PATH)
+@OpenAPIDefinition(
+        info = @Info(
+                title = "API Interna de PortaFIB que ofereix serveis de firma web.",
+                description = "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de PortaFIB",
+                version = "1.0-SNAPSHOT",
+                license = @License(
+                        name = "European Union Public Licence (EUPL v1.2)",
+                        url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"),
+                contact = @Contact(
+                        name = "Departament de Govern Digital a la Fundació Bit",
+                        email = "otae@fundaciobit.org",
+                        url = "http://governdigital.fundaciobit.org")),
+        tags = @Tag(name = FirmaWebService.TAG_NAME, description = "Firma web"))
+@SecurityScheme(type = SecuritySchemeType.HTTP, name = FirmaWebService.SECURITY_NAME, scheme = "basic")
+
 public class FirmaWebService extends RestFirmaUtils {
 
     private static final boolean ES_FIRMA_EN_SERVIDOR = false;
 
-    public static final String CONTEXT = "/common/rest/apifirmawebsimple/v1";
+    public static final String PATH = "/secure/firmaweb/v1";
+
+    public static final String TAG_NAME = "Firma Web v1";
+
+    protected static final String SECURITY_NAME = "BasicAuth";
 
     @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal.JNDI_NAME)
     protected es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal passarelaDeFirmaWebEjb;
 
     protected static final Map<String, TransactionInfo> currentTransactions = new ConcurrentHashMap<String, TransactionInfo>();
 
-    //@RequestMapping(value = "/" + ApiFirmaWebSimple.GETTRANSACTIONID, method = RequestMethod.POST)
-    ////@ResponseBody
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public String getTransactionID(HttpServletRequest request,
-            /* @RequestBody */  FirmaSimpleCommonInfo commonInfo) {
+    @Path(value = "/getTransactionID")
+    @POST
+    @RolesAllowed({ Constants.PFI_WS })
+    @SecurityRequirement(name = SECURITY_NAME)
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(
+            tags = TAG_NAME,
+            operationId = "getTransactionID",
+            requestBody = @RequestBody(
+                    description = "Solicita i configura una transacció de firma web",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(
+                                    name = "FirmaSimpleGetTransactionIdRequest",
+                                    requiredMode = RequiredMode.REQUIRED,
+                                    implementation = FirmaSimpleCommonInfo.class))),
+            summary = "Operacio per obtenir el Id de una transaccio de la API")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Operació realitzada correctament",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = String.class))),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Paràmetres incorrectes",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Error no controlat",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+    public String getTransactionID(@Parameter(hidden = true) @Context
+            HttpServletRequest request, @RequestBody FirmaSimpleCommonInfo commonInfo) {
 
         String userName = checkUsuariAplicacio(request);
-        
+
         // Fer neteja de transaccions Obsoletes !!!!
         cleanExpiredTransactions();
 
@@ -94,8 +164,7 @@ public class FirmaWebService extends RestFirmaUtils {
 
         try {
 
-           getPerfilDeFirma(commonInfo, ES_FIRMA_EN_SERVIDOR, userName);
-            
+            getPerfilDeFirma(commonInfo, ES_FIRMA_EN_SERVIDOR, userName);
 
         } catch (I18NException i18ne) {
 
@@ -115,7 +184,6 @@ public class FirmaWebService extends RestFirmaUtils {
 
         String transactionID = internalGetTransacction();
 
-        
         currentTransactions.put(transactionID,
                 new TransactionInfo(transactionID, commonInfo, TransactionInfo.STATUS_RESERVED_ID));
 
@@ -123,27 +191,95 @@ public class FirmaWebService extends RestFirmaUtils {
 
     }
 
-    //@RequestMapping(value = "/" + ApiFirmaWebSimple.AVAILABLEPROFILES, method = RequestMethod.POST)
-    ////@ResponseBody
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public AvailableProfilesRest getAvailableProfiles(HttpServletRequest request, /* @RequestBody */ TextNode locale) {
-        
+
+    @Path(value = "/getAvailableProfiles")
+    @POST
+    @RolesAllowed({ Constants.PFI_WS })
+    @SecurityRequirement(name = SECURITY_NAME)
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(
+            tags = TAG_NAME,
+            operationId = "getAvailableProfiles",
+            requestBody = @RequestBody(
+                    description = "Idioma en què es retornarà el nom i descripció dels perfils, així com els missatges d'errors",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(
+                                    name = "languageUI",
+                                    requiredMode = RequiredMode.REQUIRED,
+                                    implementation = String.class))),
+            summary = "Retorna una llista dels perfils o profiles de firma en servidor disponibles per l'usuari aplicació que realitza la cridada")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Operació realitzada correctament",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = AvailableProfilesRest.class))),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Paràmetres incorrectes",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Error no controlat",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+    public AvailableProfilesRest getAvailableProfiles(@Parameter(hidden = true) @Context
+            HttpServletRequest request, @RequestBody String locale) {
+
         String usrApp = checkUsuariAplicacio(request);
 
-        return internalGetAvailableProfiles(request, locale.asText(), usrApp);
+        return internalGetAvailableProfiles(request, locale, usrApp);
 
     }
 
-    //@RequestMapping(value = "/" + ApiFirmaWebSimple.ADDFILETOSIGN, method = RequestMethod.POST)
-    ////@ResponseBody
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void addFileToSign(HttpServletRequest request,
-             /* @RequestBody */  FirmaSimpleAddFileToSignRequest holder) {
+    @Path(value = "/addFileToSign")
+    @POST
+    @RolesAllowed({ Constants.PFI_WS })
+    @SecurityRequirement(name = SECURITY_NAME)
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(
+            tags = TAG_NAME,
+            operationId = "addFileToSign",
+            requestBody = @RequestBody(
+                    description = "Document a signar i dades específiques de la firma a realitzar.",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(
+                                    name = "languageUI",
+                                    requiredMode = RequiredMode.REQUIRED,
+                                    implementation = FirmaSimpleAddFileToSignRequest.class))),
+            summary = "Afegeix un document  al conjunt de Peticions de Firma a realitzar per l'usuari.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Operació realitzada correctament",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = String.class))),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Paràmetres incorrectes",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Error no controlat",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+    public void addFileToSign(@Parameter(hidden = true) @Context
+            HttpServletRequest request, @RequestBody FirmaSimpleAddFileToSignRequest holder) {
 
         checkUsuariAplicacio(request);
-        
+
         if (holder == null) {
             throw new RestException("Aquest mètode requereix que el parametre no sigui NULL");
         }
@@ -184,16 +320,6 @@ public class FirmaWebService extends RestFirmaUtils {
         // TODO XYZ ZZZ VALIDAR ESTRUCTURA simpleSignaturesSet
 
         try {
-            //LoginInfo loginInfo = LoginInfo.getInstance();
-            //log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
-
-            // Checks Globals
-           // if (loginInfo.getUsuariAplicacio() == null) {
-            //    throw new Exception("Aquest servei només el poden fer servir el usuariAPP XYZ ZZZ");
-           // }
-
-            // Checks usuari aplicacio
-            //log.info(" XYZ ZZZ Usuari-APP = " + loginInfo.getUsuariAplicacio());
 
             String signID = sfis.getSignID();
             String name = sfis.getName();
@@ -204,8 +330,6 @@ public class FirmaWebService extends RestFirmaUtils {
             ti.setStartTime(new Date());
             log.info(" XYZ ZZZ addFileToSign::afegida firma [" + signID + " | " + name
                     + " ] a la llista de la transacció |" + transactionID + "|");
-
-            
 
         } catch (Throwable th) {
 
@@ -219,44 +343,74 @@ public class FirmaWebService extends RestFirmaUtils {
 
     }
 
-    //@RequestMapping(value = "/" + ApiFirmaWebSimple.AVAILABLETYPESOFDOCUMENTS, method = RequestMethod.POST)
-    ////@ResponseBody
-     
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public List<FirmaSimpleDocumentTypeInformation> getAvailableTypesOfDocuments(HttpServletRequest request,
-            /* @RequestBody */ TextNode textNodeLanguageUI) {
 
-        String languageUI = textNodeLanguageUI.asText();
+
+    @Path(value = "/getAvailableTypesOfDocuments")
+    @POST
+    @RolesAllowed({ Constants.PFI_WS })
+    @SecurityRequirement(name = SECURITY_NAME)
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(
+            tags = TAG_NAME,
+            operationId = "getAvailableTypesOfDocuments",
+            requestBody = @RequestBody(
+                    description = "Idioma en què es retornarà el nom dels tipus de documents així com els missatges d'errors",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(
+                                    name = "languageUI",
+                                    requiredMode = RequiredMode.REQUIRED,
+                                    implementation = String.class))),
+            summary = "Retorna una llista dels Tipus Documentals disponibles en el servidor")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Operació realitzada correctament",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = GetAvailableTypesOfDocumentsResponse.class))),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Paràmetres incorrectes",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Error no controlat",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+    public GetAvailableTypesOfDocumentsResponse getAvailableTypesOfDocuments(@Parameter(hidden = true) @Context
+            HttpServletRequest request, @RequestBody String languageUI) {
+
 
         log.info("\n\nXYZ ZZZ ZZZ  languageUI => ]" + languageUI + "[ \n\n");
 
         String usuariAplicacio = checkUsuariAplicacio(request);
-        
 
         // Check de commonInfo
         if (languageUI == null || languageUI.trim().length() == 0) {
             // XYZ ZZZ TRA
             throw new RestException("El parametre d'entrada languageUI no pot ser null o buit.");
         }
-        
+
         languageUI = checkLanguage(languageUI);
 
         try {
-
 
             // Checks usuari aplicacio
             if (log.isDebugEnabled()) {
                 log.debug("getAvailableTypesOfDocuments ==> Usuari-APP = " + usuariAplicacio);
             }
 
-
             Where whereTD = Where.OR(TipusDocumentFields.USUARIAPLICACIOID.equal(usuariAplicacio),
                     TipusDocumentFields.USUARIAPLICACIOID.isNull());
 
             List<TipusDocument> list = tipusDocumentEjb.select(whereTD,
                     new OrderBy(TipusDocumentFields.TIPUSDOCUMENTID));
-
+            
             List<FirmaSimpleDocumentTypeInformation> tipus = new ArrayList<FirmaSimpleDocumentTypeInformation>();
             for (TipusDocument td : list) {
 
@@ -276,8 +430,8 @@ public class FirmaWebService extends RestFirmaUtils {
 
             //ResponseEntity<List<FirmaSimpleDocumentTypeInformation>> res;
             //res = new ResponseEntity<List<FirmaSimpleDocumentTypeInformation>>(tipus, headers, HttpStatus.OK);
-
-            return tipus;
+            GetAvailableTypesOfDocumentsResponse response = new GetAvailableTypesOfDocumentsResponse(tipus);
+            return response;
 
         } catch (I18NException i18ne) {
 
@@ -299,21 +453,55 @@ public class FirmaWebService extends RestFirmaUtils {
 
     //@RequestMapping(value = "/" + ApiFirmaWebSimple.STARTTRANSACTION, method = RequestMethod.POST)
     //@ResponseBody
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public String startTransaction(HttpServletRequest request,
-            /* @RequestBody */ FirmaSimpleStartTransactionRequest startTransactionRequest) {
+    @Path(value = "/startTransaction")
+    @POST
+    @RolesAllowed({ Constants.PFI_WS })
+    @SecurityRequirement(name = SECURITY_NAME)
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(
+            tags = TAG_NAME,
+            operationId = "startTransaction",
+            requestBody = @RequestBody(
+                    description = "Envia identificador de la transacció, url de retorn i tipus de vista web (amb o sense iframe)",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(
+                                    name = "languageUI",
+                                    requiredMode = RequiredMode.REQUIRED,
+                                    implementation = FirmaSimpleStartTransactionRequest.class))),
+            summary = "Envia identificador de la transacció, url de retorn i tipus de vista web (amb o sense iframe)"
+                    + " i inicia el procés de firma retornant una URL de redirecció.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Operació realitzada correctament",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = String.class))),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Paràmetres incorrectes",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Error no controlat",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+    public String startTransaction(@Parameter(hidden = true) @Context
+            HttpServletRequest request, @RequestBody FirmaSimpleStartTransactionRequest startTransactionRequest) {
 
         UsuariAplicacioJPA usrAppJPA = checkUsuariAplicacioFull(request);
 
-
         // XYZ ZZZ Canviar per idioma per defecte
-        String languageUI =  checkLanguage(startTransactionRequest.getLanguage());  
+        String languageUI = checkLanguage(startTransactionRequest.getLanguage());
 
         try {
             log.info(" XYZ ZZZ eNTRA A startTransaction => FirmaWebSimpleStartTransactionRequest: "
                     + startTransactionRequest);
-
 
             final String transactionID = startTransactionRequest.getTransactionID();
 
@@ -352,26 +540,21 @@ public class FirmaWebService extends RestFirmaUtils {
 
             // Checks Globals
 
-
             // Checks usuari aplicacio
             /*
             UsuariAplicacioJPA usuariAplicacio = loginInfo.getUsuariAplicacio();
-
+            
             String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
-
+            
             EntitatJPA entitatJPA = loginInfo.getEntitat();
-
+            
             String entitatID2 = entitatJPA.getEntitatID();
             */
-            
-            
-            
+
             EntitatJPA entitat = usrAppJPA.getEntitat();
             String usuariAplicacioID = usrAppJPA.getUsuariAplicacioID();
 
             // Cercam que tengui configuracio
-
-            
 
             FirmaSimpleFileInfoSignature[] fileInfoSignatureArray = ti.getFirmaSimpleFileList()
                     .toArray(new FirmaSimpleFileInfoSignature[0]);
@@ -389,7 +572,6 @@ public class FirmaWebService extends RestFirmaUtils {
             Map<String, Long> tipusDocumentalBySignID = new HashMap<String, Long>();
             String signID;
             for (FirmaSimpleFileInfoSignature firmaSimpleFileInfoSignature : fileInfoSignatureArray) {
-                
 
                 org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest fssdr;
                 fssdr = new org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest();
@@ -397,9 +579,8 @@ public class FirmaWebService extends RestFirmaUtils {
                 fssdr.setFileInfoSignature(convertFirmaSimpleFileInfoSignature(firmaSimpleFileInfoSignature));
 
                 UsuariAplicacioConfiguracioJPA config;
-                config = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioFirmaPerApiFirmaSimpleWeb(
-                        usuariAplicacioID, perfilDeFirma,
-                        fssdr);
+                config = configuracioUsuariAplicacioLogicaLocalEjb
+                        .getConfiguracioFirmaPerApiFirmaSimpleWeb(usuariAplicacioID, perfilDeFirma, fssdr);
 
                 signID = firmaSimpleFileInfoSignature.getSignID();
                 configBySignID.put(signID, config);
@@ -410,11 +591,7 @@ public class FirmaWebService extends RestFirmaUtils {
             }
 
             PassarelaSignaturesSet pss = convertRestBean2PassarelaBeanWeb(transactionID, simpleSignaturesSet,
-                     usuariAplicacioID, entitat, perfilDeFirma, configBySignID);
-            
-            
-           
-            
+                    usuariAplicacioID, entitat, perfilDeFirma, configBySignID);
 
             String urlFinal = startTransactionRequest.getReturnUrl();
             pss.getCommonInfoSignature().setUrlFinal(urlFinal);
@@ -425,11 +602,8 @@ public class FirmaWebService extends RestFirmaUtils {
 
             final int origenPeticioDeFirma = ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1;
 
-            String redirectUrl = passarelaDeFirmaWebEjb.startTransaction(pss, entitat.getEntitatID(), fullView, 
+            String redirectUrl = passarelaDeFirmaWebEjb.startTransaction(pss, entitat.getEntitatID(), fullView,
                     usrAppJPA, perfilDeFirma, configBySignID, tipusDocumentalBySignID, origenPeticioDeFirma);
-            
-            
-           
 
             //HttpHeaders headers = addAccessControllAllowOrigin();
             //ResponseEntity<?> re = new ResponseEntity<String>(redirectUrl, headers, HttpStatus.OK);
@@ -465,20 +639,50 @@ public class FirmaWebService extends RestFirmaUtils {
 
     }
 
-    //@RequestMapping(value = "/" + ApiFirmaWebSimple.TRANSACTIONSTATUS, method = RequestMethod.POST)
-    //@ResponseBody
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public FirmaSimpleGetTransactionStatusResponse getTransactionStatus(/* @RequestBody */ TextNode textNodeTransactionID,
-            HttpServletRequest request) {
+    @Path(value = "/getTransactionStatus")
+    @POST
+    @RolesAllowed({ Constants.PFI_WS })
+    @SecurityRequirement(name = SECURITY_NAME)
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(
+            tags = TAG_NAME,
+            operationId = "getTransactionStatus",
+            requestBody = @RequestBody(
+                    description = "Identificador de transacció retornat de la cridada getTransactionID().",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(
+                                    name = "languageUI",
+                                    requiredMode = RequiredMode.REQUIRED,
+                                    implementation = FirmaSimpleStartTransactionRequest.class))),
+            summary = "Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Operació realitzada correctament",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = FirmaSimpleGetTransactionStatusResponse.class))),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Paràmetres incorrectes",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Error no controlat",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+    public FirmaSimpleGetTransactionStatusResponse getTransactionStatus(@Parameter(hidden = true) @Context
+            HttpServletRequest request, @RequestBody String transactionID) {
         try {
-
-            String transactionID = textNodeTransactionID.asText();
 
             log.info(" XYZ ZZZ ENTRA A getTransactionStatus => ]" + transactionID + "[");
 
             checkUsuariAplicacio(request);
-
 
             PassarelaSignatureStatus status;
             status = passarelaDeFirmaWebEjb.getStatusTransaction(transactionID);
@@ -520,7 +724,7 @@ public class FirmaWebService extends RestFirmaUtils {
 
         } catch (Throwable th) {
             final String msg = "Error desconegut intentant recuperar informació de l'estat de la transacció: "
-                    + textNodeTransactionID + ": " + th.getMessage();
+                    + transactionID + ": " + th.getMessage();
 
             log.error(msg, th);
 
@@ -529,17 +733,49 @@ public class FirmaWebService extends RestFirmaUtils {
 
     }
 
-    //@RequestMapping(value = "/" + ApiFirmaWebSimple.SIGNATURERESULT, method = RequestMethod.POST)
-    //@ResponseBody
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public FirmaSimpleSignatureResponse getSignatureResult(
-            /* @RequestBody */ FirmaSimpleGetSignatureResultRequest signatureResultRequest, HttpServletRequest request) {
+    @Path(value = "/getSignatureResult")
+    @POST
+    @RolesAllowed({ Constants.PFI_WS })
+    @SecurityRequirement(name = SECURITY_NAME)
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(
+            tags = TAG_NAME,
+            operationId = "getSignatureResult",
+            requestBody = @RequestBody(
+                    description = "Identificador de transacció i de firma.",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(
+                                    name = "languageUI",
+                                    requiredMode = RequiredMode.REQUIRED,
+                                    implementation = FirmaSimpleGetSignatureResultRequest.class))),
+            summary = "Document signat  i informació d'una firma")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Operació realitzada correctament",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = FirmaSimpleSignatureResponse.class))),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Paràmetres incorrectes",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Error no controlat",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+    public FirmaSimpleSignatureResponse getSignatureResult(@Parameter(hidden = true) @Context
+            HttpServletRequest request, @RequestBody FirmaSimpleGetSignatureResultRequest signatureResultRequest) {
 
         log.info(" XYZ ZZZ getSignaturesResult => ENTRA");
 
         checkUsuariAplicacio(request);
-       
 
         // XYZ ZZZ
         // Revisar que existeix currentTransaccitions
@@ -600,23 +836,54 @@ public class FirmaWebService extends RestFirmaUtils {
 
     }
 
-    //@RequestMapping(value = "/" + ApiFirmaWebSimple.CLOSETRANSACTION, method = RequestMethod.POST)
-    //@ResponseBody
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void closeTransaction(/* @RequestBody */ TextNode textNodeTransactionID, HttpServletRequest request,
-            HttpServletResponse response) {
-
-        
+    @Path(value = "/closeTransaction")
+    @POST
+    @RolesAllowed({ Constants.PFI_WS })
+    @SecurityRequirement(name = SECURITY_NAME)
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(
+            tags = TAG_NAME,
+            operationId = "closeTransaction",
+            requestBody = @RequestBody(
+                    description = "Identificador de la transacció.",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(
+                                    name = "transactionID",
+                                    requiredMode = RequiredMode.REQUIRED,
+                                    implementation = String.class))),
+            summary = "Indica al component de firma que la informació s’ha recuperat correctament i que pot fer neteja en el servidor.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Operació realitzada correctament",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = String.class))),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Paràmetres incorrectes",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Error no controlat",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+    public void closeTransaction(@Parameter(hidden = true) @Context
+            HttpServletRequest request, @RequestBody
+            String transactionID) {
 
         log.info(" XYZ ZZZ closeTransaction => ENTRA ...");
 
         checkUsuariAplicacio(request);
-        
-        final String transactionID = textNodeTransactionID.asText();
-        
+
+        //final String transactionID = transactionID;
+
         log.info(" XYZ ZZZ closeTransaction => TransAcciont = ]" + transactionID + "[");
-       
 
         internalCloseTransaction(transactionID);
 
