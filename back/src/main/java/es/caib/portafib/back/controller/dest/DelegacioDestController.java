@@ -514,7 +514,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                     // Ja no és editable
 
                     HtmlUtils.saveMessageWarning(request,
-                            I18NUtils.tradueix(esDelegat() ? "delegacio" : "colaboracio" + ".noeditable"));
+                            I18NUtils.tradueix((esDelegat() ? "delegacio" : "colaboracio") + ".noeditable"));
 
                     // Es pot esborrar? Per esbrinar-ho calcularem el nombre de estatsDeFirma
                     // associats
@@ -532,11 +532,17 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                         // Revisar si aquests estats de firma estan en aquest mateix moment en
                         // funcionament
                         Where w2 = EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull();
-                        if (estatDeFirmaEjb.count(Where.AND(w, w2)) == 0) {
+                        long delegacions = estatDeFirmaEjb.count(Where.AND(w, w2));
+                        if (delegacions == 0) {
                             // No hi ha cap col.laboracio en funcionament en aquest mateix
                             // moment, afegim un boto per si la volen desactivar
                             colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton("fas fa-ban",
                                     "desactivar", "javascript:desactivar({0})", AdditionalButtonStyle.WARNING));
+                        } else {
+                            // XYZ TRA 
+                            HtmlUtils.saveMessageWarning(request,
+                                    "Hi ha delegacions en funcionament, per això no es pot desactivar."
+                                            + " Firmi o rebutgi tot el que té pendent i podrà deshabilitar aquesta Delegació ");
                         }
                     } else {
                         colaboracioDelegacioForm.getHiddenFields().remove(MOTIUDESHABILITADA);
