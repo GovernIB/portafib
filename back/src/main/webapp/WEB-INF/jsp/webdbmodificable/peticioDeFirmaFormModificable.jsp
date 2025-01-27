@@ -75,18 +75,27 @@
    
    var modeFirmaInput = document.getElementById("<%=PeticioDeFirmaFields.MODEDEFIRMA.fullName.replace('.', '_') %>");
    
+   var modeFirmaCurrent = modeFirmaInput.options[modeFirmaInput.selectedIndex].value;
+   
    // Eliminem els modes de firma existents
    modeFirmaInput.innerHTML = "";
    
    // Afegim els modes de firma corresponents (guardats dins l'array modesFirma)
+   var modeFirmaToSelect;
    modesFirma.forEach(function(mode) {
      var option = document.createElement("option");
      option.text = modesFirmaToString[mode];
      option.value = mode;
+     if (mode == modeFirmaCurrent) {
+         modeFirmaToSelect = mode;
+     }
      modeFirmaInput.add(option);
    });
    
-   
+   // Deixam el mode de firma anterior si es possible
+   if (modeFirmaToSelect) {
+       modeFirmaInput.value = modeFirmaToSelect;
+   }
    
    <%--
    if (value == <%=ConstantsV2.TIPUSFIRMA_PADES%>) {       

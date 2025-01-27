@@ -48,6 +48,7 @@
  %>
  <script type="text/javascript">
  
+ <c:if test="${not __theForm.view}" >
 
  var modesFirmaPerTipusFirma = {
          <%
@@ -105,22 +106,34 @@
    
    var modeFirmaInput = document.getElementById("<%=UsuariAplicacioConfiguracioFields.MODEDEFIRMA.fullName.replace('.', '_') %>");
    
+   var modeFirmaCurrent = modeFirmaInput.options[modeFirmaInput.selectedIndex].value;
+   
    // Eliminem els modes de firma existents
    modeFirmaInput.innerHTML = "";
    
    // Afegim els modes de firma corresponents (guardats dins l'array modesFirma)
+   var modeFirmaToSelect;
    modesFirma.forEach(function(mode) {
      var option = document.createElement("option");
      option.text = modesFirmaToString[mode];
      option.value = mode;
+     if (mode == modeFirmaCurrent) {
+         modeFirmaToSelect = mode;
+     }
      modeFirmaInput.add(option);
    });
 
+   // Deixam el mode de firma anterior si es possible
+   if (modeFirmaToSelect) {
+       modeFirmaInput.value = modeFirmaToSelect;
+   }
+   
  }
- 
+
  // Tipus Firma i Mode de Firma
  onChangeTipusFirmaID(document.getElementById("<%=UsuariAplicacioConfiguracioFields.TIPUSFIRMAID.fullName.replace('.', '_') %>"));
 
+ </c:if>
 </script>
 
 
@@ -276,8 +289,11 @@ var usBgColor = [ 'red', 'green', 'blue', 'orange', 'grey', 'brown', 'violet' ];
      }
  }
 
+
  // Primera crida per l'estat inicial.
  onChangeCheckbox();
+ 
+
 
  // Politica de Firma (ocultar o mostrar valor)
  onChangeUsPoliticaDeFirma(document.getElementById("<%=UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA.fullName.replace('.', '_') %>"));

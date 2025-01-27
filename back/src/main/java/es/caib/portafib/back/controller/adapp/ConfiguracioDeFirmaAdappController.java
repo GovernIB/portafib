@@ -7,6 +7,7 @@ import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.menuoptions.MenuOption;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.UsuariAplicacioConfiguracioLogicaLocal;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
@@ -46,8 +47,11 @@ import java.util.Set;
 @Controller
 @RequestMapping(value = ConfiguracioDeFirmaAdappController.CONTEXT_WEB)
 @SessionAttributes(types = { UsuariAplicacioConfiguracioForm.class, UsuariAplicacioConfiguracioFilterForm.class })
-@MenuOption(group = ConstantsV2.ROLE_ADEN2, labelCode = UsuariAplicacioConfiguracioFields._TABLE_MODEL + "."
-        + UsuariAplicacioConfiguracioFields._TABLE_MODEL + ".plural",  order = 30)
+@MenuOption(
+        group = ConstantsV2.ROLE_ADEN2,
+        labelCode = UsuariAplicacioConfiguracioFields._TABLE_MODEL + "."
+                + UsuariAplicacioConfiguracioFields._TABLE_MODEL + ".plural",
+        order = 30)
 public class ConfiguracioDeFirmaAdappController extends UsuariAplicacioConfiguracioController {
 
     public static final String CONTEXT_WEB = "/aden/configdefirma";
@@ -81,6 +85,8 @@ public class ConfiguracioDeFirmaAdappController extends UsuariAplicacioConfigura
             UsuariAplicacioConfiguracio uac = form.getUsuariAplicacioConfiguracio();
 
             uac.setTipusOperacioFirma(ConstantsV2.TIPUS_OPERACIO_FIRMA_FIRMAR);
+            uac.setTipusFirmaID(ConstantsV2.TIPUSFIRMA_PADES);
+            uac.setModeDeFirma(Constants.SIGN_MODE_ATTACHED_ENVELOPED);
 
             uac.setComprovarNifFirma(false);
             uac.setCheckCanviatDocFirmat(false);
@@ -118,6 +124,9 @@ public class ConfiguracioDeFirmaAdappController extends UsuariAplicacioConfigura
         form.addHelpToField(HTMLPERLLISTARPLUGINSFIRMAWEB,
                 I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
 
+        form.addHelpToField(MODEDEFIRMA,
+                "Més informació aquí: https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#Packaging");
+
         form.addReadOnlyField(TIPUSOPERACIOFIRMA);
         form.addReadOnlyField(VALIDARCERTIFICAT);
 
@@ -132,6 +141,13 @@ public class ConfiguracioDeFirmaAdappController extends UsuariAplicacioConfigura
             form.setAttachedAdditionalJspCode(true);
         }
 
+        /*
+        log.info(
+                "\n ============   MODE DE FIRMA {FORM} ====> " + form.getUsuariAplicacioConfiguracio().getModeDeFirma()
+
+                        + "\n ============  ID = " + form.getUsuariAplicacioConfiguracio().getUsuariAplicacioConfigID()
+                        + "\n ============  NOU = " + form.isNou() + "=======\n");
+        */
         return form;
     }
 
@@ -211,6 +227,8 @@ public class ConfiguracioDeFirmaAdappController extends UsuariAplicacioConfigura
             throws I18NException {
 
         UsuariAplicacioConfiguracio uac = usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio();
+
+        //log.info("\n\n ============   MODE DE FIRMA {POST_VALIDATE}  ====> " + uac.getModeDeFirma());
 
         // Politica de Firma
         int usPoliticaDeFirma = uac.getUsPoliticaDeFirma();
