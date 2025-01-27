@@ -1,6 +1,7 @@
 package es.caib.portafib.back.utils;
 
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.model.entity.UsuariPersona;
 import org.apache.log4j.Logger;
@@ -318,15 +319,20 @@ public class Utils {
                 // Miram si és EXTERN ja que conté el NIF en el username
                 ofuscat = ofuscarDNI(usr);
             } else {
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < usr.length(); i++) {
-                    if (i % 3 == 0) {
-                        sb.append('*');
-                    } else {
-                        sb.append(usr.charAt(i));
+                if (Configuracio.obfuscateUsernames()) {
+                
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < usr.length(); i++) {
+                        if (i % 3 == 0) {
+                            sb.append('*');
+                        } else {
+                            sb.append(usr.charAt(i));
+                        }
                     }
+                    ofuscat = sb.toString();
+                } else {
+                    ofuscat = usr;
                 }
-                ofuscat = sb.toString();
             }
         }
         return ofuscat;

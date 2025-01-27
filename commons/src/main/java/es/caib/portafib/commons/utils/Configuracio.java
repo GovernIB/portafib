@@ -85,6 +85,14 @@ public class Configuracio implements Constants {
     public static boolean isDesenvolupament() {
         return "true".equalsIgnoreCase(getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "development"));
     }
+    
+    public static boolean obfuscateUsernames() {
+        if ("false".equalsIgnoreCase(getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "obfuscateusernames"))) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     public static String getDefaultLanguage() {
         return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "defaultlanguage", "ca");
