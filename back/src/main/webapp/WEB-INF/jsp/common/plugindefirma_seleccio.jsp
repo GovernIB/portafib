@@ -14,7 +14,7 @@
   <c:forEach items="${moduls}" var="modul">
      <button type="button" id="plugin_${modul.codi}" class="btn btn-large btn-block btn-primary" onclick="location.href='<c:url value="${thecontext}/showsignaturemodule/${modul.pluginID}/${signaturesSetID}"/>'">
      <b>${modul.nom.traduccions[lang].valor}</b><br>
-     <small>
+     <small style="color: white;">
      <i>${modul.descripcioCurta.traduccions[lang].valor}</i>
      </small>
      </button>
