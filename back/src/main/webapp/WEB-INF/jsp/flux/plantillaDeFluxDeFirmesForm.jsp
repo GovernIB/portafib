@@ -613,6 +613,10 @@
         </div>
      </div>
   </form>
+  
+  <script>
+      $('#seleccioUsuariRevisorForm2 #usuariEntitatID').select2();
+  </script>
 
     <%-- FORMULARI MODAL DE SELECCIO D'USUARIS  --%>
     <%-- REQUERIT:  Assignar un valor qualsevol com a valor inicial --%>
