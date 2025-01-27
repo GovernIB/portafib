@@ -1,10 +1,29 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java"%><%@ include
-	file="/WEB-INF/jsp/moduls/includes.jsp"%><%@ taglib prefix="tiles"
-	uri="http://tiles.apache.org/tags-tiles"%>
+<%@page import="es.caib.portafib.commons.utils.Configuracio"
+%><%@ page contentType="text/html;charset=UTF-8" language="java"
+%><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"
+%><%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"
+%><%
+
+    String backGroundColorHex = Configuracio.getHeaderBackgroundColor();
+
+    String backGroundColorHexStyle;
+    if (backGroundColorHex == null || backGroundColorHex.trim().isEmpty()) {
+        backGroundColorHexStyle = "";
+        backGroundColorHex = "";
+    } else {
+        backGroundColorHex = backGroundColorHex.trim();
+        int red = Integer.parseInt(backGroundColorHex.substring(1, 3), 16)/2;
+        int green = Integer.parseInt(backGroundColorHex.substring(3, 5), 16)/2;
+        int blue = Integer.parseInt(backGroundColorHex.substring(5, 7), 16)/2;
+
+        // Ensambla el nuevo color hexadecimal
+        backGroundColorHexStyle =  "style=\"background-color:" + String.format("#%02X%02X%02X", red, green, blue) + "\";";
+        backGroundColorHex= "background-color:" + backGroundColorHex + " !important;";
+    }%>
 <header>
 	<!-- Header -->
 	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-aplicacio"
-		style="padding: 0;">
+		style="padding: 0;<%=backGroundColorHex%>">
 
 
 		<!-- Logo i nom aplicació -->
@@ -42,9 +61,9 @@
 						</a></li>
 
 
-						<li class="dropdown colorVerd">
+						<li class="dropdown">
 
-							<button class="btn colorVerd dropdown-toggle" type="button"
+							<button class="btn colorVerd dropdown-toggle" <%=backGroundColorHexStyle%> type="button"
 								id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
 								aria-expanded="false">
 								<i class="fas fa-home fa-lg"></i>
@@ -67,9 +86,9 @@
 
 				<!--  IDIOMES -->
 				<c:if test="${not empty loginInfo}">
-					<li class="dropdown colorVerd">
+					<li class="dropdown">
 
-						<button class="btn colorVerd dropdown-toggle" type="button"
+						<button class="btn colorVerd dropdown-toggle" <%=backGroundColorHexStyle%> type="button"
 							id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
 							aria-expanded="false">
 							<i class="fas fa-language fa-lg"></i>
@@ -111,9 +130,9 @@
 				<c:if test="${not empty loginInfo.usuariPersona}">
 
 
-					<li class="dropdown colorVerd">
+					<li class="dropdown " > <%-- colorVerd --%>
 
-						<button class="btn colorVerd dropdown-toggle" type="button"
+						<button class="btn colorVerd dropdown-toggle" <%=backGroundColorHexStyle%> type="button"
 							id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true"
 							aria-expanded="false">
 							<i class="fas fa-ellipsis-v"></i>
