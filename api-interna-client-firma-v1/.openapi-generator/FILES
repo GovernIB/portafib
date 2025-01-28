@@ -86,5 +86,3 @@ src/main/java/es/caib/portafib/apiinterna/client/firma/v1/services/auth/ApiKeyAu
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/services/auth/Authentication.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/services/auth/HttpBasicAuth.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/services/auth/HttpBearerAuth.java
-src/test/java/es/caib/portafib/apiinterna/client/firma/v1/api/FirmaEnServidorV1ApiTest.java
-src/test/java/es/caib/portafib/apiinterna/client/firma/v1/api/UtilsV1ApiTest.java
