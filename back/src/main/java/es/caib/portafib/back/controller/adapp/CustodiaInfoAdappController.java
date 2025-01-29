@@ -18,10 +18,10 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = CustodiaInfoAdappController.ADEN_CUSTODIA_CONTEXT)
 @SessionAttributes(types = { CustodiaInfoForm.class, CustodiaInfoFilterForm.class })
-@MenuOption(group = ConstantsV2.ROLE_ADEN2, labelCode = "custodiaInfo.custodiaInfo.plural", order = 170)
+@MenuOption(group = ConstantsV2.ROLE_ADAPP, labelCode = "custodiaInfo.custodiaInfo.plural", order = 170)
 public class CustodiaInfoAdappController extends AbstractCustodiaInfoController {
 
-    public static final String ADEN_CUSTODIA_CONTEXT = "/aden/peticio/custodiainfo";
+    public static final String ADEN_CUSTODIA_CONTEXT = "/adapp/peticio/custodiainfo";
 
     /**
      * 

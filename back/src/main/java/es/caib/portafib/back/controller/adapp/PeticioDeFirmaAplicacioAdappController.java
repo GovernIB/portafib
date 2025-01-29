@@ -24,7 +24,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_USRAPP)
 @SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN2,
+        group = ConstantsV2.ROLE_ADAPP,
         labelCode = "peticiodefirma.usrapp.llistar",
         order = 110,
         addSeparatorBefore = true)

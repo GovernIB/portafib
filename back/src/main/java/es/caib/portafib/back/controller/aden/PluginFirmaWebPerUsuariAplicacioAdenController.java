@@ -208,7 +208,7 @@ public class PluginFirmaWebPerUsuariAplicacioAdenController extends PluginFirmaW
         if (usuariAplicaicoID == null) {
             redirect = NO_USUARIAPLICACIO_VIEW;
         } else {
-            redirect = "/aden/usuariAplicacio/" + usuariAplicaicoID + "/edit";
+            redirect = GestioUsuariAplicacioAdappController.CONTEXTWEB + "/" + usuariAplicaicoID + "/edit";
         }
 
         return new ModelAndView(new RedirectView(redirect, true));

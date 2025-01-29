@@ -39,11 +39,11 @@ import es.caib.portafib.model.fields.PerfilDeFirmaQueryPath;
 @Controller
 @RequestMapping(value = PerfilDeFirmaAdappController.CONTEXT_WEB)
 @SessionAttributes(types = { PerfilDeFirmaForm.class, PerfilDeFirmaFilterForm.class })
-@MenuOption(group = ConstantsV2.ROLE_ADEN2, labelCode = PerfilDeFirmaFields._TABLE_MODEL + "." + PerfilDeFirmaFields._TABLE_MODEL
+@MenuOption(group = ConstantsV2.ROLE_ADAPP, labelCode = PerfilDeFirmaFields._TABLE_MODEL + "." + PerfilDeFirmaFields._TABLE_MODEL
 + ".plural", order = 20)
 public class PerfilDeFirmaAdappController extends PerfilDeFirmaController {
 
-    public static final String CONTEXT_WEB = "/aden/perfildefirma";
+    public static final String CONTEXT_WEB = "/adapp/perfildefirma";
 
     @Override
     public String getTileForm() {

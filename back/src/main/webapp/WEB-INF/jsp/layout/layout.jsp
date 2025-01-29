@@ -73,13 +73,13 @@
 					</li>
 
 					<c:if test="${rol eq 'ROLE_ADEN' }">
-						<li class="nav-item ${(pipella eq 'ROLE_ADEN2')?'active' : '' }">
-							<c:url var="linktab" value="/canviarPipella/ROLE_ADEN2" /> <c:set
+						<li class="nav-item ${(pipella eq 'ROLE_ADAPP')?'active' : '' }">
+							<c:url var="linktab" value="/canviarPipella/ROLE_ADAPP" /> <c:set
 								var="href" value="href=\" ${linktab}\"" /> <a
-							class="nav-link ${(pipella eq 'ROLE_ADEN2')?'active' : '' }"
-							${href}><fmt:message key="ROLE_ADEN2" /> <c:if
-									test="${not(empty avisos['ROLE_ADEN2'])}">
-                    &nbsp; <span class="badge badge-pill badge-warning">${avisos['ROLE_ADEN2']}</span>
+							class="nav-link ${(pipella eq 'ROLE_ADAPP')?'active' : '' }"
+							${href}><fmt:message key="ROLE_ADAPP" /> <c:if
+									test="${not(empty avisos['ROLE_ADAPP'])}">
+                    &nbsp; <span class="badge badge-pill badge-warning">${avisos['ROLE_ADAPP']}</span>
 								</c:if> </a>
 
 						</li>

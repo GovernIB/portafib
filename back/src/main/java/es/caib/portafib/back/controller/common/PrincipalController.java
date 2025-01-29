@@ -69,8 +69,8 @@ public class PrincipalController implements ConstantsV2 {
 				// return new ModelAndView(new RedirectView("/aden/peticionscaducades/list/1",
 				// true));
 			}
-			if (ROLE_ADEN2.equals(pipella)) {
-				return new ModelAndView("role_aden2");
+			if (ROLE_ADAPP.equals(pipella)) {
+				return new ModelAndView("role_adapp");
 				// return new ModelAndView(new RedirectView("/aden/peticionscaducades/list/1",
 				// true));
 			}

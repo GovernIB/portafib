@@ -15,10 +15,10 @@ import es.caib.portafib.utils.ConstantsV2;
  * 
  */
 @Controller
-@RequestMapping(value = "/aden/gestiotipusdocapp")
+@RequestMapping(value = "/adapp/gestiotipusdocapp")
 @SessionAttributes(types = { TipusDocumentForm.class, TipusDocumentFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN2,
+        group = ConstantsV2.ROLE_ADAPP,
         order = 60,
         labelCode = "tipusdocument.adapp.plural",
         addSeparatorBefore = true)

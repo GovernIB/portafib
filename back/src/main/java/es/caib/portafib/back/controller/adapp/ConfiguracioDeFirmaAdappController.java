@@ -48,30 +48,25 @@ import java.util.Set;
 @RequestMapping(value = ConfiguracioDeFirmaAdappController.CONTEXT_WEB)
 @SessionAttributes(types = { UsuariAplicacioConfiguracioForm.class, UsuariAplicacioConfiguracioFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN2,
+        group = ConstantsV2.ROLE_ADAPP,
         labelCode = UsuariAplicacioConfiguracioFields._TABLE_MODEL + "."
                 + UsuariAplicacioConfiguracioFields._TABLE_MODEL + ".plural",
         order = 30)
 public class ConfiguracioDeFirmaAdappController extends UsuariAplicacioConfiguracioController {
 
-    public static final String CONTEXT_WEB = "/aden/configdefirma";
+    public static final String CONTEXT_WEB = "/adapp/configdefirma";
 
     @EJB(mappedName = UsuariAplicacioConfiguracioLogicaLocal.JNDI_NAME)
     private UsuariAplicacioConfiguracioLogicaLocal usuariAplicacioConfiguracioLogicaEjb;
 
     @Override
     public String getTileForm() {
-        return "usuariAplicacioConfiguracioFormAden";
+        return "usuariAplicacioConfiguracioFormAdapp";
     }
 
     @Override
     public String getTileList() {
-        return "usuariAplicacioConfiguracioListAden";
-    }
-
-    @Override
-    public String getSessionAttributeFilterForm() {
-        return "UsuariAplicacioConfiguracioADEN_FilterForm";
+        return "usuariAplicacioConfiguracioListAdapp";
     }
 
     @Override

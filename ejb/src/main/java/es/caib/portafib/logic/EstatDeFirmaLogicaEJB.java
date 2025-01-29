@@ -193,7 +193,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB implements EstatDeFir
                 List<Long> peticioIDs = notificacioWSEjb.executeQuery(NotificacioWSFields.PETICIODEFIRMAID,
                         getWhereAvisosAden(entitatID));
                 if (peticioIDs != null && peticioIDs.size() != 0) {
-                    avisos.put(ROLE_ADEN2, peticioIDs);
+                    avisos.put(ROLE_ADAPP, peticioIDs);
                 }
             }
         }
@@ -238,7 +238,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB implements EstatDeFir
                 // Revisar si hi ha notificacion que donen errors
                 Long count = notificacioWSEjb.count(getWhereAvisosAden(entitatID));
                 if (count > 0) {
-                    avisos.put(ROLE_ADEN2, count);
+                    avisos.put(ROLE_ADAPP, count);
                 }
             }
         }

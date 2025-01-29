@@ -71,10 +71,10 @@ import java.util.Set;
 @Controller
 @RequestMapping(value = GestioUsuariAplicacioAdappController.CONTEXTWEB)
 @SessionAttributes(types = { UsuariAplicacioForm.class, UsuariAplicacioFilterForm.class })
-@MenuOption(group = ConstantsV2.ROLE_ADEN2, labelCode = "usuariaplicacio.gestio" , order = 10)
+@MenuOption(group = ConstantsV2.ROLE_ADAPP, labelCode = "usuariaplicacio.gestio" , order = 10)
 public class GestioUsuariAplicacioAdappController extends UsuariAplicacioController {
 
-    public static final String CONTEXTWEB = "/aden/usuariAplicacio";
+    public static final String CONTEXTWEB = "/adapp/usuariAplicacio";
 
     protected static final int PERFILS = 1;
 
