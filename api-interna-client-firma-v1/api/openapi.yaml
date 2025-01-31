@@ -389,7 +389,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FirmaSimpleStartTransactionRequest'
+              type: string
         description: Identificador de transacció retornat de la cridada getTransactionID().
       responses:
         "200":
@@ -1522,34 +1522,6 @@ components:
       - signID
       - transactionID
       type: object
-    FirmaSimpleStartTransactionRequest:
-      example:
-        view: view
-        language: language
-        returnUrl: returnUrl
-        transactionID: transactionID
-      properties:
-        transactionID:
-          description: Identificador de transacció
-          type: string
-        returnUrl:
-          description: Adreça web on retornar una vegada finalitzat tot el procés
-            de firma.
-          type: string
-        view:
-          description: "Indica si la presentació de la firma es farà a pantalla completa\
-            \ o dins d'un iframe:\r\n    • \"fullview\" (Constant VIEW_FULLSCREEN)\r\
-            \n    • \"iframe\" (Constant VIEW_IFRAME)"
-          type: string
-        language:
-          description: Idioma seleccionat
-          type: string
-      required:
-      - language
-      - returnUrl
-      - transactionID
-      - view
-      type: object
     FirmaSimpleGetTransactionStatusResponse:
       example:
         transactionStatus:
@@ -1614,6 +1586,34 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/FirmaSimpleStatus'
+      type: object
+    FirmaSimpleStartTransactionRequest:
+      example:
+        view: view
+        language: language
+        returnUrl: returnUrl
+        transactionID: transactionID
+      properties:
+        transactionID:
+          description: Identificador de transacció
+          type: string
+        returnUrl:
+          description: Adreça web on retornar una vegada finalitzat tot el procés
+            de firma.
+          type: string
+        view:
+          description: "Indica si la presentació de la firma es farà a pantalla completa\
+            \ o dins d'un iframe:\r\n    • \"fullview\" (Constant VIEW_FULLSCREEN)\r\
+            \n    • \"iframe\" (Constant VIEW_IFRAME)"
+          type: string
+        language:
+          description: Idioma seleccionat
+          type: string
+      required:
+      - language
+      - returnUrl
+      - transactionID
+      - view
       type: object
     AvailableLanguagesRest:
       example:

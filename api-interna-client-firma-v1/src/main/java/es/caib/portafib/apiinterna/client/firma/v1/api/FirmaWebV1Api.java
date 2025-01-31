@@ -273,12 +273,12 @@ public class FirmaWebV1Api {
   /**
    * Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma
    * 
-   * @param firmaSimpleStartTransactionRequest Identificador de transacció retornat de la cridada getTransactionID(). (optional)
+   * @param body Identificador de transacció retornat de la cridada getTransactionID(). (optional)
    * @return a {@code FirmaSimpleGetTransactionStatusResponse}
    * @throws ApiException if fails to make API call
    */
-  public FirmaSimpleGetTransactionStatusResponse getTransactionStatus(FirmaSimpleStartTransactionRequest firmaSimpleStartTransactionRequest) throws ApiException {
-    Object localVarPostBody = firmaSimpleStartTransactionRequest;
+  public FirmaSimpleGetTransactionStatusResponse getTransactionStatus(String body) throws ApiException {
+    Object localVarPostBody = body;
     
     // create path and map variables
     String localVarPath = "/secure/firmaweb/v1/getTransactionStatus".replaceAll("\\{format\\}","json");

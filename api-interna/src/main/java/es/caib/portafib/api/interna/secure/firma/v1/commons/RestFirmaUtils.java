@@ -95,7 +95,7 @@ import io.swagger.v3.oas.annotations.info.License;
                         email = "firma@fundaciobit.org",
                         url = "https://governdigital.fundaciobit.org")))
 public class RestFirmaUtils extends RestUtils {
-    
+
     public static final String SECURITY_NAME = "BasicAuth";
 
     protected static final String TIPUS_WEB = "WEB";
@@ -207,12 +207,6 @@ public class RestFirmaUtils extends RestUtils {
 
                 data.add(ap);
             }
-
-            // XYZ Resposta antiga amb ResponseEntity.
-            // HttpHeaders headers = addAccessControllAllowOrigin();
-            // ResponseEntity<?> re = new
-            // ResponseEntity<AvailableProfilesRest>(availableProfiles, headers,
-            // HttpStatus.OK);
 
             AvailableProfilesRest availableProfiles = new AvailableProfilesRest(data, language);
 
@@ -357,19 +351,43 @@ public class RestFirmaUtils extends RestUtils {
 
     }
 
+    protected org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile convertFirmaSimpleFile(
+            FirmaSimpleFile fsf) {
+        org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile f = new org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile();
+
+        if (fsf.getData() != null)
+            f.setData(fsf.getData());
+        if (fsf.getMime() != null)
+            f.setMime(fsf.getMime());
+        if (fsf.getNom() != null)
+            f.setNom(fsf.getNom());
+
+        return f;
+    }
+
     protected org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature convertFirmaSimpleFileInfoSignature(
-            FirmaSimpleFileInfoSignature firmaSimpleFileInfoSignature) {
+            FirmaSimpleFileInfoSignature fsfis) {
 
         org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature f;
         f = new org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature();
 
-        f.setAdditionalInformation(convertListKeyValue(firmaSimpleFileInfoSignature.getAdditionalInformation()));
-
-        // TODO FALTA RESTA DE DADES
-
-        if (true) {
-            throw new RuntimeException("FALTA IMPLEMENTAR  convertFirmaSimpleFileInfoSignature() ...");
-        }
+        f.setAdditionalInformation(convertListKeyValue(fsfis.getAdditionalInformation()));
+        f.setDocumentType(fsfis.getDocumentType());
+        f.setExpedientCodi(fsfis.getExpedientCodi());
+        f.setExpedientNom(fsfis.getExpedientNom());
+        f.setExpedientUrl(fsfis.getExpedientUrl());
+        if (fsfis.getFileToSign() != null)
+            f.setFileToSign(convertFirmaSimpleFile(fsfis.getFileToSign()));
+        f.setLanguageSign(fsfis.getLanguageSign());
+        f.setLocation(fsfis.getLocation());
+        f.setName(fsfis.getName());
+        if (fsfis.getPreviusSignatureDetachedFile() != null)
+            f.setPreviusSignatureDetachedFile(convertFirmaSimpleFile(fsfis.getPreviusSignatureDetachedFile()));
+        f.setProcedimentCodi(fsfis.getProcedimentCodi());
+        f.setProcedimentNom(fsfis.getProcedimentNom());
+        f.setReason(fsfis.getReason());
+        f.setSignID(fsfis.getSignID());
+        f.setSignNumber(fsfis.getSignNumber());
 
         return f;
     }
@@ -425,8 +443,11 @@ public class RestFirmaUtils extends RestUtils {
             String signID) throws Exception {
         FitxerBean fileToSign = new FitxerBean();
         fileToSign.setDescripcio(null);
-        final String mime = asf.getMime();
-        fileToSign.setMime(mime);
+        if(asf.getMime()!=null) {
+            final String mime = asf.getMime();
+            fileToSign.setMime(mime);
+        }
+        
         fileToSign.setNom(asf.getNom());
 
         byte[] data = asf.getData();
@@ -616,7 +637,8 @@ public class RestFirmaUtils extends RestUtils {
             }
 
             final List<KeyValue> additionInformation = null;
-            final Timestamp signDate = new Timestamp(System.currentTimeMillis());;
+            final Timestamp signDate = new Timestamp(System.currentTimeMillis());
+            ;
 
             // XYZ ZZZ ZZZ Que passarela retorni dades de la validació de la firma
             // i que aqui es puguin usar !!!!
@@ -711,184 +733,200 @@ public class RestFirmaUtils extends RestUtils {
             }
 
             // TODO XYZ FALTA CHECK
-            FirmaSimpleFileInfoSignature[] simpleFileInfoSignatureArray = simpleSignaturesSet
-                    .getFileInfoSignatureArray();
+            if (simpleSignaturesSet.getFileInfoSignatureArray() != null) {
+                FirmaSimpleFileInfoSignature[] simpleFileInfoSignatureArray = simpleSignaturesSet
+                        .getFileInfoSignatureArray();
 
-            if (simpleFileInfoSignatureArray == null || simpleFileInfoSignatureArray.length == 0) {
-                // XYZ ZZZ TRA
-                throw new I18NException("genapp.comodi", "No ha enviat fitxers a firmar.");
-            }
-
-            EntitatJPA entitatJPA = entitat;
-
-            String signerEmail = commonInfo.getSignerEmail();
-
-            // DADES ESPECIFIQUES DE CADA FIRMA
-
-            PassarelaFileInfoSignature[] fileInfoSignatureArray;
-            fileInfoSignatureArray = new PassarelaFileInfoSignature[simpleFileInfoSignatureArray.length];
-
-            String lastCertificate = null;
-            PassarelaPolicyInfoSignature lastPolicyInfoSignature = null;
-
-            for (int i = 0; i < simpleFileInfoSignatureArray.length; i++) {
-
-                FirmaSimpleFileInfoSignature sfis = simpleFileInfoSignatureArray[i];
-
-                String signID = sfis.getSignID();
-
-                log.info(
-                        "XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign() => " + sfis.getFileToSign());
-                log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign().getNom() => "
-                        + sfis.getFileToSign().getNom());
-
-                FitxerBean fileToSign = convertFirmaSimpleFileToFitxerBean(sfis.getFileToSign(), type, transactionID,
-                        signID);
-
-                log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign => " + fileToSign);
-                log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign.getNom() => " + fileToSign.getNom());
-
-                // XYZ ZZZ FALTA ENCARA NO SUPORTAT
-                FitxerBean prevSign = null;
-                if (sfis.getPreviusSignatureDetachedFile() != null) {
-                    prevSign = convertFirmaSimpleFileToFitxerBean(sfis.getPreviusSignatureDetachedFile(), type,
-                            transactionID, signID);
+                if (simpleFileInfoSignatureArray == null || simpleFileInfoSignatureArray.length == 0) {
+                    // XYZ ZZZ TRA
+                    throw new I18NException("genapp.comodi", "No ha enviat fitxers a firmar.");
                 }
 
-                String name = sfis.getName();
-                String reason = sfis.getReason();
-                String location = sfis.getLocation();
+                EntitatJPA entitatJPA = entitat;
 
-                int signNumber = sfis.getSignNumber();
-                String languageSign = sfis.getLanguageSign();
+                String signerEmail = commonInfo.getSignerEmail();
 
-                final String expedientCodi = sfis.getExpedientCodi();
+                // DADES ESPECIFIQUES DE CADA FIRMA
 
-                final String expedientNom = sfis.getExpedientNom();
+                PassarelaFileInfoSignature[] fileInfoSignatureArray;
+                fileInfoSignatureArray = new PassarelaFileInfoSignature[simpleFileInfoSignatureArray.length];
 
-                final String expedientUrl = sfis.getExpedientUrl();
+                String lastCertificate = null;
+                PassarelaPolicyInfoSignature lastPolicyInfoSignature = null;
 
-                final String procedimentCodi = sfis.getProcedimentCodi();
+                for (int i = 0; i < simpleFileInfoSignatureArray.length; i++) {
 
-                final String procedimentNom = sfis.getProcedimentNom();
+                    FirmaSimpleFileInfoSignature sfis = simpleFileInfoSignatureArray[i];
 
-                final List<PassarelaKeyValue> additionalInformation;
-                {
-                    List<KeyValue> additionalInfoList = sfis.getAdditionalInformation();
-                    if (additionalInfoList == null || additionalInfoList.size() == 0) {
-                        additionalInformation = null;
-                    } else {
-                        additionalInformation = new ArrayList<PassarelaKeyValue>();
-                        for (KeyValue firmaSimpleKeyValue : additionalInfoList) {
-                            additionalInformation.add(new PassarelaKeyValue(firmaSimpleKeyValue.getKey(),
-                                    firmaSimpleKeyValue.getValue()));
+                    String signID = sfis.getSignID();
+                    log.info("------------SignID => "+signID);
+                    log.info("------------InfoSignatureArray => "+simpleFileInfoSignatureArray.length);
+                    if (sfis.getFileToSign() != null) {
+                        log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign() => "
+                                + sfis.getFileToSign());
+                    if (sfis.getFileToSign().getNom() != null)
+                        log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign().getNom() => "
+                                + sfis.getFileToSign().getNom());
+                    
+                    }
+                    if(sfis.getFileToSign() == null){
+                        log.info("ERROR => NO S'HA TROBAT FILE TO SIGN");
+                        log.info("FileToSign =>");
+                        log.info(simpleFileInfoSignatureArray[0].getFileToSign().getNom());
+                    }
+                    
+                    FitxerBean fileToSign = convertFirmaSimpleFileToFitxerBean(sfis.getFileToSign(), type,
+                            transactionID, signID);
+                    if(fileToSign != null)
+                        log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign => " + fileToSign);
+                    if(fileToSign.getNom() != null)
+                    log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign.getNom() => "
+                            + fileToSign.getNom());
+                    
+
+                    // XYZ ZZZ FALTA ENCARA NO SUPORTAT
+                    FitxerBean prevSign = null;
+                    if (sfis.getPreviusSignatureDetachedFile() != null) {
+                        prevSign = convertFirmaSimpleFileToFitxerBean(sfis.getPreviusSignatureDetachedFile(), type,
+                                transactionID, signID);
+                    }
+
+                    String name = sfis.getName();
+                    String reason = sfis.getReason();
+                    String location = sfis.getLocation();
+
+                    int signNumber = sfis.getSignNumber();
+                    String languageSign = sfis.getLanguageSign();
+
+                    final String expedientCodi = sfis.getExpedientCodi();
+                    final String expedientNom = sfis.getExpedientNom();
+                    final String expedientUrl = sfis.getExpedientUrl();
+                    final String procedimentCodi = sfis.getProcedimentCodi();
+                    final String procedimentNom = sfis.getProcedimentNom();
+
+                    final List<PassarelaKeyValue> additionalInformation;
+                    {
+                        List<KeyValue> additionalInfoList = sfis.getAdditionalInformation();
+                        if (additionalInfoList == null || additionalInfoList.size() == 0) {
+                            additionalInformation = null;
+                        } else {
+                            additionalInformation = new ArrayList<PassarelaKeyValue>();
+                            for (KeyValue firmaSimpleKeyValue : additionalInfoList) {
+                                additionalInformation.add(new PassarelaKeyValue(firmaSimpleKeyValue.getKey(),
+                                        firmaSimpleKeyValue.getValue()));
+                            }
                         }
                     }
-                }
 
-                // ============ FIRMA
-                UsuariAplicacioConfiguracioJPA config = configBySignID.get(sfis.getSignID());
+                    // ============ FIRMA
+                    UsuariAplicacioConfiguracioJPA config = configBySignID.get(sfis.getSignID());
 
-                // Operacio de Firma (FIRMA,COFIRMA,CONTRAFIRMA)
-                final int signOperation = config.getTipusOperacioFirma();
+                    // Operacio de Firma (FIRMA,COFIRMA,CONTRAFIRMA)
+                    final int signOperation = config.getTipusOperacioFirma();
 
-                // TIPUS DE FIRMA
-                final String signType = SignatureUtils.convertPortafibSignTypeToApiSignType(config.getTipusFirmaID());
+                    // TIPUS DE FIRMA
+                    final String signType = SignatureUtils
+                            .convertPortafibSignTypeToApiSignType(config.getTipusFirmaID());
 
-                // Algorisme de Firma
-                String signAlgorithm = getAlgorismeDeFirmaOfConfig(config, entitatJPA);
+                    // Algorisme de Firma
+                    String signAlgorithm = getAlgorismeDeFirmaOfConfig(config, entitatJPA);
 
-                // Mode de Firma
-                final int signMode = config.getModeDeFirma();
-                /*
-                 * if (config.getTipusFirmaID() == ConstantsV2.TIPUSFIRMA_PADES) { // SI és una
-                 * pADES llavors val implicit signMode = FileInfoSignature.SIGN_MODE_IMPLICIT; }
-                 * else { signMode =
-                 * SignatureUtils.convertPortafibSignMode2ApiSignMode(config.isModeDeFirma(),
-                 * config.getTipusFirmaID()); }
-                 */
+                    // Mode de Firma
+                    final int signMode = config.getModeDeFirma();
+                    /*
+                     * if (config.getTipusFirmaID() == ConstantsV2.TIPUSFIRMA_PADES) { // SI és una
+                     * pADES llavors val implicit signMode = FileInfoSignature.SIGN_MODE_IMPLICIT; }
+                     * else { signMode =
+                     * SignatureUtils.convertPortafibSignMode2ApiSignMode(config.isModeDeFirma(),
+                     * config.getTipusFirmaID()); }
+                     */
 
-                // TAULA DE FIRMES
-                final int signaturesTableLocation = SignatureUtils.getSignaturesTableLocationOfConfig(usuariAplicacioID,
-                        config, entitatJPA);
+                    // TAULA DE FIRMES
+                    final int signaturesTableLocation = SignatureUtils
+                            .getSignaturesTableLocationOfConfig(usuariAplicacioID, config, entitatJPA);
 
-                // TODO XYZ ZZZ Cercar-ho a info de l'usuari-app. #
-                // PENDENT: Configuració etiquetes de la Taula de Firmes #176
-                // Camp config.getPropietatsTaulaFirmes()
-                PassarelaSignaturesTableHeader signaturesTableHeader = null;
+                    // TODO XYZ ZZZ Cercar-ho a info de l'usuari-app. #
+                    // PENDENT: Configuració etiquetes de la Taula de Firmes #176
+                    // Camp config.getPropietatsTaulaFirmes()
+                    PassarelaSignaturesTableHeader signaturesTableHeader = null;
 
-                // TODO XYZ ZZZ Cercar-ho a info de l'usuari-app. Ara cercar-ho de les
+                    // TODO XYZ ZZZ Cercar-ho a info de l'usuari-app. Ara cercar-ho de les
+                    // DADES DE l'ENTITAT
+                    final boolean useTimeStamp = getUseTimestampOfConfig(usuariAplicacioID, config, entitatJPA);
+
+                    // Això ja es farà a PassarelaDeFirmaWebEJB
+                    final PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo = null;
+
+                    fileInfoSignatureArray[i] = new PassarelaFileInfoSignature(fileToSign, prevSign, signID, name,
+                            reason, location, signerEmail, signNumber, languageSign, signOperation, signType,
+                            signAlgorithm, signMode, signaturesTableLocation, signaturesTableHeader,
+                            secureVerificationCodeStampInfo, useTimeStamp, expedientCodi, expedientNom, expedientUrl,
+                            procedimentCodi, procedimentNom, additionalInformation);
+
+                    // LES DADES COMUNS DE TOTES LES CONFIGURACIONS HAN DE SER IGUALS
+                    if (i == 0) {
+                        lastCertificate = config.getFiltreCertificats();
+                        lastPolicyInfoSignature = getPoliticaFirmaOfConfig(usuariAplicacioID, config, entitatJPA);
+                    } else {
+                        // Comparar lastCertificate amb actual a veure si són iguals
+                        if (!compare(lastCertificate, config.getFiltreCertificats())) {
+                            // XYZ ZZZ TRA
+                            throw new I18NException("genapp.comodi",
+                                    "El camp Filtre de Certificats" + " de les diferents configuracions del Perfil "
+                                            + perfilFirma.getCodi()
+                                            + " haurien de tenir el mateix valor i no el tenen.");
+
+                        }
+
+                        // Comparar lastPolicyInfoSignature amb actual a veure si són iguals
+                        if (!compare(lastPolicyInfoSignature,
+                                getPoliticaFirmaOfConfig(usuariAplicacioID, config, entitatJPA))) {
+                            // XYZ ZZZ TRA
+                            throw new I18NException("genapp.comodi",
+                                    "Els camps de Politica de Firma " + " de les diferents configuracions del Perfil "
+                                            + perfilFirma.getCodi()
+                                            + " haurien de tenir el mateix valor i no el tenen.");
+                        }
+
+                    }
+
+                } // FINAL FOR DE TOTS
+
+                // DADES COMUNS
+
+                // final String entitatID = entitatJPA.getEntitatID();
+
+                // Donam de temps 5 minuts més un minut per cada signatura
+                // Proporcional al numero de firmes !!!!
+                Calendar expiryDate = Calendar.getInstance();
+                expiryDate.add(Calendar.MINUTE, 5 + simpleFileInfoSignatureArray.length);
+
+                // ========== FILTRE DE CERTIFICATS
+                // Cercar-ho a info de l'usuari-app.Si val null o buit cercar-ho de les
                 // DADES DE l'ENTITAT
-                final boolean useTimeStamp = getUseTimestampOfConfig(usuariAplicacioID, config, entitatJPA);
-
-                // Això ja es farà a PassarelaDeFirmaWebEJB
-                final PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo = null;
-
-                fileInfoSignatureArray[i] = new PassarelaFileInfoSignature(fileToSign, prevSign, signID, name, reason,
-                        location, signerEmail, signNumber, languageSign, signOperation, signType, signAlgorithm,
-                        signMode, signaturesTableLocation, signaturesTableHeader, secureVerificationCodeStampInfo,
-                        useTimeStamp, expedientCodi, expedientNom, expedientUrl, procedimentCodi, procedimentNom,
-                        additionalInformation);
-
-                // LES DADES COMUNS DE TOTES LES CONFIGURACIONS HAN DE SER IGUALS
-                if (i == 0) {
-                    lastCertificate = config.getFiltreCertificats();
-                    lastPolicyInfoSignature = getPoliticaFirmaOfConfig(usuariAplicacioID, config, entitatJPA);
-                } else {
-                    // Comparar lastCertificate amb actual a veure si són iguals
-                    if (!compare(lastCertificate, config.getFiltreCertificats())) {
-                        // XYZ ZZZ TRA
-                        throw new I18NException("genapp.comodi",
-                                "El camp Filtre de Certificats" + " de les diferents configuracions del Perfil "
-                                        + perfilFirma.getCodi() + " haurien de tenir el mateix valor i no el tenen.");
-
-                    }
-
-                    // Comparar lastPolicyInfoSignature amb actual a veure si són iguals
-                    if (!compare(lastPolicyInfoSignature,
-                            getPoliticaFirmaOfConfig(usuariAplicacioID, config, entitatJPA))) {
-                        // XYZ ZZZ TRA
-                        throw new I18NException("genapp.comodi",
-                                "Els camps de Politica de Firma " + " de les diferents configuracions del Perfil "
-                                        + perfilFirma.getCodi() + " haurien de tenir el mateix valor i no el tenen.");
-                    }
-
+                String filtreCertificats = lastCertificate;
+                if (filtreCertificats == null || filtreCertificats.trim().length() == 0) {
+                    filtreCertificats = entitatJPA.getFiltreCertificats();
                 }
 
-            } // FINAL FOR DE TOTS
+                // ========== POLITICA DE FIRMA
+                // Cercar l'ús de la politica de firma i actuar al respecte
+                final PassarelaPolicyInfoSignature policyInfoSignature = lastPolicyInfoSignature;
 
-            // DADES COMUNS
+                final String username = commonInfo.getUsername();
+                final String administrationID = commonInfo.getAdministrationID();
+                final String organizationID = commonInfo.getOrganizationID();
 
-            // final String entitatID = entitatJPA.getEntitatID();
+                PassarelaCommonInfoSignature commonInfoSignature = new PassarelaCommonInfoSignature(languageUI,
+                        filtreCertificats, username, administrationID, organizationID, null, policyInfoSignature);
 
-            // Donam de temps 5 minuts més un minut per cada signatura
-            // Proporcional al numero de firmes !!!!
-            Calendar expiryDate = Calendar.getInstance();
-            expiryDate.add(Calendar.MINUTE, 5 + simpleFileInfoSignatureArray.length);
+                // OBJECTE FINAL
 
-            // ========== FILTRE DE CERTIFICATS
-            // Cercar-ho a info de l'usuari-app.Si val null o buit cercar-ho de les
-            // DADES DE l'ENTITAT
-            String filtreCertificats = lastCertificate;
-            if (filtreCertificats == null || filtreCertificats.trim().length() == 0) {
-                filtreCertificats = entitatJPA.getFiltreCertificats();
+                return new PassarelaSignaturesSet(transactionID, expiryDate.getTime(), commonInfoSignature,
+                        fileInfoSignatureArray);
+            } else {
+                return null;
             }
-
-            // ========== POLITICA DE FIRMA
-            // Cercar l'ús de la politica de firma i actuar al respecte
-            final PassarelaPolicyInfoSignature policyInfoSignature = lastPolicyInfoSignature;
-
-            final String username = commonInfo.getUsername();
-            final String administrationID = commonInfo.getAdministrationID();
-            final String organizationID = commonInfo.getOrganizationID();
-
-            PassarelaCommonInfoSignature commonInfoSignature = new PassarelaCommonInfoSignature(languageUI,
-                    filtreCertificats, username, administrationID, organizationID, null, policyInfoSignature);
-
-            // OBJECTE FINAL
-
-            return new PassarelaSignaturesSet(transactionID, expiryDate.getTime(), commonInfoSignature,
-                    fileInfoSignatureArray);
 
         } catch (Exception e) {
             log.error(e.getMessage(), e);

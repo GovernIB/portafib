@@ -172,9 +172,9 @@ public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String 
         FirmaSimpleFile asf = new FirmaSimpleFile();
         asf.setNom(fileName);
         asf.setMime(mime);
-        ArrayList<byte[]> fosBytes = new ArrayList<byte[]>();
-        fosBytes.add(fos.toByteArray());
-        asf.setData(fosBytes.get(0));
+        byte[] data = fos.toByteArray();
+        System.out.println("Tamany fitxer: "+data.length);
+        asf.setData(data);
         
         return asf;
     }

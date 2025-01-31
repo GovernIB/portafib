@@ -1,0 +1,23 @@
+basePath=http://www.portafib.es/portafibapi/interna
+username=username
+password=password
+# Alias Opcional
+#alias=
+
+PROFILE_PADES=PROFILE_PADES
+PROFILE_XADES=PROFILE_XADES
+PROFILE_CADES=PROFILE_CADES
+
+files=1,2
+
+file.1.name=hola.pdf
+file.1.mime=application/pdf
+
+file.2.name=hola_3mb.pdf
+file.2.mime=application/pdf
+
+
+signer.username=sign_username
+# NIF
+signer.administrationid=00000000Z
+signer.email=sign_email@ibit.org
