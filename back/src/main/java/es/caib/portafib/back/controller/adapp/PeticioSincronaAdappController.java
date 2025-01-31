@@ -27,7 +27,7 @@ import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.back.utils.menuoptions.MenuOption;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
@@ -35,9 +35,8 @@ import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 
-
 /**
- * 
+ *
  * @author anadal(u80067)
  *
  */

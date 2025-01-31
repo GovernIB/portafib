@@ -10,7 +10,7 @@ import es.caib.portafib.back.form.webdb.UsuariAplicacioForm;
 import es.caib.portafib.back.reflist.IdiomaSuportatRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
-import es.caib.portafib.back.utils.menuoptions.MenuOption;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import es.caib.portafib.back.validator.UsuariAplicacioWebLogicValidator;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;

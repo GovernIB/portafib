@@ -4,7 +4,7 @@ import es.caib.portafib.back.controller.webdb.NotificacioWSController;
 import es.caib.portafib.back.form.webdb.NotificacioWSFilterForm;
 import es.caib.portafib.back.form.webdb.NotificacioWSForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.back.utils.menuoptions.MenuOption;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import es.caib.portafib.ejb.PeticioDeFirmaService;
 import es.caib.portafib.ejb.UsuariAplicacioService;
 import es.caib.portafib.persistence.NotificacioWSJPA;

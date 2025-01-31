@@ -25,7 +25,7 @@ import es.caib.portafib.back.controller.webdb.PerfilDeFirmaController;
 import es.caib.portafib.back.form.webdb.PerfilDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PerfilDeFirmaForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.back.utils.menuoptions.MenuOption;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import es.caib.portafib.persistence.PerfilDeFirmaJPA;
 import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;

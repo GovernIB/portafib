@@ -10,7 +10,7 @@ import es.caib.portafib.back.form.PlantillaDeFluxDeFirmesForm;
 import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.FluxDeFirmesFilterForm;
 import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
-import es.caib.portafib.back.utils.menuoptions.MenuOption;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**

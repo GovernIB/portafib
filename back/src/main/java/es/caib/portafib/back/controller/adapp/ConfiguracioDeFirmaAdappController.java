@@ -6,7 +6,6 @@ import es.caib.portafib.back.controller.webdb.UsuariAplicacioConfiguracioControl
 import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.back.utils.menuoptions.MenuOption;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.UsuariAplicacioConfiguracioLogicaLocal;
@@ -23,6 +22,7 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.fundaciobit.pluginsib.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

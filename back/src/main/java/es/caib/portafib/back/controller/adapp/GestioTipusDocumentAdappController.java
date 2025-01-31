@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import es.caib.portafib.back.controller.admin.GestioTipusDocumentAdminController;
 import es.caib.portafib.back.form.webdb.TipusDocumentFilterForm;
 import es.caib.portafib.back.form.webdb.TipusDocumentForm;
-import es.caib.portafib.back.utils.menuoptions.MenuOption;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**

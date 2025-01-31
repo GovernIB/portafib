@@ -13,18 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.bouncycastle.tsp.TimeStampRequest;
-import org.bouncycastle.tsp.TimeStampToken;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.pluginsib.signatureserver.api.ISignatureServerPlugin;
 import org.fundaciobit.pluginsib.timestamp.api.ITimeStampPlugin;
 import org.fundaciobit.pluginsib.core.v3.utils.FileUtils;
-import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
-import org.fundaciobit.pluginsib.signature.api.ITimeStampGenerator;
 import org.fundaciobit.pluginsib.utils.webutils.AbstractWebPlugin;
 import org.springframework.stereotype.Controller;
 
-import es.caib.portafib.logic.ModulDeFirmaServidorLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 
 /**

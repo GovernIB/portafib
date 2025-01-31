@@ -1,4 +1,4 @@
-<%@page import="es.caib.portafib.back.utils.menuoptions.MenuItem"%>
+<%@page import="org.fundaciobit.genapp.common.web.menuoptions.MenuItem"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="es.caib.portafib.commons.utils.Configuracio"%>

@@ -1,7 +1,7 @@
-<%@page import="es.caib.portafib.back.utils.menuoptions.MenuOptionManager"%>
+<%@page import="org.fundaciobit.genapp.common.web.menuoptions.MenuOptionManager"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="es.caib.portafib.back.utils.menuoptions.MenuItem"%>
+<%@page import="org.fundaciobit.genapp.common.web.menuoptions.MenuItem"%>
 <%@page import="es.caib.portafib.utils.ConstantsV2"%>
 <%@page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
