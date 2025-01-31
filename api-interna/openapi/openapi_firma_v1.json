@@ -155,7 +155,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
@@ -165,7 +165,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
@@ -207,7 +207,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
@@ -217,7 +217,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
@@ -704,7 +704,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
@@ -714,7 +714,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
@@ -785,7 +785,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
@@ -795,7 +795,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
@@ -873,7 +873,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
@@ -883,7 +883,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }

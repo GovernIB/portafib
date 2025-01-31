@@ -24,7 +24,6 @@ import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleGetSignature
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleStartTransactionRequest;
 import es.caib.portafib.apiinterna.client.firma.v1.model.GetAvailableTypesOfDocumentsResponse;
 import es.caib.portafib.apiinterna.client.firma.v1.api.FirmaWebV1Api;
-import es.caib.portafib.apiinterna.client.firma.v1.api.UtilsV1Api;
 import es.caib.portafib.apiinterna.client.firma.v1.services.ApiClient;
 import es.caib.portafib.apiinterna.client.firma.v1.services.ApiException;
 
@@ -122,7 +121,7 @@ public class FirmaWebV1ApiTest {
             System.out.println("Nom : ]" + nom + "[");
             System.out.println("Mime : ]" + mime + "[");
 
-            FirmaSimpleFile fileToSign = UtilsV1ApiTest.getSimpleFileFromResource(nom, mime);
+            FirmaSimpleFile fileToSign = AbstractV1ApiTest.llegirFitxer(nom, mime);
             // "hola_3mb.pdf",
             // "hola.pdf",
             // "application/pdf");
@@ -275,7 +274,7 @@ public class FirmaWebV1ApiTest {
             System.out.println("Nom : ]" + nom + "[");
             System.out.println("Mime : ]" + mime + "[");
 
-            FirmaSimpleFile fileToSign = UtilsV1ApiTest.getSimpleFileFromResource(nom, mime);
+            FirmaSimpleFile fileToSign = AbstractV1ApiTest.llegirFitxer(nom, mime);
             // "hola_3mb.pdf",
             // "hola.pdf",
             // "application/pdf");

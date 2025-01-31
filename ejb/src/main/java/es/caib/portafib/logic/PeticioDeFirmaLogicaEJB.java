@@ -2671,7 +2671,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                         .getEstatsDeFirmaPendentsFirma(firma.getFirmaID());
                 
                 //log.info("\n  ------------ estatsDeFirmaPendents => " + estatsDeFirmaPendents.size() + " ------------ \n" );
-                int i = 0;
+                //int i = 0;
                 for (EstatDeFirma estatDeFirmaPendent : estatsDeFirmaPendents) {
                     //log.info("\n               ===== estatsDeFirmaPendents[" + (i++) + "] => (" 
                     //+ estatDeFirmaPendent.getEstatDeFirmaID() + ")" + estatDeFirmaPendent.getUsuariEntitatID() 
