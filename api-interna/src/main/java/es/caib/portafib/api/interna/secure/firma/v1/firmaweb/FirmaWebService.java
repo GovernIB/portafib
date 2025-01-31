@@ -593,6 +593,7 @@ public class FirmaWebService extends RestFirmaUtils {
             PassarelaSignaturesSet pss = convertRestBean2PassarelaBeanWeb(transactionID, simpleSignaturesSet,
                     usuariAplicacioID, entitat, perfilDeFirma, configBySignID);
 
+            log.info("**********----------*********** getReturnUrl -->"+startTransactionRequest.getReturnUrl());
             String urlFinal = startTransactionRequest.getReturnUrl();
             pss.getCommonInfoSignature().setUrlFinal(urlFinal);
 
@@ -654,7 +655,7 @@ public class FirmaWebService extends RestFirmaUtils {
                             schema = @Schema(
                                     name = "languageUI",
                                     requiredMode = RequiredMode.REQUIRED,
-                                    implementation = FirmaSimpleStartTransactionRequest.class))),
+                                    implementation = String.class))),
             summary = "Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma")
     @ApiResponses(
             value = {

@@ -104,6 +104,8 @@ public interface Constants {
     public static final String SIGNPROFILE_A = "AdES-A";
     public static final String SIGNPROFILE_PADES_LTV = "PAdES-LTV";
     public static final String SIGNPROFILE_PADES_BASIC = "PAdES-Basic";
+    
+    public static final String VIEW_FULLSCREEN = "fullview";
 
 
 }

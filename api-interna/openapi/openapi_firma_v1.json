@@ -560,7 +560,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/FirmaSimpleStartTransactionRequest"
+                "type" : "string"
               }
             }
           }
@@ -1516,28 +1516,6 @@
           }
         }
       },
-      "FirmaSimpleStartTransactionRequest" : {
-        "required" : [ "language", "returnUrl", "transactionID", "view" ],
-        "type" : "object",
-        "properties" : {
-          "transactionID" : {
-            "type" : "string",
-            "description" : "Identificador de transacció"
-          },
-          "returnUrl" : {
-            "type" : "string",
-            "description" : "Adreça web on retornar una vegada finalitzat tot el procés de firma."
-          },
-          "view" : {
-            "type" : "string",
-            "description" : "Indica si la presentació de la firma es farà a pantalla completa o dins d'un iframe:\r\n    • \"fullview\" (Constant VIEW_FULLSCREEN)\r\n    • \"iframe\" (Constant VIEW_IFRAME)"
-          },
-          "language" : {
-            "type" : "string",
-            "description" : "Idioma seleccionat"
-          }
-        }
-      },
       "FirmaSimpleGetTransactionStatusResponse" : {
         "required" : [ "signaturesStatusList", "transactionStatus" ],
         "type" : "object",
@@ -1565,6 +1543,28 @@
           }
         },
         "description" : "Estat de cada firma. Pot passar que l'estat general sigui que tot ha anat bé, però que totes o algunes de les firmes no."
+      },
+      "FirmaSimpleStartTransactionRequest" : {
+        "required" : [ "language", "returnUrl", "transactionID", "view" ],
+        "type" : "object",
+        "properties" : {
+          "transactionID" : {
+            "type" : "string",
+            "description" : "Identificador de transacció"
+          },
+          "returnUrl" : {
+            "type" : "string",
+            "description" : "Adreça web on retornar una vegada finalitzat tot el procés de firma."
+          },
+          "view" : {
+            "type" : "string",
+            "description" : "Indica si la presentació de la firma es farà a pantalla completa o dins d'un iframe:\r\n    • \"fullview\" (Constant VIEW_FULLSCREEN)\r\n    • \"iframe\" (Constant VIEW_IFRAME)"
+          },
+          "language" : {
+            "type" : "string",
+            "description" : "Idioma seleccionat"
+          }
+        }
       },
       "AvailableLanguagesRest" : {
         "type" : "object",

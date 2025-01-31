@@ -449,7 +449,7 @@ public class Example {
 
 ## getTransactionStatus
 
-> FirmaSimpleGetTransactionStatusResponse getTransactionStatus(firmaSimpleStartTransactionRequest)
+> FirmaSimpleGetTransactionStatusResponse getTransactionStatus(body)
 
 Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma
 
@@ -475,9 +475,9 @@ public class Example {
         BasicAuth.setPassword("YOUR PASSWORD");
 
         FirmaWebV1Api apiInstance = new FirmaWebV1Api(defaultClient);
-        FirmaSimpleStartTransactionRequest firmaSimpleStartTransactionRequest = new FirmaSimpleStartTransactionRequest(); // FirmaSimpleStartTransactionRequest | Identificador de transacció retornat de la cridada getTransactionID().
+        String body = "body_example"; // String | Identificador de transacció retornat de la cridada getTransactionID().
         try {
-            FirmaSimpleGetTransactionStatusResponse result = apiInstance.getTransactionStatus(firmaSimpleStartTransactionRequest);
+            FirmaSimpleGetTransactionStatusResponse result = apiInstance.getTransactionStatus(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FirmaWebV1Api#getTransactionStatus");
@@ -495,7 +495,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **firmaSimpleStartTransactionRequest** | [**FirmaSimpleStartTransactionRequest**](FirmaSimpleStartTransactionRequest.md)| Identificador de transacció retornat de la cridada getTransactionID(). | [optional] |
+| **body** | **String**| Identificador de transacció retornat de la cridada getTransactionID(). | [optional] |
 
 ### Return type
 

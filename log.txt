@@ -12,3 +12,32 @@ Certificate fingerprint (SHA-256): 7A:2B:7F:19:4D:89:6D:29:7D:DE:67:47:C6:14:77:
 Warning: use -cacerts option to access cacerts keystore
 Warning: use -cacerts option to access cacerts keystore
 Certificate was added to keystore
+[28/01/2025, 13:39:41,65] 
+depth=1 C = ES, ST = ILLES BALEARS, L = PALMA, O = COMUNITAT AUT\C3\92NOMA DE LES ILLES BALEARS, OU = DIRECCI\C3\93 GENERAL DE MODERNITZACI\C3\93 I ADMINISTRACI\C3\93 DIGITAL, CN = AUTORITAT INTERNA DE CERTIFICACI\C3\93 DE LA CAIB
+verify error:num=19:self-signed certificate in certificate chain
+verify return:1
+depth=1 C = ES, ST = ILLES BALEARS, L = PALMA, O = COMUNITAT AUT\C3\92NOMA DE LES ILLES BALEARS, OU = DIRECCI\C3\93 GENERAL DE MODERNITZACI\C3\93 I ADMINISTRACI\C3\93 DIGITAL, CN = AUTORITAT INTERNA DE CERTIFICACI\C3\93 DE LA CAIB
+verify return:1
+depth=0 C = ES, ST = ILLES BALEARS, L = PALMA, O = COMUNITAT AUT\C3\92NOMA DE LES ILLES BALEARS, OU = DIRECCI\C3\93 GENERAL DE MODERNITZACI\C3\93 I ADMINISTRACI\C3\93 DIGITAL, CN = afirmades2.caib.es
+verify return:1
+Warning: use -cacerts option to access cacerts keystore
+afirmades2_caib_es, 1 oct. 2024, trustedCertEntry, 
+Certificate fingerprint (SHA-256): D1:FA:31:E7:99:64:4E:1C:89:6B:C6:09:50:0E:55:A5:39:E7:E1:67:29:33:D2:FA:53:8C:DE:F2:68:A9:F6:CA
+Warning: use -cacerts option to access cacerts keystore
+Warning: use -cacerts option to access cacerts keystore
+Certificate was added to keystore
+[28/01/2025, 13:42:33,84] 
+depth=1 C = US, ST = California, L = Sunnyvale, O = Fortinet, OU = Certificate Authority, CN = FortiGate CA, emailAddress = support@fortinet.com
+verify error:num=19:self-signed certificate in certificate chain
+verify return:1
+depth=1 C = US, ST = California, L = Sunnyvale, O = Fortinet, OU = Certificate Authority, CN = FortiGate CA, emailAddress = support@fortinet.com
+verify return:1
+depth=0 C = US, ST = Ohio, L = Westlake, O = "HYLAND SOFTWARE, INC.", CN = *.nuxeo.org
+verify return:1
+88320000:error:0A000126:SSL routines:ssl3_read_n:unexpected eof while reading:ssl\record\rec_layer_s3.c:309:
+Warning: use -cacerts option to access cacerts keystore
+maven_nuxeo_org, 21 may. 2024, trustedCertEntry, 
+Certificate fingerprint (SHA-256): BE:7C:3E:34:F9:21:F6:7B:8C:FB:26:D7:81:FB:1F:8A:B3:C7:A5:75:89:73:B4:9B:82:A7:87:50:FD:15:0C:6E
+Warning: use -cacerts option to access cacerts keystore
+Warning: use -cacerts option to access cacerts keystore
+Certificate was added to keystore
