@@ -127,7 +127,11 @@ public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaCon
 
     public static List<StringKeyValue> getReferenceListForModeDeFirma() {
 
-        final int[] modes = new int[] { SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPED,
+        final int[] modes = new int[] { 
+                
+                /** El document inclou la Firma */
+                SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPED, // = 0
+                
                 /** El fitxer resultant serà la firma que incloura les dades originals */
                 SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPING, // = 3;
 

@@ -86,6 +86,15 @@ public class Configuracio implements Constants {
         return "true".equalsIgnoreCase(getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "development"));
     }
 
+    public static boolean obfuscateUsernames() {
+        if ("false"
+                .equalsIgnoreCase(getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "obfuscateusernames"))) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public static String getDefaultLanguage() {
         return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "defaultlanguage", "ca");
     }
@@ -93,6 +102,11 @@ public class Configuracio implements Constants {
     public static Locale getDefaultLocale() {
         String defaultLanguage = getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "defaultlanguage", "ca");
         return new Locale(defaultLanguage);
+    }
+    
+
+    public static String getHeaderBackgroundColor() {
+        return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "headerbackgroundcolor");
     }
 
     /**

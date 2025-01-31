@@ -42,9 +42,9 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
  *
  */
 @Controller
-@RequestMapping(value = "/aden/peticiosincrona")
+@RequestMapping(value = "/adapp/peticiosincrona")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-@MenuOption(group = ConstantsV2.ROLE_ADEN2, labelCode="peticiosincrona.menu", order=120)
+@MenuOption(group = ConstantsV2.ROLE_ADAPP, labelCode="peticiosincrona.menu", order=120)
 public class PeticioSincronaAdappController extends PeticioDeFirmaController {
 
   @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal.JNDI_NAME)

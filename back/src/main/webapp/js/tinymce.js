@@ -1,7 +1,7 @@
 
 /**
  *  INICIALITZACIÓ TINY RICH TEXT
- *  @author anadal@ibit.org
+ *  @author anadal@XXXXXXXXXXXXXXX.org
  */
 
 

@@ -146,13 +146,13 @@ public class FirmaEnServidorService extends RestFirmaUtils {
                             description = "No Autenticat",
                             content = { @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class)) }),
+                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
                     @ApiResponse(
                             responseCode = "403",
                             description = "No autoritzat",
                             content = { @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class)) }),
+                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
                     @ApiResponse(
                             responseCode = "500",
                             description = "Error no controlat",
@@ -924,13 +924,13 @@ public class FirmaEnServidorService extends RestFirmaUtils {
                     description = "No Autenticat",
                     content = { @Content(
                             mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = String.class)) }),
+                            schema = @Schema(implementation = RestExceptionInfo.class)) }),
             @ApiResponse(
                     responseCode = "403",
                     description = "No Autoritzat",
                     content = { @Content(
                             mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = String.class)) }),
+                            schema = @Schema(implementation = RestExceptionInfo.class)) }),
             @ApiResponse(
                     responseCode = "500",
                     description = "Error no controlat",

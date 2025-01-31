@@ -8,7 +8,7 @@
 <sec:authorize access="hasRole('ROLE_ADEN')">
     <div>
         <h5>
-            <fmt:message key="ROLE_ADEN.menu2" />
+            <fmt:message key="ROLE_ADAPP.menu" />
         </h5>
         <%
         List<List<MenuItem>> menus = new ArrayList<List<MenuItem>>();
@@ -17,7 +17,7 @@
         
         MenuItem menumeneame = new MenuItem("=MENU Meneame", "", "http://www.meneame.net", 1000);
 */
-        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(ConstantsV2.ROLE_ADEN2); //, menuGoogle, menumeneame);
+        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(ConstantsV2.ROLE_ADAPP); //, menuGoogle, menumeneame);
         menus.add(discoveredMenus);
         %>
         

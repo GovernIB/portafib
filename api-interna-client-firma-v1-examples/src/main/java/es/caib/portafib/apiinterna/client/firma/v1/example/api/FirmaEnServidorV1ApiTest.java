@@ -18,31 +18,20 @@ import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleSignatureRes
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleStatus;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleUpgradeRequest;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleUpgradeResponse;
-import es.caib.portafib.apiinterna.client.firma.v1.model.RestExceptionInfo;
 import es.caib.portafib.apiinterna.client.firma.v1.services.ApiClient;
 import es.caib.portafib.apiinterna.client.firma.v1.services.ApiException;
-import es.caib.portafib.apiinterna.client.firma.v1.services.Configuration;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Properties;
-
-import javax.ws.rs.core.Response.Status;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * API tests for FirmaEnServidorV1Api
+ * 
+ * @author fbosch
+ * @author anadal
+ * 
  */
-public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
+public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<FirmaEnServidorV1Api> {
 
     public static final String PROFILE_PADES_PROPERTY = "PROFILE_PADES";
 
@@ -52,325 +41,303 @@ public class FirmaEnServidorV1ApiTest extends FirmaSimpleStatus {
 
     public static final String PROFILE_MIX_PADES_XADES_CADES = "PROFILE_MIX_PADES_XADES_CADES";
 
+    public static void main(String[] args) {
+        FirmaEnServidorV1ApiTest test = new FirmaEnServidorV1ApiTest();
+        try {
+
+            test.testSignatureServerPAdES();
+
+            test.testSignatureServerPAdESStatus401_Unathorized();
+
+            test.testSignatureServerPAdESErrorFirmant();
+
+            test.testUpgradePAdESSignature();
+
+        } catch (ApiException e) {
+            test.processApiException(e, "Tests de Firma en Servidor");
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+
+    }
+
+    public void testSignatureServerPAdESStatus401_Unathorized() throws ApiException, Exception {
+
+        final String testName = "Firma en Servidor - Error 401- UNAUTHORIZED";
+        final Integer expectedError = 401;
+
+        ApiClient apiClient = getApiClient();
+
+        apiClient.setPassword("badpassword");
+
+        FirmaEnServidorV1Api apiError = new FirmaEnServidorV1Api(apiClient);
+
+        internalTestSignatureServerPAdES(testName, expectedError, apiError);
+
+        System.out.println("Test OK");
+
+    }
+
+    public void testSignatureServerPAdESErrorFirmant() throws ApiException, Exception {
+
+        final String testName = "Firma en Servidor - Error Firmant xml amb PAdES";
+        final Integer expectedError = null;
+
+        FirmaEnServidorV1Api api = getApi();
+
+        try {
+            internalTestSignatureServerPAdES(testName, expectedError, api, "./src/main/resources/sample.xml");
+            throw new Exception("S'ha enviat un fitxer XML per firma en format PAdES i s'esperava un error.");
+        } catch (EstatFinalNoOK e) {
+
+            if (getSTATUSFINALERROR().equals(e.getInternalCode())) {
+                System.out.println("Test OK");
+            } else {
+                throw new Exception("S'ha rebut un error de EstatFinalNoOK però s'esperava un internalCode "
+                        + getSTATUSFINALERROR() + " però s'ha rebut un " + e.getInternalCode());
+            }
+        }
+
+    }
+
     /**
-     * Operacio de firma simple en servidor d&#39;un document
+     * Operacio de firma simple en servidor d&#39;un document PDF
      *
      * @throws ApiException if the Api call fails
      */
+    public void testSignatureServerPAdES() throws ApiException, Exception {
 
-   
-    public static void main(String[] args) throws FileNotFoundException, IOException {
-    	FirmaEnServidorV1ApiTest test = new FirmaEnServidorV1ApiTest();
-    	try {
-			test.testSignDocument();
+        final String testName = "Firma PAdES en Servidor";
+        final Integer expectedError = null;
 
-			//test.testUpgradeSignaturePAdES();
-			
-		} catch (ApiException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-	}
-    
-	public void testSignDocument() throws ApiException {
+        FirmaEnServidorV1Api api = getApi();
 
-		FirmaEnServidorV1ApiTest firmaEnServidorV1ApiTest = new FirmaEnServidorV1ApiTest();
+        internalTestSignatureServerPAdES(testName, expectedError, api);
 
-		try {
-            firmaEnServidorV1ApiTest.testSignatureServerPAdES();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            
-            System.err.println(
-                    "No s'ha trobat el fitxer a signar.");
-        } catch (IOException e) {
-            
-            e.printStackTrace();
-            
-            System.err.println(
-                    "Error: IOException");
-        } catch (ApiException e) {
-            System.err.println("Error durant la realització dels Tests de Firma en Servidor:");
-            System.err.println("    - Code: " + e.getCode() + " (" + Status.fromStatusCode(e.getCode()).name() + ")");
-        
-            try {
-                ObjectMapper objectMapper = Configuration.getDefaultApiClient().getJSON().getContext(null); 
-                RestExceptionInfo rei = objectMapper.readValue(e.getMessage(), RestExceptionInfo.class);
-                System.err.println("    - RestExceptionInfo:");
-                System.err.println("          + errorCode: " +  rei.getErrorCode());
-                System.err.println("          + errorMessage: " +  rei.getErrorMessage());
-                System.err.println("          + stackTrace: " +  rei.getStackTrace());
-                System.err.println("          + stackTraceCause: " +  rei.getStackTraceCause());
-                System.err.println("          + field: " +  rei.getField());
-            } catch (Exception e1) {
-                e1.printStackTrace();
-                // No es un objecte RestExceptionInfo
-                System.err.println("    - Message: " + e.getMessage());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
-    /*public void testSignDocument() throws ApiException, FileNotFoundException, IOException {
+    protected FirmaSimpleSignatureResponse internalTestSignatureServerPAdES(final String testName,
+            final Integer expectedError, FirmaEnServidorV1Api api) throws Exception, ApiException {
+        return internalTestSignatureServerPAdES(testName, expectedError, api, null);
+    }
 
-        FirmaEnServidorV1ApiTest firmaEnServidorV1ApiTest = new FirmaEnServidorV1ApiTest();
-
-        firmaEnServidorV1ApiTest.testSignatureServerPAdES();
-
-    }*/
-
-    public void testSignatureServerPAdES() throws Exception {
-
+    protected FirmaSimpleSignatureResponse internalTestSignatureServerPAdES(final String testName,
+            final Integer expectedError, FirmaEnServidorV1Api api, String file) throws Exception, ApiException {
         Properties prop = getConfigProperties();
-        
+
         String languageUI = prop.getProperty("languageUI", "ca");
 
-        FirmaEnServidorV1Api api = getApiFirmaEnServidor(prop, languageUI);
-
-        final String perfil = prop.getProperty(PROFILE_PADES_PROPERTY);
-        if (perfil == null) {
-            logErrorPerfilBuit(PROFILE_PADES_PROPERTY);
+        String perfil = prop.getProperty(PROFILE_PADES_PROPERTY);
+        if (perfil == null || perfil.trim().isEmpty()) {
+            avisPerPerfilBuit(PROFILE_PADES_PROPERTY);
+            perfil = null;
         }
 
-        FirmaSimpleFile fileToSign = UtilsV1ApiTest.getSimpleFileFromResource("src/main/resources/hola-test.pdf", "application/pdf");
+        FirmaSimpleFile fileToSign = llegirFitxer(file == null ? "src/main/resources/hola-test.pdf" : file,
+                "application/pdf");
 
         System.out.println(" PERFIL => " + perfil);
         System.out.println(" FILE NOM => " + fileToSign.getNom());
-        internalSignDocument(api, perfil, fileToSign, null, languageUI);
+        return internalSignDocument(api, perfil, fileToSign, languageUI, testName, expectedError);
     }
-    /*
-    protected FirmaSimpleSignatureResponse internalSignDocument(FirmaEnServidorV1Api api, final String perfil,
-            FirmaSimpleFile fileToSign) throws ApiException, IOException {
-        return internalSignDocument(api, perfil, fileToSign, null);
-    }
-    */
 
     protected FirmaSimpleSignatureResponse internalSignDocument(FirmaEnServidorV1Api api, final String perfil,
-            FirmaSimpleFile fileToSign, String alias, String languageUI) throws ApiException, IOException {
-        String signID = "1";
-        String name = fileToSign.getNom();
-        String reason = "Per aprovar pressuposts";
-        String location = "Palma";
+            FirmaSimpleFile fileToSign, String languageUI, String testName, Integer expectedError)
+            throws ApiException, Exception {
 
-        int signNumber = 1;
-        String languageSign = "ca";
-        long tipusDocumentalID = 99; // =TD99
+        System.out.println("============================ " + testName + " ============================");
+        try {
+            String signID = "1";
+            String name = fileToSign.getNom();
+            String reason = "Per aprovar pressuposts";
+            String location = "Palma";
 
-        FirmaSimpleFileInfoSignature fileInfoSignature = new FirmaSimpleFileInfoSignature();
-        fileInfoSignature.setFileToSign(fileToSign);
-        fileInfoSignature.setSignID(signID);
-        fileInfoSignature.setName(name);
-        fileInfoSignature.setReason(reason);
-        fileInfoSignature.setLocation(location);
-        fileInfoSignature.setSignNumber(signNumber);
-        fileInfoSignature.setLanguageSign(languageSign);
+            int signNumber = 1;
+            String languageSign = "ca";
+            long tipusDocumentalID = 99; // =TD99
 
-        fileInfoSignature.setDocumentType(tipusDocumentalID);
+            String alias = getConfigProperties().getProperty("alias");
 
-        // Es la configuració del Servidor (deixam el valor per defecte)
-        String username = alias;
-        String administrationID = null;
-        String signerEmail = null;
+            FirmaSimpleFileInfoSignature fileInfoSignature = new FirmaSimpleFileInfoSignature();
+            fileInfoSignature.setFileToSign(fileToSign);
+            fileInfoSignature.setSignID(signID);
+            fileInfoSignature.setName(name);
+            fileInfoSignature.setReason(reason);
+            fileInfoSignature.setLocation(location);
+            fileInfoSignature.setSignNumber(signNumber);
+            fileInfoSignature.setLanguageSign(languageSign);
 
-        FirmaSimpleCommonInfo commonInfo = new FirmaSimpleCommonInfo();
-        commonInfo.setSignProfile(perfil);
-        commonInfo.setLanguageUI(languageUI);
-        commonInfo.setUsername(username);
-        commonInfo.setAdministrationID(administrationID);
-        commonInfo.setSignerEmail(signerEmail);
+            fileInfoSignature.setDocumentType(tipusDocumentalID);
 
-        System.out.println("languageUI = |" + languageUI + "|");
+            // Es la configuració del Servidor (deixam el valor per defecte)
+            String username = alias;
+            String administrationID = null;
+            String signerEmail = null;
 
-        FirmaSimpleSignDocumentRequest signature = new FirmaSimpleSignDocumentRequest();
+            FirmaSimpleCommonInfo commonInfo = new FirmaSimpleCommonInfo();
+            commonInfo.setSignProfile(perfil);
+            commonInfo.setLanguageUI(languageUI);
+            commonInfo.setUsername(username);
+            commonInfo.setAdministrationID(administrationID);
+            commonInfo.setSignerEmail(signerEmail);
 
-        signature.setCommonInfo(commonInfo);
-        signature.setFileInfoSignature(fileInfoSignature);
+            System.out.println("languageUI = |" + languageUI + "|");
 
-        FirmaSimpleSignatureResponse fullResults = api.signdocument(signature);
+            FirmaSimpleSignDocumentRequest signature = new FirmaSimpleSignDocumentRequest();
 
-        FirmaSimpleStatus transactionStatus = fullResults.getStatus();
+            signature.setCommonInfo(commonInfo);
+            signature.setFileInfoSignature(fileInfoSignature);
 
-        int status = transactionStatus.getStatus();
+            FirmaSimpleSignatureResponse fullResults = api.signdocument(signature);
 
-        if (status == getSTATUSINITIALIZING()) {
-            System.err.println("Initializing ...Unknown Error (???)");
-            return null;
+            FirmaSimpleStatus transactionStatus = fullResults.getStatus();
 
-        } else if (status == getSTATUSINPROGRESS()) {
-            System.err.println("In PROGRESS ... Unknown Error (????) ");
-            return null;
-        } else if (status == getSTATUSFINALERROR()) {
+            int status = transactionStatus.getStatus();
 
-            System.err.println("Error durant la realització de les firmes: " + transactionStatus.getErrorMessage());
-            String desc = transactionStatus.getErrorStackTrace();
-            if (desc != null) {
-                System.err.println(desc);
-            }
-            return null;
+            if (status == getSTATUSINITIALIZING()) {
+                throw new EstatFinalNoOK(status, "Rebut estat Initializing ...Unknown Error (???)");
 
-        } else if (status == getSTATUSCANCELLED()) {
-            System.err.println("S'ha cancel·lat el procés de firmat.");
-            return null;
-        } else if (status == getSTATUSFINALOK()) {
+            } else if (status == getSTATUSINPROGRESS()) {
+                throw new EstatFinalNoOK(status, "Rebut estat IN_PROGRESS ... Unknown Error (????) ");
 
-            System.out.println(" ===== RESULTAT  =========");
+            } else if (status == getSTATUSFINALERROR()) {
 
-            {
-                System.out.println(" ---- Signature [ " + fullResults.getSignID() + " ]");
+                throw new EstatFinalNoOK(status, "Rebut estat ERROR: " + transactionStatus.getErrorMessage(),
+                        transactionStatus.getErrorStackTrace());
 
-                System.err.println("  RESULT: OK");
-                FirmaSimpleFile fsf = fullResults.getSignedFile();
-                FileOutputStream fos = new FileOutputStream(fsf.getNom());
-                fos.write(fsf.getData());
-                fos.flush();
-                fos.close();
-                System.out.println("  RESULT: Fitxer signat guardat en '" + fsf.getNom() + "'");
-                printSignatureInfo(fullResults);
+            } else if (status == getSTATUSCANCELLED()) {
+                throw new EstatFinalNoOK(status, "Rebut estat CANCELED: S'ha cancel·lat el procés de firmat.");
 
-                return fullResults;
+            } else if (status == getSTATUSFINALOK()) {
 
+                System.out.println(" ===== RESULTAT  =========");
+
+                {
+                    System.out.println(" ---- Signature [ " + fullResults.getSignID() + " ]");
+
+                    System.err.println("  RESULT: OK");
+                    FirmaSimpleFile fsf = fullResults.getSignedFile();
+                    FileOutputStream fos = new FileOutputStream(fsf.getNom());
+                    fos.write(fsf.getData());
+                    fos.flush();
+                    fos.close();
+                    System.out.println("  RESULT: Fitxer signat guardat en '" + fsf.getNom() + "'");
+                    System.out.println(fullResults.getSignedFileInfo().toString());
+
+                    return fullResults;
+
+                } // Final for de fitxers firmats
+            } else {
+                throw new EstatFinalNoOK(null, "Rebut estat desconegut (" + status + ")");
             } // Final for de fitxers firmats
-        } else {
+              // Final Case Firma OK
+              // Final Switch Firma
+        } catch (ApiException e) {
+            checkExpectedError(expectedError, e);
+
             return null;
-        } // Final for de fitxers firmats
-          // Final Case Firma OK
-          // Final Switch Firma
+        }
 
     }
 
-    protected static Properties getConfigProperties() throws IOException, FileNotFoundException {
-        Properties prop = new Properties();
-
-        prop.load(new FileInputStream(new File("./apifirmaenservidor.properties")));
-        return prop;
+    protected void avisPerPerfilBuit(final String perfilProperty) {
+        System.out.println("           ================= AVIS ==============\n" + "La propietat " + perfilProperty
+                + " està buida.\n"
+                + "Això significa que si l'usuari aplicacio té més d'un perfil assignat, llavors llançarà un error.\n"
+                + "          =====================================\n");
     }
 
-    public static FirmaEnServidorV1Api getApiFirmaEnServidor(Properties prop, String languageUI) {
+    public void testUpgradePAdESSignature() throws ApiException, Exception {
 
-        FirmaEnServidorV1Api api;
+        final String testName = "testUpgradePAdESSignature";
+        final Integer expectedError = null;
 
-        ApiClient client = new ApiClient();
-        System.out.println("Pattern: "+((SimpleDateFormat) client.getDateFormat()).toPattern());
+        FirmaSimpleFile fileToUpgrade = llegirFitxer("src/main/resources/hola-signed.pdf", "application/pdf");
 
-        client.setBasePath(prop.getProperty("basePath"));
-        client.setUsername(prop.getProperty("username"));
-        client.setPassword(prop.getProperty("password"));
+        internalTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, null, "hola-signed-upgraded.pdf", testName,
+                expectedError);
 
-        client.addDefaultHeader("Accept-Language", languageUI);
-
-        api = new FirmaEnServidorV1Api(client);
-
-        return api;
-
-    }
-
-    protected void logErrorPerfilBuit(final String perfilProperty) {
-        System.err.println("La propietat " + perfilProperty
-                + " està buida. Això significa que si l'usuari aplicacio té més d'un perfil assignat, llavors llançarà un error.");
-    }
-	
-	
-   
-
-    public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String mime) throws IOException {
-
-        InputStream is = new FileInputStream(new File(fileName));
-
-        ByteArrayOutputStream fos = new ByteArrayOutputStream();
-        copyFileToOutputStream(is, fos);
-
-        FirmaSimpleFile asf = new FirmaSimpleFile();
-        asf.setNom(fileName);
-        asf.setMime(mime);
-        ArrayList<byte[]> fosBytes = new ArrayList<byte[]>();
-        fosBytes.add(fos.toByteArray());
-        asf.setData(fosBytes.get(0));
-
-        return asf;
-    }
-
-    public void testUpgradeSignaturePAdES() throws Exception, FileNotFoundException, IOException {
-        FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("src/main/resources/hola-signed.pdf",
-                "application/pdf");
-
-        internalFullTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, null, "hola-signed-upgraded.pdf");
-    }
-
-    protected void internalFullTestUpgrade(final String perfilProperty, FirmaSimpleFile fileToUpgrade,
-            FirmaSimpleFile documentDetached, String upgradedFileName)
-            throws IOException, FileNotFoundException, Exception {
-        FirmaSimpleUpgradeResponse upgradeResponse = internalTestUpgrade(perfilProperty, fileToUpgrade,
-                documentDetached);
-
-        FirmaSimpleFile upgraded = upgradeResponse.getUpgradedFile();
-
-        guardarFitxer(upgraded, upgradedFileName);
     }
 
     protected FirmaSimpleUpgradeResponse internalTestUpgrade(final String perfilProperty, FirmaSimpleFile fileToUpgrade,
-            FirmaSimpleFile documentDetached) throws IOException, FileNotFoundException, Exception {
+            FirmaSimpleFile documentDetached, String upgradedFileName, String testName, Integer expectedError)
+            throws Exception, ApiException {
 
-        Properties prop = getConfigProperties();
-        
-        String languageUI = prop.getProperty("languageUI", "ca");
+        System.out.println("============================ " + testName + " ============================");
+        try {
 
-        FirmaEnServidorV1Api api = getApiFirmaEnServidor(prop, languageUI);
+            FirmaEnServidorV1Api api = getApi();
 
-        
+            Properties prop = getConfigProperties();
 
-        final String perfil = prop.getProperty(perfilProperty);
+            String perfil = prop.getProperty(perfilProperty);
 
-        if (perfil == null) {
-            logErrorPerfilBuit(perfilProperty);
-        }
+            if (perfil == null || perfil.trim().isEmpty()) {
+                avisPerPerfilBuit(PROFILE_PADES_PROPERTY);
+                perfil = null;
+            }
 
-        FirmaSimpleUpgradeRequest firmaSimpleUpgradeRequest = new FirmaSimpleUpgradeRequest();
+            FirmaSimpleUpgradeRequest firmaSimpleUpgradeRequest = new FirmaSimpleUpgradeRequest();
 
-        firmaSimpleUpgradeRequest.setProfileCode(perfil);
-        firmaSimpleUpgradeRequest.setDetachedDocument(documentDetached);
-        firmaSimpleUpgradeRequest.setSignature(fileToUpgrade);
-        firmaSimpleUpgradeRequest.setLanguageUI(languageUI);
+            firmaSimpleUpgradeRequest.setProfileCode(perfil);
+            firmaSimpleUpgradeRequest.setDetachedDocument(documentDetached);
+            firmaSimpleUpgradeRequest.setSignature(fileToUpgrade);
 
-        FirmaSimpleUpgradeResponse upgradeResponse = api.upgradeSignature(firmaSimpleUpgradeRequest);
+            String languageUI = prop.getProperty("languageUI", "ca");
+            firmaSimpleUpgradeRequest.setLanguageUI(languageUI);
 
-        printSignatureInfo(upgradeResponse);
-        return upgradeResponse;
-    }
+            FirmaSimpleUpgradeResponse upgradeResponse = api.upgradeSignature(firmaSimpleUpgradeRequest);
 
-    public static void printSignatureInfo(FirmaSimpleSignatureResponse fssr) {
-        System.out.println(fssr.getSignedFileInfo().toString());
-    }
+            System.out.println(upgradeResponse.getUpgradedFileInfo().toString());
 
-    public static void printSignatureInfo(FirmaSimpleUpgradeResponse fssr) {
-        System.out.println(fssr.getUpgradedFileInfo().toString());
-    }
-	
-	
-	
+            FirmaSimpleFile upgraded = upgradeResponse.getUpgradedFile();
 
+            guardarFitxer(upgraded.getData(), upgradedFileName);
 
-    public static void copyFileToOutputStream(InputStream input, OutputStream output) throws IOException {
-        byte[] buffer = new byte[4096];
-        int n = 0;
-        while (-1 != (n = input.read(buffer))) {
-            output.write(buffer, 0, n);
+            return upgradeResponse;
+
+        } catch (ApiException e) {
+            checkExpectedError(expectedError, e);
+            return null;
         }
     }
 
-    private static void guardarFitxer(FirmaSimpleFile upgraded, String fileName)
-            throws FileNotFoundException, IOException {
+    @Override
+    public FirmaEnServidorV1Api getApi() throws Exception {
+        ApiClient client = getApiClient();
+        FirmaEnServidorV1Api api = new FirmaEnServidorV1Api(client);
+        return api;
+    }
 
-        File f = new File(fileName);
-        FileOutputStream fos = new FileOutputStream(f);
-        fos.write(upgraded.getData());
-        fos.flush();
-        fos.close();
+    @Override
+    protected String getConfigPropertiesName() {
+        return "apifirmaenservidor";
+    }
 
-        System.out.println("Guardat " + fileName);
+    public class EstatFinalNoOK extends Exception {
+
+        protected final Integer internalCode;
+
+        protected final String errorStackTrace;
+
+        public EstatFinalNoOK(Integer internalCode, String message) {
+            this(internalCode, message, null);
+        }
+
+        public EstatFinalNoOK(Integer internalCode, String message, String errorStackTrace) {
+            super(message);
+            this.errorStackTrace = errorStackTrace;
+            this.internalCode = internalCode;
+        }
+
+        public String getErrorStackTrace() {
+            return errorStackTrace;
+        }
+
+        public Integer getInternalCode() {
+            return internalCode;
+        }
+
     }
 
 }

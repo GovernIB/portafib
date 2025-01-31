@@ -104,13 +104,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/RestExceptionInfo'
           description: No Autenticat
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/RestExceptionInfo'
           description: No autoritzat
         "500":
           content:
@@ -140,13 +140,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/RestExceptionInfo'
           description: No Autenticat
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/RestExceptionInfo'
           description: No Autoritzat
         "500":
           content:
@@ -496,13 +496,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/RestExceptionInfo'
           description: No Autenticat
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/RestExceptionInfo'
           description: No autoritzat
         "500":
           content:
@@ -555,13 +555,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/RestExceptionInfo'
           description: No Autenticat
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/RestExceptionInfo'
           description: No autoritzat
         "500":
           content:
@@ -622,13 +622,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/RestExceptionInfo'
           description: No Autenticat
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/RestExceptionInfo'
           description: No autoritzat
         "500":
           content:

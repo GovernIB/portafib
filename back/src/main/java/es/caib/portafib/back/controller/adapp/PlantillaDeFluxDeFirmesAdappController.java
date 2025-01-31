@@ -19,12 +19,12 @@ import es.caib.portafib.utils.ConstantsV2;
  *
  */
 @Controller
-@RequestMapping(value = "/aden/plantilla")
+@RequestMapping(value = "/adapp/plantilla")
 @SessionAttributes(
         types = { PlantillaDeFluxDeFirmesFilterForm.class, SeleccioUsuariForm.class, PlantillaDeFluxDeFirmesForm.class,
                 FluxDeFirmesForm.class, FluxDeFirmesFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN2,
+        group = ConstantsV2.ROLE_ADAPP,
         labelCode = "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural",
         addSeparatorBefore = true,
         order = 160)

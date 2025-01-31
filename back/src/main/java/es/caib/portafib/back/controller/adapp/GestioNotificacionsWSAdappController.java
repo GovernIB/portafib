@@ -46,7 +46,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/aden/notificaciows")
 @SessionAttributes(types = { NotificacioWSForm.class, NotificacioWSFilterForm.class })
-@MenuOption(labelCode = "notificaciows.llistat", group = ConstantsV2.ROLE_ADEN2, order=180) // baseLink = "/aden/notificaciows", relativeLink = "/list",
+@MenuOption(labelCode = "notificaciows.llistat", group = ConstantsV2.ROLE_ADAPP, order=180)
 public class GestioNotificacionsWSAdappController extends NotificacioWSController {
 
     private static final String USUARIAPLICACIOID_REQUEST_ATTRIBUTE = "GestioNotificacionsWSController.usuariAplicacioID";

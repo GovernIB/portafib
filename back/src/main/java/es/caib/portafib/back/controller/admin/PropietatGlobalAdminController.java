@@ -157,6 +157,9 @@ public class PropietatGlobalAdminController extends PropietatGlobalController {
                     propietatGlobalFilterForm.setItemsPerPage(-1);
 
                     propietatGlobalFilterForm.setFilterByFields(new ArrayList<Field<?>>());
+                    
+                    propietatGlobalFilterForm.setSubTitleCode(
+                            "=Aquí es mostren les propietats del fitxer portafib.properties");
 
             }
 

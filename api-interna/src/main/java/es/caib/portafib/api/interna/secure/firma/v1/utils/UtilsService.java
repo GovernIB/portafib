@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -55,8 +56,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @Path(UtilsService.PATH)
 @OpenAPIDefinition(
-        tags = @Tag(name = UtilsService.TAG_NAME,
-        description = "API Interna de PortaFIB de consulta de serveis d'utilitat associats a la firma electrònica"))
+        tags = @Tag(
+                name = UtilsService.TAG_NAME,
+                description = "API Interna de PortaFIB de consulta de serveis d'utilitat associats a la firma electrònica"))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = UtilsService.SECURITY_NAME, scheme = "basic")
 public class UtilsService extends RestFirmaUtils {
 
@@ -103,13 +105,13 @@ public class UtilsService extends RestFirmaUtils {
                             description = "No Autenticat",
                             content = { @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class)) }),
+                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
                     @ApiResponse(
                             responseCode = "403",
                             description = "No autoritzat",
                             content = { @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class)) }),
+                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
                     @ApiResponse(
                             responseCode = "500",
                             description = "Error no controlat",
@@ -145,6 +147,10 @@ public class UtilsService extends RestFirmaUtils {
                 ua = null;
             } else {
                 ua = usuariAplicacioLogicaEjb.findByPrimaryKey(appuser);
+                if (ua == null) {
+                    String msg = "L´usuari aplicació " + appuser + " no existeix." ;
+                    throw new RestException(Status.BAD_REQUEST, msg, "appuser");
+                }
             }
 
             List<TipusDocument> list = tipusDocumentEjb.getTipusDocumentsByUsrApp(ua);
@@ -229,13 +235,13 @@ public class UtilsService extends RestFirmaUtils {
                             description = "No Autenticat",
                             content = { @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class)) }),
+                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
                     @ApiResponse(
                             responseCode = "403",
                             description = "No autoritzat",
                             content = { @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class)) }),
+                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
                     @ApiResponse(
                             responseCode = "500",
                             description = "Error no controlat",
@@ -291,13 +297,13 @@ public class UtilsService extends RestFirmaUtils {
                             description = "No Autenticat",
                             content = { @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class)) }),
+                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
                     @ApiResponse(
                             responseCode = "403",
                             description = "No autoritzat",
                             content = { @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class)) }),
+                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
                     @ApiResponse(
                             responseCode = "500",
                             description = "Error no controlat",

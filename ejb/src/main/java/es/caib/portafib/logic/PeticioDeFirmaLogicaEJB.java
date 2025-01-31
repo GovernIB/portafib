@@ -28,7 +28,6 @@ import es.caib.portafib.persistence.TraduccioMapJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
-import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.persistence.validator.PeticioDeFirmaBeanValidator;
 import es.caib.portafib.logic.events.EstatDeFirmaEventHelper;
 import es.caib.portafib.logic.events.FirmaEventList;
@@ -240,6 +239,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
     @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
     private RebreAvisLogicaLocal rebreAvisLogicaEjb;
+
 
     @Resource
     private SessionContext context;
@@ -2669,7 +2669,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             try {
                 List<EstatDeFirma> estatsDeFirmaPendents = estatDeFirmaLogicaEjb
                         .getEstatsDeFirmaPendentsFirma(firma.getFirmaID());
+                
+                //log.info("\n  ------------ estatsDeFirmaPendents => " + estatsDeFirmaPendents.size() + " ------------ \n" );
+                //int i = 0;
                 for (EstatDeFirma estatDeFirmaPendent : estatsDeFirmaPendents) {
+                    //log.info("\n               ===== estatsDeFirmaPendents[" + (i++) + "] => (" 
+                    //+ estatDeFirmaPendent.getEstatDeFirmaID() + ")" + estatDeFirmaPendent.getUsuariEntitatID() 
+                    //+ " ------------ \n" );
                     estatDeFirmaEventHelper.avisarUsuari(peticioDeFirma, firma, (EstatDeFirmaJPA) estatDeFirmaPendent,
                             events);
                 }
@@ -2701,7 +2707,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 tipusOperacio, desc);
 
         if (revisorsPendents == 0) {
-
+/*
             //log.error("\n\n\n XXXXXXXXXXXXXXXXXXXXXXXX  revisorsPendents == 0  XXXXXXXXXXXXXXXXXXXXX\n\n\n");
             final Locale loc = new Locale(peticioDeFirma.getIdiomaID());
 
@@ -2743,6 +2749,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 e.printStackTrace();
                 log.error(e.getMessage(), e);
             }
+            
+            */
+            /*
+            FirmaEventList events = new FirmaEventList();
+            events.requerit_per_firmar(peticioDeFirma, estatDeFirma);
+            final boolean wakeUpTimer = true;
+            firmaEventManagerEjb.processList(events, wakeUpTimer);
+            */
+
         }
     }
 

@@ -199,6 +199,7 @@
             <url-pattern>/cola/*</url-pattern>
             <url-pattern>/revi/*</url-pattern>
             <url-pattern>/aden/*</url-pattern>
+            <url-pattern>/adapp/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>PFI_USER</role-name>

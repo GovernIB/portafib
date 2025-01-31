@@ -97,6 +97,7 @@ public class FirmaWebV1ApiTest {
                     th.printStackTrace();
                 }
             }
+
         }
     }
 
@@ -146,7 +147,8 @@ public class FirmaWebV1ApiTest {
         System.out.println("AvailableTypeOfDocuments Results:");
         System.out.println(Arrays.toString(result.getGetAvailableTypesOfDocumentsResponse().toArray()));
     }
-
+    
+      
     protected static FirmaWebV1Api getApiFirmaWebSimple(Properties prop) throws Exception {
 
         ApiClient api = new ApiClient();

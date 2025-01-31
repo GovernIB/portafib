@@ -28,20 +28,20 @@ public class EstatDeFirmaEventHelper {
     private final BitacolaLogicaLocal bitacolaLogicaEjb;
     private final EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
-    public EstatDeFirmaEventHelper(BitacolaLogicaLocal bitacolaLogicaEjb, EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb) {
+    public EstatDeFirmaEventHelper(BitacolaLogicaLocal bitacolaLogicaEjb,
+            EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb) {
         this.bitacolaLogicaEjb = bitacolaLogicaEjb;
         this.estatDeFirmaLogicaEjb = estatDeFirmaLogicaEjb;
     }
 
-    public void doSendEmailToExternalUser(String entitatId, long peticioDeFirmaID, String titolPeticio, FirmaJPA firmaJPA)
-            throws I18NException {
+    public void doSendEmailToExternalUser(String entitatId, long peticioDeFirmaID, String titolPeticio,
+            FirmaJPA firmaJPA) throws I18NException {
 
         String urlPortaFIB = PropietatGlobalUtil.getPortafibUrlForExternalSignatures();
         // XYZ ZZZ ZZZ TRA
         if (urlPortaFIB == null) {
-            throw new I18NException("genapp.comodi",
-                    "No puc obtenir la URL base de PortaFIB a partir de la propietat"
-                            + " PortafibUrlForExternalSignatures. Consulti amb l'administrador de PortaFIB.");
+            throw new I18NException("genapp.comodi", "No puc obtenir la URL base de PortaFIB a partir de la propietat"
+                    + " PortafibUrlForExternalSignatures. Consulti amb l'administrador de PortaFIB.");
         }
 
         final String urlToken = urlPortaFIB + ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN + "/"
@@ -73,7 +73,7 @@ public class EstatDeFirmaEventHelper {
     }
 
     public void requeritPerRevisar(PeticioDeFirmaJPA peticioDeFirma, RevisorDeFirma revisorDeFirma,
-                                   FirmaEventList events) throws I18NException {
+            FirmaEventList events) throws I18NException {
         EstatDeFirmaJPA estatDeFirmaRevisor = new EstatDeFirmaJPA();
         estatDeFirmaRevisor.setDataInici(new Timestamp(System.currentTimeMillis()));
         estatDeFirmaRevisor.setDescripcio("");
@@ -86,20 +86,18 @@ public class EstatDeFirmaEventHelper {
         events.requerit_per_revisar(peticioDeFirma, estatDeFirmaRevisor);
 
         if (log.isDebugEnabled()) {
-            log.debug("   == Nou estat per REVISOR " + revisorDeFirma.getUsuariEntitatID()
-                    + " (" + revisorDeFirma.getRevisorDeFirmaID() + ")");
+            log.debug("   == Nou estat per REVISOR " + revisorDeFirma.getUsuariEntitatID() + " ("
+                    + revisorDeFirma.getRevisorDeFirmaID() + ")");
         }
     }
 
     public void requeritPerSignar(PeticioDeFirmaJPA peticioDeFirma, FirmaJPA firmaJPA, FirmaEventList events,
-                                  String destinatariReal)
-            throws I18NException, PeticioHaDeSerRebutjadaException {
+            String destinatariReal) throws I18NException, PeticioHaDeSerRebutjadaException {
         EstatDeFirmaJPA estatDeFirmaDest = new EstatDeFirmaJPA();
         estatDeFirmaDest.setDataInici(new Timestamp(System.currentTimeMillis()));
         estatDeFirmaDest.setDescripcio("");
         estatDeFirmaDest.setFirmaID(firmaJPA.getFirmaID());
-        estatDeFirmaDest.setTipusEstatDeFirmaInicialID(
-                ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
+        estatDeFirmaDest.setTipusEstatDeFirmaInicialID(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
         estatDeFirmaDest.setUsuariEntitatID(destinatariReal);
         estatDeFirmaDest = estatDeFirmaLogicaEjb.createFull(estatDeFirmaDest);
 
@@ -113,25 +111,30 @@ public class EstatDeFirmaEventHelper {
 
     }
 
-    public void avisarUsuari(PeticioDeFirmaJPA peticioDeFirma, FirmaJPA firmaJPA, EstatDeFirmaJPA estatDeFirmaDest, FirmaEventList events) throws PeticioHaDeSerRebutjadaException, I18NException {
+    public void avisarUsuari(PeticioDeFirmaJPA peticioDeFirma, FirmaJPA firmaJPA, EstatDeFirmaJPA estatDeFirmaDest,
+            FirmaEventList events) throws PeticioHaDeSerRebutjadaException, I18NException {
         if (firmaJPA.getUsuariExternEmail() != null) {
             avisarUsuariExtern(peticioDeFirma, firmaJPA);
         } else {
-            events.requerit_per_firmar(peticioDeFirma, estatDeFirmaDest);
+            if (estatDeFirmaDest
+                    .getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+                events.requerit_per_firmar(peticioDeFirma, estatDeFirmaDest);
+            } else {
+                //log.info("XXXXXXXXXXXXXXXXXXXXXXX  Enviar a USUARI PER FIRMA PERO NO ES PER FIRMAR");
+            }
         }
     }
 
-    private void avisarUsuariExtern(PeticioDeFirmaJPA peticioDeFirma, FirmaJPA firmaJPA) throws PeticioHaDeSerRebutjadaException, I18NException {
+    private void avisarUsuariExtern(PeticioDeFirmaJPA peticioDeFirma, FirmaJPA firmaJPA)
+            throws PeticioHaDeSerRebutjadaException, I18NException {
         switch (firmaJPA.getUsuariExternNivellSeguretat()) {
 
             case ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_TOKEN:
                 // Enviar-li correu amb TOKEN
 
                 try {
-                    doSendEmailToExternalUser(
-                            peticioDeFirma.getUsuariAplicacio().getEntitatID(),
-                            peticioDeFirma.getPeticioDeFirmaID(),
-                            peticioDeFirma.getTitol(), firmaJPA);
+                    doSendEmailToExternalUser(peticioDeFirma.getUsuariAplicacio().getEntitatID(),
+                            peticioDeFirma.getPeticioDeFirmaID(), peticioDeFirma.getTitol(), firmaJPA);
                 } catch (I18NException i18ne) {
                     // XYZ ZZZ TRA
                     String msg = "S'ha intentat enviar correu a " + firmaJPA.getUsuariExternEmail()
@@ -140,18 +143,17 @@ public class EstatDeFirmaEventHelper {
                     throw new PeticioHaDeSerRebutjadaException(msg);
                 }
 
-                break;
+            break;
 
             case ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_CERTIFICATE:
             case ConstantsV2.USUARIEXTERN_SECURITY_LEVEL_PASSWORD:
                 // XYZ ZZZ XYZ
                 throw new I18NException("genapp.comodi",
-                        "Encara no es suporta el nivell de seguretat "
-                                + firmaJPA.getUsuariExternNivellSeguretat());
+                        "Encara no es suporta el nivell de seguretat " + firmaJPA.getUsuariExternNivellSeguretat());
             default:
                 // XYZ ZZZ XYZ
-                throw new I18NException("genapp.comodi", "Nivell de seguretat desconegut"
-                        + firmaJPA.getUsuariExternNivellSeguretat());
+                throw new I18NException("genapp.comodi",
+                        "Nivell de seguretat desconegut" + firmaJPA.getUsuariExternNivellSeguretat());
         }
     }
 }
