@@ -923,6 +923,27 @@ components:
       description: Resposta de la petició de firma en servidor
       example:
         signedFileInfo:
+          signaturesTableLocation: 1
+          SIGN_ALGORITHM_SHA1: SHA-1
+          SIGN_OPERATION_COSIGN: 1
+          SIGN_ALGORITHM_SHA256: SHA-256
+          validationInfo:
+            checkDocumentModifications: true
+            noCheckValidationReason: noCheckValidationReason
+            checkValidationSignature: true
+            checkAdministrationIDOfSigner: true
+          SIGNPROFILE_BES: AdES-BES
+          SIGN_MODE_ATTACHED_ENVELOPED: 7
+          signMode: 0
+          SIGNATURESTABLELOCATION_WITHOUT: 4
+          SIGNPROFILE_XL: AdES-XL
+          SIGN_TYPE_ODF: ODF
+          SIGNPROFILE_X: AdES-X
+          signType: PAdES
+          signAlgorithm: SHA-1
+          SIGNPROFILE_T: AdES-T
+          timeStampIncluded: true
+          policyIncluded: true
           signerInfo:
             issuerCert: issuerCert
             eniRolFirma: eniRolFirma
@@ -937,8 +958,19 @@ components:
             signDate: 2000-01-23T04:56:07.000+00:00
             eniSignerAdministrationId: eniSignerAdministrationId
             serialNumberCert: serialNumberCert
-          signaturesTableLocation: 1
-          signOperation: 1
+          SIGN_TYPE_CADES: CAdES
+          SIGNPROFILE_X1: AdES-X1
+          SIGNPROFILE_X2: AdES-X2
+          SIGN_TYPE_CADES_ASIC_S: CAdES-ASiC-S
+          SIGNATURESTABLELOCATION_FIRSTPAGE: 7
+          SIGNATURESTABLELOCATION_LASTPAGE: 1
+          SIGN_TYPE_FACTURAE: FacturaE
+          SIGN_TYPE_OOXML: OOXML
+          SIGNPROFILE_PADES_BASIC: PAdES-Basic
+          SIGN_MODE_INTERNALLY_DETACHED: 2
+          SIGN_TYPE_PKCS1: PKCS#1
+          SIGN_ALGORITHM_SHA512: SHA-512
+          SIGNPROFILE_PADES_LTV: PAdES-LTV
           custodyInfo:
             validationFileUrl: validationFileUrl
             originalFileDirectURL: originalFileDirectURL
@@ -950,18 +982,23 @@ components:
             documentID: documentID
             csvGenerationDefinition: csvGenerationDefinition
             printableFileDirectUrl: printableFileDirectUrl
-          eniTipoFirma: TF01
+          SIGNPROFILE_EPES: AdES-EPES
+          SIGN_OPERATION_SIGN: 1
+          SIGN_TYPE_SMIME: SMIME
+          SIGN_MODE_DETACHED: 3
+          SIGN_TYPE_XADES_ASIC_S: XAdES-ASiC-S
+          SIGN_ALGORITHM_SHA384: SHA-384
+          SIGN_OPERATION_COUNTERSIGN: 6
           eniPerfilFirma: AdES-BES
-          validationInfo:
-            checkDocumentModifications: true
-            noCheckValidationReason: noCheckValidationReason
-            checkValidationSignature: true
-            checkAdministrationIDOfSigner: true
-          signType: PAdES
-          signMode: 0
-          signAlgorithm: SHA-1
-          timeStampIncluded: true
-          policyIncluded: true
+          SIGNPROFILE_C: AdES-C
+          SIGNPROFILE_A: AdES-A
+          signOperation: 1
+          eniTipoFirma: TF01
+          SIGN_TYPE_PADES: PAdES
+          SIGN_TYPE_XADES: XAdES
+          SIGNPROFILE_XL2: AdES-XL2
+          SIGNPROFILE_XL1: AdES-XL1
+          SIGN_MODE_ATTACHED_ENVELOPING: 9
         signedFile:
           data: data
           mime: mime
@@ -993,6 +1030,27 @@ components:
     FirmaSimpleSignedFileInfo:
       description: Informació del fitxer signat.
       example:
+        signaturesTableLocation: 1
+        SIGN_ALGORITHM_SHA1: SHA-1
+        SIGN_OPERATION_COSIGN: 1
+        SIGN_ALGORITHM_SHA256: SHA-256
+        validationInfo:
+          checkDocumentModifications: true
+          noCheckValidationReason: noCheckValidationReason
+          checkValidationSignature: true
+          checkAdministrationIDOfSigner: true
+        SIGNPROFILE_BES: AdES-BES
+        SIGN_MODE_ATTACHED_ENVELOPED: 7
+        signMode: 0
+        SIGNATURESTABLELOCATION_WITHOUT: 4
+        SIGNPROFILE_XL: AdES-XL
+        SIGN_TYPE_ODF: ODF
+        SIGNPROFILE_X: AdES-X
+        signType: PAdES
+        signAlgorithm: SHA-1
+        SIGNPROFILE_T: AdES-T
+        timeStampIncluded: true
+        policyIncluded: true
         signerInfo:
           issuerCert: issuerCert
           eniRolFirma: eniRolFirma
@@ -1007,8 +1065,19 @@ components:
           signDate: 2000-01-23T04:56:07.000+00:00
           eniSignerAdministrationId: eniSignerAdministrationId
           serialNumberCert: serialNumberCert
-        signaturesTableLocation: 1
-        signOperation: 1
+        SIGN_TYPE_CADES: CAdES
+        SIGNPROFILE_X1: AdES-X1
+        SIGNPROFILE_X2: AdES-X2
+        SIGN_TYPE_CADES_ASIC_S: CAdES-ASiC-S
+        SIGNATURESTABLELOCATION_FIRSTPAGE: 7
+        SIGNATURESTABLELOCATION_LASTPAGE: 1
+        SIGN_TYPE_FACTURAE: FacturaE
+        SIGN_TYPE_OOXML: OOXML
+        SIGNPROFILE_PADES_BASIC: PAdES-Basic
+        SIGN_MODE_INTERNALLY_DETACHED: 2
+        SIGN_TYPE_PKCS1: PKCS#1
+        SIGN_ALGORITHM_SHA512: SHA-512
+        SIGNPROFILE_PADES_LTV: PAdES-LTV
         custodyInfo:
           validationFileUrl: validationFileUrl
           originalFileDirectURL: originalFileDirectURL
@@ -1020,19 +1089,223 @@ components:
           documentID: documentID
           csvGenerationDefinition: csvGenerationDefinition
           printableFileDirectUrl: printableFileDirectUrl
-        eniTipoFirma: TF01
+        SIGNPROFILE_EPES: AdES-EPES
+        SIGN_OPERATION_SIGN: 1
+        SIGN_TYPE_SMIME: SMIME
+        SIGN_MODE_DETACHED: 3
+        SIGN_TYPE_XADES_ASIC_S: XAdES-ASiC-S
+        SIGN_ALGORITHM_SHA384: SHA-384
+        SIGN_OPERATION_COUNTERSIGN: 6
         eniPerfilFirma: AdES-BES
-        validationInfo:
-          checkDocumentModifications: true
-          noCheckValidationReason: noCheckValidationReason
-          checkValidationSignature: true
-          checkAdministrationIDOfSigner: true
-        signType: PAdES
-        signMode: 0
-        signAlgorithm: SHA-1
-        timeStampIncluded: true
-        policyIncluded: true
+        SIGNPROFILE_C: AdES-C
+        SIGNPROFILE_A: AdES-A
+        signOperation: 1
+        eniTipoFirma: TF01
+        SIGN_TYPE_PADES: PAdES
+        SIGN_TYPE_XADES: XAdES
+        SIGNPROFILE_XL2: AdES-XL2
+        SIGNPROFILE_XL1: AdES-XL1
+        SIGN_MODE_ATTACHED_ENVELOPING: 9
       properties:
+        SIGN_TYPE_PADES:
+          default: PAdES
+          description: Identificador de la firma PAdES.
+          readOnly: true
+          type: string
+        SIGN_TYPE_XADES:
+          default: XAdES
+          description: Identificador de la firma XAdES por defecto.
+          readOnly: true
+          type: string
+        SIGN_TYPE_CADES:
+          default: CAdES
+          description: Identificador de la firma CAdES.
+          readOnly: true
+          type: string
+        SIGN_TYPE_FACTURAE:
+          default: FacturaE
+          description: Identificador de la firma Factura-e (derivado de XAdES-EPES).
+          readOnly: true
+          type: string
+        SIGN_TYPE_OOXML:
+          default: OOXML
+          description: Identificador de la firma OOXML (<i>Office Open XML</i>).
+          readOnly: true
+          type: string
+        SIGN_TYPE_ODF:
+          default: ODF
+          description: Identificador de la firma ODF (<i>Open Document Format</i>).
+          readOnly: true
+          type: string
+        SIGN_TYPE_SMIME:
+          default: SMIME
+          description: Identificador de Firma SMIME
+          readOnly: true
+          type: string
+        SIGN_TYPE_CADES_ASIC_S:
+          default: CAdES-ASiC-S
+          description: "CAdES-ASiC-S: Formato de firma avanzada ASiC de tipo CAdES."
+          readOnly: true
+          type: string
+        SIGN_TYPE_XADES_ASIC_S:
+          default: XAdES-ASiC-S
+          description: "XAdES-ASiC-S: Formato de firma avanzada ASiC de tipo XAdES."
+          readOnly: true
+          type: string
+        SIGN_TYPE_PKCS1:
+          default: PKCS#1
+          description: "NONE: Firma PKCS#1"
+          readOnly: true
+          type: string
+        SIGN_ALGORITHM_SHA1:
+          default: SHA-1
+          description: Identificador d'algoritme de firma SHA-1
+          readOnly: true
+          type: string
+        SIGN_ALGORITHM_SHA256:
+          default: SHA-256
+          description: Identificador d'algoritme de firma SHA-256
+          readOnly: true
+          type: string
+        SIGN_ALGORITHM_SHA384:
+          default: SHA-384
+          description: Identificador d'algoritme de firma SHA-384
+          readOnly: true
+          type: string
+        SIGN_ALGORITHM_SHA512:
+          default: SHA-512
+          description: Identificador d'algoritme de firma SHA-512
+          readOnly: true
+          type: string
+        SIGN_MODE_ATTACHED_ENVELOPED:
+          default: 0
+          description: "El fitxer de dades resultant inclou la firma: PDF, ODT, ..."
+          format: int32
+          readOnly: true
+          type: integer
+        SIGN_MODE_ATTACHED_ENVELOPING:
+          default: 3
+          description: El fitxer resultant serà la firma que incloura les dades originals
+          format: int32
+          readOnly: true
+          type: integer
+        SIGN_MODE_DETACHED:
+          default: 1
+          description: "El fitxer de firma no inclourà les dades: per separat trobarem\
+            \ un fitxer de firma i el fitxer original"
+          format: int32
+          readOnly: true
+          type: integer
+        SIGN_MODE_INTERNALLY_DETACHED:
+          default: 4
+          description: "Firma especial XAdES en que la firma i les dades estan al\
+            \ mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades\
+            \ inclouen la firma"
+          format: int32
+          readOnly: true
+          type: integer
+        SIGNATURESTABLELOCATION_WITHOUT:
+          default: 0
+          description: Localitzador de la signatura al document. (Sense signatura
+            visible)
+          format: int32
+          readOnly: true
+          type: integer
+        SIGNATURESTABLELOCATION_FIRSTPAGE:
+          default: 1
+          description: Localitzador de la signatura al document. (Primera pagina)
+          format: int32
+          readOnly: true
+          type: integer
+        SIGNATURESTABLELOCATION_LASTPAGE:
+          default: -1
+          description: Localitzador de la signatura al document. (Darrera pagina)
+          format: int32
+          readOnly: true
+          type: integer
+        SIGN_OPERATION_SIGN:
+          default: 0
+          description: Identificador d'operació per Firma
+          format: int32
+          readOnly: true
+          type: integer
+        SIGN_OPERATION_COSIGN:
+          default: 1
+          description: Identificador d'operació per Cofirma
+          format: int32
+          readOnly: true
+          type: integer
+        SIGN_OPERATION_COUNTERSIGN:
+          default: 2
+          description: Identificador d'operació per Contrafirma
+          format: int32
+          readOnly: true
+          type: integer
+        SIGNPROFILE_BES:
+          default: AdES-BES
+          description: Perfil de firma AdES-BES
+          readOnly: true
+          type: string
+        SIGNPROFILE_EPES:
+          default: AdES-EPES
+          description: Perfil de firma AdES-EPES
+          readOnly: true
+          type: string
+        SIGNPROFILE_T:
+          default: AdES-T
+          description: Perfil de firma AdES-T
+          readOnly: true
+          type: string
+        SIGNPROFILE_C:
+          default: AdES-C
+          description: Perfil de firma AdES-C
+          readOnly: true
+          type: string
+        SIGNPROFILE_X:
+          default: AdES-X
+          description: Perfil de firma AdES-X
+          readOnly: true
+          type: string
+        SIGNPROFILE_X1:
+          default: AdES-X1
+          description: Perfil de firma AdES-X1
+          readOnly: true
+          type: string
+        SIGNPROFILE_X2:
+          default: AdES-X2
+          description: Perfil de firma AdES-X2
+          readOnly: true
+          type: string
+        SIGNPROFILE_XL:
+          default: AdES-XL
+          description: Perfil de firma AdES-XL
+          readOnly: true
+          type: string
+        SIGNPROFILE_XL1:
+          default: AdES-XL1
+          description: Perfil de firma AdES-XL1
+          readOnly: true
+          type: string
+        SIGNPROFILE_XL2:
+          default: AdES-XL2
+          description: Perfil de firma AdES-XL2
+          readOnly: true
+          type: string
+        SIGNPROFILE_A:
+          default: AdES-A
+          description: Perfil de firma AdES-A
+          readOnly: true
+          type: string
+        SIGNPROFILE_PADES_LTV:
+          default: PAdES-LTV
+          description: Perfil de firma PAdES-LTV
+          readOnly: true
+          type: string
+        SIGNPROFILE_PADES_BASIC:
+          default: PAdES-Basic
+          description: Perfil de firma PAdES-Basic
+          readOnly: true
+          type: string
         signOperation:
           description: "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma\
             \ (2)."
@@ -1101,6 +1374,43 @@ components:
         validationInfo:
           $ref: '#/components/schemas/FirmaSimpleValidationInfo'
       required:
+      - SIGNATURESTABLELOCATION_FIRSTPAGE
+      - SIGNATURESTABLELOCATION_LASTPAGE
+      - SIGNATURESTABLELOCATION_WITHOUT
+      - SIGNPROFILE_A
+      - SIGNPROFILE_BES
+      - SIGNPROFILE_C
+      - SIGNPROFILE_EPES
+      - SIGNPROFILE_PADES_BASIC
+      - SIGNPROFILE_PADES_LTV
+      - SIGNPROFILE_T
+      - SIGNPROFILE_X
+      - SIGNPROFILE_X1
+      - SIGNPROFILE_X2
+      - SIGNPROFILE_XL
+      - SIGNPROFILE_XL1
+      - SIGNPROFILE_XL2
+      - SIGN_ALGORITHM_SHA1
+      - SIGN_ALGORITHM_SHA256
+      - SIGN_ALGORITHM_SHA384
+      - SIGN_ALGORITHM_SHA512
+      - SIGN_MODE_ATTACHED_ENVELOPED
+      - SIGN_MODE_ATTACHED_ENVELOPING
+      - SIGN_MODE_DETACHED
+      - SIGN_MODE_INTERNALLY_DETACHED
+      - SIGN_OPERATION_COSIGN
+      - SIGN_OPERATION_COUNTERSIGN
+      - SIGN_OPERATION_SIGN
+      - SIGN_TYPE_CADES
+      - SIGN_TYPE_CADES_ASIC_S
+      - SIGN_TYPE_FACTURAE
+      - SIGN_TYPE_ODF
+      - SIGN_TYPE_OOXML
+      - SIGN_TYPE_PADES
+      - SIGN_TYPE_PKCS1
+      - SIGN_TYPE_SMIME
+      - SIGN_TYPE_XADES
+      - SIGN_TYPE_XADES_ASIC_S
       - policyIncluded
       - signAlgorithm
       - signMode

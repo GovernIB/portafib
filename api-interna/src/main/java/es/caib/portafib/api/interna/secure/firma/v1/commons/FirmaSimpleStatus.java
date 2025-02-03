@@ -7,24 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 public class FirmaSimpleStatus {
 
-    /*public enum STATUS {
-    	  INITIALIZING (0),
-    	  IN_PROGRESS (1),
-    	  FINAL_OK (2),
-    	  FINAL_ERROR (-1),
-    	  CANCELLED (-2);
-    	  
-    	 public final int value;
-    	 
-    	 public int getValue() {
-    		 return this.value;
-    	 }
-    	
-    	  private STATUS (int i) {
-    		  this.value=i;
-    	  }
-      }*/
-
     @Schema(
             description = "Codi d'estat d'una petició de firma que indica un que s'esta inicialitzant",
             nullable = false,

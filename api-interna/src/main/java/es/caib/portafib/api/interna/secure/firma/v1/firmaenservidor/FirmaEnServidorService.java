@@ -589,7 +589,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
 
             // SI es PADES llavors el signMode es attached
             if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-                signatureFileInfo.setSignMode(FirmaSimpleSignedFileInfo.SIGN_MODE_ATTACHED_ENVELOPED);
+                signatureFileInfo.setSignMode(signatureFileInfo.SIGN_MODE_ATTACHED_ENVELOPED);
             }
 
             signatureFileInfo.setEniTipoFirma(
@@ -855,7 +855,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
 
             // SI es PADES llavors el signMode es attached
             if (FileInfoSignature.SIGN_TYPE_PADES.equals(signatureType)) {
-                upgradedFileInfo.setSignMode(FirmaSimpleSignedFileInfo.SIGN_MODE_ATTACHED_ENVELOPED);
+                upgradedFileInfo.setSignMode(new FirmaSimpleSignedFileInfo().SIGN_MODE_ATTACHED_ENVELOPED);
             }
 
         } else {

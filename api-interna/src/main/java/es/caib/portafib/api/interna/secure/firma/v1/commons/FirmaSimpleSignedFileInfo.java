@@ -18,7 +18,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGN_TYPE_PADES = Constants.SIGN_TYPE_PADES;
+    public final String SIGN_TYPE_PADES = Constants.SIGN_TYPE_PADES;
     
     
     @Schema(
@@ -28,7 +28,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGN_TYPE_XADES = Constants.SIGN_TYPE_XADES;
+    public final String SIGN_TYPE_XADES = Constants.SIGN_TYPE_XADES;
     
     @Schema(
             description = "Identificador de la firma CAdES.",
@@ -37,7 +37,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGN_TYPE_CADES = Constants.SIGN_TYPE_CADES;
+    public final String SIGN_TYPE_CADES = Constants.SIGN_TYPE_CADES;
     
     @Schema(
             description = "Identificador de la firma Factura-e (derivado de XAdES-EPES).",
@@ -46,7 +46,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGN_TYPE_FACTURAE = Constants.SIGN_TYPE_FACTURAE;
+    public final String SIGN_TYPE_FACTURAE = Constants.SIGN_TYPE_FACTURAE;
     
     @Schema(
             description = "Identificador de la firma OOXML (<i>Office Open XML</i>).",
@@ -55,7 +55,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGN_TYPE_OOXML = Constants.SIGN_TYPE_OOXML;
+    public final String SIGN_TYPE_OOXML = Constants.SIGN_TYPE_OOXML;
     
     @Schema(
             description = "Identificador de la firma ODF (<i>Open Document Format</i>).",
@@ -64,7 +64,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGN_TYPE_ODF = Constants.SIGN_TYPE_ODF;
+    public final String SIGN_TYPE_ODF = Constants.SIGN_TYPE_ODF;
     
     @Schema(
             description = "Identificador de Firma SMIME",
@@ -73,7 +73,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGN_TYPE_SMIME = Constants.SIGN_TYPE_SMIME;
+    public final String SIGN_TYPE_SMIME = Constants.SIGN_TYPE_SMIME;
     
     @Schema(
             description = "CAdES-ASiC-S: Formato de firma avanzada ASiC de tipo CAdES.",
@@ -82,7 +82,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGN_TYPE_CADES_ASIC_S = Constants.SIGN_TYPE_CADES_ASIC_S;
+    public final String SIGN_TYPE_CADES_ASIC_S = Constants.SIGN_TYPE_CADES_ASIC_S;
     
     @Schema(
             description = "XAdES-ASiC-S: Formato de firma avanzada ASiC de tipo XAdES.",
@@ -91,7 +91,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGN_TYPE_XADES_ASIC_S = Constants.SIGN_TYPE_XADES_ASIC_S;
+    public final String SIGN_TYPE_XADES_ASIC_S = Constants.SIGN_TYPE_XADES_ASIC_S;
     
     @Schema(
             description = "NONE: Firma PKCS#1",
@@ -100,7 +100,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGN_TYPE_PKCS1 = Constants.SIGN_TYPE_PKCS1;
+    public final String SIGN_TYPE_PKCS1 = Constants.SIGN_TYPE_PKCS1;
     
     @Schema(
             description = "Identificador d'algoritme de firma SHA-1",
@@ -109,7 +109,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGN_ALGORITHM_SHA1 = Constants.SIGN_ALGORITHM_SHA1;
+    public final String SIGN_ALGORITHM_SHA1 = Constants.SIGN_ALGORITHM_SHA1;
     @Schema(
             description = "Identificador d'algoritme de firma SHA-256",
             nullable = false,
@@ -117,7 +117,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGN_ALGORITHM_SHA256 = Constants.SIGN_ALGORITHM_SHA256;
+    public final String SIGN_ALGORITHM_SHA256 = Constants.SIGN_ALGORITHM_SHA256;
     @Schema(
             description = "Identificador d'algoritme de firma SHA-384",
             nullable = false,
@@ -125,7 +125,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGN_ALGORITHM_SHA384 = Constants.SIGN_ALGORITHM_SHA384;
+    public final String SIGN_ALGORITHM_SHA384 = Constants.SIGN_ALGORITHM_SHA384;
     @Schema(
             description = "Identificador d'algoritme de firma SHA-512",
             nullable = false,
@@ -133,7 +133,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGN_ALGORITHM_SHA512 = Constants.SIGN_ALGORITHM_SHA512;
+    public final String SIGN_ALGORITHM_SHA512 = Constants.SIGN_ALGORITHM_SHA512;
 
     //========================  MODES DE FIRMA =========================
     // Veure
@@ -147,7 +147,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = Integer.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final int SIGN_MODE_ATTACHED_ENVELOPED = Constants.SIGN_MODE_ATTACHED_ENVELOPED;
+    public final int SIGN_MODE_ATTACHED_ENVELOPED = Constants.SIGN_MODE_ATTACHED_ENVELOPED;
 
     @Schema(
             description = "El fitxer resultant serà la firma que incloura les dades originals",
@@ -156,7 +156,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = Integer.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final int SIGN_MODE_ATTACHED_ENVELOPING = Constants.SIGN_MODE_ATTACHED_ENVELOPING;
+    public final int SIGN_MODE_ATTACHED_ENVELOPING = Constants.SIGN_MODE_ATTACHED_ENVELOPING;
 
     
     @Schema(
@@ -166,7 +166,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = Integer.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final int SIGN_MODE_DETACHED = Constants.SIGN_MODE_DETACHED;
+    public final int SIGN_MODE_DETACHED = Constants.SIGN_MODE_DETACHED;
 
     @Schema(
             description = "Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma",
@@ -175,7 +175,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = Integer.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final int SIGN_MODE_INTERNALLY_DETACHED = Constants.SIGN_MODE_INTERNALLY_DETACHED;
+    public final int SIGN_MODE_INTERNALLY_DETACHED = Constants.SIGN_MODE_INTERNALLY_DETACHED;
     
     @Schema(
             description = "Localitzador de la signatura al document. (Sense signatura visible)",
@@ -184,7 +184,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = Integer.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final int SIGNATURESTABLELOCATION_WITHOUT = Constants.SIGNATURESTABLELOCATION_WITHOUT;
+    public final int SIGNATURESTABLELOCATION_WITHOUT = Constants.SIGNATURESTABLELOCATION_WITHOUT;
     
     @Schema(
             description = "Localitzador de la signatura al document. (Primera pagina)",
@@ -193,7 +193,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = Integer.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final int SIGNATURESTABLELOCATION_FIRSTPAGE = Constants.SIGNATURESTABLELOCATION_FIRSTPAGE;
+    public final int SIGNATURESTABLELOCATION_FIRSTPAGE = Constants.SIGNATURESTABLELOCATION_FIRSTPAGE;
     
     @Schema(
             description = "Localitzador de la signatura al document. (Darrera pagina)",
@@ -202,7 +202,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = Integer.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final int SIGNATURESTABLELOCATION_LASTPAGE = Constants.SIGNATURESTABLELOCATION_LASTPAGE;
+    public final int SIGNATURESTABLELOCATION_LASTPAGE = Constants.SIGNATURESTABLELOCATION_LASTPAGE;
 
     // FIRMA
     @Schema(
@@ -212,7 +212,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = Integer.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final int SIGN_OPERATION_SIGN = Constants.SIGN_OPERATION_SIGN;
+    public final int SIGN_OPERATION_SIGN = Constants.SIGN_OPERATION_SIGN;
     // COFIRMA
     @Schema(
             description = "Identificador d'operació per Cofirma",
@@ -221,7 +221,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = Integer.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final int SIGN_OPERATION_COSIGN = Constants.SIGN_OPERATION_COSIGN;
+    public final int SIGN_OPERATION_COSIGN = Constants.SIGN_OPERATION_COSIGN;
     // CONTRAFIRMA
     @Schema(
             description = "Identificador d'operació per Contrafirma",
@@ -230,7 +230,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = Integer.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final int SIGN_OPERATION_COUNTERSIGN = Constants.SIGN_OPERATION_COUNTERSIGN;
+    public final int SIGN_OPERATION_COUNTERSIGN = Constants.SIGN_OPERATION_COUNTERSIGN;
     
     @Schema(
             description = "Perfil de firma AdES-BES",
@@ -239,7 +239,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGNPROFILE_BES = Constants.SIGNPROFILE_BES;
+    public final String SIGNPROFILE_BES = Constants.SIGNPROFILE_BES;
     @Schema(
             description = "Perfil de firma AdES-EPES",
             nullable = false,
@@ -247,7 +247,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGNPROFILE_EPES = Constants.SIGNPROFILE_EPES;
+    public final String SIGNPROFILE_EPES = Constants.SIGNPROFILE_EPES;
     @Schema(
             description = "Perfil de firma AdES-T",
             nullable = false,
@@ -255,7 +255,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGNPROFILE_T = Constants.SIGNPROFILE_T;
+    public final String SIGNPROFILE_T = Constants.SIGNPROFILE_T;
     @Schema(
             description = "Perfil de firma AdES-C",
             nullable = false,
@@ -263,7 +263,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGNPROFILE_C = Constants.SIGNPROFILE_C;
+    public final String SIGNPROFILE_C = Constants.SIGNPROFILE_C;
     @Schema(
             description = "Perfil de firma AdES-X",
             nullable = false,
@@ -271,7 +271,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGNPROFILE_X = Constants.SIGNPROFILE_X;
+    public final String SIGNPROFILE_X = Constants.SIGNPROFILE_X;
     @Schema(
             description = "Perfil de firma AdES-X1",
             nullable = false,
@@ -279,7 +279,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGNPROFILE_X1 = Constants.SIGNPROFILE_X1;
+    public final String SIGNPROFILE_X1 = Constants.SIGNPROFILE_X1;
     @Schema(
             description = "Perfil de firma AdES-X2",
             nullable = false,
@@ -287,7 +287,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGNPROFILE_X2 = Constants.SIGNPROFILE_X2;
+    public final String SIGNPROFILE_X2 = Constants.SIGNPROFILE_X2;
     @Schema(
             description = "Perfil de firma AdES-XL",
             nullable = false,
@@ -295,7 +295,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGNPROFILE_XL = Constants.SIGNPROFILE_XL;
+    public final String SIGNPROFILE_XL = Constants.SIGNPROFILE_XL;
     @Schema(
             description = "Perfil de firma AdES-XL1",
             nullable = false,
@@ -303,7 +303,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGNPROFILE_XL1 = Constants.SIGNPROFILE_XL1;
+    public final String SIGNPROFILE_XL1 = Constants.SIGNPROFILE_XL1;
     @Schema(
             description = "Perfil de firma AdES-XL2",
             nullable = false,
@@ -311,7 +311,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGNPROFILE_XL2 = Constants.SIGNPROFILE_XL2;
+    public final String SIGNPROFILE_XL2 = Constants.SIGNPROFILE_XL2;
     @Schema(
             description = "Perfil de firma AdES-A",
             nullable = false,
@@ -319,7 +319,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGNPROFILE_A = Constants.SIGNPROFILE_A;
+    public final String SIGNPROFILE_A = Constants.SIGNPROFILE_A;
     @Schema(
             description = "Perfil de firma PAdES-LTV",
             nullable = false,
@@ -327,7 +327,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGNPROFILE_PADES_LTV = Constants.SIGNPROFILE_PADES_LTV;
+    public final String SIGNPROFILE_PADES_LTV = Constants.SIGNPROFILE_PADES_LTV;
     @Schema(
             description = "Perfil de firma PAdES-Basic",
             nullable = false,
@@ -335,7 +335,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public static final String SIGNPROFILE_PADES_BASIC = Constants.SIGNPROFILE_PADES_BASIC;
+    public final String SIGNPROFILE_PADES_BASIC = Constants.SIGNPROFILE_PADES_BASIC;
 
     /**
      * eEMGDE.Firma.Firmante.EnCalidadDe(eEMGDE17.5.3): Firmante; Cofirmante;
@@ -570,137 +570,6 @@ public class FirmaSimpleSignedFileInfo {
 
     public void setValidationInfo(FirmaSimpleValidationInfo validationInfo) {
         this.validationInfo = validationInfo;
-    }
-
-    public static String toString(FirmaSimpleSignedFileInfo sfi) {
-        StringBuilder str = new StringBuilder("  + INFORMACIO:");
-
-        String operation;
-        switch (sfi.getSignOperation()) {
-            case FirmaSimpleSignedFileInfo.SIGN_OPERATION_SIGN:
-                operation = "FIRMA";
-            break;
-            case FirmaSimpleSignedFileInfo.SIGN_OPERATION_COSIGN:
-                operation = "COFIRMA";
-            break;
-
-            case FirmaSimpleSignedFileInfo.SIGN_OPERATION_COUNTERSIGN:
-                operation = "CONTRAFIRMA";
-            break;
-
-            default:
-                operation = "DESCONEGUDA (" + sfi.getSignOperation() + ")";
-        }
-        str.append("\n").append("      * Operacio:\t").append(operation);
-
-        str.append("\n").append("      * Tipus:\t").append(sfi.getSignType());
-
-        str.append("\n").append("      * Algorisme:\t").append(sfi.getSignAlgorithm());
-
-        str.append("\n").append("      * Mode:\t");
-        if (sfi.getSignMode() == null) {
-            str.append("NULL");
-        } else {
-            String mode;
-            if (sfi.getSignMode() == null) {
-                mode = "-- SENSE INFO. --";
-            } else {
-                int modePrimitive = sfi.getSignMode().intValue();
-
-                switch (modePrimitive) {
-                    case FirmaSimpleSignedFileInfo.SIGN_MODE_ATTACHED_ENVELOPED:
-                        mode = "SIGN_MODE_ATTACHED_ENVELOPED";
-                    break;
-                    case FirmaSimpleSignedFileInfo.SIGN_MODE_DETACHED:
-                        mode = "SIGN_MODE_DETACHED";
-                    break;
-                    case FirmaSimpleSignedFileInfo.SIGN_MODE_ATTACHED_ENVELOPING:
-                        mode = "SIGN_MODE_ATTACHED_ENVELOPING";
-                    break;
-                    case FirmaSimpleSignedFileInfo.SIGN_MODE_INTERNALLY_DETACHED:
-                        mode = "SIGN_MODE_INTERNALLY_DETACHED";
-                    break;
-                    default:
-                        mode = "-- DESCONEGUT (" + modePrimitive + ") --";
-                }
-
-                str.append(mode);
-            }
-        }
-
-        String posicioTaulaDeFirmes;
-        switch (sfi.getSignaturesTableLocation()) {
-
-            case FirmaSimpleSignedFileInfo.SIGNATURESTABLELOCATION_WITHOUT:
-                posicioTaulaDeFirmes = "Sense taula de Firmes";
-            break;
-            case FirmaSimpleSignedFileInfo.SIGNATURESTABLELOCATION_FIRSTPAGE:
-                posicioTaulaDeFirmes = "Taula de Firmes en la primera pagina";
-            break;
-            case FirmaSimpleSignedFileInfo.SIGNATURESTABLELOCATION_LASTPAGE:
-                posicioTaulaDeFirmes = "Taula de Firmes en la darrera pagina";
-            break;
-
-            default:
-                posicioTaulaDeFirmes = "Desconeguda(" + sfi.getSignaturesTableLocation() + ")";
-
-        }
-        str.append("\n").append("      * Posicio Taula De Firmes:\t").append(posicioTaulaDeFirmes);
-
-        str.append("\n").append("      * Inclou Politica de Firmes(o sigui es EPES):\t").append(sfi.isPolicyIncluded());
-        str.append("\n").append("      * Inclou Segell de Temps:\t").append(sfi.isTimeStampIncluded());
-
-        str.append("\n").append("      * eniTipoFirma:\t").append(sfi.getEniTipoFirma());
-        str.append("\n").append("      * eniPerfilFirma:\t").append(sfi.getEniPerfilFirma());
-        if (sfi.getSignerInfo() != null) {
-            str.append("\n").append("      * Informacio del Firmant:\t");
-            str.append("\n").append(sfi.getSignerInfo().toString());
-        }
-
-        FirmaSimpleCustodyInfo custody = sfi.getCustodyInfo();
-
-        if (custody != null) {
-
-            str.append("\n").append("  + CUSTODIA:");
-            str.append("\n").append("      * custodyID: ").append(custody.getCustodyID());
-            str.append("\n").append("      * CSV: ").append(custody.getCsv());
-            str.append("\n").append("      * CSVValidationWeb: ").append(custody.getCsvValidationWeb());
-            str.append("\n").append("      * ValidationFileUrl: ").append(custody.getValidationFileUrl());
-            str.append("\n").append("      * CSVGenerationDefinition(eEMGDE17.4): ")
-                    .append(custody.getCsvGenerationDefinition());
-            str.append("\n").append("      * originalFileDirectURL: ").append(custody.getOriginalFileDirectURL());
-            str.append("\n").append("      * printableFileDirectUrl: ").append(custody.getPrintableFileDirectUrl());
-            str.append("\n").append("      * eniFileDirectUrl: ").append(custody.getEniFileDirectUrl());
-        }
-
-        FirmaSimpleValidationInfo validationInfo = sfi.getValidationInfo();
-        if (validationInfo != null) {
-
-            str.append("\n").append("  + VALIDACIO:");
-            str.append("\n").append("      * CheckAdministrationIDOfSigner: ")
-                    .append(null2Str(validationInfo.getCheckAdministrationIDOfSigner()));
-            str.append("\n").append("      * CheckDocumentModifications: ")
-                    .append(null2Str(validationInfo.getCheckDocumentModifications()));
-            str.append("\n").append("      * CheckValidationSignature: ")
-                    .append(null2Str(validationInfo.getCheckValidationSignature()));
-
-            if (validationInfo.getNoCheckValidationReason() != null) {
-                str.append("\n").append("      * No Validation reason: ")
-                        .append(validationInfo.getNoCheckValidationReason());
-            }
-
-        }
-
-        return str.toString();
-
-    }
-
-    public static String null2Str(Boolean b) {
-        if (b == null) {
-            return "-";
-        }
-
-        return b ? "SI" : "NO";
     }
 
 }

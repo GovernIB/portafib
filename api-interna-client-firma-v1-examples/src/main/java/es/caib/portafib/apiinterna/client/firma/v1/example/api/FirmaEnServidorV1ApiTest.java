@@ -33,13 +33,7 @@ import java.util.Properties;
  */
 public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<FirmaEnServidorV1Api> {
 
-    public static final String PROFILE_PADES_PROPERTY = "PROFILE_PADES";
 
-    public static final String PROFILE_XADES_PROPERTY = "PROFILE_XADES";
-
-    public static final String PROFILE_CADES_PROPERTY = "PROFILE_CADES";
-
-    public static final String PROFILE_MIX_PADES_XADES_CADES = "PROFILE_MIX_PADES_XADES_CADES";
 
     public static void main(String[] args) {
         FirmaEnServidorV1ApiTest test = new FirmaEnServidorV1ApiTest();

@@ -2,7 +2,7 @@ package es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor;
 
 import java.util.List;
 
-import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleSignedFileInfo;
+
 import es.caib.portafib.api.interna.secure.firma.v1.commons.KeyValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
@@ -160,51 +160,6 @@ public class FirmaSimpleUpgradedFileInfo {
 
 	public void setAdditionInformation(List<KeyValue> additionInformation) {
 		this.additionInformation = additionInformation;
-	}
-
-	public static String toString(FirmaSimpleUpgradedFileInfo sfi) {
-		StringBuffer str = new StringBuffer("  + INFORMACIO:");
-
-		str.append("\n").append("      * Tipus:\t" + sfi.getSignType());
-
-		str.append("\n").append("      * Algorisme:\t" + sfi.getSignAlgorithm());
-
-		str.append("\n").append("      * Mode:\t");
-		if (sfi.getSignMode() == null) {
-			str.append("NULL");
-		} else {
-			str.append((sfi.getSignMode() == FirmaSimpleSignedFileInfo.SIGN_MODE_ATTACHED_ENVELOPED)
-					? "Attached - Implicit"
-					: "Detached- Explicit");
-		}
-
-		str.append("\n").append("      * eniTipoFirma:\t" + sfi.getEniTipoFirma());
-		str.append("\n").append("      * eniPerfilFirma:\t" + sfi.getEniPerfilFirma());
-
-		FirmaSimpleValidationInfo validationInfo = sfi.getValidationInfo();
-		if (validationInfo != null) {
-
-			str.append("\n").append("  + VALIDACIO:");
-			str.append("\n").append("      * CheckAdministrationIDOfSigner: "
-					+ FirmaSimpleSignedFileInfo.null2Str(validationInfo.getCheckAdministrationIDOfSigner()));
-			str.append("\n").append("      * CheckDocumentModifications: "
-					+ FirmaSimpleSignedFileInfo.null2Str(validationInfo.getCheckDocumentModifications()));
-			str.append("\n").append("      * CheckValidationSignature: "
-					+ FirmaSimpleSignedFileInfo.null2Str(validationInfo.getCheckValidationSignature()));
-		}
-
-		List<KeyValue> additionInformation = sfi.getAdditionInformation();
-
-		if (additionInformation != null && additionInformation.size() != 0) {
-			str.append("\n").append("  + INFORMACIO ADDICIONAL:");
-			for (KeyValue firmaSimpleKeyValue : additionInformation) {
-				str.append("\n")
-						.append("      * KEY[" + firmaSimpleKeyValue.getKey() + "]: " + firmaSimpleKeyValue.getValue());
-			}
-		}
-
-		return str.toString();
-
 	}
 
 }
