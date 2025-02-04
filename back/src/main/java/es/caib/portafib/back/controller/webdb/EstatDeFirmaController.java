@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.EstatDeFirmaWebValidator;
 import es.caib.portafib.persistence.EstatDeFirmaJPA;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un EstatDeFirma
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="estatDeFirma.estatDeFirma.plural", order=90, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/estatDeFirma")
 @SessionAttributes(types = { EstatDeFirmaForm.class, EstatDeFirmaFilterForm.class })

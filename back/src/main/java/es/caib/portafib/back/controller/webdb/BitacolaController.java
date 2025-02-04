@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.BitacolaWebValidator;
 import es.caib.portafib.persistence.BitacolaJPA;
 import es.caib.portafib.model.entity.Bitacola;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un Bitacola
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="bitacola.bitacola.plural", order=20, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/bitacola")
 @SessionAttributes(types = { BitacolaForm.class, BitacolaFilterForm.class })

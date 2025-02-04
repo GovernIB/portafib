@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.TipusDocumentColaboracioDelegacioWe
 import es.caib.portafib.persistence.TipusDocumentColaboracioDelegacioJPA;
 import es.caib.portafib.model.entity.TipusDocumentColaboracioDelegacio;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un TipusDocumentColaboracioDelegacio
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="tipusDocumentColaboracioDelegacio.tipusDocumentColaboracioDelegacio.plural", order=360, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/tipusDocumentColaboracioDelegacio")
 @SessionAttributes(types = { TipusDocumentColaboracioDelegacioForm.class, TipusDocumentColaboracioDelegacioFilterForm.class })

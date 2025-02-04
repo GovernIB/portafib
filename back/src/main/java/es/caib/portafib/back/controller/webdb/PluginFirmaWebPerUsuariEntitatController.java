@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.PluginFirmaWebPerUsuariEntitatWebVa
 import es.caib.portafib.persistence.PluginFirmaWebPerUsuariEntitatJPA;
 import es.caib.portafib.model.entity.PluginFirmaWebPerUsuariEntitat;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un PluginFirmaWebPerUsuariEntitat
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="pluginFirmaWebPerUsuariEntitat.pluginFirmaWebPerUsuariEntitat.plural", order=280, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/pluginFirmaWebPerUsuariEntitat")
 @SessionAttributes(types = { PluginFirmaWebPerUsuariEntitatForm.class, PluginFirmaWebPerUsuariEntitatFilterForm.class })

@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.EstadisticaWebValidator;
 import es.caib.portafib.persistence.EstadisticaJPA;
 import es.caib.portafib.model.entity.Estadistica;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un Estadistica
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="estadistica.estadistica.plural", order=80, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/estadistica")
 @SessionAttributes(types = { EstadisticaForm.class, EstadisticaFilterForm.class })

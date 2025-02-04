@@ -39,6 +39,7 @@ import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
 import es.caib.portafib.persistence.ColaboracioDelegacioJPA;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un ColaboracioDelegacio
@@ -46,6 +47,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="colaboracioDelegacio.colaboracioDelegacio.plural", order=50, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/colaboracioDelegacio")
 @SessionAttributes(types = { ColaboracioDelegacioForm.class, ColaboracioDelegacioFilterForm.class })

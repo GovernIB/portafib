@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.RevisorDeDestinatariWebValidator;
 import es.caib.portafib.persistence.RevisorDeDestinatariJPA;
 import es.caib.portafib.model.entity.RevisorDeDestinatari;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un RevisorDeDestinatari
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="revisorDeDestinatari.revisorDeDestinatari.plural", order=310, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/revisorDeDestinatari")
 @SessionAttributes(types = { RevisorDeDestinatariForm.class, RevisorDeDestinatariFilterForm.class })

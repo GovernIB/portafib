@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.PluginWebValidator;
 import es.caib.portafib.persistence.PluginJPA;
 import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un Plugin
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="plugin.plugin.plural", order=250, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/plugin")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })

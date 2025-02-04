@@ -39,6 +39,7 @@ import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
 import es.caib.portafib.persistence.PluginCridadaJPA;
 import es.caib.portafib.model.entity.PluginCridada;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un PluginCridada
@@ -46,6 +47,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="pluginCridada.pluginCridada.plural", order=260, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/pluginCridada")
 @SessionAttributes(types = { PluginCridadaForm.class, PluginCridadaFilterForm.class })

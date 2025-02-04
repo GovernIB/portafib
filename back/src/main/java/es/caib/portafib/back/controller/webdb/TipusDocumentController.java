@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.TipusDocumentWebValidator;
 import es.caib.portafib.persistence.TipusDocumentJPA;
 import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un TipusDocument
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="tipusDocument.tipusDocument.plural", order=350, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/tipusDocument")
 @SessionAttributes(types = { TipusDocumentForm.class, TipusDocumentFilterForm.class })

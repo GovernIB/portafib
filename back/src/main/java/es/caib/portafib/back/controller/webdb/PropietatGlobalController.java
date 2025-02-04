@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.PropietatGlobalWebValidator;
 import es.caib.portafib.persistence.PropietatGlobalJPA;
 import es.caib.portafib.model.entity.PropietatGlobal;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un PropietatGlobal
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="propietatGlobal.propietatGlobal.plural", order=290, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/propietatGlobal")
 @SessionAttributes(types = { PropietatGlobalForm.class, PropietatGlobalFilterForm.class })

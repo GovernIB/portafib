@@ -39,6 +39,7 @@ import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un UsuariAplicacio
@@ -46,6 +47,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="usuariAplicacio.usuariAplicacio.plural", order=400, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/usuariAplicacio")
 @SessionAttributes(types = { UsuariAplicacioForm.class, UsuariAplicacioFilterForm.class })

@@ -34,6 +34,7 @@ import es.caib.portafib.back.validator.webdb.TraduccioWebValidator;
 import es.caib.portafib.persistence.TraduccioJPA;
 import es.caib.portafib.model.entity.Traduccio;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un Traduccio
@@ -41,6 +42,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="traduccio.traduccio.plural", order=380, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/traduccio")
 @SessionAttributes(types = { TraduccioForm.class, TraduccioFilterForm.class })

@@ -39,6 +39,7 @@ import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
 import es.caib.portafib.persistence.FirmaJPA;
 import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un Firma
@@ -46,6 +47,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="firma.firma.plural", order=100, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/firma")
 @SessionAttributes(types = { FirmaForm.class, FirmaFilterForm.class })

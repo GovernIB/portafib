@@ -39,6 +39,7 @@ import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un PeticioDeFirma
@@ -46,6 +47,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="peticioDeFirma.peticioDeFirma.plural", order=230, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/peticioDeFirma")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })

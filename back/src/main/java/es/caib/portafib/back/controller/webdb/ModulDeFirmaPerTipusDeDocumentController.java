@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.ModulDeFirmaPerTipusDeDocumentWebVa
 import es.caib.portafib.persistence.ModulDeFirmaPerTipusDeDocumentJPA;
 import es.caib.portafib.model.entity.ModulDeFirmaPerTipusDeDocument;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un ModulDeFirmaPerTipusDeDocument
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument.plural", order=170, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/modulDeFirmaPerTipusDeDocument")
 @SessionAttributes(types = { ModulDeFirmaPerTipusDeDocumentForm.class, ModulDeFirmaPerTipusDeDocumentFilterForm.class })

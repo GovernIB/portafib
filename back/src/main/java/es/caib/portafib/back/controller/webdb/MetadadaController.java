@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.MetadadaWebValidator;
 import es.caib.portafib.persistence.MetadadaJPA;
 import es.caib.portafib.model.entity.Metadada;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un Metadada
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="metadada.metadada.plural", order=160, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/metadada")
 @SessionAttributes(types = { MetadadaForm.class, MetadadaFilterForm.class })
