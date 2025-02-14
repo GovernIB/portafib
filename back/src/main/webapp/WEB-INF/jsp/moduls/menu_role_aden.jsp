@@ -16,8 +16,6 @@
 
         List<MenuItem> menu1;
 
-        
-
         menu1 = new ArrayList<MenuItem>();
         menu1.add(MenuItem.retallaDarrerPath("entitat.modificar", "/aden/entitat/current"));
         menu1.add(MenuItem.retallaDarrerPath("propietatglobal.entitat.gestio", "/aden/propietatglobal/list"));
@@ -47,17 +45,19 @@
                 "/aden/peticiofirmatotesconsultar/list"));
         menu1.add(MenuItem.retallaDarrerPath("peticiodefirma.totes.gestionar.llistar",
                 "/aden/peticiofirmatotesgestionar/list"));
-        
+
         menu1.add(null);
         menu1.add(MenuItem.retallaDarrerPath("peticionscaducades.llistat", "/aden/peticionscaducades/list"));
         menu1.add(MenuItem.retallaDarrerPath("peticiodefirma.netejaesborrat", "/aden/peticio/netejaesborrat/list"));
-        
+
         menu1.add(MenuItem.retallaDarrerPath("peticionsdefirma.destinatari",
                 "/aden/peticionsdedestinatari/selecciousuari"));
         menu1.add(MenuItem.retallaDarrerPath("firmausuariextern.plural", "/aden/firmausuariextern/list"));
         menu1.add(null);
         menu1.add(MenuItem.retallaDarrerPath("estadistica.estadistica.plural", "/aden/estadistica/search"));
         menu1.add(MenuItem.retallaDarrerPath("bitacola.menu", "/aden/bitacola/list"));
+        menu1.add(null);
+        menu1.add(MenuItem.retallaDarrerPath("usuarientitat.senserols.plural", "/aden/usuarientitatsenserols/list"));
 
         menus.add(menu1);
 

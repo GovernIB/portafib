@@ -444,6 +444,17 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesList.jsp" />
     </definition>
 
+    <definition name="usuariEntitatSenseRolsFormAden" extends="role_aden">
+        <put-attribute name="titol" value="usuariEntitat.usuariEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatForm.jsp" />
+    </definition>
+    
+    <definition name="usuariEntitatSenseRolsListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatList.jsp" />
+    </definition>
+
+
+
     <!--  ===========  ADMINISTRADOR APLICACIO ================== -->
 
 

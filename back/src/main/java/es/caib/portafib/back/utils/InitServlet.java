@@ -202,8 +202,7 @@ public class InitServlet extends HttpServlet {
         }
 
         // Inicialitzar sistema de menus
-        new Thread(
-        new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -214,7 +213,6 @@ public class InitServlet extends HttpServlet {
                 }
             }
         }).start();
-       
 
         // Mostrar Versió
         Version versio = StaticVersion.getVersion();
