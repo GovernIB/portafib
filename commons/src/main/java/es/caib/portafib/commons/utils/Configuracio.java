@@ -136,6 +136,22 @@ public class Configuracio implements Constants {
         return "true".equalsIgnoreCase(
                 getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "checkcertificateinclientcert"));
     }
+    
+    
+    public static boolean propagateMailErrors() {
+        
+        String pme = getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "propagatemailerrors");
+        if (pme == null || pme.trim().isEmpty()) {
+            return true;
+        } else {
+            if ("false".equalsIgnoreCase(pme)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    
 
     public static String getAppUrl() {
         return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "url");

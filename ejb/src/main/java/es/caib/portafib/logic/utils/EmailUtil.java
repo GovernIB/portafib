@@ -46,46 +46,58 @@ public class EmailUtil {
 
     protected static Logger log = Logger.getLogger(EmailUtil.class);
 
-    public static void postMail(String subject, String message, boolean isHtml, String from, String... recipients)
+    public static boolean postMail(String subject, String message, boolean isHtml, String from, String... recipients)
             throws Exception {
 
-        Context ctx = new InitialContext();
-        Session session = (javax.mail.Session) ctx.lookup(ConstantsV2.MAIL_SERVICE);
+        try {
+            Context ctx = new InitialContext();
+            Session session = (javax.mail.Session) ctx.lookup(ConstantsV2.MAIL_SERVICE);
 
-        // Creamos el mensaje
-        MimeMessage msg = new MimeMessage(session);
+            // Creamos el mensaje
+            MimeMessage msg = new MimeMessage(session);
 
-        InternetAddress addressFrom = new InternetAddress(from);
-        msg.setFrom(addressFrom);
+            InternetAddress addressFrom = new InternetAddress(from);
+            msg.setFrom(addressFrom);
 
-        // Indicamos los destinatarios
-        InternetAddress[] addressTo = new InternetAddress[recipients.length];
-        for (int i = 0; i < recipients.length; i++) {
-            addressTo[i] = new InternetAddress(recipients[i]);
+            // Indicamos los destinatarios
+            InternetAddress[] addressTo = new InternetAddress[recipients.length];
+            for (int i = 0; i < recipients.length; i++) {
+                addressTo[i] = new InternetAddress(recipients[i]);
+            }
+
+            final RecipientType type = RecipientType.TO;
+
+            msg.setRecipients(type, addressTo);
+
+            // Configuramos el asunto
+            msg.setSubject(subject, "UTF-8");
+            msg.setSentDate(new Date());
+
+            // Configuramos el contenido
+            if (isHtml) {
+                msg.setHeader("Content-Type", "text/html;charset=utf-8");
+                /*
+                URL urlToAdd = new URL(url);
+                msg.setDataHandler(new DataHandler(urlToAdd));
+                */
+                msg.setContent(message, "text/html;charset=utf-8");
+            } else {
+                msg.setContent(message, "text/plain" /*; charset=UTF-8"*/);
+            }
+
+            // Mandamos el mail
+            Transport.send(msg);
+            
+            return true;
+        } catch (Exception e) {
+
+            if (Configuracio.propagateMailErrors()) {
+                throw e;
+            } else {
+                log.error("Error enviant correu", e);
+            }
+            return false;
         }
-
-        final RecipientType type = RecipientType.TO;
-
-        msg.setRecipients(type, addressTo);
-
-        // Configuramos el asunto
-        msg.setSubject(subject, "UTF-8");
-        msg.setSentDate(new Date());
-
-        // Configuramos el contenido
-        if (isHtml) {
-            msg.setHeader("Content-Type", "text/html;charset=utf-8");
-            /*
-            URL urlToAdd = new URL(url);
-            msg.setDataHandler(new DataHandler(urlToAdd));
-            */
-            msg.setContent(message, "text/html;charset=utf-8");
-        } else {
-            msg.setContent(message, "text/plain" /*; charset=UTF-8"*/);
-        }
-
-        // Mandamos el mail
-        Transport.send(msg);
     }
 
     /**

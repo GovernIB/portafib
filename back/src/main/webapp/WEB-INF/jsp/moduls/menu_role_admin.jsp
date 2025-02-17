@@ -60,6 +60,8 @@ static {
   
   menu1.add(null);
   
+  menu1.add(MenuItem.retallaDarrerPath("provarservidorcorreu", "/admin/enviarcorreu/prova"));
+  
   menu1.add(MenuItem.retallaDarrerPath("fitxers.orfes", "/admin/fitxersorfes/list"));
 
   menus.add(menu1);
