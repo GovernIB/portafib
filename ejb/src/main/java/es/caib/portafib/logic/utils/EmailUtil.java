@@ -52,6 +52,8 @@ public class EmailUtil {
         try {
             Context ctx = new InitialContext();
             Session session = (javax.mail.Session) ctx.lookup(ConstantsV2.MAIL_SERVICE);
+            
+            //session.setDebug(true);
 
             // Creamos el mensaje
             MimeMessage msg = new MimeMessage(session);
