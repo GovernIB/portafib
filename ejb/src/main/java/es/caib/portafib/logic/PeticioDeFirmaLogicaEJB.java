@@ -2875,7 +2875,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
         // Afegim que és l'administrador entitat al motiu de rebuig perquè quedi constància
         // a les diferents bandes.
-        motiuDeRebuig = "Petició rebutjada per Administrador Entitat: " + motiuDeRebuig;
+        // XYZ ZZZ TRA
+        motiuDeRebuig = "Petició rebutjada per l´Administrador Entitat ]" + usuariEntitatAden +"[: " + motiuDeRebuig;
 
         int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
         if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
