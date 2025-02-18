@@ -3,8 +3,10 @@ package es.caib.portafib.back.controller.aden;
 import es.caib.portafib.back.controller.AbstractPeticioDeFirmaByTipusSolicitant;
 import es.caib.portafib.back.controller.adapp.CustodiaInfoAdappController;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.commons.utils.Configuracio;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -69,9 +71,20 @@ public abstract class AbstractPeticioDeFirmaAdenController extends AbstractPetic
     }
 
     @RequestMapping(value = "/fitxerspeticio/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public String fitxerspeticio(HttpServletRequest request, @PathVariable Long peticioDeFirmaID) {
+    public String fitxerspeticio(HttpServletRequest request, @PathVariable
+    Long peticioDeFirmaID) {
         request.getSession().setAttribute(FitxersDePeticioAdenController.SESSION_BACK_URL, getContextWeb() + "/list/");
         return "redirect:" + FitxersDePeticioAdenController.CONTEXT_WEB + "/peticio/" + peticioDeFirmaID;
+    }
+
+    @Override
+    public PeticioDeFirmaForm getPeticioDeFirmaForm(PeticioDeFirmaJPA _jpa2, boolean __isView,
+            HttpServletRequest request, ModelAndView mav) throws I18NException {
+        PeticioDeFirmaForm peticioDeFirmaForm = super.getPeticioDeFirmaForm(_jpa2, __isView, request, mav);
+
+        peticioDeFirmaForm.getHiddenFields().remove(ALGORISMEDEFIRMAID);
+
+        return peticioDeFirmaForm;
     }
 
     @Override
