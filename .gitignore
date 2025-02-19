@@ -285,3 +285,4 @@ api-interna-client-firma-v1-examples/apifirmautils.properties
 /api-interna-client-firma-v1/gradlew.bat
 /api-interna-client-firma-v1/pom_backup.xml
 /api-interna-client-firma-v1/settings.gradle
+api-interna-client-firma-v1-examples/apifirmawebsimple.properties
