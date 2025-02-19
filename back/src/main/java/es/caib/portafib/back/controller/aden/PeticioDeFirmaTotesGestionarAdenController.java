@@ -15,44 +15,42 @@ import org.springframework.web.bind.annotation.SessionAttributes;
  */
 @Controller
 @RequestMapping(value = ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_TOTES_GESTIONAR)
-@SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class,
-    PeticioDeFirmaFilterForm.class })
-public class PeticioDeFirmaTotesGestionarAdenController extends
-    AbstractPeticioDeFirmaAdenController {
+@SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
+public class PeticioDeFirmaTotesGestionarAdenController extends AbstractPeticioDeFirmaAdenController {
 
-  @Override
-  public String getTileList() {
-    return "peticionsDeFirmaTotesList";
-  }
+    @Override
+    public String getTileList() {
+        return "peticionsDeFirmaTotesList";
+    }
 
-  @Override
-  public String getTileForm() {
-    return "peticioDeFirmaTotesForm";
-  }
+    @Override
+    public String getTileForm() {
+        return "peticioDeFirmaTotesForm";
+    }
 
-  @Override
-  public String getSessionAttributeFilterForm() {
-    return super.getSessionAttributeFilterForm() + "_totes_peticions_gestionar";
-  }
+    @Override
+    public String getSessionAttributeFilterForm() {
+        return super.getSessionAttributeFilterForm() + "_totes_peticions_gestionar";
+    }
 
-  @Override
-  public String getEntityNameCode() {
-    return "peticiodefirma.totes.gestionar";
-  }
+    @Override
+    public String getEntityNameCode() {
+        return "peticiodefirma.totes.gestionar";
+    }
 
-  @Override
-  public TipusSolicitant getTipusSolicitant() {
-    return TipusSolicitant.SOLICITANT_TOTS;
-  }
+    @Override
+    public TipusSolicitant getTipusSolicitant() {
+        return TipusSolicitant.SOLICITANT_TOTS;
+    }
 
-  @Override
-  public boolean isNomesConsulta() {
-    return false;
-  }
+    @Override
+    public boolean isNomesConsulta() {
+        return false;
+    }
 
-  @Override
-  public boolean addCreateButton() {
-    return true;
-  }
+    @Override
+    public boolean addCreateButton() {
+        return true;
+    }
 
 }

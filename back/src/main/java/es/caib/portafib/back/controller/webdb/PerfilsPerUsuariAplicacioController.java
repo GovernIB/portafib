@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.PerfilsPerUsuariAplicacioWebValidat
 import es.caib.portafib.persistence.PerfilsPerUsuariAplicacioJPA;
 import es.caib.portafib.model.entity.PerfilsPerUsuariAplicacio;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un PerfilsPerUsuariAplicacio
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="perfilsPerUsuariAplicacio.perfilsPerUsuariAplicacio.plural", order=200, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/perfilsPerUsuariAplicacio")
 @SessionAttributes(types = { PerfilsPerUsuariAplicacioForm.class, PerfilsPerUsuariAplicacioFilterForm.class })

@@ -34,6 +34,7 @@ import es.caib.portafib.back.validator.webdb.FitxerWebValidator;
 import es.caib.portafib.persistence.FitxerJPA;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un Fitxer
@@ -41,6 +42,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="fitxer.fitxer.plural", order=110, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/fitxer")
 @SessionAttributes(types = { FitxerForm.class, FitxerFilterForm.class })

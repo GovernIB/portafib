@@ -34,6 +34,7 @@ import es.caib.portafib.back.validator.webdb.FluxDeFirmesWebValidator;
 import es.caib.portafib.persistence.FluxDeFirmesJPA;
 import es.caib.portafib.model.entity.FluxDeFirmes;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un FluxDeFirmes
@@ -41,6 +42,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="fluxDeFirmes.fluxDeFirmes.plural", order=120, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/fluxDeFirmes")
 @SessionAttributes(types = { FluxDeFirmesForm.class, FluxDeFirmesFilterForm.class })

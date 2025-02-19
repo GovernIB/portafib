@@ -837,11 +837,13 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements UsuariEn
     public List<String> getEmailsOfAdministradorsEntitatByEntitat(String entitatID) throws I18NException {
 
         UsuariEntitatQueryPath usuariEntitatQueryPath = new RoleUsuariEntitatQueryPath().USUARIENTITAT();
-        List<String> correusAdEn = roleUsuariEntitatLogicaEjb.executeQuery(
-                usuariEntitatQueryPath.USUARIPERSONA().EMAIL(),
-                Where.AND(RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_ADEN),
-                        usuariEntitatQueryPath.ENTITATID().equal(entitatID), usuariEntitatQueryPath.ACTIU().equal(true),
-                        usuariEntitatQueryPath.REBRETOTSELSAVISOS().equal(true)));
+        List<String> correusAdEn = roleUsuariEntitatLogicaEjb
+                .executeQuery(usuariEntitatQueryPath.USUARIPERSONA().EMAIL(),
+                        Where.AND(RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_ADEN),
+                                usuariEntitatQueryPath.ENTITATID().equal(entitatID),
+                                usuariEntitatQueryPath.ACTIU().equal(true)
+                        //,usuariEntitatQueryPath.REBRETOTSELSAVISOS().equal(true)
+                        ));
         // Eliminam duplicats    
         return new ArrayList<String>(new HashSet<String>(correusAdEn));
     }

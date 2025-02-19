@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.CustodiaInfoWebValidator;
 import es.caib.portafib.persistence.CustodiaInfoJPA;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un CustodiaInfo
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="custodiaInfo.custodiaInfo.plural", order=60, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/custodiaInfo")
 @SessionAttributes(types = { CustodiaInfoForm.class, CustodiaInfoFilterForm.class })

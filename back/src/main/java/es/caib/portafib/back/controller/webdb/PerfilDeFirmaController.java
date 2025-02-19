@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.PerfilDeFirmaWebValidator;
 import es.caib.portafib.persistence.PerfilDeFirmaJPA;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un PerfilDeFirma
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="perfilDeFirma.perfilDeFirma.plural", order=190, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/perfilDeFirma")
 @SessionAttributes(types = { PerfilDeFirmaForm.class, PerfilDeFirmaFilterForm.class })

@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.RebreAvisWebValidator;
 import es.caib.portafib.persistence.RebreAvisJPA;
 import es.caib.portafib.model.entity.RebreAvis;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un RebreAvis
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="rebreAvis.rebreAvis.plural", order=300, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/rebreAvis")
 @SessionAttributes(types = { RebreAvisForm.class, RebreAvisFilterForm.class })

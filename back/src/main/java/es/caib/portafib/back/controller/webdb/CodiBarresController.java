@@ -34,6 +34,7 @@ import es.caib.portafib.back.validator.webdb.CodiBarresWebValidator;
 import es.caib.portafib.persistence.CodiBarresJPA;
 import es.caib.portafib.model.entity.CodiBarres;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un CodiBarres
@@ -41,6 +42,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="codiBarres.codiBarres.plural", order=40, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/codiBarres")
 @SessionAttributes(types = { CodiBarresForm.class, CodiBarresFilterForm.class })

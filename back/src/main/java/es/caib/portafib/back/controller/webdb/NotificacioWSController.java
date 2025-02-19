@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.NotificacioWSWebValidator;
 import es.caib.portafib.persistence.NotificacioWSJPA;
 import es.caib.portafib.model.entity.NotificacioWS;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un NotificacioWS
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="notificacioWS.notificacioWS.plural", order=180, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/notificacioWS")
 @SessionAttributes(types = { NotificacioWSForm.class, NotificacioWSFilterForm.class })

@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.UsuariEntitatFavoritWebValidator;
 import es.caib.portafib.persistence.UsuariEntitatFavoritJPA;
 import es.caib.portafib.model.entity.UsuariEntitatFavorit;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un UsuariEntitatFavorit
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="usuariEntitatFavorit.usuariEntitatFavorit.plural", order=430, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/usuariEntitatFavorit")
 @SessionAttributes(types = { UsuariEntitatFavoritForm.class, UsuariEntitatFavoritFilterForm.class })

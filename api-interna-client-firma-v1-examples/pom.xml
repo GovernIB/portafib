@@ -71,11 +71,6 @@
             <artifactId>portafib-api-interna-client-firma-v1</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <artifactId>portafib-commons</artifactId>
-            <groupId>es.caib.portafib</groupId>
-            <version>3.0.3</version>
-        </dependency>
     </dependencies>
 
 </project>

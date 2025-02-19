@@ -39,6 +39,7 @@ import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
 import es.caib.portafib.persistence.AnnexJPA;
 import es.caib.portafib.model.entity.Annex;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un Annex
@@ -46,6 +47,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="annex.annex.plural", order=0, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/annex")
 @SessionAttributes(types = { AnnexForm.class, AnnexFilterForm.class })

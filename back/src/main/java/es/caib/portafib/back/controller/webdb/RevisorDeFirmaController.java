@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.RevisorDeFirmaWebValidator;
 import es.caib.portafib.persistence.RevisorDeFirmaJPA;
 import es.caib.portafib.model.entity.RevisorDeFirma;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un RevisorDeFirma
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="revisorDeFirma.revisorDeFirma.plural", order=320, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/revisorDeFirma")
 @SessionAttributes(types = { RevisorDeFirmaForm.class, RevisorDeFirmaFilterForm.class })

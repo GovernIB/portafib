@@ -34,6 +34,7 @@ import es.caib.portafib.back.validator.webdb.IdiomaWebValidator;
 import es.caib.portafib.persistence.IdiomaJPA;
 import es.caib.portafib.model.entity.Idioma;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un Idioma
@@ -41,6 +42,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="idioma.idioma.plural", order=150, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/idioma")
 @SessionAttributes(types = { IdiomaForm.class, IdiomaFilterForm.class })

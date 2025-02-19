@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.GrupEntitatUsuariEntitatWebValidato
 import es.caib.portafib.persistence.GrupEntitatUsuariEntitatJPA;
 import es.caib.portafib.model.entity.GrupEntitatUsuariEntitat;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un GrupEntitatUsuariEntitat
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="grupEntitatUsuariEntitat.grupEntitatUsuariEntitat.plural", order=140, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/grupEntitatUsuariEntitat")
 @SessionAttributes(types = { GrupEntitatUsuariEntitatForm.class, GrupEntitatUsuariEntitatFilterForm.class })

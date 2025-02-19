@@ -34,6 +34,7 @@ import es.caib.portafib.back.validator.webdb.TipusNotificacioWebValidator;
 import es.caib.portafib.persistence.TipusNotificacioJPA;
 import es.caib.portafib.model.entity.TipusNotificacio;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un TipusNotificacio
@@ -41,6 +42,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="tipusNotificacio.tipusNotificacio.plural", order=370, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/tipusNotificacio")
 @SessionAttributes(types = { TipusNotificacioForm.class, TipusNotificacioFilterForm.class })

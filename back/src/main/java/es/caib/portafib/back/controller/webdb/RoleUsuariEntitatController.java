@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.RoleUsuariEntitatWebValidator;
 import es.caib.portafib.persistence.RoleUsuariEntitatJPA;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un RoleUsuariEntitat
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="roleUsuariEntitat.roleUsuariEntitat.plural", order=340, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/roleUsuariEntitat")
 @SessionAttributes(types = { RoleUsuariEntitatForm.class, RoleUsuariEntitatFilterForm.class })

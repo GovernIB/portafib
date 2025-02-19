@@ -34,6 +34,7 @@ import es.caib.portafib.back.validator.webdb.RoleWebValidator;
 import es.caib.portafib.persistence.RoleJPA;
 import es.caib.portafib.model.entity.Role;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un Role
@@ -41,6 +42,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="role.role.plural", order=330, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/role")
 @SessionAttributes(types = { RoleForm.class, RoleFilterForm.class })

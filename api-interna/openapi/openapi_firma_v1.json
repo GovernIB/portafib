@@ -1141,9 +1141,241 @@
         "description" : "Resposta de la petició de firma en servidor"
       },
       "FirmaSimpleSignedFileInfo" : {
-        "required" : [ "policyIncluded", "signAlgorithm", "signMode", "signOperation", "signType", "signaturesTableLocation", "signerInfo", "timeStampIncluded" ],
+        "required" : [ "SIGNATURESTABLELOCATION_FIRSTPAGE", "SIGNATURESTABLELOCATION_LASTPAGE", "SIGNATURESTABLELOCATION_WITHOUT", "SIGNPROFILE_A", "SIGNPROFILE_BES", "SIGNPROFILE_C", "SIGNPROFILE_EPES", "SIGNPROFILE_PADES_BASIC", "SIGNPROFILE_PADES_LTV", "SIGNPROFILE_T", "SIGNPROFILE_X", "SIGNPROFILE_X1", "SIGNPROFILE_X2", "SIGNPROFILE_XL", "SIGNPROFILE_XL1", "SIGNPROFILE_XL2", "SIGN_ALGORITHM_SHA1", "SIGN_ALGORITHM_SHA256", "SIGN_ALGORITHM_SHA384", "SIGN_ALGORITHM_SHA512", "SIGN_MODE_ATTACHED_ENVELOPED", "SIGN_MODE_ATTACHED_ENVELOPING", "SIGN_MODE_DETACHED", "SIGN_MODE_INTERNALLY_DETACHED", "SIGN_OPERATION_COSIGN", "SIGN_OPERATION_COUNTERSIGN", "SIGN_OPERATION_SIGN", "SIGN_TYPE_CADES", "SIGN_TYPE_CADES_ASIC_S", "SIGN_TYPE_FACTURAE", "SIGN_TYPE_ODF", "SIGN_TYPE_OOXML", "SIGN_TYPE_PADES", "SIGN_TYPE_PKCS1", "SIGN_TYPE_SMIME", "SIGN_TYPE_XADES", "SIGN_TYPE_XADES_ASIC_S", "policyIncluded", "signAlgorithm", "signMode", "signOperation", "signType", "signaturesTableLocation", "signerInfo", "timeStampIncluded" ],
         "type" : "object",
         "properties" : {
+          "SIGN_TYPE_PADES" : {
+            "type" : "string",
+            "description" : "Identificador de la firma PAdES.",
+            "readOnly" : true,
+            "default" : "PAdES"
+          },
+          "SIGN_TYPE_XADES" : {
+            "type" : "string",
+            "description" : "Identificador de la firma XAdES por defecto.",
+            "readOnly" : true,
+            "default" : "XAdES"
+          },
+          "SIGN_TYPE_CADES" : {
+            "type" : "string",
+            "description" : "Identificador de la firma CAdES.",
+            "readOnly" : true,
+            "default" : "CAdES"
+          },
+          "SIGN_TYPE_FACTURAE" : {
+            "type" : "string",
+            "description" : "Identificador de la firma Factura-e (derivado de XAdES-EPES).",
+            "readOnly" : true,
+            "default" : "FacturaE"
+          },
+          "SIGN_TYPE_OOXML" : {
+            "type" : "string",
+            "description" : "Identificador de la firma OOXML (<i>Office Open XML</i>).",
+            "readOnly" : true,
+            "default" : "OOXML"
+          },
+          "SIGN_TYPE_ODF" : {
+            "type" : "string",
+            "description" : "Identificador de la firma ODF (<i>Open Document Format</i>).",
+            "readOnly" : true,
+            "default" : "ODF"
+          },
+          "SIGN_TYPE_SMIME" : {
+            "type" : "string",
+            "description" : "Identificador de Firma SMIME",
+            "readOnly" : true,
+            "default" : "SMIME"
+          },
+          "SIGN_TYPE_CADES_ASIC_S" : {
+            "type" : "string",
+            "description" : "CAdES-ASiC-S: Formato de firma avanzada ASiC de tipo CAdES.",
+            "readOnly" : true,
+            "default" : "CAdES-ASiC-S"
+          },
+          "SIGN_TYPE_XADES_ASIC_S" : {
+            "type" : "string",
+            "description" : "XAdES-ASiC-S: Formato de firma avanzada ASiC de tipo XAdES.",
+            "readOnly" : true,
+            "default" : "XAdES-ASiC-S"
+          },
+          "SIGN_TYPE_PKCS1" : {
+            "type" : "string",
+            "description" : "NONE: Firma PKCS#1",
+            "readOnly" : true,
+            "default" : "PKCS#1"
+          },
+          "SIGN_ALGORITHM_SHA1" : {
+            "type" : "string",
+            "description" : "Identificador d'algoritme de firma SHA-1",
+            "readOnly" : true,
+            "default" : "SHA-1"
+          },
+          "SIGN_ALGORITHM_SHA256" : {
+            "type" : "string",
+            "description" : "Identificador d'algoritme de firma SHA-256",
+            "readOnly" : true,
+            "default" : "SHA-256"
+          },
+          "SIGN_ALGORITHM_SHA384" : {
+            "type" : "string",
+            "description" : "Identificador d'algoritme de firma SHA-384",
+            "readOnly" : true,
+            "default" : "SHA-384"
+          },
+          "SIGN_ALGORITHM_SHA512" : {
+            "type" : "string",
+            "description" : "Identificador d'algoritme de firma SHA-512",
+            "readOnly" : true,
+            "default" : "SHA-512"
+          },
+          "SIGN_MODE_ATTACHED_ENVELOPED" : {
+            "type" : "integer",
+            "description" : "El fitxer de dades resultant inclou la firma: PDF, ODT, ...",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 0
+          },
+          "SIGN_MODE_ATTACHED_ENVELOPING" : {
+            "type" : "integer",
+            "description" : "El fitxer resultant serà la firma que incloura les dades originals",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 3
+          },
+          "SIGN_MODE_DETACHED" : {
+            "type" : "integer",
+            "description" : "El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer original",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 1
+          },
+          "SIGN_MODE_INTERNALLY_DETACHED" : {
+            "type" : "integer",
+            "description" : "Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 4
+          },
+          "SIGNATURESTABLELOCATION_WITHOUT" : {
+            "type" : "integer",
+            "description" : "Localitzador de la signatura al document. (Sense signatura visible)",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 0
+          },
+          "SIGNATURESTABLELOCATION_FIRSTPAGE" : {
+            "type" : "integer",
+            "description" : "Localitzador de la signatura al document. (Primera pagina)",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 1
+          },
+          "SIGNATURESTABLELOCATION_LASTPAGE" : {
+            "type" : "integer",
+            "description" : "Localitzador de la signatura al document. (Darrera pagina)",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : -1
+          },
+          "SIGN_OPERATION_SIGN" : {
+            "type" : "integer",
+            "description" : "Identificador d'operació per Firma",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 0
+          },
+          "SIGN_OPERATION_COSIGN" : {
+            "type" : "integer",
+            "description" : "Identificador d'operació per Cofirma",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 1
+          },
+          "SIGN_OPERATION_COUNTERSIGN" : {
+            "type" : "integer",
+            "description" : "Identificador d'operació per Contrafirma",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 2
+          },
+          "SIGNPROFILE_BES" : {
+            "type" : "string",
+            "description" : "Perfil de firma AdES-BES",
+            "readOnly" : true,
+            "default" : "AdES-BES"
+          },
+          "SIGNPROFILE_EPES" : {
+            "type" : "string",
+            "description" : "Perfil de firma AdES-EPES",
+            "readOnly" : true,
+            "default" : "AdES-EPES"
+          },
+          "SIGNPROFILE_T" : {
+            "type" : "string",
+            "description" : "Perfil de firma AdES-T",
+            "readOnly" : true,
+            "default" : "AdES-T"
+          },
+          "SIGNPROFILE_C" : {
+            "type" : "string",
+            "description" : "Perfil de firma AdES-C",
+            "readOnly" : true,
+            "default" : "AdES-C"
+          },
+          "SIGNPROFILE_X" : {
+            "type" : "string",
+            "description" : "Perfil de firma AdES-X",
+            "readOnly" : true,
+            "default" : "AdES-X"
+          },
+          "SIGNPROFILE_X1" : {
+            "type" : "string",
+            "description" : "Perfil de firma AdES-X1",
+            "readOnly" : true,
+            "default" : "AdES-X1"
+          },
+          "SIGNPROFILE_X2" : {
+            "type" : "string",
+            "description" : "Perfil de firma AdES-X2",
+            "readOnly" : true,
+            "default" : "AdES-X2"
+          },
+          "SIGNPROFILE_XL" : {
+            "type" : "string",
+            "description" : "Perfil de firma AdES-XL",
+            "readOnly" : true,
+            "default" : "AdES-XL"
+          },
+          "SIGNPROFILE_XL1" : {
+            "type" : "string",
+            "description" : "Perfil de firma AdES-XL1",
+            "readOnly" : true,
+            "default" : "AdES-XL1"
+          },
+          "SIGNPROFILE_XL2" : {
+            "type" : "string",
+            "description" : "Perfil de firma AdES-XL2",
+            "readOnly" : true,
+            "default" : "AdES-XL2"
+          },
+          "SIGNPROFILE_A" : {
+            "type" : "string",
+            "description" : "Perfil de firma AdES-A",
+            "readOnly" : true,
+            "default" : "AdES-A"
+          },
+          "SIGNPROFILE_PADES_LTV" : {
+            "type" : "string",
+            "description" : "Perfil de firma PAdES-LTV",
+            "readOnly" : true,
+            "default" : "PAdES-LTV"
+          },
+          "SIGNPROFILE_PADES_BASIC" : {
+            "type" : "string",
+            "description" : "Perfil de firma PAdES-Basic",
+            "readOnly" : true,
+            "default" : "PAdES-Basic"
+          },
           "signOperation" : {
             "type" : "integer",
             "description" : "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma (2).",

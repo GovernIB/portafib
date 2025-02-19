@@ -21,7 +21,8 @@ import es.caib.portafib.apiinterna.client.firma.v1.services.ApiException;
 
 /**
  * API tests for UtilsV1Api
- * 
+ * @author fbosch
+ * @author anadal
  */
 public class FirmaUtilsV1ApiTest extends AbstractV1ApiTest<UtilsV1Api> {
 

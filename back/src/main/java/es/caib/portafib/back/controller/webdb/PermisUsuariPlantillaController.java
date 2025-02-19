@@ -36,6 +36,7 @@ import es.caib.portafib.back.validator.webdb.PermisUsuariPlantillaWebValidator;
 import es.caib.portafib.persistence.PermisUsuariPlantillaJPA;
 import es.caib.portafib.model.entity.PermisUsuariPlantilla;
 import es.caib.portafib.model.fields.*;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
 /**
  * Controller per gestionar un PermisUsuariPlantilla
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.*;
  * 
  * @author GenApp
  */
+@MenuOption(labelCode="permisUsuariPlantilla.permisUsuariPlantilla.plural", order=220, group="WEBDB")
 @Controller
 @RequestMapping(value = "/webdb/permisUsuariPlantilla")
 @SessionAttributes(types = { PermisUsuariPlantillaForm.class, PermisUsuariPlantillaFilterForm.class })
