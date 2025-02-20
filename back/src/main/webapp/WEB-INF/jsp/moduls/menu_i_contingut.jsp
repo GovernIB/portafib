@@ -1,10 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ include	file="/WEB-INF/jsp/moduls/includes.jsp"%>
-
 <tiles:importAttribute name="menu" />
 <tiles:importAttribute name="contingut" />
-
-
 <div class="row">
 
 	<!--  INICI MENU col-3 -->
