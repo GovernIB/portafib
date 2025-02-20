@@ -1,3 +1,4 @@
+<%@page import="es.caib.portafib.commons.utils.Configuracio"%>
 <%@page import="es.caib.portafib.persistence.UsuariEntitatJPA"
 %><%@page import="es.caib.portafib.persistence.EstatDeFirmaJPA"
 %><%@page import="es.caib.portafib.persistence.UsuariPersonaJPA"
@@ -579,43 +580,84 @@
   <%-- =========================================== --%>
   <%-- Formulari per Seleccionar Revisor de Firma  --%>
   <%-- =========================================== --%>
-  <form method="post" name="seleccioUsuariRevisorForm2"  id="seleccioUsuariRevisorForm2">
-    <input id="paramRevi1" name="paramRevi1" type="hidden" />
-    <input id="paramRevi2" name="paramRevi2" type="hidden" />
-    <div id="modalAfegirRevisorAFirma2" class="modal hide fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5>
-                        <fmt:message key="selectflux.selectuserrevisor" />
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <select class="form-control" id="usuariEntitatID" name="usuariEntitatID">
-
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div align="center">
-                        <button type="button" class="btn btn-primary" onclick="selectedUserRevisorFromModal2()"
-                            title="<fmt:message key="afegir" />">
-                            <i class="fas fa-plus-circle icon-white"></i>
-                            <fmt:message key="afegir" />
+    <form method="post" name="seleccioUsuariRevisorForm2" id="seleccioUsuariRevisorForm2">
+        <input id="paramRevi1" name="paramRevi1" type="hidden" /> <input id="paramRevi2" name="paramRevi2" type="hidden" />
+        <div id="modalAfegirRevisorAFirma2" class="modal hide fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5>
+                            <fmt:message key="selectflux.selectuserrevisor" />
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
                         </button>
+                    </div>
+                    <div class="modal-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="vista" id="radiocerca" value="cerca"
+                                            onclick="canviarACerca()">
+                                            <label class="form-check-label" for="radiocerca">
+                                            <fmt:message key="selectflux.revisors.cerca" />
+                                            </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="vista" id="radiollista" value="llistat"
+                                            onclick="canviarALlista()">
+                                           <label class="form-check-label" for="radiollista">
+                                           <fmt:message key="selectflux.revisors.nomesllistat" />
+                                           </label>
+                                    </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><select class="form-control" id="usuariEntitatID" name="usuariEntitatID">
+                                </select></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <div align="center">
+                            <button type="button" class="btn btn-primary" onclick="selectedUserRevisorFromModal2()"
+                                title="<fmt:message key="afegir" />">
+                                <i class="fas fa-plus-circle icon-white"></i>
+                                <fmt:message key="afegir" />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-     </div>
-  </form>
-  
-  <script>
-      $('#seleccioUsuariRevisorForm2 #usuariEntitatID').select2();
+    </form>
+
+    <script>
+      var isSelect2Enabled = <%=Configuracio.isRevisorsComboboxUseSearch()%>;
+
+      if (isSelect2Enabled) {
+          $('#seleccioUsuariRevisorForm2 #usuariEntitatID').select2();
+          $('#radiocerca').prop('checked', true);
+      } else {
+          // Marcar el radio button amb id 'radiollista' marcat
+          $('#radiollista').prop('checked', true);
+      }
+      
+      
+      function canviarACerca() {
+          console.log("Select2 is disabled. Enabling...");
+          $('#seleccioUsuariRevisorForm2 #usuariEntitatID').select2();
+          isSelect2Enabled = !isSelect2Enabled;
+      }
+
+
+      function canviarALlista() {
+          console.log("Select2 is enabled. Disabling...");
+          $('#seleccioUsuariRevisorForm2 #usuariEntitatID').select2('destroy');
+          isSelect2Enabled = !isSelect2Enabled;
+      }
   </script>
 
     <%-- FORMULARI MODAL DE SELECCIO D'USUARIS  --%>
@@ -663,7 +705,10 @@
         parameters['param2'] = p2.value;
     }
     --%>
-    
+
+    <%-- Buidam el select --%>
+    $('#seleccioUsuariRevisorForm2 #usuariEntitatID').empty()
+
     const parametros = new URLSearchParams({
         param1: firmaID,
         param2: destinatariID

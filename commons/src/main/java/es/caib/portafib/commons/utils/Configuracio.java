@@ -95,6 +95,10 @@ public class Configuracio implements Constants {
         }
     }
 
+    public static boolean isRevisorsComboboxUseSearch() {
+        return "true".equalsIgnoreCase(getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "revisorcomboboxsusesearch"));
+    }
+
     public static String getDefaultLanguage() {
         return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "defaultlanguage", "ca");
     }
@@ -103,7 +107,6 @@ public class Configuracio implements Constants {
         String defaultLanguage = getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "defaultlanguage", "ca");
         return new Locale(defaultLanguage);
     }
-    
 
     public static String getHeaderBackgroundColor() {
         return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "headerbackgroundcolor");
