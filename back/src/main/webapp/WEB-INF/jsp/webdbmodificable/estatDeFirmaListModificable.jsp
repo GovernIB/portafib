@@ -43,11 +43,11 @@
       var iLen=firmes.length;
       
       if(typeof iLen === 'undefined'){
-        <%--  �s un sol element --%>
+        <%--  És un sol element --%>
         str = firmes.value;
         <%-- console.log("Unique Value= " + firmes.value); --%>
       } else {
-          <%--  �s un array d'elements --%>
+          <%--  És un array d'elements --%>
           console.log("iLen = " + iLen);
           for (var i=0; i<iLen; i++) {
             if (firmes[i].checked) {
@@ -62,71 +62,75 @@
       return str;
     }
 
-  function rebutjar(url, estatID) {
-
-    var motiusRebuig;
-
-    <c:forEach var="entry" items="${rebuigDescriptionByEstat}">
-    if (estatID == <c:out value="${entry.key}"/>) {
-      motiusRebuig = "${pfi:escapeJavaScript(entry.value)}";
-    } else 
-    </c:forEach>
-    {
-      motiusRebuig = "";
+    function rebutjar(url, estatID) {
+        
+        var motiusRebuig;
+        <%--  TODO XYZ ZZZ  Revisar aquest codi que no entenc !!!  NO FA RES !!! --%>
+        <c:forEach var="entry" items="${rebuigDescriptionByEstat}">
+        if (estatID == <c:out value="${entry.key}"/>) {
+            motiusRebuig = "${pfi:escapeJavaScript(entry.value)}";
+        } else 
+        </c:forEach>
+        {
+          motiusRebuig = "";
+        }
+        var reason = prompt("<fmt:message key="motiurebutjar"/>:", motiusRebuig);
+        
+        if (reason != null) {      
+          document.getElementById("motiu").value=reason;
+          document.estatDeFirma.action = url;
+          document.estatDeFirma.submit();
+        }
     }
-    var reason = prompt("<fmt:message key="motiurebutjar"/>:", motiusRebuig);
+
+    <c:if test="${estatDeFirmaFilterForm.visibleMultipleSelection}">
+
     
-    if (reason != null) {      
-      document.getElementById("motiu").value=reason;
-      document.estatDeFirma.action = url;
-      document.estatDeFirma.submit();
+<%--  Boto de PROCESSAR --%>
+    var botoProcessar = '<button type="button" class="btn btn-sm btn-warning" onclick="processarInici()">'
+            + '<i class="fas fa-tasks"></i>&nbsp;<fmt:message key="carret.processar.inici" />' + '</button>';
+
+    function processarInici() {
+        var url;
+        url = '<c:url value="${contexte}/processar/inici"/>';
+        document.estatDeFirma.action = url;
+        document.estatDeFirma.submit();
     }
-  }
+<%--  Boto de FIRMA MULTIPLE --%>
+    var botoFirmaMultiple = '<button type="button" class="btn btn-sm btn-success" onclick="firmarseleccionats()">'
+            + '<i class="fas fa-file-signature"></i>&nbsp;<fmt:message key="firmarseleccionats" />' + '</button>';
 
-    <c:if test="${ estatDeFirmaFilterForm.visibleMultipleSelection}">
+    function firmarseleccionats() {
+        var url;
+        url = '<c:url value="${contexte}/firmarseleccionats"/>?url_user=' + encodeURIComponent(window.location.href);
+        document.estatDeFirma.action = url;
+        document.estatDeFirma.submit();
+    }
+<%--  Boto de REBUIG MULTIPLE --%>
+    var botoRebuigMultiple = '<button type="button" class="btn btn-sm btn-danger" onclick="rebutjarseleccionats()">'
+            + '<i class="fas fa-times"></i>&nbsp;<fmt:message key="rebutjarseleccionats" />' + '</button>'
 
-     <%--  Boto de PROCESSAR --%>
-     var botoProcessar = '<button type="button" class="btn btn-sm btn-warning" onclick="processarInici()">'
-         + '<i class="fas fa-tasks"></i>&nbsp;<fmt:message key="carret.processar.inici" />'
-         + '</button>';
+    function rebutjarseleccionats() {
+        var reason = prompt("<fmt:message key="motiurebutjar"/>", "");
+        if (reason != null) {
+            document.getElementById("motiu").value = reason;
+            document.estatDeFirma.action = '<c:url value="${contexte}/rebutjarseleccionats"/>';
+            document.estatDeFirma.submit();
+        }
+    }
+            
 
-     function processarInici() {
-       var url;
-       url = '<c:url value="${contexte}/processar/inici"/>';
-       document.estatDeFirma.action = url;
-       document.estatDeFirma.submit();
-     }
+    function acceptarSeleccionats() {
+        document.estatDeFirma.action = '<c:url value="${contexte}/acceptarseleccionats"/>';
+        document.estatDeFirma.submit();
+    }
 
-     <%--  Boto de FIRMA MULTIPLE --%>
-     var botoFirmaMultiple = '<button type="button" class="btn btn-sm btn-success" onclick="firmarseleccionats()">'
-         + '<i class="fas fa-file-signature"></i>&nbsp;<fmt:message key="firmarseleccionats" />'
-         + '</button>';
-
-     function firmarseleccionats() {
-       var url;
-       url = '<c:url value="${contexte}/firmarseleccionats"/>?url_user=' + encodeURIComponent(window.location.href);
-       document.estatDeFirma.action = url;
-       document.estatDeFirma.submit();
-     }
-
-     <%--  Boto de REBUIG MULTIPLE --%>
-     var botoRebuigMultiple = '<button type="button" class="btn btn-sm btn-danger" onclick="rebutjarseleccionats()">'
-     + '<i class="fas fa-times"></i>&nbsp;<fmt:message key="rebutjarseleccionats" />'
-     + '</button>'
-   
-     function rebutjarseleccionats() {
-         var reason = prompt("<fmt:message key="motiurebutjar"/>","");
-         if (reason!=null) {      
-           document.getElementById("motiu").value=reason;
-           document.estatDeFirma.action = '<c:url value="${contexte}/rebutjarseleccionats"/>';
-           document.estatDeFirma.submit();
-         }
-      }
-
+    <c:if test="${pipella ne 'ROLE_REVI'}">
+    
      <%-- Afegir botons a l'esquerra --%>
-     var divEsquerra = document.getElementById('estatDeFirma_pagination_left');
-     divEsquerra.innerHTML += botoProcessar + botoFirmaMultiple + botoRebuigMultiple;
-
+    var divEsquerra = document.getElementById('estatDeFirma_pagination_left');
+    divEsquerra.innerHTML += botoProcessar + botoFirmaMultiple + botoRebuigMultiple;
+    </c:if>
     </c:if>
   
   </c:if>

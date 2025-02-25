@@ -109,22 +109,22 @@
            <b> <fmt:message key="peticioDeFirma.expedientUrl" />:</b>
              ${pfi:processEmailURL(peticioDeFirma.expedientUrl)}<br />
        </c:if>
-         
+
        <c:if test="${not empty peticioDeFirma.procedimentCodi}">
            <b> <fmt:message key="peticioDeFirma.procedimentCodi" />:</b>
              ${peticioDeFirma.procedimentCodi}<br />
        </c:if>
-         
+
        <c:if test="${not empty peticioDeFirma.procedimentNom}">
            <b> <fmt:message key="peticioDeFirma.procedimentNom" />:</b>
              ${peticioDeFirma.procedimentNom}<br />
        </c:if>
-       
+
        <c:if test="${not empty peticioDeFirma.informacioAddicional}">
          <b> <fmt:message key="peticioDeFirma.informacioAddicional" />:</b>
            ${pfi:processEmailURL(peticioDeFirma.informacioAddicional)}<br />      
        </c:if>
-       
+
        <c:if test="${not empty peticioDeFirma.informacioAddicionalAvaluable}">
          <b> <fmt:message key="peticioDeFirma.informacioAddicionalAvaluable" />:</b>
            ${pfi:processEmailURL(peticioDeFirma.informacioAddicionalAvaluable)}<br />      
