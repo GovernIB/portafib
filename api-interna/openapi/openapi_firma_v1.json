@@ -1141,93 +1141,9 @@
         "description" : "Resposta de la petició de firma en servidor"
       },
       "FirmaSimpleSignedFileInfo" : {
-        "required" : [ "SIGNATURESTABLELOCATION_FIRSTPAGE", "SIGNATURESTABLELOCATION_LASTPAGE", "SIGNATURESTABLELOCATION_WITHOUT", "SIGNPROFILE_A", "SIGNPROFILE_BES", "SIGNPROFILE_C", "SIGNPROFILE_EPES", "SIGNPROFILE_PADES_BASIC", "SIGNPROFILE_PADES_LTV", "SIGNPROFILE_T", "SIGNPROFILE_X", "SIGNPROFILE_X1", "SIGNPROFILE_X2", "SIGNPROFILE_XL", "SIGNPROFILE_XL1", "SIGNPROFILE_XL2", "SIGN_ALGORITHM_SHA1", "SIGN_ALGORITHM_SHA256", "SIGN_ALGORITHM_SHA384", "SIGN_ALGORITHM_SHA512", "SIGN_MODE_ATTACHED_ENVELOPED", "SIGN_MODE_ATTACHED_ENVELOPING", "SIGN_MODE_DETACHED", "SIGN_MODE_INTERNALLY_DETACHED", "SIGN_OPERATION_COSIGN", "SIGN_OPERATION_COUNTERSIGN", "SIGN_OPERATION_SIGN", "SIGN_TYPE_CADES", "SIGN_TYPE_CADES_ASIC_S", "SIGN_TYPE_FACTURAE", "SIGN_TYPE_ODF", "SIGN_TYPE_OOXML", "SIGN_TYPE_PADES", "SIGN_TYPE_PKCS1", "SIGN_TYPE_SMIME", "SIGN_TYPE_XADES", "SIGN_TYPE_XADES_ASIC_S", "policyIncluded", "signAlgorithm", "signMode", "signOperation", "signType", "signaturesTableLocation", "signerInfo", "timeStampIncluded" ],
+        "required" : [ "SIGNATURESTABLELOCATION_FIRSTPAGE", "SIGNATURESTABLELOCATION_LASTPAGE", "SIGNATURESTABLELOCATION_WITHOUT", "SIGNPROFILE_A", "SIGNPROFILE_BES", "SIGNPROFILE_C", "SIGNPROFILE_EPES", "SIGNPROFILE_PADES_BASIC", "SIGNPROFILE_PADES_LTV", "SIGNPROFILE_T", "SIGNPROFILE_X", "SIGNPROFILE_X1", "SIGNPROFILE_X2", "SIGNPROFILE_XL", "SIGNPROFILE_XL1", "SIGNPROFILE_XL2", "SIGN_MODE_ATTACHED_ENVELOPED", "SIGN_MODE_ATTACHED_ENVELOPING", "SIGN_MODE_DETACHED", "SIGN_MODE_INTERNALLY_DETACHED", "SIGN_OPERATION_COSIGN", "SIGN_OPERATION_COUNTERSIGN", "SIGN_OPERATION_SIGN", "policyIncluded", "signAlgorithm", "signMode", "signOperation", "signType", "signaturesTableLocation", "signerInfo", "timeStampIncluded" ],
         "type" : "object",
         "properties" : {
-          "SIGN_TYPE_PADES" : {
-            "type" : "string",
-            "description" : "Identificador de la firma PAdES.",
-            "readOnly" : true,
-            "default" : "PAdES"
-          },
-          "SIGN_TYPE_XADES" : {
-            "type" : "string",
-            "description" : "Identificador de la firma XAdES por defecto.",
-            "readOnly" : true,
-            "default" : "XAdES"
-          },
-          "SIGN_TYPE_CADES" : {
-            "type" : "string",
-            "description" : "Identificador de la firma CAdES.",
-            "readOnly" : true,
-            "default" : "CAdES"
-          },
-          "SIGN_TYPE_FACTURAE" : {
-            "type" : "string",
-            "description" : "Identificador de la firma Factura-e (derivado de XAdES-EPES).",
-            "readOnly" : true,
-            "default" : "FacturaE"
-          },
-          "SIGN_TYPE_OOXML" : {
-            "type" : "string",
-            "description" : "Identificador de la firma OOXML (<i>Office Open XML</i>).",
-            "readOnly" : true,
-            "default" : "OOXML"
-          },
-          "SIGN_TYPE_ODF" : {
-            "type" : "string",
-            "description" : "Identificador de la firma ODF (<i>Open Document Format</i>).",
-            "readOnly" : true,
-            "default" : "ODF"
-          },
-          "SIGN_TYPE_SMIME" : {
-            "type" : "string",
-            "description" : "Identificador de Firma SMIME",
-            "readOnly" : true,
-            "default" : "SMIME"
-          },
-          "SIGN_TYPE_CADES_ASIC_S" : {
-            "type" : "string",
-            "description" : "CAdES-ASiC-S: Formato de firma avanzada ASiC de tipo CAdES.",
-            "readOnly" : true,
-            "default" : "CAdES-ASiC-S"
-          },
-          "SIGN_TYPE_XADES_ASIC_S" : {
-            "type" : "string",
-            "description" : "XAdES-ASiC-S: Formato de firma avanzada ASiC de tipo XAdES.",
-            "readOnly" : true,
-            "default" : "XAdES-ASiC-S"
-          },
-          "SIGN_TYPE_PKCS1" : {
-            "type" : "string",
-            "description" : "NONE: Firma PKCS#1",
-            "readOnly" : true,
-            "default" : "PKCS#1"
-          },
-          "SIGN_ALGORITHM_SHA1" : {
-            "type" : "string",
-            "description" : "Identificador d'algoritme de firma SHA-1",
-            "readOnly" : true,
-            "default" : "SHA-1"
-          },
-          "SIGN_ALGORITHM_SHA256" : {
-            "type" : "string",
-            "description" : "Identificador d'algoritme de firma SHA-256",
-            "readOnly" : true,
-            "default" : "SHA-256"
-          },
-          "SIGN_ALGORITHM_SHA384" : {
-            "type" : "string",
-            "description" : "Identificador d'algoritme de firma SHA-384",
-            "readOnly" : true,
-            "default" : "SHA-384"
-          },
-          "SIGN_ALGORITHM_SHA512" : {
-            "type" : "string",
-            "description" : "Identificador d'algoritme de firma SHA-512",
-            "readOnly" : true,
-            "default" : "SHA-512"
-          },
           "SIGN_MODE_ATTACHED_ENVELOPED" : {
             "type" : "integer",
             "description" : "El fitxer de dades resultant inclou la firma: PDF, ODT, ...",
@@ -1384,8 +1300,7 @@
           },
           "signType" : {
             "type" : "string",
-            "description" : "Tipus de Firma. Valors possibles:\r\n    - “PAdES” (Constant SIGN_TYPE_PADES)\r\n    - “XAdES” (Constant SIGN_TYPE_XADES)\r\n    - “CAdES” (Constant SIGN_TYPE_CADES)\r\n    - “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\n    - “OOXML” (Constant SIGN_TYPE_OOXML)\r\n    - “ODF” (Constant SIGN_TYPE_ODF)\r\n    - “SMIME” (Constant SIGN_TYPE_SMIME)\r\n    - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)\r\n    - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\n    - “PKCS#1” (Constant SIGN_TYPE_PKCS1)",
-            "example" : "PAdES"
+            "description" : "Tipus de Firma. Valors possibles:\r\n    "
           },
           "signAlgorithm" : {
             "type" : "string",
@@ -1583,6 +1498,11 @@
           }
         },
         "description" : "Estructura de dades utilitzada per passar informació d'un error"
+      },
+      "SignType" : {
+        "type" : "string",
+        "description" : "Tipus de firma disponibles",
+        "enum" : [ "PAdES", "XAdES", "CAdES", "FacturaE", "OOXML", "ODF", "SMIME", "CAdES-ASiC-S", "XAdES-ASiC-S", "PKCS#1" ]
       },
       "FirmaSimpleUpgradeRequest" : {
         "required" : [ "languageUI", "signature" ],

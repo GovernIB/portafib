@@ -30,20 +30,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * Informació del fitxer signat.
  */
 @JsonPropertyOrder({
-  FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_T_Y_P_E_P_A_D_E_S,
-  FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_T_Y_P_E_X_A_D_E_S,
-  FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_T_Y_P_E_C_A_D_E_S,
-  FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_T_Y_P_E_F_A_C_T_U_R_A_E,
-  FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_T_Y_P_E_O_O_X_M_L,
-  FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_T_Y_P_E_O_D_F,
-  FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_T_Y_P_E_S_M_I_M_E,
-  FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_T_Y_P_E_C_A_D_E_S_A_S_I_C_S,
-  FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_T_Y_P_E_X_A_D_E_S_A_S_I_C_S,
-  FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_T_Y_P_E_P_K_C_S1,
-  FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A1,
-  FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A256,
-  FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A384,
-  FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A512,
   FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_M_O_D_E_A_T_T_A_C_H_E_D_E_N_V_E_L_O_P_E_D,
   FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_M_O_D_E_A_T_T_A_C_H_E_D_E_N_V_E_L_O_P_I_N_G,
   FirmaSimpleSignedFileInfo.JSON_PROPERTY_S_I_G_N_M_O_D_E_D_E_T_A_C_H_E_D,
@@ -82,62 +68,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleSignedFileInfo {
-  public static final String JSON_PROPERTY_S_I_G_N_T_Y_P_E_P_A_D_E_S = "SIGN_TYPE_PADES";
-  @javax.annotation.Nonnull
-  private String SIGN_TYPE_PADES = "PAdES";
-
-  public static final String JSON_PROPERTY_S_I_G_N_T_Y_P_E_X_A_D_E_S = "SIGN_TYPE_XADES";
-  @javax.annotation.Nonnull
-  private String SIGN_TYPE_XADES = "XAdES";
-
-  public static final String JSON_PROPERTY_S_I_G_N_T_Y_P_E_C_A_D_E_S = "SIGN_TYPE_CADES";
-  @javax.annotation.Nonnull
-  private String SIGN_TYPE_CADES = "CAdES";
-
-  public static final String JSON_PROPERTY_S_I_G_N_T_Y_P_E_F_A_C_T_U_R_A_E = "SIGN_TYPE_FACTURAE";
-  @javax.annotation.Nonnull
-  private String SIGN_TYPE_FACTURAE = "FacturaE";
-
-  public static final String JSON_PROPERTY_S_I_G_N_T_Y_P_E_O_O_X_M_L = "SIGN_TYPE_OOXML";
-  @javax.annotation.Nonnull
-  private String SIGN_TYPE_OOXML = "OOXML";
-
-  public static final String JSON_PROPERTY_S_I_G_N_T_Y_P_E_O_D_F = "SIGN_TYPE_ODF";
-  @javax.annotation.Nonnull
-  private String SIGN_TYPE_ODF = "ODF";
-
-  public static final String JSON_PROPERTY_S_I_G_N_T_Y_P_E_S_M_I_M_E = "SIGN_TYPE_SMIME";
-  @javax.annotation.Nonnull
-  private String SIGN_TYPE_SMIME = "SMIME";
-
-  public static final String JSON_PROPERTY_S_I_G_N_T_Y_P_E_C_A_D_E_S_A_S_I_C_S = "SIGN_TYPE_CADES_ASIC_S";
-  @javax.annotation.Nonnull
-  private String SIGN_TYPE_CADES_ASIC_S = "CAdES-ASiC-S";
-
-  public static final String JSON_PROPERTY_S_I_G_N_T_Y_P_E_X_A_D_E_S_A_S_I_C_S = "SIGN_TYPE_XADES_ASIC_S";
-  @javax.annotation.Nonnull
-  private String SIGN_TYPE_XADES_ASIC_S = "XAdES-ASiC-S";
-
-  public static final String JSON_PROPERTY_S_I_G_N_T_Y_P_E_P_K_C_S1 = "SIGN_TYPE_PKCS1";
-  @javax.annotation.Nonnull
-  private String SIGN_TYPE_PKCS1 = "PKCS#1";
-
-  public static final String JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A1 = "SIGN_ALGORITHM_SHA1";
-  @javax.annotation.Nonnull
-  private String SIGN_ALGORITHM_SHA1 = "SHA-1";
-
-  public static final String JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A256 = "SIGN_ALGORITHM_SHA256";
-  @javax.annotation.Nonnull
-  private String SIGN_ALGORITHM_SHA256 = "SHA-256";
-
-  public static final String JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A384 = "SIGN_ALGORITHM_SHA384";
-  @javax.annotation.Nonnull
-  private String SIGN_ALGORITHM_SHA384 = "SHA-384";
-
-  public static final String JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A512 = "SIGN_ALGORITHM_SHA512";
-  @javax.annotation.Nonnull
-  private String SIGN_ALGORITHM_SHA512 = "SHA-512";
-
   public static final String JSON_PROPERTY_S_I_G_N_M_O_D_E_A_T_T_A_C_H_E_D_E_N_V_E_L_O_P_E_D = "SIGN_MODE_ATTACHED_ENVELOPED";
   @javax.annotation.Nonnull
   private Integer SIGN_MODE_ATTACHED_ENVELOPED = 0;
@@ -285,20 +215,6 @@ public class FirmaSimpleSignedFileInfo {
    */
   @JsonCreator
   public FirmaSimpleSignedFileInfo(
-    @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_P_A_D_E_S) String SIGN_TYPE_PADES, 
-    @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_X_A_D_E_S) String SIGN_TYPE_XADES, 
-    @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_C_A_D_E_S) String SIGN_TYPE_CADES, 
-    @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_F_A_C_T_U_R_A_E) String SIGN_TYPE_FACTURAE, 
-    @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_O_O_X_M_L) String SIGN_TYPE_OOXML, 
-    @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_O_D_F) String SIGN_TYPE_ODF, 
-    @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_S_M_I_M_E) String SIGN_TYPE_SMIME, 
-    @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_C_A_D_E_S_A_S_I_C_S) String SIGN_TYPE_CADES_ASIC_S, 
-    @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_X_A_D_E_S_A_S_I_C_S) String SIGN_TYPE_XADES_ASIC_S, 
-    @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_P_K_C_S1) String SIGN_TYPE_PKCS1, 
-    @JsonProperty(JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A1) String SIGN_ALGORITHM_SHA1, 
-    @JsonProperty(JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A256) String SIGN_ALGORITHM_SHA256, 
-    @JsonProperty(JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A384) String SIGN_ALGORITHM_SHA384, 
-    @JsonProperty(JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A512) String SIGN_ALGORITHM_SHA512, 
     @JsonProperty(JSON_PROPERTY_S_I_G_N_M_O_D_E_A_T_T_A_C_H_E_D_E_N_V_E_L_O_P_E_D) Integer SIGN_MODE_ATTACHED_ENVELOPED, 
     @JsonProperty(JSON_PROPERTY_S_I_G_N_M_O_D_E_A_T_T_A_C_H_E_D_E_N_V_E_L_O_P_I_N_G) Integer SIGN_MODE_ATTACHED_ENVELOPING, 
     @JsonProperty(JSON_PROPERTY_S_I_G_N_M_O_D_E_D_E_T_A_C_H_E_D) Integer SIGN_MODE_DETACHED, 
@@ -324,20 +240,6 @@ public class FirmaSimpleSignedFileInfo {
     @JsonProperty(JSON_PROPERTY_S_I_G_N_P_R_O_F_I_L_E_P_A_D_E_S_B_A_S_I_C) String SIGNPROFILE_PADES_BASIC
   ) {
     this();
-    this.SIGN_TYPE_PADES = SIGN_TYPE_PADES;
-    this.SIGN_TYPE_XADES = SIGN_TYPE_XADES;
-    this.SIGN_TYPE_CADES = SIGN_TYPE_CADES;
-    this.SIGN_TYPE_FACTURAE = SIGN_TYPE_FACTURAE;
-    this.SIGN_TYPE_OOXML = SIGN_TYPE_OOXML;
-    this.SIGN_TYPE_ODF = SIGN_TYPE_ODF;
-    this.SIGN_TYPE_SMIME = SIGN_TYPE_SMIME;
-    this.SIGN_TYPE_CADES_ASIC_S = SIGN_TYPE_CADES_ASIC_S;
-    this.SIGN_TYPE_XADES_ASIC_S = SIGN_TYPE_XADES_ASIC_S;
-    this.SIGN_TYPE_PKCS1 = SIGN_TYPE_PKCS1;
-    this.SIGN_ALGORITHM_SHA1 = SIGN_ALGORITHM_SHA1;
-    this.SIGN_ALGORITHM_SHA256 = SIGN_ALGORITHM_SHA256;
-    this.SIGN_ALGORITHM_SHA384 = SIGN_ALGORITHM_SHA384;
-    this.SIGN_ALGORITHM_SHA512 = SIGN_ALGORITHM_SHA512;
     this.SIGN_MODE_ATTACHED_ENVELOPED = SIGN_MODE_ATTACHED_ENVELOPED;
     this.SIGN_MODE_ATTACHED_ENVELOPING = SIGN_MODE_ATTACHED_ENVELOPING;
     this.SIGN_MODE_DETACHED = SIGN_MODE_DETACHED;
@@ -362,202 +264,6 @@ public class FirmaSimpleSignedFileInfo {
     this.SIGNPROFILE_PADES_LTV = SIGNPROFILE_PADES_LTV;
     this.SIGNPROFILE_PADES_BASIC = SIGNPROFILE_PADES_BASIC;
   }
-
-  /**
-   * Identificador de la firma PAdES.
-   * @return SIGN_TYPE_PADES
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_P_A_D_E_S)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSIGNTYPEPADES() {
-    return SIGN_TYPE_PADES;
-  }
-
-
-
-  /**
-   * Identificador de la firma XAdES por defecto.
-   * @return SIGN_TYPE_XADES
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_X_A_D_E_S)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSIGNTYPEXADES() {
-    return SIGN_TYPE_XADES;
-  }
-
-
-
-  /**
-   * Identificador de la firma CAdES.
-   * @return SIGN_TYPE_CADES
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_C_A_D_E_S)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSIGNTYPECADES() {
-    return SIGN_TYPE_CADES;
-  }
-
-
-
-  /**
-   * Identificador de la firma Factura-e (derivado de XAdES-EPES).
-   * @return SIGN_TYPE_FACTURAE
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_F_A_C_T_U_R_A_E)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSIGNTYPEFACTURAE() {
-    return SIGN_TYPE_FACTURAE;
-  }
-
-
-
-  /**
-   * Identificador de la firma OOXML (&lt;i&gt;Office Open XML&lt;/i&gt;).
-   * @return SIGN_TYPE_OOXML
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_O_O_X_M_L)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSIGNTYPEOOXML() {
-    return SIGN_TYPE_OOXML;
-  }
-
-
-
-  /**
-   * Identificador de la firma ODF (&lt;i&gt;Open Document Format&lt;/i&gt;).
-   * @return SIGN_TYPE_ODF
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_O_D_F)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSIGNTYPEODF() {
-    return SIGN_TYPE_ODF;
-  }
-
-
-
-  /**
-   * Identificador de Firma SMIME
-   * @return SIGN_TYPE_SMIME
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_S_M_I_M_E)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSIGNTYPESMIME() {
-    return SIGN_TYPE_SMIME;
-  }
-
-
-
-  /**
-   * CAdES-ASiC-S: Formato de firma avanzada ASiC de tipo CAdES.
-   * @return SIGN_TYPE_CADES_ASIC_S
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_C_A_D_E_S_A_S_I_C_S)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSIGNTYPECADESASICS() {
-    return SIGN_TYPE_CADES_ASIC_S;
-  }
-
-
-
-  /**
-   * XAdES-ASiC-S: Formato de firma avanzada ASiC de tipo XAdES.
-   * @return SIGN_TYPE_XADES_ASIC_S
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_X_A_D_E_S_A_S_I_C_S)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSIGNTYPEXADESASICS() {
-    return SIGN_TYPE_XADES_ASIC_S;
-  }
-
-
-
-  /**
-   * NONE: Firma PKCS#1
-   * @return SIGN_TYPE_PKCS1
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_S_I_G_N_T_Y_P_E_P_K_C_S1)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSIGNTYPEPKCS1() {
-    return SIGN_TYPE_PKCS1;
-  }
-
-
-
-  /**
-   * Identificador d&#39;algoritme de firma SHA-1
-   * @return SIGN_ALGORITHM_SHA1
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A1)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSIGNALGORITHMSHA1() {
-    return SIGN_ALGORITHM_SHA1;
-  }
-
-
-
-  /**
-   * Identificador d&#39;algoritme de firma SHA-256
-   * @return SIGN_ALGORITHM_SHA256
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A256)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSIGNALGORITHMSHA256() {
-    return SIGN_ALGORITHM_SHA256;
-  }
-
-
-
-  /**
-   * Identificador d&#39;algoritme de firma SHA-384
-   * @return SIGN_ALGORITHM_SHA384
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A384)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSIGNALGORITHMSHA384() {
-    return SIGN_ALGORITHM_SHA384;
-  }
-
-
-
-  /**
-   * Identificador d&#39;algoritme de firma SHA-512
-   * @return SIGN_ALGORITHM_SHA512
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_S_I_G_N_A_L_G_O_R_I_T_H_M_S_H_A512)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSIGNALGORITHMSHA512() {
-    return SIGN_ALGORITHM_SHA512;
-  }
-
-
 
   /**
    * El fitxer de dades resultant inclou la firma: PDF, ODT, ...
@@ -913,7 +619,7 @@ public class FirmaSimpleSignedFileInfo {
   }
 
   /**
-   * Tipus de Firma. Valors possibles:      - “PAdES” (Constant SIGN_TYPE_PADES)      - “XAdES” (Constant SIGN_TYPE_XADES)      - “CAdES” (Constant SIGN_TYPE_CADES)      - “FacturaE” (Constant SIGN_TYPE_FACTURAE)      - “OOXML” (Constant SIGN_TYPE_OOXML)      - “ODF” (Constant SIGN_TYPE_ODF)      - “SMIME” (Constant SIGN_TYPE_SMIME)      - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)      - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)      - “PKCS#1” (Constant SIGN_TYPE_PKCS1)
+   * Tipus de Firma. Valors possibles:      
    * @return signType
    */
   @javax.annotation.Nonnull
@@ -1190,21 +896,7 @@ public class FirmaSimpleSignedFileInfo {
       return false;
     }
     FirmaSimpleSignedFileInfo firmaSimpleSignedFileInfo = (FirmaSimpleSignedFileInfo) o;
-    return Objects.equals(this.SIGN_TYPE_PADES, firmaSimpleSignedFileInfo.SIGN_TYPE_PADES) &&
-        Objects.equals(this.SIGN_TYPE_XADES, firmaSimpleSignedFileInfo.SIGN_TYPE_XADES) &&
-        Objects.equals(this.SIGN_TYPE_CADES, firmaSimpleSignedFileInfo.SIGN_TYPE_CADES) &&
-        Objects.equals(this.SIGN_TYPE_FACTURAE, firmaSimpleSignedFileInfo.SIGN_TYPE_FACTURAE) &&
-        Objects.equals(this.SIGN_TYPE_OOXML, firmaSimpleSignedFileInfo.SIGN_TYPE_OOXML) &&
-        Objects.equals(this.SIGN_TYPE_ODF, firmaSimpleSignedFileInfo.SIGN_TYPE_ODF) &&
-        Objects.equals(this.SIGN_TYPE_SMIME, firmaSimpleSignedFileInfo.SIGN_TYPE_SMIME) &&
-        Objects.equals(this.SIGN_TYPE_CADES_ASIC_S, firmaSimpleSignedFileInfo.SIGN_TYPE_CADES_ASIC_S) &&
-        Objects.equals(this.SIGN_TYPE_XADES_ASIC_S, firmaSimpleSignedFileInfo.SIGN_TYPE_XADES_ASIC_S) &&
-        Objects.equals(this.SIGN_TYPE_PKCS1, firmaSimpleSignedFileInfo.SIGN_TYPE_PKCS1) &&
-        Objects.equals(this.SIGN_ALGORITHM_SHA1, firmaSimpleSignedFileInfo.SIGN_ALGORITHM_SHA1) &&
-        Objects.equals(this.SIGN_ALGORITHM_SHA256, firmaSimpleSignedFileInfo.SIGN_ALGORITHM_SHA256) &&
-        Objects.equals(this.SIGN_ALGORITHM_SHA384, firmaSimpleSignedFileInfo.SIGN_ALGORITHM_SHA384) &&
-        Objects.equals(this.SIGN_ALGORITHM_SHA512, firmaSimpleSignedFileInfo.SIGN_ALGORITHM_SHA512) &&
-        Objects.equals(this.SIGN_MODE_ATTACHED_ENVELOPED, firmaSimpleSignedFileInfo.SIGN_MODE_ATTACHED_ENVELOPED) &&
+    return Objects.equals(this.SIGN_MODE_ATTACHED_ENVELOPED, firmaSimpleSignedFileInfo.SIGN_MODE_ATTACHED_ENVELOPED) &&
         Objects.equals(this.SIGN_MODE_ATTACHED_ENVELOPING, firmaSimpleSignedFileInfo.SIGN_MODE_ATTACHED_ENVELOPING) &&
         Objects.equals(this.SIGN_MODE_DETACHED, firmaSimpleSignedFileInfo.SIGN_MODE_DETACHED) &&
         Objects.equals(this.SIGN_MODE_INTERNALLY_DETACHED, firmaSimpleSignedFileInfo.SIGN_MODE_INTERNALLY_DETACHED) &&
@@ -1243,27 +935,13 @@ public class FirmaSimpleSignedFileInfo {
 
   @Override
   public int hashCode() {
-    return Objects.hash(SIGN_TYPE_PADES, SIGN_TYPE_XADES, SIGN_TYPE_CADES, SIGN_TYPE_FACTURAE, SIGN_TYPE_OOXML, SIGN_TYPE_ODF, SIGN_TYPE_SMIME, SIGN_TYPE_CADES_ASIC_S, SIGN_TYPE_XADES_ASIC_S, SIGN_TYPE_PKCS1, SIGN_ALGORITHM_SHA1, SIGN_ALGORITHM_SHA256, SIGN_ALGORITHM_SHA384, SIGN_ALGORITHM_SHA512, SIGN_MODE_ATTACHED_ENVELOPED, SIGN_MODE_ATTACHED_ENVELOPING, SIGN_MODE_DETACHED, SIGN_MODE_INTERNALLY_DETACHED, SIGNATURESTABLELOCATION_WITHOUT, SIGNATURESTABLELOCATION_FIRSTPAGE, SIGNATURESTABLELOCATION_LASTPAGE, SIGN_OPERATION_SIGN, SIGN_OPERATION_COSIGN, SIGN_OPERATION_COUNTERSIGN, SIGNPROFILE_BES, SIGNPROFILE_EPES, SIGNPROFILE_T, SIGNPROFILE_C, SIGNPROFILE_X, SIGNPROFILE_X1, SIGNPROFILE_X2, SIGNPROFILE_XL, SIGNPROFILE_XL1, SIGNPROFILE_XL2, SIGNPROFILE_A, SIGNPROFILE_PADES_LTV, SIGNPROFILE_PADES_BASIC, signOperation, signType, signAlgorithm, signMode, signaturesTableLocation, timeStampIncluded, policyIncluded, eniTipoFirma, eniPerfilFirma, signerInfo, custodyInfo, validationInfo);
+    return Objects.hash(SIGN_MODE_ATTACHED_ENVELOPED, SIGN_MODE_ATTACHED_ENVELOPING, SIGN_MODE_DETACHED, SIGN_MODE_INTERNALLY_DETACHED, SIGNATURESTABLELOCATION_WITHOUT, SIGNATURESTABLELOCATION_FIRSTPAGE, SIGNATURESTABLELOCATION_LASTPAGE, SIGN_OPERATION_SIGN, SIGN_OPERATION_COSIGN, SIGN_OPERATION_COUNTERSIGN, SIGNPROFILE_BES, SIGNPROFILE_EPES, SIGNPROFILE_T, SIGNPROFILE_C, SIGNPROFILE_X, SIGNPROFILE_X1, SIGNPROFILE_X2, SIGNPROFILE_XL, SIGNPROFILE_XL1, SIGNPROFILE_XL2, SIGNPROFILE_A, SIGNPROFILE_PADES_LTV, SIGNPROFILE_PADES_BASIC, signOperation, signType, signAlgorithm, signMode, signaturesTableLocation, timeStampIncluded, policyIncluded, eniTipoFirma, eniPerfilFirma, signerInfo, custodyInfo, validationInfo);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FirmaSimpleSignedFileInfo {\n");
-    sb.append("    SIGN_TYPE_PADES: ").append(toIndentedString(SIGN_TYPE_PADES)).append("\n");
-    sb.append("    SIGN_TYPE_XADES: ").append(toIndentedString(SIGN_TYPE_XADES)).append("\n");
-    sb.append("    SIGN_TYPE_CADES: ").append(toIndentedString(SIGN_TYPE_CADES)).append("\n");
-    sb.append("    SIGN_TYPE_FACTURAE: ").append(toIndentedString(SIGN_TYPE_FACTURAE)).append("\n");
-    sb.append("    SIGN_TYPE_OOXML: ").append(toIndentedString(SIGN_TYPE_OOXML)).append("\n");
-    sb.append("    SIGN_TYPE_ODF: ").append(toIndentedString(SIGN_TYPE_ODF)).append("\n");
-    sb.append("    SIGN_TYPE_SMIME: ").append(toIndentedString(SIGN_TYPE_SMIME)).append("\n");
-    sb.append("    SIGN_TYPE_CADES_ASIC_S: ").append(toIndentedString(SIGN_TYPE_CADES_ASIC_S)).append("\n");
-    sb.append("    SIGN_TYPE_XADES_ASIC_S: ").append(toIndentedString(SIGN_TYPE_XADES_ASIC_S)).append("\n");
-    sb.append("    SIGN_TYPE_PKCS1: ").append(toIndentedString(SIGN_TYPE_PKCS1)).append("\n");
-    sb.append("    SIGN_ALGORITHM_SHA1: ").append(toIndentedString(SIGN_ALGORITHM_SHA1)).append("\n");
-    sb.append("    SIGN_ALGORITHM_SHA256: ").append(toIndentedString(SIGN_ALGORITHM_SHA256)).append("\n");
-    sb.append("    SIGN_ALGORITHM_SHA384: ").append(toIndentedString(SIGN_ALGORITHM_SHA384)).append("\n");
-    sb.append("    SIGN_ALGORITHM_SHA512: ").append(toIndentedString(SIGN_ALGORITHM_SHA512)).append("\n");
     sb.append("    SIGN_MODE_ATTACHED_ENVELOPED: ").append(toIndentedString(SIGN_MODE_ATTACHED_ENVELOPED)).append("\n");
     sb.append("    SIGN_MODE_ATTACHED_ENVELOPING: ").append(toIndentedString(SIGN_MODE_ATTACHED_ENVELOPING)).append("\n");
     sb.append("    SIGN_MODE_DETACHED: ").append(toIndentedString(SIGN_MODE_DETACHED)).append("\n");

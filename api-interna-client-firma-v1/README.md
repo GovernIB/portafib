@@ -165,6 +165,7 @@ Class | Method | HTTP request | Description
  - [KeyValue](docs/KeyValue.md)
  - [LlistaTipusDocumentalRest](docs/LlistaTipusDocumentalRest.md)
  - [RestExceptionInfo](docs/RestExceptionInfo.md)
+ - [SignType](docs/SignType.md)
  - [TipusDocumentalRest](docs/TipusDocumentalRest.md)
 
 

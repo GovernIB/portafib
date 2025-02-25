@@ -38,6 +38,8 @@ import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFile;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFileInfoSignature;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.KeyValue;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.RestFirmaUtils;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.SignAlgorithm;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.SignType;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleSignedFileInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleStatus;
 import es.caib.portafib.api.interna.secure.firma.v1.utils.UtilsService;
@@ -313,6 +315,12 @@ public class FirmaEnServidorService extends RestFirmaUtils {
                             responseCode = "401",
                             description = "No Autenticat",
                             content = { @Content(
+                                            mediaType = MediaType.APPLICATION_JSON,
+                                            schema = @Schema(implementation = SignType.class)),
+                                    @Content(
+                                            mediaType = MediaType.APPLICATION_JSON,
+                                            schema = @Schema(implementation = SignAlgorithm.class)),
+                                    @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
                                     schema = @Schema(implementation = RestExceptionInfo.class)) }),
                     @ApiResponse(
@@ -326,7 +334,8 @@ public class FirmaEnServidorService extends RestFirmaUtils {
                             description = "Error no controlat",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+                                    schema = @Schema(implementation = RestExceptionInfo.class))) 
+                    })
     public FirmaSimpleSignatureResponse signDocument(@Parameter(hidden = true) @Context
     HttpServletRequest request, @RequestBody
     FirmaSimpleSignDocumentRequest simpleSignature) throws RestException {
@@ -936,7 +945,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
                     description = "Error no controlat",
                     content = { @Content(
                             mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = RestExceptionInfo.class)) }) })
+                            schema = @Schema(implementation = RestExceptionInfo.class)) })})
     public String versio() {
         return "1.0";
     }

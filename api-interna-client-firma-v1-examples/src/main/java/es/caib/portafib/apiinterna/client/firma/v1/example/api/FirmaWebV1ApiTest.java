@@ -50,9 +50,7 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<FirmaWebV1Api> {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         FirmaWebV1ApiTest test = new FirmaWebV1ApiTest();
         try {
-
             test.signPdfUsingPadesWithSyncWebExample();
-
         } catch (ApiException ae) {
             test.processApiException(ae, "Tests de Firma Web Sincrona");
         } catch (Exception e) {
@@ -67,7 +65,6 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<FirmaWebV1Api> {
         FirmaWebV1Api api = null;
         try {
             //Es deifneix el port en el que s'enviara la peticio de firma
-
             api = getApi();
             String languageUI = getLanguageUI(prop);
 
@@ -215,11 +212,12 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<FirmaWebV1Api> {
 
                         String postFix;
                         String signType = fssr.getSignedFileInfo().getSignType();
-                        if (C.getSIGNTYPEPADES().equals(signType)) {
+                        // XYZ ZZZ Canviar comparacio amb String Values de Enumerat SignType (Encara no es generava be quan es va fer el test)
+                        if (signType.equals("PAdES")) {
                             postFix = "_signed.pdf";
-                        } else if (C.getSIGNTYPECADES().equals(signType)) {
+                        } else if (signType.equals("CAdES")) {
                             postFix = "_signed.csig";
-                        } else if (C.getSIGNTYPEXADES().equals(signType)) {
+                        } else if (signType.equals("XAdES")) {
                             postFix = "_signed.xsig";
                         } else {
                             postFix = "_signed.unknown_extension_for_sign_type_" + signType;
@@ -233,7 +231,6 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<FirmaWebV1Api> {
                         fos.close();
 
                         System.out.println("  + Fitxer signat guardat en '" + outFile + "'");
-
                         System.out.println(firmaSimpleSignedFileInfoToString(fssr.getSignedFileInfo()));
 
                     break;

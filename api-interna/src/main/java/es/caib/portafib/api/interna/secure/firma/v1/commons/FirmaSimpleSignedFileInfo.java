@@ -1,5 +1,7 @@
 package es.caib.portafib.api.interna.secure.firma.v1.commons;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleCustodyInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleSignerInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.firmaenservidor.FirmaSimpleValidationInfo;
@@ -10,99 +12,10 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 @Schema(description = "Informació del fitxer signat.")
 public class FirmaSimpleSignedFileInfo {
+    
+   
 
-    @Schema(
-            description = "Identificador de la firma PAdES.",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_TYPE_PADES,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_TYPE_PADES = Constants.SIGN_TYPE_PADES;
-    
-    
-    @Schema(
-            description = "Identificador de la firma XAdES por defecto.",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_TYPE_XADES,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_TYPE_XADES = Constants.SIGN_TYPE_XADES;
-    
-    @Schema(
-            description = "Identificador de la firma CAdES.",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_TYPE_CADES,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_TYPE_CADES = Constants.SIGN_TYPE_CADES;
-    
-    @Schema(
-            description = "Identificador de la firma Factura-e (derivado de XAdES-EPES).",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_TYPE_FACTURAE,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_TYPE_FACTURAE = Constants.SIGN_TYPE_FACTURAE;
-    
-    @Schema(
-            description = "Identificador de la firma OOXML (<i>Office Open XML</i>).",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_TYPE_OOXML,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_TYPE_OOXML = Constants.SIGN_TYPE_OOXML;
-    
-    @Schema(
-            description = "Identificador de la firma ODF (<i>Open Document Format</i>).",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_TYPE_ODF,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_TYPE_ODF = Constants.SIGN_TYPE_ODF;
-    
-    @Schema(
-            description = "Identificador de Firma SMIME",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_TYPE_SMIME,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_TYPE_SMIME = Constants.SIGN_TYPE_SMIME;
-    
-    @Schema(
-            description = "CAdES-ASiC-S: Formato de firma avanzada ASiC de tipo CAdES.",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_TYPE_CADES_ASIC_S,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_TYPE_CADES_ASIC_S = Constants.SIGN_TYPE_CADES_ASIC_S;
-    
-    @Schema(
-            description = "XAdES-ASiC-S: Formato de firma avanzada ASiC de tipo XAdES.",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_TYPE_XADES_ASIC_S,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_TYPE_XADES_ASIC_S = Constants.SIGN_TYPE_XADES_ASIC_S;
-    
-    @Schema(
-            description = "NONE: Firma PKCS#1",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_TYPE_PKCS1,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_TYPE_PKCS1 = Constants.SIGN_TYPE_PKCS1;
-    
-    @Schema(
+    /*@Schema(
             description = "Identificador d'algoritme de firma SHA-1",
             nullable = false,
             defaultValue = "" + Constants.SIGN_ALGORITHM_SHA1,
@@ -133,7 +46,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_ALGORITHM_SHA512 = Constants.SIGN_ALGORITHM_SHA512;
+    public final String SIGN_ALGORITHM_SHA512 = Constants.SIGN_ALGORITHM_SHA512;*/
 
     //========================  MODES DE FIRMA =========================
     // Veure
@@ -349,7 +262,23 @@ public class FirmaSimpleSignedFileInfo {
              requiredMode = RequiredMode.REQUIRED)
     protected int signOperation;
 
-    @Schema(
+    
+    
+    
+
+    @Schema(description = "Tipus de Firma. Valors possibles:\r\n" + "    ",
+            requiredMode = RequiredMode.REQUIRED)
+    protected String signType;
+    
+    public String getSignType() {
+        return signType;
+    }
+
+    public void setSignType(String signType) {
+        this.signType = signType;
+    }
+
+    /*@Schema(
             description = "Tipus de Firma. Valors possibles:\r\n" + "    - “PAdES” (Constant SIGN_TYPE_PADES)\r\n"
                     + "    - “XAdES” (Constant SIGN_TYPE_XADES)\r\n" + "    - “CAdES” (Constant SIGN_TYPE_CADES)\r\n"
                     + "    - “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\n"
@@ -360,7 +289,9 @@ public class FirmaSimpleSignedFileInfo {
                     + "    - “PKCS#1” (Constant SIGN_TYPE_PKCS1)",
             example = "PAdES",
              requiredMode = RequiredMode.REQUIRED)
-    protected String signType;
+    protected String signType;*/
+
+    
 
     @Schema(
             description = "Algorisme de Firma. Valors: \r\n" + "    - \"SHA-1\"\r\n" + "    - \"SHA-256\"\r\n"
@@ -482,14 +413,6 @@ public class FirmaSimpleSignedFileInfo {
 
     public void setSignOperation(int signOperation) {
         this.signOperation = signOperation;
-    }
-
-    public String getSignType() {
-        return signType;
-    }
-
-    public void setSignType(String signType) {
-        this.signType = signType;
     }
 
     public String getSignAlgorithm() {
