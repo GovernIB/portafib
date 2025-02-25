@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%><%@ include
   file="/WEB-INF/jsp/moduls/includes.jsp"%>
+
 <un:useConstants var="Constants" className="es.caib.portafib.utils.Constants" />
 <c:set var="peticioID" value="${peticioDeFirma.peticioDeFirmaID}" />
 <c:set var="estatID" value="${estatDeFirma.estatDeFirmaID}" />
@@ -68,8 +69,10 @@
         }
     </style>
     <form class="bs-docs-peticio bs-docs-example form-inline" style="margin-bottom: 5px;">
-      <small>
-       <b> <fmt:message key="peticioDeFirma.titol" />:</b> 
+
+      <small> 
+
+      <b> <fmt:message key="peticioDeFirma.titol" />:</b> 
            <c:out  value="${peticioDeFirma.titol}" /><br /> 
 
        <b> <fmt:message key="peticioDeFirma.motiu" />:</b>
@@ -89,6 +92,9 @@
        <b><fmt:message key="peticioDeFirma.prioritatID" />:</b>
                <fmt:message key="prioritat.${peticioDeFirma.prioritatID}" /><br />
 
+<c:if test="${estatDeFirma.usuariEntitat.usuariPersona.usuariIntern}" >
+
+
        <c:if test="${not empty peticioDeFirma.expedientCodi}">
            <b> <fmt:message key="peticioDeFirma.expedientCodi" />:</b>
              ${peticioDeFirma.expedientCodi}<br />
@@ -103,26 +109,28 @@
            <b> <fmt:message key="peticioDeFirma.expedientUrl" />:</b>
              ${pfi:processEmailURL(peticioDeFirma.expedientUrl)}<br />
        </c:if>
-         
+
        <c:if test="${not empty peticioDeFirma.procedimentCodi}">
            <b> <fmt:message key="peticioDeFirma.procedimentCodi" />:</b>
              ${peticioDeFirma.procedimentCodi}<br />
        </c:if>
-         
+
        <c:if test="${not empty peticioDeFirma.procedimentNom}">
            <b> <fmt:message key="peticioDeFirma.procedimentNom" />:</b>
              ${peticioDeFirma.procedimentNom}<br />
        </c:if>
-       
+
        <c:if test="${not empty peticioDeFirma.informacioAddicional}">
          <b> <fmt:message key="peticioDeFirma.informacioAddicional" />:</b>
            ${pfi:processEmailURL(peticioDeFirma.informacioAddicional)}<br />      
        </c:if>
-       
+
        <c:if test="${not empty peticioDeFirma.informacioAddicionalAvaluable}">
          <b> <fmt:message key="peticioDeFirma.informacioAddicionalAvaluable" />:</b>
            ${pfi:processEmailURL(peticioDeFirma.informacioAddicionalAvaluable)}<br />      
        </c:if>
+       
+</c:if>       
          
      </small>
     </form>

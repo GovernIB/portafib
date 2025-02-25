@@ -4,9 +4,6 @@
         <dependencies>
 		    <module name="org.hibernate" slot="5.3" export="true"/>
 
-            <module name="org.apache.ws.security"/>
-            
-            <module name="org.bouncycastle" export="true"/>
             <module name="org.keycloak.keycloak-adapter-core" export="true" optional="true" />
 			<module name="org.keycloak.keycloak-core" optional="true" export="true" />
 			<module name="org.keycloak.keycloak-server-spi" optional="true"  export="true" />
@@ -15,6 +12,8 @@
 
             <!--  CAS ESPECIAL: Dependència org.jboss.ws.cxf::jbossws-cxf-client  de portafib ejb --> 
             <module name="org.jboss.ws.cxf.jbossws-cxf-client" export="true"/>
+
+            <module name="org.apache.ws.security"/>
 
             <module name="asm.asm" export="TRUE"/>
             <module name="com.fasterxml.jackson.core.jackson-annotations" export="TRUE"/>

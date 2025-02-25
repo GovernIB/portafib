@@ -15,13 +15,11 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = ConstantsV2.CONTEXT_REVI_ESTATFIRMA_PENDENT)
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
-public class EstatFirmaPendentReviController extends  EstatFirmaAbstractReviController {
-  
-  
-  @Override
-  public int getFilterType() {   
-    return FILTRAR_PER_PENDENT;
-  }
+public class EstatFirmaPendentReviController extends EstatFirmaAbstractReviController {
 
+    @Override
+    public int getFilterType() {
+        return FILTRAR_PER_PENDENT;
+    }
 
 }

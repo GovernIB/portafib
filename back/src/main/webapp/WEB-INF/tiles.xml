@@ -143,8 +143,6 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/usuariextern_final.jsp" />
     </definition>
 
-
-
     <definition name="externaluser_estatFirmaFullView"  extends="base.definition.cap_contingut_peu">
         <put-attribute name="contingut" value="/WEB-INF/jsp/dest/estatFirmaFullView.jsp" />
     </definition>

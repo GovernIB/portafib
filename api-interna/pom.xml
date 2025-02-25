@@ -161,6 +161,29 @@
                     </execution>
                 </executions>
             </plugin>
+            
+            <!-- Processa l'atribut 'example' del @Schema dels enums swagger i   -->
+            <!-- converteix aquest en noms de variables correctes: -->
+            <!-- Exemple:    example="SIGNTYPE_PADES|SIGNTYPE_CADES|SIGNTYPE_XADES", -->
+            <plugin>                                                         
+                <groupId>org.codehaus.gmaven</groupId>                       
+                <artifactId>groovy-maven-plugin</artifactId>                 
+                <version>2.1.1</version>                                       
+                <executions>                                                 
+                    <execution>                                              
+                        <phase>process-classes</phase>                              
+                        <goals>                                              
+                            <goal>execute</goal>                             
+                        </goals>                                             
+                        <configuration>                                      
+                            <source>${project.basedir}/ProcessEnumVarNamesAndDescriptionsInOpenApiFiles.groovy</source>
+                            <properties>
+                                <openapifolder>${project.basedir}/openapi/</openapifolder>
+                            </properties>
+                        </configuration>                                     
+                    </execution>                                             
+                </executions>                                                
+            </plugin>
 
 
             <!--
@@ -182,6 +205,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
+                             
                             <inputSpec>
                                 ${project.basedir}/openapi/openapi_infoversio_v1.json</inputSpec>
                             <generatorName>java</generatorName>

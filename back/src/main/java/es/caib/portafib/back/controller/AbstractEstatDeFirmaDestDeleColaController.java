@@ -622,8 +622,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/estatdelesfirmes/{firmesid}", method = RequestMethod.GET)
-    public void estatdelesfirmes(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable String firmesid) throws I18NException {
+    public void estatdelesfirmes(HttpServletRequest request, HttpServletResponse response, @PathVariable
+    String firmesid) throws I18NException {
 
         final boolean isDebug = log.isDebugEnabled();
 
@@ -656,9 +656,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/firmarseleccionats", method = RequestMethod.POST)
-    public ModelAndView firmarSeleccionats(HttpServletRequest request, HttpServletResponse response,
-            @ModelAttribute EstatDeFirmaFilterForm filterForm, @RequestParam("url_user") String baseUrlFull)
-            throws I18NException {
+    public ModelAndView firmarSeleccionats(HttpServletRequest request, HttpServletResponse response, @ModelAttribute
+    EstatDeFirmaFilterForm filterForm, @RequestParam("url_user")
+    String baseUrlFull) throws I18NException {
 
         noPermetreUsuarisExterns();
 
@@ -970,34 +970,81 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         }
     }
 
-    @RequestMapping(value = "/acceptar/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public ModelAndView acceptar(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
+    @RequestMapping(value = "/acceptarseleccionats", method = RequestMethod.POST)
+    public ModelAndView acceptarSeleccionats(HttpServletRequest request, HttpServletResponse response, @ModelAttribute
+    EstatDeFirmaFilterForm filterForm) throws I18NException {
 
-        boolean checkSiEstaEnMarxa = true;
-        boolean checkEstatsInicials = true;
-        CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, checkEstatsInicials, checkSiEstaEnMarxa,
-                ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR);
-        if (check == null) {
-            // S'ha produit un error i retornam el control al llistat
-            return llistatPaginat(request, response, null);
+        // seleccionats conté els estatIDs
+        String[] seleccionatsStr = filterForm.getSelectedItems();
+
+        if (seleccionatsStr == null || seleccionatsStr.length == 0) {
+            HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("genapp.delete.capseleccionat"));
+        } else {
+
+            List<Long> seleccionats = parseLongArray(seleccionatsStr);
+
+            EstatDeFirmaQueryPath efqp = new EstatDeFirmaQueryPath();
+            SelectMultipleStringKeyValue smskv;
+            smskv = new SelectMultipleStringKeyValue(ESTATDEFIRMAID.select,
+                    efqp.FIRMA().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA().PETICIODEFIRMAID().select);
+
+            List<StringKeyValue> listIds = estatDeFirmaEjb.executeQuery(smskv, ESTATDEFIRMAID.in(seleccionats));
+
+            final boolean debug = log.isDebugEnabled();
+            for (StringKeyValue skv : listIds) {
+                if (debug) {
+                    log.info("acceptarSeleccionats::SELECCIONAT = " + skv.getKey() + " / " + skv.getValue());
+                }
+
+                Long estatDeFirmaID = Long.valueOf(skv.getKey());
+                Long peticioDeFirmaID = Long.valueOf(skv.getValue());
+
+                acceptarInternal(request, estatDeFirmaID, peticioDeFirmaID);
+            }
         }
-
-        EstatDeFirmaJPA estatDeFirma = check.estatDeFirma;
-        FirmaJPA firma = check.firma;
-        PeticioDeFirmaJPA peticioDeFirma = check.peticioDeFirma;
-
-        peticioDeFirmaLogicaEjb.acceptar(estatDeFirma, firma, peticioDeFirma);
-
-        // TODO falta missatge de tot OK
 
         return llistatPaginat(request, response, null);
     }
 
+    @RequestMapping(value = "/acceptar/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
+    public ModelAndView acceptar(HttpServletRequest request, HttpServletResponse response, @PathVariable
+    Long estatDeFirmaID, @PathVariable
+    Long peticioDeFirmaID) throws I18NException {
+
+        acceptarInternal(request, estatDeFirmaID, peticioDeFirmaID);
+
+        // TODO XYZ ZZZ falta missatge de tot OK i try-catch si va malament 
+
+        return llistatPaginat(request, response, null);
+    }
+
+    /**
+     * 
+     * @param request
+     * @param estatDeFirmaID
+     * @param peticioDeFirmaID
+     * @throws I18NException
+     */
+    protected void acceptarInternal(HttpServletRequest request, Long estatDeFirmaID, Long peticioDeFirmaID)
+            throws I18NException {
+        boolean checkSiEstaEnMarxa = true;
+        boolean checkEstatsInicials = true;
+        CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, checkEstatsInicials, checkSiEstaEnMarxa,
+                ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR);
+        if (check != null) {
+            EstatDeFirmaJPA estatDeFirma = check.estatDeFirma;
+            FirmaJPA firma = check.firma;
+            PeticioDeFirmaJPA peticioDeFirma = check.peticioDeFirma;
+
+            peticioDeFirmaLogicaEjb.acceptar(estatDeFirma, firma, peticioDeFirma);
+        }
+    }
+
     @RequestMapping(value = "/firmar/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public ModelAndView firmar(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID,
-            @RequestParam("url_user") String baseUrlFull) throws I18NException {
+    public ModelAndView firmar(HttpServletRequest request, HttpServletResponse response, @PathVariable
+    Long estatDeFirmaID, @PathVariable
+    Long peticioDeFirmaID, @RequestParam("url_user")
+    String baseUrlFull) throws I18NException {
 
         log.info("XYZ ZZZ baseUrlFull = " + baseUrlFull);
 
@@ -1089,7 +1136,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
      */
     @RequestMapping(value = "/finalFirma/{signaturesSetID}")
     public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
+            @PathVariable("signaturesSetID")
+            String signaturesSetID) throws Exception {
 
         String view;
 
@@ -1118,7 +1166,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
      */
     @RequestMapping(value = "/finalFirmaReal/{signaturesSetID}")
     public ModelAndView finalProcesDeFirmaReal(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
+            @PathVariable("signaturesSetID")
+            String signaturesSetID) throws Exception {
         // Ens asseguram que a la pàgina final sempre es mostren els missatges
         request.getSession().removeAttribute("keepMessages");
 
@@ -1625,8 +1674,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/rebutjar/{estatDeFirmaID}/{peticioDeFirmaID}")
-    public ModelAndView rebutjar(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
+    public ModelAndView rebutjar(HttpServletRequest request, HttpServletResponse response, @PathVariable
+    Long estatDeFirmaID, @PathVariable
+    Long peticioDeFirmaID) throws I18NException {
         String motiuDeRebuig = request.getParameter("motiu");
         rebutjarInternal(request, response, estatDeFirmaID, peticioDeFirmaID, motiuDeRebuig);
         return llistatPaginat(request, response, null);
@@ -1684,8 +1734,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/rebutjarseleccionats", method = RequestMethod.POST)
-    public ModelAndView rebutjarSeleccionats(HttpServletRequest request, HttpServletResponse response,
-            @ModelAttribute EstatDeFirmaFilterForm filterForm) throws I18NException {
+    public ModelAndView rebutjarSeleccionats(HttpServletRequest request, HttpServletResponse response, @ModelAttribute
+    EstatDeFirmaFilterForm filterForm) throws I18NException {
 
         // seleccionats conté els estatIDs
         String[] seleccionatsStr = filterForm.getSelectedItems();
@@ -1721,8 +1771,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/validar/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public ModelAndView validar(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
+    public ModelAndView validar(HttpServletRequest request, HttpServletResponse response, @PathVariable
+    Long estatDeFirmaID, @PathVariable
+    Long peticioDeFirmaID) throws I18NException {
 
         boolean checkSiEstaEnMarxa = true;
         boolean checkEstatsInicials = true;
@@ -1746,8 +1797,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/invalidar/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.POST)
-    public ModelAndView invalidar(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
+    public ModelAndView invalidar(HttpServletRequest request, HttpServletResponse response, @PathVariable
+    Long estatDeFirmaID, @PathVariable
+    Long peticioDeFirmaID) throws I18NException {
 
         // TODO traduir
         // checkRole(request, "invalidar");
@@ -1783,8 +1835,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/marcarrevisant/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public ModelAndView marcarrevisant(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
+    public ModelAndView marcarrevisant(HttpServletRequest request, HttpServletResponse response, @PathVariable
+    Long estatDeFirmaID, @PathVariable
+    Long peticioDeFirmaID) throws I18NException {
 
         try {
             boolean checkSiEstaEnMarxa = true;
@@ -2520,7 +2573,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
                 if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
 
-                    log.info("Asignat per revisar peticioID= " + peticioID);
+                    log.debug("Asignat per revisar peticioID= " + peticioID);
 
                     filterForm
                             .addAdditionalButtonByPK(estatId,
@@ -2593,7 +2646,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             // Per defecte
             filterForm.setVisibleMultipleSelection(false);
 
-            if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) {
+            if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)|| role.equals(ConstantsV2.ROLE_REVI)) {
                 if (this.getFilterType() == FILTRAR_PER_PENDENT) {
                     filterForm.setVisibleMultipleSelection(true);
                 } else if (getFilterType() == FILTRAR_PER_RES) {
@@ -2606,17 +2659,32 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     }
                 }
             }
+            
+            log.info("POSTLIST: isVisibleMultipleSelection: " + filterForm.isVisibleMultipleSelection());
+            
+            log.info("POSTLIST: filterForm.getAdditionalButtons().isEmpty(): " + filterForm.getAdditionalButtons().isEmpty());
+            
 
             if (filterForm.isVisibleMultipleSelection() && filterForm.getAdditionalButtons().isEmpty()) {
+                
 
                 filterForm.addAdditionalButton(new AdditionalButton("fas fa-times", "rebutjarseleccionats",
                         "javascript:rebutjarseleccionats()", AdditionalButtonStyle.DANGER));
+                
+                if (role.equals(ConstantsV2.ROLE_REVI)) {
 
-                filterForm.addAdditionalButton(new AdditionalButton("fas fa-file-signature", "firmarseleccionats",
-                        "javascript:firmarseleccionats()", AdditionalButtonStyle.SUCCESS));
+                    filterForm.addAdditionalButton(new AdditionalButton("fas fa-check", "acceptarseleccionats",
+                            "javascript:acceptarSeleccionats()", AdditionalButtonStyle.SUCCESS));
 
-                filterForm.addAdditionalButton(new AdditionalButton("fas fa-tasks", "carret.processar.inici",
-                        "javascript:processarInici()", AdditionalButtonStyle.WARNING));
+                } else {
+
+    
+                    filterForm.addAdditionalButton(new AdditionalButton("fas fa-file-signature", "firmarseleccionats",
+                            "javascript:firmarseleccionats()", AdditionalButtonStyle.SUCCESS));
+    
+                    filterForm.addAdditionalButton(new AdditionalButton("fas fa-tasks", "carret.processar.inici",
+                            "javascript:processarInici()", AdditionalButtonStyle.WARNING));
+                }
             }
         }
 
@@ -2848,8 +2916,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/viewDocuments/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public ModelAndView viewDocumentsFullView(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
+    public ModelAndView viewDocumentsFullView(HttpServletRequest request, HttpServletResponse response, @PathVariable
+    Long estatDeFirmaID, @PathVariable
+    Long peticioDeFirmaID) throws I18NException {
 
         // p.e. viewDocuments_ROLE_DEST
         String view = "viewDocumentsFullView_" + getRole();
@@ -2880,8 +2949,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/fullView/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public ModelAndView fullView(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
+    public ModelAndView fullView(HttpServletRequest request, HttpServletResponse response, @PathVariable
+    Long estatDeFirmaID, @PathVariable
+    Long peticioDeFirmaID) throws I18NException {
 
         String view = getFullViewTile();
 
@@ -3048,15 +3118,16 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/docfirmat/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public void docfirmat(HttpServletResponse response, @PathVariable Long peticioDeFirmaID) throws I18NException {
+    public void docfirmat(HttpServletResponse response, @PathVariable
+    Long peticioDeFirmaID) throws I18NException {
         Fitxer f = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
         final boolean attachment = false;
         FileDownloadController.fullDownload(f.getFitxerID(), f.getNom(), f.getMime(), response, attachment);
     }
 
     @RequestMapping(value = "/docfirmat/descarregar/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public void docfirmatDescarregar(HttpServletResponse response, @PathVariable Long peticioDeFirmaID)
-            throws I18NException {
+    public void docfirmatDescarregar(HttpServletResponse response, @PathVariable
+    Long peticioDeFirmaID) throws I18NException {
         Fitxer f = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
         final boolean attachment = true;
         FileDownloadController.fullDownload(f.getFitxerID(), f.getNom(), f.getMime(), response, attachment);

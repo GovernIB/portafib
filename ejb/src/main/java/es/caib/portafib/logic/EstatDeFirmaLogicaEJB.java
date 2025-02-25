@@ -77,7 +77,12 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB implements EstatDeFir
     @Override
     @PermitAll
     public EstatDeFirmaJPA findByPrimaryKeyUnauthorized(Long id) {
-        return this.findByPrimaryKey(id);
+        EstatDeFirmaJPA ef = (EstatDeFirmaJPA) this.findByPrimaryKey(id);
+        
+        Hibernate.initialize(ef.getUsuariEntitat());
+        Hibernate.initialize(ef.getUsuariEntitat().getUsuariPersona());
+        
+        return ef;
     }
 
     @Override
