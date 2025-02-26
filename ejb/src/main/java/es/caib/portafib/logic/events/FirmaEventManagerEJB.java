@@ -427,7 +427,7 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
         } else {
             href = PropietatGlobalUtil.getAppUrl() + href;
         }
-        // notificacioavis_email_message= Bones {0}:<br> Voliem informar que {1}.
+        // notificacioavis_email_message= Bon dia {0}:<br> Voliem informar que {1}.
         // <br/>Pot accedir a la petició de firma pitjant <a href="{2}">aqu&iacute;</a>...
         final String msg = I18NLogicUtils.tradueix(loc, "notificacioavis_email_message", nom, avis, href);
         //    final String msg = I18NLogicUtils.tradueix(loc, "notificacioavis_email_message_nou", nom, titol, avis, href);

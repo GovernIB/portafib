@@ -864,7 +864,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             String destNom = usuDest.getUsuariPersona().getNom() + " " + usuDest.getUsuariPersona().getLlinatges();
             String tipus = I18NUtils.tradueix(getEntityNameCode());
             email.setSubject(I18NUtils.tradueix("email.delecola.titol", tipus, destNom));
-            //Bones:<br/> Voliem informar-li que a partir del dia {0} serà {3} de {1}, per més informació pot accedir a la següent adreça <a href=\"{2}\">{2}</a>.
+            //Bon dia:<br/> Voliem informar-li que a partir del dia {0} serà {3} de {1}, per més informació pot accedir a la següent adreça <a href=\"{2}\">{2}</a>.
 
             SimpleDateFormat sdf;
             sdf = new I18NDateTimeFormat()
