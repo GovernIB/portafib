@@ -53,7 +53,7 @@ public class FirmaSimpleSignedFileInfo {
     // https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#Packaging
     // veure
     // https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#SignatureProfileGuide
-    @Schema(
+    /*@Schema(
             description = "El fitxer de dades resultant inclou la firma: PDF, ODT, ...",
             nullable = false,
             defaultValue = "" + Constants.SIGN_MODE_ATTACHED_ENVELOPED,
@@ -88,9 +88,9 @@ public class FirmaSimpleSignedFileInfo {
             implementation = Integer.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public final int SIGN_MODE_INTERNALLY_DETACHED = Constants.SIGN_MODE_INTERNALLY_DETACHED;
+    public final int SIGN_MODE_INTERNALLY_DETACHED = Constants.SIGN_MODE_INTERNALLY_DETACHED;*/
     
-    @Schema(
+    /*@Schema(
             description = "Localitzador de la signatura al document. (Sense signatura visible)",
             nullable = false,
             defaultValue = "" + Constants.SIGNATURESTABLELOCATION_WITHOUT,
@@ -115,10 +115,10 @@ public class FirmaSimpleSignedFileInfo {
             implementation = Integer.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public final int SIGNATURESTABLELOCATION_LASTPAGE = Constants.SIGNATURESTABLELOCATION_LASTPAGE;
+    public final int SIGNATURESTABLELOCATION_LASTPAGE = Constants.SIGNATURESTABLELOCATION_LASTPAGE;*/
 
     // FIRMA
-    @Schema(
+    /*@Schema(
             description = "Identificador d'operació per Firma",
             nullable = false,
             defaultValue = "" + Constants.SIGN_OPERATION_SIGN,
@@ -143,9 +143,9 @@ public class FirmaSimpleSignedFileInfo {
             implementation = Integer.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public final int SIGN_OPERATION_COUNTERSIGN = Constants.SIGN_OPERATION_COUNTERSIGN;
+    public final int SIGN_OPERATION_COUNTERSIGN = Constants.SIGN_OPERATION_COUNTERSIGN;*/
     
-    @Schema(
+    /*@Schema(
             description = "Perfil de firma AdES-BES",
             nullable = false,
             defaultValue = "" + Constants.SIGNPROFILE_BES,
@@ -248,7 +248,7 @@ public class FirmaSimpleSignedFileInfo {
             implementation = String.class,
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
-    public final String SIGNPROFILE_PADES_BASIC = Constants.SIGNPROFILE_PADES_BASIC;
+    public final String SIGNPROFILE_PADES_BASIC = Constants.SIGNPROFILE_PADES_BASIC;*/
 
     /**
      * eEMGDE.Firma.Firmante.EnCalidadDe(eEMGDE17.5.3): Firmante; Cofirmante;

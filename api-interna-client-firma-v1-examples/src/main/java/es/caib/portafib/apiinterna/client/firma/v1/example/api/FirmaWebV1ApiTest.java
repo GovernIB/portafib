@@ -34,6 +34,9 @@ import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleFileInfoSign
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleGetSignatureResultRequest;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleStartTransactionRequest;
 import es.caib.portafib.apiinterna.client.firma.v1.model.GetAvailableTypesOfDocumentsResponse;
+import es.caib.portafib.apiinterna.client.firma.v1.model.SignMode;
+import es.caib.portafib.apiinterna.client.firma.v1.model.SignOperation;
+import es.caib.portafib.apiinterna.client.firma.v1.model.SignatureStableLocation;
 import es.caib.portafib.apiinterna.client.firma.v1.api.FirmaWebV1Api;
 import es.caib.portafib.apiinterna.client.firma.v1.services.ApiClient;
 import es.caib.portafib.apiinterna.client.firma.v1.services.ApiException;
@@ -140,32 +143,6 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<FirmaWebV1Api> {
             FirmaSimpleGetTransactionStatusResponse fullTransactionStatus;
             fullTransactionStatus = api.getTransactionStatus(transactionID);
 
-            /*
-            List<FirmaSimpleSignatureStatus> statusList = fullTransactionStatus.getSignaturesStatusList();
-            
-            for (int i = 0; i < statusList.size(); i++) {
-                int status = fullTransactionStatus.getSignaturesStatusList().get(i).getStatus().getStatus();
-                String statusMsg = "";
-                switch (status) {
-                    case 0:
-                        statusMsg = "Status-" + i + ": INITIALIZING = " + status;
-                    break;
-                    case 1:
-                        statusMsg = "Status-" + i + ": IN_PROGRESS = " + status;
-                    break;
-                    case 2:
-                        statusMsg = "Status-" + i + ": FINAL_OK = " + status;
-                    break;
-                    case -1:
-                        statusMsg = "Status-" + i + ": FINAL_ERROR = " + status;
-                    break;
-                    case -2:
-                        statusMsg = "Status-" + i + ": CANCELLED = " + status;
-                    break;
-                }
-                System.out.println(statusMsg);
-            }
-            */
 
             List<FirmaSimpleSignatureStatus> ssl = fullTransactionStatus.getSignaturesStatusList();
 
@@ -356,11 +333,11 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<FirmaWebV1Api> {
         Integer signOperation = sfi.getSignOperation();
         if (signOperation == null) {
             operation = " -NULL- ";
-        } else if (signOperation.equals(C.getSIGNOPERATIONSIGN())) {
+        } else if (signOperation.equals(SignOperation.SIGN_OPERATION_SIGN)) {
             operation = "FIRMA";
-        } else if (signOperation.equals(C.getSIGNOPERATIONCOSIGN())) {
+        } else if (signOperation.equals(SignOperation.SIGN_OPERATION_COSIGN)) {
             operation = "COFIRMA";
-        } else if (signOperation.equals(C.getSIGNOPERATIONCOUNTERSIGN())) {
+        } else if (signOperation.equals(SignOperation.SIGN_OPERATION_COUNTERSIGN)) {
             operation = "CONTRAFIRMA";
         } else {
             operation = "DESCONEGUDA (" + signOperation + ")";
@@ -375,13 +352,13 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<FirmaWebV1Api> {
         Integer signMode = sfi.getSignMode();
         if (signMode == null) {
             str.append("NULL");
-        } else if (signMode.equals(C.getSIGNMODEATTACHEDENVELOPED())) {
+        } else if (signMode.equals(SignMode.SIGN_MODE_ATTACHED_ENVELOPED)) {
             str.append("Attached - Enveloped");
-        } else if (signMode.equals(C.getSIGNMODEATTACHEDENVELOPING())) {
+        } else if (signMode.equals(SignMode.SIGN_MODE_ATTACHED_ENVELOPING)) {
             str.append("Attached - Enveloping");
-        } else if (signMode.equals(C.getSIGNMODEDETACHED())) {
+        } else if (signMode.equals(SignMode.SIGN_MODE_DETACHED)) {
             str.append("Detached");
-        } else if (signMode.equals(C.getSIGNMODEINTERNALLYDETACHED())) {
+        } else if (signMode.equals(SignMode.SIGN_MODE_INTERNALLY_DETACHED)) {
             str.append("Internally Detached");
         } else {
             str.append("DESCONEGUT (" + signMode + ")");
@@ -392,11 +369,11 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<FirmaWebV1Api> {
             Integer signaturesTableLocation = sfi.getSignaturesTableLocation();
             if (signaturesTableLocation == null) {
                 posicioTaulaDeFirmes = " -NULL- ";
-            } else if (signaturesTableLocation.equals(C.getSIGNATURESTABLELOCATIONWITHOUT())) {
+            } else if (signaturesTableLocation.equals(SignatureStableLocation.SIGNATURESTABLELOCATION_WITHOUT)) {
                 posicioTaulaDeFirmes = "Sense taula de Firmes";
-            } else if (signaturesTableLocation.equals(C.getSIGNATURESTABLELOCATIONFIRSTPAGE())) {
+            } else if (signaturesTableLocation.equals(SignatureStableLocation.SIGNATURESTABLELOCATION_FIRSTPAGE)) {
                 posicioTaulaDeFirmes = "Taula de Firmes en la primera pagina";
-            } else if (signaturesTableLocation.equals(C.getSIGNATURESTABLELOCATIONLASTPAGE())) {
+            } else if (signaturesTableLocation.equals(SignatureStableLocation.SIGNATURESTABLELOCATION_LASTPAGE)) {
                 posicioTaulaDeFirmes = "Taula de Firmes en la darrera pagina";
             } else {
                 posicioTaulaDeFirmes = "Desconeguda(" + sfi.getSignaturesTableLocation() + ")";

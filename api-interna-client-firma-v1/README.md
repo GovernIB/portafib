@@ -165,7 +165,12 @@ Class | Method | HTTP request | Description
  - [KeyValue](docs/KeyValue.md)
  - [LlistaTipusDocumentalRest](docs/LlistaTipusDocumentalRest.md)
  - [RestExceptionInfo](docs/RestExceptionInfo.md)
+ - [SignAlgorithm](docs/SignAlgorithm.md)
+ - [SignMode](docs/SignMode.md)
+ - [SignOperation](docs/SignOperation.md)
+ - [SignProfile](docs/SignProfile.md)
  - [SignType](docs/SignType.md)
+ - [SignatureStableLocation](docs/SignatureStableLocation.md)
  - [TipusDocumentalRest](docs/TipusDocumentalRest.md)
 
 

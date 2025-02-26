@@ -34,33 +34,7 @@ public interface Constants {
 	
 	//API FIRMA SIMPLE SIGN TYPE
 	
-	/** Identificador de la firma PAdES. */
-    public static final String SIGN_TYPE_PADES = "PAdES";
-    /** Identificador de la firma XAdES por defecto. */
-    public static final String SIGN_TYPE_XADES = "XAdES";
-    /** Identificador de la firma CAdES. */
-    public static final String SIGN_TYPE_CADES = "CAdES";
-    /** Identificador de la firma Factura-e (derivado de XAdES-EPES). */
-    public static final String SIGN_TYPE_FACTURAE = "FacturaE";
-    /** Identificador de la firma OOXML (<i>Office Open XML</i>). */
-    public static final String SIGN_TYPE_OOXML = "OOXML";
-    /** Identificador de la firma ODF (<i>Open Document Format</i>). */
-    public static final String SIGN_TYPE_ODF = "ODF";
-    /** Identificador de Firma SMIME */
-    public static final String SIGN_TYPE_SMIME = "SMIME";
-    /** CAdES-ASiC-S: Formato de firma avanzada ASiC de tipo CAdES. */
-    public static final String SIGN_TYPE_CADES_ASIC_S = "CAdES-ASiC-S";
-    /** XAdES-ASiC-S: Formato de firma avanzada ASiC de tipo XAdES. */
-    public static final String SIGN_TYPE_XADES_ASIC_S = "XAdES-ASiC-S";
-    /** NONE: Firma PKCS#1. **/
-    public static final String SIGN_TYPE_PKCS1 = "PKCS#1";
-    
-    //API FIRMA SIMPLE ENCRYPTION TYPE
-    public static final String SIGN_ALGORITHM_SHA1 = "SHA-1";
-    public static final String SIGN_ALGORITHM_SHA256 = "SHA-256";
-    public static final String SIGN_ALGORITHM_SHA384 = "SHA-384";
-    public static final String SIGN_ALGORITHM_SHA512 = "SHA-512";
-    
+	
     //Modes de firma 
     /** El fitxer de dades resultant inclou la firma: PDF, ODT, ... */
     public static final int SIGN_MODE_ATTACHED_ENVELOPED = 0;

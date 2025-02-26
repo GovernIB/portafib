@@ -32,7 +32,12 @@ docs/GetAvailableTypesOfDocumentsResponse.md
 docs/KeyValue.md
 docs/LlistaTipusDocumentalRest.md
 docs/RestExceptionInfo.md
+docs/SignAlgorithm.md
+docs/SignMode.md
+docs/SignOperation.md
+docs/SignProfile.md
 docs/SignType.md
+docs/SignatureStableLocation.md
 docs/TipusDocumentalRest.md
 docs/UtilsV1Api.md
 git_push.sh
@@ -72,7 +77,12 @@ src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/GetAvailableType
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/KeyValue.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/LlistaTipusDocumentalRest.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/RestExceptionInfo.java
+src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/SignAlgorithm.java
+src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/SignMode.java
+src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/SignOperation.java
+src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/SignProfile.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/SignType.java
+src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/SignatureStableLocation.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/model/TipusDocumentalRest.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/services/ApiClient.java
 src/main/java/es/caib/portafib/apiinterna/client/firma/v1/services/ApiException.java

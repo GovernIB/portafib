@@ -39,7 +39,11 @@ import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFileInfoS
 import es.caib.portafib.api.interna.secure.firma.v1.commons.KeyValue;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.RestFirmaUtils;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.SignAlgorithm;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.SignMode;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.SignOperation;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.SignProfile;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.SignType;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.SignatureStableLocation;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleSignedFileInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleStatus;
 import es.caib.portafib.api.interna.secure.firma.v1.utils.UtilsService;
@@ -321,6 +325,18 @@ public class FirmaEnServidorService extends RestFirmaUtils {
                                             mediaType = MediaType.APPLICATION_JSON,
                                             schema = @Schema(implementation = SignAlgorithm.class)),
                                     @Content(
+                                            mediaType = MediaType.APPLICATION_JSON,
+                                            schema = @Schema(implementation = SignMode.class)),
+                                    @Content(
+                                            mediaType = MediaType.APPLICATION_JSON,
+                                            schema = @Schema(implementation = SignOperation.class)),
+                                    @Content(
+                                            mediaType = MediaType.APPLICATION_JSON,
+                                            schema = @Schema(implementation = SignatureStableLocation.class)),
+                                    @Content(
+                                            mediaType = MediaType.APPLICATION_JSON,
+                                            schema = @Schema(implementation = SignProfile.class)),
+                                    @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
                                     schema = @Schema(implementation = RestExceptionInfo.class)) }),
                     @ApiResponse(
@@ -598,7 +614,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
 
             // SI es PADES llavors el signMode es attached
             if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-                signatureFileInfo.setSignMode(signatureFileInfo.SIGN_MODE_ATTACHED_ENVELOPED);
+                signatureFileInfo.setSignMode(Constants.SIGN_MODE_ATTACHED_ENVELOPED);
             }
 
             signatureFileInfo.setEniTipoFirma(
@@ -864,7 +880,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
 
             // SI es PADES llavors el signMode es attached
             if (FileInfoSignature.SIGN_TYPE_PADES.equals(signatureType)) {
-                upgradedFileInfo.setSignMode(new FirmaSimpleSignedFileInfo().SIGN_MODE_ATTACHED_ENVELOPED);
+                upgradedFileInfo.setSignMode(Constants.SIGN_MODE_ATTACHED_ENVELOPED);
             }
 
         } else {

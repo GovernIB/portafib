@@ -1,0 +1,15 @@
+
+
+# SignatureStableLocation
+
+## Enum
+
+
+* `SIGNATURESTABLELOCATION_WITHOUT` (value: `0`)
+
+* `SIGNATURESTABLELOCATION_FIRSTPAGE` (value: `1`)
+
+* `SIGNATURESTABLELOCATION_LASTPAGE` (value: `-1`)
+
+
+
