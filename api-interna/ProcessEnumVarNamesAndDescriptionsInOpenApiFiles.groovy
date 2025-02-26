@@ -13,7 +13,7 @@ def processExampleLine(pattern, line) {
         log.info(" =======  SPLIT => " + matcher.group(1).split('\\|'))
         def values = matcher.group(1).split('\\|').collect { "\"$it\"" }.join(', ')
         log.info(" =======  VALUES => " + values)
-        return "\"x-enum-varnames\" : [ " + values + " ],"
+        return "        \"x-enum-varnames\" : [ " + values + " ],"
     }
     return null
 }
@@ -44,6 +44,18 @@ if (dir.exists() && dir.isDirectory()) {
                     if (newLine) {
                         updatedLines << newLine
                     }
+                    
+                    if (lines[index - 1].trim().startsWith("\"format\" : \"int32\",")) {
+                        
+                        for (i in 2..6) {
+                           if (updatedLines[updatedLines.size() - i].trim().startsWith("\"type\" : \"string\",") ) {
+                              updatedLines[updatedLines.size() - i] = "        \"type\" : \"integer\",";
+                              break
+                           }
+                        }
+
+                    }
+                    
                 } else {
                     updatedLines << line
                 }
