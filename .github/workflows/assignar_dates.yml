@@ -1,17 +1,13 @@
-name: Update Dates on Status Change V2
+name: Update Dates on Project Status Change
 
 on:
-  issues:
+  project_card:
     types:
-      - reopened
+      - created
+      - moved
+      - converted
       - edited
-      - closed
-      - labeled
-      - unlabeled
-      - assigned
-      - unassigned
-      - milestoned
-      - demilestoned
+      - deleted
 
 jobs:
   update-dates:
@@ -20,65 +16,79 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Get issue data
-        id: get-issue
+      - name: Get project card data
+        id: get-project-card
         uses: actions/github-script@v6
         with:
           script: |
-            const issue = context.payload.issue;
-            const changes = context.payload.changes;
-            const status = issue.state;
+            const card = context.payload.project_card;
+            const column_id = card.column_id;
 
-            // Obtener el estado anterior si está disponible
-            const previousStatus = changes?.state?.from;
+            // Obtener el issue asociado a la tarjeta
+            const issue_url = card.content_url;
+            const issue_number = issue_url.split('/').pop();
 
-            console.log(`Estado actual (status): ${status}`);
-            console.log(`Estado anterior (previousStatus): ${previousStatus || "No disponible"}`);
-            
+            // Obtener el estado actual del proyecto (nombre de la columna)
+            const project_columns = await github.rest.projects.listColumns({
+              project_id: card.project_id,
+            });
+
+            const current_column = project_columns.data.find(col => col.id === column_id);
+            const current_status = current_column?.name || "Unknown";
+
+            // Obtener el estado anterior (si está disponible)
+            const previous_column_id = context.payload.changes?.column_id?.from;
+            let previous_status = "Unknown";
+            if (previous_column_id) {
+              const previous_column = project_columns.data.find(col => col.id === previous_column_id);
+              previous_status = previous_column?.name || "Unknown";
+            }
+
+            // Imprimir los valores de estado actual y anterior
+            console.log(`Estado actual (status): ${current_status}`);
+            console.log(`Estado anterior (previousStatus): ${previous_status}`);
 
             // Si el estado cambia de "Todo" a "In Progress"
-            // previousStatus === "Todo" &&
-            if ( status === "In Progress") {
+            if (previous_status === "Todo" && current_status === "In Progress") {
               const startDate = new Date().toISOString().split('T')[0];
-              return { startDate };
+              return { startDate, issue_number };
             }
 
             // Si el estado cambia de "In Progress" a "Done"
-            // previousStatus === "In Progress" && 
-            if (status === "closed" || status === "Done") {
+            if (previous_status === "In Progress" && current_status === "Done") {
               const endDate = new Date().toISOString().split('T')[0];
-              return { endDate };
+              return { endDate, issue_number };
             }
 
             return {};
 
       - name: Update StartDate
-        if: steps.get-issue.outputs.startDate
+        if: steps.get-project-card.outputs.startDate
         uses: actions/github-script@v6
         with:
           script: |
-            const issue = context.payload.issue;
-            const startDate = "${{ steps.get-issue.outputs.startDate }}";
+            const issue_number = "${{ steps.get-project-card.outputs.issue_number }}";
+            const startDate = "${{ steps.get-project-card.outputs.startDate }}";
             await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: issue.number,
+              issue_number: issue_number,
               custom_fields: {
                 StartDate: startDate
               }
             });
 
       - name: Update EndDate
-        if: steps.get-issue.outputs.endDate
+        if: steps.get-project-card.outputs.endDate
         uses: actions/github-script@v6
         with:
           script: |
-            const issue = context.payload.issue;
-            const endDate = "${{ steps.get-issue.outputs.endDate }}";
+            const issue_number = "${{ steps.get-project-card.outputs.issue_number }}";
+            const endDate = "${{ steps.get-project-card.outputs.endDate }}";
             await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: issue.number,
+              issue_number: issue_number,
               custom_fields: {
                 EndDate: endDate
               }
