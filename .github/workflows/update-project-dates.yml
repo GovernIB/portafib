@@ -2,7 +2,7 @@ name: Update StartDate and EndDate in Project
 
 on:
   issues:
-    types: [edited]  # Se ejecuta cuando un issue es editado
+    types: [edited, closed]  # Se ejecuta cuando un issue es editado
 
 jobs:
   update_dates:
