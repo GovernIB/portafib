@@ -1,49 +1,79 @@
-name: Update StartDate and EndDate in Project
+name: Update Dates on Status Change
 
 on:
   issues:
-    types: [edited, closed]  # Se ejecuta cuando un issue es editado
+    types:
+      - reopened
+      - edited
+      - closed
+      - labeled
+      - unlabeled
+      - assigned
+      - unassigned
+      - milestoned
+      - demilestoned
 
 jobs:
-  update_dates:
+  update-dates:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if issue status changed
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PROJECT_ID: 167
-          START_DATE_FIELD_ID: 171879146
-          END_DATE_FIELD_ID: 171879164
-        run: |
-          # Instalar jq para manejar JSON
-          #sudo apt-get install jq
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-          # Obtener la última edición del issue
-          ISSUE_ID=${{ github.event.issue.node_id }}
-          echo "Issue ID: $ISSUE_ID"
-          STATUS=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
-              -H "GraphQL-Features: projects_next_graphql" \
-              -X POST -d '{"query": "query { node(id: \"'"$ISSUE_ID"'\") { ... on Issue { projectItems(first: 1) { nodes { id fieldValues(first: 10) { nodes { field { name } value } } } } } } }"}' \
-              https://api.github.com/graphql | jq -r '.data.node.projectItems.nodes[0].fieldValues.nodes | map(select(.field.name == "Status")) | .[0].value')
+      - name: Get issue data
+        id: get-issue
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const changes = context.payload.changes;
+            const status = issue.state;
 
-          echo "Current Status: $STATUS"
+            // Obtener el estado anterior si está disponible
+            const previousStatus = changes?.state?.from;
 
-          CURRENT_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            // Si el estado cambia de "Todo" a "In Progress"
+            if (previousStatus === "Todo" && status === "In Progress") {
+              const startDate = new Date().toISOString().split('T')[0];
+              return { startDate };
+            }
 
-          if [ "$STATUS" == "In Progress" ]; then
-            echo "Setting StartDate..."
-            curl -s -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
-                -H "GraphQL-Features: projects_next_graphql" \
-                -H "Content-Type: application/json" \
-                -d '{"query": "mutation { updateProjectV2ItemFieldValue(input: {projectId: \"'"$PROJECT_ID"'\", itemId: \"'"$ISSUE_ID"'\", fieldId: \"'"$START_DATE_FIELD_ID"'\", value: \"'"$CURRENT_DATE"'\"}) { clientMutationId } }"}' \
-                https://api.github.com/graphql
-          elif [ "$STATUS" == "Done" ]; then
-            echo "Setting EndDate..."
-            curl -s -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
-                -H "GraphQL-Features: projects_next_graphql" \
-                -H "Content-Type: application/json" \
-                -d '{"query": "mutation { updateProjectV2ItemFieldValue(input: {projectId: \"'"$PROJECT_ID"'\", itemId: \"'"$ISSUE_ID"'\", fieldId: \"'"$END_DATE_FIELD_ID"'\", value: \"'"$CURRENT_DATE"'\"}) { clientMutationId } }"}' \
-                https://api.github.com/graphql
-          else
-            echo "No changes needed."
-          fi
+            // Si el estado cambia de "In Progress" a "Done"
+            if (previousStatus === "In Progress" && status === "Done") {
+              const endDate = new Date().toISOString().split('T')[0];
+              return { endDate };
+            }
+
+            return {};
+
+      - name: Update StartDate
+        if: steps.get-issue.outputs.startDate
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const startDate = "${{ steps.get-issue.outputs.startDate }}";
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              custom_fields: {
+                StartDate: startDate
+              }
+            });
+
+      - name: Update EndDate
+        if: steps.get-issue.outputs.endDate
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const endDate = "${{ steps.get-issue.outputs.endDate }}";
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              custom_fields: {
+                EndDate: endDate
+              }
+            });
