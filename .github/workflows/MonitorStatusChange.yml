@@ -1,0 +1,36 @@
+name: Monitor Status Change
+
+on:
+  project_card:
+    types:
+      - edited
+
+jobs:
+  log-status-change:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get project card details
+        id: get_card
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const card = context.payload.project_card;
+            const fieldName = 'Status';
+            const fieldValue = card.note || card.content_url;
+
+            // Aquí puedes agregar lógica para obtener el valor del campo personalizado
+            // Esto es un ejemplo básico, necesitarás adaptarlo a tu caso específico
+            if (card.note && card.note.includes(fieldName)) {
+              console.log(`El campo ${fieldName} ha cambiado a: ${fieldValue}`);
+            } else {
+              console.log(`No se detectaron cambios en el campo ${fieldName}`);
+            }
+
+            return fieldValue;
+
+      - name: Log status change
+        run: echo "El campo 'Status' ha cambiado a: ${{ steps.get_card.outputs.result }}"
