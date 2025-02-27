@@ -1,4 +1,4 @@
-name: Update Dates on Project Status Change
+name: Update Dates on Project Status Change V2
 
 on:
   project_card:
