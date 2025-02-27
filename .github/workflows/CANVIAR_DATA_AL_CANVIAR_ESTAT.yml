@@ -37,13 +37,15 @@ jobs:
             
 
             // Si el estado cambia de "Todo" a "In Progress"
-            if (previousStatus === "Todo" && status === "In Progress") {
+            // previousStatus === "Todo" &&
+            if ( status === "In Progress") {
               const startDate = new Date().toISOString().split('T')[0];
               return { startDate };
             }
 
             // Si el estado cambia de "In Progress" a "Done"
-            if (previousStatus === "In Progress" && status === "Done") {
+            // previousStatus === "In Progress" && 
+            if (status === "Done") {
               const endDate = new Date().toISOString().split('T')[0];
               return { endDate };
             }
