@@ -16,7 +16,7 @@ jobs:
           END_DATE_FIELD_ID: 171879164
         run: |
           # Instalar jq para manejar JSON
-          sudo apt-get install jq
+          #sudo apt-get install jq
 
           # Obtener la última edición del issue
           ISSUE_ID=${{ github.event.issue.node_id }}
