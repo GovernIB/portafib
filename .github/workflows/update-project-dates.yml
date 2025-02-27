@@ -20,6 +20,7 @@ jobs:
 
           # Obtener la última edición del issue
           ISSUE_ID=${{ github.event.issue.node_id }}
+          echo "Issue ID: $ISSUE_ID"
           STATUS=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
               -H "GraphQL-Features: projects_next_graphql" \
               -X POST -d '{"query": "query { node(id: \"'"$ISSUE_ID"'\") { ... on Issue { projectItems(first: 1) { nodes { id fieldValues(first: 10) { nodes { field { name } value } } } } } } }"}' \
