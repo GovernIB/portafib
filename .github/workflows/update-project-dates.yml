@@ -1,0 +1,47 @@
+name: Update StartDate and EndDate in Project
+on:
+  issues:
+    types: [edited]  # Se ejecuta cuando un issue es editado
+
+jobs:
+  update_dates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if issue status changed
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROJECT_ID: "TU_PROJECT_ID"  # Debes obtenerlo desde la API de GitHub
+          START_DATE_FIELD_ID: "TU_START_DATE_FIELD_ID"
+          END_DATE_FIELD_ID: "TU_END_DATE_FIELD_ID"
+        run: |
+          # Instalar jq para manejar JSON
+          sudo apt-get install jq
+
+          # Obtener la última edición del issue
+          ISSUE_ID=${{ github.event.issue.node_id }}
+          STATUS=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
+              -H "GraphQL-Features: projects_next_graphql" \
+              -X POST -d '{"query": "query { node(id: \"'"$ISSUE_ID"'\") { ... on Issue { projectItems(first: 1) { nodes { id fieldValues(first: 10) { nodes { field { name } value } } } } } } }"}' \
+              https://api.github.com/graphql | jq -r '.data.node.projectItems.nodes[0].fieldValues.nodes | map(select(.field.name == "Status")) | .[0].value')
+
+          echo "Current Status: $STATUS"
+
+          CURRENT_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          if [ "$STATUS" == "In Progress" ]; then
+            echo "Setting StartDate..."
+            curl -s -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
+                -H "GraphQL-Features: projects_next_graphql" \
+                -H "Content-Type: application/json" \
+                -d '{"query": "mutation { updateProjectV2ItemFieldValue(input: {projectId: \"'"$PROJECT_ID"'\", itemId: \"'"$ISSUE_ID"'\", fieldId: \"'"$START_DATE_FIELD_ID"'\", value: \"'"$CURRENT_DATE"'\"}) { clientMutationId } }"}' \
+                https://api.github.com/graphql
+          elif [ "$STATUS" == "Done" ]; then
+            echo "Setting EndDate..."
+            curl -s -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
+                -H "GraphQL-Features: projects_next_graphql" \
+                -H "Content-Type: application/json" \
+                -d '{"query": "mutation { updateProjectV2ItemFieldValue(input: {projectId: \"'"$PROJECT_ID"'\", itemId: \"'"$ISSUE_ID"'\", fieldId: \"'"$END_DATE_FIELD_ID"'\", value: \"'"$CURRENT_DATE"'\"}) { clientMutationId } }"}' \
+                https://api.github.com/graphql
+          else
+            echo "No changes needed."
+          fi
