@@ -45,7 +45,7 @@ jobs:
 
             // Si el estado cambia de "In Progress" a "Done"
             // previousStatus === "In Progress" && 
-            if (status === "Done") {
+            if (status == closed || status === "Done") {
               const endDate = new Date().toISOString().split('T')[0];
               return { endDate };
             }
