@@ -11,9 +11,9 @@ jobs:
       - name: Check if issue status changed
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PROJECT_ID: "167"  # Debes obtenerlo desde la API de GitHub
-          START_DATE_FIELD_ID: "StartDate"
-          END_DATE_FIELD_ID: "EndDate"
+          PROJECT_ID: 167
+          START_DATE_FIELD_ID: 171879146
+          END_DATE_FIELD_ID: 171879164
         run: |
           # Instalar jq para manejar JSON
           sudo apt-get install jq
