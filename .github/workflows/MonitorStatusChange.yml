@@ -33,4 +33,4 @@ jobs:
             return fieldValue;
 
       - name: Log status change
-        run: echo "El campo 'Status' ha cambiado a: ${{ steps.get_card.outputs.result }}"
+        run: echo "El campo 'Status' ha cambiado a ${steps.get_card.outputs.result}"
