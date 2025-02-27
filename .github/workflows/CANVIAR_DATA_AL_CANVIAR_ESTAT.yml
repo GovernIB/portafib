@@ -32,6 +32,10 @@ jobs:
             // Obtener el estado anterior si está disponible
             const previousStatus = changes?.state?.from;
 
+            echo "XXXXXXXXXXXXXXXX  status: $status"
+            echo "ZZZZZZZZZZZZZZZZ  previousStatus: $previousStatus"
+            
+
             // Si el estado cambia de "Todo" a "In Progress"
             if (previousStatus === "Todo" && status === "In Progress") {
               const startDate = new Date().toISOString().split('T')[0];
