@@ -32,8 +32,8 @@ jobs:
             // Obtener el estado anterior si está disponible
             const previousStatus = changes?.state?.from;
 
-            echo "XXXXXXXXXXXXXXXX  status: $status"
-            echo "ZZZZZZZZZZZZZZZZ  previousStatus: $previousStatus"
+            console.log(`Estado actual (status): ${status}`);
+            console.log(`Estado anterior (previousStatus): ${previousStatus || "No disponible"}`);
             
 
             // Si el estado cambia de "Todo" a "In Progress"
