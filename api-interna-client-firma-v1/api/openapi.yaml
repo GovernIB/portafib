@@ -40,12 +40,6 @@ paths:
               $ref: '#/components/schemas/FirmaSimpleSignDocumentRequest'
         description: Operacio de firma simple en servidor d'un document
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FirmaSimpleSignatureResponse'
-          description: Operació realitzada correctament
         "400":
           content:
             application/json:
@@ -70,6 +64,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirmaSimpleSignatureResponse'
+          description: Operació realitzada correctament
       security:
       - BasicAuth: []
       summary: Operacio de firma simple en servidor d'un document
@@ -88,12 +88,6 @@ paths:
               $ref: '#/components/schemas/FirmaSimpleUpgradeRequest'
         description: Funcio de upgrade se firma digital
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FirmaSimpleUpgradeResponse'
-          description: Operació realitzada correctament
         "400":
           content:
             application/json:
@@ -118,6 +112,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirmaSimpleUpgradeResponse'
+          description: Operació realitzada correctament
       security:
       - BasicAuth: []
       summary: Operacio de firma simple en servidor d'un document
@@ -130,12 +130,12 @@ paths:
     get:
       operationId: versio
       responses:
-        "200":
+        "400":
           content:
             application/json:
               schema:
-                type: string
-          description: Retornada correctament la versió d'aquest Servei
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
         "401":
           content:
             application/json:
@@ -147,13 +147,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
-          description: No Autoritzat
+          description: No autoritzat
         "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Retornada correctament la versió d'aquest Servei
       security:
       - BasicAuth: []
       summary: Retorna la versió d'aquest Servei
@@ -171,24 +177,36 @@ paths:
               $ref: '#/components/schemas/FirmaSimpleAddFileToSignRequest'
         description: Document a signar i dades específiques de la firma a realitzar.
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: string
-          description: Operació realitzada correctament
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
         "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Operació realitzada correctament
       security:
       - BasicAuth: []
       summary: Afegeix un document  al conjunt de Peticions de Firma a realitzar per
@@ -208,24 +226,36 @@ paths:
               type: string
         description: Identificador de la transacció.
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: string
-          description: Operació realitzada correctament
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
         "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Operació realitzada correctament
       security:
       - BasicAuth: []
       summary: Indica al component de firma que la informació s’ha recuperat correctament
@@ -246,24 +276,36 @@ paths:
         description: "Idioma en què es retornarà el nom i descripció dels perfils,\
           \ així com els missatges d'errors"
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AvailableProfilesRest'
-          description: Operació realitzada correctament
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
         "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableProfilesRest'
+          description: Operació realitzada correctament
       security:
       - BasicAuth: []
       summary: Retorna una llista dels perfils o profiles de firma en servidor disponibles
@@ -284,24 +326,36 @@ paths:
         description: Idioma en què es retornarà el nom dels tipus de documents així
           com els missatges d'errors
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetAvailableTypesOfDocumentsResponse'
-          description: Operació realitzada correctament
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
         "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAvailableTypesOfDocumentsResponse'
+          description: Operació realitzada correctament
       security:
       - BasicAuth: []
       summary: Retorna una llista dels Tipus Documentals disponibles en el servidor
@@ -320,24 +374,36 @@ paths:
               $ref: '#/components/schemas/FirmaSimpleGetSignatureResultRequest'
         description: Identificador de transacció i de firma.
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FirmaSimpleSignatureResponse'
-          description: Operació realitzada correctament
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
         "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirmaSimpleSignatureResponse'
+          description: Operació realitzada correctament
       security:
       - BasicAuth: []
       summary: Document signat  i informació d'una firma
@@ -356,24 +422,36 @@ paths:
               $ref: '#/components/schemas/FirmaSimpleCommonInfo'
         description: Solicita i configura una transacció de firma web
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: string
-          description: Operació realitzada correctament
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
         "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Operació realitzada correctament
       security:
       - BasicAuth: []
       summary: Operacio per obtenir el Id de una transaccio de la API
@@ -392,24 +470,36 @@ paths:
               type: string
         description: Identificador de transacció retornat de la cridada getTransactionID().
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FirmaSimpleGetTransactionStatusResponse'
-          description: Operació realitzada correctament
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
         "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirmaSimpleGetTransactionStatusResponse'
+          description: Operació realitzada correctament
       security:
       - BasicAuth: []
       summary: Retorna estat de la transacció (el procés de firma en general) i resultat
@@ -430,24 +520,36 @@ paths:
         description: "Envia identificador de la transacció, url de retorn i tipus\
           \ de vista web (amb o sense iframe)"
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: string
-          description: Operació realitzada correctament
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
         "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Operació realitzada correctament
       security:
       - BasicAuth: []
       summary: "Envia identificador de la transacció, url de retorn i tipus de vista\
@@ -480,12 +582,6 @@ paths:
           type: string
         style: form
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AvailableLanguagesRest'
-          description: Operació realitzada correctament
         "400":
           content:
             application/json:
@@ -510,6 +606,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableLanguagesRest'
+          description: Operació realitzada correctament
       security:
       - BasicAuth: []
       summary: Retorna els idiomes disponibles.
@@ -539,12 +641,6 @@ paths:
           type: string
         style: form
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AvailableProfilesRest'
-          description: Operació realitzada correctament
         "400":
           content:
             application/json:
@@ -569,6 +665,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableProfilesRest'
+          description: Operació realitzada correctament
       security:
       - BasicAuth: []
       summary: Retorna els perfils de firma.
@@ -606,12 +708,6 @@ paths:
           type: string
         style: form
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LlistaTipusDocumentalRest'
-          description: Operació realitzada correctament
         "400":
           content:
             application/json:
@@ -636,6 +732,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlistaTipusDocumentalRest'
+          description: Operació realitzada correctament
       security:
       - BasicAuth: []
       summary: Retorna la llista de tipus documentals disponibles.
@@ -645,6 +747,112 @@ paths:
       - application/json
 components:
   schemas:
+    RestExceptionInfo:
+      description: Estructura de dades utilitzada per passar informació d'un error
+      example:
+        field: field
+        errorMessage: errorMessage
+        stackTraceCause: stackTraceCause
+        errorCode: 0
+        stackTrace: stackTrace
+      properties:
+        errorCode:
+          description: Codi intern de l'error. Si l'Aplicació no gestiona codis d'error
+            llavors val null.
+          format: int32
+          type: integer
+        errorMessage:
+          description: Missatge de l'error
+          type: string
+        stackTrace:
+          description: Stacktrace de l'excepció
+          type: string
+        stackTraceCause:
+          description: Stacktrace de l'excepció causant de l'error si n'hi hagués.
+          type: string
+        field:
+          description: Indica el camp en que hi ha un error de validació.
+          type: string
+      required:
+      - errorMessage
+      type: object
+    SignType:
+      description: Tipus de firma disponibles
+      enum:
+      - PAdES
+      - XAdES
+      - CAdES
+      - FacturaE
+      - OOXML
+      - ODF
+      - SMIME
+      - CAdES-ASiC-S
+      - XAdES-ASiC-S
+      - PKCS#1
+      type: string
+    SignAlgorithm:
+      description: Algorismes de firma disponibles
+      enum:
+      - SHA-1
+      - SHA-256
+      - SHA-384
+      - SHA-512
+      type: string
+    SignMode:
+      description: Modes de firma disponibles
+      enum:
+      - 0
+      - 3
+      - 1
+      - 4
+      format: int32
+      type: integer
+      x-enum-varnames:
+      - SIGN_MODE_ATTACHED_ENVELOPED
+      - SIGN_MODE_ATTACHED_ENVELOPING
+      - SIGN_MODE_DETACHED
+      - SIGN_MODE_INTERNALLY_DETACHED
+    SignOperation:
+      description: Operacions disponibles
+      enum:
+      - 0
+      - 1
+      - 2
+      format: int32
+      type: integer
+      x-enum-varnames:
+      - SIGN_OPERATION_SIGN
+      - SIGN_OPERATION_COSIGN
+      - SIGN_OPERATION_COUNTERSIGN
+    SignatureStableLocation:
+      description: Posicio de la firma al document
+      enum:
+      - 0
+      - 1
+      - -1
+      format: int32
+      type: integer
+      x-enum-varnames:
+      - SIGNATURESTABLELOCATION_WITHOUT
+      - SIGNATURESTABLELOCATION_FIRSTPAGE
+      - SIGNATURESTABLELOCATION_LASTPAGE
+    SignProfile:
+      description: Perfils de firma disponibles
+      enum:
+      - AdES-BES
+      - AdES-EPES
+      - AdES-T
+      - AdES-C
+      - AdES-X
+      - AdES-X1
+      - AdES-X2
+      - AdES-XL
+      - AdES-XL1
+      - AdES-XL2
+      - AdES-A
+      - PAdES-LTV
+      - PAdES-Basic
+      type: string
     FirmaSimpleCommonInfo:
       description: Configuracions generals de firma i identificacio del solicitant
         i solicitat
@@ -969,13 +1177,13 @@ components:
         signID: signID
         status:
           errorStackTrace: errorStackTrace
-          STATUS_FINAL_OK: 1
+          STATUS_FINAL_OK: 5
           STATUS_FINAL_ERROR: 5
-          STATUS_INITIALIZING: 0
+          STATUS_INITIALIZING: 6
           errorMessage: errorMessage
-          STATUS_IN_PROGRESS: 6
-          STATUS_CANCELLED: 5
-          status: 2
+          STATUS_IN_PROGRESS: 1
+          STATUS_CANCELLED: 2
+          status: 7
       properties:
         signID:
           description: Identificador de la firma
@@ -1161,13 +1369,13 @@ components:
     FirmaSimpleStatus:
       example:
         errorStackTrace: errorStackTrace
-        STATUS_FINAL_OK: 1
+        STATUS_FINAL_OK: 5
         STATUS_FINAL_ERROR: 5
-        STATUS_INITIALIZING: 0
+        STATUS_INITIALIZING: 6
         errorMessage: errorMessage
-        STATUS_IN_PROGRESS: 6
-        STATUS_CANCELLED: 5
-        status: 2
+        STATUS_IN_PROGRESS: 1
+        STATUS_CANCELLED: 2
+        status: 7
       properties:
         STATUS_INITIALIZING:
           default: 0
@@ -1243,112 +1451,6 @@ components:
           description: Només s'omple si checkValidationSignature val false
           type: string
       type: object
-    RestExceptionInfo:
-      description: Estructura de dades utilitzada per passar informació d'un error
-      example:
-        field: field
-        errorMessage: errorMessage
-        stackTraceCause: stackTraceCause
-        errorCode: 7
-        stackTrace: stackTrace
-      properties:
-        errorCode:
-          description: Codi intern de l'error. Si l'Aplicació no gestiona codis d'error
-            llavors val null.
-          format: int32
-          type: integer
-        errorMessage:
-          description: Missatge de l'error
-          type: string
-        stackTrace:
-          description: Stacktrace de l'excepció
-          type: string
-        stackTraceCause:
-          description: Stacktrace de l'excepció causant de l'error si n'hi hagués.
-          type: string
-        field:
-          description: Indica el camp en que hi ha un error de validació.
-          type: string
-      required:
-      - errorMessage
-      type: object
-    SignType:
-      description: Tipus de firma disponibles
-      enum:
-      - PAdES
-      - XAdES
-      - CAdES
-      - FacturaE
-      - OOXML
-      - ODF
-      - SMIME
-      - CAdES-ASiC-S
-      - XAdES-ASiC-S
-      - PKCS#1
-      type: string
-    SignAlgorithm:
-      description: Algorismes de firma disponibles
-      enum:
-      - SHA-1
-      - SHA-256
-      - SHA-384
-      - SHA-512
-      type: string
-    SignMode:
-      description: Modes de firma disponibles
-      enum:
-      - 0
-      - 3
-      - 1
-      - 4
-      format: int32
-      type: integer
-      x-enum-varnames:
-      - SIGN_MODE_ATTACHED_ENVELOPED
-      - SIGN_MODE_ATTACHED_ENVELOPING
-      - SIGN_MODE_DETACHED
-      - SIGN_MODE_INTERNALLY_DETACHED
-    SignOperation:
-      description: Operacions disponibles
-      enum:
-      - 0
-      - 1
-      - 2
-      format: int32
-      type: integer
-      x-enum-varnames:
-      - SIGN_OPERATION_SIGN
-      - SIGN_OPERATION_COSIGN
-      - SIGN_OPERATION_COUNTERSIGN
-    SignatureStableLocation:
-      description: Posicio de la firma al document
-      enum:
-      - 0
-      - 1
-      - -1
-      format: int32
-      type: integer
-      x-enum-varnames:
-      - SIGNATURESTABLELOCATION_WITHOUT
-      - SIGNATURESTABLELOCATION_FIRSTPAGE
-      - SIGNATURESTABLELOCATION_LASTPAGE
-    SignProfile:
-      description: Perfils de firma disponibles
-      enum:
-      - AdES-BES
-      - AdES-EPES
-      - AdES-T
-      - AdES-C
-      - AdES-X
-      - AdES-X1
-      - AdES-X2
-      - AdES-XL
-      - AdES-XL1
-      - AdES-XL2
-      - AdES-A
-      - PAdES-LTV
-      - PAdES-Basic
-      type: string
     FirmaSimpleUpgradeRequest:
       example:
         signature:
@@ -1596,34 +1698,34 @@ components:
       example:
         transactionStatus:
           errorStackTrace: errorStackTrace
-          STATUS_FINAL_OK: 1
+          STATUS_FINAL_OK: 5
           STATUS_FINAL_ERROR: 5
-          STATUS_INITIALIZING: 0
+          STATUS_INITIALIZING: 6
           errorMessage: errorMessage
-          STATUS_IN_PROGRESS: 6
-          STATUS_CANCELLED: 5
-          status: 2
+          STATUS_IN_PROGRESS: 1
+          STATUS_CANCELLED: 2
+          status: 7
         signaturesStatusList:
         - signID: signID
           status:
             errorStackTrace: errorStackTrace
-            STATUS_FINAL_OK: 1
+            STATUS_FINAL_OK: 5
             STATUS_FINAL_ERROR: 5
-            STATUS_INITIALIZING: 0
+            STATUS_INITIALIZING: 6
             errorMessage: errorMessage
-            STATUS_IN_PROGRESS: 6
-            STATUS_CANCELLED: 5
-            status: 2
+            STATUS_IN_PROGRESS: 1
+            STATUS_CANCELLED: 2
+            status: 7
         - signID: signID
           status:
             errorStackTrace: errorStackTrace
-            STATUS_FINAL_OK: 1
+            STATUS_FINAL_OK: 5
             STATUS_FINAL_ERROR: 5
-            STATUS_INITIALIZING: 0
+            STATUS_INITIALIZING: 6
             errorMessage: errorMessage
-            STATUS_IN_PROGRESS: 6
-            STATUS_CANCELLED: 5
-            status: 2
+            STATUS_IN_PROGRESS: 1
+            STATUS_CANCELLED: 2
+            status: 7
       properties:
         transactionStatus:
           $ref: '#/components/schemas/FirmaSimpleStatus'
@@ -1644,13 +1746,13 @@ components:
         signID: signID
         status:
           errorStackTrace: errorStackTrace
-          STATUS_FINAL_OK: 1
+          STATUS_FINAL_OK: 5
           STATUS_FINAL_ERROR: 5
-          STATUS_INITIALIZING: 0
+          STATUS_INITIALIZING: 6
           errorMessage: errorMessage
-          STATUS_IN_PROGRESS: 6
-          STATUS_CANCELLED: 5
-          status: 2
+          STATUS_IN_PROGRESS: 1
+          STATUS_CANCELLED: 2
+          status: 7
       properties:
         signID:
           type: string

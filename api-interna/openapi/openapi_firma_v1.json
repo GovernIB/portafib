@@ -58,16 +58,6 @@
           }
         },
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/FirmaSimpleSignatureResponse"
-                }
-              }
-            }
-          },
           "400" : {
             "description" : "Paràmetres incorrectes",
             "content" : {
@@ -104,6 +94,16 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FirmaSimpleSignatureResponse"
                 }
               }
             }
@@ -130,16 +130,6 @@
           }
         },
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/FirmaSimpleUpgradeResponse"
-                }
-              }
-            }
-          },
           "400" : {
             "description" : "Paràmetres incorrectes",
             "content" : {
@@ -179,6 +169,16 @@
                 }
               }
             }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FirmaSimpleUpgradeResponse"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -192,12 +192,12 @@
         "summary" : "Retorna la versió d'aquest Servei",
         "operationId" : "versio",
         "responses" : {
-          "200" : {
-            "description" : "Retornada correctament la versió d'aquest Servei",
+          "400" : {
+            "description" : "Paràmetres incorrectes",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
@@ -213,7 +213,7 @@
             }
           },
           "403" : {
-            "description" : "No Autoritzat",
+            "description" : "No autoritzat",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -228,6 +228,16 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Retornada correctament la versió d'aquest Servei",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
                 }
               }
             }
@@ -254,18 +264,28 @@
           }
         },
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
+          "400" : {
+            "description" : "Paràmetres incorrectes",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
           },
-          "400" : {
-            "description" : "Paràmetres incorrectes",
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -280,6 +300,16 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
                 }
               }
             }
@@ -306,18 +336,28 @@
           }
         },
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
+          "400" : {
+            "description" : "Paràmetres incorrectes",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
           },
-          "400" : {
-            "description" : "Paràmetres incorrectes",
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -332,6 +372,16 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
                 }
               }
             }
@@ -358,18 +408,28 @@
           }
         },
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
+          "400" : {
+            "description" : "Paràmetres incorrectes",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AvailableProfilesRest"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
           },
-          "400" : {
-            "description" : "Paràmetres incorrectes",
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -384,6 +444,16 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AvailableProfilesRest"
                 }
               }
             }
@@ -410,18 +480,28 @@
           }
         },
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
+          "400" : {
+            "description" : "Paràmetres incorrectes",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/GetAvailableTypesOfDocumentsResponse"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
           },
-          "400" : {
-            "description" : "Paràmetres incorrectes",
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -436,6 +516,16 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetAvailableTypesOfDocumentsResponse"
                 }
               }
             }
@@ -462,18 +552,28 @@
           }
         },
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
+          "400" : {
+            "description" : "Paràmetres incorrectes",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/FirmaSimpleSignatureResponse"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
           },
-          "400" : {
-            "description" : "Paràmetres incorrectes",
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -488,6 +588,16 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FirmaSimpleSignatureResponse"
                 }
               }
             }
@@ -514,18 +624,28 @@
           }
         },
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
+          "400" : {
+            "description" : "Paràmetres incorrectes",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
           },
-          "400" : {
-            "description" : "Paràmetres incorrectes",
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -540,6 +660,16 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
                 }
               }
             }
@@ -566,18 +696,28 @@
           }
         },
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
+          "400" : {
+            "description" : "Paràmetres incorrectes",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/FirmaSimpleGetTransactionStatusResponse"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
           },
-          "400" : {
-            "description" : "Paràmetres incorrectes",
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -592,6 +732,16 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FirmaSimpleGetTransactionStatusResponse"
                 }
               }
             }
@@ -618,18 +768,28 @@
           }
         },
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
+          "400" : {
+            "description" : "Paràmetres incorrectes",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
           },
-          "400" : {
-            "description" : "Paràmetres incorrectes",
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -644,6 +804,16 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
                 }
               }
             }
@@ -679,16 +849,6 @@
           }
         } ],
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/AvailableLanguagesRest"
-                }
-              }
-            }
-          },
           "400" : {
             "description" : "Paràmetres incorrectes",
             "content" : {
@@ -725,6 +885,16 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AvailableLanguagesRest"
                 }
               }
             }
@@ -760,16 +930,6 @@
           }
         } ],
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/AvailableProfilesRest"
-                }
-              }
-            }
-          },
           "400" : {
             "description" : "Paràmetres incorrectes",
             "content" : {
@@ -806,6 +966,16 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AvailableProfilesRest"
                 }
               }
             }
@@ -848,16 +1018,6 @@
           }
         } ],
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/LlistaTipusDocumentalRest"
-                }
-              }
-            }
-          },
           "400" : {
             "description" : "Paràmetres incorrectes",
             "content" : {
@@ -897,6 +1057,16 @@
                 }
               }
             }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LlistaTipusDocumentalRest"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -907,6 +1077,70 @@
   },
   "components" : {
     "schemas" : {
+      "RestExceptionInfo" : {
+        "required" : [ "errorMessage" ],
+        "type" : "object",
+        "properties" : {
+          "errorCode" : {
+            "type" : "integer",
+            "description" : "Codi intern de l'error. Si l'Aplicació no gestiona codis d'error llavors val null.",
+            "format" : "int32"
+          },
+          "errorMessage" : {
+            "type" : "string",
+            "description" : "Missatge de l'error"
+          },
+          "stackTrace" : {
+            "type" : "string",
+            "description" : "Stacktrace de l'excepció"
+          },
+          "stackTraceCause" : {
+            "type" : "string",
+            "description" : "Stacktrace de l'excepció causant de l'error si n'hi hagués."
+          },
+          "field" : {
+            "type" : "string",
+            "description" : "Indica el camp en que hi ha un error de validació."
+          }
+        },
+        "description" : "Estructura de dades utilitzada per passar informació d'un error"
+      },
+      "SignType" : {
+        "type" : "string",
+        "description" : "Tipus de firma disponibles",
+        "enum" : [ "PAdES", "XAdES", "CAdES", "FacturaE", "OOXML", "ODF", "SMIME", "CAdES-ASiC-S", "XAdES-ASiC-S", "PKCS#1" ]
+      },
+      "SignAlgorithm" : {
+        "type" : "string",
+        "description" : "Algorismes de firma disponibles",
+        "enum" : [ "SHA-1", "SHA-256", "SHA-384", "SHA-512" ]
+      },
+      "SignMode" : {
+        "type" : "integer",
+        "description" : "Modes de firma disponibles",
+        "format" : "int32",
+        "x-enum-varnames" : [ "SIGN_MODE_ATTACHED_ENVELOPED", "SIGN_MODE_ATTACHED_ENVELOPING", "SIGN_MODE_DETACHED", "SIGN_MODE_INTERNALLY_DETACHED" ],
+        "enum" : [ "0", "3", "1", "4" ]
+      },
+      "SignOperation" : {
+        "type" : "integer",
+        "description" : "Operacions disponibles",
+        "format" : "int32",
+        "x-enum-varnames" : [ "SIGN_OPERATION_SIGN", "SIGN_OPERATION_COSIGN", "SIGN_OPERATION_COUNTERSIGN" ],
+        "enum" : [ "0", "1", "2" ]
+      },
+      "SignatureStableLocation" : {
+        "type" : "integer",
+        "description" : "Posicio de la firma al document",
+        "format" : "int32",
+        "x-enum-varnames" : [ "SIGNATURESTABLELOCATION_WITHOUT", "SIGNATURESTABLELOCATION_FIRSTPAGE", "SIGNATURESTABLELOCATION_LASTPAGE" ],
+        "enum" : [ "0", "1", "-1" ]
+      },
+      "SignProfile" : {
+        "type" : "string",
+        "description" : "Perfils de firma disponibles",
+        "enum" : [ "AdES-BES", "AdES-EPES", "AdES-T", "AdES-C", "AdES-X", "AdES-X1", "AdES-X2", "AdES-XL", "AdES-XL1", "AdES-XL2", "AdES-A", "PAdES-LTV", "PAdES-Basic" ]
+      },
       "FirmaSimpleCommonInfo" : {
         "required" : [ "administrationID", "languageUI" ],
         "type" : "object",
@@ -1322,70 +1556,6 @@
           }
         },
         "description" : "Informació de les validacions realitzades despres de la firma."
-      },
-      "RestExceptionInfo" : {
-        "required" : [ "errorMessage" ],
-        "type" : "object",
-        "properties" : {
-          "errorCode" : {
-            "type" : "integer",
-            "description" : "Codi intern de l'error. Si l'Aplicació no gestiona codis d'error llavors val null.",
-            "format" : "int32"
-          },
-          "errorMessage" : {
-            "type" : "string",
-            "description" : "Missatge de l'error"
-          },
-          "stackTrace" : {
-            "type" : "string",
-            "description" : "Stacktrace de l'excepció"
-          },
-          "stackTraceCause" : {
-            "type" : "string",
-            "description" : "Stacktrace de l'excepció causant de l'error si n'hi hagués."
-          },
-          "field" : {
-            "type" : "string",
-            "description" : "Indica el camp en que hi ha un error de validació."
-          }
-        },
-        "description" : "Estructura de dades utilitzada per passar informació d'un error"
-      },
-      "SignType" : {
-        "type" : "string",
-        "description" : "Tipus de firma disponibles",
-        "enum" : [ "PAdES", "XAdES", "CAdES", "FacturaE", "OOXML", "ODF", "SMIME", "CAdES-ASiC-S", "XAdES-ASiC-S", "PKCS#1" ]
-      },
-      "SignAlgorithm" : {
-        "type" : "string",
-        "description" : "Algorismes de firma disponibles",
-        "enum" : [ "SHA-1", "SHA-256", "SHA-384", "SHA-512" ]
-      },
-      "SignMode" : {
-        "type" : "integer",
-        "description" : "Modes de firma disponibles",
-        "format" : "int32",
-        "x-enum-varnames" : [ "SIGN_MODE_ATTACHED_ENVELOPED", "SIGN_MODE_ATTACHED_ENVELOPING", "SIGN_MODE_DETACHED", "SIGN_MODE_INTERNALLY_DETACHED" ],
-        "enum" : [ "0", "3", "1", "4" ]
-      },
-      "SignOperation" : {
-        "type" : "integer",
-        "description" : "Operacions disponibles",
-        "format" : "int32",
-        "x-enum-varnames" : [ "SIGN_OPERATION_SIGN", "SIGN_OPERATION_COSIGN", "SIGN_OPERATION_COUNTERSIGN" ],
-        "enum" : [ "0", "1", "2" ]
-      },
-      "SignatureStableLocation" : {
-        "type" : "integer",
-        "description" : "Posicio de la firma al document",
-        "format" : "int32",
-        "x-enum-varnames" : [ "SIGNATURESTABLELOCATION_WITHOUT", "SIGNATURESTABLELOCATION_FIRSTPAGE", "SIGNATURESTABLELOCATION_LASTPAGE" ],
-        "enum" : [ "0", "1", "-1" ]
-      },
-      "SignProfile" : {
-        "type" : "string",
-        "description" : "Perfils de firma disponibles",
-        "enum" : [ "AdES-BES", "AdES-EPES", "AdES-T", "AdES-C", "AdES-X", "AdES-X1", "AdES-X2", "AdES-XL", "AdES-XL1", "AdES-XL2", "AdES-A", "PAdES-LTV", "PAdES-Basic" ]
       },
       "FirmaSimpleUpgradeRequest" : {
         "required" : [ "languageUI", "signature" ],

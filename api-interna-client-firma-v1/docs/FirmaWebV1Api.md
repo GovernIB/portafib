@@ -82,9 +82,11 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
 
 
 ## closeTransaction
@@ -154,9 +156,11 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
 
 
 ## getAvailableProfiles
@@ -226,9 +230,11 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
 
 
 ## getAvailableTypesOfDocuments
@@ -298,9 +304,11 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
 
 
 ## getSignatureResult
@@ -370,9 +378,11 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
 
 
 ## getTransactionID
@@ -442,9 +452,11 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
 
 
 ## getTransactionStatus
@@ -514,9 +526,11 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
 
 
 ## startTransaction
@@ -586,7 +600,9 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
 

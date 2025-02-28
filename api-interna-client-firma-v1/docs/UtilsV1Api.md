@@ -77,11 +77,11 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
 | **401** | No Autenticat |  -  |
 | **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
 
 
 ## getAvailableProfiles1
@@ -151,11 +151,11 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
 | **401** | No Autenticat |  -  |
 | **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
 
 
 ## tipusdocumentalslist
@@ -227,9 +227,9 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
 | **401** | No Autenticat |  -  |
 | **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
 

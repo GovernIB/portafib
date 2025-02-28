@@ -90,6 +90,32 @@ import java.util.concurrent.ConcurrentHashMap;
                         url = "http://governdigital.fundaciobit.org")),
         tags = @Tag(name = FirmaWebService.TAG_NAME, description = "Firma web"))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = FirmaWebService.SECURITY_NAME, scheme = "basic")
+@ApiResponses(
+        value = {
+                @ApiResponse(
+                        responseCode = "400",
+                        description = "Paràmetres incorrectes",
+                        content = @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = RestExceptionInfo.class))),
+                @ApiResponse(
+                        responseCode = "401",
+                        description = "No Autenticat",
+                        content = { @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = RestExceptionInfo.class)) }),
+                @ApiResponse(
+                        responseCode = "403",
+                        description = "No autoritzat",
+                        content = { @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = RestExceptionInfo.class)) }),
+                @ApiResponse(
+                        responseCode = "500",
+                        description = "Error no controlat",
+                        content = { @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = RestExceptionInfo.class)) }) })
 
 public class FirmaWebService extends RestFirmaUtils {
 
@@ -130,19 +156,7 @@ public class FirmaWebService extends RestFirmaUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class))),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Paràmetres incorrectes",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error no controlat",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+                                    schema = @Schema(implementation = String.class))) })
     public String getTransactionID(@Parameter(hidden = true) @Context
             HttpServletRequest request, @RequestBody FirmaSimpleCommonInfo commonInfo) {
 
@@ -216,19 +230,7 @@ public class FirmaWebService extends RestFirmaUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = AvailableProfilesRest.class))),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Paràmetres incorrectes",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error no controlat",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+                                    schema = @Schema(implementation = AvailableProfilesRest.class))) })
     public AvailableProfilesRest getAvailableProfiles(@Parameter(hidden = true) @Context
             HttpServletRequest request, @RequestBody String locale) {
 
@@ -262,19 +264,7 @@ public class FirmaWebService extends RestFirmaUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class))),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Paràmetres incorrectes",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error no controlat",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+                                    schema = @Schema(implementation = String.class))) })
     public void addFileToSign(@Parameter(hidden = true) @Context
             HttpServletRequest request, @RequestBody FirmaSimpleAddFileToSignRequest holder) {
 
@@ -369,19 +359,7 @@ public class FirmaWebService extends RestFirmaUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = GetAvailableTypesOfDocumentsResponse.class))),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Paràmetres incorrectes",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error no controlat",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+                                    schema = @Schema(implementation = GetAvailableTypesOfDocumentsResponse.class))) })
     public GetAvailableTypesOfDocumentsResponse getAvailableTypesOfDocuments(@Parameter(hidden = true) @Context
             HttpServletRequest request, @RequestBody String languageUI) {
 
@@ -478,19 +456,7 @@ public class FirmaWebService extends RestFirmaUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class))),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Paràmetres incorrectes",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error no controlat",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+                                    schema = @Schema(implementation = String.class))) })
     public String startTransaction(@Parameter(hidden = true) @Context
             HttpServletRequest request, @RequestBody FirmaSimpleStartTransactionRequest startTransactionRequest) {
 
@@ -664,19 +630,7 @@ public class FirmaWebService extends RestFirmaUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = FirmaSimpleGetTransactionStatusResponse.class))),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Paràmetres incorrectes",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error no controlat",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+                                    schema = @Schema(implementation = FirmaSimpleGetTransactionStatusResponse.class))) })
     public FirmaSimpleGetTransactionStatusResponse getTransactionStatus(@Parameter(hidden = true) @Context
             HttpServletRequest request, @RequestBody String transactionID) {
         try {
@@ -758,19 +712,7 @@ public class FirmaWebService extends RestFirmaUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = FirmaSimpleSignatureResponse.class))),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Paràmetres incorrectes",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error no controlat",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+                                    schema = @Schema(implementation = FirmaSimpleSignatureResponse.class))) })
     public FirmaSimpleSignatureResponse getSignatureResult(@Parameter(hidden = true) @Context
             HttpServletRequest request, @RequestBody FirmaSimpleGetSignatureResultRequest signatureResultRequest) {
 
@@ -861,19 +803,7 @@ public class FirmaWebService extends RestFirmaUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class))),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Paràmetres incorrectes",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error no controlat",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+                                    schema = @Schema(implementation = String.class))) })
     public void closeTransaction(@Parameter(hidden = true) @Context
             HttpServletRequest request, @RequestBody
             String transactionID) {

@@ -77,11 +77,11 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
 | **401** | No Autenticat |  -  |
 | **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
 
 
 ## upgradeSignature
@@ -151,11 +151,11 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Operació realitzada correctament |  -  |
 | **400** | Paràmetres incorrectes |  -  |
 | **401** | No Autenticat |  -  |
 | **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
 
 
 ## versio
@@ -221,8 +221,9 @@ This endpoint does not need any parameter.
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Retornada correctament la versió d&#39;aquest Servei |  -  |
+| **400** | Paràmetres incorrectes |  -  |
 | **401** | No Autenticat |  -  |
-| **403** | No Autoritzat |  -  |
+| **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
+| **200** | Retornada correctament la versió d&#39;aquest Servei |  -  |
 

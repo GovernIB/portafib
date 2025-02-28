@@ -60,6 +60,32 @@ import io.swagger.v3.oas.annotations.tags.Tag;
                 name = UtilsService.TAG_NAME,
                 description = "API Interna de PortaFIB de consulta de serveis d'utilitat associats a la firma electrònica"))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = UtilsService.SECURITY_NAME, scheme = "basic")
+@ApiResponses(
+        value = {
+                @ApiResponse(
+                        responseCode = "400",
+                        description = "Paràmetres incorrectes",
+                        content = @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = RestExceptionInfo.class))),
+                @ApiResponse(
+                        responseCode = "401",
+                        description = "No Autenticat",
+                        content = { @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = RestExceptionInfo.class)) }),
+                @ApiResponse(
+                        responseCode = "403",
+                        description = "No autoritzat",
+                        content = { @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = RestExceptionInfo.class)) }),
+                @ApiResponse(
+                        responseCode = "500",
+                        description = "Error no controlat",
+                        content = { @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = RestExceptionInfo.class)) }) })
 public class UtilsService extends RestFirmaUtils {
 
     protected static Logger log = Logger.getLogger(UtilsService.class);
@@ -93,31 +119,7 @@ public class UtilsService extends RestFirmaUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = LlistaTipusDocumentalRest.class))),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Paràmetres incorrectes",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "No Autenticat",
-                            content = { @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
-                    @ApiResponse(
-                            responseCode = "403",
-                            description = "No autoritzat",
-                            content = { @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error no controlat",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+                                    schema = @Schema(implementation = LlistaTipusDocumentalRest.class))) })
     public LlistaTipusDocumentalRest listTipusDocumental(@Parameter(hidden = true) @Context
     HttpServletRequest request,
             @Parameter(
@@ -223,31 +225,7 @@ public class UtilsService extends RestFirmaUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = AvailableProfilesRest.class))),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Paràmetres incorrectes",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "No Autenticat",
-                            content = { @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
-                    @ApiResponse(
-                            responseCode = "403",
-                            description = "No autoritzat",
-                            content = { @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error no controlat",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+                                    schema = @Schema(implementation = AvailableProfilesRest.class))) })
     public AvailableProfilesRest getAvailableProfiles(@Parameter(hidden = true) @Context
     HttpServletRequest request,
             @Parameter(
@@ -285,31 +263,7 @@ public class UtilsService extends RestFirmaUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = AvailableLanguagesRest.class))),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Paràmetres incorrectes",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "No Autenticat",
-                            content = { @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
-                    @ApiResponse(
-                            responseCode = "403",
-                            description = "No autoritzat",
-                            content = { @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error no controlat",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+                                    schema = @Schema(implementation = AvailableLanguagesRest.class))) })
     public AvailableLanguagesRest getAvailableLanguages(@Parameter(hidden = true) @Context
     HttpServletRequest request,
             @Parameter(

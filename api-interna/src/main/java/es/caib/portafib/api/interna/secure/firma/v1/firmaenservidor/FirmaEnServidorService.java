@@ -89,6 +89,51 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
         tags = @Tag(name = FirmaEnServidorService.TAG_NAME, 
         description = "API Interna de PortaFIB que ofereix serveis de firma en servidor."))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = FirmaEnServidorService.SECURITY_NAME, scheme = "basic")
+@ApiResponses(
+        value = {
+                @ApiResponse(
+                        responseCode = "400",
+                        description = "Paràmetres incorrectes",
+                        content = @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = RestExceptionInfo.class))),
+                @ApiResponse(
+                        responseCode = "401",
+                        description = "No Autenticat",
+                        content = { @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = RestExceptionInfo.class)) }),
+                @ApiResponse(
+                        responseCode = "403",
+                        description = "No autoritzat",
+                        content = { @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = RestExceptionInfo.class)) }),
+                @ApiResponse(
+                        responseCode = "500",
+                        description = "Error no controlat",
+                        content = { 
+                        @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = SignType.class)),
+                        @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = SignAlgorithm.class)),
+                        @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = SignMode.class)),
+                        @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = SignOperation.class)),
+                        @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = SignatureStableLocation.class)),
+                        @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = SignProfile.class)),
+                                @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = RestExceptionInfo.class))}) })
 public class FirmaEnServidorService extends RestFirmaUtils {
     protected static Logger log = Logger.getLogger(UtilsService.class);
 
@@ -140,31 +185,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = FirmaSimpleUpgradeResponse.class))),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Paràmetres incorrectes",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "No Autenticat",
-                            content = { @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
-                    @ApiResponse(
-                            responseCode = "403",
-                            description = "No autoritzat",
-                            content = { @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error no controlat",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))) })
+                                    schema = @Schema(implementation = FirmaSimpleUpgradeResponse.class))) })
     public FirmaSimpleUpgradeResponse upgradeSignature(@Parameter(hidden = true) @Context
     HttpServletRequest request, @RequestBody
     FirmaSimpleUpgradeRequest fsur) {
@@ -308,50 +329,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
                             description = "Operació realitzada correctament",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = FirmaSimpleSignatureResponse.class))),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Paràmetres incorrectes",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "No Autenticat",
-                            content = { @Content(
-                                            mediaType = MediaType.APPLICATION_JSON,
-                                            schema = @Schema(implementation = SignType.class)),
-                                    @Content(
-                                            mediaType = MediaType.APPLICATION_JSON,
-                                            schema = @Schema(implementation = SignAlgorithm.class)),
-                                    @Content(
-                                            mediaType = MediaType.APPLICATION_JSON,
-                                            schema = @Schema(implementation = SignMode.class)),
-                                    @Content(
-                                            mediaType = MediaType.APPLICATION_JSON,
-                                            schema = @Schema(implementation = SignOperation.class)),
-                                    @Content(
-                                            mediaType = MediaType.APPLICATION_JSON,
-                                            schema = @Schema(implementation = SignatureStableLocation.class)),
-                                    @Content(
-                                            mediaType = MediaType.APPLICATION_JSON,
-                                            schema = @Schema(implementation = SignProfile.class)),
-                                    @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
-                    @ApiResponse(
-                            responseCode = "403",
-                            description = "No autoritzat",
-                            content = { @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class)) }),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error no controlat",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = RestExceptionInfo.class))) 
-                    })
+                                    schema = @Schema(implementation = FirmaSimpleSignatureResponse.class))) })
     public FirmaSimpleSignatureResponse signDocument(@Parameter(hidden = true) @Context
     HttpServletRequest request, @RequestBody
     FirmaSimpleSignDocumentRequest simpleSignature) throws RestException {
@@ -941,27 +919,9 @@ public class FirmaEnServidorService extends RestFirmaUtils {
             @ApiResponse(
                     responseCode = "200",
                     description = "Retornada correctament la versió d'aquest Servei",
-                    content = { @Content(
+                    content =  @Content(
                             mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = String.class)) }),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "No Autenticat",
-                    content = { @Content(
-                            mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = RestExceptionInfo.class)) }),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "No Autoritzat",
-                    content = { @Content(
-                            mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = RestExceptionInfo.class)) }),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Error no controlat",
-                    content = { @Content(
-                            mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = RestExceptionInfo.class)) })})
+                            schema = @Schema(implementation = String.class))) })
     public String versio() {
         return "1.0";
     }
