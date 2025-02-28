@@ -360,7 +360,15 @@
                                     <c:when test = "${not empty firma.usuariExternNom}">
                                       <i>${firma.usuariExternNom}&nbsp;${firma.usuariExternLlinatges}</i><br/>
                                       <small>
-                                        <i class="fas fa-envelope"></i>${firma.usuariExternEmail}<br/>
+                                        <i class="fas fa-envelope"></i>${firma.usuariExternEmail} 
+                                        <c:if test="${not readOnly}">
+                                        <a href="#" onclick="javascript:canviarCorreuUsuariExtern('${firma.firmaID}','${firma.usuariExternEmail}')">
+                                        <i class="fas fa-pen-square"></i>
+                                        </a>
+                                        </c:if>
+                                         
+                                        
+                                        <br/>
                                         ${pfi:ofuscar(firma.usuariEntitat.usuariPersona.nif)}
                                       </small>
                                     </c:when>
@@ -814,6 +822,23 @@
       document.fluxDeFirmesForm.submit();
     } 
   }
+  
+  
+  function canviarCorreuUsuariExtern(firmaid, correuActual) {
+      var nouCorreu = prompt('<fmt:message key="firma.usuariextern.canviarcorreu"/>', correuActual);
+
+      if (nouCorreu == null || nouCorreu == "") {
+        <%-- // No feim res --%>
+      } else {
+        document.getElementById('motiu').value = nouCorreu;
+        document.getElementById('firmaID').value = firmaid;
+        document.fluxDeFirmesForm.action = "<c:url value="${contexte}/canviarcorreuusuariextern" />";
+        document.fluxDeFirmesForm.submit();
+      } 
+    }
+    
+  
+  
   
   
   function modificarMotiuDeFirma(firmaid, valoractual) {
