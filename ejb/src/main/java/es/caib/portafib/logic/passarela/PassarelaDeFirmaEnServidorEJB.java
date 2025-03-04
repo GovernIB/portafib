@@ -337,7 +337,7 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
             }
 
             return new PassarelaSignatureInServerResults(getSignatureStatusAndResults(ss, custodyInfo, config),
-                    validacioResponseBySignID);
+                    validacioResponseBySignID, pluginFirmaEnServidorId);
 
         } catch (I18NValidationException i18nve) {
 
@@ -567,7 +567,7 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
 
         log.error(msg, i18nve);
 
-        return new PassarelaSignatureInServerResults(new PassarelaFullResults(pss), null);
+        return new PassarelaSignatureInServerResults(new PassarelaFullResults(pss), null, null);
     }
 
     private PassarelaFullResults getSignatureStatusAndResults(SignaturesSet ssf, PassarelaCustodyInfo custodyInfo,

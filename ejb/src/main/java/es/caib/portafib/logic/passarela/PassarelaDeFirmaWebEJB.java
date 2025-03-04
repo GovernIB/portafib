@@ -402,6 +402,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
         PassarelaSignaturesSetWebInternalUse ss = readSignaturesSet(transactionID);
 
+
         if (ss == null) {
             log.error("getStatusTransaction(" + transactionID + ") == NULL !!!!! (caducat ?????)");
             return null;
@@ -536,6 +537,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     public PassarelaSignaturesSetWebInternalUse finalProcesDeFirma(String transactionID, SignaturesSetWeb ss,
             boolean administrationIdCanBeValidatedFromPlugin)
             throws I18NException {
+
 
         StatusSignaturesSet sss = ss.getStatusSignaturesSet();
 

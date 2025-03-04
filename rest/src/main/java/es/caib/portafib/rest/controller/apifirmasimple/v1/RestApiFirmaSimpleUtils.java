@@ -1,10 +1,13 @@
 package es.caib.portafib.rest.controller.apifirmasimple.v1;
 
 import es.caib.portafib.persistence.EntitatJPA;
+import es.caib.portafib.persistence.PluginJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.rest.controller.LoginInfo;
 import es.caib.portafib.rest.controller.RestFirmaUtils;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaServidorLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
 import es.caib.portafib.logic.passarela.PassarelaKeyValue;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
@@ -43,6 +46,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.pluginsib.validatecertificate.InformacioCertificat;
 import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.ISignaturePlugin;
 import org.fundaciobit.pluginsib.signature.api.PolicyInfoSignature;
 import org.fundaciobit.pluginsib.signature.api.StatusSignature;
 import org.fundaciobit.pluginsib.validatesignature.api.SignatureDetailInfo;
@@ -63,6 +67,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -79,6 +84,12 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
 
     @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
     public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
+    
+    @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
+    protected ModulDeFirmaWebLogicaLocal modulDeFirmaWebEjb;
+    
+    @EJB(mappedName = ModulDeFirmaServidorLogicaLocal.JNDI_NAME)
+    protected ModulDeFirmaServidorLogicaLocal modulDeFirmaServidorEjb;
 
     public ResponseEntity<FirmaSimpleError> generateNoAvailablePlugin(String language, boolean firma,
             NoCompatibleSignaturePluginException ex) {
@@ -158,7 +169,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
     public FirmaSimpleSignatureResult convertPassarelaSignatureResult2FirmaSimpleSignatureResult(
             PassarelaSignatureResult psr, PassarelaCommonInfoSignature commonInfo,
             PassarelaFileInfoSignature infoSignature, ValidacioCompletaResponse infoValidacio,
-            boolean isSignatureInServer) throws Exception {
+            boolean isSignatureInServer, Long signaturePluginId) throws Exception {
 
         FirmaSimpleStatus status = new FirmaSimpleStatus(psr.getStatus(), psr.getErrorMessage(),
                 psr.getErrorStackTrace());
@@ -309,7 +320,49 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
 
             }
 
-            final List<FirmaSimpleKeyValue> additionInformation = null;
+            List<FirmaSimpleKeyValue> additionalInformation;
+
+            // Parxe "Revisar si en l'API de firma (sync/async) es pot informar del plugin de firma utilitzat. #980"
+            if (signaturePluginId == null) {
+                log.warn("El ID del plugin de firma utilitzat val NULL !!!!");
+                additionalInformation = null;
+            } else {
+
+                try {
+
+                    String langUI = commonInfo.getLanguageUI();
+
+                    PluginJPA plugin;
+                    ISignaturePlugin signaturePlugin;
+                    if (isSignatureInServer) {
+                        plugin = modulDeFirmaServidorEjb.findByPrimaryKey(signaturePluginId);
+                        signaturePlugin = modulDeFirmaServidorEjb
+                                .getInstanceByPluginID(signaturePluginId);
+                    } else {
+                        plugin = modulDeFirmaWebEjb.findByPrimaryKey(signaturePluginId);
+                        signaturePlugin = modulDeFirmaWebEjb
+                                .getInstanceByPluginID(signaturePluginId);
+                    }
+                    
+                    String pluginNameInternal = signaturePlugin.getName(new Locale(langUI));
+                    String pluginNamePublic = plugin.getNom().getTraduccio(langUI).getValor();
+                    String pluginDescripcioPublic = plugin.getDescripcioCurta().getTraduccio(langUI).getValor();
+
+                    additionalInformation = new ArrayList<FirmaSimpleKeyValue>();
+                    additionalInformation
+                            .add(new FirmaSimpleKeyValue("SignaturePlugin.Name.Internal", pluginNameInternal));
+                    additionalInformation.add(new FirmaSimpleKeyValue("SignaturePlugin.Name.Public", pluginNamePublic));
+                    additionalInformation
+                            .add(new FirmaSimpleKeyValue("SignaturePlugin.Description.Public", pluginDescripcioPublic));
+                    additionalInformation.add(
+                            new FirmaSimpleKeyValue("SignaturePlugin.Id", String.valueOf(signaturePluginId)));
+
+                } catch (Exception e) {
+                    log.error("Error al obtenir el nom del plugin de firma: " + e.getMessage(), e);
+                    additionalInformation = null;
+                }
+            }
+            
             final Date signDate = new Date();
 
             // XYZ ZZZ ZZZ Que passarela retorni dades de la validació de la firma
@@ -327,7 +380,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
 
             FirmaSimpleSignerInfo signerInfo;
             signerInfo = new FirmaSimpleSignerInfo(eniRolFirma, eniSignerName, eniSignerAdministrationId, eniSignLevel,
-                    signDate, serialNumberCert, issuerCert, subjectCert, additionInformation);
+                    signDate, serialNumberCert, issuerCert, subjectCert, additionalInformation);
 
             sfi = new FirmaSimpleSignedFileInfo(signOperation, signType, signAlgorithm, signMode,
                     signaturesTableLocation, timeStampIncluded, policyIncluded, eniTipoFirma, eniPerfilFirma,

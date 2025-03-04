@@ -89,8 +89,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getTransactionID(HttpServletRequest request,
-            @RequestBody FirmaSimpleCommonInfo commonInfo) {
+    public ResponseEntity<?> getTransactionID(HttpServletRequest request, @RequestBody
+    FirmaSimpleCommonInfo commonInfo) {
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -148,7 +148,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getAvailableProfiles(HttpServletRequest request, @RequestBody TextNode locale) {
+    public ResponseEntity<?> getAvailableProfiles(HttpServletRequest request, @RequestBody
+    TextNode locale) {
 
         return internalGetAvailableProfiles(request, locale.asText());
 
@@ -158,8 +159,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> addFileToSign(HttpServletRequest request,
-            @RequestBody FirmaSimpleAddFileToSignRequest holder) {
+    public ResponseEntity<?> addFileToSign(HttpServletRequest request, @RequestBody
+    FirmaSimpleAddFileToSignRequest holder) {
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -246,8 +247,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getAvailableTypesOfDocuments(HttpServletRequest request,
-            @RequestBody TextNode textNodeLanguageUI) {
+    public ResponseEntity<?> getAvailableTypesOfDocuments(HttpServletRequest request, @RequestBody
+    TextNode textNodeLanguageUI) {
 
         String languageUI = textNodeLanguageUI.asText();
 
@@ -327,8 +328,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> startTransaction(HttpServletRequest request,
-            @RequestBody FirmaSimpleStartTransactionRequest startTransactionRequest) {
+    public ResponseEntity<?> startTransaction(HttpServletRequest request, @RequestBody
+    FirmaSimpleStartTransactionRequest startTransactionRequest) {
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -483,8 +484,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getTransactionStatus(@RequestBody TextNode textNodeTransactionID,
-            HttpServletRequest request) {
+    public ResponseEntity<?> getTransactionStatus(@RequestBody
+    TextNode textNodeTransactionID, HttpServletRequest request) {
         try {
 
             String transactionID = textNodeTransactionID.asText();
@@ -549,8 +550,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getSignatureResult(
-            @RequestBody FirmaSimpleGetSignatureResultRequest signatureResultRequest, HttpServletRequest request) {
+    public ResponseEntity<?> getSignatureResult(@RequestBody
+    FirmaSimpleGetSignatureResultRequest signatureResultRequest, HttpServletRequest request) {
 
         log.info(" XYZ ZZZ getSignaturesResult => ENTRA");
 
@@ -598,7 +599,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
             final boolean isSignatureInServer = false;
             FirmaSimpleSignatureResult fssr;
             fssr = convertPassarelaSignatureResult2FirmaSimpleSignatureResult(result,
-                    pss.getSignaturesSet().getCommonInfoSignature(), infoSign, infoValidacio, isSignatureInServer);
+                    pss.getSignaturesSet().getCommonInfoSignature(), infoSign, infoValidacio, isSignatureInServer,
+                    pss.getSignaturePluginId());
 
             HttpHeaders headers = addAccessControllAllowOrigin();
             ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignatureResult>(fssr, headers, HttpStatus.OK);
@@ -622,8 +624,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void closeTransaction(@RequestBody TextNode textNodeTransactionID, HttpServletRequest request,
-            HttpServletResponse response) {
+    public void closeTransaction(@RequestBody
+    TextNode textNodeTransactionID, HttpServletRequest request, HttpServletResponse response) {
 
         final String transactionID = textNodeTransactionID.asText();
 

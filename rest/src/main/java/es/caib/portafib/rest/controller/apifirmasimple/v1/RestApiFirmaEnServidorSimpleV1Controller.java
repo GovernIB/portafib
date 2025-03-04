@@ -425,9 +425,12 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
                     ValidacioCompletaResponse vcr = fullResults.getValidacioResponseBySignID()
                             .get(fileInfo.getSignID());
+                    
+                    
 
                     result.setSignedFileInfo(constructFirmaSimpleSignedFileInfo(config, fileInfo,
                             simpleSignature.getFileInfoSignature(), profileSignType, result.getSignedFile(),
+                            result.getSignedFileInfo(),
                             loginInfo.getEntitat().getEntitatID(), useSignPolicy, vcr, languageUI));
 
                 }
@@ -476,7 +479,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
     protected FirmaSimpleSignedFileInfo constructFirmaSimpleSignedFileInfo(UsuariAplicacioConfiguracio config,
             PassarelaFileInfoSignature fileInfo, FirmaSimpleFileInfoSignature firmaRequest, String eniPerfilFirma,
-            FirmaSimpleFile signedFile, String entitatID, boolean policyIncluded, ValidacioCompletaResponse vcr,
+            FirmaSimpleFile signedFile, FirmaSimpleSignedFileInfo fssfi, String entitatID, boolean policyIncluded, ValidacioCompletaResponse vcr,
             final String languageUI) throws I18NException {
 
         log.info("XYZ ZZZ validateSignature::Entra a Validate Signature ...");
@@ -597,7 +600,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
                     String issuerCert = info.getEmissorID();
                     String subjectCert = info.getSubject();
 
-                    List<FirmaSimpleKeyValue> additionalInformation = null;
+                    List<FirmaSimpleKeyValue> additionalInformation = fssfi.getSignerInfo().getAdditionalInformation();
 
                     signerInfo = new FirmaSimpleSignerInfo(eniRolFirma, eniSignerName, eniSignerAdministrationId,
                             eniSignLevel, signDate, serialNumberCert, issuerCert, subjectCert, additionalInformation);
@@ -660,7 +663,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
                 results.add(
                         convertPassarelaSignatureResult2FirmaSimpleSignatureResult(psr, pss.getCommonInfoSignature(),
-                                infoBySignID.get(psr.getSignID()), validacioInfo, isSignatureInServer));
+                                infoBySignID.get(psr.getSignID()), validacioInfo, isSignatureInServer, completeResults.getPluginFirmaEnServidorId()));
             }
         } else {
             results = null;
