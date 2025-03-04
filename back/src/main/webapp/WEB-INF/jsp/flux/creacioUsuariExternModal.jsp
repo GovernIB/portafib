@@ -50,11 +50,13 @@
          
            var msg;
            if (info.id) {
+              <%--
               msg = "id:" + info.id + "\n"
                + "nif:" + info.nif + "\n"
                + "email:" +info.email+ "\n"
                + "nom:" + info.nom + "\n"
                + "llinatges:" + info.llinatges + "\n";
+               --%>
               
               setValue("crearfirma_usuarientitatid", info.id);
               setValue("crearfirma_nom", info.nom);
@@ -63,7 +65,12 @@
               setValue("crearfirma_email", info.email);
               
               document.getElementById("crearfirma_nif").readOnly = true;
-              msg = "XYZ ZZZ  HI HA USUARI ENTITAT";
+              msg = "XYZ ZZZ  HI HA USUARI ENTITAT. Es formulari nou? ${fluxDeFirmesForm.nou}";
+              <c:if test="${fluxDeFirmesForm.nou}">
+                 alert("<fmt:message key="firmausuariextern.error.usuarijaexisteix"/>");
+                 setTimeout(closeConsultaNifUsuariExternDialog, 750);
+                 return;
+              </c:if>
               
            } else {
              

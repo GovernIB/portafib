@@ -1375,6 +1375,33 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
 
         return getTileForm();
     }
+    
+    
+    @RequestMapping(value = "/canviarcorreuusuariextern", method = RequestMethod.POST)
+    public String canviarcorreuusuariextern(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
+            @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm, @RequestParam("firmaID") long firmaID,
+            @RequestParam("motiu") String noucorreu, HttpServletRequest request) throws I18NException {
+
+        
+
+        for (BlocDeFirmesJPA bloc : fluxDeFirmesForm.getFluxDeFirmes().getBlocDeFirmess()) {
+            for (FirmaJPA firmaitem : bloc.getFirmas()) {
+                if (firmaitem.getFirmaID() == firmaID) {
+                    firmaitem.setUsuariExternEmail(noucorreu);
+                    firmaLogicaEjb.update(firmaitem);
+                    return getTileForm();
+                }
+            }
+        }
+
+        // XYZ ZZZ Passar a HTMlUtils.saveWarning ????
+        log.warn("\nNo he trobat la firma amb ID " + firmaID + " per modificar el correu de l'usuari Extern\n");
+
+        return getTileForm();
+    }
+    
+    
+    
 
     @RequestMapping(value = "/afegirFirmaDesDeModal", method = RequestMethod.POST)
     public String afegirFirmaDesDeModal(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
