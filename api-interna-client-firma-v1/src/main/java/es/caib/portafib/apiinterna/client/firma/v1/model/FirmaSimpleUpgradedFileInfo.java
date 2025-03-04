@@ -33,22 +33,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  */
 @JsonPropertyOrder({
   FirmaSimpleUpgradedFileInfo.JSON_PROPERTY_SIGN_TYPE,
-  FirmaSimpleUpgradedFileInfo.JSON_PROPERTY_SIGN_ALGORITHM,
   FirmaSimpleUpgradedFileInfo.JSON_PROPERTY_SIGN_MODE,
   FirmaSimpleUpgradedFileInfo.JSON_PROPERTY_ENI_TIPO_FIRMA,
   FirmaSimpleUpgradedFileInfo.JSON_PROPERTY_ENI_PERFIL_FIRMA,
   FirmaSimpleUpgradedFileInfo.JSON_PROPERTY_VALIDATION_INFO,
-  FirmaSimpleUpgradedFileInfo.JSON_PROPERTY_ADDITION_INFORMATION
+  FirmaSimpleUpgradedFileInfo.JSON_PROPERTY_ADDITION_INFORMATION,
+  FirmaSimpleUpgradedFileInfo.JSON_PROPERTY_SIGN_ALGORITHM_CONSTANTS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FirmaSimpleUpgradedFileInfo {
   public static final String JSON_PROPERTY_SIGN_TYPE = "signType";
   @javax.annotation.Nonnull
   private String signType;
-
-  public static final String JSON_PROPERTY_SIGN_ALGORITHM = "signAlgorithm";
-  @javax.annotation.Nonnull
-  private String signAlgorithm;
 
   public static final String JSON_PROPERTY_SIGN_MODE = "signMode";
   @javax.annotation.Nonnull
@@ -69,6 +65,10 @@ public class FirmaSimpleUpgradedFileInfo {
   public static final String JSON_PROPERTY_ADDITION_INFORMATION = "additionInformation";
   @javax.annotation.Nullable
   private List<KeyValue> additionInformation = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_SIGN_ALGORITHM_CONSTANTS = "signAlgorithmConstants";
+  @javax.annotation.Nullable
+  private String signAlgorithmConstants;
 
   public FirmaSimpleUpgradedFileInfo() {
   }
@@ -96,31 +96,6 @@ public class FirmaSimpleUpgradedFileInfo {
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setSignType(@javax.annotation.Nonnull String signType) {
     this.signType = signType;
-  }
-
-  public FirmaSimpleUpgradedFileInfo signAlgorithm(@javax.annotation.Nonnull String signAlgorithm) {
-    
-    this.signAlgorithm = signAlgorithm;
-    return this;
-  }
-
-  /**
-   * Algorisme de Firma. Valors:      • \&quot;SHA-1\&quot;      • \&quot;SHA-256\&quot;      • \&quot;SHA-384\&quot;      • \&quot;SHA-512\&quot;
-   * @return signAlgorithm
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SIGN_ALGORITHM)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getSignAlgorithm() {
-    return signAlgorithm;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_SIGN_ALGORITHM)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setSignAlgorithm(@javax.annotation.Nonnull String signAlgorithm) {
-    this.signAlgorithm = signAlgorithm;
   }
 
   public FirmaSimpleUpgradedFileInfo signMode(@javax.annotation.Nonnull Integer signMode) {
@@ -256,6 +231,31 @@ public class FirmaSimpleUpgradedFileInfo {
     this.additionInformation = additionInformation;
   }
 
+  public FirmaSimpleUpgradedFileInfo signAlgorithmConstants(@javax.annotation.Nullable String signAlgorithmConstants) {
+    
+    this.signAlgorithmConstants = signAlgorithmConstants;
+    return this;
+  }
+
+  /**
+   * Get signAlgorithmConstants
+   * @return signAlgorithmConstants
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SIGN_ALGORITHM_CONSTANTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getSignAlgorithmConstants() {
+    return signAlgorithmConstants;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SIGN_ALGORITHM_CONSTANTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSignAlgorithmConstants(@javax.annotation.Nullable String signAlgorithmConstants) {
+    this.signAlgorithmConstants = signAlgorithmConstants;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -266,17 +266,17 @@ public class FirmaSimpleUpgradedFileInfo {
     }
     FirmaSimpleUpgradedFileInfo firmaSimpleUpgradedFileInfo = (FirmaSimpleUpgradedFileInfo) o;
     return Objects.equals(this.signType, firmaSimpleUpgradedFileInfo.signType) &&
-        Objects.equals(this.signAlgorithm, firmaSimpleUpgradedFileInfo.signAlgorithm) &&
         Objects.equals(this.signMode, firmaSimpleUpgradedFileInfo.signMode) &&
         Objects.equals(this.eniTipoFirma, firmaSimpleUpgradedFileInfo.eniTipoFirma) &&
         Objects.equals(this.eniPerfilFirma, firmaSimpleUpgradedFileInfo.eniPerfilFirma) &&
         Objects.equals(this.validationInfo, firmaSimpleUpgradedFileInfo.validationInfo) &&
-        Objects.equals(this.additionInformation, firmaSimpleUpgradedFileInfo.additionInformation);
+        Objects.equals(this.additionInformation, firmaSimpleUpgradedFileInfo.additionInformation) &&
+        Objects.equals(this.signAlgorithmConstants, firmaSimpleUpgradedFileInfo.signAlgorithmConstants);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(signType, signAlgorithm, signMode, eniTipoFirma, eniPerfilFirma, validationInfo, additionInformation);
+    return Objects.hash(signType, signMode, eniTipoFirma, eniPerfilFirma, validationInfo, additionInformation, signAlgorithmConstants);
   }
 
   @Override
@@ -284,12 +284,12 @@ public class FirmaSimpleUpgradedFileInfo {
     StringBuilder sb = new StringBuilder();
     sb.append("class FirmaSimpleUpgradedFileInfo {\n");
     sb.append("    signType: ").append(toIndentedString(signType)).append("\n");
-    sb.append("    signAlgorithm: ").append(toIndentedString(signAlgorithm)).append("\n");
     sb.append("    signMode: ").append(toIndentedString(signMode)).append("\n");
     sb.append("    eniTipoFirma: ").append(toIndentedString(eniTipoFirma)).append("\n");
     sb.append("    eniPerfilFirma: ").append(toIndentedString(eniPerfilFirma)).append("\n");
     sb.append("    validationInfo: ").append(toIndentedString(validationInfo)).append("\n");
     sb.append("    additionInformation: ").append(toIndentedString(additionInformation)).append("\n");
+    sb.append("    signAlgorithmConstants: ").append(toIndentedString(signAlgorithmConstants)).append("\n");
     sb.append("}");
     return sb.toString();
   }

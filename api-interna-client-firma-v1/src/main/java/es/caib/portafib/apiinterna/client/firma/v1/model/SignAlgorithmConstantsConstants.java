@@ -22,24 +22,26 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Posicio de la firma al document
+ * Algorisme de Firma. Valors:      • \&quot;SHA-1\&quot;      • \&quot;SHA-256\&quot;      • \&quot;SHA-384\&quot;      • \&quot;SHA-512\&quot;
  */
-public enum SignatureStableLocation {
+public enum SignAlgorithmConstantsConstants {
   
-  SIGNATURESTABLELOCATION_WITHOUT(0),
+  _1("SHA-1"),
   
-  SIGNATURESTABLELOCATION_FIRSTPAGE(1),
+  _256("SHA-256"),
   
-  SIGNATURESTABLELOCATION_LASTPAGE(-1);
+  _384("SHA-384"),
+  
+  _512("SHA-512");
 
-  private Integer value;
+  private String value;
 
-  SignatureStableLocation(Integer value) {
+  SignAlgorithmConstantsConstants(String value) {
     this.value = value;
   }
 
   @JsonValue
-  public Integer getValue() {
+  public String getValue() {
     return value;
   }
 
@@ -49,8 +51,8 @@ public enum SignatureStableLocation {
   }
 
   @JsonCreator
-  public static SignatureStableLocation fromValue(Integer value) {
-    for (SignatureStableLocation b : SignatureStableLocation.values()) {
+  public static SignAlgorithmConstantsConstants fromValue(String value) {
+    for (SignAlgorithmConstantsConstants b : SignAlgorithmConstantsConstants.values()) {
       if (b.value.equals(value)) {
         return b;
       }

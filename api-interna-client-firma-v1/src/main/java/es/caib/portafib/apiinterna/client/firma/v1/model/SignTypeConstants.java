@@ -22,24 +22,38 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Operacions disponibles
+ * Tipus de Firma. Valors possibles:      - “PAdES” (Constant SIGN_TYPE_PADES)      - “XAdES” (Constant SIGN_TYPE_XADES)      - “CAdES” (Constant SIGN_TYPE_CADES)      - “FacturaE” (Constant SIGN_TYPE_FACTURAE)      - “OOXML” (Constant SIGN_TYPE_OOXML)      - “ODF” (Constant SIGN_TYPE_ODF)      - “SMIME” (Constant SIGN_TYPE_SMIME)      - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)      - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)      - “PKCS#1” (Constant SIGN_TYPE_PKCS1)
  */
-public enum SignOperation {
+public enum SignTypeConstants {
   
-  SIGN_OPERATION_SIGN(0),
+  PAD_ES("PAdES"),
   
-  SIGN_OPERATION_COSIGN(1),
+  XAD_ES("XAdES"),
   
-  SIGN_OPERATION_COUNTERSIGN(2);
+  CAD_ES("CAdES"),
+  
+  FACTURA_E("FacturaE"),
+  
+  OOXML("OOXML"),
+  
+  ODF("ODF"),
+  
+  SMIME("SMIME"),
+  
+  CAD_ES_ASI_C_S("CAdES-ASiC-S"),
+  
+  XAD_ES_ASI_C_S("XAdES-ASiC-S"),
+  
+  PKCS_1("PKCS#1");
 
-  private Integer value;
+  private String value;
 
-  SignOperation(Integer value) {
+  SignTypeConstants(String value) {
     this.value = value;
   }
 
   @JsonValue
-  public Integer getValue() {
+  public String getValue() {
     return value;
   }
 
@@ -49,8 +63,8 @@ public enum SignOperation {
   }
 
   @JsonCreator
-  public static SignOperation fromValue(Integer value) {
-    for (SignOperation b : SignOperation.values()) {
+  public static SignTypeConstants fromValue(String value) {
+    for (SignTypeConstants b : SignTypeConstants.values()) {
       if (b.value.equals(value)) {
         return b;
       }

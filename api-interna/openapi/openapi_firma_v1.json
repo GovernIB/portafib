@@ -1105,40 +1105,40 @@
         },
         "description" : "Estructura de dades utilitzada per passar informació d'un error"
       },
-      "SignType" : {
+      "SignTypeConstants" : {
         "type" : "string",
-        "description" : "Tipus de firma disponibles",
+        "description" : "Tipus de Firma. Valors possibles:\r\n    - “PAdES” (Constant SIGN_TYPE_PADES)\r\n    - “XAdES” (Constant SIGN_TYPE_XADES)\r\n    - “CAdES” (Constant SIGN_TYPE_CADES)\r\n    - “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\n    - “OOXML” (Constant SIGN_TYPE_OOXML)\r\n    - “ODF” (Constant SIGN_TYPE_ODF)\r\n    - “SMIME” (Constant SIGN_TYPE_SMIME)\r\n    - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)\r\n    - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\n    - “PKCS#1” (Constant SIGN_TYPE_PKCS1)",
         "enum" : [ "PAdES", "XAdES", "CAdES", "FacturaE", "OOXML", "ODF", "SMIME", "CAdES-ASiC-S", "XAdES-ASiC-S", "PKCS#1" ]
       },
-      "SignAlgorithm" : {
+      "SignAlgorithmConstantsConstants" : {
         "type" : "string",
-        "description" : "Algorismes de firma disponibles",
+        "description" : "Algorisme de Firma. Valors:\r\n    • \"SHA-1\"\r\n    • \"SHA-256\"\r\n    • \"SHA-384\"\r\n    • \"SHA-512\"",
         "enum" : [ "SHA-1", "SHA-256", "SHA-384", "SHA-512" ]
       },
-      "SignMode" : {
+      "SignModeConstants" : {
         "type" : "integer",
-        "description" : "Modes de firma disponibles",
+        "description" : "Valors:\r\n    • 0: Implicit o Attached. La firma resultante incluye internamente una copia de los datos firmados. \r\n    • 1: Explicit o Detached: La firma resultante no incluye los datos firmados.",
         "format" : "int32",
         "x-enum-varnames" : [ "SIGN_MODE_ATTACHED_ENVELOPED", "SIGN_MODE_ATTACHED_ENVELOPING", "SIGN_MODE_DETACHED", "SIGN_MODE_INTERNALLY_DETACHED" ],
         "enum" : [ "0", "3", "1", "4" ]
       },
-      "SignOperation" : {
+      "SignOperationConstants" : {
         "type" : "integer",
-        "description" : "Operacions disponibles",
+        "description" : "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma (2).\r\nLes constants són:\r\n    • SIGN_OPERATION_SIGN = 0;\r\n    • SIGN_OPERATION_COSIGN = 1;\r\n    • SIGN_OPERATION_COUNTERSIGN = 2;",
         "format" : "int32",
         "x-enum-varnames" : [ "SIGN_OPERATION_SIGN", "SIGN_OPERATION_COSIGN", "SIGN_OPERATION_COUNTERSIGN" ],
         "enum" : [ "0", "1", "2" ]
       },
-      "SignatureStableLocation" : {
+      "SignatureStableLocationConstants" : {
         "type" : "integer",
-        "description" : "Posicio de la firma al document",
+        "description" : "Posició de la Taula de firmes:\r\n    • 0: Sense taula de firmes\r\n    • 1: Taula de firmes en la 1a pàgina\r\n    • -1: Darrera pàgina",
         "format" : "int32",
         "x-enum-varnames" : [ "SIGNATURESTABLELOCATION_WITHOUT", "SIGNATURESTABLELOCATION_FIRSTPAGE", "SIGNATURESTABLELOCATION_LASTPAGE" ],
         "enum" : [ "0", "1", "-1" ]
       },
-      "SignProfile" : {
+      "SignProfileConstants" : {
         "type" : "string",
-        "description" : "Perfils de firma disponibles",
+        "description" : "Perfil empleado en una firma con certificado electrónico. Los posibles valores asignables son los siguientes:\r\n  AdES-BES\r\n  AdES-EPES\r\n  AdES-T\r\n  AdES-C\r\n  AdES-X\r\n  AdES-X1\r\n  AdES-X2\r\n  AdES-XL\r\n  AdES-XL1\r\n  AdES-XL2\r\n  AdES-A\r\n  PAdES-LTV\r\n  PAdES-Basic",
         "enum" : [ "AdES-BES", "AdES-EPES", "AdES-T", "AdES-C", "AdES-X", "AdES-X1", "AdES-X2", "AdES-XL", "AdES-XL1", "AdES-XL2", "AdES-A", "PAdES-LTV", "PAdES-Basic" ]
       },
       "FirmaSimpleCommonInfo" : {
@@ -1375,7 +1375,7 @@
         "description" : "Resposta de la petició de firma en servidor"
       },
       "FirmaSimpleSignedFileInfo" : {
-        "required" : [ "policyIncluded", "signAlgorithm", "signMode", "signOperation", "signType", "signaturesTableLocation", "signerInfo", "timeStampIncluded" ],
+        "required" : [ "policyIncluded", "signMode", "signOperation", "signType", "signaturesTableLocation", "signerInfo", "timeStampIncluded" ],
         "type" : "object",
         "properties" : {
           "signOperation" : {
@@ -1387,11 +1387,6 @@
           "signType" : {
             "type" : "string",
             "description" : "Tipus de Firma. Valors possibles:\r\n    "
-          },
-          "signAlgorithm" : {
-            "type" : "string",
-            "description" : "Algorisme de Firma. Valors: \r\n    - \"SHA-1\"\r\n    - \"SHA-256\"\r\n    - \"SHA-384\"\r\n    - \"SHA-512\"",
-            "example" : "SHA-1"
           },
           "signMode" : {
             "type" : "integer",
@@ -1433,6 +1428,9 @@
           },
           "validationInfo" : {
             "$ref" : "#/components/schemas/FirmaSimpleValidationInfo"
+          },
+          "signAlgorithmConstants" : {
+            "type" : "string"
           }
         },
         "description" : "Informació del fitxer signat."
@@ -1593,18 +1591,13 @@
         }
       },
       "FirmaSimpleUpgradedFileInfo" : {
-        "required" : [ "signAlgorithm", "signMode", "signType" ],
+        "required" : [ "signMode", "signType" ],
         "type" : "object",
         "properties" : {
           "signType" : {
             "type" : "string",
             "description" : "Tipus de Firma. Valors possibles:\r\n    • “PAdES” (Constant SIGN_TYPE_PADES)\r\n    • “XAdES” (Constant SIGN_TYPE_XADES)\r\n    • “CAdES” (Constant SIGN_TYPE_CADES)\r\n    • “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\n    • “OOXML” (Constant SIGN_TYPE_OOXML)\r\n    • “ODF” (Constant SIGN_TYPE_ODF)\r\n    • “SMIME” (Constant SIGN_TYPE_SMIME)\r\n    • “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)\r\n    • “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\n    • “PKCS#1” (Constant SIGN_TYPE_PKCS1)",
             "example" : "PAdES"
-          },
-          "signAlgorithm" : {
-            "type" : "string",
-            "description" : "Algorisme de Firma. Valors:\r\n    • \"SHA-1\"\r\n    • \"SHA-256\"\r\n    • \"SHA-384\"\r\n    • \"SHA-512\"",
-            "example" : "SHA-1"
           },
           "signMode" : {
             "type" : "integer",
@@ -1626,6 +1619,9 @@
             "items" : {
               "$ref" : "#/components/schemas/KeyValue"
             }
+          },
+          "signAlgorithmConstants" : {
+            "type" : "string"
           }
         },
         "description" : "Informació de la firma actualitzada"

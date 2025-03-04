@@ -10,7 +10,6 @@ Informació del fitxer signat.
 |------------ | ------------- | ------------- | -------------|
 |**signOperation** | **Integer** | Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma (2). |  |
 |**signType** | **String** | Tipus de Firma. Valors possibles:       |  |
-|**signAlgorithm** | **String** | Algorisme de Firma. Valors:       - \&quot;SHA-1\&quot;      - \&quot;SHA-256\&quot;      - \&quot;SHA-384\&quot;      - \&quot;SHA-512\&quot; |  |
 |**signMode** | **Integer** | Valors:      - 0: Implicit o Attached. La firma resultante incluye internamente una copia de los datos firmados.       - 1: Explicit o Detached: La firma resultante no incluye los datos firmados.  |  |
 |**signaturesTableLocation** | **Integer** | Posició de la Taula de firmes:      - 0: Sense taula de firmes      - 1: Taula de firmes en la 1a pàgina      - -1: Darrera pàgina |  |
 |**timeStampIncluded** | **Boolean** | Indica si s&#39;ha afegit un segell de Temps durant la firma |  |
@@ -20,6 +19,7 @@ Informació del fitxer signat.
 |**signerInfo** | [**FirmaSimpleSignerInfo**](FirmaSimpleSignerInfo.md) |  |  |
 |**custodyInfo** | [**FirmaSimpleCustodyInfo**](FirmaSimpleCustodyInfo.md) |  |  [optional] |
 |**validationInfo** | [**FirmaSimpleValidationInfo**](FirmaSimpleValidationInfo.md) |  |  [optional] |
+|**signAlgorithmConstants** | **String** |  |  [optional] |
 
 
 

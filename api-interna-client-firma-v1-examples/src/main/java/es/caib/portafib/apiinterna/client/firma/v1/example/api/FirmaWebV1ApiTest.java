@@ -34,9 +34,9 @@ import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleFileInfoSign
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleGetSignatureResultRequest;
 import es.caib.portafib.apiinterna.client.firma.v1.model.FirmaSimpleStartTransactionRequest;
 import es.caib.portafib.apiinterna.client.firma.v1.model.GetAvailableTypesOfDocumentsResponse;
-import es.caib.portafib.apiinterna.client.firma.v1.model.SignMode;
-import es.caib.portafib.apiinterna.client.firma.v1.model.SignOperation;
-import es.caib.portafib.apiinterna.client.firma.v1.model.SignatureStableLocation;
+import es.caib.portafib.apiinterna.client.firma.v1.model.SignModeConstants;
+import es.caib.portafib.apiinterna.client.firma.v1.model.SignOperationConstants;
+import es.caib.portafib.apiinterna.client.firma.v1.model.SignatureStableLocationConstants;
 import es.caib.portafib.apiinterna.client.firma.v1.api.FirmaWebV1Api;
 import es.caib.portafib.apiinterna.client.firma.v1.services.ApiClient;
 import es.caib.portafib.apiinterna.client.firma.v1.services.ApiException;
@@ -333,11 +333,11 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<FirmaWebV1Api> {
         Integer signOperation = sfi.getSignOperation();
         if (signOperation == null) {
             operation = " -NULL- ";
-        } else if (signOperation.equals(SignOperation.SIGN_OPERATION_SIGN)) {
+        } else if (signOperation.equals(SignOperationConstants.SIGN_OPERATION_SIGN)) {
             operation = "FIRMA";
-        } else if (signOperation.equals(SignOperation.SIGN_OPERATION_COSIGN)) {
+        } else if (signOperation.equals(SignOperationConstants.SIGN_OPERATION_COSIGN)) {
             operation = "COFIRMA";
-        } else if (signOperation.equals(SignOperation.SIGN_OPERATION_COUNTERSIGN)) {
+        } else if (signOperation.equals(SignOperationConstants.SIGN_OPERATION_COUNTERSIGN)) {
             operation = "CONTRAFIRMA";
         } else {
             operation = "DESCONEGUDA (" + signOperation + ")";
@@ -346,19 +346,19 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<FirmaWebV1Api> {
 
         str.append("\n").append("      * Tipus:\t").append(sfi.getSignType());
 
-        str.append("\n").append("      * Algorisme:\t").append(sfi.getSignAlgorithm());
+        str.append("\n").append("      * Algorisme:\t").append(sfi.getSignAlgorithmConstants());
 
         str.append("\n").append("      * Mode:\t");
         Integer signMode = sfi.getSignMode();
         if (signMode == null) {
             str.append("NULL");
-        } else if (signMode.equals(SignMode.SIGN_MODE_ATTACHED_ENVELOPED)) {
+        } else if (signMode.equals(SignModeConstants.SIGN_MODE_ATTACHED_ENVELOPED)) {
             str.append("Attached - Enveloped");
-        } else if (signMode.equals(SignMode.SIGN_MODE_ATTACHED_ENVELOPING)) {
+        } else if (signMode.equals(SignModeConstants.SIGN_MODE_ATTACHED_ENVELOPING)) {
             str.append("Attached - Enveloping");
-        } else if (signMode.equals(SignMode.SIGN_MODE_DETACHED)) {
+        } else if (signMode.equals(SignModeConstants.SIGN_MODE_DETACHED)) {
             str.append("Detached");
-        } else if (signMode.equals(SignMode.SIGN_MODE_INTERNALLY_DETACHED)) {
+        } else if (signMode.equals(SignModeConstants.SIGN_MODE_INTERNALLY_DETACHED)) {
             str.append("Internally Detached");
         } else {
             str.append("DESCONEGUT (" + signMode + ")");
@@ -369,11 +369,11 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<FirmaWebV1Api> {
             Integer signaturesTableLocation = sfi.getSignaturesTableLocation();
             if (signaturesTableLocation == null) {
                 posicioTaulaDeFirmes = " -NULL- ";
-            } else if (signaturesTableLocation.equals(SignatureStableLocation.SIGNATURESTABLELOCATION_WITHOUT)) {
+            } else if (signaturesTableLocation.equals(SignatureStableLocationConstants.SIGNATURESTABLELOCATION_WITHOUT)) {
                 posicioTaulaDeFirmes = "Sense taula de Firmes";
-            } else if (signaturesTableLocation.equals(SignatureStableLocation.SIGNATURESTABLELOCATION_FIRSTPAGE)) {
+            } else if (signaturesTableLocation.equals(SignatureStableLocationConstants.SIGNATURESTABLELOCATION_FIRSTPAGE)) {
                 posicioTaulaDeFirmes = "Taula de Firmes en la primera pagina";
-            } else if (signaturesTableLocation.equals(SignatureStableLocation.SIGNATURESTABLELOCATION_LASTPAGE)) {
+            } else if (signaturesTableLocation.equals(SignatureStableLocationConstants.SIGNATURESTABLELOCATION_LASTPAGE)) {
                 posicioTaulaDeFirmes = "Taula de Firmes en la darrera pagina";
             } else {
                 posicioTaulaDeFirmes = "Desconeguda(" + sfi.getSignaturesTableLocation() + ")";

@@ -38,12 +38,12 @@ import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFile;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleFileInfoSignature;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.KeyValue;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.RestFirmaUtils;
-import es.caib.portafib.api.interna.secure.firma.v1.commons.SignAlgorithm;
-import es.caib.portafib.api.interna.secure.firma.v1.commons.SignMode;
-import es.caib.portafib.api.interna.secure.firma.v1.commons.SignOperation;
-import es.caib.portafib.api.interna.secure.firma.v1.commons.SignProfile;
-import es.caib.portafib.api.interna.secure.firma.v1.commons.SignType;
-import es.caib.portafib.api.interna.secure.firma.v1.commons.SignatureStableLocation;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.SignAlgorithmConstants;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.SignModeConstants;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.SignOperationConstants;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.SignProfileConstants;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.SignTypeConstants;
+import es.caib.portafib.api.interna.secure.firma.v1.commons.SignatureStableLocationConstants;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleSignedFileInfo;
 import es.caib.portafib.api.interna.secure.firma.v1.commons.FirmaSimpleStatus;
 import es.caib.portafib.api.interna.secure.firma.v1.utils.UtilsService;
@@ -115,22 +115,22 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
                         content = { 
                         @Content(
                                 mediaType = MediaType.APPLICATION_JSON,
-                                schema = @Schema(implementation = SignType.class)),
+                                schema = @Schema(implementation = SignTypeConstants.class)),
                         @Content(
                                 mediaType = MediaType.APPLICATION_JSON,
-                                schema = @Schema(implementation = SignAlgorithm.class)),
+                                schema = @Schema(implementation = SignAlgorithmConstants.class)),
                         @Content(
                                 mediaType = MediaType.APPLICATION_JSON,
-                                schema = @Schema(implementation = SignMode.class)),
+                                schema = @Schema(implementation = SignModeConstants.class)),
                         @Content(
                                 mediaType = MediaType.APPLICATION_JSON,
-                                schema = @Schema(implementation = SignOperation.class)),
+                                schema = @Schema(implementation = SignOperationConstants.class)),
                         @Content(
                                 mediaType = MediaType.APPLICATION_JSON,
-                                schema = @Schema(implementation = SignatureStableLocation.class)),
+                                schema = @Schema(implementation = SignatureStableLocationConstants.class)),
                         @Content(
                                 mediaType = MediaType.APPLICATION_JSON,
-                                schema = @Schema(implementation = SignProfile.class)),
+                                schema = @Schema(implementation = SignProfileConstants.class)),
                                 @Content(
                                 mediaType = MediaType.APPLICATION_JSON,
                                 schema = @Schema(implementation = RestExceptionInfo.class))}) })
@@ -568,7 +568,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
         }
 
         final int signOperation = fileInfo.getSignOperation();
-        final String signAlgorithm = fileInfo.getSignAlgorithm();
+        final String SignAlgorithmConstants = fileInfo.getSignAlgorithm();
         final int signaturesTableLocation = fileInfo.getSignaturesTableLocation();
         final boolean timeStampIncluded = fileInfo.isUseTimeStamp();
 
@@ -584,7 +584,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
             signatureFileInfo.setSignType(signType);
 
             signatureFileInfo.setSignMode(fileInfo.getSignMode());
-            signatureFileInfo.setSignAlgorithm(signAlgorithm);
+            signatureFileInfo.setSignAlgorithmConstants(SignAlgorithmConstants);
             signatureFileInfo.setValidationInfo(new FirmaSimpleValidationInfo());
             signatureFileInfo.setEniPerfilFirma(eniPerfilFirma);
             signatureFileInfo.setTimeStampIncluded(timeStampIncluded);
@@ -673,7 +673,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
                 }
             }
 
-            signatureFileInfo = new FirmaSimpleSignedFileInfo(signOperation, signType, signAlgorithm, signMode,
+            signatureFileInfo = new FirmaSimpleSignedFileInfo(signOperation, signType, SignAlgorithmConstants, signMode,
                     signaturesTableLocation, timeStampIncluded, policyIncluded, eniTipoFirma, eniPerfilFirma,
                     signerInfo, custodyInfo, validationInfo);
 
@@ -805,8 +805,8 @@ public class FirmaEnServidorService extends RestFirmaUtils {
         if (firmaSimpleUpgradedFileInfo.getEniTipoFirma() != null) {
             newUpgradedFileInfo.setEniTipoFirma(firmaSimpleUpgradedFileInfo.getEniTipoFirma());
         }
-        if (firmaSimpleUpgradedFileInfo.getSignAlgorithm() != null) {
-            newUpgradedFileInfo.setSignAlgorithm(firmaSimpleUpgradedFileInfo.getSignAlgorithm());
+        if (firmaSimpleUpgradedFileInfo.getSignAlgorithmConstants() != null) {
+            newUpgradedFileInfo.setSignAlgorithmConstants(firmaSimpleUpgradedFileInfo.getSignAlgorithmConstants());
         }
         if (firmaSimpleUpgradedFileInfo.getSignMode() != null) {
             newUpgradedFileInfo.setSignMode(firmaSimpleUpgradedFileInfo.getSignMode());
@@ -864,7 +864,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
         } else {
 
             final String signType = vsr.getSignType();
-            final String signAlgorithm = null;
+            final String SignAlgorithmConstants = null;
 
             int signFormat = vsr.getSignMode();
 
@@ -896,7 +896,7 @@ public class FirmaEnServidorService extends RestFirmaUtils {
 
             final List<KeyValue> additionInformation = null;
 
-            upgradedFileInfo = new FirmaSimpleUpgradedFileInfo(signType, signAlgorithm, signMode, eniTipoFirma,
+            upgradedFileInfo = new FirmaSimpleUpgradedFileInfo(signType, SignAlgorithmConstants, signMode, eniTipoFirma,
                     eniPerfilFirma, validationInfo, additionInformation);
 
         }

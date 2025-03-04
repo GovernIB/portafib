@@ -22,26 +22,44 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Modes de firma disponibles
+ * Perfil empleado en una firma con certificado electrónico. Los posibles valores asignables son los siguientes:    AdES-BES    AdES-EPES    AdES-T    AdES-C    AdES-X    AdES-X1    AdES-X2    AdES-XL    AdES-XL1    AdES-XL2    AdES-A    PAdES-LTV    PAdES-Basic
  */
-public enum SignMode {
+public enum SignProfileConstants {
   
-  SIGN_MODE_ATTACHED_ENVELOPED(0),
+  AD_ES_BES("AdES-BES"),
   
-  SIGN_MODE_ATTACHED_ENVELOPING(3),
+  AD_ES_EPES("AdES-EPES"),
   
-  SIGN_MODE_DETACHED(1),
+  AD_ES_T("AdES-T"),
   
-  SIGN_MODE_INTERNALLY_DETACHED(4);
+  AD_ES_C("AdES-C"),
+  
+  AD_ES_X("AdES-X"),
+  
+  AD_ES_X1("AdES-X1"),
+  
+  AD_ES_X2("AdES-X2"),
+  
+  AD_ES_XL("AdES-XL"),
+  
+  AD_ES_XL1("AdES-XL1"),
+  
+  AD_ES_XL2("AdES-XL2"),
+  
+  AD_ES_A("AdES-A"),
+  
+  PAD_ES_LTV("PAdES-LTV"),
+  
+  PAD_ES_BASIC("PAdES-Basic");
 
-  private Integer value;
+  private String value;
 
-  SignMode(Integer value) {
+  SignProfileConstants(String value) {
     this.value = value;
   }
 
   @JsonValue
-  public Integer getValue() {
+  public String getValue() {
     return value;
   }
 
@@ -51,8 +69,8 @@ public enum SignMode {
   }
 
   @JsonCreator
-  public static SignMode fromValue(Integer value) {
-    for (SignMode b : SignMode.values()) {
+  public static SignProfileConstants fromValue(String value) {
+    for (SignProfileConstants b : SignProfileConstants.values()) {
       if (b.value.equals(value)) {
         return b;
       }

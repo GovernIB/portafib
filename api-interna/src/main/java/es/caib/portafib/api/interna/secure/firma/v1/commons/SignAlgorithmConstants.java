@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Description("Hola")
 @Schema(
-        name = "SignAlgorithmConstants",
+        name = "SignAlgorithmConstantsConstants",
         description = "Algorisme de Firma. Valors:\r\n" + "    • \"SHA-1\"\r\n" + "    • \"SHA-256\"\r\n"
                 + "    • \"SHA-384\"\r\n" + "    • \"SHA-512\"",
         enumAsRef = true,

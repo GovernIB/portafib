@@ -22,26 +22,24 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Algorismes de firma disponibles
+ * Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma (2).  Les constants són:      • SIGN_OPERATION_SIGN &#x3D; 0;      • SIGN_OPERATION_COSIGN &#x3D; 1;      • SIGN_OPERATION_COUNTERSIGN &#x3D; 2;
  */
-public enum SignAlgorithm {
+public enum SignOperationConstants {
   
-  _1("SHA-1"),
+  SIGN_OPERATION_SIGN(0),
   
-  _256("SHA-256"),
+  SIGN_OPERATION_COSIGN(1),
   
-  _384("SHA-384"),
-  
-  _512("SHA-512");
+  SIGN_OPERATION_COUNTERSIGN(2);
 
-  private String value;
+  private Integer value;
 
-  SignAlgorithm(String value) {
+  SignOperationConstants(Integer value) {
     this.value = value;
   }
 
   @JsonValue
-  public String getValue() {
+  public Integer getValue() {
     return value;
   }
 
@@ -51,8 +49,8 @@ public enum SignAlgorithm {
   }
 
   @JsonCreator
-  public static SignAlgorithm fromValue(String value) {
-    for (SignAlgorithm b : SignAlgorithm.values()) {
+  public static SignOperationConstants fromValue(Integer value) {
+    for (SignOperationConstants b : SignOperationConstants.values()) {
       if (b.value.equals(value)) {
         return b;
       }

@@ -298,7 +298,7 @@ public class FirmaSimpleSignedFileInfo {
                     + "    - \"SHA-384\"\r\n" + "    - \"SHA-512\"",
             example = "SHA-1",
              requiredMode = RequiredMode.REQUIRED)
-    protected String signAlgorithm;
+    protected String SignAlgorithmConstants;
 
     @Schema(
             description = "Valors:\r\n"
@@ -388,14 +388,14 @@ public class FirmaSimpleSignedFileInfo {
         super();
     }
 
-    public FirmaSimpleSignedFileInfo(int signOperation, String signType, String signAlgorithm, Integer signMode,
+    public FirmaSimpleSignedFileInfo(int signOperation, String signType, String SignAlgorithmConstants, Integer signMode,
             int signaturesTableLocation, boolean timeStampIncluded, boolean policyIncluded, String eniTipoFirma,
             String eniPerfilFirma, FirmaSimpleSignerInfo signerInfo, FirmaSimpleCustodyInfo custodyInfo,
             FirmaSimpleValidationInfo validationInfo) {
         super();
         this.signOperation = signOperation;
         this.signType = signType;
-        this.signAlgorithm = signAlgorithm;
+        this.SignAlgorithmConstants = SignAlgorithmConstants;
         this.signMode = signMode;
         this.signaturesTableLocation = signaturesTableLocation;
         this.timeStampIncluded = timeStampIncluded;
@@ -415,12 +415,12 @@ public class FirmaSimpleSignedFileInfo {
         this.signOperation = signOperation;
     }
 
-    public String getSignAlgorithm() {
-        return signAlgorithm;
+    public String getSignAlgorithmConstants() {
+        return SignAlgorithmConstants;
     }
 
-    public void setSignAlgorithm(String signAlgorithm) {
-        this.signAlgorithm = signAlgorithm;
+    public void setSignAlgorithmConstants(String SignAlgorithmConstants) {
+        this.SignAlgorithmConstants = SignAlgorithmConstants;
     }
 
     public Integer getSignMode() {

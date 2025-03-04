@@ -776,8 +776,14 @@ components:
       required:
       - errorMessage
       type: object
-    SignType:
-      description: Tipus de firma disponibles
+    SignTypeConstants:
+      description: "Tipus de Firma. Valors possibles:\r\n    - “PAdES” (Constant SIGN_TYPE_PADES)\r\
+        \n    - “XAdES” (Constant SIGN_TYPE_XADES)\r\n    - “CAdES” (Constant SIGN_TYPE_CADES)\r\
+        \n    - “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\n    - “OOXML” (Constant\
+        \ SIGN_TYPE_OOXML)\r\n    - “ODF” (Constant SIGN_TYPE_ODF)\r\n    - “SMIME”\
+        \ (Constant SIGN_TYPE_SMIME)\r\n    - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)\r\
+        \n    - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\n    - “PKCS#1”\
+        \ (Constant SIGN_TYPE_PKCS1)"
       enum:
       - PAdES
       - XAdES
@@ -790,16 +796,19 @@ components:
       - XAdES-ASiC-S
       - PKCS#1
       type: string
-    SignAlgorithm:
-      description: Algorismes de firma disponibles
+    SignAlgorithmConstantsConstants:
+      description: "Algorisme de Firma. Valors:\r\n    • \"SHA-1\"\r\n    • \"SHA-256\"\
+        \r\n    • \"SHA-384\"\r\n    • \"SHA-512\""
       enum:
       - SHA-1
       - SHA-256
       - SHA-384
       - SHA-512
       type: string
-    SignMode:
-      description: Modes de firma disponibles
+    SignModeConstants:
+      description: "Valors:\r\n    • 0: Implicit o Attached. La firma resultante incluye\
+        \ internamente una copia de los datos firmados. \r\n    • 1: Explicit o Detached:\
+        \ La firma resultante no incluye los datos firmados."
       enum:
       - 0
       - 3
@@ -812,8 +821,10 @@ components:
       - SIGN_MODE_ATTACHED_ENVELOPING
       - SIGN_MODE_DETACHED
       - SIGN_MODE_INTERNALLY_DETACHED
-    SignOperation:
-      description: Operacions disponibles
+    SignOperationConstants:
+      description: "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma\
+        \ (2).\r\nLes constants són:\r\n    • SIGN_OPERATION_SIGN = 0;\r\n    • SIGN_OPERATION_COSIGN\
+        \ = 1;\r\n    • SIGN_OPERATION_COUNTERSIGN = 2;"
       enum:
       - 0
       - 1
@@ -824,8 +835,9 @@ components:
       - SIGN_OPERATION_SIGN
       - SIGN_OPERATION_COSIGN
       - SIGN_OPERATION_COUNTERSIGN
-    SignatureStableLocation:
-      description: Posicio de la firma al document
+    SignatureStableLocationConstants:
+      description: "Posició de la Taula de firmes:\r\n    • 0: Sense taula de firmes\r\
+        \n    • 1: Taula de firmes en la 1a pàgina\r\n    • -1: Darrera pàgina"
       enum:
       - 0
       - 1
@@ -836,8 +848,11 @@ components:
       - SIGNATURESTABLELOCATION_WITHOUT
       - SIGNATURESTABLELOCATION_FIRSTPAGE
       - SIGNATURESTABLELOCATION_LASTPAGE
-    SignProfile:
-      description: Perfils de firma disponibles
+    SignProfileConstants:
+      description: "Perfil empleado en una firma con certificado electrónico. Los\
+        \ posibles valores asignables son los siguientes:\r\n  AdES-BES\r\n  AdES-EPES\r\
+        \n  AdES-T\r\n  AdES-C\r\n  AdES-X\r\n  AdES-X1\r\n  AdES-X2\r\n  AdES-XL\r\
+        \n  AdES-XL1\r\n  AdES-XL2\r\n  AdES-A\r\n  PAdES-LTV\r\n  PAdES-Basic"
       enum:
       - AdES-BES
       - AdES-EPES
@@ -1147,6 +1162,7 @@ components:
             serialNumberCert: serialNumberCert
           signaturesTableLocation: 1
           signOperation: 1
+          signAlgorithmConstants: signAlgorithmConstants
           custodyInfo:
             validationFileUrl: validationFileUrl
             originalFileDirectURL: originalFileDirectURL
@@ -1167,7 +1183,6 @@ components:
             checkAdministrationIDOfSigner: true
           signType: signType
           signMode: 0
-          signAlgorithm: SHA-1
           timeStampIncluded: true
           policyIncluded: true
         signedFile:
@@ -1217,6 +1232,7 @@ components:
           serialNumberCert: serialNumberCert
         signaturesTableLocation: 1
         signOperation: 1
+        signAlgorithmConstants: signAlgorithmConstants
         custodyInfo:
           validationFileUrl: validationFileUrl
           originalFileDirectURL: originalFileDirectURL
@@ -1237,7 +1253,6 @@ components:
           checkAdministrationIDOfSigner: true
         signType: signType
         signMode: 0
-        signAlgorithm: SHA-1
         timeStampIncluded: true
         policyIncluded: true
       properties:
@@ -1249,11 +1264,6 @@ components:
           type: integer
         signType:
           description: "Tipus de Firma. Valors possibles:\r\n    "
-          type: string
-        signAlgorithm:
-          description: "Algorisme de Firma. Valors: \r\n    - \"SHA-1\"\r\n    - \"\
-            SHA-256\"\r\n    - \"SHA-384\"\r\n    - \"SHA-512\""
-          example: SHA-1
           type: string
         signMode:
           description: "Valors:\r\n    - 0: Implicit o Attached. La firma resultante\
@@ -1301,9 +1311,10 @@ components:
           $ref: '#/components/schemas/FirmaSimpleCustodyInfo'
         validationInfo:
           $ref: '#/components/schemas/FirmaSimpleValidationInfo'
+        signAlgorithmConstants:
+          type: string
       required:
       - policyIncluded
-      - signAlgorithm
       - signMode
       - signOperation
       - signType
@@ -1494,6 +1505,7 @@ components:
             key: key
           - value: value
             key: key
+          signAlgorithmConstants: signAlgorithmConstants
           eniTipoFirma: eniTipoFirma
           eniPerfilFirma: eniPerfilFirma
           validationInfo:
@@ -1503,7 +1515,6 @@ components:
             checkAdministrationIDOfSigner: true
           signType: PAdES
           signMode: 0
-          signAlgorithm: SHA-1
         upgradedFile:
           data: data
           mime: mime
@@ -1522,6 +1533,7 @@ components:
           key: key
         - value: value
           key: key
+        signAlgorithmConstants: signAlgorithmConstants
         eniTipoFirma: eniTipoFirma
         eniPerfilFirma: eniPerfilFirma
         validationInfo:
@@ -1531,7 +1543,6 @@ components:
           checkAdministrationIDOfSigner: true
         signType: PAdES
         signMode: 0
-        signAlgorithm: SHA-1
       properties:
         signType:
           description: "Tipus de Firma. Valors possibles:\r\n    • “PAdES” (Constant\
@@ -1542,11 +1553,6 @@ components:
             \ SIGN_TYPE_CADES_ASIC_S)\r\n    • “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\
             \n    • “PKCS#1” (Constant SIGN_TYPE_PKCS1)"
           example: PAdES
-          type: string
-        signAlgorithm:
-          description: "Algorisme de Firma. Valors:\r\n    • \"SHA-1\"\r\n    • \"\
-            SHA-256\"\r\n    • \"SHA-384\"\r\n    • \"SHA-512\""
-          example: SHA-1
           type: string
         signMode:
           description: Mode de firma attached (0) o detached (1)
@@ -1563,8 +1569,9 @@ components:
           items:
             $ref: '#/components/schemas/KeyValue'
           type: array
+        signAlgorithmConstants:
+          type: string
       required:
-      - signAlgorithm
       - signMode
       - signType
       type: object

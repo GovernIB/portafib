@@ -22,38 +22,24 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Tipus de firma disponibles
+ * Posició de la Taula de firmes:      • 0: Sense taula de firmes      • 1: Taula de firmes en la 1a pàgina      • -1: Darrera pàgina
  */
-public enum SignType {
+public enum SignatureStableLocationConstants {
   
-  PAD_ES("PAdES"),
+  SIGNATURESTABLELOCATION_WITHOUT(0),
   
-  XAD_ES("XAdES"),
+  SIGNATURESTABLELOCATION_FIRSTPAGE(1),
   
-  CAD_ES("CAdES"),
-  
-  FACTURA_E("FacturaE"),
-  
-  OOXML("OOXML"),
-  
-  ODF("ODF"),
-  
-  SMIME("SMIME"),
-  
-  CAD_ES_ASI_C_S("CAdES-ASiC-S"),
-  
-  XAD_ES_ASI_C_S("XAdES-ASiC-S"),
-  
-  PKCS_1("PKCS#1");
+  SIGNATURESTABLELOCATION_LASTPAGE(-1);
 
-  private String value;
+  private Integer value;
 
-  SignType(String value) {
+  SignatureStableLocationConstants(Integer value) {
     this.value = value;
   }
 
   @JsonValue
-  public String getValue() {
+  public Integer getValue() {
     return value;
   }
 
@@ -63,8 +49,8 @@ public enum SignType {
   }
 
   @JsonCreator
-  public static SignType fromValue(String value) {
-    for (SignType b : SignType.values()) {
+  public static SignatureStableLocationConstants fromValue(Integer value) {
+    for (SignatureStableLocationConstants b : SignatureStableLocationConstants.values()) {
       if (b.value.equals(value)) {
         return b;
       }

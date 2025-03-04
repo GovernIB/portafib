@@ -38,7 +38,7 @@ public class FirmaSimpleUpgradedFileInfo {
                     + "    • \"SHA-512\"",
             example = "SHA-1",
             requiredMode = RequiredMode.REQUIRED)
-	protected String signAlgorithm;
+	protected String SignAlgorithmConstants;
 
     @Schema(
             description = "Mode de firma attached (0) o detached (1)",
@@ -93,12 +93,12 @@ public class FirmaSimpleUpgradedFileInfo {
 		super();
 	}
 
-	public FirmaSimpleUpgradedFileInfo(String signType, String signAlgorithm, Integer signMode, String eniTipoFirma,
+	public FirmaSimpleUpgradedFileInfo(String signType, String SignAlgorithmConstants, Integer signMode, String eniTipoFirma,
 			String eniPerfilFirma, FirmaSimpleValidationInfo validationInfo,
 			List<KeyValue> additionInformation) {
 		super();
 		this.signType = signType;
-		this.signAlgorithm = signAlgorithm;
+		this.SignAlgorithmConstants = SignAlgorithmConstants;
 		this.signMode = signMode;
 		this.eniTipoFirma = eniTipoFirma;
 		this.eniPerfilFirma = eniPerfilFirma;
@@ -114,12 +114,12 @@ public class FirmaSimpleUpgradedFileInfo {
 		this.signType = signType;
 	}
 
-	public String getSignAlgorithm() {
-		return signAlgorithm;
+	public String getSignAlgorithmConstants() {
+		return SignAlgorithmConstants;
 	}
 
-	public void setSignAlgorithm(String signAlgorithm) {
-		this.signAlgorithm = signAlgorithm;
+	public void setSignAlgorithmConstants(String SignAlgorithmConstants) {
+		this.SignAlgorithmConstants = SignAlgorithmConstants;
 	}
 
 	public Integer getSignMode() {

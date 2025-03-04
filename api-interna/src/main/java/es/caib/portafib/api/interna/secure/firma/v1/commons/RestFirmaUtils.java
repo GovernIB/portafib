@@ -296,23 +296,23 @@ public class RestFirmaUtils extends RestUtils {
 
     protected String getAlgorismeDeFirmaOfConfig(final UsuariAplicacioConfiguracio config, EntitatJPA entitatJPA)
             throws I18NException {
-        int signAlgorithmID = getAlgorismeDeFirmaIDOfConfig(config, entitatJPA);
+        int SignAlgorithmConstantsID = getAlgorismeDeFirmaIDOfConfig(config, entitatJPA);
 
         // ALGORISME DE FIRMA
-        String signAlgorithm = SignatureUtils.convertSignAlgorithmID(signAlgorithmID);
-        log.info(" XYZ ZZZ REST: SIGN_ALGO [signAlgorithm] = " + signAlgorithm);
-        return signAlgorithm;
+        String SignAlgorithmConstants = SignatureUtils.convertSignAlgorithmID(SignAlgorithmConstantsID);
+        log.info(" XYZ ZZZ REST: SIGN_ALGO [SignAlgorithmConstants] = " + SignAlgorithmConstants);
+        return SignAlgorithmConstants;
     }
 
     protected int getAlgorismeDeFirmaIDOfConfig(final UsuariAplicacioConfiguracio config, EntitatJPA entitatJPA) {
-        Integer signAlgorithmID = config.getAlgorismeDeFirmaID();
-        if (signAlgorithmID == null) {
+        Integer SignAlgorithmConstantsID = config.getAlgorismeDeFirmaID();
+        if (SignAlgorithmConstantsID == null) {
             // Si val null cercar-ho a les DADES DE l'ENTITAT
-            signAlgorithmID = entitatJPA.getAlgorismeDeFirmaID();
+            SignAlgorithmConstantsID = entitatJPA.getAlgorismeDeFirmaID();
         }
 
-        log.info(" XYZ ZZZ REST: SIGN_ALGO [signAlgorithmID] = " + signAlgorithmID);
-        return signAlgorithmID;
+        log.info(" XYZ ZZZ REST: SIGN_ALGO [SignAlgorithmConstantsID] = " + SignAlgorithmConstantsID);
+        return SignAlgorithmConstantsID;
     }
 
     protected PerfilDeFirma getPerfilDeFirma(FirmaSimpleCommonInfo commonInfo, final boolean esFirmaEnServidor,
@@ -495,7 +495,7 @@ public class RestFirmaUtils extends RestUtils {
 
             final int signOperation = infoSignature.getSignOperation();
             final String signType = infoSignature.getSignType();
-            final String signAlgorithm = infoSignature.getSignAlgorithm();
+            final String SignAlgorithmConstants = infoSignature.getSignAlgorithm();
             final int signMode = infoSignature.getSignMode();
             final int signaturesTableLocation = infoSignature.getSignaturesTableLocation();
             final boolean timeStampIncluded = infoSignature.isUseTimeStamp();
@@ -657,7 +657,7 @@ public class RestFirmaUtils extends RestUtils {
             signerInfo = new FirmaSimpleSignerInfo(eniRolFirma, eniSignerName, eniSignerAdministrationId, eniSignLevel,
                     signDate, serialNumberCert, issuerCert, subjectCert, additionInformation);
 
-            sfi = new FirmaSimpleSignedFileInfo(signOperation, signType, signAlgorithm, signMode,
+            sfi = new FirmaSimpleSignedFileInfo(signOperation, signType, SignAlgorithmConstants, signMode,
                     signaturesTableLocation, timeStampIncluded, policyIncluded, eniTipoFirma, eniPerfilFirma,
                     signerInfo, custody, validation);
         }
@@ -829,7 +829,7 @@ public class RestFirmaUtils extends RestUtils {
                             .convertPortafibSignTypeToApiSignType(config.getTipusFirmaID());
 
                     // Algorisme de Firma
-                    String signAlgorithm = getAlgorismeDeFirmaOfConfig(config, entitatJPA);
+                    String SignAlgorithmConstants = getAlgorismeDeFirmaOfConfig(config, entitatJPA);
 
                     // Mode de Firma
                     final int signMode = config.getModeDeFirma();
@@ -859,7 +859,7 @@ public class RestFirmaUtils extends RestUtils {
 
                     fileInfoSignatureArray[i] = new PassarelaFileInfoSignature(fileToSign, prevSign, signID, name,
                             reason, location, signerEmail, signNumber, languageSign, signOperation, signType,
-                            signAlgorithm, signMode, signaturesTableLocation, signaturesTableHeader,
+                            SignAlgorithmConstants, signMode, signaturesTableLocation, signaturesTableHeader,
                             secureVerificationCodeStampInfo, useTimeStamp, expedientCodi, expedientNom, expedientUrl,
                             procedimentCodi, procedimentNom, additionalInformation);
 

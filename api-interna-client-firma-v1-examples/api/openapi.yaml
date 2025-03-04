@@ -590,7 +590,7 @@ components:
             checkAdministrationIDOfSigner: true
           signType: PAdES
           signMode: 0
-          signAlgorithm: SHA-1
+          SignAlgorithmConstants: SHA-1
           timeStampIncluded: true
           policyIncluded: true
         signedFile:
@@ -660,7 +660,7 @@ components:
           checkAdministrationIDOfSigner: true
         signType: PAdES
         signMode: 0
-        signAlgorithm: SHA-1
+        SignAlgorithmConstants: SHA-1
         timeStampIncluded: true
         policyIncluded: true
       properties:
@@ -680,7 +680,7 @@ components:
             \n    - “PKCS#1” (Constant SIGN_TYPE_PKCS1)"
           example: PAdES
           type: string
-        signAlgorithm:
+        SignAlgorithmConstants:
           description: "Algorisme de Firma. Valors: \r\n    - \"SHA-1\"\r\n    - \"\
             SHA-256\"\r\n    - \"SHA-384\"\r\n    - \"SHA-512\""
           example: SHA-1
@@ -733,7 +733,7 @@ components:
           $ref: '#/components/schemas/FirmaSimpleValidationInfo'
       required:
       - policyIncluded
-      - signAlgorithm
+      - SignAlgorithmConstants
       - signMode
       - signOperation
       - signType
@@ -955,7 +955,7 @@ components:
             checkAdministrationIDOfSigner: true
           signType: signType
           signMode: 0
-          signAlgorithm: signAlgorithm
+          SignAlgorithmConstants: SignAlgorithmConstants
         upgradedFile:
           data: data
           mime: mime
@@ -982,11 +982,11 @@ components:
           checkAdministrationIDOfSigner: true
         signType: signType
         signMode: 0
-        signAlgorithm: signAlgorithm
+        SignAlgorithmConstants: SignAlgorithmConstants
       properties:
         signType:
           type: string
-        signAlgorithm:
+        SignAlgorithmConstants:
           type: string
         signMode:
           format: int32

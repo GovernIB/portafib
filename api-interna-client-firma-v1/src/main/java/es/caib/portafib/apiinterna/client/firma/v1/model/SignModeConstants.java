@@ -22,44 +22,26 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Perfils de firma disponibles
+ * Valors:      • 0: Implicit o Attached. La firma resultante incluye internamente una copia de los datos firmados.       • 1: Explicit o Detached: La firma resultante no incluye los datos firmados.
  */
-public enum SignProfile {
+public enum SignModeConstants {
   
-  AD_ES_BES("AdES-BES"),
+  SIGN_MODE_ATTACHED_ENVELOPED(0),
   
-  AD_ES_EPES("AdES-EPES"),
+  SIGN_MODE_ATTACHED_ENVELOPING(3),
   
-  AD_ES_T("AdES-T"),
+  SIGN_MODE_DETACHED(1),
   
-  AD_ES_C("AdES-C"),
-  
-  AD_ES_X("AdES-X"),
-  
-  AD_ES_X1("AdES-X1"),
-  
-  AD_ES_X2("AdES-X2"),
-  
-  AD_ES_XL("AdES-XL"),
-  
-  AD_ES_XL1("AdES-XL1"),
-  
-  AD_ES_XL2("AdES-XL2"),
-  
-  AD_ES_A("AdES-A"),
-  
-  PAD_ES_LTV("PAdES-LTV"),
-  
-  PAD_ES_BASIC("PAdES-Basic");
+  SIGN_MODE_INTERNALLY_DETACHED(4);
 
-  private String value;
+  private Integer value;
 
-  SignProfile(String value) {
+  SignModeConstants(Integer value) {
     this.value = value;
   }
 
   @JsonValue
-  public String getValue() {
+  public Integer getValue() {
     return value;
   }
 
@@ -69,8 +51,8 @@ public enum SignProfile {
   }
 
   @JsonCreator
-  public static SignProfile fromValue(String value) {
-    for (SignProfile b : SignProfile.values()) {
+  public static SignModeConstants fromValue(Integer value) {
+    for (SignModeConstants b : SignModeConstants.values()) {
       if (b.value.equals(value)) {
         return b;
       }
