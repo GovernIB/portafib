@@ -488,7 +488,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
 
                 if (isPlantillaRest()) {
 
-                    log.info(" XYZ ZZZ READONLY PER CAMPS NOM, COMPARTIR i USUARI APP");
+                    //log.info("READONLY PER CAMPS NOM, COMPARTIR i USUARI APP");
 
                     form.addHiddenField(PlantillaFluxDeFirmesFields.COMPARTIR);
                     //form.addReadOnlyField(NOM);
@@ -947,21 +947,23 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
 
             if (usuariEntitatExtern == null) {
 
-                log.info(" XYZ ZZZ   NO EXISTEIX USUARI ENTITAT EXTERN AMB NIF ]" + nif + "[");
+                //log.info(" NO EXISTEIX USUARI ENTITAT EXTERN AMB NIF ]" + nif + "[");
 
                 // revisam si existeix l'UsuariPersona Externa
                 usuariPersona = usuariEntitatLogicaEjb.findUsuariPersonaExternaByNif(nif);
 
                 if (usuariPersona != null) {
-                    log.info(" XYZ ZZZ   SI EXISTEIX USUARI PERSONA EXTERNA AMB NIF ]" + nif + "[");
+                    //log.info("SI EXISTEIX USUARI PERSONA EXTERNA AMB NIF ]" + nif + "[");
                 }
 
             } else {
 
                 usuariPersona = usuariEntitatExtern.getUsuariPersona();
-                log.info(" XYZ ZZZ   SI EXISTESIX USUARI ENTITAT EXTERN AMB NIF ]" + nif + "[:<br/>   "
+                /*
+                log.info("SI EXISTESIX USUARI ENTITAT EXTERN AMB NIF ]" + nif + "[:<br/>   "
                         + usuariPersona.getEmail() + " | " + usuariPersona.getNif() + " | " + usuariPersona.getNom()
                         + " " + usuariPersona.getLlinatges());
+                */
 
             }
 
@@ -1013,8 +1015,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                 String blocOrdreStr = request.getParameter("crearfirma_blocOrdre");
                 String blocIDStr = request.getParameter("crearfirma_blocid");
 
-                log.info(" \n\n XYZ ZZZ Bloc ORDRE STR => ]" + blocOrdreStr + "[");
-                log.info("XYZ ZZZ Bloc ID STR => ]" + blocIDStr + "[");
+                //log.info("Bloc ORDRE STR => ]" + blocOrdreStr + "[");
+                //log.info("Bloc ID STR => ]" + blocIDStr + "[");
 
                 if ("".equals(blocOrdreStr)) {
                     //  Afegir Firma a Bloc Existent
@@ -1883,7 +1885,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
     protected void processErrors(BindingResult result, BindingResult errors) {
         List<ObjectError> list = errors.getAllErrors();
 
-        log.error(" processErrors 111 : " + errors.hasErrors());
+        //log.error(" processErrors 111 : " + errors.hasErrors());
 
         for (ObjectError oe1 : list) {
             FieldError oe = (FieldError) oe1;
@@ -1898,7 +1900,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
             result.addError(oe);
         }
 
-        log.error(" processErrors 222: " + errors.hasErrors());
+        //log.error(" processErrors 222: " + errors.hasErrors());
     }
 
     @Override

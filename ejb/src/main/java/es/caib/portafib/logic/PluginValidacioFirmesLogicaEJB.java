@@ -46,7 +46,7 @@ public class PluginValidacioFirmesLogicaEJB extends
       throws ValidacioException {
 
     try {
-      log.info("validateSignature");
+      //log.info("validateSignature");
 
       Long pluginValidateSignatureID = entitatEjb.executeQueryOne(
           EntitatFields.PLUGINVALIDAFIRMESID, EntitatFields.ENTITATID.equal(entitatID));
@@ -133,7 +133,7 @@ public class PluginValidacioFirmesLogicaEJB extends
         throw new Exception(
             "La resposta del validador o el camp estat del validador valen null");
       }
-      log.info("validateSignature status = " + vsresp.getValidationStatus().getStatus());
+      //log.info("validateSignature status = " + vsresp.getValidationStatus().getStatus());
     } catch (Exception e) {
       PluginJPA plugin = findByPrimaryKey(pluginValidateSignatureID);
       String msg = "Error no controlat cridant al validador de firmes "

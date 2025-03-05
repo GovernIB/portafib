@@ -662,9 +662,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
         noPermetreUsuarisExterns();
 
-        log.info("XYZ ZZZ baseUrlFull = " + baseUrlFull);
+        //log.info("baseUrlFull = " + baseUrlFull);
         String baseUrl = es.caib.portafib.back.utils.Utils.getUrlBaseFromFullUrl(request, baseUrlFull);
-        log.info("XYZ ZZZ  baseUrl OK = " + baseUrl);
+        //log.info("baseUrl OK = " + baseUrl);
 
         String[] seleccionatsStr = filterForm.getSelectedItems();
         if (seleccionatsStr == null || seleccionatsStr.length == 0) {
@@ -1046,10 +1046,10 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     Long peticioDeFirmaID, @RequestParam("url_user")
     String baseUrlFull) throws I18NException {
 
-        log.info("XYZ ZZZ baseUrlFull = " + baseUrlFull);
+        //log.info("baseUrlFull = " + baseUrlFull);
 
         String baseUrl = es.caib.portafib.back.utils.Utils.getUrlBaseFromFullUrl(request, baseUrlFull);
-        log.info("XYZ ZZZ  baseUrl OK = " + baseUrl);
+        //log.info("baseUrl OK = " + baseUrl);
 
         ModelAndView mav;
         final int numberTotalOfSignatures = 1;
@@ -1098,7 +1098,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
         String relativeControllerBase = baseUrl + getContextWeb();
 
-        log.info(" XYZ ZZZ relativeControllerBase = " + relativeControllerBase);
+        //log.info("relativeControllerBase = " + relativeControllerBase);
 
         final String urlFinal = response.encodeURL(relativeControllerBase + "/finalFirma/" + signaturesSetID);
 
@@ -2646,7 +2646,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             // Per defecte
             filterForm.setVisibleMultipleSelection(false);
 
-            if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)|| role.equals(ConstantsV2.ROLE_REVI)) {
+            if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)
+                    || role.equals(ConstantsV2.ROLE_REVI)) {
                 if (this.getFilterType() == FILTRAR_PER_PENDENT) {
                     filterForm.setVisibleMultipleSelection(true);
                 } else if (getFilterType() == FILTRAR_PER_RES) {
@@ -2659,18 +2660,17 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     }
                 }
             }
-            
-            log.info("POSTLIST: isVisibleMultipleSelection: " + filterForm.isVisibleMultipleSelection());
-            
-            log.info("POSTLIST: filterForm.getAdditionalButtons().isEmpty(): " + filterForm.getAdditionalButtons().isEmpty());
-            
+
+            //log.info("POSTLIST: isVisibleMultipleSelection: " + filterForm.isVisibleMultipleSelection());
+
+            //log.info("POSTLIST: filterForm.getAdditionalButtons().isEmpty(): "
+            //        + filterForm.getAdditionalButtons().isEmpty());
 
             if (filterForm.isVisibleMultipleSelection() && filterForm.getAdditionalButtons().isEmpty()) {
-                
 
                 filterForm.addAdditionalButton(new AdditionalButton("fas fa-times", "rebutjarseleccionats",
                         "javascript:rebutjarseleccionats()", AdditionalButtonStyle.DANGER));
-                
+
                 if (role.equals(ConstantsV2.ROLE_REVI)) {
 
                     filterForm.addAdditionalButton(new AdditionalButton("fas fa-check", "acceptarseleccionats",
@@ -2678,10 +2678,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
                 } else {
 
-    
                     filterForm.addAdditionalButton(new AdditionalButton("fas fa-file-signature", "firmarseleccionats",
                             "javascript:firmarseleccionats()", AdditionalButtonStyle.SUCCESS));
-    
+
                     filterForm.addAdditionalButton(new AdditionalButton("fas fa-tasks", "carret.processar.inici",
                             "javascript:processarInici()", AdditionalButtonStyle.WARNING));
                 }

@@ -54,7 +54,7 @@ public class RestFirmaUtils<K extends ApisIBKeyValue> extends RestUtilsErrorMana
 
         String usuariAplicacioID = loginInfo.getUsuariAplicacio().getUsuariAplicacioID();
 
-        log.info(" XYZ ZZZ Usuari-APP = " + usuariAplicacioID);
+        //log.info("Usuari-APP = " + usuariAplicacioID);
 
         List<Long> perfilIDList = perfilsPerUsuariAplicacioEjb.executeQuery(
                 PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID,
@@ -115,7 +115,7 @@ public class RestFirmaUtils<K extends ApisIBKeyValue> extends RestUtilsErrorMana
 
         // ALGORISME DE FIRMA
         String signAlgorithm = SignatureUtils.convertSignAlgorithmID(signAlgorithmID);
-        log.info(" XYZ ZZZ REST: SIGN_ALGO [signAlgorithm] = " + signAlgorithm);
+        //log.info("REST: SIGN_ALGO [signAlgorithm] = " + signAlgorithm);
         return signAlgorithm;
     }
 
@@ -126,7 +126,7 @@ public class RestFirmaUtils<K extends ApisIBKeyValue> extends RestUtilsErrorMana
             signAlgorithmID = entitatJPA.getAlgorismeDeFirmaID();
         }
 
-        log.info(" XYZ ZZZ REST: SIGN_ALGO [signAlgorithmID] = " + signAlgorithmID);
+        //log.info("REST: SIGN_ALGO [signAlgorithmID] = " + signAlgorithmID);
         return signAlgorithmID;
     }
 

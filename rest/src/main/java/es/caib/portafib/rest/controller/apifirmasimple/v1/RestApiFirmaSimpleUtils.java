@@ -454,7 +454,6 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
             }
 
             languageUI = commonInfo.getLanguageUI();
-            log.info(" XYZ ZZZ LanguageUI() => " + languageUI);
             if (languageUI == null || languageUI.trim().length() == 0) {
                 throw new I18NException("genapp.comodi",
                         "El camp languageUI de l'atribut commonInfo val null o està buit");
@@ -486,18 +485,17 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
                 FirmaSimpleFileInfoSignature sfis = simpleFileInfoSignatureArray[i];
 
                 String signID = sfis.getSignID();
-
-                log.info(
-                        "XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign() => " + sfis.getFileToSign());
-                log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign().getNom() => "
+/*
+                log.info("\n\n  convertRestBean2PassarelaBean::sfis.getFileToSign() => " + sfis.getFileToSign());
+                log.info("\n\n  convertRestBean2PassarelaBean::sfis.getFileToSign().getNom() => "
                         + sfis.getFileToSign().getNom());
-
+*/
                 FitxerBean fileToSign = convertFirmaSimpleFileToFitxerBean(sfis.getFileToSign(), type, transactionID,
                         signID);
-
-                log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign => " + fileToSign);
-                log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign.getNom() => " + fileToSign.getNom());
-
+/*
+                log.info("\n\n  convertRestBean2PassarelaBean::fileToSign => " + fileToSign);
+                log.info("\n\n  convertRestBean2PassarelaBean::fileToSign.getNom() => " + fileToSign.getNom());
+*/
                 // XYZ ZZZ FALTA ENCARA NO SUPORTAT
                 FitxerBean prevSign = null;
                 if (sfis.getPreviusSignatureDetachedFile() != null) {

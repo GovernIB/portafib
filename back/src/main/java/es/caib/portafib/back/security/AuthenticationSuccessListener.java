@@ -88,7 +88,8 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
                         + " Tanqui el navegador completament.");
             }
         } catch (Throwable e) {
-            log.info(" XYZ ZZZ ZZZ S'ha produit un error consultant la informació de login actual: " + e.getMessage());
+            //  XYZ ZZZ TRA
+            log.info("S'ha produit un error consultant la informació de login actual: " + e.getMessage());
         }
 
         final boolean isDebug = log.isDebugEnabled();
@@ -422,12 +423,16 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
             }
         }
 
-        log.info("LoginInfo:\n" + "\tuser: " + user + "\n" + "\tusuariPersona: " + usuariPersona + "\n"
+        if (log.isDebugEnabled()) {
+           log.debug("LoginInfo:\n" + "\tuser: " + user + "\n" + "\tusuariPersona: " + usuariPersona + "\n"
                 + "\tentitatIDActual: " + entitatIDActual + "\n" + "\tentitats: " + entitats + "\n"
                 + "\trolesPerEntitat: " + rolesPerEntitat + "\n" + "\tusuariEntitatPerEntitatID: "
-                + usuariEntitatPerEntitatID + "\n" + "\tnecesitaConfigurar: " + necesitaConfigurar + "\n"
+                + usuariEntitatPerEntitatID + "\n" + "\tnecesitaConfigurar: " + necesitaConfigurar + "\n");
+        } else {
+            log.info("LoginInfo:\n" + "\tuser: " + user);
+        }
 
-        );
+   
         LoginInfo loginInfo = new LoginInfo(user, usuariPersona, entitatIDActual, entitats, rolesPerEntitat,
                 usuariEntitatPerEntitatID, necesitaConfigurar);
 

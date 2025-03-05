@@ -174,14 +174,14 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
         String transactionID = holder.getTransactionID();
         FirmaSimpleFileInfoSignature sfis = holder.getFileInfoSignature();
 
-        log.info(" XYZ ZZZ addFileToSign::transactionID => |" + transactionID + "|");
-        log.info(" XYZ ZZZ addFileToSign::FirmaSimpleFileInfoSignature: " + sfis);
+        //log.info(" addFileToSign::transactionID => |" + transactionID + "|");
+        //log.info(" addFileToSign::FirmaSimpleFileInfoSignature: " + sfis);
 
         // TODO XYZ ZZZ CHECKS DE LOGIN
 
         // CHECKS DE variable
 
-        log.info(" XYZ ZZZ addFileToSign::currentTransactions.size() => " + currentTransactions.size());
+        //log.info("addFileToSign::currentTransactions.size() => " + currentTransactions.size());
 
         TransactionInfo ti = currentTransactions.get(transactionID);
 
@@ -208,7 +208,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
         try {
             LoginInfo loginInfo = LoginInfo.getInstance();
-            //log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
+            //log.info("LOGININFO => " + loginInfo);
 
             // Checks Globals
             if (loginInfo.getUsuariAplicacio() == null) {
@@ -216,17 +216,17 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
             }
 
             // Checks usuari aplicacio
-            //log.info(" XYZ ZZZ Usuari-APP = " + loginInfo.getUsuariAplicacio());
+            //log.info("Usuari-APP = " + loginInfo.getUsuariAplicacio());
 
-            String signID = sfis.getSignID();
-            String name = sfis.getName();
+            //String signID = sfis.getSignID();
+            //String name = sfis.getName();
 
             ti.getFirmaSimpleFileList().add(sfis);
 
             // Actualitzar Data expriracio
             ti.setStartTime(new Date());
-            log.info(" XYZ ZZZ addFileToSign::afegida firma [" + signID + " | " + name
-                    + " ] a la llista de la transacció |" + transactionID + "|");
+            //log.info("addFileToSign::afegida firma [" + signID + " | " + name
+            //        + " ] a la llista de la transacció |" + transactionID + "|");
 
             HttpHeaders headers = addAccessControllAllowOrigin();
             return new ResponseEntity<String>(headers, HttpStatus.OK);
@@ -251,8 +251,6 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
     TextNode textNodeLanguageUI) {
 
         String languageUI = textNodeLanguageUI.asText();
-
-        log.info("\n\nXYZ ZZZ ZZZ  languageUI => ]" + languageUI + "[ \n\n");
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -340,18 +338,18 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
         String languageUI = "ca";
 
         try {
-            log.info(" XYZ ZZZ eNTRA A startTransaction => FirmaWebSimpleStartTransactionRequest: "
-                    + startTransactionRequest);
+            //log.info("eNTRA A startTransaction => FirmaWebSimpleStartTransactionRequest: "
+            //        + startTransactionRequest);
 
             // TODO XYZ ZZZ CHECKS DE LOGIN
             LoginInfo loginInfo = commonChecks();
 
-            log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
+            //log.info("LOGININFO => " + loginInfo);
 
             final String transactionID = startTransactionRequest.getTransactionID();
 
-            log.info(" XYZ ZZZ startTransaction::transactionID => |" + transactionID + "|");
-            log.info(" XYZ ZZZ startTransaction::currentTransactions.size() => " + currentTransactions.size());
+            //log.info("startTransaction::transactionID => |" + transactionID + "|");
+            //log.info("startTransaction::currentTransactions.size() => " + currentTransactions.size());
 
             TransactionInfo ti = currentTransactions.get(transactionID);
 
@@ -411,7 +409,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
             final PerfilDeFirma perfilDeFirma = getPerfilDeFirma(commonInfo, esFirmaEnServidor);
 
-            log.info(" XYZ ZZZ PERFILFIRMA FIRMA WEB = " + perfilDeFirma.getCodi());
+            //log.info("PERFILFIRMA FIRMA WEB = " + perfilDeFirma.getCodi());
 
             Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = new HashMap<String, UsuariAplicacioConfiguracioJPA>();
             Map<String, Long> tipusDocumentalBySignID = new HashMap<String, Long>();
@@ -448,7 +446,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
             HttpHeaders headers = addAccessControllAllowOrigin();
             ResponseEntity<?> re = new ResponseEntity<String>(redirectUrl, headers, HttpStatus.OK);
-            log.info(" XYZ ZZZ SURT DE startTransaction => FINAL OK");
+            //log.info("SURT DE startTransaction => FINAL OK");
 
             ti.setStatus(TransactionInfo.STATUS_IN_PROGRESS);
 
@@ -490,7 +488,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
             String transactionID = textNodeTransactionID.asText();
 
-            log.info(" XYZ ZZZ ENTRA A getTransactionStatus => ]" + transactionID + "[");
+            //log.info("ENTRA A getTransactionStatus => ]" + transactionID + "[");
 
             String error = autenticateUsrApp(request);
             if (error != null) {
@@ -514,8 +512,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
             List<PassarelaSignatureResult> results;
             results = passarelaDeFirmaWebEjb.getSignatureResults(transactionID, addFiles);
 
-            log.info("\n\n XYZ ZZZ Numero d'arxius firmat trobats per la transacció " + transactionID + " es de "
-                    + results.size() + "\n\n");
+            //log.info("Numero d'arxius firmat trobats per la transacció " + transactionID + " es de " + results.size());
 
             List<FirmaSimpleSignatureStatus> signResults = new ArrayList<FirmaSimpleSignatureStatus>();
             for (PassarelaSignatureResult psr : results) {
@@ -531,7 +528,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
             HttpHeaders headers = addAccessControllAllowOrigin();
             ResponseEntity<?> re = new ResponseEntity<FirmaSimpleGetTransactionStatusResponse>(ssresponse, headers,
                     HttpStatus.OK);
-            log.info(" XYZ ZZZ surt de  getTransactionStatus => FINAL OK");
+            log.debug("Surt de  getTransactionStatus => FINAL OK");
 
             return re;
 
@@ -553,7 +550,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
     public ResponseEntity<?> getSignatureResult(@RequestBody
     FirmaSimpleGetSignatureResultRequest signatureResultRequest, HttpServletRequest request) {
 
-        log.info(" XYZ ZZZ getSignaturesResult => ENTRA");
+        //log.info("getSignaturesResult => ENTRA");
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -604,7 +601,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
             HttpHeaders headers = addAccessControllAllowOrigin();
             ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignatureResult>(fssr, headers, HttpStatus.OK);
-            log.info(" XYZ ZZZ getSignaturesStatus => FINAL OK");
+            //log.info("getSignaturesStatus => FINAL OK");
             return re;
 
         } catch (Throwable th) {
@@ -629,7 +626,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
         final String transactionID = textNodeTransactionID.asText();
 
-        log.info(" XYZ ZZZ closeTransaction => ENTRA ]" + transactionID + "[");
+        //log.info("closeTransaction => ENTRA ]" + transactionID + "[");
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -643,7 +640,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
         internalCloseTransaction(transactionID);
 
-        log.info(" XYZ ZZZ closeTransaction => FINAL OK => size = " + currentTransactions.size());
+        //log.info("closeTransaction => FINAL OK => size = " + currentTransactions.size());
 
     }
 

@@ -80,7 +80,7 @@ public class BasePreparer implements ConstantsV2, ViewPreparer {
 
             Device currentDevice = DeviceUtils.getRequiredCurrentDevice(httpRequest);
             if (currentDevice.isMobile()) {
-                log.info("XYZ ZZZ IS MOBILE = true");
+                //log.info(" IS MOBILE = true");
                 httpRequest.getSession().setAttribute("isMobile", true);
                 request.put("isMobile", true);
             }

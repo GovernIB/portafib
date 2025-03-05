@@ -45,9 +45,7 @@ public class ObjectMapperConfiguration extends JacksonJaxbJsonProvider {
     }
 
     public ObjectMapperConfiguration() {
-        
-        log.info("Inicialitzant ObjectMapperConfiguration ...");
-        
+        //log.debug("Inicialitzant ObjectMapperConfiguration ...");
         super.setMapper(MAPPER);
     }
 

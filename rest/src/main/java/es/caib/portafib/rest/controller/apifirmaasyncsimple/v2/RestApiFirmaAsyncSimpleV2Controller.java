@@ -1015,10 +1015,10 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     protected void checkIfPeticioDeFirmaIsPropertyOfUsrApp(long peticioDeFirmaID, LoginInfo loginInfo)
             throws I18NException {
 
-        log.info("\n\n\n\n");
-        log.info("loginInfo.hasRole(ConstantsV2.ROLE_ADMIN) => " + loginInfo.hasRole(ConstantsV2.ROLE_ADMIN));
-        log.info("loginInfo.hasRole(ConstantsV2.PFI_ADMIN) => " + loginInfo.hasRole(ConstantsV2.PFI_ADMIN));
-        log.info("\n\n\n\n");
+        if (log.isDebugEnabled()) {
+            log.debug("loginInfo.hasRole(ConstantsV2.ROLE_ADMIN) => " + loginInfo.hasRole(ConstantsV2.ROLE_ADMIN));
+            log.debug("loginInfo.hasRole(ConstantsV2.PFI_ADMIN) => " + loginInfo.hasRole(ConstantsV2.PFI_ADMIN));
+        };
 
         boolean hasRoleAdmin = loginInfo.hasRole(ConstantsV2.ROLE_ADMIN) || loginInfo.hasRole(ConstantsV2.PFI_ADMIN);
 

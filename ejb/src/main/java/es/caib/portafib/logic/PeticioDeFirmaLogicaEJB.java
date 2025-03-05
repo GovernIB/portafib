@@ -2047,7 +2047,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         // XYZ ZZZ
         //long start = System.currentTimeMillis();
         try {
-            //log.info("XYZ ZZZ---------------------ENTRA nouFitxerFirmat(" + peticioDeFirmaID + ") ----------------------------------------");
+            //log.info("---------------------ENTRA nouFitxerFirmat(" + peticioDeFirmaID + ") ----------------------------------------");
             FirmaEventList events = new FirmaEventList();
 
             // Check Bloqueig
@@ -2458,7 +2458,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             }
             // XYZ ZZZ
             //long end = System.currentTimeMillis();
-            //log.info("XYZ ZZZ  =======  FINAL nouFitxerFirmat(" + peticioDeFirmaID + "): " + (end-start)+ " ms ====");
+            //log.info("=======  FINAL nouFitxerFirmat(" + peticioDeFirmaID + "): " + (end-start)+ " ms ====");
         }
     }
 

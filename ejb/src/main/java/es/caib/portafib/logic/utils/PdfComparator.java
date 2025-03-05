@@ -99,10 +99,10 @@ public class PdfComparator implements ConstantsV2 {
             // 1 Compara les Imatges
             try {
 
-                log.info("XYZ ZZZ PdfComparator():: generateImagesOfPDF => ORIG");
+                //log.info(" PdfComparator():: generateImagesOfPDF => ORIG");
                 adaptades = generateImagesOfPDF(prefix + "_orig", adaptat, tmpDir, start, end);
 
-                log.info("XYZ ZZZ PdfComparator():: generateImagesOfPDF => SIGN");
+                //log.info(" PdfComparator():: generateImagesOfPDF => SIGN");
                 signats = generateImagesOfPDF(prefix + "_sign", signed, tmpDir, start, end);
 
                 if (adaptades.length != signats.length) {
@@ -115,7 +115,7 @@ public class PdfComparator implements ConstantsV2 {
                 for (int i = 0; i < signats.length; i++) {
 
                     try {
-                        log.info("XYZ ZZZ PdfComparator():: contentEquals[" + i + "]");
+                        //log.info("PdfComparator():: contentEquals[" + i + "]");
                         if (!FileUtils.contentEquals(adaptades[i], signats[i])) {
                             // XYZ ZZZ TRA
                             esborrar = i; // ignorar l'esborrat d'aquesta pàgina
@@ -133,7 +133,7 @@ public class PdfComparator implements ConstantsV2 {
                 }
 
             } finally {
-                log.info("XYZ ZZZ PdfComparator():: cleanFiles");
+                //log.info("PdfComparator():: cleanFiles");
                 clean(adaptades, esborrar);
                 clean(signats, esborrar);
                 // System.gc();

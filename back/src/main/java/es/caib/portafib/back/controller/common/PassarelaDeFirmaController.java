@@ -245,7 +245,7 @@ public class PassarelaDeFirmaController {
 
         final String url = ssf.getSignaturesSet().getCommonInfoSignature().getUrlFinal();
 
-        log.info("PassarelaDeFirmaController::finalProcessDeFirma(); => URL redirect = " + url);
+        log.debug("PassarelaDeFirmaController::finalProcessDeFirma(); => URL redirect = " + url);
 
         return new ModelAndView(new RedirectView(url));
 

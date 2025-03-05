@@ -51,7 +51,7 @@ public class RestUtils {
             }
             /*
                   String credentials = new String(Base64.decode(st.nextToken()));
-                  //log.info("XYZ ZZZ autenticate::Credentials: " + credentials);
+                  //log.info("autenticate::Credentials: " + credentials);
                   int p = credentials.indexOf(":");
                   if (p == -1) {
                     final String msg = "Credentials amb format incorrecte: " + credentials;
@@ -120,7 +120,7 @@ public class RestUtils {
                         // and set the authentication of the current Session context
                         SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
                 */
-                log.info("Inicialitzada Informació de UsuariAPLicacio dins de LoginInfo");
+                log.info("Inicialitzada Informació de UsuariAplicacio "  + username + " dins de LoginInfo");
 
                 return null; // OK
 
