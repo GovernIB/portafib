@@ -128,7 +128,6 @@
   }
 
   function esborrarAmbMotiuSeleccionades() {
-	    alert("Caracolo: esborrarAmbMotiuSeleccionades");
 
     var reason = prompt("<fmt:message key="motiuesborrar"/>","");
     
