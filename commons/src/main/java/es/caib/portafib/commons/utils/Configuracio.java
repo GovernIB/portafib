@@ -47,7 +47,7 @@ public class Configuracio implements Constants {
         }
     }
 
-    private static Long getLongPortaFIBProperty(String key) {
+    protected static Long getLongPortaFIBProperty(String key) {
         String value = getPortaFIBProperties().getProperty(key);
         Long valueLong = null;
         if (value != null) {
@@ -154,7 +154,6 @@ public class Configuracio implements Constants {
             }
         }
     }
-    
 
     public static String getAppUrl() {
         return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "url");
@@ -166,14 +165,6 @@ public class Configuracio implements Constants {
 
     public static String getAppName() {
         return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "name", "PortaFIB");
-    }
-
-    public static Long getMaxUploadSizeInBytes() {
-        return getLongPortaFIBProperty(PORTAFIB_PROPERTY_BASE + "maxuploadsizeinbytes");
-    }
-
-    public static Long getMaxFitxerAdaptatSizeInBytes() {
-        return getLongPortaFIBProperty(PORTAFIB_PROPERTY_BASE + "maxfitxeradaptatsizeinbytes");
     }
 
     public static boolean isCheckApplicationUserWithUserInformationPlugin() {
