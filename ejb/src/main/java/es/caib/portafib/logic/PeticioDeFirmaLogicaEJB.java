@@ -240,7 +240,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
     @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
     private RebreAvisLogicaLocal rebreAvisLogicaEjb;
 
-
     @Resource
     private SessionContext context;
 
@@ -2669,7 +2668,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             try {
                 List<EstatDeFirma> estatsDeFirmaPendents = estatDeFirmaLogicaEjb
                         .getEstatsDeFirmaPendentsFirma(firma.getFirmaID());
-                
+
                 //log.info("\n  ------------ estatsDeFirmaPendents => " + estatsDeFirmaPendents.size() + " ------------ \n" );
                 //int i = 0;
                 for (EstatDeFirma estatDeFirmaPendent : estatsDeFirmaPendents) {
@@ -2707,42 +2706,42 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 tipusOperacio, desc);
 
         if (revisorsPendents == 0) {
-/*
+            /*
             //log.error("\n\n\n XXXXXXXXXXXXXXXXXXXXXXXX  revisorsPendents == 0  XXXXXXXXXXXXXXXXXXXXX\n\n\n");
             final Locale loc = new Locale(peticioDeFirma.getIdiomaID());
-
+            
             String subject = I18NCommonUtils.tradueix(loc, "email.peticio.revisada.subject");
-
+            
             String nomPeticio = peticioDeFirma.getTitol();
-
+            
             final String baseUrl = PropietatGlobalUtil.getAppUrl() + ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT
                     + "/list";
-
+            
             String usuariPersonaID = usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.USUARIPERSONAID,
                     UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma.getUsuariEntitatID()));
-
+            
             UsuariPersonaJPA persona = usuariPersonaEjb.findByPrimaryKey(usuariPersonaID);
-
+            
             String nomRevisor = persona.getNom() + " " + persona.getLlinatges();
             String usernameRevisor = persona.getUsuariPersonaID();
-
+            
             String message = I18NCommonUtils.tradueix(loc, "email.peticio.revisada.message", nomPeticio, nomRevisor,
                     usernameRevisor, baseUrl);
-
+            
             final boolean isHTML = true;
-
+            
             String from = PropietatGlobalUtil.getAppEmail();
-
+            
             //log.error(" =>   getDestinatariID " + firma.getDestinatariID()); 
-
+            
             UsuariEntitatQueryPath ueqp = new UsuariEntitatQueryPath();
-
+            
             String to = usuariEntitatEjb.executeQueryOne(ueqp.USUARIPERSONA().EMAIL(),
                     UsuariEntitatFields.USUARIENTITATID.equal(firma.getDestinatariID()));
-
+            
             //log.error(" =>   FROM " + from);    
             //log.error(" =>     TO " + to);
-
+            
             try {
                 EmailUtil.postMail(subject, message, isHTML, from, to);
             } catch (Exception e) {
@@ -2876,7 +2875,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         // Afegim que és l'administrador entitat al motiu de rebuig perquè quedi constància
         // a les diferents bandes.
         // XYZ ZZZ TRA
-        motiuDeRebuig = "Petició rebutjada per l´Administrador Entitat ]" + usuariEntitatAden +"[: " + motiuDeRebuig;
+        motiuDeRebuig = "Petició rebutjada per l´Administrador Entitat ]" + usuariEntitatAden + "[. Motiu: "
+                + motiuDeRebuig;
 
         int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
         if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
@@ -2977,8 +2977,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         long estatInicial = estatDeFirma.getTipusEstatDeFirmaInicialID();
         if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
             //Estaba asignado para revisar, y la han dado a aceptar
-            log.info("El revisor ha rebuitjat el document");
-            desc = "El revisor ha rebuitjat el document: " + motiuDeRebuig;
+            log.info("El revisor ha rebutjat el document");
+            desc = "El revisor ha rebutjat el document: " + motiuDeRebuig;
             tipusOperacio = BITACOLA_OP_REVISOR_REBUTJAR;
         } else {
             desc = "Petició rebutjada: " + motiuDeRebuig;
