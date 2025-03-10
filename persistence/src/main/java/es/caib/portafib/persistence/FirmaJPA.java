@@ -428,18 +428,23 @@ public class FirmaJPA implements Firma {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof Firma) {
-      Firma __instance = (Firma)__obj;
-      __result = true;
-      __result = __result && (this.getFirmaID() == __instance.getFirmaID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof Firma) {
+            Firma __instance = (Firma)__obj;
+            __result = true;
+            __result = __result && (this.getFirmaID() == __instance.getFirmaID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getFirmaID())).hashCode();
+    }
 
 // EXP  Field:firmaid | Table: pfi_annexfirmat | Type: 0  
 

@@ -166,23 +166,28 @@ public class UsuariPersonaJPA implements UsuariPersona {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof UsuariPersona) {
-      UsuariPersona __instance = (UsuariPersona)__obj;
-      __result = true;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof UsuariPersona) {
+            UsuariPersona __instance = (UsuariPersona)__obj;
+            __result = true;
       if (this.getUsuariPersonaID() == null) {
         __result = __result && (__instance.getUsuariPersonaID() == null);
       } else {
         __result = __result && this.getUsuariPersonaID().equals(__instance.getUsuariPersonaID()) ;
       }
 
-    } else {
-      __result = false;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getUsuariPersonaID())).hashCode();
+    }
 
 // EXP  Field:usuaripersonaid | Table: pfi_usuarientitat | Type: 0  
 

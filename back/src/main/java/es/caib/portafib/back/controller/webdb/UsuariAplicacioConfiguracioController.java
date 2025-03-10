@@ -648,7 +648,6 @@ public class UsuariAplicacioConfiguracioController
 
     if (usuariAplicacioConfiguracio == null) {
       createMessageWarning(request, "error.notfound", usuariAplicacioConfigID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, usuariAplicacioConfigID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

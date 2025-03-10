@@ -84,18 +84,23 @@ public class PermisUsuariPlantillaJPA implements PermisUsuariPlantilla {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof PermisUsuariPlantilla) {
-      PermisUsuariPlantilla __instance = (PermisUsuariPlantilla)__obj;
-      __result = true;
-      __result = __result && (this.getPermisUsuariPlantillaID() == __instance.getPermisUsuariPlantillaID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof PermisUsuariPlantilla) {
+            PermisUsuariPlantilla __instance = (PermisUsuariPlantilla)__obj;
+            __result = true;
+            __result = __result && (this.getPermisUsuariPlantillaID() == __instance.getPermisUsuariPlantillaID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getPermisUsuariPlantillaID())).hashCode();
+    }
 
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 

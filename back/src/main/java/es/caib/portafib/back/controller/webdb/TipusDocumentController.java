@@ -388,7 +388,6 @@ public class TipusDocumentController
 
     if (tipusDocument == null) {
       createMessageWarning(request, "error.notfound", tipusDocumentID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, tipusDocumentID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

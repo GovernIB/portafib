@@ -377,7 +377,6 @@ public class PluginFirmaWebPerUsuariEntitatController
 
     if (pluginFirmaWebPerUsuariEntitat == null) {
       createMessageWarning(request, "error.notfound", pluginFirmaWebPerUsrEntID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, pluginFirmaWebPerUsrEntID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

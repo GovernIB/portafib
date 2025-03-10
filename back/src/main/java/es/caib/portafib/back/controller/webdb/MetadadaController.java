@@ -353,7 +353,6 @@ public class MetadadaController
 
     if (metadada == null) {
       createMessageWarning(request, "error.notfound", metadadaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, metadadaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

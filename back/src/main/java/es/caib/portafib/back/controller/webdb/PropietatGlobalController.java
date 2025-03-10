@@ -333,7 +333,6 @@ public class PropietatGlobalController
 
     if (propietatGlobal == null) {
       createMessageWarning(request, "error.notfound", propietatGlobalID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, propietatGlobalID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

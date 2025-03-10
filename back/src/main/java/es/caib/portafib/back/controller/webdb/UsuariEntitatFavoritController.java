@@ -353,7 +353,6 @@ public class UsuariEntitatFavoritController
 
     if (usuariEntitatFavorit == null) {
       createMessageWarning(request, "error.notfound", iD);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, iD), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

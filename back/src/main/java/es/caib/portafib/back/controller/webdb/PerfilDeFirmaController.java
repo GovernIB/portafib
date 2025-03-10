@@ -413,7 +413,6 @@ public class PerfilDeFirmaController
 
     if (perfilDeFirma == null) {
       createMessageWarning(request, "error.notfound", usuariAplicacioPerfilID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, usuariAplicacioPerfilID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

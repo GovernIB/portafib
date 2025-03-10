@@ -304,7 +304,6 @@ public class RoleController
 
     if (role == null) {
       createMessageWarning(request, "error.notfound", roleID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, roleID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

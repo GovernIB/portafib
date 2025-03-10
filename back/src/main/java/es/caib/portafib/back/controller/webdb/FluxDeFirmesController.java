@@ -304,7 +304,6 @@ public class FluxDeFirmesController
 
     if (fluxDeFirmes == null) {
       createMessageWarning(request, "error.notfound", fluxDeFirmesID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, fluxDeFirmesID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

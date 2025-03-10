@@ -366,7 +366,6 @@ public class AnnexFirmatController
 
     if (annexFirmat == null) {
       createMessageWarning(request, "error.notfound", annexfirmatID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, annexfirmatID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

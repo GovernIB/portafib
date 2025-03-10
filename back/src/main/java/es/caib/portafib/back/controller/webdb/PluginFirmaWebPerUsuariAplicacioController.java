@@ -377,7 +377,6 @@ public class PluginFirmaWebPerUsuariAplicacioController
 
     if (pluginFirmaWebPerUsuariAplicacio == null) {
       createMessageWarning(request, "error.notfound", pluginfirmawebperusrappid);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, pluginfirmawebperusrappid), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

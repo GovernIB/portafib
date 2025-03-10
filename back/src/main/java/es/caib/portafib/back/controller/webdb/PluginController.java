@@ -451,7 +451,6 @@ public class PluginController
 
     if (plugin == null) {
       createMessageWarning(request, "error.notfound", pluginID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, pluginID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

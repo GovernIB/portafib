@@ -67,18 +67,23 @@ public class FluxDeFirmesJPA implements FluxDeFirmes {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof FluxDeFirmes) {
-      FluxDeFirmes __instance = (FluxDeFirmes)__obj;
-      __result = true;
-      __result = __result && (this.getFluxDeFirmesID() == __instance.getFluxDeFirmesID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof FluxDeFirmes) {
+            FluxDeFirmes __instance = (FluxDeFirmes)__obj;
+            __result = true;
+            __result = __result && (this.getFluxDeFirmesID() == __instance.getFluxDeFirmesID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getFluxDeFirmesID())).hashCode();
+    }
 
 // EXP  Field:fluxdefirmesid | Table: pfi_blocdefirmes | Type: 0  
 

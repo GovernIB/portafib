@@ -97,18 +97,23 @@ public class ModulDeFirmaPerTipusDeDocumentJPA implements ModulDeFirmaPerTipusDe
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof ModulDeFirmaPerTipusDeDocument) {
-      ModulDeFirmaPerTipusDeDocument __instance = (ModulDeFirmaPerTipusDeDocument)__obj;
-      __result = true;
-      __result = __result && (this.getID() == __instance.getID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof ModulDeFirmaPerTipusDeDocument) {
+            ModulDeFirmaPerTipusDeDocument __instance = (ModulDeFirmaPerTipusDeDocument)__obj;
+            __result = true;
+            __result = __result && (this.getID() == __instance.getID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getID())).hashCode();
+    }
 
 // IMP Field:tipusdocumentid | Table: pfi_tipusdocument | Type: 1  
 

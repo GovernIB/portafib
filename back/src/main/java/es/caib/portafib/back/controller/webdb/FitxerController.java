@@ -304,7 +304,6 @@ public class FitxerController
 
     if (fitxer == null) {
       createMessageWarning(request, "error.notfound", fitxerID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, fitxerID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

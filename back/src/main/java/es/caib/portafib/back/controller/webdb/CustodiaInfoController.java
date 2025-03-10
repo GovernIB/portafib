@@ -475,7 +475,6 @@ public class CustodiaInfoController
 
     if (custodiaInfo == null) {
       createMessageWarning(request, "error.notfound", custodiaInfoID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, custodiaInfoID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

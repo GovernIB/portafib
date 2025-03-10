@@ -333,7 +333,6 @@ public class BlocDeFirmesController
 
     if (blocDeFirmes == null) {
       createMessageWarning(request, "error.notfound", blocDeFirmesID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, blocDeFirmesID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

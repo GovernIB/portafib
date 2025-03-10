@@ -304,7 +304,6 @@ public class CodiBarresController
 
     if (codiBarres == null) {
       createMessageWarning(request, "error.notfound", codiBarresID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, codiBarresID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

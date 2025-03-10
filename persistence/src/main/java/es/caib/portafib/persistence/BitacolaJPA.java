@@ -172,18 +172,23 @@ public class BitacolaJPA implements Bitacola {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof Bitacola) {
-      Bitacola __instance = (Bitacola)__obj;
-      __result = true;
-      __result = __result && (this.getBitacolaID() == __instance.getBitacolaID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof Bitacola) {
+            Bitacola __instance = (Bitacola)__obj;
+            __result = true;
+            __result = __result && (this.getBitacolaID() == __instance.getBitacolaID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getBitacolaID())).hashCode();
+    }
 
 
  // ---------------  STATIC METHODS ------------------

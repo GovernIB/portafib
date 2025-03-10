@@ -421,7 +421,6 @@ public class FirmaController
 
     if (firma == null) {
       createMessageWarning(request, "error.notfound", firmaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, firmaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

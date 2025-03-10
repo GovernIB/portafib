@@ -439,7 +439,6 @@ public class UsuariEntitatController
 
     if (usuariEntitat == null) {
       createMessageWarning(request, "error.notfound", usuariEntitatID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, usuariEntitatID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

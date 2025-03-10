@@ -114,18 +114,23 @@ public class PropietatGlobalJPA implements PropietatGlobal {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof PropietatGlobal) {
-      PropietatGlobal __instance = (PropietatGlobal)__obj;
-      __result = true;
-      __result = __result && (this.getPropietatGlobalID() == __instance.getPropietatGlobalID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof PropietatGlobal) {
+            PropietatGlobal __instance = (PropietatGlobal)__obj;
+            __result = true;
+            __result = __result && (this.getPropietatGlobalID() == __instance.getPropietatGlobalID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getPropietatGlobalID())).hashCode();
+    }
 
 // IMP Field:entitatid | Table: pfi_entitat | Type: 1  
 

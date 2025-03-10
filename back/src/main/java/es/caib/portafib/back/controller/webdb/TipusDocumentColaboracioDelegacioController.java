@@ -357,7 +357,6 @@ public class TipusDocumentColaboracioDelegacioController
 
     if (tipusDocumentColaboracioDelegacio == null) {
       createMessageWarning(request, "error.notfound", id);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, id), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

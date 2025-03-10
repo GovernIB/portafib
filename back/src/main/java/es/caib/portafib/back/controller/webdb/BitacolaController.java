@@ -349,7 +349,6 @@ public class BitacolaController
 
     if (bitacola == null) {
       createMessageWarning(request, "error.notfound", bitacolaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, bitacolaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

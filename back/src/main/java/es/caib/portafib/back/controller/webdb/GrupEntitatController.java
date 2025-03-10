@@ -333,7 +333,6 @@ public class GrupEntitatController
 
     if (grupEntitat == null) {
       createMessageWarning(request, "error.notfound", grupEntitatID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, grupEntitatID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

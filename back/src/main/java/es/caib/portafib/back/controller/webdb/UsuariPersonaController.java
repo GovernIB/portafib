@@ -345,7 +345,6 @@ public class UsuariPersonaController
 
     if (usuariPersona == null) {
       createMessageWarning(request, "error.notfound", usuariPersonaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, usuariPersonaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

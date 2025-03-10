@@ -421,7 +421,6 @@ public class EstatDeFirmaController
 
     if (estatDeFirma == null) {
       createMessageWarning(request, "error.notfound", estatDeFirmaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, estatDeFirmaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

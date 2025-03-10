@@ -360,7 +360,6 @@ public class RevisorDeFirmaController
 
     if (revisorDeFirma == null) {
       createMessageWarning(request, "error.notfound", revisorDeFirmaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, revisorDeFirmaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

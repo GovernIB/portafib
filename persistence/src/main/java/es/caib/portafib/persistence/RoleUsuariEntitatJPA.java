@@ -84,18 +84,23 @@ public class RoleUsuariEntitatJPA implements RoleUsuariEntitat {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof RoleUsuariEntitat) {
-      RoleUsuariEntitat __instance = (RoleUsuariEntitat)__obj;
-      __result = true;
-      __result = __result && (this.getId() == __instance.getId()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof RoleUsuariEntitat) {
+            RoleUsuariEntitat __instance = (RoleUsuariEntitat)__obj;
+            __result = true;
+            __result = __result && (this.getId() == __instance.getId()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getId())).hashCode();
+    }
 
 // IMP Field:roleid | Table: pfi_role | Type: 1  
 

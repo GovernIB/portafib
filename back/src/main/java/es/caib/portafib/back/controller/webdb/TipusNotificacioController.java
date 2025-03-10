@@ -307,7 +307,6 @@ public class TipusNotificacioController
 
     if (tipusNotificacio == null) {
       createMessageWarning(request, "error.notfound", tipusNotificacioID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, tipusNotificacioID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

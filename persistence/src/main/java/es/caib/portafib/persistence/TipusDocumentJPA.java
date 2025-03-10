@@ -109,18 +109,23 @@ public class TipusDocumentJPA implements TipusDocument {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof TipusDocument) {
-      TipusDocument __instance = (TipusDocument)__obj;
-      __result = true;
-      __result = __result && (this.getTipusDocumentID() == __instance.getTipusDocumentID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof TipusDocument) {
+            TipusDocument __instance = (TipusDocument)__obj;
+            __result = true;
+            __result = __result && (this.getTipusDocumentID() == __instance.getTipusDocumentID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getTipusDocumentID())).hashCode();
+    }
 
 // EXP  Field:tipusdocumentid | Table: pfi_modulfirmapertipusdoc | Type: 0  
 

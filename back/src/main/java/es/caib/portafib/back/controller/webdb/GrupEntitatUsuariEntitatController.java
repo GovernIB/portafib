@@ -357,7 +357,6 @@ public class GrupEntitatUsuariEntitatController
 
     if (grupEntitatUsuariEntitat == null) {
       createMessageWarning(request, "error.notfound", grupEntitatUsuariEntitatID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, grupEntitatUsuariEntitatID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

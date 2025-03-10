@@ -99,18 +99,23 @@ public class PluginFirmaWebPerUsuariEntitatJPA implements PluginFirmaWebPerUsuar
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof PluginFirmaWebPerUsuariEntitat) {
-      PluginFirmaWebPerUsuariEntitat __instance = (PluginFirmaWebPerUsuariEntitat)__obj;
-      __result = true;
-      __result = __result && (this.getPluginFirmaWebPerUsrEntID() == __instance.getPluginFirmaWebPerUsrEntID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof PluginFirmaWebPerUsuariEntitat) {
+            PluginFirmaWebPerUsuariEntitat __instance = (PluginFirmaWebPerUsuariEntitat)__obj;
+            __result = true;
+            __result = __result && (this.getPluginFirmaWebPerUsrEntID() == __instance.getPluginFirmaWebPerUsrEntID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getPluginFirmaWebPerUsrEntID())).hashCode();
+    }
 
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 

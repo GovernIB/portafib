@@ -99,18 +99,23 @@ public class PluginFirmaWebPerUsuariAplicacioJPA implements PluginFirmaWebPerUsu
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof PluginFirmaWebPerUsuariAplicacio) {
-      PluginFirmaWebPerUsuariAplicacio __instance = (PluginFirmaWebPerUsuariAplicacio)__obj;
-      __result = true;
-      __result = __result && (this.getPluginfirmawebperusrappid() == __instance.getPluginfirmawebperusrappid()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof PluginFirmaWebPerUsuariAplicacio) {
+            PluginFirmaWebPerUsuariAplicacio __instance = (PluginFirmaWebPerUsuariAplicacio)__obj;
+            __result = true;
+            __result = __result && (this.getPluginfirmawebperusrappid() == __instance.getPluginfirmawebperusrappid()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getPluginfirmawebperusrappid())).hashCode();
+    }
 
 // IMP Field:usuariaplicacioid | Table: pfi_usuariaplicacio | Type: 1  
 

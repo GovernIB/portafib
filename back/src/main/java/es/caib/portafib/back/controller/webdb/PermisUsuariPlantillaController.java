@@ -357,7 +357,6 @@ public class PermisUsuariPlantillaController
 
     if (permisUsuariPlantilla == null) {
       createMessageWarning(request, "error.notfound", permisUsuariPlantillaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, permisUsuariPlantillaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

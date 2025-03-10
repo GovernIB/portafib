@@ -348,7 +348,6 @@ public class AnnexController
 
     if (annex == null) {
       createMessageWarning(request, "error.notfound", annexID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, annexID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

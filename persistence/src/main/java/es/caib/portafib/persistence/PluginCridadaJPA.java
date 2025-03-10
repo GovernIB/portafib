@@ -209,18 +209,23 @@ public class PluginCridadaJPA implements PluginCridada {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof PluginCridada) {
-      PluginCridada __instance = (PluginCridada)__obj;
-      __result = true;
-      __result = __result && (this.getPluginCridadaID() == __instance.getPluginCridadaID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof PluginCridada) {
+            PluginCridada __instance = (PluginCridada)__obj;
+            __result = true;
+            __result = __result && (this.getPluginCridadaID() == __instance.getPluginCridadaID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getPluginCridadaID())).hashCode();
+    }
 
 // IMP Field:entitatid | Table: pfi_entitat | Type: 1  
 

@@ -198,18 +198,23 @@ public class PerfilDeFirmaJPA implements PerfilDeFirma {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof PerfilDeFirma) {
-      PerfilDeFirma __instance = (PerfilDeFirma)__obj;
-      __result = true;
-      __result = __result && (this.getUsuariAplicacioPerfilID() == __instance.getUsuariAplicacioPerfilID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof PerfilDeFirma) {
+            PerfilDeFirma __instance = (PerfilDeFirma)__obj;
+            __result = true;
+            __result = __result && (this.getUsuariAplicacioPerfilID() == __instance.getUsuariAplicacioPerfilID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getUsuariAplicacioPerfilID())).hashCode();
+    }
 
 // EXP  Field:usuariaplicacioperfilid | Table: pfi_perfilsperusrapp | Type: 0  
 

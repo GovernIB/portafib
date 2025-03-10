@@ -353,7 +353,6 @@ public class RevisorDeDestinatariController
 
     if (revisorDeDestinatari == null) {
       createMessageWarning(request, "error.notfound", revisorDeDestinatariID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, revisorDeDestinatariID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

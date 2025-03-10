@@ -447,18 +447,23 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof CustodiaInfo) {
-      CustodiaInfo __instance = (CustodiaInfo)__obj;
-      __result = true;
-      __result = __result && (this.getCustodiaInfoID() == __instance.getCustodiaInfoID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof CustodiaInfo) {
+            CustodiaInfo __instance = (CustodiaInfo)__obj;
+            __result = true;
+            __result = __result && (this.getCustodiaInfoID() == __instance.getCustodiaInfoID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getCustodiaInfoID())).hashCode();
+    }
 
 // EXP  Field:custodiainfoid | Table: pfi_entitat | Type: 0  
 

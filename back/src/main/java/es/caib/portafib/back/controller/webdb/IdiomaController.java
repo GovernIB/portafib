@@ -307,7 +307,6 @@ public class IdiomaController
 
     if (idioma == null) {
       createMessageWarning(request, "error.notfound", idiomaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, idiomaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

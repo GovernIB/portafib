@@ -99,18 +99,23 @@ public class GrupEntitatJPA implements GrupEntitat {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof GrupEntitat) {
-      GrupEntitat __instance = (GrupEntitat)__obj;
-      __result = true;
-      __result = __result && (this.getGrupEntitatID() == __instance.getGrupEntitatID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof GrupEntitat) {
+            GrupEntitat __instance = (GrupEntitat)__obj;
+            __result = true;
+            __result = __result && (this.getGrupEntitatID() == __instance.getGrupEntitatID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(this.getGrupEntitatID())).hashCode();
+    }
 
 // EXP  Field:grupentitatid | Table: pfi_grupentitatusuarientitat | Type: 0  
 

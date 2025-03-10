@@ -366,7 +366,6 @@ public class PluginCridadaController
 
     if (pluginCridada == null) {
       createMessageWarning(request, "error.notfound", pluginCridadaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, pluginCridadaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());

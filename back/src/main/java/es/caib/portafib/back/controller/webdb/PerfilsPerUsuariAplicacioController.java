@@ -357,7 +357,6 @@ public class PerfilsPerUsuariAplicacioController
 
     if (perfilsPerUsuariAplicacio == null) {
       createMessageWarning(request, "error.notfound", perfilsPerUsrAppID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, perfilsPerUsrAppID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
