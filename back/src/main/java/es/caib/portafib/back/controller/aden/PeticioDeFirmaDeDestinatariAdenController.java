@@ -132,12 +132,12 @@ public class PeticioDeFirmaDeDestinatariAdenController extends AbstractPeticioDe
 
         String usuariEntitatID = filterForm.getUsuariEntitatID();
         Where wPeticinsDeUsuariEntitat;
-        wPeticinsDeUsuariEntitat = getPeticionsActivesDeUsuariEntitat(firmaEjb, usuariEntitatID);
+        wPeticinsDeUsuariEntitat = getPeticionsActivesDeUsuariEntitat2(firmaEjb, usuariEntitatID);
 
         return Where.AND(wParent, wPeticinsDeUsuariEntitat);
     }
 
-    public static Where getPeticionsActivesDeUsuariEntitat(FirmaService firmaEjb, String usuariEntitatID)
+    public static Where getPeticionsActivesDeUsuariEntitat2(FirmaService firmaEjb, String usuariEntitatID)
             throws I18NException {
         Where wPeticinsDeUsuariEntitat;
         FirmaQueryPath firmaQueryPath = new FirmaQueryPath();
@@ -153,8 +153,8 @@ public class PeticioDeFirmaDeDestinatariAdenController extends AbstractPeticioDe
         Where w = firmaQueryPath.USUARIENTITAT().USUARIENTITATID().equal(usuariEntitatID);
 
         wPeticinsDeUsuariEntitat =  PETICIODEFIRMAID.in(firmaEjb.getSubQuery(peticio.PETICIODEFIRMAID(), w));
-        Where wPeticioActiva = PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES);
-        return Where.AND(wPeticioActiva, wPeticinsDeUsuariEntitat);
+        //Where wPeticioActiva = PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES);
+        return Where.AND(wPeticinsDeUsuariEntitat);
     }
 
     @Override
