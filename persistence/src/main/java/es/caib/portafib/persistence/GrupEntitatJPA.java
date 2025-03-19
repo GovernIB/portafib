@@ -112,11 +112,6 @@ public class GrupEntitatJPA implements GrupEntitat {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getGrupEntitatID())).hashCode();
-    }
-
 // EXP  Field:grupentitatid | Table: pfi_grupentitatusuarientitat | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "grupEntitat")

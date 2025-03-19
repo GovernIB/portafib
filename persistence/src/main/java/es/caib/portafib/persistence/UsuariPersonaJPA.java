@@ -184,11 +184,6 @@ public class UsuariPersonaJPA implements UsuariPersona {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getUsuariPersonaID())).hashCode();
-    }
-
 // EXP  Field:usuaripersonaid | Table: pfi_usuarientitat | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariPersona")

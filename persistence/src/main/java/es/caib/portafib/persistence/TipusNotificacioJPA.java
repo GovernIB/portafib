@@ -102,11 +102,6 @@ public class TipusNotificacioJPA implements TipusNotificacio {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getTipusNotificacioID())).hashCode();
-    }
-
 // EXP  Field:tipusnotificacioid | Table: pfi_notificacio | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipusNotificacio")

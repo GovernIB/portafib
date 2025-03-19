@@ -112,11 +112,6 @@ public class PluginFirmaWebPerUsuariAplicacioJPA implements PluginFirmaWebPerUsu
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getPluginfirmawebperusrappid())).hashCode();
-    }
-
 // IMP Field:usuariaplicacioid | Table: pfi_usuariaplicacio | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)

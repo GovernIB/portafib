@@ -649,11 +649,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getPeticioDeFirmaID())).hashCode();
-    }
-
 // EXP  Field:peticiodefirmaid | Table: pfi_annex | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "peticioDeFirma")

@@ -218,11 +218,6 @@ public class NotificacioWSJPA implements NotificacioWS {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getNotificacioID())).hashCode();
-    }
-
 // IMP Field:tipusnotificacioid | Table: pfi_tipusnotificacio | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)

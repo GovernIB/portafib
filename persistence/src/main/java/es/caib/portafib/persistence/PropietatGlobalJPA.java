@@ -127,11 +127,6 @@ public class PropietatGlobalJPA implements PropietatGlobal {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getPropietatGlobalID())).hashCode();
-    }
-
 // IMP Field:entitatid | Table: pfi_entitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)

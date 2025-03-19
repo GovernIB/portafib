@@ -123,11 +123,6 @@ public class BlocDeFirmesJPA implements BlocDeFirmes {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getBlocDeFirmesID())).hashCode();
-    }
-
 // EXP  Field:blocdefirmaid | Table: pfi_firma | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "blocDeFirmes")

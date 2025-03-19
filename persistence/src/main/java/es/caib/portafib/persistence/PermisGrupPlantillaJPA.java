@@ -97,11 +97,6 @@ public class PermisGrupPlantillaJPA implements PermisGrupPlantilla {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getPermisGrupPlantillaID())).hashCode();
-    }
-
 // IMP Field:grupentitatid | Table: pfi_grupentitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)

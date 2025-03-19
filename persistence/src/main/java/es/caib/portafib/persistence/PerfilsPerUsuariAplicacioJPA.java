@@ -97,11 +97,6 @@ public class PerfilsPerUsuariAplicacioJPA implements PerfilsPerUsuariAplicacio {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getPerfilsPerUsrAppID())).hashCode();
-    }
-
 // IMP Field:usuariaplicacioperfilid | Table: pfi_usuariaplicacioperfil | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)

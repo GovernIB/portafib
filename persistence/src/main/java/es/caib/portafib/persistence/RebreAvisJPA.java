@@ -110,11 +110,6 @@ public class RebreAvisJPA implements RebreAvis {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getId())).hashCode();
-    }
-
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)

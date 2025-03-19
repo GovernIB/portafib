@@ -229,11 +229,6 @@ public class ColaboracioDelegacioJPA implements ColaboracioDelegacio {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getColaboracioDelegacioID())).hashCode();
-    }
-
 // EXP  Field:colaboraciodelegacioid | Table: pfi_estatdefirma | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "colaboracioDelegacio")

@@ -185,11 +185,6 @@ public class BitacolaJPA implements Bitacola {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getBitacolaID())).hashCode();
-    }
-
 
  // ---------------  STATIC METHODS ------------------
   public static BitacolaJPA toJPA(Bitacola __bean) {

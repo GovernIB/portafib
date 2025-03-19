@@ -120,11 +120,6 @@ public class PlantillaFluxDeFirmesJPA implements PlantillaFluxDeFirmes {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getFluxDeFirmesID())).hashCode();
-    }
-
 // EXP  Field:fluxdefirmesid | Table: pfi_permisgrupplantilla | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "plantillaFluxDeFirmes")

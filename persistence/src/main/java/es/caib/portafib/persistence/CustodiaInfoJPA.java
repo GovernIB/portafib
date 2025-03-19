@@ -460,11 +460,6 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getCustodiaInfoID())).hashCode();
-    }
-
 // EXP  Field:custodiainfoid | Table: pfi_entitat | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "custodiaInfo")

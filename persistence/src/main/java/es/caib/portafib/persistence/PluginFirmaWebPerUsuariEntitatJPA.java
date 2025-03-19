@@ -112,11 +112,6 @@ public class PluginFirmaWebPerUsuariEntitatJPA implements PluginFirmaWebPerUsuar
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getPluginFirmaWebPerUsrEntID())).hashCode();
-    }
-
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)

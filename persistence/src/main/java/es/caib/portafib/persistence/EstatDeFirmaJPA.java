@@ -183,11 +183,6 @@ public class EstatDeFirmaJPA implements EstatDeFirma {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getEstatDeFirmaID())).hashCode();
-    }
-
 // IMP Field:firmaid | Table: pfi_firma | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)

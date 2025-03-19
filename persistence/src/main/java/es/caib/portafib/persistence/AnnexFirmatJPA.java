@@ -110,11 +110,6 @@ public class AnnexFirmatJPA implements AnnexFirmat {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getAnnexfirmatID())).hashCode();
-    }
-
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -95,11 +95,6 @@ public class CodiBarresJPA implements CodiBarres {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getCodiBarresID())).hashCode();
-    }
-
 // EXP  Field:codibarresid | Table: pfi_custodiainfo | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "codiBarres")

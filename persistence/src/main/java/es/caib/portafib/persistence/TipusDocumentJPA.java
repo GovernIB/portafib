@@ -122,11 +122,6 @@ public class TipusDocumentJPA implements TipusDocument {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getTipusDocumentID())).hashCode();
-    }
-
 // EXP  Field:tipusdocumentid | Table: pfi_modulfirmapertipusdoc | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipusDocument")

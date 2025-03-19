@@ -255,11 +255,6 @@ public class UsuariAplicacioJPA implements UsuariAplicacio {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getUsuariAplicacioID())).hashCode();
-    }
-
 // EXP  Field:usuariaplicacioid | Table: pfi_custodiainfo | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariAplicacio")

@@ -211,11 +211,6 @@ public class PerfilDeFirmaJPA implements PerfilDeFirma {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getUsuariAplicacioPerfilID())).hashCode();
-    }
-
 // EXP  Field:usuariaplicacioperfilid | Table: pfi_perfilsperusrapp | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "perfilDeFirma")

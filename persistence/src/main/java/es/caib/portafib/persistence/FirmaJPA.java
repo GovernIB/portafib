@@ -441,11 +441,6 @@ public class FirmaJPA implements Firma {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getFirmaID())).hashCode();
-    }
-
 // EXP  Field:firmaid | Table: pfi_annexfirmat | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "firma")

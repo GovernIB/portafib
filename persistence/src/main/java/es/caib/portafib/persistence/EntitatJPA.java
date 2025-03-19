@@ -615,11 +615,6 @@ opcional incluso cuando se genera una firma EPES. */
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getEntitatID())).hashCode();
-    }
-
 // EXP  Field:entitatid | Table: pfi_custodiainfo | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "entitat")

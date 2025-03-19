@@ -168,11 +168,6 @@ public class EstadisticaJPA implements Estadistica {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getEstadisticaID())).hashCode();
-    }
-
 // IMP Field:entitatid | Table: pfi_entitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -110,11 +110,6 @@ public class ModulDeFirmaPerTipusDeDocumentJPA implements ModulDeFirmaPerTipusDe
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getID())).hashCode();
-    }
-
 // IMP Field:tipusdocumentid | Table: pfi_tipusdocument | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)

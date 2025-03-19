@@ -222,11 +222,6 @@ public class PluginCridadaJPA implements PluginCridada {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getPluginCridadaID())).hashCode();
-    }
-
 // IMP Field:entitatid | Table: pfi_entitat | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -94,11 +94,6 @@ public class RoleJPA implements Role {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getRoleID())).hashCode();
-    }
-
 // EXP  Field:roleid | Table: pfi_roleusuarientitat | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")

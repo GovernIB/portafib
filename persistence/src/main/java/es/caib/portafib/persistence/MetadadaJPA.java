@@ -137,11 +137,6 @@ public class MetadadaJPA implements Metadada {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getMetadadaID())).hashCode();
-    }
-
 // IMP Field:peticiodefirmaid | Table: pfi_peticiodefirma | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -80,11 +80,6 @@ public class FluxDeFirmesJPA implements FluxDeFirmes {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getFluxDeFirmesID())).hashCode();
-    }
-
 // EXP  Field:fluxdefirmesid | Table: pfi_blocdefirmes | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "fluxDeFirmes")

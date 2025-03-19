@@ -224,11 +224,6 @@ public class UsuariEntitatJPA implements UsuariEntitat {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getUsuariEntitatID())).hashCode();
-    }
-
 // EXP  Field:colaboradordelegatid | Table: pfi_colaboraciodelegacio | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "colaboradorDelegatID")

@@ -570,11 +570,6 @@ opcional incluso cuando se genera una firma EPES. */
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getUsuariAplicacioConfigID())).hashCode();
-    }
-
 // EXP  Field:configuraciodefirmaid | Table: pfi_peticiodefirma | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariAplicacioConfiguracio")

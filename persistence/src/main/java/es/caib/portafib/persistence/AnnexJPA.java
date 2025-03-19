@@ -127,11 +127,6 @@ public class AnnexJPA implements Annex {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getAnnexID())).hashCode();
-    }
-
 // EXP  Field:annexid | Table: pfi_annexfirmat | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "annex")

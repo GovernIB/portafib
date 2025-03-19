@@ -97,11 +97,6 @@ public class RoleUsuariEntitatJPA implements RoleUsuariEntitat {
         return __result;
     }
 
-    @Override
-    public int hashCode() {
-        return (String.valueOf(this.getId())).hashCode();
-    }
-
 // IMP Field:roleid | Table: pfi_role | Type: 1  
 
     @ManyToOne(fetch = FetchType.LAZY)
