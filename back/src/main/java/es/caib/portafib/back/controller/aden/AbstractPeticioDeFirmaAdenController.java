@@ -153,6 +153,7 @@ public abstract class AbstractPeticioDeFirmaAdenController extends AbstractPetic
 
     protected static void configureGroupByFieldsPeticioDeFirma(PeticioDeFirmaFilterForm peticioDeFirmaFilterForm,
             boolean showUsuariEntitat, boolean showUsuariAplicacio) {
+        /*
         if (peticioDeFirmaFilterForm.isNou() && Configuracio.isCAIB()) {
 
             List<Field<?>> campsGroupBy = new ArrayList<Field<?>>();
@@ -171,6 +172,7 @@ public abstract class AbstractPeticioDeFirmaAdenController extends AbstractPetic
 
             peticioDeFirmaFilterForm.setGroupByFields(campsGroupBy);
         }
+        */
 
     }
 
