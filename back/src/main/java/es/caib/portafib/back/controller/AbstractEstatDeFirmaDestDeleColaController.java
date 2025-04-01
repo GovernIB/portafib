@@ -3016,7 +3016,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         }
 
         // Afegir informació sobre firmes prèvies #513 #501
-        Map<Long, List<Signature>> signatures = processSignatures(fitxers);
+        Map<Long, List<Signature>> signatures = processSignatures(fitxers, request);
         mav.addObject("signatures", signatures);
         if (request.getParameter("validar") != null) {
             mav.addObject("signaturesValidation", processSignaturesValidation(fitxers, signatures));
@@ -3087,11 +3087,22 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         return String.valueOf(ConstantsV2.DOC_BIN);
     }
 
-    private Map<Long, List<Signature>> processSignatures(List<FitxerJPA> fitxers) throws I18NException {
+    private Map<Long, List<Signature>> processSignatures(List<FitxerJPA> fitxers, HttpServletRequest request)
+            throws I18NException {
         Map<Long, List<Signature>> signatures = new HashMap<Long, List<Signature>>();
         for (FitxerJPA fitxer : fitxers) {
-            List<Signature> signatureList = signatureServiceEjb.getSignatures(fitxer);
-            signatures.put(fitxer.getFitxerID(), signatureList);
+            try {
+                List<Signature> signatureList = signatureServiceEjb.getSignatures(fitxer);
+                signatures.put(fitxer.getFitxerID(), signatureList);
+            } catch (Throwable e) {
+                String msg;
+                if (e instanceof I18NException) {
+                    msg = I18NUtils.getMessage((I18NException) e);
+                } else {
+                    msg = e.getMessage();
+                }
+                HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.processSignatures", fitxer.getNom(), msg));
+            }
         }
         return signatures;
     }
