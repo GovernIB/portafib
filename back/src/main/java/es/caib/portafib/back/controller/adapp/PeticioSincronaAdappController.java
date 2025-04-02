@@ -27,12 +27,12 @@ import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.commons.utils.Constants;
+
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
-import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
-import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
@@ -46,7 +46,7 @@ import es.caib.portafib.model.fields.UsuariPersonaFields;
 @Controller
 @RequestMapping(value = "/adapp/peticiosincrona")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-@MenuOption(group = ConstantsV2.ROLE_ADAPP, labelCode="peticiosincrona.menu", order=120)
+@MenuOption(group = Constants.ROLE_ADAPP, labelCode="peticiosincrona.menu", order=120)
 // {name=peticioSincronaListAden, template=<null>, role=<null>, preparerInstance=null, attributes={contingut=/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp}}
 @org.fundaciobit.genapp.common.web.tiles.Tile(name = "peticioSincronaListAden", type = org.fundaciobit.genapp.common.web.tiles.TileType.WEBDB_LIST, extendsTile = "role_adapp")
 public class PeticioSincronaAdappController extends PeticioDeFirmaController {

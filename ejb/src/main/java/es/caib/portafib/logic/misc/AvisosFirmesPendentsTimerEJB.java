@@ -10,8 +10,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
-
-
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.InfoUser;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
@@ -22,8 +21,8 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
  *
  */
 @Stateless(name = "AvisosFirmesPendentsTimerEJB")
-@RunAs("PFI_ADMIN")
-@RolesAllowed("PFI_ADMIN")
+@RunAs(Constants.PFI_ADMIN)
+@RolesAllowed(Constants.PFI_ADMIN)
 public class AvisosFirmesPendentsTimerEJB extends AbstractTimerEJB implements
     AvisosFirmesPendentsTimerLocal {
   

@@ -21,6 +21,7 @@
     <mvc:resources mapping="/img/**" location="/img/" cache-period="604800"/>
     <mvc:resources mapping="/js/**" location="/js/" cache-period="604800"/>
     <mvc:resources mapping="/doc/**" location="/doc/" cache-period="604800"/>
+    <mvc:resources mapping="/fonts/**" location="/fonts/" cache-period="604800"/>
 
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1"/>
 <!--

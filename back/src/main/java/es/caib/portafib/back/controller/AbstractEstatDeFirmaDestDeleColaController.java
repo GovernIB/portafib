@@ -57,6 +57,7 @@ import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 
 import org.apache.commons.text.StringEscapeUtils;
@@ -135,7 +136,7 @@ import java.util.Set;
 @Controller
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
 public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDeFirmaController
-        implements EstatDeFirmaFields, ConstantsV2 {
+        implements EstatDeFirmaFields, Constants {
 
     @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
     protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
@@ -307,7 +308,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             //Eliminar la info addicinal avaluable com a camp d'agrupació #434
             //ff.addGroupByField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
 
-            if (getRole().equals(ConstantsV2.ROLE_COLA)) {
+            if (getRole().equals(Constants.ROLE_COLA)) {
                 // Propietat de Col.laboracio-Delegacio
                 ff.addGroupByField(DESTINATARIID);
             }
@@ -385,7 +386,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
             // ===================
             final String role = getRole();
-            if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) {
+            if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) {
 
                 // NOVA COLUMNA PETICIO DE FIRMA
                 AdditionalField<String, String> adfieldRN = new AdditionalField<String, String>();
@@ -436,7 +437,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             }
 
             // ===================  Cerca per remitent descripcio
-            if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) {
+            if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) {
                 AdditionalField<String, String> addfieldREMIDESC = new AdditionalField<String, String>();
                 addfieldREMIDESC.setCodeName("peticioDeFirma.remitentDescripcio");
                 addfieldREMIDESC.setPosition(COLUMN_PETICIODEFIRMA_REMITENTDESCRIPCIO);
@@ -451,8 +452,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             }
 
             // ===================  Cerca per informacio addicional avaluable
-            if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)
-                    || role.equals(ConstantsV2.ROLE_REVI) || role.equals(ConstantsV2.ROLE_COLA)) {
+            if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)
+                    || role.equals(Constants.ROLE_REVI) || role.equals(Constants.ROLE_COLA)) {
 
                 AdditionalField<String, String> addfieldInfoAddicAval = new AdditionalField<String, String>();
 
@@ -499,7 +500,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
             // ======================
 
-            if (role.equals(ConstantsV2.ROLE_COLA)) {
+            if (role.equals(Constants.ROLE_COLA)) {
 
                 // NOVA COLUMNA
                 AdditionalField<String, String> adfieldDC = new AdditionalField<String, String>();
@@ -577,7 +578,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         Map<Field<?>, GroupByItem> groupByItemsMap = super.fillReferencesForList(filterForm, request, mav, list,
                 groupItems);
 
-        if (getRole().equals(ConstantsV2.ROLE_COLA)) {
+        if (getRole().equals(Constants.ROLE_COLA)) {
 
             // Agafam la llista de codis de persona que s'han emprat al group by
             GroupByItem groupByItem = groupByItemsMap.get(DESTINATARIID);
@@ -639,7 +640,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 log.debug("Check firma amb id =]" + s + "[");
             }
             count = estatDeFirmaEjb.count(Where.AND(ESTATDEFIRMAID.equal(Long.parseLong(s)),
-                    TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_FIRMAT)));
+                    TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT)));
 
             if (count == 0) {
                 response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -1531,7 +1532,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         PolicyInfoSignature policyInfoSignature;
         switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
 
-            case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB: {
+            case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB: {
                 boolean userRequiresTimeStamp = peticioDeFirma.isSegellatDeTemps();
                 timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat, userRequiresTimeStamp);
                 policyInfoSignature = SignatureUtils.getPolicyInfoSignature(entitat, null);
@@ -1540,7 +1541,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             }
             break;
 
-            case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1: {
+            case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1: {
                 boolean userRequiresTimeStamp = peticioDeFirma.isSegellatDeTemps();
                 UsuariAplicacioConfiguracioJPA configuracioDefirma = null;
                 if (peticioDeFirma.getConfiguracioDeFirmaID() != null) {
@@ -1565,7 +1566,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             }
             break;
 
-            case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2: {
+            case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2: {
                 UsuariAplicacioConfiguracioJPA configuracioDefirma = configuracioDeFirmaLogicaEjb
                         .findByPrimaryKeyUnauthorized(peticioDeFirma.getConfiguracioDeFirmaID());
 
@@ -1685,7 +1686,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     protected boolean rebutjarInternal(HttpServletRequest request, HttpServletResponse response, Long estatDeFirmaID,
             Long peticioDeFirmaID, String motiuDeRebuig) throws I18NException {
         final long estatFirmaInicial;
-        if (ConstantsV2.ROLE_REVI.equals(getRole())) {
+        if (Constants.ROLE_REVI.equals(getRole())) {
             estatFirmaInicial = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR;
         } else {
             estatFirmaInicial = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR;
@@ -1898,7 +1899,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
         switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
 
-            case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+            case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
 
                 if (peticioDeFirma.getConfiguracioDeFirmaID() != null) {
                     usuariAplicacioConfiguracio = configuracioDeFirmaLogicaEjb
@@ -1906,7 +1907,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 }
             break;
 
-            case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+            case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
 
                 usuariAplicacioConfiguracio = configuracioDeFirmaLogicaEjb
                         .findByPrimaryKeyUnauthorized(peticioDeFirma.getConfiguracioDeFirmaID());
@@ -2123,7 +2124,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             Map<Long, String> mapTD = null;
             Map<Long, String> mapCR = null;
 
-            final boolean remitent = role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE);
+            final boolean remitent = role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE);
 
             if (!isMobile) {
                 mapTD = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TIPUSDOC).getValueMap();
@@ -2230,7 +2231,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             }
 
             List<Long> estatsID = new ArrayList<Long>();
-            if (role.equals(ConstantsV2.ROLE_COLA) || role.equals(ConstantsV2.ROLE_DELE)) {
+            if (role.equals(Constants.ROLE_COLA) || role.equals(Constants.ROLE_DELE)) {
                 for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
                     // Crec que aquest if es innecesari !!!
                     if (estatDeFirma.getColaboracioDelegacioID() != null) {
@@ -2240,7 +2241,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             }
 
             // Delegat de Colaborador
-            if (role.equals(ConstantsV2.ROLE_COLA)) {
+            if (role.equals(Constants.ROLE_COLA)) {
                 UsuariPersonaQueryPath upqp = new EstatDeFirmaQueryPath().COLABORACIODELEGACIO().DESTINATARI()
                         .USUARIPERSONA();
 
@@ -2261,7 +2262,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             }
 
             //  Delegats
-            if (role.equals(ConstantsV2.ROLE_DEST)) {
+            if (role.equals(Constants.ROLE_DEST)) {
 
                 Map<Long, String> mapDD = new HashMap<Long, String>();
                 Map<Long, int[]> infoDelegatsByEstat = infoColaboradorsDelegats(estatDeFirmaList, ESTATS_INICIALS_DELE);
@@ -2338,7 +2339,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             boolean ocultarColumnaColaboradors = filterForm.getHiddenFields()
                     .contains(ColaboracioDelegacioFields.DESTINATARIID);
 
-            if ((role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE))
+            if ((role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE))
                     // Es la forma d'indicar que el doc s'ha rebutjar i que no importa veure els col·laboradors
                     && !ocultarColumnaColaboradors) {
 
@@ -2413,8 +2414,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             }
 
             // Revisors
-            if (role.equals(ConstantsV2.ROLE_REVI) || role.equals(ConstantsV2.ROLE_DEST)
-                    || role.equals(ConstantsV2.ROLE_DELE)) {
+            if (role.equals(Constants.ROLE_REVI) || role.equals(Constants.ROLE_DEST)
+                    || role.equals(Constants.ROLE_DELE)) {
 
                 Map<Long, String> mapCC = new HashMap<Long, String>();
 
@@ -2503,7 +2504,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             }
 
             // TODO Només mostrar en les pantalles Pendents
-            if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) {
+            if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) {
 
                 Map<Long, String> rebuigDescriptionByEstat = getRebuigDescriptionByEstat(estatDeFirmaList);
 
@@ -2646,8 +2647,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             // Per defecte
             filterForm.setVisibleMultipleSelection(false);
 
-            if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)
-                    || role.equals(ConstantsV2.ROLE_REVI)) {
+            if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)
+                    || role.equals(Constants.ROLE_REVI)) {
                 if (this.getFilterType() == FILTRAR_PER_PENDENT) {
                     filterForm.setVisibleMultipleSelection(true);
                 } else if (getFilterType() == FILTRAR_PER_RES) {
@@ -2671,7 +2672,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 filterForm.addAdditionalButton(new AdditionalButton("fas fa-times", "rebutjarseleccionats",
                         "javascript:rebutjarseleccionats()", AdditionalButtonStyle.DANGER));
 
-                if (role.equals(ConstantsV2.ROLE_REVI)) {
+                if (role.equals(Constants.ROLE_REVI)) {
 
                     filterForm.addAdditionalButton(new AdditionalButton("fas fa-check", "acceptarseleccionats",
                             "javascript:acceptarSeleccionats()", AdditionalButtonStyle.SUCCESS));
@@ -2722,7 +2723,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         // Cercarem tots els estats de firma associats a la mateixa firma
         // i que estiguin invalidats
         // (1) Invalidats
-        Where w1 = TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_INVALIDAT);
+        Where w1 = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT);
         // (2) Amb la mateix firma
         Where w2 = FIRMAID.in(firma2estat.keySet());
         List<EstatDeFirma> estatsRebuig = estatDeFirmaEjb.select(Where.AND(w1, w2));
@@ -2805,7 +2806,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         String role = getRole();
 
         Where roleWhere;
-        if (role.equals(ConstantsV2.ROLE_DEST)) {
+        if (role.equals(Constants.ROLE_DEST)) {
             // Els estats de firma de destinatari són aquells que:
             // (1) estat inicial es ASSIGNAT PER FIRMAR
             // (2) COLABORACIODELEGACIOID es null
@@ -2814,7 +2815,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                             .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
                     EstatDeFirmaFields.COLABORACIODELEGACIOID.isNull());
 
-        } else if (role.equals(ConstantsV2.ROLE_DELE)) {
+        } else if (role.equals(Constants.ROLE_DELE)) {
             // Els estats de firma de delegat són aquells que:
             // (1) estat inicial es ASSIGNAT PER FIRMAR
             // (2) COLABORACIODELEGACIOID es not null
@@ -2822,7 +2823,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
                             .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
                     EstatDeFirmaFields.COLABORACIODELEGACIOID.isNotNull());
-        } else if (role.equals(ConstantsV2.ROLE_COLA)) {
+        } else if (role.equals(Constants.ROLE_COLA)) {
             // Els estats de firma de colaborador són aquells que:
             // (1) Els estats inicials poden ser ASSIGNAT_PER_VALIDAR o
             // REVISANT_PER_VALIDAR
@@ -2834,7 +2835,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                             EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
                                     .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR)),
                     EstatDeFirmaFields.COLABORACIODELEGACIOID.isNotNull());
-        } else if (role.equals(ConstantsV2.ROLE_REVI)) {
+        } else if (role.equals(Constants.ROLE_REVI)) {
             // Els estats de firma de REVISOR són aquells que:
             // (1) L'estat inicial pot ser ASSIGNAT_PER_REVISAR
             // (2) COLABORACIODELEGACIOID es null
@@ -2859,13 +2860,13 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     estatWhere = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT);
                 } else if (role.equals(ROLE_REVI)) {
                     // Revisor Acceptat
-                    estatWhere = TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_ACCEPTAT);
+                    estatWhere = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT);
                 } else {
                     estatWhere = Where.OR(
                             // El propi usuari (destinatari o delegat) ha firmat el document
-                            TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_FIRMAT),
+                            TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT),
                             // Alguna altra persona (delegat o destinatari) ha firmat el document
-                            Where.AND(TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_DESCARTAT),
+                            Where.AND(TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT),
                                     new EstatDeFirmaQueryPath().FIRMA().FITXERFIRMATID().isNotNull()));
                 }
 
@@ -2876,20 +2877,20 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     estatWhere = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT);
                 } else if (role.equals(ROLE_REVI)) {
                     // Revisor ha rebutjat 
-                    estatWhere = TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_REBUTJAT);
+                    estatWhere = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT);
                 } else {
                     estatWhere = Where.OR(
                             // El propi usuari (destinatari o delegat) ha rebutjat el document
-                            TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_REBUTJAT),
+                            TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT),
                             // Algun altre usuari (delegat o destinatari/delegat) ha rebutjat el document
-                            Where.AND(TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_DESCARTAT),
+                            Where.AND(TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT),
                                     new EstatDeFirmaQueryPath().FIRMA().FITXERFIRMATID().isNull()));
                 }
             break;
 
             case FILTRAR_PER_NODEFINIT: // Rebutjat o invalidat
                 // El propi usuari (destinatari o delegat) no ha firmat el document
-                estatWhere = TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_DESCARTAT);
+                estatWhere = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
             break;
 
             default:
@@ -3026,12 +3027,12 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         // Estats Finals d'un EstatDeFirma
         // TODO: això s'hauria de refactoritzar. No cal crear un map en cada petició. Guardar-ho al servletContext
         Map<Long, String> traduccions = new HashMap<Long, String>();
-        traduccions.put(TIPUSESTATDEFIRMAFINAL_VALIDAT, "tipusestatdefirmafinal.0");
-        traduccions.put(TIPUSESTATDEFIRMAFINAL_INVALIDAT, "tipusestatdefirmafinal.1");
-        traduccions.put(TIPUSESTATDEFIRMAFINAL_FIRMAT, "tipusestatdefirmafinal.2");
-        traduccions.put(TIPUSESTATDEFIRMAFINAL_REBUTJAT, "tipusestatdefirmafinal.3");
-        traduccions.put(TIPUSESTATDEFIRMAFINAL_DESCARTAT, "tipusestatdefirmafinal.4");
-        traduccions.put(TIPUSESTATDEFIRMAFINAL_ACCEPTAT, "tipusestatdefirmafinal.5");
+        traduccions.put(ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT, "tipusestatdefirmafinal.0");
+        traduccions.put(ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT, "tipusestatdefirmafinal.1");
+        traduccions.put(ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT, "tipusestatdefirmafinal.2");
+        traduccions.put(ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT, "tipusestatdefirmafinal.3");
+        traduccions.put(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT, "tipusestatdefirmafinal.4");
+        traduccions.put(ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT, "tipusestatdefirmafinal.5");
         traduccions.put(null, "pendent");
 
         mav.addObject("traduccions", traduccions);

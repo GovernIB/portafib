@@ -18,6 +18,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.EstatDeFirmaService;
 import es.caib.portafib.ejb.PeticioDeFirmaService;
 import es.caib.portafib.ejb.TipusNotificacioService;
@@ -52,7 +53,7 @@ import es.caib.portafib.utils.ConstantsV2;
  *
  */
 @Stateless(name = "FirmaEventManagerEJB")
-@RunAs("PFI_USER")
+@RunAs(Constants.PFI_USER)
 public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2, UsuariEntitatFields {
 
     private NotificacionsCallBackTimerLocal notifCallback;

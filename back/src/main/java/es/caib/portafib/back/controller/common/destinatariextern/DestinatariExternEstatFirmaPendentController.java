@@ -2,6 +2,7 @@ package es.caib.portafib.back.controller.common.destinatariextern;
 
 import es.caib.portafib.back.controller.AbstractEstatDeFirmaDestDeleColaController;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,7 @@ public class DestinatariExternEstatFirmaPendentController extends AbstractEstatD
 
     @Override
     public final String getRole() {
-        return ConstantsV2.ROLE_DEST;
+        return Constants.ROLE_DEST;
     }
 
     @Override

@@ -85,31 +85,55 @@ public interface ConstantsV2 {
 
     // ------------------ ROLES REALS
     // Rol ADMIN: Administrador PortaFIB
+    /** @deprecated See Constants */
+    @Deprecated
     public static final String PFI_ADMIN = "PFI_ADMIN";
     // Rol USER: Admin. d'Entitat, Sol·licitant, Destinatari, Delegat i Col·laborador
+    /** @deprecated See Constants */
+    @Deprecated
     public static final String PFI_USER = "PFI_USER";
 
     // ------------------ ROLES VIRTUALS
     // Administrador PortaFIB
+    /** @deprecated See Constants */
+    @Deprecated
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     // ROLE USER
+    /** @deprecated See Constants */
+    @Deprecated
     public static final String ROLE_USER = "ROLE_USER";
     // ROLE Any (tothom)
+    /** @deprecated See Constants */
+    @Deprecated
     public static final String ROLE_ANY = "ROLE_ANY";
 
     // Destinatari
+    /** @deprecated See Constants */
+    @Deprecated
     public static final String ROLE_DEST = "ROLE_DEST";
     // Delegat
+    /** @deprecated See Constants */
+    @Deprecated
     public static final String ROLE_DELE = "ROLE_DELE";
     // Col·laborador
+    /** @deprecated See Constants */
+    @Deprecated
     public static final String ROLE_COLA = "ROLE_COLA";
     // Administrador d''Entitat
+    /** @deprecated See Constants */
+    @Deprecated
     public static final String ROLE_ADEN = "ROLE_ADEN";
     // Administrador d'Aplicacions
+    /** @deprecated See Constants */
+    @Deprecated
     public static final String ROLE_ADAPP = "ROLE_ADAPP";
     // Sol·licitant
+    /** @deprecated See Constants */
+    @Deprecated
     public static final String ROLE_SOLI = "ROLE_SOLI";
     // Revisor
+    /** @deprecated See Constants */
+    @Deprecated
     public static final String ROLE_REVI = "ROLE_REVI";
 
     // TIPUS NOTIFICACIO-AVIS

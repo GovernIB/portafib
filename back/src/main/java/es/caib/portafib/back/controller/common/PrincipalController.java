@@ -5,6 +5,7 @@ import java.util.Map;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 
 import org.apache.log4j.Logger;
@@ -28,7 +29,7 @@ import javax.servlet.http.HttpSession;
  * 
  */
 @Controller
-public class PrincipalController implements ConstantsV2 {
+public class PrincipalController implements Constants {
 
 	protected final Logger log = Logger.getLogger(getClass());
 
@@ -43,7 +44,7 @@ public class PrincipalController implements ConstantsV2 {
 			session.setAttribute("inicialitzat", true);
 		}
 
-		if (initialized == null && Configuracio.isCAIB() && request.isUserInRole(ConstantsV2.ROLE_DEST)) {
+		if (initialized == null && Configuracio.isCAIB() && request.isUserInRole(ROLE_DEST)) {
 			return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list", true));
 		} else {
 			return new ModelAndView("principal");

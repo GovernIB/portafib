@@ -19,7 +19,7 @@ import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 
-
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.ColaboracioDelegacioEJB;
 import es.caib.portafib.ejb.EntitatService;
 import es.caib.portafib.ejb.FitxerService;
@@ -47,8 +47,7 @@ import es.caib.portafib.utils.ConstantsV2;
  * @author anadal
  */
 @Stateless(name = "ColaboracioDelegacioLogicaEJB")
-public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
-        implements ColaboracioDelegacioLogicaLocal {
+public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB implements ColaboracioDelegacioLogicaLocal {
 
     @EJB(mappedName = RoleUsuariEntitatService.JNDI_NAME)
     protected RoleUsuariEntitatService roleUsuariEntitatEjb;
@@ -79,10 +78,8 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
         return jpa;
     }
 
-
     @Override
     public ColaboracioDelegacioJPA createFull(ColaboracioDelegacioJPA colaboracioDelegacio) throws I18NException {
-
 
         //log.info(" =========== createColaDele ============= ");
 
@@ -99,17 +96,14 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
             }
         }
 
-
         // Assignam el ROLE DESTINATARI/COLA>BORADOR si no el té
         {
-            String newRole = jpa.isEsDelegat() ? ConstantsV2.ROLE_DELE : ConstantsV2.ROLE_COLA;
+            String newRole = jpa.isEsDelegat() ? Constants.ROLE_DELE : Constants.ROLE_COLA;
 
             String ususriEntitatID = colaboracioDelegacio.getColaboradorDelegatID();
 
-            Long count = roleUsuariEntitatEjb.count(Where.AND(
-                    RoleUsuariEntitatFields.ROLEID.equal(newRole),
-                    RoleUsuariEntitatFields.USUARIENTITATID.equal(ususriEntitatID)
-            ));
+            Long count = roleUsuariEntitatEjb.count(Where.AND(RoleUsuariEntitatFields.ROLEID.equal(newRole),
+                    RoleUsuariEntitatFields.USUARIENTITATID.equal(ususriEntitatID)));
 
             if (count == 0) {
                 roleUsuariEntitatEjb.create(newRole, ususriEntitatID);
@@ -120,9 +114,9 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
 
     }
 
-
     @Override
-    @RolesAllowed({"PFI_ADMIN", "PFI_USER"})
+    @RolesAllowed({ Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS,
+            Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
     public ColaboracioDelegacioJPA updateFull(ColaboracioDelegacioJPA instance) throws I18NException {
 
         // Llegim els tipus actuals per veure quins s'han eliminat
@@ -151,7 +145,6 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
             tipusDocumentColaboracioDelegacioEjb.delete(id);
         }
 
-
         ColaboracioDelegacioJPA jpa = (ColaboracioDelegacioJPA) update(instance);
 
         Hibernate.initialize(jpa.getTipusDocumentColaboracioDelegacios());
@@ -161,17 +154,18 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
     }
 
     @Override
-    @RolesAllowed({"PFI_ADMIN", "PFI_USER"})
+    @RolesAllowed({ Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS,
+            Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
     public Set<Long> deleteFull(ColaboracioDelegacioJPA instance) throws I18NException {
         Where w2 = EstatDeFirmaFields.COLABORACIODELEGACIOID.equal(instance.getColaboracioDelegacioID());
         if (estatDeFirmaEjb.count(w2) != 0) {
             // TODO falta traducció
-            throw new I18NException("error.unknown",
-                    "Aquest " + (instance.isEsDelegat() ? "Delegat" : "Col·laborador") + " té pendents firma/s de documents.");
+            throw new I18NException("error.unknown", "Aquest " + (instance.isEsDelegat() ? "Delegat" : "Col·laborador")
+                    + " té pendents firma/s de documents.");
         }
 
-
-        Where w = TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID.equal(instance.getColaboracioDelegacioID());
+        Where w = TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID
+                .equal(instance.getColaboracioDelegacioID());
 
         tipusDocumentColaboracioDelegacioEjb.delete(w);
 
@@ -190,9 +184,8 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
     }
 
     @Override
-    public void assignarAutoritzacioADelegacio(Long delegacioID, FileInfoSignature signFileInfo,
-                                               File firmat, String nom) throws I18NException {
-
+    public void assignarAutoritzacioADelegacio(Long delegacioID, FileInfoSignature signFileInfo, File firmat,
+            String nom) throws I18NException {
 
         // Cercar colaboracio delegacio
         ColaboracioDelegacioJPA jpa = findByPrimaryKey(delegacioID);
@@ -213,8 +206,8 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
 
         // TODO i si no existeix
 
-        List<UsuariEntitatJPA> usuarisEntitat =
-                usuariEntitatLogicaEjb.findByPrimaryKeyFullWithEntitat(Collections.singletonList(jpa.getDestinatariID()));
+        List<UsuariEntitatJPA> usuarisEntitat = usuariEntitatLogicaEjb
+                .findByPrimaryKeyFullWithEntitat(Collections.singletonList(jpa.getDestinatariID()));
 
         UsuariEntitatJPA destinatari = usuarisEntitat.get(0);
 
@@ -232,28 +225,24 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
         final boolean validarFitxerFirma = entitat.isValidarfirma();
         final boolean checkCanviatDocFirmat = entitat.isCheckCanviatDocFirmat();
         final boolean comprovarNifFirma = true; // Forçam a que sigui true
-        
+
         int signType = SignatureUtils.convertApiSignTypeToPortafibSignType(signFileInfo.getSignType());
 
         int signMode = SignatureUtils.convertApiSignMode2PortafibSignMode(signFileInfo.getSignMode());
 
-        
-
         String entitatID = entitat.getEntitatID();
 
-        ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
-                validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma,
-                originalData, originalData, signatureData, documentDetachedData,
-                signType, signMode, signFileInfo.getLanguageSign(),
-                numFirmaPortaFIB, numFirmesOriginals, nifEsperat, ConstantsV2.TAULADEFIRMES_SENSETAULA);
+        ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID, validarFitxerFirma,
+                checkCanviatDocFirmat, comprovarNifFirma, originalData, originalData, signatureData,
+                documentDetachedData, signType, signMode, signFileInfo.getLanguageSign(), numFirmaPortaFIB,
+                numFirmesOriginals, nifEsperat, ConstantsV2.TAULADEFIRMES_SENSETAULA);
 
         try {
-            final boolean validateChangesInAttachedFiles= true;
+            final boolean validateChangesInAttachedFiles = true;
             validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest, validateChangesInAttachedFiles);
         } catch (ValidacioException e) {
             throw new I18NException("genapp.comodi", e.getMessage());
         }
-
 
         // Crear fitxer en BBDD
         Fitxer fitxer = new FitxerJPA();

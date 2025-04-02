@@ -57,7 +57,8 @@ import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.commons.utils.Configuracio;
-import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.commons.utils.Constants;
+
 /**
  * @author dboerner
  * @author anadal
@@ -121,7 +122,7 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
 
   @Override
   public String getRoleGestionat() {
-    return ConstantsV2.ROLE_ADEN;
+    return Constants.ROLE_ADEN;
   }
   
   @Override
@@ -206,7 +207,7 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
           // Ara miram si ja és AdEn en aquesta entitat
           Where whereCount = Where.AND(
               RoleUsuariEntitatFields.USUARIENTITATID.equal(usuariEntitat.getUsuariEntitatID()),
-              RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_ADEN)
+              RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_ADEN)
              ); 
           if (roleUsuariEntitatLogicaEjb.count(whereCount) != 0) {
             // administradorentitat.jaexisteix=L´usuari {0} ja és Administrador-Entitat de l´entitat {1}
@@ -226,7 +227,7 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
       subquery = roleUsuariEntitatLogicaEjb.getSubQuery(RoleUsuariEntitatFields.USUARIENTITATID,
           Where.AND(
              RoleUsuariEntitatFields.USUARIENTITATID.equal(UsuariEntitatFields.USUARIENTITATID),
-             RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_ADEN)
+             RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_ADEN)
             )
            );
       
@@ -348,7 +349,7 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
         roleUsuariEntitatFilterForm.addHiddenField(ID);
       }
       
-      roleUsuariEntitatFilterForm.addLabel(USUARIENTITATID, ConstantsV2.ROLE_ADEN);
+      roleUsuariEntitatFilterForm.addLabel(USUARIENTITATID, Constants.ROLE_ADEN);
       
       roleUsuariEntitatFilterForm.setTitleCode("administradorentitat.llistat");
       
@@ -465,7 +466,7 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
        // Field USUARI PERSONA_NOM
       _listSKV = this.personaRefList.getReferenceList(UsuariPersonaFields.USUARIPERSONAID, null, new OrderBy(UsuariPersonaFields.LLINATGES));
       _tmp = org.fundaciobit.genapp.common.utils.Utils.listToMap(_listSKV);
-      groupByItemsMap.get(USUARIPERSONA_NOM).setCodeLabel(ConstantsV2.ROLE_ADEN);
+      groupByItemsMap.get(USUARIPERSONA_NOM).setCodeLabel(Constants.ROLE_ADEN);
       fillValuesToGroupByItems(_tmp, groupByItemsMap, USUARIPERSONA_NOM, false);
 
 

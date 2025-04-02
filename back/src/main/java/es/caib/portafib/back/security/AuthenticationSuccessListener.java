@@ -15,6 +15,7 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -101,13 +102,13 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
         boolean containsRoleAny = false;
         for (GrantedAuthority grantedAuthority : seyconAuthorities) {
             String rol = grantedAuthority.getAuthority();
-            if (ConstantsV2.ROLE_ANY.equals(rol)) {
+            if (Constants.ROLE_ANY.equals(rol)) {
                 containsRoleAny = true;
             }
-            if (ConstantsV2.ROLE_USER.equals(rol)) {
+            if (Constants.ROLE_USER.equals(rol)) {
                 containsRoleUser = true;
             }
-            if (ConstantsV2.ROLE_ADMIN.equals(rol)) {
+            if (Constants.ROLE_ADMIN.equals(rol)) {
                 containsRoleAdmin = true;
             }
         }
@@ -195,7 +196,7 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
                             if (Configuracio.isCAIB()) {
                                 defaultEntity = PropietatGlobalUtil.getEntitatIDForAgentsSQL();
                                 virtualRoles = new HashSet<String>();
-                                virtualRoles.add(ConstantsV2.ROLE_DEST);
+                                virtualRoles.add(Constants.ROLE_DEST);
                             } else {
                                 defaultEntity = PropietatGlobalUtil.getDefaultEntity();
                                 String defRolesStr = PropietatGlobalUtil.getDefaultRolesInCreation();
@@ -346,13 +347,13 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
                 boolean usuariAplicacioPerPerticionsIsNull = (entitat.getUsuariAplicacioID() == null);
                 for (RoleUsuariEntitat roleUsuariEntitat : rolesEntitat) {
                     String roleName = roleUsuariEntitat.getRoleID();
-                    if (usuariAplicacioPerPerticionsIsNull && ConstantsV2.ROLE_SOLI.equals(roleName)) {
+                    if (usuariAplicacioPerPerticionsIsNull && Constants.ROLE_SOLI.equals(roleName)) {
                         log.warn("No afegim el role " + roleName + " ja que aquesta entitat no té definit "
                                 + " usuariAplicacio per les peticions de firma dels usuaris.");
-                    } else if (ConstantsV2.ROLE_ADMIN.equals(roleName)) {
+                    } else if (Constants.ROLE_ADMIN.equals(roleName)) {
                         // TODO enviar un correu a l'administrador del sistema
                         log.warn("Error de seguretat: L'usuari " + name + " té el role virtual "
-                                + ConstantsV2.ROLE_ADMIN + " però aquest rol s'ha d'obtenir dels rols de JBOSS."
+                                + Constants.ROLE_ADMIN + " però aquest rol s'ha d'obtenir dels rols de JBOSS."
                                 + " Eliminar aquest rol de la BBDD !!!!!", new Exception());
                     } else {
                         if (isDebug) {
@@ -364,14 +365,14 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
 
                 // El permis de REVISOR actualment esta repartir entre l ataula de ROLES per usuarientitatid
                 // i la taula de Revisors de Destinatari.
-                if (!rolesPortaFIB.contains(new SimpleGrantedAuthority(ConstantsV2.ROLE_REVI))) {
+                if (!rolesPortaFIB.contains(new SimpleGrantedAuthority(Constants.ROLE_REVI))) {
 
                     RevisorDeDestinatariLogicaService revisorDeDestinatariEjb;
                     try {
                         revisorDeDestinatariEjb = EjbManager.getRevisorDeDestinatariEJB();
 
                         if (revisorDeDestinatariEjb.usuariEntitatIdEsRevisor(usuariEntitat.getUsuariEntitatID())) {
-                            rolesPortaFIB.add(new SimpleGrantedAuthority(ConstantsV2.ROLE_REVI));
+                            rolesPortaFIB.add(new SimpleGrantedAuthority(Constants.ROLE_REVI));
                         }
 
                     } catch (Exception e) {

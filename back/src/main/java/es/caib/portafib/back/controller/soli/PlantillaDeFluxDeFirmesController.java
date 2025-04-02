@@ -71,6 +71,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.MappingOrder;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.webdb.FluxDeFirmesWebValidator;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.PeticioDeFirmaService;
 import es.caib.portafib.ejb.RoleUsuariEntitatService;
 import es.caib.portafib.ejb.UsuariAplicacioService;
@@ -118,7 +119,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @SessionAttributes(
         types = { PlantillaDeFluxDeFirmesFilterForm.class, PlantillaDeFluxDeFirmesForm.class, FluxDeFirmesForm.class,
                 FluxDeFirmesFilterForm.class, SeleccioUsuariForm.class })
-public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController implements ConstantsV2 {
+public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController implements Constants {
 
     @EJB(mappedName = RestApiPlantillaFluxLocal.JNDI_NAME)
     protected RestApiPlantillaFluxLocal restApiPlantillaFluxLocal;
@@ -354,8 +355,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                 fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.USUARIAPLICACIOID);
             }
 
-            if (LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN)
-                    || LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN)) {
+            if (LoginInfo.getInstance().hasRole(Constants.ROLE_ADMIN)
+                    || LoginInfo.getInstance().hasRole(Constants.ROLE_ADEN)) {
                 fluxDeFirmesFilterForm.addGroupByField(COMPARTIR_PLANTILLA);
             } else {
                 fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.COMPARTIR);
@@ -389,8 +390,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
         String parentContext = isUsuariEntitat() ? "soli" : "aden";
 
         // Mostrar boto per editar usuaris que poden veure les meves plantilles
-        if (isUsuariEntitat() && (LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN)
-                || !LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN))) {
+        if (isUsuariEntitat() && (LoginInfo.getInstance().hasRole(Constants.ROLE_ADMIN)
+                || !LoginInfo.getInstance().hasRole(Constants.ROLE_ADEN))) {
 
             filterForm.getAdditionalButtonsByPK().clear();
 
@@ -609,8 +610,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
         // Final mode edició
 
         if (!isPlantillaRest()) {
-            if (!LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN)
-                    && !LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN)) {
+            if (!LoginInfo.getInstance().hasRole(Constants.ROLE_ADMIN)
+                    && !LoginInfo.getInstance().hasRole(Constants.ROLE_ADEN)) {
                 form.addHiddenField(PlantillaFluxDeFirmesFields.COMPARTIR);
             }
         }
@@ -685,7 +686,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                 // (2) Tots els càrrecs actius de la meva entitat
                 SubQuery<RoleUsuariEntitat, String> sq;
                 sq = roleUsuariEntitatEjb.getSubQuery(RoleUsuariEntitatFields.USUARIENTITATID,
-                        RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_DEST));
+                        RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_DEST));
 
                 Where w = Where.AND(UsuariEntitatFields.ENTITATID.equal(entitatID), // de la meva
                         // entitat
@@ -854,7 +855,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                                 Set<EstatDeFirmaJPA> estats = firma.getEstatDeFirmas();
                                 boolean rebutjat = false;
                                 for (EstatDeFirmaJPA estat : estats) {
-                                    if (estat.getTipusEstatDeFirmaFinalID() == TIPUSESTATDEFIRMAFINAL_REBUTJAT) {
+                                    if (estat.getTipusEstatDeFirmaFinalID() == ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT) {
                                         rebutjat = true;
                                         break;
                                     }
@@ -865,7 +866,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                                 } else {
                                     boolean firmat = false;
                                     for (EstatDeFirmaJPA estat : estats) {
-                                        if (estat.getTipusEstatDeFirmaFinalID() == TIPUSESTATDEFIRMAFINAL_FIRMAT) {
+                                        if (estat.getTipusEstatDeFirmaFinalID() == ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT) {
                                             firmat = true;
                                             break;
                                         }
@@ -887,16 +888,16 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                         for (RevisorDeFirmaJPA revisor : firma.getRevisorDeFirmas()) {
                             for (EstatDeFirmaJPA estat : firma.getEstatDeFirmas()) {
                                 if (estat
-                                        .getTipusEstatDeFirmaInicialID() == TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR
+                                        .getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR
                                         && estat.getUsuariEntitatID().equals(revisor.getUsuariEntitatID())) {
                                     String color = BLAU;
                                     if (estat.getTipusEstatDeFirmaFinalID() != null) {
                                         if (estat.getTipusEstatDeFirmaFinalID()
-                                                .equals(TIPUSESTATDEFIRMAFINAL_ACCEPTAT)) {
+                                                .equals(ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT)) {
                                             color = VERD;
                                         } else {
                                             if (estat.getTipusEstatDeFirmaFinalID()
-                                                    .equals(TIPUSESTATDEFIRMAFINAL_REBUTJAT)) {
+                                                    .equals(ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT)) {
                                                 color = ROIG_R;
                                             } else {
                                                 color = GRIS;

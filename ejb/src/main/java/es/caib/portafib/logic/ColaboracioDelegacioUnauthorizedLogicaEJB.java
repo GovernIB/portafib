@@ -3,6 +3,8 @@ package es.caib.portafib.logic;
 import javax.annotation.security.RunAs;
 import javax.ejb.Stateless;
 
+import es.caib.portafib.commons.utils.Constants;
+
 
 
 /**
@@ -11,7 +13,7 @@ import javax.ejb.Stateless;
  *
  */
 @Stateless(name = "ColaboracioDelegacioUnauthorizedLogicaEJB")
-@RunAs("PFI_USER")
+@RunAs(Constants.PFI_USER)
 public class ColaboracioDelegacioUnauthorizedLogicaEJB 
   extends ColaboracioDelegacioLogicaEJB 
   implements ColaboracioDelegacioUnauthorizedLogicaLocal {

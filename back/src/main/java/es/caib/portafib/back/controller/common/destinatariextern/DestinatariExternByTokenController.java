@@ -2,6 +2,7 @@ package es.caib.portafib.back.controller.common.destinatariextern;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSessionLocaleResolver;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.FirmaJPA;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
@@ -141,7 +142,7 @@ public class DestinatariExternByTokenController {
 
   private void registrarUsuari(HttpServletRequest request, String token, FirmaJPA firma, String username) {
     Collection<GrantedAuthority> springAuthorities = new ArrayList<GrantedAuthority>();
-    springAuthorities.add(new SimpleGrantedAuthority(ConstantsV2.ROLE_DEST));
+    springAuthorities.add(new SimpleGrantedAuthority(Constants.ROLE_DEST));
 
     final String password = "";
     User user = new User(username, password, springAuthorities);

@@ -15,25 +15,25 @@ import es.caib.portafib.commons.utils.Constants;
 public class RevisorDeDestinatariEJB extends RevisorDeDestinatariJPAManager implements RevisorDeDestinatariService {
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS})
     public void delete(RevisorDeDestinatari instance) {
         super.delete(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS})
     public RevisorDeDestinatari create(RevisorDeDestinatari instance) throws I18NException {
         return super.create(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS})
     public RevisorDeDestinatari update(RevisorDeDestinatari instance) throws I18NException {
          return super.update(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS})
     public void deleteIncludingFiles(RevisorDeDestinatari instance,  FitxerService fitxerEjb)
             throws I18NException {
 
@@ -41,7 +41,7 @@ public class RevisorDeDestinatariEJB extends RevisorDeDestinatariJPAManager impl
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_WS_ACCESS})
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS})
     public RevisorDeDestinatariJPA findByPrimaryKey(Long _ID_) {
         return (RevisorDeDestinatariJPA)super.findByPrimaryKey(_ID_);
     }

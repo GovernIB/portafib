@@ -97,8 +97,8 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
 
             String output = response.readEntity(String.class);
             if (!output.equals("OK")) {
-                throw new Exception(
-                        "Error Cridant a Servei Rest(" + endPoint + "): " + output + "[" + response.getStatus() + "]");
+                throw new Exception("Error en la resposta de la cridad al Servei Rest(" + endPoint 
+                        + "): S'esperava OK i s'ha rebut " + output + " [" + response.getStatus() + "]");
             }
 
             if (log.isDebugEnabled()) {

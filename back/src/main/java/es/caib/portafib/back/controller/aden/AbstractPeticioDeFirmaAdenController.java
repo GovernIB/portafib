@@ -5,7 +5,6 @@ import es.caib.portafib.back.controller.adapp.CustodiaInfoAdappController;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.model.entity.PeticioDeFirma;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.commons.utils.Configuracio;
 

@@ -8,13 +8,11 @@ import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.FirmaService;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.model.fields.FirmaQueryPath;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
-import es.caib.portafib.utils.Constants;
-import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
@@ -63,7 +61,7 @@ public class PeticioDeFirmaDeDestinatariAdenController extends AbstractPeticioDe
 
         seleccioUsuariForm.setTitol("peticionsdefirma.destinatari");
         seleccioUsuariForm.setSubtitol("peticionsdefirma.destinatari.nif.subtitol");
-        seleccioUsuariForm.setCancelUrl("/canviarPipella/" + ConstantsV2.ROLE_ADEN);
+        seleccioUsuariForm.setCancelUrl("/canviarPipella/" + Constants.ROLE_ADEN);
         seleccioUsuariForm.setUrlData("/common/json/usuarientitat");
 
         try {

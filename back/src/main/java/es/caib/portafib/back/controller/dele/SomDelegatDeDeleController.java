@@ -26,16 +26,18 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.persistence.ColaboracioDelegacioJPA;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
-import es.caib.portafib.utils.ConstantsV2;
 
+/**
+ * 
+ * @author anadal
+ * 2 abr 2025 11:54:21
+ */
 @Controller
 @RequestMapping(value = "/dele/delegatde")
 @SessionAttributes(
         types = { ColaboracioDelegacioDestForm.class, ColaboracioDelegacioForm.class,
                 ColaboracioDelegacioFilterForm.class })
-public class SomDelegatDeDeleController extends DelegacioDestController
-        //extends ColaboracioDelegacioController 
-        implements ConstantsV2 {
+public class SomDelegatDeDeleController extends DelegacioDestController {
 
     @PostConstruct
     public void init() {

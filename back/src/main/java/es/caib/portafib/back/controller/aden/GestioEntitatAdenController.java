@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.form.webdb.EntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.EntitatJPA;
-import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.springframework.stereotype.Controller;
@@ -43,12 +43,12 @@ public class GestioEntitatAdenController extends GestioEntitatAdminController {
 
   @Override
   public String getRedirectWhenModified(HttpServletRequest request, EntitatForm entitatForm, Throwable __e) {
-    return "redirect:/canviarPipella/" + ConstantsV2.ROLE_ADEN;
+    return "redirect:/canviarPipella/" + Constants.ROLE_ADEN;
   }
 
   @Override
   public String getRedirectWhenCancel(HttpServletRequest request, java.lang.String entitatID) {
-    return "redirect:/canviarPipella/" + ConstantsV2.ROLE_ADEN;
+    return "redirect:/canviarPipella/" + Constants.ROLE_ADEN;
   }
 
   /**

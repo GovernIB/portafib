@@ -13,7 +13,7 @@ import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.commons.utils.Configuracio;
-import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.commons.utils.Constants;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -64,13 +64,13 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements UsuariPe
     protected PlantillaFluxDeFirmesLogicaLocal plantillaFluxDeFirmesLogicaEjb;
 
     @Override
-    @RolesAllowed({ "PFI_ADMIN", "PFI_USER", "tothom" })
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
     public UsuariPersona update(UsuariPersona instance) throws I18NException {
         return super.update(instance);
     }
 
     @Override
-    @RolesAllowed({ "PFI_ADMIN", "PFI_USER", "tothom" })
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
     public UsuariPersonaJPA findByPrimaryKey(String _ID_) {
         return super.findByPrimaryKey(_ID_);
     }
@@ -131,7 +131,7 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements UsuariPe
     @Override
     public Set<String> getRolesOfLoggedUser() throws I18NException {
 
-        String[] allRoles = { ConstantsV2.PFI_USER, ConstantsV2.PFI_ADMIN };
+        String[] allRoles = { Constants.PFI_USER, Constants.PFI_ADMIN };
         Set<String> roles = new HashSet<String>();
 
         for (String rol : allRoles) {

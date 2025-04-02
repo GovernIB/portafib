@@ -1,7 +1,7 @@
 package es.caib.portafib.back.controller.cola;
 
 import es.caib.portafib.back.controller.AbstractEstatDeFirmaDestDeleColaController;
-import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.commons.utils.Constants;
 
 /**
  * 
@@ -17,7 +17,7 @@ public abstract class EstatFirmaAbstractColaController extends AbstractEstatDeFi
   
   @Override
   public final String getRole() {
-    return ConstantsV2.ROLE_COLA;
+    return Constants.ROLE_COLA;
   }
   
 }

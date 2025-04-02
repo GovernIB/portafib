@@ -91,6 +91,7 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.KeyValue;
@@ -1200,7 +1201,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
         // Assignam permis de ROLE_DEST als firmants de la peticio que no el
         // tenguin.
-        Where where = Where.AND(RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_DEST),
+        Where where = Where.AND(RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_DEST),
                 RoleUsuariEntitatFields.USUARIENTITATID.in(destinatarisUsuari));
         List<String> destAmbPermis = roleUsuariEntitatEjb.executeQuery(RoleUsuariEntitatFields.USUARIENTITATID, where);
         // Esborram tos els que tenen permis
@@ -1214,7 +1215,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             if (isDebug) {
                 log.info("Afegint ROLE_DEST a l'usuari-entitat (persona) " + sensePermis);
             }
-            roleUsuariEntitatEjb.create(ConstantsV2.ROLE_DEST, sensePermis);
+            roleUsuariEntitatEjb.create(Constants.ROLE_DEST, sensePermis);
         }
 
     }
@@ -4035,7 +4036,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
      */
     protected boolean hasAccess(PeticioDeFirma peticioDeFirma, String usernameLoguejat) throws I18NException {
 
-        if (context.isCallerInRole(ConstantsV2.PFI_ADMIN)) {
+        if (context.isCallerInRole(Constants.PFI_ADMIN)) {
             return true;
         }
 
@@ -4073,7 +4074,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
     private String currentUsuariEntitatADEN(String entitatID, String usernameLoguejat) throws I18NException {
         // String username = context.getCallerPrincipal().getName();
         return this.roleUsuariEntitatEjb.executeQueryOne(RoleUsuariEntitatFields.USUARIENTITATID,
-                Where.AND(RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_ADEN),
+                Where.AND(RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_ADEN),
                         new RoleUsuariEntitatQueryPath().USUARIENTITAT().USUARIPERSONAID().equal(usernameLoguejat),
                         new RoleUsuariEntitatQueryPath().USUARIENTITAT().ACTIU().equal(true),
                         new RoleUsuariEntitatQueryPath().USUARIENTITAT().CARREC().isNull(),

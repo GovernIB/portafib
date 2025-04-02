@@ -14,6 +14,7 @@
 
 		<!-- <sec:logout logout-success-url="/index.jsp" />  -->
 		<sec:csrf disabled="true"/>
+        <sec:intercept-url pattern="/fonts/**" access="permitAll"/>
 		<sec:intercept-url pattern="/carrecscaib/**" access="permitAll"/>
 		<sec:intercept-url pattern="/error.jsp" access="permitAll"/>
 		<sec:intercept-url pattern="/index.jsp" access="permitAll"/>
@@ -69,10 +70,12 @@
 			<map>
 				<entry key="tothom" value="ROLE_ANY"/>
 				<entry key="PFI_USER" value="ROLE_USER"/>
+                <entry key="usuari-tipus-I" value="ROLE_USER"/>
 				<entry key="PFI_ADMIN" value="ROLE_ADMIN"/>
 				<entry key="PFI_AUTOFIRMA" value="ROLE_AUTOFIRMA"/>
 				<entry key="@tothom" value="ROLE_ANY"/>
 				<entry key="@PFI_USER" value="ROLE_USER"/>
+                <entry key="@usuari-tipus-I" value="ROLE_USER"/>
 				<entry key="@PFI_ADMIN" value="ROLE_ADMIN"/>
 				<entry key="@PFI_AUTOFIRMA" value="ROLE_AUTOFIRMA"/>
 			</map>
@@ -83,6 +86,7 @@
 			<set>
 				<value>tothom</value>
 				<value>PFI_USER</value>
+                <value>usuari-tipus-I</value>
 				<value>PFI_ADMIN</value>
 				<value>PFI_AUTOFIRMA</value>
 			</set>

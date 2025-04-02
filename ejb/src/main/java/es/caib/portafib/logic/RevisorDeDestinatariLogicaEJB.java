@@ -3,6 +3,7 @@ package es.caib.portafib.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.RevisorDeDestinatariEJB;
 import es.caib.portafib.ejb.RoleUsuariEntitatService;
 import es.caib.portafib.model.bean.UsuariPersonaBean;
@@ -16,7 +17,6 @@ import es.caib.portafib.model.fields.RevisorDeDestinatariQueryPath;
 import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
-import es.caib.portafib.utils.ConstantsV2;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -103,7 +103,7 @@ public class RevisorDeDestinatariLogicaEJB extends RevisorDeDestinatariEJB
         }
 
         // Te el role de REVISOR ???
-        Long count = roleUsuariEntitatEjb.count(Where.AND(RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_REVI),
+        Long count = roleUsuariEntitatEjb.count(Where.AND(RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_REVI),
                 RoleUsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID)));
 
         if (count != null && count != 0) {

@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.logic.RebreAvisLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 
@@ -16,8 +17,8 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
  *
  */
 @Stateless(name = "EnviarCorreusAgrupatsTimerEJB")
-@RunAs("PFI_ADMIN")
-@RolesAllowed("PFI_ADMIN")
+@RunAs(Constants.PFI_ADMIN)
+@RolesAllowed(Constants.PFI_ADMIN)
 public class EnviarCorreusAgrupatsTimerEJB extends AbstractTimerEJB implements EnviarCorreusAgrupatsTimerLocal {
 
     @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)

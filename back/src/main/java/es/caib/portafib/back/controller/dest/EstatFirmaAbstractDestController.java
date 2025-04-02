@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.controller.AbstractEstatDeFirmaDestDeleColaController;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
-import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.commons.utils.Constants;
 
 /**
  * @author anadal
@@ -21,7 +21,7 @@ public abstract class EstatFirmaAbstractDestController extends AbstractEstatDeFi
 
     @Override
     public final String getRole() {
-        return ConstantsV2.ROLE_DEST;
+        return Constants.ROLE_DEST;
     }
 
     @Override

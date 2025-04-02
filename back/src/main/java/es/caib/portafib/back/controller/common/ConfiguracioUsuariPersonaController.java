@@ -10,6 +10,7 @@ import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -74,7 +75,7 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
       }
       form.addReadOnlyField(USUARIPERSONAID);
 
-      if (Configuracio.isCAIB() || request.isUserInRole(ConstantsV2.ROLE_ADMIN)
+      if (Configuracio.isCAIB() || request.isUserInRole(Constants.ROLE_ADMIN)
           || PropietatGlobalUtil.getDefaultEntity() != null) {
         // Podem modificar el nom i llinatge
       } else {

@@ -24,11 +24,11 @@ import es.caib.portafib.back.form.webdb.RoleUsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.RoleUsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
-import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -45,7 +45,7 @@ public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitat
 
     @Override
     public String getRoleGestionat() {
-        return ConstantsV2.ROLE_REVI;
+        return Constants.ROLE_REVI;
     }
 
     @Override
@@ -98,7 +98,7 @@ public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitat
         }
 
         // Esbrinam si aquest ususrientitat ja té el rol de solicitant o no
-        Where w1 = ROLEID.equal(ConstantsV2.ROLE_REVI);
+        Where w1 = ROLEID.equal(Constants.ROLE_REVI);
         Where w2 = USUARIENTITATID.equal(ue.getUsuariEntitatID());
         List<Long> list = roleUsuariEntitatEjb.executeQuery(ID, Where.AND(w1, w2));
 
@@ -176,7 +176,7 @@ public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitat
     }
 
     protected String getRole() {
-        return ConstantsV2.ROLE_ADEN;
+        return Constants.ROLE_ADEN;
     }
 
     @Override

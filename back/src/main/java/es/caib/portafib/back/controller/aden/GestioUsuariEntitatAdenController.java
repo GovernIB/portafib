@@ -10,6 +10,7 @@ import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
 import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.EntitatService;
 import es.caib.portafib.persistence.RoleUsuariEntitatJPA;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
@@ -136,7 +137,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
 
         seleccioUsuariForm.setTitol("usuarientitat.gestio");
         seleccioUsuariForm.setSubtitol("usuarientitat.seleccionarpersona");
-        seleccioUsuariForm.setCancelUrl("/canviarPipella/" + ConstantsV2.ROLE_ADEN);
+        seleccioUsuariForm.setCancelUrl("/canviarPipella/" + Constants.ROLE_ADEN);
         seleccioUsuariForm.setUrlData(getUrlDataJsonSearch());
 
         seleccioUsuariForm.setUsuarisFavorits(getUsuarisFavorits());
@@ -230,7 +231,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
 
                 Long count = roleUsuariEntitatLogicaEjb
                         .count(Where.AND(RoleUsuariEntitatFields.USUARIENTITATID.equal(ue.getUsuariEntitatID()),
-                                RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_SOLI)));
+                                RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_SOLI)));
 
                 if (count == 0) {
                     // No té role solicitant, llavors li posam un boto per donar-lo d'alta com soli.
@@ -293,7 +294,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
             return getRedirectWhenCancel(request, usuariEntitatID);
         }
         RoleUsuariEntitatJPA rue = new RoleUsuariEntitatJPA();
-        rue.setRoleID(ConstantsV2.ROLE_SOLI);
+        rue.setRoleID(Constants.ROLE_SOLI);
         rue.setUsuariEntitatID(usuariEntitatID);
 
         try {
@@ -378,7 +379,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
 
     @Override
     public String getRedirectWhenCancel(HttpServletRequest request, java.lang.String usuariEntitatID) {
-        return "redirect:/canviarPipella/" + ConstantsV2.ROLE_ADEN;
+        return "redirect:/canviarPipella/" + Constants.ROLE_ADEN;
     }
 
     @Override

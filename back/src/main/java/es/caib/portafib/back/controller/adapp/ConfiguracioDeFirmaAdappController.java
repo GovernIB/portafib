@@ -48,7 +48,7 @@ import java.util.Set;
 @RequestMapping(value = ConfiguracioDeFirmaAdappController.CONTEXT_WEB)
 @SessionAttributes(types = { UsuariAplicacioConfiguracioForm.class, UsuariAplicacioConfiguracioFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADAPP,
+        group = Constants.ROLE_ADAPP,
         labelCode = UsuariAplicacioConfiguracioFields._TABLE_MODEL + "."
                 + UsuariAplicacioConfiguracioFields._TABLE_MODEL + ".plural",
         order = 30)

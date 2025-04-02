@@ -36,6 +36,7 @@ import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.PlantillaFluxDeFirmesFilterForm;
 import es.caib.portafib.back.form.webdb.PlantillaFluxDeFirmesForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.PermisGrupPlantillaJPA;
 import es.caib.portafib.persistence.PermisUsuariPlantillaJPA;
 import es.caib.portafib.persistence.PlantillaFluxDeFirmesJPA;
@@ -47,7 +48,6 @@ import es.caib.portafib.model.entity.PermisGrupPlantilla;
 import es.caib.portafib.model.fields.GrupEntitatFields;
 import es.caib.portafib.model.fields.PermisGrupPlantillaFields;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
-import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -80,8 +80,8 @@ public class PermisosPlantillaDeFluxDeFirmesController extends PlantillaFluxDeFi
             @PathVariable("fluxDeFirmesID") java.lang.Long fluxDeFirmesID, HttpServletRequest request,
             HttpServletResponse response, boolean __isView) throws I18NException {
 
-        if (!LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN)
-                && !LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN)) {
+        if (!LoginInfo.getInstance().hasRole(Constants.ROLE_ADMIN)
+                && !LoginInfo.getInstance().hasRole(Constants.ROLE_ADEN)) {
             // Accés no autoritzat, farem que falli
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return null;

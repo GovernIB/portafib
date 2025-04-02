@@ -17,6 +17,7 @@ import es.caib.portafib.model.entity.NotificacioWS;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.NotificacioWSFields;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -67,7 +68,7 @@ import static es.caib.portafib.utils.ConstantsV2.NOTIFICACIOAVIS_PETICIO_REBUTJA
  * @author areus
  */
 @Stateless(name = "NotificacionsCallBackTimerEJB")
-@RunAs(ConstantsV2.PFI_ADMIN)
+@RunAs(Constants.PFI_ADMIN)
 @PermitAll
 public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimerLocal {
 

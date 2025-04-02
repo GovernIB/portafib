@@ -46,6 +46,7 @@ import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 
 import org.apache.commons.lang3.StringUtils;
@@ -1016,11 +1017,11 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             throws I18NException {
 
         if (log.isDebugEnabled()) {
-            log.debug("loginInfo.hasRole(ConstantsV2.ROLE_ADMIN) => " + loginInfo.hasRole(ConstantsV2.ROLE_ADMIN));
-            log.debug("loginInfo.hasRole(ConstantsV2.PFI_ADMIN) => " + loginInfo.hasRole(ConstantsV2.PFI_ADMIN));
+            log.debug("loginInfo.hasRole(ConstantsV2.ROLE_ADMIN) => " + loginInfo.hasRole(Constants.ROLE_ADMIN));
+            log.debug("loginInfo.hasRole(ConstantsV2.PFI_ADMIN) => " + loginInfo.hasRole(Constants.PFI_ADMIN));
         };
 
-        boolean hasRoleAdmin = loginInfo.hasRole(ConstantsV2.ROLE_ADMIN) || loginInfo.hasRole(ConstantsV2.PFI_ADMIN);
+        boolean hasRoleAdmin = loginInfo.hasRole(Constants.ROLE_ADMIN) || loginInfo.hasRole(Constants.PFI_ADMIN);
 
         checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, loginInfo.getUsuariAplicacio().getUsuariAplicacioID(),
                 hasRoleAdmin);

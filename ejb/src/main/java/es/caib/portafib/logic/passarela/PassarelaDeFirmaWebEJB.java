@@ -1,5 +1,6 @@
 package es.caib.portafib.logic.passarela;
 
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.CodiBarresService;
 import es.caib.portafib.ejb.EstadisticaService;
 import es.caib.portafib.persistence.CustodiaInfoJPA;
@@ -84,7 +85,7 @@ import java.util.Set;
  * @author areus
  */
 @Stateless(name = "PassarelaDeFirmaWebEJB")
-@RunAs("PFI_USER")
+@RunAs(Constants.PFI_USER)
 public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatureWebPlugin>
         implements PassarelaDeFirmaWebLocal {
 

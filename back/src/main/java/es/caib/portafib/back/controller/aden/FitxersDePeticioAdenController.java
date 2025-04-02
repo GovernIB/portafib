@@ -4,6 +4,7 @@ import es.caib.portafib.back.controller.FileDownloadController;
 import es.caib.portafib.back.controller.webdb.FitxerController;
 import es.caib.portafib.back.form.webdb.FitxerFilterForm;
 import es.caib.portafib.back.form.webdb.FitxerForm;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.BlocDeFirmesService;
 import es.caib.portafib.ejb.FirmaService;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
@@ -323,7 +324,7 @@ public class FitxersDePeticioAdenController extends FitxerController {
         Long peticioID = (Long) request.getSession().getAttribute(SESSION_PETICIOID);
         if (peticioID == null) {
             HtmlUtils.saveMessageError(request, I18NUtils.tradueix("fitxerspeticio.nopeticio"));
-            return new ModelAndView(new RedirectView("/canviarPipella/" + ConstantsV2.ROLE_ADEN, true));
+            return new ModelAndView(new RedirectView("/canviarPipella/" + Constants.ROLE_ADEN, true));
         } else {
             return super.llistatPaginat(request, response, pagina);
         }

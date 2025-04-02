@@ -30,6 +30,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.ObfuscatedNifStringField;
 import es.caib.portafib.back.utils.ObfuscatedUsernameStringField;
 import es.caib.portafib.back.utils.Utils;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
@@ -45,7 +46,6 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
-import es.caib.portafib.utils.ConstantsV2;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -195,7 +195,7 @@ public class SearchJSONController {
             SubQuery<RoleUsuariEntitat, String> subqueryrevisor;
             try {
                 subqueryrevisor = roleUsuariEntitatEjb.getSubQuery(RoleUsuariEntitatFields.USUARIENTITATID,
-                        RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_REVI));
+                        RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_REVI));
             } catch (I18NException e) {
                 log.error("Error cercant usuaris dins del mètode usuaripersonarevisor(1)", e);
                 subqueryrevisor = null;

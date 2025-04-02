@@ -3,6 +3,7 @@ package es.caib.portafib.back.controller.aden;
 import java.util.ArrayList;
 import es.caib.portafib.back.form.webdb.BitacolaFilterForm;
 import es.caib.portafib.back.form.webdb.BitacolaForm;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.UsuariEntitatService;
 import es.caib.portafib.model.fields.BitacolaFields;
 import es.caib.portafib.utils.ConstantsV2;
@@ -99,7 +100,7 @@ public class BitacolaPeticioAdenController extends AbstractBitacolaAdenControlle
         Long peticioID = (Long) request.getSession().getAttribute(SESSION_PETICIOID);
         if (peticioID == null) {
             HtmlUtils.saveMessageError(request, I18NUtils.tradueix("bitacolapeticio.nopeticio"));
-            return new ModelAndView(new RedirectView("/canviarPipella/" + ConstantsV2.ROLE_ADEN, true));
+            return new ModelAndView(new RedirectView("/canviarPipella/" + Constants.ROLE_ADEN, true));
         } else {
             return super.llistatPaginat(request, response, pagina);
         }

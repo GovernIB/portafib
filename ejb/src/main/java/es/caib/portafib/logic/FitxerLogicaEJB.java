@@ -1,6 +1,7 @@
 package es.caib.portafib.logic;
 
 
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.FitxerEJB;
 import es.caib.portafib.persistence.FitxerJPA;
 import es.caib.portafib.persistence.validator.FitxerBeanValidator;
@@ -30,7 +31,7 @@ import java.util.Set;
  *
  */
 @Stateless(name = "FitxerLogicaEJB")
-@RunAs("PFI_USER")
+@RunAs(Constants.PFI_USER)
 public class FitxerLogicaEJB extends FitxerEJB implements FitxerLogicaLocal {
 
   @Resource
