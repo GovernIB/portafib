@@ -34,6 +34,7 @@
 
         menu1.add(MenuItem.retallaDarrerPath("usuaripersona.alta", "/admin/usuariPersona/alta"));
         menu1.add(MenuItem.retallaDarrerPath("usuaripersona.modificar", "/admin/usuariPersona/modificar"));
+        menu1.add(MenuItem.retallaDarrerPath("updateusername.title", "/admin/actualitzarusername/new"));
 
         menu1.add(null);
 
