@@ -5,12 +5,12 @@ import es.caib.portafib.back.controller.webdb.EntitatController;
 import es.caib.portafib.back.form.webdb.CustodiaInfoRefList;
 import es.caib.portafib.back.form.webdb.EntitatFilterForm;
 import es.caib.portafib.back.form.webdb.EntitatForm;
+import es.caib.portafib.commons.utils.Propietat;
 import es.caib.portafib.ejb.PropietatGlobalService;
 import es.caib.portafib.ejb.UsuariAplicacioService;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.logic.EntitatLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatsConstants;
-import es.caib.portafib.logic.utils.PropietatsConstants.Propietat;
 import es.caib.portafib.logic.validator.EntitatLogicValidator;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
@@ -481,7 +481,7 @@ public class GestioEntitatAdminController extends EntitatController implements C
         EntitatJPA e = (EntitatJPA) entitatEjb.create(entitat);
         String _entitatID_ = e.getEntitatID();
 
-        for (Map.Entry<String, Propietat> entry : PropietatsConstants.propietatsEntitat.entrySet()) {
+        for (Map.Entry<String, Propietat> entry : PropietatsConstants.PROPIETATS_BBDD_PER_ENTITAT.entrySet()) {
 
             try {
 

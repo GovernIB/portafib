@@ -693,6 +693,10 @@
         <put-attribute name="titol" value="=Actualitzar Username XYZZZZ" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/fitxerForm.jsp" />
     </definition>
+    
+    <definition name="keyvalueAdmin" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/keyvalue.jsp" />
+    </definition>
 
     <!--  ===========  COL·LABORADOR ================== -->
     
