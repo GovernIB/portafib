@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import es.caib.portafib.back.controller.webdb.FitxerController;
 import es.caib.portafib.back.form.webdb.FitxerFilterForm;
 import es.caib.portafib.back.form.webdb.FitxerForm;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.fields.AnnexFields;
 import es.caib.portafib.model.fields.AnnexFirmatFields;
@@ -36,7 +37,6 @@ import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
-import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -47,9 +47,9 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = "/admin/fitxersorfes")
 @SessionAttributes(types = { FitxerForm.class, FitxerFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADMIN,
+        group = Tab.MENU_ADMIN,
         labelCode = "fitxers.orfes",
-        order = 150)
+        order = 155)
 public class FitxersOrfesController extends FitxerController {
   
   @EJB(mappedName = AnnexService .JNDI_NAME)

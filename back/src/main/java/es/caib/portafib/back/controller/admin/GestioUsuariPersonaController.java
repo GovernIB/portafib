@@ -9,10 +9,10 @@ import es.caib.portafib.back.form.webdb.UsuariPersonaFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariPersonaForm;
 import es.caib.portafib.back.reflist.IdiomaSuportatRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.ejb.UsuariEntitatService;
 import es.caib.portafib.persistence.UsuariPersonaJPA;
-import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.model.entity.UsuariPersona;
@@ -59,14 +59,14 @@ import java.util.Set;
 @RequestMapping(value = "/admin/usuariPersona")
 @SessionAttributes(types = { UsuariPersonaForm.class, UsuariPersonaFilterForm.class, SeleccioNifForm.class })
 @MenuOption(
-        group = Constants.ROLE_ADMIN,
+        group = Tab.MENU_ADMIN,
         labelCode = "usuaripersona.alta",
         baseLink = "/admin/usuariPersona/alta",
         relativeLink = "",
         addSeparatorBefore = true,
         order = 30)
 @MenuOption(
-        group = Constants.ROLE_ADMIN,
+        group = Tab.MENU_ADMIN,
         labelCode = "usuaripersona.modificar",
         baseLink = "/admin/usuariPersona/modificar",
         relativeLink = "",

@@ -28,8 +28,8 @@ import es.caib.portafib.back.form.webdb.TipusDocumentFilterForm;
 import es.caib.portafib.back.form.webdb.TipusDocumentForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.persistence.TipusDocumentJPA;
-import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.TipusDocumentLogicaLocal;
 import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.entity.UsuariAplicacio;
@@ -45,7 +45,7 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 @RequestMapping(value = "/admin/gestiotipusdoc")
 @SessionAttributes(types = { TipusDocumentForm.class, TipusDocumentFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADMIN,
+        group = Tab.MENU_ADMIN,
         labelCode = "tipusdocument.admin.plural",
         addSeparatorBefore = true,
         order = 50)

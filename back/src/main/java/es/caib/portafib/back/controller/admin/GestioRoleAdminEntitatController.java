@@ -44,10 +44,10 @@ import es.caib.portafib.back.form.webdb.RoleUsuariEntitatForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
-import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
@@ -71,7 +71,7 @@ import es.caib.portafib.commons.utils.Constants;
 @SessionAttributes(types = {RoleUsuariEntitatForm.class, RoleUsuariEntitatFilterForm.class,
     SeleccioUsuariForm.class })
 @MenuOption(
-        group = Constants.ROLE_ADMIN,
+        group = Tab.MENU_ADMIN,
         labelCode = "administradorentitat.gestio",
         addSeparatorBefore = true,
         order = 20)

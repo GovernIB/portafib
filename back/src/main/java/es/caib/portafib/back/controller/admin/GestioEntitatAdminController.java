@@ -5,6 +5,7 @@ import es.caib.portafib.back.controller.webdb.EntitatController;
 import es.caib.portafib.back.form.webdb.CustodiaInfoRefList;
 import es.caib.portafib.back.form.webdb.EntitatFilterForm;
 import es.caib.portafib.back.form.webdb.EntitatForm;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.commons.utils.Propietat;
 import es.caib.portafib.ejb.PropietatGlobalService;
 import es.caib.portafib.ejb.UsuariAplicacioService;
@@ -59,7 +60,7 @@ import java.util.Set;
 @Controller
 @RequestMapping(value = "/admin/entitat")
 @MenuOption(
-        group = ConstantsV2.ROLE_ADMIN,
+        group = Tab.MENU_ADMIN,
         labelCode = "entitat.gestio",
         order = 10)
 public class GestioEntitatAdminController extends EntitatController implements ConstantsV2, ConstantsPortaFIB {

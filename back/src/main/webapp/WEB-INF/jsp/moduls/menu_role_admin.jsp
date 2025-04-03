@@ -1,11 +1,11 @@
-<%@page import="es.caib.portafib.commons.utils.Configuracio"%>
-<%@page import="org.fundaciobit.genapp.common.web.menuoptions.MenuOptionManager"%>
-<%@page import="java.util.List"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="org.fundaciobit.genapp.common.web.menuoptions.MenuItem"%>
-<%@page import="es.caib.portafib.utils.ConstantsV2"%>
-<%@page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
+<%@page import="es.caib.portafib.commons.utils.Configuracio"
+%><%@page import="org.fundaciobit.genapp.common.web.menuoptions.MenuOptionManager"
+%><%@page import="java.util.List"
+%><%@page import="es.caib.portafib.back.utils.Tab"
+%><%@page import="java.util.ArrayList"
+%><%@page import="org.fundaciobit.genapp.common.web.menuoptions.MenuItem"
+%><%@page contentType="text/html;charset=UTF-8" language="java"
+%><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <sec:authorize access="hasRole('ROLE_ADMIN')">
     <div>
         <h5>
@@ -32,7 +32,7 @@
             menu1.add(null);
         }
 
-        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(ConstantsV2.ROLE_ADMIN, menu1.toArray(new MenuItem [menu1.size()])); //(menuGoogle, menumeneame );
+        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(Tab.MENU_ADMIN, menu1.toArray(new MenuItem [menu1.size()])); //(menuGoogle, menumeneame );
         menus.add(discoveredMenus);
         %>
         

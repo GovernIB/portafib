@@ -27,7 +27,6 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
-import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;

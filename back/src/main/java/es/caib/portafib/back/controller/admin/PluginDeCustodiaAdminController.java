@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import es.caib.portafib.back.controller.AbstractPluginAdminController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.logic.AbstractPluginIBLogicaLocal;
 import es.caib.portafib.logic.PluginDeCustodiaLogicaLocal;
 import es.caib.portafib.persistence.PluginJPA;
@@ -28,7 +29,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = "/admin/plugincustodia")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADMIN,
+        group = Tab.MENU_ADMIN,
         labelCode = "plugincustodia.gestio",
         order = 90)
 public class PluginDeCustodiaAdminController extends AbstractPluginAdminController<IDocumentCustodyPlugin> {

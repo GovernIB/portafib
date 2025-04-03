@@ -27,6 +27,7 @@ import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.FluxDeFirmesFilterForm;
 import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.logic.apifluxcommon.RestApiPlantillaFluxLocal;
 import es.caib.portafib.logic.apifluxcommon.TransactionInfo;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
@@ -130,7 +131,7 @@ public class PlantillaDeFluxDeFirmesRestController extends PlantillaDeFluxDeFirm
         String username = usuariAplicacio.getUsuariAplicacioID();
         String password = "";
         Set<GrantedAuthority> seyconAuthorities = new HashSet<GrantedAuthority>();
-        seyconAuthorities.add(new SimpleGrantedAuthority(PFI_USER));
+        seyconAuthorities.add(new SimpleGrantedAuthority(Constants.PFI_USER));
 
         User user = new User(username, password, seyconAuthorities);
 

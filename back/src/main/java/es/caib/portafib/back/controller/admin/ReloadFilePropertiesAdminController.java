@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +18,8 @@ import es.caib.portafib.commons.utils.Configuracio;
  * 2 abr 2025 14:11:10
  */
 @MenuOption(
-        labelCode = "=Reload contents of property files",
-        order = 1020,
+        labelCode = "propietat.reload",
+        order = 1040,
         group = Tab.MENU_ADMIN,
         baseLink = "/admin/reloadproperties",
         relativeLink = "")
@@ -52,8 +54,10 @@ public class ReloadFilePropertiesAdminController {
             throws Exception {
 
         Configuracio.reloadProperties();
+        
+        HtmlUtils.saveMessageSuccess(request, I18NUtils.tradueix("propietat.reload.ok"));
 
-        return "redirect:/admin/systemproperties";
+        return "redirect:/admin/";
     }
 
     public class KeyValueItem implements Comparable<KeyValueItem> {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.AbstractPluginAdminController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.logic.AbstractPluginIBLogicaLocal;
 import es.caib.portafib.logic.PluginValidacioFirmesLogicaLocal;
 import es.caib.portafib.utils.ConstantsV2;
@@ -24,7 +25,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = "/admin/validaciofirmes")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADMIN,
+        group = Tab.MENU_ADMIN,
         labelCode = "validaciodefirmes.gestio",
         order = 100)
 public class ValidacioFirmesAdminController extends AbstractPluginAdminController<IValidateSignaturePlugin> {

@@ -6,10 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.form.webdb.EntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.EntitatJPA;
-import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;

@@ -116,6 +116,8 @@ public abstract class AbstractPropietatsController extends PropietatGlobalContro
 
             List<PropietatGlobal> list = new ArrayList<PropietatGlobal>();
             int count = 0;
+            
+            boolean isSystem = (tipus == PropietatsConstants.TIPUS_PROPIETAT_FITXER_PORTAFIB_SYSTEM_PROPERTIES);
 
             for (Object keyObj : all.keySet()) {
                 String key = (String) keyObj;
@@ -126,7 +128,14 @@ public abstract class AbstractPropietatsController extends PropietatGlobalContro
                         continue;
                     }
 */
-                    list.add(new PropietatGlobalJPA(count++, key, (String) all.get(key), null, null));
+                    String value =   (String) all.get(key);
+                    
+                    if (isSystem) {
+                        // Si es un valor de sistema, no mostrem el valor
+                        value = "***************";
+                    }
+                    
+                    list.add(new PropietatGlobalJPA(count++, key, value, null, null));
                     count++;
                 }
             }
@@ -239,6 +248,7 @@ public abstract class AbstractPropietatsController extends PropietatGlobalContro
                 propietats = PropietatsConstants.PROPIETATS_FITXER_PORTAFIB_PROPERTIES;
             break;
             case PropietatsConstants.TIPUS_PROPIETAT_FITXER_PORTAFIB_SYSTEM_PROPERTIES:
+                isSistema = true;
                 propietats = PropietatsConstants.PROPIETATS_FITXER_SYSTEM_PORTAFIB_PROPERTIES;
             break;
             
@@ -263,11 +273,10 @@ public abstract class AbstractPropietatsController extends PropietatGlobalContro
     
                 Propietat prop = propietats.get(clau);
                 if (prop == null) {
-    
-                    if (isSistema && (clau.startsWith("es.caib.portafib.hibernate.")
-                            || clau.startsWith("es.caib.portafib.plugins.certificate")
-                            || clau.startsWith("es.caib.portafib.plugins.userinformation")
-                            || clau.startsWith("es.caib.portafib.hibernate"))) {
+
+                    if (isSistema == true && (clau.startsWith("es.caib.portafib.hibernate.")
+                            || clau.startsWith("es.caib.portafib.plugins.")
+                            || clau.startsWith("es.caib.portafib.pluginsib."))) {
                         continue;
                     }
     

@@ -11,7 +11,6 @@ import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.FirmaService;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
-import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import org.fundaciobit.genapp.common.i18n.I18NException;

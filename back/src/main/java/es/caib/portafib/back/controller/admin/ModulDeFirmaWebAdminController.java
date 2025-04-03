@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.AbstractPluginAdminController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.utils.ConstantsV2;
 
 import javax.ejb.EJB;
@@ -27,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/admin/modulDeFirma")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADMIN,
+        group = Tab.MENU_ADMIN,
         labelCode = "moduldefirma.plantilla.plural",
         addSeparatorBefore = true,
         order = 60)

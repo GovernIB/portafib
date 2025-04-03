@@ -17,7 +17,6 @@ import es.caib.portafib.ejb.EntitatService;
 import es.caib.portafib.ejb.FirmaService;
 import es.caib.portafib.ejb.UsuariEntitatFavoritService;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
-import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.model.entity.UsuariEntitat;

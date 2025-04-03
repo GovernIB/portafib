@@ -14,12 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.logic.AgentsCAIBLocal;
 import es.caib.portafib.logic.utils.EmailUtil;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.utils.Constants;
-import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -29,14 +29,14 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/admin/enviarcorreu")
 @MenuOption(
-        group = ConstantsV2.ROLE_ADMIN,
+        group = Tab.MENU_ADMIN,
         labelCode = "provarservidorcorreu",
         baseLink = "/admin/enviarcorreu/usuariloguejat",
         relativeLink = "",
         addSeparatorBefore = true,
         order = 140)
 @MenuOption(
-        group = ConstantsV2.ROLE_ADMIN,
+        group = Tab.MENU_ADMIN,
         labelCode = "provarcorreuadministradors",
         baseLink = "/admin/enviarcorreu/administradors",
         relativeLink = "",

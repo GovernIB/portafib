@@ -39,15 +39,25 @@ import es.caib.portafib.persistence.FitxerJPA;
  * @author anadal
  * 1 abr 2025 13:33:50
  */
-@MenuOption(labelCode = "fitxer.fitxer.plural", order = 110, group = Tab.MENU_ADMIN)
+
 @Controller
 @RequestMapping(value = "/admin/actualitzarusername")
 @SessionAttributes(types = { FitxerForm.class, FitxerFilterForm.class })
+@MenuOption(
+        labelCode = "updateusername.title",
+        baseLink = "/admin/actualitzarusername/new",
+        relativeLink = "",
+        order = 45,
+        group = Tab.MENU_ADMIN)
 @Tile(name = "actualitzarUsernameAdmin", extendsTile = Tab.MENU_ADMIN, type = TileType.WEBDB_FORM)
 public class ActualitzarUsernamePersonaAdminController extends FitxerController {
-    
+
     @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
     protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
+
+    public String getEntityNameCode() {
+        return "fitxer.fitxer";
+    }
 
     @Override
     public FitxerJPA create(HttpServletRequest request, FitxerJPA fitxer)
@@ -61,7 +71,8 @@ public class ActualitzarUsernamePersonaAdminController extends FitxerController 
             return fitxer;
         }
 
-        Map<String, String> resultat = usuariPersonaLogicaEjb.updateUsernameOfPerson(prop, LocaleContextHolder.getLocale().getLanguage());
+        Map<String, String> resultat = usuariPersonaLogicaEjb.updateUsernameOfPerson(prop,
+                LocaleContextHolder.getLocale().getLanguage());
 
         StringBuffer oks = new StringBuffer();
         StringBuffer fluxos = new StringBuffer();
@@ -81,7 +92,7 @@ public class ActualitzarUsernamePersonaAdminController extends FitxerController 
         if (oks.length() != 0) {
             HtmlUtils.saveMessageSuccess(request, I18NUtils.tradueix("updateusername.ok", oks.toString()));
         }
-        
+
         if (fluxos.length() != 0) {
             HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("updateusername.flux", fluxos.toString()));
         }

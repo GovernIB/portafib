@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.aden;
 
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.AbstractPropietatsController;
 import es.caib.portafib.back.form.webdb.PropietatGlobalFilterForm;
 import es.caib.portafib.back.form.webdb.PropietatGlobalForm;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.logic.utils.PropietatsConstants;
 
 /**
@@ -17,6 +19,10 @@ import es.caib.portafib.logic.utils.PropietatsConstants;
 @Controller
 @RequestMapping(value = "/aden/propietatglobal")
 @SessionAttributes(types = { PropietatGlobalForm.class, PropietatGlobalFilterForm.class })
+@MenuOption(
+        group = Constants.ROLE_ADEN,
+        labelCode = "propietatglobal.entitat.gestio",
+        order = 20)
 public class PropietatGlobalAdenController extends AbstractPropietatsController {
 
     @Override
