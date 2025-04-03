@@ -114,18 +114,18 @@ public class AnnexJPA implements Annex {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof Annex) {
-      Annex __instance = (Annex)__obj;
-      __result = true;
-      __result = __result && (this.getAnnexID() == __instance.getAnnexID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof Annex) {
+            Annex __instance = (Annex)__obj;
+            __result = true;
+            __result = __result && (this.getAnnexID() == __instance.getAnnexID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // EXP  Field:annexid | Table: pfi_annexfirmat | Type: 0  
 

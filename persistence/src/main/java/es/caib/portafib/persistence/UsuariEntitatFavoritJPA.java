@@ -84,18 +84,18 @@ public class UsuariEntitatFavoritJPA implements UsuariEntitatFavorit {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof UsuariEntitatFavorit) {
-      UsuariEntitatFavorit __instance = (UsuariEntitatFavorit)__obj;
-      __result = true;
-      __result = __result && (this.getID() == __instance.getID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof UsuariEntitatFavorit) {
+            UsuariEntitatFavorit __instance = (UsuariEntitatFavorit)__obj;
+            __result = true;
+            __result = __result && (this.getID() == __instance.getID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 

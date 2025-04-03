@@ -89,18 +89,18 @@ public class TipusNotificacioJPA implements TipusNotificacio {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof TipusNotificacio) {
-      TipusNotificacio __instance = (TipusNotificacio)__obj;
-      __result = true;
-      __result = __result && (this.getTipusNotificacioID() == __instance.getTipusNotificacioID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof TipusNotificacio) {
+            TipusNotificacio __instance = (TipusNotificacio)__obj;
+            __result = true;
+            __result = __result && (this.getTipusNotificacioID() == __instance.getTipusNotificacioID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // EXP  Field:tipusnotificacioid | Table: pfi_notificacio | Type: 0  
 

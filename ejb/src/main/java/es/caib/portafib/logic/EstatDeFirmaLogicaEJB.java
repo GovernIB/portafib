@@ -1,5 +1,6 @@
 package es.caib.portafib.logic;
 
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.BlocDeFirmesService;
 import es.caib.portafib.ejb.EstatDeFirmaEJB;
 import es.caib.portafib.ejb.FirmaService;
@@ -52,7 +53,7 @@ import java.util.Set;
  * traslladar-se a un altre EJB d'avisos.
  */
 @Stateless(name = "EstatDeFirmaLogicaEJB")
-public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB implements EstatDeFirmaLogicaLocal, ConstantsV2 {
+public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB implements EstatDeFirmaLogicaLocal, Constants {
 
     @EJB(mappedName = FirmaService.JNDI_NAME, beanName = "FirmaEJB")
     private FirmaService firmaEjb;
@@ -78,10 +79,10 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB implements EstatDeFir
     @PermitAll
     public EstatDeFirmaJPA findByPrimaryKeyUnauthorized(Long id) {
         EstatDeFirmaJPA ef = (EstatDeFirmaJPA) this.findByPrimaryKey(id);
-        
+
         Hibernate.initialize(ef.getUsuariEntitat());
         Hibernate.initialize(ef.getUsuariEntitat().getUsuariPersona());
-        
+
         return ef;
     }
 
@@ -253,18 +254,18 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB implements EstatDeFir
     private Where getWhereAvisosDestDeleColaRevi(String usuariEntitatID, String rol) throws I18NException {
         Long[] estatsDeFirma;
         if (ROLE_REVI.equals(rol)) {
-            estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR };
+            estatsDeFirma = new Long[] { ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR };
         } else if (ROLE_COLA.equals(rol)) {
-            estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
-                    TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR };
+            estatsDeFirma = new Long[] { ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
+                    ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR };
         } else {
-            estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR };
+            estatsDeFirma = new Long[] { ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR };
         }
 
         Where w1 = EstatDeFirmaFields.USUARIENTITATID.equal(usuariEntitatID);
 
         Where w2;
-        if (ConstantsV2.ROLE_REVI.equals(rol) || ConstantsV2.ROLE_DEST.equals(rol)) {
+        if (ROLE_REVI.equals(rol) || ROLE_DEST.equals(rol)) {
             // DESTINATARI o REVISOR DE FIRMA
             w2 = EstatDeFirmaFields.COLABORACIODELEGACIOID.isNull();
         } else {
@@ -281,7 +282,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB implements EstatDeFir
 
         Where w4 = EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull();
 
-        if (ConstantsV2.ROLE_DEST.equals(rol) || ConstantsV2.ROLE_DELE.equals(rol)) {
+        if (ROLE_DEST.equals(rol) || ROLE_DELE.equals(rol)) {
 
             // Seleccionam les firmes que tenen estats de firma de revisió que encara no s'han resolt
             SubQuery<EstatDeFirma, Long> subQuery = getSubQuery(EstatDeFirmaFields.FIRMAID,
@@ -399,7 +400,8 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB implements EstatDeFir
     @Override
     public List<EstatDeFirma> getRevisorsPendentsFirma(long firmaID) throws I18NException {
         return select(Where.AND(EstatDeFirmaFields.FIRMAID.equal(firmaID),
-                EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.equal(TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR),
+                EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
+                        .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR),
                 EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull()));
     }
 

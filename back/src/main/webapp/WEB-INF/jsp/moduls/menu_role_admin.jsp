@@ -26,6 +26,7 @@
         MenuItem menumeneame = new MenuItem("=MENU Meneame", "", "http://www.meneame.net", 1000);
 */      
         List<MenuItem> menu1 = new ArrayList<MenuItem>();
+
         if (!Configuracio.isCAIB()) {
             menu1.add(retallaDarrerPath("usuariaplicacio.gestio", "/admin/usuariAplicacio/list", 110));
             menu1.add(null);

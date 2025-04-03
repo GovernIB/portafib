@@ -223,9 +223,11 @@ public class PassarelaDeFirmaController {
 
         SignaturesSetWeb ss;
         boolean administrationIdCanBeValidatedFromPlugin;
+        long signaturePluginID;
         {
             PortaFIBSignaturesSet pss = SignatureModuleController.getPortaFIBSignaturesSet(request, transactionID,
                     modulDeFirmaPublicEjb);
+            signaturePluginID = pss.getSelectedPluginID();
             administrationIdCanBeValidatedFromPlugin = modulDeFirmaPublicEjb
                     .administrationIdCanBeValidatedFromPlugin(pss.getSelectedPluginID());
             ss = pss;
@@ -235,6 +237,7 @@ public class PassarelaDeFirmaController {
 
         PassarelaSignaturesSetWebInternalUse ssf = passarelaDeFirmaEjb.finalProcesDeFirma(transactionID, ss,
                 administrationIdCanBeValidatedFromPlugin);
+        ssf.setSignaturePluginId(signaturePluginID);
 
         // Eliminam la informació dins SignatureModuleController ja que tenim gurardada la
         // informació dins la capa EJB
@@ -242,7 +245,7 @@ public class PassarelaDeFirmaController {
 
         final String url = ssf.getSignaturesSet().getCommonInfoSignature().getUrlFinal();
 
-        log.info("PassarelaDeFirmaController::finalProcessDeFirma(); => URL redirect = " + url);
+        log.debug("PassarelaDeFirmaController::finalProcessDeFirma(); => URL redirect = " + url);
 
         return new ModelAndView(new RedirectView(url));
 

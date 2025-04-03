@@ -237,23 +237,23 @@ public class UsuariAplicacioJPA implements UsuariAplicacio {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof UsuariAplicacio) {
-      UsuariAplicacio __instance = (UsuariAplicacio)__obj;
-      __result = true;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof UsuariAplicacio) {
+            UsuariAplicacio __instance = (UsuariAplicacio)__obj;
+            __result = true;
       if (this.getUsuariAplicacioID() == null) {
         __result = __result && (__instance.getUsuariAplicacioID() == null);
       } else {
         __result = __result && this.getUsuariAplicacioID().equals(__instance.getUsuariAplicacioID()) ;
       }
 
-    } else {
-      __result = false;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // EXP  Field:usuariaplicacioid | Table: pfi_custodiainfo | Type: 0  
 

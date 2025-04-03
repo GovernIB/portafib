@@ -1,9 +1,9 @@
-
-<%@page import="es.caib.portafib.commons.utils.Version"%>
-<%@ page import="es.caib.portafib.logic.utils.LogicUtils"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
-<%
+<%@page import="es.caib.portafib.commons.utils.Configuracio"
+%><%@page import="es.caib.portafib.commons.utils.Version"
+%><%@ page import="es.caib.portafib.logic.utils.LogicUtils"
+%><%@ page contentType="text/html;charset=UTF-8" language="java"
+%><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"
+%><%
    Version version = new Version();
 %>
 <footer id="footer">
@@ -11,11 +11,11 @@
 		<!-- Esquerra -->
 		<div class="col-4 pt-2 elementPeuResponsive">
 
-			<b>
+			<p title="<fmt:message key="app.nom" /> v<%=version.getVersion() + (Configuracio.isCAIB()?"-caib":"")%>" style="margin-bottom:0px">
+            <b>
 				<fmt:message key="app.nom" /> v<%=version.getVersion()%>
 			</b>
-			<br /> 
-
+			</p>
 			<small>
                 <sec:authorize access="hasAnyRole('ROLE_ADEN','ROLE_ADMIN')"> 
 				Build: <%=version.getBuildTime()%> <br /> 

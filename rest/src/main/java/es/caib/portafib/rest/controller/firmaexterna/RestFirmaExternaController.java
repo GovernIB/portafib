@@ -33,6 +33,7 @@ import es.caib.portafib.apisib.externalsignaturerest.api.v1.ExternalSignatureAvi
 import es.caib.portafib.apisib.externalsignaturerest.api.v1.ExternalSignatureAvisosPeticioResponse;
 import es.caib.portafib.apisib.externalsignaturerest.api.v1.ExternalSignaturePerson;
 import es.caib.portafib.apisib.externalsignaturerest.api.v1.ExternalSignaturePeticio;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.EntitatService;
 import es.caib.portafib.ejb.PeticioDeFirmaService;
 import es.caib.portafib.persistence.RoleUsuariEntitatJPA;
@@ -47,7 +48,7 @@ import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
-import es.caib.portafib.utils.ConstantsV2;
+
 
 /**
  * 
@@ -100,12 +101,12 @@ public class RestFirmaExternaController extends RestUtilsErrorManager {
             String usuariAplicacioID = loginInfo.getUsuariAplicacio().getUsuariAplicacioID();
 
             // requerim que el usuari APP tengui role d'ADMIN
-            if (loginInfo.hasRole(ConstantsV2.PFI_ADMIN)) {
+            if (loginInfo.hasRole(Constants.PFI_ADMIN)) {
                 // OK
             } else {
                 // XYZ ZZZ TRA
                 throw new I18NException("genapp.comodi", "L´usuari aplicació " + usuariAplicacioID
-                        + " necessita el rol ´" + ConstantsV2.PFI_ADMIN + "´ per atacar aquesta API");
+                        + " necessita el rol ´" + Constants.PFI_ADMIN + "´ per atacar aquesta API");
             }
 
             String urlPortaFIB = PropietatGlobalUtil.getPortafibUrlForExternalSignatures();
@@ -216,9 +217,9 @@ public class RestFirmaExternaController extends RestUtilsErrorManager {
                     if (avisDeRol == null) {
 
                         String title;
-                        if (ConstantsV2.ROLE_SOLI.equals(rol) || ConstantsV2.ROLE_DEST.equals(rol)
-                                || ConstantsV2.ROLE_DELE.equals(rol) || ConstantsV2.ROLE_COLA.equals(rol)
-                                || ConstantsV2.ROLE_REVI.equals(rol)) {
+                        if (Constants.ROLE_SOLI.equals(rol) || Constants.ROLE_DEST.equals(rol)
+                                || Constants.ROLE_DELE.equals(rol) || Constants.ROLE_COLA.equals(rol)
+                                || Constants.ROLE_REVI.equals(rol)) {
                             title = I18NUtils.tradueix(new Locale(consulta.getLanguage()), "externalsignature." + rol);
                         } else {
                             title = I18NUtils.tradueix(new Locale(consulta.getLanguage()), "externalsignature.unknown",

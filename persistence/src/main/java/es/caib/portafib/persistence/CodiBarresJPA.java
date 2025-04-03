@@ -77,23 +77,23 @@ public class CodiBarresJPA implements CodiBarres {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof CodiBarres) {
-      CodiBarres __instance = (CodiBarres)__obj;
-      __result = true;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof CodiBarres) {
+            CodiBarres __instance = (CodiBarres)__obj;
+            __result = true;
       if (this.getCodiBarresID() == null) {
         __result = __result && (__instance.getCodiBarresID() == null);
       } else {
         __result = __result && this.getCodiBarresID().equals(__instance.getCodiBarresID()) ;
       }
 
-    } else {
-      __result = false;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // EXP  Field:codibarresid | Table: pfi_custodiainfo | Type: 0  
 

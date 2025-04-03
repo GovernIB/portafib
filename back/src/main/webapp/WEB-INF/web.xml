@@ -174,6 +174,7 @@
             <!--  REST Autenticació per Codi -->
             <url-pattern>/common/json/usuarientitatrevisor</url-pattern>
             <url-pattern>/common/json/usuarientitatrevisorall</url-pattern>
+            <url-pattern>/fonts/*</url-pattern>
         </web-resource-collection>
         <!-- No auth-constraint means everybody has access! -->
     </security-constraint>
@@ -185,6 +186,7 @@
             <url-pattern>/canviarPipella/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
+            <role-name>usuari-tipus-I</role-name>
             <role-name>PFI_USER</role-name>
             <role-name>PFI_ADMIN</role-name>
             <role-name>tothom</role-name>
@@ -203,6 +205,7 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>PFI_USER</role-name>
+            <role-name>usuari-tipus-I</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -214,6 +217,7 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>PFI_USER</role-name>
+            <role-name>usuari-tipus-I</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -224,6 +228,7 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>PFI_USER</role-name>
+            <role-name>usuari-tipus-I</role-name>
             <role-name>tothom</role-name>
         </auth-constraint>
     </security-constraint>
@@ -253,6 +258,11 @@
 		<description>Usuari de PortaFIB</description>
 		<role-name>PFI_USER</role-name>
 	</security-role>
+    
+    <security-role>
+        <description>usuari-tipus-I: Usuari de PortaFIB</description>
+        <role-name>usuari-tipus-I</role-name>
+    </security-role>
 
     <security-role>
 		<description>Qualsevol usuari autenticat</description>

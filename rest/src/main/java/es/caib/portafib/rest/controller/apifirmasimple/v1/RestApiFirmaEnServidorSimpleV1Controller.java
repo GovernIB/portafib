@@ -154,7 +154,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
         FirmaSimpleFile signature = fsur.getSignature();
 
-        log.info(" XYZ ZZZ eNTRA A upgradeSignature => signature: " + signature);
+        //log.info("ENTRA A upgradeSignature => signature: " + signature);
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -332,7 +332,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
     public ResponseEntity<?> signDocument(HttpServletRequest request,
             @RequestBody FirmaSimpleSignDocumentRequest simpleSignature) {
 
-        log.info(" XYZ ZZZ eNTRA A signDocuments => simpleSignature: " + simpleSignature);
+        //log.info("ENTRA A signDocuments => simpleSignature: " + simpleSignature);
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -365,12 +365,12 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
         languageUI = l;
 
         final boolean esFirmaEnServidor = true;
-
+/*
         log.info("simpleSignaturesSet.getCommonInfo().getSignProfile() ==> "
                 + simpleSignature.getCommonInfo().getSignProfile());
         log.info("simpleSignaturesSet.getCommonInfo().getLanguageUI() ==> "
                 + simpleSignature.getCommonInfo().getLanguageUI());
-
+*/
         String transactionID = null;
         try {
             LoginInfo loginInfo = commonChecks();
@@ -390,7 +390,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
             PassarelaSignaturesSet pss = convertRestBean2PassarelaBeanServer(transactionID, simpleSignature,
                     pcf.perfilDeFirma, pcf.configBySignID);
 
-            log.info("XYZ ZZZ  ======>   USERNAME = ]" + pss.getCommonInfoSignature().getUsername() + "[");
+            //log.info(" ======>   USERNAME = ]" + pss.getCommonInfoSignature().getUsername() + "[");
             PassarelaSignatureInServerResults fullResults;
             try {
                 fullResults = passarelaDeFirmaEnServidorEjb.signDocuments(pss, loginInfo.getEntitat(),
@@ -425,9 +425,12 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
                     ValidacioCompletaResponse vcr = fullResults.getValidacioResponseBySignID()
                             .get(fileInfo.getSignID());
+                    
+                    
 
                     result.setSignedFileInfo(constructFirmaSimpleSignedFileInfo(config, fileInfo,
                             simpleSignature.getFileInfoSignature(), profileSignType, result.getSignedFile(),
+                            result.getSignedFileInfo(),
                             loginInfo.getEntitat().getEntitatID(), useSignPolicy, vcr, languageUI));
 
                 }
@@ -438,7 +441,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
             HttpHeaders headers = addAccessControllAllowOrigin();
             ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignatureResult>(result, headers, HttpStatus.OK);
-            log.info(" XYZ ZZZ Surt de signDocuments => FINAL");
+            //log.info("Surt de signDocuments => FINAL");
 
             return re;
 
@@ -476,16 +479,16 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
     protected FirmaSimpleSignedFileInfo constructFirmaSimpleSignedFileInfo(UsuariAplicacioConfiguracio config,
             PassarelaFileInfoSignature fileInfo, FirmaSimpleFileInfoSignature firmaRequest, String eniPerfilFirma,
-            FirmaSimpleFile signedFile, String entitatID, boolean policyIncluded, ValidacioCompletaResponse vcr,
+            FirmaSimpleFile signedFile, FirmaSimpleSignedFileInfo fssfi, String entitatID, boolean policyIncluded, ValidacioCompletaResponse vcr,
             final String languageUI) throws I18NException {
 
-        log.info("XYZ ZZZ validateSignature::Entra a Validate Signature ...");
+        //log.info(" validateSignature::Entra a Validate Signature ...");
 
         String signType = fileInfo.getSignType();
 
-        log.info("XYZ ZZZ validateSignature:: signType => " + signType);
+        //log.info(" validateSignature:: signType => " + signType);
 
-        log.info("XYZ ZZZ validateSignature:: fileInfo.getSignMode() => " + fileInfo.getSignMode());
+        //log.info(" validateSignature:: fileInfo.getSignMode() => " + fileInfo.getSignMode());
 
         @SuppressWarnings("unused")
         byte[] documentDetached = null;
@@ -597,7 +600,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
                     String issuerCert = info.getEmissorID();
                     String subjectCert = info.getSubject();
 
-                    List<FirmaSimpleKeyValue> additionalInformation = null;
+                    List<FirmaSimpleKeyValue> additionalInformation = fssfi.getSignerInfo().getAdditionalInformation();
 
                     signerInfo = new FirmaSimpleSignerInfo(eniRolFirma, eniSignerName, eniSignerAdministrationId,
                             eniSignLevel, signDate, serialNumberCert, issuerCert, subjectCert, additionalInformation);
@@ -619,11 +622,11 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
     public ResponseEntity<?> getAvailableProfiles(HttpServletRequest request,
             @RequestBody TextNode languageUITextNode) {
         
-        log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableProfiles() => ENTRA");
+        //log.info("REST_SERVIDOR:: getAvailableProfiles() => ENTRA");
 
         final String languageUI = languageUITextNode.asText();
 
-        log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableProfiles() => LANG: " + languageUI);
+        //log.info("REST_SERVIDOR:: getAvailableProfiles() => LANG: " + languageUI);
         return internalGetAvailableProfiles(request, languageUI);
     }
 
@@ -660,7 +663,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
                 results.add(
                         convertPassarelaSignatureResult2FirmaSimpleSignatureResult(psr, pss.getCommonInfoSignature(),
-                                infoBySignID.get(psr.getSignID()), validacioInfo, isSignatureInServer));
+                                infoBySignID.get(psr.getSignID()), validacioInfo, isSignatureInServer, completeResults.getPluginFirmaEnServidorId()));
             }
         } else {
             results = null;

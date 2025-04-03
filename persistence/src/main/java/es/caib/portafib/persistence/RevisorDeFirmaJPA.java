@@ -94,18 +94,18 @@ public class RevisorDeFirmaJPA implements RevisorDeFirma {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof RevisorDeFirma) {
-      RevisorDeFirma __instance = (RevisorDeFirma)__obj;
-      __result = true;
-      __result = __result && (this.getRevisorDeFirmaID() == __instance.getRevisorDeFirmaID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof RevisorDeFirma) {
+            RevisorDeFirma __instance = (RevisorDeFirma)__obj;
+            __result = true;
+            __result = __result && (this.getRevisorDeFirmaID() == __instance.getRevisorDeFirmaID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 

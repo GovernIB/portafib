@@ -7,6 +7,7 @@ import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.form.webdb.EntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -27,7 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/aden/entitat")
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN,
+        group = Constants.ROLE_ADEN,
         labelCode = "entitat.modificar",
         baseLink = "/aden/entitat/current",
         relativeLink = "",
@@ -51,12 +52,12 @@ public class GestioEntitatAdenController extends GestioEntitatAdminController {
 
   @Override
   public String getRedirectWhenModified(HttpServletRequest request, EntitatForm entitatForm, Throwable __e) {
-    return "redirect:/canviarPipella/" + ConstantsV2.ROLE_ADEN;
+    return "redirect:/canviarPipella/" + Constants.ROLE_ADEN;
   }
 
   @Override
   public String getRedirectWhenCancel(HttpServletRequest request, java.lang.String entitatID) {
-    return "redirect:/canviarPipella/" + ConstantsV2.ROLE_ADEN;
+    return "redirect:/canviarPipella/" + Constants.ROLE_ADEN;
   }
 
   /**

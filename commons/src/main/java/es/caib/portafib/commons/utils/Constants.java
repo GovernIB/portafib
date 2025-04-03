@@ -12,18 +12,44 @@ public interface Constants {
 	public static final String MAIL_SERVICE = "java:/es.caib.portafib.mail";
 
 	// TRUE ROLES
+	// Rol ADMIN: Administrador PortaFIB
 	public static final String PFI_ADMIN = "PFI_ADMIN";
+	// Rol USER: Admin. d'Entitat, Sol·licitant, Destinatari, Delegat i Col·laborador
 	public static final String PFI_USER = "PFI_USER";
+	public static final String USUARI_TIPUS_I="usuari-tipus-I";
 	public static final String PFI_WS = "PFI_WS";
 
 	// VIRTUAL SECURITY ROLES
+	// Administrador PortaFIB
 	public static final String ROLE_ADMIN = "ROLE_ADMIN";
 	public static final String ROLE_USER = "ROLE_USER";
+	public static final String ROLE_USUARI_TIPUS_I="ROLE_USUARI_TIPUS_I";
+	
+
+    // ROLE Any (tothom)
+    public static final String ROLE_ANY = "ROLE_ANY";
+    // Destinatari
+    public static final String ROLE_DEST = "ROLE_DEST";
+    // Delegat
+    public static final String ROLE_DELE = "ROLE_DELE";
+    // Col·laborador
+    public static final String ROLE_COLA = "ROLE_COLA";
+    // Administrador d''Entitat
+    public static final String ROLE_ADEN = "ROLE_ADEN";
+    // Administrador d'Aplicacions
+    public static final String ROLE_ADAPP = "ROLE_ADAPP";
+    // Sol·licitant
+    public static final String ROLE_SOLI = "ROLE_SOLI";
+    // Revisor
+    public static final String ROLE_REVI = "ROLE_REVI";
+    
+    
 
 	// EJB HIGH LEVEL ROLES
 	public static final String ROLE_EJB_FULL_ACCESS = PFI_ADMIN;
 	public static final String ROLE_EJB_BASIC_ACCESS = PFI_USER;
 	public static final String ROLE_EJB_WS_ACCESS = PFI_WS;
+	public static final String ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I = USUARI_TIPUS_I;
 	
 	// API FIRMA SIMPLE STATUS VALUES
 	public static final int STATUS_INITIALIZING = 0;
@@ -31,7 +57,7 @@ public interface Constants {
 	public static final int STATUS_FINAL_OK = 2;
 	public static final int STATUS_FINAL_ERROR = -1;
 	public static final int STATUS_CANCELLED = -2;
-	
+
 	//API FIRMA SIMPLE SIGN TYPE
 	
 	

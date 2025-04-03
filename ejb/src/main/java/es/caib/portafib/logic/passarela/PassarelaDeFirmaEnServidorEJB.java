@@ -1,5 +1,6 @@
 package es.caib.portafib.logic.passarela;
 
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.EstadisticaService;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.EstadisticaJPA;
@@ -74,7 +75,7 @@ import java.util.Set;
  * @author areus
  */
 @Stateless(name = "PassarelaDeFirmaEnServidorEJB")
-@RunAs("PFI_USER")
+@RunAs(Constants.PFI_USER)
 public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<ISignatureServerPlugin>
         implements PassarelaDeFirmaEnServidorLocal {
 
@@ -337,7 +338,7 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
             }
 
             return new PassarelaSignatureInServerResults(getSignatureStatusAndResults(ss, custodyInfo, config),
-                    validacioResponseBySignID);
+                    validacioResponseBySignID, pluginFirmaEnServidorId);
 
         } catch (I18NValidationException i18nve) {
 
@@ -567,7 +568,7 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
 
         log.error(msg, i18nve);
 
-        return new PassarelaSignatureInServerResults(new PassarelaFullResults(pss), null);
+        return new PassarelaSignatureInServerResults(new PassarelaFullResults(pss), null, null);
     }
 
     private PassarelaFullResults getSignatureStatusAndResults(SignaturesSet ssf, PassarelaCustodyInfo custodyInfo,

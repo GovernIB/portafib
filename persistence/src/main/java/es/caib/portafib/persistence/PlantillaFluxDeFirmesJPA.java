@@ -107,18 +107,18 @@ public class PlantillaFluxDeFirmesJPA implements PlantillaFluxDeFirmes {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof PlantillaFluxDeFirmes) {
-      PlantillaFluxDeFirmes __instance = (PlantillaFluxDeFirmes)__obj;
-      __result = true;
-      __result = __result && (this.getFluxDeFirmesID() == __instance.getFluxDeFirmesID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof PlantillaFluxDeFirmes) {
+            PlantillaFluxDeFirmes __instance = (PlantillaFluxDeFirmes)__obj;
+            __result = true;
+            __result = __result && (this.getFluxDeFirmesID() == __instance.getFluxDeFirmesID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // EXP  Field:fluxdefirmesid | Table: pfi_permisgrupplantilla | Type: 0  
 

@@ -241,18 +241,18 @@ public class PluginJPA implements Plugin {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof Plugin) {
-      Plugin __instance = (Plugin)__obj;
-      __result = true;
-      __result = __result && (this.getPluginID() == __instance.getPluginID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof Plugin) {
+            Plugin __instance = (Plugin)__obj;
+            __result = true;
+            __result = __result && (this.getPluginID() == __instance.getPluginID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // EXP  Field:pluginid | Table: pfi_custodiainfo | Type: 0  
 

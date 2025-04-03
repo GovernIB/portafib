@@ -108,7 +108,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         }
 
         // (a) Validar el Fitxer de la Firma
-        log.info("XYZ ZZZ internalValidateCompletaFirma():: (a) Validar el Fitxer de la Firma");
+        //log.info("internalValidateCompletaFirma():: (a) Validar el Fitxer de la Firma");
         String nifFirmant = null;
         String cifFirmant = null;
         BigInteger numeroSerieCertificat = null;
@@ -202,7 +202,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         }
 
         // (b) Validar si s'ha modificat el fitxer original
-        log.info("XYZ ZZZ internalValidateCompletaFirma():: (b) Validar si s'ha modificat el fitxer original");
+        //log.info("internalValidateCompletaFirma():: (b) Validar si s'ha modificat el fitxer original");
         Boolean checkDocumentModifications = null;
         X509Certificate certificateLastSign = null;
         if (validacioRequest.isCheckCanviatDocFirmat()) {
@@ -327,8 +327,8 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         // =================================================
 
         // (c) Verificar que el NIF del certificat correspon amb qui tenia que firmar
-        log.info("XYZ ZZZ internalValidateCompletaFirma()::"
-                + " (c) Verificar que el NIF del certificat correspon amb qui tenia que firmar");
+        //log.info(" internalValidateCompletaFirma()::"
+        //        + " (c) Verificar que el NIF del certificat correspon amb qui tenia que firmar");
 
         // Obtenir informació del certificat
         Boolean checkAdministrationIDOfSigner = null;
@@ -506,7 +506,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
             log.debug("checkValidationSignature: " + checkValidationSignature);
         }
 
-        log.info("XYZ ZZZ internalValidateCompletaFirma():: Resposta ...");
+        //log.info("internalValidateCompletaFirma():: Resposta ...");
 
         ValidacioCompletaResponse resposta = new ValidacioCompletaResponse(signType, mime, extension, nifFirmant,
                 checkAdministrationIDOfSigner, checkDocumentModifications, checkValidationSignature,

@@ -1,6 +1,6 @@
 package es.caib.portafib.logic;
 
-import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.commons.utils.Constants;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -50,7 +50,7 @@ public class UsuariEntitatLogicaEJBTest {
                 " AND  ( ( roleUsuariEntitat.usuariEntitat.actiu = ?3 ) ) " +
                 " AND  ( ( roleUsuariEntitat.usuariEntitat.rebreTotsElsAvisos = ?4 ) )  )");
 
-        Mockito.verify(mockQuery).setParameter(1, ConstantsV2.ROLE_ADEN);
+        Mockito.verify(mockQuery).setParameter(1, Constants.ROLE_ADEN);
         Mockito.verify(mockQuery).setParameter(2, "fundaciobit");
         Mockito.verify(mockQuery).setParameter(3, true);
         Mockito.verify(mockQuery).setParameter(4, true);

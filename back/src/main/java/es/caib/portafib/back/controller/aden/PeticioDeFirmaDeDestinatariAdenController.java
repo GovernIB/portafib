@@ -8,13 +8,12 @@ import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.FirmaService;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
-import es.caib.portafib.model.fields.FirmaQueryPath;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
-import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.model.fields.FirmaQueryPath;
+import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
@@ -40,7 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/aden/peticionsdedestinatari")
 @SessionAttributes(types = { PeticionsDeFirmaDeDestinatariFilterForm.class, PeticioDeFirmaForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN,
+        group = Constants.ROLE_ADEN,
         labelCode = "peticionsdefirma.destinatari",
         baseLink = "/aden/peticionsdedestinatari/selecciousuari",
         relativeLink = "",
@@ -70,7 +69,7 @@ public class PeticioDeFirmaDeDestinatariAdenController extends AbstractPeticioDe
 
         seleccioUsuariForm.setTitol("peticionsdefirma.destinatari");
         seleccioUsuariForm.setSubtitol("peticionsdefirma.destinatari.nif.subtitol");
-        seleccioUsuariForm.setCancelUrl("/canviarPipella/" + ConstantsV2.ROLE_ADEN);
+        seleccioUsuariForm.setCancelUrl("/canviarPipella/" + Constants.ROLE_ADEN);
         seleccioUsuariForm.setUrlData("/common/json/usuarientitat");
 
         try {
@@ -139,12 +138,12 @@ public class PeticioDeFirmaDeDestinatariAdenController extends AbstractPeticioDe
 
         String usuariEntitatID = filterForm.getUsuariEntitatID();
         Where wPeticinsDeUsuariEntitat;
-        wPeticinsDeUsuariEntitat = getPeticionsActivesDeUsuariEntitat(firmaEjb, usuariEntitatID);
+        wPeticinsDeUsuariEntitat = getPeticionsActivesDeUsuariEntitat2(firmaEjb, usuariEntitatID);
 
         return Where.AND(wParent, wPeticinsDeUsuariEntitat);
     }
 
-    public static Where getPeticionsActivesDeUsuariEntitat(FirmaService firmaEjb, String usuariEntitatID)
+    public static Where getPeticionsActivesDeUsuariEntitat2(FirmaService firmaEjb, String usuariEntitatID)
             throws I18NException {
         Where wPeticinsDeUsuariEntitat;
         FirmaQueryPath firmaQueryPath = new FirmaQueryPath();
@@ -160,8 +159,8 @@ public class PeticioDeFirmaDeDestinatariAdenController extends AbstractPeticioDe
         Where w = firmaQueryPath.USUARIENTITAT().USUARIENTITATID().equal(usuariEntitatID);
 
         wPeticinsDeUsuariEntitat =  PETICIODEFIRMAID.in(firmaEjb.getSubQuery(peticio.PETICIODEFIRMAID(), w));
-        Where wPeticioActiva = PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES);
-        return Where.AND(wPeticioActiva, wPeticinsDeUsuariEntitat);
+        //Where wPeticioActiva = PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES);
+        return Where.AND(wPeticinsDeUsuariEntitat);
     }
 
     @Override

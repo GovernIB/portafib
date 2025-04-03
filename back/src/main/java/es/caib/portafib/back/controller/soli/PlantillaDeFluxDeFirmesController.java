@@ -72,6 +72,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.MappingOrder;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.webdb.FluxDeFirmesWebValidator;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.PeticioDeFirmaService;
 import es.caib.portafib.ejb.RoleUsuariEntitatService;
 import es.caib.portafib.ejb.UsuariAplicacioService;
@@ -125,6 +126,7 @@ import es.caib.portafib.utils.ConstantsV2;
         addSeparatorBefore = true,
         order = 70)
 public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController implements ConstantsV2 {
+
 
     @EJB(mappedName = RestApiPlantillaFluxLocal.JNDI_NAME)
     protected RestApiPlantillaFluxLocal restApiPlantillaFluxLocal;
@@ -360,8 +362,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                 fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.USUARIAPLICACIOID);
             }
 
-            if (LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN)
-                    || LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN)) {
+            if (LoginInfo.getInstance().hasRole(Constants.ROLE_ADMIN)
+                    || LoginInfo.getInstance().hasRole(Constants.ROLE_ADEN)) {
                 fluxDeFirmesFilterForm.addGroupByField(COMPARTIR_PLANTILLA);
             } else {
                 fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.COMPARTIR);
@@ -395,8 +397,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
         String parentContext = isUsuariEntitat() ? "soli" : "aden";
 
         // Mostrar boto per editar usuaris que poden veure les meves plantilles
-        if (isUsuariEntitat() && (LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN)
-                || !LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN))) {
+        if (isUsuariEntitat() && (LoginInfo.getInstance().hasRole(Constants.ROLE_ADMIN)
+                || !LoginInfo.getInstance().hasRole(Constants.ROLE_ADEN))) {
 
             filterForm.getAdditionalButtonsByPK().clear();
 
@@ -494,7 +496,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
 
                 if (isPlantillaRest()) {
 
-                    log.info(" XYZ ZZZ READONLY PER CAMPS NOM, COMPARTIR i USUARI APP");
+                    //log.info("READONLY PER CAMPS NOM, COMPARTIR i USUARI APP");
 
                     form.addHiddenField(PlantillaFluxDeFirmesFields.COMPARTIR);
                     //form.addReadOnlyField(NOM);
@@ -615,8 +617,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
         // Final mode edició
 
         if (!isPlantillaRest()) {
-            if (!LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN)
-                    && !LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN)) {
+            if (!LoginInfo.getInstance().hasRole(Constants.ROLE_ADMIN)
+                    && !LoginInfo.getInstance().hasRole(Constants.ROLE_ADEN)) {
                 form.addHiddenField(PlantillaFluxDeFirmesFields.COMPARTIR);
             }
         }
@@ -691,7 +693,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                 // (2) Tots els càrrecs actius de la meva entitat
                 SubQuery<RoleUsuariEntitat, String> sq;
                 sq = roleUsuariEntitatEjb.getSubQuery(RoleUsuariEntitatFields.USUARIENTITATID,
-                        RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_DEST));
+                        RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_DEST));
 
                 Where w = Where.AND(UsuariEntitatFields.ENTITATID.equal(entitatID), // de la meva
                         // entitat
@@ -860,7 +862,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                                 Set<EstatDeFirmaJPA> estats = firma.getEstatDeFirmas();
                                 boolean rebutjat = false;
                                 for (EstatDeFirmaJPA estat : estats) {
-                                    if (estat.getTipusEstatDeFirmaFinalID() == TIPUSESTATDEFIRMAFINAL_REBUTJAT) {
+                                    if (estat.getTipusEstatDeFirmaFinalID() == ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT) {
                                         rebutjat = true;
                                         break;
                                     }
@@ -871,7 +873,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                                 } else {
                                     boolean firmat = false;
                                     for (EstatDeFirmaJPA estat : estats) {
-                                        if (estat.getTipusEstatDeFirmaFinalID() == TIPUSESTATDEFIRMAFINAL_FIRMAT) {
+                                        if (estat.getTipusEstatDeFirmaFinalID() == ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT) {
                                             firmat = true;
                                             break;
                                         }
@@ -893,16 +895,16 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                         for (RevisorDeFirmaJPA revisor : firma.getRevisorDeFirmas()) {
                             for (EstatDeFirmaJPA estat : firma.getEstatDeFirmas()) {
                                 if (estat
-                                        .getTipusEstatDeFirmaInicialID() == TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR
+                                        .getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR
                                         && estat.getUsuariEntitatID().equals(revisor.getUsuariEntitatID())) {
                                     String color = BLAU;
                                     if (estat.getTipusEstatDeFirmaFinalID() != null) {
                                         if (estat.getTipusEstatDeFirmaFinalID()
-                                                .equals(TIPUSESTATDEFIRMAFINAL_ACCEPTAT)) {
+                                                .equals(ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT)) {
                                             color = VERD;
                                         } else {
                                             if (estat.getTipusEstatDeFirmaFinalID()
-                                                    .equals(TIPUSESTATDEFIRMAFINAL_REBUTJAT)) {
+                                                    .equals(ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT)) {
                                                 color = ROIG_R;
                                             } else {
                                                 color = GRIS;
@@ -953,21 +955,23 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
 
             if (usuariEntitatExtern == null) {
 
-                log.info(" XYZ ZZZ   NO EXISTEIX USUARI ENTITAT EXTERN AMB NIF ]" + nif + "[");
+                //log.info(" NO EXISTEIX USUARI ENTITAT EXTERN AMB NIF ]" + nif + "[");
 
                 // revisam si existeix l'UsuariPersona Externa
                 usuariPersona = usuariEntitatLogicaEjb.findUsuariPersonaExternaByNif(nif);
 
                 if (usuariPersona != null) {
-                    log.info(" XYZ ZZZ   SI EXISTEIX USUARI PERSONA EXTERNA AMB NIF ]" + nif + "[");
+                    //log.info("SI EXISTEIX USUARI PERSONA EXTERNA AMB NIF ]" + nif + "[");
                 }
 
             } else {
 
                 usuariPersona = usuariEntitatExtern.getUsuariPersona();
-                log.info(" XYZ ZZZ   SI EXISTESIX USUARI ENTITAT EXTERN AMB NIF ]" + nif + "[:<br/>   "
+                /*
+                log.info("SI EXISTESIX USUARI ENTITAT EXTERN AMB NIF ]" + nif + "[:<br/>   "
                         + usuariPersona.getEmail() + " | " + usuariPersona.getNif() + " | " + usuariPersona.getNom()
                         + " " + usuariPersona.getLlinatges());
+                */
 
             }
 
@@ -1019,8 +1023,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                 String blocOrdreStr = request.getParameter("crearfirma_blocOrdre");
                 String blocIDStr = request.getParameter("crearfirma_blocid");
 
-                log.info(" \n\n XYZ ZZZ Bloc ORDRE STR => ]" + blocOrdreStr + "[");
-                log.info("XYZ ZZZ Bloc ID STR => ]" + blocIDStr + "[");
+                //log.info("Bloc ORDRE STR => ]" + blocOrdreStr + "[");
+                //log.info("Bloc ID STR => ]" + blocIDStr + "[");
 
                 if ("".equals(blocOrdreStr)) {
                     //  Afegir Firma a Bloc Existent
@@ -1889,7 +1893,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
     protected void processErrors(BindingResult result, BindingResult errors) {
         List<ObjectError> list = errors.getAllErrors();
 
-        log.error(" processErrors 111 : " + errors.hasErrors());
+        //log.error(" processErrors 111 : " + errors.hasErrors());
 
         for (ObjectError oe1 : list) {
             FieldError oe = (FieldError) oe1;
@@ -1904,7 +1908,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
             result.addError(oe);
         }
 
-        log.error(" processErrors 222: " + errors.hasErrors());
+        //log.error(" processErrors 222: " + errors.hasErrors());
     }
 
     @Override

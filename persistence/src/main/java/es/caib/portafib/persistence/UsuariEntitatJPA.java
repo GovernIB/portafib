@@ -206,23 +206,23 @@ public class UsuariEntitatJPA implements UsuariEntitat {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof UsuariEntitat) {
-      UsuariEntitat __instance = (UsuariEntitat)__obj;
-      __result = true;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof UsuariEntitat) {
+            UsuariEntitat __instance = (UsuariEntitat)__obj;
+            __result = true;
       if (this.getUsuariEntitatID() == null) {
         __result = __result && (__instance.getUsuariEntitatID() == null);
       } else {
         __result = __result && this.getUsuariEntitatID().equals(__instance.getUsuariEntitatID()) ;
       }
 
-    } else {
-      __result = false;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // EXP  Field:colaboradordelegatid | Table: pfi_colaboraciodelegacio | Type: 0  
 

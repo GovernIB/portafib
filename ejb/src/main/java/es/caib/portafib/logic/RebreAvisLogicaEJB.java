@@ -7,6 +7,7 @@ import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.model.entity.RebreAvis;
 import es.caib.portafib.model.fields.RebreAvisFields;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.commons.utils.Constants;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
@@ -41,25 +42,25 @@ public class RebreAvisLogicaEJB extends RebreAvisEJB implements RebreAvisLogicaL
   }
 
   @Override
-  @RolesAllowed({"PFI_ADMIN","PFI_USER", "tothom"})
+  @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
   public void delete(RebreAvis instance) {
     super.delete(instance);
   }
 
   @Override
-  @RolesAllowed({"PFI_ADMIN","PFI_USER", "tothom"})
+  @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
   public RebreAvis create(RebreAvis instance) throws I18NException {
     return super.create(instance);
   }
 
   @Override
-  @RolesAllowed({"PFI_ADMIN","PFI_USER", "tothom"})
+  @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
   public RebreAvis update(RebreAvis instance) throws I18NException {
     return super.update(instance);
   }
 
   @Override
-  @RolesAllowed({"PFI_ADMIN","PFI_USER", "tothom"})
+  @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
   public RebreAvisJPA findByPrimaryKey(Long _ID_) {
     return super.findByPrimaryKey(_ID_);
   }

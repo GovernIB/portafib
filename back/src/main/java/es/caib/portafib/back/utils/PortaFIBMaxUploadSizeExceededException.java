@@ -9,18 +9,25 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
  */
 public class PortaFIBMaxUploadSizeExceededException extends MaxUploadSizeExceededException {
 
-  final String msgCode;
+    final String msgCode;
 
-  /**
-   * @param msg
-   */
-  public PortaFIBMaxUploadSizeExceededException(Throwable cause, long maxSize, String msgCode) {
-    super(maxSize, cause);    
-    this.msgCode = msgCode;
-  }
+    final String redirectTo;
 
-  public String getMsgCode() {
-    return msgCode;
-  }
+    /**
+     * @param msg
+     */
+    public PortaFIBMaxUploadSizeExceededException(Throwable cause, long maxSize, String msgCode, String redirectTo) {
+        super(maxSize, cause);
+        this.msgCode = msgCode;
+        this.redirectTo = redirectTo;
+    }
+
+    public String getMsgCode() {
+        return msgCode;
+    }
+
+    public String getRedirectTo() {
+        return redirectTo;
+    }
 
 }

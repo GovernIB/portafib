@@ -21,11 +21,11 @@
 <br/>
 <div>
 <a href="http://dgtic.caib.es/" target="_blank">
-<img style="max-width:250px;" src="<c:url value="/img/dgmad.png"/>"  alt="DGMAD" title="DGMAD"/>
+<img  src="<c:url value="/img/dgmad.png"/>"  alt="DGMAD" title="DGMAD"/>
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="http://blog.fundaciobit.org/category/admindigital/" target="_blank">
-<img style="max-width:230px;" src="<c:url value="/img/fundaciobit.png"/>"  alt="Fundaci&oacute; Bit" title="Fundaci&oacute; Bit"/>
+<a href="https://governdigital.fundaciobit.org/" target="_blank">
+<img  src="<c:url value="/img/fundaciobit.png"/>"  alt="Fundaci&oacute; Bit" title="Fundaci&oacute; Bit"/>
 </a>
 </div>
 <br/>

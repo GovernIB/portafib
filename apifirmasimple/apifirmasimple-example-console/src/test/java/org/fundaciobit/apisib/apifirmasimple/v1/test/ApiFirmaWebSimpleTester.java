@@ -14,7 +14,6 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactio
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaWebSimpleJersey;
 
-
 import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -29,7 +28,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -107,8 +105,6 @@ public class ApiFirmaWebSimpleTester {
             commonInfo = new FirmaSimpleCommonInfo(perfil, languageUI, username, administrationID, signerEmail);
 
             api = getApiFirmaWebSimple(prop);
-
-            System.out.println(Arrays.toString(api.getAvailableTypesOfDocuments("ca").toArray()));
 
             //if (true) { return; }
 

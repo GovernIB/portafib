@@ -24,24 +24,29 @@ import es.caib.portafib.back.form.webdb.ColaboracioDelegacioFilterForm;
 import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.ColaboracioDelegacioJPA;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
-import es.caib.portafib.utils.ConstantsV2;
 
+/**
+ * 
+ * @author anadal
+ * 2 abr 2025 11:54:21
+ */
 @Controller
 @RequestMapping(value = "/dele/delegatde")
 @SessionAttributes(
         types = { ColaboracioDelegacioDestForm.class, ColaboracioDelegacioForm.class,
                 ColaboracioDelegacioFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_DELE,
+        group = Constants.ROLE_DELE,
         labelCode = "delegatde.menu",
         addSeparatorBefore = true,
         order = 50)
 public class SomDelegatDeDeleController extends DelegacioDestController
         //extends ColaboracioDelegacioController 
-        implements ConstantsV2 {
+        implements Constants {
 
     @PostConstruct
     public void init() {

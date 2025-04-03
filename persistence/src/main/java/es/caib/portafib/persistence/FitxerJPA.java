@@ -109,18 +109,18 @@ public class FitxerJPA implements Fitxer {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof Fitxer) {
-      Fitxer __instance = (Fitxer)__obj;
-      __result = true;
-      __result = __result && (this.getFitxerID() == __instance.getFitxerID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof Fitxer) {
+            Fitxer __instance = (Fitxer)__obj;
+            __result = true;
+            __result = __result && (this.getFitxerID() == __instance.getFitxerID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // EXP  Field:fitxerid | Table: pfi_annex | Type: 0  
 

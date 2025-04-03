@@ -14083,5 +14083,8 @@
   "generateBack": true,
   "generateFront": false,
   "generateApiInterna": true,
-  "generateApiExterna": false
+  "generateApiExterna": false,
+  "rolesAdmin": "PFI_ADMIN",
+  "rolesUser": "PFI_USER,usuari-tipus-I",
+  "rolesWs": "PFI_WS"
 }

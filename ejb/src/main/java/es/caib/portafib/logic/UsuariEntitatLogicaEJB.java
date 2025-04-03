@@ -1,5 +1,6 @@
 package es.caib.portafib.logic;
 
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.ColaboracioDelegacioService;
 import es.caib.portafib.ejb.EntitatService;
 import es.caib.portafib.ejb.FirmaService;
@@ -109,13 +110,15 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements UsuariEn
     private final UsuariEntitatLogicValidator<UsuariEntitatJPA> validator = new UsuariEntitatLogicValidator<UsuariEntitatJPA>();
 
     @Override
-    @RolesAllowed({ "PFI_ADMIN", "PFI_USER", "tothom" })
+    @RolesAllowed({ Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS,
+            Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
     public UsuariEntitatJPA findByPrimaryKey(String _ID_) {
         return super.findByPrimaryKey(_ID_);
     }
 
     @Override
-    @RolesAllowed({ "PFI_ADMIN", "PFI_USER", "tothom" })
+    @RolesAllowed({ Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS,
+            Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
     public UsuariEntitat update(UsuariEntitat instance) throws I18NException {
         return super.update(instance);
     }
@@ -229,8 +232,8 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements UsuariEn
 
                 for (String vrol : virtualRoles) {
                     vrol = vrol.trim();
-                    if (ConstantsV2.ROLE_SOLI.equals(vrol) || ConstantsV2.ROLE_DEST.equals(vrol)
-                            || ConstantsV2.ROLE_DELE.equals(vrol) || ConstantsV2.ROLE_COLA.equals(vrol)) {
+                    if (Constants.ROLE_SOLI.equals(vrol) || Constants.ROLE_DEST.equals(vrol)
+                            || Constants.ROLE_DELE.equals(vrol) || Constants.ROLE_COLA.equals(vrol)) {
                         roleUsuariEntitats.add((RoleUsuariEntitatJPA) roleUsuariEntitatLogicaEjb.create(vrol,
                                 usuariEntitatJPA.getUsuariEntitatID()));
                     } else {
@@ -566,7 +569,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements UsuariEn
 
         // 3.- Li afegim el ROLE de DESTINATARI
         RoleUsuariEntitatJPA roleUsr;
-        roleUsr = new RoleUsuariEntitatJPA(ConstantsV2.ROLE_DEST, usuariEntitatExtern.getUsuariEntitatID());
+        roleUsr = new RoleUsuariEntitatJPA(Constants.ROLE_DEST, usuariEntitatExtern.getUsuariEntitatID());
         roleUsuariEntitatLogicaEjb.create(roleUsr);
 
         return usuariEntitatExtern;
@@ -839,7 +842,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements UsuariEn
         UsuariEntitatQueryPath usuariEntitatQueryPath = new RoleUsuariEntitatQueryPath().USUARIENTITAT();
         List<String> correusAdEn = roleUsuariEntitatLogicaEjb
                 .executeQuery(usuariEntitatQueryPath.USUARIPERSONA().EMAIL(),
-                        Where.AND(RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_ADEN),
+                        Where.AND(RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_ADEN),
                                 usuariEntitatQueryPath.ENTITATID().equal(entitatID),
                                 usuariEntitatQueryPath.ACTIU().equal(true)
                         //,usuariEntitatQueryPath.REBRETOTSELSAVISOS().equal(true)

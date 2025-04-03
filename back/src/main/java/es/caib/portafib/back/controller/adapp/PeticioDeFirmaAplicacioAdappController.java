@@ -11,6 +11,8 @@ import es.caib.portafib.back.controller.aden.FluxDeFirmes2AdenController;
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
+import es.caib.portafib.commons.utils.Constants;
+
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -24,7 +26,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_USRAPP)
 @SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADAPP,
+        group = Constants.ROLE_ADAPP,
         labelCode = "peticiodefirma.usrapp.llistar",
         order = 110,
         addSeparatorBefore = true)

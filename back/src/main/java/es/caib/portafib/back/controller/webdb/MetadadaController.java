@@ -18,7 +18,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
 
 import es.caib.portafib.back.form.webdb.*;
 import es.caib.portafib.back.form.webdb.MetadadaForm;
@@ -37,6 +37,10 @@ import es.caib.portafib.persistence.MetadadaJPA;
 import es.caib.portafib.model.entity.Metadada;
 import es.caib.portafib.model.fields.*;
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
+import org.fundaciobit.genapp.common.web.tiles.Tile;
+import org.fundaciobit.genapp.common.web.tiles.TileAttribute;
+import org.fundaciobit.genapp.common.web.tiles.TileType;
+import es.caib.portafib.back.utils.Tab;
 
 /**
  * Controller per gestionar un Metadada
@@ -44,10 +48,14 @@ import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="metadada.metadada.plural", order=160, group="WEBDB")
+@MenuOption(labelCode="metadada.metadada.plural", order=160, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/metadada")
 @SessionAttributes(types = { MetadadaForm.class, MetadadaFilterForm.class })
+@Tile(name="metadadaFormWebDB", contentJsp="/WEB-INF/jsp/webdb/metadadaForm.jsp", extendsTile=Tab.MENU_WEBDB,
+      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="metadada.metadada")})
+@Tile(name="metadadaListWebDB", contentJsp="/WEB-INF/jsp/webdb/metadadaList.jsp", extendsTile=Tab.MENU_WEBDB,
+       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="metadada.metadada") })
 public class MetadadaController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Metadada, java.lang.Long> implements MetadadaFields {
 
@@ -353,7 +361,6 @@ public class MetadadaController
 
     if (metadada == null) {
       createMessageWarning(request, "error.notfound", metadadaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, metadadaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -711,12 +718,46 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getTileForm() {
+        try {
+            Set<Tile> rm;
+            rm=AnnotationUtils.getDeclaredRepeatableAnnotations(this.getClass(), Tile.class);
+            if (rm != null && !rm.isEmpty()) {
+                String trobada = null;
+                for (Tile tile : rm) {
+                    if (tile.type() == TileType.WEBDB_FORM) {
+                        trobada = tile.name();
+                    }
+                }
+                if (trobada != null) {
+                    return trobada;
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error en el getTileForm: " + e.getMessage(), e);
+        }
     return "metadadaFormWebDB";
   }
 
-  public String getTileList() {
-    return "metadadaListWebDB";
-  }
+    public String getTileList() {
+        try {
+            Set<Tile> rm;
+            rm=AnnotationUtils.getDeclaredRepeatableAnnotations(this.getClass(), Tile.class);
+            if (rm != null && !rm.isEmpty()) {
+                String trobada = null;
+                for (Tile tile : rm) {
+                    if (tile.type() == TileType.WEBDB_LIST) {
+                        trobada = tile.name();
+                    }
+                }
+                if (trobada != null) {
+                    return trobada;
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error en el getTileList: " + e.getMessage(), e);
+        }
+        return "metadadaListWebDB";
+    }
 
   public String getSessionAttributeFilterForm() {
     return "Metadada_FilterForm_" + this.getClass().getName();

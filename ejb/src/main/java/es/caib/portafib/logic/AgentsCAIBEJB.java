@@ -20,6 +20,7 @@ import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 
 import javax.annotation.security.RunAs;
@@ -39,7 +40,7 @@ import org.fundaciobit.pluginsib.userinformation.UserInfo;
  *
  */
 @Stateless(name = "AgentsCAIBEJB")
-@RunAs("PFI_USER")
+@RunAs(Constants.PFI_USER)
 public class AgentsCAIBEJB implements AgentsCAIBLocal {
 
     protected final Logger log = Logger.getLogger(getClass());
@@ -327,7 +328,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
                     Set<String> virtualRoles = null;
                     if (Configuracio.isCAIB()) {
                         virtualRoles = new HashSet<String>();
-                        virtualRoles.add(ConstantsV2.ROLE_DEST);
+                        virtualRoles.add(Constants.ROLE_DEST);
                     } else {
                         String defRolesStr = PropietatGlobalUtil.getDefaultRolesInCreation();
                         //log.info("defRolesStr = " + defRolesStr);

@@ -109,11 +109,13 @@ public class SignatureUtils {
             break;
         }
 
-        if (policyInfoSignature == null) {
-            log.info("XYZ ZZZ No usam politica de firma");
-        } else {
-            log.info("XYZ ZZZ Usam politica de firma: " + policyInfoSignature.getPolicyIdentifier() + "("
-                    + policyInfoSignature.getPolicyUrlDocument() + ")");
+        if (log.isDebugEnabled()) {
+            if (policyInfoSignature == null) {
+                log.debug("XYZ ZZZ No usam politica de firma");
+            } else {
+                log.debug("XYZ ZZZ Usam politica de firma: " + policyInfoSignature.getPolicyIdentifier() + "("
+                        + policyInfoSignature.getPolicyUrlDocument() + ")");
+            }
         }
         return policyInfoSignature;
     }
@@ -356,7 +358,7 @@ public class SignatureUtils {
 
             PassarelaPolicyInfoSignature ppis = cis.getPolicyInfoSignature();
             if (ppis == null) {
-                log.info(" PassarelaPolicyInfoSignature = NULL");
+                //log.info(" PassarelaPolicyInfoSignature = NULL");
                 pis = null;
             } else {
                 pis = new PolicyInfoSignature(ppis.getPolicyIdentifier(), ppis.getPolicyIdentifierHash(),

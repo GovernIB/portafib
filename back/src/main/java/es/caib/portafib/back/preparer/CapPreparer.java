@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import org.apache.tiles.request.Request;
 
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.IdiomaService;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Idioma;
@@ -25,7 +26,7 @@ import es.caib.portafib.model.fields.IdiomaFields;
  * @author GenApp
  *
  */
-@RunAs("PFI_USER")
+@RunAs(Constants.PFI_USER)
 @Component
 public class CapPreparer implements IdiomaFields, ViewPreparer {
 

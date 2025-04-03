@@ -32,6 +32,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -39,7 +40,7 @@ import es.caib.portafib.utils.ConstantsV2;
  * @author anadal
  * @author areus
  */
-@RunAs("PFI_USER")
+@RunAs(Constants.PFI_USER)
 @Component
 public class BasePreparer implements ConstantsV2, ViewPreparer {
 
@@ -80,7 +81,7 @@ public class BasePreparer implements ConstantsV2, ViewPreparer {
 
             Device currentDevice = DeviceUtils.getRequiredCurrentDevice(httpRequest);
             if (currentDevice.isMobile()) {
-                log.info("XYZ ZZZ IS MOBILE = true");
+                //log.info(" IS MOBILE = true");
                 httpRequest.getSession().setAttribute("isMobile", true);
                 request.put("isMobile", true);
             }
@@ -170,7 +171,7 @@ public class BasePreparer implements ConstantsV2, ViewPreparer {
         for (GrantedAuthority ga : rolesSeycon) {
             String rol = ga.getAuthority();
             // log.info(" Seycon = " + rol);
-            if (ConstantsV2.ROLE_USER.equals(rol) || ConstantsV2.ROLE_ANY.equals(rol)) {
+            if (Constants.ROLE_USER.equals(rol) || Constants.ROLE_ANY.equals(rol)) {
                 isUserOrAny = true;
             }
         }

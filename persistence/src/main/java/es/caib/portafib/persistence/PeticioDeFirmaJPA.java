@@ -636,18 +636,18 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof PeticioDeFirma) {
-      PeticioDeFirma __instance = (PeticioDeFirma)__obj;
-      __result = true;
-      __result = __result && (this.getPeticioDeFirmaID() == __instance.getPeticioDeFirmaID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof PeticioDeFirma) {
+            PeticioDeFirma __instance = (PeticioDeFirma)__obj;
+            __result = true;
+            __result = __result && (this.getPeticioDeFirmaID() == __instance.getPeticioDeFirmaID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // EXP  Field:peticiodefirmaid | Table: pfi_annex | Type: 0  
 

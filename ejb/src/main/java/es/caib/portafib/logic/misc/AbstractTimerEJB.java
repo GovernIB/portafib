@@ -18,12 +18,14 @@ import javax.ejb.TransactionAttributeType;
 import org.apache.log4j.Logger;
 import org.quartz.impl.triggers.CronTriggerImpl;
 
+import es.caib.portafib.commons.utils.Constants;
+
 /**
  * 
  * @author anadal
  *
  */
-@RolesAllowed("PFI_ADMIN")
+@RolesAllowed(Constants.PFI_ADMIN)
 public abstract class AbstractTimerEJB implements AbstractTimerLocal {
 
     @Resource

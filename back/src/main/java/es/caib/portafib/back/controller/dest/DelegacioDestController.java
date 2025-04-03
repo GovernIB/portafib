@@ -43,6 +43,7 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -114,7 +115,7 @@ import java.util.Set;
 @SessionAttributes(
         types = { ColaboracioDelegacioDestForm.class, ColaboracioDelegacioForm.class,
                 ColaboracioDelegacioFilterForm.class, SeleccioUsuariForm.class })
-public class DelegacioDestController extends ColaboracioDelegacioController implements ConstantsV2 {
+public class DelegacioDestController extends ColaboracioDelegacioController implements Constants {
 
     public static final String SELECTION_DELE_COLA_USUARI_ENTITAT = "SELECTION_DELE_COLA_USUARI_ENTITAT_ID";
 
@@ -234,7 +235,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         String subtitol = esDeCarrec() ? "colaboradordecarrec.subtitol" : (type + ".seleccio.subtitol");
         seleccioUsuariForm.setTitol(titol);
         seleccioUsuariForm.setSubtitol(subtitol);
-        seleccioUsuariForm.setCancelUrl("/canviarPipella/" + ConstantsV2.ROLE_DEST);
+        seleccioUsuariForm.setCancelUrl("/canviarPipella/" + ROLE_DEST);
         seleccioUsuariForm.setUrlData("/common/json/usuarientitat");
         try {
             seleccioUsuariForm.setUsuarisFavorits(SearchJSONController.favoritsToUsuariEntitat(
@@ -275,7 +276,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     // ----------------------------------------------------------------
 
     public final String getRole() {
-        return esDelegat() ? ConstantsV2.ROLE_DELE : ConstantsV2.ROLE_COLA;
+        return esDelegat() ? ROLE_DELE : ROLE_COLA;
     }
 
     @Override

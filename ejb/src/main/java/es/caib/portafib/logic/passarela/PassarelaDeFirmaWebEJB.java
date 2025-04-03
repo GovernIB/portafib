@@ -1,5 +1,6 @@
 package es.caib.portafib.logic.passarela;
 
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.CodiBarresService;
 import es.caib.portafib.ejb.EstadisticaService;
 import es.caib.portafib.persistence.CustodiaInfoJPA;
@@ -84,7 +85,7 @@ import java.util.Set;
  * @author areus
  */
 @Stateless(name = "PassarelaDeFirmaWebEJB")
-@RunAs("PFI_USER")
+@RunAs(Constants.PFI_USER)
 public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatureWebPlugin>
         implements PassarelaDeFirmaWebLocal {
 
@@ -136,7 +137,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         ssbv.throwValidationExceptionIfErrors(signaturesSet, isNou);
 
         final String signaturesSetID = signaturesSet.getSignaturesSetID();
-        log.info("startTransaction: " + signaturesSetID);
+        log.debug("startTransaction: " + signaturesSetID);
 
         // Tiquet # 186
         if (PropietatGlobalUtil.isDisabledSignaturesTable()) {
@@ -402,6 +403,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
         PassarelaSignaturesSetWebInternalUse ss = readSignaturesSet(transactionID);
 
+
         if (ss == null) {
             log.error("getStatusTransaction(" + transactionID + ") == NULL !!!!! (caducat ?????)");
             return null;
@@ -474,7 +476,9 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         // validationInfo
         ValidacioCompletaResponse infoValidacio = ss.getInfoValidacio();
 
-        log.info(" XYZ ZZZ ZZZ  **** infoValidacio = ss.getInfoValidacio() => " + infoValidacio);
+        if (log.isDebugEnabled()) {
+            log.debug(" XYZ ZZZ ZZZ  **** infoValidacio = ss.getInfoValidacio() => " + infoValidacio);
+        }
 
         PassarelaValidationInfo pvi = null;
         if (infoValidacio != null) {
@@ -528,7 +532,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
     @Override
     public void closeTransaction(String transactionID) {
-        log.info("closeTransaction():: Cridant a deleteSignaturesSet(" + transactionID + ")");
+        //log.info("closeTransaction():: Cridant a deleteSignaturesSet(" + transactionID + ")");
         deleteSignaturesSet(transactionID);
     }
 
@@ -536,6 +540,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     public PassarelaSignaturesSetWebInternalUse finalProcesDeFirma(String transactionID, SignaturesSetWeb ss,
             boolean administrationIdCanBeValidatedFromPlugin)
             throws I18NException {
+
 
         StatusSignaturesSet sss = ss.getStatusSignaturesSet();
 
@@ -930,19 +935,18 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
      */
     protected PassarelaSignaturesSetWebInternalUse readSignaturesSet(String transactionID) {
 
-        log.info("Calling readSignaturesSet(" + transactionID + ") {" + transactionID.hashCode() + "}");
+        //log.info("Calling readSignaturesSet(" + transactionID + ") {" + transactionID.hashCode() + "}");
 
-        log.info("readSignaturesSet(" + transactionID + ") - PRE => " + passarelaSignaturesSets.size());
+        //log.info("readSignaturesSet(" + transactionID + ") - PRE => " + passarelaSignaturesSets.size());
 
         PassarelaSignaturesSetWebInternalUse pss = checkExpiredSignaturesSet(transactionID);
 
-        log.info("readSignaturesSet(" + transactionID + ") - POST => " + passarelaSignaturesSets.size());
+        //log.info("readSignaturesSet(" + transactionID + ") - POST => " + passarelaSignaturesSets.size());
 
         //synchronized (passarelaSignaturesSets) {
         //  PassarelaSignaturesSetWebInternalUse pss = passarelaSignaturesSets.get(transactionID);
         if (pss == null) {
-
-            log.warn("La transacció " + transactionID + " no existeix !!!!!");
+            log.warn("readSignaturesSet(): La transacció " + transactionID + " no existeix !!!!!");
         }
         return pss;
         //}
@@ -989,7 +993,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
         final String signaturesSetID = pss.getSignaturesSet().getSignaturesSetID();
 
-        log.info("deleteSignaturesSet amb signaturesSetID = " + signaturesSetID);
+        //log.info("deleteSignaturesSet amb signaturesSetID = " + signaturesSetID);
 
         // ESBORRAR TOT DIRECTORI
         File basePath = getTransactionPath(signaturesSetID);
@@ -1028,27 +1032,28 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                         .entrySet()) {
                     String key = entry.getKey();
 
-                    // XYZ ZZZ
-                    log.info("checkExpiredSignaturesSet():: COMPARE('" + key + "','" + transaccioID + "') => "
-                            + key.equals(transaccioID));
-
-                    // XYZ ZZZ
-                    log.info("checkExpiredSignaturesSet():: Signature Test [ID] => ]" + key + "[ {" + key.hashCode()
-                            + "}");
+                    if (log.isDebugEnabled()) {
+                        log.debug("checkExpiredSignaturesSet():: COMPARE('" + key + "','" + transaccioID + "') => "
+                                + key.equals(transaccioID));
+                        log.debug("checkExpiredSignaturesSet():: Signature Test [ID] => ]" + key + "[ {" + key.hashCode()
+                                + "}");
+                    }
                     PassarelaSignaturesSetWebInternalUse ssf = entry.getValue();
                     if (ssf == null) {
                         log.warn("PROBLEMA: Transacció amb ID " + key
                                 + " té PassarelaSignaturesSetWebInternalUse.java NULL");
                     } else if (key.equals(transaccioID)) {
 
-                        // XYZ ZZZ
-                        log.info("checkExpiredSignaturesSet():: TROBADA informació de transacció amb ID ]" + key + "[");
+                        
+                        log.debug("checkExpiredSignaturesSet():: TROBADA informació de transacció amb ID ]" + key + "[");
 
                         valueToReturn = ssf;
                     } else if (now > ssf.getSignaturesSet().getExpiryDate().getTime()) {
-                        log.info("Passarel·la De Firma: Tancant SignatureSET amb ID = " + entry.getKey()
-                                + " a causa de que està caducat " + "( ARA: " + sdf.format(new Date(now))
-                                + " | CADUCITAT: " + sdf.format(ssf.getSignaturesSet().getExpiryDate()) + ")");
+                        if (log.isDebugEnabled()) {
+                            log.debug("Passarel·la De Firma: Tancant SignatureSET amb ID = " + entry.getKey()
+                                    + " a causa de que està caducat " + "( ARA: " + sdf.format(new Date(now))
+                                    + " | CADUCITAT: " + sdf.format(ssf.getSignaturesSet().getExpiryDate()) + ")");
+                        }
                         setsToDelete.add(ssf);
                     }
                 }

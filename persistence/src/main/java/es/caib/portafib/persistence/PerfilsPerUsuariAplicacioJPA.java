@@ -84,18 +84,18 @@ public class PerfilsPerUsuariAplicacioJPA implements PerfilsPerUsuariAplicacio {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof PerfilsPerUsuariAplicacio) {
-      PerfilsPerUsuariAplicacio __instance = (PerfilsPerUsuariAplicacio)__obj;
-      __result = true;
-      __result = __result && (this.getPerfilsPerUsrAppID() == __instance.getPerfilsPerUsrAppID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof PerfilsPerUsuariAplicacio) {
+            PerfilsPerUsuariAplicacio __instance = (PerfilsPerUsuariAplicacio)__obj;
+            __result = true;
+            __result = __result && (this.getPerfilsPerUsrAppID() == __instance.getPerfilsPerUsrAppID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // IMP Field:usuariaplicacioperfilid | Table: pfi_usuariaplicacioperfil | Type: 1  
 

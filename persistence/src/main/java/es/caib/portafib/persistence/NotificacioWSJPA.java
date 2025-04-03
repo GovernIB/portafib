@@ -205,18 +205,18 @@ public class NotificacioWSJPA implements NotificacioWS {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof NotificacioWS) {
-      NotificacioWS __instance = (NotificacioWS)__obj;
-      __result = true;
-      __result = __result && (this.getNotificacioID() == __instance.getNotificacioID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof NotificacioWS) {
+            NotificacioWS __instance = (NotificacioWS)__obj;
+            __result = true;
+            __result = __result && (this.getNotificacioID() == __instance.getNotificacioID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // IMP Field:tipusnotificacioid | Table: pfi_tipusnotificacio | Type: 1  
 

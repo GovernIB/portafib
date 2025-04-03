@@ -44,7 +44,8 @@ public class TipusDocumentLogicaEJB extends TipusDocumentEJB implements TipusDoc
     protected es.caib.portafib.ejb.EntitatService entitatEjb;
 
     @Override
-    @RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
+    @RolesAllowed({ Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS,
+            Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS })
     public void deleteFull(TipusDocumentJPA tipusDocument) throws I18NException {
         Where w = TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID.equal(tipusDocument.getTipusDocumentID());
         long numColaboracions = tipusDocumentColaboracioDelegacioEjb.count(w);
@@ -64,7 +65,8 @@ public class TipusDocumentLogicaEJB extends TipusDocumentEJB implements TipusDoc
     };
 
     @Override
-    @RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
+    @RolesAllowed({ Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS,
+            Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS })
     public synchronized TipusDocumentJPA create(TipusDocumentJPA tipusDocument, boolean generateID)
             throws I18NException {
         if (generateID) {

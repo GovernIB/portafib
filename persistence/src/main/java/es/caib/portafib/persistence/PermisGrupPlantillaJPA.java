@@ -84,18 +84,18 @@ public class PermisGrupPlantillaJPA implements PermisGrupPlantilla {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof PermisGrupPlantilla) {
-      PermisGrupPlantilla __instance = (PermisGrupPlantilla)__obj;
-      __result = true;
-      __result = __result && (this.getPermisGrupPlantillaID() == __instance.getPermisGrupPlantillaID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof PermisGrupPlantilla) {
+            PermisGrupPlantilla __instance = (PermisGrupPlantilla)__obj;
+            __result = true;
+            __result = __result && (this.getPermisGrupPlantillaID() == __instance.getPermisGrupPlantillaID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // IMP Field:grupentitatid | Table: pfi_grupentitat | Type: 1  
 

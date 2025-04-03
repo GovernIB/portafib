@@ -12,12 +12,13 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.ejb.UsuariEntitatService;
 import es.caib.portafib.persistence.UsuariPersonaJPA;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.commons.utils.Configuracio;
-import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.commons.utils.Constants;
 
 import org.fundaciobit.pluginsib.userinformation.UserInfo;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -58,14 +59,14 @@ import java.util.Set;
 @RequestMapping(value = "/admin/usuariPersona")
 @SessionAttributes(types = { UsuariPersonaForm.class, UsuariPersonaFilterForm.class, SeleccioNifForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADMIN,
+        group = Constants.ROLE_ADMIN,
         labelCode = "usuaripersona.alta",
         baseLink = "/admin/usuariPersona/alta",
         relativeLink = "",
         addSeparatorBefore = true,
         order = 30)
 @MenuOption(
-        group = ConstantsV2.ROLE_ADMIN,
+        group = Constants.ROLE_ADMIN,
         labelCode = "usuaripersona.modificar",
         baseLink = "/admin/usuariPersona/modificar",
         relativeLink = "",
@@ -116,7 +117,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
         SeleccioNifForm seleccioNifForm = new SeleccioNifForm();
         seleccioNifForm.setTitol("usuaripersona.alta");
         seleccioNifForm.setSubtitol("usuaripersona.alta.introduirnifousername");
-        seleccioNifForm.setCancelUrl("/canviarPipella/" + ConstantsV2.ROLE_ADEN);
+        seleccioNifForm.setCancelUrl("/canviarPipella/" + Constants.ROLE_ADEN);
         mav.addObject(seleccioNifForm);
         return mav;
     }
@@ -201,7 +202,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
 
         seleccioUsuariForm.setTitol("usuaripersona.modificar");
         seleccioUsuariForm.setSubtitol("usuaripersona.modificar.selecciousuari");
-        seleccioUsuariForm.setCancelUrl("/canviarPipella/" + ConstantsV2.ROLE_ADMIN);
+        seleccioUsuariForm.setCancelUrl("/canviarPipella/" + Constants.ROLE_ADMIN);
         seleccioUsuariForm.setUrlData(getUrlDataJsonSearch());
 
         seleccioUsuariForm.setUsuarisFavorits(getUsuarisFavorits());
@@ -352,7 +353,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
 
     @Override
     public String getRedirectWhenCancel(HttpServletRequest request, java.lang.String usuariPersonaID) {
-        return "redirect:/canviarPipella/" + (isAden() ? ConstantsV2.ROLE_ADEN : ConstantsV2.ROLE_ADMIN);
+        return "redirect:/canviarPipella/" + (isAden() ? Constants.ROLE_ADEN : Constants.ROLE_ADMIN);
     }
 
     @Override

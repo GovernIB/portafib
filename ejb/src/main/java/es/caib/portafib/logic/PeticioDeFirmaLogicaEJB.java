@@ -91,6 +91,7 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.KeyValue;
@@ -239,7 +240,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
     @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
     private RebreAvisLogicaLocal rebreAvisLogicaEjb;
-
 
     @Resource
     private SessionContext context;
@@ -1201,7 +1201,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
         // Assignam permis de ROLE_DEST als firmants de la peticio que no el
         // tenguin.
-        Where where = Where.AND(RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_DEST),
+        Where where = Where.AND(RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_DEST),
                 RoleUsuariEntitatFields.USUARIENTITATID.in(destinatarisUsuari));
         List<String> destAmbPermis = roleUsuariEntitatEjb.executeQuery(RoleUsuariEntitatFields.USUARIENTITATID, where);
         // Esborram tos els que tenen permis
@@ -1215,7 +1215,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             if (isDebug) {
                 log.info("Afegint ROLE_DEST a l'usuari-entitat (persona) " + sensePermis);
             }
-            roleUsuariEntitatEjb.create(ConstantsV2.ROLE_DEST, sensePermis);
+            roleUsuariEntitatEjb.create(Constants.ROLE_DEST, sensePermis);
         }
 
     }
@@ -2047,7 +2047,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         // XYZ ZZZ
         //long start = System.currentTimeMillis();
         try {
-            //log.info("XYZ ZZZ---------------------ENTRA nouFitxerFirmat(" + peticioDeFirmaID + ") ----------------------------------------");
+            //log.info("---------------------ENTRA nouFitxerFirmat(" + peticioDeFirmaID + ") ----------------------------------------");
             FirmaEventList events = new FirmaEventList();
 
             // Check Bloqueig
@@ -2458,7 +2458,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             }
             // XYZ ZZZ
             //long end = System.currentTimeMillis();
-            //log.info("XYZ ZZZ  =======  FINAL nouFitxerFirmat(" + peticioDeFirmaID + "): " + (end-start)+ " ms ====");
+            //log.info("=======  FINAL nouFitxerFirmat(" + peticioDeFirmaID + "): " + (end-start)+ " ms ====");
         }
     }
 
@@ -2669,7 +2669,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             try {
                 List<EstatDeFirma> estatsDeFirmaPendents = estatDeFirmaLogicaEjb
                         .getEstatsDeFirmaPendentsFirma(firma.getFirmaID());
-                
+
                 //log.info("\n  ------------ estatsDeFirmaPendents => " + estatsDeFirmaPendents.size() + " ------------ \n" );
                 //int i = 0;
                 for (EstatDeFirma estatDeFirmaPendent : estatsDeFirmaPendents) {
@@ -2707,42 +2707,42 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 tipusOperacio, desc);
 
         if (revisorsPendents == 0) {
-/*
+            /*
             //log.error("\n\n\n XXXXXXXXXXXXXXXXXXXXXXXX  revisorsPendents == 0  XXXXXXXXXXXXXXXXXXXXX\n\n\n");
             final Locale loc = new Locale(peticioDeFirma.getIdiomaID());
-
+            
             String subject = I18NCommonUtils.tradueix(loc, "email.peticio.revisada.subject");
-
+            
             String nomPeticio = peticioDeFirma.getTitol();
-
+            
             final String baseUrl = PropietatGlobalUtil.getAppUrl() + ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT
                     + "/list";
-
+            
             String usuariPersonaID = usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.USUARIPERSONAID,
                     UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma.getUsuariEntitatID()));
-
+            
             UsuariPersonaJPA persona = usuariPersonaEjb.findByPrimaryKey(usuariPersonaID);
-
+            
             String nomRevisor = persona.getNom() + " " + persona.getLlinatges();
             String usernameRevisor = persona.getUsuariPersonaID();
-
+            
             String message = I18NCommonUtils.tradueix(loc, "email.peticio.revisada.message", nomPeticio, nomRevisor,
                     usernameRevisor, baseUrl);
-
+            
             final boolean isHTML = true;
-
+            
             String from = PropietatGlobalUtil.getAppEmail();
-
+            
             //log.error(" =>   getDestinatariID " + firma.getDestinatariID()); 
-
+            
             UsuariEntitatQueryPath ueqp = new UsuariEntitatQueryPath();
-
+            
             String to = usuariEntitatEjb.executeQueryOne(ueqp.USUARIPERSONA().EMAIL(),
                     UsuariEntitatFields.USUARIENTITATID.equal(firma.getDestinatariID()));
-
+            
             //log.error(" =>   FROM " + from);    
             //log.error(" =>     TO " + to);
-
+            
             try {
                 EmailUtil.postMail(subject, message, isHTML, from, to);
             } catch (Exception e) {
@@ -2876,7 +2876,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         // Afegim que és l'administrador entitat al motiu de rebuig perquè quedi constància
         // a les diferents bandes.
         // XYZ ZZZ TRA
-        motiuDeRebuig = "Petició rebutjada per l´Administrador Entitat ]" + usuariEntitatAden +"[: " + motiuDeRebuig;
+        motiuDeRebuig = "Petició rebutjada per l´Administrador Entitat ]" + usuariEntitatAden + "[. Motiu: "
+                + motiuDeRebuig;
 
         int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
         if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
@@ -2977,8 +2978,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         long estatInicial = estatDeFirma.getTipusEstatDeFirmaInicialID();
         if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
             //Estaba asignado para revisar, y la han dado a aceptar
-            log.info("El revisor ha rebuitjat el document");
-            desc = "El revisor ha rebuitjat el document: " + motiuDeRebuig;
+            log.info("El revisor ha rebutjat el document");
+            desc = "El revisor ha rebutjat el document: " + motiuDeRebuig;
             tipusOperacio = BITACOLA_OP_REVISOR_REBUTJAR;
         } else {
             desc = "Petició rebutjada: " + motiuDeRebuig;
@@ -4035,7 +4036,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
      */
     protected boolean hasAccess(PeticioDeFirma peticioDeFirma, String usernameLoguejat) throws I18NException {
 
-        if (context.isCallerInRole(ConstantsV2.PFI_ADMIN)) {
+        if (context.isCallerInRole(Constants.PFI_ADMIN)) {
             return true;
         }
 
@@ -4073,7 +4074,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
     private String currentUsuariEntitatADEN(String entitatID, String usernameLoguejat) throws I18NException {
         // String username = context.getCallerPrincipal().getName();
         return this.roleUsuariEntitatEjb.executeQueryOne(RoleUsuariEntitatFields.USUARIENTITATID,
-                Where.AND(RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_ADEN),
+                Where.AND(RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_ADEN),
                         new RoleUsuariEntitatQueryPath().USUARIENTITAT().USUARIPERSONAID().equal(usernameLoguejat),
                         new RoleUsuariEntitatQueryPath().USUARIENTITAT().ACTIU().equal(true),
                         new RoleUsuariEntitatQueryPath().USUARIENTITAT().CARREC().isNull(),

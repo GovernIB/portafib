@@ -84,18 +84,18 @@ public class GrupEntitatUsuariEntitatJPA implements GrupEntitatUsuariEntitat {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof GrupEntitatUsuariEntitat) {
-      GrupEntitatUsuariEntitat __instance = (GrupEntitatUsuariEntitat)__obj;
-      __result = true;
-      __result = __result && (this.getGrupEntitatUsuariEntitatID() == __instance.getGrupEntitatUsuariEntitatID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof GrupEntitatUsuariEntitat) {
+            GrupEntitatUsuariEntitat __instance = (GrupEntitatUsuariEntitat)__obj;
+            __result = true;
+            __result = __result && (this.getGrupEntitatUsuariEntitatID() == __instance.getGrupEntitatUsuariEntitatID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 

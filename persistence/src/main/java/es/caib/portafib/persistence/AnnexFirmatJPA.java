@@ -97,18 +97,18 @@ public class AnnexFirmatJPA implements AnnexFirmat {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof AnnexFirmat) {
-      AnnexFirmat __instance = (AnnexFirmat)__obj;
-      __result = true;
-      __result = __result && (this.getAnnexfirmatID() == __instance.getAnnexfirmatID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof AnnexFirmat) {
+            AnnexFirmat __instance = (AnnexFirmat)__obj;
+            __result = true;
+            __result = __result && (this.getAnnexfirmatID() == __instance.getAnnexfirmatID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
 

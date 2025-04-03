@@ -16,7 +16,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
 
 import es.caib.portafib.back.form.webdb.*;
 import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
@@ -35,6 +35,10 @@ import es.caib.portafib.persistence.FluxDeFirmesJPA;
 import es.caib.portafib.model.entity.FluxDeFirmes;
 import es.caib.portafib.model.fields.*;
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
+import org.fundaciobit.genapp.common.web.tiles.Tile;
+import org.fundaciobit.genapp.common.web.tiles.TileAttribute;
+import org.fundaciobit.genapp.common.web.tiles.TileType;
+import es.caib.portafib.back.utils.Tab;
 
 /**
  * Controller per gestionar un FluxDeFirmes
@@ -42,10 +46,14 @@ import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="fluxDeFirmes.fluxDeFirmes.plural", order=120, group="WEBDB")
+@MenuOption(labelCode="fluxDeFirmes.fluxDeFirmes.plural", order=120, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/fluxDeFirmes")
 @SessionAttributes(types = { FluxDeFirmesForm.class, FluxDeFirmesFilterForm.class })
+@Tile(name="fluxDeFirmesFormWebDB", contentJsp="/WEB-INF/jsp/webdb/fluxDeFirmesForm.jsp", extendsTile=Tab.MENU_WEBDB,
+      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="fluxDeFirmes.fluxDeFirmes")})
+@Tile(name="fluxDeFirmesListWebDB", contentJsp="/WEB-INF/jsp/webdb/fluxDeFirmesList.jsp", extendsTile=Tab.MENU_WEBDB,
+       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="fluxDeFirmes.fluxDeFirmes") })
 public class FluxDeFirmesController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<FluxDeFirmes, java.lang.Long> implements FluxDeFirmesFields {
 
@@ -304,7 +312,6 @@ public class FluxDeFirmesController
 
     if (fluxDeFirmes == null) {
       createMessageWarning(request, "error.notfound", fluxDeFirmesID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, fluxDeFirmesID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -588,12 +595,46 @@ public java.lang.Long stringToPK(String value) {
   }
 
   public String getTileForm() {
+        try {
+            Set<Tile> rm;
+            rm=AnnotationUtils.getDeclaredRepeatableAnnotations(this.getClass(), Tile.class);
+            if (rm != null && !rm.isEmpty()) {
+                String trobada = null;
+                for (Tile tile : rm) {
+                    if (tile.type() == TileType.WEBDB_FORM) {
+                        trobada = tile.name();
+                    }
+                }
+                if (trobada != null) {
+                    return trobada;
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error en el getTileForm: " + e.getMessage(), e);
+        }
     return "fluxDeFirmesFormWebDB";
   }
 
-  public String getTileList() {
-    return "fluxDeFirmesListWebDB";
-  }
+    public String getTileList() {
+        try {
+            Set<Tile> rm;
+            rm=AnnotationUtils.getDeclaredRepeatableAnnotations(this.getClass(), Tile.class);
+            if (rm != null && !rm.isEmpty()) {
+                String trobada = null;
+                for (Tile tile : rm) {
+                    if (tile.type() == TileType.WEBDB_LIST) {
+                        trobada = tile.name();
+                    }
+                }
+                if (trobada != null) {
+                    return trobada;
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error en el getTileList: " + e.getMessage(), e);
+        }
+        return "fluxDeFirmesListWebDB";
+    }
 
   public String getSessionAttributeFilterForm() {
     return "FluxDeFirmes_FilterForm_" + this.getClass().getName();

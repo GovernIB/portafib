@@ -557,18 +557,18 @@ opcional incluso cuando se genera una firma EPES. */
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof UsuariAplicacioConfiguracio) {
-      UsuariAplicacioConfiguracio __instance = (UsuariAplicacioConfiguracio)__obj;
-      __result = true;
-      __result = __result && (this.getUsuariAplicacioConfigID() == __instance.getUsuariAplicacioConfigID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof UsuariAplicacioConfiguracio) {
+            UsuariAplicacioConfiguracio __instance = (UsuariAplicacioConfiguracio)__obj;
+            __result = true;
+            __result = __result && (this.getUsuariAplicacioConfigID() == __instance.getUsuariAplicacioConfigID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // EXP  Field:configuraciodefirmaid | Table: pfi_peticiodefirma | Type: 0  
 

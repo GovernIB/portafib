@@ -50,7 +50,7 @@ public class RestApiPlantillaFluxEJB implements RestApiPlantillaFluxLocal {
 
     @Override
     public TransactionInfo readTransactionInfo(String transactionID) {
-        log.info(" XYZ ZZZ startTransaction::currentTransactions.size() => " + currentTransactions.size());
+        //log.info("StartTransaction::currentTransactions.size() => " + currentTransactions.size());
 
         TransactionInfo ti = currentTransactions.get(transactionID);
         return ti;

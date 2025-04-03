@@ -7,14 +7,20 @@ import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.persistence.validator.UsuariPersonaBeanValidator;
 import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
 import es.caib.portafib.logic.validator.UsuariPersonaLogicValidator;
+import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
 import es.caib.portafib.model.entity.UsuariPersona;
+import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.commons.utils.Configuracio;
-import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.commons.utils.Constants;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -29,10 +35,12 @@ import org.fundaciobit.pluginsib.userinformation.UserInfo;
 import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
+import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.i18n.I18NTranslation;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+import org.fundaciobit.genapp.common.query.UpdateItemValue;
 import org.fundaciobit.genapp.common.query.Where;
 
 /**
@@ -52,14 +60,17 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements UsuariPe
     @EJB(mappedName = UsuariEntitatService.JNDI_NAME)
     protected es.caib.portafib.ejb.UsuariEntitatService usuariEntitatEjb;
 
+    @EJB(mappedName = PlantillaFluxDeFirmesLogicaLocal.JNDI_NAME)
+    protected PlantillaFluxDeFirmesLogicaLocal plantillaFluxDeFirmesLogicaEjb;
+
     @Override
-    @RolesAllowed({ "PFI_ADMIN", "PFI_USER", "tothom" })
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
     public UsuariPersona update(UsuariPersona instance) throws I18NException {
         return super.update(instance);
     }
 
     @Override
-    @RolesAllowed({ "PFI_ADMIN", "PFI_USER", "tothom" })
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
     public UsuariPersonaJPA findByPrimaryKey(String _ID_) {
         return super.findByPrimaryKey(_ID_);
     }
@@ -120,7 +131,7 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements UsuariPe
     @Override
     public Set<String> getRolesOfLoggedUser() throws I18NException {
 
-        String[] allRoles = { ConstantsV2.PFI_USER, ConstantsV2.PFI_ADMIN };
+        String[] allRoles = { Constants.PFI_USER, Constants.PFI_ADMIN };
         Set<String> roles = new HashSet<String>();
 
         for (String rol : allRoles) {
@@ -282,4 +293,82 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements UsuariPe
             return (UsuariPersonaJPA) usuariPersonaList.get(0);
         }
     }
+
+    @Override
+    public Map<String, String> updateUsernameOfPerson(Properties prop, String langUI) throws I18NException {
+
+        Map<String, String> resultat = new HashMap<String, String>();
+
+        for (Object usrActual : prop.keySet()) {
+            Object usrNou = prop.get(usrActual);
+
+            resultat.put((String) usrActual, updateUsernameOfPerson((String) usrActual, (String) usrNou, langUI));
+
+        }
+
+        return resultat;
+    }
+
+    @Override
+    public synchronized String updateUsernameOfPerson(String currentUsername, String newUsername, String langUI) {
+
+        try {
+
+            List<PlantillaFluxDeFirmes> plantillesEnviaFIB = plantillaFluxDeFirmesLogicaEjb
+                    .select(PlantillaFluxDeFirmesFields.DESCRIPCIO.like("%{owner=" + currentUsername + "}%"));
+
+            for (PlantillaFluxDeFirmes plantillaFluxDeFirmes : plantillesEnviaFIB) {
+                plantillaFluxDeFirmes.setDescripcio(plantillaFluxDeFirmes.getDescripcio()
+                        .replace("{owner=" + currentUsername + "}", "{owner=" + newUsername + "}"));
+                plantillaFluxDeFirmesLogicaEjb.update(plantillaFluxDeFirmes);
+            }
+
+            // (0) usuari actual
+            UsuariPersonaJPA currentPersona = findByPrimaryKey(currentUsername);
+
+            if (currentPersona == null) {
+
+                if (plantillesEnviaFIB.size() == 0) {
+                    return "No es troba l'username ]" + currentUsername + "[";
+                } else {
+                    return "FLUX";
+                }
+
+            }
+            // (1) Mirar si newusername ja existeix o feim clone de l'actual
+
+            UsuariPersonaJPA newPersona = findByPrimaryKey(newUsername);
+
+            if (newPersona == null) {
+                // Feim un clon de l'actual
+
+                newPersona = new UsuariPersonaJPA(currentPersona);
+
+                newPersona.setUsuariPersonaID(newUsername);
+                // Posam un NIF temporal ja que el NIF es unike.
+                newPersona.setNif("00000000X");
+
+                newPersona = (UsuariPersonaJPA) create(newPersona);
+
+            }
+
+            // (2) Actualitzam tots els usuarientitat que contenguin la persona actual
+            usuariEntitatEjb.update(UsuariEntitatFields.USUARIPERSONAID.equal(currentUsername),
+                    new UpdateItemValue<String>(UsuariEntitatFields.USUARIPERSONAID, newUsername));
+
+            // Esborram usuariActual
+            delete(currentPersona);
+
+            // Tornam a canviar DNI nou usuari
+            update(UsuariPersonaFields.USUARIPERSONAID.equal(newUsername),
+                    new UpdateItemValue<String>(UsuariPersonaFields.NIF, currentPersona.getNif()));
+
+            return "OK";
+
+        } catch (I18NException i18n) {
+            return "Error actualitzant usuari de '" + currentUsername + "' a '" + newUsername + "': "
+                    + I18NCommonUtils.getMessage(i18n, new Locale(langUI));
+        }
+    }
+
 }

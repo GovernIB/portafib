@@ -12,23 +12,39 @@ import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
  */
 public class PassarelaSignatureInServerResults {
 
-  protected final PassarelaFullResults passarelaFullResults;
+    protected final PassarelaFullResults passarelaFullResults;
 
-  protected final Map<String, ValidacioCompletaResponse> validacioResponseBySignID;
+    protected final Map<String, ValidacioCompletaResponse> validacioResponseBySignID;
 
-  public PassarelaSignatureInServerResults(PassarelaFullResults passarelaFullResults,
-      Map<String, ValidacioCompletaResponse> validacioResponseBySignID) {
-    super();
-    this.passarelaFullResults = passarelaFullResults;
-    this.validacioResponseBySignID = validacioResponseBySignID;
-  }
+    protected final Long pluginFirmaEnServidorId;
 
-  public PassarelaFullResults getPassarelaFullResults() {
-    return passarelaFullResults;
-  }
+    @Deprecated
+    public PassarelaSignatureInServerResults(PassarelaFullResults passarelaFullResults,
+            Map<String, ValidacioCompletaResponse> validacioResponseBySignID) {
+        super();
+        this.passarelaFullResults = passarelaFullResults;
+        this.validacioResponseBySignID = validacioResponseBySignID;
+        pluginFirmaEnServidorId = null;
+    }
 
-  public Map<String, ValidacioCompletaResponse> getValidacioResponseBySignID() {
-    return validacioResponseBySignID;
-  }
+    public PassarelaSignatureInServerResults(PassarelaFullResults passarelaFullResults,
+            Map<String, ValidacioCompletaResponse> validacioResponseBySignID, Long pluginFirmaEnServidorId) {
+        super();
+        this.passarelaFullResults = passarelaFullResults;
+        this.validacioResponseBySignID = validacioResponseBySignID;
+        this.pluginFirmaEnServidorId = pluginFirmaEnServidorId;
+    }
+
+    public PassarelaFullResults getPassarelaFullResults() {
+        return passarelaFullResults;
+    }
+
+    public Map<String, ValidacioCompletaResponse> getValidacioResponseBySignID() {
+        return validacioResponseBySignID;
+    }
+
+    public Long getPluginFirmaEnServidorId() {
+        return pluginFirmaEnServidorId;
+    }
 
 }

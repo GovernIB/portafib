@@ -93,8 +93,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getAvailableLanguages(HttpServletRequest request,
-            @RequestBody TextNode languageUITextNode) {
+    public ResponseEntity<?> getAvailableLanguages(HttpServletRequest request, @RequestBody
+    TextNode languageUITextNode) {
 
         final String languageUI = languageUITextNode.asText();
 
@@ -151,8 +151,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getTransactionID(HttpServletRequest request,
-            @RequestBody FlowTemplateSimpleGetTransactionIdRequest transactionIDRequest) {
+    public ResponseEntity<?> getTransactionID(HttpServletRequest request, @RequestBody
+    FlowTemplateSimpleGetTransactionIdRequest transactionIDRequest) {
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -198,8 +198,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> startTransaction(HttpServletRequest request,
-            @RequestBody FlowTemplateSimpleStartTransactionRequest startTransactionInfo) {
+    public ResponseEntity<?> startTransaction(HttpServletRequest request, @RequestBody
+    FlowTemplateSimpleStartTransactionRequest startTransactionInfo) {
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -210,13 +210,13 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
         String languageUI = "ca";
 
         try {
-            log.info(" XYZ ZZZ eNTRA A startTransaction => FlowTemplateSimpleStartTransactionRequest: "
-                    + startTransactionInfo);
+            //log.info("ENTRA A startTransaction => FlowTemplateSimpleStartTransactionRequest: "
+            //        + startTransactionInfo);
 
             // TODO XYZ ZZZ CHECKS DE LOGIN
             LoginInfo loginInfo = commonChecks();
 
-            log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
+            //log.info("LOGININFO => " + loginInfo);
 
             // Validar simpleSignature
             restApiPlantillaFluxLocal.cleanExpiredTransactions();
@@ -224,8 +224,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
             // CHECKS DE variable
             final String transactionID = startTransactionInfo.getTransactionID();
 
-            log.info(" XYZ ZZZ startTransaction::transactionID => |" + transactionID + "|");
-            //log.info(" XYZ ZZZ startTransaction::currentTransactions.size() => "  + currentTransactions.size());
+            //log.info("startTransaction::transactionID => |" + transactionID + "|");
+            //log.info("startTransaction::currentTransactions.size() => "  + currentTransactions.size());
 
             //TransactionInfo ti = currentTransactions.get(transactionID);
 
@@ -289,7 +289,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
 
             HttpHeaders headers = addAccessControllAllowOrigin();
             ResponseEntity<?> re = new ResponseEntity<String>(redirectUrl, headers, HttpStatus.OK);
-            log.info(" XYZ ZZZ SURT DE startTransaction => FINAL OK");
+            //log.info("SURT DE startTransaction => FINAL OK");
 
             ti.getStatus().setStatus(FlowTemplateSimpleStatus.STATUS_IN_PROGRESS);
 
@@ -319,8 +319,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getAllFlowTemplatesByFilter(HttpServletRequest request,
-            @RequestBody FlowTemplateSimpleFilterGetAllByFilter filterBy) {
+    public ResponseEntity<?> getAllFlowTemplatesByFilter(HttpServletRequest request, @RequestBody
+    FlowTemplateSimpleFilterGetAllByFilter filterBy) {
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -331,12 +331,12 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
         String languageUI = "ca";
 
         try {
-            log.info(" XYZ ZZZ eNTRA A getAllFlowTemplatesByFilter => filterBy: " + filterBy);
+            //log.info("ENTRA A getAllFlowTemplatesByFilter => filterBy: " + filterBy);
 
             // TODO XYZ ZZZ CHECKS DE LOGIN
             LoginInfo loginInfo = commonChecks();
 
-            log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
+            //log.info("LOGININFO => " + loginInfo);
 
             // Validar simpleSignature
             restApiPlantillaFluxLocal.cleanExpiredTransactions();
@@ -346,7 +346,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
 
             HttpHeaders headers = addAccessControllAllowOrigin();
             ResponseEntity<?> re = new ResponseEntity<FlowTemplateSimpleFlowTemplateList>(list, headers, HttpStatus.OK);
-            log.info(" XYZ ZZZ SURT DE getAllFlowTemplatesByFilter => FINAL OK");
+            //log.info("SURT DE getAllFlowTemplatesByFilter => FINAL OK");
 
             return re;
 
@@ -373,8 +373,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getFlowInfoByFlowTemplateID(HttpServletRequest request,
-            @RequestBody FlowTemplateSimpleFlowTemplateRequest flowTemplateRequest) {
+    public ResponseEntity<?> getFlowInfoByFlowTemplateID(HttpServletRequest request, @RequestBody
+    FlowTemplateSimpleFlowTemplateRequest flowTemplateRequest) {
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -387,12 +387,10 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
         String encryptedFlowTemplateID = flowTemplateRequest.getFlowTemplateId();
 
         try {
-            log.info(" XYZ ZZZ eNTRA A getFlowInfoByFlowTemplateID => flowTemplateID: " + encryptedFlowTemplateID);
+            log.debug("ENTRA A getFlowInfoByFlowTemplateID => flowTemplateID: " + encryptedFlowTemplateID);
 
             // TODO XYZ ZZZ CHECKS DE LOGIN
             LoginInfo loginInfo = commonChecks();
-
-            log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
 
             // Validar simpleSignature
             restApiPlantillaFluxLocal.cleanExpiredTransactions();
@@ -436,7 +434,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<?> getFlowTemplateResult(HttpServletRequest request, HttpServletResponse response,
-            @RequestBody TextNode textNodeTransactionID) {
+            @RequestBody
+            TextNode textNodeTransactionID) {
         String transactionID = textNodeTransactionID.asText();
 
         try {
@@ -482,7 +481,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
             HttpHeaders headers = addAccessControllAllowOrigin();
             ResponseEntity<?> re = new ResponseEntity<FlowTemplateSimpleGetFlowResultResponse>(result, headers,
                     HttpStatus.OK);
-            log.info(" XYZ ZZZ surt de  getTransactionStatus => FINAL");
+            log.debug("Surt de  getTransactionStatus => FINAL");
 
             return re;
 
@@ -588,12 +587,12 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void closeTransaction(HttpServletRequest request, HttpServletResponse response,
-            @RequestBody TextNode textNodeTransactionID) {
+    public void closeTransaction(HttpServletRequest request, HttpServletResponse response, @RequestBody
+    TextNode textNodeTransactionID) {
 
         String transactionID = textNodeTransactionID.asText();
 
-        log.info(" XYZ ZZZ closeTransaction => ENTRA");
+        //log.info("CloseTransaction => ENTRA");
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -607,7 +606,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
 
         restApiPlantillaFluxLocal.internalCloseTransaction(transactionID);
 
-        log.info(" XYZ ZZZ closeTransaction => FINAL OK");
+        //log.info("CloseTransaction => FINAL OK");
 
     }
 
@@ -615,8 +614,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getAllFlowTemplates(HttpServletRequest request, HttpServletResponse response,
-            @RequestBody TextNode languageUITextNode) {
+    public ResponseEntity<?> getAllFlowTemplates(HttpServletRequest request, HttpServletResponse response, @RequestBody
+    TextNode languageUITextNode) {
 
         //final String languageUI = languageUITextNode.asText();
 
@@ -632,7 +631,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
             HttpHeaders headers = addAccessControllAllowOrigin();
             ResponseEntity<?> re = new ResponseEntity<FlowTemplateSimpleFlowTemplateList>(result, headers,
                     HttpStatus.OK);
-            log.info(" XYZ ZZZ surt de  getAllFlowTemplates => FINAL");
+            //log.info("Surt de  getAllFlowTemplates => FINAL");
 
             return re;
 
@@ -683,8 +682,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getUrlToViewFlowTemplate(
-            @RequestBody FlowTemplateSimpleViewFlowTemplateRequest viewFlowRequest, HttpServletRequest request,
+    public ResponseEntity<?> getUrlToViewFlowTemplate(@RequestBody
+    FlowTemplateSimpleViewFlowTemplateRequest viewFlowRequest, HttpServletRequest request,
             HttpServletResponse response) {
 
         String error = autenticateUsrApp(request);
@@ -703,7 +702,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
 
             HttpHeaders headers = addAccessControllAllowOrigin();
             ResponseEntity<?> re = new ResponseEntity<String>(result, headers, HttpStatus.OK);
-            log.info(" XYZ ZZZ surt de  getTransactionStatus => FINAL");
+            //log.info("Surt de  getTransactionStatus => FINAL");
 
             return re;
 
@@ -721,8 +720,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getUrlToEditFlowTemplate(
-            @RequestBody FlowTemplateSimpleEditFlowTemplateRequest editFlowTemplate, HttpServletRequest request,
+    public ResponseEntity<?> getUrlToEditFlowTemplate(@RequestBody
+    FlowTemplateSimpleEditFlowTemplateRequest editFlowTemplate, HttpServletRequest request,
             HttpServletResponse response) {
 
         String error = autenticateUsrApp(request);
@@ -791,7 +790,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
 
             HttpHeaders headers = addAccessControllAllowOrigin();
             ResponseEntity<?> re = new ResponseEntity<String>(result, headers, HttpStatus.OK);
-            log.info(" XYZ ZZZ surt de  getUrlToEditFlowTemplate => FINAL");
+            // log.info("Surt de  getUrlToEditFlowTemplate => FINAL");
 
             return re;
 
@@ -811,8 +810,9 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> deleteFlowTemplate(@RequestBody FlowTemplateSimpleFlowTemplateRequest flowTemplaterequest,
-            HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> deleteFlowTemplate(@RequestBody
+    FlowTemplateSimpleFlowTemplateRequest flowTemplaterequest, HttpServletRequest request,
+            HttpServletResponse response) {
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -836,7 +836,7 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
 
             HttpHeaders headers = addAccessControllAllowOrigin();
             ResponseEntity<?> re = new ResponseEntity<Boolean>(result, headers, HttpStatus.OK);
-            log.info(" XYZ ZZZ surt de  getTransactionStatus => FINAL");
+            log.debug("Surt de  getTransactionStatus => FINAL");
 
             return re;
 

@@ -110,18 +110,18 @@ public class BlocDeFirmesJPA implements BlocDeFirmes {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof BlocDeFirmes) {
-      BlocDeFirmes __instance = (BlocDeFirmes)__obj;
-      __result = true;
-      __result = __result && (this.getBlocDeFirmesID() == __instance.getBlocDeFirmesID()) ;
-    } else {
-      __result = false;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof BlocDeFirmes) {
+            BlocDeFirmes __instance = (BlocDeFirmes)__obj;
+            __result = true;
+            __result = __result && (this.getBlocDeFirmesID() == __instance.getBlocDeFirmesID()) ;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // EXP  Field:blocdefirmaid | Table: pfi_firma | Type: 0  
 

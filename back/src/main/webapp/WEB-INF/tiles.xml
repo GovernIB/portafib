@@ -688,7 +688,11 @@
     <definition name="propietatSistemaListAdmin" extends="role_admin">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalList.jsp" />
     </definition>
-    
+
+    <definition name="actualitzarUsernameAdmin" extends="role_admin">
+        <put-attribute name="titol" value="=Actualitzar Username XYZZZZ" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/fitxerForm.jsp" />
+    </definition>
 
     <!--  ===========  COL·LABORADOR ================== -->
     

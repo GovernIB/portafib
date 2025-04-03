@@ -3,6 +3,8 @@ package es.caib.portafib.back.config;
 import java.util.Locale;
 
 import es.caib.portafib.commons.utils.Configuracio;
+
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +13,6 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
@@ -36,6 +37,9 @@ import org.springframework.web.util.UrlPathHelper;
 //@ComponentScan(basePackages = {"es.caib.portafib"})
 @EnableWebMvc
 public class MvcConfiguration extends WebMvcConfigurerAdapter {
+    
+    protected Logger log = Logger.getLogger(getClass());
+    
     
     /**
      * Obliga a tots els Serveis Rest a retornar JSON. 
@@ -100,12 +104,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 	public MultipartResolver multipartResolver() {
 		return new es.caib.portafib.back.utils.PortaFIBCommonsMultipartResolver();
 	}
-
-	@Bean
-	public HandlerExceptionResolver getFileSizeExceeds() {
-	  return new es.caib.portafib.back.utils.PortaFIBMaxUploadSizeExceededExceptionHandler();
-	}
-
+	
 	@Bean
 	public MessageSource messageSource() {
 

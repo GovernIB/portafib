@@ -1,7 +1,7 @@
 package es.caib.portafib.back.controller.revi;
 
 import es.caib.portafib.back.controller.AbstractEstatDeFirmaDestDeleColaController;
-import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.commons.utils.Constants;
 
 /**
  * @author anadal
@@ -16,7 +16,7 @@ public abstract class EstatFirmaAbstractReviController extends
 
   @Override
   public String getRole() {
-    return ConstantsV2.ROLE_REVI;
+    return Constants.ROLE_REVI;
   }
 
 } // Final de Classe

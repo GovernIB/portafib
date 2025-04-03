@@ -76,23 +76,23 @@ public class RoleJPA implements Role {
 
 
 
-  @Override
-  public boolean equals(Object __obj) {
-  boolean __result;
-    if (__obj != null && __obj instanceof Role) {
-      Role __instance = (Role)__obj;
-      __result = true;
+    @Override
+    public boolean equals(Object __obj) {
+        boolean __result;
+        if (__obj != null && __obj instanceof Role) {
+            Role __instance = (Role)__obj;
+            __result = true;
       if (this.getRoleID() == null) {
         __result = __result && (__instance.getRoleID() == null);
       } else {
         __result = __result && this.getRoleID().equals(__instance.getRoleID()) ;
       }
 
-    } else {
-      __result = false;
+        } else {
+            __result = false;
+        }
+        return __result;
     }
-    return __result;
-  }
 
 // EXP  Field:roleid | Table: pfi_roleusuarientitat | Type: 0  
 

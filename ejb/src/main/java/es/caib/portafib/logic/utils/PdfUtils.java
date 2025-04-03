@@ -294,7 +294,7 @@ public class PdfUtils implements ConstantsV2 {
             PdfReader reader = new PdfReader(readerInputStream);
 
             // Check PDF-A1 o A2 o A3
-            log.info("XYZ ZZZ Comprovant si es PDF/Ax ...");
+            //log.info("Comprovant si es PDF/Ax ...");
             final byte[] metadata = reader.getMetadata();
             if (isPdfA1(metadata) || isPdfAx(metadata)) {
                 if (!acceptTransformPDFA) {
