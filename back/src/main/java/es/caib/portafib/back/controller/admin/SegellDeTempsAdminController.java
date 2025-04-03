@@ -2,6 +2,7 @@ package es.caib.portafib.back.controller.admin;
 
 import javax.ejb.EJB;
 
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.fundaciobit.pluginsib.timestamp.api.ITimeStampPlugin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,10 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/admin/segelldetemps")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADMIN,
+        labelCode = "segelldetemps.plantilla.plural",
+        order = 80)
 public class SegellDeTempsAdminController extends AbstractPluginAdminController<ITimeStampPlugin> {
 
     @EJB(mappedName = SegellDeTempsLogicaLocal.JNDI_NAME)

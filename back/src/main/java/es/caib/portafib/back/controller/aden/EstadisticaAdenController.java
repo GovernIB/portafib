@@ -19,6 +19,7 @@ import org.fundaciobit.genapp.common.web.exportdata.IDataExporter;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.fundaciobit.pluginsib.exportdata.ExportData;
 import org.fundaciobit.pluginsib.exportdata.ExportFile;
 import org.fundaciobit.pluginsib.exportdata.ExportItem;
@@ -52,6 +53,13 @@ import java.util.TreeSet;
 @Controller
 @RequestMapping(value = "/aden/estadistica")
 @SessionAttributes(types = { EstadisticaForm.class, EstadisticaAdenFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADEN,
+        labelCode = "estadistica.estadistica.plural",
+        baseLink = "/aden/estadistica/search",
+        relativeLink = "",
+        addSeparatorBefore = true,
+        order = 240)
 public class EstadisticaAdenController extends EstadisticaController {
 
     public static String SESSION_ESTADISTIQUES_PER = "SESSION_ESTADISTIQUES_PER";

@@ -14,6 +14,7 @@ import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import es.caib.portafib.back.form.webdb.TipusDocumentForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.persistence.TipusDocumentJPA;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.TipusDocumentLogicaLocal;
 import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.entity.UsuariAplicacio;
@@ -42,6 +44,11 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 @Controller
 @RequestMapping(value = "/admin/gestiotipusdoc")
 @SessionAttributes(types = { TipusDocumentForm.class, TipusDocumentFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADMIN,
+        labelCode = "tipusdocument.admin.plural",
+        addSeparatorBefore = true,
+        order = 50)
 public class GestioTipusDocumentAdminController extends TipusDocumentController {
 
     @EJB(mappedName = UsuariAplicacioService.JNDI_NAME)

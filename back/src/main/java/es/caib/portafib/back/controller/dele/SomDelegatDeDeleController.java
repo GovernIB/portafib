@@ -12,6 +12,7 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -23,6 +24,7 @@ import es.caib.portafib.back.form.webdb.ColaboracioDelegacioFilterForm;
 import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.ColaboracioDelegacioJPA;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
@@ -37,7 +39,14 @@ import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 @SessionAttributes(
         types = { ColaboracioDelegacioDestForm.class, ColaboracioDelegacioForm.class,
                 ColaboracioDelegacioFilterForm.class })
-public class SomDelegatDeDeleController extends DelegacioDestController {
+@MenuOption(
+        group = Constants.ROLE_DELE,
+        labelCode = "delegatde.menu",
+        addSeparatorBefore = true,
+        order = 50)
+public class SomDelegatDeDeleController extends DelegacioDestController
+        //extends ColaboracioDelegacioController 
+        implements Constants {
 
     @PostConstruct
     public void init() {

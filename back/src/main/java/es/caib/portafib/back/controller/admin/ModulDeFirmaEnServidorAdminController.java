@@ -2,6 +2,7 @@ package es.caib.portafib.back.controller.admin;
 
 import javax.ejb.EJB;
 
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.fundaciobit.pluginsib.signatureserver.api.ISignatureServerPlugin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,10 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/admin/moduldefirmaenservidor")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADMIN,
+        labelCode = "moduldefirmaenservidor.plantilla.plural",
+        order = 70)
 public class ModulDeFirmaEnServidorAdminController extends AbstractPluginAdminController<ISignatureServerPlugin> {
 
     @EJB(mappedName = ModulDeFirmaServidorLogicaLocal.JNDI_NAME)

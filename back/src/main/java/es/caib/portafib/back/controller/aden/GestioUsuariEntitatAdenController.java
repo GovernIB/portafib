@@ -37,6 +37,7 @@ import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -66,6 +67,12 @@ import java.util.Set;
 @Controller
 @RequestMapping(value = GestioUsuariEntitatAdenController.CONTEXTWEB)
 @SessionAttributes(types = { UsuariEntitatForm.class, UsuariEntitatFilterForm.class, SeleccioUsuariForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADEN,
+        labelCode = "usuarientitat.gestio",
+        baseLink = "/aden/usuariEntitat/selecciousuari",
+        relativeLink = "",
+        order = 60)
 public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
 
     public static final String CONTEXTWEB = "/aden/usuariEntitat";

@@ -4,6 +4,8 @@ import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.utils.ConstantsV2;
+
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -17,6 +19,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @RequestMapping(value = ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_TOTES_CONSULTAR)
 @SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class,
     PeticioDeFirmaFilterForm.class})
+@MenuOption(
+        group = ConstantsV2.ROLE_ADEN,
+        labelCode = "peticiodefirma.totes.consultar.llistar",
+        addSeparatorBefore = true,
+        order = 180)
 public class PeticioDeFirmaTotesConsultarAdenController extends AbstractPeticioDeFirmaAdenController {
 
   @Override

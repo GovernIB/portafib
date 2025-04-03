@@ -14,6 +14,7 @@ import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,10 @@ import java.util.Set;
 @Controller
 @RequestMapping(value = ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT)
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_DEST,
+        labelCode = "solicituddefirma.llistat.pendent.plural",
+        order = 20)
 public class EstatFirmaPendentDestController extends EstatFirmaAbstractDestController {
 
     @Override

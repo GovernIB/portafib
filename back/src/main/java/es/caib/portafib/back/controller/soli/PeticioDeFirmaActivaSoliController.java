@@ -10,6 +10,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,12 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA)
 @SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class,
     PeticioDeFirmaFilterForm.class, AnnexFilterForm.class, AnnexForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_SOLI,
+        labelCode = "peticiodefirma.crear",
+        baseLink = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/selectflux",
+        relativeLink = "",
+        order = 10)
 public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliController {
   
   public static final String FILTER_BY_TITOL_KEY = "filterbytitol";

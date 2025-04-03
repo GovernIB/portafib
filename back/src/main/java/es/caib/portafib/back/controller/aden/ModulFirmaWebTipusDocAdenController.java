@@ -9,6 +9,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -31,6 +32,10 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/aden/modulfirmatipusdoc")
 @SessionAttributes(types = { ModulDeFirmaPerTipusDeDocumentForm.class, ModulDeFirmaPerTipusDeDocumentFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADEN,
+        labelCode = "modulDeFirmaPerTipusDeDocument.short",
+        order = 140)
 public class ModulFirmaWebTipusDocAdenController extends ModulDeFirmaPerTipusDeDocumentController {
 
     @Override

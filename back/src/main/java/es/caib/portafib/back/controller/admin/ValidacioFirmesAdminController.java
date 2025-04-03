@@ -2,6 +2,7 @@ package es.caib.portafib.back.controller.admin;
 
 import javax.ejb.EJB;
 
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.fundaciobit.pluginsib.validatesignature.api.IValidateSignaturePlugin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,10 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/admin/validaciofirmes")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADMIN,
+        labelCode = "validaciodefirmes.gestio",
+        order = 100)
 public class ValidacioFirmesAdminController extends AbstractPluginAdminController<IValidateSignaturePlugin> {
 
     @EJB(mappedName = PluginValidacioFirmesLogicaLocal.JNDI_NAME)

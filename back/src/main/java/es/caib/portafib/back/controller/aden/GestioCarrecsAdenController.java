@@ -17,6 +17,7 @@ import es.caib.portafib.ejb.EntitatService;
 import es.caib.portafib.ejb.FirmaService;
 import es.caib.portafib.ejb.UsuariEntitatFavoritService;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.model.entity.UsuariEntitat;
@@ -36,6 +37,7 @@ import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -68,6 +70,11 @@ import java.util.Set;
 @SessionAttributes(
         types = { UsuariEntitatForm.class, UsuariEntitatFilterForm.class, SeleccioCarrecForm.class,
                 SeleccioUsuariForm.class })
+@MenuOption(
+        group = Constants.ROLE_ADEN,
+        labelCode = "carrec.gestio",
+        addSeparatorBefore = true,
+        order = 70)
 public class GestioCarrecsAdenController extends UsuariEntitatController {
 
     public static final String SELECTION_CARREC_USUARI_ENTITAT_ID = "SELECTION_CARREC_USUARI_ENTITAT_ID";

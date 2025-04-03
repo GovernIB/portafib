@@ -32,6 +32,7 @@ import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -57,6 +58,10 @@ import java.util.Set;
  */
 @Controller
 @RequestMapping(value = "/admin/entitat")
+@MenuOption(
+        group = ConstantsV2.ROLE_ADMIN,
+        labelCode = "entitat.gestio",
+        order = 10)
 public class GestioEntitatAdminController extends EntitatController implements ConstantsV2, ConstantsPortaFIB {
 
     @EJB(mappedName = UsuariAplicacioService.JNDI_NAME)

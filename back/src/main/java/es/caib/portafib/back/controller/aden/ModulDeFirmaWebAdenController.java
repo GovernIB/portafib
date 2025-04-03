@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import es.caib.portafib.model.entity.Plugin;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.fundaciobit.pluginsib.signatureweb.api.ISignatureWebPlugin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,13 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/aden/modulDeFirma")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADEN,
+        labelCode = "moduldefirma.gestio",
+        baseLink = "/aden/modulDeFirma/list",
+        relativeLink = "",
+        addSeparatorBefore = true,
+        order = 130)
 public class ModulDeFirmaWebAdenController extends AbstractPluginAdenController<ISignatureWebPlugin> {
 
     @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)

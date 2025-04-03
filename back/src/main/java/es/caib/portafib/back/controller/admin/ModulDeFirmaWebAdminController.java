@@ -4,6 +4,7 @@ import es.caib.portafib.logic.AbstractPluginIBLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.model.entity.Plugin;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.fundaciobit.pluginsib.signatureweb.api.ISignatureWebPlugin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping(value = "/admin/modulDeFirma")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADMIN,
+        labelCode = "moduldefirma.plantilla.plural",
+        addSeparatorBefore = true,
+        order = 60)
 public class ModulDeFirmaWebAdminController extends AbstractPluginAdminController<ISignatureWebPlugin> {
 
     @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)

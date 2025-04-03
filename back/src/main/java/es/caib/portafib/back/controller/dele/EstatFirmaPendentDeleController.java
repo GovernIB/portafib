@@ -2,6 +2,7 @@ package es.caib.portafib.back.controller.dele;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -19,6 +20,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping(value = ConstantsV2.CONTEXT_DELE_ESTATFIRMA_PENDENT)
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_DELE,
+        labelCode = "delegacio.pendent.plural",
+        addSeparatorBefore = true,
+        order = 20)
 public class EstatFirmaPendentDeleController extends  EstatFirmaAbstractDeleController {
   
   

@@ -11,6 +11,7 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -21,6 +22,7 @@ import es.caib.portafib.back.form.webdb.GrupEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.GrupEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.persistence.GrupEntitatJPA;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.GrupEntitatLogicaLocal;
 import es.caib.portafib.model.entity.GrupEntitat;
 
@@ -33,6 +35,10 @@ import es.caib.portafib.model.entity.GrupEntitat;
 @Controller
 @RequestMapping(value = "/aden/grup")
 @SessionAttributes(types = { GrupEntitatForm.class, GrupEntitatFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADEN,
+        labelCode = "grups.gestio",
+        order = 110)
 public class GestioGrupsController extends GrupEntitatController {
 
     @EJB(mappedName = GrupEntitatLogicaLocal.JNDI_NAME)

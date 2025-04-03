@@ -13,6 +13,7 @@ import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.form.BaseFilterForm;
 import org.fundaciobit.genapp.common.web.form.BaseForm;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuItem;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
@@ -336,6 +337,11 @@ public class Utils {
             }
         }
         return ofuscat;
+    }
+    
+    public static MenuItem retallaDarrerPath(String label, String url, int order) {
+        int i = url.lastIndexOf('/');
+        return new MenuItem(label, url.substring(i), url.substring(0, i), order);
     }
 
 }
