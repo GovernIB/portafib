@@ -52,7 +52,6 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<FirmaEnServidorV
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
-
     }
 
     public void testSignatureServerPAdESStatus401_Unathorized() throws ApiException, Exception {
@@ -61,9 +60,7 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<FirmaEnServidorV
         final Integer expectedError = 401;
 
         ApiClient apiClient = getApiClient();
-
         apiClient.setPassword("badpassword");
-
         FirmaEnServidorV1Api apiError = new FirmaEnServidorV1Api(apiClient);
 
         internalTestSignatureServerPAdES(testName, expectedError, apiError);

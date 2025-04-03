@@ -36,6 +36,7 @@ import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -68,6 +69,11 @@ import java.util.Set;
 @SessionAttributes(
         types = { UsuariEntitatForm.class, UsuariEntitatFilterForm.class, SeleccioCarrecForm.class,
                 SeleccioUsuariForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADEN,
+        labelCode = "carrec.gestio",
+        addSeparatorBefore = true,
+        order = 70)
 public class GestioCarrecsAdenController extends UsuariEntitatController {
 
     public static final String SELECTION_CARREC_USUARI_ENTITAT_ID = "SELECTION_CARREC_USUARI_ENTITAT_ID";

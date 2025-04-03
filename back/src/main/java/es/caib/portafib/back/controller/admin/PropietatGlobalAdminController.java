@@ -34,6 +34,7 @@ import es.caib.portafib.model.fields.PropietatGlobalFields;
 import es.caib.portafib.utils.ConstantsV2;
 import javax.ejb.EJB;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -45,6 +46,11 @@ import org.springframework.validation.FieldError;
 @Controller
 @RequestMapping(value = "/admin/propietatglobal")
 @SessionAttributes(types = { PropietatGlobalForm.class, PropietatGlobalFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADMIN,
+        labelCode = "propietatglobal.gestio",
+        addSeparatorBefore = true,
+        order = 120)
 public class PropietatGlobalAdminController extends PropietatGlobalController {
 
     @EJB(mappedName = es.caib.portafib.logic.PropietatGlobalLogicaLocal.JNDI_NAME)

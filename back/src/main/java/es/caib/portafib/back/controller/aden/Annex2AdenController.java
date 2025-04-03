@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.aden;
 
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -7,6 +8,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.AbstractAnnexController;
 import es.caib.portafib.back.form.webdb.AnnexFilterForm;
 import es.caib.portafib.back.form.webdb.AnnexForm;
+import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 

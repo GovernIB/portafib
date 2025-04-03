@@ -28,6 +28,7 @@ import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -118,6 +119,11 @@ import es.caib.portafib.utils.ConstantsV2;
 @SessionAttributes(
         types = { PlantillaDeFluxDeFirmesFilterForm.class, PlantillaDeFluxDeFirmesForm.class, FluxDeFirmesForm.class,
                 FluxDeFirmesFilterForm.class, SeleccioUsuariForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_SOLI,
+        labelCode = "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural",
+        addSeparatorBefore = true,
+        order = 70)
 public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController implements ConstantsV2 {
 
     @EJB(mappedName = RestApiPlantillaFluxLocal.JNDI_NAME)

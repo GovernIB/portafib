@@ -13,6 +13,7 @@ import org.fundaciobit.genapp.common.i18n.I18NTranslation;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -38,6 +39,12 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/aden/revisor")
 @SessionAttributes(types = { RoleUsuariEntitatForm.class, RoleUsuariEntitatFilterForm.class, SeleccioUsuariForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADEN,
+        labelCode = "revisor.gestio",
+        baseLink = "/aden/revisor/selecciousuari",
+        relativeLink = "",
+        order = 100)
 public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitatController {
 
     @EJB(mappedName = RevisorDeDestinatariLogicaService.JNDI_NAME)

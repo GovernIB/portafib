@@ -18,6 +18,7 @@ import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -38,6 +39,12 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping(value = "/aden/peticionsdedestinatari")
 @SessionAttributes(types = { PeticionsDeFirmaDeDestinatariFilterForm.class, PeticioDeFirmaForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADEN,
+        labelCode = "peticionsdefirma.destinatari",
+        baseLink = "/aden/peticionsdedestinatari/selecciousuari",
+        relativeLink = "",
+        order = 220)
 public class PeticioDeFirmaDeDestinatariAdenController extends AbstractPeticioDeFirmaAdenController {
 
     public static final String USUARI_ENTITAT_ID_HOLDER = "PeticionsDeFirmaDeDestinatariAdenController_USUARI_ENTITAT_ID_HOLDER";

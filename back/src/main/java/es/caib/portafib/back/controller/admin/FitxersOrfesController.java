@@ -19,6 +19,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -35,6 +36,7 @@ import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -44,6 +46,10 @@ import es.caib.portafib.model.fields.UsuariPersonaFields;
 @Controller
 @RequestMapping(value = "/admin/fitxersorfes")
 @SessionAttributes(types = { FitxerForm.class, FitxerFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADMIN,
+        labelCode = "fitxers.orfes",
+        order = 150)
 public class FitxersOrfesController extends FitxerController {
   
   @EJB(mappedName = AnnexService .JNDI_NAME)

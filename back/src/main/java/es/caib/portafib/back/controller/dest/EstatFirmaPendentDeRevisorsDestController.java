@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -27,6 +28,13 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "DeRevisors")
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_DEST,
+        labelCode = "solicituddefirma.llistat.pendentderevisors.plural",
+        baseLink = ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "DeRevisors/list",
+        relativeLink = "",
+        addSeparatorAfter = true,
+        order = 50)
 public class EstatFirmaPendentDeRevisorsDestController extends EstatFirmaPendentDestController {
 
     @Override

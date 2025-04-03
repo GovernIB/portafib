@@ -11,6 +11,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -37,6 +38,12 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = "/aden/solicitant")
 @SessionAttributes(types = {RoleUsuariEntitatForm.class, RoleUsuariEntitatFilterForm.class,
     SeleccioUsuariForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADEN,
+        labelCode = "solicitant.gestio",
+        baseLink = "/aden/solicitant/selecciousuari",
+        relativeLink = "",
+        order = 90)
 public class GestioRoleSolicitantController extends AbstractGestioRoleUsuariEntitatController {
 
   @Override

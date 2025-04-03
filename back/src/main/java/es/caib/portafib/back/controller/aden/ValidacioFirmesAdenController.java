@@ -2,6 +2,7 @@ package es.caib.portafib.back.controller.aden;
 
 import javax.ejb.EJB;
 
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.fundaciobit.pluginsib.validatesignature.api.IValidateSignaturePlugin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,11 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/aden/validaciofirmes")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADEN,
+        labelCode = "validaciodefirmes.gestio",
+        addSeparatorBefore = true,
+        order = 170)
 public class ValidacioFirmesAdenController extends AbstractPluginAdenController<IValidateSignaturePlugin> {
 
     @EJB(mappedName = PluginValidacioFirmesLogicaLocal.JNDI_NAME)

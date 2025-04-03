@@ -25,6 +25,7 @@ import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,6 +57,10 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/aden/firmausuariextern")
 @SessionAttributes(types = { FirmaForm.class, FirmaFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADEN,
+        labelCode = "firmausuariextern.plural",
+        order = 230)
 public class FirmaUsuariExternAdenController extends FirmaController {
 
     public static final int COLUMN_PETICIO_FIRMA = 1;

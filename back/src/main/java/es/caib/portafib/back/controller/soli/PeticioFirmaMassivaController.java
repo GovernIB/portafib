@@ -17,6 +17,7 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.utils.Utils;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +45,12 @@ import java.util.List;
 @Controller
 @SessionAttributes(types = { PeticioFirmaMassivaForm.class })
 @RequestMapping(value = PeticioFirmaMassivaController.CONTEXTWEB)
+@MenuOption(
+        group = ConstantsV2.ROLE_SOLI,
+        labelCode = "peticioFirmaMassiva.titol",
+        baseLink = PeticioFirmaMassivaController.CONTEXTWEB,
+        relativeLink = "",
+        order = 20)
 public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
 
   protected static final Logger log = Logger.getLogger(PeticioFirmaMassivaController.class);

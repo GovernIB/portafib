@@ -56,6 +56,7 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * Controlador per a la gestió de usuaris sense rols.
@@ -66,6 +67,11 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = "/aden/usuarientitatsenserols")
 @SessionAttributes(types = { UsuariEntitatForm.class, UsuariEntitatFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADEN,
+        labelCode = "usuarientitat.senserols.plural",
+        addSeparatorBefore = true,
+        order = 260)
 public class UsuariEntitatSenseRols extends UsuariEntitatController {
 
     @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)

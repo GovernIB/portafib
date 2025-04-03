@@ -28,6 +28,7 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,6 +68,11 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = "/admin/adminentitat")
 @SessionAttributes(types = {RoleUsuariEntitatForm.class, RoleUsuariEntitatFilterForm.class,
     SeleccioUsuariForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADMIN,
+        labelCode = "administradorentitat.gestio",
+        addSeparatorBefore = true,
+        order = 20)
 public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEntitatController {
 
   public static final StringField ENTITAT_NOM;

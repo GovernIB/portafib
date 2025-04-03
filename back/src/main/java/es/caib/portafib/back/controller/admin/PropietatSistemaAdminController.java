@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.admin;
 
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.form.webdb.PropietatGlobalFilterForm;
 import es.caib.portafib.back.form.webdb.PropietatGlobalForm;
 import es.caib.portafib.logic.utils.PropietatsConstants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -16,6 +18,10 @@ import es.caib.portafib.logic.utils.PropietatsConstants;
 @Controller
 @RequestMapping(value = "/admin/propietatsistema")
 @SessionAttributes(types = { PropietatGlobalForm.class, PropietatGlobalFilterForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADMIN,
+        labelCode = "propietatSistema.menu",
+        order = 130)
 public class PropietatSistemaAdminController extends PropietatGlobalAdminController {
 
     @Override

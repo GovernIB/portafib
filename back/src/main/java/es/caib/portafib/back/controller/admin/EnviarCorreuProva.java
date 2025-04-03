@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.jboss.logging.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import es.caib.portafib.logic.utils.EmailUtil;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -26,6 +28,19 @@ import es.caib.portafib.utils.Constants;
  */
 @Controller
 @RequestMapping(value = "/admin/enviarcorreu")
+@MenuOption(
+        group = ConstantsV2.ROLE_ADMIN,
+        labelCode = "provarservidorcorreu",
+        baseLink = "/admin/enviarcorreu/usuariloguejat",
+        relativeLink = "",
+        addSeparatorBefore = true,
+        order = 140)
+@MenuOption(
+        group = ConstantsV2.ROLE_ADMIN,
+        labelCode = "provarcorreuadministradors",
+        baseLink = "/admin/enviarcorreu/administradors",
+        relativeLink = "",
+        order = 150)
 public class EnviarCorreuProva {
 
     protected Logger log = Logger.getLogger(EnviarCorreuProva.class);

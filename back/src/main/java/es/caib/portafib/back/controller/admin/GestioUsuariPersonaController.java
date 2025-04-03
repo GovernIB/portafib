@@ -26,6 +26,7 @@ import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NTranslation;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
@@ -56,6 +57,19 @@ import java.util.Set;
 @Controller
 @RequestMapping(value = "/admin/usuariPersona")
 @SessionAttributes(types = { UsuariPersonaForm.class, UsuariPersonaFilterForm.class, SeleccioNifForm.class })
+@MenuOption(
+        group = ConstantsV2.ROLE_ADMIN,
+        labelCode = "usuaripersona.alta",
+        baseLink = "/admin/usuariPersona/alta",
+        relativeLink = "",
+        addSeparatorBefore = true,
+        order = 30)
+@MenuOption(
+        group = ConstantsV2.ROLE_ADMIN,
+        labelCode = "usuaripersona.modificar",
+        baseLink = "/admin/usuariPersona/modificar",
+        relativeLink = "",
+        order = 40)
 public class GestioUsuariPersonaController extends UsuariPersonaController {
 
     @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
