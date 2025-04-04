@@ -5,6 +5,7 @@ import es.caib.portafib.back.controller.adapp.CustodiaInfoAdappController;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.model.entity.PeticioDeFirma;
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.commons.utils.Configuracio;
 
@@ -152,6 +153,14 @@ public abstract class AbstractPeticioDeFirmaAdenController extends AbstractPetic
 
     protected static void configureGroupByFieldsPeticioDeFirma(PeticioDeFirmaFilterForm peticioDeFirmaFilterForm,
             boolean showUsuariEntitat, boolean showUsuariAplicacio) {
+        
+     // Revisar el rendiment de la secció de gestió de peticions de firma #1020 
+        
+        List<Field<?>> groupByFields = peticioDeFirmaFilterForm.getGroupByFields();
+
+        groupByFields.remove(PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE);
+        groupByFields.remove(PeticioDeFirmaFields.EXPEDIENTCODI);
+        groupByFields.remove(PeticioDeFirmaFields.PROCEDIMENTCODI);
         /*
         if (peticioDeFirmaFilterForm.isNou() && Configuracio.isCAIB()) {
 

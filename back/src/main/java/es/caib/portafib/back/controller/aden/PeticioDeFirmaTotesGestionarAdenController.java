@@ -3,12 +3,20 @@ package es.caib.portafib.back.controller.aden;
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.ConstantsV2;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Gestiona Totes les peticions de firma dels Usuaris Aplicació i Solicitants Web
@@ -18,10 +26,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @Controller
 @RequestMapping(value = ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_TOTES_GESTIONAR)
 @SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-@MenuOption(
-        group = ConstantsV2.ROLE_ADEN,
-        labelCode = "peticiodefirma.totes.gestionar.llistar",
-        order = 190)
+@MenuOption(group = ConstantsV2.ROLE_ADEN, labelCode = "peticiodefirma.totes.gestionar.llistar", order = 190)
 public class PeticioDeFirmaTotesGestionarAdenController extends AbstractPeticioDeFirmaAdenController {
 
     @Override

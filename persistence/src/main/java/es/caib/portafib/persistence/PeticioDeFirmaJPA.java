@@ -26,6 +26,7 @@ import javax.persistence.Id;
         @Index(name="pfi_petifirma_firmaori_fk_i", columnList = "firmaoriginaldetachedid"),
         @Index(name="pfi_petifirma_fitxeadaid_fk_i", columnList = "fitxeradaptatid"),
         @Index(name="pfi_petifirma_tipusdocid_fk_i", columnList = "tipusdocumentid"),
+        @Index(name="pfi_petifirma_datasolicitud_i", columnList = "datasolicitud"),
         @Index(name="pfi_petifirma_tipofirmid_fk_i", columnList = "tipusfirmaid"),
         @Index(name="pfi_petifirma_algofirmid_fk_i", columnList = "algorismedefirmaid"),
         @Index(name="pfi_petifirma_estatid_fk_i", columnList = "tipusestatpeticiodefirmaid"),

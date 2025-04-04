@@ -7529,6 +7529,7 @@
           "foreignKeys": []
         },
         {
+          "index": "pfi_petifirma_datasolicitud_i",
           "isAutoIncrement": false,
           "sqlName": "datasolicitud",
           "sqlType": 93,
