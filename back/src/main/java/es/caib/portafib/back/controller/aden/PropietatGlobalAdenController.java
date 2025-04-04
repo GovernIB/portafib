@@ -19,10 +19,7 @@ import es.caib.portafib.logic.utils.PropietatsConstants;
 @Controller
 @RequestMapping(value = "/aden/propietatglobal")
 @SessionAttributes(types = { PropietatGlobalForm.class, PropietatGlobalFilterForm.class })
-@MenuOption(
-        group = Constants.ROLE_ADEN,
-        labelCode = "propietatglobal.entitat.gestio",
-        order = 20)
+@MenuOption(group = Constants.ROLE_ADEN, labelCode = "propietat.0.menu", order = 20)
 public class PropietatGlobalAdenController extends AbstractPropietatsController {
 
     @Override

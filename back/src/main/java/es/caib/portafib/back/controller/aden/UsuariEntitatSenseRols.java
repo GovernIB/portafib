@@ -63,15 +63,11 @@ import es.caib.portafib.utils.ConstantsV2;
  * @author anadal
  * 13 feb 2025 12:02:29
  */
-@MenuOption(labelCode = "usuarientitat.senserols.plural", order = 420, group = Constants.ROLE_ADEN)
+
 @Controller
 @RequestMapping(value = "/aden/usuarientitatsenserols")
 @SessionAttributes(types = { UsuariEntitatForm.class, UsuariEntitatFilterForm.class })
-@MenuOption(
-        group = ConstantsV2.ROLE_ADEN,
-        labelCode = "usuarientitat.senserols.plural",
-        addSeparatorBefore = true,
-        order = 260)
+@MenuOption(labelCode = "usuarientitat.senserols.plural", order = 260, group = Constants.ROLE_ADEN)
 public class UsuariEntitatSenseRols extends UsuariEntitatController {
 
     @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
@@ -278,7 +274,7 @@ public class UsuariEntitatSenseRols extends UsuariEntitatController {
 
                     StringBuilder sb = new StringBuilder();
                     for (UsuariEntitat ue : usuarisEntitat) {
-                        sb.append("  - " + ue.getCarrec() + "[" + ue.getUsuariEntitatID()+ "]<br/>");
+                        sb.append("  - " + ue.getCarrec() + "[" + ue.getUsuariEntitatID() + "]<br/>");
                     }
 
                     htmlCode.append("<tr class=\"table-success\"><td>Si vol desactivar aquest usuari "
