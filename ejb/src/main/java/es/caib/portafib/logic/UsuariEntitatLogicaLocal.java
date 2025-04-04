@@ -1,6 +1,7 @@
 package es.caib.portafib.logic;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import es.caib.portafib.ejb.UsuariEntitatService;
@@ -72,7 +73,7 @@ public interface UsuariEntitatLogicaLocal extends UsuariEntitatService {
 
     public void updateCarrec(String carrecID, String administrationID) throws I18NValidationException, I18NException;
 
-    public List<String> getEmailsOfAdministradorsEntitatByEntitat(String entitatID) throws I18NException;
+    public Map<String, String> getEmailsOfAdministradorsEntitatByEntitat(String entitatID) throws I18NException;
 
     public String getEmail(String usuariEntitatID);
 

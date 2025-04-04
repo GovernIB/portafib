@@ -37,6 +37,7 @@ import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.utils.ConstantsV2;
 
 import org.hibernate.Hibernate;
+import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -45,6 +46,7 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.BooleanField;
 import org.fundaciobit.genapp.common.query.IntegerField;
 import org.fundaciobit.genapp.common.query.OrderBy;
+import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
@@ -57,8 +59,10 @@ import javax.ejb.Stateless;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -833,22 +837,30 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements UsuariEn
     }
 
     /**
-     * Retorna la llista de emails de tots els administradors d'entitat d'una entitat determinada que estan actius
-     * i que tenen activat l'opció de rebre tots els avisos.
+     * Retorna un map de usuaris-entitat-id i de emails de tots els administradors d'entitat d'una entitat determinada
+     * que estan actius
      */
     @Override
-    public List<String> getEmailsOfAdministradorsEntitatByEntitat(String entitatID) throws I18NException {
+    public Map<String, String> getEmailsOfAdministradorsEntitatByEntitat(String entitatID) throws I18NException {
 
         UsuariEntitatQueryPath usuariEntitatQueryPath = new RoleUsuariEntitatQueryPath().USUARIENTITAT();
-        List<String> correusAdEn = roleUsuariEntitatLogicaEjb
-                .executeQuery(usuariEntitatQueryPath.USUARIPERSONA().EMAIL(),
-                        Where.AND(RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_ADEN),
-                                usuariEntitatQueryPath.ENTITATID().equal(entitatID),
-                                usuariEntitatQueryPath.ACTIU().equal(true)
-                        //,usuariEntitatQueryPath.REBRETOTSELSAVISOS().equal(true)
-                        ));
+
+        SelectMultipleStringKeyValue select = new SelectMultipleStringKeyValue(
+                usuariEntitatQueryPath.USUARIENTITATID().select, usuariEntitatQueryPath.USUARIPERSONA().EMAIL().select);
+
+        List<StringKeyValue> correusAdEn = roleUsuariEntitatLogicaEjb.executeQuery(select,
+                Where.AND(RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_ADEN),
+                        usuariEntitatQueryPath.ENTITATID().equal(entitatID), usuariEntitatQueryPath.ACTIU().equal(true)
+                //,usuariEntitatQueryPath.REBRETOTSELSAVISOS().equal(true)
+                ));
+
+        HashMap<String, String> correusAdEnMap = new HashMap<String, String>();
+        for (StringKeyValue kv : correusAdEn) {
+            correusAdEnMap.put(kv.getKey(), kv.getValue());
+        }
+
         // Eliminam duplicats    
-        return new ArrayList<String>(new HashSet<String>(correusAdEn));
+        return correusAdEnMap;
     }
 
     @Override

@@ -2,9 +2,11 @@ package es.caib.portafib.logic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import es.caib.portafib.ejb.UsuariAplicacioService;
@@ -19,6 +21,7 @@ import es.caib.portafib.model.fields.BlocDeFirmesQueryPath;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
+import es.caib.portafib.model.fields.RebreAvisFields;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
@@ -61,6 +64,9 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
 
     @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
     private EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
+    
+    @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
+    protected RebreAvisLogicaLocal rebreAvisLogicaEjb;
 
     @Override
     public UsuariEntitat processarCarrecCAIB(String tipus, String codusu, String nomrol, String valordomini,
@@ -110,8 +116,10 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
 
                     usuariEntitatNonSecureLogicaEjb.create(ue);
 
-                    enviarCorreuAdmistradors("S'ha creat el càrrec " + usuariEntitatID + " dins l'entitat " + entitatID
-                            + ". Accedeixi a la Gestió de càrrecs per revisar el nom i activar-ho", entitatID);
+                    enviarCorreuAdmistradorsOpcional(
+                            getSubjectUpdadeUsers(), "S'ha creat el càrrec " + usuariEntitatID + " dins l'entitat "
+                                    + entitatID + ". Accedeixi a la Gestió de càrrecs per revisar el nom i activar-ho",
+                            entitatID);
 
                     return ue;
                 }
@@ -133,7 +141,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
                     // Enviar a correu a ADEN
                     String msg = "S'esta intentant executar una operació '" + tipus + "' sobre carrec amb ID="
                             + usuariEntitatID + "(Entitat " + entitatID + ") però aquest no existeix.";
-                    enviarCorreuAdmistradors(msg, entitatID);
+                    enviarCorreuAdmistradorsOpcional(getSubjectUpdadeUsers(), msg, entitatID);
                     log.error(msg, new Exception(msg));
                     return null;
                 }
@@ -161,15 +169,15 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
                     if (isUpdate) {
                         if (!ue.isActiu()) {
                             String msg = "S'ha rebut una petició per actualitzar el càrrec amb ID " + usuariEntitatID
-                                    + " per assignarli l'usuari " + ue.getUsuariPersonaID()
+                                    + " per assignar-li l'usuari " + ue.getUsuariPersonaID()
                                     + ". S'ha actualitzat l'usuari però voliem informar que aquest càrrec està desactivat.";
-                            enviarCorreuAdmistradors(msg, entitatID);
+                            enviarCorreuAdmistradorsOpcional(getSubjectUpdadeUsers(), msg, entitatID);
                         }
                     } else {
                         if (isDelete) {
                             String msg = "S'ha rebut una petició per esborrar el càrrec amb ID " + usuariEntitatID
                                     + ". S'ha pogut desactivar però queda pendent esborrar-ho de PortaFIB. ";
-                            enviarCorreuAdmistradors(msg, entitatID);
+                            enviarCorreuAdmistradorsOpcional(getSubjectUpdadeUsers(), msg, entitatID);
                         }
                     }
                     return ue;
@@ -192,7 +200,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
                                 + usuariEntitatID + ".";
                     }
 
-                    enviarCorreuAdmistradors(msg, entitatID);
+                    enviarCorreuAdmistradorsRequerit(getSubjectUpdadeUsers(), msg, entitatID);
                     log.error(msg, new Exception(msg));
 
                     return null;
@@ -203,7 +211,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
             // Enviar correu a admin
             String msg = "No existeix el tipus ]" + tipus + "[ pel seu processament dins processarCarrecCAIB(" + codusu
                     + ", " + nomrol + ", " + valordomini + ", " + agentsql + ", " + nom + ")";
-            enviarCorreuAdmistradors(msg, entitatID);
+            enviarCorreuAdmistradorsRequerit(getSubjectUpdadeUsers(), msg, entitatID);
             log.error(msg, new Exception(msg));
 
         } catch (Throwable th) {
@@ -250,17 +258,53 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
         return firmesEnBlocsActius;
     }
 
-    public List<String> enviarCorreuAdmistradors(String message, String entitatID) throws I18NException {
-        return enviarCorreuAdmistradors("PORTAFIB: Actualització de Càrrecs/Usuaris requereix la seva actuació",
-                message, entitatID);
+    protected String getSubjectUpdadeUsers() {
+        return "PORTAFIB: Actualització de Càrrecs/Usuaris requereix la seva actuació";
     }
+    
+    
 
     @Override
-    public List<String> enviarCorreuAdmistradors(String subject, String message, String entitatID)
+    public List<String> enviarCorreuAdmistradorsOpcional(String subject, String message, String entitatID)
             throws I18NException {
+        final boolean requerit = false;
+        return enviarCorreuAdmistradors(subject, message, entitatID, requerit);
+    }
+    @Override
+    public List<String> enviarCorreuAdmistradorsRequerit(String subject, String message, String entitatID)
+            throws I18NException {
+        final boolean requerit = true;
+        return enviarCorreuAdmistradors(subject, message, entitatID, requerit);
+    }
+        
+        
+    protected List<String> enviarCorreuAdmistradors(String subject, String message, String entitatID, boolean requerit)
+                throws I18NException {
 
-        List<String> recipientsList = usuariEntitatNonSecureLogicaEjb
+        Map<String, String> emailsByUsuariEntitatID = usuariEntitatNonSecureLogicaEjb
                 .getEmailsOfAdministradorsEntitatByEntitat(entitatID);
+        
+        Collection<String> recipientsList;
+        if (requerit) {
+            recipientsList = emailsByUsuariEntitatID.values();
+        } else {
+            // Enviar correu a administradors de l'entitat només si tenen el RebreAvis de INCIDENCIES_ADMINISTRADOR activa
+            Set<String> usuarisEntitatIDs = emailsByUsuariEntitatID.keySet();
+            List<String> usuarisAmbNotificacio = rebreAvisLogicaEjb.executeQuery(RebreAvisFields.USUARIENTITATID, 
+                    Where.AND(RebreAvisFields.USUARIENTITATID.in(usuarisEntitatIDs),
+                    RebreAvisFields.TIPUSNOTIFICACIOID.equal(ConstantsV2.NOTIFICACIOAVIS_INCIDENCIES_ADMINISTRADOR)));
+            List<String> emailsList = new ArrayList<String>();
+            for (String ueID : usuarisEntitatIDs) {
+                if (usuarisAmbNotificacio.contains(ueID)) {
+                    // Si l'usuari té el tipus de notificació activat, l'afegim a la llista
+                    emailsList.add(emailsByUsuariEntitatID.get(ueID));
+                }
+            }
+            recipientsList = emailsList;
+        }
+
+        // Netejam duplicats
+        recipientsList = new HashSet<String>(recipientsList);
 
         if (log.isDebugEnabled()) {
             log.info("Enviarà correu a " + recipientsList + " amb el missatge: " + message);
@@ -277,7 +321,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
             }
         }
 
-        return recipientsList;
+        return new ArrayList<String>(recipientsList);
     }
 
     @Override
@@ -296,7 +340,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
             if ("insert".equals(tipus.trim())) {
 
                 if (ue != null) {
-                    // Usuari-Entitat ja existeix: Només l'hen d'activar si no està actiu
+                    // Usuari-Entitat ja existeix: Només l'he, d'activar si no està actiu
                     if (!ue.isActiu()) {
                         final boolean usuariEntitatActiu = PropietatGlobalUtil
                                 .isActiveUsuariEntitatAfterAgentSeyconCreation();
@@ -310,16 +354,18 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
                             } catch (I18NException i18ne) {
                                 String msg = "Error desconegut activant usuari entitat " + ue.getUsuariEntitatID()
                                         + ": " + I18NLogicUtils.getMessage(i18ne, locale);
-                                enviarCorreuAdmistradors(msg, entitatID);
+                                enviarCorreuAdmistradorsRequerit(getSubjectUpdadeUsers(), msg, entitatID);
                                 log.error(msg, i18ne);
                             }
                         }
 
-                        enviarCorreuAdmistradors("S'ha rebut una petició via AgentSQL(" + agentsql + ") per donar"
-                                + " d'alta (insert) l'usuari " + codusu + " dins l'entitat " + entitatID
-                                + ", però aquest usuari-entitat " + ue.getUsuariEntitatID()
-                                + " no està actiu. Accedeixi a la Gestió d'Usuaris-Entitat"
-                                + " per revisar les dades i activar-ho", entitatID);
+                        enviarCorreuAdmistradorsRequerit(getSubjectUpdadeUsers(),
+                                "S'ha rebut una petició via AgentSQL(" + agentsql + ") per donar"
+                                        + " d'alta (insert) l'usuari " + codusu + " dins l'entitat " + entitatID
+                                        + ", però aquest usuari-entitat " + ue.getUsuariEntitatID()
+                                        + " no està actiu. Accedeixi a la Gestió d'Usuaris-Entitat"
+                                        + " per revisar les dades i activar-ho",
+                                entitatID);
                     }
                     return ue;
                 } else {
@@ -356,7 +402,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
                                     + " d'alta (insert) l'usuari " + codusu + ", però hi ha hagut un error"
                                     + " consultant la informació al UserInformationPlugin: "
                                     + I18NLogicUtils.getMessage(i18ne, locale);
-                            enviarCorreuAdmistradors(msg, entitatID);
+                            enviarCorreuAdmistradorsRequerit(getSubjectUpdadeUsers(), msg, entitatID);
                             log.error(msg, i18ne);
                             return null;
                         }
@@ -391,14 +437,14 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
 
                     if (usuariEntitatActiu) {
                         // XYZ ZZZ Fer propietat per enviar sempre missatge.
-                        enviarCorreuAdmistradors(msgBase
+                        enviarCorreuAdmistradorsOpcional(getSubjectUpdadeUsers(), msgBase
                                 + "\n L´usuari-entitat JA està actiu, però si troba que alguna dada no està correcte,"
                                 + " llavors accedeixi a la Gestió d'Usuaris-Entitat per modificar la informació errònia.",
                                 entitatID);
 
                     } else {
 
-                        enviarCorreuAdmistradors(msgBase
+                        enviarCorreuAdmistradorsOpcional(getSubjectUpdadeUsers(), msgBase
                                 + "\n L´usuari-entitat NO està actiu, per això seria necessari accedir a la Gestió d'Usuaris-Entitat"
                                 + " per revisar les dades i activar-ho.", entitatID);
                     }
@@ -415,7 +461,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
                     String msg = "\nS'esta intentant desactivar una persona " + codusu + " a través d'un AgentSQL("
                             + agentsql + "), però aquesta"
                             + " persona no existeix com a usuari-entitat dins de l'entitat " + entitatID;
-                    enviarCorreuAdmistradors(msg, entitatID);
+                    enviarCorreuAdmistradorsOpcional(getSubjectUpdadeUsers(), msg, entitatID);
                     log.error(msg, new Exception(msg));
                     return null;
                 } else {
@@ -430,7 +476,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
                                 + " ja que existeix una o varies firmes actives pendents de signar" + " (Firma/es  "
                                 + firmesEnBlocsActius + ")\n"
                                 + "Manualment ha d'aplicar la desactivació a l'Usuari-Entitat " + usuariEntitatID + ".";
-                        enviarCorreuAdmistradors(msg, entitatID);
+                        enviarCorreuAdmistradorsRequerit(getSubjectUpdadeUsers(), msg, entitatID);
                         log.error(msg, new Exception(msg));
                         return null;
                     }
@@ -440,7 +486,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
             // Enviar correu a admin
             String msg = "No existeix el tipus ]" + tipus + "[ pel seu processament dins processarUsuariCAIB(" + codusu
                     + ", " + agentsql + ")";
-            enviarCorreuAdmistradors(msg, entitatID);
+            enviarCorreuAdmistradorsRequerit(getSubjectUpdadeUsers(), msg, entitatID);
             log.error(msg, new Exception(msg));
 
         } catch (Throwable th) {
@@ -465,7 +511,8 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
 
         // Enviar correu a admin
         try {
-            enviarCorreuAdmistradors(msg, entitatID);
+            enviarCorreuAdmistradorsRequerit("ERROR processant la modificació d'un usuari/carrec des de PortaFIB", msg,
+                    entitatID);
         } catch (Throwable th2) {
             log.error(th.getMessage(), th2);
         }

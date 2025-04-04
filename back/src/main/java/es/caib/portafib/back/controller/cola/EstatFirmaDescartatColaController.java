@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -14,20 +15,14 @@ import es.caib.portafib.utils.ConstantsV2;
  *
  */
 @Controller
-@RequestMapping(value = ConstantsV2.CONTEXT_COLA_ESTATFIRMA_DESCARTAT )
+@RequestMapping(value = ConstantsV2.CONTEXT_COLA_ESTATFIRMA_DESCARTAT)
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
-@MenuOption(
-        group = ConstantsV2.ROLE_COLA,
-        labelCode = "colaboracio.ignorada.plural",
-        order = 40)
+@MenuOption(group = Constants.ROLE_COLA, labelCode = "colaboracio.ignorada.plural", order = 40)
 public class EstatFirmaDescartatColaController extends EstatFirmaAbstractColaController {
 
-  
-
-  @Override
-  public int getFilterType() {
-    return FILTRAR_PER_NODEFINIT;
-  }
-
+    @Override
+    public int getFilterType() {
+        return FILTRAR_PER_NODEFINIT;
+    }
 
 }

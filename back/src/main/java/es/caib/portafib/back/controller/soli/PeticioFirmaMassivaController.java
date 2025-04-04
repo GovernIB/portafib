@@ -2,6 +2,7 @@ package es.caib.portafib.back.controller.soli;
 
 import es.caib.portafib.back.form.soli.PeticioFirmaMassivaForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.FitxerJPA;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
@@ -46,210 +47,209 @@ import java.util.List;
 @SessionAttributes(types = { PeticioFirmaMassivaForm.class })
 @RequestMapping(value = PeticioFirmaMassivaController.CONTEXTWEB)
 @MenuOption(
-        group = ConstantsV2.ROLE_SOLI,
+        group = Constants.ROLE_SOLI,
         labelCode = "peticioFirmaMassiva.titol",
         baseLink = PeticioFirmaMassivaController.CONTEXTWEB,
         relativeLink = "",
         order = 20)
 public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
 
-  protected static final Logger log = Logger.getLogger(PeticioFirmaMassivaController.class);
+    protected static final Logger log = Logger.getLogger(PeticioFirmaMassivaController.class);
 
-  public static final String CONTEXTWEB = "/soli/peticiomassiva";
+    public static final String CONTEXTWEB = "/soli/peticiomassiva";
 
-  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
-  protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
+    @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
+    protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
 
-  @RequestMapping(value = "", method = RequestMethod.GET)
-  public ModelAndView peticioMassivaGet(HttpServletRequest request) throws I18NException {
-    ModelAndView mav = new ModelAndView(getTile());
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ModelAndView peticioMassivaGet(HttpServletRequest request) throws I18NException {
+        ModelAndView mav = new ModelAndView(getTile());
 
-    LoginInfo loginInfo = LoginInfo.getInstance();
+        LoginInfo loginInfo = LoginInfo.getInstance();
 
-    PeticioFirmaMassivaForm form = new PeticioFirmaMassivaForm();
+        PeticioFirmaMassivaForm form = new PeticioFirmaMassivaForm();
 
-    SelectMultipleStringKeyValue smskv;
-    smskv = new SelectMultipleStringKeyValue(PETICIODEFIRMAID.select, TITOL.select);
+        SelectMultipleStringKeyValue smskv;
+        smskv = new SelectMultipleStringKeyValue(PETICIODEFIRMAID.select, TITOL.select);
 
-    Where where = Where.AND(SOLICITANTUSUARIENTITAT1ID.equal(loginInfo.getUsuariEntitatID()),
-        TIPUSESTATPETICIODEFIRMAID.equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT));
+        Where where = Where.AND(SOLICITANTUSUARIENTITAT1ID.equal(loginInfo.getUsuariEntitatID()),
+                TIPUSESTATPETICIODEFIRMAID.equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT));
 
-    List<StringKeyValue> peticionsBase = peticioDeFirmaLogicaEjb.executeQuery(smskv, where);
+        List<StringKeyValue> peticionsBase = peticioDeFirmaLogicaEjb.executeQuery(smskv, where);
 
-    form.setPeticionsDeFirmesBase(peticionsBase);
+        form.setPeticionsDeFirmesBase(peticionsBase);
 
-    mav.addObject(form);
+        mav.addObject(form);
 
-    return mav;
-  }
-
-  public String getTile() {
-    return "peticioFirmaMassivaForm";
-  }
-
-  @RequestMapping(value = "", method = RequestMethod.POST)
-  public String peticioMassivaPost(PeticioFirmaMassivaForm peticioFirmaMassivaForm,
-      BindingResult result, HttpServletRequest request) {
-
-    List<MultipartFile> files = peticioFirmaMassivaForm.getFiles();
-
-
-    final boolean isDebug = log.isDebugEnabled();
-    if (isDebug) {
-      log.debug(" FILES = " + files);
+        return mav;
     }
-    if (files == null || files.size() == 0) {
-      result.rejectValue("files", "genapp.validation.required", " ");
-    } else {
-      if (isDebug) {
-        log.debug(" FILES.size() = " + files.size());
-      }
-      // CAS raro quan no s'envia cap fitxer diu que n'hi ha un
-      if (files.size() == 1 && "files".equals(files.get(0).getName()) && files.get(0).getSize() == 0) {
-        result.rejectValue("files", "genapp.validation.required", new Object[] { " " }, null);
-      } else {
+
+    public String getTile() {
+        return "peticioFirmaMassivaForm";
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public String peticioMassivaPost(PeticioFirmaMassivaForm peticioFirmaMassivaForm, BindingResult result,
+            HttpServletRequest request) {
+
+        List<MultipartFile> files = peticioFirmaMassivaForm.getFiles();
+
+        final boolean isDebug = log.isDebugEnabled();
         if (isDebug) {
-          for (MultipartFile arxiuPujat : files) {
-            log.debug(" Nom arxiu = " + arxiuPujat.getOriginalFilename());
-            log.debug(" Tamany = " + arxiuPujat.getSize());
-            log.debug(" NAME = " + arxiuPujat.getName());
-          }
+            log.debug(" FILES = " + files);
         }
-      }
-    }
-
-    Long peticioDeFirmaID = peticioFirmaMassivaForm.getPeticioDeFirmaID();
-    if (peticioDeFirmaID == null) {
-      result.rejectValue("peticioDeFirmaID", "genapp.validation.required", new Object[] { " " }, null);
-    }
-
-    String titolPeticio = peticioFirmaMassivaForm.getTitolPeticio();
-    if (titolPeticio == null || titolPeticio.trim().length() == 0) {
-      result.rejectValue("titolPeticio", "genapp.validation.required",new Object[] { " " }, null);
-    }
-
-    String descripcio = peticioFirmaMassivaForm.getDescripcio();
-    if (descripcio == null || descripcio.trim().length() == 0) {
-      result.rejectValue("descripcio", "genapp.validation.required", new Object[] { " " }, null);
-    }
-
-    String motiu = peticioFirmaMassivaForm.getMotiu();
-    if (motiu == null || motiu.trim().length() == 0) {
-      result.rejectValue("motiu", "genapp.validation.required", new Object[] { " " }, null);
-    }
-
-    if (result.hasErrors()) {
-      return getTile();
-    }
-
-    titolPeticio = titolPeticio.trim();
-
-    int count = 0;
-    final int total = files.size();
-    int countOK = 0;
-    int countError = 0;
-    
-    String username = LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID();
-    EntitatJPA entitatJPA = LoginInfo.getInstance().getEntitat();
-    
-    for (MultipartFile arxiuPujat : files) {
-      
-      PeticioDeFirmaJPA peticio = null;
-      try {
-
-        FitxerJPA arxiuActual = new FitxerJPA();
-        // Valors temporals
-        String fileName = arxiuPujat.getOriginalFilename();
-        arxiuActual.setNom(fileName);
-        arxiuActual.setMime(ConstantsV2.MIME_TYPE_BINARY);
-        arxiuActual.setMime(Utils.getMimeType(arxiuPujat.getOriginalFilename()));
-        arxiuActual.setTamany(arxiuPujat.getSize());
-
-        arxiuActual.setData(new DataHandler(new MultipartFileDataSource(arxiuPujat)));
-
-        String counter = (total - count) + "/" + total;
-        
-        String t = MessageFormat.format(titolPeticio, counter, fileName);
-        String d = MessageFormat.format(descripcio, counter, fileName);
-        String m = MessageFormat.format(motiu, counter, fileName);
-        
-        count++;
-        // TODO Moure a lògica en un sol mètode cloneAndStart
-        peticio = peticioDeFirmaLogicaEjb.clonePeticioDeFirma(peticioDeFirmaID,
-            entitatJPA, t, d, m, arxiuActual);
-
-        peticioDeFirmaLogicaEjb.start(peticio.getPeticioDeFirmaID(), false, username);
-
-        countOK++;
-
-      } catch (Throwable th) {
-
-        String msg;
-        if (th instanceof I18NException) {
-          msg = I18NUtils.getMessage((I18NException) th);
+        if (files == null || files.size() == 0) {
+            result.rejectValue("files", "genapp.validation.required", " ");
         } else {
-          msg = th.getMessage();
+            if (isDebug) {
+                log.debug(" FILES.size() = " + files.size());
+            }
+            // CAS raro quan no s'envia cap fitxer diu que n'hi ha un
+            if (files.size() == 1 && "files".equals(files.get(0).getName()) && files.get(0).getSize() == 0) {
+                result.rejectValue("files", "genapp.validation.required", new Object[] { " " }, null);
+            } else {
+                if (isDebug) {
+                    for (MultipartFile arxiuPujat : files) {
+                        log.debug(" Nom arxiu = " + arxiuPujat.getOriginalFilename());
+                        log.debug(" Tamany = " + arxiuPujat.getSize());
+                        log.debug(" NAME = " + arxiuPujat.getName());
+                    }
+                }
+            }
         }
 
-        log.error("Error creant una Peticio de Forma Massiva: " + msg, th);
+        Long peticioDeFirmaID = peticioFirmaMassivaForm.getPeticioDeFirmaID();
+        if (peticioDeFirmaID == null) {
+            result.rejectValue("peticioDeFirmaID", "genapp.validation.required", new Object[] { " " }, null);
+        }
 
-        countError++;
-      }
+        String titolPeticio = peticioFirmaMassivaForm.getTitolPeticio();
+        if (titolPeticio == null || titolPeticio.trim().length() == 0) {
+            result.rejectValue("titolPeticio", "genapp.validation.required", new Object[] { " " }, null);
+        }
+
+        String descripcio = peticioFirmaMassivaForm.getDescripcio();
+        if (descripcio == null || descripcio.trim().length() == 0) {
+            result.rejectValue("descripcio", "genapp.validation.required", new Object[] { " " }, null);
+        }
+
+        String motiu = peticioFirmaMassivaForm.getMotiu();
+        if (motiu == null || motiu.trim().length() == 0) {
+            result.rejectValue("motiu", "genapp.validation.required", new Object[] { " " }, null);
+        }
+
+        if (result.hasErrors()) {
+            return getTile();
+        }
+
+        titolPeticio = titolPeticio.trim();
+
+        int count = 0;
+        final int total = files.size();
+        int countOK = 0;
+        int countError = 0;
+
+        String username = LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID();
+        EntitatJPA entitatJPA = LoginInfo.getInstance().getEntitat();
+
+        for (MultipartFile arxiuPujat : files) {
+
+            PeticioDeFirmaJPA peticio = null;
+            try {
+
+                FitxerJPA arxiuActual = new FitxerJPA();
+                // Valors temporals
+                String fileName = arxiuPujat.getOriginalFilename();
+                arxiuActual.setNom(fileName);
+                arxiuActual.setMime(ConstantsV2.MIME_TYPE_BINARY);
+                arxiuActual.setMime(Utils.getMimeType(arxiuPujat.getOriginalFilename()));
+                arxiuActual.setTamany(arxiuPujat.getSize());
+
+                arxiuActual.setData(new DataHandler(new MultipartFileDataSource(arxiuPujat)));
+
+                String counter = (total - count) + "/" + total;
+
+                String t = MessageFormat.format(titolPeticio, counter, fileName);
+                String d = MessageFormat.format(descripcio, counter, fileName);
+                String m = MessageFormat.format(motiu, counter, fileName);
+
+                count++;
+                // TODO Moure a lògica en un sol mètode cloneAndStart
+                peticio = peticioDeFirmaLogicaEjb.clonePeticioDeFirma(peticioDeFirmaID, entitatJPA, t, d, m,
+                        arxiuActual);
+
+                peticioDeFirmaLogicaEjb.start(peticio.getPeticioDeFirmaID(), false, username);
+
+                countOK++;
+
+            } catch (Throwable th) {
+
+                String msg;
+                if (th instanceof I18NException) {
+                    msg = I18NUtils.getMessage((I18NException) th);
+                } else {
+                    msg = th.getMessage();
+                }
+
+                log.error("Error creant una Peticio de Forma Massiva: " + msg, th);
+
+                countError++;
+            }
+
+        }
+
+        if (countOK != 0) {
+            // Creades {0} peticions massives correctament.
+            HtmlUtils.saveMessageSuccess(request,
+                    I18NUtils.tradueix("peticioFirmaMassiva.success", String.valueOf(countOK)));
+        }
+        if (countError != 0) {
+            // No s´han pogut crear de forma massiva {0} peticions.
+            HtmlUtils.saveMessageError(request,
+                    I18NUtils.tradueix("peticioFirmaMassiva.error", String.valueOf(countError)));
+        }
+
+        request.getSession().setAttribute(PeticioDeFirmaActivaSoliController.FILTER_BY_TITOL_KEY,
+                MessageFormat.format(titolPeticio, "%", "%"));
+
+        return "redirect:" + ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list/1";
 
     }
 
-    if (countOK != 0) {
-      // Creades {0} peticions massives correctament.
-      HtmlUtils.saveMessageSuccess(request,
-          I18NUtils.tradueix("peticioFirmaMassiva.success", String.valueOf(countOK)));
+    public class MultipartFileDataSource implements DataSource {
+
+        final MultipartFile multipart;
+
+        /**
+         * @param multipart
+         */
+        public MultipartFileDataSource(MultipartFile multipart) {
+            super();
+            this.multipart = multipart;
+        }
+
+        @Override
+        public String getContentType() {
+            return multipart.getContentType();
+        }
+
+        @Override
+        public InputStream getInputStream() throws IOException {
+            // TODO Auto-generated method stub
+            return new ByteArrayInputStream(multipart.getBytes());
+        }
+
+        @Override
+        public String getName() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public OutputStream getOutputStream() throws IOException {
+            throw new UnsupportedOperationException("Not implemented");
+        }
+
     }
-    if (countError != 0) {
-      // No s´han pogut crear de forma massiva {0} peticions.
-      HtmlUtils.saveMessageError(request,
-          I18NUtils.tradueix("peticioFirmaMassiva.error", String.valueOf(countError)));
-    }
-
-    request.getSession().setAttribute(PeticioDeFirmaActivaSoliController.FILTER_BY_TITOL_KEY,
-        MessageFormat.format(titolPeticio, "%", "%"));
-
-    return "redirect:" + ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list/1";
-
-  }
-
-  public class MultipartFileDataSource implements DataSource {
-
-    final MultipartFile multipart;
-
-    /**
-     * @param multipart
-     */
-    public MultipartFileDataSource(MultipartFile multipart) {
-      super();
-      this.multipart = multipart;
-    }
-
-    @Override
-    public String getContentType() {
-      return multipart.getContentType();
-    }
-
-    @Override
-    public InputStream getInputStream() throws IOException {
-      // TODO Auto-generated method stub
-      return new ByteArrayInputStream(multipart.getBytes());
-    }
-
-    @Override
-    public String getName() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-
-    @Override
-    public OutputStream getOutputStream() throws IOException {
-      throw new UnsupportedOperationException("Not implemented");
-    }
-
-  }
 
 }

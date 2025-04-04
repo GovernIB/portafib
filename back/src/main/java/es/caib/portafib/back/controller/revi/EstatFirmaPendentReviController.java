@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -18,7 +19,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
 
 @MenuOption(
-        group = ConstantsV2.ROLE_REVI,
+        group = Constants.ROLE_REVI,
         labelCode = "revisor.pendent.plural",
         order = 10)
 public class EstatFirmaPendentReviController extends EstatFirmaAbstractReviController {

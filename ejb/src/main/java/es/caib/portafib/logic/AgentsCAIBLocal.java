@@ -23,6 +23,11 @@ public interface AgentsCAIBLocal {
 
     public UsuariEntitat processarUsuariCAIB(String tipus, String codusu, String agentsql, String password);
 
-    public List<String> enviarCorreuAdmistradors(String subject, String message, String entitatID) throws I18NException;
+    public List<String> enviarCorreuAdmistradorsOpcional(String subject, String message, String entitatID)
+            throws I18NException;
+
+
+    public List<String> enviarCorreuAdmistradorsRequerit(String subject, String message, String entitatID)
+            throws I18NException;
 
 }

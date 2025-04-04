@@ -4,8 +4,10 @@ import es.caib.portafib.back.controller.webdb.RebreAvisController;
 import es.caib.portafib.back.form.webdb.RebreAvisFilterForm;
 import es.caib.portafib.back.form.webdb.RebreAvisForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.RebreAvisJPA;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.RebreAvisLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.model.entity.RebreAvis;
@@ -41,169 +43,179 @@ import java.util.Map;
 @RequestMapping(value = "/common/rebreAvis")
 public class GestioNotificacioCorreuController extends RebreAvisController {
 
-  @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
-  protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
+    @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
+    protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-  @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
-  protected RebreAvisLogicaLocal rebreAvisLogicaEjb;
+    @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
+    protected RebreAvisLogicaLocal rebreAvisLogicaEjb;
 
-  @Override
-  public String getTileForm() {
-    return "rebreAvisForm";
-  }
-
-  @Override
-  public String getTileList() {
-    return "rebreAvisList";
-  }
-
-  @Override
-  public RebreAvisForm getRebreAvisForm(RebreAvisJPA _jpa, boolean __isView,
-      HttpServletRequest request, ModelAndView mav) throws I18NException {
-    RebreAvisForm rebreAvisForm = super.getRebreAvisForm(_jpa, __isView, request, mav);
-
-    String ueID = LoginInfo.getInstance().getUsuariEntitatID();
-    if (rebreAvisForm.isNou()) {
-
-      teConfiguratNotificacions(request, ueID);
-      rebreAvisForm.getRebreAvis().setUsuariEntitatID(ueID);
-    } else {  
-      rebreAvisForm.addReadOnlyField(TIPUSNOTIFICACIOID);
-    }
-    
-    rebreAvisForm.addLabel(TIPUSNOTIFICACIOID, "notificaciocorreu");
-    rebreAvisForm.addHiddenField(USUARIENTITATID);
-
-
-    return rebreAvisForm;
-  }
-
-  @Override
-  public RebreAvisFilterForm getRebreAvisFilterForm(Integer pagina, ModelAndView mav,
-      HttpServletRequest request) throws I18NException {
-
-    RebreAvisFilterForm filterForm = super.getRebreAvisFilterForm(pagina, mav, request);
-    String ueID = LoginInfo.getInstance().getUsuariEntitatID();
-    // S'ha creat de nou (no s'ha llegit de cache)
-    if (filterForm.isNou()) {
-      teConfiguratNotificacions(request, ueID);
-      filterForm.addHiddenField(ID);
-      filterForm.addHiddenField(USUARIENTITATID);
-      
-      filterForm.addLabel(TIPUSNOTIFICACIOID, "notificaciocorreu");    
-    }
-    return filterForm;
-  }
-  
-
-  /**
-   * Llistat de Avisos pel formulari: Hem de llevar els tipus d'avis que ja té
-   */
-  @Override
-  public List<StringKeyValue> getReferenceListForTipusNotificacioID(
-      HttpServletRequest request, ModelAndView mav, RebreAvisForm rebreAvisForm, Where _w)
-      throws I18NException {
-
-    Where where;
-    if (rebreAvisForm.isNou()) {
-    
-      LoginInfo loginInfo = LoginInfo.getInstance();
-      final String ueID = loginInfo.getUsuariEntitatID();
-  
-      SubQuery<RebreAvis, Long> subQuery = rebreAvisEjb.getSubQuery(
-          RebreAvisFields.TIPUSNOTIFICACIOID, RebreAvisFields.USUARIENTITATID.equal(ueID));
-  
-      where = Where.AND(
-          TipusNotificacioFields.TIPUSNOTIFICACIOID.notIn(subQuery),
-          Where.OR(TipusNotificacioFields.ESAVIS.isNull(),
-              TipusNotificacioFields.ESAVIS.equal(true)));
-      
-    } else {
-      where = _w;
+    @Override
+    public String getTileForm() {
+        return "rebreAvisForm";
     }
 
-    return getReferenceListForTipusNotificacioID(request, mav, where);
-  }
-
-  /**
-   * Tipus d'Avisos pel llistat: Només cercar les traduccions pels tipus d'avis
-   * que ja té
-   */
-  @Override
-  public List<StringKeyValue> getReferenceListForTipusNotificacioID(
-      HttpServletRequest request, ModelAndView mav, RebreAvisFilterForm rebreAvisFilterForm,
-      List<RebreAvis> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where _w)
-      throws I18NException {
-
-    LoginInfo loginInfo = LoginInfo.getInstance();
-    final String ueID = loginInfo.getUsuariEntitatID();
-    if (log.isDebugEnabled()) {
-      log.info("getReferenceListForTipusNotificacioID => " + ueID);
+    @Override
+    public String getTileList() {
+        return "rebreAvisList";
     }
 
-    SubQuery<RebreAvis, Long> subQuery = rebreAvisEjb.getSubQuery(
-        RebreAvisFields.TIPUSNOTIFICACIOID, RebreAvisFields.USUARIENTITATID.equal(ueID));
+    @Override
+    public RebreAvisForm getRebreAvisForm(RebreAvisJPA _jpa, boolean __isView, HttpServletRequest request,
+            ModelAndView mav) throws I18NException {
+        RebreAvisForm rebreAvisForm = super.getRebreAvisForm(_jpa, __isView, request, mav);
 
-    Where where = TipusNotificacioFields.TIPUSNOTIFICACIOID.in(subQuery);
+        String ueID = LoginInfo.getInstance().getUsuariEntitatID();
+        if (rebreAvisForm.isNou()) {
 
-    return getReferenceListForTipusNotificacioID(request, mav, where);
-  }
+            teConfiguratNotificacions(request, ueID);
+            rebreAvisForm.getRebreAvis().setUsuariEntitatID(ueID);
+        } else {
+            rebreAvisForm.addReadOnlyField(TIPUSNOTIFICACIOID);
+        }
 
-  
-  @Override
-  public String getSessionAttributeFilterForm() {
-    return "RebreAvis_FilterForm_Common";
-  }
-  
-  @Override
-  public String getEntityNameCode() {
-    return "notificaciocorreu";
-  }
-  
-  @Override
-  public String getEntityNameCodePlural() {
-    return "notificaciocorreu.plural";
-  }
-  
-  @Override
-  public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-    return USUARIENTITATID.equal(LoginInfo.getInstance().getUsuariEntitatID());
-  }
+        rebreAvisForm.addLabel(TIPUSNOTIFICACIOID, "notificaciocorreu");
+        rebreAvisForm.addHiddenField(USUARIENTITATID);
 
-  /**
-   * LLançam un avis si l'usuariEntitat te marcat rebre totes les notificacions
-   * que ja té
-   */
-  private void teConfiguratNotificacions(HttpServletRequest request, String  ueID) {
-     UsuariEntitatJPA usuariEntitatJPA = usuariEntitatLogicaEjb.findByPrimaryKey(ueID);
-     if(usuariEntitatJPA.isRebreTotsElsAvisos()){
-        HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("notificaciocorreu.avis"));
-     }
-  }
+        return rebreAvisForm;
+    }
 
-  /**
-   * Sobreescrivim per seguretat. Evitam que es carregui un avís que no és de l'usuari en qüestío, i per
-   * tant no les podrà editar ni borrar si no són seus.
-   */
-  @Override
-  public RebreAvisJPA findByPrimaryKey(HttpServletRequest request, Long id) throws I18NException {
-    RebreAvisJPA rebreAvis = rebreAvisLogicaEjb.findByPrimaryKey(id);;
-    String ueID = LoginInfo.getInstance().getUsuariEntitatID();
-    return rebreAvis.getUsuariEntitatID().equals(ueID) ? rebreAvis : null;
-  }
+    @Override
+    public RebreAvisFilterForm getRebreAvisFilterForm(Integer pagina, ModelAndView mav, HttpServletRequest request)
+            throws I18NException {
 
-  @Override
-  public RebreAvisJPA create(HttpServletRequest request, RebreAvisJPA rebreAvis) throws I18NException, I18NValidationException {
-    return (RebreAvisJPA) rebreAvisLogicaEjb.create(rebreAvis);
-  }
+        RebreAvisFilterForm filterForm = super.getRebreAvisFilterForm(pagina, mav, request);
+        String ueID = LoginInfo.getInstance().getUsuariEntitatID();
+        // S'ha creat de nou (no s'ha llegit de cache)
+        if (filterForm.isNou()) {
+            teConfiguratNotificacions(request, ueID);
+            filterForm.addHiddenField(ID);
+            filterForm.addHiddenField(USUARIENTITATID);
 
-  @Override
-  public RebreAvisJPA update(HttpServletRequest request, RebreAvisJPA rebreAvis) throws I18NException, I18NValidationException {
-    return (RebreAvisJPA) rebreAvisLogicaEjb.update(rebreAvis);
-  }
+            filterForm.addLabel(TIPUSNOTIFICACIOID, "notificaciocorreu");
+        }
+        return filterForm;
+    }
 
-  @Override
-  public void delete(HttpServletRequest request, RebreAvis rebreAvis) throws I18NException {
-    rebreAvisLogicaEjb.delete(rebreAvis);
-  }
+    /**
+     * Llistat de Avisos pel formulari: Hem de llevar els tipus d'avis que ja té
+     */
+    @Override
+    public List<StringKeyValue> getReferenceListForTipusNotificacioID(HttpServletRequest request, ModelAndView mav,
+            RebreAvisForm rebreAvisForm, Where _w) throws I18NException {
+
+        Where where;
+        if (rebreAvisForm.isNou()) {
+
+            LoginInfo loginInfo = LoginInfo.getInstance();
+            final String ueID = loginInfo.getUsuariEntitatID();
+
+            SubQuery<RebreAvis, Long> subQuery = rebreAvisEjb.getSubQuery(RebreAvisFields.TIPUSNOTIFICACIOID,
+                    RebreAvisFields.USUARIENTITATID.equal(ueID));
+
+            // Excloure els tipus que ja té
+            final Where w1 = TipusNotificacioFields.TIPUSNOTIFICACIOID.notIn(subQuery);
+            // Excloure els tipus que no son avisos
+            final Where w2 = Where.OR(TipusNotificacioFields.ESAVIS.isNull(), TipusNotificacioFields.ESAVIS.equal(true));
+            // Excloure els tipus INCIDENCIA_ADMINISTRADOR si no se es administrador
+            
+            final Where w3;
+            if (LoginInfo.getInstance().hasRole(Constants.ROLE_ADEN)) {
+                w3 = null;
+            } else {
+                w3 = TipusNotificacioFields.TIPUSNOTIFICACIOID.notEqual(ConstantsV2.NOTIFICACIOAVIS_INCIDENCIES_ADMINISTRADOR);
+            }
+            
+            where = Where.AND(w1,w2,w3);
+
+        } else {
+            where = _w;
+        }
+
+        return getReferenceListForTipusNotificacioID(request, mav, where);
+    }
+
+    /**
+     * Tipus d'Avisos pel llistat: Només cercar les traduccions pels tipus d'avis
+     * que ja té
+     */
+    @Override
+    public List<StringKeyValue> getReferenceListForTipusNotificacioID(HttpServletRequest request, ModelAndView mav,
+            RebreAvisFilterForm rebreAvisFilterForm, List<RebreAvis> list, Map<Field<?>, GroupByItem> _groupByItemsMap,
+            Where _w) throws I18NException {
+
+        LoginInfo loginInfo = LoginInfo.getInstance();
+        final String ueID = loginInfo.getUsuariEntitatID();
+        if (log.isDebugEnabled()) {
+            log.info("getReferenceListForTipusNotificacioID => " + ueID);
+        }
+
+        SubQuery<RebreAvis, Long> subQuery = rebreAvisEjb.getSubQuery(RebreAvisFields.TIPUSNOTIFICACIOID,
+                RebreAvisFields.USUARIENTITATID.equal(ueID));
+
+        Where where = TipusNotificacioFields.TIPUSNOTIFICACIOID.in(subQuery);
+
+        return getReferenceListForTipusNotificacioID(request, mav, where);
+    }
+
+    @Override
+    public String getSessionAttributeFilterForm() {
+        return "RebreAvis_FilterForm_Common";
+    }
+
+    @Override
+    public String getEntityNameCode() {
+        return "notificaciocorreu";
+    }
+
+    @Override
+    public String getEntityNameCodePlural() {
+        return "notificaciocorreu.plural";
+    }
+
+    @Override
+    public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
+        return USUARIENTITATID.equal(LoginInfo.getInstance().getUsuariEntitatID());
+    }
+
+    /**
+     * LLançam un avis si l'usuariEntitat te marcat rebre totes les notificacions
+     * que ja té
+     */
+    private void teConfiguratNotificacions(HttpServletRequest request, String ueID) {
+        UsuariEntitatJPA usuariEntitatJPA = usuariEntitatLogicaEjb.findByPrimaryKey(ueID);
+        if (usuariEntitatJPA.isRebreTotsElsAvisos()) {
+            HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("notificaciocorreu.avis"));
+        }
+    }
+
+    /**
+     * Sobreescrivim per seguretat. Evitam que es carregui un avís que no és de l'usuari en qüestío, i per
+     * tant no les podrà editar ni borrar si no són seus.
+     */
+    @Override
+    public RebreAvisJPA findByPrimaryKey(HttpServletRequest request, Long id) throws I18NException {
+        RebreAvisJPA rebreAvis = rebreAvisLogicaEjb.findByPrimaryKey(id);
+        String ueID = LoginInfo.getInstance().getUsuariEntitatID();
+        return rebreAvis.getUsuariEntitatID().equals(ueID) ? rebreAvis : null;
+    }
+
+    @Override
+    public RebreAvisJPA create(HttpServletRequest request, RebreAvisJPA rebreAvis)
+            throws I18NException, I18NValidationException {
+        if (rebreAvis.getTipusNotificacioID() == 100 && rebreAvis.isRebreAgrupat()) {
+            rebreAvis.setRebreAgrupat(false);
+        }
+        return (RebreAvisJPA) rebreAvisLogicaEjb.create(rebreAvis);
+    }
+
+    @Override
+    public RebreAvisJPA update(HttpServletRequest request, RebreAvisJPA rebreAvis)
+            throws I18NException, I18NValidationException {
+        return (RebreAvisJPA) rebreAvisLogicaEjb.update(rebreAvis);
+    }
+
+    @Override
+    public void delete(HttpServletRequest request, RebreAvis rebreAvis) throws I18NException {
+        rebreAvisLogicaEjb.delete(rebreAvis);
+    }
 }

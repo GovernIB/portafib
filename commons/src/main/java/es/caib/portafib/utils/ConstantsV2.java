@@ -150,6 +150,7 @@ public interface ConstantsV2 {
     public static final long NOTIFICACIOAVIS_PETICIO_REBUTJADA = 70;
     public static final long NOTIFICACIOAVIS_PETICIO_PAUSADA = 80;
     public static final long NOTIFICACIOAVIS_REQUERIT_PER_REVISAR = 90;
+    public static final long NOTIFICACIOAVIS_INCIDENCIES_ADMINISTRADOR = 100;
 
     // TIPUS PLUGINS
     // NOTA: Es un combo box del camp tipus de la taula PLugin (cridar el genapp per afegir valors)

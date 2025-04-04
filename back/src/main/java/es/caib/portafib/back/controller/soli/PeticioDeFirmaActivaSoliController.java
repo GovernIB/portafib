@@ -22,6 +22,7 @@ import es.caib.portafib.back.form.webdb.AnnexFilterForm;
 import es.caib.portafib.back.form.webdb.AnnexForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
@@ -35,160 +36,154 @@ import es.caib.portafib.utils.ConstantsV2;
  */
 @Controller
 @RequestMapping(value = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA)
-@SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class,
-    PeticioDeFirmaFilterForm.class, AnnexFilterForm.class, AnnexForm.class })
+@SessionAttributes(
+        types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class,
+                AnnexFilterForm.class, AnnexForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_SOLI,
+        group = Constants.ROLE_SOLI,
         labelCode = "peticiodefirma.crear",
         baseLink = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/selectflux",
         relativeLink = "",
         order = 10)
 public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliController {
-  
-  public static final String FILTER_BY_TITOL_KEY = "filterbytitol";
-  
-  @EJB(mappedName = PropietatGlobalLogicaLocal.JNDI_NAME)
-  protected PropietatGlobalLogicaLocal propietatEjb;
 
-  @Override
-  public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-    Where pare = super.getAdditionalCondition(request);
-    
-    Where enprogres_pausades_noiniciades = Where.OR( 
-       TIPUSESTATPETICIODEFIRMAID.equal(TIPUSESTATPETICIODEFIRMA_ENPROCES),
-       TIPUSESTATPETICIODEFIRMAID.equal(TIPUSESTATPETICIODEFIRMA_PAUSAT),
-       TIPUSESTATPETICIODEFIRMAID.equal(TIPUSESTATPETICIODEFIRMA_NOINICIAT));
-    
-    
-    Where fill;
-    // Seleccionar les peticions actives més les que tenen avis web a true
-    fill = Where.OR(enprogres_pausades_noiniciades,
-        AVISWEB.equal(true));
-    return Where.AND(pare, fill);
+    public static final String FILTER_BY_TITOL_KEY = "filterbytitol";
 
-  }
+    @EJB(mappedName = PropietatGlobalLogicaLocal.JNDI_NAME)
+    protected PropietatGlobalLogicaLocal propietatEjb;
 
+    @Override
+    public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
+        Where pare = super.getAdditionalCondition(request);
 
-  @Override
-  public final String getEntityNameCode() {
-    return "peticiodefirma.activa";
-  }
-  
-  @Override
-  public PeticioDeFirmaFilterForm getPeticioDeFirmaFilterForm(Integer pagina,
-      ModelAndView mav, HttpServletRequest request) throws I18NException {
+        Where enprogres_pausades_noiniciades = Where.OR(
+                TIPUSESTATPETICIODEFIRMAID.equal(TIPUSESTATPETICIODEFIRMA_ENPROCES),
+                TIPUSESTATPETICIODEFIRMAID.equal(TIPUSESTATPETICIODEFIRMA_PAUSAT),
+                TIPUSESTATPETICIODEFIRMAID.equal(TIPUSESTATPETICIODEFIRMA_NOINICIAT));
 
-    PeticioDeFirmaFilterForm peticioDeFirmaFilterForm;
-    peticioDeFirmaFilterForm = super.getPeticioDeFirmaFilterForm(pagina, mav, request);
+        Where fill;
+        // Seleccionar les peticions actives més les que tenen avis web a true
+        fill = Where.OR(enprogres_pausades_noiniciades, AVISWEB.equal(true));
+        return Where.AND(pare, fill);
 
-    if (peticioDeFirmaFilterForm.isNou()) {
-      peticioDeFirmaFilterForm.setSubTitleCode("peticiodefirma.activa.desc");
-      
-      if (peticioDeFirmaFilterForm.getGroupByFields() != null) {
-        peticioDeFirmaFilterForm.getGroupByFields().remove(TIPUSESTATPETICIODEFIRMAID);
-      }
     }
 
-    OrderBy[] order = { new OrderBy(PeticioDeFirmaFields.DATASOLICITUD) };
-    peticioDeFirmaFilterForm.setDefaultOrderBy(order);
-    peticioDeFirmaFilterForm.setOrderAsc(false);
-
-    
-    String filterByTitol = (String)request.getSession().getAttribute(FILTER_BY_TITOL_KEY);
-    if (filterByTitol != null) {
-      peticioDeFirmaFilterForm.setTitol(filterByTitol);
-      request.getSession().removeAttribute(FILTER_BY_TITOL_KEY);
+    @Override
+    public final String getEntityNameCode() {
+        return "peticiodefirma.activa";
     }
 
-    return peticioDeFirmaFilterForm;
-  }
-  
-  
-  @Override
-  public void postList(HttpServletRequest request, ModelAndView mav,
-      PeticioDeFirmaFilterForm filterForm, List<PeticioDeFirma> list) throws I18NException {
-     super.postList(request, mav, filterForm, list);
+    @Override
+    public PeticioDeFirmaFilterForm getPeticioDeFirmaFilterForm(Integer pagina, ModelAndView mav,
+            HttpServletRequest request) throws I18NException {
 
-     for(PeticioDeFirma pf : list) {
-       if (pf.getDataFinal() != null) {
-         filterForm.getHiddenFields().remove(DATAFINAL);
-         return;
-       }
-       
-     }
-     
-     filterForm.addHiddenField(DATAFINAL);
-     
-  }
+        PeticioDeFirmaFilterForm peticioDeFirmaFilterForm;
+        peticioDeFirmaFilterForm = super.getPeticioDeFirmaFilterForm(pagina, mav, request);
 
+        if (peticioDeFirmaFilterForm.isNou()) {
+            peticioDeFirmaFilterForm.setSubTitleCode("peticiodefirma.activa.desc");
 
-  @Override
-  public PeticioDeFirmaForm getPeticioDeFirmaForm(PeticioDeFirmaJPA _jpa2, boolean __isView,
-          HttpServletRequest request, ModelAndView mav) throws I18NException {
+            if (peticioDeFirmaFilterForm.getGroupByFields() != null) {
+                peticioDeFirmaFilterForm.getGroupByFields().remove(TIPUSESTATPETICIODEFIRMAID);
+            }
+        }
 
-      PeticioDeFirmaForm peticioDeFirmaForm = super.getPeticioDeFirmaForm(_jpa2, __isView, request, mav);
-      
-      Boolean descripciotipusvisible = propietatEjb
-              .getBooleanPropertyByEntitat("fundaciobit", ConstantsV2.PORTAFIB_PROPERTY_BASE + "descripciotipusvisible");
-      
-      if (descripciotipusvisible == null) {
-          descripciotipusvisible = false;
-      }
-      
-      mav.addObject("descripciotipusvisible", descripciotipusvisible);
+        OrderBy[] order = { new OrderBy(PeticioDeFirmaFields.DATASOLICITUD) };
+        peticioDeFirmaFilterForm.setDefaultOrderBy(order);
+        peticioDeFirmaFilterForm.setOrderAsc(false);
 
-      return peticioDeFirmaForm;
-  }
+        String filterByTitol = (String) request.getSession().getAttribute(FILTER_BY_TITOL_KEY);
+        if (filterByTitol != null) {
+            peticioDeFirmaFilterForm.setTitol(filterByTitol);
+            request.getSession().removeAttribute(FILTER_BY_TITOL_KEY);
+        }
 
-  @Override
-  public List<StringKeyValue> getReferenceListForTipusDocumentID(HttpServletRequest request, ModelAndView mav,
-          PeticioDeFirmaForm peticioDeFirmaForm, Where where) throws I18NException {
+        return peticioDeFirmaFilterForm;
+    }
 
-      List<StringKeyValue> result;
-      result = super.getReferenceListForTipusDocumentID(request, mav, peticioDeFirmaForm, where);
-      result.add(new StringKeyValue(String.valueOf(Long.MIN_VALUE),
-              I18NUtils.tradueix("peticiodefirma.tipusdocumental.seleccionar")));
+    @Override
+    public void postList(HttpServletRequest request, ModelAndView mav, PeticioDeFirmaFilterForm filterForm,
+            List<PeticioDeFirma> list) throws I18NException {
+        super.postList(request, mav, filterForm, list);
 
-      java.util.Collections.sort(result, STRINGKEYVALUE_COMPARATOR);
+        for (PeticioDeFirma pf : list) {
+            if (pf.getDataFinal() != null) {
+                filterForm.getHiddenFields().remove(DATAFINAL);
+                return;
+            }
 
-      if (peticioDeFirmaForm.getPeticioDeFirma().getTipusDocumentID() == 0) {
-          peticioDeFirmaForm.getPeticioDeFirma().setTipusDocumentID(Long.MIN_VALUE);
-      }
-      
+        }
 
-      return result;
-  }
+        filterForm.addHiddenField(DATAFINAL);
 
-  @Override
-  public void preValidate(HttpServletRequest request, PeticioDeFirmaForm peticioDeFirmaForm, BindingResult result)
-          throws I18NException {
+    }
 
-      super.preValidate(request, peticioDeFirmaForm, result);
+    @Override
+    public PeticioDeFirmaForm getPeticioDeFirmaForm(PeticioDeFirmaJPA _jpa2, boolean __isView,
+            HttpServletRequest request, ModelAndView mav) throws I18NException {
 
-      PeticioDeFirma peticio = peticioDeFirmaForm.getPeticioDeFirma();
+        PeticioDeFirmaForm peticioDeFirmaForm = super.getPeticioDeFirmaForm(_jpa2, __isView, request, mav);
 
-      Long tipusDocumental = peticio.getTipusDocumentID();
+        Boolean descripciotipusvisible = propietatEjb.getBooleanPropertyByEntitat("fundaciobit",
+                ConstantsV2.PORTAFIB_PROPERTY_BASE + "descripciotipusvisible");
 
-      if (tipusDocumental == Long.MIN_VALUE) {
-          String tipusDocKey = peticioDeFirmaForm.getListOfTipusDocumentForTipusDocumentID().get(1).getKey();
-          peticio.setTipusDocumentID(Long.parseLong(tipusDocKey));
+        if (descripciotipusvisible == null) {
+            descripciotipusvisible = false;
+        }
 
-          result.rejectValue(get(TIPUSDOCUMENTID), "genapp.validation.required",
-                  new String[] { I18NUtils.tradueix(get(TIPUSDOCUMENTID)) }, null);
-      }
-  }
+        mav.addObject("descripciotipusvisible", descripciotipusvisible);
 
-  @Override
-  public void postValidate(HttpServletRequest request, PeticioDeFirmaForm peticioDeFirmaForm, BindingResult result)
-          throws I18NException {
+        return peticioDeFirmaForm;
+    }
 
-      super.postValidate(request, peticioDeFirmaForm, result);
+    @Override
+    public List<StringKeyValue> getReferenceListForTipusDocumentID(HttpServletRequest request, ModelAndView mav,
+            PeticioDeFirmaForm peticioDeFirmaForm, Where where) throws I18NException {
 
-      PeticioDeFirma peticio = peticioDeFirmaForm.getPeticioDeFirma();
+        List<StringKeyValue> result;
+        result = super.getReferenceListForTipusDocumentID(request, mav, peticioDeFirmaForm, where);
+        result.add(new StringKeyValue(String.valueOf(Long.MIN_VALUE),
+                I18NUtils.tradueix("peticiodefirma.tipusdocumental.seleccionar")));
 
-      if (result.hasFieldErrors(get(TIPUSDOCUMENTID))) {
-          peticio.setTipusDocumentID(Long.MIN_VALUE);
-      }
-  }
+        java.util.Collections.sort(result, STRINGKEYVALUE_COMPARATOR);
+
+        if (peticioDeFirmaForm.getPeticioDeFirma().getTipusDocumentID() == 0) {
+            peticioDeFirmaForm.getPeticioDeFirma().setTipusDocumentID(Long.MIN_VALUE);
+        }
+
+        return result;
+    }
+
+    @Override
+    public void preValidate(HttpServletRequest request, PeticioDeFirmaForm peticioDeFirmaForm, BindingResult result)
+            throws I18NException {
+
+        super.preValidate(request, peticioDeFirmaForm, result);
+
+        PeticioDeFirma peticio = peticioDeFirmaForm.getPeticioDeFirma();
+
+        Long tipusDocumental = peticio.getTipusDocumentID();
+
+        if (tipusDocumental == Long.MIN_VALUE) {
+            String tipusDocKey = peticioDeFirmaForm.getListOfTipusDocumentForTipusDocumentID().get(1).getKey();
+            peticio.setTipusDocumentID(Long.parseLong(tipusDocKey));
+
+            result.rejectValue(get(TIPUSDOCUMENTID), "genapp.validation.required",
+                    new String[] { I18NUtils.tradueix(get(TIPUSDOCUMENTID)) }, null);
+        }
+    }
+
+    @Override
+    public void postValidate(HttpServletRequest request, PeticioDeFirmaForm peticioDeFirmaForm, BindingResult result)
+            throws I18NException {
+
+        super.postValidate(request, peticioDeFirmaForm, result);
+
+        PeticioDeFirma peticio = peticioDeFirmaForm.getPeticioDeFirma();
+
+        if (result.hasFieldErrors(get(TIPUSDOCUMENTID))) {
+            peticio.setTipusDocumentID(Long.MIN_VALUE);
+        }
+    }
 
 }

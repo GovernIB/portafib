@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.admin;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -37,8 +38,14 @@ import es.caib.portafib.utils.Constants;
         order = 140)
 @MenuOption(
         group = Tab.MENU_ADMIN,
-        labelCode = "provarcorreuadministradors",
-        baseLink = "/admin/enviarcorreu/administradors",
+        labelCode = "provarcorreuadministradors.requerit",
+        baseLink = "/admin/enviarcorreu/administradorsrequerit",
+        relativeLink = "",
+        order = 145)
+@MenuOption(
+        group = Tab.MENU_ADMIN,
+        labelCode = "provarcorreuadministradors.opcional",
+        baseLink = "/admin/enviarcorreu/administradorsopcional",
         relativeLink = "",
         order = 150)
 public class EnviarCorreuProva {
@@ -75,22 +82,47 @@ public class EnviarCorreuProva {
 
     }
 
-    @RequestMapping(value = "/administradors")
-    public String enviarCorreuAdministradors(HttpServletRequest request, HttpServletResponse response)
+    @RequestMapping(value = "/administradorsrequerit")
+    public String enviarCorreuAdministradorsRequerit(HttpServletRequest request, HttpServletResponse response)
             throws I18NException {
+        return enviarCorreuAdministradors(request, response, true);
+    }
+
+    @RequestMapping(value = "/administradorsopcional")
+    public String enviarCorreuAdministradorsOpcional(HttpServletRequest request, HttpServletResponse response)
+            throws I18NException {
+        return enviarCorreuAdministradors(request, response, false);
+    }
+
+    protected String enviarCorreuAdministradors(HttpServletRequest request, HttpServletResponse response,
+            boolean requerit) throws I18NException {
 
         final String entitatID = LoginInfo.getInstance().getEntitatID();
         if (entitatID == null) {
-            HtmlUtils.saveMessageError(request, "Per enviar als Administradors d'Entitat necessit que estiguis associat a una Entitat.");
+            HtmlUtils.saveMessageError(request,
+                    "Per enviar als Administradors d'Entitat necessit que estiguis associat a una Entitat.");
         } else {
             try {
                 String subject = "Missatge de prova als Administradors d'Entitat de '" + entitatID + "'";
-                List<String> emails;
-                emails = agentsCAIBEjb.enviarCorreuAdmistradors(subject, "Missatge de Prova de PortaFIB", entitatID);
+                Collection<String> emails;
+                if (requerit) {
+                    subject = subject + " (Requerit)";
+                    emails = agentsCAIBEjb.enviarCorreuAdmistradorsRequerit(subject, "Missatge de Prova de PortaFIB",
+                            entitatID);
+                } else {
+                    subject = subject + " (Opcional)";
+                    emails = agentsCAIBEjb.enviarCorreuAdmistradorsOpcional(subject, "Missatge de Prova de PortaFIB",
+                            entitatID);
+                }
+                
+                
+
+                String msg = requerit ? "Requerit = S'envia de forma obligatoria a tots els Administradors d'Entitat."
+                        : "Opcional = S'envia només als Administradors d'Entitat que tinguin donada d'alta la Notificació per Correu de tipus INCIDENCIA_ADMINISTRADOR";
 
                 HtmlUtils.saveMessageInfo(request,
-                        "Missatges de Correu enviats als següents administradors de l'entitat de '" + entitatID + "':"
-                                + emails);
+                        msg + ". Missatges de Correu enviats als següents administradors de l'entitat de '" + entitatID
+                                + "':" + emails);
 
             } catch (Exception e) {
                 String msg = "Error al enviar correu als Administradors d'Entitat de '" + entitatID + "'"

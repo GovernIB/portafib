@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class UsuariEntitatLogicaEJBTest {
@@ -41,14 +42,14 @@ public class UsuariEntitatLogicaEJBTest {
 
         Mockito.when(mockEntityManager.createQuery(Mockito.anyString())).thenReturn(mockQuery);
 
-        List<String> emails = usuariEntitatLogicaEJB.getEmailsOfAdministradorsEntitatByEntitat("fundaciobit");
+        Collection<String> emails = usuariEntitatLogicaEJB.getEmailsOfAdministradorsEntitatByEntitat("fundaciobit")
+                .values();
 
-        Mockito.verify(mockEntityManager).createQuery("select roleUsuariEntitat.usuariEntitat.usuariPersona.email " +
-                "from RoleUsuariEntitatJPA roleUsuariEntitat " +
-                "where (  ( ( roleUsuariEntitat.roleID = ?1 ) ) " +
-                " AND  ( ( roleUsuariEntitat.usuariEntitat.entitatID = ?2 ) ) " +
-                " AND  ( ( roleUsuariEntitat.usuariEntitat.actiu = ?3 ) ) " +
-                " AND  ( ( roleUsuariEntitat.usuariEntitat.rebreTotsElsAvisos = ?4 ) )  )");
+        Mockito.verify(mockEntityManager).createQuery("select roleUsuariEntitat.usuariEntitat.usuariPersona.email "
+                + "from RoleUsuariEntitatJPA roleUsuariEntitat " + "where (  ( ( roleUsuariEntitat.roleID = ?1 ) ) "
+                + " AND  ( ( roleUsuariEntitat.usuariEntitat.entitatID = ?2 ) ) "
+                + " AND  ( ( roleUsuariEntitat.usuariEntitat.actiu = ?3 ) ) "
+                + " AND  ( ( roleUsuariEntitat.usuariEntitat.rebreTotsElsAvisos = ?4 ) )  )");
 
         Mockito.verify(mockQuery).setParameter(1, Constants.ROLE_ADEN);
         Mockito.verify(mockQuery).setParameter(2, "fundaciobit");
@@ -58,6 +59,5 @@ public class UsuariEntitatLogicaEJBTest {
         Assert.assertEquals(resultList.size(), emails.size());
         Assert.assertTrue(emails.containsAll(resultList));
     }
-
 
 }

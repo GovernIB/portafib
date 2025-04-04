@@ -121,7 +121,7 @@ import es.caib.portafib.utils.ConstantsV2;
         types = { PlantillaDeFluxDeFirmesFilterForm.class, PlantillaDeFluxDeFirmesForm.class, FluxDeFirmesForm.class,
                 FluxDeFirmesFilterForm.class, SeleccioUsuariForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_SOLI,
+        group = Constants.ROLE_SOLI,
         labelCode = "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural",
         addSeparatorBefore = true,
         order = 70)
