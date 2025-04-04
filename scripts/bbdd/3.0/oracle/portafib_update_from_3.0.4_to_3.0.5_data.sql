@@ -11,3 +11,4 @@ INSERT INTO pfi_tipusnotificacio(tipusnotificacioid, descripcio, nom, esavis)  V
 --######################################################################
 
 CREATE INDEX pfi_petifirma_datasolicitud_i ON pfi_peticiodefirma (datasolicitud);
+CREATE INDEX pfi_petifirma_datafinal_i ON pfi_peticiodefirma (datafinal);

@@ -7556,6 +7556,7 @@
           "foreignKeys": []
         },
         {
+          "index": "pfi_petifirma_datafinal_i",
           "isAutoIncrement": false,
           "sqlName": "datafinal",
           "sqlType": 93,
