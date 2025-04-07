@@ -350,7 +350,10 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             colaboracioDelegacioFilterForm.setDeleteSelectedButtonVisible(false);
 
         }
-
+        
+        if (!esDelegat()) {
+            HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("colaboracio.ajuda"));
+        }
         return colaboracioDelegacioFilterForm;
     }
 

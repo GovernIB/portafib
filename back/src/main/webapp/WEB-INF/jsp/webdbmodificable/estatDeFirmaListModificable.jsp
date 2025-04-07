@@ -4,6 +4,35 @@
 
 <script type="text/javascript">
 
+    <%-- // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015 --%>
+    <%-- També el Col·laborador Revisor Pot Rebutjar --%>
+    function rebutjar(url, estatID) {
+        var motiusRebuig;
+        <%--  TODO XYZ ZZZ  Revisar aquest codi que no entenc !!!  NO FA RES !!! --%>
+        <c:forEach var="entry" items="${rebuigDescriptionByEstat}">
+        if (estatID == <c:out value="${entry.key}"/>) {
+            motiusRebuig = "${pfi:escapeJavaScript(entry.value)}";
+        } else 
+        </c:forEach>
+        {
+          motiusRebuig = "";
+        }
+        var reason = prompt("<fmt:message key="motiurebutjar"/>:", motiusRebuig);
+        
+        if (reason != null) {      
+          document.getElementById("motiu").value=reason;
+          document.estatDeFirma.action = url;
+          document.estatDeFirma.submit();
+        }
+    }
+    
+    <%-- // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015 --%>
+    <%--  Revisor i Col·laborador-Revisor--%>
+    function acceptar(url, firmaid) {
+      goTo(url);
+    }
+
+
   <c:if test="${pipella eq 'ROLE_COLA'}">
 
   function invalidar(url) {
@@ -22,10 +51,7 @@
 
   <c:if test="${pipella ne 'ROLE_COLA'}">
   
-  <%--  Revisor --%>
-  function acceptar(url, firmaid) {
-    goTo(url);
-  }
+
   
 
   function firmar(url, firmaid) {
@@ -62,26 +88,7 @@
       return str;
     }
 
-    function rebutjar(url, estatID) {
-        
-        var motiusRebuig;
-        <%--  TODO XYZ ZZZ  Revisar aquest codi que no entenc !!!  NO FA RES !!! --%>
-        <c:forEach var="entry" items="${rebuigDescriptionByEstat}">
-        if (estatID == <c:out value="${entry.key}"/>) {
-            motiusRebuig = "${pfi:escapeJavaScript(entry.value)}";
-        } else 
-        </c:forEach>
-        {
-          motiusRebuig = "";
-        }
-        var reason = prompt("<fmt:message key="motiurebutjar"/>:", motiusRebuig);
-        
-        if (reason != null) {      
-          document.getElementById("motiu").value=reason;
-          document.estatDeFirma.action = url;
-          document.estatDeFirma.submit();
-        }
-    }
+    
 
     <c:if test="${estatDeFirmaFilterForm.visibleMultipleSelection}">
 

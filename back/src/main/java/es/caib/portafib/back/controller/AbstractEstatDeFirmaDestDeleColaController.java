@@ -1686,7 +1686,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     protected boolean rebutjarInternal(HttpServletRequest request, HttpServletResponse response, Long estatDeFirmaID,
             Long peticioDeFirmaID, String motiuDeRebuig) throws I18NException {
         final long estatFirmaInicial;
-        if (Constants.ROLE_REVI.equals(getRole())) {
+        
+        // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
+        if (Constants.ROLE_REVI.equals(getRole()) || Constants.ROLE_COLA.equals(getRole())) {
             estatFirmaInicial = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR;
         } else {
             estatFirmaInicial = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR;
@@ -1698,6 +1700,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 estatFirmaInicial);
         if (check == null) {
             // S'ha produit un error. Retornam.
+            log.warn(" Error desconegut intentnt Rebutjar la firma " + estatDeFirmaID );
             return false;
         }
 
@@ -2825,15 +2828,18 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     EstatDeFirmaFields.COLABORACIODELEGACIOID.isNotNull());
         } else if (role.equals(Constants.ROLE_COLA)) {
             // Els estats de firma de colaborador són aquells que:
-            // (1) Els estats inicials poden ser ASSIGNAT_PER_VALIDAR o
-            // REVISANT_PER_VALIDAR
+         // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
+            // (1) Els estats inicials poden ser ASSIGNAT_PER_VALIDAR o  REVISANT_PER_VALIDAR o ASSIGNAT_PER_REVISAR
             // (2) COLABORACIODELEGACIOID es not null
             roleWhere = Where.AND(
                     Where.OR(
                             EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
                                     .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR),
                             EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
-                                    .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR)),
+                                    .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR),
+                            // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
+                            EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
+                                    .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR)),
                     EstatDeFirmaFields.COLABORACIODELEGACIOID.isNotNull());
         } else if (role.equals(Constants.ROLE_REVI)) {
             // Els estats de firma de REVISOR són aquells que:
@@ -2857,7 +2863,13 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
             case FILTRAR_PER_ACCEPTAT: // Firmat o validat
                 if (role.equals(ROLE_COLA)) {
-                    estatWhere = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT);
+                    // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
+                    estatWhere = Where.OR(
+                            // Col·laborador Validat
+                            TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT),
+                            //o Col.laborador-Revisor Acceptat 
+                            Where.AND(TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT),
+                                    COLABORACIODELEGACIOID.isNotNull()));
                 } else if (role.equals(ROLE_REVI)) {
                     // Revisor Acceptat
                     estatWhere = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT);
@@ -2874,7 +2886,14 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
             case FILTRAR_PER_NOACCEPTAT: // Rebutjat o invalidat
                 if (role.equals(ROLE_COLA)) {
-                    estatWhere = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT);
+                    
+                    // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
+                    estatWhere = Where.OR(
+                            // Invalidat
+                            TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT),
+                            // o Rebutjar si és Col·laborador-Revisor
+                            Where.AND(TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT),
+                                    COLABORACIODELEGACIOID.isNotNull()));
                 } else if (role.equals(ROLE_REVI)) {
                     // Revisor ha rebutjat 
                     estatWhere = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT);
@@ -2990,7 +3009,12 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 final long estatInicial = estat.getTipusEstatDeFirmaInicialID();
 
                 if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
-                    estatsRevisors.add(estat);
+                    // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
+                    if (estat.getColaboracioDelegacioID() == null) {
+                        estatsRevisors.add(estat);                        
+                    } else {
+                        estatsColaboradors.add(estat);
+                    }
                 } else if (estat.getColaboracioDelegacioID() == null) {
                     mav.addObject("destinatari", estat);
                 } else {

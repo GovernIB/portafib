@@ -257,7 +257,10 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB implements EstatDeFir
             estatsDeFirma = new Long[] { ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR };
         } else if (ROLE_COLA.equals(rol)) {
             estatsDeFirma = new Long[] { ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
-                    ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR };
+                    ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR,
+                    // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
+                    ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR        
+            };
         } else {
             estatsDeFirma = new Long[] { ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR };
         }

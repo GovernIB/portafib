@@ -251,7 +251,8 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
                         firmaEvent.setDestinatariUsuariEntitatID(usuariEntitat.getUsuariEntitatID());
 
                         if (eventID == NOTIFICACIOAVIS_REQUERIT_PER_REVISAR) {
-                            // És revisor
+                            // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
+                            // És revisor o col·laborador Revisor
                             href = HREF_REVI;
                         } else if (eventID == NOTIFICACIOAVIS_REQUERIT_PER_VALIDAR
                                 || eventID == NOTIFICACIOAVIS_DESCARTAT_PER_VALIDAR) {

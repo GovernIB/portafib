@@ -1686,22 +1686,38 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                         List<ColaboracioDelegacio> llistaColaDele = colaboracioDelegacioEjb.select(w);
 
                         for (ColaboracioDelegacio colaboracioDelegacio : llistaColaDele) {
+                            
+                            
+                            long tipusEstat;
+                            if (colaboracioDelegacio.isEsDelegat()) {
+                                tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR;
+                            } else {
+                                if (colaboracioDelegacio.isRevisor()) {
+                                    // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
+                                    tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR;                                     
+                                } else {
+                                    tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR;
+                                }
+                            }
+
                             EstatDeFirmaJPA estatDeFirmaColaDele = new EstatDeFirmaJPA();
                             estatDeFirmaColaDele.setDataInici(new Timestamp(System.currentTimeMillis()));
                             estatDeFirmaColaDele.setDescripcio("");
                             estatDeFirmaColaDele.setFirmaID(firmaJPA.getFirmaID());
-                            long tipusEstat = colaboracioDelegacio.isEsDelegat()
-                                    ? ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR
-                                    : ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR;
+                            
                             estatDeFirmaColaDele.setTipusEstatDeFirmaInicialID(tipusEstat);
                             estatDeFirmaColaDele.setUsuariEntitatID(colaboracioDelegacio.getColaboradorDelegatID());
                             estatDeFirmaColaDele
                                     .setColaboracioDelegacioID(colaboracioDelegacio.getColaboracioDelegacioID());
                             estatDeFirmaColaDele = estatDeFirmaLogicaEjb.createFull(estatDeFirmaColaDele);
+                            
+                            // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
                             if (tipusEstat == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
                                 events.requerit_per_firmar(peticioDeFirma, estatDeFirmaColaDele);
-                            } else {
+                            } else if (tipusEstat == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR) {
                                 events.requerit_per_validar(peticioDeFirma, estatDeFirmaColaDele);
+                            } else { //TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR
+                                events.requerit_per_revisar(peticioDeFirma, estatDeFirmaColaDele);
                             }
                             if (log.isDebugEnabled()) {
                                 log.debug("   == Nou estat per COLA/DELE "
@@ -2647,7 +2663,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         for (EstatDeFirma estat : estatsDeFirma) {
             estat.setDataFi(now);
             estat.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
-            estat.setDescripcio("De la validació d'aquest document s´encarregarà" + " l´usuari-entitat "
+            estat.setDescripcio("De la validació d'aquest document s´encarregarà l´usuari-entitat "
                     + estatDeFirma.getUsuariEntitatID());
             estatDeFirmaLogicaEjb.update(estat);
         }
@@ -2977,9 +2993,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
         long estatInicial = estatDeFirma.getTipusEstatDeFirmaInicialID();
         if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
-            //Estaba asignado para revisar, y la han dado a aceptar
-            log.info("El revisor ha rebutjat el document");
-            desc = "El revisor ha rebutjat el document: " + motiuDeRebuig;
+            // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
+            //Estaba asignado para revisar, y la han dado a rebutjar
+            desc = "El revisor o col·laborador-revisor " + estatDeFirma.getUsuariEntitatID() + " ha rebutjat el document: " + motiuDeRebuig;
+            log.info(desc);
             tipusOperacio = BITACOLA_OP_REVISOR_REBUTJAR;
         } else {
             desc = "Petició rebutjada: " + motiuDeRebuig;
