@@ -3721,8 +3721,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
      * 
      * @return retorna els mail als que s'ha enviat un avis
      */
-    public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar() throws Exception, I18NException {
+    public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar(long transactionTimeoutInMs) throws Exception, I18NException {
 
+        
+        long timeout = System.currentTimeMillis() + 3 * (transactionTimeoutInMs / 4);
+        
         Map<String, InfoUser> allUsuariEntitat = new HashMap<String, InfoUser>();
 
         boolean isDebug = log.isDebugEnabled();
@@ -3862,6 +3865,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                             + ((dataSeguentAvis == null) ? "-" : sdf.format(dataSeguentAvis)) + "\t " + enviarCorreu
                             + "\t[" + entitatID + "]");
                 }
+                
+                if (System.currentTimeMillis() > timeout) {
+                    log.warn("S'ha superat el timeout d'enviament de correus agrupats, s'aturen els enviaments");
+                    break;
+                }
             }
 
             // Cercar les firmes actives de les peticions a les que hem d'avisar
@@ -3888,6 +3896,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                     log.debug("Per la peticio " + pf.getTitol() + " s'ha d'avisar a "
                             + Arrays.toString(avisarusuaris.toArray()));
                 }
+                
+                
 
             }
 
@@ -3942,9 +3952,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             // Muntar mails
             String url = PropietatGlobalUtil.getAppUrl() + ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list";
             List<EmailInfo> emailsEntitat = new ArrayList<EmailInfo>();
-            for (String ue : allUsuariEntitat.keySet()) {
+            for (String ue : mailsByUsuariEntitat.keySet()) {
 
-                InfoUser iu = allUsuariEntitat.get(ue);
+                InfoUser iu = mailsByUsuariEntitat.get(ue);
                 final Locale loc = new Locale(iu.getLanguage());
 
                 String subject = I18NLogicUtils.tradueix(loc, "notificacioavis.requerit_per_firmar");

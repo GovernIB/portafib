@@ -13,7 +13,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -22,9 +25,10 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
-import es.caib.portafib.logic.RebreAvisLogicaLocal;
+import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.logic.utils.EmailInfo;
 import es.caib.portafib.logic.utils.EmailUtil;
 
@@ -83,10 +87,12 @@ public class EnviarCorreusAgrupatsUtils {
 
     }
 
-    public static int enviarAvisosAgrupats(RebreAvisLogicaLocal rebreAvisLogicaEjb) throws Exception {
+    public static Map<String, Integer> enviarAvisosAgrupats(long timeoutTransaction) throws Exception {
+
+        Map<String, Integer> result = new HashMap<String, Integer>();
+        long timeout = System.currentTimeMillis() + 3 * (timeoutTransaction / 4);
 
         final boolean isDebug = log.isDebugEnabled();
-        int count = 0;
 
         if (isDebug) {
             log.debug("Iniciant enviament de correus agrupats ...");
@@ -108,6 +114,7 @@ public class EnviarCorreusAgrupatsUtils {
             }
 
             EmailInfo email;
+            int missatges = 0;
             synchronized (BASE_PATH_AGRUPAR_CORREUS) {
 
                 List<EmailInfo> list = readEmailsFromFile(file);
@@ -115,6 +122,8 @@ public class EnviarCorreusAgrupatsUtils {
                 if (list != null && !list.isEmpty()) {
 
                     email = list.get(0);
+
+                    missatges = list.size();
 
                     StringBuffer html = new StringBuffer();
                     for (EmailInfo emailInfo : list) {
@@ -137,23 +146,29 @@ public class EnviarCorreusAgrupatsUtils {
 
             if (email != null) {
                 email.setHtml(true);
-                // Això evita que ho torni a guardar per enviar més endavant 
-                email.setUsuariEntitatID(null);
-                email.setEventID(-1);
-                ArrayList<EmailInfo> one = new ArrayList<EmailInfo>();
-                one.add(email);
                 try {
-                    EmailUtil.enviarMails(one, rebreAvisLogicaEjb);
-                    count++;
+                    EmailUtil.postMail(email.getSubject(), email.getMessage(), email.isHtml(),
+                            Configuracio.getAppEmail(), email.getEmail());
+
                     if (isDebug) {
                         log.debug("Enviat correu agrupat a " + email.getSubject());
                     }
+
+                    result.put(email.getEmail(), missatges);
+
                 } catch (I18NException e) {
                     log.error("Error enviant correu a " + email.getSubject() + " - " + email.getUsuariEntitatID() + "("
-                            + e.getMessage() + "):\n" + email.getMessage(), e);
+                            + I18NCommonUtils.getMessage(e, new Locale("ca")) + "):\n" + email.getMessage(), e);
+
+                    result.put(email.getEmail(), -1 * missatges);
                 }
                 // Per no saturar (1) el servidor, (2) ni l'enviament de correus (3) ni la firma de sol·licituds 
-                Thread.sleep(1000);
+                Thread.sleep(500);
+            }
+
+            if (System.currentTimeMillis() > timeout) {
+                log.warn("S'ha superat el timeout d'enviament de correus agrupats, s'aturen els enviaments");
+                break;
             }
 
         }
@@ -161,7 +176,7 @@ public class EnviarCorreusAgrupatsUtils {
         if (isDebug) {
             log.debug("Final enviament de correus agrupats ...");
         }
-        return count;
+        return result;
     }
 
     protected static List<EmailInfo> readEmailsFromFile(File f)

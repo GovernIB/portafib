@@ -1,7 +1,6 @@
 package es.caib.portafib.back.controller.admin;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;

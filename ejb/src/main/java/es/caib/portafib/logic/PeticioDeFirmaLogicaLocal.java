@@ -121,7 +121,7 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaService {
             String newMessageFormaPatternForName, String descripcio, String motiu, FitxerJPA fitxerJPA)
             throws I18NException;
 
-    public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar() throws Exception, I18NException;
+    public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar(long transactionTimeoutInMs) throws Exception, I18NException;
 
     public void sendMailToExternalUser(String entitatId, long peticioDeFirmaID, String titolPeticio, FirmaJPA firmaJPA)
             throws I18NException;

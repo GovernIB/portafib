@@ -3,8 +3,6 @@ package es.caib.portafib.back.utils;
 import es.caib.portafib.commons.utils.StaticVersion;
 import es.caib.portafib.commons.utils.Version;
 import es.caib.portafib.hibernate.HibernateFileUtil;
-import es.caib.portafib.logic.misc.AvisosFirmesPendentsTimerLocal;
-import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsTimerLocal;
 import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.ProviderRegistration;
@@ -29,7 +27,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
-import javax.naming.InitialContext;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -175,6 +172,7 @@ public class InitServlet extends HttpServlet {
         }
 
         // Enviar Notificacions en Correus Agrupats
+        /*
         try {
             EnviarCorreusAgrupatsTimerLocal enviar = (EnviarCorreusAgrupatsTimerLocal) new InitialContext()
                     .lookup(EnviarCorreusAgrupatsTimerLocal.JNDI_NAME);
@@ -192,7 +190,7 @@ public class InitServlet extends HttpServlet {
         } catch (Throwable th) {
             log.error("Error desconegut inicialitzant Timer d'enviament d'avisos" + " de peticions de firma pendents: "
                     + th.getMessage(), th);
-        }
+        }*/
 
         // NotificacionCallBack
         try {

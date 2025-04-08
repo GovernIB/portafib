@@ -56,7 +56,6 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.utils.Constants;
-import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * Controlador per a la gestió de usuaris sense rols.
