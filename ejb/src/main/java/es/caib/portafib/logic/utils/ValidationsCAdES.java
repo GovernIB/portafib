@@ -137,7 +137,7 @@ public class ValidationsCAdES {
         // new
         // JcaX509CertificateConverter().setProvider("BC").getCertificate(x509certificateholder);
 
-        System.out.println("CERT => " + x509certificate.getSubjectDN());
+        //System.out.println("CERT => " + x509certificate.getSubjectDN());
 
         certificatesList.add(x509certificate);
 

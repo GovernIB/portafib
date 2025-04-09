@@ -1,5 +1,7 @@
 package es.caib.portafib.logic.scheduler;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
@@ -7,12 +9,13 @@ import javax.annotation.Resource;
 import javax.ejb.ScheduleExpression;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
+import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
 import org.jboss.logging.Logger;
-
+import org.fundaciobit.genapp.common.i18n.I18NCommonDateTimeFormat;
 import org.jboss.ejb3.annotation.TransactionTimeout;
 
 /**
@@ -23,6 +26,9 @@ import org.jboss.ejb3.annotation.TransactionTimeout;
 public abstract class AbstractScheduler {
 
     protected final Logger log = Logger.getLogger(getClass());
+
+    protected static final SimpleDateFormat SDF = new I18NCommonDateTimeFormat(new Locale("es"))
+            .getSimpleDateFormat(new Locale("es"));
 
     @Resource
     private TimerService timerService;
@@ -48,26 +54,28 @@ public abstract class AbstractScheduler {
         }
 
         try {
-            scheduleTask(schedule);
-            log.error("\n\nArrancat correctament el Scheduler " + getSchedulerName() + " amb cron " + cron + "\n\n");
+            // Netejar Timers anteriors
+            for (Timer timer : timerService.getTimers()) {
+                timer.cancel();
+            }
+            TimerConfig tc = new TimerConfig();
+            tc.setPersistent(false);
+
+            Timer newTimer = timerService.createCalendarTimer(schedule, tc);
+
+            log.info("CREAT Schedule '" + getSchedulerName() + "' amb cron " + cron + " . Propera execució: "
+                    + SDF.format(newTimer.getNextTimeout()));
+
         } catch (Throwable th) {
-            log.error(
-                    "\n Error no controlat posant en marxa el Scheduler " + getSchedulerName() + ": " + th.getMessage(),
+            log.error("Error no controlat posant en marxa el Scheduler " + getSchedulerName() + ": " + th.getMessage(),
                     th);
         }
     }
 
-    public void scheduleTask(ScheduleExpression schedule) {
-
-        // Netejar Timers anteriors
-        for (Timer timer : timerService.getTimers()) {
-            timer.cancel();
-        }
-
-        Timer newTimer = timerService.createCalendarTimer(schedule);
-        System.out.println("CREAT Schedule '" + getSchedulerName() + "': " + newTimer.getNextTimeout());
-    }
-
+    /**
+     * 
+     * @return
+     */
     public abstract String getSchedulerName();
 
     /**
@@ -76,11 +84,7 @@ public abstract class AbstractScheduler {
      */
     public abstract String getCronExpression();
 
-    public final long getTimeoutTransactionInMs() {
-        return TEN_MINUTES_IN_MS;
-    }
-
-    public static final long TEN_MINUTES_IN_MS = 10 * 60 * 1000;
+    private static final long TEN_MINUTES_IN_MS = 10 * 60 * 1000;
 
     @Timeout
     @TransactionTimeout(value = TEN_MINUTES_IN_MS, unit = TimeUnit.MILLISECONDS)
@@ -91,7 +95,7 @@ public abstract class AbstractScheduler {
 
         try {
             log.info("SCHEDULER[" + getSchedulerName() + "]: INICI --------------");
-            executeTask();
+            executeTask(new ControlOfExecution(TEN_MINUTES_IN_MS));
             log.info("SCHEDULER[" + getSchedulerName() + "]: FINAL OK  " + (System.currentTimeMillis() - start)
                     + "ms ----------");
         } catch (Throwable e) {
@@ -103,7 +107,7 @@ public abstract class AbstractScheduler {
     /**
      * El que hagi de fer
      */
-    public abstract void executeTask();
+    public abstract void executeTask(ControlOfExecution coe);
 
     public static ScheduleExpression fromCron(String cron) {
 
@@ -126,4 +130,19 @@ public abstract class AbstractScheduler {
         }
 
     }
+
+    public static final class ControlOfExecution {
+        private final long timeout;
+
+        public ControlOfExecution(long transactionTimeoutInMs) {
+            super();
+            this.timeout = System.currentTimeMillis() + 3 * (transactionTimeoutInMs / 4);
+        }
+
+        public boolean mustExitOfMethod() {
+            return System.currentTimeMillis() > timeout;
+        }
+
+    }
+
 }

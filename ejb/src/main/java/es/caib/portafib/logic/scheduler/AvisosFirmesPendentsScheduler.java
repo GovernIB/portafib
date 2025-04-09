@@ -38,13 +38,12 @@ public class AvisosFirmesPendentsScheduler extends AbstractScheduler {
     }
 
     @Override
-    public void executeTask() {
+    public void executeTask(ControlOfExecution coe) {
         try {
 
             log.info(" -- executeTask() de " + getSchedulerName() + " --------------");
 
-
-            Collection<InfoUser> mailsEnviats = peticioDeFirmaLogicaEjb.enviarMailPeticionsPendentsDeFirmar(getTimeoutTransactionInMs());
+            Collection<InfoUser> mailsEnviats = peticioDeFirmaLogicaEjb.enviarMailPeticionsPendentsDeFirmar(coe);
 
             if (mailsEnviats.size() != 0) {
                 log.info("AvisosFirmesPendents::MAILS ENVIATS = " + Arrays.toString(mailsEnviats.toArray()));

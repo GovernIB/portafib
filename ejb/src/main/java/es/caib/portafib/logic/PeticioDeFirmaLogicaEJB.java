@@ -32,6 +32,7 @@ import es.caib.portafib.persistence.validator.PeticioDeFirmaBeanValidator;
 import es.caib.portafib.logic.events.EstatDeFirmaEventHelper;
 import es.caib.portafib.logic.events.FirmaEventList;
 import es.caib.portafib.logic.events.FirmaEventManagerLocal;
+import es.caib.portafib.logic.scheduler.AbstractScheduler.ControlOfExecution;
 import es.caib.portafib.logic.utils.AttachedFile;
 import es.caib.portafib.logic.utils.CustodiaForStartPeticioDeFirma;
 import es.caib.portafib.logic.utils.EmailInfo;
@@ -122,6 +123,7 @@ import org.hibernate.Hibernate;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -527,6 +529,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         }
 
         return pf;
+    }
+
+    @Override
+    @PermitAll
+    public PeticioDeFirmaJPA findByPrimaryKey(Long _ID_) {
+        return super.findByPrimaryKey(_ID_);
     }
 
     @Override
@@ -1686,15 +1694,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                         List<ColaboracioDelegacio> llistaColaDele = colaboracioDelegacioEjb.select(w);
 
                         for (ColaboracioDelegacio colaboracioDelegacio : llistaColaDele) {
-                            
-                            
+
                             long tipusEstat;
                             if (colaboracioDelegacio.isEsDelegat()) {
                                 tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR;
                             } else {
                                 if (colaboracioDelegacio.isRevisor()) {
                                     // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
-                                    tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR;                                     
+                                    tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR;
                                 } else {
                                     tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR;
                                 }
@@ -1704,13 +1711,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                             estatDeFirmaColaDele.setDataInici(new Timestamp(System.currentTimeMillis()));
                             estatDeFirmaColaDele.setDescripcio("");
                             estatDeFirmaColaDele.setFirmaID(firmaJPA.getFirmaID());
-                            
+
                             estatDeFirmaColaDele.setTipusEstatDeFirmaInicialID(tipusEstat);
                             estatDeFirmaColaDele.setUsuariEntitatID(colaboracioDelegacio.getColaboradorDelegatID());
                             estatDeFirmaColaDele
                                     .setColaboracioDelegacioID(colaboracioDelegacio.getColaboracioDelegacioID());
                             estatDeFirmaColaDele = estatDeFirmaLogicaEjb.createFull(estatDeFirmaColaDele);
-                            
+
                             // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
                             if (tipusEstat == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
                                 events.requerit_per_firmar(peticioDeFirma, estatDeFirmaColaDele);
@@ -1808,6 +1815,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
     public Set<Long> deleteFullUsingUsuariAplicacio(Long peticioDeFirmaID, String usuariAplicacioID)
             throws I18NException {
         return deleteFull(peticioDeFirmaID, usuariAplicacioID, false, null);
+    }
+
+    @Override
+    public Set<Long> deleteFullUsingUsuariAplicacio(Long peticioDeFirmaID, String usuariAplicacioID,
+            String motiuEsborrat) throws I18NException {
+        return deleteFull(peticioDeFirmaID, usuariAplicacioID, false, motiuEsborrat);
     }
 
     /**
@@ -2892,9 +2905,28 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         // Afegim que és l'administrador entitat al motiu de rebuig perquè quedi constància
         // a les diferents bandes.
         // XYZ ZZZ TRA
-        motiuDeRebuig = "Petició rebutjada per l´Administrador Entitat ]" + usuariEntitatAden + "[. Motiu: "
+        String motiuDeRebuigOK = "Petició rebutjada per l´Administrador Entitat ]" + usuariEntitatAden + "[. Motiu: "
                 + motiuDeRebuig;
+        boolean checkUsername = true;
 
+        rebutjarPeticioDesDeTercer(peticioDeFirma, usuariEntitatAden, motiuDeRebuigOK, checkUsername);
+
+    }
+
+    @Override
+    @PermitAll
+    public void rebutjarPeticioDesDeProcesIntern(long peticioDeFirmaID, String motiuDeRebuig) throws I18NException {
+
+        final boolean checkUsername = false;
+        final String usuariEntitatAden = null;
+
+        rebutjarPeticioDesDeTercer((PeticioDeFirmaJPA) this.findByPrimaryKey(peticioDeFirmaID), usuariEntitatAden,
+                motiuDeRebuig, checkUsername);
+
+    }
+
+    private void rebutjarPeticioDesDeTercer(PeticioDeFirmaJPA peticioDeFirma, String usuariEntitatAden,
+            String motiuDeRebuig, boolean checkUsername) throws I18NException {
         int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
         if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
                 || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
@@ -2938,7 +2970,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             String usernameLoguejat = usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.USUARIPERSONAID,
                     UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatAden));
 
-            rebutjarInternal(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig, usernameLoguejat);
+            rebutjarInternal(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig, usernameLoguejat, checkUsername);
 
         }
 
@@ -2950,7 +2982,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
         rebutjarEstadistica(usuariEntitatAden, entitatID, peticioDeFirma);
 
-        // Fer neteja de tots els fitxers firmats i del fitxer adaptat
+        // Fer neteja de tots els fitxers firmats intermitjos i del fitxer adaptat
         // No és una acció crítica, d'aqui el try-catch: només es per alliberar espai
         try {
             ferNetejaPeticioFinalitzadaRebutjada(peticioDeFirma, null);
@@ -2966,7 +2998,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             log.error("Error greu netejant peticio de firma finalitzada o rebutjada "
                     + peticioDeFirma.getPeticioDeFirmaID() + ": " + msg, error);
         }
-
     }
 
     @Override
@@ -2982,7 +3013,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             throw new I18NException("peticiodefirma.error.rebutjar.estarenmarxa", peticioDeFirma.getTitol());
         }
 
-        rebutjarInternal(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig, usernameLoguejat);
+        rebutjarInternal(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig, usernameLoguejat, true);
 
         // usuariAplicacioEjb.findByPrimaryKey(_ID_)(peticioDeFirma.getSolicitantUsuariAplicacioID()).getEntitatID();
         String entitatID = usuariAplicacioLogicaEjb.executeQueryOne(UsuariAplicacioFields.ENTITATID,
@@ -2995,7 +3026,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
             // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
             //Estaba asignado para revisar, y la han dado a rebutjar
-            desc = "El revisor o col·laborador-revisor " + estatDeFirma.getUsuariEntitatID() + " ha rebutjat el document: " + motiuDeRebuig;
+            desc = "El revisor o col·laborador-revisor " + estatDeFirma.getUsuariEntitatID()
+                    + " ha rebutjat el document: " + motiuDeRebuig;
             log.info(desc);
             tipusOperacio = BITACOLA_OP_REVISOR_REBUTJAR;
         } else {
@@ -3025,18 +3057,20 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         }
     }
 
-    private void rebutjarInternal(EstatDeFirma estatDeFirma, Firma firma, PeticioDeFirmaJPA peticioDeFirma,
-            String motiuDeRebuig, String usernameLoguejat) throws I18NException {
+    protected void rebutjarInternal(EstatDeFirma estatDeFirma, Firma firma, PeticioDeFirmaJPA peticioDeFirma,
+            String motiuDeRebuig, String usernameLoguejat, boolean checkUsername) throws I18NException {
 
         if (motiuDeRebuig == null || motiuDeRebuig.trim().length() == 0) {
             throw new I18NException("estatdefirma.motiu.buit", new I18NArgumentCode("estatdefirma.motiu.rebuig"));
         }
 
         // Comprova que l'usuari té l'UsuariEntitat de l'EstatDeFirma
-        if (!hasAccess(estatDeFirma, usernameLoguejat)) {
-            // XYZ ZZZ TRA
-            throw new I18NException("genapp.comodi", "L´usuari " + usernameLoguejat
-                    + " no té permisos sobre la petició de firma amb ID " + peticioDeFirma.getPeticioDeFirmaID());
+        if (checkUsername) {
+            if (!hasAccess(estatDeFirma, usernameLoguejat)) {
+                // XYZ ZZZ TRA
+                throw new I18NException("genapp.comodi", "L´usuari " + usernameLoguejat
+                        + " no té permisos sobre la petició de firma amb ID " + peticioDeFirma.getPeticioDeFirmaID());
+            }
         }
 
         Long peticioDeFirmaID = peticioDeFirma.getPeticioDeFirmaID();
@@ -3721,11 +3755,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
      * 
      * @return retorna els mail als que s'ha enviat un avis
      */
-    public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar(long transactionTimeoutInMs) throws Exception, I18NException {
+    public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar(ControlOfExecution coe) throws I18NException {
 
-        
-        long timeout = System.currentTimeMillis() + 3 * (transactionTimeoutInMs / 4);
-        
         Map<String, InfoUser> allUsuariEntitat = new HashMap<String, InfoUser>();
 
         boolean isDebug = log.isDebugEnabled();
@@ -3865,8 +3896,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                             + ((dataSeguentAvis == null) ? "-" : sdf.format(dataSeguentAvis)) + "\t " + enviarCorreu
                             + "\t[" + entitatID + "]");
                 }
-                
-                if (System.currentTimeMillis() > timeout) {
+
+                if (coe.mustExitOfMethod()) {
                     log.warn("S'ha superat el timeout d'enviament de correus agrupats, s'aturen els enviaments");
                     break;
                 }
@@ -3896,8 +3927,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                     log.debug("Per la peticio " + pf.getTitol() + " s'ha d'avisar a "
                             + Arrays.toString(avisarusuaris.toArray()));
                 }
-                
-                
 
             }
 

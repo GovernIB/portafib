@@ -20,7 +20,7 @@ public class PropietatsConstants {
     public static final int TIPUS_PROPIETAT_FITXER_PORTAFIB_PROPERTIES = 2;
 
     public static final int TIPUS_PROPIETAT_FITXER_PORTAFIB_SYSTEM_PROPERTIES = 3;
-    
+
     public static final int TIPUS_PROPIETAT_JAVA = 4;
 
     public static final Map<String, Propietat> PROPIETATS_BBDD_PER_ENTITAT = new HashMap<String, Propietat>();
@@ -117,9 +117,11 @@ public class PropietatsConstants {
                 new Propietat(false, "es.caib.portafib.compactmenuoptionsofaden",
                         "Deprecat a la 3.0.3. Nou a la versió 2.0.1. Opcional. Per defecte false. Per entorn CAIB sempre val true. En entorn NO CAIB si val true indica que varies opcions del menú d’Administrador d’Entitat associades a Llistat de Peticions de Firma no es mostraran."),
                 new Propietat(true, "es.caib.portafib.dniPattern",
-                        "Nou a la versió 2.0.21. Opcional. Llista de expressions regulars, separades per bots de línia que s'empraran per extreure el NIF/NIE de dins el serialNumber del Subject dels certificats. el NIF/NIE ha d'estar dins el primer grup. Exemple: \"^IDCES-([0-9]{8}[A-Z])$\", \"^PNOES-([0-9]{8}[A-Z])$\", \"^([0-9]{8}[A-Z])$\"")
-
-        };
+                        "Nou a la versió 2.0.21. Opcional. Llista de expressions regulars, separades per bots de línia que s'empraran per extreure el NIF/NIE de dins el serialNumber del Subject dels certificats. el NIF/NIE ha d'estar dins el primer grup. Exemple: \"^IDCES-([0-9]{8}[A-Z])$\", \"^PNOES-([0-9]{8}[A-Z])$\", \"^([0-9]{8}[A-Z])$\""),
+                new Propietat(true, "es.caib.portafib.rebuigpeticionscaducades.cron",
+                        "Opcional. Cron Expression per definir quan executar-se el procés de Rebuig de Peticion Caducades. Si val null o buit, llavors no s´executa el procés de neteja. Despres de modificar aquest valor, es necessari reiniciar el servidor. Veure cronmaker.com.Exemple: 0 0/10 1 * * * * (Durant la 1 de la matinada executa cada 10 minuts)"),
+                new Propietat(true, "es.caib.portafib.rebuigpeticionscaducades.dies",
+                        "Opcional. Indica els dies després d´aquest valor en que el procés de Rebuig de peticions Caducades actuarà. Despres de modificar aquest valor, es necessari reiniciar el servidor. Valor per defecte 4 anys (1460).") };
 
         for (Propietat p : propietats_bbdd_per_entitat) {
             PROPIETATS_BBDD_PER_ENTITAT.put(p.clau, p);

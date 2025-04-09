@@ -12,6 +12,7 @@ import es.caib.portafib.persistence.FirmaJPA;
 import es.caib.portafib.persistence.FitxerJPA;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.InfoUser;
+import es.caib.portafib.logic.scheduler.AbstractScheduler.ControlOfExecution;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Firma;
@@ -54,6 +55,9 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaService {
     public Set<Long> deleteFullUsingUsuariAplicacio(Long peticioDeFirmaID, String usuariAplicacioID)
             throws I18NException;
 
+    public Set<Long> deleteFullUsingUsuariAplicacio(Long peticioDeFirmaID, String usuariAplicacioID,
+            String motiuEsborrat) throws I18NException;
+
     public void start(Long peticioDeFirmaID, boolean wakeupTimer, String usernameLoguejat) throws I18NException;
 
     public boolean pause(Long peticioDeFirmaID, String usernameLoguejat) throws I18NException;
@@ -94,6 +98,8 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaService {
             int numFirmesOriginals, String usernameLoguejat, boolean administrationIdCanBeValidatedFromPlugin)
             throws I18NException;
 
+    public void rebutjarPeticioDesDeProcesIntern(long peticioDeFirmaId, String motiuDeRebuig) throws I18NException;
+
     public void rebutjarADEN(PeticioDeFirmaJPA peticioDeFirma, String usuariEntitatAden, String motiuDeRebuig)
             throws I18NException;
 
@@ -121,7 +127,8 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaService {
             String newMessageFormaPatternForName, String descripcio, String motiu, FitxerJPA fitxerJPA)
             throws I18NException;
 
-    public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar(long transactionTimeoutInMs) throws Exception, I18NException;
+    public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar(ControlOfExecution coe)
+            throws I18NException;
 
     public void sendMailToExternalUser(String entitatId, long peticioDeFirmaID, String titolPeticio, FirmaJPA firmaJPA)
             throws I18NException;

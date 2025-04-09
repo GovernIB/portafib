@@ -29,6 +29,7 @@ import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.logic.scheduler.AbstractScheduler.ControlOfExecution;
 import es.caib.portafib.logic.utils.EmailInfo;
 import es.caib.portafib.logic.utils.EmailUtil;
 
@@ -87,11 +88,10 @@ public class EnviarCorreusAgrupatsUtils {
 
     }
 
-    public static Map<String, Integer> enviarAvisosAgrupats(long timeoutTransaction) throws Exception {
+    public static Map<String, Integer> enviarAvisosAgrupats(ControlOfExecution coe) throws Exception {
 
         Map<String, Integer> result = new HashMap<String, Integer>();
-        long timeout = System.currentTimeMillis() + 3 * (timeoutTransaction / 4);
-
+        
         final boolean isDebug = log.isDebugEnabled();
 
         if (isDebug) {
@@ -166,7 +166,7 @@ public class EnviarCorreusAgrupatsUtils {
                 Thread.sleep(500);
             }
 
-            if (System.currentTimeMillis() > timeout) {
+            if (coe.mustExitOfMethod()) {
                 log.warn("S'ha superat el timeout d'enviament de correus agrupats, s'aturen els enviaments");
                 break;
             }
@@ -272,7 +272,7 @@ public class EnviarCorreusAgrupatsUtils {
                 obj = u.unmarshal(new ByteArrayInputStream(lineXml.getBytes()));
 
                 if (obj != null) {
-                    System.out.println(" INFO READ = " + ((EmailInfo) obj).getSubject());
+                    log.debug(" INFO READ = " + ((EmailInfo) obj).getSubject());
                 }
 
             } while (true);

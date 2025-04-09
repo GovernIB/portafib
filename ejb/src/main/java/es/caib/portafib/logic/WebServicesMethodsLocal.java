@@ -18,12 +18,11 @@ import org.fundaciobit.genapp.common.query.Where;
 @Local
 public interface WebServicesMethodsLocal extends PeticioDeFirmaLogicaLocal {
 
-  String JNDI_NAME = "java:app/portafib-ejb/WebServicesMethodsEJB";
+    String JNDI_NAME = "java:app/portafib-ejb/WebServicesMethodsEJB";
 
-  public PeticioDeFirmaJPA createAndStartPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma, String usuariAplicacioID)
-    throws Exception, I18NException, I18NValidationException;
+    public PeticioDeFirmaJPA createAndStartPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma, String usuariAplicacioID)
+            throws Exception, I18NException, I18NValidationException;
 
-  public List<Long> deletePeticionsDeFirma(Where filtre, String usuariAplicacioID) throws Exception, I18NException;
+    public List<Long> deletePeticionsDeFirma(Where filtre, String usuariAplicacioID) throws Exception, I18NException;
 
 }
-

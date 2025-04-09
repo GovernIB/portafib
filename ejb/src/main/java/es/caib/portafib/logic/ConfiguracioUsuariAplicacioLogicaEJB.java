@@ -253,7 +253,6 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
      */
     protected PerfilDeFirma getPerfilDeFirmaPerPassarela(final String usuariAplicacioID,
             final boolean esFirmaEnServidor) throws I18NException {
-        System.out.println(usuariAplicacioID + esFirmaEnServidor);
 
         final Field<Boolean> usFirmaPassarela;
         if (esFirmaEnServidor) {

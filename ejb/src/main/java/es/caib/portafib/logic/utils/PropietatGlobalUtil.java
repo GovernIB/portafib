@@ -83,6 +83,14 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     public static String getAvisosFirmesPendentsCronExpression() {
         return getString("avisosfirmespendents.cron");
     }
+    
+    public static String getRebuigPeticionsCaducadesCronExpression() {
+        return getString("rebuigpeticionscaducades.cron");
+    }
+    
+    public static Long getRebuigPeticionsCaducadesDies() {
+        return getLong("rebuigpeticionscaducades.dies");
+    }
 
     /**
      * 

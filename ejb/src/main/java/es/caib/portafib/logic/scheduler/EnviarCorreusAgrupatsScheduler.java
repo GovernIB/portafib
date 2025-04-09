@@ -39,11 +39,11 @@ public class EnviarCorreusAgrupatsScheduler extends AbstractScheduler {
     }
 
     @Override
-    public void executeTask() {
+    public void executeTask(ControlOfExecution coe) {
         try {
             Map<String, Integer> enviats;
 
-            enviats = EnviarCorreusAgrupatsUtils.enviarAvisosAgrupats(getTimeoutTransactionInMs());
+            enviats = EnviarCorreusAgrupatsUtils.enviarAvisosAgrupats(coe);
 
             StringBuilder sb = new StringBuilder();
             enviats.forEach((key, value) -> sb.append(key).append("(").append(value).append(") |"));
