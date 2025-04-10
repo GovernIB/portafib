@@ -1,10 +1,12 @@
 package es.caib.portafib.back.controller.common;
 
+import es.caib.portafib.back.controller.FileDownloadController;
 import es.caib.portafib.back.security.LoginException;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.persistence.PluginJPA;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebPublicLogicaLocal;
 import es.caib.portafib.logic.generator.IdGeneratorFactory;
@@ -182,7 +184,7 @@ public class SignatureModuleController extends HttpServlet {
             if (error == null) {
                 modulsFiltered.add((PluginJPA) modulDeFirmaJPA);
             }
-            ;
+
         }
 
         // Si només hi ha un mòdul de firma llavors anar a firmar directament
@@ -209,6 +211,35 @@ public class SignatureModuleController extends HttpServlet {
         mav.addObject("moduls", modulsFiltered);
         mav.addObject("lang", lang);
         mav.addObject("thecontext", getContextWeb());
+
+        String backgroundColor = Configuracio.getHeaderBackgroundColor();
+        if (backgroundColor != null) {
+
+            if (signaturesSet.getEntitat() != null) {
+
+                final String url = signaturesSet.getUrlFinal();
+
+                if (url.indexOf(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT) == -1
+                        && url.indexOf(ConstantsV2.CONTEXT_DELE_ESTATFIRMA_PENDENT) == -1) {
+                    /*
+                    log.info("\n\n URL BASE => " + signaturesSet.getUrlBase() + "\n"
+                        + " URL FINAL => " + signaturesSet.getUrlFinal() + "\n"
+                        + " URL FINAL ORIGINAL => " + signaturesSet.getUrlFinalOriginal() + "\n\n"
+                        );
+                        */
+
+                    final String logoUrl = FileDownloadController.fileUrl(signaturesSet.getEntitat().getLogoWeb());
+                    final String entitatNom = signaturesSet.getEntitat().getNom();
+
+                    mav.addObject("backgroundColor", backgroundColor);
+                    mav.addObject("logoUrl", logoUrl);
+                    mav.addObject("entitatNom", entitatNom);
+                }
+            } else {
+                log.warn("\n La petició no inclou l'ENTITAT !!!! " + signaturesSet.urlFinal + "\n");
+            }
+
+        }
 
         return mav;
 
@@ -303,8 +334,6 @@ public class SignatureModuleController extends HttpServlet {
             log.debug("getContextWeb: " + getContextWeb());
         }
         signaturesSet.setSelectedPluginID(pluginID);
-
-        
 
         String relativeControllerBase = getRelativeControllerBase(request, getContextWeb());
         if (log.isDebugEnabled()) {
