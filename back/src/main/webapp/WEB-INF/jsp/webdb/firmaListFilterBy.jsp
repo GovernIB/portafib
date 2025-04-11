@@ -71,7 +71,7 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.DESTINATARIID)}">
             <%-- FILTRE STRING --%>
             <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-              <fmt:message key="firma.destinatariID" var="destinatariID" />
+              <fmt:message key="${(empty __theFilterForm.labels[FirmaFields.DESTINATARIID])? 'firma.destinatariID':__theFilterForm.labels[FirmaFields.DESTINATARIID]}" var="destinatariID" />
               <fmt:message key="genapp.form.searchby" var="cercaperdestinatariID" >                
                  <fmt:param value="${destinatariID}"/>
               </fmt:message>

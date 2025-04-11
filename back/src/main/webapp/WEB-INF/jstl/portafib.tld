@@ -36,6 +36,7 @@
         </function-signature>
 </function>
 
+
 <function>
         <description>Genera Icones per ordenar columnes </description>
         <name>getSortIcons</name>

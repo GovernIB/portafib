@@ -55,6 +55,16 @@ public class Utils {
         }
         return getSortIcons(baseFilter, theField, code);
     }
+    
+    
+    public static String getLabel(BaseFilterForm baseFilter, Field<?> theField) throws Exception {
+        String code = theField.getFullName();
+        String newCode = baseFilter.getLabels().get(theField);
+        if (newCode != null) {
+            code = newCode;
+        }
+        return getText(code);
+    }
 
     protected static String getSortIcons(BaseFilterForm baseFilter, Field<?> theField, String code) throws Exception {
 

@@ -138,19 +138,24 @@ public class FirmaUsuariExternAdenController extends FirmaController {
             hiddenFields.remove(USUARIEXTERNEMAIL);
             hiddenFields.remove(USUARIEXTERNNOM);
             hiddenFields.remove(USUARIEXTERNLLINATGES);
-            hiddenFields.remove(DESTINATARIID);
+            hiddenFields.remove(DESTINATARIID); // #1023
 
             firmaFilterForm.setHiddenFields(hiddenFields);
 
-            // Agrupació només per DestinatariID
+            // Revisar el rendiment de la secció Firmes d´Usuaris Externs      #1023
+            // CAp grupacio
             firmaFilterForm.setGroupByFields(new ArrayList<Field<?>>());
-            firmaFilterForm.addGroupByField(DESTINATARIID);
+            
 
             // Filtres
             firmaFilterForm.setFilterByFields(new ArrayList<Field<?>>());
             firmaFilterForm.addFilterByField(USUARIEXTERNEMAIL);
             firmaFilterForm.addFilterByField(USUARIEXTERNNOM);
             firmaFilterForm.addFilterByField(USUARIEXTERNLLINATGES);
+            firmaFilterForm.addFilterByField(DESTINATARIID); // #1023
+            
+
+            // #1023
 
             // Afegir nova columna de peticio
             AdditionalField<Long, String> additionalField = new AdditionalField<Long, String>();
