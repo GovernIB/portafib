@@ -200,7 +200,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
                                 + usuariEntitatID + ".";
                     }
 
-                    enviarCorreuAdmistradorsRequerit(getSubjectUpdadeUsers(), msg, entitatID);
+                    enviarCorreuAdmistradorsOpcional(getSubjectUpdadeUsers(), msg, entitatID);
                     log.error(msg, new Exception(msg));
 
                     return null;
@@ -354,12 +354,12 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
                             } catch (I18NException i18ne) {
                                 String msg = "Error desconegut activant usuari entitat " + ue.getUsuariEntitatID()
                                         + ": " + I18NLogicUtils.getMessage(i18ne, locale);
-                                enviarCorreuAdmistradorsRequerit(getSubjectUpdadeUsers(), msg, entitatID);
+                                enviarCorreuAdmistradorsOpcional(getSubjectUpdadeUsers(), msg, entitatID);
                                 log.error(msg, i18ne);
                             }
                         }
 
-                        enviarCorreuAdmistradorsRequerit(getSubjectUpdadeUsers(),
+                        enviarCorreuAdmistradorsOpcional(getSubjectUpdadeUsers(),
                                 "S'ha rebut una petició via AgentSQL(" + agentsql + ") per donar"
                                         + " d'alta (insert) l'usuari " + codusu + " dins l'entitat " + entitatID
                                         + ", però aquest usuari-entitat " + ue.getUsuariEntitatID()
@@ -476,7 +476,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
                                 + " ja que existeix una o varies firmes actives pendents de signar" + " (Firma/es  "
                                 + firmesEnBlocsActius + ")\n"
                                 + "Manualment ha d'aplicar la desactivació a l'Usuari-Entitat " + usuariEntitatID + ".";
-                        enviarCorreuAdmistradorsRequerit(getSubjectUpdadeUsers(), msg, entitatID);
+                        enviarCorreuAdmistradorsOpcional(getSubjectUpdadeUsers(), msg, entitatID);
                         log.error(msg, new Exception(msg));
                         return null;
                     }
