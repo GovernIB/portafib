@@ -261,7 +261,7 @@ public abstract class AbstractPropietatsController extends PropietatGlobalContro
 
         }
 
-        if (log.isDebugEnabled()) {
+        if (log.isDebugEnabled() && propietats != null) {
             log.debug("propietats SIZE => " + propietats.size());
         }
 
