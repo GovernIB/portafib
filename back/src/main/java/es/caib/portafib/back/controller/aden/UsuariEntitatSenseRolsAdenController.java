@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.aden;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,7 +26,9 @@ import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.fundaciobit.pluginsib.userinformation.IUserInformationPlugin;
+import org.fundaciobit.pluginsib.userinformation.RolesInfo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,6 +40,7 @@ import es.caib.portafib.back.controller.webdb.UsuariEntitatController;
 import es.caib.portafib.back.form.webdb.UsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.FirmaService;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
@@ -55,19 +59,18 @@ import es.caib.portafib.model.fields.RevisorDeDestinatariFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * Controlador per a la gestió de usuaris sense rols.
  * @author anadal
  * 13 feb 2025 12:02:29
  */
-
 @Controller
 @RequestMapping(value = "/aden/usuarientitatsenserols")
 @SessionAttributes(types = { UsuariEntitatForm.class, UsuariEntitatFilterForm.class })
 @MenuOption(labelCode = "usuarientitat.senserols.plural", order = 260, group = Constants.ROLE_ADEN)
-public class UsuariEntitatSenseRols extends UsuariEntitatController {
+public class UsuariEntitatSenseRolsAdenController extends UsuariEntitatController {
 
     @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
     protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
@@ -117,9 +120,17 @@ public class UsuariEntitatSenseRols extends UsuariEntitatController {
 
             hiddenFields.remove(USUARIENTITATID);
             hiddenFields.remove(USUARIPERSONAID);
-            hiddenFields.remove(EMAIL);
+            //hiddenFields.remove(EMAIL);
 
             usuariEntitatFilterForm.setHiddenFields(hiddenFields);
+
+            usuariEntitatFilterForm.addAdditionalButton(new AdditionalButton(
+                    "fas fa-ban", "desactivar", "javascript:submitTo('usuariEntitatFilterForm','"
+                            + request.getContextPath() + getContextWeb() + "/desactivarSelected/')",
+                    AdditionalButtonStyle.WARNING));
+
+            usuariEntitatFilterForm.setOrderBy(USUARIENTITATID.javaName);
+            usuariEntitatFilterForm.setOrderAsc(true);
 
             AdditionalField<String, String> adfield4 = new AdditionalField<String, String>();
             adfield4.setCodeName("usuarientitat.senserols.info");
@@ -133,6 +144,21 @@ public class UsuariEntitatSenseRols extends UsuariEntitatController {
 
         return usuariEntitatFilterForm;
 
+    }
+
+    @RequestMapping(value = "/desactivarSelected", method = RequestMethod.POST)
+    public ModelAndView desactivarSelected(HttpServletRequest request, HttpServletResponse response, @ModelAttribute
+    UsuariEntitatFilterForm filterForm) throws Exception {
+
+        String[] seleccionats = filterForm.getSelectedItems();
+
+        if (seleccionats != null && seleccionats.length != 0) {
+            for (int i = 0; i < seleccionats.length; i++) {
+                desactivarUsuariEntitat(stringToPK(seleccionats[i]), request, response);
+            }
+        }
+        ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
+        return mav;
     }
 
     @RequestMapping(value = "/desactivar/{usuariEntitatID:.+}", method = RequestMethod.GET)
@@ -217,8 +243,8 @@ public class UsuariEntitatSenseRols extends UsuariEntitatController {
                 Where w1 = Where.AND(EstatDeFirmaFields.USUARIENTITATID.equal(ueID),
                         EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull(),
                         EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
-                                .in(new Long[] { Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR,
-                                        Constants.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR }));
+                                .in(new Long[] { ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR,
+                                        ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR }));
 
                 EstatDeFirmaQueryPath efqp = new EstatDeFirmaQueryPath();
 
@@ -230,7 +256,7 @@ public class UsuariEntitatSenseRols extends UsuariEntitatController {
                 Select<String> PET_NOM = pfqp.TITOL().select;
 
                 Where w3 = pfqp.TIPUSESTATPETICIODEFIRMAID()
-                        .equal(Integer.valueOf(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES));
+                        .equal(Integer.valueOf(ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES));
 
                 Select4Columns<Long, String, Long, Long> select;
                 select = new Select4Columns<Long, String, Long, Long>(PET_ID, PET_NOM,
@@ -244,7 +270,7 @@ public class UsuariEntitatSenseRols extends UsuariEntitatController {
                 for (Select4Values<Long, String, Long, Long> peticio : peticions) {
                     // TODO 
                     htmlCode.append("<tr class=\"table-danger\"><td>"
-                            + (peticio.getValue3().equals(Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR)
+                            + (peticio.getValue3().equals(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR)
                                     ? "Assignat per firmar"
                                     : " Assignat per validar")
 
@@ -255,8 +281,8 @@ public class UsuariEntitatSenseRols extends UsuariEntitatController {
                                             + "?redirectOnModify=" + getContextWeb() + "/list&readOnly=true",
                                     "Flux de Firmes")
 
-                            + crearBoto(request.getContextPath() + getContextWeb() + "/rebutjarPeticio/" + ueID + "/"
-                                    + peticio.getValue1(), "Rebutjar Peticio")
+                            + crearBotoIntern(request.getContextPath() + getContextWeb() + "/rebutjarPeticio/" + ueID + "/"
+                                    + peticio.getValue1(), "Rebutjar Peticio", "fas fa-times icon-white", "btn-danger")
                             + "</td></tr>");
                 }
             }
@@ -304,28 +330,83 @@ public class UsuariEntitatSenseRols extends UsuariEntitatController {
                 + icon + "\"></i></a>";
     }
 
-    public static Set<String> usuarisLDAPCache = new HashSet<String>();
+    public static List<String> usuarisSenseRolCache = new ArrayList<String>();
 
-    public static long lastUpdateUsuarisLDAP = 0;
+    public static long lastUpdateUsuarisSenseRol = 0;
 
     @Override
     public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
 
         // TODO FICAR DINS CACHE !!!!
+        UsuariEntitatQueryPath ueqp = new UsuariEntitatQueryPath();
 
-        if ((lastUpdateUsuarisLDAP + 3600000) < System.currentTimeMillis()) {
+        final Where w1 = Where.AND(
+                // Que estiguin Actius
+                ACTIU.equal(true),
+                // No és un càrrec
+                CARREC.isNull(),
+                // Nomes els usuaris interns
+                ueqp.USUARIPERSONA().USUARIINTERN().equal(true),
+                // De la nostra entitat
+                ENTITATID.equal(LoginInfo.getInstance().getEntitatID()));
 
-            Set<String> usuaris = new HashSet<String>();
+        if ((lastUpdateUsuarisSenseRol + 36000000) < System.currentTimeMillis()) {
+
+            List<String> usuarisSenseRol = new ArrayList<String>();
             try {
 
                 long start = System.currentTimeMillis();
+
                 IUserInformationPlugin plugin = PortaFIBPluginsManager.getUserInformationPluginInstance();
+
+                log.info("Consultant usuaris de l'entitat ...");
+
+                List<String> allUsuaris = this.usuariEntitatLogicaEjb.executeQuery(USUARIPERSONAID, w1);
+
+                int count = 0;
+
+                log.info("Processant usuaris de l'entitat que no tenen rols de PortaFIB ...");
+
+                for (String username : allUsuaris) {
+                    if (count % 50 == 0) {
+                        log.info(" Cercant usuaris sense rol (" + count + "/" + allUsuaris.size() + ")");
+                        if ((start + 2 * 60 * 1000) < System.currentTimeMillis()) {
+                            HtmlUtils.saveMessageWarning(request,
+                                    "Només s'han pogut processar " + count + " usuaris de " + allUsuaris.size());
+                            break;
+                        }
+                    }
+                    RolesInfo rolesInfo = plugin.getRolesByUsername(username);
+                    if (rolesInfo == null) {
+                        // Usuari no existeix
+                        usuarisSenseRol.add(username);
+                    } else {
+                        String[] roles = rolesInfo.getRoles();
+                        if (roles != null && roles.length != 0) {
+                            List<String> rolesAsList = Arrays.asList(roles);
+                            if (rolesAsList.contains(es.caib.portafib.commons.utils.Constants.USUARI_TIPUS_I)
+                                    || rolesAsList.contains(Constants.PFI_USER)
+                                    || rolesAsList.contains(Constants.PFI_ADMIN)) {
+
+                            } else {
+                                usuarisSenseRol.add(username);
+                            }
+
+                        } else {
+                            usuarisSenseRol.add(username);
+                        }
+                    }
+                    count++;
+                }
+
+                /*
                 String[] rol_user = plugin.getUsernamesByRol(Constants.PFI_USER);
-
+                
                 String[] rol_admin = plugin.getUsernamesByRol(Constants.PFI_ADMIN);
-
+                
                 usuaris.addAll(Arrays.asList(rol_user));
                 usuaris.addAll(Arrays.asList(rol_admin));
+                */
 
                 log.info("Consultant usuaris amb rol PFI_USER i PFI_ADMIN: " + (System.currentTimeMillis() - start)
                         + " ms");
@@ -336,23 +417,14 @@ public class UsuariEntitatSenseRols extends UsuariEntitatController {
                 throw new I18NException(e, "genapp.comodi", msg);
             }
 
-            usuarisLDAPCache = usuaris;
-            lastUpdateUsuarisLDAP = System.currentTimeMillis();
+            usuarisSenseRolCache = usuarisSenseRol;
+            lastUpdateUsuarisSenseRol = System.currentTimeMillis();
 
         }
 
-        UsuariEntitatQueryPath ueqp = new UsuariEntitatQueryPath();
-        return Where.AND(
-                // Que estiguin Actius
-                ACTIU.equal(true),
-                // No és un càrrec
-                CARREC.isNull(),
-                // Nomes els usuaris interns
-                ueqp.USUARIPERSONA().USUARIINTERN().equal(true),
-                // De la nostra entitat
-                ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
-                // Qu eno tenguin rol PFI_USEr o PFI_ADMIN
-                USUARIPERSONAID.notIn(usuarisLDAPCache));
+        return Where.AND(w1,
+                // Que no tenguin rol PFI_USER o PFI_ADMIN
+                USUARIPERSONAID.in(usuarisSenseRolCache));
 
     }
 
