@@ -104,30 +104,40 @@ public class EnviarCorreuProva {
             try {
                 String subject = "Missatge de prova als Administradors d'Entitat de '" + entitatID + "'";
                 Collection<String> emails;
+
+                UsuariPersona usuariPersona = LoginInfo.getInstance().getUsuariPersona();
+                
+                final String msg = "-----------------------------\n" + "Missatge de Prova de PortaFIB\n"
+                        + "-----------------------------\n" + "S'ha creat l'usuari-entitat XXXXXXXXXXXXX"
+                        + " amb la següent informació:" + "\n    * NIF:" + "NNNNNNNNNNNNNNNNN" + "\n    * Username:"
+                        + "UUUUUUUUUUUUUUUUUUU" + "\n    * Email:" + "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
+                        + "\n    * Idioma:" + usuariPersona.getIdiomaID() + "\n    * Llinatges: "
+                        + usuariPersona.getLlinatges() + "\n    * Nom: " + usuariPersona.getNom()
+                        + "\n L´usuari-entitat JA està actiu, però si troba que alguna dada no està correcte,"
+                        + " llavors accedeixi a la Gestió d'Usuaris-Entitat per modificar la informació errònia.";
+
                 if (requerit) {
                     subject = subject + " (Requerit)";
-                    emails = agentsCAIBEjb.enviarCorreuAdmistradorsRequerit(subject, "Missatge de Prova de PortaFIB",
+                    emails = agentsCAIBEjb.enviarCorreuAdmistradorsRequerit(subject, msg,
                             entitatID);
                 } else {
                     subject = subject + " (Opcional)";
-                    emails = agentsCAIBEjb.enviarCorreuAdmistradorsOpcional(subject, "Missatge de Prova de PortaFIB",
+                    emails = agentsCAIBEjb.enviarCorreuAdmistradorsOpcional(subject, msg,
                             entitatID);
                 }
-                
-                
 
-                String msg = requerit ? "Requerit = S'envia de forma obligatoria a tots els Administradors d'Entitat."
+                final String msgInfo = requerit ? "Requerit = S'envia de forma obligatoria a tots els Administradors d'Entitat."
                         : "Opcional = S'envia només als Administradors d'Entitat que tinguin donada d'alta la Notificació per Correu de tipus INCIDENCIA_ADMINISTRADOR";
 
                 HtmlUtils.saveMessageInfo(request,
-                        msg + ". Missatges de Correu enviats als següents administradors de l'entitat de '" + entitatID
+                        msgInfo + ". Missatges de Correu enviats als següents administradors de l'entitat de '" + entitatID
                                 + "':" + emails);
 
             } catch (Exception e) {
-                String msg = "Error al enviar correu als Administradors d'Entitat de '" + entitatID + "'"
+                String msgErr = "Error al enviar correu als Administradors d'Entitat de '" + entitatID + "'"
                         + e.getMessage();
-                log.error(msg, e);
-                HtmlUtils.saveMessageError(request, msg);
+                log.error(msgErr, e);
+                HtmlUtils.saveMessageError(request, msgErr);
             }
         }
 
