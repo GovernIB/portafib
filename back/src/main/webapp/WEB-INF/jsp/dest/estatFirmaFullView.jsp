@@ -164,6 +164,10 @@
              </c:otherwise>
 
            </c:choose>
+           
+           <c:if test="${not empty destinatari.dataFi}">
+                (<fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${destinatari.dataFi}" />)
+           </c:if> 
         </b>
       </small>
       </li>
@@ -202,6 +206,9 @@
                   <fmt:message key="${traduccions[estat.tipusEstatDeFirmaFinalID]}" /> 
                </c:otherwise>
              </c:choose>
+             <c:if test="${not empty estat.dataFi}">
+                (<fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${estat.dataFi}" />)
+             </c:if> 
              </b>
             </small>
             </li>
@@ -241,18 +248,20 @@
                     <fmt:message key="${traduccions[estat.tipusEstatDeFirmaFinalID]}" /> 
                  </c:otherwise>
                </c:choose>
+               
+               <c:if test="${not empty estat.dataFi}">
+                 (<fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${estat.dataFi}" />)
+               </c:if> 
                </b> 
                </small>              
                </li>
           </c:forEach>
         </ul>
-        
-        
+
       </form>
-      
+
     </c:if>
-    
-    
+
     <c:if test="${not empty revisors}">
 
       <style>
@@ -284,6 +293,9 @@
                   <fmt:message key="${traduccions[estat.tipusEstatDeFirmaFinalID]}" /> 
                </c:otherwise>
              </c:choose>
+             <c:if test="${not empty estat.dataFi}">
+                (<fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${estat.dataFi}" />)
+             </c:if> 
              </b>
             </small>
             </li>
