@@ -14,6 +14,8 @@ import es.caib.portafib.commons.utils.Constants;
  */
 public abstract class EstatFirmaAbstractDestController extends AbstractEstatDeFirmaDestDeleColaController {
 
+    
+    
     @Override
     public final String getBaseEntityNameCode() {
         return "solicituddefirma.llistat";

@@ -42,11 +42,14 @@ import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.AnnexFields;
+import es.caib.portafib.model.fields.BlocDeFirmesFields;
+import es.caib.portafib.model.fields.BlocDeFirmesQueryPath;
 import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
 import es.caib.portafib.model.fields.ColaboracioDelegacioQueryPath;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.EstatDeFirmaQueryPath;
 import es.caib.portafib.model.fields.FirmaFields;
+import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.ModulDeFirmaPerTipusDeDocumentFields;
 import es.caib.portafib.model.fields.ModulDeFirmaPerTipusDeDocumentQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
@@ -174,6 +177,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     @EJB(mappedName = SignatureServiceLocal.JNDI_NAME)
     protected SignatureServiceLocal signatureServiceEjb;
 
+    @EJB(mappedName = es.caib.portafib.ejb.BlocDeFirmesService.JNDI_NAME)
+    protected es.caib.portafib.ejb.BlocDeFirmesService blocDeFirmesEjb;
+
     final Long[] ESTATS_INICIALS_COLA = new Long[] { ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
             ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR };
 
@@ -222,13 +228,15 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
     private static final int COLUMN_REVISORS = 6;
 
-    private static final int COLUMN_PETICIODEFIRMA_PRIORITAT = 7;
-
-    private static final IntegerField COLUMN_PETICIODEFIRMA_PRIORITAT_FIELD;
+    private static final int COLUMN_PETICIODEFIRMA_FIRMES_FETES_I_PENDENTS = 7;
 
     private static final int COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE = 8;
 
     private static final DoubleField COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD;
+
+    private static final int COLUMN_PETICIODEFIRMA_PRIORITAT = 9;
+
+    private static final IntegerField COLUMN_PETICIODEFIRMA_PRIORITAT_FIELD;
 
     // Propietat de Col.laboracio-Delegacio
     private final static StringField DESTINATARIID;
@@ -452,12 +460,11 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             }
 
             // ===================  Cerca per informacio addicional avaluable
-            if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)
-                    || role.equals(Constants.ROLE_REVI) || role.equals(Constants.ROLE_COLA)) {
+            if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE) || role.equals(Constants.ROLE_REVI)
+                    || role.equals(Constants.ROLE_COLA)) {
 
                 AdditionalField<String, String> addfieldInfoAddicAval = new AdditionalField<String, String>();
 
-                addfieldInfoAddicAval.setCodeName(PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE.fullName);
                 addfieldInfoAddicAval.setPosition(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE);
                 addfieldInfoAddicAval.setCodeName("informacioaddicionalavaluable.short");
 
@@ -471,6 +478,21 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 ff.addAdditionalField(addfieldInfoAddicAval);
 
                 ff.addHiddenField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
+            }
+
+            if ((role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE))
+                    && getFilterType() == FILTRAR_PER_PENDENT) {
+
+                AdditionalField<String, String> addfieldInfoAddicAval = new AdditionalField<String, String>();
+
+                addfieldInfoAddicAval.setPosition(COLUMN_PETICIODEFIRMA_FIRMES_FETES_I_PENDENTS);
+                addfieldInfoAddicAval.setCodeName("=<b title=\"Firmes realitzades / Firmes Totals\">✍</b>");
+                addfieldInfoAddicAval.setEscapeXml(false);
+
+                // No omplirem els valors
+                addfieldInfoAddicAval.setValueMap(new HashMap<String, String>());
+
+                ff.addAdditionalField(addfieldInfoAddicAval);
             }
 
             // NOVES COLUMNES ESTAT DE FIRMA
@@ -1686,7 +1708,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     protected boolean rebutjarInternal(HttpServletRequest request, HttpServletResponse response, Long estatDeFirmaID,
             Long peticioDeFirmaID, String motiuDeRebuig) throws I18NException {
         final long estatFirmaInicial;
-        
+
         // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
         if (Constants.ROLE_REVI.equals(getRole()) || Constants.ROLE_COLA.equals(getRole())) {
             estatFirmaInicial = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR;
@@ -1700,7 +1722,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 estatFirmaInicial);
         if (check == null) {
             // S'ha produit un error. Retornam.
-            log.warn(" Error desconegut intentnt Rebutjar la firma " + estatDeFirmaID );
+            log.warn(" Error desconegut intentnt Rebutjar la firma " + estatDeFirmaID);
             return false;
         }
 
@@ -2214,7 +2236,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     mapIAA.putAll(mapInfo);
 
                 } else {
-                    // Si no hiha elments, l'afegim als items a ocultar
+                    // Si no hi ha elements, l'afegim als items a ocultar
                     filterForm.addHiddenField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
                 }
 
@@ -2383,6 +2405,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     }
 
                     mapCC.put(estatDeFirmaId, str.toString());
+
                 }
 
                 // Ocultar columna si esta buida
@@ -2398,7 +2421,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                         // NOVA COLUMNA si no esta creada
 
                         adfieldDD = new AdditionalField<Long, String>();
-                        adfieldDD.setCodeName("colaborador.short");
+                        adfieldDD.setCodeName("=<b title=\"" + I18NUtils.tradueix("colaborador.short") + "\" >🤝</b>");
                         adfieldDD.setPosition(COLUMN_COLABORADORS);
                         // Els valors s'ompliran al mètode postList()
                         adfieldDD.setEscapeXml(false);
@@ -2408,6 +2431,44 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
                     adfieldDD.setValueMap(mapCC);
 
+                }
+
+                // ============== Columna de firmes realitzades enfront de les totals ===================
+
+                // Dades de columna 
+
+                if (getFilterType() == FILTRAR_PER_PENDENT) {
+                    Map<Long, String> mapDF;
+                    mapDF = (Map<Long, String>) filterForm
+                            .getAdditionalField(COLUMN_PETICIODEFIRMA_FIRMES_FETES_I_PENDENTS).getValueMap();
+                    mapDF.clear();
+                    for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
+
+                        PeticioDeFirma peticioDeFirma = peticionsByEstat.get(estatDeFirma.getEstatDeFirmaID());
+
+                        // (1) Firmes Realitzades 
+
+                        // Estats de Firmes Associades a la petició
+                        Where w1 = new FirmaQueryPath().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA()
+                                .PETICIODEFIRMAID().equal(peticioDeFirma.getPeticioDeFirmaID());
+
+                        // Estats de Firmes amb signatura realitzada 
+                        Where w2 = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT);
+
+                        long firmesRealitzades = estatDeFirmaLogicaEjb.count(Where.AND(w1, w2));
+
+                        // (2) Total de Firmes (sumatori del minim de firmes de tots els blocs)
+
+                        BlocDeFirmesQueryPath bfqp = new BlocDeFirmesQueryPath();
+
+                        Where wA = bfqp.FLUXDEFIRMES().PETICIODEFIRMA().PETICIODEFIRMAID()
+                                .equal(peticioDeFirma.getPeticioDeFirmaID());
+
+                        long total = blocDeFirmesEjb.sumInteger(BlocDeFirmesFields.MINIMDEFIRMES, wA);
+
+                        mapDF.put(estatDeFirma.getEstatDeFirmaID(),
+                                "<small>" + firmesRealitzades + "/" + total + "</small>");
+                    }
                 }
 
             } else {
@@ -2828,7 +2889,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     EstatDeFirmaFields.COLABORACIODELEGACIOID.isNotNull());
         } else if (role.equals(Constants.ROLE_COLA)) {
             // Els estats de firma de colaborador són aquells que:
-         // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
+            // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
             // (1) Els estats inicials poden ser ASSIGNAT_PER_VALIDAR o  REVISANT_PER_VALIDAR o ASSIGNAT_PER_REVISAR
             // (2) COLABORACIODELEGACIOID es not null
             roleWhere = Where.AND(
@@ -2886,7 +2947,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
             case FILTRAR_PER_NOACCEPTAT: // Rebutjat o invalidat
                 if (role.equals(ROLE_COLA)) {
-                    
+
                     // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
                     estatWhere = Where.OR(
                             // Invalidat
@@ -3011,7 +3072,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
                     // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
                     if (estat.getColaboracioDelegacioID() == null) {
-                        estatsRevisors.add(estat);                        
+                        estatsRevisors.add(estat);
                     } else {
                         estatsColaboradors.add(estat);
                     }
@@ -3126,7 +3187,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 } else {
                     msg = e.getMessage();
                 }
-                HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.processSignatures", fitxer.getNom(), msg));
+                HtmlUtils.saveMessageError(request,
+                        I18NUtils.tradueix("error.processSignatures", fitxer.getNom(), msg));
             }
         }
         return signatures;
