@@ -50,7 +50,10 @@ public class RedirectToPortafibBackFilter implements Filter {
             chain.doFilter(request, response);
         } else {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
-            httpResponse.sendRedirect("/portafibback" + path);
+            
+            String query = httpRequest.getQueryString();
+            
+            httpResponse.sendRedirect("/portafibback" + path + (query != null ? ("?" + query) : ""));
         }
     }
 

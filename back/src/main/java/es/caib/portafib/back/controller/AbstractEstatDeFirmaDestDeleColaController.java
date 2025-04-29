@@ -486,7 +486,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 AdditionalField<String, String> addfieldInfoAddicAval = new AdditionalField<String, String>();
 
                 addfieldInfoAddicAval.setPosition(COLUMN_PETICIODEFIRMA_FIRMES_FETES_I_PENDENTS);
-                addfieldInfoAddicAval.setCodeName("=<b title=\"Firmes realitzades / Firmes Totals\">✍</b>");
+                addfieldInfoAddicAval.setCodeName("firmes.short");
                 addfieldInfoAddicAval.setEscapeXml(false);
 
                 // No omplirem els valors
@@ -2125,7 +2125,6 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         // Aquesta serà la llista d'id de petició que tenen qualque annex
         List<Long> listPeticionsAmbAnnex = annexEjb.executeQuery(AnnexFields.PETICIODEFIRMAID,
                 AnnexFields.PETICIODEFIRMAID.in(idsPeticio));
-        //////////
 
         Device device = DeviceUtils.getRequiredCurrentDevice(request);
 
@@ -2421,7 +2420,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                         // NOVA COLUMNA si no esta creada
 
                         adfieldDD = new AdditionalField<Long, String>();
-                        adfieldDD.setCodeName("=<b title=\"" + I18NUtils.tradueix("colaborador.short") + "\" >🤝</b>");
+                        adfieldDD.setCodeName("colaborador.short");
                         adfieldDD.setPosition(COLUMN_COLABORADORS);
                         // Els valors s'ompliran al mètode postList()
                         adfieldDD.setEscapeXml(false);
