@@ -1,22 +1,29 @@
 package es.caib.portafib.logic.notificacions;
 
-//XXX import com.sun.jersey.api.client.Client;
-//XXX import com.sun.jersey.api.client.ClientResponse;
-//XXX import com.sun.jersey.api.client.WebResource;
+
 import es.caib.portafib.logic.events.FirmaEvent;
 import es.caib.portafib.logic.utils.NotificacioInfo;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.ws.callback.api.v1.PortaFIBEvent;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
+
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.jboss.logging.Logger;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.client.Client;
@@ -47,9 +54,34 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
         ClientBuilder configuration = ClientBuilder.newBuilder();
         configuration.connectTimeout(CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS);
         configuration.readTimeout(RECEIVE_TIMEOUT_MS, TimeUnit.MILLISECONDS);
-        client = configuration.build();
-
+        
+        
         mapper = new ObjectMapper();
+
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Timestamp.class, new JsonStdDateSerializer());
+        mapper.registerModule(module);
+        
+        JacksonJsonProvider provider = new JacksonJsonProvider(mapper);
+
+
+        client = configuration.register(provider).build();
+    }
+    
+    
+    public class JsonStdDateSerializer extends JsonSerializer<Timestamp> {
+
+ 
+
+      @Override
+      public void serialize(Timestamp value, JsonGenerator gen, SerializerProvider serializers)
+            throws IOException {
+          log.info("\n\n\n\n ----------- ENTRA A TIMESTAMP SERIALIZER NUMBER---------------\n\n\n\n");
+
+          // clone because DateFormat is not thread-safe
+          gen.writeNumber(value.getTime());
+        
+      }
     }
 
     @Override
@@ -72,16 +104,21 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
 
         PortaFIBEvent event = createPortaFIBEvent(fe, ua);
 
-        String json = null;
+       
         try {
-            json = mapper.writeValueAsString(event);
+            
 
             // XXX WebResource webResource = client.resource(endPoint);
             WebTarget webResource = client.target(endPoint);
+            
+            String json = null;
+            json = mapper.writeValueAsString(event);
 
-            Entity<PortaFIBEvent> jsonEntity = Entity.json(event);
+            Entity<String> jsonEntity = Entity.json(json);
 
-            if (log.isDebugEnabled()) {
+            // TODO
+            //if (log.isDebugEnabled()) 
+            {
                 log.info("JSON EVENT:\n" + json);
             }
 
@@ -106,7 +143,13 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
             }
 
         } catch (Exception e) {
-            log.error("JSON EVENT:\n" + json);
+            try {
+                String json = null;
+                json = mapper.writeValueAsString(event);
+                log.error("JSON EVENT:\n" + json);
+            } catch (Exception e1) {
+                log.error("Error al serialitzar el JSON de la notificació", e1);
+            }
             log.error("CallBackException(REST): " + e.getMessage(), e);
             throw new I18NException(e, "error.unknown", new I18NArgumentString(e.getMessage()));
         }
