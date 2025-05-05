@@ -10,7 +10,7 @@
     }
 ,
     {
-        "url": "./openapi_firma_v1.json",
-        "name": "Firma v1"
+        "url": "./openapi_signature_v1.json",
+        "name": "Signature v1"
     }
 ]

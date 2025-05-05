@@ -37,7 +37,6 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
-import es.caib.portafib.utils.ConstantsV2;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -98,7 +97,7 @@ public class RevisorsService extends RestUtils {
 
     @Path("/revisorsbydestinatarinif")
     @GET
-    @RolesAllowed(Constants.ROLE_EJB_WS_ACCESS)
+    @RolesAllowed(Constants.PFI_WS)
     @SecurityRequirement(name = SECURITY_NAME)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
@@ -244,7 +243,7 @@ public class RevisorsService extends RestUtils {
                 UsuariEntitatQueryPath ueqp = rueqp.USUARIENTITAT();
                 Where w1 = ueqp.ENTITATID().equal(entitatID);
                 Where w2 = ueqp.ACTIU().equal(true);
-                Where w3 = RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_REVI);
+                Where w3 = RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_REVI);
 
                 //  1 username,
                 //  2 administrationId

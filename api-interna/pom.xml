@@ -150,26 +150,34 @@
                             <goal>resolve</goal>
                         </goals>
                         <configuration>
-                            <contextId>Firma v1</contextId>
-                            <outputFileName>openapi_firma_v1</outputFileName>
+                            <contextId>Signature v1</contextId>
+                            <outputFileName>openapi_signature_v1</outputFileName>
                             <resourcePackages>
                                 <package>es.caib.portafib.api.interna.config</package>
-                                <package>
-                                    es.caib.portafib.api.interna.secure.firma</package>
+                                <package>es.caib.portafib.api.interna.secure.signature.v1.commons</package>
+                                <package>es.caib.portafib.api.interna.secure.signature.v1.signatureonserver</package>
+                                <package>es.caib.portafib.api.interna.secure.signature.v1.directsignatureonweb</package>
                             </resourcePackages>
+                            <!-- Esta es la clave para que Swagger incluya anotaciones heredadas -->
+                            <resolveFully>true</resolveFully>
+                
+                            <!-- Opcional: para que también mire interfaces -->
+                            <scanDependencies>true</scanDependencies>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
             
-            <!-- Processa l'atribut 'example' del @Schema dels enums swagger i   -->
-            <!-- converteix aquest en noms de variables correctes: -->
-            <!-- Exemple:    example="SIGNTYPE_PADES|SIGNTYPE_CADES|SIGNTYPE_XADES", -->
+            
             <plugin>                                                         
                 <groupId>org.codehaus.gmaven</groupId>                       
                 <artifactId>groovy-maven-plugin</artifactId>                 
                 <version>2.1.1</version>                                       
-                <executions>                                                 
+                <executions>    
+                
+                    <!-- Processa l'atribut 'example' del @Schema dels enums swagger i   -->
+                    <!-- converteix aquest en noms de variables correctes: -->
+                    <!-- Exemple:    example="SIGNTYPE_PADES|SIGNTYPE_CADES|SIGNTYPE_XADES", -->                                             
                     <execution>                                              
                         <phase>process-classes</phase>                              
                         <goals>                                              
@@ -182,8 +190,26 @@
                             </properties>
                         </configuration>                                     
                     </execution>                                             
-                </executions>                                                
+                
+                
+                    <!-- Eliminam _1 de les anotacions amb operationID duplicat --> 
+                    <execution>
+                        <id>replace-secondary-operations</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>${project.basedir}/ReplaceSecondaryOperations.groovy</source>
+                            <properties>
+                                <openapifolder>${project.basedir}/openapi</openapifolder>
+                            </properties>
+                        </configuration>
+                    </execution>
+                </executions>                                             
             </plugin>
+            
+
 
 
             <!--
@@ -229,8 +255,7 @@
                                 <artifactId>
                                     portafib-api-interna-client-infoversio-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>PortaFIB - API Rest -
-                                    Interna Client - Informació de Versions v1</artifactDescription>
+                                <artifactDescription>PortaFIB - API Rest - Interna Client - Informació de Versions v1</artifactDescription>
                                 <dateLibrary>java8</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
@@ -286,33 +311,40 @@
                         </goals>
                         <configuration>
                             <inputSpec>
-                                ${project.basedir}/openapi/openapi_firma_v1.json</inputSpec>
+                                ${project.basedir}/openapi/openapi_signature_v1.json</inputSpec>
                             <generatorName>java</generatorName>
-                            <skipValidateSpec>false</skipValidateSpec>
+                            <skipValidateSpec>true</skipValidateSpec>
                             <library>resteasy</library>
                             <addCompileSourceRoot>false</addCompileSourceRoot>
                             <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
                             <!-- <configHelp>true</configHelp> -->
                             <output>
-                                ${project.basedir}/../api-interna-client-firma-v1</output>
-                            <apiPackage>${client.default.package}.firma.v1.api</apiPackage>
+                                ${project.basedir}/../api-interna-client-signature-v1</output>
+                            <apiPackage>${client.default.package}.signature.v1.api</apiPackage>
                             <modelPackage>
-                                ${client.default.package}.firma.v1.model</modelPackage>
+                                ${client.default.package}.signature.v1.model</modelPackage>
                             <invokerPackage>
-                                ${client.default.package}.firma.v1.services</invokerPackage>
+                                ${client.default.package}.signature.v1.services</invokerPackage>
                             <generateModelTests>false</generateModelTests>
-                            <languageSpecificPrimitives>int,Integer,FirmaSimpleStatus</languageSpecificPrimitives>
+                            <languageSpecificPrimitives>int,Integer</languageSpecificPrimitives>
                             <configOptions>
                                 <groupId>es.caib.portafib</groupId>
-                                <artifactId>portafib-api-interna-client-firma-v1</artifactId>
+                                <artifactId>portafib-api-interna-client-signature-v1</artifactId>
                                 <artifactVersion>1.0-SNAPSHOT</artifactVersion>
-                                <artifactDescription>PortaFIB - API Rest - Interna Client - Firma v1</artifactDescription>
+                                <artifactDescription>PortaFIB - API Rest - Interna Client - Signature v1</artifactDescription>
                                 <dateLibrary>java8</dateLibrary>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <java11>true</java11>
                                 <useJakartaEe>false</useJakartaEe>
                             </configOptions>
+                            <!-- DO NOT WORK -->
+                            <!--
+                            <operationIdNameMappings >
+                                <getDocumentaryTypesOnServer>getDocumentaryTypes</getDocumentaryTypesOnServer>
+                                <getDocumentaryTypesDirectOnWeb>getDocumentaryTypes</getDocumentaryTypesDirectOnWeb>
+                            </operationIdNameMappings>
+                            -->
                         </configuration>
                     </execution>
 

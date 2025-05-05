@@ -1,0 +1,2292 @@
+openapi: 3.0.1
+info:
+  contact:
+    email: otae@fundaciobit.org
+    name: Departament de Govern Digital a la Fundació Bit
+    url: http://governdigital.fundaciobit.org
+  description: Conjunt de Serveis REST de PortaFIB per atendre peticions de firma
+    a través de web de PortaFIB
+  license:
+    name: European Union Public Licence (EUPL v1.2)
+    url: https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf
+  title: API Interna de PortaFIB que ofereix serveis de firma web.
+  version: 1.0-SNAPSHOT
+externalDocs:
+  description: Java API Interna Client (Github Source Code)
+  url: https://github.com/GovernIB/portafib/tree/portafib-3.0/
+servers:
+- url: /portafibapi/interna
+- url: http://localhost:8080/portafibapi/interna
+- url: https://dev.caib.es/portafibapi/interna
+- url: https://proves.caib.es/portafibapi/interna
+- url: https://se.caib.es/portafibapi/interna
+- url: https://www.caib.es/portafibapi/interna
+tags:
+- description: Firma Web Swagger v1
+  name: DirectSignatureOnWeb v1
+- description: API Interna de PortaFIB que ofereix serveis de firma en servidor.
+  name: SignatureOnServer v1
+paths:
+  /secure/directsignatureonweb/v1/addFileToSign:
+    post:
+      operationId: addFileToSign
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddFileToSignRequest'
+        description: Document a signar i dades específiques de la firma a realitzar.
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: Afegeix un document  al conjunt de Peticions de Firma a realitzar per
+        l'usuari.
+      tags:
+      - DirectSignatureOnWeb v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/directsignatureonweb/v1/closeTransaction:
+    post:
+      operationId: closeTransaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: Identificador de la transacció.
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: Indica al component de firma que la informació s’ha recuperat correctament
+        i que pot fer neteja en el servidor.
+      tags:
+      - DirectSignatureOnWeb v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/directsignatureonweb/v1/getDocumentaryTypes:
+    get:
+      operationId: getDocumentaryTypes
+      parameters:
+      - description: Idioma en que s'han de retornar les dades(Només suportat 'ca'
+          o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: language
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentaryTypes'
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: "Retorna una llista dels Tipus Documentals disponibles en el servidor:\
+        \ tipus documentals base, tipus documentals de l'entitat i tipus documentals\
+        \ de l'usuari aplicació"
+      tags:
+      - DirectSignatureOnWeb v1
+      x-accepts:
+      - application/json
+  /secure/directsignatureonweb/v1/getLanguages:
+    get:
+      operationId: getLanguages
+      parameters:
+      - description: Idioma en que s'han de retornar les dades(Només suportat 'ca'
+          o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: language
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Languages'
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: Retorna els idiomes disponibles.
+      tags:
+      - DirectSignatureOnWeb v1
+      x-accepts:
+      - application/json
+  /secure/directsignatureonweb/v1/getProfiles:
+    get:
+      operationId: getProfiles
+      parameters:
+      - description: Idioma en que s'han de retornar les dades(Només suportat 'ca'
+          o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: language
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profiles'
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: Retorna els perfils de firma.
+      tags:
+      - DirectSignatureOnWeb v1
+      x-accepts:
+      - application/json
+  /secure/directsignatureonweb/v1/getSignatureResult:
+    post:
+      operationId: getSignatureResult
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetSignatureResultRequest'
+        description: Identificador de transacció i de firma.
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignatureResponse'
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: Document signat  i informació d'una firma
+      tags:
+      - DirectSignatureOnWeb v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/directsignatureonweb/v1/getTransactionID:
+    post:
+      operationId: getTransactionID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommonInfo'
+        description: Solicita i configura una transacció de firma web
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: Operacio per obtenir el Id de una transaccio de la API
+      tags:
+      - DirectSignatureOnWeb v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/directsignatureonweb/v1/getTransactionStatus:
+    post:
+      operationId: getTransactionStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: Identificador de transacció retornat de la cridada getTransactionID().
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTransactionStatusResponse'
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: Retorna estat de la transacció (el procés de firma en general) i resultat
+        del procés de cada firma
+      tags:
+      - DirectSignatureOnWeb v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/directsignatureonweb/v1/startTransaction:
+    post:
+      operationId: startTransaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartTransactionRequest'
+        description: "Envia identificador de la transacció, url de retorn i tipus\
+          \ de vista web (amb o sense iframe)"
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: "Envia identificador de la transacció, url de retorn i tipus de vista\
+        \ web (amb o sense iframe) i inicia el procés de firma retornant una URL de\
+        \ redirecció."
+      tags:
+      - DirectSignatureOnWeb v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/directsignatureonweb/v1/versio:
+    get:
+      operationId: versio
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Retornada correctament la versió d'aquest Servei
+      security:
+      - BasicAuth: []
+      summary: Retorna la versió d'aquest Servei
+      tags:
+      - DirectSignatureOnWeb v1
+      x-accepts:
+      - application/json
+  /secure/signatureonserver/v1/getDocumentaryTypes:
+    get:
+      operationId: getDocumentaryTypes
+      parameters:
+      - description: Idioma en que s'han de retornar les dades(Només suportat 'ca'
+          o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: language
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentaryTypes'
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: "Retorna una llista dels Tipus Documentals disponibles en el servidor:\
+        \ tipus documentals base, tipus documentals de l'entitat i tipus documentals\
+        \ de l'usuari aplicació"
+      tags:
+      - SignatureOnServer v1
+      x-accepts:
+      - application/json
+  /secure/signatureonserver/v1/getLanguages:
+    get:
+      operationId: getLanguages
+      parameters:
+      - description: Idioma en que s'han de retornar les dades(Només suportat 'ca'
+          o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: language
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Languages'
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: Retorna els idiomes disponibles.
+      tags:
+      - SignatureOnServer v1
+      x-accepts:
+      - application/json
+  /secure/signatureonserver/v1/getProfiles:
+    get:
+      operationId: getProfiles
+      parameters:
+      - description: Idioma en que s'han de retornar les dades(Només suportat 'ca'
+          o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: language
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profiles'
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: Retorna els perfils de firma.
+      tags:
+      - SignatureOnServer v1
+      x-accepts:
+      - application/json
+  /secure/signatureonserver/v1/signdocument:
+    post:
+      operationId: signdocument
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignDocumentRequest'
+        description: Operacio de firma simple en servidor d'un document
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignatureResponse'
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: Operacio de firma simple en servidor d'un document
+      tags:
+      - SignatureOnServer v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/signatureonserver/v1/upgradeSignature:
+    post:
+      operationId: upgradeSignature
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpgradeRequest'
+        description: Funcio de upgrade se firma digital
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpgradeResponse'
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: Operacio de firma simple en servidor d'un document
+      tags:
+      - SignatureOnServer v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /secure/signatureonserver/v1/versio:
+    get:
+      operationId: versio
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Retornada correctament la versió d'aquest Servei
+      security:
+      - BasicAuth: []
+      summary: Retorna la versió d'aquest Servei
+      tags:
+      - SignatureOnServer v1
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    RestExceptionInfo:
+      description: Estructura de dades utilitzada per passar informació d'un error
+      example:
+        field: field
+        errorMessage: errorMessage
+        stackTraceCause: stackTraceCause
+        errorCode: 0
+        stackTrace: stackTrace
+      properties:
+        errorCode:
+          description: Codi intern de l'error. Si l'Aplicació no gestiona codis d'error
+            llavors val null.
+          format: int32
+          type: integer
+        errorMessage:
+          description: Missatge de l'error
+          type: string
+        stackTrace:
+          description: Stacktrace de l'excepció
+          type: string
+        stackTraceCause:
+          description: Stacktrace de l'excepció causant de l'error si n'hi hagués.
+          type: string
+        field:
+          description: Indica el camp en que hi ha un error de validació.
+          type: string
+      required:
+      - errorMessage
+      type: object
+    AddFileToSignRequest:
+      example:
+        fileInfoSignature:
+          reason: Exemple de firma
+          additionalInformation: ca
+          expedientNom: ca
+          languageSign: ca
+          documentType: 0
+          signID: "1"
+          expedientCodi: ca
+          procedimentCodi: ca
+          procedimentNom: ca
+          signNumber: 1
+          fileToSign:
+            data: data
+            mime: mime
+            nom: nom
+          name: test.pdf
+          location: Palma
+          previusSignatureDetachedFile:
+            data: data
+            mime: mime
+            nom: nom
+          expedientUrl: ca
+        transactionID: transactionID
+      properties:
+        transactionID:
+          description: Identificador de transacció
+          type: string
+        fileInfoSignature:
+          $ref: '#/components/schemas/FileInfoSignature'
+      required:
+      - fileInfoSignature
+      - transactionID
+      type: object
+    Document:
+      description: Objecte que representa un Document/Fitxer
+      example:
+        data: data
+        mime: mime
+        nom: nom
+      properties:
+        nom:
+          description: Nom del fitxer.
+          type: string
+        mime:
+          description: Tipus mime del fitxer.
+          type: string
+        data:
+          description: Contingut del fitxer. En llistats aquest camp vendrà buit.
+          format: byte
+          type: string
+      required:
+      - nom
+      type: object
+    FileInfoSignature:
+      description: Informació especifica per a realitzar la firma
+      example:
+        reason: Exemple de firma
+        additionalInformation: ca
+        expedientNom: ca
+        languageSign: ca
+        documentType: 0
+        signID: "1"
+        expedientCodi: ca
+        procedimentCodi: ca
+        procedimentNom: ca
+        signNumber: 1
+        fileToSign:
+          data: data
+          mime: mime
+          nom: nom
+        name: test.pdf
+        location: Palma
+        previusSignatureDetachedFile:
+          data: data
+          mime: mime
+          nom: nom
+        expedientUrl: ca
+      properties:
+        fileToSign:
+          $ref: '#/components/schemas/Document'
+        previusSignatureDetachedFile:
+          $ref: '#/components/schemas/Document'
+        signID:
+          description: Identificador de la Firma
+          example: "1"
+          type: string
+        name:
+          description: Nom descriptiu de la firma. Pot ser el nom del fitxer o un
+            nom associat a la tasca per a la que es requereix la firma.
+          example: test.pdf
+          type: string
+        reason:
+          description: Raó de la realització de la firma.
+          example: Exemple de firma
+          type: string
+        location:
+          description: Lloc on es realitza la firma.
+          example: Palma
+          type: string
+        signNumber:
+          description: Posició de la firma dins el flux de firma.
+          example: 1
+          format: int32
+          type: integer
+        languageSign:
+          description: Idioma del document.
+          example: ca
+          type: string
+        expedientCodi:
+          description: Codi de l'expedient.
+          example: ca
+          type: string
+        expedientNom:
+          description: Nom de l'expedient.
+          example: ca
+          type: string
+        expedientUrl:
+          description: URL de l'expedient.
+          example: ca
+          type: string
+        procedimentCodi:
+          description: Codi del Procediment.
+          example: ca
+          type: string
+        procedimentNom:
+          description: Nom del Procediment.
+          example: ca
+          type: string
+        documentType:
+          description: Tipus Documental. Si val null se li assigna 99
+          format: int64
+          type: integer
+        additionalInformation:
+          description: Informació Addicional.
+          example: ca
+          items:
+            $ref: '#/components/schemas/KeyValue'
+          type: array
+      required:
+      - fileToSign
+      - languageSign
+      - location
+      - name
+      - reason
+      - signID
+      - signNumber
+      type: object
+    KeyValue:
+      description: Objecte per afegir informació addicional sobre la firma o el firmant
+      example:
+        value: value
+        key: key
+      properties:
+        key:
+          description: Clau del valor
+          type: string
+        value:
+          description: Valor de la clau
+          type: string
+      required:
+      - key
+      - value
+      type: object
+    DocumentaryType:
+      description: Model de dades d'un tipus documental
+      example:
+        documentTypeBase: 6
+        documentType: 0
+        name: name
+      properties:
+        documentType:
+          description: Identificador de Tipus Documental
+          format: int64
+          type: integer
+        name:
+          description: Nom del Tipus Documental
+          type: string
+        documentTypeBase:
+          description: Identificador de Tipus Documental associat als valors ENI
+          format: int64
+          type: integer
+      required:
+      - documentType
+      - documentTypeBase
+      - name
+      type: object
+    DocumentaryTypes:
+      example:
+        documentaryTypes:
+        - documentTypeBase: 6
+          documentType: 0
+          name: name
+        - documentTypeBase: 6
+          documentType: 0
+          name: name
+      properties:
+        documentaryTypes:
+          items:
+            $ref: '#/components/schemas/DocumentaryType'
+          type: array
+      type: object
+    Languages:
+      example:
+        languages:
+        - value: value
+          key: key
+        - value: value
+          key: key
+      properties:
+        languages:
+          items:
+            $ref: '#/components/schemas/KeyValue'
+          type: array
+      type: object
+    Profile:
+      description: Detalls del Perfil d'un usuari Aplicació
+      example:
+        code: code
+        name: name
+        description: description
+      properties:
+        code:
+          description: Codi del perfil
+          type: string
+        name:
+          description: Nom del perfil en l’idioma elegit.
+          type: string
+        description:
+          description: Descripció del perfil en l’idioma elegit.
+          type: string
+      required:
+      - code
+      - description
+      - name
+      type: object
+    Profiles:
+      example:
+        profiles:
+        - code: code
+          name: name
+          description: description
+        - code: code
+          name: name
+          description: description
+      properties:
+        profiles:
+          items:
+            $ref: '#/components/schemas/Profile'
+          type: array
+      type: object
+    GetSignatureResultRequest:
+      example:
+        signID: signID
+        transactionID: transactionID
+      properties:
+        transactionID:
+          description: Identificador de la transaccio
+          type: string
+        signID:
+          description: Identificador de la firma
+          type: string
+      required:
+      - signID
+      - transactionID
+      type: object
+    CustodyInfo:
+      description: Informació de Custòdia
+      example:
+        validationFileUrl: validationFileUrl
+        originalFileDirectURL: originalFileDirectURL
+        expedientID: expedientID
+        custodyID: custodyID
+        csv: csv
+        eniFileDirectUrl: eniFileDirectUrl
+        csvValidationWeb: csvValidationWeb
+        documentID: documentID
+        csvGenerationDefinition: csvGenerationDefinition
+        printableFileDirectUrl: printableFileDirectUrl
+      properties:
+        custodyID:
+          description: Identificador del sistema de custòdia
+          type: string
+        csv:
+          description: URL on descarregar directament el fitxer signat
+          type: string
+        csvValidationWeb:
+          description: Codi Segur de Validació d'aquest document custodiat.
+          type: string
+        validationFileUrl:
+          description: URL on descarregar-se la definició de com es genera el CSV
+          type: string
+        csvGenerationDefinition:
+          description: "Pàgina web on validar el document, normalment a partir de\
+            \ CSV"
+          type: string
+        originalFileDirectURL:
+          description: URL al document original
+          type: string
+        printableFileDirectUrl:
+          description: URL al document en format per imprimir
+          type: string
+        eniFileDirectUrl:
+          description: Url al eni File
+          type: string
+        expedientID:
+          description: Id del expedient si és un expedient o esta relacionat amb un
+            expedient.
+          type: string
+        documentID:
+          description: Id del document a signar
+          type: string
+      required:
+      - custodyID
+      type: object
+    ProcessStatus:
+      description: Estat del procés de firma
+      example:
+        errorStackTrace: errorStackTrace
+        STATUS_FINAL_OK: 1
+        STATUS_FINAL_ERROR: 5
+        STATUS_INITIALIZING: 0
+        errorMessage: errorMessage
+        STATUS_IN_PROGRESS: 6
+        STATUS_CANCELLED: 5
+        status: 2
+      properties:
+        STATUS_INITIALIZING:
+          default: 0
+          description: Codi d'estat d'una petició de firma que indica un que s'esta
+            inicialitzant
+          format: int32
+          readOnly: true
+          type: integer
+        STATUS_IN_PROGRESS:
+          default: 1
+          description: Codi d'estat d'una petició de firma que indica un que esta
+            en procés
+          format: int32
+          readOnly: true
+          type: integer
+        STATUS_FINAL_OK:
+          default: 2
+          description: Codi d'estat d'una petició de firma que indica que ha finalitzat
+            correctament
+          format: int32
+          readOnly: true
+          type: integer
+        STATUS_FINAL_ERROR:
+          default: -1
+          description: Codi d'estat d'una petició de firma que indica que ha finalitzat
+            amb errors
+          format: int32
+          readOnly: true
+          type: integer
+        STATUS_CANCELLED:
+          default: -2
+          description: Codi d'estat d'una petició de firma que indica que ha sigut
+            cancelada
+          format: int32
+          readOnly: true
+          type: integer
+        status:
+          format: int32
+          type: integer
+        errorMessage:
+          type: string
+        errorStackTrace:
+          type: string
+      required:
+      - STATUS_CANCELLED
+      - STATUS_FINAL_ERROR
+      - STATUS_FINAL_OK
+      - STATUS_INITIALIZING
+      - STATUS_IN_PROGRESS
+      type: object
+    SignatureResponse:
+      description: Resposta de la petició de firma en servidor
+      example:
+        signedFileInfo:
+          signerInfo:
+            issuerCert: issuerCert
+            eniRolFirma: eniRolFirma
+            additionalInformation:
+            - value: value
+              key: key
+            - value: value
+              key: key
+            subjectCert: subjectCert
+            eniSignerName: eniSignerName
+            eniSignLevel: eniSignLevel
+            signDate: 2000-01-23T04:56:07.000+00:00
+            eniSignerAdministrationId: eniSignerAdministrationId
+            serialNumberCert: serialNumberCert
+          signaturesTableLocation: 1
+          signOperation: 1
+          custodyInfo:
+            validationFileUrl: validationFileUrl
+            originalFileDirectURL: originalFileDirectURL
+            expedientID: expedientID
+            custodyID: custodyID
+            csv: csv
+            eniFileDirectUrl: eniFileDirectUrl
+            csvValidationWeb: csvValidationWeb
+            documentID: documentID
+            csvGenerationDefinition: csvGenerationDefinition
+            printableFileDirectUrl: printableFileDirectUrl
+          eniTipoFirma: TF01
+          eniPerfilFirma: AdES-BES
+          validationInfo:
+            checkDocumentModifications: true
+            noCheckValidationReason: noCheckValidationReason
+            checkValidationSignature: true
+            checkAdministrationIDOfSigner: true
+          signType: signType
+          signMode: 0
+          signAlgorithm: SHA-1
+          timeStampIncluded: true
+          policyIncluded: true
+        signedFile:
+          data: data
+          mime: mime
+          nom: nom
+        signID: signID
+        status:
+          errorStackTrace: errorStackTrace
+          STATUS_FINAL_OK: 1
+          STATUS_FINAL_ERROR: 5
+          STATUS_INITIALIZING: 0
+          errorMessage: errorMessage
+          STATUS_IN_PROGRESS: 6
+          STATUS_CANCELLED: 5
+          status: 2
+      properties:
+        signID:
+          description: Identificador de la firma
+          type: string
+        status:
+          $ref: '#/components/schemas/ProcessStatus'
+        signedFile:
+          $ref: '#/components/schemas/Document'
+        signedFileInfo:
+          $ref: '#/components/schemas/SignedFileInfo'
+      required:
+      - signID
+      - status
+      type: object
+    SignedFileInfo:
+      description: Informació del fitxer signat.
+      example:
+        signerInfo:
+          issuerCert: issuerCert
+          eniRolFirma: eniRolFirma
+          additionalInformation:
+          - value: value
+            key: key
+          - value: value
+            key: key
+          subjectCert: subjectCert
+          eniSignerName: eniSignerName
+          eniSignLevel: eniSignLevel
+          signDate: 2000-01-23T04:56:07.000+00:00
+          eniSignerAdministrationId: eniSignerAdministrationId
+          serialNumberCert: serialNumberCert
+        signaturesTableLocation: 1
+        signOperation: 1
+        custodyInfo:
+          validationFileUrl: validationFileUrl
+          originalFileDirectURL: originalFileDirectURL
+          expedientID: expedientID
+          custodyID: custodyID
+          csv: csv
+          eniFileDirectUrl: eniFileDirectUrl
+          csvValidationWeb: csvValidationWeb
+          documentID: documentID
+          csvGenerationDefinition: csvGenerationDefinition
+          printableFileDirectUrl: printableFileDirectUrl
+        eniTipoFirma: TF01
+        eniPerfilFirma: AdES-BES
+        validationInfo:
+          checkDocumentModifications: true
+          noCheckValidationReason: noCheckValidationReason
+          checkValidationSignature: true
+          checkAdministrationIDOfSigner: true
+        signType: signType
+        signMode: 0
+        signAlgorithm: SHA-1
+        timeStampIncluded: true
+        policyIncluded: true
+      properties:
+        signOperation:
+          description: "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma\
+            \ (2)."
+          example: 1
+          format: int32
+          type: integer
+        signType:
+          description: "Tipus de Firma. Valors possibles:\r\n    "
+          type: string
+        signAlgorithm:
+          description: "Algorisme de Firma. Valors: \r\n    - \"SHA-1\"\r\n    - \"\
+            SHA-256\"\r\n    - \"SHA-384\"\r\n    - \"SHA-512\""
+          example: SHA-1
+          type: string
+        signMode:
+          description: "Valors:\r\n    - 0: Implicit o Attached. La firma resultante\
+            \ incluye internamente una copia de los datos firmados. \r\n    - 1: Explicit\
+            \ o Detached: La firma resultante no incluye los datos firmados. "
+          example: 0
+          format: int32
+          type: integer
+        signaturesTableLocation:
+          description: "Posició de la Taula de firmes:\r\n    - 0: Sense taula de\
+            \ firmes\r\n    - 1: Taula de firmes en la 1a pàgina\r\n    - -1: Darrera\
+            \ pàgina"
+          example: 1
+          format: int32
+          type: integer
+        timeStampIncluded:
+          description: Indica si s'ha afegit un segell de Temps durant la firma
+          example: true
+          type: boolean
+        policyIncluded:
+          description: "Indica si inclou política de firma (true, EPES) o no (false)"
+          example: true
+          type: boolean
+        eniTipoFirma:
+          description: "Denominación normalizada del tipo de firma. Los posibles valores\
+            \ asignables son los siguientes: \r\n    - TF01 - CSV \r\n    - TF02 -\
+            \ XAdES internally detached signature\"); \r\n    - TF03 - XAdES enveloped\
+            \ signature.\r\n    - TF04 - CAdES detached/explicit signature.\r\n  \
+            \  - TF05 – CadES attached/implicit signature.\r\n    - TF06 - PAdES.\
+            \ El tipo TF04 será establecido por defecto para documentos firmados,\
+            \ exceptuando los documentos en formato PDF o PDF/A, cuyo tipo será TF06."
+          example: TF01
+          type: string
+        eniPerfilFirma:
+          description: "Perfil empleado en una firma con certificado electrónico.\
+            \ Los posibles valores asignables son los siguientes:\r\n  AdES-BES\r\n\
+            \  AdES-EPES\r\n  AdES-T\r\n  AdES-C\r\n  AdES-X\r\n  AdES-X1\r\n  AdES-X2\r\
+            \n  AdES-XL\r\n  AdES-XL1\r\n  AdES-XL2\r\n  AdES-A\r\n  PAdES-LTV\r\n\
+            \  PAdES-Basic"
+          example: AdES-BES
+          type: string
+        signerInfo:
+          $ref: '#/components/schemas/SignerInfo'
+        custodyInfo:
+          $ref: '#/components/schemas/CustodyInfo'
+        validationInfo:
+          $ref: '#/components/schemas/ValidationInfo'
+      required:
+      - policyIncluded
+      - signAlgorithm
+      - signMode
+      - signOperation
+      - signType
+      - signaturesTableLocation
+      - signerInfo
+      - timeStampIncluded
+      type: object
+    SignerInfo:
+      description: Informació del signant
+      example:
+        issuerCert: issuerCert
+        eniRolFirma: eniRolFirma
+        additionalInformation:
+        - value: value
+          key: key
+        - value: value
+          key: key
+        subjectCert: subjectCert
+        eniSignerName: eniSignerName
+        eniSignLevel: eniSignLevel
+        signDate: 2000-01-23T04:56:07.000+00:00
+        eniSignerAdministrationId: eniSignerAdministrationId
+        serialNumberCert: serialNumberCert
+      properties:
+        eniRolFirma:
+          description: "Esquemas desarrollados a nivel local y que pueden incluir\
+            \ valores como válida, autentica, refrenda, visa, representa, testimonia,\
+            \ etc.."
+          type: string
+        eniSignerName:
+          description: Nombre o razón social de los firmantes.
+          type: string
+        eniSignerAdministrationId:
+          description: NIF del firmant.
+          type: string
+        eniSignLevel:
+          description: "Indicador normalizado que refleja el grado de  confianza de\
+            \ la firma utilizado. Ejemplos: Nick, PIN ciudadano, Firma electrónica\
+            \ avanzada, Claves concertadas, Firma electrónica avanzada basada en certificados,\
+            \ CSV, .."
+          type: string
+        signDate:
+          description: Data en que es va realitzar la firma
+          format: date-time
+          pattern: yyyy-MM-dd'T'HH:mm:ss
+          type: string
+        serialNumberCert:
+          description: Número de Sèrie del Certificat utilitzat en la firma
+          type: string
+        issuerCert:
+          description: Issuer del Certificat utilitzat en la firma
+          type: string
+        subjectCert:
+          description: Subject del Certificat utilitzat en la firma
+          type: string
+        additionalInformation:
+          description: Ofrecer cualquier otra información que se  considere útil acerca
+            del firmante.
+          items:
+            $ref: '#/components/schemas/KeyValue'
+          type: array
+      type: object
+    ValidationInfo:
+      description: Informació de les validacions realitzades despres de la firma.
+      example:
+        checkDocumentModifications: true
+        noCheckValidationReason: noCheckValidationReason
+        checkValidationSignature: true
+        checkAdministrationIDOfSigner: true
+      properties:
+        checkAdministrationIDOfSigner:
+          description: S’ha verificat que l’identificador del firmant és la del que
+            estava previst que firmàs. Valor buit indica que no s'ha realitzat la
+            validació.
+          type: boolean
+        checkDocumentModifications:
+          description: S’ha verificat que no s’hagi modificat el document original.
+            Valor buit indica que no s'ha realitzat la validació.
+          type: boolean
+        checkValidationSignature:
+          description: S’ha verificat que la firma és correcte. Valor buit indica
+            que no s'ha realitzat la validació.
+          type: boolean
+        noCheckValidationReason:
+          description: Només s'omple si checkValidationSignature val false
+          type: string
+      type: object
+    CommonInfo:
+      description: Configuracions generals de firma i identificacio del solicitant
+        i solicitat
+      example:
+        signProfile: PROFILE_PADES
+        administrationID: 99999999Z
+        organizationID: B99999999
+        signerEmail: correufirmant@entitat.org
+        languageUI: ca
+        username: "\"u800xx\" / \"u[DNI]\""
+      properties:
+        signProfile:
+          description: Identificador único del usuario
+          example: PROFILE_PADES
+          type: string
+        languageUI:
+          description: Idioma en que retornar valors i missatges d'error
+          example: ca
+          type: string
+        username:
+          description: " - FIRMA WEB: Requerit. És el codi d'usuari dins l'entitat.\
+            \ Per exemple en entorn CAIB serien els \"u800xx\" o \"u[DNI]\"\r\n -FIRMA\
+            \ EN SERVIDOR: Opcional. Es reconama que valgui null a no ser que l'administrador\
+            \ digui el contrari. És la configuració de firma en el sistema especí\
+            fic de firma. Per exemple amb el Plugin de @firma federat et pots connectar\
+            \ amb un usuari-password però aquest pot tenir diverses configuracions\
+            \ per fer firmes en servidor o àlies: \"username\" s'utilitza de definir\
+            \ aquesta configuració o àlies."
+          example: "\"u800xx\" / \"u[DNI]\""
+          type: string
+        administrationID:
+          description: " - FIRMA WEB: Requerit. És el DNI de la persona signant. Si\
+            \ esta activa la validació dins PortaFIB llavors es valida que el DNI\
+            \ del Certificat sigui el mateix que aquest.\r\n - FIRMA EN SERVIDOR:\
+            \ Opcional. És el CIF o NIF associat al certificat en servidor. Si es\
+            \ defineix i si esta activa la validació dins PortaFIB llavors es valida\
+            \ que el DNI del Certificat sigui el mateix que aquest."
+          example: 99999999Z
+          type: string
+        organizationID:
+          description: Opcional. És el CIF de l'organització representada pel signant.
+            Si esta activa la validació dins PortaFIB llavors es valida que el Certificat
+            sigui un certificat de representant d'aquest CIF.
+          example: B99999999
+          type: string
+        signerEmail:
+          description: " - FIRMA WEB: Opcional. Correu del Firmant. Per afegir a les\
+            \ dades de la firma.\r\n - FIRMA EN SERVIDOR: Opcional. Correu del departament\
+            \ que ordena la firma. Per afegir a les dades de la firma."
+          example: correufirmant@entitat.org
+          type: string
+      required:
+      - administrationID
+      - languageUI
+      type: object
+    GetTransactionStatusResponse:
+      example:
+        transactionStatus:
+          errorStackTrace: errorStackTrace
+          STATUS_FINAL_OK: 1
+          STATUS_FINAL_ERROR: 5
+          STATUS_INITIALIZING: 0
+          errorMessage: errorMessage
+          STATUS_IN_PROGRESS: 6
+          STATUS_CANCELLED: 5
+          status: 2
+        signaturesStatusList:
+        - signID: signID
+          status:
+            errorStackTrace: errorStackTrace
+            STATUS_FINAL_OK: 1
+            STATUS_FINAL_ERROR: 5
+            STATUS_INITIALIZING: 0
+            errorMessage: errorMessage
+            STATUS_IN_PROGRESS: 6
+            STATUS_CANCELLED: 5
+            status: 2
+        - signID: signID
+          status:
+            errorStackTrace: errorStackTrace
+            STATUS_FINAL_OK: 1
+            STATUS_FINAL_ERROR: 5
+            STATUS_INITIALIZING: 0
+            errorMessage: errorMessage
+            STATUS_IN_PROGRESS: 6
+            STATUS_CANCELLED: 5
+            status: 2
+      properties:
+        transactionStatus:
+          $ref: '#/components/schemas/ProcessStatus'
+        signaturesStatusList:
+          description: "Estat de cada firma. Pot passar que l'estat general sigui\
+            \ que tot ha anat bé, però que totes o algunes de les firmes no."
+          items:
+            $ref: '#/components/schemas/SignatureStatus'
+          type: array
+      required:
+      - signaturesStatusList
+      - transactionStatus
+      type: object
+    SignatureStatus:
+      description: "Estat de cada firma. Pot passar que l'estat general sigui que\
+        \ tot ha anat bé, però que totes o algunes de les firmes no."
+      example:
+        signID: signID
+        status:
+          errorStackTrace: errorStackTrace
+          STATUS_FINAL_OK: 1
+          STATUS_FINAL_ERROR: 5
+          STATUS_INITIALIZING: 0
+          errorMessage: errorMessage
+          STATUS_IN_PROGRESS: 6
+          STATUS_CANCELLED: 5
+          status: 2
+      properties:
+        signID:
+          type: string
+        status:
+          $ref: '#/components/schemas/ProcessStatus'
+      type: object
+    StartTransactionRequest:
+      example:
+        view: view
+        language: language
+        returnUrl: returnUrl
+        transactionID: transactionID
+      properties:
+        transactionID:
+          description: Identificador de transacció
+          type: string
+        returnUrl:
+          description: Adreça web on retornar una vegada finalitzat tot el procés
+            de firma.
+          type: string
+        view:
+          description: "Indica si la presentació de la firma es farà a pantalla completa\
+            \ o dins d'un iframe:\r\n    • \"fullview\" (Constant VIEW_FULLSCREEN)\r\
+            \n    • \"iframe\" (Constant VIEW_IFRAME)"
+          type: string
+        language:
+          description: Idioma seleccionat
+          type: string
+      required:
+      - language
+      - returnUrl
+      - transactionID
+      - view
+      type: object
+    SignTypeConstants:
+      description: "Tipus de Firma. Valors possibles:\r\n    - “PAdES” (Constant SIGN_TYPE_PADES)\r\
+        \n    - “XAdES” (Constant SIGN_TYPE_XADES)\r\n    - “CAdES” (Constant SIGN_TYPE_CADES)\r\
+        \n    - “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\n    - “OOXML” (Constant\
+        \ SIGN_TYPE_OOXML)\r\n    - “ODF” (Constant SIGN_TYPE_ODF)\r\n    - “SMIME”\
+        \ (Constant SIGN_TYPE_SMIME)\r\n    - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)\r\
+        \n    - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\n    - “PKCS#1”\
+        \ (Constant SIGN_TYPE_PKCS1)"
+      enum:
+      - PAdES
+      - XAdES
+      - CAdES
+      - FacturaE
+      - OOXML
+      - ODF
+      - SMIME
+      - CAdES-ASiC-S
+      - XAdES-ASiC-S
+      - PKCS#1
+      type: string
+    SignAlgorithmConstants:
+      description: "Algorisme de Firma. Valors:\r\n    • \"SHA-1\"\r\n    • \"SHA-256\"\
+        \r\n    • \"SHA-384\"\r\n    • \"SHA-512\""
+      enum:
+      - SHA-1
+      - SHA-256
+      - SHA-384
+      - SHA-512
+      type: string
+    SignModeConstants:
+      description: "Valors:\r\n    • 0: Implicit o Attached. La firma resultante incluye\
+        \ internamente una copia de los datos firmados. \r\n    • 1: Explicit o Detached:\
+        \ La firma resultante no incluye los datos firmados."
+      enum:
+      - 0
+      - 3
+      - 1
+      - 4
+      format: int32
+      type: integer
+      x-enum-varnames:
+      - SIGN_MODE_ATTACHED_ENVELOPED
+      - SIGN_MODE_ATTACHED_ENVELOPING
+      - SIGN_MODE_DETACHED
+      - SIGN_MODE_INTERNALLY_DETACHED
+    SignOperationConstants:
+      description: "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma\
+        \ (2).\r\nLes constants són:\r\n    • SIGN_OPERATION_SIGN = 0;\r\n    • SIGN_OPERATION_COSIGN\
+        \ = 1;\r\n    • SIGN_OPERATION_COUNTERSIGN = 2;"
+      enum:
+      - 0
+      - 1
+      - 2
+      format: int32
+      type: integer
+      x-enum-varnames:
+      - SIGN_OPERATION_SIGN
+      - SIGN_OPERATION_COSIGN
+      - SIGN_OPERATION_COUNTERSIGN
+    SignatureStableLocationConstants:
+      description: "Posició de la Taula de firmes:\r\n    • 0: Sense taula de firmes\r\
+        \n    • 1: Taula de firmes en la 1a pàgina\r\n    • -1: Darrera pàgina"
+      enum:
+      - 0
+      - 1
+      - -1
+      format: int32
+      type: integer
+      x-enum-varnames:
+      - SIGNATURESTABLELOCATION_WITHOUT
+      - SIGNATURESTABLELOCATION_FIRSTPAGE
+      - SIGNATURESTABLELOCATION_LASTPAGE
+    SignProfileConstants:
+      description: "Perfil empleado en una firma con certificado electrónico. Los\
+        \ posibles valores asignables son los siguientes:\r\n  AdES-BES\r\n  AdES-EPES\r\
+        \n  AdES-T\r\n  AdES-C\r\n  AdES-X\r\n  AdES-X1\r\n  AdES-X2\r\n  AdES-XL\r\
+        \n  AdES-XL1\r\n  AdES-XL2\r\n  AdES-A\r\n  PAdES-LTV\r\n  PAdES-Basic"
+      enum:
+      - AdES-BES
+      - AdES-EPES
+      - AdES-T
+      - AdES-C
+      - AdES-X
+      - AdES-X1
+      - AdES-X2
+      - AdES-XL
+      - AdES-XL1
+      - AdES-XL2
+      - AdES-A
+      - PAdES-LTV
+      - PAdES-Basic
+      type: string
+    SignDocumentRequest:
+      example:
+        fileInfoSignature:
+          reason: Exemple de firma
+          additionalInformation: ca
+          expedientNom: ca
+          languageSign: ca
+          documentType: 0
+          signID: "1"
+          expedientCodi: ca
+          procedimentCodi: ca
+          procedimentNom: ca
+          signNumber: 1
+          fileToSign:
+            data: data
+            mime: mime
+            nom: nom
+          name: test.pdf
+          location: Palma
+          previusSignatureDetachedFile:
+            data: data
+            mime: mime
+            nom: nom
+          expedientUrl: ca
+        commonInfo:
+          signProfile: PROFILE_PADES
+          administrationID: 99999999Z
+          organizationID: B99999999
+          signerEmail: correufirmant@entitat.org
+          languageUI: ca
+          username: "\"u800xx\" / \"u[DNI]\""
+      properties:
+        commonInfo:
+          $ref: '#/components/schemas/CommonInfo'
+        fileInfoSignature:
+          $ref: '#/components/schemas/FileInfoSignature'
+      required:
+      - commonInfo
+      - fileInfoSignature
+      type: object
+    UpgradeRequest:
+      example:
+        signature:
+          data: data
+          mime: mime
+          nom: nom
+        detachedDocument:
+          data: data
+          mime: mime
+          nom: nom
+        languageUI: ca
+        profileCode: profileCode
+        targetCertificate:
+          data: data
+          mime: mime
+          nom: nom
+      properties:
+        profileCode:
+          description: "Codi del perfil a utilitzar. Si no es defineix, llavors requerim\
+            \ que quest usuari aplicación només tengui un Perfil definit."
+          type: string
+        signature:
+          $ref: '#/components/schemas/Document'
+        detachedDocument:
+          $ref: '#/components/schemas/Document'
+        targetCertificate:
+          $ref: '#/components/schemas/Document'
+        languageUI:
+          description: Idioma dels missatges en cas d'informar o d'errors.
+          example: ca
+          type: string
+      required:
+      - languageUI
+      - signature
+      type: object
+    InformacioCertificat:
+      properties:
+        tipusCertificat:
+          type: string
+        subject:
+          type: string
+        nomResponsable:
+          type: string
+        primerLlinatgeResponsable:
+          type: string
+        segonLlinatgeResponsable:
+          type: string
+        llinatgesResponsable:
+          type: string
+        nomCompletResponsable:
+          type: string
+        nifResponsable:
+          type: string
+        pseudonim:
+          type: string
+        documentRepresentacio:
+          type: string
+        carrec:
+          type: string
+        llocDeFeina:
+          type: string
+        nomDomini:
+          type: string
+        denominacioSistemaComponent:
+          type: string
+        idEuropeu:
+          type: string
+        oiEuropeu:
+          type: string
+        numeroIdentificacionPersonal:
+          type: string
+        entitatSubscriptoraNom:
+          type: string
+        entitatSubscriptoraNif:
+          type: string
+        classificacioEidas:
+          type: string
+        certificatQualificat:
+          type: boolean
+        creatAmbUnDispositiuSegur:
+          type: boolean
+        organitzacio:
+          type: string
+        emissorID:
+          type: string
+        unitatOrganitzativaNifCif:
+          type: string
+        email:
+          type: string
+        dataNaixement:
+          type: string
+        raoSocial:
+          type: string
+        classificacio:
+          format: int32
+          type: integer
+        numeroSerie:
+          type: integer
+        usCertificat:
+          type: string
+        usCertificatExtensio:
+          type: string
+        validFins:
+          format: date-time
+          type: string
+        validDesDe:
+          format: date-time
+          type: string
+        politica:
+          type: string
+        politicaVersio:
+          type: string
+        politicaID:
+          type: string
+        emissorOrganitzacio:
+          type: string
+        pais:
+          type: string
+        unitatOrganitzativa:
+          type: string
+        qcCompliance:
+          type: string
+        qcSSCD:
+          type: string
+        idlogOn:
+          type: string
+        altresValors:
+          additionalProperties:
+            type: string
+          type: object
+      type: object
+    SignatureCheck:
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+      type: object
+    SignatureDetailInfo:
+      properties:
+        algorithm:
+          type: string
+        digestValue:
+          type: string
+        signDate:
+          format: date-time
+          type: string
+        validChecks:
+          items:
+            $ref: '#/components/schemas/SignatureCheck'
+          type: array
+        invalidChecks:
+          items:
+            $ref: '#/components/schemas/SignatureCheck'
+          type: array
+        indeterminateChecks:
+          items:
+            $ref: '#/components/schemas/SignatureCheck'
+          type: array
+        policyIdentifier:
+          type: string
+        certificateInfo:
+          $ref: '#/components/schemas/InformacioCertificat'
+        certificateChain:
+          items:
+            items:
+              format: byte
+              type: string
+            type: array
+          type: array
+        timeStampInfo:
+          $ref: '#/components/schemas/TimeStampInfo'
+      type: object
+    TimeStampInfo:
+      properties:
+        creationTime:
+          format: date-time
+          type: string
+        certificateIssuer:
+          type: string
+        certificateSubject:
+          type: string
+        certificate:
+          items:
+            format: byte
+            type: string
+          type: array
+        algorithm:
+          type: string
+      type: object
+    UpgradeResponse:
+      example:
+        upgradedFileInfo:
+          additionInformation:
+          - value: value
+            key: key
+          - value: value
+            key: key
+          eniTipoFirma: eniTipoFirma
+          eniPerfilFirma: eniPerfilFirma
+          validationInfo:
+            checkDocumentModifications: true
+            noCheckValidationReason: noCheckValidationReason
+            checkValidationSignature: true
+            checkAdministrationIDOfSigner: true
+          signType: PAdES
+          signMode: 0
+          signAlgorithm: SHA-1
+        upgradedFile:
+          data: data
+          mime: mime
+          nom: nom
+      properties:
+        upgradedFile:
+          $ref: '#/components/schemas/Document'
+        upgradedFileInfo:
+          $ref: '#/components/schemas/UpgradedFileInfo'
+      type: object
+    ValidacioCompletaResponse:
+      properties:
+        signType:
+          type: string
+        mime:
+          type: string
+        extension:
+          type: string
+        nifFirmant:
+          type: string
+        checkAdministrationIDOfSigner:
+          type: boolean
+        checkDocumentModifications:
+          type: boolean
+        checkValidationSignature:
+          type: boolean
+        validateSignatureResponse:
+          $ref: '#/components/schemas/ValidateSignatureResponse'
+        numeroSerieCertificat:
+          type: integer
+        emissorCertificat:
+          type: string
+        subjectCertificat:
+          type: string
+        certificateLastSign:
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign'
+        perfilDeFirma:
+          type: string
+      type: object
+    ValidateSignatureResponse:
+      properties:
+        signType:
+          type: string
+        signMode:
+          format: int32
+          type: integer
+        signProfile:
+          type: string
+        validationStatus:
+          $ref: '#/components/schemas/ValidationStatus'
+        signatureDetailInfo:
+          items:
+            $ref: '#/components/schemas/SignatureDetailInfo'
+          type: array
+      type: object
+    ValidationStatus:
+      properties:
+        status:
+          format: int32
+          type: integer
+        errorMsg:
+          type: string
+        errorException:
+          $ref: '#/components/schemas/ValidationStatus_errorException'
+      type: object
+    UpgradedFileInfo:
+      description: Informació de la firma actualitzada
+      example:
+        additionInformation:
+        - value: value
+          key: key
+        - value: value
+          key: key
+        eniTipoFirma: eniTipoFirma
+        eniPerfilFirma: eniPerfilFirma
+        validationInfo:
+          checkDocumentModifications: true
+          noCheckValidationReason: noCheckValidationReason
+          checkValidationSignature: true
+          checkAdministrationIDOfSigner: true
+        signType: PAdES
+        signMode: 0
+        signAlgorithm: SHA-1
+      properties:
+        signType:
+          description: "Tipus de Firma. Valors possibles:\r\n    • “PAdES” (Constant\
+            \ SIGN_TYPE_PADES)\r\n    • “XAdES” (Constant SIGN_TYPE_XADES)\r\n   \
+            \ • “CAdES” (Constant SIGN_TYPE_CADES)\r\n    • “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\
+            \n    • “OOXML” (Constant SIGN_TYPE_OOXML)\r\n    • “ODF” (Constant SIGN_TYPE_ODF)\r\
+            \n    • “SMIME” (Constant SIGN_TYPE_SMIME)\r\n    • “CAdES-ASiC-S” (Constant\
+            \ SIGN_TYPE_CADES_ASIC_S)\r\n    • “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\
+            \n    • “PKCS#1” (Constant SIGN_TYPE_PKCS1)"
+          example: PAdES
+          type: string
+        signAlgorithm:
+          description: "Algorisme de Firma. Valors:\r\n    • \"SHA-1\"\r\n    • \"\
+            SHA-256\"\r\n    • \"SHA-384\"\r\n    • \"SHA-512\""
+          example: SHA-1
+          type: string
+        signMode:
+          description: Mode de firma attached (0) o detached (1)
+          example: 0
+          format: int32
+          type: integer
+        eniTipoFirma:
+          type: string
+        eniPerfilFirma:
+          type: string
+        validationInfo:
+          $ref: '#/components/schemas/ValidationInfo'
+        additionInformation:
+          items:
+            $ref: '#/components/schemas/KeyValue'
+          type: array
+      required:
+      - signAlgorithm
+      - signMode
+      - signType
+      type: object
+    ValidacioCompletaResponse_certificateLastSign_issuerX500Principal:
+      properties:
+        name:
+          type: string
+        encoded:
+          items:
+            format: byte
+            type: string
+          type: array
+      type: object
+    ValidacioCompletaResponse_certificateLastSign_issuerDN:
+      properties:
+        name:
+          type: string
+      type: object
+    ValidacioCompletaResponse_certificateLastSign_publicKey:
+      properties:
+        format:
+          type: string
+        algorithm:
+          type: string
+        encoded:
+          items:
+            format: byte
+            type: string
+          type: array
+      type: object
+    ValidacioCompletaResponse_certificateLastSign:
+      properties:
+        type:
+          type: string
+        serialNumber:
+          type: integer
+        tbscertificate:
+          items:
+            format: byte
+            type: string
+          type: array
+        issuerX500Principal:
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerX500Principal'
+        extendedKeyUsage:
+          items:
+            type: string
+          type: array
+        sigAlgName:
+          type: string
+        notBefore:
+          format: date-time
+          type: string
+        notAfter:
+          format: date-time
+          type: string
+        subjectX500Principal:
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerX500Principal'
+        sigAlgOID:
+          type: string
+        sigAlgParams:
+          items:
+            format: byte
+            type: string
+          type: array
+        issuerUniqueID:
+          items:
+            type: boolean
+          type: array
+        subjectUniqueID:
+          items:
+            type: boolean
+          type: array
+        keyUsage:
+          items:
+            type: boolean
+          type: array
+        subjectAlternativeNames:
+          items:
+            items:
+              type: object
+            type: array
+          type: array
+        issuerAlternativeNames:
+          items:
+            items:
+              type: object
+            type: array
+          type: array
+        signature:
+          items:
+            format: byte
+            type: string
+          type: array
+        basicConstraints:
+          format: int32
+          type: integer
+        issuerDN:
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerDN'
+        subjectDN:
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerDN'
+        version:
+          format: int32
+          type: integer
+        criticalExtensionOIDs:
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+        nonCriticalExtensionOIDs:
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+        encoded:
+          items:
+            format: byte
+            type: string
+          type: array
+        publicKey:
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_publicKey'
+      type: object
+    ValidationStatus_errorException_stackTrace_inner:
+      properties:
+        classLoaderName:
+          type: string
+        moduleName:
+          type: string
+        moduleVersion:
+          type: string
+        methodName:
+          type: string
+        fileName:
+          type: string
+        lineNumber:
+          format: int32
+          type: integer
+        className:
+          type: string
+        nativeMethod:
+          type: boolean
+      type: object
+    ValidationStatus_errorException:
+      properties:
+        stackTrace:
+          items:
+            $ref: '#/components/schemas/ValidationStatus_errorException_stackTrace_inner'
+          type: array
+        message:
+          type: string
+        localizedMessage:
+          type: string
+      type: object
+  securitySchemes:
+    BasicAuth:
+      scheme: basic
+      type: http
+

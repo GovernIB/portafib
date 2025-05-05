@@ -1,0 +1,2476 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "API Interna de PortaFIB que ofereix serveis de firma web.",
+    "description" : "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de PortaFIB",
+    "contact" : {
+      "name" : "Departament de Govern Digital a la Fundació Bit",
+      "url" : "http://governdigital.fundaciobit.org",
+      "email" : "otae@fundaciobit.org"
+    },
+    "license" : {
+      "name" : "European Union Public Licence (EUPL v1.2)",
+      "url" : "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"
+    },
+    "version" : "1.0-SNAPSHOT"
+  },
+  "externalDocs" : {
+    "description" : "Java API Interna Client (Github Source Code)",
+    "url" : "https://github.com/GovernIB/portafib/tree/portafib-3.0/"
+  },
+  "servers" : [ {
+    "url" : "/portafibapi/interna"
+  }, {
+    "url" : "http://localhost:8080/portafibapi/interna"
+  }, {
+    "url" : "https://dev.caib.es/portafibapi/interna"
+  }, {
+    "url" : "https://proves.caib.es/portafibapi/interna"
+  }, {
+    "url" : "https://se.caib.es/portafibapi/interna"
+  }, {
+    "url" : "https://www.caib.es/portafibapi/interna"
+  } ],
+  "tags" : [ {
+    "name" : "DirectSignatureOnWeb v1",
+    "description" : "Firma Web Swagger v1"
+  }, {
+    "name" : "SignatureOnServer v1",
+    "description" : "API Interna de PortaFIB que ofereix serveis de firma en servidor."
+  } ],
+  "paths" : {
+    "/secure/directsignatureonweb/v1/addFileToSign" : {
+      "post" : {
+        "tags" : [ "DirectSignatureOnWeb v1" ],
+        "summary" : "Afegeix un document  al conjunt de Peticions de Firma a realitzar per l'usuari.",
+        "operationId" : "addFileToSign",
+        "requestBody" : {
+          "description" : "Document a signar i dades específiques de la firma a realitzar.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AddFileToSignRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/directsignatureonweb/v1/closeTransaction" : {
+      "post" : {
+        "tags" : [ "DirectSignatureOnWeb v1" ],
+        "summary" : "Indica al component de firma que la informació s’ha recuperat correctament i que pot fer neteja en el servidor.",
+        "operationId" : "closeTransaction",
+        "requestBody" : {
+          "description" : "Identificador de la transacció.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/directsignatureonweb/v1/getDocumentaryTypes" : {
+      "get" : {
+        "tags" : [ "DirectSignatureOnWeb v1" ],
+        "summary" : "Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l'entitat i tipus documentals de l'usuari aplicació",
+        "operationId" : "getDocumentaryTypes",
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentaryTypes"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/directsignatureonweb/v1/getLanguages" : {
+      "get" : {
+        "tags" : [ "DirectSignatureOnWeb v1" ],
+        "summary" : "Retorna els idiomes disponibles.",
+        "operationId" : "getLanguages",
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Languages"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/directsignatureonweb/v1/getProfiles" : {
+      "get" : {
+        "tags" : [ "DirectSignatureOnWeb v1" ],
+        "summary" : "Retorna els perfils de firma.",
+        "operationId" : "getProfiles",
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Profiles"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/directsignatureonweb/v1/getSignatureResult" : {
+      "post" : {
+        "tags" : [ "DirectSignatureOnWeb v1" ],
+        "summary" : "Document signat  i informació d'una firma",
+        "operationId" : "getSignatureResult",
+        "requestBody" : {
+          "description" : "Identificador de transacció i de firma.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GetSignatureResultRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SignatureResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/directsignatureonweb/v1/getTransactionID" : {
+      "post" : {
+        "tags" : [ "DirectSignatureOnWeb v1" ],
+        "summary" : "Operacio per obtenir el Id de una transaccio de la API",
+        "operationId" : "getTransactionID",
+        "requestBody" : {
+          "description" : "Solicita i configura una transacció de firma web",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CommonInfo"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/directsignatureonweb/v1/getTransactionStatus" : {
+      "post" : {
+        "tags" : [ "DirectSignatureOnWeb v1" ],
+        "summary" : "Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma",
+        "operationId" : "getTransactionStatus",
+        "requestBody" : {
+          "description" : "Identificador de transacció retornat de la cridada getTransactionID().",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetTransactionStatusResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/directsignatureonweb/v1/startTransaction" : {
+      "post" : {
+        "tags" : [ "DirectSignatureOnWeb v1" ],
+        "summary" : "Envia identificador de la transacció, url de retorn i tipus de vista web (amb o sense iframe) i inicia el procés de firma retornant una URL de redirecció.",
+        "operationId" : "startTransaction",
+        "requestBody" : {
+          "description" : "Envia identificador de la transacció, url de retorn i tipus de vista web (amb o sense iframe)",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/StartTransactionRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/directsignatureonweb/v1/versio" : {
+      "get" : {
+        "tags" : [ "DirectSignatureOnWeb v1" ],
+        "summary" : "Retorna la versió d'aquest Servei",
+        "operationId" : "versio",
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Retornada correctament la versió d'aquest Servei",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureonserver/v1/getDocumentaryTypes" : {
+      "get" : {
+        "tags" : [ "SignatureOnServer v1" ],
+        "summary" : "Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l'entitat i tipus documentals de l'usuari aplicació",
+        "operationId": "getDocumentaryTypes",
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentaryTypes"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureonserver/v1/getLanguages" : {
+      "get" : {
+        "tags" : [ "SignatureOnServer v1" ],
+        "summary" : "Retorna els idiomes disponibles.",
+        "operationId": "getLanguages",
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Languages"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureonserver/v1/getProfiles" : {
+      "get" : {
+        "tags" : [ "SignatureOnServer v1" ],
+        "summary" : "Retorna els perfils de firma.",
+        "operationId": "getProfiles",
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Profiles"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureonserver/v1/signdocument" : {
+      "post" : {
+        "tags" : [ "SignatureOnServer v1" ],
+        "summary" : "Operacio de firma simple en servidor d'un document",
+        "operationId" : "signdocument",
+        "requestBody" : {
+          "description" : "Operacio de firma simple en servidor d'un document",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SignDocumentRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SignatureResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureonserver/v1/upgradeSignature" : {
+      "post" : {
+        "tags" : [ "SignatureOnServer v1" ],
+        "summary" : "Operacio de firma simple en servidor d'un document",
+        "operationId" : "upgradeSignature",
+        "requestBody" : {
+          "description" : "Funcio de upgrade se firma digital",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpgradeRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UpgradeResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureonserver/v1/versio" : {
+      "get" : {
+        "tags" : [ "SignatureOnServer v1" ],
+        "summary" : "Retorna la versió d'aquest Servei",
+        "operationId": "versio",
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Retornada correctament la versió d'aquest Servei",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "RestExceptionInfo" : {
+        "required" : [ "errorMessage" ],
+        "type" : "object",
+        "properties" : {
+          "errorCode" : {
+            "type" : "integer",
+            "description" : "Codi intern de l'error. Si l'Aplicació no gestiona codis d'error llavors val null.",
+            "format" : "int32"
+          },
+          "errorMessage" : {
+            "type" : "string",
+            "description" : "Missatge de l'error"
+          },
+          "stackTrace" : {
+            "type" : "string",
+            "description" : "Stacktrace de l'excepció"
+          },
+          "stackTraceCause" : {
+            "type" : "string",
+            "description" : "Stacktrace de l'excepció causant de l'error si n'hi hagués."
+          },
+          "field" : {
+            "type" : "string",
+            "description" : "Indica el camp en que hi ha un error de validació."
+          }
+        },
+        "description" : "Estructura de dades utilitzada per passar informació d'un error"
+      },
+      "AddFileToSignRequest" : {
+        "required" : [ "fileInfoSignature", "transactionID" ],
+        "type" : "object",
+        "properties" : {
+          "transactionID" : {
+            "type" : "string",
+            "description" : "Identificador de transacció"
+          },
+          "fileInfoSignature" : {
+            "$ref" : "#/components/schemas/FileInfoSignature"
+          }
+        }
+      },
+      "Document" : {
+        "required" : [ "nom" ],
+        "type" : "object",
+        "properties" : {
+          "nom" : {
+            "type" : "string",
+            "description" : "Nom del fitxer."
+          },
+          "mime" : {
+            "type" : "string",
+            "description" : "Tipus mime del fitxer."
+          },
+          "data" : {
+            "type" : "string",
+            "description" : "Contingut del fitxer. En llistats aquest camp vendrà buit.",
+            "format" : "byte"
+          }
+        },
+        "description" : "Objecte que representa un Document/Fitxer"
+      },
+      "FileInfoSignature" : {
+        "required" : [ "fileToSign", "languageSign", "location", "name", "reason", "signID", "signNumber" ],
+        "type" : "object",
+        "properties" : {
+          "fileToSign" : {
+            "$ref" : "#/components/schemas/Document"
+          },
+          "previusSignatureDetachedFile" : {
+            "$ref" : "#/components/schemas/Document"
+          },
+          "signID" : {
+            "type" : "string",
+            "description" : "Identificador de la Firma",
+            "example" : "1"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Nom descriptiu de la firma. Pot ser el nom del fitxer o un nom associat a la tasca per a la que es requereix la firma.",
+            "example" : "test.pdf"
+          },
+          "reason" : {
+            "type" : "string",
+            "description" : "Raó de la realització de la firma.",
+            "example" : "Exemple de firma"
+          },
+          "location" : {
+            "type" : "string",
+            "description" : "Lloc on es realitza la firma.",
+            "example" : "Palma"
+          },
+          "signNumber" : {
+            "type" : "integer",
+            "description" : "Posició de la firma dins el flux de firma.",
+            "format" : "int32",
+            "example" : 1
+          },
+          "languageSign" : {
+            "type" : "string",
+            "description" : "Idioma del document.",
+            "example" : "ca"
+          },
+          "expedientCodi" : {
+            "type" : "string",
+            "description" : "Codi de l'expedient.",
+            "example" : "ca"
+          },
+          "expedientNom" : {
+            "type" : "string",
+            "description" : "Nom de l'expedient.",
+            "example" : "ca"
+          },
+          "expedientUrl" : {
+            "type" : "string",
+            "description" : "URL de l'expedient.",
+            "example" : "ca"
+          },
+          "procedimentCodi" : {
+            "type" : "string",
+            "description" : "Codi del Procediment.",
+            "example" : "ca"
+          },
+          "procedimentNom" : {
+            "type" : "string",
+            "description" : "Nom del Procediment.",
+            "example" : "ca"
+          },
+          "documentType" : {
+            "type" : "integer",
+            "description" : "Tipus Documental. Si val null se li assigna 99",
+            "format" : "int64"
+          },
+          "additionalInformation" : {
+            "type" : "array",
+            "description" : "Informació Addicional.",
+            "example" : "ca",
+            "items" : {
+              "$ref" : "#/components/schemas/KeyValue"
+            }
+          }
+        },
+        "description" : "Informació especifica per a realitzar la firma"
+      },
+      "KeyValue" : {
+        "required" : [ "key", "value" ],
+        "type" : "object",
+        "properties" : {
+          "key" : {
+            "type" : "string",
+            "description" : "Clau del valor"
+          },
+          "value" : {
+            "type" : "string",
+            "description" : "Valor de la clau"
+          }
+        },
+        "description" : "Objecte per afegir informació addicional sobre la firma o el firmant"
+      },
+      "DocumentaryType" : {
+        "required" : [ "documentType", "documentTypeBase", "name" ],
+        "type" : "object",
+        "properties" : {
+          "documentType" : {
+            "type" : "integer",
+            "description" : "Identificador de Tipus Documental",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Nom del Tipus Documental"
+          },
+          "documentTypeBase" : {
+            "type" : "integer",
+            "description" : "Identificador de Tipus Documental associat als valors ENI",
+            "format" : "int64"
+          }
+        },
+        "description" : "Model de dades d'un tipus documental"
+      },
+      "DocumentaryTypes" : {
+        "type" : "object",
+        "properties" : {
+          "documentaryTypes" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DocumentaryType"
+            }
+          }
+        }
+      },
+      "Languages" : {
+        "type" : "object",
+        "properties" : {
+          "languages" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/KeyValue"
+            }
+          }
+        }
+      },
+      "Profile" : {
+        "required" : [ "code", "description", "name" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "description" : "Codi del perfil"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Nom del perfil en l’idioma elegit."
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Descripció del perfil en l’idioma elegit."
+          }
+        },
+        "description" : "Detalls del Perfil d'un usuari Aplicació"
+      },
+      "Profiles" : {
+        "type" : "object",
+        "properties" : {
+          "profiles" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Profile"
+            }
+          }
+        }
+      },
+      "GetSignatureResultRequest" : {
+        "required" : [ "signID", "transactionID" ],
+        "type" : "object",
+        "properties" : {
+          "transactionID" : {
+            "type" : "string",
+            "description" : "Identificador de la transaccio"
+          },
+          "signID" : {
+            "type" : "string",
+            "description" : "Identificador de la firma"
+          }
+        }
+      },
+      "CustodyInfo" : {
+        "required" : [ "custodyID" ],
+        "type" : "object",
+        "properties" : {
+          "custodyID" : {
+            "type" : "string",
+            "description" : "Identificador del sistema de custòdia"
+          },
+          "csv" : {
+            "type" : "string",
+            "description" : "URL on descarregar directament el fitxer signat"
+          },
+          "csvValidationWeb" : {
+            "type" : "string",
+            "description" : "Codi Segur de Validació d'aquest document custodiat."
+          },
+          "validationFileUrl" : {
+            "type" : "string",
+            "description" : "URL on descarregar-se la definició de com es genera el CSV"
+          },
+          "csvGenerationDefinition" : {
+            "type" : "string",
+            "description" : "Pàgina web on validar el document, normalment a partir de CSV"
+          },
+          "originalFileDirectURL" : {
+            "type" : "string",
+            "description" : "URL al document original"
+          },
+          "printableFileDirectUrl" : {
+            "type" : "string",
+            "description" : "URL al document en format per imprimir"
+          },
+          "eniFileDirectUrl" : {
+            "type" : "string",
+            "description" : "Url al eni File"
+          },
+          "expedientID" : {
+            "type" : "string",
+            "description" : "Id del expedient si és un expedient o esta relacionat amb un expedient."
+          },
+          "documentID" : {
+            "type" : "string",
+            "description" : "Id del document a signar"
+          }
+        },
+        "description" : "Informació de Custòdia"
+      },
+      "ProcessStatus" : {
+        "required" : [ "STATUS_CANCELLED", "STATUS_FINAL_ERROR", "STATUS_FINAL_OK", "STATUS_INITIALIZING", "STATUS_IN_PROGRESS" ],
+        "type" : "object",
+        "properties" : {
+          "STATUS_INITIALIZING" : {
+            "type" : "integer",
+            "description" : "Codi d'estat d'una petició de firma que indica un que s'esta inicialitzant",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 0
+          },
+          "STATUS_IN_PROGRESS" : {
+            "type" : "integer",
+            "description" : "Codi d'estat d'una petició de firma que indica un que esta en procés",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 1
+          },
+          "STATUS_FINAL_OK" : {
+            "type" : "integer",
+            "description" : "Codi d'estat d'una petició de firma que indica que ha finalitzat correctament",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : 2
+          },
+          "STATUS_FINAL_ERROR" : {
+            "type" : "integer",
+            "description" : "Codi d'estat d'una petició de firma que indica que ha finalitzat amb errors",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : -1
+          },
+          "STATUS_CANCELLED" : {
+            "type" : "integer",
+            "description" : "Codi d'estat d'una petició de firma que indica que ha sigut cancelada",
+            "format" : "int32",
+            "readOnly" : true,
+            "default" : -2
+          },
+          "status" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "errorMessage" : {
+            "type" : "string"
+          },
+          "errorStackTrace" : {
+            "type" : "string"
+          }
+        },
+        "description" : "Estat del procés de firma"
+      },
+      "SignatureResponse" : {
+        "required" : [ "signID", "status" ],
+        "type" : "object",
+        "properties" : {
+          "signID" : {
+            "type" : "string",
+            "description" : "Identificador de la firma"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/ProcessStatus"
+          },
+          "signedFile" : {
+            "$ref" : "#/components/schemas/Document"
+          },
+          "signedFileInfo" : {
+            "$ref" : "#/components/schemas/SignedFileInfo"
+          }
+        },
+        "description" : "Resposta de la petició de firma en servidor"
+      },
+      "SignedFileInfo" : {
+        "required" : [ "policyIncluded", "signAlgorithm", "signMode", "signOperation", "signType", "signaturesTableLocation", "signerInfo", "timeStampIncluded" ],
+        "type" : "object",
+        "properties" : {
+          "signOperation" : {
+            "type" : "integer",
+            "description" : "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma (2).",
+            "format" : "int32",
+            "example" : 1
+          },
+          "signType" : {
+            "type" : "string",
+            "description" : "Tipus de Firma. Valors possibles:\r\n    "
+          },
+          "signAlgorithm" : {
+            "type" : "string",
+            "description" : "Algorisme de Firma. Valors: \r\n    - \"SHA-1\"\r\n    - \"SHA-256\"\r\n    - \"SHA-384\"\r\n    - \"SHA-512\"",
+            "example" : "SHA-1"
+          },
+          "signMode" : {
+            "type" : "integer",
+            "description" : "Valors:\r\n    - 0: Implicit o Attached. La firma resultante incluye internamente una copia de los datos firmados. \r\n    - 1: Explicit o Detached: La firma resultante no incluye los datos firmados. ",
+            "format" : "int32",
+            "example" : 0
+          },
+          "signaturesTableLocation" : {
+            "type" : "integer",
+            "description" : "Posició de la Taula de firmes:\r\n    - 0: Sense taula de firmes\r\n    - 1: Taula de firmes en la 1a pàgina\r\n    - -1: Darrera pàgina",
+            "format" : "int32",
+            "example" : 1
+          },
+          "timeStampIncluded" : {
+            "type" : "boolean",
+            "description" : "Indica si s'ha afegit un segell de Temps durant la firma",
+            "example" : true
+          },
+          "policyIncluded" : {
+            "type" : "boolean",
+            "description" : "Indica si inclou política de firma (true, EPES) o no (false)",
+            "example" : true
+          },
+          "eniTipoFirma" : {
+            "type" : "string",
+            "description" : "Denominación normalizada del tipo de firma. Los posibles valores asignables son los siguientes: \r\n    - TF01 - CSV \r\n    - TF02 - XAdES internally detached signature\"); \r\n    - TF03 - XAdES enveloped signature.\r\n    - TF04 - CAdES detached/explicit signature.\r\n    - TF05 – CadES attached/implicit signature.\r\n    - TF06 - PAdES. El tipo TF04 será establecido por defecto para documentos firmados, exceptuando los documentos en formato PDF o PDF/A, cuyo tipo será TF06.",
+            "example" : "TF01"
+          },
+          "eniPerfilFirma" : {
+            "type" : "string",
+            "description" : "Perfil empleado en una firma con certificado electrónico. Los posibles valores asignables son los siguientes:\r\n  AdES-BES\r\n  AdES-EPES\r\n  AdES-T\r\n  AdES-C\r\n  AdES-X\r\n  AdES-X1\r\n  AdES-X2\r\n  AdES-XL\r\n  AdES-XL1\r\n  AdES-XL2\r\n  AdES-A\r\n  PAdES-LTV\r\n  PAdES-Basic",
+            "example" : "AdES-BES"
+          },
+          "signerInfo" : {
+            "$ref" : "#/components/schemas/SignerInfo"
+          },
+          "custodyInfo" : {
+            "$ref" : "#/components/schemas/CustodyInfo"
+          },
+          "validationInfo" : {
+            "$ref" : "#/components/schemas/ValidationInfo"
+          }
+        },
+        "description" : "Informació del fitxer signat."
+      },
+      "SignerInfo" : {
+        "type" : "object",
+        "properties" : {
+          "eniRolFirma" : {
+            "type" : "string",
+            "description" : "Esquemas desarrollados a nivel local y que pueden incluir valores como válida, autentica, refrenda, visa, representa, testimonia, etc.."
+          },
+          "eniSignerName" : {
+            "type" : "string",
+            "description" : "Nombre o razón social de los firmantes."
+          },
+          "eniSignerAdministrationId" : {
+            "type" : "string",
+            "description" : "NIF del firmant."
+          },
+          "eniSignLevel" : {
+            "type" : "string",
+            "description" : "Indicador normalizado que refleja el grado de  confianza de la firma utilizado. Ejemplos: Nick, PIN ciudadano, Firma electrónica avanzada, Claves concertadas, Firma electrónica avanzada basada en certificados, CSV, .."
+          },
+          "signDate" : {
+            "pattern" : "yyyy-MM-dd'T'HH:mm:ss",
+            "type" : "string",
+            "description" : "Data en que es va realitzar la firma",
+            "format" : "date-time"
+          },
+          "serialNumberCert" : {
+            "type" : "string",
+            "description" : "Número de Sèrie del Certificat utilitzat en la firma"
+          },
+          "issuerCert" : {
+            "type" : "string",
+            "description" : "Issuer del Certificat utilitzat en la firma"
+          },
+          "subjectCert" : {
+            "type" : "string",
+            "description" : "Subject del Certificat utilitzat en la firma"
+          },
+          "additionalInformation" : {
+            "type" : "array",
+            "description" : "Ofrecer cualquier otra información que se  considere útil acerca del firmante.",
+            "items" : {
+              "$ref" : "#/components/schemas/KeyValue"
+            }
+          }
+        },
+        "description" : "Informació del signant"
+      },
+      "ValidationInfo" : {
+        "type" : "object",
+        "properties" : {
+          "checkAdministrationIDOfSigner" : {
+            "type" : "boolean",
+            "description" : "S’ha verificat que l’identificador del firmant és la del que estava previst que firmàs. Valor buit indica que no s'ha realitzat la validació."
+          },
+          "checkDocumentModifications" : {
+            "type" : "boolean",
+            "description" : "S’ha verificat que no s’hagi modificat el document original. Valor buit indica que no s'ha realitzat la validació."
+          },
+          "checkValidationSignature" : {
+            "type" : "boolean",
+            "description" : "S’ha verificat que la firma és correcte. Valor buit indica que no s'ha realitzat la validació."
+          },
+          "noCheckValidationReason" : {
+            "type" : "string",
+            "description" : "Només s'omple si checkValidationSignature val false"
+          }
+        },
+        "description" : "Informació de les validacions realitzades despres de la firma."
+      },
+      "CommonInfo" : {
+        "required" : [ "administrationID", "languageUI" ],
+        "type" : "object",
+        "properties" : {
+          "signProfile" : {
+            "type" : "string",
+            "description" : "Identificador único del usuario",
+            "example" : "PROFILE_PADES"
+          },
+          "languageUI" : {
+            "type" : "string",
+            "description" : "Idioma en que retornar valors i missatges d'error",
+            "example" : "ca"
+          },
+          "username" : {
+            "type" : "string",
+            "description" : " - FIRMA WEB: Requerit. És el codi d'usuari dins l'entitat. Per exemple en entorn CAIB serien els \"u800xx\" o \"u[DNI]\"\r\n -FIRMA EN SERVIDOR: Opcional. Es reconama que valgui null a no ser que l'administrador digui el contrari. És la configuració de firma en el sistema específic de firma. Per exemple amb el Plugin de @firma federat et pots connectar amb un usuari-password però aquest pot tenir diverses configuracions per fer firmes en servidor o àlies: \"username\" s'utilitza de definir aquesta configuració o àlies.",
+            "example" : "\"u800xx\" / \"u[DNI]\""
+          },
+          "administrationID" : {
+            "type" : "string",
+            "description" : " - FIRMA WEB: Requerit. És el DNI de la persona signant. Si esta activa la validació dins PortaFIB llavors es valida que el DNI del Certificat sigui el mateix que aquest.\r\n - FIRMA EN SERVIDOR: Opcional. És el CIF o NIF associat al certificat en servidor. Si es defineix i si esta activa la validació dins PortaFIB llavors es valida que el DNI del Certificat sigui el mateix que aquest.",
+            "example" : "99999999Z"
+          },
+          "organizationID" : {
+            "type" : "string",
+            "description" : "Opcional. És el CIF de l'organització representada pel signant. Si esta activa la validació dins PortaFIB llavors es valida que el Certificat sigui un certificat de representant d'aquest CIF.",
+            "example" : "B99999999"
+          },
+          "signerEmail" : {
+            "type" : "string",
+            "description" : " - FIRMA WEB: Opcional. Correu del Firmant. Per afegir a les dades de la firma.\r\n - FIRMA EN SERVIDOR: Opcional. Correu del departament que ordena la firma. Per afegir a les dades de la firma.",
+            "example" : "correufirmant@entitat.org"
+          }
+        },
+        "description" : "Configuracions generals de firma i identificacio del solicitant i solicitat"
+      },
+      "GetTransactionStatusResponse" : {
+        "required" : [ "signaturesStatusList", "transactionStatus" ],
+        "type" : "object",
+        "properties" : {
+          "transactionStatus" : {
+            "$ref" : "#/components/schemas/ProcessStatus"
+          },
+          "signaturesStatusList" : {
+            "type" : "array",
+            "description" : "Estat de cada firma. Pot passar que l'estat general sigui que tot ha anat bé, però que totes o algunes de les firmes no.",
+            "items" : {
+              "$ref" : "#/components/schemas/SignatureStatus"
+            }
+          }
+        }
+      },
+      "SignatureStatus" : {
+        "type" : "object",
+        "properties" : {
+          "signID" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/ProcessStatus"
+          }
+        },
+        "description" : "Estat de cada firma. Pot passar que l'estat general sigui que tot ha anat bé, però que totes o algunes de les firmes no."
+      },
+      "StartTransactionRequest" : {
+        "required" : [ "language", "returnUrl", "transactionID", "view" ],
+        "type" : "object",
+        "properties" : {
+          "transactionID" : {
+            "type" : "string",
+            "description" : "Identificador de transacció"
+          },
+          "returnUrl" : {
+            "type" : "string",
+            "description" : "Adreça web on retornar una vegada finalitzat tot el procés de firma."
+          },
+          "view" : {
+            "type" : "string",
+            "description" : "Indica si la presentació de la firma es farà a pantalla completa o dins d'un iframe:\r\n    • \"fullview\" (Constant VIEW_FULLSCREEN)\r\n    • \"iframe\" (Constant VIEW_IFRAME)"
+          },
+          "language" : {
+            "type" : "string",
+            "description" : "Idioma seleccionat"
+          }
+        }
+      },
+      "SignTypeConstants" : {
+        "type" : "string",
+        "description" : "Tipus de Firma. Valors possibles:\r\n    - “PAdES” (Constant SIGN_TYPE_PADES)\r\n    - “XAdES” (Constant SIGN_TYPE_XADES)\r\n    - “CAdES” (Constant SIGN_TYPE_CADES)\r\n    - “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\n    - “OOXML” (Constant SIGN_TYPE_OOXML)\r\n    - “ODF” (Constant SIGN_TYPE_ODF)\r\n    - “SMIME” (Constant SIGN_TYPE_SMIME)\r\n    - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)\r\n    - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\n    - “PKCS#1” (Constant SIGN_TYPE_PKCS1)",
+        "enum" : [ "PAdES", "XAdES", "CAdES", "FacturaE", "OOXML", "ODF", "SMIME", "CAdES-ASiC-S", "XAdES-ASiC-S", "PKCS#1" ]
+      },
+      "SignAlgorithmConstants" : {
+        "type" : "string",
+        "description" : "Algorisme de Firma. Valors:\r\n    • \"SHA-1\"\r\n    • \"SHA-256\"\r\n    • \"SHA-384\"\r\n    • \"SHA-512\"",
+        "enum" : [ "SHA-1", "SHA-256", "SHA-384", "SHA-512" ]
+      },
+      "SignModeConstants" : {
+        "type" : "integer",
+        "description" : "Valors:\r\n    • 0: Implicit o Attached. La firma resultante incluye internamente una copia de los datos firmados. \r\n    • 1: Explicit o Detached: La firma resultante no incluye los datos firmados.",
+        "format" : "int32",
+        "x-enum-varnames" : [ "SIGN_MODE_ATTACHED_ENVELOPED", "SIGN_MODE_ATTACHED_ENVELOPING", "SIGN_MODE_DETACHED", "SIGN_MODE_INTERNALLY_DETACHED" ],
+        "enum" : [ "0", "3", "1", "4" ]
+      },
+      "SignOperationConstants" : {
+        "type" : "integer",
+        "description" : "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma (2).\r\nLes constants són:\r\n    • SIGN_OPERATION_SIGN = 0;\r\n    • SIGN_OPERATION_COSIGN = 1;\r\n    • SIGN_OPERATION_COUNTERSIGN = 2;",
+        "format" : "int32",
+        "x-enum-varnames" : [ "SIGN_OPERATION_SIGN", "SIGN_OPERATION_COSIGN", "SIGN_OPERATION_COUNTERSIGN" ],
+        "enum" : [ "0", "1", "2" ]
+      },
+      "SignatureStableLocationConstants" : {
+        "type" : "integer",
+        "description" : "Posició de la Taula de firmes:\r\n    • 0: Sense taula de firmes\r\n    • 1: Taula de firmes en la 1a pàgina\r\n    • -1: Darrera pàgina",
+        "format" : "int32",
+        "x-enum-varnames" : [ "SIGNATURESTABLELOCATION_WITHOUT", "SIGNATURESTABLELOCATION_FIRSTPAGE", "SIGNATURESTABLELOCATION_LASTPAGE" ],
+        "enum" : [ "0", "1", "-1" ]
+      },
+      "SignProfileConstants" : {
+        "type" : "string",
+        "description" : "Perfil empleado en una firma con certificado electrónico. Los posibles valores asignables son los siguientes:\r\n  AdES-BES\r\n  AdES-EPES\r\n  AdES-T\r\n  AdES-C\r\n  AdES-X\r\n  AdES-X1\r\n  AdES-X2\r\n  AdES-XL\r\n  AdES-XL1\r\n  AdES-XL2\r\n  AdES-A\r\n  PAdES-LTV\r\n  PAdES-Basic",
+        "enum" : [ "AdES-BES", "AdES-EPES", "AdES-T", "AdES-C", "AdES-X", "AdES-X1", "AdES-X2", "AdES-XL", "AdES-XL1", "AdES-XL2", "AdES-A", "PAdES-LTV", "PAdES-Basic" ]
+      },
+      "SignDocumentRequest" : {
+        "required" : [ "commonInfo", "fileInfoSignature" ],
+        "type" : "object",
+        "properties" : {
+          "commonInfo" : {
+            "$ref" : "#/components/schemas/CommonInfo"
+          },
+          "fileInfoSignature" : {
+            "$ref" : "#/components/schemas/FileInfoSignature"
+          }
+        }
+      },
+      "UpgradeRequest" : {
+        "required" : [ "languageUI", "signature" ],
+        "type" : "object",
+        "properties" : {
+          "profileCode" : {
+            "type" : "string",
+            "description" : "Codi del perfil a utilitzar. Si no es defineix, llavors requerim que quest usuari aplicación només tengui un Perfil definit."
+          },
+          "signature" : {
+            "$ref" : "#/components/schemas/Document"
+          },
+          "detachedDocument" : {
+            "$ref" : "#/components/schemas/Document"
+          },
+          "targetCertificate" : {
+            "$ref" : "#/components/schemas/Document"
+          },
+          "languageUI" : {
+            "type" : "string",
+            "description" : "Idioma dels missatges en cas d'informar o d'errors.",
+            "example" : "ca"
+          }
+        }
+      },
+      "InformacioCertificat" : {
+        "type" : "object",
+        "properties" : {
+          "tipusCertificat" : {
+            "type" : "string"
+          },
+          "subject" : {
+            "type" : "string"
+          },
+          "nomResponsable" : {
+            "type" : "string"
+          },
+          "primerLlinatgeResponsable" : {
+            "type" : "string"
+          },
+          "segonLlinatgeResponsable" : {
+            "type" : "string"
+          },
+          "llinatgesResponsable" : {
+            "type" : "string"
+          },
+          "nomCompletResponsable" : {
+            "type" : "string"
+          },
+          "nifResponsable" : {
+            "type" : "string"
+          },
+          "pseudonim" : {
+            "type" : "string"
+          },
+          "documentRepresentacio" : {
+            "type" : "string"
+          },
+          "carrec" : {
+            "type" : "string"
+          },
+          "llocDeFeina" : {
+            "type" : "string"
+          },
+          "nomDomini" : {
+            "type" : "string"
+          },
+          "denominacioSistemaComponent" : {
+            "type" : "string"
+          },
+          "idEuropeu" : {
+            "type" : "string"
+          },
+          "oiEuropeu" : {
+            "type" : "string"
+          },
+          "numeroIdentificacionPersonal" : {
+            "type" : "string"
+          },
+          "entitatSubscriptoraNom" : {
+            "type" : "string"
+          },
+          "entitatSubscriptoraNif" : {
+            "type" : "string"
+          },
+          "classificacioEidas" : {
+            "type" : "string"
+          },
+          "certificatQualificat" : {
+            "type" : "boolean"
+          },
+          "creatAmbUnDispositiuSegur" : {
+            "type" : "boolean"
+          },
+          "organitzacio" : {
+            "type" : "string"
+          },
+          "emissorID" : {
+            "type" : "string"
+          },
+          "unitatOrganitzativaNifCif" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "dataNaixement" : {
+            "type" : "string"
+          },
+          "raoSocial" : {
+            "type" : "string"
+          },
+          "classificacio" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "numeroSerie" : {
+            "type" : "integer"
+          },
+          "usCertificat" : {
+            "type" : "string"
+          },
+          "usCertificatExtensio" : {
+            "type" : "string"
+          },
+          "validFins" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "validDesDe" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "politica" : {
+            "type" : "string"
+          },
+          "politicaVersio" : {
+            "type" : "string"
+          },
+          "politicaID" : {
+            "type" : "string"
+          },
+          "emissorOrganitzacio" : {
+            "type" : "string"
+          },
+          "pais" : {
+            "type" : "string"
+          },
+          "unitatOrganitzativa" : {
+            "type" : "string"
+          },
+          "qcCompliance" : {
+            "type" : "string"
+          },
+          "qcSSCD" : {
+            "type" : "string"
+          },
+          "idlogOn" : {
+            "type" : "string"
+          },
+          "altresValors" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "SignatureCheck" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          }
+        }
+      },
+      "SignatureDetailInfo" : {
+        "type" : "object",
+        "properties" : {
+          "algorithm" : {
+            "type" : "string"
+          },
+          "digestValue" : {
+            "type" : "string"
+          },
+          "signDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "validChecks" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SignatureCheck"
+            }
+          },
+          "invalidChecks" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SignatureCheck"
+            }
+          },
+          "indeterminateChecks" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SignatureCheck"
+            }
+          },
+          "policyIdentifier" : {
+            "type" : "string"
+          },
+          "certificateInfo" : {
+            "$ref" : "#/components/schemas/InformacioCertificat"
+          },
+          "certificateChain" : {
+            "type" : "array",
+            "items" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string",
+                "format" : "byte"
+              }
+            }
+          },
+          "timeStampInfo" : {
+            "$ref" : "#/components/schemas/TimeStampInfo"
+          }
+        }
+      },
+      "TimeStampInfo" : {
+        "type" : "object",
+        "properties" : {
+          "creationTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "certificateIssuer" : {
+            "type" : "string"
+          },
+          "certificateSubject" : {
+            "type" : "string"
+          },
+          "certificate" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "byte"
+            }
+          },
+          "algorithm" : {
+            "type" : "string"
+          }
+        }
+      },
+      "UpgradeResponse" : {
+        "type" : "object",
+        "properties" : {
+          "upgradedFile" : {
+            "$ref" : "#/components/schemas/Document"
+          },
+          "upgradedFileInfo" : {
+            "$ref" : "#/components/schemas/UpgradedFileInfo"
+          }
+        }
+      },
+      "ValidacioCompletaResponse" : {
+        "type" : "object",
+        "properties" : {
+          "signType" : {
+            "type" : "string"
+          },
+          "mime" : {
+            "type" : "string"
+          },
+          "extension" : {
+            "type" : "string"
+          },
+          "nifFirmant" : {
+            "type" : "string"
+          },
+          "checkAdministrationIDOfSigner" : {
+            "type" : "boolean"
+          },
+          "checkDocumentModifications" : {
+            "type" : "boolean"
+          },
+          "checkValidationSignature" : {
+            "type" : "boolean"
+          },
+          "validateSignatureResponse" : {
+            "$ref" : "#/components/schemas/ValidateSignatureResponse"
+          },
+          "numeroSerieCertificat" : {
+            "type" : "integer"
+          },
+          "emissorCertificat" : {
+            "type" : "string"
+          },
+          "subjectCertificat" : {
+            "type" : "string"
+          },
+          "certificateLastSign" : {
+            "type" : "object",
+            "properties" : {
+              "type" : {
+                "type" : "string"
+              },
+              "serialNumber" : {
+                "type" : "integer"
+              },
+              "tbscertificate" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "string",
+                  "format" : "byte"
+                }
+              },
+              "issuerX500Principal" : {
+                "type" : "object",
+                "properties" : {
+                  "name" : {
+                    "type" : "string"
+                  },
+                  "encoded" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "string",
+                      "format" : "byte"
+                    }
+                  }
+                }
+              },
+              "extendedKeyUsage" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "sigAlgName" : {
+                "type" : "string"
+              },
+              "notBefore" : {
+                "type" : "string",
+                "format" : "date-time"
+              },
+              "notAfter" : {
+                "type" : "string",
+                "format" : "date-time"
+              },
+              "subjectX500Principal" : {
+                "type" : "object",
+                "properties" : {
+                  "name" : {
+                    "type" : "string"
+                  },
+                  "encoded" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "string",
+                      "format" : "byte"
+                    }
+                  }
+                }
+              },
+              "sigAlgOID" : {
+                "type" : "string"
+              },
+              "sigAlgParams" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "string",
+                  "format" : "byte"
+                }
+              },
+              "issuerUniqueID" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "boolean"
+                }
+              },
+              "subjectUniqueID" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "boolean"
+                }
+              },
+              "keyUsage" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "boolean"
+                }
+              },
+              "subjectAlternativeNames" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object"
+                  }
+                }
+              },
+              "issuerAlternativeNames" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object"
+                  }
+                }
+              },
+              "signature" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "string",
+                  "format" : "byte"
+                }
+              },
+              "basicConstraints" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "issuerDN" : {
+                "type" : "object",
+                "properties" : {
+                  "name" : {
+                    "type" : "string"
+                  }
+                }
+              },
+              "subjectDN" : {
+                "type" : "object",
+                "properties" : {
+                  "name" : {
+                    "type" : "string"
+                  }
+                }
+              },
+              "version" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "criticalExtensionOIDs" : {
+                "uniqueItems" : true,
+                "type" : "array",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "nonCriticalExtensionOIDs" : {
+                "uniqueItems" : true,
+                "type" : "array",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "encoded" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "string",
+                  "format" : "byte"
+                }
+              },
+              "publicKey" : {
+                "type" : "object",
+                "properties" : {
+                  "format" : {
+                    "type" : "string"
+                  },
+                  "algorithm" : {
+                    "type" : "string"
+                  },
+                  "encoded" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "string",
+                      "format" : "byte"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "perfilDeFirma" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ValidateSignatureResponse" : {
+        "type" : "object",
+        "properties" : {
+          "signType" : {
+            "type" : "string"
+          },
+          "signMode" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "signProfile" : {
+            "type" : "string"
+          },
+          "validationStatus" : {
+            "$ref" : "#/components/schemas/ValidationStatus"
+          },
+          "signatureDetailInfo" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SignatureDetailInfo"
+            }
+          }
+        }
+      },
+      "ValidationStatus" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "errorMsg" : {
+            "type" : "string"
+          },
+          "errorException" : {
+            "type" : "object",
+            "properties" : {
+              "stackTrace" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "classLoaderName" : {
+                      "type" : "string"
+                    },
+                    "moduleName" : {
+                      "type" : "string"
+                    },
+                    "moduleVersion" : {
+                      "type" : "string"
+                    },
+                    "methodName" : {
+                      "type" : "string"
+                    },
+                    "fileName" : {
+                      "type" : "string"
+                    },
+                    "lineNumber" : {
+                      "type" : "integer",
+                      "format" : "int32"
+                    },
+                    "className" : {
+                      "type" : "string"
+                    },
+                    "nativeMethod" : {
+                      "type" : "boolean"
+                    }
+                  }
+                }
+              },
+              "message" : {
+                "type" : "string"
+              },
+              "localizedMessage" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      },
+      "UpgradedFileInfo" : {
+        "required" : [ "signAlgorithm", "signMode", "signType" ],
+        "type" : "object",
+        "properties" : {
+          "signType" : {
+            "type" : "string",
+            "description" : "Tipus de Firma. Valors possibles:\r\n    • “PAdES” (Constant SIGN_TYPE_PADES)\r\n    • “XAdES” (Constant SIGN_TYPE_XADES)\r\n    • “CAdES” (Constant SIGN_TYPE_CADES)\r\n    • “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\n    • “OOXML” (Constant SIGN_TYPE_OOXML)\r\n    • “ODF” (Constant SIGN_TYPE_ODF)\r\n    • “SMIME” (Constant SIGN_TYPE_SMIME)\r\n    • “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)\r\n    • “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\n    • “PKCS#1” (Constant SIGN_TYPE_PKCS1)",
+            "example" : "PAdES"
+          },
+          "signAlgorithm" : {
+            "type" : "string",
+            "description" : "Algorisme de Firma. Valors:\r\n    • \"SHA-1\"\r\n    • \"SHA-256\"\r\n    • \"SHA-384\"\r\n    • \"SHA-512\"",
+            "example" : "SHA-1"
+          },
+          "signMode" : {
+            "type" : "integer",
+            "description" : "Mode de firma attached (0) o detached (1)",
+            "format" : "int32",
+            "example" : 0
+          },
+          "eniTipoFirma" : {
+            "type" : "string"
+          },
+          "eniPerfilFirma" : {
+            "type" : "string"
+          },
+          "validationInfo" : {
+            "$ref" : "#/components/schemas/ValidationInfo"
+          },
+          "additionInformation" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/KeyValue"
+            }
+          }
+        },
+        "description" : "Informació de la firma actualitzada"
+      }
+    },
+    "securitySchemes" : {
+      "BasicAuth" : {
+        "type" : "http",
+        "scheme" : "basic"
+      }
+    }
+  }
+}
