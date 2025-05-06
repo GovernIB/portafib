@@ -31,8 +31,8 @@ docs/SignatureCheck.md
 docs/SignatureDetailInfo.md
 docs/SignatureOnServerV1Api.md
 docs/SignatureResponse.md
-docs/SignatureStableLocationConstants.md
 docs/SignatureStatus.md
+docs/SignaturesTableLocationConstants.md
 docs/SignedFileInfo.md
 docs/SignerInfo.md
 docs/StartTransactionRequest.md
@@ -43,8 +43,8 @@ docs/UpgradedFileInfo.md
 docs/ValidacioCompletaResponse.md
 docs/ValidacioCompletaResponseCertificateLastSign.md
 docs/ValidacioCompletaResponseCertificateLastSignIssuerDN.md
-docs/ValidacioCompletaResponseCertificateLastSignIssuerX500Principal.md
 docs/ValidacioCompletaResponseCertificateLastSignPublicKey.md
+docs/ValidacioCompletaResponseCertificateLastSignSubjectX500Principal.md
 docs/ValidateSignatureResponse.md
 docs/ValidationInfo.md
 docs/ValidationStatus.md
@@ -85,8 +85,8 @@ src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignTypeCons
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureCheck.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureDetailInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureResponse.java
-src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureStableLocationConstants.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureStatus.java
+src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignaturesTableLocationConstants.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignedFileInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignerInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/StartTransactionRequest.java
@@ -97,8 +97,8 @@ src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/UpgradedFile
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/ValidacioCompletaResponse.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/ValidacioCompletaResponseCertificateLastSign.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/ValidacioCompletaResponseCertificateLastSignIssuerDN.java
-src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/ValidacioCompletaResponseCertificateLastSignIssuerX500Principal.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/ValidacioCompletaResponseCertificateLastSignPublicKey.java
+src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/ValidacioCompletaResponseCertificateLastSignSubjectX500Principal.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/ValidateSignatureResponse.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/ValidationInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/ValidationStatus.java

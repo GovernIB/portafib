@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ValidacioCompletaResponseCertificateLastSignIssuerDN;
-import es.caib.portafib.apiinterna.client.signature.v1.model.ValidacioCompletaResponseCertificateLastSignIssuerX500Principal;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ValidacioCompletaResponseCertificateLastSignPublicKey;
+import es.caib.portafib.apiinterna.client.signature.v1.model.ValidacioCompletaResponseCertificateLastSignSubjectX500Principal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,10 +38,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  */
 @JsonPropertyOrder({
   ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_TYPE,
-  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_SERIAL_NUMBER,
-  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_TBSCERTIFICATE,
-  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_ISSUER_X500_PRINCIPAL,
-  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_EXTENDED_KEY_USAGE,
+  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_SIGNATURE,
+  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_BASIC_CONSTRAINTS,
+  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_ISSUER_D_N,
+  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_SUBJECT_D_N,
+  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_VERSION,
   ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_SIG_ALG_NAME,
   ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_NOT_BEFORE,
   ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_NOT_AFTER,
@@ -53,13 +54,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_KEY_USAGE,
   ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_SUBJECT_ALTERNATIVE_NAMES,
   ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_ISSUER_ALTERNATIVE_NAMES,
-  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_SIGNATURE,
-  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_BASIC_CONSTRAINTS,
-  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_ISSUER_D_N,
-  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_SUBJECT_D_N,
-  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_VERSION,
-  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_CRITICAL_EXTENSION_O_I_DS,
+  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_SERIAL_NUMBER,
+  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_TBSCERTIFICATE,
+  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_ISSUER_X500_PRINCIPAL,
+  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_EXTENDED_KEY_USAGE,
   ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_NON_CRITICAL_EXTENSION_O_I_DS,
+  ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_CRITICAL_EXTENSION_O_I_DS,
   ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_ENCODED,
   ValidacioCompletaResponseCertificateLastSign.JSON_PROPERTY_PUBLIC_KEY
 })
@@ -70,21 +70,25 @@ public class ValidacioCompletaResponseCertificateLastSign {
   @javax.annotation.Nullable
   private String type;
 
-  public static final String JSON_PROPERTY_SERIAL_NUMBER = "serialNumber";
+  public static final String JSON_PROPERTY_SIGNATURE = "signature";
   @javax.annotation.Nullable
-  private Integer serialNumber;
+  private List<byte[]> signature = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_TBSCERTIFICATE = "tbscertificate";
+  public static final String JSON_PROPERTY_BASIC_CONSTRAINTS = "basicConstraints";
   @javax.annotation.Nullable
-  private List<byte[]> tbscertificate = new ArrayList<>();
+  private Integer basicConstraints;
 
-  public static final String JSON_PROPERTY_ISSUER_X500_PRINCIPAL = "issuerX500Principal";
+  public static final String JSON_PROPERTY_ISSUER_D_N = "issuerDN";
   @javax.annotation.Nullable
-  private ValidacioCompletaResponseCertificateLastSignIssuerX500Principal issuerX500Principal;
+  private ValidacioCompletaResponseCertificateLastSignIssuerDN issuerDN;
 
-  public static final String JSON_PROPERTY_EXTENDED_KEY_USAGE = "extendedKeyUsage";
+  public static final String JSON_PROPERTY_SUBJECT_D_N = "subjectDN";
   @javax.annotation.Nullable
-  private List<String> extendedKeyUsage = new ArrayList<>();
+  private ValidacioCompletaResponseCertificateLastSignIssuerDN subjectDN;
+
+  public static final String JSON_PROPERTY_VERSION = "version";
+  @javax.annotation.Nullable
+  private Integer version;
 
   public static final String JSON_PROPERTY_SIG_ALG_NAME = "sigAlgName";
   @javax.annotation.Nullable
@@ -100,7 +104,7 @@ public class ValidacioCompletaResponseCertificateLastSign {
 
   public static final String JSON_PROPERTY_SUBJECT_X500_PRINCIPAL = "subjectX500Principal";
   @javax.annotation.Nullable
-  private ValidacioCompletaResponseCertificateLastSignIssuerX500Principal subjectX500Principal;
+  private ValidacioCompletaResponseCertificateLastSignSubjectX500Principal subjectX500Principal;
 
   public static final String JSON_PROPERTY_SIG_ALG_O_I_D = "sigAlgOID";
   @javax.annotation.Nullable
@@ -130,33 +134,29 @@ public class ValidacioCompletaResponseCertificateLastSign {
   @javax.annotation.Nullable
   private List<List<Object>> issuerAlternativeNames = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_SIGNATURE = "signature";
+  public static final String JSON_PROPERTY_SERIAL_NUMBER = "serialNumber";
   @javax.annotation.Nullable
-  private List<byte[]> signature = new ArrayList<>();
+  private Integer serialNumber;
 
-  public static final String JSON_PROPERTY_BASIC_CONSTRAINTS = "basicConstraints";
+  public static final String JSON_PROPERTY_TBSCERTIFICATE = "tbscertificate";
   @javax.annotation.Nullable
-  private Integer basicConstraints;
+  private List<byte[]> tbscertificate = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_ISSUER_D_N = "issuerDN";
+  public static final String JSON_PROPERTY_ISSUER_X500_PRINCIPAL = "issuerX500Principal";
   @javax.annotation.Nullable
-  private ValidacioCompletaResponseCertificateLastSignIssuerDN issuerDN;
+  private ValidacioCompletaResponseCertificateLastSignSubjectX500Principal issuerX500Principal;
 
-  public static final String JSON_PROPERTY_SUBJECT_D_N = "subjectDN";
+  public static final String JSON_PROPERTY_EXTENDED_KEY_USAGE = "extendedKeyUsage";
   @javax.annotation.Nullable
-  private ValidacioCompletaResponseCertificateLastSignIssuerDN subjectDN;
-
-  public static final String JSON_PROPERTY_VERSION = "version";
-  @javax.annotation.Nullable
-  private Integer version;
-
-  public static final String JSON_PROPERTY_CRITICAL_EXTENSION_O_I_DS = "criticalExtensionOIDs";
-  @javax.annotation.Nullable
-  private Set<String> criticalExtensionOIDs = new LinkedHashSet<>();
+  private List<String> extendedKeyUsage = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NON_CRITICAL_EXTENSION_O_I_DS = "nonCriticalExtensionOIDs";
   @javax.annotation.Nullable
   private Set<String> nonCriticalExtensionOIDs = new LinkedHashSet<>();
+
+  public static final String JSON_PROPERTY_CRITICAL_EXTENSION_O_I_DS = "criticalExtensionOIDs";
+  @javax.annotation.Nullable
+  private Set<String> criticalExtensionOIDs = new LinkedHashSet<>();
 
   public static final String JSON_PROPERTY_ENCODED = "encoded";
   @javax.annotation.Nullable
@@ -194,120 +194,137 @@ public class ValidacioCompletaResponseCertificateLastSign {
     this.type = type;
   }
 
-  public ValidacioCompletaResponseCertificateLastSign serialNumber(@javax.annotation.Nullable Integer serialNumber) {
+  public ValidacioCompletaResponseCertificateLastSign signature(@javax.annotation.Nullable List<byte[]> signature) {
     
-    this.serialNumber = serialNumber;
+    this.signature = signature;
     return this;
   }
 
-  /**
-   * Get serialNumber
-   * @return serialNumber
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SERIAL_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public Integer getSerialNumber() {
-    return serialNumber;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_SERIAL_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSerialNumber(@javax.annotation.Nullable Integer serialNumber) {
-    this.serialNumber = serialNumber;
-  }
-
-  public ValidacioCompletaResponseCertificateLastSign tbscertificate(@javax.annotation.Nullable List<byte[]> tbscertificate) {
-    
-    this.tbscertificate = tbscertificate;
-    return this;
-  }
-
-  public ValidacioCompletaResponseCertificateLastSign addTbscertificateItem(byte[] tbscertificateItem) {
-    if (this.tbscertificate == null) {
-      this.tbscertificate = new ArrayList<>();
+  public ValidacioCompletaResponseCertificateLastSign addSignatureItem(byte[] signatureItem) {
+    if (this.signature == null) {
+      this.signature = new ArrayList<>();
     }
-    this.tbscertificate.add(tbscertificateItem);
+    this.signature.add(signatureItem);
     return this;
   }
 
   /**
-   * Get tbscertificate
-   * @return tbscertificate
+   * Get signature
+   * @return signature
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TBSCERTIFICATE)
+  @JsonProperty(JSON_PROPERTY_SIGNATURE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<byte[]> getTbscertificate() {
-    return tbscertificate;
+  public List<byte[]> getSignature() {
+    return signature;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TBSCERTIFICATE)
+  @JsonProperty(JSON_PROPERTY_SIGNATURE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTbscertificate(@javax.annotation.Nullable List<byte[]> tbscertificate) {
-    this.tbscertificate = tbscertificate;
+  public void setSignature(@javax.annotation.Nullable List<byte[]> signature) {
+    this.signature = signature;
   }
 
-  public ValidacioCompletaResponseCertificateLastSign issuerX500Principal(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignIssuerX500Principal issuerX500Principal) {
+  public ValidacioCompletaResponseCertificateLastSign basicConstraints(@javax.annotation.Nullable Integer basicConstraints) {
     
-    this.issuerX500Principal = issuerX500Principal;
+    this.basicConstraints = basicConstraints;
     return this;
   }
 
   /**
-   * Get issuerX500Principal
-   * @return issuerX500Principal
+   * Get basicConstraints
+   * @return basicConstraints
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ISSUER_X500_PRINCIPAL)
+  @JsonProperty(JSON_PROPERTY_BASIC_CONSTRAINTS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public ValidacioCompletaResponseCertificateLastSignIssuerX500Principal getIssuerX500Principal() {
-    return issuerX500Principal;
+  public Integer getBasicConstraints() {
+    return basicConstraints;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ISSUER_X500_PRINCIPAL)
+  @JsonProperty(JSON_PROPERTY_BASIC_CONSTRAINTS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setIssuerX500Principal(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignIssuerX500Principal issuerX500Principal) {
-    this.issuerX500Principal = issuerX500Principal;
+  public void setBasicConstraints(@javax.annotation.Nullable Integer basicConstraints) {
+    this.basicConstraints = basicConstraints;
   }
 
-  public ValidacioCompletaResponseCertificateLastSign extendedKeyUsage(@javax.annotation.Nullable List<String> extendedKeyUsage) {
+  public ValidacioCompletaResponseCertificateLastSign issuerDN(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignIssuerDN issuerDN) {
     
-    this.extendedKeyUsage = extendedKeyUsage;
-    return this;
-  }
-
-  public ValidacioCompletaResponseCertificateLastSign addExtendedKeyUsageItem(String extendedKeyUsageItem) {
-    if (this.extendedKeyUsage == null) {
-      this.extendedKeyUsage = new ArrayList<>();
-    }
-    this.extendedKeyUsage.add(extendedKeyUsageItem);
+    this.issuerDN = issuerDN;
     return this;
   }
 
   /**
-   * Get extendedKeyUsage
-   * @return extendedKeyUsage
+   * Get issuerDN
+   * @return issuerDN
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EXTENDED_KEY_USAGE)
+  @JsonProperty(JSON_PROPERTY_ISSUER_D_N)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<String> getExtendedKeyUsage() {
-    return extendedKeyUsage;
+  public ValidacioCompletaResponseCertificateLastSignIssuerDN getIssuerDN() {
+    return issuerDN;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EXTENDED_KEY_USAGE)
+  @JsonProperty(JSON_PROPERTY_ISSUER_D_N)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setExtendedKeyUsage(@javax.annotation.Nullable List<String> extendedKeyUsage) {
-    this.extendedKeyUsage = extendedKeyUsage;
+  public void setIssuerDN(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignIssuerDN issuerDN) {
+    this.issuerDN = issuerDN;
+  }
+
+  public ValidacioCompletaResponseCertificateLastSign subjectDN(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignIssuerDN subjectDN) {
+    
+    this.subjectDN = subjectDN;
+    return this;
+  }
+
+  /**
+   * Get subjectDN
+   * @return subjectDN
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SUBJECT_D_N)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public ValidacioCompletaResponseCertificateLastSignIssuerDN getSubjectDN() {
+    return subjectDN;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SUBJECT_D_N)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSubjectDN(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignIssuerDN subjectDN) {
+    this.subjectDN = subjectDN;
+  }
+
+  public ValidacioCompletaResponseCertificateLastSign version(@javax.annotation.Nullable Integer version) {
+    
+    this.version = version;
+    return this;
+  }
+
+  /**
+   * Get version
+   * @return version
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_VERSION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getVersion() {
+    return version;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_VERSION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setVersion(@javax.annotation.Nullable Integer version) {
+    this.version = version;
   }
 
   public ValidacioCompletaResponseCertificateLastSign sigAlgName(@javax.annotation.Nullable String sigAlgName) {
@@ -385,7 +402,7 @@ public class ValidacioCompletaResponseCertificateLastSign {
     this.notAfter = notAfter;
   }
 
-  public ValidacioCompletaResponseCertificateLastSign subjectX500Principal(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignIssuerX500Principal subjectX500Principal) {
+  public ValidacioCompletaResponseCertificateLastSign subjectX500Principal(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignSubjectX500Principal subjectX500Principal) {
     
     this.subjectX500Principal = subjectX500Principal;
     return this;
@@ -399,14 +416,14 @@ public class ValidacioCompletaResponseCertificateLastSign {
   @JsonProperty(JSON_PROPERTY_SUBJECT_X500_PRINCIPAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public ValidacioCompletaResponseCertificateLastSignIssuerX500Principal getSubjectX500Principal() {
+  public ValidacioCompletaResponseCertificateLastSignSubjectX500Principal getSubjectX500Principal() {
     return subjectX500Principal;
   }
 
 
   @JsonProperty(JSON_PROPERTY_SUBJECT_X500_PRINCIPAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSubjectX500Principal(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignIssuerX500Principal subjectX500Principal) {
+  public void setSubjectX500Principal(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignSubjectX500Principal subjectX500Principal) {
     this.subjectX500Principal = subjectX500Principal;
   }
 
@@ -633,171 +650,120 @@ public class ValidacioCompletaResponseCertificateLastSign {
     this.issuerAlternativeNames = issuerAlternativeNames;
   }
 
-  public ValidacioCompletaResponseCertificateLastSign signature(@javax.annotation.Nullable List<byte[]> signature) {
+  public ValidacioCompletaResponseCertificateLastSign serialNumber(@javax.annotation.Nullable Integer serialNumber) {
     
-    this.signature = signature;
+    this.serialNumber = serialNumber;
     return this;
   }
 
-  public ValidacioCompletaResponseCertificateLastSign addSignatureItem(byte[] signatureItem) {
-    if (this.signature == null) {
-      this.signature = new ArrayList<>();
+  /**
+   * Get serialNumber
+   * @return serialNumber
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SERIAL_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getSerialNumber() {
+    return serialNumber;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SERIAL_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSerialNumber(@javax.annotation.Nullable Integer serialNumber) {
+    this.serialNumber = serialNumber;
+  }
+
+  public ValidacioCompletaResponseCertificateLastSign tbscertificate(@javax.annotation.Nullable List<byte[]> tbscertificate) {
+    
+    this.tbscertificate = tbscertificate;
+    return this;
+  }
+
+  public ValidacioCompletaResponseCertificateLastSign addTbscertificateItem(byte[] tbscertificateItem) {
+    if (this.tbscertificate == null) {
+      this.tbscertificate = new ArrayList<>();
     }
-    this.signature.add(signatureItem);
+    this.tbscertificate.add(tbscertificateItem);
     return this;
   }
 
   /**
-   * Get signature
-   * @return signature
+   * Get tbscertificate
+   * @return tbscertificate
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SIGNATURE)
+  @JsonProperty(JSON_PROPERTY_TBSCERTIFICATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<byte[]> getSignature() {
-    return signature;
+  public List<byte[]> getTbscertificate() {
+    return tbscertificate;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SIGNATURE)
+  @JsonProperty(JSON_PROPERTY_TBSCERTIFICATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignature(@javax.annotation.Nullable List<byte[]> signature) {
-    this.signature = signature;
+  public void setTbscertificate(@javax.annotation.Nullable List<byte[]> tbscertificate) {
+    this.tbscertificate = tbscertificate;
   }
 
-  public ValidacioCompletaResponseCertificateLastSign basicConstraints(@javax.annotation.Nullable Integer basicConstraints) {
+  public ValidacioCompletaResponseCertificateLastSign issuerX500Principal(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignSubjectX500Principal issuerX500Principal) {
     
-    this.basicConstraints = basicConstraints;
+    this.issuerX500Principal = issuerX500Principal;
     return this;
   }
 
   /**
-   * Get basicConstraints
-   * @return basicConstraints
+   * Get issuerX500Principal
+   * @return issuerX500Principal
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BASIC_CONSTRAINTS)
+  @JsonProperty(JSON_PROPERTY_ISSUER_X500_PRINCIPAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Integer getBasicConstraints() {
-    return basicConstraints;
+  public ValidacioCompletaResponseCertificateLastSignSubjectX500Principal getIssuerX500Principal() {
+    return issuerX500Principal;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BASIC_CONSTRAINTS)
+  @JsonProperty(JSON_PROPERTY_ISSUER_X500_PRINCIPAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBasicConstraints(@javax.annotation.Nullable Integer basicConstraints) {
-    this.basicConstraints = basicConstraints;
+  public void setIssuerX500Principal(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignSubjectX500Principal issuerX500Principal) {
+    this.issuerX500Principal = issuerX500Principal;
   }
 
-  public ValidacioCompletaResponseCertificateLastSign issuerDN(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignIssuerDN issuerDN) {
+  public ValidacioCompletaResponseCertificateLastSign extendedKeyUsage(@javax.annotation.Nullable List<String> extendedKeyUsage) {
     
-    this.issuerDN = issuerDN;
+    this.extendedKeyUsage = extendedKeyUsage;
     return this;
   }
 
-  /**
-   * Get issuerDN
-   * @return issuerDN
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ISSUER_D_N)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public ValidacioCompletaResponseCertificateLastSignIssuerDN getIssuerDN() {
-    return issuerDN;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_ISSUER_D_N)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setIssuerDN(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignIssuerDN issuerDN) {
-    this.issuerDN = issuerDN;
-  }
-
-  public ValidacioCompletaResponseCertificateLastSign subjectDN(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignIssuerDN subjectDN) {
-    
-    this.subjectDN = subjectDN;
-    return this;
-  }
-
-  /**
-   * Get subjectDN
-   * @return subjectDN
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SUBJECT_D_N)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public ValidacioCompletaResponseCertificateLastSignIssuerDN getSubjectDN() {
-    return subjectDN;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_SUBJECT_D_N)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSubjectDN(@javax.annotation.Nullable ValidacioCompletaResponseCertificateLastSignIssuerDN subjectDN) {
-    this.subjectDN = subjectDN;
-  }
-
-  public ValidacioCompletaResponseCertificateLastSign version(@javax.annotation.Nullable Integer version) {
-    
-    this.version = version;
-    return this;
-  }
-
-  /**
-   * Get version
-   * @return version
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_VERSION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public Integer getVersion() {
-    return version;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_VERSION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setVersion(@javax.annotation.Nullable Integer version) {
-    this.version = version;
-  }
-
-  public ValidacioCompletaResponseCertificateLastSign criticalExtensionOIDs(@javax.annotation.Nullable Set<String> criticalExtensionOIDs) {
-    
-    this.criticalExtensionOIDs = criticalExtensionOIDs;
-    return this;
-  }
-
-  public ValidacioCompletaResponseCertificateLastSign addCriticalExtensionOIDsItem(String criticalExtensionOIDsItem) {
-    if (this.criticalExtensionOIDs == null) {
-      this.criticalExtensionOIDs = new LinkedHashSet<>();
+  public ValidacioCompletaResponseCertificateLastSign addExtendedKeyUsageItem(String extendedKeyUsageItem) {
+    if (this.extendedKeyUsage == null) {
+      this.extendedKeyUsage = new ArrayList<>();
     }
-    this.criticalExtensionOIDs.add(criticalExtensionOIDsItem);
+    this.extendedKeyUsage.add(extendedKeyUsageItem);
     return this;
   }
 
   /**
-   * Get criticalExtensionOIDs
-   * @return criticalExtensionOIDs
+   * Get extendedKeyUsage
+   * @return extendedKeyUsage
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CRITICAL_EXTENSION_O_I_DS)
+  @JsonProperty(JSON_PROPERTY_EXTENDED_KEY_USAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Set<String> getCriticalExtensionOIDs() {
-    return criticalExtensionOIDs;
+  public List<String> getExtendedKeyUsage() {
+    return extendedKeyUsage;
   }
 
 
-  @JsonDeserialize(as = LinkedHashSet.class)
-  @JsonProperty(JSON_PROPERTY_CRITICAL_EXTENSION_O_I_DS)
+  @JsonProperty(JSON_PROPERTY_EXTENDED_KEY_USAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCriticalExtensionOIDs(@javax.annotation.Nullable Set<String> criticalExtensionOIDs) {
-    this.criticalExtensionOIDs = criticalExtensionOIDs;
+  public void setExtendedKeyUsage(@javax.annotation.Nullable List<String> extendedKeyUsage) {
+    this.extendedKeyUsage = extendedKeyUsage;
   }
 
   public ValidacioCompletaResponseCertificateLastSign nonCriticalExtensionOIDs(@javax.annotation.Nullable Set<String> nonCriticalExtensionOIDs) {
@@ -832,6 +798,40 @@ public class ValidacioCompletaResponseCertificateLastSign {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setNonCriticalExtensionOIDs(@javax.annotation.Nullable Set<String> nonCriticalExtensionOIDs) {
     this.nonCriticalExtensionOIDs = nonCriticalExtensionOIDs;
+  }
+
+  public ValidacioCompletaResponseCertificateLastSign criticalExtensionOIDs(@javax.annotation.Nullable Set<String> criticalExtensionOIDs) {
+    
+    this.criticalExtensionOIDs = criticalExtensionOIDs;
+    return this;
+  }
+
+  public ValidacioCompletaResponseCertificateLastSign addCriticalExtensionOIDsItem(String criticalExtensionOIDsItem) {
+    if (this.criticalExtensionOIDs == null) {
+      this.criticalExtensionOIDs = new LinkedHashSet<>();
+    }
+    this.criticalExtensionOIDs.add(criticalExtensionOIDsItem);
+    return this;
+  }
+
+  /**
+   * Get criticalExtensionOIDs
+   * @return criticalExtensionOIDs
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CRITICAL_EXTENSION_O_I_DS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Set<String> getCriticalExtensionOIDs() {
+    return criticalExtensionOIDs;
+  }
+
+
+  @JsonDeserialize(as = LinkedHashSet.class)
+  @JsonProperty(JSON_PROPERTY_CRITICAL_EXTENSION_O_I_DS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCriticalExtensionOIDs(@javax.annotation.Nullable Set<String> criticalExtensionOIDs) {
+    this.criticalExtensionOIDs = criticalExtensionOIDs;
   }
 
   public ValidacioCompletaResponseCertificateLastSign encoded(@javax.annotation.Nullable List<byte[]> encoded) {
@@ -902,10 +902,11 @@ public class ValidacioCompletaResponseCertificateLastSign {
     }
     ValidacioCompletaResponseCertificateLastSign validacioCompletaResponseCertificateLastSign = (ValidacioCompletaResponseCertificateLastSign) o;
     return Objects.equals(this.type, validacioCompletaResponseCertificateLastSign.type) &&
-        Objects.equals(this.serialNumber, validacioCompletaResponseCertificateLastSign.serialNumber) &&
-        Objects.equals(this.tbscertificate, validacioCompletaResponseCertificateLastSign.tbscertificate) &&
-        Objects.equals(this.issuerX500Principal, validacioCompletaResponseCertificateLastSign.issuerX500Principal) &&
-        Objects.equals(this.extendedKeyUsage, validacioCompletaResponseCertificateLastSign.extendedKeyUsage) &&
+        Objects.equals(this.signature, validacioCompletaResponseCertificateLastSign.signature) &&
+        Objects.equals(this.basicConstraints, validacioCompletaResponseCertificateLastSign.basicConstraints) &&
+        Objects.equals(this.issuerDN, validacioCompletaResponseCertificateLastSign.issuerDN) &&
+        Objects.equals(this.subjectDN, validacioCompletaResponseCertificateLastSign.subjectDN) &&
+        Objects.equals(this.version, validacioCompletaResponseCertificateLastSign.version) &&
         Objects.equals(this.sigAlgName, validacioCompletaResponseCertificateLastSign.sigAlgName) &&
         Objects.equals(this.notBefore, validacioCompletaResponseCertificateLastSign.notBefore) &&
         Objects.equals(this.notAfter, validacioCompletaResponseCertificateLastSign.notAfter) &&
@@ -917,20 +918,19 @@ public class ValidacioCompletaResponseCertificateLastSign {
         Objects.equals(this.keyUsage, validacioCompletaResponseCertificateLastSign.keyUsage) &&
         Objects.equals(this.subjectAlternativeNames, validacioCompletaResponseCertificateLastSign.subjectAlternativeNames) &&
         Objects.equals(this.issuerAlternativeNames, validacioCompletaResponseCertificateLastSign.issuerAlternativeNames) &&
-        Objects.equals(this.signature, validacioCompletaResponseCertificateLastSign.signature) &&
-        Objects.equals(this.basicConstraints, validacioCompletaResponseCertificateLastSign.basicConstraints) &&
-        Objects.equals(this.issuerDN, validacioCompletaResponseCertificateLastSign.issuerDN) &&
-        Objects.equals(this.subjectDN, validacioCompletaResponseCertificateLastSign.subjectDN) &&
-        Objects.equals(this.version, validacioCompletaResponseCertificateLastSign.version) &&
-        Objects.equals(this.criticalExtensionOIDs, validacioCompletaResponseCertificateLastSign.criticalExtensionOIDs) &&
+        Objects.equals(this.serialNumber, validacioCompletaResponseCertificateLastSign.serialNumber) &&
+        Objects.equals(this.tbscertificate, validacioCompletaResponseCertificateLastSign.tbscertificate) &&
+        Objects.equals(this.issuerX500Principal, validacioCompletaResponseCertificateLastSign.issuerX500Principal) &&
+        Objects.equals(this.extendedKeyUsage, validacioCompletaResponseCertificateLastSign.extendedKeyUsage) &&
         Objects.equals(this.nonCriticalExtensionOIDs, validacioCompletaResponseCertificateLastSign.nonCriticalExtensionOIDs) &&
+        Objects.equals(this.criticalExtensionOIDs, validacioCompletaResponseCertificateLastSign.criticalExtensionOIDs) &&
         Objects.equals(this.encoded, validacioCompletaResponseCertificateLastSign.encoded) &&
         Objects.equals(this.publicKey, validacioCompletaResponseCertificateLastSign.publicKey);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, serialNumber, tbscertificate, issuerX500Principal, extendedKeyUsage, sigAlgName, notBefore, notAfter, subjectX500Principal, sigAlgOID, sigAlgParams, issuerUniqueID, subjectUniqueID, keyUsage, subjectAlternativeNames, issuerAlternativeNames, signature, basicConstraints, issuerDN, subjectDN, version, criticalExtensionOIDs, nonCriticalExtensionOIDs, encoded, publicKey);
+    return Objects.hash(type, signature, basicConstraints, issuerDN, subjectDN, version, sigAlgName, notBefore, notAfter, subjectX500Principal, sigAlgOID, sigAlgParams, issuerUniqueID, subjectUniqueID, keyUsage, subjectAlternativeNames, issuerAlternativeNames, serialNumber, tbscertificate, issuerX500Principal, extendedKeyUsage, nonCriticalExtensionOIDs, criticalExtensionOIDs, encoded, publicKey);
   }
 
   @Override
@@ -938,10 +938,11 @@ public class ValidacioCompletaResponseCertificateLastSign {
     StringBuilder sb = new StringBuilder();
     sb.append("class ValidacioCompletaResponseCertificateLastSign {\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    serialNumber: ").append(toIndentedString(serialNumber)).append("\n");
-    sb.append("    tbscertificate: ").append(toIndentedString(tbscertificate)).append("\n");
-    sb.append("    issuerX500Principal: ").append(toIndentedString(issuerX500Principal)).append("\n");
-    sb.append("    extendedKeyUsage: ").append(toIndentedString(extendedKeyUsage)).append("\n");
+    sb.append("    signature: ").append(toIndentedString(signature)).append("\n");
+    sb.append("    basicConstraints: ").append(toIndentedString(basicConstraints)).append("\n");
+    sb.append("    issuerDN: ").append(toIndentedString(issuerDN)).append("\n");
+    sb.append("    subjectDN: ").append(toIndentedString(subjectDN)).append("\n");
+    sb.append("    version: ").append(toIndentedString(version)).append("\n");
     sb.append("    sigAlgName: ").append(toIndentedString(sigAlgName)).append("\n");
     sb.append("    notBefore: ").append(toIndentedString(notBefore)).append("\n");
     sb.append("    notAfter: ").append(toIndentedString(notAfter)).append("\n");
@@ -953,13 +954,12 @@ public class ValidacioCompletaResponseCertificateLastSign {
     sb.append("    keyUsage: ").append(toIndentedString(keyUsage)).append("\n");
     sb.append("    subjectAlternativeNames: ").append(toIndentedString(subjectAlternativeNames)).append("\n");
     sb.append("    issuerAlternativeNames: ").append(toIndentedString(issuerAlternativeNames)).append("\n");
-    sb.append("    signature: ").append(toIndentedString(signature)).append("\n");
-    sb.append("    basicConstraints: ").append(toIndentedString(basicConstraints)).append("\n");
-    sb.append("    issuerDN: ").append(toIndentedString(issuerDN)).append("\n");
-    sb.append("    subjectDN: ").append(toIndentedString(subjectDN)).append("\n");
-    sb.append("    version: ").append(toIndentedString(version)).append("\n");
-    sb.append("    criticalExtensionOIDs: ").append(toIndentedString(criticalExtensionOIDs)).append("\n");
+    sb.append("    serialNumber: ").append(toIndentedString(serialNumber)).append("\n");
+    sb.append("    tbscertificate: ").append(toIndentedString(tbscertificate)).append("\n");
+    sb.append("    issuerX500Principal: ").append(toIndentedString(issuerX500Principal)).append("\n");
+    sb.append("    extendedKeyUsage: ").append(toIndentedString(extendedKeyUsage)).append("\n");
     sb.append("    nonCriticalExtensionOIDs: ").append(toIndentedString(nonCriticalExtensionOIDs)).append("\n");
+    sb.append("    criticalExtensionOIDs: ").append(toIndentedString(criticalExtensionOIDs)).append("\n");
     sb.append("    encoded: ").append(toIndentedString(encoded)).append("\n");
     sb.append("    publicKey: ").append(toIndentedString(publicKey)).append("\n");
     sb.append("}");

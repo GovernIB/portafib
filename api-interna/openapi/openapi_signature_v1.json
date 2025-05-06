@@ -1521,44 +1521,8 @@
         "description" : "Informació de Custòdia"
       },
       "ProcessStatus" : {
-        "required" : [ "STATUS_CANCELLED", "STATUS_FINAL_ERROR", "STATUS_FINAL_OK", "STATUS_INITIALIZING", "STATUS_IN_PROGRESS" ],
         "type" : "object",
         "properties" : {
-          "STATUS_INITIALIZING" : {
-            "type" : "integer",
-            "description" : "Codi d'estat d'una petició de firma que indica un que s'esta inicialitzant",
-            "format" : "int32",
-            "readOnly" : true,
-            "default" : 0
-          },
-          "STATUS_IN_PROGRESS" : {
-            "type" : "integer",
-            "description" : "Codi d'estat d'una petició de firma que indica un que esta en procés",
-            "format" : "int32",
-            "readOnly" : true,
-            "default" : 1
-          },
-          "STATUS_FINAL_OK" : {
-            "type" : "integer",
-            "description" : "Codi d'estat d'una petició de firma que indica que ha finalitzat correctament",
-            "format" : "int32",
-            "readOnly" : true,
-            "default" : 2
-          },
-          "STATUS_FINAL_ERROR" : {
-            "type" : "integer",
-            "description" : "Codi d'estat d'una petició de firma que indica que ha finalitzat amb errors",
-            "format" : "int32",
-            "readOnly" : true,
-            "default" : -1
-          },
-          "STATUS_CANCELLED" : {
-            "type" : "integer",
-            "description" : "Codi d'estat d'una petició de firma que indica que ha sigut cancelada",
-            "format" : "int32",
-            "readOnly" : true,
-            "default" : -2
-          },
           "status" : {
             "type" : "integer",
             "format" : "int32"
@@ -1813,19 +1777,24 @@
       },
       "SignTypeConstants" : {
         "type" : "string",
-        "description" : "Tipus de Firma. Valors possibles:\r\n    - “PAdES” (Constant SIGN_TYPE_PADES)\r\n    - “XAdES” (Constant SIGN_TYPE_XADES)\r\n    - “CAdES” (Constant SIGN_TYPE_CADES)\r\n    - “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\n    - “OOXML” (Constant SIGN_TYPE_OOXML)\r\n    - “ODF” (Constant SIGN_TYPE_ODF)\r\n    - “SMIME” (Constant SIGN_TYPE_SMIME)\r\n    - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)\r\n    - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\n    - “PKCS#1” (Constant SIGN_TYPE_PKCS1)",
+        "description" : "Tipus de Firma. Valors possibles:\n    - “PAdES” (Constant SIGN_TYPE_PADES)\n    - “XAdES” (Constant SIGN_TYPE_XADES)\n    - “CAdES” (Constant SIGN_TYPE_CADES)\n    - “FacturaE” (Constant SIGN_TYPE_FACTURAE)\n    - “OOXML” (Constant SIGN_TYPE_OOXML)\n    - “ODF” (Constant SIGN_TYPE_ODF)\n    - “SMIME” (Constant SIGN_TYPE_SMIME)\n    - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)\n    - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\n    - “PKCS#1” (Constant SIGN_TYPE_PKCS1)",
+        "x-enum-varnames" : [ "SIGN_TYPE_PADES", "SIGN_TYPE_XADES", "SIGN_TYPE_CADES", "SIGN_TYPE_FACTURAE", "SIGN_TYPE_OOXML", "SIGN_TYPE_ODF", "SIGN_TYPE_SMIME", "SIGN_TYPE_CADESASICS", "SIGN_TYPE_XADESASICS", "SIGN_TYPE_PKCS" ],
+        "x-enum-descriptions" : [ " ", " ", " ", " ", " ", " ", " ", " ", " ", " " ],
         "enum" : [ "PAdES", "XAdES", "CAdES", "FacturaE", "OOXML", "ODF", "SMIME", "CAdES-ASiC-S", "XAdES-ASiC-S", "PKCS#1" ]
       },
       "SignAlgorithmConstants" : {
         "type" : "string",
         "description" : "Algorisme de Firma. Valors:\r\n    • \"SHA-1\"\r\n    • \"SHA-256\"\r\n    • \"SHA-384\"\r\n    • \"SHA-512\"",
+        "x-enum-varnames" : [ "SIGN_ALGORITHM_SHA1", "SIGN_ALGORITHM_SHA256", "SIGN_ALGORITHM_SHA384", "SIGN_ALGORITHM_SHA512" ],
+        "x-enum-descriptions" : [ " ", " ", " ", " " ],
         "enum" : [ "SHA-1", "SHA-256", "SHA-384", "SHA-512" ]
       },
       "SignModeConstants" : {
         "type" : "integer",
-        "description" : "Valors:\r\n    • 0: Implicit o Attached. La firma resultante incluye internamente una copia de los datos firmados. \r\n    • 1: Explicit o Detached: La firma resultante no incluye los datos firmados.",
+        "description" : "Valors:\n    • SIGN_MODE_ATTACHED_ENVELOPED(0): El fitxer de dades resultant inclou la firma: PDF, ODT, ...\n    • SIGN_MODE_ATTACHED_ENVELOPING(3): El fitxer resultant serà la firma que incloura les dades originals\n    • SIGN_MODE_DETACHED(1): El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer original    • SIGN_MODE_INTERNALLY_DETACHED(4): Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma",
         "format" : "int32",
         "x-enum-varnames" : [ "SIGN_MODE_ATTACHED_ENVELOPED", "SIGN_MODE_ATTACHED_ENVELOPING", "SIGN_MODE_DETACHED", "SIGN_MODE_INTERNALLY_DETACHED" ],
+        "x-enum-descriptions" : [ "El fitxer de dades resultant inclou la firma: PDF, ODT, ...", "El fitxer resultant serà la firma que incloura les dades originals", "El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer origina", "Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma" ],
         "enum" : [ "0", "3", "1", "4" ]
       },
       "SignOperationConstants" : {
@@ -1833,18 +1802,22 @@
         "description" : "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma (2).\r\nLes constants són:\r\n    • SIGN_OPERATION_SIGN = 0;\r\n    • SIGN_OPERATION_COSIGN = 1;\r\n    • SIGN_OPERATION_COUNTERSIGN = 2;",
         "format" : "int32",
         "x-enum-varnames" : [ "SIGN_OPERATION_SIGN", "SIGN_OPERATION_COSIGN", "SIGN_OPERATION_COUNTERSIGN" ],
+        "x-enum-descriptions" : [ "Firma", "Cofirma", "Contrafirma" ],
         "enum" : [ "0", "1", "2" ]
       },
-      "SignatureStableLocationConstants" : {
+      "SignaturesTableLocationConstants" : {
         "type" : "integer",
         "description" : "Posició de la Taula de firmes:\r\n    • 0: Sense taula de firmes\r\n    • 1: Taula de firmes en la 1a pàgina\r\n    • -1: Darrera pàgina",
         "format" : "int32",
-        "x-enum-varnames" : [ "SIGNATURESTABLELOCATION_WITHOUT", "SIGNATURESTABLELOCATION_FIRSTPAGE", "SIGNATURESTABLELOCATION_LASTPAGE" ],
+        "x-enum-varnames" : [ "SIGNATURES_TABLE_LOCATION_WITHOUT", "SIGNATURES_TABLE_LOCATION_FIRSTPAGE", "SIGNATURES_TABLE_LOCATION_LASTPAGE" ],
+        "x-enum-descriptions" : [ "Sense taula de firmes", "Taula de firmes en la 1a pàgina", "Darrera pàgina" ],
         "enum" : [ "0", "1", "-1" ]
       },
       "SignProfileConstants" : {
         "type" : "string",
         "description" : "Perfil empleado en una firma con certificado electrónico. Los posibles valores asignables son los siguientes:\r\n  AdES-BES\r\n  AdES-EPES\r\n  AdES-T\r\n  AdES-C\r\n  AdES-X\r\n  AdES-X1\r\n  AdES-X2\r\n  AdES-XL\r\n  AdES-XL1\r\n  AdES-XL2\r\n  AdES-A\r\n  PAdES-LTV\r\n  PAdES-Basic",
+        "x-enum-varnames" : [ "SIGN_PROFILE_BES", "SIGN_PROFILE_EPES", "SIGN_PROFILE_T", "SIGN_PROFILE_C", "SIGN_PROFILE_X", "SIGN_PROFILE_X1", "SIGN_PROFILE_X2", "SIGN_PROFILE_XL", "SIGN_PROFILE_XL1", "SIGN_PROFILE_XL2", "SIGN_PROFILE_A", "SIGN_PROFILE_PADES_LTV", "SIGN_PROFILE_PADES_BASIC" ],
+        "x-enum-descriptions" : [ " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " " ],
         "enum" : [ "AdES-BES", "AdES-EPES", "AdES-T", "AdES-C", "AdES-X", "AdES-X1", "AdES-X2", "AdES-XL", "AdES-XL1", "AdES-XL2", "AdES-A", "PAdES-LTV", "PAdES-Basic" ]
       },
       "SignDocumentRequest" : {
@@ -2167,36 +2140,36 @@
               "type" : {
                 "type" : "string"
               },
-              "serialNumber" : {
-                "type" : "integer"
-              },
-              "tbscertificate" : {
+              "signature" : {
                 "type" : "array",
                 "items" : {
                   "type" : "string",
                   "format" : "byte"
                 }
               },
-              "issuerX500Principal" : {
+              "basicConstraints" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "issuerDN" : {
                 "type" : "object",
                 "properties" : {
                   "name" : {
                     "type" : "string"
-                  },
-                  "encoded" : {
-                    "type" : "array",
-                    "items" : {
-                      "type" : "string",
-                      "format" : "byte"
-                    }
                   }
                 }
               },
-              "extendedKeyUsage" : {
-                "type" : "array",
-                "items" : {
-                  "type" : "string"
+              "subjectDN" : {
+                "type" : "object",
+                "properties" : {
+                  "name" : {
+                    "type" : "string"
+                  }
                 }
+              },
+              "version" : {
+                "type" : "integer",
+                "format" : "int32"
               },
               "sigAlgName" : {
                 "type" : "string"
@@ -2270,45 +2243,45 @@
                   }
                 }
               },
-              "signature" : {
+              "serialNumber" : {
+                "type" : "integer"
+              },
+              "tbscertificate" : {
                 "type" : "array",
                 "items" : {
                   "type" : "string",
                   "format" : "byte"
                 }
               },
-              "basicConstraints" : {
-                "type" : "integer",
-                "format" : "int32"
-              },
-              "issuerDN" : {
+              "issuerX500Principal" : {
                 "type" : "object",
                 "properties" : {
                   "name" : {
                     "type" : "string"
+                  },
+                  "encoded" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "string",
+                      "format" : "byte"
+                    }
                   }
                 }
               },
-              "subjectDN" : {
-                "type" : "object",
-                "properties" : {
-                  "name" : {
-                    "type" : "string"
-                  }
-                }
-              },
-              "version" : {
-                "type" : "integer",
-                "format" : "int32"
-              },
-              "criticalExtensionOIDs" : {
-                "uniqueItems" : true,
+              "extendedKeyUsage" : {
                 "type" : "array",
                 "items" : {
                   "type" : "string"
                 }
               },
               "nonCriticalExtensionOIDs" : {
+                "uniqueItems" : true,
+                "type" : "array",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "criticalExtensionOIDs" : {
                 "uniqueItems" : true,
                 "type" : "array",
                 "items" : {
@@ -2325,18 +2298,18 @@
               "publicKey" : {
                 "type" : "object",
                 "properties" : {
-                  "format" : {
-                    "type" : "string"
-                  },
-                  "algorithm" : {
-                    "type" : "string"
-                  },
                   "encoded" : {
                     "type" : "array",
                     "items" : {
                       "type" : "string",
                       "format" : "byte"
                     }
+                  },
+                  "algorithm" : {
+                    "type" : "string"
+                  },
+                  "format" : {
+                    "type" : "string"
                   }
                 }
               }

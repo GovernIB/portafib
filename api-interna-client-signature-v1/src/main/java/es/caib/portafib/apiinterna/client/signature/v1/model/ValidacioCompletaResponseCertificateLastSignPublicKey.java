@@ -30,76 +30,26 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * ValidacioCompletaResponseCertificateLastSignPublicKey
  */
 @JsonPropertyOrder({
-  ValidacioCompletaResponseCertificateLastSignPublicKey.JSON_PROPERTY_FORMAT,
+  ValidacioCompletaResponseCertificateLastSignPublicKey.JSON_PROPERTY_ENCODED,
   ValidacioCompletaResponseCertificateLastSignPublicKey.JSON_PROPERTY_ALGORITHM,
-  ValidacioCompletaResponseCertificateLastSignPublicKey.JSON_PROPERTY_ENCODED
+  ValidacioCompletaResponseCertificateLastSignPublicKey.JSON_PROPERTY_FORMAT
 })
 @JsonTypeName("ValidacioCompletaResponse_certificateLastSign_publicKey")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class ValidacioCompletaResponseCertificateLastSignPublicKey {
-  public static final String JSON_PROPERTY_FORMAT = "format";
+  public static final String JSON_PROPERTY_ENCODED = "encoded";
   @javax.annotation.Nullable
-  private String format;
+  private List<byte[]> encoded = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ALGORITHM = "algorithm";
   @javax.annotation.Nullable
   private String algorithm;
 
-  public static final String JSON_PROPERTY_ENCODED = "encoded";
+  public static final String JSON_PROPERTY_FORMAT = "format";
   @javax.annotation.Nullable
-  private List<byte[]> encoded = new ArrayList<>();
+  private String format;
 
   public ValidacioCompletaResponseCertificateLastSignPublicKey() {
-  }
-
-  public ValidacioCompletaResponseCertificateLastSignPublicKey format(@javax.annotation.Nullable String format) {
-    
-    this.format = format;
-    return this;
-  }
-
-  /**
-   * Get format
-   * @return format
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FORMAT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getFormat() {
-    return format;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_FORMAT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFormat(@javax.annotation.Nullable String format) {
-    this.format = format;
-  }
-
-  public ValidacioCompletaResponseCertificateLastSignPublicKey algorithm(@javax.annotation.Nullable String algorithm) {
-    
-    this.algorithm = algorithm;
-    return this;
-  }
-
-  /**
-   * Get algorithm
-   * @return algorithm
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ALGORITHM)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getAlgorithm() {
-    return algorithm;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_ALGORITHM)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAlgorithm(@javax.annotation.Nullable String algorithm) {
-    this.algorithm = algorithm;
   }
 
   public ValidacioCompletaResponseCertificateLastSignPublicKey encoded(@javax.annotation.Nullable List<byte[]> encoded) {
@@ -135,6 +85,56 @@ public class ValidacioCompletaResponseCertificateLastSignPublicKey {
     this.encoded = encoded;
   }
 
+  public ValidacioCompletaResponseCertificateLastSignPublicKey algorithm(@javax.annotation.Nullable String algorithm) {
+    
+    this.algorithm = algorithm;
+    return this;
+  }
+
+  /**
+   * Get algorithm
+   * @return algorithm
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ALGORITHM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getAlgorithm() {
+    return algorithm;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ALGORITHM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAlgorithm(@javax.annotation.Nullable String algorithm) {
+    this.algorithm = algorithm;
+  }
+
+  public ValidacioCompletaResponseCertificateLastSignPublicKey format(@javax.annotation.Nullable String format) {
+    
+    this.format = format;
+    return this;
+  }
+
+  /**
+   * Get format
+   * @return format
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_FORMAT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getFormat() {
+    return format;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_FORMAT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setFormat(@javax.annotation.Nullable String format) {
+    this.format = format;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -144,23 +144,23 @@ public class ValidacioCompletaResponseCertificateLastSignPublicKey {
       return false;
     }
     ValidacioCompletaResponseCertificateLastSignPublicKey validacioCompletaResponseCertificateLastSignPublicKey = (ValidacioCompletaResponseCertificateLastSignPublicKey) o;
-    return Objects.equals(this.format, validacioCompletaResponseCertificateLastSignPublicKey.format) &&
+    return Objects.equals(this.encoded, validacioCompletaResponseCertificateLastSignPublicKey.encoded) &&
         Objects.equals(this.algorithm, validacioCompletaResponseCertificateLastSignPublicKey.algorithm) &&
-        Objects.equals(this.encoded, validacioCompletaResponseCertificateLastSignPublicKey.encoded);
+        Objects.equals(this.format, validacioCompletaResponseCertificateLastSignPublicKey.format);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(format, algorithm, encoded);
+    return Objects.hash(encoded, algorithm, format);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ValidacioCompletaResponseCertificateLastSignPublicKey {\n");
-    sb.append("    format: ").append(toIndentedString(format)).append("\n");
-    sb.append("    algorithm: ").append(toIndentedString(algorithm)).append("\n");
     sb.append("    encoded: ").append(toIndentedString(encoded)).append("\n");
+    sb.append("    algorithm: ").append(toIndentedString(algorithm)).append("\n");
+    sb.append("    format: ").append(toIndentedString(format)).append("\n");
     sb.append("}");
     return sb.toString();
   }

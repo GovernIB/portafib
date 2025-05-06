@@ -26,10 +26,19 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum SignOperationConstants {
   
+  /**
+   * Firma
+   */
   SIGN_OPERATION_SIGN(0),
   
+  /**
+   * Cofirma
+   */
   SIGN_OPERATION_COSIGN(1),
   
+  /**
+   * Contrafirma
+   */
   SIGN_OPERATION_COUNTERSIGN(2);
 
   private Integer value;

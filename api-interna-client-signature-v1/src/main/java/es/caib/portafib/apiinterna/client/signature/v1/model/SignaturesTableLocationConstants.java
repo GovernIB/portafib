@@ -24,17 +24,26 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Posició de la Taula de firmes:      • 0: Sense taula de firmes      • 1: Taula de firmes en la 1a pàgina      • -1: Darrera pàgina
  */
-public enum SignatureStableLocationConstants {
+public enum SignaturesTableLocationConstants {
   
-  SIGNATURESTABLELOCATION_WITHOUT(0),
+  /**
+   * Sense taula de firmes
+   */
+  SIGNATURES_TABLE_LOCATION_WITHOUT(0),
   
-  SIGNATURESTABLELOCATION_FIRSTPAGE(1),
+  /**
+   * Taula de firmes en la 1a pàgina
+   */
+  SIGNATURES_TABLE_LOCATION_FIRSTPAGE(1),
   
-  SIGNATURESTABLELOCATION_LASTPAGE(-1);
+  /**
+   * Darrera pàgina
+   */
+  SIGNATURES_TABLE_LOCATION_LASTPAGE(-1);
 
   private Integer value;
 
-  SignatureStableLocationConstants(Integer value) {
+  SignaturesTableLocationConstants(Integer value) {
     this.value = value;
   }
 
@@ -49,8 +58,8 @@ public enum SignatureStableLocationConstants {
   }
 
   @JsonCreator
-  public static SignatureStableLocationConstants fromValue(Integer value) {
-    for (SignatureStableLocationConstants b : SignatureStableLocationConstants.values()) {
+  public static SignaturesTableLocationConstants fromValue(Integer value) {
+    for (SignaturesTableLocationConstants b : SignaturesTableLocationConstants.values()) {
       if (b.value.equals(value)) {
         return b;
       }

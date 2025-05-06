@@ -34,9 +34,10 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryTypes;
 import es.caib.portafib.apiinterna.client.signature.v1.model.FileInfoSignature;
 import es.caib.portafib.apiinterna.client.signature.v1.model.GetSignatureResultRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.StartTransactionRequest;
+import es.caib.portafib.apiinterna.client.signature.v1.model.StatusConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignModeConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignOperationConstants;
-import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureStableLocationConstants;
+import es.caib.portafib.apiinterna.client.signature.v1.model.SignaturesTableLocationConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.api.DirectSignatureOnWebV1Api;
 import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
 import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
@@ -153,30 +154,31 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureOnWebV1A
 
                 ProcessStatus fss = signatureStatus.getStatus();
 
-                int statusSign = fss.getStatus();
+                int status = fss.getStatus(); //fss.getSTATUS();
+                StatusConstants statusSign = StatusConstants.fromValue(status);
 
                 switch (statusSign) {
-                    case 0: //fss.getSTATUSINITIALIZING(): // = 0;
+                    case STATUS_INITIALIZING: //fss.getSTATUSINITIALIZING(): // = 0;
                         System.err.println("  STATUS = " + statusSign + " (STATUS_INITIALIZING)");
                         System.err.println("  ESULT: Incoherent Status");
                     break;
 
-                    case 1: //fss.getSTATUSINPROGRESS(): // = 1;
+                    case STATUS_IN_PROGRESS: //fss.getSTATUSINPROGRESS(): // = 1;
                         System.err.println("  STATUS = " + statusSign + " (STATUS_IN_PROGRESS)");
                         System.err.println("  RESULT: Incoherent Status");
                     break;
 
-                    case -1: //fss.getSTATUSFINALERROR(): // = -1;
+                    case STATUS_FINAL_ERROR: //fss.getSTATUSFINALERROR(): // = -1;
                         System.err.println("  STATUS = " + statusSign + " (STATUS_ERROR)");
                         System.err.println("  RESULT: Error en la firma: " + fss.getErrorMessage());
                     break;
 
-                    case -2: //fss.getSTATUSCANCELLED(): // = -2;
+                    case STATUS_CANCELLED: //fss.getSTATUSCANCELLED(): // = -2;
                         System.err.println("  STATUS = " + statusSign + " (STATUS_CANCELLED)");
                         System.err.println("  RESULT: L'usuari ha cancel.lat la firma.");
                     break;
 
-                    case 2: //fss.getSTATUSFINALOK(): // = 2;
+                    case STATUS_FINAL_OK: //fss.getSTATUSFINALOK(): // = 2;
 
                         GetSignatureResultRequest getSignatureResultRequest = new GetSignatureResultRequest();
                         getSignatureResultRequest.setTransactionID(transactionID);
@@ -368,13 +370,13 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureOnWebV1A
             if (signaturesTableLocation == null) {
                 posicioTaulaDeFirmes = " -NULL- ";
             } else if (signaturesTableLocation
-                    .equals(SignatureStableLocationConstants.SIGNATURESTABLELOCATION_WITHOUT.getValue())) {
+                    .equals(SignaturesTableLocationConstants.SIGNATURES_TABLE_LOCATION_WITHOUT.getValue())) {
                 posicioTaulaDeFirmes = "Sense taula de Firmes";
             } else if (signaturesTableLocation
-                    .equals(SignatureStableLocationConstants.SIGNATURESTABLELOCATION_FIRSTPAGE.getValue())) {
+                    .equals(SignaturesTableLocationConstants.SIGNATURES_TABLE_LOCATION_FIRSTPAGE.getValue())) {
                 posicioTaulaDeFirmes = "Taula de Firmes en la primera pagina";
             } else if (signaturesTableLocation
-                    .equals(SignatureStableLocationConstants.SIGNATURESTABLELOCATION_LASTPAGE.getValue())) {
+                    .equals(SignaturesTableLocationConstants.SIGNATURES_TABLE_LOCATION_LASTPAGE.getValue())) {
                 posicioTaulaDeFirmes = "Taula de Firmes en la darrera pagina";
             } else {
                 posicioTaulaDeFirmes = "Desconeguda(" + sfi.getSignaturesTableLocation() + ")";

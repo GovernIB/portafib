@@ -17,6 +17,7 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.FileInfoSignature;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Languages;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignDocumentRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureResponse;
+import es.caib.portafib.apiinterna.client.signature.v1.model.StatusConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ProcessStatus;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Profiles;
 import es.caib.portafib.apiinterna.client.signature.v1.model.UpgradeRequest;
@@ -84,11 +85,11 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
             throw new Exception("S'ha enviat un fitxer XML per firma en format PAdES i s'esperava un error.");
         } catch (EstatFinalNoOK e) {
 
-            if (getSTATUSFINALERROR().equals(e.getInternalCode())) {
+            if (StatusConstants.STATUS_FINAL_ERROR.getValue().equals(e.getInternalCode())) {
                 System.out.println("Test OK");
             } else {
                 throw new Exception("S'ha rebut un error de EstatFinalNoOK però s'esperava un internalCode "
-                        + getSTATUSFINALERROR() + " però s'ha rebut un " + e.getInternalCode());
+                        + StatusConstants.STATUS_FINAL_ERROR.getValue() + " però s'ha rebut un " + e.getInternalCode());
             }
         }
 
@@ -187,21 +188,21 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
 
             int status = transactionStatus.getStatus();
 
-            if (status == getSTATUSINITIALIZING()) {
+            if (status == (int)StatusConstants.STATUS_INITIALIZING.getValue()) {
                 throw new EstatFinalNoOK(status, "Rebut estat Initializing ...Unknown Error (???)");
 
-            } else if (status == getSTATUSINPROGRESS()) {
+            } else if (status ==  (int)StatusConstants.STATUS_IN_PROGRESS.getValue()) {
                 throw new EstatFinalNoOK(status, "Rebut estat IN_PROGRESS ... Unknown Error (????) ");
 
-            } else if (status == getSTATUSFINALERROR()) {
+            } else if (status ==  (int)StatusConstants.STATUS_FINAL_ERROR.getValue()) {
 
                 throw new EstatFinalNoOK(status, "Rebut estat ERROR: " + transactionStatus.getErrorMessage(),
                         transactionStatus.getErrorStackTrace());
 
-            } else if (status == getSTATUSCANCELLED()) {
+            } else if (status ==  (int)StatusConstants.STATUS_CANCELLED.getValue()) {
                 throw new EstatFinalNoOK(status, "Rebut estat CANCELED: S'ha cancel·lat el procés de firmat.");
 
-            } else if (status == getSTATUSFINALOK()) {
+            } else if (status ==  (int)StatusConstants.STATUS_FINAL_OK.getValue()) {
 
                 System.out.println(" ===== RESULTAT  =========");
 

@@ -1,12 +1,15 @@
 package es.caib.portafib.api.interna.secure.signature.v1.commons;
 
 import es.caib.portafib.commons.utils.Constants;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.AccessMode;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
+/**
+ * Resultat d'una firma
+ * @author anadal
+ * 6 may 2025 10:01:59
+ */
 public class ProcessStatus {
 
+    /**
     @Schema(
             description = "Codi d'estat d'una petició de firma que indica un que s'esta inicialitzant",
             nullable = false,
@@ -51,8 +54,9 @@ public class ProcessStatus {
             requiredMode = RequiredMode.REQUIRED,
             accessMode = AccessMode.READ_ONLY)
     public final int STATUS_CANCELLED = Constants.STATUS_CANCELLED;
+    */
 
-    protected int status = STATUS_INITIALIZING;
+    protected int status = Constants.STATUS_INITIALIZING; // STATUS_INITIALIZING;
 
     protected String errorMessage;
 

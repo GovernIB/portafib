@@ -45,8 +45,9 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.SignModeConstant
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignOperationConstants;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignProfileConstants;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignTypeConstants;
-import es.caib.portafib.api.interna.secure.signature.v1.commons.SignatureStableLocationConstants;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.SignaturesTableLocationConstants;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignedFileInfo;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.StatusConstants;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.UsuariPersonaService;
 import es.caib.portafib.logic.EntitatLogicaLocal;
@@ -132,11 +133,11 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
                                 schema = @Schema(implementation = SignOperationConstants.class)),
                         @Content(
                                 mediaType = MediaType.APPLICATION_JSON,
-                                schema = @Schema(implementation = SignatureStableLocationConstants.class)),
+                                schema = @Schema(implementation = SignaturesTableLocationConstants.class)),
                         @Content(
                                 mediaType = MediaType.APPLICATION_JSON,
                                 schema = @Schema(implementation = SignProfileConstants.class)),
-                                @Content(
+                        @Content(
                                 mediaType = MediaType.APPLICATION_JSON,
                                 schema = @Schema(implementation = RestExceptionInfo.class))}) })
 public class SignatureOnServerService extends AbstractSignatureService implements CommonsSwaggerOperations {
@@ -449,11 +450,11 @@ public class SignatureOnServerService extends AbstractSignatureService implement
 
             String signID = simpleSignature.getFileInfoSignature().getSignID();
 
-            if (statusGlobal.getStatus() == Constants.STATUS_FINAL_OK) {
+            if (statusGlobal.getStatus() == (int)StatusConstants.STATUS_FINAL_OK.getValue()) {
                 // Només hi ha una firma
                 result = fssfrFull.getResults().get(0);
 
-                if (result.getStatus().getStatus() == Constants.STATUS_FINAL_OK) {
+                if (result.getStatus().getStatus() == (int)StatusConstants.STATUS_FINAL_OK.getValue()) {
 
                     // En API DE FIRMA SIMPE; EN SERVIDOR NOMES S'ENVIA UN DOCUMENT DE FIRMA A LA
                     // VEGADA

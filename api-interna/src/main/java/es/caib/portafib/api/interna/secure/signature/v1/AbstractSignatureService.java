@@ -378,7 +378,7 @@ public abstract class AbstractSignatureService extends RestUtils {
         SignedFileInfo sfi = null;
         Document file = null;
 
-        if (status.getStatus() == StatusSignature.STATUS_FINAL_OK) {
+        if (psr.getStatus() == StatusSignature.STATUS_FINAL_OK) {
 
             file = convertFitxerBeanToFirmaSimpleFile(psr.getSignedFile());
 

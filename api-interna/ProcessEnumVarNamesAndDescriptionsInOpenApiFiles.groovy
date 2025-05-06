@@ -9,13 +9,44 @@ import groovy.json.*
 def processExampleLine(pattern, line) {
     def matcher = line =~ pattern
     if (matcher.find()) {
+    /*
         log.info(" =======  GROUP[1] => " + matcher.group(1))
         log.info(" =======  SPLIT => " + matcher.group(1).split('\\|'))
         def values = matcher.group(1).split('\\|').collect { "\"$it\"" }.join(', ')
         log.info(" =======  VALUES => " + values)
         return "        \"x-enum-varnames\" : [ " + values + " ],"
+        */
+        
+        def parts = matcher.group(1).split("\\|")
+
+        // Inicializar listas para los resultados
+        def firstList = []
+        def secondList = []
+
+        // Procesar cada parte
+        parts.each { part ->
+            if (part.contains("(") && part.endsWith(")")) {
+                // Extraer el primer componente (antes del paréntesis)
+                def firstComponent = part.substring(0, part.indexOf("("))
+                firstList << "\"$firstComponent\""
+                
+                // Extraer el contenido dentro de los paréntesis
+                def secondComponent = part.substring(part.indexOf("(") + 1, part.length() - 1)
+                secondList << "\"$secondComponent\""
+            } else {
+                // Si no tiene paréntesis, solo añadir a la primera lista entre comillas
+                firstList << "\"$part\""
+                secondList << "\" \""
+            }
+        }
+
+        // Convertir las listas a cadenas separadas por comas
+        def firstString = firstList.join(", ")
+        def secondString = secondList.join(", ")
+                
+        return [firstString, secondString]
     }
-    return null
+    return [null,null]
 }
 
 log.info('\n\n   -------------- PROCESSANT ENUMs EN OPENAPI FILES  -----------------:\n\n')
@@ -40,9 +71,10 @@ if (dir.exists() && dir.isDirectory()) {
             lines.eachWithIndex { line, index ->
                 //log.info(line); 
                 if (line.trim().startsWith('"example"') && index + 1 < lines.size() && lines[index + 1].trim().startsWith('"enum"')) {
-                    def newLine = processExampleLine(pattern, line)
-                    if (newLine) {
-                        updatedLines << newLine
+                    def (newLine1, newLine2) = processExampleLine(pattern, line)
+                    if (newLine1 && newLine2) {
+                        updatedLines << "        \"x-enum-varnames\" : [ " + newLine1 + " ],"
+                        updatedLines << "        \"x-enum-descriptions\" : [ " + newLine2 + " ],"
                     }
                     
                     if (lines[index - 1].trim().startsWith("\"format\" : \"int32\",")) {

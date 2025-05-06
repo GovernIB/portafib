@@ -1208,49 +1208,9 @@ components:
       description: Estat del procés de firma
       example:
         errorStackTrace: errorStackTrace
-        STATUS_FINAL_OK: 1
-        STATUS_FINAL_ERROR: 5
-        STATUS_INITIALIZING: 0
         errorMessage: errorMessage
-        STATUS_IN_PROGRESS: 6
-        STATUS_CANCELLED: 5
-        status: 2
+        status: 0
       properties:
-        STATUS_INITIALIZING:
-          default: 0
-          description: Codi d'estat d'una petició de firma que indica un que s'esta
-            inicialitzant
-          format: int32
-          readOnly: true
-          type: integer
-        STATUS_IN_PROGRESS:
-          default: 1
-          description: Codi d'estat d'una petició de firma que indica un que esta
-            en procés
-          format: int32
-          readOnly: true
-          type: integer
-        STATUS_FINAL_OK:
-          default: 2
-          description: Codi d'estat d'una petició de firma que indica que ha finalitzat
-            correctament
-          format: int32
-          readOnly: true
-          type: integer
-        STATUS_FINAL_ERROR:
-          default: -1
-          description: Codi d'estat d'una petició de firma que indica que ha finalitzat
-            amb errors
-          format: int32
-          readOnly: true
-          type: integer
-        STATUS_CANCELLED:
-          default: -2
-          description: Codi d'estat d'una petició de firma que indica que ha sigut
-            cancelada
-          format: int32
-          readOnly: true
-          type: integer
         status:
           format: int32
           type: integer
@@ -1258,12 +1218,6 @@ components:
           type: string
         errorStackTrace:
           type: string
-      required:
-      - STATUS_CANCELLED
-      - STATUS_FINAL_ERROR
-      - STATUS_FINAL_OK
-      - STATUS_INITIALIZING
-      - STATUS_IN_PROGRESS
       type: object
     SignatureResponse:
       description: Resposta de la petició de firma en servidor
@@ -1315,13 +1269,8 @@ components:
         signID: signID
         status:
           errorStackTrace: errorStackTrace
-          STATUS_FINAL_OK: 1
-          STATUS_FINAL_ERROR: 5
-          STATUS_INITIALIZING: 0
           errorMessage: errorMessage
-          STATUS_IN_PROGRESS: 6
-          STATUS_CANCELLED: 5
-          status: 2
+          status: 0
       properties:
         signID:
           description: Identificador de la firma
@@ -1588,34 +1537,19 @@ components:
       example:
         transactionStatus:
           errorStackTrace: errorStackTrace
-          STATUS_FINAL_OK: 1
-          STATUS_FINAL_ERROR: 5
-          STATUS_INITIALIZING: 0
           errorMessage: errorMessage
-          STATUS_IN_PROGRESS: 6
-          STATUS_CANCELLED: 5
-          status: 2
+          status: 0
         signaturesStatusList:
         - signID: signID
           status:
             errorStackTrace: errorStackTrace
-            STATUS_FINAL_OK: 1
-            STATUS_FINAL_ERROR: 5
-            STATUS_INITIALIZING: 0
             errorMessage: errorMessage
-            STATUS_IN_PROGRESS: 6
-            STATUS_CANCELLED: 5
-            status: 2
+            status: 0
         - signID: signID
           status:
             errorStackTrace: errorStackTrace
-            STATUS_FINAL_OK: 1
-            STATUS_FINAL_ERROR: 5
-            STATUS_INITIALIZING: 0
             errorMessage: errorMessage
-            STATUS_IN_PROGRESS: 6
-            STATUS_CANCELLED: 5
-            status: 2
+            status: 0
       properties:
         transactionStatus:
           $ref: '#/components/schemas/ProcessStatus'
@@ -1636,13 +1570,8 @@ components:
         signID: signID
         status:
           errorStackTrace: errorStackTrace
-          STATUS_FINAL_OK: 1
-          STATUS_FINAL_ERROR: 5
-          STATUS_INITIALIZING: 0
           errorMessage: errorMessage
-          STATUS_IN_PROGRESS: 6
-          STATUS_CANCELLED: 5
-          status: 2
+          status: 0
       properties:
         signID:
           type: string
@@ -1678,13 +1607,18 @@ components:
       - view
       type: object
     SignTypeConstants:
-      description: "Tipus de Firma. Valors possibles:\r\n    - “PAdES” (Constant SIGN_TYPE_PADES)\r\
-        \n    - “XAdES” (Constant SIGN_TYPE_XADES)\r\n    - “CAdES” (Constant SIGN_TYPE_CADES)\r\
-        \n    - “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\n    - “OOXML” (Constant\
-        \ SIGN_TYPE_OOXML)\r\n    - “ODF” (Constant SIGN_TYPE_ODF)\r\n    - “SMIME”\
-        \ (Constant SIGN_TYPE_SMIME)\r\n    - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)\r\
-        \n    - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\n    - “PKCS#1”\
-        \ (Constant SIGN_TYPE_PKCS1)"
+      description: |-
+        Tipus de Firma. Valors possibles:
+            - “PAdES” (Constant SIGN_TYPE_PADES)
+            - “XAdES” (Constant SIGN_TYPE_XADES)
+            - “CAdES” (Constant SIGN_TYPE_CADES)
+            - “FacturaE” (Constant SIGN_TYPE_FACTURAE)
+            - “OOXML” (Constant SIGN_TYPE_OOXML)
+            - “ODF” (Constant SIGN_TYPE_ODF)
+            - “SMIME” (Constant SIGN_TYPE_SMIME)
+            - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)
+            - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)
+            - “PKCS#1” (Constant SIGN_TYPE_PKCS1)
       enum:
       - PAdES
       - XAdES
@@ -1697,6 +1631,28 @@ components:
       - XAdES-ASiC-S
       - PKCS#1
       type: string
+      x-enum-varnames:
+      - SIGN_TYPE_PADES
+      - SIGN_TYPE_XADES
+      - SIGN_TYPE_CADES
+      - SIGN_TYPE_FACTURAE
+      - SIGN_TYPE_OOXML
+      - SIGN_TYPE_ODF
+      - SIGN_TYPE_SMIME
+      - SIGN_TYPE_CADESASICS
+      - SIGN_TYPE_XADESASICS
+      - SIGN_TYPE_PKCS
+      x-enum-descriptions:
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
     SignAlgorithmConstants:
       description: "Algorisme de Firma. Valors:\r\n    • \"SHA-1\"\r\n    • \"SHA-256\"\
         \r\n    • \"SHA-384\"\r\n    • \"SHA-512\""
@@ -1706,10 +1662,22 @@ components:
       - SHA-384
       - SHA-512
       type: string
+      x-enum-varnames:
+      - SIGN_ALGORITHM_SHA1
+      - SIGN_ALGORITHM_SHA256
+      - SIGN_ALGORITHM_SHA384
+      - SIGN_ALGORITHM_SHA512
+      x-enum-descriptions:
+      - ' '
+      - ' '
+      - ' '
+      - ' '
     SignModeConstants:
-      description: "Valors:\r\n    • 0: Implicit o Attached. La firma resultante incluye\
-        \ internamente una copia de los datos firmados. \r\n    • 1: Explicit o Detached:\
-        \ La firma resultante no incluye los datos firmados."
+      description: |-
+        Valors:
+            • SIGN_MODE_ATTACHED_ENVELOPED(0): El fitxer de dades resultant inclou la firma: PDF, ODT, ...
+            • SIGN_MODE_ATTACHED_ENVELOPING(3): El fitxer resultant serà la firma que incloura les dades originals
+            • SIGN_MODE_DETACHED(1): El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer original    • SIGN_MODE_INTERNALLY_DETACHED(4): Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma
       enum:
       - 0
       - 3
@@ -1722,6 +1690,13 @@ components:
       - SIGN_MODE_ATTACHED_ENVELOPING
       - SIGN_MODE_DETACHED
       - SIGN_MODE_INTERNALLY_DETACHED
+      x-enum-descriptions:
+      - "El fitxer de dades resultant inclou la firma: PDF, ODT, ..."
+      - El fitxer resultant serà la firma que incloura les dades originals
+      - "El fitxer de firma no inclourà les dades: per separat trobarem un fitxer\
+        \ de firma i el fitxer origina"
+      - "Firma especial XAdES en que la firma i les dades estan al mateix nivell dins\
+        \ de l'XML: ni la firma inclou les dades ni les dades inclouen la firma"
     SignOperationConstants:
       description: "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma\
         \ (2).\r\nLes constants són:\r\n    • SIGN_OPERATION_SIGN = 0;\r\n    • SIGN_OPERATION_COSIGN\
@@ -1736,7 +1711,11 @@ components:
       - SIGN_OPERATION_SIGN
       - SIGN_OPERATION_COSIGN
       - SIGN_OPERATION_COUNTERSIGN
-    SignatureStableLocationConstants:
+      x-enum-descriptions:
+      - Firma
+      - Cofirma
+      - Contrafirma
+    SignaturesTableLocationConstants:
       description: "Posició de la Taula de firmes:\r\n    • 0: Sense taula de firmes\r\
         \n    • 1: Taula de firmes en la 1a pàgina\r\n    • -1: Darrera pàgina"
       enum:
@@ -1746,9 +1725,13 @@ components:
       format: int32
       type: integer
       x-enum-varnames:
-      - SIGNATURESTABLELOCATION_WITHOUT
-      - SIGNATURESTABLELOCATION_FIRSTPAGE
-      - SIGNATURESTABLELOCATION_LASTPAGE
+      - SIGNATURES_TABLE_LOCATION_WITHOUT
+      - SIGNATURES_TABLE_LOCATION_FIRSTPAGE
+      - SIGNATURES_TABLE_LOCATION_LASTPAGE
+      x-enum-descriptions:
+      - Sense taula de firmes
+      - Taula de firmes en la 1a pàgina
+      - Darrera pàgina
     SignProfileConstants:
       description: "Perfil empleado en una firma con certificado electrónico. Los\
         \ posibles valores asignables son los siguientes:\r\n  AdES-BES\r\n  AdES-EPES\r\
@@ -1769,6 +1752,34 @@ components:
       - PAdES-LTV
       - PAdES-Basic
       type: string
+      x-enum-varnames:
+      - SIGN_PROFILE_BES
+      - SIGN_PROFILE_EPES
+      - SIGN_PROFILE_T
+      - SIGN_PROFILE_C
+      - SIGN_PROFILE_X
+      - SIGN_PROFILE_X1
+      - SIGN_PROFILE_X2
+      - SIGN_PROFILE_XL
+      - SIGN_PROFILE_XL1
+      - SIGN_PROFILE_XL2
+      - SIGN_PROFILE_A
+      - SIGN_PROFILE_PADES_LTV
+      - SIGN_PROFILE_PADES_BASIC
+      x-enum-descriptions:
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
     SignDocumentRequest:
       example:
         fileInfoSignature:
@@ -2136,26 +2147,14 @@ components:
       - signMode
       - signType
       type: object
-    ValidacioCompletaResponse_certificateLastSign_issuerX500Principal:
-      properties:
-        name:
-          type: string
-        encoded:
-          items:
-            format: byte
-            type: string
-          type: array
-      type: object
     ValidacioCompletaResponse_certificateLastSign_issuerDN:
       properties:
         name:
           type: string
       type: object
-    ValidacioCompletaResponse_certificateLastSign_publicKey:
+    ValidacioCompletaResponse_certificateLastSign_subjectX500Principal:
       properties:
-        format:
-          type: string
-        algorithm:
+        name:
           type: string
         encoded:
           items:
@@ -2163,23 +2162,37 @@ components:
             type: string
           type: array
       type: object
-    ValidacioCompletaResponse_certificateLastSign:
+    ValidacioCompletaResponse_certificateLastSign_publicKey:
       properties:
-        type:
-          type: string
-        serialNumber:
-          type: integer
-        tbscertificate:
+        encoded:
           items:
             format: byte
             type: string
           type: array
-        issuerX500Principal:
-          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerX500Principal'
-        extendedKeyUsage:
+        algorithm:
+          type: string
+        format:
+          type: string
+      type: object
+    ValidacioCompletaResponse_certificateLastSign:
+      properties:
+        type:
+          type: string
+        signature:
           items:
+            format: byte
             type: string
           type: array
+        basicConstraints:
+          format: int32
+          type: integer
+        issuerDN:
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerDN'
+        subjectDN:
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerDN'
+        version:
+          format: int32
+          type: integer
         sigAlgName:
           type: string
         notBefore:
@@ -2189,7 +2202,7 @@ components:
           format: date-time
           type: string
         subjectX500Principal:
-          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerX500Principal'
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_subjectX500Principal'
         sigAlgOID:
           type: string
         sigAlgParams:
@@ -2221,27 +2234,25 @@ components:
               type: object
             type: array
           type: array
-        signature:
+        serialNumber:
+          type: integer
+        tbscertificate:
           items:
             format: byte
             type: string
           type: array
-        basicConstraints:
-          format: int32
-          type: integer
-        issuerDN:
-          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerDN'
-        subjectDN:
-          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerDN'
-        version:
-          format: int32
-          type: integer
-        criticalExtensionOIDs:
+        issuerX500Principal:
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_subjectX500Principal'
+        extendedKeyUsage:
+          items:
+            type: string
+          type: array
+        nonCriticalExtensionOIDs:
           items:
             type: string
           type: array
           uniqueItems: true
-        nonCriticalExtensionOIDs:
+        criticalExtensionOIDs:
           items:
             type: string
           type: array

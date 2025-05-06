@@ -26,13 +26,25 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum SignAlgorithmConstants {
   
-  _1("SHA-1"),
+  /**
+   *  
+   */
+  SIGN_ALGORITHM_SHA1("SHA-1"),
   
-  _256("SHA-256"),
+  /**
+   *  
+   */
+  SIGN_ALGORITHM_SHA256("SHA-256"),
   
-  _384("SHA-384"),
+  /**
+   *  
+   */
+  SIGN_ALGORITHM_SHA384("SHA-384"),
   
-  _512("SHA-512");
+  /**
+   *  
+   */
+  SIGN_ALGORITHM_SHA512("SHA-512");
 
   private String value;
 

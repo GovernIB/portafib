@@ -26,31 +26,70 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum SignProfileConstants {
   
-  AD_ES_BES("AdES-BES"),
+  /**
+   *  
+   */
+  SIGN_PROFILE_BES("AdES-BES"),
   
-  AD_ES_EPES("AdES-EPES"),
+  /**
+   *  
+   */
+  SIGN_PROFILE_EPES("AdES-EPES"),
   
-  AD_ES_T("AdES-T"),
+  /**
+   *  
+   */
+  SIGN_PROFILE_T("AdES-T"),
   
-  AD_ES_C("AdES-C"),
+  /**
+   *  
+   */
+  SIGN_PROFILE_C("AdES-C"),
   
-  AD_ES_X("AdES-X"),
+  /**
+   *  
+   */
+  SIGN_PROFILE_X("AdES-X"),
   
-  AD_ES_X1("AdES-X1"),
+  /**
+   *  
+   */
+  SIGN_PROFILE_X1("AdES-X1"),
   
-  AD_ES_X2("AdES-X2"),
+  /**
+   *  
+   */
+  SIGN_PROFILE_X2("AdES-X2"),
   
-  AD_ES_XL("AdES-XL"),
+  /**
+   *  
+   */
+  SIGN_PROFILE_XL("AdES-XL"),
   
-  AD_ES_XL1("AdES-XL1"),
+  /**
+   *  
+   */
+  SIGN_PROFILE_XL1("AdES-XL1"),
   
-  AD_ES_XL2("AdES-XL2"),
+  /**
+   *  
+   */
+  SIGN_PROFILE_XL2("AdES-XL2"),
   
-  AD_ES_A("AdES-A"),
+  /**
+   *  
+   */
+  SIGN_PROFILE_A("AdES-A"),
   
-  PAD_ES_LTV("PAdES-LTV"),
+  /**
+   *  
+   */
+  SIGN_PROFILE_PADES_LTV("PAdES-LTV"),
   
-  PAD_ES_BASIC("PAdES-Basic");
+  /**
+   *  
+   */
+  SIGN_PROFILE_PADES_BASIC("PAdES-Basic");
 
   private String value;
 

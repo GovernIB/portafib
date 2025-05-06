@@ -22,29 +22,59 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Tipus de Firma. Valors possibles:      - “PAdES” (Constant SIGN_TYPE_PADES)      - “XAdES” (Constant SIGN_TYPE_XADES)      - “CAdES” (Constant SIGN_TYPE_CADES)      - “FacturaE” (Constant SIGN_TYPE_FACTURAE)      - “OOXML” (Constant SIGN_TYPE_OOXML)      - “ODF” (Constant SIGN_TYPE_ODF)      - “SMIME” (Constant SIGN_TYPE_SMIME)      - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)      - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)      - “PKCS#1” (Constant SIGN_TYPE_PKCS1)
+ * Tipus de Firma. Valors possibles:     - “PAdES” (Constant SIGN_TYPE_PADES)     - “XAdES” (Constant SIGN_TYPE_XADES)     - “CAdES” (Constant SIGN_TYPE_CADES)     - “FacturaE” (Constant SIGN_TYPE_FACTURAE)     - “OOXML” (Constant SIGN_TYPE_OOXML)     - “ODF” (Constant SIGN_TYPE_ODF)     - “SMIME” (Constant SIGN_TYPE_SMIME)     - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)     - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)     - “PKCS#1” (Constant SIGN_TYPE_PKCS1)
  */
 public enum SignTypeConstants {
   
-  PAD_ES("PAdES"),
+  /**
+   *  
+   */
+  SIGN_TYPE_PADES("PAdES"),
   
-  XAD_ES("XAdES"),
+  /**
+   *  
+   */
+  SIGN_TYPE_XADES("XAdES"),
   
-  CAD_ES("CAdES"),
+  /**
+   *  
+   */
+  SIGN_TYPE_CADES("CAdES"),
   
-  FACTURA_E("FacturaE"),
+  /**
+   *  
+   */
+  SIGN_TYPE_FACTURAE("FacturaE"),
   
-  OOXML("OOXML"),
+  /**
+   *  
+   */
+  SIGN_TYPE_OOXML("OOXML"),
   
-  ODF("ODF"),
+  /**
+   *  
+   */
+  SIGN_TYPE_ODF("ODF"),
   
-  SMIME("SMIME"),
+  /**
+   *  
+   */
+  SIGN_TYPE_SMIME("SMIME"),
   
-  CAD_ES_ASI_C_S("CAdES-ASiC-S"),
+  /**
+   *  
+   */
+  SIGN_TYPE_CADESASICS("CAdES-ASiC-S"),
   
-  XAD_ES_ASI_C_S("XAdES-ASiC-S"),
+  /**
+   *  
+   */
+  SIGN_TYPE_XADESASICS("XAdES-ASiC-S"),
   
-  PKCS_1("PKCS#1");
+  /**
+   *  
+   */
+  SIGN_TYPE_PKCS("PKCS#1");
 
   private String value;
 

@@ -5,25 +5,25 @@
 ## Enum
 
 
-* `PAD_ES` (value: `"PAdES"`)
+* `SIGN_TYPE_PADES` (value: `"PAdES"`)
 
-* `XAD_ES` (value: `"XAdES"`)
+* `SIGN_TYPE_XADES` (value: `"XAdES"`)
 
-* `CAD_ES` (value: `"CAdES"`)
+* `SIGN_TYPE_CADES` (value: `"CAdES"`)
 
-* `FACTURA_E` (value: `"FacturaE"`)
+* `SIGN_TYPE_FACTURAE` (value: `"FacturaE"`)
 
-* `OOXML` (value: `"OOXML"`)
+* `SIGN_TYPE_OOXML` (value: `"OOXML"`)
 
-* `ODF` (value: `"ODF"`)
+* `SIGN_TYPE_ODF` (value: `"ODF"`)
 
-* `SMIME` (value: `"SMIME"`)
+* `SIGN_TYPE_SMIME` (value: `"SMIME"`)
 
-* `CAD_ES_ASI_C_S` (value: `"CAdES-ASiC-S"`)
+* `SIGN_TYPE_CADESASICS` (value: `"CAdES-ASiC-S"`)
 
-* `XAD_ES_ASI_C_S` (value: `"XAdES-ASiC-S"`)
+* `SIGN_TYPE_XADESASICS` (value: `"XAdES-ASiC-S"`)
 
-* `PKCS_1` (value: `"PKCS#1"`)
+* `SIGN_TYPE_PKCS` (value: `"PKCS#1"`)
 
 
 
