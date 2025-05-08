@@ -2151,6 +2151,10 @@
                 "type" : "integer",
                 "format" : "int32"
               },
+              "version" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
               "issuerDN" : {
                 "type" : "object",
                 "properties" : {
@@ -2167,12 +2171,11 @@
                   }
                 }
               },
-              "version" : {
-                "type" : "integer",
-                "format" : "int32"
-              },
               "sigAlgName" : {
                 "type" : "string"
+              },
+              "serialNumber" : {
+                "type" : "integer"
               },
               "notBefore" : {
                 "type" : "string",
@@ -2182,19 +2185,11 @@
                 "type" : "string",
                 "format" : "date-time"
               },
-              "subjectX500Principal" : {
-                "type" : "object",
-                "properties" : {
-                  "name" : {
-                    "type" : "string"
-                  },
-                  "encoded" : {
-                    "type" : "array",
-                    "items" : {
-                      "type" : "string",
-                      "format" : "byte"
-                    }
-                  }
+              "tbscertificate" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "string",
+                  "format" : "byte"
                 }
               },
               "sigAlgOID" : {
@@ -2219,10 +2214,31 @@
                   "type" : "boolean"
                 }
               },
+              "extendedKeyUsage" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "string"
+                }
+              },
               "keyUsage" : {
                 "type" : "array",
                 "items" : {
                   "type" : "boolean"
+                }
+              },
+              "issuerX500Principal" : {
+                "type" : "object",
+                "properties" : {
+                  "name" : {
+                    "type" : "string"
+                  },
+                  "encoded" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "string",
+                      "format" : "byte"
+                    }
+                  }
                 }
               },
               "subjectAlternativeNames" : {
@@ -2243,17 +2259,7 @@
                   }
                 }
               },
-              "serialNumber" : {
-                "type" : "integer"
-              },
-              "tbscertificate" : {
-                "type" : "array",
-                "items" : {
-                  "type" : "string",
-                  "format" : "byte"
-                }
-              },
-              "issuerX500Principal" : {
+              "subjectX500Principal" : {
                 "type" : "object",
                 "properties" : {
                   "name" : {
@@ -2266,12 +2272,6 @@
                       "format" : "byte"
                     }
                   }
-                }
-              },
-              "extendedKeyUsage" : {
-                "type" : "array",
-                "items" : {
-                  "type" : "string"
                 }
               },
               "nonCriticalExtensionOIDs" : {

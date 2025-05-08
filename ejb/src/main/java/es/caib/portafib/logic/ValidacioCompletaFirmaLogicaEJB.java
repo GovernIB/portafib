@@ -451,7 +451,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
                     boolean isPseudonymCertificate;
                     try {
-                        isPseudonymCertificate = isPseudonymCertificate(certificateLastSign);
+                        isPseudonymCertificate = CertificateUtils.isPseudonymCert(certificateLastSign);
                     } catch (Exception e) {
                         log.error("Error intentant descobrir si el certificat és de PSEUDONIM: " + e.getMessage(), e);
                         log.error(certificateLastSign.toString());
@@ -515,7 +515,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
         return resposta;
     }
-
+/*
     public static boolean isPseudonymCertificate(X509Certificate certificate) throws Exception {
         String politica = getCertificatePolicyId(certificate);
         return politica != null && politica.startsWith("2.16.724.1.3.5.4.");
@@ -550,7 +550,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
         return null;
     }
-
+*/
     public static X509Certificate getLastCertificateOfSignedPdf(IPortaFIBDataSource signedPDFData, int numFirmaPortaFIB,
             int numFirmesOriginals) throws I18NException {
 
