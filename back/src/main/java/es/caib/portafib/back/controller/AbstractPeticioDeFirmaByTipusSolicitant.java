@@ -1407,10 +1407,10 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
             peticioDeFirmaFilterForm.addGroupByField(TIPUSESTATPETICIODEFIRMAID);
             //peticioDeFirmaFilterForm.addGroupByField(DATASOLICITUD);
             //peticioDeFirmaFilterForm.addGroupByField(DATAFINAL);
-            peticioDeFirmaFilterForm.addGroupByField(INFORMACIOADDICIONALAVALUABLE);
-            peticioDeFirmaFilterForm.addGroupByField(EXPEDIENTCODI);
-            peticioDeFirmaFilterForm.addGroupByField(PROCEDIMENTCODI);
-            peticioDeFirmaFilterForm.addGroupByField(REMITENTNOM);
+            //peticioDeFirmaFilterForm.addGroupByField(INFORMACIOADDICIONALAVALUABLE);
+            //peticioDeFirmaFilterForm.addGroupByField(EXPEDIENTCODI);
+            //peticioDeFirmaFilterForm.addGroupByField(PROCEDIMENTCODI);
+            //peticioDeFirmaFilterForm.addGroupByField(REMITENTNOM);
 
             switch (getTipusSolicitant()) {
                 case SOLICITANT_WEB:
