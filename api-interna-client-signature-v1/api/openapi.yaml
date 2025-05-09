@@ -2239,14 +2239,14 @@ components:
               type: object
             type: array
           type: array
+        subjectX500Principal:
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerX500Principal'
         issuerAlternativeNames:
           items:
             items:
               type: object
             type: array
           type: array
-        subjectX500Principal:
-          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerX500Principal'
         nonCriticalExtensionOIDs:
           items:
             type: string

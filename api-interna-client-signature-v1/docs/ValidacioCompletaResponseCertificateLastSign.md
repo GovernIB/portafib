@@ -26,8 +26,8 @@
 |**keyUsage** | **List&lt;Boolean&gt;** |  |  [optional] |
 |**issuerX500Principal** | [**ValidacioCompletaResponseCertificateLastSignIssuerX500Principal**](ValidacioCompletaResponseCertificateLastSignIssuerX500Principal.md) |  |  [optional] |
 |**subjectAlternativeNames** | **List&lt;List&lt;Object&gt;&gt;** |  |  [optional] |
-|**issuerAlternativeNames** | **List&lt;List&lt;Object&gt;&gt;** |  |  [optional] |
 |**subjectX500Principal** | [**ValidacioCompletaResponseCertificateLastSignIssuerX500Principal**](ValidacioCompletaResponseCertificateLastSignIssuerX500Principal.md) |  |  [optional] |
+|**issuerAlternativeNames** | **List&lt;List&lt;Object&gt;&gt;** |  |  [optional] |
 |**nonCriticalExtensionOIDs** | **Set&lt;String&gt;** |  |  [optional] |
 |**criticalExtensionOIDs** | **Set&lt;String&gt;** |  |  [optional] |
 |**encoded** | **List&lt;byte[]&gt;** |  |  [optional] |

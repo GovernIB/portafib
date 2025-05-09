@@ -7687,7 +7687,7 @@
           "minAllowedValue": "0,1,2,3",
           "filter": false,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 16
           },
@@ -8024,7 +8024,7 @@
           "transientField": false,
           "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 1
           },
@@ -8102,7 +8102,7 @@
           "transientField": false,
           "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 1
           },
@@ -8180,7 +8180,7 @@
           "transientField": false,
           "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 15
           },

@@ -2250,15 +2250,6 @@
                   }
                 }
               },
-              "issuerAlternativeNames" : {
-                "type" : "array",
-                "items" : {
-                  "type" : "array",
-                  "items" : {
-                    "type" : "object"
-                  }
-                }
-              },
               "subjectX500Principal" : {
                 "type" : "object",
                 "properties" : {
@@ -2271,6 +2262,15 @@
                       "type" : "string",
                       "format" : "byte"
                     }
+                  }
+                }
+              },
+              "issuerAlternativeNames" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object"
                   }
                 }
               },

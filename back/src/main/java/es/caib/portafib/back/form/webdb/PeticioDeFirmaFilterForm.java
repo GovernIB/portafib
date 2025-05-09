@@ -582,7 +582,7 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUSDOCUMENTID ,ALGORISMEDEFIRMAID ,TIPUSESTATPETICIODEFIRMAID ,IDIOMAID ,PRIORITATID ,SOLICITANTUSUARIAPLICACIOID ,EXPEDIENTCODI ,PROCEDIMENTCODI ,INFORMACIOADDICIONALAVALUABLE ,AVISWEB }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUSDOCUMENTID ,TIPUSESTATPETICIODEFIRMAID ,IDIOMAID ,PRIORITATID ,SOLICITANTUSUARIAPLICACIOID ,AVISWEB }));
   }
 
 
