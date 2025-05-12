@@ -404,7 +404,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB implements EstatDeFir
     public List<EstatDeFirma> getRevisorsPendentsFirma(long firmaID) throws I18NException {
         return select(Where.AND(EstatDeFirmaFields.FIRMAID.equal(firmaID),
                 EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
-                        .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR),
+                        .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR),                           
                 EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull()));
     }
 

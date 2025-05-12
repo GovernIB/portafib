@@ -2152,7 +2152,7 @@ components:
         name:
           type: string
       type: object
-    ValidacioCompletaResponse_certificateLastSign_issuerX500Principal:
+    ValidacioCompletaResponse_certificateLastSign_subjectX500Principal:
       properties:
         name:
           type: string
@@ -2186,28 +2186,23 @@ components:
         basicConstraints:
           format: int32
           type: integer
-        version:
-          format: int32
-          type: integer
         issuerDN:
           $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerDN'
         subjectDN:
           $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerDN'
+        version:
+          format: int32
+          type: integer
         sigAlgName:
           type: string
-        serialNumber:
-          type: integer
         notBefore:
           format: date-time
           type: string
         notAfter:
           format: date-time
           type: string
-        tbscertificate:
-          items:
-            format: byte
-            type: string
-          type: array
+        subjectX500Principal:
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_subjectX500Principal'
         sigAlgOID:
           type: string
         sigAlgParams:
@@ -2223,29 +2218,34 @@ components:
           items:
             type: boolean
           type: array
-        extendedKeyUsage:
-          items:
-            type: string
-          type: array
         keyUsage:
           items:
             type: boolean
           type: array
-        issuerX500Principal:
-          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerX500Principal'
         subjectAlternativeNames:
           items:
             items:
               type: object
             type: array
           type: array
-        subjectX500Principal:
-          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerX500Principal'
         issuerAlternativeNames:
           items:
             items:
               type: object
             type: array
+          type: array
+        serialNumber:
+          type: integer
+        tbscertificate:
+          items:
+            format: byte
+            type: string
+          type: array
+        issuerX500Principal:
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_subjectX500Principal'
+        extendedKeyUsage:
+          items:
+            type: string
           type: array
         nonCriticalExtensionOIDs:
           items:

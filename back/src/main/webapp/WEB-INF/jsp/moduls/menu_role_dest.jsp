@@ -1,3 +1,4 @@
+<%@page import="es.caib.portafib.commons.utils.Constants"%>
 <%@page import="es.caib.portafib.back.utils.Utils"%>
 <%@page import="es.caib.portafib.back.security.LoginInfo"%>
 <%@page import="es.caib.portafib.commons.utils.Configuracio"%>
@@ -26,7 +27,7 @@
             menu1.add(null);
         }
 
-        if (LoginInfo.getInstance().hasRole("ROLE_USER")) {
+        if (LoginInfo.getInstance().hasRole(Constants.ROLE_USER)) {
             menu1.add(null);
             menu1.add(Utils.retallaDarrerPath("colaboracio.gestio", "/dest/colaborador/list", 60));
             menu1.add(null);

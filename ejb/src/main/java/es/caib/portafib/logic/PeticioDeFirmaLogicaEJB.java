@@ -1605,8 +1605,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                             log.debug("  +++ Firma " + firmaJPA.getFirmaID());
                         }
 
+                        // No s'ha d'enviar correu a Destinatari de firma pendent si abans hi ha revisor/s #946
+                        boolean enviarNotificacioADestinatari = true;
+                        int numeroDeRevisorsPendents = 0;
+
                         for (RevisorDeFirma revisorDeFirma : firmaJPA.getRevisorDeFirmas()) {
                             estatDeFirmaEventHelper.requeritPerRevisar(peticioDeFirma, revisorDeFirma, events);
+                            // No s'ha d'enviar correu a Destinatari de firma pendent si abans hi ha revisor/s #946
+                            enviarNotificacioADestinatari = false;
+                            numeroDeRevisorsPendents++;
                         }
 
                         String destinatariReal;
@@ -1649,8 +1656,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                             }
                         }
 
-                        // S'envia directament al DESTINATARI
-                        estatDeFirmaEventHelper.requeritPerSignar(peticioDeFirma, firmaJPA, events, destinatariReal);
+                        // 
 
                         // (a) Seleccionam els tipus de documents per aquesta delegacio,
                         // (a.1) El que tenguin el tipus que s'ajusti al tipus de la peticio
@@ -1693,6 +1699,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
                         List<ColaboracioDelegacio> llistaColaDele = colaboracioDelegacioEjb.select(w);
 
+                        int numeroDeColaboradorsRevisorsPendents = 0;
                         for (ColaboracioDelegacio colaboracioDelegacio : llistaColaDele) {
 
                             long tipusEstat;
@@ -1702,6 +1709,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                                 if (colaboracioDelegacio.isRevisor()) {
                                     // Modificar col·laborador-revisor per a que pugui acceptar i rebutjar #1015
                                     tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR;
+                                    // No s'ha d'enviar correu a Destinatari de firma pendent si abans hi ha revisor/s #946
+                                    enviarNotificacioADestinatari = false;
+                                    numeroDeColaboradorsRevisorsPendents++;
                                 } else {
                                     tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR;
                                 }
@@ -1731,6 +1741,20 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                                         + colaboracioDelegacio.getColaboradorDelegatID());
                             }
                         }
+
+                        
+                        // TODO llevar
+                        log.info("\n\n ======  INICI d'UN BLOC VERGE  ========\n"
+                                + "Revisors pendents: " + numeroDeRevisorsPendents + "\n"
+                                + "Col·laboradors-Revisors pendents: " + numeroDeColaboradorsRevisorsPendents + "\n"
+                                + "enviarNotificacioADestinatari: " + enviarNotificacioADestinatari + "\n" + "\n\n");
+                        
+                        
+                        // No s'ha d'enviar correu a Destinatari de firma pendent si abans hi ha revisor/s #946
+                        estatDeFirmaEventHelper.requeritPerSignar(peticioDeFirma, firmaJPA, events,
+                                    destinatariReal, enviarNotificacioADestinatari);
+                        
+
                     }
 
                     log.debug("   == FINAL BLOC VERGE");
@@ -2797,48 +2821,72 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
      * @throws I18NException
      */
     private int processarRevisorsPendents(FirmaJPA firma) throws I18NException {
+
         List<EstatDeFirma> estatsRevisorsPendents = estatDeFirmaLogicaEjb.getRevisorsPendentsFirma(firma.getFirmaID());
 
-        if (estatsRevisorsPendents.isEmpty()) {
-            return 0;
-        }
-
-        Set<String> revisorsPendents = new HashSet<String>(estatsRevisorsPendents.size());
+        Set<String> revisorsPendents = new HashSet<String>();
+        Set<EstatDeFirma> estatDeFirmaDeColaboradorsRevisors = new HashSet<EstatDeFirma>();
         for (EstatDeFirma estatRevisor : estatsRevisorsPendents) {
-            revisorsPendents.add(estatRevisor.getUsuariEntitatID());
+            // No s'ha d'enviar correu a Destinatari de firma pendent si abans hi ha revisor/s #946
+            if (estatRevisor.getColaboracioDelegacioID() == null) {
+                revisorsPendents.add(estatRevisor.getUsuariEntitatID());
+            } else {
+                estatDeFirmaDeColaboradorsRevisors.add(estatRevisor);
+            }
+
         }
 
-        List<RevisorDeFirma> revisors = revisorDeFirmaLogicaEjb.getRevisorsFirma(firma.getFirmaID());
+        // -------- (1) Revisors pendents 
+        int numeroDeRevisorsPendents;
+        if (revisorsPendents.isEmpty()) {
+            numeroDeRevisorsPendents = 0;
+        } else {
 
-        Set<String> revisorsOpcionalsPendents = new HashSet<String>();
-        int obligatoris_i_opcionals_acceptats = 0;
-        for (RevisorDeFirma revisor : revisors) {
-            if (revisor.isObligatori()) {
-                obligatoris_i_opcionals_acceptats++;
-            } else {
-                if (!revisorsPendents.contains(revisor.getUsuariEntitatID())) {
+            List<RevisorDeFirma> revisors = revisorDeFirmaLogicaEjb.getRevisorsFirma(firma.getFirmaID());
+
+            Set<String> revisorsOpcionalsPendents = new HashSet<String>();
+            int obligatoris_i_opcionals_acceptats = 0;
+            for (RevisorDeFirma revisor : revisors) {
+                if (revisor.isObligatori()) {
                     obligatoris_i_opcionals_acceptats++;
                 } else {
-                    revisorsOpcionalsPendents.add(revisor.getUsuariEntitatID());
+                    if (!revisorsPendents.contains(revisor.getUsuariEntitatID())) {
+                        obligatoris_i_opcionals_acceptats++;
+                    } else {
+                        revisorsOpcionalsPendents.add(revisor.getUsuariEntitatID());
+                    }
                 }
             }
-        }
 
-        if (obligatoris_i_opcionals_acceptats >= firma.getMinimDeRevisors()) {
-            // Cancel·lam els Estats de Firma de Revisors pendents opcionals
-            for (Iterator<EstatDeFirma> iterator = estatsRevisorsPendents.iterator(); iterator.hasNext();) {
-                EstatDeFirma estatRevisor = iterator.next();
-                if (revisorsOpcionalsPendents.contains(estatRevisor.getUsuariEntitatID())) {
-                    estatRevisor.setDataFi(new Timestamp(System.currentTimeMillis()));
-                    estatRevisor.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
-                    estatRevisor.setDescripcio("Revisió no necessària");
-                    estatDeFirmaLogicaEjb.update(estatRevisor);
-                    iterator.remove();
+            if (obligatoris_i_opcionals_acceptats >= firma.getMinimDeRevisors()) {
+                // Cancel·lam els Estats de Firma de Revisors pendents opcionals
+                for (Iterator<EstatDeFirma> iterator = estatsRevisorsPendents.iterator(); iterator.hasNext();) {
+                    EstatDeFirma estatRevisor = iterator.next();
+                    if (revisorsOpcionalsPendents.contains(estatRevisor.getUsuariEntitatID())) {
+                        estatRevisor.setDataFi(new Timestamp(System.currentTimeMillis()));
+                        estatRevisor.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
+                        estatRevisor.setDescripcio("Revisió no necessària");
+                        estatDeFirmaLogicaEjb.update(estatRevisor);
+                        iterator.remove();
+                    }
                 }
             }
+
+            numeroDeRevisorsPendents = estatsRevisorsPendents.size();
         }
 
-        return estatsRevisorsPendents.size();
+        // (2) -------- Cercam els Col·laboradors-Revisors Pendents
+        // No s'ha d'enviar correu a Destinatari de firma pendent si abans hi ha revisor/s #946
+        int numeroDeColaboradorsRevisorsPendents = estatDeFirmaDeColaboradorsRevisors.size();
+        
+        // TODO llevar
+        log.info("\n\n ======  PASSAM PER ACCEPTAR REVISIO ========\n"
+                + "Revisors pendents: " + numeroDeRevisorsPendents + "\n"
+                + "Col·laboradors-Revisors pendents: " + numeroDeColaboradorsRevisorsPendents + "\n\n\n");
+        
+        
+
+        return numeroDeRevisorsPendents + numeroDeColaboradorsRevisorsPendents;
     }
 
     @Override

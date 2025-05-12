@@ -92,7 +92,7 @@ public class EstatDeFirmaEventHelper {
     }
 
     public void requeritPerSignar(PeticioDeFirmaJPA peticioDeFirma, FirmaJPA firmaJPA, FirmaEventList events,
-            String destinatariReal) throws I18NException, PeticioHaDeSerRebutjadaException {
+            String destinatariReal, boolean enviarNotificacioADestinatari) throws I18NException, PeticioHaDeSerRebutjadaException {
         EstatDeFirmaJPA estatDeFirmaDest = new EstatDeFirmaJPA();
         estatDeFirmaDest.setDataInici(new Timestamp(System.currentTimeMillis()));
         estatDeFirmaDest.setDescripcio("");
@@ -101,7 +101,8 @@ public class EstatDeFirmaEventHelper {
         estatDeFirmaDest.setUsuariEntitatID(destinatariReal);
         estatDeFirmaDest = estatDeFirmaLogicaEjb.createFull(estatDeFirmaDest);
 
-        if (firmaJPA.getRevisorDeFirmas().isEmpty()) {
+        //   No s'ha d'enviar correu a Destinatari de firma pendent si abans hi ha revisor/s #946
+        if (enviarNotificacioADestinatari) {
             avisarUsuari(peticioDeFirma, firmaJPA, estatDeFirmaDest, events);
         }
 

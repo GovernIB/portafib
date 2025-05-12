@@ -292,3 +292,4 @@ api-interna-client-signature-v1-examples/apifirmawebsimple.properties
 /api-interna-client-signature-v1/build.sbt
 /api-interna-client-signature-v1-examples/signature.properties
 /api-interna-client-signature-v1-examples/1_signed_hola.pdf_signed.pdf
+/doc/PortaFIB_2.0.odb
